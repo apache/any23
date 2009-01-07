@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>22-adr</title>
+    <link rel="alternate" href="22-adr.vcf" type="text/directory" />
+  </head>
+  <body>
+<!--     TODO: add test for 'extended' -->
+    <div class="vcard">
+      <p class="fn">John Doe</p>
+      <p class="adr">
+        <span class="street-address">1231 Main St.</span>
+        <span class="locality">Beverly Hills</span>
+        <span class="region">California</span>
+        <span class="country-name">United States of America</span>
+        <span class="postal-code">90210</span>
+      </p>
+<!--       multiple street-addresses, should produce a comma-seperated list -->
+      <p class="adr">
+        <span class="post-office-box">PO Box 1234</span>
+        <span class="street-address">1232 Main St.</span>
+        <span class="street-address">Suite 100</span>
+        <span class="locality">Beverly Hills</span>
+        <span class="region">California</span>
+        <span class="country-name">United States of America</span>
+        <span class="postal-code">90210</span>
+      </p>
+<!--       one type subproperty -->
+      <p class="adr">
+        <span class="type">home</span>
+        <span class="street-address">1233 Main St.</span>
+        <span class="locality">Beverly Hills</span>
+        <span class="region">California</span>
+        <span class="country-name">United States of America</span>
+        <span class="postal-code">90210</span>
+      </p>
+<!-- many type subproperties, each with their own class name -->
+      <div class="adr">
+        <ul>
+          <li class="type">dom</li>
+          <li class="type">intl</li>
+          <li class="type">postal</li>
+          <li class="type">parcel</li>
+          <li class="type">home</li>
+          <li class="type">work</li>
+          <li class="type">pref</li>
+        </ul>
+
+        <span class="street-address">1234 Main St.</span>
+        <span class="locality">Beverly Hills</span>
+        <span class="region">California</span>
+        <span class="country-name">United States of America</span>
+        <span class="postal-code">90210</span>
+      </div>
+    </div>
+  </body>
+</html>

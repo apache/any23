@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>26-ancestors</title>
+    <link rel="alternate" href="26-ancestors.vcf" type="text/directory" />
+  </head>
+  <body>
+<!--     This test is to make sure that parsers look at ancestors, not just children.-->
+    <div class="vcard">
+      <!-- perhaps the second most annoying test ever -->
+      <div>
+        <span class="fn"><span>John</span> <span>Doe</span></span>
+          <span class="n">
+            <span>
+              <span class="honorific-prefix"><strong>Mister</strong></span>
+              <span class="given-name"><i>Jonathan</i></span>
+              <span class="additional-name"><b>John</b></span>
+              <span class="family-name"><em>Doe-Smith</em></span>
+              <span class="honorific-suffix">Medical Doctor</span>
+            </span>
+          </span>
+          <span class="nickname"><span>JJ</span></span>
+          <span class="bday">2006-04-04</span>
+          <span class="adr">
+           <span>
+              <span class="post-office-box"><samp>Box 1234</samp></span>
+              <span class="extended-address"><dfn>Suite 100</dfn></span>
+              <span class="street-address"><span>123 Fake Street</span></span>
+              <span class="locality"><em>San Francisco</em></span>
+              <span class="region"><strong>California</strong></span>
+              <span class="postal-code"><abbr>12345-6789</abbr></span>
+              <span class="country-name"><acronym>United States of America</acronym></span>
+              <span class="type"><span>work</span></span>
+            </span>
+          </span>
+          <span class="tel"><span>415</span>.<span>555</span>.<span>1234</span></span>
+          <span class="tel-type-value">work</span>
+    <!--   @TODO    mailer?  -->
+          <span class="tz"><span>-0700</span></span>
+          <span class="geo">
+            <span>
+              <span class="latitude"><code>37.77</code></span>
+              <span class="longitude"><tt>-122.41</tt></span>
+            </span>
+          </span>
+          <span class="title"><strong>President</strong></span> and
+          <span class="role"><em>Chief</em></span>
+    <!--       <span class="agent</span> @TODO -->
+          <span class="org">
+            <span class="organization-name"><strong>Intellicorp</strong></span>
+            <span class="organization-unit"><em>Intelligence</em></span>
+          </span>
+    <!--   @TODO    <span class="category"></span> -->
+          <span class="note"><cite>this is a note</cite></span>
+    <!--  @TODO     <span class="rev"></span>  (revision datetime) -->
+    <!--  @TODO     <span class="sort-string"></span> -->
+          <span class="uid"><kbd>abcdefghijklmnopqrstuvwxyz</kbd></span>
+          <span class="class"><samp>public</samp></span>
+    <!--  @TODO     <span class="key"></span> -->
+      </div>
+    </div>
+  </body>
+</html>

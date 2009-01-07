@@ -1,0 +1,114 @@
+<html 
+  xmlns:contact="http://www.w3.org/2001/vcard-rdf/3.0#">
+  <head>
+<meta name="ICBM" content="45.12345, 45.65432"/>
+<meta name="geo.position" content="23.32;-23.32">
+<!-- stuff that should be ignored -->
+<link rel="stylesheet" type="text/css" media="print" href="/jira/s/300/1/_/styles/combined-printable.css">
+<link type="text/css" rel="StyleSheet" media="all" href="/jira/s/300/1/_/styles/combined.css"/>
+<link type="text/css" rel="StyleSheet" media="all" href="/jira/s/300/1/24/_/styles/global.css"/>
+    <title> Kewl title </title>
+  </head>
+  <body>
+
+    <a href="http://foo.com" rel="nofollow">crap </a>
+
+    <a href="http://bob.com" rel="me">my other blog </a>
+    <div>
+
+      <!-- stuff for pseudo rdfa -->
+      <div>
+        <p class="contactinfo" about="http://rdfa-user.org/staff/jo">
+        <span property="contact:fn">Jo Smith</span>.
+        <span property="contact:title">RDFa Professional</span>
+        at
+        <a rel="contact:org" href="http://example.org">
+          Example.org
+        </a>.
+        You can contact me
+        <a rel="contact:email" href="mailto:jo@example.org">
+          via email
+        </a>.
+        </p>
+      </div>
+      <div class="vcard">
+        <div style="text-align: center">
+          <object data="http://www.enterprise-component.com/images/datlogo.gif" class="logo">
+            <span class="org">Data Access Technologies</span>
+          </object><br />
+          <b class="fn n">
+            <span class="given-name">Cory</span
+              > <span class="additional-name">B.</span
+                > <span class="family-name">Casanave</span
+                  ></b>
+                <div class="title">President &amp; CEO</div>
+              </div>
+
+              <hr />
+              <table width="100%">
+                <tr>
+                  <td class="adr">
+                  </span>
+                  <div class="street-address">8605 Westwood Center Drive</div>
+                  <div class="extended-address">Suite 505</div>
+                  <span class="locality">Vienna</span>, 
+                  <span class="region">VA</span>, 
+                  <span class="postal-code">22182</span>
+                  <div class="country-name">USA</div>
+                </td>
+
+                <td style="text-align: right">
+                  <div class="tel">Phone: <span class="value">+1-123-456-7890</span></div>
+                  <div class="tel"><abbr class="type" title="cell">Mobile</abbr>: <span class="value">+1-111-555-7890</span></div>
+                  <div class="tel"><abbr class="type" title="fax">Fax</abbr>: <span class="value">+1-111-111-1234</span></div>
+
+                  <a class="email" href="mailto:cory@example">cory@example</a>
+                </td>
+              </tr>
+            </table>
+
+            <hr />
+
+            <p style="font-size:smaller;">This is an <a href="http://microformats.org/wiki/hcard">hCard</a>; the data come from a business card that Cory gave to Dan Connolly at ISWC; the email address and phone numbers have been scrubbed, but
+            the other data is published in a <a href="http://www.enterprise-component.com/company.shtml">company info page</a> so we figure it's OK to use it here.</p>
+            <p>Note the use of the <a href="http://www.w3.org/2006/03/hcard">http://www.w3.org/2006/03/hcard</a> profile, which may become obsolete soon.</p>
+          </div>
+
+
+          <div class="hreview">
+            <span><span class="rating">5</span> out of 5 stars</span>
+
+            <h4 class="summary">Crepes on Cole is awesome</h4>
+
+            <span class="reviewer vcard">Reviewer: 
+              <span class="fn">Tantek</span> - 
+              <abbr class="dtreviewed" title="20050418T2300-0700">April 18, 2005</abbr>
+            </span>
+            <div class="description item vcard">
+              <p>
+              <span class="fn org">Crepes on Cole</span> is one of the best little 
+              creperies in <span class="adr"><span class="locality">San Francisco</span></span>.
+              Excellent food and service. Plenty of tables in a variety of sizes 
+              for parties large and small.  Window seating makes for excellent 
+              people watching to/from the N-Judah which stops right outside.  
+              I've had many fun social gatherings here, as well as gotten 
+              plenty of work done thanks to neighborhood WiFi.
+              </p>
+            </div>
+            <p>Visit date: <span>April 2005</span></p>
+            <p>Food eaten: <span>Florentine crepe</span></p>
+          </div>
+
+          <!-- merry hcalendar -->
+          <div>
+
+            <div class="vevent">
+              <a class="url" href="http://www.web2con.com/">http://www.web2con.com/</a>
+              <span class="summary">Web 2.0 Conference</span>: 
+              <abbr class="dtstart" title="2007-10-05">October 5</abbr>-
+              <abbr class="dtend" title="2007-10-20">19</abbr>,
+              at the <span class="location">Argent Hotel, San Francisco, CA</span>
+            </div>
+          </div>
+        </body>
+      </html>

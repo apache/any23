@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Any23" default="dist" basedir=".">
+
+	<property name="name" value="any23"/>
+	<property name="version" value="0.1-dev"/>
+	<property name="project.package" value="com.google.code.any23"/>
+	<property name="src" value="src"/>
+	<property name="src.tests" value="test"/>
+	<property name="build" value="bldsrc"/>
+	<property name="build.tests" value="bldtest"/>
+	<property name="lib" value="lib"/>
+	<property name="javadoc" value="javadoc"/>
+	<property name="distname" value="${name}-${version}"/>
+	<property name="jar" value="${lib}/${distname}.jar"/>
+	<property name="zip" value="${distname}.zip"/>
+	<property name="tar" value="${distname}.tar.gz"/>
+    <property name="war" value="${name}.war" />
+	<property name="junit.jar" value="${lib}/junit-4.5.jar"/>
+	
+	<path id="project.class.path">
+		<fileset dir="${lib}">
+			<include name="**/*.jar"/>
+			<exclude name="${junit.jar}"/>
+		</fileset>
+		<pathelement path="${java.class.path}"/>
+	</path>
+
+	<patternset id="distfiles">
+		<include name="**/*"/>
+		<exclude name="${build}/**"/>
+		<exclude name="${build.tests}/**"/>
+		<exclude name="build/**"/>
+		<exclude name="${zip}"/>
+		<exclude name="${tar}"/>
+		<exclude name=".project"/>
+		<exclude name=".classpath"/>
+		<exclude name=".settings/**"/>
+	</patternset>
+
+	<property name="execfiles" value="rover server"/>
+	
+	<target name="clean">
+		<delete dir="${javadoc}" failonerror="false"/>
+		<delete dir="${build}" failonerror="false"/>
+		<delete dir="${build.tests}" failonerror="false"/>
+		<delete file="${war}" failonerror="false"/>
+		<delete failonerror="false">
+			<fileset dir="." includes="${lib}/${name}-*.jar,${name}-*.zip,${name}-*.tar.gz"/>
+		</delete>
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}" debug="on" source="1.5" target="1.5">
+			<classpath refid="project.class.path"/>
+		</javac>
+	</target>
+
+	<target name="init.tests">
+		<mkdir dir="${build.tests}"/>
+	</target>
+
+	<target name="compile.tests" depends="init.tests,compile">
+		<javac srcdir="${src.tests}" destdir="${build.tests}" debug="on" source="1.5" target="1.5">
+			<classpath>
+				<path refid="project.class.path"/>
+				<pathelement path="${build}"/>
+				<pathelement path="${junit.jar}"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="compile.tests">
+		<junit haltonerror="true">
+			<path refid="project.class.path"/>
+			<pathelement path="${build}"/>
+			<pathelement path="${build.tests}"/>
+			<pathelement path="${junit.jar}"/>
+			<batchtest>
+				<fileset dir="${src.tests}">
+					<include name="**/*Test*.java"/>
+    			</fileset>
+  			</batchtest>
+		</junit>
+	</target>
+
+	<target name="jar" depends="compile,test">
+		<jar jarfile="${jar}" basedir="${build}"/>
+	</target>
+
+	<target name="javadoc">
+		<!-- Creates javadoc documentation for the source
+			 (but not for the tests) -->
+		<delete dir="${javadoc}"/>
+		<mkdir dir="${javadoc}"/>
+		<javadoc packagenames="*"
+				sourcepath="${src}"
+				classpathref="project.class.path"
+				destdir="${javadoc}"
+				author="true"
+				version="true"
+				private="false"
+				use="true"
+				splitindex="true"
+				breakiterator="yes"
+				windowtitle="Any23"
+				doctitle="Any23">
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+		</javadoc>
+	</target>
+
+	<target name="zip" depends="jar,javadoc">
+		<zip destfile="${zip}">
+			<zipfileset prefix="${distname}" dir=".">
+				<patternset refid="distfiles"/>
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="tar" depends="jar,javadoc">
+		<tar destfile="${tar}" compression="gzip">
+			<tarfileset prefix="${distname}" dir="." includes="${execfiles}" mode="755"/>
+			<tarfileset prefix="${distname}" dir="." excludes="${execfiles}">
+				<patternset refid="distfiles"/>
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="dist" depends="zip,tar"/>
+
+	<target name="war" depends="jar">
+		<war destfile="${war}" needxmlfile="false">
+			<fileset dir="webapp/">
+				<include name="**"/>
+				<exclude name="WEB-INF"/>
+			</fileset>
+			<lib dir="${lib}">
+				<exclude name="${junit.jar}"/>
+				<exclude name="jetty-*/**"/>
+			</lib>
+			<lib file="${jar}"/>
+			<webinf dir="webapp/WEB-INF">
+				<include name="*"/>
+			</webinf>
+		</war>
+	</target>
+</project>

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>StatCVS - Generate statistcal HTML reports from your CVS repository logs</title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="statcvs.css" />
+	</head>
+	<body>
+		<div class="page">
+			<h1>StatCVS</h1>
+			<div class="tagline">Generate statistical HTML reports from your CVS repository logs</div>
+			<ul class="nav">
+                <li><a href="statcvs-stats">View a sample report</a></li>
+                <li><a href="beta">Beta site **new**</a></li>
+				<li><a href="download">Download StatCVS 0.3</a></li>
+				<li><a href="manual">StatCVS manual</a></li>
+				<li><a href="http://sourceforge.net/projects/statcvs/">SourceForge project page</a></li>
+			</ul>
+		
+            <h2>Quick News</h2>
+            <p>April 2008, StatCVS has 2 new Project Admins, so expect a burst of activity shortly.</p>
+            <p>Why not checking out the <a href="beta">beta</a> website and the <a href="beta/statcvs.jar">beta jar</a> (stable)?</p>
+
+			<h2>Quick Start</h2>
+			<p>First, <a href="download">download</a> StatCVS.</p>
+
+			<p>Check out a working copy of your project from CVS. You need the CVS command line client
+				(CVS for Unix or <a href="http://www.cvsnt.org/">CVSNT</a> for Windows). Typically, the
+				command looks like this:</p>
+			<pre>cvs -d /cvsroot checkout modulename</pre>
+
+			<p>Create a CVS log file:</p>
+			<pre>cvs log > logfile.log</pre>
+
+			<p>Run StatCVS:</p>
+			<pre>java -jar /path/to/statcvs.jar /path/to/module/logfile.log /path/to/module</pre>
+			<p>This command creates the HTML reports in the current directory.</p>
+			<p>More details are available from the <a href="manual">Manual</a>. It also has all the
+				options for customizing the reports. If you run into problems, consider asking for
+				help on the <a href="mailto:statcvs-users@lists.sourceforge.net">statcvs-users
+				Mailing list</a>.</p>
+            <p><strong>Note:</strong> StatCVS can only generate reports for the main branch.</p>
+
+			<h2>About StatCVS</h2>
+			<p>StatCVS is still beta quality software.</p>
+			<p><strong>StatCVS is open source software</strong>, licensed under the LGPL.
+				The source code is available from
+				<a href="http://sourceforge.net/projects/statcvs/">our SourceForge.net project page</a>.
+				StatCVS is written in Java.</p>
+			<p><strong>Ant Task</strong>: StatCVS comes with a task for the Apache Ant build tool.</p>
+			<p>StatCVS uses <a href="http://www.jfree.org/jfreechart/">JFreeChart</a> to generate charts.</p>
+			<p>The StatCVS project was initiated by <a href="http://www.pekacki.de/">Lukasz Pekacki</a>.
+				The current maintainer is <a href="http://richard.cyganiak.de/">Richard Cyganiak</a>.
+				Other members of the development team are
+				<a href="http://page.mi.fu-berlin.de/~jentzsch/">Anja Jentzsch</a>,
+				<a href="mailto:mschulze@inf.fu-berlin.de">Manuel Schulze</a>,
+				<a href="http://steffenpingel.de/">Steffen Pingel</a>
+				and <a href="http://www.taval.de/">Tammo van Lessen</a>.
+				<a href="developers">2002 photo of the original development team</a></p>
+
+			<h2>Feedback and Discussion</h2>
+			<p>We welcome your comments and contributions!</p>
+			<ul>
+				<li><a href="http://lists.sourceforge.net/lists/listinfo/statcvs-users">statcvs-users</a> mailing list</li>
+				<li><a href="http://sourceforge.net/tracker/?group_id=57558&amp;atid=484569">Bug Tracker</a></li>
+				<li><a href="http://sourceforge.net/tracker/?group_id=57558&amp;atid=484572">Tracker
+					for Feature Requests</a></li>
+			</ul>
+
+			<h2>Related Projects</h2>
+			<dl>
+                <dt><a href="http://statsvn.org/">StatSVN</a></dt>
+                <dd>is a port of StatCVS to the <a href="http://subversion.tigris.org/">Subversion</a> version control system.</dd>
+
+				<dt><a href="http://statcvs-xml.berlios.de/">StatCVS-XML</a></dt>
+				<dd>is a fork of StatCVS that generates XML instead of HTML reports.</dd>
+			
+				<dt><a href="http://statcvs-xml.berlios.de/maven-plugin/">StatCVS Maven Plugin</a></dt>
+				<dd>provides StatCVS reports for the Maven project automation software and is based on StatCVS-XML.</dd>
+
+				<dt><a href="http://bloof.sourceforge.net/">Bloof</a></dt>
+				<dd>is a comprehensive framework for analysis of version control data.</dd>
+
+				<dt><a href="http://freshmeat.net/projects/cvstat/">cvstat</a></dt>
+				<dd>is a small Perl script which generates a table comparing contributions by
+					individual developers. (StatCVS contains a similar table.)</dd>
+
+				<dt><a href="http://cvsplot.sourceforge.net/">Cvsplot</a></dt>
+				<dd>generates a graph showing lines of code development over time; requires GnuPlot.
+					(StatCVS contains a similar chart.)</dd>
+			</dl>
+
+			<hr />
+			<div class="footer">Hosted by<br /><a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=57558&amp;type=5" alt="SourceForge Logo" /></a></div>
+		</div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-615747-11");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>	</body>
+</html>

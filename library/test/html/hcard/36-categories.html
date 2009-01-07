@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>36-categories</title>
+    <link rel="alternate" href="36-categories.vcf" type="text/directory" />
+  </head>
+  <body>
+    <p class="vcard">
+      <span class="fn">john doe</span>,
+      <abbr class="category" title="C1">C1a</abbr>
+      <a class="category" href="http://example.com" title="C2">C2a</a>
+      <a class="category" href="http://example.com/C3" rel="tag" title="C3a">C3b</a>
+      <img class="category" src="http://example.com/" alt="C4"/>
+      <a class="category" href="http://example.com/C5/" rel="tag" title="C5a">C5b</a>
+
+      <a class="category" href="http://example.com/C6?tag=false" rel="tag" title="C6a">C6b</a>
+      <a class="category" href="http://example.com/C7#anchor" rel="tag" title="C7a">C7b</a>
+      <a class="category" href="http://example.com/C8?tag=trailing-slash/" rel="tag" title="C8a">C8b</a>
+      <a class="category" href="http://example.com/C9/?tag=trailing-slash/" rel="tag" title="C9a">C9b</a>
+	  
+      <a class="category" href="http://example.com/D1" rel="other tag" title="C9a">C9b</a>
+      <a class="category" href="http://example.com/D2" rel="tag other" title="C9a">C9b</a>
+      <a class="category" href="http://example.com/D3" rel="other tag foo" title="C9a">C9b</a>
+      <a class="category" href="http://example.com/D4" rel="no-tag" title="C9a">C9b</a>
+
+    </p>
+
+
+    <div class="vcard">
+      <span class="fn n">
+        <span class="given-name">Joe</span> <span class="family-name">User</span>
+      </span>
+      <span class="category">User</span>
+      <a class="category" rel="tag" href="http://example.com/luser">a big luser!</a>
+    </div>
+  </body>
+</html>

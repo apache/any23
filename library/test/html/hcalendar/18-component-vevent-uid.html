@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>component vevent uid</title>
+  <link rel="alternate" href="component-vevent-uid.vcf" type="text/calendar" />
+</head>
+<body>
+  <div class="vevent">
+    <div>UID: <span class="uid">http://example.com/foo.html</span></div>
+  </div>
+  <div class="vevent">
+    UID: <a class="uid" href="http://example.com/foo.html">another hcal event</a>
+  </div>
+  
+  <div class="vevent">
+    UID: <object class="uid" data="http://example.com/foo.html">another hcal event</object>
+  </div>
+  
+  <div class="vevent">
+    UID: <map id="foo"><area alt="uid" class="uid" href="http://example.com/foo.html" /></map>
+  </div>
+  
+  <div class="vevent">
+    UID: <img class="uid" alt="uid" src="http://example.com/foo.html" />
+  </div>
+  
+  
+</body>
+</html>

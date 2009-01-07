@@ -1,0 +1,11 @@
+#!/bin/bash
+ANY23_ROOT=${0%/*}
+CP="$ANY23_ROOT/build"
+SEP=':'
+if [ "$(uname)" = "Cygwin" ]; then SEP=';'; fi
+for jar in "$ANY23_ROOT"/lib/*.jar "$ANY23_ROOT"/lib/*/*.jar
+do
+  if [ ! -e "$jar" ]; then continue; fi
+  CP="$CP$SEP$jar"
+done
+exec java -cp "$CP" -Xmx256M com.google.code.any23.Rover "$@"

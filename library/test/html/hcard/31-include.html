@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+  <title>31-include</title>
+  <link rel="alternate" href="31-include.vcf" type="text/directory" />
+</head>
+<body>
+  <p id="email1"><a href="mailto:correct@example.com" class="email">my email</a></p>
+  <p id="email2"><a href="mailto:incorrect@example.com" class="email">my email</a></p>
+  <div class="vcard">
+    <a class="url fn" href="http://suda.co.uk/">Brian Suda</a>
+    <object data="#email1" class="include" type="text/html"/>
+    <object data="#email2" type="text/html"/>
+  </div>
+
+  <div class="vcard">
+    <a class="url fn" href="http://suda.co.uk/">Brian Suda</a>
+    <a href="#email1" class="include"></a>
+    <a href="#email2"/>
+  </div>
+
+  <div class="vcard">
+    <a class="url fn" href="http://suda.co.uk/">Brian Suda</a>
+    <a href="#email1" class="include"/>
+    <a href="#email2"/>
+  </div>
+
+</body>
+</html>
