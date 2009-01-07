@@ -77,7 +77,7 @@ public class Rover implements RDFizer {
 	 * Tries to guess the content type of a document by looking at the response header and at the extension 
 	 * @param contentType the content-type header
 	 * @param url
-	 * @return
+	 * @return The most likely format
 	 */
 	protected Format guessResponseFormat(String contentType, String url) {
 		String resp = contentType.toLowerCase();

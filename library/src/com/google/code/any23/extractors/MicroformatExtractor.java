@@ -15,7 +15,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 
-/*
+/**
  * The abstract base class for any Microformat extractor
  * It requires a 
  * * method that should perform the extraction and write the data to a Jena model
@@ -74,8 +74,7 @@ public abstract class MicroformatExtractor {
 	/**
 	 * If uri is absolute, return that, otherwise an absolute uri relative to base, or "" if invalid
 	 * @param uri a uri or fragment
-	 * @return 
-	 * 
+	 * @return The URI in absolute form 
 	 */
 	protected String absolutizeURI(String uri) {
 		try {

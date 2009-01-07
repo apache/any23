@@ -126,7 +126,6 @@ public class HTMLRDFizer implements RDFizer {
 	 * Returns a list of MicroformatExtractors that will be run sequentially over the HTMLDocument
 	 * @param uri rhe base uri
 	 * @param doc the document 
-	 * @return
 	 */
 	public MicroformatExtractor[] getMicroformatExtractors(URI uri, HTMLDocument doc) {
 		// this could be metaprogrammed, but it's fugly

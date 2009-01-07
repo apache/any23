@@ -138,10 +138,10 @@ public class Fetcher {
    * Convenience method to fetch a text resource with the default content type.
    * 
    * @param url the URL of the text resource to fetch
-   * @return
+   * @return Contents of the document at the URL
    * @throws IOException if an error occurs during fetching, or if the resource
    *           is not textual
-   * @see getString(String url, Type contentType)
+   * @see #getString(String, Type)
    */
   public String getString(String url) throws IOException {
     return getString(url, Type.DEFAULT);

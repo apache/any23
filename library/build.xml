@@ -8,6 +8,7 @@
 	<property name="src.tests" value="test"/>
 	<property name="build" value="bldsrc"/>
 	<property name="build.tests" value="bldtest"/>
+	<property name="build.lib" value="bldlib"/>
 	<property name="lib" value="lib"/>
 	<property name="javadoc" value="javadoc"/>
 	<property name="distname" value="${name}-${version}"/>
@@ -43,6 +44,7 @@
 		<delete dir="${javadoc}" failonerror="false"/>
 		<delete dir="${build}" failonerror="false"/>
 		<delete dir="${build.tests}" failonerror="false"/>
+		<delete dir="${build.lib}" failonerror="false"/>
 		<delete file="${war}" failonerror="false"/>
 		<delete failonerror="false">
 			<fileset dir="." includes="${lib}/${name}-*.jar,${name}-*.zip,${name}-*.tar.gz"/>
@@ -73,21 +75,33 @@
 		</javac>
 	</target>
 
-	<target name="test" depends="compile.tests">
+	<target name="copy" depends="compile">
+		<copy todir="${build}">
+			<fileset dir="${src}">
+				<include name="xslt/**"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="test" depends="compile.tests,copy">
 		<junit haltonerror="true">
-			<path refid="project.class.path"/>
-			<pathelement path="${build}"/>
-			<pathelement path="${build.tests}"/>
-			<pathelement path="${junit.jar}"/>
+			<classpath>
+				<path refid="project.class.path"/>
+				<pathelement path="${build}"/>
+				<pathelement path="${build.tests}"/>
+				<pathelement path="${junit.jar}"/>
+			</classpath>
 			<batchtest>
 				<fileset dir="${src.tests}">
-					<include name="**/*Test*.java"/>
+					<include name="**/Test*.java"/>
+					<include name="**/*Test.java"/>
     			</fileset>
+				<formatter type="brief" usefile="false" />
   			</batchtest>
 		</junit>
 	</target>
 
-	<target name="jar" depends="compile,test">
+	<target name="jar" depends="compile,copy,test">
 		<jar jarfile="${jar}" basedir="${build}"/>
 	</target>
 
@@ -132,16 +146,23 @@
 	<target name="dist" depends="zip,tar"/>
 
 	<target name="war" depends="jar">
+		<!-- The jars are in different subdirectories, we must flatten them all into
+		     one directory for the WAR file. So we copy them all into a temporary
+		     directory before building the WAR. -->
+		<copy todir="${build.lib}" flatten="true">
+			<fileset dir=".">
+				<include name="${lib}/*.jar"/>
+				<include name="${lib}/**/*.jar"/>
+				<exclude name="${junit.jar}"/>
+				<exclude name="${lib}/jetty-*/**"/>
+			</fileset>
+		</copy>
 		<war destfile="${war}" needxmlfile="false">
 			<fileset dir="webapp/">
 				<include name="**"/>
 				<exclude name="WEB-INF"/>
 			</fileset>
-			<lib dir="${lib}">
-				<exclude name="${junit.jar}"/>
-				<exclude name="jetty-*/**"/>
-			</lib>
-			<lib file="${jar}"/>
+			<lib dir="${build.lib}" includes="*.jar"/>
 			<webinf dir="webapp/WEB-INF">
 				<include name="*"/>
 			</webinf>

@@ -43,7 +43,7 @@ public abstract class XsltMicroformatExtractor extends MicroformatExtractor {
 			throw new RuntimeException("xsltFile must be set but it's currently null!");
 		InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(xsltFile);
 		if (null==resourceAsStream)
-			throw new RuntimeException("Resource is null, maybe the XSLT file is not bundled in the jar?");
+			throw new RuntimeException("Resource for '" + xsltFile + "' is null, maybe the XSLT file is not bundled in the jar?");
 		
 		return new StreamSource(resourceAsStream);
 	}
