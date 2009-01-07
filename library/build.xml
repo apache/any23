@@ -105,7 +105,7 @@
 		<jar jarfile="${jar}" basedir="${build}"/>
 	</target>
 
-	<target name="javadoc">
+	<target name="javadoc" depends="compile">
 		<!-- Creates javadoc documentation for the source
 			 (but not for the tests) -->
 		<delete dir="${javadoc}"/>

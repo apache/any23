@@ -11,6 +11,12 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/hreview">hReview</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
 	public HReviewExtractor(URI baseURI, HTMLDocument document) {

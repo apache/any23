@@ -5,8 +5,11 @@ import java.net.URI;
 import com.google.code.any23.HTMLDocument;
 
 
-
-
+/**
+ * Extractor for RDFa. Uses an XSLT stylesheet.
+ * 
+ * @author Gabriele Renzi
+ */
 public class RDFaExtractor extends XsltMicroformatExtractor {
 
 	public static void main(String[] args) {

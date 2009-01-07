@@ -15,7 +15,11 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.OWL;
 import com.hp.hpl.jena.vocabulary.RDF;
 
-
+/**
+ * Work in progress
+ * 
+ * @author Gabriele Renzi
+ */
 public class RDFMerger extends MicroformatExtractor {
 
 	public RDFMerger(URI baseURI, HTMLDocument document) {

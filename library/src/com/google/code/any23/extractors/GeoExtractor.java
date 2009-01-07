@@ -10,6 +10,12 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/geo">Geo</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class GeoExtractor extends EntityBasedMicroformatExtractor {
 
 	public GeoExtractor(URI baseURI, HTMLDocument document) {

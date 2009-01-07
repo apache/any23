@@ -15,6 +15,12 @@ import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/xfn">XFN</a>
+ * microformat.
+ * 
+ * @author Richard Cyganiak (richard@cyganiak.de)
+ */
 public class XFNExtractor extends MicroformatExtractor {
 	public XFNExtractor(URI baseURI, HTMLDocument doc) {
 		super(baseURI, doc);

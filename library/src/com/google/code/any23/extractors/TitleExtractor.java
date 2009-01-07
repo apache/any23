@@ -30,7 +30,6 @@ public class TitleExtractor extends MicroformatExtractor {
 		return true;
 	}
 
-
 	@Override
 	public String getFormatName() {
 		return "";

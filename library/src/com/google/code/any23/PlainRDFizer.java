@@ -10,8 +10,8 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 /**
  * Takes an RDF input and just returns it again in the specified format
+ * 
  * @author Gabriele Renzi
- *
  */
 public class PlainRDFizer implements RDFizer {
 

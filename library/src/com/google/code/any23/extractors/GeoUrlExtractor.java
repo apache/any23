@@ -7,6 +7,12 @@ import com.google.code.any23.vocab.FOAF;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+/**
+ * Extractor for "ICBM coordinates" provided as META headers in the head
+ * of an HTML page.
+ * 
+ * @author Gabriele Renzi
+ */
 public class GeoUrlExtractor extends MicroformatExtractor {
 	public GeoUrlExtractor(URI baseURI, HTMLDocument document) {
 		super(baseURI, document);

@@ -13,22 +13,26 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-/*
- * This class provides a bit of utility methods for DOM manipulation so that it is less painful
- * It is separated from HTMLDocument so that its methods can be run on single Node instances
- * avoid the wrapping in HTMLDocument.
- * It is currently using a mix of XPath and DOM manipulation, this is likely to be a performance bottleneck
- * but at least everything is localized here.
- * TODO test, albeit running the extractors' tests also tests this.
+/**
+ * This class provides utility methods for DOM manipulation.
+ * It is separated from {@link HTMLDocument} so that its methods
+ * can be run on single DOM nodes without having to wrap them
+ * into an HTMLDocument. We use a mix of XPath and DOM manipulation.
+ * 
+ * This is likely to be a performance bottleneck but at least
+ * everything is localized here.
+ * 
+ * TODO Test DomUtils
+ * TODO Move all XPath code here
  */
-// TODO import all XPath here
 public class DomUtils {
+
 	private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
 
-	/*
-	 * does a reverse walking of the dom tree to generate a unique xpath to this node.
-	 * Thje XPath generated is the canonical one based on sibling index: 
-	 * /html[1]/body[1]/div[2]/span[3] etc.. 
+	/**
+	 * Does a reverse walking of the DOM tree to generate a unique XPath
+	 * expression leading to this node. The XPath generated is the canonical
+	 * one based on sibling index: /html[1]/body[1]/div[2]/span[3] etc.. 
 	 */
 	public static String getXPathForNode(Node node) {
 	    String index = "";
@@ -48,15 +52,13 @@ public class DomUtils {
         	return index;
         else
         	return getXPathForNode(parent)+index;
-
     }
 
-
-	/*
-	 * Find all nodes that have a declared class. 
-	 * Note that the className is transformed to lower case to avoid stupid errors
+	/**
+	 * Finds all nodes that have a declared class. 
+	 * Note that the className is transformed to lower case before being
+	 * matched against the DOM.
 	 */
-	
 	public static List<Node> findAllByClassName(Node root, String className) {
 		return findAllByTagAndClassName(root, "*", className.toLowerCase());
 	}
@@ -90,8 +92,8 @@ public class DomUtils {
 		return result;
 	}
 	
-	/*
-	 * mimicks JS DOM API, or prototype's $()
+	/**
+	 * Mimicks the JS DOM API, or prototype's $()
 	 */
 	public static Node findNodeById(Node root, String id) {
 		Node node;
@@ -104,8 +106,9 @@ public class DomUtils {
 		return node;
 	}
 	
-	/*
-	 * returns a NodeList composed of all the nodes that match an xpath expression, which must be valid
+	/**
+	 * Returns a NodeList composed of all the nodes that match an XPath
+	 * expression, which must be valid.
 	 */
 	public static NodeList findAll(Node node, String xpath) {
 		try {
@@ -115,10 +118,9 @@ public class DomUtils {
 		}
 	}
 	
-	/*
-	 * gets the string value of an XPath expression
+	/**
+	 * Gets the string value of an XPath expression.
 	 */
-	
 	public static String find(Node node, String xpath) {
 		try {
 			String val= (String) xPathEngine.evaluate(xpath, node, XPathConstants.STRING);
@@ -130,23 +132,23 @@ public class DomUtils {
 		}
 	}
 	
-	/* 
-     * This method tells if an element has a class name <b>not checking the parents in the hierarchy</b>
-     * mimicking the CSS .foo match
+	/**
+     * Tells if an element has a class name <b>not checking the parents 
+     * in the hierarchy</b> mimicking the CSS .foo match.
      * 
-     * TODO hunt all class check and replace
+     * TODO Find all class checks throughout the code and use this
      */
-	
 	public static boolean hasClassName(Node node, String className) {
 		return hasAttribute(node, "class", className);
 	}
 
-	/*
-	 * Checks the presence of an attribute with a value.
-	 * The semantic is the CSS classes' ones: "foo" matches "bar foo", "foo" but not "foob"
+	/**
+	 * Checks the presence of an attribute value in attributes that
+	 * contain whitespace-separated lists of values. The semantic is the 
+	 * CSS classes' ones: "foo" matches "bar foo", "foo" but not "foob"
 	 */
 	public static boolean hasAttribute(Node node, String attributeName, String className) {
-		// regex love, maybe faster but less easy ti understand
+		// regex love, maybe faster but less easy to understand
 //		Pattern pattern = Pattern.compile("(^|\\s+)"+className+"(\\s+|$)");
 		String attr = readAttribute(node, attributeName);
 		for(String c: attr.split("\\s+"))
@@ -155,17 +157,14 @@ public class DomUtils {
 		return false;
 	}
 	
-	
-	
 	public static boolean isElementNode(Node target) {
 		return Node.ELEMENT_NODE == target.getNodeType();
 	}
 	
-	/* 
-	 * reads the value of an attribute avoiding null handling
-	 * @post the result is never null
+	/** 
+	 * Reads the value of an attribute, returning an empty string
+	 * instead of null if it is not present.
 	 */
-
 	public static String readAttribute(Node document, String attribute) {
 		NamedNodeMap attributes = document.getAttributes();
 		if (null==attributes)

@@ -13,7 +13,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
+/**
+ * A wrapper around the DOM representation of an HTML document.
+ * Provides convenience access to various parts of the document.
+ * 
+ * @author Gabriele Renzi
+ */
 public class HTMLDocument {
 	private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
  

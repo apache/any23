@@ -19,6 +19,11 @@ import com.google.code.any23.HTMLDocument;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.shared.JenaException;
 
+/**
+ * Abstract class for creating XSLT-based extractors. 
+ * 
+ * @author Gabriele Renzi
+ */
 public abstract class XsltMicroformatExtractor extends MicroformatExtractor {
 	protected Transformer transformer;
     protected String xsltFile;

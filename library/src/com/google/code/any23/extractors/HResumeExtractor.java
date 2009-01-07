@@ -12,6 +12,12 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/hresume">hResume</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 
 	public HResumeExtractor(URI baseURI, HTMLDocument document) {

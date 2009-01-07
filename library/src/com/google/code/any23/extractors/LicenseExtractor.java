@@ -8,7 +8,12 @@ import com.google.code.any23.HTMLDocument;
 import com.google.code.any23.vocab.MISSING;
 import com.hp.hpl.jena.rdf.model.Model;
 
-
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class LicenseExtractor extends MicroformatExtractor {
 	public LicenseExtractor(URI baseURI, HTMLDocument document) {
 		super(baseURI, document);

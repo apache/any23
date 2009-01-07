@@ -11,6 +11,12 @@ import com.google.code.any23.vocab.ICAL;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/hcalendar">hCalendar</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class HCalendarExtractor extends MicroformatExtractor {
 
 	public HCalendarExtractor(URI baseURI, HTMLDocument document) {

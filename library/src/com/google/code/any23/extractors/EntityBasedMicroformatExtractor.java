@@ -11,10 +11,14 @@ import com.hp.hpl.jena.rdf.model.AnonId;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 
+/**
+ * Work in progress
+ * 
+ * @author Gabriele Renzi
+ */
 public abstract class EntityBasedMicroformatExtractor extends
 		MicroformatExtractor {
 
-	
 	private String baseClassName;
 
 	public EntityBasedMicroformatExtractor(URI baseURI, HTMLDocument document, String className) {

@@ -18,11 +18,16 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/hcard">hCard</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class HCardExtractor extends EntityBasedMicroformatExtractor {
 	public HCardExtractor(URI uri, HTMLDocument doc) {
 		super(uri, doc, "vcard");
 	}
-
 
 	private void fixIncludes(HTMLDocument document, Node node) {
 		NamedNodeMap attributes = node.getAttributes();
@@ -57,8 +62,6 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 			current.appendChild(included.cloneNode(true)); 
 		}
 	}
-
-
 
 	protected boolean extractEntity(Node node, Model model) {
 		fixIncludes(document, node);

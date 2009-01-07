@@ -38,9 +38,12 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 
 /**
- * The RDFizer that transforms an HTML Document in RDF by using the Extractors infrastructure 
+ * An RDFizer that transforms an HTML Document to RDF by
+ * using the Extractors infrastructure. It works by
+ * running several MicroformatExtractors over the
+ * HTML document.
+ *  
  * @author Gabriele Renzi
- *
  */
 public class HTMLRDFizer implements RDFizer {
 	public static final Log LOG = LogFactory

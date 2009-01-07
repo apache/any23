@@ -13,8 +13,16 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
+/**
+ * A class for fetching documents from URLs via HTTP.
+ * 
+ * @author Paolo Capriotti
+ */
 public class Fetcher {
 	
+  /**
+   * Classes of content that Fetcher can ask for via HTTP content negotiation.
+   */
   public enum Type {
 	    RDF,
 	    RDF_OR_HTML,
@@ -148,9 +156,9 @@ public class Fetcher {
   }
 
   /**
-   * Release all static resources help by the SindiceFetcher class. Call this
-   * method only if you are sure you will not be using SindiceFetcher again in your
-   * application, like for example when shutting down a Servlet context.
+   * Release all static resources help by the Fetcher class. Call this
+   * method only if you are sure you will not be using Fetcher again in your
+   * application, like for example when shutting down a servlet context.
    */
   public static void shutdown() {
     HttpClientInitializer.manager.shutdown();

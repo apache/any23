@@ -16,6 +16,11 @@ import com.google.code.any23.RDFizer;
 import com.google.code.any23.Rover;
 import com.google.code.any23.RDFizer.Format;
 
+/**
+ * A servlet that wraps a {@link Rover} instance.
+ * 
+ * @author Gabriele Renzi
+ */
 public class Servlet extends HttpServlet {
 
 	private static final int URL_PART = 1;

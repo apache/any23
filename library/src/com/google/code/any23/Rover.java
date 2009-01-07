@@ -11,8 +11,8 @@ import org.apache.commons.httpclient.HttpMethod;
 import com.google.code.any23.Fetcher.Type;
 
 /**
- * A default rover implementation. Goes and fetches a URL using an hint as to what format should require, then 
- * tries to convert it to RDF
+ * A default rover implementation. Goes and fetches a URL using an hint
+ * as to what format should require, then tries to convert it to RDF.
  * 
  * @author Gabriele Renzi
  */

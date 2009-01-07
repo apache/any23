@@ -10,15 +10,17 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
-
-
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/adr">adr</a> 
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class AdrExtractor extends EntityBasedMicroformatExtractor {
 
 	public AdrExtractor(URI baseURI, HTMLDocument document) {
 		super(baseURI, document, "adr");
 	}
-
-
 
 	private static final String[] addressFields = {
 		   "post-office-box",

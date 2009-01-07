@@ -5,6 +5,12 @@ import java.io.File;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.webapp.WebAppContext;
 
+/**
+ * A simple server that uses Jetty to launch the Any23 servlet.
+ * Starts up on port 8080.
+ * 
+ * @author Richard Cyganiak
+ */
 public class Any23Server {
 
 	public static void main(String[] args) throws Exception {

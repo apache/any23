@@ -18,6 +18,12 @@ import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
 
+/**
+ * Extractor for the <a href="http://microformats.org/wiki/hlisting">hListing</a>
+ * microformat.
+ * 
+ * @author Gabriele Renzi
+ */
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
 	public HListingExtractor(URI baseURI, HTMLDocument doc) {
 		super(baseURI, doc, "hlisting");
