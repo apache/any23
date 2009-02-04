@@ -2,7 +2,7 @@
 <project name="Any23" default="dist" basedir=".">
 
 	<property name="name" value="any23"/>
-	<property name="version" value="0.1"/>
+	<property name="version" value="0.2-dev"/>
 	<property name="project.package" value="com.google.code.any23"/>
 	<property name="src" value="src"/>
 	<property name="src.tests" value="test"/>

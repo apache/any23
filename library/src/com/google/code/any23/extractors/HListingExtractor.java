@@ -7,12 +7,12 @@ import java.util.List;
 
 
 
+import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.vocab.FOAF;
+import org.deri.any23.vocab.HLISTING;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.google.code.any23.HTMLDocument;
-import com.google.code.any23.vocab.FOAF;
-import com.google.code.any23.vocab.HLISTING;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;

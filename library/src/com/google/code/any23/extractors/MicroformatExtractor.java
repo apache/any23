@@ -5,10 +5,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 
+import org.deri.any23.extractor.html.HTMLDocument;
 
 
 
-import com.google.code.any23.HTMLDocument;
+
 import com.google.code.any23.HTMLParser;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;

@@ -3,35 +3,28 @@ package com.google.code.any23;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.Format;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.deri.any23.extractor.html.HTMLDocument;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.google.code.any23.extractors.AdrExtractor;
 import com.google.code.any23.extractors.GeoExtractor;
-import com.google.code.any23.extractors.GeoUrlExtractor;
 import com.google.code.any23.extractors.HCalendarExtractor;
 import com.google.code.any23.extractors.HCardExtractor;
 import com.google.code.any23.extractors.HListingExtractor;
 import com.google.code.any23.extractors.HResumeExtractor;
 import com.google.code.any23.extractors.HReviewExtractor;
-import com.google.code.any23.extractors.LicenseExtractor;
 import com.google.code.any23.extractors.MicroformatExtractor;
 import com.google.code.any23.extractors.RDFMerger;
-import com.google.code.any23.extractors.RDFaExtractor;
-import com.google.code.any23.extractors.TitleExtractor;
-import com.google.code.any23.extractors.XFNExtractor;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -45,7 +38,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
  *  
  * @author Gabriele Renzi
  */
-public class HTMLRDFizer implements RDFizer {
+public class HTMLRDFizer {
 	public static final Log LOG = LogFactory
 	.getLog(HTMLRDFizer.class);
 	private URI baseURI;
@@ -91,12 +84,12 @@ public class HTMLRDFizer implements RDFizer {
 		}
 
 		// RDFa is RDF not a microformat, and same for eRDF etc.. in the future
-		MicroformatExtractor rdfaExtractor = new RDFaExtractor(baseURI, document);
-		if (rdfaExtractor.extractTo(model)) {
-			formats.add(rdfaExtractor.getFormatName());
-		}
+//		MicroformatExtractor rdfaExtractor = new RDFaExtractor(baseURI, document);
+//		if (rdfaExtractor.extractTo(model)) {
+//			formats.add(rdfaExtractor.getFormatName());
+//		}
 		if (!formats.isEmpty()) {
-			new TitleExtractor(baseURI, document).extractTo(model);
+//			new TitleExtractor(baseURI, document).extractTo(model);
 			new RDFMerger(baseURI, document).extractTo(model);
 			model.write(writer, format.toString());
 		}
@@ -119,7 +112,7 @@ public class HTMLRDFizer implements RDFizer {
 			throw new RuntimeException(ex);
 		}
 		HTMLRDFizer fizer = new HTMLRDFizer(new URL("http://foo.com"), (DocumentFragment) new HTMLParser(fs, true).getDocumentNode());
-		fizer.getText(new PrintWriter(System.out), Format.N3);
+//		fizer.getText(new PrintWriter(System.out), Format.N3);
 		
 	}
 	
@@ -132,42 +125,18 @@ public class HTMLRDFizer implements RDFizer {
 	 */
 	public MicroformatExtractor[] getMicroformatExtractors(URI uri, HTMLDocument doc) {
 		// this could be metaprogrammed, but it's fugly
-		MicroformatExtractor[] instances = { new XFNExtractor(uri, doc),
+		MicroformatExtractor[] instances = { //new XFNExtractor(uri, doc),
 											new HCardExtractor(uri, doc), 
 											new HCalendarExtractor(uri, doc),
 											new HReviewExtractor(uri, doc), 
-											new GeoUrlExtractor(uri, doc), 
+											//new ICBMExtractor(uri, doc), 
 											new GeoExtractor(uri, doc),
 											new AdrExtractor(uri, doc), 
-											new LicenseExtractor(uri, doc),
+											//new LicenseExtractor(uri, doc),
 											new HListingExtractor(uri, doc),
 											new HResumeExtractor(uri, doc)
 											};
 
 		return instances;
-	}
-	
-	
-	
-	/**
-	 * Returns a list of links taken from the head of the html document.
-	 * Used in the Sindice crawler infrastucture, kept here for sanity
-	 * @return a map where the key is the link and the value is the anchor text
-	 */
-	public Map<String,String> getAlternateOutlinks() {
-		Map<String, String> result = new HashMap<String,String>();
-		
-		String anchorText = ""; // <link> does not have text
-		NodeList links = document.findAll("//LINK["
-				+ "@type='application/rdf+xml' or"
-				+ "@type='application/x-turtle' or" + "@type='text/turtle' or "
-				+ "@type='text/rdf+n3'" + "]/@href");
-		for (int i = 0; i < links.getLength(); i++) {
-			String href = links.item(i).getTextContent();
-			String uri = baseURI.resolve(href).toString();
-				result.put(uri, anchorText);
-		}
-		return result;
-
 	}
 }

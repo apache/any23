@@ -3,11 +3,11 @@ package com.google.code.any23.extractors;
 import java.net.URI;
 import java.util.List;
 
+import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.vocab.DOAC;
+import org.deri.any23.vocab.FOAF;
 import org.w3c.dom.Node;
 
-import com.google.code.any23.HTMLDocument;
-import com.google.code.any23.vocab.DOAC;
-import com.google.code.any23.vocab.FOAF;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;
