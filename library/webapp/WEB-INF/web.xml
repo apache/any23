@@ -11,7 +11,7 @@
   
   <servlet>
     <servlet-name>any23</servlet-name>
-    <servlet-class>com.google.code.any23.servlet.Servlet</servlet-class>
+    <servlet-class>org.deri.any23.servlet.Servlet</servlet-class>
   </servlet>
 
   <servlet-mapping>

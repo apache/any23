@@ -2,8 +2,9 @@ package com.google.code.any23.extractors;
 
 
 
-import com.google.code.any23.extractors.LicenseExtractor;
-import com.google.code.any23.vocab.MISSING;
+import org.deri.any23.extractor.html.LicenseExtractor;
+import org.deri.any23.vocab.DCTERMS;
+
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -25,28 +26,28 @@ public class LicenseExtractorTest extends AbstractMicroformatTestCase {
 
 	public void testOnlyCc() {
 		assertExtracts("ccBy");
-		assertContains(thePage, MISSING.DCTerms.license, ccBy);
-		assertNotContains(thePage, MISSING.DCTerms.license, apache);
+		assertContains(thePage, DCTERMS.DCTerms.license, ccBy);
+		assertNotContains(thePage, DCTERMS.DCTerms.license, apache);
 
 	}
 // useless
 	public void testOnlyApache() {
 		assertExtracts("apache");
-		assertNotContains(thePage, MISSING.DCTerms.license, ccBy);
-		assertContains(thePage, MISSING.DCTerms.license, apache);
+		assertNotContains(thePage, DCTERMS.DCTerms.license, ccBy);
+		assertContains(thePage, DCTERMS.DCTerms.license, apache);
 	}
 
 
 	public void testMultipleLicenses() {
 		assertExtracts("multiple");
-		assertContains(thePage, MISSING.DCTerms.license, ccBy);
-		assertContains(thePage, MISSING.DCTerms.license, apache);
+		assertContains(thePage, DCTERMS.DCTerms.license, ccBy);
+		assertContains(thePage, DCTERMS.DCTerms.license, apache);
 	}
 
 	public void testMultipleEmptyHref() {
 		assertExtracts("multiple-empty-href");
-		assertNotContains(thePage, MISSING.DCTerms.license, "");
-		assertContains(thePage, MISSING.DCTerms.license, apache);
+		assertNotContains(thePage, DCTERMS.DCTerms.license, "");
+		assertContains(thePage, DCTERMS.DCTerms.license, apache);
 	}
 
 	
@@ -62,8 +63,8 @@ public class LicenseExtractorTest extends AbstractMicroformatTestCase {
 
 	public void testMixedCaseTitleTag() {
 		assertExtracts("multiple-mixed-case");
-		assertContains(thePage, MISSING.DCTerms.license, ccBy);
-		assertContains(thePage, MISSING.DCTerms.license, apache);
+		assertContains(thePage, DCTERMS.DCTerms.license, ccBy);
+		assertContains(thePage, DCTERMS.DCTerms.license, apache);
 	}
 
 }

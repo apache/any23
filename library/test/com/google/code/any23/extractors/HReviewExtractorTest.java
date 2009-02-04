@@ -1,10 +1,11 @@
 package com.google.code.any23.extractors;
 
 
-import com.google.code.any23.HTMLDocument;
+import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.vocab.REVIEW;
+import org.deri.any23.vocab.VCARD;
+
 import com.google.code.any23.extractors.HReviewExtractor;
-import com.google.code.any23.vocab.REVIEW;
-import com.google.code.any23.vocab.VCARD;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.vocabulary.RDF;

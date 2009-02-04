@@ -3,7 +3,8 @@ package com.google.code.any23.extractors;
 
 
 
-import com.google.code.any23.extractors.TitleExtractor;
+import org.deri.any23.extractor.html.TitleExtractor;
+
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;

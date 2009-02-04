@@ -3,9 +3,10 @@ package com.google.code.any23.extractors;
 
 
 
-import com.google.code.any23.extractors.XFNExtractor;
-import com.google.code.any23.vocab.FOAF;
-import com.google.code.any23.vocab.XFN;
+import org.deri.any23.extractor.html.XFNExtractor;
+import org.deri.any23.vocab.FOAF;
+import org.deri.any23.vocab.XFN;
+
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.vocabulary.RDF;

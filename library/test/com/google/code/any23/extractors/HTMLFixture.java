@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.deri.any23.extractor.html.HTMLDocument;
 import org.w3c.dom.Node;
 
-import com.google.code.any23.HTMLDocument;
 import com.google.code.any23.HTMLParser;
 
 public class HTMLFixture {

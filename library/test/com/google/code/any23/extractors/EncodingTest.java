@@ -1,8 +1,8 @@
 package com.google.code.any23.extractors;
 
+import org.deri.any23.extractor.html.HTMLDocument;
 import org.junit.Test;
 
-import com.google.code.any23.HTMLDocument;
 
 import junit.framework.TestCase;
 

@@ -3,9 +3,10 @@ package com.google.code.any23.extractors;
 
 
 
-import com.google.code.any23.HTMLDocument;
+import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.vocab.HLISTING;
+
 import com.google.code.any23.extractors.HListingExtractor;
-import com.google.code.any23.vocab.HLISTING;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;

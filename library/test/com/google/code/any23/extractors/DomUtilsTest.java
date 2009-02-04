@@ -7,9 +7,9 @@ import javax.xml.xpath.XPathFactory;
 
 import junit.framework.TestCase;
 
+import org.deri.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 
-import com.google.code.any23.DomUtils;
 
 public class DomUtilsTest extends TestCase {
 

@@ -1,8 +1,9 @@
 package com.google.code.any23.extractors;
 
 
+import org.deri.any23.vocab.ICAL;
+
 import com.google.code.any23.extractors.HCalendarExtractor;
-import com.google.code.any23.vocab.ICAL;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;

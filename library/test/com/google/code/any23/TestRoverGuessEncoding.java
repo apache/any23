@@ -63,19 +63,19 @@ public class TestRoverGuessEncoding extends TestCase {
 	}
 
 	public void testTextHtmAndNoExtension() {
-		assertGuess(Format.HTML, "text/html", "foaf");
+		assertGuess(Format.XHTML, "text/html", "foaf");
 	}
 	
 	public void testTextPlainAndExtensions() {
-		assertGuess(Format.HTML, "text/plain", "foaf.html");
-		assertGuess(Format.HTML, "text/plain", "foaf.htm");
-		assertGuess(Format.HTML, "text/plain", "foaf.xhtml");
+		assertGuess(Format.XHTML, "text/plain", "foaf.html");
+		assertGuess(Format.XHTML, "text/plain", "foaf.htm");
+		assertGuess(Format.XHTML, "text/plain", "foaf.xhtml");
 	}
 
 	public void testApplicationXmlAndExtensions() {
-		assertGuess(Format.HTML, "application/xml", "foaf.html");
-		assertGuess(Format.HTML, "application/xml", "foaf.htm");
-		assertGuess(Format.HTML, "application/xml", "foaf.xhtml");
+		assertGuess(Format.XHTML, "application/xml", "foaf.html");
+		assertGuess(Format.XHTML, "application/xml", "foaf.htm");
+		assertGuess(Format.XHTML, "application/xml", "foaf.xhtml");
 	}
 	
 	private void assertGuess(RDFizer.Format f, String a, String b) {

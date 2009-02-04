@@ -3,10 +3,11 @@ package com.google.code.any23.extractors;
 import java.util.Arrays;
 import java.util.List;
 
+import org.deri.any23.vocab.FOAF;
+import org.deri.any23.vocab.VCARD;
+
 
 import com.google.code.any23.extractors.HCardExtractor;
-import com.google.code.any23.vocab.FOAF;
-import com.google.code.any23.vocab.VCARD;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.StmtIterator;

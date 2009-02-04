@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.deri.any23.servlet.Servlet;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
@@ -13,7 +14,6 @@ import com.google.code.any23.Fetcher;
 import com.google.code.any23.MockFetcher;
 import com.google.code.any23.RDFizer;
 import com.google.code.any23.Rover;
-import com.google.code.any23.servlet.Servlet;
 
 public class ServletTest extends TestCase {
     ServletTester tester;

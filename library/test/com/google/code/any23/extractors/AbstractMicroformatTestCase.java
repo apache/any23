@@ -2,8 +2,9 @@ package com.google.code.any23.extractors;
 
 import java.net.URI;
 
+import org.deri.any23.vocab.XFN;
 
-import com.google.code.any23.vocab.XFN;
+
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
