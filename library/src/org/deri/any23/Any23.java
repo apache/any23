@@ -13,6 +13,8 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
 import org.deri.any23.extractor.ExtractorRegistry;
 import org.deri.any23.extractor.SingleDocumentExtraction;
+import org.deri.any23.extractor.WarcArchiveExtractionTEST;
+import org.deri.any23.extractor.ZipArchiveExtraction;
 import org.deri.any23.http.AcceptHeaderBuilder;
 import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.http.HTTPClient;
@@ -26,6 +28,7 @@ import org.deri.any23.stream.InputStreamCacheMem;
 import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.stream.StringOpener;
 import org.deri.any23.writer.TripleHandler;
+
 
 /**
  * A facade with convenience methods for typical Any23 extraction
@@ -93,20 +96,51 @@ public class Any23 {
 	public boolean extract(String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
 		try {
+			
 			if (documentURI.toLowerCase().startsWith("file:")) {
 				return extract(new File(new URI(documentURI)), outputHandler);
 			}
-			if (httpClient == null) {
-				if (userAgent == null) {
-					throw new IOException("Must call ExtractionRunner.setHTTPUserAgent(String) before extracting from HTTP URI");
+			if(documentURI.toLowerCase().startsWith("http:")) {
+				if (httpClient == null) {
+					if (userAgent == null) {
+						throw new IOException("Must call ExtractionRunner.setHTTPUserAgent(String) before extracting from HTTP URI");
+					}
+					httpClient = new DefaultHTTPClient(userAgent, getAcceptHeader());
+					String normalizedURI = new URI(documentURI).normalize().toString();
+					return extract(new HTTPGetOpener(httpClient, normalizedURI), normalizedURI, outputHandler);
 				}
-				httpClient = new DefaultHTTPClient(userAgent, getAcceptHeader());
 			}
-			String normalizedURI = new URI(documentURI).normalize().toString();
-			return extract(new HTTPGetOpener(httpClient, normalizedURI), normalizedURI, outputHandler);
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);
 		}
+		return false;
+	}
+
+	/**
+	 * @param documentURI
+	 * @param outputHandler
+	 * @return - true by default
+	 */
+	public boolean extractWARCFile(final String documentURI,
+			final TripleHandler outputHandler) {
+		WarcArchiveExtractionTEST ex = new WarcArchiveExtractionTEST(documentURI, factories, outputHandler);
+		ex.setMIMETypeDetector(mimeTypeDetector);
+		ex.run();
+		return true;//ex.hasMatchingExtractors();
+	}
+
+
+
+	/**
+	 * @param documentURI
+	 * @param outputHandler 
+	 */
+	public boolean extractZipFile(final String documentURI, final TripleHandler outputHandler) {
+		ZipArchiveExtraction ex = new ZipArchiveExtraction(documentURI, factories, outputHandler);
+		ex.setMIMETypeDetector(mimeTypeDetector);
+		ex.run();
+		return true;
+		
 	}
 
 	public boolean extract(InputStreamOpener in, String documentURI, TripleHandler outputHandler) 
@@ -125,4 +159,6 @@ public class Any23 {
 		}
 		return new AcceptHeaderBuilder(mimeTypes).getAcceptHeader();
 	}
+	
+	
 }
