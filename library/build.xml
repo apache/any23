@@ -102,7 +102,11 @@
 	</target>
 
 	<target name="jar" depends="compile,copy,test">
-		<jar jarfile="${jar}" basedir="${build}"/>
+		<jar jarfile="${jar}" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="org.deri.any23.cli .Main"/>
+		    </manifest>
+			</jar>
 	</target>
 
 	<target name="javadoc" depends="compile">
