@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -35,6 +33,8 @@ public class Rover {
 	private final static String TURTLE = "turtle";
 	private final static String NTRIPLE = "ntriples";
 	private final static String RDFXML = "rdfxml";
+	private final static String ZIP = "zip";
+	private final static String WARC = "warc";
 	/**
 	 * A simple main for testing
 	 * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
@@ -45,9 +45,12 @@ public class Rover {
 		
 		//output format
 		Option outputFormat = new Option("o",true,"["+TURTLE+" (default), "+NTRIPLE+" , "+RDFXML+"]");
-		
 		options.addOption(outputFormat);
 		
+		//inputformat
+		Option input0 = new Option("I",true,"["+ZIP+" , "+WARC+"]");
+		options.addOption(input0);
+				
 		Option outputFile = new Option("O",true,"ouput file, if omitted output is written to stdout");
 		options.addOption(outputFile);
 		
@@ -98,9 +101,27 @@ public class Rover {
 		long start = System.currentTimeMillis();
 		Any23 any23 = new Any23();
 		any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
-		if (!any23.extract(inputURI, outputHandler)) {
-			System.err.println("No suitable extractors");
-			System.exit(2);
+		if(cmd.hasOption("I")) {
+			String inputFormat = cmd.getOptionValue("I");
+			if(inputFormat.equals(ZIP)) {
+				if (!any23.extractZipFile(inputURI, outputHandler)) {
+					System.err.println("No suitable extractors");
+					System.exit(2);
+				}
+				
+			}
+			if(inputFormat.equals(WARC)) {
+				if (!any23.extractWARCFile(inputURI, outputHandler)) {
+					System.err.println("No suitable extractors");
+					System.exit(2);
+				}
+			}
+		}
+		else {
+			if (!any23.extract(inputURI, outputHandler)) {
+				System.err.println("No suitable extractors");
+				System.exit(2);
+			}
 		}
 		System.err.println("Time elapsed: "+(System.currentTimeMillis()-start)+" ms!");
 	}

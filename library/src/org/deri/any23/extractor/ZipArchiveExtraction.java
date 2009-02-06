@@ -48,7 +48,11 @@ public class ZipArchiveExtraction {
 	}
 	
 	public ZipArchiveExtraction(String documentURI, ExtractorGroup extractors, TripleHandler output) {
-		this.documentURI =new File(documentURI).toURI();
+		try {
+			this.documentURI =new URI(documentURI);
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException("Invalid URI: " + documentURI, e);
+		}
 		
 		this.extractors = extractors;
 		this.output = output;

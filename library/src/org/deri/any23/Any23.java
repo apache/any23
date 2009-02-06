@@ -13,7 +13,7 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
 import org.deri.any23.extractor.ExtractorRegistry;
 import org.deri.any23.extractor.SingleDocumentExtraction;
-import org.deri.any23.extractor.WarcArchiveExtractionTEST;
+import org.deri.any23.extractor.WarcArchiveExtraction;
 import org.deri.any23.extractor.ZipArchiveExtraction;
 import org.deri.any23.http.AcceptHeaderBuilder;
 import org.deri.any23.http.DefaultHTTPClient;
@@ -21,6 +21,7 @@ import org.deri.any23.http.HTTPClient;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.mime.NaiveMIMETypeDetector;
+import org.deri.any23.mime.TikaMIMETypeDetector;
 import org.deri.any23.stream.FileOpener;
 import org.deri.any23.stream.HTTPGetOpener;
 import org.deri.any23.stream.InputStreamCache;
@@ -41,7 +42,8 @@ public class Any23 {
 	
 	private final ExtractorGroup factories;
 	private InputStreamCache streamCache;
-	private MIMETypeDetector mimeTypeDetector = new NaiveMIMETypeDetector();	// can be overridden by setter
+//	private MIMETypeDetector mimeTypeDetector = new NaiveMIMETypeDetector();	// can be overridden by setter
+	private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector();	// can be overridden by setter
 	private String userAgent = null;
 	private HTTPClient httpClient = null;
 	
@@ -123,7 +125,7 @@ public class Any23 {
 	 */
 	public boolean extractWARCFile(final String documentURI,
 			final TripleHandler outputHandler) {
-		WarcArchiveExtractionTEST ex = new WarcArchiveExtractionTEST(documentURI, factories, outputHandler);
+		WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
 		ex.setMIMETypeDetector(mimeTypeDetector);
 		ex.run();
 		return true;//ex.hasMatchingExtractors();

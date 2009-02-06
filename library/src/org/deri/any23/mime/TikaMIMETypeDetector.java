@@ -21,10 +21,16 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 	private static TikaConfig _config = null;
 	private static MimeTypes _types;
 	
-	public TikaMIMETypeDetector() throws JDOMException, IOException{
+	public TikaMIMETypeDetector(){
 		InputStream is = getResourceAsStream();
 		if(_config == null)
-			_config = new TikaConfig(is);
+			try {
+				_config = new TikaConfig(is);
+			} catch (JDOMException e) {
+				e.printStackTrace(System.err);
+			} catch (IOException e) {
+				e.printStackTrace(System.err);
+			}
 		if(_types == null)
 		_types = _config.getMimeRepository();
 	}
@@ -90,8 +96,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @throws IOException if the document stream could not be read
      */
     private MimeType getMimeType(InputStream stream, final Metadata metadata) throws IOException {
-//    	MimeType mt = _types.getMimeType(stream);
-//    	// Get type based on magic prefix
+
         stream.mark(_types.getMinLength());
         try {
             byte[] prefix = getPrefix(stream, _types.getMinLength());
@@ -155,12 +160,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 			
 		
 	public static void main(String[] args) {
-		try {
+		
 			TikaMIMETypeDetector d = new TikaMIMETypeDetector();
-		} catch (JDOMException e) {
-			e.printStackTrace(System.err);
-		} catch (IOException e) {
-			e.printStackTrace(System.err);
-		}
+		
 	} 
 }

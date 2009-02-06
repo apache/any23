@@ -72,6 +72,7 @@
 				<pathelement path="${build}"/>
 				<pathelement path="${junit.jar}"/>
 			</classpath>
+			<include name="**/*"/>
 		</javac>
 	</target>
 
@@ -81,6 +82,11 @@
 				<include name="xslt/**"/>
 			</fileset>
 		</copy>
+		<copy todir="${build}">
+				    <fileset dir="${src}">
+				      <exclude name="**/*.java"/>
+				    </fileset>
+				  </copy>
 	</target>
 	
 	<target name="test" depends="compile.tests,copy">
@@ -101,10 +107,10 @@
 		</junit>
 	</target>
 
-	<target name="jar" depends="compile,copy,test">
+	<target name="jar" depends="compile,copy">
 		<jar jarfile="${jar}" basedir="${build}">
 			<manifest>
-				<attribute name="Main-Class" value="org.deri.any23.cli .Main"/>
+				<attribute name="Main-Class" value="org.deri.any23.cli.Main"/>
 		    </manifest>
 			</jar>
 	</target>

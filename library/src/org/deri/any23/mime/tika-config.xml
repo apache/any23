@@ -16,5 +16,5 @@
    limitations under the License.
 -->
 <properties>
-    <mimeTypeRepository resource="file:/home/juergen/code/java/any23/build/org/deri/any23/mime/mimetypes.xml" magic="false"/>
+    <mimeTypeRepository resource="/org/deri/any23/mime/mimetypes.xml" magic="false"/>
 </properties>
