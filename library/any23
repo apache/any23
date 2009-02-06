@@ -1,0 +1,12 @@
+#!/bin/bash
+ANY23_ROOT=`pwd`
+#${0%/*}
+CP="$ANY23_ROOT/lib"
+SEP=':'
+if [ "$(uname)" = "Cygwin" ]; then SEP=';'; fi
+for jar in "$ANY23_ROOT"/lib/*.jar "$ANY23_ROOT"/lib/*/*.jar
+do
+  if [ ! -e "$jar" ]; then continue; fi
+  CP="$CP$SEP$jar"
+done
+exec java -cp "$CP" -Xmx256M org.deri.any23.cli.Main "$@"
