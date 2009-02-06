@@ -41,8 +41,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 	 */
 	private InputStream getResourceAsStream() {
 		InputStream result = null;
-		System.out.println(TikaMIMETypeDetector.class.getResource("."));
-	    result = TikaMIMETypeDetector.class.getResourceAsStream(RESOURCE_NAME);
+		 result = TikaMIMETypeDetector.class.getResourceAsStream(RESOURCE_NAME);
 	    if (result == null) {
 	    	result = TikaMIMETypeDetector.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
 	    	if (result == null) {
@@ -52,13 +51,11 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 	    if(result == null) {
 	    	try {
 	    		result = new FileInputStream(new File("src/"+RESOURCE_NAME));
-	    		System.out.println(new File("src/"+RESOURCE_NAME).getAbsolutePath());
-			} catch (FileNotFoundException e) {
+	    	} catch (FileNotFoundException e) {
 				e.printStackTrace(System.err);
 			}
 //			
 	    }
-	    System.out.println(result);
 	    return result;
 	}
 	
