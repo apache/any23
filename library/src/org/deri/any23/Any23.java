@@ -20,7 +20,6 @@ import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.http.HTTPClient;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
-import org.deri.any23.mime.NaiveMIMETypeDetector;
 import org.deri.any23.mime.TikaMIMETypeDetector;
 import org.deri.any23.stream.FileOpener;
 import org.deri.any23.stream.HTTPGetOpener;
@@ -128,7 +127,7 @@ public class Any23 {
 		WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
 		ex.setMIMETypeDetector(mimeTypeDetector);
 		ex.run();
-		return true;//ex.hasMatchingExtractors();
+		return true;
 	}
 
 
