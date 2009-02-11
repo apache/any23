@@ -1,9 +1,7 @@
 package org.deri.any23.cli;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarEntry;
