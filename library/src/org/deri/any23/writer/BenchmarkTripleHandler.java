@@ -11,6 +11,7 @@ import com.hp.hpl.jena.graph.Node;
 
 public class BenchmarkTripleHandler implements TripleHandler {
 
+	
 	private TripleHandler	_underlyingHandler;
 
 	private class StatObject{
@@ -33,14 +34,15 @@ public class BenchmarkTripleHandler implements TripleHandler {
 		}
 	}
 	
-	Map<String,StatObject> stats = new HashMap<String, StatObject>();
+	final Map<String,StatObject> stats;
 	
 	/**
 	 * 
 	 */
 	public BenchmarkTripleHandler(TripleHandler tripleHandler) {
 		_underlyingHandler = tripleHandler;
-
+		stats = new HashMap<String, StatObject>();
+		stats.put("SUM", new StatObject());
 	}
 
 	/* (non-Javadoc)
@@ -59,6 +61,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	public void closeContext(ExtractionContext context) {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).interimStop();
+		stats.get("SUM").interimStop();
 		_underlyingHandler.closeContext(context);
 		
 	}
@@ -71,6 +74,8 @@ public class BenchmarkTripleHandler implements TripleHandler {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).methodCalls++;
 		stats.get(context.getExtractorName()).interimStart();
+		stats.get("SUM").methodCalls++;
+		stats.get("SUM").interimStart();
 		_underlyingHandler.openContext(context);
 	}
 
@@ -90,6 +95,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).triples++;
+		stats.get("SUM").triples++;
 		_underlyingHandler.receiveTriple(s, p, o, context);
 		
 	}
@@ -99,6 +105,20 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	 */
 	public String report() {
 		StringBuilder sb = new StringBuilder();
+		StatObject sum = stats.get("SUM");
+		
+		sb.append("\n>Summary: ");
+		sb.append("\n   -total calls: ").append(sum.methodCalls);
+		sb.append("\n   -total triples: ").append(sum.triples);
+		sb.append("\n   -total runtime: ").append(sum.runtime).append(" ms!");
+		if(sum.runtime != 0)
+		sb.append("\n   -tripls/ms: ").append(sum.triples/sum.runtime);
+		if(sum.methodCalls != 0)
+		sb.append("\n   -ms/calls: ").append(sum.runtime/sum.methodCalls);
+
+		stats.remove("SUM");
+		
+		
 		for(Entry<String, StatObject>ent: stats.entrySet()) {
 			sb.append("\n>Extractor: ").append(ent.getKey());
 			sb.append("\n   -total calls: ").append(ent.getValue().methodCalls);
@@ -110,6 +130,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 			sb.append("\n   -ms/calls: ").append(ent.getValue().runtime/ent.getValue().methodCalls);
 			
 		}
+		
 		
 		return sb.toString();
 	}
