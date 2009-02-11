@@ -104,7 +104,9 @@ public class BenchmarkTripleHandler implements TripleHandler {
 			sb.append("\n total calls: ").append(ent.getValue().methodCalls);
 			sb.append("\n total triples: ").append(ent.getValue().triples);
 			sb.append("\n total runtime: ").append(ent.getValue().runtime).append(" ms!");
+			if(ent.getValue().runtime != 0)
 			sb.append("\n tripls/ms: ").append(ent.getValue().triples/ent.getValue().runtime);
+			if(ent.getValue().methodCalls != 0)
 			sb.append("\n ms/calls: ").append(ent.getValue().runtime/ent.getValue().methodCalls);
 			
 		}
