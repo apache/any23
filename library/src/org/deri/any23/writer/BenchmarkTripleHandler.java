@@ -10,9 +10,7 @@ import com.hp.hpl.jena.graph.Node;
 
 
 public class BenchmarkTripleHandler implements TripleHandler {
-
-	
-	private TripleHandler	_underlyingHandler;
+	private TripleHandler underlyingHandler;
 
 	private class StatObject{
 		int methodCalls = 0;
@@ -34,13 +32,13 @@ public class BenchmarkTripleHandler implements TripleHandler {
 		}
 	}
 	
-	final Map<String,StatObject> stats;
+	private final Map<String,StatObject> stats;
 	
 	/**
 	 * 
 	 */
 	public BenchmarkTripleHandler(TripleHandler tripleHandler) {
-		_underlyingHandler = tripleHandler;
+		underlyingHandler = tripleHandler;
 		stats = new HashMap<String, StatObject>();
 		stats.put("SUM", new StatObject());
 	}
@@ -48,56 +46,48 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#close()
 	 */
-	@Override
 	public void close() {
-		_underlyingHandler.close();
-		
+		underlyingHandler.close();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#closeContext(org.deri.any23.extractor.ExtractionContext)
 	 */
-	@Override
 	public void closeContext(ExtractionContext context) {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).interimStop();
 		stats.get("SUM").interimStop();
-		_underlyingHandler.closeContext(context);
+		underlyingHandler.closeContext(context);
 		
 	}
 
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#openContext(org.deri.any23.extractor.ExtractionContext)
 	 */
-	@Override
 	public void openContext(ExtractionContext context) {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).methodCalls++;
 		stats.get(context.getExtractorName()).interimStart();
 		stats.get("SUM").methodCalls++;
 		stats.get("SUM").interimStart();
-		_underlyingHandler.openContext(context);
+		underlyingHandler.openContext(context);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#receiveLabel(java.lang.String, org.deri.any23.extractor.ExtractionContext)
 	 */
-	@Override
 	public void receiveLabel(String label, ExtractionContext context) {
-		_underlyingHandler.receiveLabel(label, context);
-		
+		underlyingHandler.receiveLabel(label, context);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#receiveTriple(com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, org.deri.any23.extractor.ExtractionContext)
 	 */
-	@Override
 	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).triples++;
 		stats.get("SUM").triples++;
-		_underlyingHandler.receiveTriple(s, p, o, context);
-		
+		underlyingHandler.receiveTriple(s, p, o, context);
 	}
 
 	/**
@@ -118,7 +108,6 @@ public class BenchmarkTripleHandler implements TripleHandler {
 
 		stats.remove("SUM");
 		
-		
 		for(Entry<String, StatObject>ent: stats.entrySet()) {
 			sb.append("\n>Extractor: ").append(ent.getKey());
 			sb.append("\n   -total calls: ").append(ent.getValue().methodCalls);
@@ -131,8 +120,6 @@ public class BenchmarkTripleHandler implements TripleHandler {
 			
 		}
 		
-		
 		return sb.toString();
 	}
-	
 }

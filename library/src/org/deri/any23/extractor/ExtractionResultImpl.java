@@ -100,7 +100,6 @@ public class ExtractionResultImpl implements ExtractionResult {
 		for (ExtractionContext context : openLocalContexts) {
 			tripleHandler.closeContext(context);
 		}
-		tripleHandler.close();
 	}
 	
 	private void checkOpen(ExtractionContext context) {

@@ -126,6 +126,7 @@ public class Rover {
 				System.exit(2);
 			}
 		}
+		bH.close();
 		System.err.println(bH.report());
 		System.err.println("Time elapsed: "+(System.currentTimeMillis()-start)+" ms!");
 	}

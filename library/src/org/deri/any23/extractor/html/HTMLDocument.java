@@ -83,6 +83,7 @@ public class HTMLDocument {
 			return "";
 		return res[0];
 	}
+	
 	public String[] getPluralTextField(String className) {
 		List<String> res = new ArrayList<String>(0);
 		List<Node> nodes= DomUtils.findAllByClassName(getDocument(),className);

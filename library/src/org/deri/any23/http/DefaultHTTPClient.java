@@ -36,7 +36,6 @@ public class DefaultHTTPClient implements HTTPClient {
 	public DefaultHTTPClient(String userAgent, String accept) {
 		this.userAgent = userAgent;
 		this.accept = accept;
-		System.out.println(accept);
 	}
 
 	private void ensureClientInitialized() {

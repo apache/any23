@@ -41,7 +41,6 @@ public class Any23 {
 	
 	private final ExtractorGroup factories;
 	private InputStreamCache streamCache;
-//	private MIMETypeDetector mimeTypeDetector = new NaiveMIMETypeDetector();	// can be overridden by setter
 	private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector();	// can be overridden by setter
 	private String userAgent = null;
 	private HTTPClient httpClient = null;

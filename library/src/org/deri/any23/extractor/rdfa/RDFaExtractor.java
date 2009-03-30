@@ -12,7 +12,12 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.extractor.html.DomUtils;
+import org.deri.any23.rdf.Prefixes;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -36,9 +41,27 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 	private final static String xsltFilename = "rdfa.xslt";
 	private static XSLTStylesheet xslt = null;
 
+	@SuppressWarnings("unchecked")
 	public void run(Document in, ExtractionResult out) 
 	throws IOException, ExtractionException {
 		StringWriter buffer = new StringWriter();
+		
+		
+		// TODO @@@ FIXME Quick hack for Daniele's OKKAM demo, DO REMOVE ASAP!!!!!
+
+		Attr attr = in.createAttribute("xmlns:rdfs");
+		attr.setNodeValue("http://www.w3.org/2000/01/rdf-schema#");
+		DomUtils.findAllByTag(in, "HTML").get(0).getAttributes().setNamedItem(attr);
+		NodeList nodes;
+		nodes = DomUtils.findAll(in, "//SPAN[@content][@property='rdfs:label']");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			((Element) nodes.item(i)).removeAttribute("content");
+		}
+		nodes = DomUtils.findAll(in, "//DIV[@typeof]");
+		for (int i = 0; i < nodes.getLength(); i++) {
+			((Element) nodes.item(i)).removeAttribute("typeof");
+		}
+		
 		getXSLT().applyTo(in, buffer);
 		Model model = ModelFactory.createDefaultModel();
 		try {
@@ -58,7 +81,7 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 					stmt.getSubject().asNode(), 
 					stmt.getPredicate().asNode(), 
 					stmt.getObject().asNode(), 
-					out.getDocumentContext(this));
+					out.getDocumentContext(this, Prefixes.createFromMap(model.getNsPrefixMap(), true)));
 		}
 	}
 	
