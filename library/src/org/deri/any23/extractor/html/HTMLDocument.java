@@ -1,5 +1,9 @@
 package org.deri.any23.extractor.html;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +12,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.deri.any23.extractor.ExtractionException;
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * A wrapper around the DOM representation of an HTML document.
@@ -20,13 +27,45 @@ import org.w3c.dom.NodeList;
  */
 public class HTMLDocument {
 	private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
- 
+
+	/**
+	 * A utility method to allow writing main() methods for smoke testing an extractor
+	 * it simply creates a DOM object from a file whose name was passed on the command line.
+	 */
+	public static HTMLDocument createFromFile(String filename) {
+		try {
+			File f = new File(filename);
+			String uri = f.toURI().normalize().toString();
+			FileInputStream fs = new FileInputStream(new File(filename));
+			return new HTMLDocument(new TagSoupParser(fs, uri).getDOM());		
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+	
 	private Node document;
+	private java.net.URI baseURI;
+	private ValueFactory valueFactory = ValueFactoryImpl.getInstance();
 	
 	public HTMLDocument(Node document) {
 		if(null==document)
 			throw new RuntimeException("node cannot be null when constructing an HTMLDocument");
 		this.document = document;
+	}
+
+	private java.net.URI getBaseURI() throws ExtractionException {
+		if (baseURI == null) {
+			try {
+				baseURI = new java.net.URI(document.getBaseURI());
+			} catch (URISyntaxException ex) {
+				throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
+			}
+		}
+		return baseURI;
+	}
+	
+	public URI resolveURI(String relativeURI) throws ExtractionException {
+		return valueFactory.createURI(getBaseURI().resolve(relativeURI).toString());
 	}
 	
 	public String find(String xpath) {
@@ -37,10 +76,9 @@ public class HTMLDocument {
 		return DomUtils.findNodeById(getDocument(), id);
 	}
 	
-	public NodeList findAll(String xpath) {
+	public List<Node> findAll(String xpath) {
 		return DomUtils.findAll(getDocument(),xpath);
 	}
-
 
 	/* 
 	 * @pre: the values are always correct to generate sensible XPATH expressions

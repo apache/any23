@@ -1,7 +1,8 @@
 package com.google.code.any23.extractors;
 
 
-import com.google.code.any23.extractors.RDFaExtractor;
+import org.sindice.rdfizer.extractors.RDFaExtractor;
+
 import com.hp.hpl.jena.vocabulary.DC;
 
 public class RDFaExtractorTest extends AbstractMicroformatTestCase {

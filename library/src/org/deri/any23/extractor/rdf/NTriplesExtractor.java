@@ -4,35 +4,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.shared.JenaException;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.ntriples.NTriplesParser;
 
 public class NTriplesExtractor implements ContentExtractor {
 
-	public void run(InputStream in, ExtractionResult out)
+	public void run(InputStream in, final ExtractionResult out)
 			throws IOException, ExtractionException {
-		Model m = ModelFactory.createDefaultModel();
 		try {
-			m.read(in, out.getDocumentURI(), "N-TRIPLE");
-			StmtIterator it = m.listStatements();
-			while (it.hasNext()) {
-				Statement stmt = it.nextStatement();
-				out.writeTriple(stmt.getSubject().asNode(), 
-						stmt.getPredicate().asNode(), 
-						stmt.getObject().asNode(), 
-						out.getDocumentContext(this));
-			}
-		} catch (JenaException ex) {
+			final ExtractionContext context = out.getDocumentContext(this);
+			RDFParser parser = new NTriplesParser();
+			parser.setRDFHandler(new RDFHandlerAdapter(out, context));
+			parser.parse(in, out.getDocumentURI());
+		} catch (RDFHandlerException ex) {
+			throw new RuntimeException(ex);	// should not happen
+		} catch (RDFParseException ex) {
 			throw new ExtractionException(ex);
 		}
 	}

@@ -1,4 +1,4 @@
-package com.google.code.any23;
+package org.sindice.rdfizer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,35 +12,34 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.deri.any23.extractor.html.AdrExtractor;
 import org.deri.any23.extractor.html.HTMLDocument;
+import org.sindice.rdfizer.extractors.MicroformatExtractor;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 
-import com.google.code.any23.extractors.AdrExtractor;
 import com.google.code.any23.extractors.GeoExtractor;
 import com.google.code.any23.extractors.HCalendarExtractor;
 import com.google.code.any23.extractors.HCardExtractor;
 import com.google.code.any23.extractors.HListingExtractor;
 import com.google.code.any23.extractors.HResumeExtractor;
 import com.google.code.any23.extractors.HReviewExtractor;
-import com.google.code.any23.extractors.MicroformatExtractor;
 import com.google.code.any23.extractors.RDFMerger;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-
-
 /**
- * An RDFizer that transforms an HTML Document to RDF by
- * using the Extractors infrastructure. It works by
- * running several MicroformatExtractors over the
- * HTML document.
- *  
  * @author Gabriele Renzi
  */
-public class HTMLRDFizer {
+public class SindiceTripleHandler {
+	
+	public static List<String> runExtractionAndReturnFormats(InputStream, Writer, String format) {
+		// @@2 TODO
+	}
+	
+	
 	public static final Log LOG = LogFactory
-	.getLog(HTMLRDFizer.class);
+	.getLog(SindiceTripleHandler.class);
 	private URI baseURI;
 	private final ArrayList<String> formats = new ArrayList<String>(0);
 	private final HTMLDocument document;
@@ -50,7 +49,7 @@ public class HTMLRDFizer {
 	 * @param url The base URI of the document
 	 * @param root The document (or a part of it)
 	 */
-	public HTMLRDFizer(URL url, Node root) {
+	public SindiceTripleHandler(URL url, Node root) {
 		try {
 			this.baseURI = url.toURI();
 		} catch (URISyntaxException e) {
@@ -111,7 +110,7 @@ public class HTMLRDFizer {
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		HTMLRDFizer fizer = new HTMLRDFizer(new URL("http://foo.com"), (DocumentFragment) new HTMLParser(fs, true).getDocumentNode());
+		SindiceTripleHandler fizer = new SindiceTripleHandler(new URL("http://foo.com"), (DocumentFragment) new HTMLParser(fs, true).getDocumentNode());
 //		fizer.getText(new PrintWriter(System.out), Format.N3);
 		
 	}

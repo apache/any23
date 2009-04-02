@@ -1,31 +1,28 @@
-package com.google.code.any23.servlet;
+package org.deri.any23.servlet;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.deri.any23.Any23;
+import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.servlet.Servlet;
+import org.deri.any23.stream.StringOpener;
+import org.deri.any23.writer.TripleHandler;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
-import com.google.code.any23.Fetcher;
-import com.google.code.any23.MockFetcher;
-import com.google.code.any23.RDFizer;
-import com.google.code.any23.Rover;
-
 public class ServletTest extends TestCase {
     ServletTester tester;
-    String content;
+    static String content;
   
-    static Fetcher mockFetcher;
     public static class TestableServlet extends Servlet {
- 
 		private static final long serialVersionUID = -4439511819287286586L;
 		@Override
-    	protected RDFizer getRDFizer(URL url) {
-			return new Rover(url, mockFetcher);
+		protected void doExtract(String url, TripleHandler output) throws ExtractionException, IOException {
+			Any23 runner = new Any23();
+			runner.extract(new StringOpener(content), url, output);
     	}
     }
    
@@ -86,7 +83,6 @@ public class ServletTest extends TestCase {
     
     public void testPostOk() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
-        mockFetcher = new MockFetcher("html", content);
         HttpTester response = doPostRequest("/rdfizer/","format=rdf&url=http://foo.com");
         assertTrue(response.getMethod()==null);
         assertEquals(200,response.getStatus());
@@ -149,7 +145,6 @@ public class ServletTest extends TestCase {
     
     public void testWorks() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
-        mockFetcher = new MockFetcher("html", content);
     	HttpTester response = doGetRequest("/rdfizer/rdf/foo.com/bar.html");
         assertTrue(response.getMethod()==null);
         assertEquals(200,response.getStatus());

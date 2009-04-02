@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.deri.any23.TestHelper;
+
 import junit.framework.TestCase;
 
 public class PrefixesTest extends TestCase {
@@ -50,8 +52,8 @@ public class PrefixesTest extends TestCase {
 		p.add("ex", "http://example.com/");
 		assertTrue(p.canExpand("ex:foo"));
 		assertTrue(p.canExpand("ex:"));
-		assertEquals("http://example.com/foo", p.expand("ex:foo"));
-		assertEquals("http://example.com/", p.expand("ex:"));
+		assertEquals(TestHelper.uri("http://example.com/foo"), p.expand("ex:foo"));
+		assertEquals(TestHelper.uri("http://example.com/"), p.expand("ex:"));
 	}
 	
 	public void testCanContractDeclaredNamespace() {
@@ -86,9 +88,9 @@ public class PrefixesTest extends TestCase {
 		assertEquals(Collections.singleton(""), p.allPrefixes());
 		assertTrue(p.hasPrefix(""));
 		assertEquals(":foo", p.abbreviate("http://example.com/foo"));
-		assertEquals("http://example.com/foo", p.expand(":foo"));
+		assertEquals(TestHelper.uri("http://example.com/foo"), p.expand(":foo"));
 		assertEquals(":", p.abbreviate("http://example.com/"));
-		assertEquals("http://example.com/", p.expand(":"));
+		assertEquals(TestHelper.uri("http://example.com/"), p.expand(":"));
 	}
 	
 	public void testCannotAddPrefixTwice() {

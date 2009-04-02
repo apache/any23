@@ -11,9 +11,8 @@ import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
-
-import com.hp.hpl.jena.graph.Node;
 
 /**
  * Extracts the value of the &lt;title&gt; element of an 
@@ -28,9 +27,9 @@ public class TitleExtractor implements TagSoupDOMExtractor {
 		String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
 		if (title != null && !"".equals(title)) {
 			out.writeTriple(
-					Node.createURI(out.getDocumentURI()), 
-					DCTERMS.title.asNode(), 
-					Node.createLiteral(title), 
+					ValueFactoryImpl.getInstance().createURI(out.getDocumentURI()), 
+					DCTERMS.title, 
+					ValueFactoryImpl.getInstance().createLiteral(title), 
 					out.getDocumentContext(this));
 		}
 	}

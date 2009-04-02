@@ -13,6 +13,8 @@ import junit.framework.TestCase;
 /**
  * @author juergen
  *
+ * TODO Add a method runTest(expectedMIMEType, headerMIMEType, url, contentFile) plus some invocations
+ * 
  */
 public class TikaTEST extends TestCase {
 

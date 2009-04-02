@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
+
 /**
  * A mapping from prefixes to namespace URIs. Supports “volatile mappings”,
  * which will be overwritten without notice when mappings are merged,
@@ -56,12 +59,13 @@ public class Prefixes {
 		this.mappings = mappings;
 	}
 	
-	public String expand(String curie) {
+	public URI expand(String curie) {
 		String prefix = parsePrefix(curie);
 		if (prefix == null || !hasPrefix(prefix)) {
 			return null;
 		}
-		return getNamespaceURIFor(prefix) + parseLocalName(curie);
+		return ValueFactoryImpl.getInstance().createURI(
+				getNamespaceURIFor(prefix) + parseLocalName(curie));
 	}
 	
 	public String abbreviate(String uri) {

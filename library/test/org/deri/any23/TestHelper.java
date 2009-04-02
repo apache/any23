@@ -1,26 +1,32 @@
 package org.deri.any23;
 
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
-import com.hp.hpl.jena.shared.PrefixMapping;
-import com.hp.hpl.jena.shared.impl.PrefixMappingImpl;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.deri.any23.rdf.PopularPrefixes;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.vocabulary.RDF;
 
 public class TestHelper {
-	private final static PrefixMapping prefixes = 
-		new PrefixMappingImpl()
-				.setNsPrefixes(PrefixMapping.Standard)
-				.setNsPrefix("foaf", "http://xmlns.com/foaf/0.1/");
-	
-	public static Node toRDF(String s) {
-		if ("a".equals(s)) return RDF.Nodes.type;
-		if (s.matches("[a-z0-9]+:.*")) {
-			return Node.createURI(prefixes.expandPrefix(s));
-		}
-		return Node.createLiteral(s);
+
+	public static URI uri(String uri) {
+		return ValueFactoryImpl.getInstance().createURI(uri);
 	}
 	
-	public static Triple toTriple(String s, String p, String o) {
-		return Triple.create(toRDF(s), toRDF(p), toRDF(o));
+	public static Statement triple(Resource s, URI p, Value o) {
+		return ValueFactoryImpl.getInstance().createStatement(s, p, o);
+	}
+	
+	public static Value toRDF(String s) {
+		if ("a".equals(s)) return RDF.TYPE;
+		if (s.matches("[a-z0-9]+:.*")) {
+			return PopularPrefixes.get().expand(s);
+		}
+		return ValueFactoryImpl.getInstance().createLiteral(s);
+	}
+	
+	public static Statement toTriple(String s, String p, String o) {
+		return ValueFactoryImpl.getInstance().createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
 	}
 }

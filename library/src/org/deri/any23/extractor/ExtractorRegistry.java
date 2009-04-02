@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.deri.any23.extractor.html.AdrExtractor;
 import org.deri.any23.extractor.html.HeadLinkExtractor;
 import org.deri.any23.extractor.html.ICBMExtractor;
 import org.deri.any23.extractor.html.LicenseExtractor;
@@ -31,6 +32,7 @@ public class ExtractorRegistry {
 			instance.register(TitleExtractor.factory);
 			instance.register(XFNExtractor.factory);
 			instance.register(ICBMExtractor.factory);
+			instance.register(AdrExtractor.factory);
 		}
 		return instance;
 	}

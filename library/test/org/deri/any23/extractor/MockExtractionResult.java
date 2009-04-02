@@ -7,9 +7,10 @@ import java.util.List;
 import org.deri.any23.TestHelper;
 import org.deri.any23.rdf.Prefixes;
 import org.junit.Assert;
-
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 public class MockExtractionResult implements ExtractionResult {
 	private final List<ExtractionContext> localContexts = new ArrayList<ExtractionContext>();
@@ -21,7 +22,7 @@ public class MockExtractionResult implements ExtractionResult {
 
 	private boolean usedDocumentContext = false;
 	private int usedLocalContexts = 0;
-	private Collection<Triple> writtenTriples = new ArrayList<Triple>();
+	private Collection<Statement> writtenTriples = new ArrayList<Statement>();
 	
 	public MockExtractionResult(String documentURI) {
 		this.documentURI = documentURI;
@@ -83,8 +84,8 @@ public class MockExtractionResult implements ExtractionResult {
 		// TODO Auto-generated method stub
 	}
 
-	public void writeTriple(Node s, Node p, Node o, ExtractionContext context) {
-		writtenTriples.add(Triple.create(s, p, o));
+	public void writeTriple(Resource s, URI p, Value o, ExtractionContext context) {
+		writtenTriples.add(TestHelper.triple(s, p, o));
 		verifyNotViolated();
 	}
 
@@ -149,14 +150,14 @@ public class MockExtractionResult implements ExtractionResult {
 	}
 	
 	private class TripleExpectation implements Expectation {
-		private final Triple triple;
-		TripleExpectation(Triple triple) {
+		private final Statement triple;
+		TripleExpectation(Statement triple) {
 			this.triple = triple;
 		}
 		public void verifyNotViolated() { }
 		public void verifyFulfilled() {
-			for (Triple t : writtenTriples) {
-				if (triple.matches(t)) {
+			for (Statement t : writtenTriples) {
+				if (triple.equals(t)) {
 					return;
 				}
 			}

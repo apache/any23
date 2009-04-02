@@ -5,8 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.deri.any23.extractor.ExtractionContext;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 /**
  * A {@link TripleHandler} that wraps zero or more other triple handlers
@@ -41,7 +42,7 @@ public class CompositeTripleHandler implements TripleHandler {
 		}
 	}
 	
-	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
+	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
 		for (TripleHandler handler : children) {
 			handler.receiveTriple(s, p, o, context);
 		}

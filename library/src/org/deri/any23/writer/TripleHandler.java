@@ -1,8 +1,9 @@
 package org.deri.any23.writer;
 
 import org.deri.any23.extractor.ExtractionContext;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 //implemented by consumers. Simple triple handlers can ignore
 // all the context stuff and just have to deal with receiveTriple
@@ -21,7 +22,7 @@ public interface TripleHandler {
 	void closeContext(ExtractionContext context);
 	
 	// will be invoked with a currently open context
-	void receiveTriple(Node s, Node p, Node o, ExtractionContext context);
+	void receiveTriple(Resource s, URI p, Value o, ExtractionContext context);
 
 	// labels a currently open context; a context may remain unlabelled
 	void receiveLabel(String label, ExtractionContext context);

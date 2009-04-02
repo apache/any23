@@ -11,39 +11,25 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
-import org.deri.any23.rdf.Prefixes;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.shared.JenaException;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.turtle.TurtleParser;
 
 public class TurtleExtractor implements ContentExtractor {
 
 	public void run(InputStream in, ExtractionResult out)
 			throws IOException, ExtractionException {
-		Model m = ModelFactory.createDefaultModel();
 		try {
-			m.read(in, out.getDocumentURI(), "TURTLE");
-			ExtractionContext context = out.getDocumentContext(
-					this, getPrefixes(m));
-			StmtIterator it = m.listStatements();
-			while (it.hasNext()) {
-				Statement stmt = it.nextStatement();
-				out.writeTriple(stmt.getSubject().asNode(), 
-						stmt.getPredicate().asNode(), 
-						stmt.getObject().asNode(), 
-						context);
-			}
-		} catch (JenaException ex) {
+			final ExtractionContext context = out.getDocumentContext(this);
+			RDFParser parser = new TurtleParser();
+			parser.setRDFHandler(new RDFHandlerAdapter(out, context));
+			parser.parse(in, out.getDocumentURI());
+		} catch (RDFHandlerException ex) {
+			throw new RuntimeException(ex);	// should not happen
+		} catch (RDFParseException ex) {
 			throw new ExtractionException(ex);
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	private Prefixes getPrefixes(Model m) {
-		return Prefixes.createFromMap(m.getNsPrefixMap(), true);
 	}
 	
 	public ExtractorDescription getDescription() {

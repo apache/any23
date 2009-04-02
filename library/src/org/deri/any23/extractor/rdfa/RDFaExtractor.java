@@ -6,24 +6,19 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.deri.any23.extractor.html.DomUtils;
-import org.deri.any23.rdf.Prefixes;
-import org.w3c.dom.Attr;
+import org.deri.any23.extractor.rdf.RDFHandlerAdapter;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.rdfxml.RDFXMLParser;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.shared.JenaException;
 
 /**
  * Extractor for RDFa in HTML, based on Fabien Gadon's XSLT transform, found
@@ -41,47 +36,22 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 	private final static String xsltFilename = "rdfa.xslt";
 	private static XSLTStylesheet xslt = null;
 
-	@SuppressWarnings("unchecked")
 	public void run(Document in, ExtractionResult out) 
 	throws IOException, ExtractionException {
-		StringWriter buffer = new StringWriter();
-		
-		
-		// TODO @@@ FIXME Quick hack for Daniele's OKKAM demo, DO REMOVE ASAP!!!!!
-
-		Attr attr = in.createAttribute("xmlns:rdfs");
-		attr.setNodeValue("http://www.w3.org/2000/01/rdf-schema#");
-		DomUtils.findAllByTag(in, "HTML").get(0).getAttributes().setNamedItem(attr);
-		NodeList nodes;
-		nodes = DomUtils.findAll(in, "//SPAN[@content][@property='rdfs:label']");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			((Element) nodes.item(i)).removeAttribute("content");
-		}
-		nodes = DomUtils.findAll(in, "//DIV[@typeof]");
-		for (int i = 0; i < nodes.getLength(); i++) {
-			((Element) nodes.item(i)).removeAttribute("typeof");
-		}
-		
+		StringWriter buffer = new StringWriter();		
 		getXSLT().applyTo(in, buffer);
-		Model model = ModelFactory.createDefaultModel();
 		try {
-			model.read(new StringReader(buffer.getBuffer().toString()),
-					out.getDocumentURI(), "RDF/XML");
-		} catch (JenaException ex) {
+			final ExtractionContext context = out.getDocumentContext(this);
+			RDFParser parser = new RDFXMLParser();
+			parser.setRDFHandler(
+					new IgnoreAccidentalRDFa(new RDFHandlerAdapter(out, context)));
+			parser.parse(
+					new StringReader(buffer.getBuffer().toString()), 
+					out.getDocumentURI());
+		} catch (RDFHandlerException ex) {
+			throw new RuntimeException(ex);	// should not happen
+		} catch (RDFParseException ex) {
 			throw new ExtractionException(ex);
-		}
-		StmtIterator it = model.listStatements();
-		while (it.hasNext()) {
-			Statement stmt = it.nextStatement();
-			if ("http://www.w3.org/1999/xhtml/vocab#".equals(stmt.getPredicate().getNameSpace())) {
-				// Skip triples that can result from standard (non-RDFa) HTML, such as rel="stylesheet"
-				continue;
-			}
-			out.writeTriple(
-					stmt.getSubject().asNode(), 
-					stmt.getPredicate().asNode(), 
-					stmt.getObject().asNode(), 
-					out.getDocumentContext(this, Prefixes.createFromMap(model.getNsPrefixMap(), true)));
 		}
 	}
 	

@@ -3,22 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/antlr-2.7.5.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/arq.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/arq-extra.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/concurrent.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/icu4j_3_4.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/iri.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/jena.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/jenatest.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/json.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/log4j-1.2.12.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/lucene-core-2.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/stax-api-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/wstx-asl-3.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="lib/jena-2.5.7/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/junit-4.5.jar"/>
@@ -41,5 +25,18 @@
 	<classpathentry kind="lib" path="lib/heritrix/fastutil-5.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/heritrix/modules-2.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jena-2.5.7/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/jena-2.5.7/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-model-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-repository-api-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-iteration-2.3.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-rio-api-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-rio-turtle-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-rio-ntriples-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-rio-rdfxml-2.2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-net-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-text-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-xml-2.2.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

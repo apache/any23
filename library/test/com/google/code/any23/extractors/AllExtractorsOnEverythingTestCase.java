@@ -9,11 +9,11 @@ import java.net.URL;
 
 import junit.framework.TestCase;
 
+import org.sindice.rdfizer.HTMLParser;
+import org.sindice.rdfizer.SindiceTripleHandler;
+import org.sindice.rdfizer.RDFizer.Format;
 import org.w3c.dom.DocumentFragment;
 
-import com.google.code.any23.HTMLParser;
-import com.google.code.any23.HTMLRDFizer;
-import com.google.code.any23.RDFizer.Format;
 
 /*
  * a smoke test, if something explodes it means problems, but is not really reliable by itself
@@ -37,7 +37,7 @@ public class AllExtractorsOnEverythingTestCase extends TestCase {
 				for (File file : dir.listFiles(filter)) {
 					DocumentFragment doc = (DocumentFragment) new HTMLParser(new FileInputStream(file), true).getDocumentNode();
 					StringWriter buf = new StringWriter();
-					boolean res = new HTMLRDFizer(new URL("http://foo.com"),doc).getText(buf, Format.TURTLE) ;
+					boolean res = new SindiceTripleHandler(new URL("http://foo.com"),doc).getText(buf, Format.TURTLE) ;
 					assertTrue(file.toString(),res);
 				}
 		}

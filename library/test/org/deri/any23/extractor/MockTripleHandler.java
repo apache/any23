@@ -3,11 +3,12 @@ package org.deri.any23.extractor;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.deri.any23.TestHelper;
 import org.deri.any23.writer.TripleHandler;
 import org.junit.Assert;
-
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.graph.Triple;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 public class MockTripleHandler implements TripleHandler {
 	private final List<String> expectations = new LinkedList<String>();
@@ -32,12 +33,12 @@ public class MockTripleHandler implements TripleHandler {
 		expectations.add("closeContext(" + extractorName + ", " + documentURI + ", " + contextLocalName + ")");
 	}
 
-	public void expectTriple(Node s, Node p, Node o) {
-		expectations.add("triple(" + Triple.create(s, p, o) + ", default)");
+	public void expectTriple(Resource s, URI p, Value o) {
+		expectations.add("triple(" + TestHelper.triple(s, p, o) + ", default)");
 	}
 	
-	public void expectTriple(Node s, Node p, Node o, String contextLocalName) {
-		expectations.add("triple(" + Triple.create(s, p, o) + ", " + contextLocalName + ")");
+	public void expectTriple(Resource s, URI p, Value o, String contextLocalName) {
+		expectations.add("triple(" + TestHelper.triple(s, p, o) + ", " + contextLocalName + ")");
 	}
 	
 	public void verify() {
@@ -59,8 +60,8 @@ public class MockTripleHandler implements TripleHandler {
 				+ (context.isDocumentContext() ? "default" : context.getLocalID()) + ")");
 	}
 
-	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
-		assertNextExpectation("triple(" + Triple.create(s, p, o) + ", "
+	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+		assertNextExpectation("triple(" + TestHelper.triple(s, p, o) + ", "
 				+ (context.isDocumentContext() ? "default" : context.getLocalID()) + ")");
 	}
 	

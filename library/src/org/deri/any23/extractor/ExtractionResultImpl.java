@@ -5,8 +5,9 @@ import java.util.LinkedList;
 
 import org.deri.any23.rdf.Prefixes;
 import org.deri.any23.writer.TripleHandler;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 /**
  * A default implementation of {@link ExtractionResult}; it receives
@@ -86,7 +87,7 @@ public class ExtractionResultImpl implements ExtractionResult {
 		tripleHandler.receiveLabel(label, context);
 	}
 
-	public void writeTriple(Node s, Node p, Node o, ExtractionContext context) {
+	public void writeTriple(Resource s, URI p, Value o, ExtractionContext context) {
 		if (!context.isDocumentContext()) {
 			checkOpen(context);
 		}

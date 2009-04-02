@@ -1,8 +1,8 @@
 package org.deri.any23.extractor;
 
 import org.deri.any23.rdf.Prefixes;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
 // TODO: equals() ignores the prefixes, probably should remove it
 public class ExtractionContext implements ExtractorDescription {	
@@ -10,7 +10,7 @@ public class ExtractionContext implements ExtractorDescription {
 	private final String documentURI;
 	private final String localID;
 	private final String uniqueID;
-	private final Node uniqueID2;
+	private final URI uniqueID2;
 	private final Prefixes prefixes;
 	
 	public ExtractionContext(ExtractorDescription extractor, String documentURI, Prefixes contextPrefixes) {
@@ -23,7 +23,7 @@ public class ExtractionContext implements ExtractorDescription {
 		this.localID = localID;
 		this.uniqueID = "urn:x-any23:" + getExtractorName() + ":" +
 				(localID == null ? "" : localID) + ":" + documentURI;
-		this.uniqueID2 = Node.createURI(uniqueID);
+		this.uniqueID2 = ValueFactoryImpl.getInstance().createURI(uniqueID);
 		if (contextPrefixes == null || contextPrefixes.isEmpty()) {
 			this.prefixes = extractor.getPrefixes();
 		} else {
@@ -56,7 +56,8 @@ public class ExtractionContext implements ExtractorDescription {
 		return uniqueID;
 	}
 	
-	public Node getUniqueIDasResource() {
+	// Remove either this or getUniqueID()
+	public URI getUniqueIDasURI() {
 		return uniqueID2;
 	}
 	

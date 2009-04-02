@@ -1,14 +1,20 @@
 package org.deri.any23.vocab;
 
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
-public class DCTERMS {
-
+public class DCTERMS {	
 	public static final String NS = "http://purl.org/dc/terms/";
 
-	public static final Property license = ResourceFactory.createProperty(NS, "license");
-	public static final Property title = ResourceFactory.createProperty(NS, "title");
-	public static final Property related = ResourceFactory.createProperty(NS, "related");
+	private static final ValueFactory factory = ValueFactoryImpl.getInstance();
 	
+	// Properties
+	public static final URI license = createURI("license");
+	public static final URI title = createURI("title");
+	public static final URI related = createURI("related");
+	
+	private static URI createURI(String localName) {
+		return factory.createURI(NS, localName);
+	}
 }

@@ -15,6 +15,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.writer.FormatWriter;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
+import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
 
 /**
@@ -87,8 +88,7 @@ public class Servlet extends HttpServlet {
 		}
 		
 		try {
-			Any23 runner = new Any23();
-			runner.extract(url.toString(), output);
+			doExtract(url.toString(), output);
 			resp.setStatus(200);		
 			resp.setContentType(output.getMIMEType());
 		} catch (IOException e) {
@@ -119,5 +119,10 @@ public class Servlet extends HttpServlet {
 			return new NTriplesWriter(out);
 		else 
 			throw new IllegalArgumentException();
+	}
+	
+	protected void doExtract(String url, TripleHandler output) throws ExtractionException, IOException {
+		Any23 runner = new Any23();
+		runner.extract(url, output);
 	}
 }

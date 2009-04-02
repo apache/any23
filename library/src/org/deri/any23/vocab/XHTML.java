@@ -1,9 +1,17 @@
 package org.deri.any23.vocab;
 
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
 public class XHTML {
 	public static final String NS = "http://www.w3.org/1999/xhtml/vocab#";
-	public static final Property license = ResourceFactory.createProperty(NS, "license"); 
+	
+	private static final ValueFactory factory = ValueFactoryImpl.getInstance();
+
+	public static final URI license = createURI("license");
+	
+	private static URI createURI(String localName) {
+		return factory.createURI(NS, localName);
+	}
 }

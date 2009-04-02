@@ -2,8 +2,9 @@ package org.deri.any23.extractor;
 
 
 import org.deri.any23.rdf.Prefixes;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 // passed to extractors
 public interface ExtractionResult {
@@ -28,7 +29,7 @@ public interface ExtractionResult {
 	void closeContext(ExtractionContext context);
 
 	// context must be the default context or one the extractor has opened
-	void writeTriple(Node s, Node p, Node o, ExtractionContext context);
+	void writeTriple(Resource s, URI p, Value o, ExtractionContext context);
 	
 	// context must be the default context or one the extractor has opened
 	void setLabel(String label, ExtractionContext context);

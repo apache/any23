@@ -6,6 +6,8 @@ import java.util.Iterator;
 
 import org.deri.any23.mime.MIMEType;
 
+// TODO: Add method getAcceptHeader(), probably move it from the Any23 class to here
+
 public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 	private final Collection<ExtractorFactory<?>> factories;
 	

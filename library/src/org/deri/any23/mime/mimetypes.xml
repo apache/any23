@@ -36,6 +36,7 @@
 		</magic>
 		<glob pattern="*.txt" />
 		<glob pattern="*.asc" />
+		<glob pattern="*.nt" />
 		<glob pattern="INSTALL" />
 		<glob pattern="KEYS" />
 		<glob pattern="Makefile" />
@@ -86,6 +87,7 @@
 		<glob pattern="*.rdfs" />
 		<glob pattern="*.xrdf" />
 		<glob pattern="*.owl" />
+		<glob pattern="*.rdfx" />
 	</mime-type>
 
 	<mime-type type="application/atom+xml">

@@ -1,10 +1,13 @@
 package org.deri.any23.writer;
 
 import org.deri.any23.extractor.ExtractionContext;
-import org.deri.any23.vocab.Vocabulary;
-
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import org.deri.any23.vocab.ANY23;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.vocabulary.RDFS;
 
 /**
  * A triple handler that converts triples to quads by using the
@@ -18,12 +21,13 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 public class QuadWriter implements TripleHandler {
 	
 	public static interface QuadHandler {
-		void writeQuad(Node s, Node p, Node o, Node g);
+		void writeQuad(Resource s, URI p, Value o, URI g);
 		void close();
 	}
 
 	private final QuadHandler quadHandler;
-	private final Node metaGraph;
+	private final URI metaGraph;
+	private final ValueFactory factory = ValueFactoryImpl.getInstance();
 	
 	public QuadWriter(QuadHandler quadHandler) {
 		this(quadHandler, null);
@@ -32,15 +36,15 @@ public class QuadWriter implements TripleHandler {
 	public QuadWriter(QuadHandler quadHandler, String metadataGraphURI) {
 		this.quadHandler = quadHandler;
 		this.metaGraph = (metadataGraphURI == null) 
-				? null : Node.createURI(metadataGraphURI);
+				? null : factory.createURI(metadataGraphURI);
 	}
 	
 	public void openContext(ExtractionContext context) {
 		if (metaGraph == null) return;
 		quadHandler.writeQuad(
-				Node.createURI(context.getDocumentURI()), 
-				Vocabulary.EXTRACTOR.asNode(), 
-				Vocabulary.getExtractorResource(context.getExtractorName()).asNode(), 
+				factory.createURI(context.getDocumentURI()), 
+				ANY23.EXTRACTOR, 
+				ANY23.getExtractorResource(context.getExtractorName()), 
 				metaGraph);
 	}
 	
@@ -48,16 +52,17 @@ public class QuadWriter implements TripleHandler {
 		// do nothing
 	}
 
-	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
-		quadHandler.writeQuad(s, p, o, Node.createURI(context.getDocumentURI()));
+	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+		quadHandler.writeQuad(s, p, o, 
+				ValueFactoryImpl.getInstance().createURI(context.getDocumentURI()));
 	}
 	
 	public void receiveLabel(String label, ExtractionContext context) {
 		if (metaGraph == null || !context.isDocumentContext()) return;
 		quadHandler.writeQuad(
-				Node.createURI(context.getDocumentURI()), 
-				RDFS.label.asNode(), 
-				Node.createURI(label), 
+				factory.createURI(context.getDocumentURI()), 
+				RDFS.LABEL, 
+				factory.createLiteral(label), 
 				metaGraph);
 	}
 

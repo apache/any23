@@ -1,8 +1,9 @@
 package org.deri.any23.writer;
 
 import org.deri.any23.extractor.ExtractionContext;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 /**
  * A simple {@link TripleHandler} that merely counts the number
@@ -25,7 +26,7 @@ public class CountingTripleHandler implements TripleHandler {
 		// ignore
 	}
 
-	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
+	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
 		count++;
 	}
 	

@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.deri.any23.extractor.ExtractionContext;
-
-import com.hp.hpl.jena.graph.Node;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 
 
 public class BenchmarkTripleHandler implements TripleHandler {
@@ -83,7 +84,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#receiveTriple(com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, org.deri.any23.extractor.ExtractionContext)
 	 */
-	public void receiveTriple(Node s, Node p, Node o, ExtractionContext context) {
+	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
 		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
 		stats.get(context.getExtractorName()).triples++;
 		stats.get("SUM").triples++;

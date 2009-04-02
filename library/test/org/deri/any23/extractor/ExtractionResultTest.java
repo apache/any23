@@ -3,16 +3,16 @@ package org.deri.any23.extractor;
 
 import junit.framework.TestCase;
 
+import org.deri.any23.TestHelper;
 import org.deri.any23.extractor.example.ExampleExtractor;
-
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.sparql.vocabulary.FOAF;
-import com.hp.hpl.jena.vocabulary.RDF;
+import org.deri.any23.vocab.FOAF;
+import org.openrdf.model.URI;
+import org.openrdf.model.vocabulary.RDF;
 
 
 public class ExtractionResultTest extends TestCase {
 	private final static String exampleDoc = "http://example.com/";
-	private final static Node exampleResource = Node.createURI(exampleDoc);
+	private final static URI exampleResource = TestHelper.uri(exampleDoc);
 	private final static String extractorName = "example";
 	
 	private Extractor<?> extractor;
@@ -89,10 +89,10 @@ public class ExtractionResultTest extends TestCase {
 	
 	public void testTriplesWrittenToDocumentContextArePassedThrough() {
 		handler.expectOpenContext(extractorName, exampleDoc);
-		handler.expectTriple(exampleResource, RDF.Nodes.type, FOAF.Document.asNode());
+		handler.expectTriple(exampleResource, RDF.TYPE, FOAF.Document);
 		handler.expectCloseContext(extractorName, exampleDoc);
 		handler.expectClose();
-		writer.writeTriple(exampleResource, RDF.Nodes.type, FOAF.Document.asNode(), 
+		writer.writeTriple(exampleResource, RDF.TYPE, FOAF.Document, 
 				writer.getDocumentContext(extractor));
 		writer.close();
 		handler.verify();
@@ -100,10 +100,10 @@ public class ExtractionResultTest extends TestCase {
 	
 	public void testTriplesWrittenToLocalContextArePassedThrough() {
 		handler.expectOpenContext(extractorName, exampleDoc, "item1");
-		handler.expectTriple(exampleResource, RDF.Nodes.type, FOAF.Document.asNode(), "item1");
+		handler.expectTriple(exampleResource, RDF.TYPE, FOAF.Document, "item1");
 		handler.expectCloseContext(extractorName, exampleDoc, "item1");
 		handler.expectClose();
-		writer.writeTriple(exampleResource, RDF.Nodes.type, FOAF.Document.asNode(), 
+		writer.writeTriple(exampleResource, RDF.TYPE, FOAF.Document, 
 				writer.createContext(extractor));
 		writer.close();
 		handler.verify();
@@ -115,7 +115,7 @@ public class ExtractionResultTest extends TestCase {
 		ExtractionContext context = writer.createContext(extractor);
 		writer.closeContext(context);
 		try {
-			writer.writeTriple(exampleResource, RDF.Nodes.type, FOAF.Document.asNode(), 
+			writer.writeTriple(exampleResource, RDF.TYPE, FOAF.Document, 
 					context);
 			fail("Should fail, context is not open");
 		} catch (IllegalStateException ex) {

@@ -15,7 +15,6 @@ import org.apache.tika.mime.MimeTypes;
 import org.jdom.JDOMException;
 
 
-@SuppressWarnings("serial")
 public class TikaMIMETypeDetector implements MIMETypeDetector {
 	private static final String RESOURCE_NAME="org/deri/any23/mime/tika-config.xml";
 	private static TikaConfig _config = null;
@@ -106,15 +105,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             stream.reset();
         }
 
-        // Get type based on resourceName hint (if available)
-        String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
-        if (resourceName != null) {
-            MimeType type = _types.getMimeType(resourceName);
-            if (type != null) {
-                return type;
-            }
-        }
-
         // Get type based on metadata hint (if available)
         String typename = metadata.get(Metadata.CONTENT_TYPE);
         if (typename != null) {
@@ -125,6 +115,15 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             }
         }
 
+        // Get type based on resourceName hint (if available)
+        String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
+        if (resourceName != null) {
+        	MimeType type = _types.getMimeType(resourceName);
+        	if (type != null) {
+        		return type;
+        	}
+        }
+        
         // Finally, use the default type if no matches found
         try {
             return _types.forName(MimeTypes.DEFAULT);
@@ -155,10 +154,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 		return 0;
 	}
 			
-		
 	public static void main(String[] args) {
-		
-			TikaMIMETypeDetector d = new TikaMIMETypeDetector();
-		
+		new TikaMIMETypeDetector();
 	} 
 }

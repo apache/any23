@@ -11,12 +11,10 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.PopularPrefixes;
-import org.deri.any23.vocab.DCTERMS;
-import org.deri.any23.vocab.GEO;
+import org.openrdf.model.BNode;
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
-
-import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * Extractor for "ICBM coordinates" provided as META headers in the head
@@ -26,9 +24,11 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ICBMExtractor implements TagSoupDOMExtractor {
-
+	private ExtractionContext context;
+	
 	public void run(Document in, ExtractionResult out) throws IOException,
 	ExtractionException {
+
 		// ICBM is the preferred method, if two values are available it is meaningless to read both
 		String props = DomUtils.find(in, "//META[@name=\"ICBM\" or @name=\"geo.position\"]/@content");
 		if ("".equals(props)) return;
@@ -42,12 +42,18 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
 			return;
 		}
 
-		ExtractionContext context = out.getDocumentContext(this);
-		Node point = Node.createAnon();
-		out.writeTriple(Node.createURI(out.getDocumentURI()), DCTERMS.related.asNode(), point, context);
-		out.writeTriple(point, RDF.type.asNode(), GEO.Point.asNode(), context);
-		out.writeTriple(point, GEO.lat.asNode(), Node.createLiteral(Float.toString(lat)), context);
-		out.writeTriple(point, GEO.long_.asNode(), Node.createLiteral(Float.toString(lon)), context);
+		context = out.getDocumentContext(this);
+		ValueFactoryImpl factory = ValueFactoryImpl.getInstance();
+
+		BNode point = factory.createBNode();
+		out.writeTriple(factory.createURI(out.getDocumentURI()), expand("dcterms:related"), point, context);
+		out.writeTriple(point, expand("rdf:type"), expand("geo:Point"), context);
+		out.writeTriple(point, expand("geo:lat"), factory.createLiteral(Float.toString(lat)), context);
+		out.writeTriple(point, expand("geo:long"), factory.createLiteral(Float.toString(lon)), context);
+	}
+	
+	private URI expand(String curie) {
+		return this.context.getPrefixes().expand(curie);
 	}
 	
 	public ExtractorDescription getDescription() {

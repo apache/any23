@@ -1,15 +1,22 @@
 package org.deri.any23.vocab;
 
-import com.hp.hpl.jena.rdf.model.Property;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
 public class GEO {
-
 	public static final String NS = "http://www.w3.org/2003/01/geo/wgs84_pos#";
 	
-	public static final Resource Point = ResourceFactory.createResource(NS + "Point");
+	private static final ValueFactory factory = ValueFactoryImpl.getInstance();
+
+	// Classes
+	public static final URI Point = createURI("Point");
 	
-	public static final Property lat = ResourceFactory.createProperty(NS, "lat");
-	public static final Property long_ = ResourceFactory.createProperty(NS, "long");
+	// Properties
+	public static final URI lat = createURI("lat");
+	public static final URI long_ = createURI("long");
+
+	private static URI createURI(String localName) {
+		return factory.createURI(NS, localName);
+	}
 }

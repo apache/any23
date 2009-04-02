@@ -68,10 +68,8 @@ public class DomUtils {
 	}
 	
 	public static List<Node> findAllByTagAndClassName(Node root,String tagName, String className) {
-		List<Node> result = new ArrayList<Node>(0);
-		NodeList nodes= findAll(root, "./descendant-or-self::"+tagName+"[contains(@class,'"+className+"')]");
-		for(int i=0; i<nodes.getLength();i++) {
-			Node node = nodes.item(i);
+		List<Node> result = new ArrayList<Node>();
+		for (Node node: findAll(root, "./descendant-or-self::"+tagName+"[contains(@class,'"+className+"')]")) {
 			if (DomUtils.hasClassName(node, className)) {
 				// add this
 				result.add(node);
@@ -110,9 +108,14 @@ public class DomUtils {
 	 * Returns a NodeList composed of all the nodes that match an XPath
 	 * expression, which must be valid.
 	 */
-	public static NodeList findAll(Node node, String xpath) {
+	public static List<Node> findAll(Node node, String xpath) {
 		try {
-			return (NodeList) xPathEngine.evaluate(xpath, node, XPathConstants.NODESET);
+			NodeList nodes = (NodeList) xPathEngine.evaluate(xpath, node, XPathConstants.NODESET);
+			List<Node> result = new ArrayList<Node>(nodes.getLength());
+			for (int i = 0; i < nodes.getLength(); i++) {
+				result.add(nodes.item(i));
+			}
+			return result;
 		} catch (XPathExpressionException ex) {
 			throw new RuntimeException(ex);
 		}

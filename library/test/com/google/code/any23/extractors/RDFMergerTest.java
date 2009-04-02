@@ -3,6 +3,7 @@ package com.google.code.any23.extractors;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.deri.any23.extractor.html.AdrExtractor;
 import org.deri.any23.extractor.html.HTMLDocument;
 import org.deri.any23.extractor.html.XFNExtractor;
 import org.deri.any23.vocab.FOAF;
@@ -10,7 +11,6 @@ import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.VCARD;
 
 
-import com.google.code.any23.extractors.AdrExtractor;
 import com.google.code.any23.extractors.GeoExtractor;
 import com.google.code.any23.extractors.HCardExtractor;
 import com.google.code.any23.extractors.HReviewExtractor;
