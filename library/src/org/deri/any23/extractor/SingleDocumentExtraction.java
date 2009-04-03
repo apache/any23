@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collections;
 
+import org.apache.commons.httpclient.URIException;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
@@ -42,10 +44,10 @@ public class SingleDocumentExtraction {
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
 		try {
-			this.documentURI = new URL(documentURI).toURI();
+			this.documentURI = new URI(URIUtil.encodeAll(documentURI));
 		} catch (URISyntaxException ex) {
 			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
-		} catch (MalformedURLException e) {
+		} catch (URIException e) {
 			throw new IllegalArgumentException("Malformed URL: " + documentURI, e);
 		}
 		this.extractors = extractors;
