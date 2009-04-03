@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
@@ -37,6 +39,8 @@ import org.deri.any23.writer.TripleHandler;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Any23 {
+	private final static Logger logger = Logger.getLogger(Any23.class.getCanonicalName());
+	
 	public static final String VERSION = "0.2-dev";
 	
 	private final ExtractorGroup factories;
@@ -121,12 +125,17 @@ public class Any23 {
 	 * @param outputHandler
 	 * @return - true by default
 	 */
-	public boolean extractWARCFile(final String documentURI,
-			final TripleHandler outputHandler) {
-		WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
+	public boolean extractWARCFile(final String documentURI, final TripleHandler outputHandler) {
+		try{
+			WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
 		ex.setMIMETypeDetector(mimeTypeDetector);
 		ex.run();
 		return true;
+		}
+		catch(Exception e){
+			logger.log(Level.WARNING,"",e);
+			return false;
+		}
 	}
 
 
