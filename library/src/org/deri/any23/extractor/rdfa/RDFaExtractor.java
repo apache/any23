@@ -38,8 +38,9 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
 	public void run(Document in, ExtractionResult out) 
 	throws IOException, ExtractionException {
-		StringWriter buffer = new StringWriter();		
+		StringWriter buffer = new StringWriter();
 		getXSLT().applyTo(in, buffer);
+//		System.out.println(buffer);
 		try {
 			final ExtractionContext context = out.getDocumentContext(this);
 			RDFParser parser = new RDFXMLParser();

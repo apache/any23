@@ -41,7 +41,7 @@ public class TurtleExtractor implements ContentExtractor {
 				"rdf-turtle",
 				null,
 				Arrays.asList(
-						"text/n3+rdf", "text/n3", "application/n3", 
+						"text/rdf+n3", "text/n3", "application/n3", 
 						"application/x-turtle", "application/turtle", "text/turtle"),
 				"example-turtle.ttl",
 				TurtleExtractor.class);

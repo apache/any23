@@ -11,6 +11,7 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.PopularPrefixes;
+import org.deri.any23.vocab.XHTML;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
@@ -32,11 +33,12 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
 				"@type='application/turtle' or " +
 				"@type='text/turtle' or " +
 				"@type='text/rdf+n3'" +
-				") and @href]")) {
+				") and @href and @rel]")) {
 			URI href = html.resolveURI(DomUtils.find(node, "@href"));
+			String rel = DomUtils.find(node, "@rel");
 			out.writeTriple(
 					factory.createURI(out.getDocumentURI()), 
-					context.getPrefixes().expand("rdfs:seeAlso"), 
+					factory.createURI(XHTML.NS + rel), 
 					href, 
 					context);
 			String title = DomUtils.find(node, "@title");

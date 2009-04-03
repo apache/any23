@@ -107,12 +107,13 @@ public class Any23 {
 			if(documentURI.toLowerCase().startsWith("http:")) {
 				if (httpClient == null) {
 					if (userAgent == null) {
-						throw new IOException("Must call ExtractionRunner.setHTTPUserAgent(String) before extracting from HTTP URI");
+						throw new IOException("Must call " + Any23.class.getSimpleName() + 
+								".setHTTPUserAgent(String) before extracting from HTTP URI");
 					}
 					httpClient = new DefaultHTTPClient(userAgent, getAcceptHeader());
-					String normalizedURI = new URI(documentURI).normalize().toString();
-					return extract(new HTTPGetOpener(httpClient, normalizedURI), normalizedURI, outputHandler);
 				}
+				String normalizedURI = new URI(documentURI).normalize().toString();
+				return extract(new HTTPGetOpener(httpClient, normalizedURI), normalizedURI, outputHandler);
 			}
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);

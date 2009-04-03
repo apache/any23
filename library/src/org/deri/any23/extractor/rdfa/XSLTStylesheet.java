@@ -39,7 +39,7 @@ public class XSLTStylesheet {
 
 	public void applyTo(Document document, Writer output) {
 		try {
-			transformer.transform(new DOMSource(document), new StreamResult(output));
+			transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
 		} catch (TransformerException e) {
 			throw new RuntimeException(e);
 		}

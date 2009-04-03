@@ -10,6 +10,8 @@ public class XHTML {
 	private static final ValueFactory factory = ValueFactoryImpl.getInstance();
 
 	public static final URI license = createURI("license");
+	public static final URI meta = createURI("meta");
+	public static final URI alternate = createURI("alternate");
 	
 	private static URI createURI(String localName) {
 		return factory.createURI(NS, localName);
