@@ -13,7 +13,7 @@ public class Main {
 
 	public static void main(String[] args) {	
 		//generate automatically the cli
-		List<String> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
+		List<String> utilities = getClassjareNamesInPackage(args[0], "org.deri.any23.cli");
 		
 		try {
 			if (args.length < 2) {			

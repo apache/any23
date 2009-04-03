@@ -20,7 +20,7 @@ public class Any23Server {
 		}
 		Server server = new Server(8080);
 	    WebAppContext app = new WebAppContext(server, "webapp", "/");
-	    server.setHandler(app);
+	    server.setHandler(app); 
 	    server.start();
 	}
 }
