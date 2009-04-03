@@ -55,11 +55,11 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	 * @see org.deri.any23.writer.TripleHandler#closeContext(org.deri.any23.extractor.ExtractionContext)
 	 */
 	public void closeContext(ExtractionContext context) {
-		if(!stats.containsKey(context.getExtractorName())){stats.put(context.getExtractorName(), new StatObject());}
-		stats.get(context.getExtractorName()).interimStop();
-		stats.get("SUM").interimStop();
+		if(stats.containsKey(context.getExtractorName())){
+			stats.get(context.getExtractorName()).interimStop();
+			stats.get("SUM").interimStop();
+		}
 		underlyingHandler.closeContext(context);
-		
 	}
 
 	/* (non-Javadoc)

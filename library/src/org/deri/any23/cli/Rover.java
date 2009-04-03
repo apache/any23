@@ -55,6 +55,9 @@ public class Rover {
 		Option outputFile = new Option("O",true,"ouput file, if omitted output is written to stdout");
 		options.addOption(outputFile);
 		
+		Option stats = new Option("stats",false,"print out statistics of Any23");
+		options.addOption(stats);
+		
 		
 		CommandLineParser parser = new PosixParser();
 		CommandLine cmd = null;
@@ -100,34 +103,39 @@ public class Rover {
 			outputHandler = new RDFXMLWriter(System.out);
 
 		
-		BenchmarkTripleHandler bH = new BenchmarkTripleHandler(outputHandler);
+		if(cmd.hasOption("stats")){
+			outputHandler = new BenchmarkTripleHandler(outputHandler);	
+		}
+		 
+		
 		long start = System.currentTimeMillis();
 		Any23 any23 = new Any23();
 		any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
 		if(cmd.hasOption("I")) {
 			String inputFormat = cmd.getOptionValue("I");
 			if(inputFormat.equals(ZIP)) {
-				if (!any23.extractZipFile(inputURI, bH)) {
+				if (!any23.extractZipFile(inputURI, outputHandler)) {
 					System.err.println("No suitable extractors");
 					System.exit(2);
 				}
 				
 			}
 			if(inputFormat.equals(WARC)) {
-				if (!any23.extractWARCFile(inputURI, bH)) {
+				if (!any23.extractWARCFile(inputURI, outputHandler)) {
 					System.err.println("No suitable extractors");
 					System.exit(2);
 				}
 			}
 		}
 		else {
-			if (!any23.extract(inputURI, bH)) {
+			if (!any23.extract(inputURI, outputHandler)) {
 				System.err.println("No suitable extractors");
 				System.exit(2);
 			}
 		}
-		bH.close();
-		System.err.println(bH.report());
+		outputHandler.close();
+		if(outputHandler instanceof BenchmarkTripleHandler)
+			System.err.println(((BenchmarkTripleHandler)outputHandler).report());
 		System.err.println("Time elapsed: "+(System.currentTimeMillis()-start)+" ms!");
 	}
 }

@@ -1,9 +1,11 @@
-package org.deri.any23.extractor;
+ package org.deri.any23.extractor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Collections;
 
 import org.deri.any23.extractor.Extractor.BlindExtractor;
@@ -40,9 +42,11 @@ public class SingleDocumentExtraction {
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
 		try {
-			this.documentURI = new URI(documentURI);
+			this.documentURI = new URL(documentURI).toURI();
 		} catch (URISyntaxException ex) {
 			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
+		} catch (MalformedURLException e) {
+			throw new IllegalArgumentException("Malformed URL: " + documentURI, e);
 		}
 		this.extractors = extractors;
 		this.output = output;
