@@ -44,7 +44,7 @@ public class SingleDocumentExtraction {
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
 		try {
-			this.documentURI = new URI(URIUtil.encodeQuery(documentURI));
+			this.documentURI = new URI(URIUtil.encodeQuery(documentURI.trim()));
 		} catch (URISyntaxException ex) {
 			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
 		} catch (URIException e) {
