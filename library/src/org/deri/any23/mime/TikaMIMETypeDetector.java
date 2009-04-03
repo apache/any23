@@ -92,25 +92,29 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @throws IOException if the document stream could not be read
      */
     private MimeType getMimeType(InputStream stream, final Metadata metadata) throws IOException {
-
-        stream.mark(_types.getMinLength());
-        try {
-            byte[] prefix = getPrefix(stream, _types.getMinLength());
-            MimeType type = _types.getMimeType(prefix);
-            if (type != null) {
-                return type;
-            }
-            
-        } finally {
-            stream.reset();
-        }
-
+    	if(stream!=null){
+    		stream.mark(_types.getMinLength());
+    		try {
+    			byte[] prefix = getPrefix(stream, _types.getMinLength());
+    			MimeType type = _types.getMimeType(prefix);
+    			if (type != null && type.toString()!=MimeTypes.DEFAULT) {
+    				return type;
+    			}
+    		} finally {
+    			stream.reset();
+    		}
+    	}
+    	
         // Get type based on metadata hint (if available)
         String typename = metadata.get(Metadata.CONTENT_TYPE);
         if (typename != null) {
             try {
-                return _types.forName(typename);
-            } catch (MimeTypeException e) {
+            	MimeType type=  _types.forName(typename);
+            	if (type != null && type.toString()!=MimeTypes.DEFAULT) {
+                    return type;
+                }
+            }
+            catch (MimeTypeException e) {
                 ;// Malformed type name, ignore
             }
         }

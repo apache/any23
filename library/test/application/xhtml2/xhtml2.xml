@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/css" href="xhtml2.css" ?>
+<!-- no doctype yet, but the id attribute needs to be of type ID, 
+so the id (#) syntax works in CSS -->
+<!DOCTYPE html [
+<!ATTLIST section id ID #IMPLIED>
+<!ATTLIST h id ID #IMPLIED>
+<!ATTLIST div id ID #IMPLIED>
+<!ATTLIST nl id ID #IMPLIED>
+]>
+<html xmlns="http://www.w3.org/2002/06/xhtml2" xml:lang="en">
+<head>
+<title>This is a page in XHTML 2.0 format - w3future.com</title>
+<meta name="author" content="Sjoerd Visscher"/>
+<meta name="keywords" content="w3, www, world, wide, web, future, weblog, latest, news, javascript, js, soap, xml, rpc, html, mozilla, internet, explorer, netscape, semantic"/>
+<meta name="description" content="My ideas about new web technology that can change the future of the world wide web."/>
+<link rel="top" href="http://w3future.com/weblog/" title="Home"/>
+<link rel="prev" href="http://w3future.com/weblog/2002/08/02.html#a115" title="Friday, August 02, 2002"/>
+<link rel="author" title="Sjoerd Visscher" href="mailto:sjoerd@w3future.com"/>
+<link rel="search" title="Archive Search" href="http://w3future.com/html/weblogarchive.html"/>
+<link rel="alternate" type="application/rss+xml" title="RSS 0.92" href="http://w3future.com/weblog/rss.xml"/>
+<link rel="subscriptions" type="text/x-opml" title="Subscriptions (OPML)" href="http://w3future.com/weblog/gems/mySubscriptions.opml"/>
+<link rel="subscriptions" type="text/html" title="Subscriptions (HTML)" href="http://w3future.com/html/weblogsources.html"/>
+<link rel="icon" href="http://w3future.com/w3f/icon.png" type="image/png"/>
+</head>
+<body>
+<h id="pagetitle">w3future.com</h>
+<section id="content">
+	<h>This is a page in XHTML 2.0 format</h>
+	<p>Rendered as plain XML and styled with CSS.</p>
+	<section id="note">
+		<h>Last Update</h>
+		<p>8/11/2002; 20:47:39 PM</p>
+		<p><a href="http://w3future.com/html/search.html">Weblog Search</a></p>
+		<p><a href="http://w3future.com/weblog/cssedit.html">Don't like the look of this site?</a></p>
+		<p href="http://127.0.0.1:5335/system/pages/subscriptions?url=http%3A%2F%2Fw3future.com%2Fweblog%2Frss.xml" title="Click on the XML coffee mug to subscribe to &quot;Sjoerd Visscher's weblog - w3future.com&quot; in Radio UserLand."><object data="http://radio.weblogs.com/0100323/images/xmlCoffeeCup.gif">XML coffee mug</object></p>
+		<p href="http://w3future.com/weblog/rss.xml" title="Click to see the XML version of this web page."><object data="http://radio.weblogs.com/0100323/images/xml.gif">Click to see the XML version of this web page.</object></p>
+		<h>Updated with</h>
+		<p href="http://radio.userland.com/"><object data="http://radio.weblogs.com/0100323/images/radioBadge.gif">Click here to visit the Radio UserLand website.</object></p>
+	</section>
+	<section>
+		<h href="http://w3future.com/weblog/2002/08/06.html">Tuesday, August 06, 2002</h>
+		<section id="a116">		
+			<h href="http://w3future.com/weblog/2002/08/06.html#a116">XHTML 2.0 Working Draft Published</h>
+			<blockquote cite="http://www.w3.org/News/2002#item117"><p>The HTML Working Group has released the first public Working Draft of <a href="http://www.w3.org/TR/2002/WD-xhtml2-20020805/">XHTML 2.0</a>. XHTML 2.0 is a relative of the Web's familiar publishing languages, HTML 4 and XHTML 1.0 and 1.1, and is not intended to be backward compatible with them. The draft contains the XHTML 2.0 markup language in modules for creating rich, portable Web-based applications. [<a href="http://www.w3.org/News/2002#item117">Archive of W3C News in 2002</a>]</p></blockquote>
+			<p>A few new things I noticed: The hypertext and event attribute groups are part of the common attribute group. This means that most elements can be links, and can fire events. Very cool new text elements: <code><![CDATA[<h>]]></code> and <code><![CDATA[<section>]]></code> instead of the <code><![CDATA[<h]]><em>n</em>&gt;</code> elements and <code><![CDATA[<]]>line&gt;</code> instead of <code><![CDATA[<]]>br&gt;</code>. <code><![CDATA[<]]>q&gt;</code> becomes <code><![CDATA[<]]>quote&gt;</code>. New list elements: <code><![CDATA[<]]>nl&gt;</code> and <code><![CDATA[<]]>name&gt;</code> for navigation lists (ie. menus). XFrames is not yet published, but referred to in this standard.</p>
+		</section>
+	</section>
+	<section>
+		<h href="http://w3future.com/weblog/2002/08/07.html">Wednesday, August 07, 2002</h>
+		<section id="a117">
+			<h href="http://w3future.com/weblog/2002/08/07.html#a117">A working XHTML 2.0 page</h>
+			<p>I converted an archive page to XHTML 2.0. <a href="http://w3future.com/weblog/gems/xhtml2.xml">It works in IE6, Opera 6 and Mozilla.</a> It is styled with CSS. I had to do some coding to get the links to work. For IE6 I made an HTC behavior that creates handlers for mouse events (yuck). For Mozilla I made an XBL binding that adds XLink attributes. And Opera 6 has CSS extensions for links. Being allowed to make every element a link makes the html code very clean. Sections structure the page very well. And the navigation lists are perfect for weblogs. So don't say it's <a href="http://diveintomark.org/archives/2002/08/06.html#changes_in_xhtml_20">just markupbation</a> or that <a href="http://markpasc.org/blog/2002/08/06.html#i123946">we'll be stuck with XHTML 1.1 for quite a while</a>.</p>
+		</section>
+	</section>
+	<section>
+		<h href="http://w3future.com/weblog/2002/08/08.html">Thursday, August 08, 2002</h>
+		<section id="a118">
+			<h href="http://w3future.com/weblog/2002/08/08.html#a118">Images added to the XHTML 2.0 page</h>
+			<p>Some more info for those who'd like to start using XHTML 2.0 for every day use. <a href="http://w3future.com/weblog/gems/xhtml2.xml">The XHTML 2.0 example page</a> is for the browsers plain XML. So absolutely nothing works what you'd expect from normal HTML. Every functionality has to be explained to the browser. CSS makes it easy to provide the site layout. Yesterday I coded the link functionality. Today I added support for images in Mozilla and Opera 6. But don't expect to be able to add an input element any time soon.</p>
+		</section>
+	</section>
+	<section>
+		<h href="http://w3future.com/weblog/2002/08/09.html">Friday, August 09, 2002</h>
+		<section id="a119">
+			<h href="http://w3future.com/weblog/2002/08/09.html#a119">Display XHTML 2.0 with XSL</h>
+			<p>Today I tried a different approach for XHTML 2.0. I created <a href="http://w3future.com/weblog/gems/xhtml2.xsl">an XSL stylesheet that converts XHTML 2.0 to XHTML 1.0</a>. Mozilla and IE6 can <a href="http://w3future.com/weblog/gems/xhtml2b.xml">apply the tranformation themselves</a>. Other browsers can use the <a href="http://www.w3.org/2000/06/webdata/xslt?xslfile=http%3A%2F%2Fw3future.com%2Fweblog%2Fgems%2Fxhtml2.xsl&amp;xmlfile=http%3A%2F%2Fw3future.com%2Fweblog%2Fgems%2Fxhtml2b.xml&amp;transform=Submit">w3c xslt service.</a></p>
+		</section>
+	</section>
+</section>
+<section id="footer">
+	<p>&#xA9; Copyright 2002 <a href="mailto:sjoerd@w3future.com">Sjoerd Visscher</a>, <a href="http://w3future.com/">w3future.com</a></p>
+</section>
+
+<div id="navigation"> 
+	<nl>
+		<name>w3future.com</name>
+		<li href="http://w3future.com/weblog/">Weblog</li>
+		<li href="http://w3future.com/html/examples.html">Examples</li>
+		<li href="http://w3future.com/html/stories/">Articles</li>
+		<li href="http://w3future.com/html/download.html">Downloads</li>
+	</nl>
+</div>
+
+<div id="sidebar">
+	<nl>
+		<name>What I read</name>
+		<li href="http://diveintomark.org/">Dive into Mark</li>
+		<li href="http://www.joelonsoftware.com/">Joel on Software</li>
+		<li href="http://radio.weblogs.com/0100887/">Jon Udell</li>
+		<li href="http://lambda.weblogs.com/">Lambda the Ultimate</li>
+		<li href="http://markpasc.org/blog/">markpasc_blog</li>
+		<li href="http://radio.weblogs.com/0101679/">Sam Ruby</li>
+		<li href="http://www.scripting.com/">Scripting News</li>
+		<li href="http://www.xmlhack.com/">XMLHack</li>
+		<li href="http://w3future.com/html/weblogsources.html"><strong>All sources</strong></li>
+	</nl>
+	<nl>
+		<name>Friends/Family</name>
+		<li href="http://joeri.mulder.com/">Joeri</li>
+		<li href="http://www.maggerydoo.net/">Marco</li>
+		<li href="http://uitdeschaduw.blogspot.com/">Jelle</li>
+		<li href="http://www.q42.nl/">Q42</li>
+	</nl>
+</div>
+
+</body>
+</html>

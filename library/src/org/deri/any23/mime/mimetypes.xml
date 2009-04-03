@@ -107,9 +107,9 @@
 
 
 	<mime-type type="application/x-wsdl">
-		<sub-class-of type="application/xml" />
+		 <sub-class-of type="application/xml" />
 		<root-XML localName="definitions" />
-		<root-XML namespaceURI="http://schemas.xmlsoap.org/wsdl/" />
+		<root-XML namespaceURI="http://schemas.xmlsoap.org/wsdl/" /> 
 		<glob pattern="*.wsdl" />
 	</mime-type>
 
@@ -140,14 +140,15 @@
 	</mime-type>
 	
 	<mime-type type="application/xhtml+rdfa">
-		<sub-class-of type="application/xml" />
-		<magic priority="0"  >
-			<match value="DTD XHTML+RDFa" type="string" offset="0:100" />
+		
+		<sub-class-of type="application/xhtml+xml" />
+		<magic priority="50"  >
+			<match value="&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML+RDFa 1.0//EN" type="string" offset="0:100" />
 		</magic>
 	</mime-type>
 	
 	<mime-type type="application/xhtml+xml">
-		<sub-class-of type="application/xhtml+rdfa" />
+		<sub-class-of type="application/xml" />
 		<root-XML namespaceURI='http://www.w3.org/1999/xhtml'
 			localName='html' />
 		<glob pattern="*.xhtml" />

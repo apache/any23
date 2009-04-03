@@ -1,0 +1,145 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix dp: <http://sw.deri.ie/2004/08/pubs/swpubs#> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<file:///home/juergen/code/java/cotypre/files/turtle/../rdfxml/test2#J\u00FCrgen_Umbrich>
+    a foaf:Person ;
+    rdfs:comment "Jürgen Umbrich is a Ph.D. student with the Digital Enterprise Research Institute (DERI) at the National University of Ireland, Galway since October 2008." ;
+    owl:sameAs <http://data.semanticweb.org/conference/iswc/2006/person-062>, <http://data.semanticweb.org/person/juergen-umbrich>, <http://iswc2006.semanticweb.org/submissions/Harth2006dq_Umbrich_Juergen>, <http://umbrich.net/foaf.rdf#me>, <http://www.deri.ie/about/team/member/J%EF%BF%BDrgen_Umbrich#me>, <http://www.umbrich.net/foaf.rdf#me> ;
+    foaf:based_near [
+        a geo:Point ;
+        rdfs:label "Galway, Ireland, City Centre" ;
+        geo:lat "53.272226" ;
+        geo:long "-9.048679"
+    ] ;
+    foaf:depiction <http://www.umbrich.net/images/JuergenUmbrich.gif> ;
+    foaf:family_name "Umbrich" ;
+    foaf:gender "Male" ;
+    foaf:givenname "Jürgen" ;
+    foaf:homepage <http://www.umbrich.net/> ;
+    foaf:knows <http://captsolo.net/semweb/foaf-captsolo.rdf#Uldis_Bojars>, <http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan>, <http://dunken69.myopenid.com/>, <http://harth.org/andreas/foaf#ah>, <http://hometown.aol.com/chbussler/foaf/chbussler.foaf#me>, <http://m3pe.org/~eyal/foaf.rdf#me>, <http://renaud.delbru.fr/rdf/foaf#me>, <http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan>, <http://sw.deri.org/~haller/foaf.rdf#ah>, <http://sw.deri.org/~knud>, <http://userver.ftw.at/~zhdanova/foaf.rdf#me>, <http://www.blogweb.co.kr/haklae.rdf#me>, <http://www.deri.ie/about/team/member/Alexander_Schutz#me>, <http://www.deri.ie/about/team/member/Benjamin_Heitmann#me>, <http://www.deri.ie/about/team/member/Stefan_Decker#me>, <http://www.gearoid.org/foaf.rdf#me>, <http://www.johnbreslin.com/foaf/foaf.rdf#cloud>, <http://www.polleres.net/foaf.rdf#me>, [
+        a foaf:Person ;
+        foaf:homepage <http://members.deri.at/~retok/> ;
+        foaf:name "Reto Krummenacher"
+    ], [
+        a foaf:Person ;
+        foaf:depiction <http://www.cs.vu.nl/~frankh/figs/dfe.jpg> ;
+        foaf:homepage <http://www.fensel.com/> ;
+        foaf:mbox <mailto:dieter.fensel@deri.org> ;
+        foaf:mbox_sha1sum "11a0c71f60f13dc0b9338f880355c71fa01854b4", "905ec4546ce5af69631b81be9bb27eb6c4303d2d" ;
+        foaf:name "Dieter Fensel"
+    ], [
+        a foaf:Person ;
+        rdfs:seeAlso <http://sw.deri.org/~bnsapkota/foaf.rdf> ;
+        foaf:depiction <http://sw.deri.org/~bnsapkota/np/pictures/DSC00108.JPG> ;
+        foaf:mbox <mailto:bnsapkota@gmail.com> ;
+        foaf:name "Brahmananda Sapkota"
+    ], [
+        a foaf:Person ;
+        foaf:mbox <mailto:ina.omurchu@deri.org> ;
+        foaf:mbox_sha1sum "712b83520bf846cdeb5b8158d541108b12a01447", "d21dd8e89548cf79fa8bb462561711fc09540856"
+    ], [
+        a foaf:Person ;
+        rdfs:seeAlso <http://sw.deri.org/~sheila/foaf.rdf> ;
+        foaf:mbox <mailto:sheila.kinsella@deri.org> ;
+        foaf:name "Sheila Kinsella"
+    ], [
+        a foaf:Person ;
+        rdfs:seeAlso <http://sws.deri.ie/members/edward/foaf.rdf> ;
+        foaf:depiction <http://photos1.blogger.com/img/9/2591/640/Image026.jpg>, <http://sws.deri.ie/members/edward/images/DSCF0078.JPG> ;
+        foaf:mbox <mailto:edward.kilgarriff@deri.org> ;
+        foaf:name "Edward Kilgarriff"
+    ] ;
+    foaf:mbox <mailto:juergen.umbrich@deri.org>, <mailto:juergen@umbrich.net> ;
+    foaf:mbox_sha1sum "ddc2d80f203552a7801f6c9aa2b0c482dcc021ab" ;
+    foaf:name "Jürgen Umbrich" ;
+    foaf:nick "juum" ;
+    foaf:phone <callto://JuergenUmbrich>, <tel:+353-91-512-5017> ;
+    foaf:title "Mr" ;
+    foaf:workplaceHomepage <http://www.deri.ie/>, <http://www.deri.org/> .
+
+<callto://JuergenUmbrich>
+    a <http://skype.com/> .
+
+<http://harth.org/andreas/foaf#ah>
+    a foaf:Person ;
+    foaf:depiction <http://sw.deri.org/~aharth/harth_thumb.jpg> ;
+    foaf:homepage <http://sw.deri.org/~aharth/> ;
+    foaf:mbox_sha1sum "977bed7c4eb54971c2161e4eb2373b95ec3318f0" ;
+    foaf:name "Andreas Harth" .
+
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me>
+    a foaf:Person ;
+    rdfs:seeAlso <http://userver.ftw.at/~zhdanova/foaf.rdf> ;
+    foaf:name "Anna V. Zhdanova" .
+
+<http://dunken69.myopenid.com/>
+    a foaf:Person ;
+    rdfs:seeAlso <http://kantenwerk.org/metadata/foaf.rdf> .
+
+<http://www.deri.ie/about/team/member/Stefan_Decker#me>
+    a foaf:Person ;
+    rdfs:seeAlso <http://www.isi.edu/~stefan/foaf.rdf> ;
+    foaf:mbox <mailto:stefan.decker@deri.org> ;
+    foaf:mbox_sha1sum "1bc1f862b688a45b7e0c8d4a8467c23177c53fad" ;
+    foaf:name "Stefan Decker" .
+
+<http://www.polleres.net/foaf.rdf#me>
+    a foaf:Person ;
+    rdfs:seeAlso <http://www.polleres.net/foaf.rdf> ;
+    foaf:mbox_sha1sum "202c47af80aabdb5ce92a6310ea5cfd34f8d0777" ;
+    foaf:name "Axel Polleres" .
+
+<http://www.johnbreslin.com/foaf/foaf.rdf#cloud>
+    a foaf:Person ;
+    foaf:homepage <http://johnbreslin.com/> ;
+    foaf:name "John Breslin" .
+
+<http://hometown.aol.com/chbussler/foaf/chbussler.foaf#me>
+    a foaf:Person .
+
+<http://renaud.delbru.fr/rdf/foaf#me>
+    a foaf:Person ;
+    rdfs:seeAlso <http://renaud.delbru.fr/rdf/foaf> ;
+    foaf:homepage <http://renaud.delbru.fr/> ;
+    foaf:name "Renaud Delbru" .
+
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan>
+    a foaf:Person ;
+    rdfs:seeAlso <http://sw.deri.org/~aidanh/foaf/foaf.rdf> ;
+    owl:sameAs <http://www.deri.ie/about/team/member/Aidan_Hogan#me> ;
+    foaf:mbox_sha1sum "d2163e057507f828085f322cc77dc43b4105a158" ;
+    foaf:name "Aidan Hogan" .
+
+<http://m3pe.org/~eyal/foaf.rdf#me>
+    a foaf:Person ;
+    rdfs:seeAlso <http://sw.deri.org/~eyal/foaf.rdf> ;
+    foaf:mbox <mailto:eyal.oren@deri.org> ;
+    foaf:name "Eyal Oren" .
+
+<http://www.blogweb.co.kr/haklae.rdf#me>
+    a foaf:Person ;
+    owl:sameAs <http://www.deri.ie/about/team/member/Hak Lae_Kim#me> .
+
+<http://sw.deri.org/~haller/foaf.rdf#ah>
+    a foaf:Person ;
+    rdfs:seeAlso <http://sw.deri.org/~haller/foaf.rdf> ;
+    foaf:mbox <mailto:armin.haller@deri.org> ;
+    foaf:name "Armin Haller" .
+
+<http://sw.deri.org/~knud>
+    a foaf:Person ;
+    rdfs:seeAlso <http://sw.deri.org/~knud/knudfoaf.rdf> ;
+    owl:sameAs <http://www.deri.ie/about/team/member/Knud_M\u00F6ller#me> .
+
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan>
+    a foaf:Person ;
+    rdfs:seeAlso <http://compsoc.nuigalway.ie/~fuzz/foaf.rdf> ;
+    foaf:mbox <mailto:fergal.monaghan@deri.org> ;
+    foaf:name "Fergal Monaghan" .
+

@@ -1,0 +1,446 @@
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#books> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.gutenberg.org/feeds/catalog.rdf.zip> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://harry.hchen1.com/index.php?sioc_type=site> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://fgiasson.com/blog/index.php?sioc_type=site> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://torrez.us/index.php?sioc_type=site> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#label> "FOAF file of Andreas Harth" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aharth/deri-seealso.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aharth/doap-urls.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.pms.ifi.lmu.de/mitarbeiter/bry/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.informatik.tu-cottbus.de/~agiurca/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aharth/cfp.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aharth/2005/08/dbworld/dbworld.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.w3.org/People/Berners-Lee/card.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.csd.abdn.ac.uk/~apreece/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://journal.dajobe.org/journal/2003/07/semblogs/bloggers.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.w3.org/2000/06/webdata/xslt?xslfile=http://www.ldodds.com/foaf/bulletin.xsl&xmlfile=http://cgi.w3.org/cgi-bin/tidy?docAddr=http%3A%2F%2Frdfweb.org%2Frweb%2Fwiki%2Fwiki.pl%3FFOAFBulletinBoard> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.isi.edu/~gil/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#nuig-library> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rss.library.nuigalway.ie/rdf/Arts-new-books.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#nuig-library> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rss.library.nuigalway.ie/rdf/Commerce-new-books.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#nuig-library> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rss.library.nuigalway.ie/rdf/Engineering-new-books.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#nuig-library> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rss.library.nuigalway.ie/rdf/Law-new-books.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#nuig-library> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rss.library.nuigalway.ie/rdf/Science-new-books.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#nuig-library> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rss.library.nuigalway.ie/rdf/Medicine-new-books.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#dbworld> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aharth/2005/08/dbworld/dbworld.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#dbworld> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aharth/2005/08/dbworld/cfp.owl> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#iswc> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.eswc2006.org/index.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#iswc> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/2006/07/location/locations.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri> <http://xmlns.com/foaf/0.1/name> "DERI" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri> <http://xmlns.com/foaf/0.1/name> "Digital Enterprise Research Institute" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri> <http://xmlns.com/foaf/0.1/homepage> <http://www.deri.org/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/DERI> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri-gwy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri-gwy> <http://xmlns.com/foaf/0.1/name> "DERI Galway" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri-gwy> <http://xmlns.com/foaf/0.1/homepage> <http://www.deri.ie/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri-gwy> <http://xmlns.com/foaf/0.1/based_near> <http://sws.geonames.org/2964180/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#deri-gwy> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/DERI_Galway> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#tap> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://tap.stanford.edu/Places.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#tap> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://tap.stanford.edu/Musicians.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#tap> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://tap.stanford.edu/Organizations.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#tap> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://tap.stanford.edu/Athletes.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#tap> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://tap.stanford.edu/Products.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#photos> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.confoto.org/w3photo> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/2005/01/pyscutter/blogs.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.techcrunch.com/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://valleywag.com/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://theregister.co.uk> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.readwriteweb.com/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.economist.com/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.zeit.de/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.spiegel.de/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.tagesschau.de/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#blogs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.sueddeutsche.de/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#bio> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://openflydata.org/id/flybase/feature/FBgn0053919> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#bio> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.affymetrix.com/community/publications/affymetrix/tmsplice/all_genes.1.rdf#2410016F19Rik_e4> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#lod> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://data.semanticweb.org/conference/eswc/2008/tracks/research> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://ontoworld.org/wiki/Special:ExportRDF/Category%3APerson> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~francois/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sra.itc.it/people/massa/paolofoaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.cs.helsinki.fi/u/tsidorof/meta/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.sidar.org/que/ge/egyr/egyr.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.obverse.com.au/~comrade/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.upl.cs.wisc.edu/~zimage/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~knud/library/bookfeed.rss> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://c703-deri03.uibk.ac.at:8080/people/index/innindex.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.bbc.co.uk/indonesian/index.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.bbc.co.uk/indonesian/sports/index.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sws.deri.ie/members/edward/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://rdfig.xmlhack.com/index.rss> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.aifb.uni-karlsruhe.de/viewAIFB_OWL.owl> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.w3.org/2001/06/airports.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/2005/02/flight/galway.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#people> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://biessmann.de/andreas/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#jobs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.nature.com/naturejobs/jobs/biologicalsciences.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#jobs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.nature.com/naturejobs/jobs/physicalsciences.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#jobs> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.nature.com/naturejobs/jobs/general.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#encoding-tests> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://homepage.uibk.ac.at/~c703261/foaf-russian.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#encoding-tests> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://homepage.uibk.ac.at/~c703319/various/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test1#encoding-tests> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~knud/knudfoaf.rdf> .
+<http://sw.deri.org/~knud/mov/beer.mov> <http://purl.org/dc/elements/1.1/subject> "Beer" .
+<http://sw.deri.org/~knud/mov/beer.mov> <http://purl.org/dc/elements/1.1/description> "Scandinavian ode to beer." .
+_:genid1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid1 <http://xmlns.com/foaf/0.1/name> "Throatwobbler Mangrove" .
+_:genid1 <http://xmlns.com/foaf/0.1/homepage> <http://bloodbowl.denes.nl/player/player.pl?id=1714> .
+_:genid1 <http://xmlns.com/foaf/0.1/depiction> <http://bloodbowl.denes.nl/gfx/upload/player/untitled.bmp> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://www.bbc.co.uk/music/artists/c485632c-b784-4ee9-8ea1-c5fb365681fc> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Andreas_Harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://berrueta.net/personal/people#harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www.ecs.soton.ac.uk/~dt2/dlstuff/www2006_data#andreas_harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://harth.org/andreas/blog/author/admin/#foaf> .
+<http://dblp.l3s.de/d2r/resource/authors/Andreas_Harth> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://dblp.l3s.de/d2r/data/authors/Andreas_Harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://dblp.l3s.de/d2r/resource/authors/Andreas_Harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www4.wiwiss.fu-berlin.de/dblp/resource/person/287847> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www.harth.org/andreas/foaf#ah> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www.harth.org/~andreas/foaf.rdf#ah> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www.cs.vu.nl/~pmika/socionet#Andreas+Harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://iswc2006.semanticweb.org/submissions/Harth2006dq_Harth_Andreas> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/person/andreas-harth> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://triple.semanticweb.org/svn/knud/library/books.rdf#andreasHarth> .
+<http://www.deri.ie/about/team/member/Andreas_Harth#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.deri.ie/fileadmin/scripts/foaf.php?id=81> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Andreas_Harth#me> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://homepage.deri.org:8080/people/kweb/rdf/andreas%2Bharth.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://harth.org/andreas/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://c703-deri03.uibk.ac.at:8080/people/rdf/andreas.harth.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://semanticweb.org/wiki/Special:ExportRDF/Andreas+Harth> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/name> "Andreas Harth" .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#label> "Andreas Harth" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/firstName> "Andreas" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/surname> "Harth" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/nick> "aharth" .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#comment> "Andreas Harth is a Ph.D. student with the Digital Enterprise Research Institute (DERI) at the National University of Ireland, Galway since March 2004. He holds a Dipl.-Inf. (FH) (a nearby equivalent to the U.S.-style M.Sc.) from Fachhochschule Wuerzburg. Andreas worked as intern at Fraunhofer Gesellschaft in Wuerzburg (1998/1999) and at IBM's Sillicon Valley Lab in San Jose, CA (2001). He visited USC's Information Sciences Institute in Marine del Rey, CA as a research assistant (2003/2004). His research interests are large-scale data interoperation on the Semantic Web, peer-to-peer systems, knowledge representation, and computational logic. Andreas has published over a dozen papers in these areas, and is author of several open source software systems. In addition, he has participated in numerous EU and national projects, participated in various program committees, and has been involved in the W3C Semantic Web Best Practices and Deployment and Rules Interchange Format working groups. In his spare time he enjoys reading, travelling, swimming, and golfing." .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/mbox> <mailto:andreas.harth@deri.org> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/mbox> <mailto:andreas@harth.org> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "977bed7c4eb54971c2161e4eb2373b95ec3318f0" .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2003/01/geo/wgs84_pos#Point> .
+_:genid2 <http://www.w3.org/2000/01/rdf-schema#label> "Galway, Ireland, City Centre" .
+_:genid2 <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-9.048679" .
+_:genid2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "53.272226" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/based_near> _:genid2 .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://feeds.feedburner.com/tedtalks_video> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/based_near> <http://sws.geonames.org/2964180/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/homepage> <http://harth.org/andreas/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/homepage> <http://sw.deri.org/~aharth/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/homepage> <http://www.linkedin.com/pub/4/37/926> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/homepage> <http://www.facebook.com/people/Andreas_Harth/575861994> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/depiction> <http://sw.deri.org/~aharth/harth_thumb.jpg> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/phone> <tel:+353-91-512-651> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/openid> <http://harth.org/andreas/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/openid> <http://aharth.myopenid.com/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/currentProject> <http://cb.semsol.org/company/ontologycentral#self> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/openid> <http://aharth.pip.verisignlabs.com/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/> .
+<callto://aharth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://skype.com/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/phone> <callto://aharth> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.deri.org/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.deri.ie/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/schoolHomepage> <http://www.nuigalway.ie/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/schoolHomepage> <http://www.fh-wuerzburg.de/> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.isi.edu/~aharth/foaf.rdf> .
+<http://my.opera.com/tomheath/xml/foaf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://tomheath.com/id/me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://my.opera.com/tomheath/xml/foaf#me> .
+<http://www.wikier.org/foaf#wikier> <http://xmlns.com/foaf/0.1/holdsAccount> <http://www.wikier.org/blog#wikier> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.wikier.org/foaf#wikier> .
+<http://iandavis.com/blog/author/iand/#foaf> <http://www.w3.org/2002/07/owl#sameAs> <http://iandavis.com/id/me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://iandavis.com/blog/author/iand/#foaf> .
+<http://richard.cyganiak.de/foaf.rdf#cygri> <http://www.w3.org/2002/07/owl#sameAs> <http://dowhatimean.net/author/site-admin/#foaf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://richard.cyganiak.de/foaf.rdf#cygri> .
+<http://apassant.net/alex> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://apassant.net/foaf.rdf> .
+<http://apassant.net/alex> <http://xmlns.com/foaf/0.1/weblog> <http://apassant.net/blog/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://apassant.net/alex> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://cb.semsol.org/person/barney-pell#self> .
+<http://cb.semsol.org/person/nova-spivack#self> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://novaspivack.typepad.com/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://cb.semsol.org/person/nova-spivack#self> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www-di.inf.puc-rio.br/schwabe/foaf-schwabe.rdf#DSchwabe> .
+<http://www.siegfried-handschuh.net/metadata/foaf.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Siegfried_Handschuh> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.siegfried-handschuh.net/metadata/foaf.rdf#me> .
+<http://www.gassert.ch/foaf/hannes.rdf#hannesgassert> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.gassert.ch/foaf/hannes.rdf#hannesgassert> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "bbdf0622f137cd2fc9ef768def9339091e4be779" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.gassert.ch/foaf/hannes.rdf#hannesgassert> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.cs.rpi.edu/~hendler/foaf.rdf#jhendler> .
+<http://harth.org/andreas/blog/> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://harth.org/andreas/blog/index.php?sioc_type=site> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/weblog> <http://harth.org/andreas/blog/> .
+<http://www.deri.ie/about/team/member/Karl_Aberer#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.deri.ie/about/team/member/Karl_Aberer#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.deri.ie/fileadmin/scripts/foaf.php?id=256> .
+<http://www.deri.ie/about/team/member/Karl_Aberer#me> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/person/karl-aberer> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Karl_Aberer#me> .
+<http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://blog.semantic-web.at/author/pascal-hitzler/#foaf> .
+<http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://korrekt.org/page/Special:URIResolver/Pascal_Hitzler> .
+<http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Pascal_Hitzler> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://140.203.154.209/~vit/foaf.rdf#me> .
+<http://identi.ca/user/226> <http://www.w3.org/2002/07/owl#sameAs> <http://danbri.org/foaf.rdf#danbri> .
+<http://identi.ca/user/226> <http://www.w3.org/2002/07/owl#sameAs> <http://danbri.org/foaf#danbri> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://identi.ca/user/226> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.isi.edu/~gil/foaf.rdf#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://kwarc.info/clange/foaf/foaf.rdf#me> .
+<http://www.deri.ie/about/team/member/Rudi_Studer#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id57instance> .
+<http://www.deri.ie/about/team/member/Rudi_Studer#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Studer_Rudi#me> .
+<http://www.deri.ie/about/team/member/Rudi_Studer#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.ecs.soton.ac.uk/~dt2/dlstuff/www2006_data#rudi_studer> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Rudi_Studer#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id40instance> .
+<http://www.w3.org/People/Sandro/data#SandroHawke> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.w3.org/People/Sandro/data#SandroHawke> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.w3.org/People/Sandro/data.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.w3.org/People/Sandro/data#SandroHawke> .
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Anna V. Zhdanova" .
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://userver.ftw.at/~zhdanova/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://userver.ftw.at/~zhdanova/foaf.rdf#me> .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid3 <http://xmlns.com/foaf/0.1/name> "Reto Krummenacher" .
+_:genid3 <http://xmlns.com/foaf/0.1/homepage> <http://members.deri.at/~retok/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid3 .
+<http://dunken69.myopenid.com/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://dunken69.myopenid.com/> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://kantenwerk.org/metadata/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://dunken69.myopenid.com/> .
+<http://semanticweb.org/id/Tim_Finin> <http://www.w3.org/2002/07/owl#sameAs> <http://trust.mindswap.org/cgi-bin/FilmTrust/foaf.cgi?user=finin#finin> .
+<http://semanticweb.org/id/Tim_Finin> <http://www.w3.org/2002/07/owl#sameAs> <http://dblp.l3s.de/d2r/resource/authors/Tim_Finin> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://semanticweb.org/id/Tim_Finin> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://idehen.net/dataspace/person/kidehen#this> .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid4 <http://xmlns.com/foaf/0.1/name> "Paulo Pinheiro da Silva" .
+_:genid4 <http://xmlns.com/foaf/0.1/homepage> <http://www.ksl.stanford.edu/people/pp/> .
+_:genid4 <http://www.w3.org/2002/07/owl#sameAs> <http://trust.mindswap.org/cgi-bin/FilmTrust/foaf.cgi?user=pinheiro> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid4 .
+<http://iandavis.com/id/paulmiller> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://blogs.talis.com/nodalities/> .
+<http://iandavis.com/id/paulmiller> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://blogs.zdnet.com/semantic-web/?feed=rss2> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://iandavis.com/id/paulmiller> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://dblp.l3s.de/d2r/resource/authors/Malgorzata_Mochol> .
+<http://www.twine.com/item/1t7r716y-g3> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Manfred_Hauswirth> .
+<http://www.twine.com/item/1t7r716y-g3> <http://www.w3.org/2002/07/owl#sameAs> <http://dblp.l3s.de/d2r/resource/authors/Manfred_Hauswirth> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.twine.com/item/1t7r716y-g3> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://xmlns.com/foaf/0.1/name> "Stefan Decker" .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:stefan.decker@deri.org> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "1bc1f862b688a45b7e0c8d4a8467c23177c53fad" .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.isi.edu/~stefan/foaf.rdf> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Stefan_Decker> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/2002/07/owl#sameAs> <http://dblp.l3s.de/d2r/resource/authors/Stefan_Decker> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id11instance> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Stefan_Decker#me> .
+<http://sw.deri.org/~scorlosquet/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~scorlosquet/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~scorlosquet/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~scorlosquet/foaf.rdf#me> .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid5 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "288c19b480c19920f03220461bcf9207efd34e8a" .
+_:genid5 <http://xmlns.com/foaf/0.1/name> "Matteo Magni" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid5 .
+<http://data.semanticweb.org/person/jose-luis-ambite> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://data.semanticweb.org/person/jose-luis-ambite> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.isi.edu/~ambite/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://data.semanticweb.org/person/jose-luis-ambite> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.ivan-herman.net/me> .
+<http://dblp.l3s.de/d2r/resource/authors/Andrew_Philpot> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://dblp.l3s.de/d2r/resource/authors/Andrew_Philpot> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.isi.edu/~philpot/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://dblp.l3s.de/d2r/resource/authors/Andrew_Philpot> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://data.semanticweb.org/person/heiner-stuckenschmidt> .
+<http://wiki.sembase.at/index.php/_Martin_Hepp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://wiki.sembase.at/index.php/_Martin_Hepp> <http://xmlns.com/foaf/0.1/name> "Martin Hepp" .
+<http://wiki.sembase.at/index.php/_Martin_Hepp> <http://xmlns.com/foaf/0.1/homepage> <http://www.heppnetz.de/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://wiki.sembase.at/index.php/_Martin_Hepp> .
+<http://www.polleres.net/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.polleres.net/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Axel Polleres" .
+<http://www.polleres.net/foaf.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://axel.deri.ie/~axepol/foaf.rdf#me> .
+<http://www.polleres.net/foaf.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://wiki.sembase.at/index.php/_Axel_Polleres> .
+<http://www.polleres.net/foaf.rdf#me> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "202c47af80aabdb5ce92a6310ea5cfd34f8d0777" .
+<http://www.polleres.net/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.polleres.net/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.polleres.net/foaf.rdf#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://semanticweb.org/id/Jacco_Ossenbruggen> .
+<http://www.johnbreslin.com/foaf/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.johnbreslin.com/foaf/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "John Breslin" .
+<http://www.johnbreslin.com/foaf/foaf.rdf#me> <http://xmlns.com/foaf/0.1/homepage> <http://johnbreslin.com/> .
+<http://www.johnbreslin.com/foaf/foaf.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://identi.ca/user/11736> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.johnbreslin.com/foaf/foaf.rdf#me> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://www.w3.org/2002/07/owl#sameAs> <http://dbpedia.org/resource/Dieter_Fensel> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Dieter_Fensel#me> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Dieter_Fensel> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://www.w3.org/2002/07/owl#sameAs> <http://wiki.sembase.at/index.php/_Dieter_Fensel> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://xmlns.com/foaf/0.1/name> "Dieter Fensel" .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://xmlns.com/foaf/0.1/homepage> <http://www.fensel.com/> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "11a0c71f60f13dc0b9338f880355c71fa01854b4" .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "905ec4546ce5af69631b81be9bb27eb6c4303d2d" .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://xmlns.com/foaf/0.1/mbox> <mailto:dieter.fensel@deri.org> .
+<http://dbpedia.org/resource/Dieter_Fensel> <http://xmlns.com/foaf/0.1/depiction> <http://www.cs.vu.nl/~frankh/figs/dfe.jpg> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://dbpedia.org/resource/Dieter_Fensel> .
+_:genid6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid6 <http://xmlns.com/foaf/0.1/name> "Michael Kassoff" .
+_:genid6 <http://xmlns.com/foaf/0.1/mbox> <mailto:mkassoff@cs.stanford.edu> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid6 .
+<http://dbpedia.org/resource/Michael_Genesereth> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://dbpedia.org/resource/Michael_Genesereth> <http://xmlns.com/foaf/0.1/name> "Michael Genesereth" .
+<http://dbpedia.org/resource/Michael_Genesereth> <http://xmlns.com/foaf/0.1/mbox> <mailto:genesereth@cs.stanford.edu> .
+<http://dbpedia.org/resource/Michael_Genesereth> <http://xmlns.com/foaf/0.1/depiction> <http://forum.stanford.edu/graphics/photo/4004> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://dbpedia.org/resource/Michael_Genesereth> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://xmlns.com/foaf/0.1/name> "Renaud Delbru" .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://xmlns.com/foaf/0.1/homepage> <http://renaud.delbru.fr/> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://renaud.delbru.fr/rdf/foaf> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Renaud_Delbru#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://renaud.delbru.fr/rdf/foaf#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.real-programmer.com/foaf/chbussler.foaf#me> .
+<http://www-cdr.stanford.edu/~petrie/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www-cdr.stanford.edu/~petrie/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Charles Petrie" .
+<http://www-cdr.stanford.edu/~petrie/foaf.rdf#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:petrie@stanford.edu> .
+<http://www-cdr.stanford.edu/~petrie/foaf.rdf#me> <http://xmlns.com/foaf/0.1/depiction> <http://www-cdr.stanford.edu/~petrie/May-03-petrie.jpg> .
+<http://www-cdr.stanford.edu/~petrie/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www-cdr.stanford.edu/~petrie/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www-cdr.stanford.edu/~petrie/foaf.rdf#me> .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aidanh/foaf/foaf.rdf> .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Aidan_Hogan#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> .
+_:genid7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid7 <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Brahmananda_Sapkota#me> .
+_:genid7 <http://xmlns.com/foaf/0.1/name> "Brahmananda Sapkota" .
+_:genid7 <http://xmlns.com/foaf/0.1/mbox> <mailto:bnsapkota@gmail.com> .
+_:genid7 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~bnsapkota/foaf.rdf> .
+_:genid7 <http://xmlns.com/foaf/0.1/depiction> <http://sw.deri.org/~bnsapkota/np/pictures/DSC00108.JPG> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid7 .
+_:genid8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid8 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "712b83520bf846cdeb5b8158d541108b12a01447" .
+_:genid8 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "d21dd8e89548cf79fa8bb462561711fc09540856" .
+_:genid8 <http://xmlns.com/foaf/0.1/mbox> <mailto:ina.omurchu@deri.org> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid8 .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Eyal Oren" .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:eyal.oren@deri.org> .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~eyal/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://m3pe.org/~eyal/foaf.rdf#me> .
+<http://www.blogweb.co.kr/haklae.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.blogweb.co.kr/haklae.rdf#me> <http://xmlns.com/foaf/0.1/weblog> <file:///home/juergen/code/java/cotypre/files/rdfxml/www.blogweb.co.kr/> .
+<http://www.blogweb.co.kr/haklae.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Hak Lae_Kim#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.blogweb.co.kr/haklae.rdf#me> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://xmlns.com/foaf/0.1/name> "Armin Haller" .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://xmlns.com/foaf/0.1/mbox> <mailto:armin.haller@deri.org> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~haller/foaf.rdf> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Armin_Haller#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~haller/foaf.rdf#ah> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Alexander_Schutz#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Benjamin_Heitmann#me> .
+<http://www.umbrich.net/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.umbrich.net/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Juergen Umbrich" .
+<http://www.umbrich.net/foaf.rdf#me> <http://xmlns.com/foaf/0.1/homepage> <http://www.umbrich.net/> .
+<http://www.umbrich.net/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.umbrich.net/foaf.rdf> .
+<http://www.umbrich.net/foaf.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2167instance> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.umbrich.net/foaf.rdf#me> .
+<http://www.dajobe.org/foaf.rdf#i> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.dajobe.org/foaf.rdf#i> <http://xmlns.com/foaf/0.1/homepage> <http://www.dajobe.org/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.dajobe.org/foaf.rdf#i> .
+<http://sw.deri.org/~knud> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~knud> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~knud/knudfoaf.rdf> .
+<http://sw.deri.org/~knud> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Knud_M\u00F6ller#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~knud> .
+_:genid9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid9 <http://xmlns.com/foaf/0.1/name> "Kashif Iqbal" .
+_:genid9 <http://xmlns.com/foaf/0.1/mbox> <mailto:kashif.iqbal@deri.org> .
+_:genid9 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~kiqbal/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid9 .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.bizer.de/#chris> .
+<http://dblp.l3s.de/d2r/resource/authors/Susie_Stephens> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://dblp.l3s.de/d2r/resource/authors/Susie_Stephens> <http://www.w3.org/2002/07/owl#sameAs> <http://www.ivan-herman.net/foafExtras.rdf#Susie> .
+<http://dblp.l3s.de/d2r/resource/authors/Susie_Stephens> <http://www.w3.org/2002/07/owl#sameAs> <http://www.w3.org/People/Berners-Lee/card.rdf#ss> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://dblp.l3s.de/d2r/resource/authors/Susie_Stephens> .
+<http://www.deri.ie/about/team/member/Bill_McDaniel#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.deri.ie/about/team/member/Bill_McDaniel#me> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/conference/eswc/2007/person-90018> .
+<http://www.deri.ie/about/team/member/Bill_McDaniel#me> <http://xmlns.com/foaf/0.1/name> "Bill McDaniel" .
+<http://www.deri.ie/about/team/member/Bill_McDaniel#me> <http://xmlns.com/foaf/0.1/weblog> <http://worldbehindtheglass.blogspot.com/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Bill_McDaniel#me> .
+<http://sw.deri.org/~sheila/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~sheila/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Sheila Kinsella" .
+<http://sw.deri.org/~sheila/foaf.rdf#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:sheila.kinsella@deri.org> .
+<http://sw.deri.org/~sheila/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~sheila/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~sheila/foaf.rdf#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.gearoid.org/foaf.rdf#me> .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://xmlns.com/foaf/0.1/name> "Fergal Monaghan" .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://xmlns.com/foaf/0.1/mbox> <mailto:fergal.monaghan@deri.org> .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://compsoc.nuigalway.ie/~fuzz/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> .
+<http://identi.ca/user/13692> <http://xmlns.com/foaf/0.1/weblog> <http://bnode.org/blog> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://identi.ca/user/13692> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://liris.cnrs.fr/~pchampin/foaf.rdf#pa> .
+_:genid10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid10 <http://xmlns.com/foaf/0.1/name> "Edward Kilgarriff" .
+_:genid10 <http://xmlns.com/foaf/0.1/mbox> <mailto:edward.kilgarriff@deri.org> .
+_:genid10 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sws.deri.ie/members/edward/foaf.rdf> .
+_:genid10 <http://xmlns.com/foaf/0.1/depiction> <http://photos1.blogger.com/img/9/2591/640/Image026.jpg> .
+_:genid10 <http://xmlns.com/foaf/0.1/depiction> <http://sws.deri.ie/members/edward/images/DSCF0078.JPG> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid10 .
+<http://www.deri.ie/about/team/member/Laurentiu_Vasiliu#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.deri.ie/about/team/member/Laurentiu_Vasiliu#me> <http://xmlns.com/foaf/0.1/name> "Laurentiu Vasiliu" .
+<http://www.deri.ie/about/team/member/Laurentiu_Vasiliu#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:laurentiu.vasiliu@deri.org> .
+<http://www.deri.ie/about/team/member/Laurentiu_Vasiliu#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.deri.ie/sws/members/laurentiu/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Laurentiu_Vasiliu#me> .
+<http://semanticweb.org/id/Jerome_Euzenat> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://semanticweb.org/id/Jerome_Euzenat> <http://xmlns.com/foaf/0.1/name> "Jerome Euzenat" .
+<http://semanticweb.org/id/Jerome_Euzenat> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.inrialpes.fr/exmo/people/euzenat/euzenatj.rdf> .
+<http://semanticweb.org/id/Antoine_Zimmermann> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://semanticweb.org/id/Antoine_Zimmermann> <http://xmlns.com/foaf/0.1/name> "Antoine Zimmermann" .
+<http://semanticweb.org/id/Antoine_Zimmermann> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "fe8558534c4eb4c894c9fad86288faa7ad057602" .
+<http://semanticweb.org/id/Antoine_Zimmermann> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.inrialpes.fr/exmo/people/zimmer/az-foaf.rdf> .
+<http://semanticweb.org/id/Jerome_Euzenat> <http://xmlns.com/foaf/0.1/knows> <http://semanticweb.org/id/Antoine_Zimmermann> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://semanticweb.org/id/Jerome_Euzenat> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.w3.org/People/Connolly/#me> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://captsolo.net/semweb/foaf-captsolo.rdf#Uldis_Bojars> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://captsolo.net/semweb/foaf-captsolo.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://apassant.net/home/2006/06/sioc-wiki2rdf/sites.rdf> .
+_:genid11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid11 <http://xmlns.com/foaf/0.1/name> "Simeon Petkov" .
+_:genid11 <http://xmlns.com/foaf/0.1/mbox> <mailto:simeon.petkov@deri.org> .
+_:genid11 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://stud3.tuwien.ac.at/~e9925150/foaf.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> _:genid11 .
+<http://semanticweb.org/id/Jeen_Broekstra> <http://xmlns.com/foaf/0.1/weblog> <http://jeenbroekstra.blogspot.com/> .
+<http://semanticweb.org/id/Jeen_Broekstra> <http://www.w3.org/2002/07/owl#sameAs> <http://www.aifb.uni-karlsruhe.de/Publikationen/viewExternerAutorOWL/id81instance> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://semanticweb.org/id/Jeen_Broekstra> .
+_:genid12 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://usefulinc.com/ns/doap#Project> .
+_:genid12 <http://usefulinc.com/ns/doap#homepage> <http://sw.deri.org/2004/06/yars/> .
+_:genid12 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/2004/06/yars/doap.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/currentProject> _:genid12 .
+<http://sw.deri.org/2007/02/swsepaper/doap.rdf#swse> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://usefulinc.com/ns/doap#Project> .
+<http://sw.deri.org/2007/02/swsepaper/doap.rdf#swse> <http://usefulinc.com/ns/doap#homepage> <http://swse.deri.org/> .
+<http://sw.deri.org/2007/02/swsepaper/doap.rdf#swse> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/2007/02/swsepaper/doap.rdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/currentProject> <http://sw.deri.org/2007/02/swsepaper/doap.rdf#swse> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/made> <http://www.wsmo.org/2004/d20/d20.2/v0.2/#613> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/made> <http://www.harth.org/andreas/2004/ieeeis/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/made> <http://www.www2004.org/proceedings/docs/2p326.pdf> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/made> <http://dx.doi.org/10.1016/j.websem.2003.12.002/> .
+<http://dmoz.org/Computers/> <http://www.w3.org/2000/01/rdf-schema#label> "Computers" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Computers/> .
+<http://dmoz.org/Computers/Artificial_Intelligence/> <http://www.w3.org/2000/01/rdf-schema#label> "Artificial Intelligence" .
+<http://dmoz.org/Computers/Artificial_Intelligence/> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://dmoz.org/Computers/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Computers/Artificial_Intelligence/> .
+<http://dmoz.org/Computers/Internet/> <http://www.w3.org/2000/01/rdf-schema#label> "Internet" .
+<http://dmoz.org/Computers/Internet/> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://dmoz.org/Computers/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Computers/Internet/> .
+<http://dmoz.org/Computers/Internet/On_the_Web/Web_Applications/> <http://www.w3.org/2000/01/rdf-schema#label> "Web Applications" .
+<http://dmoz.org/Computers/Internet/On_the_Web/Web_Applications/> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://dmoz.org/Computers/Internet/WWW/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Computers/Internet/On_the_Web/Web_Applications/> .
+<http://dmoz.org/Computers/Internet/WWW/> <http://www.w3.org/2000/01/rdf-schema#label> "WWW" .
+<http://dmoz.org/Computers/Internet/WWW/> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://dmoz.org/Computers/Internet/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Computers/Internet/WWW/> .
+<http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/> <http://www.w3.org/2000/01/rdf-schema#label> "Knowledge Representation" .
+<http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://dmoz.org/Computers/Artificial_Intelligence/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/> .
+<http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/Semantic_Web/> <http://www.w3.org/2000/01/rdf-schema#label> "Semantic Web" .
+<http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/Semantic_Web/> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/interest> <http://dmoz.org/Reference/Knowledge_Management/Knowledge_Representation/Semantic_Web/> .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sw.deri.ie/2004/08/pubs/swpubs#Article> .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://purl.org/dc/elements/1.1/title> "An Integration Site for Semantic Web Metadata" .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://purl.org/dc/elements/1.1/author> "Andreas Harth" .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://purl.org/dc/elements/1.1/publisher> "Journal of Web Semantics" .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://sw.deri.ie/2004/08/pubs/swpubs#volume> "Volume 1" .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://sw.deri.ie/2004/08/pubs/swpubs#number> "Issue 2" .
+<http://dx.doi.org/10.1016/j.websem.2003.12.002/> <http://sw.deri.ie/2004/08/pubs/swpubs#date> "February 2004" .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sw.deri.ie/2004/08/pubs/swpubs#Article> .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://purl.org/dc/elements/1.1/title> "SECO: Mediation Services for Semantic Web Data" .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://purl.org/dc/elements/1.1/author> "Andreas Harth" .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://purl.org/dc/elements/1.1/publisher> "IEEE Intelligent Systems" .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://sw.deri.ie/2004/08/pubs/swpubs#volume> "Volume 19" .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://sw.deri.ie/2004/08/pubs/swpubs#number> "Number 3" .
+<http://www.harth.org/andreas/2004/ieeeis/> <http://sw.deri.ie/2004/08/pubs/swpubs#date> "May/June 2004" .
+<http://www.www2004.org/proceedings/docs/2p326.pdf> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://sw.deri.ie/2004/08/pubs/swpubs#Inproceedings> .
+<http://www.www2004.org/proceedings/docs/2p326.pdf> <http://purl.org/dc/elements/1.1/title> "A Semantic Matchmaker Service on the Grid" .
+<http://www.www2004.org/proceedings/docs/2p326.pdf> <http://purl.org/dc/elements/1.1/author> "Andreas Harth, Yu He, Hongsuda Tangmunarunkit, Stefan Decker, Carl Kesselman" .
+<http://www.www2004.org/proceedings/docs/2p326.pdf> <http://purl.org/dc/elements/1.1/publisher> "ACM" .
+<http://www.www2004.org/proceedings/docs/2p326.pdf> <http://sw.deri.ie/2004/08/pubs/swpubs#booktitle> "The Thirteenth International World Wide Web Conference: Alternate Track Papers and Posters" .
+<http://www.www2004.org/proceedings/docs/2p326.pdf> <http://sw.deri.ie/2004/08/pubs/swpubs#date> "May 17-22 2004" .

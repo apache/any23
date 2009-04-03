@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head profile="http://developers.technorati.com/wiki/xhtmloutlines">
+<title>Mark's Subscriptions</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+
+<meta name="DC.Title" content="Mark's Subscriptions" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#title" />
+
+<meta name="DC.Creator" content="Pilgrim, Mark" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#creator" />
+
+<meta name="DC.Creator.Address" content="mark@diveintomark.org" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#creator" />
+
+<meta name="DC.Description" content="Feeds that Mark Pilgrim is subscribed to" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#description" />
+
+<meta name="DC.Date" scheme="ISO8601" content="2004-01-05T07:00:00Z" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#date" />
+
+<meta name="DC.Format" scheme="IMT" content="application/xhtml+xml" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#format" />
+<link rel="schema.imt" href="http://sunsite.auc.dk/RFC/rfc/rfc2046.html" />
+
+<meta name="DC.Identifier" content="http://diveintomark.org/links/" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#identifier" />
+
+<meta name="DC.Language" scheme="ISO639-1" content="en" />
+<link rel="schema.dc" href="http://purl.org/metadata/dublin_core_elements#language" />
+</head>
+<body>
+<ol>
+  <li><p>Linkblogs</p>
+    <ol>
+      <li><a href="http://diveintomark.org/xml/blink.xml" type="application/rss+xml">dive into mark b-links</a></li>
+      <li><a href="http://www.thauvin.net/blog/xml.jsp?format=rdf" type="application/rss+xml">Eric&#39;s Weblog</a></li>
+    </ol>
+  </li>
+  <li><p>Weblogs</p>
+    <ol>
+      <li><a href="http://intertwingly.net/blog/index.rss2" type="application/rss+xml">Sam Ruby</a></li>
+      <li><a href="http://diveintomark.org/xml/atom.xml" type="application/atom+xml">dive into mark</a></li>
+      <li><a href="http://www.decafbad.com/blog/index.rss" type="application/rss+xml">0xDECAFBAD</a></li>
+    </ol>
+  </li>
+</ol>
+</body>
+</html>

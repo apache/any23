@@ -48,11 +48,11 @@ public class TikaTEST extends TestCase {
 	}
 	
 	public void testAtom() throws Exception {
-		runTest("application/atom+xml","test/application/atom");
+		runTest("application/atom+xml","test/application/atom",true);
 	}
 	
 	public void testHTML() throws Exception {
-		runTest("text/html","files/html",true);
+		runTest("text/html","test/text/html",true);
 	}
 	
 	public void testXHTML() throws Exception {
@@ -87,6 +87,7 @@ public class TikaTEST extends TestCase {
 		File f = new File(testDir);
 		String detectedMimeType = null;
 		for(File test: f.listFiles()) {
+			if(test.getName().startsWith("."))continue;
 			InputStream is = getInputStream(test);
 			detectedMimeType = _identifer.guessMIMEType(null,is, null).toString();	
 			if(b) System.out.println("  "+test.getName()+"     >> "+detectedMimeType);

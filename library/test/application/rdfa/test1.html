@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"        xmlns:foaf="http://xmlns.com/foaf/0.1/"
+ xmlns:oilit="http://www.oilit.com/vocab/basic#"
+ xmlns:oil="http://www.oilit.com/2journal/2index/" 
+ xmlns:owl="http://www.w3.org/2002/07/owl#" 
+ xmlns:dc="http://purl.org/dc/elements/1.1/">
+<head><title>RDFa example for OilIT.com</title></head>
+<body>
+
+<p> 
+This is a sample sentence. it is about someone called  <span typeof='foaf:Person oilit:OilIndustryPerson' 
+about='http://www.oilit.com/2journal/2index/2peo/21.htm#itself' property='foaf:name'>Finn Aamodt</span> mentioned on the OilIT site. In this 
+case we didn't link to them or a page about them, but still there is hidden markup identifying them. Here is another mention, but this time 
+of a company: <span typeof='foaf:Organization oilit:OilIndustryOrganization' 
+about='http://www.oilit.com/2journal/2index/2com/2342.htm#itself' property='foaf:name'>BP</span>. 
+</p>
+
+<p>That's great and all. You can find out which pages mention some company or person. But it is pretty basic and not very Webby. </p>
+<p>Let's try adding a bit more hypertext...</p>
+
+<p>
+This is another paragraph about that same company. <a typeof='foaf:Organization oilit:OilIndustryOrganization' 
+href="http://www.bp.com/" rel="foaf:homepage foaf:isPrimaryTopicOf" 
+about='http://www.oilit.com/2journal/2index/2com/2342.htm#itself'>BP Global</a>'s Web site 
+holds information about its <a href="http://www.bp.com/managedlistingsection.do?categoryId=9021626&amp;contentId=7041219">board</a>. 
+If this was in RDFa, we could automatically link it with related information about other people and companies. 
+</p>
+
+<p>
+For example, we might note that 
+<span about="http://www.oilit.com/2journal/2index/2peo/21551.htm#itself" typeof="foaf:Person oilit:OilIndustryPerson">
+   <a rev="foaf:primaryTopic"  href="http://www.bp.com/sectiongenericarticle.do?categoryId=9021976&amp;contentId=7038002" 
+   property="foaf:name">Tony Hayward</a> works at <a rel="foaf:workplaceHomepage" href="http://www.bp.com/">BP</a>.
+
+For this we used an ID from the OilIT site. Other pages are also available about Tony; for example he is the 
+primary topic of <a href="http://en.wikipedia.org/wiki/Tony_Hayward" rev="foaf:primaryTopic">a Wikipedia page</a>. Consequently 
+there is also a <a rel="owl:sameAs" href="http://dbpedia.org/resource/Tony_Hayward">DBPedia identifier</a> for him, as well as 
+for <a href="http://dbpedia.org/page/BP">BP</a>. 
+</span>
+</p>
+
+<p>
+With potentially multiple identifiers for everything, and the need to 
+distinguish pages from their topics, this can all get a bit confusing. One way to stay sane is to run queries against the 
+parsed output of these pages. So for example, here is the data so far in this sample document.
+</p>
+
+
+<small>
+<pre>
+&lt;http://www.oilit.com/2journal/2index/2peo/21.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; .
+&lt;http://www.oilit.com/2journal/2index/2peo/21.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://www.oilit.com/vocab/basic#OilIndustryPerson&gt; .
+&lt;http://www.oilit.com/2journal/2index/2peo/21.htm#itself&gt; &lt;http://xmlns.com/foaf/0.1/name&gt; "Finn Aamodt"@en .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Organization&gt; .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://www.oilit.com/vocab/basic#OilIndustryOrganization&gt; .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://xmlns.com/foaf/0.1/name&gt; "BP"@en .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Organization&gt; .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://www.oilit.com/vocab/basic#OilIndustryOrganization&gt; .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://xmlns.com/foaf/0.1/homepage&gt; &lt;http://www.bp.com/&gt; .
+&lt;http://www.oilit.com/2journal/2index/2com/2342.htm#itself&gt; &lt;http://xmlns.com/foaf/0.1/isPrimaryTopicOf&gt; &lt;http://www.bp.com/&gt; .
+&lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://xmlns.com/foaf/0.1/Person&gt; .
+&lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt; &lt;http://www.oilit.com/vocab/basic#OilIndustryPerson&gt; .
+&lt;http://www.bp.com/sectiongenericarticle.do?categoryId=9021976&amp;contentId=7038002&gt; &lt;http://xmlns.com/foaf/0.1/primaryTopic&gt; &lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; .
+&lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; &lt;http://xmlns.com/foaf/0.1/name&gt; "Tony Hayward"@en .
+&lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; &lt;http://xmlns.com/foaf/0.1/workplaceHomepage&gt; &lt;http://www.bp.com/&gt; .
+&lt;http://en.wikipedia.org/wiki/Tony_Hayward&gt; &lt;http://xmlns.com/foaf/0.1/primaryTopic&gt; &lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; .
+&lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; &lt;http://www.w3.org/2002/07/owl#sameAs&gt; &lt;http://dbpedia.org/resource/Tony_Hayward&gt; .
+</pre>
+</small>
+
+<p>
+And here is how to query to find out what other articles there might be on this person:
+</p>
+
+<pre>
+PREFIX target: &lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; .
+PREFIX dc: &lt;http://purl.org/dc/elements/1.1/&gt; .
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+SELECT DISTINCT ?what ?title WHERE {
+ ?article foaf:topic &lt;http://www.oilit.com/2journal/2index/2peo/21551.htm#itself&gt; . 
+ ?article foaf:topic ?topic2 . 
+ ?topic2 foaf:name ?what . 
+ ?article dc:title ?title . 
+} 
+</pre>
+
+<p>
+Of course we could also ask questions based on other properties, such as having a 'workplace' of BP. But to do this for real 
+would require a larger and more coherent aggregation of information than we have on hand right now.
+</p>
+
+
+</body>
+</html>

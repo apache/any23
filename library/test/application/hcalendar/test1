@@ -1,0 +1,2042 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link type="text/css" media="screen" rel="stylesheet" href="http://www.bath.ac.uk/system/modules/uk.ac.bath.template.common/resources/css/screen-common.css_13075160.css" />
+    <link href="http://www.bath.ac.uk/system/modules/uk.ac.bath.template.common/resources/css/print-common.css_271737387.css" rel="stylesheet" media="print" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="printcalendar.css" title="Default" media="print" />
+    <link rel="stylesheet" type="text/css" href="calendar.css" title="Default" media="screen" />
+    <link rel="stylesheet" media="screen" type="text/css" href="calendarspage.css" />
+    <title>Academic Year Chart 2008-2009</title>
+    <script src="http://www.bath.ac.uk/common/js/core-with-highlight.js" type="text/javascript">
+        </script>
+    <script src="http://www.bath.ac.uk/common/js/jquery.js" type="text/javascript">
+        </script>
+</head>
+<body>
+
+    <div id="accessibility">
+        <ul>
+            <li>
+                <a href="#accesscontent" accesskey="2">Skip to content</a>
+            </li>
+        </ul>
+    </div>
+
+<div id="header" class="internal">
+    <img id="header-img" src="http://www.bath.ac.uk/bucs/images/bucs1-82.jpg" alt="Header image" title="Header image" />
+    <a href="http://www.bath.ac.uk/">
+        <img src="http://www.bath.ac.uk/common/images/logos/uob-logo-140-blueonwhite.gif" alt="University of Bath" title="University of Bath" />
+    </a>
+    <h1>Academic Year charts &amp; Semester dates</h1>
+
+    <div>
+        <a name="top" id="top">&nbsp;</a> <strong>UoB</strong>:
+        <a href="http://www.bath.ac.uk/" title="University of Bath homepage" accesskey="1">home</a> |
+        <a href="http://www.bath.ac.uk/index/">a-z</a> |
+        <a href="http://www.bath.ac.uk/az-contacts/">contact</a> &nbsp;
+        <form action="http://search.bath.ac.uk/search" method="get" name="gs" id="gs"
+            onsubmit="return (this.q.value != '' &amp;&amp; this.q.value != 'search')">
+            <input maxlength="255" size="14" name="q" tabindex="1" id="gsinput" title="Search the University of Bath site" accesskey="3" onfocus="if (this.value == 'search') {this.value=''}" value="search" type="text" />
+            <input name="submit" type="image" id="gsgo" value="btnG" alt="go" src="http://www.bath.ac.uk/common/images/graphics/go-button.gif"/>
+            <input type="hidden" name="site" value='bucs'/>
+            <input type="hidden" name="output" value="xml_no_dtd" />
+            <input type="hidden" name="client" value="default_frontend" />
+            <input type="hidden" name="proxystylesheet" value="default_frontend" />
+        </form>
+    </div>
+</div>
+        
+<div id="topbar">
+    <div><ul>
+        <li>
+            <a name="accesscontent" id="accesscontent"></a>
+            <a href="http://www.bath.ac.uk/cgi-bin/parser.cgi">text view</a>
+        </li>
+        <li>
+            <a href="#" id="textnormal" name="textnormal">A</a>
+            <a href="#" id="textlarge" name="textlarge">A</a>
+            <a href="#" id="textlargest" name="textlargest">A</a>
+        </li>
+    </ul></div>
+</div>
+
+<div id="content">
+
+<h2><a href="ay-chart-2008-2009.ics">Academic Year Chart 2008-2009</a></h2>
+<div class="ayall">
+<table class="aycalendar">
+<thead>
+<tr>
+    <td class="datecolumn">Week Commencing</td>
+    <td>Mon</td>
+    <td>Tues</td>
+    <td>Wed</td>
+    <td>Thurs</td>
+    <td>Fri</td>
+    <td>Sat</td>
+    <td>Sun</td>
+    <td>Week Number</td>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td class="weekcommencing datecolumn">18 Aug 08</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080818</span>
+        <span class="dtend">20080819</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080819</span>
+        <span class="dtend">20080820</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080820</span>
+        <span class="dtend">20080821</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080821</span>
+        <span class="dtend">20080822</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080822</span>
+        <span class="dtend">20080823</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080823</span>
+        <span class="dtend">20080824</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080824</span>
+        <span class="dtend">20080825</span>
+    </td>
+    <td class="weeknumbercolumn">47</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">25 Aug 08</td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20080825</span>
+        <span class="dtend">20080826</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20080826</span>
+        <span class="dtend">20080827</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080827</span>
+        <span class="dtend">20080828</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080828</span>
+        <span class="dtend">20080829</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080829</span>
+        <span class="dtend">20080830</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080830</span>
+        <span class="dtend">20080831</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080831</span>
+        <span class="dtend">20080901</span>
+    </td>
+    <td class="weeknumbercolumn">48</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">01 Sep 08</td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080901</span>
+        <span class="dtend">20080902</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080902</span>
+        <span class="dtend">20080903</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080903</span>
+        <span class="dtend">20080904</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080904</span>
+        <span class="dtend">20080905</span>
+    </td>
+    <td class="vevent SA">
+        <abbr class="summary" title="Supplementary assessments">SA</abbr>
+        <span class="dtstart">20080905</span>
+        <span class="dtend">20080906</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080906</span>
+        <span class="dtend">20080907</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080907</span>
+        <span class="dtend">20080908</span>
+    </td>
+    <td class="weeknumbercolumn">49</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">08 Sep 08</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080908</span>
+        <span class="dtend">20080909</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080909</span>
+        <span class="dtend">20080910</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080910</span>
+        <span class="dtend">20080911</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080911</span>
+        <span class="dtend">20080912</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080912</span>
+        <span class="dtend">20080913</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080913</span>
+        <span class="dtend">20080914</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080914</span>
+        <span class="dtend">20080915</span>
+    </td>
+    <td class="weeknumbercolumn">50</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">15 Sep 08</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080915</span>
+        <span class="dtend">20080916</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080916</span>
+        <span class="dtend">20080917</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080917</span>
+        <span class="dtend">20080918</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080918</span>
+        <span class="dtend">20080919</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080919</span>
+        <span class="dtend">20080920</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20080920</span>
+        <span class="dtend">20080921</span>
+    </td>
+    <td class="vevent A">
+        <abbr class="summary" title="Arrival day">A</abbr>
+        <span class="dtstart">20080921</span>
+        <span class="dtend">20080922</span>
+    </td>
+    <td class="weeknumbercolumn">51</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">22 Sep 08</td>
+    <td class="vevent A">
+        <abbr class="summary" title="Arrival day">A</abbr>
+        <span class="dtstart">20080922</span>
+        <span class="dtend">20080923</span>
+    </td>
+    <td class="vevent I">
+        <abbr class="summary" title="Introductory days">I</abbr>
+        <span class="dtstart">20080923</span>
+        <span class="dtend">20080924</span>
+    </td>
+    <td class="vevent I">
+        <abbr class="summary" title="Introductory days">I</abbr>
+        <span class="dtstart">20080924</span>
+        <span class="dtend">20080925</span>
+    </td>
+    <td class="vevent I">
+        <abbr class="summary" title="Introductory days">I</abbr>
+        <span class="dtstart">20080925</span>
+        <span class="dtend">20080926</span>
+    </td>
+    <td class="vevent I">
+        <abbr class="summary" title="Introductory days">I</abbr>
+        <span class="dtstart">20080926</span>
+        <span class="dtend">20080927</span>
+    </td>
+    <td class="vevent I">
+        <abbr class="summary" title="Introductory days">I</abbr>
+        <span class="dtstart">20080927</span>
+        <span class="dtend">20080928</span>
+    </td>
+    <td class="vevent I">
+        <abbr class="summary" title="Introductory days">I</abbr>
+        <span class="dtstart">20080928</span>
+        <span class="dtend">20080929</span>
+    </td>
+    <td class="weeknumbercolumn">52</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">29 Sep 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20080929</span>
+        <span class="dtend">20080930</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20080930</span>
+        <span class="dtend">20081001</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081001</span>
+        <span class="dtend">20081002</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081002</span>
+        <span class="dtend">20081003</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081003</span>
+        <span class="dtend">20081004</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">1</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">06 Oct 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081006</span>
+        <span class="dtend">20081007</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081007</span>
+        <span class="dtend">20081008</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081008</span>
+        <span class="dtend">20081009</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081009</span>
+        <span class="dtend">20081010</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081010</span>
+        <span class="dtend">20081011</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">2</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">13 Oct 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081013</span>
+        <span class="dtend">20081014</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081014</span>
+        <span class="dtend">20081015</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081015</span>
+        <span class="dtend">20081016</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081016</span>
+        <span class="dtend">20081017</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081017</span>
+        <span class="dtend">20081018</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">3</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">20 Oct 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081020</span>
+        <span class="dtend">20081021</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081021</span>
+        <span class="dtend">20081022</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081022</span>
+        <span class="dtend">20081023</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081023</span>
+        <span class="dtend">20081024</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081024</span>
+        <span class="dtend">20081025</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">4</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">27 Oct 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081027</span>
+        <span class="dtend">20081028</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081028</span>
+        <span class="dtend">20081029</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081029</span>
+        <span class="dtend">20081030</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081030</span>
+        <span class="dtend">20081031</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081031</span>
+        <span class="dtend">20081101</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">5</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">03 Nov 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081103</span>
+        <span class="dtend">20081104</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081104</span>
+        <span class="dtend">20081105</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081105</span>
+        <span class="dtend">20081106</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081106</span>
+        <span class="dtend">20081107</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081107</span>
+        <span class="dtend">20081108</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">6</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">10 Nov 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081110</span>
+        <span class="dtend">20081111</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081111</span>
+        <span class="dtend">20081112</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081112</span>
+        <span class="dtend">20081113</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081113</span>
+        <span class="dtend">20081114</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081114</span>
+        <span class="dtend">20081115</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">7</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">17 Nov 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081117</span>
+        <span class="dtend">20081118</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081118</span>
+        <span class="dtend">20081119</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081119</span>
+        <span class="dtend">20081120</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081120</span>
+        <span class="dtend">20081121</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081121</span>
+        <span class="dtend">20081122</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">8</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">24 Nov 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081124</span>
+        <span class="dtend">20081125</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081125</span>
+        <span class="dtend">20081126</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081126</span>
+        <span class="dtend">20081127</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081127</span>
+        <span class="dtend">20081128</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081128</span>
+        <span class="dtend">20081129</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">9</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">01 Dec 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081201</span>
+        <span class="dtend">20081202</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081202</span>
+        <span class="dtend">20081203</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081203</span>
+        <span class="dtend">20081204</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081204</span>
+        <span class="dtend">20081205</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081205</span>
+        <span class="dtend">20081206</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">10</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">08 Dec 08</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081208</span>
+        <span class="dtend">20081209</span>
+    </td>
+    <td class="vevent T-AC">
+        <abbr class="summary" title="Teaching day and winter award ceremony">T-AC</abbr>
+        <span class="dtstart">20081209</span>
+        <span class="dtend">20081210</span>
+    </td>
+    <td class="vevent T-AC">
+        <abbr class="summary" title="Teaching day and winter award ceremony">T-AC</abbr>
+        <span class="dtstart">20081210</span>
+        <span class="dtend">20081211</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081211</span>
+        <span class="dtend">20081212</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20081212</span>
+        <span class="dtend">20081213</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">11</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">15 Dec 08</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081215</span>
+        <span class="dtend">20081216</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081216</span>
+        <span class="dtend">20081217</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081217</span>
+        <span class="dtend">20081218</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081218</span>
+        <span class="dtend">20081219</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081219</span>
+        <span class="dtend">20081220</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">12</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">22 Dec 08</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081222</span>
+        <span class="dtend">20081223</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081223</span>
+        <span class="dtend">20081224</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20081224</span>
+        <span class="dtend">20081225</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20081225</span>
+        <span class="dtend">20081226</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20081226</span>
+        <span class="dtend">20081227</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">13</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">29 Dec 08</td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20081229</span>
+        <span class="dtend">20081230</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20081230</span>
+        <span class="dtend">20081231</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20081231</span>
+        <span class="dtend">20090101</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20090101</span>
+        <span class="dtend">20090102</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090102</span>
+        <span class="dtend">20090103</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">14</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">05 Jan 09</td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090105</span>
+        <span class="dtend">20090106</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090106</span>
+        <span class="dtend">20090107</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090107</span>
+        <span class="dtend">20090108</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090108</span>
+        <span class="dtend">20090109</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090109</span>
+        <span class="dtend">20090110</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">15</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">12 Jan 09</td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090112</span>
+        <span class="dtend">20090113</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090113</span>
+        <span class="dtend">20090114</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090114</span>
+        <span class="dtend">20090115</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090115</span>
+        <span class="dtend">20090116</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090116</span>
+        <span class="dtend">20090117</span>
+    </td>
+    <td class="vevent (UA)">
+        <abbr class="summary" title="Unit assessment morning (if needed)">(UA)</abbr>
+        <span class="dtstart">20090117</span>
+        <span class="dtend">20090118</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">16</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">19 Jan 09</td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090119</span>
+        <span class="dtend">20090120</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090120</span>
+        <span class="dtend">20090121</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090121</span>
+        <span class="dtend">20090122</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090122</span>
+        <span class="dtend">20090123</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090123</span>
+        <span class="dtend">20090124</span>
+    </td>
+    <td class="vevent (UA)">
+        <abbr class="summary" title="Unit assessment morning (if needed)">(UA)</abbr>
+        <span class="dtstart">20090124</span>
+        <span class="dtend">20090125</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">17</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">26 Jan 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090126</span>
+        <span class="dtend">20090127</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090127</span>
+        <span class="dtend">20090128</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090128</span>
+        <span class="dtend">20090129</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090129</span>
+        <span class="dtend">20090130</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090130</span>
+        <span class="dtend">20090131</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">18</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">02 Feb 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090202</span>
+        <span class="dtend">20090203</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090203</span>
+        <span class="dtend">20090204</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090204</span>
+        <span class="dtend">20090205</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090205</span>
+        <span class="dtend">20090206</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090206</span>
+        <span class="dtend">20090207</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">19</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">09 Feb 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090209</span>
+        <span class="dtend">20090210</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090210</span>
+        <span class="dtend">20090211</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090211</span>
+        <span class="dtend">20090212</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090212</span>
+        <span class="dtend">20090213</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090213</span>
+        <span class="dtend">20090214</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">20</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">16 Feb 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090216</span>
+        <span class="dtend">20090217</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090217</span>
+        <span class="dtend">20090218</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090218</span>
+        <span class="dtend">20090219</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090219</span>
+        <span class="dtend">20090220</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090220</span>
+        <span class="dtend">20090221</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">21</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">23 Feb 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090223</span>
+        <span class="dtend">20090224</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090224</span>
+        <span class="dtend">20090225</span>
+    </td>
+    <td class="vevent T/RAG">
+        <abbr class="summary" title="Teaching and Rag day">T/RAG</abbr>
+        <span class="dtstart">20090225</span>
+        <span class="dtend">20090226</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090226</span>
+        <span class="dtend">20090227</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090227</span>
+        <span class="dtend">20090228</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">22</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">02 Mar 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090302</span>
+        <span class="dtend">20090303</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090303</span>
+        <span class="dtend">20090304</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090304</span>
+        <span class="dtend">20090305</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090305</span>
+        <span class="dtend">20090306</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090306</span>
+        <span class="dtend">20090307</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">23</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">09 Mar 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090309</span>
+        <span class="dtend">20090310</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090310</span>
+        <span class="dtend">20090311</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090311</span>
+        <span class="dtend">20090312</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090312</span>
+        <span class="dtend">20090313</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090313</span>
+        <span class="dtend">20090314</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">24</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">16 Mar 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090316</span>
+        <span class="dtend">20090317</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090317</span>
+        <span class="dtend">20090318</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090318</span>
+        <span class="dtend">20090319</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090319</span>
+        <span class="dtend">20090320</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090320</span>
+        <span class="dtend">20090321</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">25</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">23 Mar 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090323</span>
+        <span class="dtend">20090324</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090324</span>
+        <span class="dtend">20090325</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090325</span>
+        <span class="dtend">20090326</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090326</span>
+        <span class="dtend">20090327</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090327</span>
+        <span class="dtend">20090328</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">26</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">30 Mar 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090330</span>
+        <span class="dtend">20090331</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090331</span>
+        <span class="dtend">20090401</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090401</span>
+        <span class="dtend">20090402</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090402</span>
+        <span class="dtend">20090403</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090403</span>
+        <span class="dtend">20090404</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">27</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">06 Apr 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090406</span>
+        <span class="dtend">20090407</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090407</span>
+        <span class="dtend">20090408</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090408</span>
+        <span class="dtend">20090409</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090409</span>
+        <span class="dtend">20090410</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20090410</span>
+        <span class="dtend">20090411</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">28</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">13 Apr 09</td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20090413</span>
+        <span class="dtend">20090414</span>
+    </td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20090414</span>
+        <span class="dtend">20090415</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090415</span>
+        <span class="dtend">20090416</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090416</span>
+        <span class="dtend">20090417</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090417</span>
+        <span class="dtend">20090418</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">29</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">20 Apr 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090420</span>
+        <span class="dtend">20090421</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090421</span>
+        <span class="dtend">20090422</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090422</span>
+        <span class="dtend">20090423</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090423</span>
+        <span class="dtend">20090424</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090424</span>
+        <span class="dtend">20090425</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">30</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">27 Apr 09</td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090427</span>
+        <span class="dtend">20090428</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090428</span>
+        <span class="dtend">20090429</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090429</span>
+        <span class="dtend">20090430</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090430</span>
+        <span class="dtend">20090501</span>
+    </td>
+    <td class="vevent T">
+        <abbr class="summary" title="Teaching day">T</abbr>
+        <span class="dtstart">20090501</span>
+        <span class="dtend">20090502</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">31</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">04 May 09</td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20090504</span>
+        <span class="dtend">20090505</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090505</span>
+        <span class="dtend">20090506</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090506</span>
+        <span class="dtend">20090507</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090507</span>
+        <span class="dtend">20090508</span>
+    </td>
+    <td class="vevent R">
+        <abbr class="summary" title="Revision day">R</abbr>
+        <span class="dtstart">20090508</span>
+        <span class="dtend">20090509</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">32</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">11 May 09</td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090511</span>
+        <span class="dtend">20090512</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090512</span>
+        <span class="dtend">20090513</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090513</span>
+        <span class="dtend">20090514</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090514</span>
+        <span class="dtend">20090515</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090515</span>
+        <span class="dtend">20090516</span>
+    </td>
+    <td class="vevent (UA)">
+        <abbr class="summary" title="Unit assessment morning (if needed)">(UA)</abbr>
+        <span class="dtstart">20090516</span>
+        <span class="dtend">20090517</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">33</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">18 May 09</td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090518</span>
+        <span class="dtend">20090519</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090519</span>
+        <span class="dtend">20090520</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090520</span>
+        <span class="dtend">20090521</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090521</span>
+        <span class="dtend">20090522</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090522</span>
+        <span class="dtend">20090523</span>
+    </td>
+    <td class="vevent (UA)">
+        <abbr class="summary" title="Unit assessment morning (if needed)">(UA)</abbr>
+        <span class="dtstart">20090523</span>
+        <span class="dtend">20090524</span>
+    </td>
+    <td class="mildbackground">&nbsp;</td>
+    <td class="weeknumbercolumn">34</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">25 May 09</td>
+    <td class="vevent UH">
+        <abbr class="summary" title="University holiday">UH</abbr>
+        <span class="dtstart">20090525</span>
+        <span class="dtend">20090526</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090526</span>
+        <span class="dtend">20090527</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090527</span>
+        <span class="dtend">20090528</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090528</span>
+        <span class="dtend">20090529</span>
+    </td>
+    <td class="vevent UA">
+        <abbr class="summary" title="Unit assessment days">UA</abbr>
+        <span class="dtstart">20090529</span>
+        <span class="dtend">20090530</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090530</span>
+        <span class="dtend">20090531</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090531</span>
+        <span class="dtend">20090601</span>
+    </td>
+    <td class="weeknumbercolumn">35</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">01 Jun 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090601</span>
+        <span class="dtend">20090602</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090602</span>
+        <span class="dtend">20090603</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090603</span>
+        <span class="dtend">20090604</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090604</span>
+        <span class="dtend">20090605</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090605</span>
+        <span class="dtend">20090606</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090606</span>
+        <span class="dtend">20090607</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090607</span>
+        <span class="dtend">20090608</span>
+    </td>
+    <td class="weeknumbercolumn">36</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">08 Jun 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090608</span>
+        <span class="dtend">20090609</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090609</span>
+        <span class="dtend">20090610</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090610</span>
+        <span class="dtend">20090611</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090611</span>
+        <span class="dtend">20090612</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090612</span>
+        <span class="dtend">20090613</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090613</span>
+        <span class="dtend">20090614</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090614</span>
+        <span class="dtend">20090615</span>
+    </td>
+    <td class="weeknumbercolumn">37</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">15 Jun 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090615</span>
+        <span class="dtend">20090616</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090616</span>
+        <span class="dtend">20090617</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090617</span>
+        <span class="dtend">20090618</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090618</span>
+        <span class="dtend">20090619</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090619</span>
+        <span class="dtend">20090620</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090620</span>
+        <span class="dtend">20090621</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090621</span>
+        <span class="dtend">20090622</span>
+    </td>
+    <td class="weeknumbercolumn">38</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">22 Jun 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090622</span>
+        <span class="dtend">20090623</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090623</span>
+        <span class="dtend">20090624</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090624</span>
+        <span class="dtend">20090625</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090625</span>
+        <span class="dtend">20090626</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090626</span>
+        <span class="dtend">20090627</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090627</span>
+        <span class="dtend">20090628</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090628</span>
+        <span class="dtend">20090629</span>
+    </td>
+    <td class="weeknumbercolumn">39</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">29 Jun 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090629</span>
+        <span class="dtend">20090630</span>
+    </td>
+    <td class="vevent AC">
+        <abbr class="summary" title="Summer award ceremony">AC</abbr>
+        <span class="dtstart">20090630</span>
+        <span class="dtend">20090701</span>
+    </td>
+    <td class="vevent AC">
+        <abbr class="summary" title="Summer award ceremony">AC</abbr>
+        <span class="dtstart">20090701</span>
+        <span class="dtend">20090702</span>
+    </td>
+    <td class="vevent AC">
+        <abbr class="summary" title="Summer award ceremony">AC</abbr>
+        <span class="dtstart">20090702</span>
+        <span class="dtend">20090703</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090703</span>
+        <span class="dtend">20090704</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090704</span>
+        <span class="dtend">20090705</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090705</span>
+        <span class="dtend">20090706</span>
+    </td>
+    <td class="weeknumbercolumn">40</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">06 Jul 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090706</span>
+        <span class="dtend">20090707</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090707</span>
+        <span class="dtend">20090708</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090708</span>
+        <span class="dtend">20090709</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090709</span>
+        <span class="dtend">20090710</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090710</span>
+        <span class="dtend">20090711</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090711</span>
+        <span class="dtend">20090712</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090712</span>
+        <span class="dtend">20090713</span>
+    </td>
+    <td class="weeknumbercolumn">41</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">13 Jul 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090713</span>
+        <span class="dtend">20090714</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090714</span>
+        <span class="dtend">20090715</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090715</span>
+        <span class="dtend">20090716</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090716</span>
+        <span class="dtend">20090717</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090717</span>
+        <span class="dtend">20090718</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090718</span>
+        <span class="dtend">20090719</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090719</span>
+        <span class="dtend">20090720</span>
+    </td>
+    <td class="weeknumbercolumn">42</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">20 Jul 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090720</span>
+        <span class="dtend">20090721</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090721</span>
+        <span class="dtend">20090722</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090722</span>
+        <span class="dtend">20090723</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090723</span>
+        <span class="dtend">20090724</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090724</span>
+        <span class="dtend">20090725</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090725</span>
+        <span class="dtend">20090726</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090726</span>
+        <span class="dtend">20090727</span>
+    </td>
+    <td class="weeknumbercolumn">43</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">27 Jul 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090727</span>
+        <span class="dtend">20090728</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090728</span>
+        <span class="dtend">20090729</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090729</span>
+        <span class="dtend">20090730</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090730</span>
+        <span class="dtend">20090731</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090731</span>
+        <span class="dtend">20090801</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090801</span>
+        <span class="dtend">20090802</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090802</span>
+        <span class="dtend">20090803</span>
+    </td>
+    <td class="weeknumbercolumn">44</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">03 Aug 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090803</span>
+        <span class="dtend">20090804</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090804</span>
+        <span class="dtend">20090805</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090805</span>
+        <span class="dtend">20090806</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090806</span>
+        <span class="dtend">20090807</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090807</span>
+        <span class="dtend">20090808</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090808</span>
+        <span class="dtend">20090809</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090809</span>
+        <span class="dtend">20090810</span>
+    </td>
+    <td class="weeknumbercolumn">45</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">10 Aug 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090810</span>
+        <span class="dtend">20090811</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090811</span>
+        <span class="dtend">20090812</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090812</span>
+        <span class="dtend">20090813</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090813</span>
+        <span class="dtend">20090814</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090814</span>
+        <span class="dtend">20090815</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090815</span>
+        <span class="dtend">20090816</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090816</span>
+        <span class="dtend">20090817</span>
+    </td>
+    <td class="weeknumbercolumn">46</td>
+</tr>
+<tr>
+    <td class="weekcommencing datecolumn">17 Aug 09</td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090817</span>
+        <span class="dtend">20090818</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090818</span>
+        <span class="dtend">20090819</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090819</span>
+        <span class="dtend">20090820</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090820</span>
+        <span class="dtend">20090821</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090821</span>
+        <span class="dtend">20090822</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090822</span>
+        <span class="dtend">20090823</span>
+    </td>
+    <td class="vevent V">
+        <abbr class="summary" title="Vacation day (other than University holidays)">V</abbr>
+        <span class="dtstart">20090823</span>
+        <span class="dtend">20090824</span>
+    </td>
+    <td class="weeknumbercolumn">47</td>
+</tr>
+</tbody>
+</table>
+
+</div> 
+
+        
+<div class="allkey">
+<h2>Key</h2>
+<table class="keytable">
+  <tbody>
+    <tr> 
+        <td class="keycolumn T/RAG">T/RAG</td>
+        <td class="mildbackground valuecolumn">Teaching and Rag day</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn V">V</td>
+        <td class="mildbackground valuecolumn">Vacation day (other than University holidays)</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn UA">UA</td>
+        <td class="mildbackground valuecolumn">Unit assessment days</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn A">A</td>
+        <td class="mildbackground valuecolumn">Arrival day</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn ISB">ISB</td>
+        <td class="mildbackground valuecolumn">Inter-semester break</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn AC">AC</td>
+        <td class="mildbackground valuecolumn">Summer award ceremony</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn SA">SA</td>
+        <td class="mildbackground valuecolumn">Supplementary assessments</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn T-AC">T-AC</td>
+        <td class="mildbackground valuecolumn">Teaching day and winter award ceremony</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn R">R</td>
+        <td class="mildbackground valuecolumn">Revision day</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn R/(UA)">R/(UA)</td>
+        <td class="mildbackground valuecolumn">Revision day - used for unit assessments if necessary</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn UH">UH</td>
+        <td class="mildbackground valuecolumn">University holiday</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn T">T</td>
+        <td class="mildbackground valuecolumn">Teaching day</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn I">I</td>
+        <td class="mildbackground valuecolumn">Introductory days</td>
+    </tr>
+    <tr> 
+        <td class="keycolumn (UA)">(UA)</td>
+        <td class="mildbackground valuecolumn">Unit assessment morning (if needed)</td>
+    </tr>
+</tbody>
+</table>
+
+<p>If you are using an electronic calendar you can download this chart in <a href="http://en.wikipedia.org/wiki/ICalendar">iCalendar format</a>:
+</p>
+
+<ul>
+<li><a href="ay-chart-2008-2009.ics">Full chart</a></li>
+<li><a href="wn-ay-chart-2008-2009.ics">Full chart with university week numbers</a></li>
+<li><a href="staff-ay-chart-2008-2009.ics">Staff chart (without the teaching days and student vacation dates marked)</a></li>
+<li><a href="staff-wn-ay-chart-2008-2009.ics">Staff chart with university week numbers</a></li>
+</ul>
+
+<p>You can also <a href="ay-chart-2008-2009.pdf">download this chart in pdf</a>.</p>
+
+</div>
+      
+<div class="disclaimer">  
+<p>Bank holiday dates are shown in their normal, expected slots, but may not be definitive. Award ceremony dates are to be confirmed.</p>
+
+<p>University holiday dates are shown in their normal configurations around bank holidays, but may not be definitive.</p>
+</div>
+
+</div>
+
+<div id="leftcol">
+<p><a href="http://www.bath.ac.uk/catalogues/academic-year-charts/dates.htm">Academic Year Chart Summary</a></p>
+<dl>
+    <dt>Available Charts</dt>
+    <dd>
+    <ul>
+        <li><a href="ay-chart-2010-2011.html">2010/11</a></li>
+        <li><a href="ay-chart-2009-2010.html">2009/10</a></li>
+        <li><a href="ay-chart-2008-2009.html">2008/09</a></li>
+        <li><a href="ay-chart-2007-2008.html">2007/08</a></li>
+        <li>
+            <a href="images/ay-chart-2006-2007.pdf">2006/07
+                <img title="PDF format" alt="PDF only" src="http://www.bath.ac.uk/graphics/icons/acrobaticon-sm.gif"/>
+            </a>
+        </li>
+        <li>
+            <a href="images/ay-chart-2005-2006.pdf">2005/06
+                <img title="PDF format" alt="PDF only" src="http://www.bath.ac.uk/graphics/icons/acrobaticon-sm.gif"/>
+            </a>
+        </li>
+    </ul>
+    </dd>
+</dl>
+</div>
+
+<div id="footer" class="vcard">
+        <span class="fn org">Student Records &amp; Examinations Office</span>,
+    <span class="adr">
+        <span class="street-address">University of Bath</span>,
+        <span class="locality">Bath</span>,
+        <span class="postal-code">BA2 7AY</span>
+        <span class="country-name">UK</span>
+    </span>
+    <div class="telephonenumbers">
+        <span class="tel">
+            <span class="type">work</span>
+            Tel: <abbr class="value" title="+44 1225 383473">+44 (0) 1225 383473</abbr>
+        </span>
+        <span class="tel">
+            <span class="type">fax</span>
+            Fax: <abbr class="value" title="+44 1225 386366">+44 (0) 1225 386366</abbr>
+        </span>
+    </div>
+    <a href="mailto:sreo@bath.ac.uk" class="email">sreo@bath.ac.uk</a>
+</div>
+
+<script type="text/javascript">// <![CDATA[
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E")); // ]]>
+</script>
+<script type="text/javascript">// <![CDATA[
+var pageTracker = _gat._getTracker("UA-2980866-1");
+pageTracker._initData();
+pageTracker._trackPageview(); // ]]>
+</script>
+
+</body>
+</html>     

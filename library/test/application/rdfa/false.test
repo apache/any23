@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+
+
+  
+  
+  <link rel="stylesheet" media="screen" href="css/style1.css">
+
+
+
+  
+  
+  <link rel="stylesheet" media="print, embossed" href="css/print.css">
+
+
+
+  
+  
+  <link rel="meta" type="application/rdf+xml" title="FOAF" href="foaf.rdf">
+
+
+  
+  
+  <title>.: Umbrich, J&uuml;rgen :. Personal Web page</title>
+</head>
+
+
+<body>
+
+
+
+<div id="header">
+<h1><a class="header" href="index.html">.:
+J&uuml;rgen Umbrich :.&nbsp;</a></h1>
+
+
+
+</div>
+
+
+
+<div id="navcontainer">
+<ul id="navlist">
+
+
+
+  <li id="active"><a href="index.html" id="current">home</a></li>
+
+
+
+  <li><a href="cv.html">cv</a></li>
+
+
+
+  <li><a href="publications.html">publications</a></li>
+
+
+
+  <li><a href="research.html">research</a></li>
+
+
+
+  <li><a href="contact.html">contact</a></li>
+
+
+
+  <li><a href="links.html">links</a></li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+<div id="contentBorder">
+<div id="content">
+<h2>.:Welcome:.</h2>
+
+
+
+<img alt="testimg" src="img/picture1.jpg"><br>
+
+
+
+<br>
+
+
+
+<br>
+
+
+
+Hi i am J&uuml;rgen Umbrich! Welcome
+on my homepage.<br>
+
+
+
+I am a 25 year old student at the <a href="http://www.uni-karlsruhe.de/">University of Karlsruhe
+(TH)</a>. <br>
+
+
+
+At the moment i am doing my M.Sc in
+business engeniering and i will finish&nbsp;in the beginning of
+2008. <br>
+
+
+
+<br>
+
+
+
+On my homepage you can find information about <a href="cv.html">myself</a>,
+my <a href="research.html">research</a> interest,
+the list of my <a href="publications.html">publications</a>
+and how you can <a href="contact.html">contact</a>
+me.<br>
+
+
+
+<br>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<div id="navcontainerF">
+<ul id="navlistF">
+
+
+
+  <li><a href="sitemap.html">sitemap</a></li>
+
+
+
+  <li><a href="impressum.html">impressum</a></li>
+
+
+
+  <li><a href="umbrich.rdf">RDF</a></li>
+
+
+
+</ul>
+
+
+
+</div>
+
+
+
+<div id="footer">
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+
+<html>
+<head>
+</head>
+<body>
+
+@$@<Dilbert@>@Z@M@{@-
+<A HREF="http://www.dilbert.com/">Dilbert</A>@}
+@$@<Yahoo@>@Z@M@{@-
+<A HREF="http://www.yahoo.com/">Yahoo</A>@}
+
+@O@<links.html@>@{
+@<Begin page@>@(Dave's Links@)
+
+<P>Check out @<Dilbert@> and @<Yahoo@>!
+
+@<End page@>
+@}
+
+<IMG SRC="bin/tick_red_12.gif"
+WIDTH="12" HEIGHT="12"
+HSPACE=4 VSPACE=0
+ALT="*" BORDER="0">
+
+@$@<Tick@>@M@{
+<IMG SRC="bin/tick_red_12.gif"
+WIDTH="12" HEIGHT="12"
+HSPACE=4 VSPACE=0
+ALT="*" BORDER="0">@}
+
+@<Tick@>Low cost.<BR>
+@<Tick@>Easy installation.<BR>
+@<Tick@>Available now!<BR>
+
+
+<SELECT NAME="Country">
+<OPTION>United States
+<OPTION>Afghanistan
+<OPTION>Albania
+...
+<OPTION>Zambia
+<OPTION>Zimbabwe
+</SELECT>
+
+
+@$@<Country form field@>@M@(
+<SELECT NAME="Country">
+<OPTION>United States
+<OPTION>Afghanistan
+<OPTION>Albania
+...
+<OPTION>Zambia
+<OPTION>Zimbabwe
+</SELECT>
+
+@<Country form field@>
+
+<TABLE WIDTH="100%">
+<TR>
+<TD ALIGN="left"   VALIGN="bottom"><
+ A HREF="links.html"><IMG SRC="bin/left.gif"></A></TD>
+<TD ALIGN="center" VALIGN="bottom"><
+ A HREF="home.html"><IMG SRC="bin/up.gif"></A></TD>
+<TD ALIGN="right"  VALIGN="bottom"><
+ A HREF="hobbies.html"><
+ IMG SRC="bin/right.gif"></A></TD>
+</TR>
+</TABLE>
+@$@<Nav@>@(@3@)@Z@M@{
+@<P@>
+<TABLE WIDTH="100%">
+<TR>
+<TD ALIGN="left"   VALIGN="bottom"><
+ A HREF="@1"><IMG SRC="bin/left.gif"></A></TD>
+<TD ALIGN="center" VALIGN="bottom"><
+ A HREF="@2"><IMG SRC="bin/up.gif"></A></TD>
+<TD ALIGN="right"  VALIGN="bottom"><
+ A HREF="@3"><IMG SRC="bin/right.gif"></A></TD>
+</TR>
+</TABLE>
+@}
+
+@<Nav@>@(links.html@,home.html@,hobbies.html@)
+</body>
+</html>

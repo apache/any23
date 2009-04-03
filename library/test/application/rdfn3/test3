@@ -1,0 +1,131 @@
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/name> "J\u00FCrgen Umbrich" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/gender> "Male" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/title> "Mr" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/givenname> "J\u00FCrgen" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/family_name> "Umbrich" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/nick> "juum" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/mbox> <mailto:juergen.umbrich@deri.org> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/mbox> <mailto:juergen@umbrich.net> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "ddc2d80f203552a7801f6c9aa2b0c482dcc021ab" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/homepage> <http://www.umbrich.net/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/depiction> <http://www.umbrich.net/images/JuergenUmbrich.gif> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.deri.org/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.deri.ie/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/phone> <tel:+353-91-512-5017> .
+<callto://JuergenUmbrich> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://skype.com/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/phone> <callto://JuergenUmbrich> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/J%EF%BF%BDrgen_Umbrich#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2002/07/owl#sameAs> <http://umbrich.net/foaf.rdf#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2002/07/owl#sameAs> <http://www.umbrich.net/foaf.rdf#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/person/juergen-umbrich> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2002/07/owl#sameAs> <http://iswc2006.semanticweb.org/submissions/Harth2006dq_Umbrich_Juergen> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/conference/iswc/2006/person-062> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://www.w3.org/2000/01/rdf-schema#comment> "J\u00FCrgen Umbrich is a Ph.D. student with the Digital Enterprise Research Institute (DERI) at the National University of Ireland, Galway since October 2008." .
+_:genid1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2003/01/geo/wgs84_pos#Point> .
+_:genid1 <http://www.w3.org/2000/01/rdf-schema#label> "Galway, Ireland, City Centre" .
+_:genid1 <http://www.w3.org/2003/01/geo/wgs84_pos#long> "-9.048679" .
+_:genid1 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "53.272226" .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/based_near> _:genid1 .
+<http://harth.org/andreas/foaf#ah> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/name> "Andreas Harth" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "977bed7c4eb54971c2161e4eb2373b95ec3318f0" .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/homepage> <http://sw.deri.org/~aharth/> .
+<http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/depiction> <http://sw.deri.org/~aharth/harth_thumb.jpg> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://harth.org/andreas/foaf#ah> .
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Anna V. Zhdanova" .
+<http://userver.ftw.at/~zhdanova/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://userver.ftw.at/~zhdanova/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://userver.ftw.at/~zhdanova/foaf.rdf#me> .
+_:genid2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid2 <http://xmlns.com/foaf/0.1/name> "Reto Krummenacher" .
+_:genid2 <http://xmlns.com/foaf/0.1/homepage> <http://members.deri.at/~retok/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> _:genid2 .
+<http://dunken69.myopenid.com/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://dunken69.myopenid.com/> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://kantenwerk.org/metadata/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://dunken69.myopenid.com/> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://xmlns.com/foaf/0.1/name> "Stefan Decker" .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:stefan.decker@deri.org> .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "1bc1f862b688a45b7e0c8d4a8467c23177c53fad" .
+<http://www.deri.ie/about/team/member/Stefan_Decker#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.isi.edu/~stefan/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Stefan_Decker#me> .
+<http://www.polleres.net/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.polleres.net/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Axel Polleres" .
+<http://www.polleres.net/foaf.rdf#me> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "202c47af80aabdb5ce92a6310ea5cfd34f8d0777" .
+<http://www.polleres.net/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://www.polleres.net/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.polleres.net/foaf.rdf#me> .
+<http://www.johnbreslin.com/foaf/foaf.rdf#cloud> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.johnbreslin.com/foaf/foaf.rdf#cloud> <http://xmlns.com/foaf/0.1/name> "John Breslin" .
+<http://www.johnbreslin.com/foaf/foaf.rdf#cloud> <http://xmlns.com/foaf/0.1/homepage> <http://johnbreslin.com/> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.johnbreslin.com/foaf/foaf.rdf#cloud> .
+_:genid3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid3 <http://xmlns.com/foaf/0.1/name> "Dieter Fensel" .
+_:genid3 <http://xmlns.com/foaf/0.1/homepage> <http://www.fensel.com/> .
+_:genid3 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "11a0c71f60f13dc0b9338f880355c71fa01854b4" .
+_:genid3 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "905ec4546ce5af69631b81be9bb27eb6c4303d2d" .
+_:genid3 <http://xmlns.com/foaf/0.1/mbox> <mailto:dieter.fensel@deri.org> .
+_:genid3 <http://xmlns.com/foaf/0.1/depiction> <http://www.cs.vu.nl/~frankh/figs/dfe.jpg> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> _:genid3 .
+<http://hometown.aol.com/chbussler/foaf/chbussler.foaf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://hometown.aol.com/chbussler/foaf/chbussler.foaf#me> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://xmlns.com/foaf/0.1/name> "Renaud Delbru" .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://xmlns.com/foaf/0.1/homepage> <http://renaud.delbru.fr/> .
+<http://renaud.delbru.fr/rdf/foaf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://renaud.delbru.fr/rdf/foaf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://renaud.delbru.fr/rdf/foaf#me> .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://xmlns.com/foaf/0.1/name> "Aidan Hogan" .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://xmlns.com/foaf/0.1/mbox_sha1sum> "d2163e057507f828085f322cc77dc43b4105a158" .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~aidanh/foaf/foaf.rdf> .
+<http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Aidan_Hogan#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~aidanh/foaf/foaf.rdf#Aidan_Hogan> .
+_:genid4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid4 <http://xmlns.com/foaf/0.1/name> "Brahmananda Sapkota" .
+_:genid4 <http://xmlns.com/foaf/0.1/mbox> <mailto:bnsapkota@gmail.com> .
+_:genid4 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~bnsapkota/foaf.rdf> .
+_:genid4 <http://xmlns.com/foaf/0.1/depiction> <http://sw.deri.org/~bnsapkota/np/pictures/DSC00108.JPG> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> _:genid4 .
+_:genid5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid5 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "712b83520bf846cdeb5b8158d541108b12a01447" .
+_:genid5 <http://xmlns.com/foaf/0.1/mbox_sha1sum> "d21dd8e89548cf79fa8bb462561711fc09540856" .
+_:genid5 <http://xmlns.com/foaf/0.1/mbox> <mailto:ina.omurchu@deri.org> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> _:genid5 .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://xmlns.com/foaf/0.1/name> "Eyal Oren" .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://xmlns.com/foaf/0.1/mbox> <mailto:eyal.oren@deri.org> .
+<http://m3pe.org/~eyal/foaf.rdf#me> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~eyal/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://m3pe.org/~eyal/foaf.rdf#me> .
+<http://www.blogweb.co.kr/haklae.rdf#me> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://www.blogweb.co.kr/haklae.rdf#me> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Hak Lae_Kim#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.blogweb.co.kr/haklae.rdf#me> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://xmlns.com/foaf/0.1/name> "Armin Haller" .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://xmlns.com/foaf/0.1/mbox> <mailto:armin.haller@deri.org> .
+<http://sw.deri.org/~haller/foaf.rdf#ah> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~haller/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~haller/foaf.rdf#ah> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Alexander_Schutz#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Benjamin_Heitmann#me> .
+<http://sw.deri.org/~knud> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://sw.deri.org/~knud> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~knud/knudfoaf.rdf> .
+<http://sw.deri.org/~knud> <http://www.w3.org/2002/07/owl#sameAs> <http://www.deri.ie/about/team/member/Knud_M\u00F6ller#me> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://sw.deri.org/~knud> .
+_:genid6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid6 <http://xmlns.com/foaf/0.1/name> "Sheila Kinsella" .
+_:genid6 <http://xmlns.com/foaf/0.1/mbox> <mailto:sheila.kinsella@deri.org> .
+_:genid6 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sw.deri.org/~sheila/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> _:genid6 .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://www.gearoid.org/foaf.rdf#me> .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://xmlns.com/foaf/0.1/name> "Fergal Monaghan" .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://xmlns.com/foaf/0.1/mbox> <mailto:fergal.monaghan@deri.org> .
+<http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://compsoc.nuigalway.ie/~fuzz/foaf.rdf> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://compsoc.nuigalway.ie/~fuzz/foaf.rdf#Fergal_Monaghan> .
+_:genid7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+_:genid7 <http://xmlns.com/foaf/0.1/name> "Edward Kilgarriff" .
+_:genid7 <http://xmlns.com/foaf/0.1/mbox> <mailto:edward.kilgarriff@deri.org> .
+_:genid7 <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://sws.deri.ie/members/edward/foaf.rdf> .
+_:genid7 <http://xmlns.com/foaf/0.1/depiction> <http://photos1.blogger.com/img/9/2591/640/Image026.jpg> .
+_:genid7 <http://xmlns.com/foaf/0.1/depiction> <http://sws.deri.ie/members/edward/images/DSCF0078.JPG> .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> _:genid7 .
+<file:///home/juergen/code/java/cotypre/files/rdfn3/../rdfxml/test3#J\u00FCrgen_Umbrich> <http://xmlns.com/foaf/0.1/knows> <http://captsolo.net/semweb/foaf-captsolo.rdf#Uldis_Bojars> .
