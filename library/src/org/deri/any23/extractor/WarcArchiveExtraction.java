@@ -1,6 +1,8 @@
 package org.deri.any23.extractor;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -59,31 +61,38 @@ public class WarcArchiveExtraction {
 
 	public void run() {
 		WARCReader wr;
-		boolean success = false;
+//		try {
 		try {
 			wr = WARCReaderFactory.get(documentURI.toURL());
 			ArchiveRecordHeader header;
 			ArchiveRecord rec =null;
 			final Iterator<ArchiveRecord> iter = wr.iterator();
 			while(iter.hasNext()) {
-				 rec = iter.next();
-				 header = rec.getHeader();
-				//we need only the repsonse warc entry
-				if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
-					try {
-						final String baseuri = URLDecoder.decode(header.getUrl(), "utf-8");
+				try {
+					rec = iter.next();
+					header = rec.getHeader();
+					//we need only the repsonse warc entry
+					if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
+						String baseuri = URLDecoder.decode(header.getUrl(), "utf-8");
 						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), baseuri, extractors, output);
 						ex.setMIMETypeDetector(detector);
 						ex.setStreamCache(cache);
-						ex.run();
-						success = (success & ex.hasMatchingExtractors());		
-					}catch(final Exception ex) {
-						logger.log(Level.WARNING,"doc:"+documentURI+" headerURI: "+rec.getHeader().getUrl(),ex);
+						ex.run();	
 					}
+				} catch (UnsupportedEncodingException e1) {
+					logger.log(Level.WARNING,"doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), e1);
+				} catch (ExtractionException e) {
+					logger.log(Level.WARNING,"doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), e);
+				} catch (IOException e) {
+					logger.log(Level.WARNING,"doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), e);
+				} catch(RuntimeException ru){
+					logger.log(Level.WARNING,"doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), ru);
 				}
 			}
-		} catch (final IOException e) {
-			logger.log(Level.WARNING,"doc:"+documentURI,e);
+		} catch (MalformedURLException e2) {
+			logger.log(Level.WARNING,"doc:"+documentURI, e2);
+		} catch (IOException e2) {
+			logger.log(Level.WARNING,"doc:",e2);
 		}
 	}
 }
