@@ -12,6 +12,7 @@ public class DCTERMS {
 	// Properties
 	public static final URI license = createURI("license");
 	public static final URI title = createURI("title");
+	public static final URI creator = createURI("creator");
 	public static final URI related = createURI("related");
 	public static final URI date = createURI("date");
 	

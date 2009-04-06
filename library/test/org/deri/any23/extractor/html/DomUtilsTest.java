@@ -1,4 +1,4 @@
-package com.google.code.any23.extractors;
+package org.deri.any23.extractor.html;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -15,9 +15,8 @@ public class DomUtilsTest extends TestCase {
 
 	private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
 
-	
 	private void check(String file, String xpath, String reverseXPath) {
-		Node dom = new HTMLFixture(file, true).getDOM();
+		Node dom = new HTMLFixture(file).getDOM();
 		assertNotNull(dom);
 		Node node;
 		try {

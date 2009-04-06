@@ -1,7 +1,8 @@
-package com.google.code.any23.extractors;
+package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.html.HTMLDocument;
 import org.junit.Test;
+
 
 
 import junit.framework.TestCase;
@@ -34,6 +35,6 @@ public class EncodingTest extends TestCase {
 	}
 
 	private HTMLDocument parseHTML(String filename) {
-		return new HTMLFixture(filename, true).getHTMLDocument();
+		return new HTMLFixture(filename).getHTMLDocument();
 	}
 }

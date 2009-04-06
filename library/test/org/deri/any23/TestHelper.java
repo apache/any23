@@ -1,6 +1,7 @@
 package org.deri.any23;
 
 import org.deri.any23.rdf.PopularPrefixes;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
@@ -12,6 +13,10 @@ public class TestHelper {
 
 	public static URI uri(String uri) {
 		return ValueFactoryImpl.getInstance().createURI(uri);
+	}
+	
+	public static Literal literal(String s) {
+		return ValueFactoryImpl.getInstance().createLiteral(s);
 	}
 	
 	public static Statement triple(Resource s, URI p, Value o) {
