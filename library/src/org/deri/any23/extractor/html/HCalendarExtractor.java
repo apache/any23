@@ -43,7 +43,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 	}
 
 	private boolean extractCalendar(Node node) throws ExtractionException {
-		URI cal = valueFactory.createURI(out.getDocumentURI());
+		URI cal = out.getDocumentURI();
 		out.writeTriple(cal, RDF.TYPE, ICAL.Vcalendar, context);
 		return addComponents(node, cal);
 	}

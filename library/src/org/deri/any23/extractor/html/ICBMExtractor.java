@@ -48,7 +48,7 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
 		ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
 		BNode point = factory.createBNode();
-		out.writeTriple(factory.createURI(out.getDocumentURI()), expand("dcterms:related"), point, context);
+		out.writeTriple(out.getDocumentURI(), expand("dcterms:related"), point, context);
 		out.writeTriple(point, expand("rdf:type"), expand("geo:Point"), context);
 		out.writeTriple(point, expand("geo:lat"), factory.createLiteral(Float.toString(lat)), context);
 		out.writeTriple(point, expand("geo:long"), factory.createLiteral(Float.toString(lon)), context);

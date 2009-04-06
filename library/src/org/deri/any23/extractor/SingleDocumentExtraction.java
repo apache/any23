@@ -2,20 +2,21 @@
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.Collections;
 
-import org.apache.commons.httpclient.util.URIUtil;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.stream.InputStreamCache;
 import org.deri.any23.stream.InputStreamCacheMem;
 import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.writer.TripleHandler;
+import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -45,7 +46,7 @@ public class SingleDocumentExtraction {
 		this.in = in;
 		log.info("Parsing " + documentURI);
 		try {
-			this.documentURI = new URI(URIUtil.encodeQuery(documentURI));
+			this.documentURI = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()).createURI(documentURI);
 		} catch (Exception ex) {
 			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
 		} 
@@ -87,12 +88,12 @@ public class SingleDocumentExtraction {
 			return;
 		}
 		detectedMIMEType = detector.guessMIMEType(
-				documentURI.getPath(), getInputStream(), null);
+				java.net.URI.create(documentURI.stringValue()).getPath(), getInputStream(), null);
 		matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
 	}
 	
 	private void runExtractor(Extractor<?> extractor) throws ExtractionException, IOException {
-		ExtractionResultImpl result = new ExtractionResultImpl(documentURI.toString(), output);
+		ExtractionResultImpl result = new ExtractionResultImpl(documentURI, output);
 		try {
 			if (extractor instanceof BlindExtractor) {
 				((BlindExtractor) extractor).run(documentURI, result);

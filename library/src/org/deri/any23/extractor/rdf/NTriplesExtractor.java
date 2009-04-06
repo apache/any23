@@ -24,7 +24,7 @@ public class NTriplesExtractor implements ContentExtractor {
 			final ExtractionContext context = out.getDocumentContext(this);
 			RDFParser parser = new NTriplesParser();
 			parser.setRDFHandler(new RDFHandlerAdapter(out, context));
-			parser.parse(in, out.getDocumentURI());
+			parser.parse(in, out.getDocumentURI().stringValue());
 		} catch (RDFHandlerException ex) {
 			throw new RuntimeException(ex);	// should not happen
 		} catch (RDFParseException ex) {

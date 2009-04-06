@@ -1,7 +1,6 @@
 package org.deri.any23.extractor.example;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Collections;
 
 import org.deri.any23.extractor.ExtractionContext;
@@ -12,7 +11,7 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.rdf.PopularPrefixes;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.URI;
 
 public class ExampleExtractor implements BlindExtractor {
 
@@ -20,7 +19,7 @@ public class ExampleExtractor implements BlindExtractor {
 			throws IOException, ExtractionException {
 		ExtractionContext context = out.getDocumentContext(this);
 		out.writeTriple(
-				ValueFactoryImpl.getInstance().createURI(out.getDocumentURI()),
+				out.getDocumentURI(),
 				context.getPrefixes().expand("rdf:type"), context.getPrefixes().expand("foaf:Document"), 
 				out.getDocumentContext(this));
 	}

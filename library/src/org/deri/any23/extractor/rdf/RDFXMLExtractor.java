@@ -27,7 +27,7 @@ public class RDFXMLExtractor implements ContentExtractor {
 			RDFParser parser = new RDFXMLParser();
 			parser.setValueFactory(new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()));
 			parser.setRDFHandler(new RDFHandlerAdapter(out, context));
-			parser.parse(in, out.getDocumentURI());
+			parser.parse(in, out.getDocumentURI().stringValue());
 		} catch (RDFHandlerException ex) {
 			throw new RuntimeException(ex);	// should not happen
 		} catch (RDFParseException ex) {

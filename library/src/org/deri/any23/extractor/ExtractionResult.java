@@ -9,8 +9,7 @@ import org.openrdf.model.Value;
 // passed to extractors
 public interface ExtractionResult {
 	
-	// TODO return URI instead of String
-	String getDocumentURI();
+	URI getDocumentURI();
 	
 	// typically invoked by extractor with "this"
 	ExtractionContext getDocumentContext(Extractor<?> self);

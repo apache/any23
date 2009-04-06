@@ -47,7 +47,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 		}
 		if (!foundAnyXFN) return;
 		writeTriple(subject, RDF.TYPE, FOAF.Person);
-		writeTriple(subject, XFN.mePage, vf.createURI(out.getDocumentURI()));
+		writeTriple(subject, XFN.mePage, out.getDocumentURI());
 	}
 
 	private void writeTriple(Resource s, URI p, Value o) {
@@ -69,7 +69,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 			BNode person2 = vf.createBNode();
 			boolean foundAnyXFNRel = false;
 			for (String aRel : rels) {
-				foundAnyXFNRel |= extractRel(aRel, subject, vf.createURI(out.getDocumentURI()), person2, link);
+				foundAnyXFNRel |= extractRel(aRel, subject, out.getDocumentURI(), person2, link);
 			}
 			if (!foundAnyXFNRel) {
 				return false;

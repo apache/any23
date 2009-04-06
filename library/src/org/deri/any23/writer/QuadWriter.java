@@ -5,7 +5,6 @@ import org.deri.any23.vocab.ANY23;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDFS;
 
@@ -27,22 +26,20 @@ public class QuadWriter implements TripleHandler {
 
 	private final QuadHandler quadHandler;
 	private final URI metaGraph;
-	private final ValueFactory factory = ValueFactoryImpl.getInstance();
 	
 	public QuadWriter(QuadHandler quadHandler) {
 		this(quadHandler, null);
 	}
 	
-	public QuadWriter(QuadHandler quadHandler, String metadataGraphURI) {
+	public QuadWriter(QuadHandler quadHandler, URI metadataGraphURI) {
 		this.quadHandler = quadHandler;
-		this.metaGraph = (metadataGraphURI == null) 
-				? null : factory.createURI(metadataGraphURI);
+		this.metaGraph = (metadataGraphURI == null) ? null : metadataGraphURI;
 	}
 	
 	public void openContext(ExtractionContext context) {
 		if (metaGraph == null) return;
 		quadHandler.writeQuad(
-				factory.createURI(context.getDocumentURI()), 
+				context.getDocumentURI(), 
 				ANY23.EXTRACTOR, 
 				ANY23.getExtractorResource(context.getExtractorName()), 
 				metaGraph);
@@ -53,16 +50,15 @@ public class QuadWriter implements TripleHandler {
 	}
 
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		quadHandler.writeQuad(s, p, o, 
-				ValueFactoryImpl.getInstance().createURI(context.getDocumentURI()));
+		quadHandler.writeQuad(s, p, o, context.getDocumentURI());
 	}
 	
 	public void receiveLabel(String label, ExtractionContext context) {
 		if (metaGraph == null || !context.isDocumentContext()) return;
 		quadHandler.writeQuad(
-				factory.createURI(context.getDocumentURI()), 
+				context.getDocumentURI(), 
 				RDFS.LABEL, 
-				factory.createLiteral(label), 
+				ValueFactoryImpl.getInstance().createLiteral(label), 
 				metaGraph);
 	}
 

@@ -37,7 +37,7 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
 			URI href = html.resolveURI(DomUtils.find(node, "@href"));
 			String rel = DomUtils.find(node, "@rel");
 			out.writeTriple(
-					factory.createURI(out.getDocumentURI()), 
+					out.getDocumentURI(), 
 					factory.createURI(XHTML.NS + rel), 
 					href, 
 					context);

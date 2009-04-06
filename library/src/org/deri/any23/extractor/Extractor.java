@@ -2,8 +2,8 @@ package org.deri.any23.extractor;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 
+import org.openrdf.model.URI;
 import org.w3c.dom.Document;
 
 public interface Extractor<Input> {

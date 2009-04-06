@@ -31,7 +31,7 @@ import org.openrdf.model.Value;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ExtractionResultImpl implements ExtractionResult {
-	private final String documentURI;
+	private final URI documentURI;
 	private final TripleHandler tripleHandler;
 	private final Collection<ExtractionContext> openLocalContexts = 
 			new LinkedList<ExtractionContext>();
@@ -39,12 +39,12 @@ public class ExtractionResultImpl implements ExtractionResult {
 	
 	private ExtractionContext documentContext = null;	// lazy initialization
 	
-	public ExtractionResultImpl(String documentURI, TripleHandler tripleHandler) {
+	public ExtractionResultImpl(URI documentURI, TripleHandler tripleHandler) {
 		this.documentURI = documentURI;
 		this.tripleHandler = tripleHandler;
 	}
 	
-	public String getDocumentURI() {
+	public URI getDocumentURI() {
 		return documentURI;
 	}
 	

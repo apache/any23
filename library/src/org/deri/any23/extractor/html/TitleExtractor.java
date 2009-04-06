@@ -30,7 +30,7 @@ public class TitleExtractor implements TagSoupDOMExtractor {
 		String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
 		if (title != null && !"".equals(title)) {
 			out.writeTriple(
-					valueFactory.createURI(out.getDocumentURI()), 
+					out.getDocumentURI(), 
 					DCTERMS.title, 
 					valueFactory.createLiteral(title), 
 					out.getDocumentContext(this));

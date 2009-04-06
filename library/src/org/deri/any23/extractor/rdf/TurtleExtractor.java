@@ -24,7 +24,7 @@ public class TurtleExtractor implements ContentExtractor {
 			final ExtractionContext context = out.getDocumentContext(this);
 			RDFParser parser = new TurtleParser();
 			parser.setRDFHandler(new RDFHandlerAdapter(out, context));
-			parser.parse(in, out.getDocumentURI());
+			parser.parse(in, out.getDocumentURI().stringValue());
 		} catch (RDFHandlerException ex) {
 			throw new RuntimeException(ex);	// should not happen
 		} catch (RDFParseException ex) {

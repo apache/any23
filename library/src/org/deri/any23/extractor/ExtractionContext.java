@@ -7,17 +7,17 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 // TODO: equals() ignores the prefixes, probably should remove it
 public class ExtractionContext implements ExtractorDescription {	
 	private final ExtractorDescription extractor;
-	private final String documentURI;
+	private final URI documentURI;
 	private final String localID;
 	private final String uniqueID;
 	private final URI uniqueID2;
 	private final Prefixes prefixes;
 	
-	public ExtractionContext(ExtractorDescription extractor, String documentURI, Prefixes contextPrefixes) {
+	public ExtractionContext(ExtractorDescription extractor, URI documentURI, Prefixes contextPrefixes) {
 		this(extractor, documentURI, contextPrefixes, null);
 	}
 	
-	public ExtractionContext(ExtractorDescription extractor, String documentURI, Prefixes contextPrefixes, String localID) {
+	public ExtractionContext(ExtractorDescription extractor, URI documentURI, Prefixes contextPrefixes, String localID) {
 		this.extractor = extractor;
 		this.documentURI = documentURI;
 		this.localID = localID;
@@ -40,7 +40,7 @@ public class ExtractionContext implements ExtractorDescription {
 		return prefixes;
 	}
 	
-	public String getDocumentURI() {
+	public URI getDocumentURI() {
 		return documentURI;
 	}
 	
