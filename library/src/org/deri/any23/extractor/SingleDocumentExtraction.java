@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.Collections;
 
+import org.apache.commons.httpclient.util.URIUtil;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
@@ -43,7 +44,7 @@ public class SingleDocumentExtraction {
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
 		try {
-			this.documentURI = new URI(factory.createURI(documentURI).toString());
+			this.documentURI = new URI(URIUtil.encodeQuery(documentURI));
 		} catch (Exception ex) {
 			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
 		} 
