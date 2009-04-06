@@ -6,6 +6,9 @@ import junit.framework.TestCase;
 
 import org.deri.any23.TestHelper;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.extractor.SingleDocumentExtraction;
+import org.deri.any23.writer.RepositoryWriter;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -15,8 +18,11 @@ import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
+import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.turtle.TurtleWriter;
+import org.openrdf.sail.Sail;
+import org.openrdf.sail.memory.MemoryStore;
 
 public abstract class AbstractMicroformatTestCase extends TestCase {
 	protected static URI baseURI = TestHelper.uri("http://bob.example.com/");
@@ -31,11 +37,21 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
 		super(name);
 	}
 
-	public void setUp() {
-		
+	public void setUp() throws Exception {
+		Sail store = new MemoryStore();
+		store.initialize();
+		conn = new SailRepository(store).getConnection();
 	}
 
-	protected abstract void extract(String name) throws ExtractionException, IOException;	
+	protected abstract ExtractorFactory<?> getExtractorFactory();
+	
+	protected void extract(String name) throws ExtractionException, IOException {
+		SingleDocumentExtraction ex = new SingleDocumentExtraction(
+				new HTMLFixture(name).getOpener(), 
+				baseURI.toString(), getExtractorFactory(), new RepositoryWriter(conn));
+		ex.setMIMETypeDetector(null);
+		ex.run();
+	}
 	
 	protected void assertContains(URI p, Resource o) throws RepositoryException {
 		assertContains(null, p, o);

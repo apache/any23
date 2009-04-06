@@ -1,24 +1,16 @@
 package org.deri.any23.extractor.html;
 
-import java.io.IOException;
-
 import org.deri.any23.TestHelper;
-import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.extractor.SingleDocumentExtraction;
+import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.DCTERMS;
-import org.deri.any23.writer.RepositoryWriter;
 import org.openrdf.model.Literal;
 import org.openrdf.repository.RepositoryException;
 
 public class TitleExtractorTest extends AbstractMicroformatTestCase {
 	private Literal helloLiteral = TestHelper.literal("Hello World!");
 	
-	protected void extract(String filename) throws IOException, ExtractionException {
-		SingleDocumentExtraction ex = new SingleDocumentExtraction(
-				new HTMLFixture(filename).getOpener(), 
-				baseURI.toString(), TitleExtractor.factory, new RepositoryWriter(conn));
-		ex.setMIMETypeDetector(null);
-		ex.run();
+	protected ExtractorFactory<?> getExtractorFactory() {
+		return TitleExtractor.factory;
 	}
 	
 	public void testExtractPageTitle() throws RepositoryException {
