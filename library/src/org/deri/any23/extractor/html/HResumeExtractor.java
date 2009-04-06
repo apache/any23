@@ -1,16 +1,19 @@
-package com.google.code.any23.extractors;
+package org.deri.any23.extractor.html;
 
-import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
-import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
+import org.openrdf.model.BNode;
+import org.openrdf.model.Resource;
+import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.vocabulary.RDF;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hresume">hResume</a>
@@ -19,24 +22,25 @@ import com.hp.hpl.jena.vocabulary.RDF;
  * @author Gabriele Renzi
  */
 public class HResumeExtractor extends EntityBasedMicroformatExtractor {
-
-	public HResumeExtractor(URI baseURI, HTMLDocument document) {
-		super(baseURI, document, "hresume");
+	private ExtractionContext context;
+	
+	public String getBaseClassName() {
+		return "hresume";
 	}
 
 	@Override
-	protected boolean extractEntity(Node _node, Model model) {
-		if (null== _node)
-			return false;
-		Resource person = getBlankNodeFor(model, _node);
+	protected boolean extractEntity(Node node, ExtractionContext context) {
+		if (null == node) return false;
+		this.context = context;
+		BNode person = getBlankNodeFor(node);
 		// we have a person, at least
-		person.addProperty(RDF.type, FOAF.Person);
-		HTMLDocument doc = new HTMLDocument(_node);
-		addSummary(doc,person);
-		addContact(doc,person);
-		addExperiences(doc, person);
-		addEducations(doc, person);
-		addAffiliations(doc,person);
+		out.writeTriple(person, RDF.TYPE, FOAF.Person, context);
+		HTMLDocument fragment = new HTMLDocument(node);
+		addSummary(fragment,person);
+		addContact(fragment,person);
+		addExperiences(fragment, person);
+		addEducations(fragment, person);
+		addAffiliations(fragment,person);
 		//addSkills //reltag
 		return true;
 	}
@@ -49,15 +53,15 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 	private void addContact(HTMLDocument doc, Resource person) {
 		List<Node> nodes = doc.findAllByClassName("contact");
 		if (nodes.size()>0)
-			person.addProperty(FOAF.isPrimaryTopicOf, getBlankNodeFor(person.getModel(), nodes.get(0)));
+			out.writeTriple(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)), context);
 	}
 	
 	private void addExperiences(HTMLDocument doc, Resource person) {
 		List<Node> nodes = doc.findAllByClassName("experience");
 		for (Node node : nodes) {
-			Resource exp = person.getModel().createResource();
+			Resource exp = valueFactory.createBNode();
 			if (addExperience(exp,new HTMLDocument(node)));
-				person.addProperty(DOAC.experience, exp);
+				out.writeTriple(person, DOAC.experience, exp, context);
 		}
 	}
 
@@ -87,22 +91,28 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 	private void addEducations(HTMLDocument doc, Resource person) {
 		List<Node> nodes = doc.findAllByClassName("education");
 		for (Node node : nodes) {
-			Resource exp = person.getModel().createResource();
+			Resource exp = valueFactory.createBNode();
 			if (addExperience(exp,new HTMLDocument(node)));
-				person.addProperty(DOAC.education, exp);
+				out.writeTriple(person, DOAC.education, exp, context);
 		}
 	}
 	
 	private void addAffiliations(HTMLDocument doc, Resource person) {
 		List<Node> nodes = doc.findAllByClassName("affiliation");
 		for (Node node : nodes) {
-			person.addProperty(DOAC.affiliation, getBlankNodeFor(person.getModel(), node));
+			out.writeTriple(person, DOAC.affiliation, getBlankNodeFor(node), context);
 		}
 	}
 
-	@Override
-	public String getFormatName() {
-		return "HRESUME";
+	public ExtractorDescription getDescription() {
+		return factory;
 	}
 	
+	public final static ExtractorFactory<HResumeExtractor> factory = 
+		SimpleExtractorFactory.create(
+				"html-mf-hresume",
+				PopularPrefixes.createSubset("rdf", "hresume"),
+				Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
+				null,
+				HResumeExtractor.class);
 }

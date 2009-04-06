@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.deri.any23.extractor.html.AdrExtractor;
+import org.deri.any23.extractor.html.GeoExtractor;
+import org.deri.any23.extractor.html.HCalendarExtractor;
+import org.deri.any23.extractor.html.HCardExtractor;
+import org.deri.any23.extractor.html.HListingExtractor;
+import org.deri.any23.extractor.html.HResumeExtractor;
+import org.deri.any23.extractor.html.HReviewExtractor;
 import org.deri.any23.extractor.html.HeadLinkExtractor;
 import org.deri.any23.extractor.html.ICBMExtractor;
 import org.deri.any23.extractor.html.LicenseExtractor;
@@ -33,6 +39,12 @@ public class ExtractorRegistry {
 			instance.register(XFNExtractor.factory);
 			instance.register(ICBMExtractor.factory);
 			instance.register(AdrExtractor.factory);
+			instance.register(GeoExtractor.factory);
+			instance.register(HCalendarExtractor.factory);
+			instance.register(HCardExtractor.factory);
+			instance.register(HListingExtractor.factory);
+			instance.register(HResumeExtractor.factory);
+			instance.register(HReviewExtractor.factory);
 		}
 		return instance;
 	}
