@@ -13,7 +13,7 @@ public class REVIEW {
 	private static final ValueFactory factory = ValueFactoryImpl.getInstance();
 
     /** <p>The namespace of the vocabulary as a string</p> */
-    public static final String NS = "http://www.purl.org/stuff/rev#";
+    public static final String NS = "http://purl.org/stuff/rev#";
     
     /** <p>The namespace of the vocabulary as a string</p>
      *  @see #NS */

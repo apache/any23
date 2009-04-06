@@ -21,5 +21,6 @@ public class PopularPrefixes {
 		add("vcard", "http://www.w3.org/2006/vcard/ns#");
 		add("ical", "http://www.w3.org/2002/12/cal/icaltzd#");
 		add("hlisting", "http://sindice.com/hlisting/0.1/");
+		add("hreview", "http://purl.org/stuff/rev#");
 	}};
 }
