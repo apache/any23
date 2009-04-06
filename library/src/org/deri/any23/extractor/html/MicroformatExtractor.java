@@ -3,6 +3,7 @@ package org.deri.any23.extractor.html;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -33,14 +34,14 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	protected ExtractionResult out;
 	protected java.net.URI baseURI;
 	protected ValueFactory valueFactory = ValueFactoryImpl.getInstance();
-	
+		
 	public void run(Document in, ExtractionResult out) throws IOException,
 			ExtractionException {
 		try {
 			this.document = new HTMLDocument(in);
 			this.out = out;
 			this.baseURI = new java.net.URI(out.getDocumentURI());
-			extract();
+			extract(out.getDocumentContext(this));
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);
 		}
@@ -49,7 +50,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	/**
 	 * Performs the extraction of the data and writes them to the model.
 	 */
-	protected abstract boolean extract();
+	protected abstract boolean extract(ExtractionContext context);
 	
 	/**
 	 * If uri is absolute, return that, otherwise an absolute uri relative to base, or "" if invalid.

@@ -1,15 +1,19 @@
-package com.google.code.any23.extractors;
+package org.deri.any23.extractor.html;
 
-import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
-import org.deri.any23.extractor.html.DomUtils;
-import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.ICAL;
+import org.openrdf.model.BNode;
+import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
+import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
-
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.Resource;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hcalendar">hCalendar</a>
@@ -18,17 +22,11 @@ import com.hp.hpl.jena.rdf.model.Resource;
  * @author Gabriele Renzi
  */
 public class HCalendarExtractor extends MicroformatExtractor {
+	private ExtractionContext context;
 
-	public HCalendarExtractor(URI baseURI, HTMLDocument document) {
-		super(baseURI, document);
-	}
-
-	public static void main(String args[]) {
-		doExtraction(new HCalendarExtractor(URI.create("http://bbc.con"),getDocumentFromArgs(args)));
-	}
-	
 	@Override
-	public boolean extractTo(Model model) {
+	protected boolean extract(ExtractionContext context) {
+		this.context = context;
 		List<Node> calendars = document.findAllByClassName("vcalendar");
 		if (calendars.size() == 0)
 			// vcal allows to avoid top name, in which case whole document is
@@ -38,13 +36,14 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
 		boolean foundAny = false;
 		for (Node node : calendars)
-			foundAny |= extract(node, model);
+			foundAny |= extractCalendar(node);
 
 		return foundAny;
 	}
 
-	private boolean extract(Node node, Model model) {
-		Resource cal = model.createResource(baseURI.toString(), ICAL.Vcalendar);
+	private boolean extractCalendar(Node node) {
+		URI cal = valueFactory.createURI(baseURI.toString());
+		out.writeTriple(cal, RDF.TYPE, ICAL.Vcalendar, context);
 		return addComponents(node, cal);
 	}
 
@@ -52,9 +51,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 			"Vfreebusy" };
 
 	private boolean addComponents(Node node, Resource cal) {
-
 		boolean foundAny = false;
-
 		for (String component : Components) {
 			List<Node> events = DomUtils.findAllByClassName(node, component);
 			if (events.size() == 0)
@@ -63,19 +60,18 @@ public class HCalendarExtractor extends MicroformatExtractor {
 				foundAny |= extractComponent(evtNode, cal, component);
 		}
 		return foundAny;
-
 	}
 
 	private boolean extractComponent(Node node, Resource cal, String component) {
 		HTMLDocument compoNode = new HTMLDocument(node);
-		Resource evt = cal.getModel().createResource(
-				ICAL.getResource(component));
+		Resource evt = valueFactory.createBNode();
+		out.writeTriple(evt, RDF.TYPE, ICAL.getResource(component), context);
 		addTextProps(compoNode, evt);
 		addUrl(compoNode, evt);
 		addRRule(compoNode, evt);
 		addOrganizer(compoNode, evt);
 		addUid(compoNode,evt);
-		cal.addProperty(ICAL.component, evt);
+		out.writeTriple(cal, ICAL.component, evt, context);
 		return true;
 	}
 
@@ -86,29 +82,27 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
 	private void addUrl(HTMLDocument compoNode, Resource evt) {
 		String url = compoNode.getSingularUrlField("url");
-		if(!url.equals(""))
-			evt.addProperty(ICAL.url, evt.getModel().createResource(absolutizeURI(url)));
+		if ("".equals(url)) return;
+		out.writeTriple(evt, ICAL.url, valueFactory.createURI(absolutizeURI(url)), context);
 	}
 
 	private void addRRule(HTMLDocument compoNode, Resource evt) {
-		// TODO Auto-generated method stub
 		for (Node rule : compoNode.findAllByClassName("rrule")) {
-			Resource rrule = evt.getModel().createResource(ICAL.DomainOf_rrule);
+			BNode rrule = valueFactory.createBNode();
+			out.writeTriple(rrule, RDF.TYPE, ICAL.DomainOf_rrule, context);
 			String freq = new HTMLDocument(rule).getSingularTextField("freq");
 			conditionallyAddStringProperty(rrule, ICAL.freq, freq);
-			evt.addProperty(ICAL.rrule, rrule);
+			out.writeTriple(evt, ICAL.rrule, rrule, context);
 		}
 	}
 
-	
 	private void addOrganizer(HTMLDocument compoNode, Resource evt) {
-		// TODO Auto-generated method stub
 		for (Node organizer : compoNode.findAllByClassName("organizer")) {
 			//untyped
-			Resource blank = evt.getModel().createResource();
+			BNode blank = valueFactory.createBNode();
 			String mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
 			conditionallyAddStringProperty(blank, ICAL.calAddress, mail);
-			evt.addProperty(ICAL.organizer, blank);
+			out.writeTriple(evt, ICAL.organizer, blank, context);
 		}
 	}
 	
@@ -126,10 +120,15 @@ public class HCalendarExtractor extends MicroformatExtractor {
 		}
 	}
 
-
-	@Override
-	public String getFormatName() {
-		return "HCALENDAR";
+	public ExtractorDescription getDescription() {
+		return factory;
 	}
-
+	
+	public final static ExtractorFactory<HCalendarExtractor> factory = 
+		SimpleExtractorFactory.create(
+				"html-mf-hcalendar",
+				PopularPrefixes.createSubset("rdf", "ical"),
+				Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
+				null,
+				HCalendarExtractor.class);
 }

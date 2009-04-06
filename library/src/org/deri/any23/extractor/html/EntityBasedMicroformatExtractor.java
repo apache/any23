@@ -18,7 +18,8 @@ public abstract class EntityBasedMicroformatExtractor extends
 	
 	protected abstract boolean extractEntity(Node node, ExtractionContext context);
 
-	public boolean extract() {
+	@Override
+	public boolean extract(ExtractionContext context) {
 		List<Node> nodes = DomUtils.findAllByClassName(document.getDocument(), getBaseClassName());
 		boolean foundAny = false;
 		for (Node node: nodes) {

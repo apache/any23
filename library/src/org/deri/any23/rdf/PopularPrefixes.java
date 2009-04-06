@@ -19,5 +19,6 @@ public class PopularPrefixes {
 		add("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");
 		add("xfn", "http://vocab.sindice.com/xfn#");
 		add("vcard", "http://www.w3.org/2006/vcard/ns#");
+		add("ical", "http://www.w3.org/2002/12/cal/icaltzd#");
 	}};
 }
