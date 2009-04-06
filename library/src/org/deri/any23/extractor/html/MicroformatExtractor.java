@@ -8,6 +8,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
@@ -33,14 +34,14 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	protected HTMLDocument document;
 	protected ExtractionResult out;
 	protected java.net.URI baseURI;
-	protected ValueFactory valueFactory = ValueFactoryImpl.getInstance();
+	protected final ValueFactory valueFactory =new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 		
 	public void run(Document in, ExtractionResult out) throws IOException,
 			ExtractionException {
 		try {
 			this.document = new HTMLDocument(in);
 			this.out = out;
-			this.baseURI = new java.net.URI(out.getDocumentURI());
+			this.baseURI = new java.net.URI(valueFactory.createURI(out.getDocumentURI()).toString());
 			extract(out.getDocumentContext(this));
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);

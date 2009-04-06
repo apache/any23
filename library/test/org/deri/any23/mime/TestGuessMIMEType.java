@@ -76,7 +76,7 @@ public class TestGuessMIMEType extends TestCase {
 	}
 	
 	private void assertGuess(RDFizer.Format f, String a, String b) {
-		runTest(f, rover.guess(a,b));
+		runTest (f, rover.guess(a,b));
 	}
 	
 	private void runTest(String expectedMimeType,String contentTypeHeader, String testDir, boolean b)  {

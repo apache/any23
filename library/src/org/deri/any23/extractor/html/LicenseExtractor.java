@@ -10,8 +10,10 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.XHTML;
+import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -26,12 +28,14 @@ import org.w3c.dom.Node;
  * @author Richard Cyganiak
  */
 public class LicenseExtractor implements TagSoupDOMExtractor {
-
+	private final ValueFactory vFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+	
+	
 	public void run(Document in, ExtractionResult out) throws IOException,
 	ExtractionException {
 		java.net.URI baseURI;
 		try {
-			baseURI = new java.net.URI(in.getBaseURI());
+			baseURI = new java.net.URI(vFactory.createURI(in.getBaseURI()).toString());
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException("Error in base URI: " + in.getBaseURI(), ex);
 		}
@@ -40,9 +44,9 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
 			String link = node.getNodeValue();
 			if ("".equals(link)) continue;
 			out.writeTriple(
-					ValueFactoryImpl.getInstance().createURI(out.getDocumentURI()), 
+					vFactory.createURI(out.getDocumentURI()), 
 					XHTML.license, 
-					ValueFactoryImpl.getInstance().createURI(baseURI.resolve(link).toString()), 
+					vFactory.createURI(baseURI.resolve(link).toString()), 
 					out.getDocumentContext(this));
 		}
 	}

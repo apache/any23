@@ -10,9 +10,11 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
+import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
@@ -43,7 +45,7 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
 		}
 
 		context = out.getDocumentContext(this);
-		ValueFactoryImpl factory = ValueFactoryImpl.getInstance();
+		ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
 		BNode point = factory.createBNode();
 		out.writeTriple(factory.createURI(out.getDocumentURI()), expand("dcterms:related"), point, context);

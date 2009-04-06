@@ -129,9 +129,9 @@ public class Any23 {
 	public boolean extractWARCFile(final String documentURI, final TripleHandler outputHandler) {
 		try{
 			WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
-		ex.setMIMETypeDetector(mimeTypeDetector);
-		ex.run();
-		return true;
+			ex.setMIMETypeDetector(mimeTypeDetector);
+			ex.run();
+			return true;
 		}
 		catch(Exception e){
 			logger.log(Level.WARNING,"",e);
@@ -169,6 +169,4 @@ public class Any23 {
 		}
 		return new AcceptHeaderBuilder(mimeTypes).getAcceptHeader();
 	}
-	
-	
 }

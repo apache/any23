@@ -9,8 +9,10 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
+import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
@@ -21,15 +23,16 @@ import org.w3c.dom.Document;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class TitleExtractor implements TagSoupDOMExtractor {
+	protected final ValueFactory valueFactory =new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
 	public void run(Document in, ExtractionResult out) throws IOException,
 	ExtractionException {
 		String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
 		if (title != null && !"".equals(title)) {
 			out.writeTriple(
-					ValueFactoryImpl.getInstance().createURI(out.getDocumentURI()), 
+					valueFactory.createURI(out.getDocumentURI()), 
 					DCTERMS.title, 
-					ValueFactoryImpl.getInstance().createLiteral(title), 
+					valueFactory.createLiteral(title), 
 					out.getDocumentContext(this));
 		}
 	}

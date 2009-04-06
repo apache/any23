@@ -2,27 +2,26 @@
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Collections;
 
-import org.apache.commons.httpclient.URIException;
-import org.apache.commons.httpclient.util.URIUtil;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.stream.InputStreamCache;
 import org.deri.any23.stream.InputStreamCacheMem;
 import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.writer.TripleHandler;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
 public class SingleDocumentExtraction {
+	private final ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	private final InputStreamOpener in;
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
@@ -44,12 +43,10 @@ public class SingleDocumentExtraction {
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
 		try {
-			this.documentURI = new URI(URIUtil.encodeQuery(documentURI.trim()));
-		} catch (URISyntaxException ex) {
+			this.documentURI = new URI(factory.createURI(documentURI).toString());
+		} catch (Exception ex) {
 			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
-		} catch (URIException e) {
-			throw new IllegalArgumentException("Malformed URL: " + documentURI, e);
-		}
+		} 
 		this.extractors = extractors;
 		this.output = output;
 	}

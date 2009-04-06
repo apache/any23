@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
@@ -45,7 +46,7 @@ public class HTMLDocument {
 	
 	private Node document;
 	private java.net.URI baseURI;
-	private ValueFactory valueFactory = ValueFactoryImpl.getInstance();
+	private ValueFactory valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
 	public HTMLDocument(Node document) {
 		if(null==document)

@@ -10,6 +10,7 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.XFN;
@@ -30,7 +31,7 @@ import org.w3c.dom.Node;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class XFNExtractor implements TagSoupDOMExtractor {
-	private final static ValueFactory vf = ValueFactoryImpl.getInstance();
+	private final static ValueFactory vf = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
 	private Document document;
 	private ExtractionResult out;
