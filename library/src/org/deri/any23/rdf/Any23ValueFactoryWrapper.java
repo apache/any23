@@ -161,7 +161,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 		if(escapedURI.matches("^javascript:")) throw new IllegalArgumentException("URI starts with javascript");
 		
 		
-		if(!escapedURI.matches("^[a-zA-Z0-9]+:(//)")) throw new IllegalArgumentException("no scheme in URI");
+		if(escapedURI.matches("^[a-zA-Z0-9]+:(//)")) throw new IllegalArgumentException("no scheme in URI");
 				
 //		//stripHTML
 //		escapedURI = escapedURI.replaceAll("\\<.*?\\>", "");
