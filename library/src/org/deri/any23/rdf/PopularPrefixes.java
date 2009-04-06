@@ -20,5 +20,6 @@ public class PopularPrefixes {
 		add("xfn", "http://vocab.sindice.com/xfn#");
 		add("vcard", "http://www.w3.org/2006/vcard/ns#");
 		add("ical", "http://www.w3.org/2002/12/cal/icaltzd#");
+		add("hlisting", "http://sindice.com/hlisting/0.1/");
 	}};
 }
