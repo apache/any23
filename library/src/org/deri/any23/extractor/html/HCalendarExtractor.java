@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -25,7 +26,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 	private ExtractionContext context;
 
 	@Override
-	protected boolean extract(ExtractionContext context) {
+	protected boolean extract(ExtractionContext context) throws ExtractionException {
 		this.context = context;
 		List<Node> calendars = document.findAllByClassName("vcalendar");
 		if (calendars.size() == 0)
@@ -41,8 +42,8 @@ public class HCalendarExtractor extends MicroformatExtractor {
 		return foundAny;
 	}
 
-	private boolean extractCalendar(Node node) {
-		URI cal = valueFactory.createURI(baseURI.toString());
+	private boolean extractCalendar(Node node) throws ExtractionException {
+		URI cal = valueFactory.createURI(out.getDocumentURI());
 		out.writeTriple(cal, RDF.TYPE, ICAL.Vcalendar, context);
 		return addComponents(node, cal);
 	}
@@ -50,7 +51,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 	private static final String[] Components = { "Vevent", "Vtodo", "Vjournal",
 			"Vfreebusy" };
 
-	private boolean addComponents(Node node, Resource cal) {
+	private boolean addComponents(Node node, Resource cal) throws ExtractionException {
 		boolean foundAny = false;
 		for (String component : Components) {
 			List<Node> events = DomUtils.findAllByClassName(node, component);
@@ -62,7 +63,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 		return foundAny;
 	}
 
-	private boolean extractComponent(Node node, Resource cal, String component) {
+	private boolean extractComponent(Node node, Resource cal, String component) throws ExtractionException {
 		HTMLDocument compoNode = new HTMLDocument(node);
 		Resource evt = valueFactory.createBNode();
 		out.writeTriple(evt, RDF.TYPE, ICAL.getResource(component), context);
@@ -80,10 +81,10 @@ public class HCalendarExtractor extends MicroformatExtractor {
 		conditionallyAddStringProperty(evt, ICAL.uid, url);
 	}
 
-	private void addUrl(HTMLDocument compoNode, Resource evt) {
+	private void addUrl(HTMLDocument compoNode, Resource evt) throws ExtractionException {
 		String url = compoNode.getSingularUrlField("url");
 		if ("".equals(url)) return;
-		out.writeTriple(evt, ICAL.url, valueFactory.createURI(absolutizeURI(url)), context);
+		out.writeTriple(evt, ICAL.url, document.resolveURI(url), context);
 	}
 
 	private void addRRule(HTMLDocument compoNode, Resource evt) {

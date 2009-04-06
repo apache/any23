@@ -1,7 +1,6 @@
 package org.deri.any23.extractor.html;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
@@ -11,7 +10,6 @@ import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
@@ -33,67 +31,59 @@ import org.w3c.dom.Document;
 public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	protected HTMLDocument document;
 	protected ExtractionResult out;
-	protected java.net.URI baseURI;
-	protected final ValueFactory valueFactory =new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
-		
+	protected final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+
 	public void run(Document in, ExtractionResult out) throws IOException,
 			ExtractionException {
-		try {
-			this.document = new HTMLDocument(in);
-			this.out = out;
-			this.baseURI = new java.net.URI(valueFactory.createURI(out.getDocumentURI()).toString());
-			extract(out.getDocumentContext(this));
-		} catch (URISyntaxException ex) {
-			throw new ExtractionException(ex);
-		}
+		this.document = new HTMLDocument(in);
+		this.out = out;
+		extract(out.getDocumentContext(this));
 	}
 
 	/**
 	 * Performs the extraction of the data and writes them to the model.
 	 */
-	protected abstract boolean extract(ExtractionContext context);
-	
-	/**
-	 * If uri is absolute, return that, otherwise an absolute uri relative to base, or "" if invalid.
-	 * @param uri a uri or fragment
-	 * @return The URI in absolute form 
-	 */
-	protected String absolutizeURI(String uri) {
-		try {
-			return baseURI.resolve(uri).toString();
-		} catch (IllegalArgumentException e) {
-			return "";
-		}
-	}
+	protected abstract boolean extract(ExtractionContext context) throws ExtractionException;
 	
 	/**
 	 * Helper method that adds a literal property to a node.
 	 */
-	protected void conditionallyAddStringProperty(Resource subject, URI p, String value) {
-		if ("".equals(value.trim()))
-			return;
+	protected boolean conditionallyAddStringProperty(Resource subject, URI p, String value) {
+		if ("".equals(value.trim())) return false;
 		out.writeTriple(subject, p, valueFactory.createLiteral(value.trim()), out.getDocumentContext(this));
+		return true;
 	}
 
+	protected URI fixLink(String link) {
+		return fixLink(link, null);
+	}
+	
 	/**
-	 * Helper method to conditionally add a schema to a URI unless it's there, or "" if link is empty.
+	 * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
+	 * TODO: Move this to the same class as fixURI()
 	 */
-	protected String fixSchema(String schema, String link) {
-		if ("".equals(link))
-			return "";
-		if (link.startsWith(schema+":"))
-				return link;
-		return schema+":"+link;
+	protected URI fixLink(String link, String defaultSchema) {
+		if (link == null) return null;
+		link = fixWhiteSpace(link);
+		if ("".equals(link)) return null;
+		if (defaultSchema != null && !link.startsWith(defaultSchema+":")) {
+			link = defaultSchema + ":" + link;
+		}
+		return valueFactory.fixURI(link);
+	}
+
+	protected String fixWhiteSpace(String name) {
+		return name.replaceAll("\\s+", " ").trim();
 	}
 
 	/**
 	 * Helper method that adds a URI property to a node.
 	 */
-	protected void conditionallyAddResourceProperty(Resource subject,
-			URI property, String uri) {
-		if ("".equals(uri.trim()))
-				return;
-		out.writeTriple(subject, property, valueFactory.createURI(uri), out.getDocumentContext(this));
+	protected boolean conditionallyAddResourceProperty(Resource subject,
+			URI property, URI uri) {
+		if (uri == null) return false;
+		out.writeTriple(subject, property, uri, out.getDocumentContext(this));
+		return true;
 	}
 
 	public abstract ExtractorDescription getDescription();

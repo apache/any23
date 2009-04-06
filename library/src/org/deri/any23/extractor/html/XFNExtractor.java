@@ -1,7 +1,6 @@
 package org.deri.any23.extractor.html;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import org.deri.any23.extractor.ExtractionException;
@@ -33,23 +32,17 @@ import org.w3c.dom.Node;
 public class XFNExtractor implements TagSoupDOMExtractor {
 	private final static ValueFactory vf = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
-	private Document document;
+	private HTMLDocument document;
 	private ExtractionResult out;
-	private java.net.URI baseURI;
 	
 	public void run(Document in, ExtractionResult out) throws IOException,
 	ExtractionException {
-		document = in;
+		document = new HTMLDocument(in);
 		this.out = out;
-		try {
-			baseURI = new java.net.URI(in.getBaseURI());
-		} catch (URISyntaxException ex) {
-			throw new ExtractionException("Error in base URI: " + in.getBaseURI(), ex);
-		}
 		
 		BNode subject = vf.createBNode();
 		boolean foundAnyXFN = false;
-		for (Node link: DomUtils.findAll(document, "//A[@rel][@href]")) {
+		for (Node link: document.findAll("//A[@rel][@href]")) {
 			foundAnyXFN |= extractLink(link, subject);
 		}
 		if (!foundAnyXFN) return;
@@ -61,28 +54,28 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 		out.writeTriple(s, p, o, out.getDocumentContext(this));
 	}
 	
-	private boolean extractLink(org.w3c.dom.Node firstLink, BNode subject) {
+	private boolean extractLink(org.w3c.dom.Node firstLink, BNode subject) throws ExtractionException {
 		String href = DomUtils.find(firstLink, "@href");
 		String rel = DomUtils.find(firstLink, "@rel");
 
 		String[] rels = rel.split("\\s+");
-		String link = baseURI.resolve(href).toString();
+		URI link = document.resolveURI(href);
 		if (containsRelMe(rels)) {
 			if (containsXFNRelExceptMe(rels)) {
 				return false;	// "me" cannot be combined with any other XFN values
 			}
-			writeTriple(subject, XFN.me, vf.createURI(link));
+			writeTriple(subject, XFN.me, link);
 		} else {
 			BNode person2 = vf.createBNode();
 			boolean foundAnyXFNRel = false;
 			for (String aRel : rels) {
-				foundAnyXFNRel |= extractRel(aRel, subject, out.getDocumentURI(), person2, link);
+				foundAnyXFNRel |= extractRel(aRel, subject, vf.createURI(out.getDocumentURI()), person2, link);
 			}
 			if (!foundAnyXFNRel) {
 				return false;
 			}
 			writeTriple(person2, RDF.TYPE, FOAF.Person);
-			writeTriple(person2, XFN.mePage, vf.createURI(link));
+			writeTriple(person2, XFN.mePage, link);
 		}
 		return true;
 	}
@@ -105,14 +98,14 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 		return false;
 	}
 	
-	private boolean extractRel(String rel, BNode person1, String uri1, BNode person2, String uri2) {
+	private boolean extractRel(String rel, BNode person1, URI uri1, BNode person2, URI uri2) {
 		URI peopleProp = XFN.getPropertyByLocalName(rel);
 		URI hyperlinkProp = XFN.getExtendedProperty(rel);
 		if (peopleProp == null) {
 			return false;
 		}
 		writeTriple(person1, peopleProp, person2);
-		writeTriple(vf.createURI(uri1), hyperlinkProp, vf.createURI(uri2));
+		writeTriple(uri1, hyperlinkProp, uri2);
 		return true;
 	}
 

@@ -9,6 +9,7 @@ import org.openrdf.model.Value;
 // passed to extractors
 public interface ExtractionResult {
 	
+	// TODO return URI instead of String
 	String getDocumentURI();
 	
 	// typically invoked by extractor with "this"
@@ -29,6 +30,7 @@ public interface ExtractionResult {
 	void closeContext(ExtractionContext context);
 
 	// context must be the default context or one the extractor has opened
+	// s, p, o can be null, then the triple will be silently ignored
 	void writeTriple(Resource s, URI p, Value o, ExtractionContext context);
 	
 	// context must be the default context or one the extractor has opened

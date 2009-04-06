@@ -36,7 +36,7 @@
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-net-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-text-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-xml-2.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/jcl-over-slf4j-1.5.6.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

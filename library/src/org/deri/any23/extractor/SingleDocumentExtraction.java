@@ -12,17 +12,17 @@ import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
-import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.stream.InputStreamCache;
 import org.deri.any23.stream.InputStreamCacheMem;
 import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.writer.TripleHandler;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 public class SingleDocumentExtraction {
-	private final ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+	private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
+	
 	private final InputStreamOpener in;
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
@@ -43,6 +43,7 @@ public class SingleDocumentExtraction {
 	
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
+		log.info("Parsing " + documentURI);
 		try {
 			this.documentURI = new URI(URIUtil.encodeQuery(documentURI));
 		} catch (Exception ex) {

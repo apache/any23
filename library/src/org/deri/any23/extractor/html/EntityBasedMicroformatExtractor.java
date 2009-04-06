@@ -3,6 +3,7 @@ package org.deri.any23.extractor.html;
 import java.util.List;
 
 import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractionException;
 import org.openrdf.model.BNode;
 import org.w3c.dom.Node;
 
@@ -16,10 +17,10 @@ public abstract class EntityBasedMicroformatExtractor extends
 	
 	protected abstract String getBaseClassName();
 	
-	protected abstract boolean extractEntity(Node node, ExtractionContext context);
+	protected abstract boolean extractEntity(Node node, ExtractionContext context) throws ExtractionException ;
 
 	@Override
-	public boolean extract(ExtractionContext context) {
+	public boolean extract(ExtractionContext context) throws ExtractionException {
 		List<Node> nodes = DomUtils.findAllByClassName(document.getDocument(), getBaseClassName());
 		boolean foundAny = false;
 		for (Node node: nodes) {

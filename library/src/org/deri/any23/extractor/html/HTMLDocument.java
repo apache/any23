@@ -15,7 +15,6 @@ import javax.xml.xpath.XPathFactory;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -46,7 +45,7 @@ public class HTMLDocument {
 	
 	private Node document;
 	private java.net.URI baseURI;
-	private ValueFactory valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+	private Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
 	public HTMLDocument(Node document) {
 		if(null==document)
@@ -57,7 +56,9 @@ public class HTMLDocument {
 	private java.net.URI getBaseURI() throws ExtractionException {
 		if (baseURI == null) {
 			try {
-				baseURI = new java.net.URI(document.getBaseURI());
+				baseURI = new java.net.URI(Any23ValueFactoryWrapper.fixAbsoluteURI(document.getBaseURI()));
+			} catch (IllegalArgumentException ex) {
+				throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
 			} catch (URISyntaxException ex) {
 				throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
 			}
@@ -65,8 +66,12 @@ public class HTMLDocument {
 		return baseURI;
 	}
 	
-	public URI resolveURI(String relativeURI) throws ExtractionException {
-		return valueFactory.createURI(getBaseURI().resolve(relativeURI).toString());
+	/**
+	 * @return An absolute URI, or null if the URI is not fixable
+	 * @throws ExtractionException If the base URI is invalid
+	 */
+	public URI resolveURI(String uri) throws ExtractionException {
+		return valueFactory.resolveURI(uri, getBaseURI());
 	}
 	
 	public String find(String xpath) {

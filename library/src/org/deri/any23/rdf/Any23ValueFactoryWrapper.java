@@ -1,8 +1,5 @@
 package org.deri.any23.rdf;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.openrdf.model.BNode;
@@ -12,10 +9,13 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+// TODO Move our URI fixing methods to a seperate utility class
 public class Any23ValueFactoryWrapper implements ValueFactory{
 
-	private static final Logger logger = Logger.getLogger(Any23ValueFactoryWrapper.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);
 	private final ValueFactory _vFactory;
 
 	public Any23ValueFactoryWrapper(final ValueFactory vFactory) {
@@ -99,21 +99,13 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 		return _vFactory.createStatement(arg0,arg1,arg2,arg3);
 	}
 
-	
-	
-
 	@Override
 	/**
 	 * @param arg0
 	 * @return a valid sesame URI or null if any exception occured
 	 */
 	public URI createURI(String arg0) {
-		try{
-			return _vFactory.createURI(escapeURI(arg0));
-		}catch(Exception e){
-			logger.log(Level.WARNING,e.getMessage());
-			return null;
-		}
+		return _vFactory.createURI(fixURIWithException(arg0));
 	}
 	
 	/**
@@ -121,15 +113,53 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	 * @return a valid sesame URI or null if any exception occured
 	 */
 	public URI createURI(String arg0, String arg1) {
-		try{
-			return _vFactory.createURI(escapeURI(arg0),arg1);
-		}catch(Exception e){
-			logger.log(Level.WARNING,e.getMessage());
+		return _vFactory.createURI(fixURIWithException(arg0),arg1);
+	}
+
+	/**
+	 * Fixes typical errors in URIs, and resolves relative URIs against a base URI.
+	 * @param uri A URI, relative or absolute, can have typical syntax errors
+	 * @param baseURI A base URI to use for resolving relative URIs
+	 * @return An absolute URI, sytnactically valid, or null if not fixable
+	 */
+	public URI resolveURI(String uri, java.net.URI baseURI) {
+		try {
+			return _vFactory.createURI(baseURI.resolve(fixURIWithException(uri)).toString());
+		} catch (IllegalArgumentException ex) {
+			logger.warn(ex.getMessage());
 			return null;
 		}
 	}
 
 	/**
+	 * @param arg0
+	 * @return a valid sesame URI or null if any exception occured
+	 */
+	public URI fixURI(String uri) {
+		try {
+			return _vFactory.createURI(fixURIWithException(uri));
+		} catch (Exception e){
+			logger.warn(e.getMessage());
+			return null;
+		}
+	}
+	
+
+	/**
+	 * Fixes typical errors in an absolute URI, such as unescaped spaces.
+	 * @param uri An absolute URI, can have typical syntax errors
+	 * @return An absolute URI that is valid against the URI syntax
+	 * @throws IllegalArgumentException if URI is not fixable
+	 */
+	public static String fixAbsoluteURI(String uri) {
+		String fixed = fixURIWithException(uri);
+		if (!fixed.matches("^[a-zA-Z0-9]+:(//)")) throw new IllegalArgumentException("not a relative URI: " + uri);
+		return fixed;
+	}
+
+	/**
+	 * Tries to fix a potentially broken relative or absolute URI 
+	 * 
 	 *These appear to be good rules:
 	 *
 	 *		Remove whitespace or '\' or '"' in beginning and end
@@ -139,7 +169,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	 *		Truncate ">.*$ from end of lines (Neko didn't quite manage to fix broken markup)
 	 *		Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
 	 */
-	private String escapeURI(String unescapedURI) {
+	private static String fixURIWithException(String unescapedURI) {
 		//	Remove starting and ending whitespace  
 		String escapedURI = unescapedURI.trim();
 		
@@ -155,13 +185,10 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 		if(escapedURI.endsWith("\\") || escapedURI.endsWith("\"")) escapedURI = escapedURI.substring(0,escapedURI.length()-1);
 		
 		//Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:(//)?$
-		if(escapedURI.matches("^[a-zA-Z0-9]+:(//)?$")) throw new IllegalArgumentException("no authority in URI");
+		if(escapedURI.matches("^[a-zA-Z0-9]+:(//)?$")) throw new IllegalArgumentException("no authority in URI: " + unescapedURI);
 		
 		//Drop the triple if it matches this regex: ^javascript:
-		if(escapedURI.matches("^javascript:")) throw new IllegalArgumentException("URI starts with javascript");
-		
-		
-		if(escapedURI.matches("^[a-zA-Z0-9]+:(//)")) throw new IllegalArgumentException("no scheme in URI");
+		if(escapedURI.matches("^javascript:")) throw new IllegalArgumentException("URI starts with javascript: " + unescapedURI);
 				
 //		//stripHTML
 //		escapedURI = escapedURI.replaceAll("\\<.*?\\>", "");
@@ -170,7 +197,8 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 		escapedURI = escapedURI.replaceAll(">.*$", "");
 		
 		//Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
-		if(escapedURI.matches("<>\\[\\]|\\*\\{\\}\"\\\\")) throw new IllegalArgumentException("Invalid character in URI");
+		// TODO write a test for this
+		if(escapedURI.matches("[<>\\[\\]|\\*\\{\\}\"\\\\]")) throw new IllegalArgumentException("Invalid character in URI: " + unescapedURI);
 		
 		return escapedURI;
 	}

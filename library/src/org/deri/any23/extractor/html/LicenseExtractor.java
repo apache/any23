@@ -1,7 +1,6 @@
 package org.deri.any23.extractor.html;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import org.deri.any23.extractor.ExtractionException;
@@ -33,20 +32,14 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
 	
 	public void run(Document in, ExtractionResult out) throws IOException,
 	ExtractionException {
-		java.net.URI baseURI;
-		try {
-			baseURI = new java.net.URI(vFactory.createURI(in.getBaseURI()).toString());
-		} catch (URISyntaxException ex) {
-			throw new ExtractionException("Error in base URI: " + in.getBaseURI(), ex);
-		}
-
+		HTMLDocument document = new HTMLDocument(in);
 		for (Node node: DomUtils.findAll(in, "//A[@rel='license']/@href")) {
 			String link = node.getNodeValue();
 			if ("".equals(link)) continue;
 			out.writeTriple(
 					vFactory.createURI(out.getDocumentURI()), 
 					XHTML.license, 
-					vFactory.createURI(baseURI.resolve(link).toString()), 
+					document.resolveURI(link), 
 					out.getDocumentContext(this));
 		}
 	}

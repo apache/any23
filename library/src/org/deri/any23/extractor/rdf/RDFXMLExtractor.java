@@ -11,6 +11,8 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
@@ -23,6 +25,7 @@ public class RDFXMLExtractor implements ContentExtractor {
 		try {
 			final ExtractionContext context = out.getDocumentContext(this);
 			RDFParser parser = new RDFXMLParser();
+			parser.setValueFactory(new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()));
 			parser.setRDFHandler(new RDFHandlerAdapter(out, context));
 			parser.parse(in, out.getDocumentURI());
 		} catch (RDFHandlerException ex) {
