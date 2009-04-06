@@ -1,8 +1,6 @@
 package org.deri.any23.rdf;
 
-import java.io.File;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -33,7 +31,6 @@ public class URIEncodingTest extends TestCase{
 	}
 		
 	public void testEndoding() throws Exception {
-		int errors=0;
 		for(String uri: uris){
 			try{
 				System.out.println(factory.createURI(uri));

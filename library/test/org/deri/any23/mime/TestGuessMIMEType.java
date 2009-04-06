@@ -6,19 +6,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-
 
 import junit.framework.TestCase;
 
 public class TestGuessMIMEType extends TestCase {
+	private final static String N3 = "text/rdf+n3";
+	private final static String TURTLE = "text/turtle";
+	private final static String RDFXML = "application/rdf+xml";
+	private final static String XHTML = "application/xhtml+xml";
+	
 	private TikaMIMETypeDetector _identifer;
 
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
 	protected void setUp() throws Exception {
 		super.setUp();
 		_identifer = new TikaMIMETypeDetector();
@@ -32,51 +30,47 @@ public class TestGuessMIMEType extends TestCase {
 		runTest("application/rdf+xml", "text/rdf", "foo",true);
 	}
 	
-	public void testContentTextN3() {
-		runTest(Format.N3, "text/rdf+n3", "foo");
+	public void testContentTextN3() throws IOException {
+		runTest(N3, "text/rdf+n3", "foo");
 	}	
 	
-	public void testContentTextTurtle() {
-		runTest(Format.TURTLE, "text/turtle", "foo");
+	public void testContentTextTurtle() throws IOException {
+		runTest(TURTLE, "text/turtle", "foo");
 	}	
 	
-	public void testContent() {
-		runTest(Format.RDFXML, "application/rdf+xml", "foo");
+	public void testContent() throws IOException {
+		runTest(RDFXML, "application/rdf+xml", "foo");
 	}
 	
-	public void testContentXml() {
-		runTest(Format.RDFXML, "application/xml", "foo.rdf");
+	public void testContentXml() throws IOException {
+		runTest(RDFXML, "application/xml", "foo.rdf");
 	}
 	
-	public void testExtensionN3() {
-		runTest(Format.N3, "text/plain", "foo.n3");
+	public void testExtensionN3() throws IOException {
+		runTest(N3, "text/plain", "foo.n3");
 	}
 	
-	public void testXmlAndNoExtension() {
-		runTest(Format.RDFXML, "application/xml", "foo");
+	public void testXmlAndNoExtension() throws IOException {
+		runTest(RDFXML, "application/xml", "foo");
 	}
-	public void testTextXmlAndNoExtension() {
-		runTest(Format.RDFXML, "text/xml", "foo");
+	public void testTextXmlAndNoExtension() throws IOException {
+		runTest(RDFXML, "text/xml", "foo");
 	}
 
-	public void testTextHtmAndNoExtension() {
-		runTest(Format.XHTML, "text/html", "foo");
+	public void testTextHtmAndNoExtension() throws IOException {
+		runTest(XHTML, "text/html", "foo");
 	}
 	
-	public void testTextPlainAndExtensions() {
-		runTest(Format.XHTML, "text/plain", "foo.html");
-		runTest(Format.XHTML, "text/plain", "foo.htm");
-		runTest(Format.XHTML, "text/plain", "foo.xhtml");
+	public void testTextPlainAndExtensions() throws IOException {
+		runTest(XHTML, "text/plain", "foo.html");
+		runTest(XHTML, "text/plain", "foo.htm");
+		runTest(XHTML, "text/plain", "foo.xhtml");
 	}
 
-	public void testApplicationXmlAndExtensions() {
-		runTest(Format.XHTML, "application/xml", "foo.html");
-		runTest(Format.XHTML, "application/xml", "foo.htm");
-		runTest(Format.XHTML, "application/xml", "foo.xhtml");
-	}
-	
-	private void assertGuess(RDFizer.Format f, String a, String b) {
-		runTest (f, rover.guess(a,b));
+	public void testApplicationXmlAndExtensions() throws IOException {
+		runTest(XHTML, "application/xml", "foo.html");
+		runTest(XHTML, "application/xml", "foo.htm");
+		runTest(XHTML, "application/xml", "foo.xhtml");
 	}
 	
 	private void runTest(String expectedMimeType,String contentTypeHeader, String testDir, boolean b)  {

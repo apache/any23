@@ -15,7 +15,7 @@ import org.openrdf.model.Value;
 public class MockExtractionResult implements ExtractionResult {
 	private final List<ExtractionContext> localContexts = new ArrayList<ExtractionContext>();
 	private final List<Boolean> contextsClosed = new ArrayList<Boolean>();
-	private final String documentURI;
+	private final URI documentURI;
 	private ExtractionContext documentContext = null;
 
 	private final Collection<Expectation> expectations = new ArrayList<Expectation>();
@@ -24,7 +24,7 @@ public class MockExtractionResult implements ExtractionResult {
 	private int usedLocalContexts = 0;
 	private Collection<Statement> writtenTriples = new ArrayList<Statement>();
 	
-	public MockExtractionResult(String documentURI) {
+	public MockExtractionResult(URI documentURI) {
 		this.documentURI = documentURI;
 	}
 	
@@ -48,7 +48,7 @@ public class MockExtractionResult implements ExtractionResult {
 		contextsClosed.set(index, true);
 	}
 
-	public String getDocumentURI() {
+	public URI getDocumentURI() {
 		return documentURI;
 	}
 	

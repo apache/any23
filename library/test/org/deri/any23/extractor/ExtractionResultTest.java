@@ -22,7 +22,7 @@ public class ExtractionResultTest extends TestCase {
 	public void setUp() {
 		extractor = new ExampleExtractor();
 		handler = new MockTripleHandler();
-		writer = new ExtractionResultImpl(extractorName, handler);
+		writer = new ExtractionResultImpl(exampleResource, handler);
 	}
 
 	public void testInvokesClose() {
@@ -36,7 +36,7 @@ public class ExtractionResultTest extends TestCase {
 		handler.expectCloseContext(extractorName, exampleDoc);
 		handler.expectClose();
 		assertEquals(
-				new ExtractionContext(extractor.getDescription(), exampleDoc, null), 
+				new ExtractionContext(extractor.getDescription(), exampleResource, null), 
 				writer.getDocumentContext(extractor));
 		writer.close();
 		handler.verify();

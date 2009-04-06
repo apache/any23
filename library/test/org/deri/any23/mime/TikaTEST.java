@@ -103,15 +103,6 @@ public class TikaTEST extends TestCase {
 	}
 
 	/**
-	 * @param string
-	 * @param string2
-	 * @throws IOException 
-	 */
-	private void runTest(final String expectedMimeType, String testDir) throws IOException {
-		runTest(expectedMimeType,testDir,false);
-	}
-
-	/**
 	 * @param test
 	 * @return 
 	 * @throws IOException 
