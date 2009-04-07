@@ -1,6 +1,7 @@
 package org.deri.any23.cli;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -92,9 +93,12 @@ public class Rover {
 		String inputURI = cmd.getArgs()[0]; 
 		if(inputURI.toLowerCase().startsWith("http:"))
 			inputURI = new URL(inputURI.trim()).toString();
-		else
+		else{
+			if(!new File(inputURI.trim()).exists()) throw new FileNotFoundException(new File(inputURI.trim()).toURI().toString());
 			inputURI = new File(inputURI.trim()).toURI().toString();
-
+		}
+		
+		
 		String format = TURTLE;
 		//check if an output format was specified
 		if(cmd.hasOption("o")) {
