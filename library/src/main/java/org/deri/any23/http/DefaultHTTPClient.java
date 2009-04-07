@@ -25,19 +25,15 @@ public class DefaultHTTPClient implements HTTPClient {
 	private static final int DEFAULT_TOTAL_CONNECTIONS = 5;
 
 	private final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
-	private final String userAgent;
-	private final String accept;
+	private String userAgent;
+	private String accept;
 	private HttpClient client = null;
-	
-	public DefaultHTTPClient(String userAgent) {
-		this(userAgent, null);
-	}
-	
-	public DefaultHTTPClient(String userAgent, String accept) {
-		this.userAgent = userAgent;
-		this.accept = accept;
-	}
 
+	public void init(String userAgent, String acceptHeader) {
+		this.userAgent = userAgent;
+		this.accept = acceptHeader;
+	}
+	
 	private void ensureClientInitialized() {
 		if (client != null) return;
 		client = new HttpClient(manager);
@@ -59,6 +55,14 @@ public class DefaultHTTPClient implements HTTPClient {
 		hostConf.getParams().setParameter("http.default-headers", headers);
 	}
 
+	protected int getConnectionTimeout() {
+		return DEFAULT_TIMEOUT;
+	}
+	
+	protected int getSoTimeout() {
+		return DEFAULT_TIMEOUT;
+	}
+	
 	// Will follow redirects
 	/* (non-Javadoc)
 	 * @see org.deri.any23.http.HTTPClient#openInputStream(java.lang.String)

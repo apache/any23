@@ -47,7 +47,8 @@ public class Any23 {
 	private InputStreamCache streamCache;
 	private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector();	// can be overridden by setter
 	private String userAgent = null;
-	private HTTPClient httpClient = null;
+	private HTTPClient httpClient = new DefaultHTTPClient();
+	private boolean httpClientInitialized = false;
 	
 	public Any23() {
 		this((String[]) null);
@@ -61,11 +62,17 @@ public class Any23 {
 	}
 	
 	public void setHTTPUserAgent(String userAgent) {
-		this.userAgent = userAgent;
-		if (httpClient != null) {
-			httpClient.close();
+		if (httpClientInitialized) {
+			throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
 		}
-		httpClient = null;
+		this.userAgent = userAgent;
+	}
+	
+	public void setHTTPClient(HTTPClient httpClient) {
+		if (httpClientInitialized) {
+			throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
+		}
+		this.httpClient = httpClient;
 	}
 	
 	public void setCacheFactory(InputStreamCache cache) {
@@ -105,12 +112,13 @@ public class Any23 {
 				return extract(new File(new URI(documentURI)), outputHandler);
 			}
 			if(documentURI.toLowerCase().startsWith("http:")) {
-				if (httpClient == null) {
+				if (!httpClientInitialized) {
 					if (userAgent == null) {
 						throw new IOException("Must call " + Any23.class.getSimpleName() + 
 								".setHTTPUserAgent(String) before extracting from HTTP URI");
 					}
-					httpClient = new DefaultHTTPClient(userAgent, getAcceptHeader());
+					httpClient.init(userAgent, getAcceptHeader());
+					httpClientInitialized = true;
 				}
 				String normalizedURI = new URI(documentURI).normalize().toString();
 				return extract(new HTTPGetOpener(httpClient, normalizedURI), normalizedURI, outputHandler);

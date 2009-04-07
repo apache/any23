@@ -14,6 +14,10 @@ import java.net.URL;
  */
 public class SimpleHTTPClient implements HTTPClient {
 
+	public void init(String userAgent, String acceptHeader) {
+		// we're bad, ignore
+	}
+	
 	public InputStream openInputStream(String uri) throws IOException {
 		if (!uri.toLowerCase().startsWith("http:")) {
 			throw new IllegalArgumentException("Not an http:// URI: " + uri);

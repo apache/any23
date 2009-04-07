@@ -11,6 +11,8 @@ import java.io.InputStream;
  */
 public interface HTTPClient {
 
+	public abstract void init(String userAgent, String acceptHeader);
+	
 	// Will follow redirects
 	public abstract InputStream openInputStream(String uri) throws IOException;
 
