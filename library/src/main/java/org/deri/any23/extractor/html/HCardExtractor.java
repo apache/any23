@@ -48,7 +48,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 		}
 		// include pattern, test 31
 		
-		for (Node current: document.findAll("//*[contains(@class,'include')]")) {
+		for (Node current: document.findAll("//*[@class]")) {
+			if (!DomUtils.hasClassName(current, "include")) continue;
 			// we have to remove the field soon to avoid infinite loops
 			// no null check, we know it's there or we won't be in the loop
 			current.getAttributes().removeNamedItem("class");
