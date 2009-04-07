@@ -39,6 +39,7 @@ public class Rover {
 	private final static String RDFXML = "rdfxml";
 	private final static String ZIP = "zip";
 	private final static String WARC = "warc";
+	
 	/**
 	 * A simple main for testing
 	 * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
@@ -150,8 +151,9 @@ public class Rover {
 			}
 		}
 		outputHandler.close();
-		if(outputHandler instanceof BenchmarkTripleHandler)
+		if(outputHandler instanceof BenchmarkTripleHandler) {
 			System.err.println(((BenchmarkTripleHandler)outputHandler).report());
-		System.err.println("Time elapsed: "+(System.currentTimeMillis()-start)+" ms!");
+		}
+		logger.info("Time elapsed: "+(System.currentTimeMillis()-start)+"ms");
 	}
 }
