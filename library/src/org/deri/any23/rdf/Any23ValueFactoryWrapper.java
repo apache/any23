@@ -178,6 +178,8 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	 *		Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
 	 */
 	private static String fixURIWithException(String unescapedURI) {
+		if (unescapedURI == null) throw new IllegalArgumentException("URI was null");
+		
 		//	Remove starting and ending whitespace  
 		String escapedURI = unescapedURI.trim();
 		
