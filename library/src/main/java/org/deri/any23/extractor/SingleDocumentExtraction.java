@@ -135,7 +135,7 @@ public class SingleDocumentExtraction {
 	
 	private Document getTagSoupDOM() throws IOException {
 		if (tagSoupDOM == null) {
-			tagSoupDOM = new TagSoupParser(getInputStream(), documentURI.toString()).getDOM();
+			tagSoupDOM = new TagSoupParser(getInputStream(), documentURI.stringValue()).getDOM();
 		}
 		return tagSoupDOM;
 	}
