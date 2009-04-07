@@ -4,8 +4,8 @@
 	<property name="name" value="any23"/>
 	<property name="version" value="0.2-dev"/>
 	<property name="project.package" value="com.google.code.any23"/>
-	<property name="src" value="src"/>
-	<property name="src.tests" value="test"/>
+	<property name="src" value="src/main/java"/>
+	<property name="src.tests" value="src/test/java"/>
 	<property name="build" value="bldsrc"/>
 	<property name="build.tests" value="bldtest"/>
 	<property name="build.lib" value="bldlib"/>
