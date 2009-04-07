@@ -161,7 +161,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	 */
 	public static String fixAbsoluteURI(String uri) {
 		String fixed = fixURIWithException(uri);
-		if (!fixed.matches("[a-zA-Z0-9]+://.*")) throw new IllegalArgumentException("not a absolute URI: " + uri);
+		if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute URI: " + uri);
 		return fixed;
 	}
 
