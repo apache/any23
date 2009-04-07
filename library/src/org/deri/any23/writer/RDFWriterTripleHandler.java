@@ -36,8 +36,6 @@ class RDFWriterTripleHandler implements TripleHandler {
 	}
 
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		checkInput(s,p,o);
-		
 		try {
 			writer.handleStatement(
 					ValueFactoryImpl.getInstance().createStatement(s, p, o));
@@ -46,12 +44,6 @@ class RDFWriterTripleHandler implements TripleHandler {
 		}
 	}
 	
-	private void checkInput(Resource s, URI p, Value o) {
-		if(s==null)throw new IllegalArgumentException("Subject value is null");
-		if(p ==null)throw new IllegalArgumentException("Predicate value is null");
-		if(o==null) throw new IllegalArgumentException("Object value is null");
-	}
-
 	public void receiveLabel(String label, ExtractionContext context) {
 		// ignore metadata
 	}

@@ -111,7 +111,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 	public final static ExtractorFactory<HResumeExtractor> factory = 
 		SimpleExtractorFactory.create(
 				"html-mf-hresume",
-				PopularPrefixes.createSubset("rdf", "hresume"),
+				PopularPrefixes.createSubset("rdf", "doac", "foaf"),
 				Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
 				null,
 				HResumeExtractor.class);

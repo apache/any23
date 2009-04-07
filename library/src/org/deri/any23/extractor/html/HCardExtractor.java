@@ -11,7 +11,6 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.rdf.PopularPrefixes;
-import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
@@ -101,7 +100,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 		if (!foundSomething) return false;
 		out.writeTriple(card, RDF.TYPE, VCARD.VCard, context);
 
-		addFOAFTriples(card);
+// Let's not add redundant FOAF triples, they blow up the file and don't add much value
+//		addFOAFTriples(card);
 		//TODO remove single card
 		return true;
 	}
@@ -219,13 +219,13 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 		BNode n = null;
 		for (String fieldName: HCardName.FIELDS) {
 			String value = name.getField(fieldName);
+			if (value == null) continue;
 			if (n == null) {
 				n = valueFactory.createBNode();
 				out.writeTriple(card, VCARD.n, n, context);
 				out.writeTriple(n, RDF.TYPE, VCARD.Name, context);
 			}
-			if (fieldName == null) continue;
-			out.writeTriple(card, VCARD.getProperty(fieldName), valueFactory.createLiteral(value), context);
+			out.writeTriple(n, VCARD.getProperty(fieldName), valueFactory.createLiteral(value), context);
 		}
 		return n != null;
 	}
@@ -266,14 +266,14 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 		return found;
 	}
 
-	private void addFOAFTriples(Resource card) {
-		if (name.getFullName() == null && name.getField(HCardName.NICKNAME) == null) return;
-		BNode person = valueFactory.createBNode();
-		out.writeTriple(card, FOAF.primaryTopic, person, context);
-		out.writeTriple(person, RDF.TYPE, FOAF.Person, context);
-		out.writeTriple(person, FOAF.name, valueFactory.createLiteral(name.getFullName()), context);
-		out.writeTriple(person, FOAF.nick, valueFactory.createLiteral(name.getField(HCardName.NICKNAME)), context);
-	}
+//	private void addFOAFTriples(Resource card) {
+//		if (name.getFullName() == null && name.getField(HCardName.NICKNAME) == null) return;
+//		BNode person = valueFactory.createBNode();
+//		out.writeTriple(card, FOAF.primaryTopic, person, context);
+//		out.writeTriple(person, RDF.TYPE, FOAF.Person, context);
+//		out.writeTriple(person, FOAF.name, valueFactory.createLiteral(name.getFullName()), context);
+//		out.writeTriple(person, FOAF.nick, valueFactory.createLiteral(name.getField(HCardName.NICKNAME)), context);
+//	}
 
 	public ExtractorDescription getDescription() {
 		return factory;

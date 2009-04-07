@@ -88,6 +88,9 @@ public class ExtractionResultImpl implements ExtractionResult {
 	}
 
 	public void writeTriple(Resource s, URI p, Value o, ExtractionContext context) {
+		if (s == null || p == null || o == null) return;
+		// Check for malconstructed literals or BNodes, Sesame does not catch this 
+		if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) return;
 		if (!context.isDocumentContext()) {
 			checkOpen(context);
 		}

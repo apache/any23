@@ -30,11 +30,13 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 
 	@Override
 	public BNode createBNode(String arg0) {
+		if (arg0 == null) return null;
 		return _vFactory.createBNode(arg0);
 	}
 
 	@Override
 	public Literal createLiteral(String arg0) {
+		if (arg0 == null) return null;
 		return _vFactory.createLiteral(arg0);
 	}
 
@@ -80,22 +82,26 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 
 	@Override
 	public Literal createLiteral(String arg0, String arg1) {
+		if (arg0 == null) return null;
 		return _vFactory.createLiteral(arg0,arg1);
 	}
 
 	@Override
 	public Literal createLiteral(String arg0, URI arg1) {
+		if (arg0 == null) return null;
 		return _vFactory.createLiteral(arg0,arg1);
 	}
 
 	@Override
 	public Statement createStatement(Resource arg0, URI arg1, Value arg2) {
+		if (arg0 == null || arg1 == null || arg2 == null) return null;
 		return _vFactory.createStatement(arg0,arg1,arg2);
 	}
 
 	@Override
 	public Statement createStatement(Resource arg0, URI arg1, Value arg2,
 			Resource arg3) {
+		if (arg0 == null || arg1 == null || arg2 == null) return null;
 		return _vFactory.createStatement(arg0,arg1,arg2,arg3);
 	}
 
@@ -105,6 +111,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	 * @return a valid sesame URI or null if any exception occured
 	 */
 	public URI createURI(String arg0) {
+		if (arg0 == null) return null;
 		return _vFactory.createURI(fixURIWithException(arg0));
 	}
 	
@@ -113,6 +120,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	 * @return a valid sesame URI or null if any exception occured
 	 */
 	public URI createURI(String arg0, String arg1) {
+		if (arg0 == null || arg1 == null) return null;
 		return _vFactory.createURI(fixURIWithException(arg0),arg1);
 	}
 
@@ -132,7 +140,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	}
 
 	/**
-	 * @param arg0
+	 * @param uri
 	 * @return a valid sesame URI or null if any exception occured
 	 */
 	public URI fixURI(String uri) {
