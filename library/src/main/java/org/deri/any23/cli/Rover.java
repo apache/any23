@@ -1,7 +1,6 @@
 package org.deri.any23.cli;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
@@ -78,7 +77,9 @@ public class Rover {
 		}
 		
 		if (cmd.hasOption('v')) {
-			LogUtil.changeToVerboseLogging();
+			LogUtil.setVerboseLogging();
+		} else {
+			LogUtil.setDefaultLogging();
 		}
 		
 		if (cmd.hasOption("h")) {
