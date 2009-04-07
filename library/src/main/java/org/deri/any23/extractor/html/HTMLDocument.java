@@ -16,6 +16,8 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -26,6 +28,8 @@ import org.w3c.dom.Node;
  * @author Gabriele Renzi
  */
 public class HTMLDocument {
+	private final static Logger log = LoggerFactory.getLogger(HTMLDocument.class);
+	
 	private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
 
 	/**
@@ -56,6 +60,9 @@ public class HTMLDocument {
 	private java.net.URI getBaseURI() throws ExtractionException {
 		if (baseURI == null) {
 			try {
+				if (document.getBaseURI() == null) {
+					log.warn("document.getBaseURI() is null, this should not happen");
+				}
 				baseURI = new java.net.URI(Any23ValueFactoryWrapper.fixAbsoluteURI(document.getBaseURI()));
 			} catch (IllegalArgumentException ex) {
 				throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);

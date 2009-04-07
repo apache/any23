@@ -50,6 +50,12 @@ public class TagSoupParser {
 				throw new RuntimeException(ex);
 			} catch (TransformerException ex) {
 				throw new RuntimeException(ex);
+			} catch (NullPointerException ex) {
+				if (ex.getStackTrace()[0].getClassName().equals("java.io.Reader")) {
+					throw new RuntimeException("Bug in NekoHTML, try upgrading to newer release!");
+				} else {
+					throw ex;
+				}
 			} finally {
 				long elapsed = System.currentTimeMillis() - startTime;
 				log.debug("Parsed " + documentURI + " with NekoHTML, " + elapsed + "ms");

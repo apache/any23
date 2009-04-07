@@ -149,7 +149,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 	}
 
 	private boolean addSubMicroformat(String className, Resource resource, URI property) {
-		List<Node> nodes = document.findAllByClassName(className);
+		List<Node> nodes = fragment.findAllByClassName(className);
 		if (nodes.isEmpty()) return false;
 		for(Node node: nodes) {
 			out.writeTriple(resource, property, getBlankNodeFor(node), context);
@@ -186,7 +186,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 	}
 
 	private boolean addPhoto(Resource card) throws ExtractionException {
-		String[] links = document.getPluralUrlField("photo");
+		String[] links = fragment.getPluralUrlField("photo");
 		boolean found = false;
 		for (String link: links) {
 			found |= conditionallyAddResourceProperty(card, VCARD.photo, document.resolveURI(link));
