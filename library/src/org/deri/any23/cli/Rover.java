@@ -58,6 +58,8 @@ public class Rover {
 		Option stats = new Option("stats",false,"print out statistics of Any23");
 		options.addOption(stats);
 		
+		Option verbose = new Option("v", "verbose", false, "show progress and debug information");
+		options.addOption(verbose);
 		
 		CommandLineParser parser = new PosixParser();
 		CommandLine cmd = null;
@@ -69,6 +71,10 @@ public class Rover {
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("Rover [file|url]", options,true );
 			return;
+		}
+		
+		if (cmd.hasOption('v')) {
+			LogUtil.changeToVerboseLogging();
 		}
 		
 		if (cmd.hasOption("h")) {
@@ -107,7 +113,6 @@ public class Rover {
 			outputHandler = new BenchmarkTripleHandler(outputHandler);	
 		}
 		 
-		
 		long start = System.currentTimeMillis();
 		Any23 any23 = new Any23();
 		any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);

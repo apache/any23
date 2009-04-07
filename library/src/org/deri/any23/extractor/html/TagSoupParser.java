@@ -6,6 +6,8 @@ import java.io.InputStream;
 import javax.xml.transform.TransformerException;
 
 import org.cyberneko.html.parsers.DOMParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,6 +28,8 @@ import org.xml.sax.SAXException;
  * @author Richard Cyganiak (richard at cyganiak dot de)
  */
 public class TagSoupParser {
+	private final static Logger log = LoggerFactory.getLogger(TagSoupParser.class);
+	
 	private final InputStream input;
 	private final String documentURI;
 	private Document result = null;
@@ -37,6 +41,7 @@ public class TagSoupParser {
 	
 	public Document getDOM() {
 		if (result == null) {
+			long startTime = System.currentTimeMillis();
 			try {
 				result = parse();
 			} catch (IOException ex) {
@@ -45,6 +50,9 @@ public class TagSoupParser {
 				throw new RuntimeException(ex);
 			} catch (TransformerException ex) {
 				throw new RuntimeException(ex);
+			} finally {
+				long elapsed = System.currentTimeMillis() - startTime;
+				log.debug("NekoHTML: parsed " + documentURI + ", " + elapsed + "ms");
 			}
 		}
 		result.setDocumentURI(documentURI);
