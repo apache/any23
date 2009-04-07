@@ -41,8 +41,8 @@
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-sail-api-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-sail-inferencer-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-sail-memory-2.2.4.jar"/>
-	<classpathentry kind="lib" path="lib/tika-0.1/jaxen-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/tika-0.1/tika-0.1-incubating.jar"/>
+	<classpathentry kind="lib" path="lib/jaxen-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/tika-0.3.jar"/>
 	<classpathentry kind="lib" path="lib/heritrix-2.0.2/archive-overlay-commons-httpclient-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/heritrix-2.0.2/commons-2.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/heritrix-2.0.2/fastutil-5.0.7.jar"/>
