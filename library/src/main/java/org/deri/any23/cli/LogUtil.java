@@ -6,6 +6,8 @@ import java.util.logging.Logger;
 public class LogUtil {
 
 	public static void changeToVerboseLogging() {
-		Logger.getLogger("").setLevel(Level.ALL);
+		Logger.getLogger("").setLevel(Level.INFO);
+		Logger.getLogger("org.deri.any23").setLevel(Level.ALL);
+		Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
 	}
 }

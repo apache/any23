@@ -11,11 +11,11 @@ import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 
 /**
- * A mapping from prefixes to namespace URIs. Supports “volatile mappings”,
+ * A mapping from prefixes to namespace URIs. Supports "volatile mappings",
  * which will be overwritten without notice when mappings are merged,
  * while for normal mappings this causes an exception. This allows
- * combining “hard” mappings (which must be retained or something breaks)
- * and “soft” mappings (which might be read from input RDF files and
+ * combining "hard" mappings (which must be retained or something breaks)
+ * and "soft" mappings (which might be read from input RDF files and
  * should be retained only if they are not in conflict with the hard
  * ones).
  * 

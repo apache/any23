@@ -52,7 +52,7 @@ public class TagSoupParser {
 				throw new RuntimeException(ex);
 			} finally {
 				long elapsed = System.currentTimeMillis() - startTime;
-				log.debug("NekoHTML: parsed " + documentURI + ", " + elapsed + "ms");
+				log.debug("Parsed " + documentURI + " with NekoHTML, " + elapsed + "ms");
 			}
 		}
 		result.setDocumentURI(documentURI);

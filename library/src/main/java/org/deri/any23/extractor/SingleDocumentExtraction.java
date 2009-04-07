@@ -44,7 +44,7 @@ public class SingleDocumentExtraction {
 	
 	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
-		log.info("Parsing " + documentURI);
+		log.info("Processing " + documentURI);
 		try {
 			this.documentURI = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()).createURI(documentURI);
 		} catch (Exception ex) {
@@ -64,6 +64,13 @@ public class SingleDocumentExtraction {
 
 	public void run() throws ExtractionException, IOException {
 		filterExtractorsByMIMEType();
+		StringBuffer sb = new StringBuffer("Extractors ");
+		for (ExtractorFactory<?> factory : matchingExtractors) {
+			sb.append(factory.getExtractorName());
+			sb.append(' ');
+		}
+		sb.append(" match " + documentURI);
+		log.debug(sb.toString());
 		// Invoke all extractors
 		for (ExtractorFactory<?> factory : matchingExtractors) {
 			runExtractor(factory.createExtractor());
@@ -93,6 +100,8 @@ public class SingleDocumentExtraction {
 	}
 	
 	private void runExtractor(Extractor<?> extractor) throws ExtractionException, IOException {
+		log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
+		long startTime = System.currentTimeMillis();
 		ExtractionResultImpl result = new ExtractionResultImpl(documentURI, output);
 		try {
 			if (extractor instanceof BlindExtractor) {
@@ -106,6 +115,8 @@ public class SingleDocumentExtraction {
 			}
 		} finally {
 			result.close();
+			long elapsed = System.currentTimeMillis() - startTime;
+			log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
 		}
 	}
 	
