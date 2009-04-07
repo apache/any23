@@ -3,11 +3,13 @@ package com.google.code.any23.extractors;
 import java.util.Arrays;
 import java.util.List;
 
+import org.deri.any23.extractor.html.AbstractMicroformatTestCase;
+import org.deri.any23.extractor.html.HCardExtractor;
+import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
 
 
-import com.google.code.any23.extractors.HCardExtractor;
 import com.hp.hpl.jena.rdf.model.ResIterator;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
@@ -438,7 +440,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		List<String> NAMES = Arrays.asList(ns);
 		assertExtracts("03-implied-n");
 		assertModelNotEmpty();
-		// assertContains( VCARD.organization_name, "Technorati");
+		assertContains( VCARD.organization_name, "Technorati");
 
 		StmtIterator iter = model.listStatements((Resource) null, VCARD.fn,
 				(Resource) null);

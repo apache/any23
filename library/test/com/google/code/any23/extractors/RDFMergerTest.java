@@ -3,17 +3,19 @@ package com.google.code.any23.extractors;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.deri.any23.extractor.html.AbstractMicroformatTestCase;
 import org.deri.any23.extractor.html.AdrExtractor;
+import org.deri.any23.extractor.html.GeoExtractor;
+import org.deri.any23.extractor.html.HCardExtractor;
+import org.deri.any23.extractor.html.HReviewExtractor;
 import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.extractor.html.XFNExtractor;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.VCARD;
 
 
-import com.google.code.any23.extractors.GeoExtractor;
-import com.google.code.any23.extractors.HCardExtractor;
-import com.google.code.any23.extractors.HReviewExtractor;
 import com.google.code.any23.extractors.RDFMerger;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.ResIterator;

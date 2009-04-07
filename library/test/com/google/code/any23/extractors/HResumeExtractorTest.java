@@ -3,17 +3,19 @@ package com.google.code.any23.extractors;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.deri.any23.extractor.html.AbstractMicroformatTestCase;
 import org.deri.any23.extractor.html.AdrExtractor;
+import org.deri.any23.extractor.html.HCalendarExtractor;
+import org.deri.any23.extractor.html.HCardExtractor;
+import org.deri.any23.extractor.html.HResumeExtractor;
 import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.ICAL;
 import org.deri.any23.vocab.VCARD;
 
 
-import com.google.code.any23.extractors.HCalendarExtractor;
-import com.google.code.any23.extractors.HCardExtractor;
-import com.google.code.any23.extractors.HResumeExtractor;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.RDF;

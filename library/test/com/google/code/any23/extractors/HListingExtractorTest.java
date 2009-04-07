@@ -3,10 +3,12 @@ package com.google.code.any23.extractors;
 
 
 
+import org.deri.any23.extractor.html.AbstractMicroformatTestCase;
+import org.deri.any23.extractor.html.HListingExtractor;
 import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.vocab.HLISTING;
 
-import com.google.code.any23.extractors.HListingExtractor;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 import com.hp.hpl.jena.sparql.vocabulary.FOAF;
