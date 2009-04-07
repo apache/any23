@@ -19,6 +19,8 @@ import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A default rover implementation. Goes and fetches a URL using an hint
@@ -28,7 +30,8 @@ import org.deri.any23.writer.TurtleWriter;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Rover {
-
+	private static final Logger logger = LoggerFactory.getLogger(Rover.class);
+	
 	private static final String USER_AGENT_NAME = "Any23-CLI";
 	
 	//output writer constants
@@ -94,7 +97,10 @@ public class Rover {
 		if(inputURI.toLowerCase().startsWith("http:"))
 			inputURI = new URL(inputURI.trim()).toString();
 		else{
-			if(!new File(inputURI.trim()).exists()) throw new FileNotFoundException(new File(inputURI.trim()).toURI().toString());
+			if(!new File(inputURI.trim()).exists()){
+				logger.warn(new File(inputURI.trim()).toURI().toString());
+				System.exit(-1);
+			}
 			inputURI = new File(inputURI.trim()).toURI().toString();
 		}
 		
