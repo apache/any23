@@ -1,0 +1,5 @@
+<http://example.com/#Alice> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<http://example.com/#Alice> <http://xmlns.com/foaf/0.1/name> "Alice" .
+<http://example.com/#Alice> <http://xmlns.com/foaf/0.1/homepage> <http://alice.example.com/> .
+<http://example.com/> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/PersonalProfileDocument> .
+<http://example.com/> <http://xmlns.com/foaf/0.1/primaryTopic> <http://example.com/#Alice> .

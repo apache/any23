@@ -1,0 +1,15 @@
+package org.deri.any23.stream;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * A source of input streams. Mostly intended for
+ * situations where opening of an input stream is
+ * to be delayed.
+ * 
+ * @author Richard Cyganiak (richard@cyganiak.de)
+ */
+public interface InputStreamOpener {
+	InputStream openInputStream() throws IOException;
+}
