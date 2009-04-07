@@ -98,7 +98,7 @@ public class Rover {
 			inputURI = new URL(inputURI.trim()).toString();
 		else{
 			if(!new File(inputURI.trim()).exists()){
-				logger.warn(new File(inputURI.trim()).toURI().toString());
+				logger.warn(new FileNotFoundException(new File(inputURI.trim()).toURI().toString()).getMessage());
 				System.exit(-1);
 			}
 			inputURI = new File(inputURI.trim()).toURI().toString();
