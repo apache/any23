@@ -49,8 +49,10 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	 * Helper method that adds a literal property to a node.
 	 */
 	protected boolean conditionallyAddStringProperty(Resource subject, URI p, String value) {
-		if ("".equals(value.trim())) return false;
-		out.writeTriple(subject, p, valueFactory.createLiteral(value.trim()), out.getDocumentContext(this));
+		if (value == null) return false;
+		value = value.trim();
+		if ("".equals(value)) return false;
+		out.writeTriple(subject, p, valueFactory.createLiteral(value), out.getDocumentContext(this));
 		return true;
 	}
 
