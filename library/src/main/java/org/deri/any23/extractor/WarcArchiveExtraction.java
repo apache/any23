@@ -9,22 +9,17 @@ import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.Iterator;
 
-
-
 import org.archive.io.ArchiveRecord;
 import org.archive.io.ArchiveRecordHeader;
 import org.archive.io.warc.WARCConstants;
 import org.archive.io.warc.WARCReader;
 import org.archive.io.warc.WARCReaderFactory;
-import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.stream.WARCFileOpener;
 import org.deri.any23.writer.TripleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 public class WarcArchiveExtraction {
 	private final static Logger logger = LoggerFactory.getLogger(WarcArchiveExtraction.class);

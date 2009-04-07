@@ -71,6 +71,9 @@ public class SingleDocumentExtraction {
 		}
 		sb.append(" match " + documentURI);
 		log.debug(sb.toString());
+		byte[] buffer = new byte[100];
+		int l = getInputStream().read(buffer);
+		log.debug("Content: " + new String(buffer, 0, l));
 		// Invoke all extractors
 		for (ExtractorFactory<?> factory : matchingExtractors) {
 			runExtractor(factory.createExtractor());
