@@ -2,6 +2,7 @@ package org.deri.any23.cli;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.commons.cli.CommandLine;
@@ -48,7 +49,7 @@ public class Rover {
 	 * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
 	 * @throws IOException
 	 */
-	public static void main(String[] args) throws IOException, ExtractionException {
+	public static void main(String[] args) {
 		Options options = new Options();
 		
 		//output format
@@ -106,10 +107,15 @@ public class Rover {
 		//get the input location
 		String inputURI = cmd.getArgs()[0]; 
 		if(inputURI.toLowerCase().startsWith("http:"))
-			inputURI = new URL(inputURI.trim()).toString();
+			try {
+				inputURI = new URL(inputURI.trim()).toString();
+			} catch (MalformedURLException ex) {
+				System.err.println("Malformed URL: " + ex + "(" + ex.getMessage() + ")");
+				System.exit(-1);
+			}
 		else{
 			if(!new File(inputURI.trim()).exists()){
-				logger.warn("FileNotFoundException for input file "+new File(inputURI.trim()).toURI().toString());
+				System.err.println("FileNotFoundException for input file "+new File(inputURI.trim()).toURI().toString());
 				System.exit(-1);
 			}
 			inputURI = new File(inputURI.trim()).toURI().toString();
@@ -160,9 +166,17 @@ public class Rover {
 			}
 		}
 		else {
-			if (!any23.extract(inputURI, outputHandler)) {
-				System.err.println("No suitable extractors");
-				System.exit(2);
+			try {
+				if (!any23.extract(inputURI, outputHandler)) {
+					System.err.println("No suitable extractors");
+					System.exit(2);
+				}
+			} catch (ExtractionException ex) {
+				System.err.println(ex.getMessage());
+				System.exit(3);
+			} catch (IOException ex) {
+				System.err.println(ex.getMessage());
+				System.exit(4);
 			}
 		}
 		outputHandler.close();

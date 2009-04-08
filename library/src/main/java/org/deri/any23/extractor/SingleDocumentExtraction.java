@@ -117,6 +117,9 @@ public class SingleDocumentExtraction {
 			} else {
 				throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
 			}
+		} catch (ExtractionException ex) {
+			log.info(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
+			throw ex;
 		} finally {
 			result.close();
 			long elapsed = System.currentTimeMillis() - startTime;
