@@ -72,6 +72,9 @@ public class DefaultHTTPClient implements HTTPClient {
 		GetMethod method = new GetMethod(uri);
 		method.setFollowRedirects(true);
 		client.executeMethod(method);
+		if (method.getStatusCode() != 200) {
+			throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
+		}
 		return method.getResponseBodyAsStream();
 	}
 
