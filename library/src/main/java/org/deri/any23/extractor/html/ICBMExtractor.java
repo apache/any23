@@ -3,7 +3,6 @@ package org.deri.any23.extractor.html;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -26,9 +25,8 @@ import org.w3c.dom.Document;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ICBMExtractor implements TagSoupDOMExtractor {
-	private ExtractionContext context;
 	
-	public void run(Document in, ExtractionResult out) throws IOException,
+	public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
 	ExtractionException {
 
 		// ICBM is the preferred method, if two values are available it is meaningless to read both
@@ -44,18 +42,17 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
 			return;
 		}
 
-		context = out.getDocumentContext(this);
 		ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
 		BNode point = factory.createBNode();
-		out.writeTriple(out.getDocumentURI(), expand("dcterms:related"), point, context);
-		out.writeTriple(point, expand("rdf:type"), expand("geo:Point"), context);
-		out.writeTriple(point, expand("geo:lat"), factory.createLiteral(Float.toString(lat)), context);
-		out.writeTriple(point, expand("geo:long"), factory.createLiteral(Float.toString(lon)), context);
+		out.writeTriple(documentURI, expand("dcterms:related"), point);
+		out.writeTriple(point, expand("rdf:type"), expand("geo:Point"));
+		out.writeTriple(point, expand("geo:lat"), factory.createLiteral(Float.toString(lat)));
+		out.writeTriple(point, expand("geo:long"), factory.createLiteral(Float.toString(lon)));
 	}
 	
 	private URI expand(String curie) {
-		return this.context.getPrefixes().expand(curie);
+		return factory.getPrefixes().expand(curie);
 	}
 	
 	public ExtractorDescription getDescription() {

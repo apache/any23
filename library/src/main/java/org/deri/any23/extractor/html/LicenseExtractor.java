@@ -11,6 +11,7 @@ import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.XHTML;
+import org.openrdf.model.URI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -25,17 +26,13 @@ import org.w3c.dom.Node;
  */
 public class LicenseExtractor implements TagSoupDOMExtractor {
 
-	public void run(Document in, ExtractionResult out) throws IOException,
+	public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
 	ExtractionException {
 		HTMLDocument document = new HTMLDocument(in);
 		for (Node node: DomUtils.findAll(in, "//A[@rel='license']/@href")) {
 			String link = node.getNodeValue();
 			if ("".equals(link)) continue;
-			out.writeTriple(
-					out.getDocumentURI(), 
-					XHTML.license, 
-					document.resolveURI(link), 
-					out.getDocumentContext(this));
+			out.writeTriple(documentURI, XHTML.license, document.resolveURI(link));
 		}
 	}
 

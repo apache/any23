@@ -69,12 +69,13 @@ public class SingleDocumentExtraction {
 			sb.append(factory.getExtractorName());
 			sb.append(' ');
 		}
-		sb.append(" match " + documentURI);
+		sb.append("match " + documentURI);
 		log.debug(sb.toString());
 //		byte[] buffer = new byte[100];
 //		int l = getInputStream().read(buffer);
 //		log.debug("Content: " + new String(buffer, 0, l));
 		// Invoke all extractors
+		output.startDocument(documentURI);
 		for (ExtractorFactory<?> factory : matchingExtractors) {
 			runExtractor(factory.createExtractor());
 		}
@@ -105,14 +106,14 @@ public class SingleDocumentExtraction {
 	private void runExtractor(Extractor<?> extractor) throws ExtractionException, IOException {
 		log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
 		long startTime = System.currentTimeMillis();
-		ExtractionResultImpl result = new ExtractionResultImpl(documentURI, output);
+		ExtractionResultImpl result = new ExtractionResultImpl(documentURI, extractor, output);
 		try {
 			if (extractor instanceof BlindExtractor) {
-				((BlindExtractor) extractor).run(documentURI, result);
+				((BlindExtractor) extractor).run(documentURI, documentURI, result);
 			} else if (extractor instanceof ContentExtractor) {
-				((ContentExtractor) extractor).run(getInputStream(), result);
+				((ContentExtractor) extractor).run(getInputStream(), documentURI, result);
 			} else if (extractor instanceof TagSoupDOMExtractor) {
-				((TagSoupDOMExtractor) extractor).run(getTagSoupDOM(), result);
+				((TagSoupDOMExtractor) extractor).run(getTagSoupDOM(), documentURI, result);
 			} else {
 				throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
 			}

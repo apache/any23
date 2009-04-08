@@ -5,8 +5,6 @@ import org.deri.any23.vocab.ANY23;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.model.vocabulary.RDFS;
 
 /**
  * A triple handler that converts triples to quads by using the
@@ -35,6 +33,10 @@ public class QuadWriter implements TripleHandler {
 		this.quadHandler = quadHandler;
 		this.metaGraph = (metadataGraphURI == null) ? null : metadataGraphURI;
 	}
+
+	public void startDocument(URI documentURI) {
+		// ignore
+	}
 	
 	public void openContext(ExtractionContext context) {
 		if (metaGraph == null) return;
@@ -53,15 +55,10 @@ public class QuadWriter implements TripleHandler {
 		quadHandler.writeQuad(s, p, o, context.getDocumentURI());
 	}
 	
-	public void receiveLabel(String label, ExtractionContext context) {
-		if (metaGraph == null || !context.isDocumentContext()) return;
-		quadHandler.writeQuad(
-				context.getDocumentURI(), 
-				RDFS.LABEL, 
-				ValueFactoryImpl.getInstance().createLiteral(label), 
-				metaGraph);
+	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+		// ignore prefix mappings
 	}
-
+	
 	public void close() {
 		quadHandler.close();
 	}

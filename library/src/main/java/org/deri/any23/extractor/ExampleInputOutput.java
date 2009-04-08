@@ -7,6 +7,7 @@ import java.io.InputStream;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.stream.InputStreamCacheMem;
 import org.deri.any23.stream.StringOpener;
+import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
 
 /**
@@ -61,11 +62,13 @@ public class ExampleInputOutput {
 			return null;
 		}
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		TripleHandler writer = new TurtleWriter(out);
 		new SingleDocumentExtraction(
 				new StringOpener(getExampleInput()), 
 				getExampleURI(),
 				factory,
-				new TurtleWriter(out)).run();
+				writer).run();
+		writer.close();
 		return out.toString("utf-8");
 	}
 	

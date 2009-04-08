@@ -12,7 +12,10 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.deri.any23.Any23;
+import org.deri.any23.LogUtil;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.filter.IgnoreAccidentalRDFa;
+import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
@@ -49,17 +52,23 @@ public class Rover {
 		Options options = new Options();
 		
 		//output format
-		Option outputFormat = new Option("o",true,"["+TURTLE+" (default), "+NTRIPLE+" , "+RDFXML+"]");
+		Option outputFormat = new Option("f", "format", true,"["+TURTLE+" (default), "+NTRIPLE+", "+RDFXML+"]");
 		options.addOption(outputFormat);
 		
 		//inputformat
-		Option input0 = new Option("I",true,"["+ZIP+" , "+WARC+"]");
+		Option input0 = new Option("I",true,"["+ZIP+", "+WARC+"]");
 		options.addOption(input0);
-				
-		Option outputFile = new Option("O",true,"ouput file, if omitted output is written to stdout");
+
+		Option extractor = new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle");
+		options.addOption(extractor);
+		
+		Option outputFile = new Option("o", "output", true,"ouput file (defaults to stdout)");
 		options.addOption(outputFile);
 		
-		Option stats = new Option("stats",false,"print out statistics of Any23");
+		Option filterTrivial = new Option("t", "notrivial", false, "filter trivial statements");
+		options.addOption(filterTrivial);
+		
+		Option stats = new Option("s", "stats",false,"print out statistics of Any23");
 		options.addOption(stats);
 		
 		Option verbose = new Option("v", "verbose", false, "show progress and debug information");
@@ -71,7 +80,7 @@ public class Rover {
 		try {
 			cmd = parser.parse(options, args);
 		} catch (ParseException e) {
-			System.err.println("***ERROR: " + e.getClass() + ": " + e.getMessage());
+			System.err.println("***ERROR: " + e.getMessage());
 			HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("Rover [file|url]", options,true );
 			return;
@@ -106,11 +115,15 @@ public class Rover {
 			inputURI = new File(inputURI.trim()).toURI().toString();
 		}
 		
+		String[] extractorNames = null;
+		if (cmd.hasOption('e')) {
+			extractorNames = cmd.getOptionValue('e').split(",");
+		}
 		
 		String format = TURTLE;
 		//check if an output format was specified
-		if(cmd.hasOption("o")) {
-			format = cmd.getOptionValue("o");
+		if(cmd.hasOption("f")) {
+			format = cmd.getOptionValue("f");
 		}
 		TripleHandler outputHandler = null;
 		if (TURTLE.equals(format)) {
@@ -120,13 +133,15 @@ public class Rover {
 		} else 
 			outputHandler = new RDFXMLWriter(System.out);
 
-		
-		if(cmd.hasOption("stats")){
+		if (cmd.hasOption('t')) {
+			outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
+		}
+		if(cmd.hasOption('s')){
 			outputHandler = new BenchmarkTripleHandler(outputHandler);	
 		}
 		 
 		long start = System.currentTimeMillis();
-		Any23 any23 = new Any23();
+		Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
 		any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
 		if(cmd.hasOption("I")) {
 			String inputFormat = cmd.getOptionValue("I");

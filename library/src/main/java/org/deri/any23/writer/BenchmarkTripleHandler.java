@@ -44,6 +44,10 @@ public class BenchmarkTripleHandler implements TripleHandler {
 		stats.put("SUM", new StatObject());
 	}
 
+	public void startDocument(URI documentURI) {
+		underlyingHandler.startDocument(documentURI);
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#close()
 	 */
@@ -75,13 +79,6 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.deri.any23.writer.TripleHandler#receiveLabel(java.lang.String, org.deri.any23.extractor.ExtractionContext)
-	 */
-	public void receiveLabel(String label, ExtractionContext context) {
-		underlyingHandler.receiveLabel(label, context);
-	}
-
-	/* (non-Javadoc)
 	 * @see org.deri.any23.writer.TripleHandler#receiveTriple(com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, org.deri.any23.extractor.ExtractionContext)
 	 */
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
@@ -91,6 +88,10 @@ public class BenchmarkTripleHandler implements TripleHandler {
 		underlyingHandler.receiveTriple(s, p, o, context);
 	}
 
+	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+		underlyingHandler.receiveNamespace(prefix, uri, context);
+	}
+	
 	/**
 	 * @return
 	 */

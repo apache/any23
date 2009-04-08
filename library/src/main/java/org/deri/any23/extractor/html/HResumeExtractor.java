@@ -3,7 +3,7 @@ package org.deri.any23.extractor.html;
 import java.util.Arrays;
 import java.util.List;
 
-import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -22,19 +22,17 @@ import org.w3c.dom.Node;
  * @author Gabriele Renzi
  */
 public class HResumeExtractor extends EntityBasedMicroformatExtractor {
-	private ExtractionContext context;
 	
 	public String getBaseClassName() {
 		return "hresume";
 	}
 
 	@Override
-	protected boolean extractEntity(Node node, ExtractionContext context) {
+	protected boolean extractEntity(Node node, ExtractionResult out) {
 		if (null == node) return false;
-		this.context = context;
 		BNode person = getBlankNodeFor(node);
 		// we have a person, at least
-		out.writeTriple(person, RDF.TYPE, FOAF.Person, context);
+		out.writeTriple(person, RDF.TYPE, FOAF.Person);
 		HTMLDocument fragment = new HTMLDocument(node);
 		addSummary(fragment,person);
 		addContact(fragment,person);
@@ -53,7 +51,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 	private void addContact(HTMLDocument doc, Resource person) {
 		List<Node> nodes = doc.findAllByClassName("contact");
 		if (nodes.size()>0)
-			out.writeTriple(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)), context);
+			out.writeTriple(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)));
 	}
 	
 	private void addExperiences(HTMLDocument doc, Resource person) {
@@ -61,7 +59,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 		for (Node node : nodes) {
 			Resource exp = valueFactory.createBNode();
 			if (addExperience(exp,new HTMLDocument(node)));
-				out.writeTriple(person, DOAC.experience, exp, context);
+				out.writeTriple(person, DOAC.experience, exp);
 		}
 	}
 
@@ -93,14 +91,14 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 		for (Node node : nodes) {
 			Resource exp = valueFactory.createBNode();
 			if (addExperience(exp,new HTMLDocument(node)));
-				out.writeTriple(person, DOAC.education, exp, context);
+				out.writeTriple(person, DOAC.education, exp);
 		}
 	}
 	
 	private void addAffiliations(HTMLDocument doc, Resource person) {
 		List<Node> nodes = doc.findAllByClassName("affiliation");
 		for (Node node : nodes) {
-			out.writeTriple(person, DOAC.affiliation, getBlankNodeFor(node), context);
+			out.writeTriple(person, DOAC.affiliation, getBlankNodeFor(node));
 		}
 	}
 

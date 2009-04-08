@@ -12,6 +12,7 @@ import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
+import org.openrdf.model.URI;
 import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
@@ -23,17 +24,15 @@ import org.w3c.dom.Document;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class TitleExtractor implements TagSoupDOMExtractor {
+	public final static String NAME = "html-head-title";
+	
 	protected final ValueFactory valueFactory =new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
-	public void run(Document in, ExtractionResult out) throws IOException,
+	public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
 	ExtractionException {
 		String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
 		if (title != null && !"".equals(title)) {
-			out.writeTriple(
-					out.getDocumentURI(), 
-					DCTERMS.title, 
-					valueFactory.createLiteral(title), 
-					out.getDocumentContext(this));
+			out.writeTriple(documentURI, DCTERMS.title, valueFactory.createLiteral(title));
 		}
 	}
 	
@@ -44,7 +43,7 @@ public class TitleExtractor implements TagSoupDOMExtractor {
 	
 	public final static ExtractorFactory<TitleExtractor> factory = 
 		SimpleExtractorFactory.create(
-				"html-head-title",
+				NAME,
 				PopularPrefixes.createSubset("dcterms"),
 				Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
 				"example-title.html",

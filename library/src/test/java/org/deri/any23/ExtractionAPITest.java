@@ -13,16 +13,18 @@ public class ExtractionAPITest extends TestCase {
 	
 	public void testDirectInstantiation() throws Exception {
 		CountingTripleHandler out = new CountingTripleHandler();
-		ExtractionResultImpl writer = new ExtractionResultImpl(uri, out);
-		new ExampleExtractor().run(uri, writer);
+		ExampleExtractor extractor = new ExampleExtractor();
+		ExtractionResultImpl writer = new ExtractionResultImpl(uri, extractor, out);
+		extractor.run(uri, uri, writer);
 		writer.close();
 		assertEquals(1, out.getCount());
 	}
 
 	public void testEmptyStreamDoesNotGenerateTriples() throws Exception {
 		CountingTripleHandler out = new CountingTripleHandler();
-		ExtractionResultImpl writer = new ExtractionResultImpl(uri, out);
-		new ExampleExtractor().run(uri, writer);
+		ExampleExtractor extractor = new ExampleExtractor();
+		ExtractionResultImpl writer = new ExtractionResultImpl(uri, extractor, out);
+		extractor.run(uri, uri, writer);
 		writer.close();
 		assertEquals(0, out.getCount());
 	}

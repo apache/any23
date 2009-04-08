@@ -1,4 +1,4 @@
-package org.deri.any23.cli;
+package org.deri.any23;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -3,8 +3,8 @@ package org.deri.any23.extractor.html;
 import java.util.Arrays;
 import java.util.List;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -24,16 +24,14 @@ import org.w3c.dom.Node;
  * @author Gabriele Renzi
  */
 public class HReviewExtractor extends EntityBasedMicroformatExtractor {
-	protected ExtractionContext context;
 	
 	protected String getBaseClassName() {
 		return "hreview";
 	}
 
-	protected boolean extractEntity(Node node, ExtractionContext context) throws ExtractionException {
-		this.context = context;
+	protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
 		BNode rev = getBlankNodeFor(node);
-		out.writeTriple(rev, RDF.TYPE, REVIEW.Review, context);
+		out.writeTriple(rev, RDF.TYPE, REVIEW.Review);
 		HTMLDocument fragment = new HTMLDocument(node);
 		addRating(fragment,rev);
 		addSummary(fragment,rev);
@@ -54,14 +52,14 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 	private void addReviewer(HTMLDocument doc, Resource rev) {
 		List<Node> nodes = doc.findAllByClassName("reviewer");
 		if (nodes.size()>0)
-			out.writeTriple(rev, REVIEW.reviewer, getBlankNodeFor(nodes.get(0)), context);
+			out.writeTriple(rev, REVIEW.reviewer, getBlankNodeFor(nodes.get(0)));
 	}
 
 	private void addItem(HTMLDocument root, Resource rev) throws ExtractionException {
 		List<Node> nodes = root.findAllByClassName("item");
 		for(Node node: nodes) {
 			Resource item = findDummy(new HTMLDocument(node));
-			out.writeTriple(item, REVIEW.hasReview, rev, context);
+			out.writeTriple(item, REVIEW.hasReview, rev);
 		}
 	}
 	
@@ -73,7 +71,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 		conditionallyAddResourceProperty(blank, VCARD.url, document.resolveURI(val));
 		String pics[] = item.getPluralUrlField("photo");
 		for(String pic:pics) {
-			out.writeTriple(blank, VCARD.photo, document.resolveURI(pic), context);
+			out.writeTriple(blank, VCARD.photo, document.resolveURI(pic));
 		}
 		return blank;
 	}

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -25,7 +25,6 @@ import org.w3c.dom.Node;
  * @author Gabriele Renzi
  */
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
-	private ExtractionContext context;
 	private HTMLDocument fragment;
 	
 	protected String getBaseClassName() {
@@ -33,16 +32,15 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 	}
 
 	@Override
-	protected boolean extractEntity(Node node, ExtractionContext context) throws ExtractionException {
-		this.context = context;
+	protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
 		this.fragment = new HTMLDocument(node);
 		BNode listing = getBlankNodeFor(node);
-		out.writeTriple(listing, RDF.TYPE, HLISTING.Listing, context);
+		out.writeTriple(listing, RDF.TYPE, HLISTING.Listing);
 		
 		for (String action: findActions(fragment)) {
-			out.writeTriple(listing, HLISTING.action, HLISTING.getResource(action), context);
+			out.writeTriple(listing, HLISTING.action, HLISTING.getResource(action));
 		}
-		out.writeTriple(listing, HLISTING.lister, addLister(listing), context);
+		out.writeTriple(listing, HLISTING.lister, addLister(listing));
 		addItem(listing);
 		addDateTimes(listing);
 		addPrice(listing);
@@ -56,8 +54,8 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 		Node node = fragment.findMicroformattedObjectNode("*", "item");
 		if (null == node) return;
 		Resource blankItem = valueFactory.createBNode();
-		out.writeTriple(listing, HLISTING.item, blankItem, context);
-		out.writeTriple(blankItem, RDF.TYPE, HLISTING.Item, context);
+		out.writeTriple(listing, HLISTING.item, blankItem);
+		out.writeTriple(blankItem, RDF.TYPE, HLISTING.Item);
 
 		HTMLDocument item = new HTMLDocument(node);
 
@@ -87,7 +85,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 					// do not use conditionallyAdd, it won't work cause of evaluation rules
 					if (!(null==value || "".equals(value))) {
 						URI property = HLISTING.getPropertyCamelized(klass);
-						out.writeTriple(blankItem, property, valueFactory.createLiteral(value), context);
+						out.writeTriple(blankItem, property, valueFactory.createLiteral(value));
 					}
 				}
 		}
@@ -122,7 +120,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 // TODO cleanup
 	private Resource addLister(Resource listing) throws ExtractionException {
 		Resource blankLister = valueFactory.createBNode();
-		out.writeTriple(blankLister, RDF.TYPE, HLISTING.Lister, context);
+		out.writeTriple(blankLister, RDF.TYPE, HLISTING.Lister);
 		Node node = fragment.findMicroformattedObjectNode("*", "lister");
 		if (null==node)
 			return blankLister;

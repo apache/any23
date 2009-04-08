@@ -13,7 +13,7 @@ public class PopularPrefixes {
 	private final static Prefixes popularPrefixes = new Prefixes() {{
 		add("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 		add("rdfs", "ttp://www.w3.org/2000/01/rdf-schema#");
-		add("xhtml", "http://www.w3.org/1999/xhtml#");
+		add("xhtml", "http://www.w3.org/1999/xhtml/vocab#");
 		add("dcterms", "http://purl.org/dc/terms/");
 		add("foaf", "http://xmlns.com/foaf/0.1/");
 		add("geo", "http://www.w3.org/2003/01/geo/wgs84_pos#");

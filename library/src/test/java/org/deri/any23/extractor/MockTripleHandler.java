@@ -13,62 +13,64 @@ import org.openrdf.model.Value;
 public class MockTripleHandler implements TripleHandler {
 	private final List<String> expectations = new LinkedList<String>();
 
+	public void expectStartDocument(URI documentURI) {
+		expectations.add("startDocument(" + documentURI + ")");
+	}
+	
 	public void expectClose() {
 		expectations.add("close()");
 	}
 	
-	public void expectOpenContext(String extractorName, String documentURI) {
-		expectations.add("openContext(" + extractorName + ", " + documentURI + ", default)");
+	public void expectOpenContext(String extractorName, URI documentURI, String localID) {
+		expectations.add("openContext(" + new ExtractionContext(extractorName, documentURI, localID) + ")");
 	}
 	
-	public void expectOpenContext(String extractorName, String documentURI, String contextLocalName) {
-		expectations.add("openContext(" + extractorName + ", " + documentURI + ", " + contextLocalName + ")");
-	}
-	
-	public void expectCloseContext(String extractorName, String documentURI) {
-		expectations.add("closeContext(" + extractorName + ", " + documentURI + ", default)");
-	}
-	
-	public void expectCloseContext(String extractorName, String documentURI, String contextLocalName) {
-		expectations.add("closeContext(" + extractorName + ", " + documentURI + ", " + contextLocalName + ")");
+	public void expectCloseContext(String extractorName, URI documentURI, String localID) {
+		expectations.add("closeContext(" + new ExtractionContext(extractorName, documentURI, localID) + ")");
 	}
 
-	public void expectTriple(Resource s, URI p, Value o) {
-		expectations.add("triple(" + TestHelper.triple(s, p, o) + ", default)");
+	public void expectTriple(Resource s, URI p, Value o, String extractorName, URI documentURI, String localID) {
+		expectations.add("triple(" + TestHelper.triple(s, p, o) + ", " + 
+				new ExtractionContext(extractorName, documentURI, localID) + ")");
 	}
-	
-	public void expectTriple(Resource s, URI p, Value o, String contextLocalName) {
-		expectations.add("triple(" + TestHelper.triple(s, p, o) + ", " + contextLocalName + ")");
+
+	public void expectNamespace(String prefix, String uri, String extractorName, URI documentURI, String localID) {
+		expectations.add("namespace(" + prefix + ", " + uri + ", " + 
+				new ExtractionContext(extractorName, documentURI, localID) + ")");
 	}
-	
 	public void verify() {
 		if (!expectations.isEmpty()) {
 			Assert.fail("Expected " + expectations.size() + 
 				" more invocation(s), first: " + expectations.get(0));
 		}
 	}
+
+	@Override
+	public void startDocument(URI documentURI) {
+		assertNextExpectation("startDocument(" + documentURI + ")");
+	}
 	
+	@Override
 	public void openContext(ExtractionContext context) {
-		assertNextExpectation("openContext(" + context.getExtractorName()
-				+ ", " + context.getDocumentURI() + ", "
-				+ (context.isDocumentContext() ? "default" : context.getLocalID()) + ")");
+		assertNextExpectation("openContext(" + context + ")");
 	}
 
+	@Override
 	public void closeContext(ExtractionContext context) {
-		assertNextExpectation("closeContext(" + context.getExtractorName()
-				+ ", " + context.getDocumentURI() + ", "
-				+ (context.isDocumentContext() ? "default" : context.getLocalID()) + ")");
+		assertNextExpectation("closeContext(" + context + ")");
 	}
 
+	@Override
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		assertNextExpectation("triple(" + TestHelper.triple(s, p, o) + ", "
-				+ (context.isDocumentContext() ? "default" : context.getLocalID()) + ")");
+		assertNextExpectation("triple(" + TestHelper.triple(s, p, o) + ", " + context + ")");
 	}
 	
-	public void receiveLabel(String label, ExtractionContext context) {
-		// TODO Auto-generated method stub
+	@Override
+	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+		assertNextExpectation("namespace(" + prefix + ", " + uri + ", " + context + ")");
 	}
-
+	
+	@Override
 	public void close() {
 		assertNextExpectation("close()");
 	}

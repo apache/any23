@@ -4,8 +4,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
 import org.openrdf.model.BNode;
 import org.w3c.dom.Node;
 
@@ -19,14 +19,18 @@ public abstract class EntityBasedMicroformatExtractor extends
 	
 	protected abstract String getBaseClassName();
 	
-	protected abstract boolean extractEntity(Node node, ExtractionContext context) throws ExtractionException ;
+	protected abstract boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException ;
 
 	@Override
-	public boolean extract(ExtractionContext context) throws ExtractionException {
+	public boolean extract() throws ExtractionException {
 		List<Node> nodes = DomUtils.findAllByClassName(document.getDocument(), getBaseClassName());
 		boolean foundAny = false;
+		int count = 1;
 		for (Node node: nodes) {
-			foundAny |= extractEntity(node, out.createContext(this));
+			String contextID = Integer.toString(count);
+			ExtractionResult subResult = out.openSubResult(contextID);
+			foundAny |= extractEntity(node, subResult);
+			subResult.close();
 		}
 		return foundAny;
 	}
@@ -37,7 +41,7 @@ public abstract class EntityBasedMicroformatExtractor extends
 	 * blank node ID like "MD5 of http://doc-uri/#xpath/to/node"
 	 */
 	protected BNode getBlankNodeFor(Node node) {
-		return valueFactory.createBNode(md5(out.getDocumentURI() + "#" + DomUtils.getXPathForNode(node)));
+		return valueFactory.createBNode(md5(documentURI + "#" + DomUtils.getXPathForNode(node)));
 	}
 	
 	private String md5(String s) {

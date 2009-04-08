@@ -8,6 +8,13 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
 
+/**
+ * A {@link TripleHandler} that writes triples to a Sesame
+ * {@link RDFWriter}, e.g. for serialization using one of
+ * Sesame's writers.
+ *  
+ * @author Richard Cyganiak (richard@cyganiak.de)
+ */
 class RDFWriterTripleHandler implements TripleHandler {
 	private final RDFWriter writer;
 	
@@ -20,19 +27,12 @@ class RDFWriterTripleHandler implements TripleHandler {
 		}
 	}
 	
-	public void closeContext(ExtractionContext context) {
+	public void startDocument(URI documentURI) {
 		// ignore
 	}
-
+	
 	public void openContext(ExtractionContext context) {
-		try {
-			for (String prefix: context.getPrefixes().allPrefixes()) {
-				writer.handleNamespace(prefix, 
-						context.getPrefixes().getNamespaceURIFor(prefix));
-			}
-		} catch (RDFHandlerException ex) {
-			throw new RuntimeException(ex);
-		}
+		// ignore
 	}
 
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
@@ -43,11 +43,19 @@ class RDFWriterTripleHandler implements TripleHandler {
 			throw new RuntimeException(ex);
 		}
 	}
-	
-	public void receiveLabel(String label, ExtractionContext context) {
-		// ignore metadata
-	}
 
+	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+		try {
+			writer.handleNamespace(prefix, uri);
+		} catch (RDFHandlerException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+	
+	public void closeContext(ExtractionContext context) {
+		// ignore
+	}
+	
 	public void close() {
 		try {
 			writer.endRDF();

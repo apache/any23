@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -26,7 +26,6 @@ import org.w3c.dom.Node;
  * @author Gabriele Renzi
  */
 public class HCardExtractor extends EntityBasedMicroformatExtractor {
-	private ExtractionContext context;
 	private HCardName name = new HCardName();
 	private HTMLDocument fragment;
 	
@@ -67,8 +66,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 	}
 
 	@Override
-	protected boolean extractEntity(Node node, ExtractionContext context) throws ExtractionException {
-		this.context = context;
+	protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
 		this.fragment = new HTMLDocument(node);
 		fixIncludes(document, node);
 		BNode card = getBlankNodeFor(node);
@@ -99,7 +97,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 		foundSomething |= addSubMicroformat("geo", card, VCARD.geo);
 		
 		if (!foundSomething) return false;
-		out.writeTriple(card, RDF.TYPE, VCARD.VCard, context);
+		out.writeTriple(card, RDF.TYPE, VCARD.VCard);
 
 // Let's not add redundant FOAF triples, they blow up the file and don't add much value
 //		addFOAFTriples(card);
@@ -153,7 +151,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 		List<Node> nodes = fragment.findAllByClassName(className);
 		if (nodes.isEmpty()) return false;
 		for(Node node: nodes) {
-			out.writeTriple(resource, property, getBlankNodeFor(node), context);
+			out.writeTriple(resource, property, getBlankNodeFor(node));
 		}
 		return true;
 	}
@@ -223,10 +221,10 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 			if (value == null) continue;
 			if (n == null) {
 				n = valueFactory.createBNode();
-				out.writeTriple(card, VCARD.n, n, context);
-				out.writeTriple(n, RDF.TYPE, VCARD.Name, context);
+				out.writeTriple(card, VCARD.n, n);
+				out.writeTriple(n, RDF.TYPE, VCARD.Name);
 			}
-			out.writeTriple(n, VCARD.getProperty(fieldName), valueFactory.createLiteral(value), context);
+			out.writeTriple(n, VCARD.getProperty(fieldName), valueFactory.createLiteral(value));
 		}
 		return n != null;
 	}
@@ -251,9 +249,9 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 	private boolean addOrganizationName(Resource card) {
 		if (name.getOrganization() == null) return false;
 		BNode org = valueFactory.createBNode();
-		out.writeTriple(card, VCARD.org, org, context);
-		out.writeTriple(org, RDF.TYPE, VCARD.Organization, context);
-		out.writeTriple(org, VCARD.organization_name, valueFactory.createLiteral(name.getOrganization()), context);
+		out.writeTriple(card, VCARD.org, org);
+		out.writeTriple(org, RDF.TYPE, VCARD.Organization);
+		out.writeTriple(org, VCARD.organization_name, valueFactory.createLiteral(name.getOrganization()));
 		conditionallyAddStringProperty(org, VCARD.organization_unit, name.getOrganizationUnit());
 		return true;
 	}

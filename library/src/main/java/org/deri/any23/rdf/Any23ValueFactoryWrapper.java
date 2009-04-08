@@ -162,6 +162,11 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 	public static String fixAbsoluteURI(String uri) {
 		String fixed = fixURIWithException(uri);
 		if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute URI: " + uri);
+		// Add trailing slash if URI has only authority but no path.
+		// TODO This might not be the best place for this. Have a normalize method somewhere?
+		if (fixed.matches("https?://[a-zA-Z0-9.-]+(:[0-9+])?")) {
+			fixed = fixed + "/";
+		}
 		return fixed;
 	}
 

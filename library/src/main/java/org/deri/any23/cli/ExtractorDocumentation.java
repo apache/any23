@@ -2,6 +2,7 @@ package org.deri.any23.cli;
 
 import java.io.IOException;
 
+import org.deri.any23.LogUtil;
 import org.deri.any23.extractor.ExampleInputOutput;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.Extractor;
@@ -14,6 +15,8 @@ import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 public class ExtractorDocumentation {
 
 	public static void main(String[] args) throws ExtractionException, IOException {
+		LogUtil.setDefaultLogging();
+//		LogUtil.setVerboseLogging();
 		if (args.length == 0) {
 			printUsageAndExit();
 		}

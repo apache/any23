@@ -1,6 +1,5 @@
 package org.deri.any23.extractor.rdf;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionResult;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFHandler;
@@ -15,11 +14,9 @@ import org.openrdf.rio.RDFHandlerException;
  */
 public class RDFHandlerAdapter implements RDFHandler {
 	private ExtractionResult target;
-	private ExtractionContext context;
 	
-	public RDFHandlerAdapter(ExtractionResult target, ExtractionContext context) {
+	public RDFHandlerAdapter(ExtractionResult target) {
 		this.target = target;
-		this.context = context;
 	}
 	
 	public void startRDF() throws RDFHandlerException { }
@@ -30,7 +27,7 @@ public class RDFHandlerAdapter implements RDFHandler {
 	}
 	
 	public void handleStatement(Statement stmt) throws RDFHandlerException {
-		target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject(), context);
+		target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject());
 	}
 	
 	public void handleComment(String comment) throws RDFHandlerException { }

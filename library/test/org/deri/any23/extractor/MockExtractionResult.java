@@ -79,12 +79,9 @@ public class MockExtractionResult implements ExtractionResult {
 	public ExtractionContext createContext(Extractor<?> extractor, Prefixes prefixes) {
 		return createContext(extractor);
 	}
-	
-	public void setLabel(String label, ExtractionContext context) {
-		// TODO Auto-generated method stub
-	}
 
-	public void writeTriple(Resource s, URI p, Value o, ExtractionContext context) {
+	@Override
+	public void writeTriple(Resource s, URI p, Value o) {
 		writtenTriples.add(TestHelper.triple(s, p, o));
 		verifyNotViolated();
 	}

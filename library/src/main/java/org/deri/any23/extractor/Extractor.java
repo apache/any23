@@ -17,11 +17,12 @@ public interface Extractor<Input> {
 	 * not reusable.
 	 * 
 	 * @param in The extractor's input
+	 * @param documentURI The document's URI
 	 * @param out Sink for extracted data
 	 * @throws IOException On error while reading from the input stream
 	 * @throws ExtractionException On other error, such as parse errors
 	 */
-	void run(Input in, ExtractionResult out) 
+	void run(Input in, URI documentURI, ExtractionResult out) 
 	throws IOException, ExtractionException;
 	
 	/**

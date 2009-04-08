@@ -22,7 +22,7 @@ public class ExtractionResultTest extends TestCase {
 	public void setUp() {
 		extractor = new ExampleExtractor();
 		handler = new MockTripleHandler();
-		writer = new ExtractionResultImpl(exampleResource, handler);
+		writer = new ExtractionResultImpl(exampleResource, extractor, handler);
 	}
 
 	public void testInvokesClose() {

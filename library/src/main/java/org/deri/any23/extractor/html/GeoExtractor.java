@@ -2,7 +2,7 @@ package org.deri.any23.extractor.html;
 
 import java.util.Arrays;
 
-import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -24,7 +24,7 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
 		return "geo";
 	}
 	
-	protected boolean extractEntity(Node node, ExtractionContext context) {
+	protected boolean extractEntity(Node node, ExtractionResult out) {
 		if (null == node) return false;
 		//try lat & lon
 		String lat = document.getSingularTextField("latitude");
@@ -36,7 +36,7 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
 			lon = both[1];
 		}
 		BNode geo = getBlankNodeFor(node);
-		out.writeTriple(geo, RDF.TYPE, VCARD.Location, context);
+		out.writeTriple(geo, RDF.TYPE, VCARD.Location);
 		conditionallyAddStringProperty(geo, VCARD.latitude, lat);
 		conditionallyAddStringProperty(geo, VCARD.longitude, lon);
 		return true;

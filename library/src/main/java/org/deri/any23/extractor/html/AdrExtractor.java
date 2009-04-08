@@ -2,7 +2,7 @@ package org.deri.any23.extractor.html;
 
 import java.util.Arrays;
 
-import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -33,11 +33,11 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
 		return "adr";
 	}
 	
-	protected boolean extractEntity(Node node, ExtractionContext context) {
+	protected boolean extractEntity(Node node, ExtractionResult out) {
 		if (null == node) return false;
 		//try lat & lon
 		BNode adr = getBlankNodeFor(node);
-		out.writeTriple(adr, RDF.TYPE, VCARD.Address, context);
+		out.writeTriple(adr, RDF.TYPE, VCARD.Address);
 		for (String field: addressFields) {
 			String[] values = document.getPluralTextField(field);
 			for (String val: values) {

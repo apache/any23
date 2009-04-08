@@ -18,6 +18,10 @@ public class CountingTripleHandler implements TripleHandler {
 		return count;
 	}
 	
+	public void startDocument(URI documentURI) {
+		// ignore
+	}
+	
 	public void openContext(ExtractionContext context) {
 		// ignore
 	}
@@ -29,11 +33,11 @@ public class CountingTripleHandler implements TripleHandler {
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
 		count++;
 	}
-	
-	public void receiveLabel(String label, ExtractionContext context) {
+
+	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
 		// ignore
 	}
-
+	
 	public void close() {
 		// ignore
 	}

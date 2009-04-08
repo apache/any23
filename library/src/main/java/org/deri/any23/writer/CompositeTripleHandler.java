@@ -30,6 +30,12 @@ public class CompositeTripleHandler implements TripleHandler {
 		children.add(child);
 	}
 	
+	public void startDocument(URI documentURI) {
+		for (TripleHandler handler : children) {
+			handler.startDocument(documentURI);
+		}
+	}
+	
 	public void openContext(ExtractionContext context) {
 		for (TripleHandler handler : children) {
 			handler.openContext(context);
@@ -48,12 +54,12 @@ public class CompositeTripleHandler implements TripleHandler {
 		}
 	}
 	
-	public void receiveLabel(String label, ExtractionContext context) {
-		for (TripleHandler handler : children) {
-			handler.receiveLabel(label, context);
+	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+		for (TripleHandler handler: children) {
+			handler.receiveNamespace(prefix, uri, context);
 		}
 	}
-
+	
 	public void close() {
 		for (TripleHandler handler : children) {
 			handler.close();

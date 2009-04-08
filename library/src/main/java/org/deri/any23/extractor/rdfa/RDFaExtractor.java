@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Arrays;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -14,6 +13,7 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.rdf.RDFHandlerAdapter;
+import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
@@ -33,22 +33,21 @@ import org.w3c.dom.Document;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class RDFaExtractor implements TagSoupDOMExtractor {
+	public final static String NAME = "html-rdfa";
 	private final static String xsltFilename = "rdfa.xslt";
 	private static XSLTStylesheet xslt = null;
 
-	public void run(Document in, ExtractionResult out) 
+	public void run(Document in, URI documentURI, ExtractionResult out) 
 	throws IOException, ExtractionException {
 		StringWriter buffer = new StringWriter();
 		getXSLT().applyTo(in, buffer);
 //		System.out.println(buffer);
 		try {
-			final ExtractionContext context = out.getDocumentContext(this);
 			RDFParser parser = new RDFXMLParser();
-			parser.setRDFHandler(
-					new IgnoreAccidentalRDFa(new RDFHandlerAdapter(out, context)));
+			parser.setRDFHandler(new RDFHandlerAdapter(out));
 			parser.parse(
 					new StringReader(buffer.getBuffer().toString()), 
-					out.getDocumentURI().stringValue());
+					documentURI.stringValue());
 		} catch (RDFHandlerException ex) {
 			throw new RuntimeException(ex);	// should not happen
 		} catch (RDFParseException ex) {
@@ -76,7 +75,7 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 	
 	public final static ExtractorFactory<RDFaExtractor> factory = 
 		SimpleExtractorFactory.create(
-				"html-rdfa",
+				NAME,
 				null,
 				Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
 				null,

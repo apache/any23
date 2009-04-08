@@ -2,7 +2,6 @@ package org.deri.any23.extractor.html;
 
 import java.io.IOException;
 
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -30,20 +29,22 @@ import org.w3c.dom.Document;
  */
 public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	protected HTMLDocument document;
+	protected URI documentURI;
 	protected ExtractionResult out;
 	protected final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
-	public void run(Document in, ExtractionResult out) throws IOException,
+	public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
 			ExtractionException {
 		this.document = new HTMLDocument(in);
+		this.documentURI = documentURI;
 		this.out = out;
-		extract(out.getDocumentContext(this));
+		extract();
 	}
 
 	/**
 	 * Performs the extraction of the data and writes them to the model.
 	 */
-	protected abstract boolean extract(ExtractionContext context) throws ExtractionException;
+	protected abstract boolean extract() throws ExtractionException;
 	
 	/**
 	 * Helper method that adds a literal property to a node.
@@ -52,7 +53,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 		if (value == null) return false;
 		value = value.trim();
 		if ("".equals(value)) return false;
-		out.writeTriple(subject, p, valueFactory.createLiteral(value), out.getDocumentContext(this));
+		out.writeTriple(subject, p, valueFactory.createLiteral(value));
 		return true;
 	}
 
@@ -84,7 +85,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 	protected boolean conditionallyAddResourceProperty(Resource subject,
 			URI property, URI uri) {
 		if (uri == null) return false;
-		out.writeTriple(subject, property, uri, out.getDocumentContext(this));
+		out.writeTriple(subject, property, uri);
 		return true;
 	}
 
