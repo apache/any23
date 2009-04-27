@@ -27,24 +27,27 @@ public class ExtractorRegistry {
 	private static ExtractorRegistry instance = null;
 	
 	public static ExtractorRegistry get() {
-		if (instance == null) {
-			instance = new ExtractorRegistry();
-			instance.register(RDFXMLExtractor.factory);
-			instance.register(TurtleExtractor.factory);
-			instance.register(NTriplesExtractor.factory);
-			instance.register(RDFaExtractor.factory);
-			instance.register(HeadLinkExtractor.factory);
-			instance.register(LicenseExtractor.factory);
-			instance.register(TitleExtractor.factory);
-			instance.register(XFNExtractor.factory);
-			instance.register(ICBMExtractor.factory);
-			instance.register(AdrExtractor.factory);
-			instance.register(GeoExtractor.factory);
-			instance.register(HCalendarExtractor.factory);
-			instance.register(HCardExtractor.factory);
-			instance.register(HListingExtractor.factory);
-			instance.register(HResumeExtractor.factory);
-			instance.register(HReviewExtractor.factory);
+		// Thread-safe
+		synchronized (ExtractorRegistry.class) {
+			if (instance == null) {
+				instance = new ExtractorRegistry();
+				instance.register(RDFXMLExtractor.factory);
+				instance.register(TurtleExtractor.factory);
+				instance.register(NTriplesExtractor.factory);
+				instance.register(RDFaExtractor.factory);
+				instance.register(HeadLinkExtractor.factory);
+				instance.register(LicenseExtractor.factory);
+				instance.register(TitleExtractor.factory);
+				instance.register(XFNExtractor.factory);
+				instance.register(ICBMExtractor.factory);
+				instance.register(AdrExtractor.factory);
+				instance.register(GeoExtractor.factory);
+				instance.register(HCalendarExtractor.factory);
+				instance.register(HCardExtractor.factory);
+				instance.register(HListingExtractor.factory);
+				instance.register(HResumeExtractor.factory);
+				instance.register(HReviewExtractor.factory);
+			}
 		}
 		return instance;
 	}
