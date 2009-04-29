@@ -47,5 +47,6 @@
 	<classpathentry kind="lib" path="lib/heritrix-2.0.2/commons-2.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/heritrix-2.0.2/fastutil-5.0.7.jar"/>
 	<classpathentry kind="lib" path="lib/heritrix-2.0.2/modules-2.0.2.jar"/>
+	<classpathentry kind="lib" path="src/main/resources"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
