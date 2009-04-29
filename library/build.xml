@@ -77,7 +77,7 @@
 	</target>
 
 	<target name="copy" depends="compile">
-		<copy todir="${build}/resources">
+		<copy todir="${build}">
 			<fileset dir="${src}/../resources/">
 			</fileset>
 		</copy>

@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 
 public class TikaMIMETypeDetector implements MIMETypeDetector {
-  private static final String RESOURCE_NAME="/resources/tika-config.xml";
+  private static final String RESOURCE_NAME="/tika-config.xml";
   private static TikaConfig _config = null;
   private static MimeTypes _types;
   

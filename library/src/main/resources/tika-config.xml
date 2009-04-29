@@ -16,5 +16,5 @@
    limitations under the License.
 -->
 <properties>
-    <mimeTypeRepository resource="/resources/mimetypes.xml" magic="false"/>
+    <mimeTypeRepository resource="/mimetypes.xml" magic="false"/>
 </properties>
