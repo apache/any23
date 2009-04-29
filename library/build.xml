@@ -77,9 +77,8 @@
 	</target>
 
 	<target name="copy" depends="compile">
-		<copy todir="${build}">
-			<fileset dir="${src}">
-				<include name="xslt/**"/>
+		<copy todir="${build}/resources">
+			<fileset dir="${src}/../resources/">
 			</fileset>
 		</copy>
 		<copy todir="${build}">
