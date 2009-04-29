@@ -51,14 +51,14 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
           result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
         }
       }
-      if(result == null) {
-        try {
-          result = new FileInputStream(new File("src/"+RESOURCE_NAME));
-        } catch (FileNotFoundException e) {
-        e.printStackTrace(System.err);
-      }
-//      
-      }
+//      if(result == null) {
+//       try {
+//        result = new FileInputStream(new File("src/main/java/"+RESOURCE_NAME));
+//       } catch (FileNotFoundException e) {
+//       e.printStackTrace(System.err);
+//      }
+     
+//      }
       return result;
   }
   
