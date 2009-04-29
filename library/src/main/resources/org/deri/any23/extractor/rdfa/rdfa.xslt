@@ -279,7 +279,11 @@
       <value-of select="concat($this_location,$curie_or_uri)" />
      </when>
      <when test="not(contains($curie_or_uri,'://')) and (starts-with($curie_or_uri,'/'))"> <!-- URL from root domain -->
-      <value-of select="concat($this_root,substring-after($curie_or_uri,'/'))" />
+<!-- RC: Resolution of relative URIs like '/something' didn't work for me,
+     so I return them verbatim and let the subsequent RDF/XML parser deal
+     with resolving them. --> 
+<!--      <value-of select="concat($this_root,substring-after($curie_or_uri,'/'))" />-->
+      <value-of select="$curie_or_uri" />
      </when>
      <otherwise>UNKNOWN CURIE URI</otherwise>
     </choose>
