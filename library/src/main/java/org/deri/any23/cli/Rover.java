@@ -1,6 +1,7 @@
 package org.deri.any23.cli;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,6 +19,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
+import org.deri.any23.writer.LoggingTripleHandler;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.TripleHandler;
@@ -47,9 +49,10 @@ public class Rover {
 	/**
 	 * A simple main for testing
 	 * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
+	 * @throws FileNotFoundException 
 	 * @throws IOException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		Options options = new Options();
 		
 		//output format
@@ -72,8 +75,14 @@ public class Rover {
 		Option stats = new Option("s", "stats",false,"print out statistics of Any23");
 		options.addOption(stats);
 		
+		Option l = new Option("l", "log",true,"logging, please specify a file");
+		options.addOption(l);
+		
+		
 		Option verbose = new Option("v", "verbose", false, "show progress and debug information");
 		options.addOption(verbose);
+		
+		
 		
 		CommandLineParser parser = new PosixParser();
 		CommandLine cmd = null;
@@ -143,9 +152,14 @@ public class Rover {
 			outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
 		}
 		if(cmd.hasOption('s')){
+			
 			outputHandler = new BenchmarkTripleHandler(outputHandler);	
 		}
 		 
+		if(cmd.hasOption('l')){
+			outputHandler = new LoggingTripleHandler(outputHandler, cmd.getOptionValue('l'));	
+		}
+		
 		long start = System.currentTimeMillis();
 		Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
 		any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);

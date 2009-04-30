@@ -36,43 +36,43 @@ public class TikaTEST extends TestCase {
 	}
 	
 	public void testRDFXML() throws Exception {
-		runTest("application/rdf+xml","test/application/rdfxml", true);
+		runTest("application/rdf+xml","src/test/resources/application/rdfxml", true);
 	}
 
 	public void testRSS2() throws Exception {
-		runTest("application/rss+xml","test/application/rss2",true);
+		runTest("application/rss+xml","src/test/resources/application/rss2",true);
 	}
 	
 	public void testRSS1() throws Exception {
-		runTest("application/rdf+xml","test/application/rss1",true);
+		runTest("application/rdf+xml","src/test/resources/application/rss1",true);
 	}
 	
 	public void testAtom() throws Exception {
-		runTest("application/atom+xml","test/application/atom",true);
+		runTest("application/atom+xml","src/test/resources/application/atom",true);
 	}
 	
 	public void testHTML() throws Exception {
-		runTest("text/html","test/text/html",true);
+		runTest("text/html","src/test/resources/text/html",true);
 	}
 	
 	public void testXHTML() throws Exception {
-		runTest("application/xhtml+xml","test/application/xhtml",true);
+		runTest("application/xhtml+xml","src/test/resources/application/xhtml",true);
 	}
 	
 	public void testWSDL() throws Exception {
-		runTest("application/x-wsdl","test/application/wsdl",true);
+		runTest("application/x-wsdl","src/test/resources/application/wsdl",true);
 	}
 	
 	public void testZip() throws Exception {
-		runTest("application/zip","test/application/zip",true);
+		runTest("application/zip","src/test/resources/application/zip",true);
 	}
 	
 	public void testRDFa() throws Exception {
-		runTest("application/xhtml+rdfa","test/application/rdfa",true);
+		runTest("application/xhtml+rdfa","src/test/resources/application/rdfa",true);
 	}
 	
 	public void testGZip() throws Exception {
-		runTest("application/gzip","test/application/gzip",true);
+		runTest("application/gzip","src/test/resources/application/gzip",true);
 	}
 		
 	/**
@@ -82,7 +82,7 @@ public class TikaTEST extends TestCase {
 	 * @throws IOException 
 	 */
 	private void runTest(String expectedMimeType, String testDir, boolean b) throws IOException {
-		System.err.println(" Test mime type: "+expectedMimeType);
+		System.err.println(" test mime type: "+expectedMimeType +" in folder " +testDir);
 		
 		File f = new File(testDir);
 		String detectedMimeType = null;
@@ -103,7 +103,7 @@ public class TikaTEST extends TestCase {
 	}
 
 	/**
-	 * @param test
+	 * @param src/test
 	 * @return 
 	 * @throws IOException 
 	 */

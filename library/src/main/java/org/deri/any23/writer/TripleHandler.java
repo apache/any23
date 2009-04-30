@@ -31,4 +31,9 @@ public interface TripleHandler {
 	
 	// Will be called last and exactly once.
 	void close();
+
+	
+	void endDocument(URI documentURI);
+
+	void setContentLength(long contentLength);
 }

@@ -46,5 +46,18 @@ public class RepositoryWriter implements TripleHandler {
 
 	public void close() {
 		// ignore
+	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		// ignore
+		;
 	}	
+	
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
+	}
 }

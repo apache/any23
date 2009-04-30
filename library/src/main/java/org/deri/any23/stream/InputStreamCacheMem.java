@@ -37,6 +37,10 @@ public class InputStreamCacheMem implements InputStreamCache {
 				}
 				return new ByteArrayInputStream(buffer);
 			}
+			@Override
+			public long getContentLength() {
+				return buffer.length;
+			}
 		};
 	}
 }

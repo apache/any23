@@ -63,4 +63,15 @@ class RDFWriterTripleHandler implements TripleHandler {
 			throw new RuntimeException(e);
 		}
 	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		;
+	}
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
+	}
 }

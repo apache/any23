@@ -2,6 +2,7 @@ package org.deri.any23.http;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
@@ -14,6 +15,8 @@ import java.net.URL;
  */
 public class SimpleHTTPClient implements HTTPClient {
 
+	private int _contentLength=-1;
+
 	public void init(String userAgent, String acceptHeader) {
 		// we're bad, ignore
 	}
@@ -22,10 +25,18 @@ public class SimpleHTTPClient implements HTTPClient {
 		if (!uri.toLowerCase().startsWith("http:")) {
 			throw new IllegalArgumentException("Not an http:// URI: " + uri);
 		}
-		return new URL(uri).openStream();
+		HttpURLConnection conn =(HttpURLConnection) new URL(uri).openConnection(); 
+		conn.connect();
+		_contentLength= conn.getContentLength();
+		return conn.getInputStream();
 	}
 
 	public void close() {
 		// do nothing
+	}
+
+	@Override
+	public long getContentLength() {
+		return _contentLength;
 	}
 }

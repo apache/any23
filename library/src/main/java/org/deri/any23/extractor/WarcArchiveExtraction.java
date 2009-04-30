@@ -72,6 +72,7 @@ public class WarcArchiveExtraction {
 					if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
 						String baseuri = URLDecoder.decode(header.getUrl(), "utf-8");
 //						logger.info("Decoded baseURI: "+baseuri);
+						
 						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), baseuri, extractors, output);
 						
 						ex.setMIMETypeDetector(detector);

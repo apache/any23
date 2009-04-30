@@ -63,4 +63,16 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
 	private boolean isTitleContext(ExtractionContext context) {
 		return context.getExtractorName().equals(TitleExtractor.NAME);
 	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		blocker.endDocument(documentURI);
+	}
+	
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
+	}
 }

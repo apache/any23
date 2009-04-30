@@ -17,4 +17,9 @@ public class HTTPGetOpener implements InputStreamOpener {
 	public InputStream openInputStream() throws IOException {
 		return client.openInputStream(uri);
 	}
+
+	@Override
+	public long getContentLength() {
+		return client.getContentLength();
+	}
 }

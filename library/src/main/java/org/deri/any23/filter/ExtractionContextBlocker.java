@@ -16,8 +16,14 @@ public class ExtractionContextBlocker implements TripleHandler {
 	private Map<String, ValvedTriplePipe> queues = new HashMap<String, ValvedTriplePipe>();
 	private boolean documentUnblocked = false;
 
+	
+	
 	public ExtractionContextBlocker(TripleHandler wrapped) {
 		this.wrapped = wrapped;
+	}
+	
+	public boolean isDocBlocked(){
+		return !documentUnblocked;
 	}
 	
 	@Override
@@ -135,5 +141,17 @@ public class ExtractionContextBlocker implements TripleHandler {
 			}
 			wrapped.receiveNamespace(prefix, uri, context);
 		}
+	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		wrapped.endDocument(documentURI);	
+	}
+	
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
 	}
 }

@@ -62,4 +62,16 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
 	private boolean isRDFaContext(ExtractionContext context) {
 		return context.getExtractorName().equals(RDFaExtractor.NAME);
 	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		blocker.endDocument(documentURI);		
+	}
+	
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
+	}
 }

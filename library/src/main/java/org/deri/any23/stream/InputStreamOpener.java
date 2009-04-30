@@ -12,4 +12,5 @@ import java.io.InputStream;
  */
 public interface InputStreamOpener {
 	InputStream openInputStream() throws IOException;
+	public long getContentLength();
 }

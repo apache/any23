@@ -62,4 +62,16 @@ public class QuadWriter implements TripleHandler {
 	public void close() {
 		quadHandler.close();
 	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		;
+	}
+	
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
+	}
 }

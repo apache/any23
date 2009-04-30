@@ -65,4 +65,17 @@ public class CompositeTripleHandler implements TripleHandler {
 			handler.close();
 		}
 	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		for (TripleHandler handler : children) {
+			handler.endDocument(documentURI);
+		}
+	}
+	@Override
+	public void setContentLength(long contentLength) {
+//		_contentLength = contentLength;
+		//ignore
+		;
+	}
 }

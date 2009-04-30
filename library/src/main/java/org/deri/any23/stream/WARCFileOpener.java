@@ -53,4 +53,9 @@ public class WARCFileOpener implements InputStreamOpener {
         }
         return;
     }
+
+	@Override
+	public long getContentLength() {
+		return _archiveStream.getHeader().getLength();
+	}
 }

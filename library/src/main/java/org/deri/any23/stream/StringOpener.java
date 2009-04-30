@@ -23,4 +23,9 @@ public class StringOpener implements InputStreamOpener {
 		}
 		return new ByteArrayInputStream(in.getBytes(encoding));
 	}
+
+	@Override
+	public long getContentLength() {
+		return in.length();
+	}
 }

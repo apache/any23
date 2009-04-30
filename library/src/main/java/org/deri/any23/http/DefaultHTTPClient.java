@@ -28,6 +28,7 @@ public class DefaultHTTPClient implements HTTPClient {
 	private String userAgent;
 	private String accept;
 	private HttpClient client = null;
+	private long _contentLength=-1;
 
 	public void init(String userAgent, String acceptHeader) {
 		this.userAgent = userAgent;
@@ -72,6 +73,7 @@ public class DefaultHTTPClient implements HTTPClient {
 		GetMethod method = new GetMethod(uri);
 		method.setFollowRedirects(true);
 		client.executeMethod(method);
+		_contentLength= method.getResponseContentLength();
 		if (method.getStatusCode() != 200) {
 			throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
 		}
@@ -83,5 +85,10 @@ public class DefaultHTTPClient implements HTTPClient {
 	 */
 	public void close() {
 		manager.shutdown();
+	}
+
+	@Override
+	public long getContentLength() {
+		return _contentLength;
 	}
 }

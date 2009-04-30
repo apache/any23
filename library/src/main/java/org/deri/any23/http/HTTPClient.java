@@ -23,5 +23,5 @@ public interface HTTPClient {
 	 * context.
 	 */
 	public abstract void close();
-
+	public abstract long getContentLength();
 }

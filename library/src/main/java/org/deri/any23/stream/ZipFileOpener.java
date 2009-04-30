@@ -19,4 +19,9 @@ public class ZipFileOpener implements InputStreamOpener {
 	public InputStream openInputStream() throws IOException {
 		return _zis;
 	}
+
+	@Override
+	public long getContentLength() {
+		return -1;
+	}
 }

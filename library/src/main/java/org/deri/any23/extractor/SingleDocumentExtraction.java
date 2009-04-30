@@ -24,6 +24,7 @@ import org.w3c.dom.Document;
 public class SingleDocumentExtraction {
 	private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 	
+	
 	private final InputStreamOpener in;
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
@@ -64,6 +65,7 @@ public class SingleDocumentExtraction {
 
 	public void run() throws ExtractionException, IOException {
 		filterExtractorsByMIMEType();
+		
 		StringBuffer sb = new StringBuffer("Extractors ");
 		for (ExtractorFactory<?> factory : matchingExtractors) {
 			sb.append(factory.getExtractorName());
@@ -71,14 +73,17 @@ public class SingleDocumentExtraction {
 		}
 		sb.append("match " + documentURI);
 		log.debug(sb.toString());
+		
 //		byte[] buffer = new byte[100];
 //		int l = getInputStream().read(buffer);
 //		log.debug("Content: " + new String(buffer, 0, l));
 		// Invoke all extractors
 		output.startDocument(documentURI);
+		output.setContentLength(in.getContentLength());
 		for (ExtractorFactory<?> factory : matchingExtractors) {
 			runExtractor(factory.createExtractor());
 		}
+		output.endDocument(documentURI);
 	}
 	
 	public String getDetectedMIMEType() throws IOException {

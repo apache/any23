@@ -34,6 +34,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	}
 	
 	private final Map<String,StatObject> stats;
+	private long _contentLength;
 	
 	/**
 	 * 
@@ -123,5 +124,17 @@ public class BenchmarkTripleHandler implements TripleHandler {
 		}
 		
 		return sb.toString();
+	}
+
+	@Override
+	public void endDocument(URI documentURI) {
+		underlyingHandler.endDocument(documentURI);		
+	}
+
+	@Override
+	public void setContentLength(long contentLength) {
+	_contentLength = contentLength;
+		//ignore
+		;
 	}
 }

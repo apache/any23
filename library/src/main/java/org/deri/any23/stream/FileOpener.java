@@ -15,4 +15,11 @@ public class FileOpener implements InputStreamOpener {
 	public InputStream openInputStream() throws IOException {
 		return new FileInputStream(file);
 	}
+
+	@Override
+	public long getContentLength() {
+		return file.length();
+	}
+	
+	
 }
