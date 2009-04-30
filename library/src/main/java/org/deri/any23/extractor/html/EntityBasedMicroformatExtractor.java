@@ -41,7 +41,7 @@ public abstract class EntityBasedMicroformatExtractor extends
 	 * blank node ID like "MD5 of http://doc-uri/#xpath/to/node"
 	 */
 	protected BNode getBlankNodeFor(Node node) {
-		return valueFactory.createBNode(md5(documentURI + "#" + DomUtils.getXPathForNode(node)));
+		return valueFactory.createBNode("node" + md5(documentURI + "#" + DomUtils.getXPathForNode(node)));
 	}
 	
 	private String md5(String s) {
