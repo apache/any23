@@ -73,10 +73,16 @@ public class LogEvaluator {
 			line = s.nextLine().trim();
 			fields = line.split("\t");
 			extField = fields[EXTRACTORS];
-			extractors = extField.substring(2,extField.length()-1).split(" ");
-			for(String st: extractors){
-				extractorCounter.add(st.substring(0,st.indexOf(":")));
-				triplesPerExtractorCounter.add(st.substring(0,st.indexOf(":")),Integer.valueOf(st.substring(st.indexOf(":")+1) ));
+			if(extField.trim().length()==2){
+				extractorCounter.add("EMPTY");
+//				triplesPerExtractorCounter.add(st.substring(0,st.indexOf(":")),Integer.valueOf(st.substring(st.indexOf(":")+1) ));
+			}
+			else{
+				extractors = extField.substring(2,extField.length()-1).split(" ");
+				for(String st: extractors){
+					extractorCounter.add(st.substring(0,st.indexOf(":")));
+					triplesPerExtractorCounter.add(st.substring(0,st.indexOf(":")),Integer.valueOf(st.substring(st.indexOf(":")+1) ));
+				}
 			}
 			}catch(Exception e){
 				System.err.println(e.getClass().getSimpleName()+" "+e.getMessage()+" for line "+line);
