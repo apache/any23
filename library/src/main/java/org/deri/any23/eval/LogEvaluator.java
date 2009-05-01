@@ -45,6 +45,10 @@ public class LogEvaluator {
 	private final static Integer PROCESSING_TIME=2;
 	private final static Integer EXTRACTORS=4;
 	
+	public static void main(String[] args) {
+		String s ="[ ]";
+		System.out.println(s.substring(2,s.length()-1));
+	}
 	
 	public void analyseDirectory(String logDir) throws FileNotFoundException {
 		File dir = new File(logDir);
@@ -65,6 +69,7 @@ public class LogEvaluator {
 		String [] extractors;
 		String extField;
 		while(s.hasNextLine()){
+			try{
 			line = s.nextLine().trim();
 			fields = line.split("\t");
 			extField = fields[EXTRACTORS];
@@ -72,6 +77,9 @@ public class LogEvaluator {
 			for(String st: extractors){
 				extractorCounter.add(st.substring(0,st.indexOf(":")));
 				triplesPerExtractorCounter.add(st.substring(0,st.indexOf(":")),Integer.valueOf(st.substring(st.indexOf(":")+1) ));
+			}
+			}catch(Exception e){
+				System.err.println(e.getClass().getSimpleName()+" "+e.getMessage()+" for line "+line);
 			}
 			
 		}
