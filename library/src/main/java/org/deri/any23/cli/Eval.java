@@ -82,7 +82,7 @@ public class Eval {
 		
 		LogEvaluator l = new LogEvaluator(cmd.getOptionValue("o"));
 		if(cmd.hasOption("i")) l.analyseFile(cmd.getOptionValue("i"));
-		if(cmd.hasOption("d")) l.analyseDirectory(cmd.getOptionValue("i"));
+		if(cmd.hasOption("d")) l.analyseDirectory(cmd.getOptionValue("d"));
 		
 		l.close();
 	}

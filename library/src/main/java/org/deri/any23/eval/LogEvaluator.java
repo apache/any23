@@ -49,7 +49,8 @@ public class LogEvaluator {
 	public void analyseDirectory(String logDir) throws FileNotFoundException {
 		File dir = new File(logDir);
 		for(File f: dir.listFiles()){
-			analyseFile(f.toString());
+			System.err.println("Analysing "+f);
+			analyseFile(f.getAbsolutePath());
 		}
 	}
 	
