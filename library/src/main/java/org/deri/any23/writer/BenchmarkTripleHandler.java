@@ -133,7 +133,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 
 	@Override
 	public void setContentLength(long contentLength) {
-	_contentLength = contentLength;
+		_contentLength = contentLength;
 		//ignore
 		;
 	}
