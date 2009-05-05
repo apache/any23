@@ -1,10 +1,15 @@
 package org.deri.any23.writer;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.vocab.ANY23;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.rio.ntriples.NTriplesUtil;
 
 /**
  * A triple handler that converts triples to quads by using the
@@ -17,34 +22,20 @@ import org.openrdf.model.Value;
  */
 public class QuadWriter implements TripleHandler {
 	
-	public static interface QuadHandler {
-		void writeQuad(Resource s, URI p, Value o, URI g);
-		void close();
-	}
 
-	private final QuadHandler quadHandler;
-	private final URI metaGraph;
-	
-	public QuadWriter(QuadHandler quadHandler) {
-		this(quadHandler, null);
+private OutputStream _out;
+	public QuadWriter(OutputStream out) {
+		_out= out;
 	}
 	
-	public QuadWriter(QuadHandler quadHandler, URI metadataGraphURI) {
-		this.quadHandler = quadHandler;
-		this.metaGraph = (metadataGraphURI == null) ? null : metadataGraphURI;
-	}
+	
 
 	public void startDocument(URI documentURI) {
 		// ignore
 	}
 	
 	public void openContext(ExtractionContext context) {
-		if (metaGraph == null) return;
-		quadHandler.writeQuad(
-				context.getDocumentURI(), 
-				ANY23.EXTRACTOR, 
-				ANY23.getExtractorResource(context.getExtractorName()), 
-				metaGraph);
+		;
 	}
 	
 	public void closeContext(ExtractionContext context) {
@@ -52,7 +43,17 @@ public class QuadWriter implements TripleHandler {
 	}
 
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		quadHandler.writeQuad(s, p, o, context.getDocumentURI());
+		try{
+			StringBuffer sb = new StringBuffer();
+			sb.append(NTriplesUtil.toNTriplesString(s)).append(" ");
+			sb.append(NTriplesUtil.toNTriplesString(p)).append(" ");
+			sb.append(NTriplesUtil.toNTriplesString(o)).append(" ");
+			sb.append(NTriplesUtil.toNTriplesString(context.getDocumentURI())).append(" .\n");
+			_out.write(sb.toString().getBytes());
+			_out.flush();
+		}catch(IOException ioe){
+			;
+		}
 	}
 	
 	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
@@ -60,7 +61,12 @@ public class QuadWriter implements TripleHandler {
 	}
 	
 	public void close() {
-		quadHandler.close();
+		try {
+			_out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

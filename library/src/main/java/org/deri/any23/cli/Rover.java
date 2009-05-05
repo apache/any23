@@ -21,6 +21,7 @@ import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
 import org.deri.any23.writer.LoggingTripleHandler;
 import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.QuadWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
@@ -41,6 +42,7 @@ public class Rover {
 	
 	//output writer constants
 	private final static String TURTLE = "turtle";
+	private final static String QUAD = "quad";
 	private final static String NTRIPLE = "ntriples";
 	private final static String RDFXML = "rdfxml";
 	private final static String ZIP = "zip";
@@ -56,7 +58,7 @@ public class Rover {
 		Options options = new Options();
 		
 		//output format
-		Option outputFormat = new Option("f", "format", true,"["+TURTLE+" (default), "+NTRIPLE+", "+RDFXML+"]");
+		Option outputFormat = new Option("f", "format", true,"["+TURTLE+" (default), "+NTRIPLE+", "+RDFXML+","+QUAD+"]");
 		options.addOption(outputFormat);
 		
 		//inputformat
@@ -145,9 +147,12 @@ public class Rover {
 			outputHandler = new TurtleWriter(System.out);
 		} else if (NTRIPLE.equals(format)) {
 			outputHandler = new NTriplesWriter(System.out);
-		} else 
+		} else if(QUAD.equalsIgnoreCase(format)){
+			outputHandler = new QuadWriter(System.out);
+		}else{
 			outputHandler = new RDFXMLWriter(System.out);
-
+		}
+		
 		if (cmd.hasOption('t')) {
 			outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
 		}
