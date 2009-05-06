@@ -17,6 +17,14 @@ public class MockTripleHandler implements TripleHandler {
 		expectations.add("startDocument(" + documentURI + ")");
 	}
 	
+	public void expectEndDocument(URI documentURI) {
+		expectations.add("endDocument(" + documentURI + ")");
+	}
+	
+	public void expectSetContentLength(long contentLength) {
+		expectations.add("setContentLength(" + contentLength + ")");
+	}
+
 	public void expectClose() {
 		expectations.add("close()");
 	}
@@ -51,6 +59,11 @@ public class MockTripleHandler implements TripleHandler {
 	}
 	
 	@Override
+	public void endDocument(URI documentURI) {
+		assertNextExpectation("endDocument(" + documentURI + ")");
+	}
+	
+	@Override
 	public void openContext(ExtractionContext context) {
 		assertNextExpectation("openContext(" + context + ")");
 	}
@@ -73,6 +86,10 @@ public class MockTripleHandler implements TripleHandler {
 	@Override
 	public void close() {
 		assertNextExpectation("close()");
+	}
+	
+	public void setContentLength(long contentLength) {
+		assertNextExpectation("setContentLength(" + contentLength + ")");
 	}
 	
 	private void assertNextExpectation(String invocation) {
