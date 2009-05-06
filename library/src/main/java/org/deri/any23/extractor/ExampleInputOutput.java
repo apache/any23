@@ -64,8 +64,7 @@ public class ExampleInputOutput {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		TripleHandler writer = new TurtleWriter(out);
 		new SingleDocumentExtraction(
-				new StringOpener(getExampleInput()), 
-				getExampleURI(),
+				new StringOpener(getExampleInput(), getExampleURI()), 
 				factory,
 				writer).run();
 		writer.close();

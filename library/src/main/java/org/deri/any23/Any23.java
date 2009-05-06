@@ -85,12 +85,12 @@ public class Any23 {
 	
 	public boolean extract(String in, String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
-		return extract(new StringOpener(in), documentURI, outputHandler);
+		return extract(new StringOpener(in, documentURI), outputHandler);
 	}
 	
 	public boolean extract(String in, String encoding, String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
-		return extract(new StringOpener(in, encoding), documentURI, outputHandler);
+		return extract(new StringOpener(in, documentURI, encoding), outputHandler);
 	}
 	
 	public boolean extract(File file, TripleHandler outputHandler) 
@@ -100,7 +100,7 @@ public class Any23 {
 	
 	public boolean extract(File file, String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
-		return extract(new FileOpener(file), documentURI, outputHandler);
+		return extract(new FileOpener(file), outputHandler);
 	}
 	
 	// Will follow redirects
@@ -120,7 +120,7 @@ public class Any23 {
 					httpClientInitialized = true;
 				}
 				String normalizedURI = new URI(documentURI).normalize().toString();
-				return extract(new HTTPGetOpener(httpClient, normalizedURI), normalizedURI, outputHandler);
+				return extract(new HTTPGetOpener(httpClient, normalizedURI), outputHandler);
 			}
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);
@@ -138,6 +138,7 @@ public class Any23 {
 			WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
 			ex.setMIMETypeDetector(mimeTypeDetector);
 			ex.run();
+			outputHandler.close();
 			return true;
 		}
 		catch(Exception e){
@@ -156,16 +157,18 @@ public class Any23 {
 		ZipArchiveExtraction ex = new ZipArchiveExtraction(documentURI, factories, outputHandler);
 		ex.setMIMETypeDetector(mimeTypeDetector);
 		ex.run();
+		outputHandler.close();
 		return true;
 		
 	}
 
-	public boolean extract(InputStreamOpener in, String documentURI, TripleHandler outputHandler) 
+	public boolean extract(InputStreamOpener in, TripleHandler outputHandler) 
 	throws IOException, ExtractionException {
-		SingleDocumentExtraction ex = new SingleDocumentExtraction(in, documentURI, factories, outputHandler);
+		SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
 		ex.setMIMETypeDetector(mimeTypeDetector);
 		ex.setStreamCache(streamCache);
 		ex.run();
+		outputHandler.close();
 		return ex.hasMatchingExtractors();
 	}
 	

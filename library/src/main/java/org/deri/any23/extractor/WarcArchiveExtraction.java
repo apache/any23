@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -70,10 +69,7 @@ public class WarcArchiveExtraction {
 					header = rec.getHeader();
 					//we need only the repsonse warc entry
 					if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
-						String baseuri = URLDecoder.decode(header.getUrl(), "utf-8");
-//						logger.info("Decoded baseURI: "+baseuri);
-						
-						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), baseuri, extractors, output);
+						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), extractors, output);
 						
 						ex.setMIMETypeDetector(detector);
 						ex.setStreamCache(cache);

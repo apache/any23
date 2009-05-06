@@ -26,7 +26,7 @@ public class SingleDocumentExtraction {
 	
 	
 	private final InputStreamOpener in;
-	private final URI documentURI;
+	private URI documentURI;	// TODO should be final
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
 	private InputStreamCache cache = null;
@@ -36,21 +36,15 @@ public class SingleDocumentExtraction {
 	private MIMEType detectedMIMEType = null;
 	private Document tagSoupDOM = null;
 
-	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorFactory<?> factory, TripleHandler output) {
-		this(in, documentURI, 
-				new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)), 
+	public SingleDocumentExtraction(InputStreamOpener in, ExtractorFactory<?> factory, TripleHandler output) {
+		this(in, new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)), 
 				output);
 		this.setMIMETypeDetector(null);
 	}
 	
-	public SingleDocumentExtraction(InputStreamOpener in, String documentURI, ExtractorGroup extractors, TripleHandler output) {
+	public SingleDocumentExtraction(InputStreamOpener in, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
-		log.info("Processing " + documentURI);
-		try {
-			this.documentURI = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()).createURI(documentURI);
-		} catch (Exception ex) {
-			throw new IllegalArgumentException("Invalid URI: " + documentURI, ex);
-		} 
+		log.info("Processing " + in.getDocumentURI());
 		this.extractors = extractors;
 		this.output = output;
 	}
@@ -64,6 +58,12 @@ public class SingleDocumentExtraction {
 	}
 
 	public void run() throws ExtractionException, IOException {
+		getInputStream();	// TODO this is a hack to work around some ugliness in HTTPGetOpener
+		try {
+			this.documentURI = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()).createURI(in.getDocumentURI());
+		} catch (Exception ex) {
+			throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
+		} 
 		filterExtractorsByMIMEType();
 		
 		StringBuffer sb = new StringBuffer("Extractors ");

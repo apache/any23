@@ -1,13 +1,13 @@
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.TestHelper;
+import org.deri.any23.Helper;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.model.Literal;
 import org.openrdf.repository.RepositoryException;
 
 public class TitleExtractorTest extends AbstractMicroformatTestCase {
-	private Literal helloLiteral = TestHelper.literal("Hello World!");
+	private Literal helloLiteral = Helper.literal("Hello World!");
 	
 	protected ExtractorFactory<?> getExtractorFactory() {
 		return TitleExtractor.factory;

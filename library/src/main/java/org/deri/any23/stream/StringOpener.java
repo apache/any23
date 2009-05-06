@@ -7,13 +7,15 @@ import java.io.InputStream;
 public class StringOpener implements InputStreamOpener {
 	private final String in;
 	private final String encoding;
-
-	public StringOpener(String in) {
-		this(in, null);
+	private final String uri;
+	
+	public StringOpener(String in, String uri) {
+		this(in, uri, null);
 	}
 	
-	public StringOpener(String in, String encoding) {
+	public StringOpener(String in, String uri, String encoding) {
 		this.in = in;
+		this.uri = uri;
 		this.encoding = encoding;
 	}
 
@@ -27,5 +29,10 @@ public class StringOpener implements InputStreamOpener {
 	@Override
 	public long getContentLength() {
 		return in.length();
+	}
+	
+	@Override
+	public String getDocumentURI() {
+		return uri;
 	}
 }

@@ -3,7 +3,7 @@ package org.deri.any23.extractor;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.deri.any23.TestHelper;
+import org.deri.any23.Helper;
 import org.deri.any23.writer.TripleHandler;
 import org.junit.Assert;
 import org.openrdf.model.Resource;
@@ -38,7 +38,7 @@ public class MockTripleHandler implements TripleHandler {
 	}
 
 	public void expectTriple(Resource s, URI p, Value o, String extractorName, URI documentURI, String localID) {
-		expectations.add("triple(" + TestHelper.triple(s, p, o) + ", " + 
+		expectations.add("triple(" + Helper.triple(s, p, o) + ", " + 
 				new ExtractionContext(extractorName, documentURI, localID) + ")");
 	}
 
@@ -75,7 +75,7 @@ public class MockTripleHandler implements TripleHandler {
 
 	@Override
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		assertNextExpectation("triple(" + TestHelper.triple(s, p, o) + ", " + context + ")");
+		assertNextExpectation("triple(" + Helper.triple(s, p, o) + ", " + context + ")");
 	}
 	
 	@Override

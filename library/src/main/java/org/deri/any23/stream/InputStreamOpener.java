@@ -13,4 +13,7 @@ import java.io.InputStream;
 public interface InputStreamOpener {
 	InputStream openInputStream() throws IOException;
 	public long getContentLength();
+	
+	// TODO This method is needed to deal with HTTP redirects, but really shouldn't be here. Redesign! 
+	public String getDocumentURI();
 }

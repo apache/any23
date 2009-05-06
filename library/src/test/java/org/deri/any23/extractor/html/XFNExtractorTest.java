@@ -1,6 +1,6 @@
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.TestHelper;
+import org.deri.any23.Helper;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.html.XFNExtractor;
 import org.deri.any23.vocab.FOAF;
@@ -11,9 +11,9 @@ import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 
 public class XFNExtractorTest extends AbstractMicroformatTestCase {
-	private final static URI bobsHomepage = TestHelper.uri("http://bob.example.com/");
-	private final static URI alicesHomepage = TestHelper.uri("http://alice.example.com/");
-	private final static URI charliesHomepage = TestHelper.uri("http://charlie.example.com/");
+	private final static URI bobsHomepage = Helper.uri("http://bob.example.com/");
+	private final static URI alicesHomepage = Helper.uri("http://alice.example.com/");
+	private final static URI charliesHomepage = Helper.uri("http://charlie.example.com/");
 	
 	protected ExtractorFactory<?> getExtractorFactory() {
 		return XFNExtractor.factory;
@@ -47,7 +47,7 @@ public class XFNExtractorTest extends AbstractMicroformatTestCase {
 
 	public void testRelativeURIisResolvedAgainstBase() throws RepositoryException {
 		assertExtracts("xfn/with-relative-uri.html");
-		assertContains(null, FOAF.isPrimaryTopicOf, TestHelper.uri("http://bob.example.com/foo"));
+		assertContains(null, FOAF.isPrimaryTopicOf, Helper.uri("http://bob.example.com/foo"));
 	}
 
 	public void testParseTagSoup() throws RepositoryException {

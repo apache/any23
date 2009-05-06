@@ -2,6 +2,8 @@ package org.deri.any23.stream;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import org.apache.commons.httpclient.HttpParser;
 import org.archive.io.ArchiveRecord;
@@ -57,5 +59,15 @@ public class WARCFileOpener implements InputStreamOpener {
 	@Override
 	public long getContentLength() {
 		return _archiveStream.getHeader().getLength();
+	}
+	
+	@Override
+	public String getDocumentURI() {
+		try {
+			return URLDecoder.decode(_archiveStream.getHeader().getUrl(), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// can't happen, UTF-8 always supported
+			throw new RuntimeException(e);
+		}
 	}
 }

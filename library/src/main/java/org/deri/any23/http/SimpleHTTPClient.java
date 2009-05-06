@@ -39,4 +39,8 @@ public class SimpleHTTPClient implements HTTPClient {
 	public long getContentLength() {
 		return _contentLength;
 	}
+	
+	public String getActualDocumentURI() {
+		return null;
+	}
 }

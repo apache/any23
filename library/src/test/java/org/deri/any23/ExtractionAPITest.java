@@ -9,7 +9,7 @@ import org.openrdf.model.URI;
 
 public class ExtractionAPITest extends TestCase {
 	private static final String exampleDoc = "http://example.com/";
-	private static final URI uri = TestHelper.uri(exampleDoc);
+	private static final URI uri = Helper.uri(exampleDoc);
 	
 	public void testDirectInstantiation() throws Exception {
 		CountingTripleHandler out = new CountingTripleHandler();
@@ -18,14 +18,5 @@ public class ExtractionAPITest extends TestCase {
 		extractor.run(uri, uri, writer);
 		writer.close();
 		assertEquals(1, out.getCount());
-	}
-
-	public void testEmptyStreamDoesNotGenerateTriples() throws Exception {
-		CountingTripleHandler out = new CountingTripleHandler();
-		ExampleExtractor extractor = new ExampleExtractor();
-		ExtractionResultImpl writer = new ExtractionResultImpl(uri, extractor, out);
-		extractor.run(uri, uri, writer);
-		writer.close();
-		assertEquals(0, out.getCount());
 	}
 }

@@ -22,7 +22,7 @@ public class ServletTest extends TestCase {
 		@Override
 		protected void doExtract(String url, TripleHandler output) throws ExtractionException, IOException {
 			Any23 runner = new Any23();
-			runner.extract(new StringOpener(content), url, output);
+			runner.extract(new StringOpener(content, url), output);
     	}
     }
    

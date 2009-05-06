@@ -12,24 +12,17 @@ import java.util.Collections;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.stream.ZipFileOpener;
 import org.deri.any23.writer.TripleHandler;
-import org.w3c.dom.Document;
 
 public class ZipArchiveExtraction {
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
 	private InputStreamCache cache = null;
-	private InputStreamOpener inputOpener = null;
 	private MIMETypeDetector detector = null;
-	private ExtractorGroup matchingExtractors = null;
-	private MIMEType detectedMIMEType = null;
-	private Document tagSoupDOM = null;
 
 	public ZipArchiveExtraction( String documentURI, ExtractorFactory<?> factory, TripleHandler output) {
 		this(documentURI, 
@@ -68,7 +61,7 @@ public class ZipArchiveExtraction {
 				if(entry.isDirectory()) {continue;}
 				try {
 					final String baseuri = URLDecoder.decode(entry.getName(), "utf-8");
-					final SingleDocumentExtraction ex = new SingleDocumentExtraction(new ZipFileOpener(zis), baseuri, extractors, output);
+					final SingleDocumentExtraction ex = new SingleDocumentExtraction(new ZipFileOpener(zis, baseuri), extractors, output);
 					ex.setMIMETypeDetector(detector);
 					ex.setStreamCache(cache);
 					ex.run();		

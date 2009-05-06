@@ -1,10 +1,8 @@
 package org.deri.any23.extractor;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -13,29 +11,17 @@ import org.archive.io.ArchiveRecordHeader;
 import org.archive.io.warc.WARCConstants;
 import org.archive.io.warc.WARCReader;
 import org.archive.io.warc.WARCReaderFactory;
-import org.deri.any23.extractor.Extractor.BlindExtractor;
-import org.deri.any23.extractor.Extractor.ContentExtractor;
-import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.deri.any23.extractor.html.TagSoupParser;
-import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.InputStreamCacheMem;
-import org.deri.any23.stream.InputStreamOpener;
 import org.deri.any23.stream.WARCFileOpener;
 import org.deri.any23.writer.TripleHandler;
-import org.w3c.dom.Document;
 
 public class WarcArchiveExtractionTEST {
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
 	private InputStreamCache cache = null;
-	private InputStreamOpener inputOpener = null;
 	private MIMETypeDetector detector = null;
-	private ExtractorGroup matchingExtractors = null;
-	private MIMEType detectedMIMEType = null;
-	private Document tagSoupDOM = null;
 
 	public WarcArchiveExtractionTEST(String documentURI, ExtractorFactory<?> factory, final TripleHandler output) {
 		this(documentURI, 
@@ -76,8 +62,7 @@ public class WarcArchiveExtractionTEST {
 				//we need only the repsonse warc entry
 				if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
 					try {
-						final String baseuri = URLDecoder.decode(header.getUrl(), "utf-8");
-						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), baseuri, extractors, output);
+						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), extractors, output);
 						ex.setMIMETypeDetector(detector);
 						ex.setStreamCache(cache);
 						ex.run();

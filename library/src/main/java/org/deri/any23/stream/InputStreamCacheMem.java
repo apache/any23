@@ -31,15 +31,20 @@ public class InputStreamCacheMem implements InputStreamCache {
 	public InputStreamOpener cache(final InputStreamOpener in) {
 		return new InputStreamOpener() {
 			private byte[] buffer = null;
+			private String uri = null;
 			public InputStream openInputStream() throws IOException {
 				if (buffer == null) {
 					buffer = toByteArray(in.openInputStream());
 				}
+				uri = in.getDocumentURI();
 				return new ByteArrayInputStream(buffer);
 			}
 			@Override
 			public long getContentLength() {
 				return buffer.length;
+			}
+			public String getDocumentURI() {
+				return uri;
 			}
 		};
 	}

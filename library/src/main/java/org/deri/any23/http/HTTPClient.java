@@ -23,5 +23,14 @@ public interface HTTPClient {
 	 * context.
 	 */
 	public abstract void close();
+
 	public abstract long getContentLength();
+	
+	/**
+	 * Returns the actual URI from which the document was fetched.
+	 * This might differ from the URI passed to openInputStream()
+	 * if a redirect was performed. A return value of <tt>null</tt>
+	 * means that the URI is unchanged and the original URI was used.
+	 */
+	public abstract String getActualDocumentURI();
 }

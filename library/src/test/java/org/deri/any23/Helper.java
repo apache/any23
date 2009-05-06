@@ -9,7 +9,7 @@ import org.openrdf.model.Value;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 
-public class TestHelper {
+public class Helper {
 
 	public static URI uri(String uri) {
 		return ValueFactoryImpl.getInstance().createURI(uri);

@@ -7,9 +7,16 @@ import java.io.InputStream;
 
 public class FileOpener implements InputStreamOpener {
 	private final File file;
+	private final String uri;
 	
 	public FileOpener(File file) {
 		this.file = file;
+		this.uri = file.toURI().toString();
+	}
+	
+	public FileOpener(File file, String baseURI) {
+		this.file = file;
+		this.uri = baseURI;
 	}
 	
 	public InputStream openInputStream() throws IOException {
@@ -21,5 +28,8 @@ public class FileOpener implements InputStreamOpener {
 		return file.length();
 	}
 	
-	
+	@Override
+	public String getDocumentURI() {
+		return uri;
+	}
 }

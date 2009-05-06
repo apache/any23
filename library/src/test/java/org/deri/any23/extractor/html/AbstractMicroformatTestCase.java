@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.deri.any23.TestHelper;
+import org.deri.any23.Helper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
@@ -25,7 +25,7 @@ import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
 
 public abstract class AbstractMicroformatTestCase extends TestCase {
-	protected static URI baseURI = TestHelper.uri("http://bob.example.com/");
+	protected static URI baseURI = Helper.uri("http://bob.example.com/");
 
 	protected RepositoryConnection conn;
 	
@@ -47,8 +47,8 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
 	
 	protected void extract(String name) throws ExtractionException, IOException {
 		SingleDocumentExtraction ex = new SingleDocumentExtraction(
-				new HTMLFixture(name).getOpener(), 
-				baseURI.toString(), getExtractorFactory(), new RepositoryWriter(conn));
+				new HTMLFixture(name).getOpener(baseURI.toString()), 
+				getExtractorFactory(), new RepositoryWriter(conn));
 		ex.setMIMETypeDetector(null);
 		ex.run();
 	}
@@ -58,7 +58,7 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
 	}
 
 	protected void assertContains(URI p, String o) throws RepositoryException {
-		assertContains(null, p, TestHelper.literal(o));
+		assertContains(null, p, Helper.literal(o));
 	}
 
 	protected void assertNotContains(URI p, Resource o) throws RepositoryException {
@@ -91,7 +91,7 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
 	}
 
 	protected void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {
-		assertFalse(conn.hasStatement(subj,prop, TestHelper.literal(obj), false));
+		assertFalse(conn.hasStatement(subj,prop, Helper.literal(obj), false));
 	}
 	
 	protected void assertNotContains(Resource subj, URI prop, Resource obj) throws RepositoryException {
@@ -129,6 +129,6 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
 	}
 
 	protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
-		assertContains(s, p, TestHelper.literal(o));
+		assertContains(s, p, Helper.literal(o));
 	}
 }

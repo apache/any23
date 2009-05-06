@@ -19,6 +19,8 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
  * 
  * @author Paolo Capriotti
  * @author Richard Cyganiak (richard@cyganiak.de)
+ * 
+ * TODO: content length and actual document URI could be messed up in multithreaded situations
  */
 public class DefaultHTTPClient implements HTTPClient {
 	private static final int DEFAULT_TIMEOUT = 5000;
@@ -29,7 +31,8 @@ public class DefaultHTTPClient implements HTTPClient {
 	private String accept;
 	private HttpClient client = null;
 	private long _contentLength=-1;
-
+	private String actualDocumentURI = null;
+	
 	public void init(String userAgent, String acceptHeader) {
 		this.userAgent = userAgent;
 		this.accept = acceptHeader;
@@ -77,6 +80,7 @@ public class DefaultHTTPClient implements HTTPClient {
 		if (method.getStatusCode() != 200) {
 			throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
 		}
+		actualDocumentURI = method.getURI().toString();
 		return method.getResponseBodyAsStream();
 	}
 
@@ -90,5 +94,10 @@ public class DefaultHTTPClient implements HTTPClient {
 	@Override
 	public long getContentLength() {
 		return _contentLength;
+	}
+	
+	@Override
+	public String getActualDocumentURI() {
+		return actualDocumentURI;
 	}
 }
