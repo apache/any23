@@ -107,7 +107,6 @@ public class Any23 {
 	public boolean extract(String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
 		try {
-			
 			if (documentURI.toLowerCase().startsWith("file:")) {
 				return extract(new File(new URI(documentURI)), outputHandler);
 			}

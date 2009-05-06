@@ -58,9 +58,10 @@ public class AcceptHeaderBuilder {
 		highest.addAll(highestSpecificType.values());
 		Collections.sort(highest);
 		StringBuffer result = new StringBuffer();
-		Iterator<MIMEType> it = highest.iterator();
+		Iterator<MIMEType> it = mimeTypes.iterator();
 		while (it.hasNext()) {
 			MIMEType a = it.next();
+			if (!highest.contains(a)) continue;
 			result.append(a);
 			if (it.hasNext()) {
 				result.append(", ");

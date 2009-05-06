@@ -105,6 +105,7 @@ public class SingleDocumentExtraction {
 		}
 		detectedMIMEType = detector.guessMIMEType(
 				java.net.URI.create(documentURI.stringValue()).getPath(), getInputStream(), null);
+		log.debug("detected media type: " + detectedMIMEType);
 		matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
 	}
 	
