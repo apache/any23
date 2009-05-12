@@ -73,21 +73,21 @@
 
 	<!--  rdf and rss1  -->
 	<mime-type type="application/rdf+xml">
-		<sub-class-of type="application/xml" />
-		<root-XML localName="RDF" />
-		<root-XML namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns#" />
-		<root-XML namespaceURI="http://purl.org/rss/1.0/" />
-		<alias type="text/rdf" />
-		<magic priority="50">
-			<match value="&lt;rdf:RDF" type="string" offset="0:64" />
-			<match value="&lt;RDF" type="string" offset="0:64" />
-			<match value="xmlns:rdf" type="string" offset="0:64" />
-		</magic>
-		<glob pattern="*.rdf" />
-		<glob pattern="*.rdfs" />
-		<glob pattern="*.xrdf" />
-		<glob pattern="*.owl" />
-		<glob pattern="*.rdfx" />
+	  <sub-class-of type="application/xml" />
+	  <root-XML localName="RDF" />
+	  <root-XML namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns#" />
+	  <root-XML namespaceURI="http://purl.org/rss/1.0/" />
+	  <alias type="text/rdf" />
+	  <magic priority="50">
+	    <match value="&lt;rdf:RDF" type="string" offset="0:100" />
+	    <match value="&lt;RDF" type="string" offset="0:100" />
+	    <match value="xmlns:rdf" type="string" offset="0:100" />
+	  </magic>
+	  <glob pattern="*.rdf" />
+	  <glob pattern="*.rdfs" />
+	  <glob pattern="*.xrdf" />
+	  <glob pattern="*.owl" />
+	  <glob pattern="*.rdfx" />
 	</mime-type>
 
 	<mime-type type="application/atom+xml">

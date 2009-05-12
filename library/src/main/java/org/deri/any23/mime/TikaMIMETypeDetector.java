@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.util.ArrayList;
 
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.exception.TikaException;
@@ -96,18 +98,12 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @throws IOException if the document stream could not be read
      */
     private MimeType getMimeType(InputStream stream, final Metadata metadata) throws IOException {
-      if(stream!=null){
-        stream.mark(_types.getMinLength());
-        try {
-          byte[] prefix = getPrefix(stream, _types.getMinLength());
-          MimeType type = _types.getMimeType(prefix);
-          if (type != null && type.toString()!=MimeTypes.OCTET_STREAM) {
-            return type;
-          }
-        } finally {
-          stream.reset();
-        }
-      }
+    	if(stream!=null){
+    		MimeType type = _types.getMimeType(stream);
+    		if (type != null && type.toString() !=MimeTypes.OCTET_STREAM && type.toString()!=MimeTypes.PLAIN_TEXT) {
+        	    return type;
+    		}
+    	}
       
         // Get type based on metadata hint (if available)
         String typename = metadata.get(Metadata.CONTENT_TYPE);
