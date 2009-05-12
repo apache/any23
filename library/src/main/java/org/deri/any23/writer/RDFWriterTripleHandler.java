@@ -17,6 +17,7 @@ import org.openrdf.rio.RDFWriter;
  */
 class RDFWriterTripleHandler implements TripleHandler {
 	private final RDFWriter writer;
+	private boolean closed = false;
 	
 	RDFWriterTripleHandler(RDFWriter destination) {
 		writer = destination;
@@ -57,6 +58,8 @@ class RDFWriterTripleHandler implements TripleHandler {
 	}
 	
 	public void close() {
+		if (closed) return;
+		closed = true;
 		try {
 			writer.endRDF();
 		} catch (RDFHandlerException e) {
