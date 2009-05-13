@@ -8,4 +8,4 @@ do
   if [ ! -e "$jar" ]; then continue; fi
   CP="$CP$SEP$jar"
 done
-exec java -cp "$CP" -Xmx256M com.google.code.any23.servlet.Any23Server "$@"
+exec java -cp "$CP" -Xmx256M org.deri.any23.cli.Any23Server "$@"
