@@ -100,6 +100,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     private MimeType getMimeType(InputStream stream, final Metadata metadata) throws IOException {
     	if(stream!=null){
     		MimeType type = _types.getMimeType(stream);
+//    		
     		if (type != null && type.toString() !=MimeTypes.OCTET_STREAM && type.toString()!=MimeTypes.PLAIN_TEXT) {
         	    return type;
     		}
