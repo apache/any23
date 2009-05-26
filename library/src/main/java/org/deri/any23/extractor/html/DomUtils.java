@@ -99,7 +99,7 @@ public class DomUtils {
 			String xpath= "//*[@id='"+id+"']";
 			node = (Node) xPathEngine.evaluate(xpath, root, XPathConstants.NODE);
 		} catch (XPathExpressionException ex) {
-			throw new RuntimeException(ex);
+			throw new RuntimeException("Should not happen", ex);
 		}
 		return node;
 	}
@@ -117,7 +117,7 @@ public class DomUtils {
 			}
 			return result;
 		} catch (XPathExpressionException ex) {
-			throw new RuntimeException(ex);
+			throw new IllegalArgumentException("Illegal XPath expression: " + xpath, ex);
 		}
 	}
 	
@@ -131,7 +131,7 @@ public class DomUtils {
 				return "";
 			return val;
 		} catch (XPathExpressionException ex) {
-			throw new RuntimeException(ex);
+			throw new IllegalArgumentException("Illegal XPath expression: " + xpath, ex);
 		}
 	}
 	

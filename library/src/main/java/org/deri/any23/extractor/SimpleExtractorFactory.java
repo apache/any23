@@ -47,9 +47,9 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
 		try {
 			return extractorClass.newInstance();
 		} catch (IllegalAccessException ex) {
-			throw new RuntimeException(ex);
+			throw new RuntimeException("Zero-argument constructor not public?", ex);
 		} catch (InstantiationException ex) {
-			throw new RuntimeException(ex);
+			throw new RuntimeException("Non-instantiable type?", ex);
 		}
 	}
 	

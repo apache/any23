@@ -49,7 +49,7 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 					new StringReader(buffer.getBuffer().toString()), 
 					documentURI.stringValue());
 		} catch (RDFHandlerException ex) {
-			throw new RuntimeException(ex);	// should not happen
+			throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex);
 		} catch (RDFParseException ex) {
 			throw new ExtractionException(ex);
 		}

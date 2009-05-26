@@ -21,16 +21,16 @@ public class RDFHandlerAdapter implements RDFHandler {
 	
 	public void startRDF() throws RDFHandlerException { }
 	
-	public void handleNamespace(String prefix, String uri) throws RDFHandlerException {
+	public void handleNamespace(String prefix, String uri) {
 		// TODO figure out a way of handling namespace declarations in the content
 //		context.getPrefixes().addVolatile(prefix, uri);
 	}
 	
-	public void handleStatement(Statement stmt) throws RDFHandlerException {
+	public void handleStatement(Statement stmt) {
 		target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject());
 	}
 	
-	public void handleComment(String comment) throws RDFHandlerException { }
+	public void handleComment(String comment) { }
 	
 	public void endRDF() throws RDFHandlerException { }
 }

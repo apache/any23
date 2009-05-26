@@ -66,8 +66,7 @@ public class WARCFileOpener implements InputStreamOpener {
 		try {
 			return URLDecoder.decode(_archiveStream.getHeader().getUrl(), "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// can't happen, UTF-8 always supported
-			throw new RuntimeException(e);
+			throw new RuntimeException("Can't happen, UTF-8 always supported", e);
 		}
 	}
 }

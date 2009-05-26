@@ -7,7 +7,6 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -28,20 +27,17 @@ public class XSLTStylesheet {
 
 	public XSLTStylesheet(InputStream xsltFile) {
 		try {
-			StreamSource xsltStream = new StreamSource(xsltFile);
-			transformer = TransformerFactory.newInstance().newTransformer(xsltStream);
+			transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(xsltFile));
 		} catch (TransformerConfigurationException e) {
-			throw new RuntimeException(e);
-		} catch (TransformerFactoryConfigurationError e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Should not happen, we use the default configuration", e);
 		}
 	}
 
 	public void applyTo(Document document, Writer output) {
 		try {
 			transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
-		} catch (TransformerException e) {
-			throw new RuntimeException(e);
+		} catch (TransformerException e) {	// TODO: Figure out when this can be thrown
+			throw new RuntimeException("Exception occured during XSLT transformation", e);
 		}
 	}
 }

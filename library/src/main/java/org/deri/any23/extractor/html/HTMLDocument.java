@@ -1,8 +1,5 @@
 package org.deri.any23.extractor.html;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,28 +29,13 @@ public class HTMLDocument {
 	
 	private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
 
-	/**
-	 * A utility method to allow writing main() methods for smoke testing an extractor
-	 * it simply creates a DOM object from a file whose name was passed on the command line.
-	 */
-	public static HTMLDocument createFromFile(String filename) {
-		try {
-			File f = new File(filename);
-			String uri = f.toURI().normalize().toString();
-			FileInputStream fs = new FileInputStream(new File(filename));
-			return new HTMLDocument(new TagSoupParser(fs, uri).getDOM());		
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
-	
 	private Node document;
 	private java.net.URI baseURI;
 	private Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 	
 	public HTMLDocument(Node document) {
 		if(null==document)
-			throw new RuntimeException("node cannot be null when constructing an HTMLDocument");
+			throw new IllegalArgumentException("node cannot be null when constructing an HTMLDocument");
 		this.document = document;
 	}
 
@@ -114,7 +96,7 @@ public class HTMLDocument {
 			}
 			return value;
 		} catch (XPathExpressionException ex) {
-			throw new RuntimeException(ex);
+			throw new RuntimeException("Should not happen, XPath expression is built locally", ex);
 		}
 
 	}

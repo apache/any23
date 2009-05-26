@@ -82,7 +82,8 @@ public class WarcArchiveExtraction {
 				} catch (IOException e) {
 					logger.warn("doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), e);
 				} catch(RuntimeException ru){
-					logger.warn("doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), ru);
+					logger.error("RuntimeException thrown by SingleDocumentExtraction.run()! "
+							+ "doc:"+documentURI+" warc-headerURI: "+rec.getHeader().getUrl(), ru);
 				}
 			}
 		} catch (MalformedURLException e2) {

@@ -39,20 +39,20 @@ public class TagSoupParser {
 		this.documentURI = documentURI;
 	}
 	
-	public Document getDOM() {
+	public Document getDOM() throws IOException {
 		if (result == null) {
 			long startTime = System.currentTimeMillis();
 			try {
 				result = parse();
-			} catch (IOException ex) {
-				throw new RuntimeException(ex);
 			} catch (SAXException ex) {
-				throw new RuntimeException(ex);
+				// should not happen, it's a tag soup parser
+				throw new RuntimeException("Shouldn not happen, it's a tag soup parser", ex);
 			} catch (TransformerException ex) {
-				throw new RuntimeException(ex);
+				// should not happen, it's a tag soup parser
+				throw new RuntimeException("Shouldn not happen, it's a tag soup parser", ex);
 			} catch (NullPointerException ex) {
 				if (ex.getStackTrace()[0].getClassName().equals("java.io.Reader")) {
-					throw new RuntimeException("Bug in NekoHTML, try upgrading to newer release!");
+					throw new RuntimeException("Bug in NekoHTML, try upgrading to newer release!", ex);
 				} else {
 					throw ex;
 				}

@@ -29,7 +29,7 @@ public class RDFXMLExtractor implements ContentExtractor {
 			parser.setRDFHandler(new RDFHandlerAdapter(out));
 			parser.parse(in, documentURI.stringValue());
 		} catch (RDFHandlerException ex) {
-			throw new RuntimeException(ex);	// should not happen
+			throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);
 		} catch (RDFParseException ex) {
 			throw new ExtractionException(ex);
 		}

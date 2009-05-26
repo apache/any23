@@ -7,6 +7,11 @@ import org.openrdf.model.Value;
 
 //implemented by consumers. Simple triple handlers can ignore
 // all the context stuff and just have to deal with receiveTriple
+
+// TODO: Throw a TripleHandlerException from all methods (maybe unchecked?),
+//       and use it in implementing classes instead of RuntimeException,
+//       e.g. in {@link RDFWriterTripleHandler} and {@link RepositoryWriter}
+
 public interface TripleHandler {
 	
 	void startDocument(URI documentURI);
@@ -32,7 +37,6 @@ public interface TripleHandler {
 	// Will be called last and exactly once.
 	void close();
 
-	
 	void endDocument(URI documentURI);
 
 	void setContentLength(long contentLength);

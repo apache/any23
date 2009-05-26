@@ -56,7 +56,7 @@ public abstract class EntityBasedMicroformatExtractor extends
 			}
 			return result.toString();
 		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);	// should never happen, MD5 is supported
+			throw new RuntimeException("Should never happen, MD5 is supported", e);
 		}
 	}
 }
