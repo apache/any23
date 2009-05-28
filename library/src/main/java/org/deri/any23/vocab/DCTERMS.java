@@ -15,6 +15,7 @@ public class DCTERMS {
 	public static final URI creator = createURI("creator");
 	public static final URI related = createURI("related");
 	public static final URI date = createURI("date");
+	public static final URI source = createURI("source");
 	
 	private static URI createURI(String localName) {
 		return factory.createURI(NS, localName);
