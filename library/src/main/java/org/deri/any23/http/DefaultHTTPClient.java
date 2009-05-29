@@ -74,7 +74,8 @@ public class DefaultHTTPClient implements HTTPClient {
   public InputStream openInputStream(String uri) throws IOException {
 
     GetMethod method = null;
-
+    InputStream response = null;
+    
     try {
       ensureClientInitialized();
       method = new GetMethod(uri);
@@ -85,11 +86,12 @@ public class DefaultHTTPClient implements HTTPClient {
         throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
       }
       actualDocumentURI = method.getURI().toString();
+      response = method.getResponseBodyAsStream();
     } finally {
       method.releaseConnection();
     }
     
-    return method.getResponseBodyAsStream();
+    return response;
   }
 
   /* (non-Javadoc)
