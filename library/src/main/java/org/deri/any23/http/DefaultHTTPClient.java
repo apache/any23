@@ -1,5 +1,6 @@
 package org.deri.any23.http;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -74,8 +75,7 @@ public class DefaultHTTPClient implements HTTPClient {
   public InputStream openInputStream(String uri) throws IOException {
 
     GetMethod method = null;
-    InputStream response = null;
-    
+
     try {
       ensureClientInitialized();
       method = new GetMethod(uri);
@@ -86,12 +86,12 @@ public class DefaultHTTPClient implements HTTPClient {
         throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
       }
       actualDocumentURI = method.getURI().toString();
-      response = method.getResponseBodyAsStream();
+      byte[] response = method.getResponseBody();
+      
+      return new ByteArrayInputStream(response);
     } finally {
       method.releaseConnection();
     }
-    
-    return response;
   }
 
   /* (non-Javadoc)
