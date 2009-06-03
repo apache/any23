@@ -23,6 +23,7 @@ import org.deri.any23.writer.LoggingTripleHandler;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.QuadWriter;
 import org.deri.any23.writer.RDFXMLWriter;
+import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
 import org.slf4j.Logger;
@@ -156,14 +157,16 @@ public class Rover {
 		if (cmd.hasOption('t')) {
 			outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
 		}
+		BenchmarkTripleHandler benchmark = null;
 		if(cmd.hasOption('s')){
-			
-			outputHandler = new BenchmarkTripleHandler(outputHandler);	
+			benchmark = new BenchmarkTripleHandler(outputHandler);
+			outputHandler = benchmark;	
 		}
-		 
 		if(cmd.hasOption('l')){
 			outputHandler = new LoggingTripleHandler(outputHandler, cmd.getOptionValue('l'));	
 		}
+		ReportingTripleHandler reporter = new ReportingTripleHandler(outputHandler);
+		outputHandler = reporter;
 		
 		long start = System.currentTimeMillis();
 		Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
@@ -201,9 +204,10 @@ public class Rover {
 			}
 		}
 		outputHandler.close();
-		if(outputHandler instanceof BenchmarkTripleHandler) {
-			System.err.println(((BenchmarkTripleHandler)outputHandler).report());
+		if (benchmark != null) {
+			System.err.println(benchmark.report());
 		}
-		logger.info("Time elapsed: "+(System.currentTimeMillis()-start)+"ms");
+		logger.debug("Extractors used: " + reporter.getExtractorNames());
+		logger.info(reporter.getTotalTriples() + " triples, "+(System.currentTimeMillis()-start)+"ms");
 	}
 }
