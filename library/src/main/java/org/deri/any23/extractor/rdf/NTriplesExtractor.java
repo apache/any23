@@ -14,6 +14,7 @@ import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.RDFParser.DatatypeHandling;
 import org.openrdf.rio.ntriples.NTriplesParser;
 
 public class NTriplesExtractor implements ContentExtractor {
@@ -22,7 +23,7 @@ public class NTriplesExtractor implements ContentExtractor {
 			throws IOException, ExtractionException {
 		try {
 			RDFParser parser = new NTriplesParser();
-//			parser.setDatatypeHandling(DatatypeHandling.IGNORE);
+			parser.setDatatypeHandling(DatatypeHandling.IGNORE);
 			parser.setRDFHandler(new RDFHandlerAdapter(out));
 			parser.parse(in, documentURI.stringValue());
 		} catch (RDFHandlerException ex) {

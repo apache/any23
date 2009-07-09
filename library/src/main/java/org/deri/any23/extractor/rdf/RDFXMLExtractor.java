@@ -16,6 +16,7 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.RDFParser.DatatypeHandling;
 import org.openrdf.rio.rdfxml.RDFXMLParser;
 
 public class RDFXMLExtractor implements ContentExtractor {
@@ -25,7 +26,7 @@ public class RDFXMLExtractor implements ContentExtractor {
 		try {
 			RDFParser parser = new RDFXMLParser();
 			parser.setValueFactory(new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()));
-//			parser.setDatatypeHandling(DatatypeHandling.IGNORE);
+			parser.setDatatypeHandling(DatatypeHandling.IGNORE);
 			parser.setRDFHandler(new RDFHandlerAdapter(out));
 			parser.parse(in, documentURI.stringValue());
 		} catch (RDFHandlerException ex) {
