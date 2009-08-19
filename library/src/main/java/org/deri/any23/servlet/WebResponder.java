@@ -2,14 +2,13 @@ package org.deri.any23.servlet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.deri.any23.Any23;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
+import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.FormatWriter;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
@@ -24,10 +23,13 @@ public class WebResponder {
 	private TripleHandler rdfWriter = null;
 	private ReportingTripleHandler reporter = null;
 	private String outputMediaType = null;
+	private final Any23 runner;
 	
 	public WebResponder(Servlet any23servlet, HttpServletResponse response) {
 		this.any23servlet = any23servlet;
 		this.response = response;
+		this.runner = new Any23();
+		runner.setHTTPUserAgent("Any23-Servlet");
 	}
 	
 	public void sendError(int code, String message) throws IOException {
@@ -36,30 +38,11 @@ public class WebResponder {
 		response.getWriter().println(message);
 	}
 	
-	public void doProcessingFromURI(String format, final String uri) throws IOException {
-		if (!isValidURI(uri)) {
-			sendError(400, "Invalid input URI " + uri);
-			return;
-		}
-		runExtraction(format, new ExtractionRunner() {
-			public boolean run() throws ExtractionException, IOException {
-				return any23servlet.doExtract(createRunner(), uri, rdfWriter);
-			}
-		});
-	}
-
-	public void doProcessingFromBody(String format, final String body, final String contentType) throws IOException {
-		runExtraction(format, new ExtractionRunner() {
-			public boolean run() throws ExtractionException, IOException {
-				return createRunner().extract(body, Servlet.DEFAULT_BASE_URI, contentType, null, rdfWriter);
-			}
-		});
-	}
-	
-	private void runExtraction(String format, ExtractionRunner extractionRunner) throws IOException {
+	public void runExtraction(DocumentSource in, String format) throws IOException {
+		if (in == null) return;
 		if (!initRdfWriter(format)) return;
 		try {
-			if (!extractionRunner.run()) {
+			if (!runner.extract(in, rdfWriter)) {
 				sendError(415, "No suitable extractor found for this media type");
 				return;
 			}
@@ -108,25 +91,7 @@ public class WebResponder {
 		return null;
 	}
 
-	private boolean isValidURI(String s) {
-		try {
-			URI uri = new URI(s);
-			if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {
-				return false;
-			}
-		} catch (URISyntaxException e) {
-			return false;
-		}
-		return true;
-	}
-
-	private Any23 createRunner() {
-		Any23 runner = new Any23();
-		runner.setHTTPUserAgent("Any23-Servlet");
+	Any23 getRunner() {
 		return runner;
 	}
-	
-	private interface ExtractionRunner {
-		boolean run() throws ExtractionException, IOException;
-	}	
 }

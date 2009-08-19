@@ -2,6 +2,8 @@ package org.deri.any23.source;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.deri.any23.http.HTTPClient;
 
@@ -11,11 +13,15 @@ public class HTTPDocumentSource implements DocumentSource {
 	private InputStream unusedInputStream = null;
 	private boolean loaded = false;
 	
-	public HTTPDocumentSource(HTTPClient client, String uri) {
+	public HTTPDocumentSource(HTTPClient client, String uri) throws URISyntaxException {
 		this.client = client;
-		this.uri = uri;
+		this.uri = normalize(uri);
 	}
 
+	private String normalize(String uri) throws URISyntaxException {
+		return new URI(uri).normalize().toString();
+	}
+	
 	private void ensureOpen() throws IOException {
 		if (loaded) return;
 		loaded = true;

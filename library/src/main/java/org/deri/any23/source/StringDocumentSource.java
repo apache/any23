@@ -14,6 +14,10 @@ public class StringDocumentSource implements DocumentSource {
 		this(in, uri, null, null);
 	}
 	
+	public StringDocumentSource(String in, String uri, String contentType) {
+		this(in, uri, contentType, null);
+	}
+	
 	public StringDocumentSource(String in, String uri, String contentType, String encoding) {
 		this.in = in;
 		this.uri = uri;

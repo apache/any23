@@ -108,19 +108,10 @@ public class Any23 {
 	throws IOException, ExtractionException {
 		try {
 			if (documentURI.toLowerCase().startsWith("file:")) {
-				return extract(new File(new URI(documentURI)), outputHandler);
+				return extract(new FileDocumentSource(new File(new URI(documentURI))), outputHandler);
 			}
-			if(documentURI.toLowerCase().startsWith("http:")) {
-				if (!httpClientInitialized) {
-					if (userAgent == null) {
-						throw new IOException("Must call " + Any23.class.getSimpleName() + 
-								".setHTTPUserAgent(String) before extracting from HTTP URI");
-					}
-					httpClient.init(userAgent, getAcceptHeader());
-					httpClientInitialized = true;
-				}
-				String normalizedURI = new URI(documentURI).normalize().toString();
-				return extract(new HTTPDocumentSource(httpClient, normalizedURI), outputHandler);
+			if(documentURI.toLowerCase().startsWith("http:") || documentURI.toLowerCase().startsWith("https:")) {
+				return extract(new HTTPDocumentSource(getHTTPClient(), documentURI), outputHandler);
 			}
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);
@@ -176,5 +167,17 @@ public class Any23 {
 			mimeTypes.addAll(factory.getSupportedMIMETypes());
 		}
 		return new AcceptHeaderBuilder(mimeTypes).getAcceptHeader();
+	}
+	
+	public HTTPClient getHTTPClient() throws IOException {
+		if (!httpClientInitialized) {
+			if (userAgent == null) {
+				throw new IOException("Must call " + Any23.class.getSimpleName() + 
+						".setHTTPUserAgent(String) before extracting from HTTP URI");
+			}
+			httpClient.init(userAgent, getAcceptHeader());
+			httpClientInitialized = true;
+		}
+		return httpClient;
 	}
 }

@@ -1,6 +1,5 @@
 package org.deri.any23.source;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,30 +26,6 @@ public class MemCopyFactory implements LocalCopyFactory {
 	}
 
 	public DocumentSource createLocalCopy(final DocumentSource in) throws IOException {
-		final byte[] buffer = toByteArray(in.openInputStream());
-		final String uri = in.getDocumentURI();
-		final String contentType = in.getContentType();
-		return new DocumentSource() {
-			@Override
-			public InputStream openInputStream() throws IOException {
-				return new ByteArrayInputStream(buffer);
-			}
-			@Override
-			public long getContentLength() {
-				return buffer.length;
-			}
-			@Override
-			public String getDocumentURI() {
-				return uri;
-			}
-			@Override
-			public String getContentType() {
-				return contentType;
-			}
-			@Override
-			public boolean isLocal() {
-				return true;
-			}
-		};
+		return new ByteArrayDocumentSource(in.openInputStream(), in.getDocumentURI(), in.getContentType());
 	}
 }

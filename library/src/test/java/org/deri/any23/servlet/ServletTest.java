@@ -1,14 +1,14 @@
 package org.deri.any23.servlet;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
 import junit.framework.TestCase;
 
-import org.deri.any23.Any23;
-import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.http.HTTPClient;
+import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.StringDocumentSource;
-import org.deri.any23.writer.TripleHandler;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
@@ -240,10 +240,10 @@ public class ServletTest extends TestCase {
 		private static final long serialVersionUID = -4439511819287286586L;
 
 		@Override
-		protected boolean doExtract(Any23 runner, String url, TripleHandler output)
-				throws ExtractionException, IOException {
-			requestedURI = url;
-			return new Any23().extract(new StringDocumentSource(content, url), output);
+		protected DocumentSource createHTTPDocumentSource(HTTPClient httpClient, String uri) 
+		throws IOException, URISyntaxException {
+			requestedURI = uri;
+			return new StringDocumentSource(content, uri);
 		}
 	}
 }

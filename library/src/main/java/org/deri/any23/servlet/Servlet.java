@@ -1,16 +1,19 @@
 package org.deri.any23.servlet;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.deri.any23.Any23;
-import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.source.MemCopyFactory;
-import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.http.HTTPClient;
+import org.deri.any23.source.ByteArrayDocumentSource;
+import org.deri.any23.source.DocumentSource;
+import org.deri.any23.source.HTTPDocumentSource;
+import org.deri.any23.source.StringDocumentSource;
 
 /**
  * A servlet that fetches a client-specified URI, RDFizes the content,
@@ -33,7 +36,7 @@ public class Servlet extends HttpServlet {
 			responder.sendError(404, "Invalid GET request, try /format/some-domain.example.com/my-input-file.rdf");
 			return;
 		}
-		responder.doProcessingFromURI(format, uri);
+		responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
 	}
 	
 	@Override
@@ -50,7 +53,7 @@ public class Servlet extends HttpServlet {
 		}
 		if (uri != null) {
 			log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
-			responder.doProcessingFromURI(format, uri);
+			responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
 			return;
 		}
 		if ("application/x-www-form-urlencoded".equals(req.getContentType())) {
@@ -63,13 +66,15 @@ public class Servlet extends HttpServlet {
 				type = req.getParameter("type");
 			}
 			log("Attempting conversion to '" + format + "' from body parameter");
-			responder.doProcessingFromBody(format, req.getParameter("body"), type);
+			responder.runExtraction( 
+					new StringDocumentSource(req.getParameter("body"), Servlet.DEFAULT_BASE_URI, type),
+					format);
 			return;
 		}
 		log("Attempting conversion to '" + format + "' from POST body");
-		responder.doProcessingFromBody(format, 
-				new String(MemCopyFactory.toByteArray(req.getInputStream()), "utf-8"), 
-				getContentTypeHeader(req));
+		responder.runExtraction(
+				new ByteArrayDocumentSource(req.getInputStream(), Servlet.DEFAULT_BASE_URI, getContentTypeHeader(req)),
+				format);
 	}
 
 	private String getFormatFromRequest(HttpServletRequest request) {
@@ -117,8 +122,32 @@ public class Servlet extends HttpServlet {
 		return req.getHeader("Content-Type");
 	}
 
-	// Hack: Allow overriding for easier testing.
-	protected boolean doExtract(Any23 runner, String uri, TripleHandler output) throws ExtractionException, IOException {
-		return runner.extract(uri, output);
+	private DocumentSource createHTTPDocumentSource(WebResponder responder, String uri) throws IOException {
+		try {
+			if (!isValidURI(uri)) {
+				throw new URISyntaxException(uri, "@@@");
+			}
+			return createHTTPDocumentSource(responder.getRunner().getHTTPClient(), uri);
+		} catch (URISyntaxException ex) {
+			responder.sendError(400, "Invalid input URI " + uri);
+			return null;
+		}
+	}
+
+	protected DocumentSource createHTTPDocumentSource(HTTPClient httpClient, String uri) 
+	throws IOException, URISyntaxException {
+		return new HTTPDocumentSource(httpClient, uri);
+	}
+	
+	private boolean isValidURI(String s) {
+		try {
+			URI uri = new URI(s);
+			if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {
+				return false;
+			}
+		} catch (URISyntaxException e) {
+			return false;
+		}
+		return true;
 	}
 }
