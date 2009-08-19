@@ -62,10 +62,10 @@ public class AcceptHeaderBuilder {
 		while (it.hasNext()) {
 			MIMEType a = it.next();
 			if (!highest.contains(a)) continue;
-			result.append(a);
-			if (it.hasNext()) {
+			if (result.length() > 0) {
 				result.append(", ");
 			}
+			result.append(a);
 		}
 		return result.toString();
 	}
