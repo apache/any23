@@ -162,6 +162,7 @@ public class Any23 {
 		
 	}
 
+	// TODO if the input can be opened multiple times (e.g. StringOpener), then no cache should be used
 	public boolean extract(InputStreamOpener in, TripleHandler outputHandler) 
 	throws IOException, ExtractionException {
 		SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);

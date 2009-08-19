@@ -8,6 +8,8 @@ import java.io.InputStream;
  * situations where opening of an input stream is
  * to be delayed.
  * 
+ * TODO Should have a method canOpenMultipleTimes?
+ * 
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public interface InputStreamOpener {
