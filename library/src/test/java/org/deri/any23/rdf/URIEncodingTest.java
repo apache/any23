@@ -46,7 +46,12 @@ public class URIEncodingTest extends TestCase{
 	}
 	
 	public void testNoAuthority() throws Exception {
-		assertNull(factory.createURI("http://"));
+		try {
+			factory.createURI("http://");
+			fail();
+		} catch (IllegalArgumentException ex) {
+			// expected
+		}
 	}
 	
 }
