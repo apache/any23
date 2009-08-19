@@ -22,7 +22,8 @@ public class RDFHandlerAdapter implements RDFHandler {
 	public void startRDF() throws RDFHandlerException { }
 	
 	public void handleNamespace(String prefix, String uri) {
-		// TODO figure out a way of handling namespace declarations in the content
+		// TODO figure out the best way of handling namespace declarations in the content
+		target.writeNamespace(prefix, uri);
 //		context.getPrefixes().addVolatile(prefix, uri);
 	}
 	
