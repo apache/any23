@@ -1,20 +1,18 @@
-package org.deri.any23.stream;
+package org.deri.any23.source;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
- * Reads an {@link InputStream} into an in-memory buffer
- * and allows the creation of multiple {@link OutputStream}s
- * over the content. The implementation might delay reading
- * from the input until the data is actually needed.
+ * Creates local copies of {@link DocumentSources} by
+ * reading them into an in-memory buffer. This allows opening
+ * several input streams over the content at lower cost.
  * 
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
-public class InputStreamCacheMem implements InputStreamCache {
+public class MemCopyFactory implements LocalCopyFactory {
 	private static final int TEMP_SIZE = 10000;
 	
 	public static byte[] toByteArray(InputStream in) throws IOException {
@@ -28,23 +26,30 @@ public class InputStreamCacheMem implements InputStreamCache {
 		return out.toByteArray();
 	}
 
-	public InputStreamOpener cache(final InputStreamOpener in) {
-		return new InputStreamOpener() {
-			private byte[] buffer = null;
-			private String uri = null;
+	public DocumentSource createLocalCopy(final DocumentSource in) throws IOException {
+		final byte[] buffer = toByteArray(in.openInputStream());
+		final String uri = in.getDocumentURI();
+		final String contentType = in.getContentType();
+		return new DocumentSource() {
+			@Override
 			public InputStream openInputStream() throws IOException {
-				if (buffer == null) {
-					buffer = toByteArray(in.openInputStream());
-				}
-				uri = in.getDocumentURI();
 				return new ByteArrayInputStream(buffer);
 			}
 			@Override
 			public long getContentLength() {
 				return buffer.length;
 			}
+			@Override
 			public String getDocumentURI() {
 				return uri;
+			}
+			@Override
+			public String getContentType() {
+				return contentType;
+			}
+			@Override
+			public boolean isLocal() {
+				return true;
 			}
 		};
 	}

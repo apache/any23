@@ -33,6 +33,7 @@ public class DefaultHTTPClient implements HTTPClient {
   private HttpClient client = null;
   private long _contentLength=-1;
   private String actualDocumentURI = null;
+  private String contentType = null;
 
   public void init(String userAgent, String acceptHeader) {
     this.userAgent = userAgent;
@@ -82,6 +83,7 @@ public class DefaultHTTPClient implements HTTPClient {
       method.setFollowRedirects(true);
       client.executeMethod(method);
       _contentLength= method.getResponseContentLength();
+      contentType = method.getResponseHeader("Content-Type").getValue();
       if (method.getStatusCode() != 200) {
         throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
       }
@@ -109,5 +111,10 @@ public class DefaultHTTPClient implements HTTPClient {
   @Override
   public String getActualDocumentURI() {
     return actualDocumentURI;
+  }
+  
+  @Override
+  public String getContentType() {
+	  return contentType;
   }
 }

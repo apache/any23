@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.deri.any23.extractor.Extractor.BlindExtractor;
-import org.deri.any23.stream.InputStreamCacheMem;
-import org.deri.any23.stream.StringOpener;
+import org.deri.any23.source.MemCopyFactory;
+import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
 
@@ -44,7 +44,7 @@ public class ExampleInputOutput {
 					factory.getExtractorName() + ": " + 
 					factory.getExampleInput());
 		}
-		return new String(InputStreamCacheMem.toByteArray(in), "utf-8");
+		return new String(MemCopyFactory.toByteArray(in), "utf-8");
 	}
 	
 	public String getExampleURI() {
@@ -64,7 +64,7 @@ public class ExampleInputOutput {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		TripleHandler writer = new TurtleWriter(out);
 		new SingleDocumentExtraction(
-				new StringOpener(getExampleInput(), getExampleURI()), 
+				new StringDocumentSource(getExampleInput(), getExampleURI()), 
 				factory,
 				writer).run();
 		writer.close();

@@ -6,7 +6,7 @@ import java.net.MalformedURLException;
 import junit.framework.TestCase;
 
 import org.deri.any23.Any23;
-import org.deri.any23.stream.StringOpener;
+import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.NTriplesWriter;
 
 // TODO These tests are not very clever
@@ -40,7 +40,7 @@ public class TestVariousParsers extends TestCase {
 		if (parsers.length != 0) {
 			runner.setMIMETypeDetector(null);	// use all the provided extractors
 		}
-		runner.extract(new StringOpener(content, url), new NTriplesWriter(out));
+		runner.extract(new StringDocumentSource(content, url), new NTriplesWriter(out));
 		String result = out.toString("us-ascii");
 		assertNotNull(result);
 		assertTrue(result.length() > 10);

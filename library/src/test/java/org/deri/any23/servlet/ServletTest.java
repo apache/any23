@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 import org.deri.any23.Any23;
 import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.stream.StringOpener;
+import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
@@ -67,36 +67,42 @@ public class ServletTest extends TestCase {
 	}
 	
 	public void testGETAddsHTTPScheme() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doGetRequest("/any23/nt/foo.com");
 		assertEquals(200, response.getStatus());
 		assertEquals("http://foo.com", requestedURI);
 	}
 	
 	public void testGETIncludesQueryString() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doGetRequest("/any23/nt/http://foo.com?id=1");
 		assertEquals(200, response.getStatus());
 		assertEquals("http://foo.com?id=1", requestedURI);
 	}
 	
 	public void testGETwithURIinParam() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doGetRequest("/any23/nt?uri=http://foo.com?id=1");
 		assertEquals(200, response.getStatus());
 		assertEquals("http://foo.com?id=1", requestedURI);
 	}
 
 	public void testGETwithFormatAndURIinParam() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doGetRequest("/any23/?format=nt&uri=http://foo.com?id=1");
 		assertEquals(200, response.getStatus());
 		assertEquals("http://foo.com?id=1", requestedURI);
 	}
 	
 	public void testGETwithURLDecoding() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doGetRequest("/any23/nt/http%3A%2F%2Ffoo.com");
 		assertEquals(200, response.getStatus());
 		assertEquals("http://foo.com", requestedURI);
 	}
 	
 	public void testGETwithURLDecodingInParam() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doGetRequest("/any23/nt?uri=http%3A%2F%2Ffoo.com");
 		assertEquals(200, response.getStatus());
 		assertEquals("http://foo.com", requestedURI);
@@ -127,8 +133,8 @@ public class ServletTest extends TestCase {
 	}
 	
 	public void testPOSTBodyInParamWorks() throws Exception {
-		String body = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
-		HttpTester response = doPostRequest("/any23/", "format=nt&body=" + URLEncoder.encode(body, "utf-8"), 
+		String body = URLEncoder.encode("<html><body><div class=\"vcard fn\">Joe</div></body></html>", "utf-8");
+		HttpTester response = doPostRequest("/any23/", "format=nt&body=" + body, 
 				"application/x-www-form-urlencoded");
 		assertEquals(200, response.getStatus());
 		String res = response.getContent();
@@ -160,6 +166,32 @@ public class ServletTest extends TestCase {
 		HttpTester response = doPostRequest("/any23/nt", body, "text/rdf+n3;charset=utf-8");
 		assertEquals(200, response.getStatus());
 		assertContains("<" + Servlet.DEFAULT_BASE_URI + ">", response.getContent());
+	}
+	
+	public void testPOSTwithoutContentType() throws Exception {
+		String body = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <http://example.com/asdf> a foaf:Document .";
+		HttpTester response = doPostRequest("/any23/nt", body, null);
+		assertEquals(400, response.getStatus());
+		assertContains("Content-Type", response.getContent());
+	}
+
+	public void testPOSTwithContentTypeParam() throws Exception {
+		String body = URLEncoder.encode("<http://foo.bar> <http://foo.bar> <http://foo.bar> .", "utf-8");
+		HttpTester response = doPostRequest("/any23/", "format=nt&body=" + body + "&type=application/x-foobar", 
+				"application/x-www-form-urlencoded");
+		assertEquals(415, response.getStatus());
+	}
+	
+	public void testPOSTbodyMissingFormat() throws Exception {
+		HttpTester response = doPostRequest("/any23/", "asdf", "text/plain");
+		assertEquals(400, response.getStatus());
+		assertContains("format", response.getContent());
+	}
+	
+	public void testNoExtractableTriples() throws Exception {
+		HttpTester response = doPostRequest("/any23/n3", "<html><body>asdf</body></html>", "text/html");
+		assertEquals(204, response.getStatus());
+		assertNull(response.getContent());
 	}
 	
 	private HttpTester doGetRequest(String path) throws IOException, Exception {
@@ -208,10 +240,10 @@ public class ServletTest extends TestCase {
 		private static final long serialVersionUID = -4439511819287286586L;
 
 		@Override
-		protected void doExtract(String url, TripleHandler output)
+		protected boolean doExtract(Any23 runner, String url, TripleHandler output)
 				throws ExtractionException, IOException {
 			requestedURI = url;
-			new Any23().extract(new StringOpener(content, url), output);
+			return new Any23().extract(new StringDocumentSource(content, url), output);
 		}
 	}
 }

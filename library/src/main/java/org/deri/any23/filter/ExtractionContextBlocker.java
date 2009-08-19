@@ -145,7 +145,7 @@ public class ExtractionContextBlocker implements TripleHandler {
 
 	@Override
 	public void endDocument(URI documentURI) {
-		wrapped.endDocument(documentURI);	
+		wrapped.endDocument(documentURI);
 	}
 	
 	@Override

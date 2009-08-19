@@ -14,8 +14,8 @@ import org.archive.io.warc.WARCConstants;
 import org.archive.io.warc.WARCReader;
 import org.archive.io.warc.WARCReaderFactory;
 import org.deri.any23.mime.MIMETypeDetector;
-import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.WARCFileOpener;
+import org.deri.any23.source.LocalCopyFactory;
+import org.deri.any23.source.WARCDocumentSource;
 import org.deri.any23.writer.TripleHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class WarcArchiveExtraction {
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
-	private InputStreamCache cache = null;
+	private LocalCopyFactory cache = null;
 	private MIMETypeDetector detector = null;
 	
 
@@ -47,7 +47,7 @@ public class WarcArchiveExtraction {
 		this.output = output;
 	}
 	
-	public void setStreamCache(final InputStreamCache cache) {
+	public void setStreamCache(final LocalCopyFactory cache) {
 		this.cache = cache;
 	}
 	
@@ -69,10 +69,10 @@ public class WarcArchiveExtraction {
 					header = rec.getHeader();
 					//we need only the repsonse warc entry
 					if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
-						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), extractors, output);
+						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCDocumentSource(rec), extractors, output);
 						
 						ex.setMIMETypeDetector(detector);
-						ex.setStreamCache(cache);
+						ex.setLocalCopyFactory(cache);
 						ex.run();	
 					}
 				} catch (UnsupportedEncodingException e1) {

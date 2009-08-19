@@ -40,7 +40,13 @@ public class SimpleHTTPClient implements HTTPClient {
 		return _contentLength;
 	}
 	
+	@Override
 	public String getActualDocumentURI() {
+		return null;
+	}
+	
+	public String getContentType() {
+		// we're bad, just return nothing
 		return null;
 	}
 }

@@ -12,15 +12,15 @@ import org.archive.io.warc.WARCConstants;
 import org.archive.io.warc.WARCReader;
 import org.archive.io.warc.WARCReaderFactory;
 import org.deri.any23.mime.MIMETypeDetector;
-import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.WARCFileOpener;
+import org.deri.any23.source.LocalCopyFactory;
+import org.deri.any23.source.WARCDocumentSource;
 import org.deri.any23.writer.TripleHandler;
 
 public class WarcArchiveExtractionTEST {
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
-	private InputStreamCache cache = null;
+	private LocalCopyFactory cache = null;
 	private MIMETypeDetector detector = null;
 
 	public WarcArchiveExtractionTEST(String documentURI, ExtractorFactory<?> factory, final TripleHandler output) {
@@ -40,7 +40,7 @@ public class WarcArchiveExtractionTEST {
 		this.output = output;
 	}
 	
-	public void setStreamCache(final InputStreamCache cache) {
+	public void setStreamCache(final LocalCopyFactory cache) {
 		this.cache = cache;
 	}
 	
@@ -62,9 +62,9 @@ public class WarcArchiveExtractionTEST {
 				//we need only the repsonse warc entry
 				if(((String)header.getHeaderValue(WARCConstants.HEADER_KEY_TYPE)).equalsIgnoreCase(WARCConstants.RESPONSE)){
 					try {
-						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCFileOpener(rec), extractors, output);
+						final SingleDocumentExtraction ex = new SingleDocumentExtraction(new WARCDocumentSource(rec), extractors, output);
 						ex.setMIMETypeDetector(detector);
-						ex.setStreamCache(cache);
+						ex.setLocalCopyFactory(cache);
 						ex.run();
 						success = (success & ex.hasMatchingExtractors());		
 					}catch(final Exception ex) {

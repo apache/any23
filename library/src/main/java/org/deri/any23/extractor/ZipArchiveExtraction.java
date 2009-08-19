@@ -13,15 +13,15 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.deri.any23.mime.MIMETypeDetector;
-import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.ZipFileOpener;
+import org.deri.any23.source.LocalCopyFactory;
+import org.deri.any23.source.ZipFileDocumentSource;
 import org.deri.any23.writer.TripleHandler;
 
 public class ZipArchiveExtraction {
 	private final URI documentURI;
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
-	private InputStreamCache cache = null;
+	private LocalCopyFactory cache = null;
 	private MIMETypeDetector detector = null;
 
 	public ZipArchiveExtraction( String documentURI, ExtractorFactory<?> factory, TripleHandler output) {
@@ -42,7 +42,7 @@ public class ZipArchiveExtraction {
 		this.output = output;
 	}
 	
-	public void setStreamCache(InputStreamCache cache) {
+	public void setStreamCache(LocalCopyFactory cache) {
 		this.cache = cache;
 	}
 	
@@ -61,9 +61,9 @@ public class ZipArchiveExtraction {
 				if(entry.isDirectory()) {continue;}
 				try {
 					final String baseuri = URLDecoder.decode(entry.getName(), "utf-8");
-					final SingleDocumentExtraction ex = new SingleDocumentExtraction(new ZipFileOpener(zis, baseuri), extractors, output);
+					final SingleDocumentExtraction ex = new SingleDocumentExtraction(new ZipFileDocumentSource(zis, baseuri), extractors, output);
 					ex.setMIMETypeDetector(detector);
-					ex.setStreamCache(cache);
+					ex.setLocalCopyFactory(cache);
 					ex.run();		
 				} catch (final UnsupportedEncodingException uex) {
 					System.err.println(uex.getClass().getSimpleName()+" "+uex.getMessage()+" for "+entry.getName());

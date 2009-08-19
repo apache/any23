@@ -24,6 +24,12 @@ public interface HTTPClient {
 	 */
 	public abstract void close();
 
+	/**
+	 * The value of the Content-Type header reported by the server.
+	 * Can be <tt>null</tt>.
+	 */
+	public abstract String getContentType();
+	
 	public abstract long getContentLength();
 	
 	/**

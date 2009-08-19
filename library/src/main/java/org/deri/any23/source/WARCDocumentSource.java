@@ -1,4 +1,4 @@
-package org.deri.any23.stream;
+package org.deri.any23.source;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,13 +8,13 @@ import java.net.URLDecoder;
 import org.apache.commons.httpclient.HttpParser;
 import org.archive.io.ArchiveRecord;
 
-public class WARCFileOpener implements InputStreamOpener {
+public class WARCDocumentSource implements DocumentSource {
 	private ArchiveRecord	_archiveStream;
 	
 	/**
 	 * @param rec
 	 */
-	public WARCFileOpener(ArchiveRecord rec) {
+	public WARCDocumentSource(ArchiveRecord rec) {
 		_archiveStream = rec;
 	}
 
@@ -68,5 +68,15 @@ public class WARCFileOpener implements InputStreamOpener {
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Can't happen, UTF-8 always supported", e);
 		}
+	}
+	
+	@Override
+	public String getContentType() {
+		return _archiveStream.getHeader().getMimetype();
+	}
+
+	@Override
+	public boolean isLocal() {
+		return false;
 	}
 }

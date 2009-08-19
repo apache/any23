@@ -1,7 +1,6 @@
  package org.deri.any23.extractor;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 
 import org.deri.any23.extractor.Extractor.BlindExtractor;
@@ -11,9 +10,9 @@ import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
-import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.InputStreamCacheMem;
-import org.deri.any23.stream.InputStreamOpener;
+import org.deri.any23.source.DocumentSource;
+import org.deri.any23.source.LocalCopyFactory;
+import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.writer.TripleHandler;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
@@ -24,33 +23,31 @@ import org.w3c.dom.Document;
 public class SingleDocumentExtraction {
 	private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 	
-	
-	private final InputStreamOpener in;
+	private final DocumentSource in;
 	private URI documentURI;	// TODO should be final
 	private final ExtractorGroup extractors;
 	private final TripleHandler output;
-	private InputStreamCache cache = null;
-	private InputStreamOpener inputOpener = null;
+	private LocalCopyFactory copyFactory = null;
+	private DocumentSource localDocumentSource = null;
 	private MIMETypeDetector detector = null;
 	private ExtractorGroup matchingExtractors = null;
 	private MIMEType detectedMIMEType = null;
 	private Document tagSoupDOM = null;
 
-	public SingleDocumentExtraction(InputStreamOpener in, ExtractorFactory<?> factory, TripleHandler output) {
+	public SingleDocumentExtraction(DocumentSource in, ExtractorFactory<?> factory, TripleHandler output) {
 		this(in, new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)), 
 				output);
 		this.setMIMETypeDetector(null);
 	}
 	
-	public SingleDocumentExtraction(InputStreamOpener in, ExtractorGroup extractors, TripleHandler output) {
+	public SingleDocumentExtraction(DocumentSource in, ExtractorGroup extractors, TripleHandler output) {
 		this.in = in;
-		log.info("Processing " + in.getDocumentURI());
 		this.extractors = extractors;
 		this.output = output;
 	}
 	
-	public void setStreamCache(InputStreamCache cache) {
-		this.cache = cache;
+	public void setLocalCopyFactory(LocalCopyFactory copyFactory) {
+		this.copyFactory = copyFactory;
 	}
 	
 	public void setMIMETypeDetector(MIMETypeDetector detector) {
@@ -58,12 +55,13 @@ public class SingleDocumentExtraction {
 	}
 
 	public void run() throws ExtractionException, IOException {
-		getInputStream();	// TODO this is a hack to work around some ugliness in HTTPGetOpener
+		ensureHasLocalCopy();
 		try {
 			this.documentURI = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()).createURI(in.getDocumentURI());
 		} catch (Exception ex) {
 			throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
 		} 
+		log.info("Processing " + this.documentURI);
 		filterExtractorsByMIMEType();
 		
 		StringBuffer sb = new StringBuffer("Extractors ");
@@ -103,8 +101,10 @@ public class SingleDocumentExtraction {
 			matchingExtractors = extractors;
 			return;
 		}
+		ensureHasLocalCopy();
 		detectedMIMEType = detector.guessMIMEType(
-				java.net.URI.create(documentURI.stringValue()).getPath(), getInputStream(), null);
+				java.net.URI.create(documentURI.stringValue()).getPath(), localDocumentSource.openInputStream(), 
+				MIMEType.parse(localDocumentSource.getContentType()));
 		log.debug("detected media type: " + detectedMIMEType);
 		matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
 	}
@@ -117,7 +117,8 @@ public class SingleDocumentExtraction {
 			if (extractor instanceof BlindExtractor) {
 				((BlindExtractor) extractor).run(documentURI, documentURI, result);
 			} else if (extractor instanceof ContentExtractor) {
-				((ContentExtractor) extractor).run(getInputStream(), documentURI, result);
+				ensureHasLocalCopy();
+				((ContentExtractor) extractor).run(localDocumentSource.openInputStream(), documentURI, result);
 			} else if (extractor instanceof TagSoupDOMExtractor) {
 				((TagSoupDOMExtractor) extractor).run(getTagSoupDOM(), documentURI, result);
 			} else {
@@ -133,19 +134,22 @@ public class SingleDocumentExtraction {
 		}
 	}
 	
-	private InputStream getInputStream() throws IOException {
-		if (cache == null) {
-			cache = new InputStreamCacheMem();
+	private void ensureHasLocalCopy() throws IOException {
+		if (localDocumentSource != null) return;
+		if (in.isLocal()) {
+			localDocumentSource = in;
+			return;
 		}
-		if (inputOpener == null) {
-			inputOpener = cache.cache(in);
+		if (copyFactory == null) {
+			copyFactory = new MemCopyFactory();
 		}
-		return inputOpener.openInputStream();		
+		localDocumentSource = copyFactory.createLocalCopy(in);
 	}
 	
 	private Document getTagSoupDOM() throws IOException {
 		if (tagSoupDOM == null) {
-			tagSoupDOM = new TagSoupParser(getInputStream(), documentURI.stringValue()).getDOM();
+			ensureHasLocalCopy();
+			tagSoupDOM = new TagSoupParser(localDocumentSource.openInputStream(), documentURI.stringValue()).getDOM();
 		}
 		return tagSoupDOM;
 	}

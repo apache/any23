@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import org.deri.any23.extractor.html.HTMLDocument;
 import org.deri.any23.extractor.html.TagSoupParser;
-import org.deri.any23.stream.FileOpener;
-import org.deri.any23.stream.InputStreamOpener;
+import org.deri.any23.source.DocumentSource;
+import org.deri.any23.source.FileDocumentSource;
 import org.w3c.dom.Node;
 
 public class HTMLFixture {
@@ -26,8 +26,8 @@ public class HTMLFixture {
 		return file;
 	}
 
-	public InputStreamOpener getOpener(String baseURI) {
-		return new FileOpener(getFile(), baseURI);
+	public DocumentSource getOpener(String baseURI) {
+		return new FileDocumentSource(getFile(), baseURI);
 	}
 	
 	public Node getDOM() {

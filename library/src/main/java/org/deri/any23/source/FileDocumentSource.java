@@ -1,24 +1,25 @@
-package org.deri.any23.stream;
+package org.deri.any23.source;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FileOpener implements InputStreamOpener {
+public class FileDocumentSource implements DocumentSource {
 	private final File file;
 	private final String uri;
 	
-	public FileOpener(File file) {
+	public FileDocumentSource(File file) {
 		this.file = file;
 		this.uri = file.toURI().toString();
 	}
 	
-	public FileOpener(File file, String baseURI) {
+	public FileDocumentSource(File file, String baseURI) {
 		this.file = file;
 		this.uri = baseURI;
 	}
 	
+	@Override
 	public InputStream openInputStream() throws IOException {
 		return new FileInputStream(file);
 	}
@@ -31,5 +32,15 @@ public class FileOpener implements InputStreamOpener {
 	@Override
 	public String getDocumentURI() {
 		return uri;
+	}
+	
+	@Override
+	public String getContentType() {
+		return null;
+	}
+	
+	@Override
+	public boolean isLocal() {
+		return true;
 	}
 }

@@ -9,6 +9,7 @@ public class MIMEType implements Comparable<MIMEType> {
 	private final static String msg = "Cannot parse MIME type (expected type/subtype[;q=x.x] format): ";
 	
 	public static MIMEType parse(String mimeType) {
+		if (mimeType == null) return null;
 		int i = mimeType.indexOf(';');
 		double q = 1.0; 
 		if (i > -1) {

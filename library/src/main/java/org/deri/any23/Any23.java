@@ -23,12 +23,12 @@ import org.deri.any23.http.HTTPClient;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.mime.TikaMIMETypeDetector;
-import org.deri.any23.stream.FileOpener;
-import org.deri.any23.stream.HTTPGetOpener;
-import org.deri.any23.stream.InputStreamCache;
-import org.deri.any23.stream.InputStreamCacheMem;
-import org.deri.any23.stream.InputStreamOpener;
-import org.deri.any23.stream.StringOpener;
+import org.deri.any23.source.DocumentSource;
+import org.deri.any23.source.FileDocumentSource;
+import org.deri.any23.source.HTTPDocumentSource;
+import org.deri.any23.source.LocalCopyFactory;
+import org.deri.any23.source.MemCopyFactory;
+import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
 
 
@@ -44,7 +44,7 @@ public class Any23 {
 	public static final String VERSION = "0.2-dev";
 	
 	private final ExtractorGroup factories;
-	private InputStreamCache streamCache;
+	private LocalCopyFactory streamCache;
 	private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector();	// can be overridden by setter
 	private String userAgent = null;
 	private HTTPClient httpClient = new DefaultHTTPClient();
@@ -58,7 +58,7 @@ public class Any23 {
 		factories = (extractorNames == null)
 				? ExtractorRegistry.get().getExtractorGroup()
 				: ExtractorRegistry.get().getExtractorGroup(Arrays.asList(extractorNames));
-		setCacheFactory(new InputStreamCacheMem());
+		setCacheFactory(new MemCopyFactory());
 	}
 	
 	public void setHTTPUserAgent(String userAgent) {
@@ -75,7 +75,7 @@ public class Any23 {
 		this.httpClient = httpClient;
 	}
 	
-	public void setCacheFactory(InputStreamCache cache) {
+	public void setCacheFactory(LocalCopyFactory cache) {
 		this.streamCache = cache;
 	}
 	
@@ -85,12 +85,12 @@ public class Any23 {
 	
 	public boolean extract(String in, String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
-		return extract(new StringOpener(in, documentURI), outputHandler);
+		return extract(new StringDocumentSource(in, documentURI), outputHandler);
 	}
 	
-	public boolean extract(String in, String encoding, String documentURI, TripleHandler outputHandler)
+	public boolean extract(String in, String documentURI, String contentType, String encoding, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
-		return extract(new StringOpener(in, documentURI, encoding), outputHandler);
+		return extract(new StringDocumentSource(in, documentURI, contentType, encoding), outputHandler);
 	}
 	
 	public boolean extract(File file, TripleHandler outputHandler) 
@@ -100,7 +100,7 @@ public class Any23 {
 	
 	public boolean extract(File file, String documentURI, TripleHandler outputHandler)
 	throws IOException, ExtractionException {
-		return extract(new FileOpener(file), outputHandler);
+		return extract(new FileDocumentSource(file), outputHandler);
 	}
 	
 	// Will follow redirects
@@ -120,7 +120,7 @@ public class Any23 {
 					httpClientInitialized = true;
 				}
 				String normalizedURI = new URI(documentURI).normalize().toString();
-				return extract(new HTTPGetOpener(httpClient, normalizedURI), outputHandler);
+				return extract(new HTTPDocumentSource(httpClient, normalizedURI), outputHandler);
 			}
 		} catch (URISyntaxException ex) {
 			throw new ExtractionException(ex);
@@ -147,8 +147,6 @@ public class Any23 {
 		}
 	}
 
-
-
 	/**
 	 * @param documentURI
 	 * @param outputHandler 
@@ -162,12 +160,11 @@ public class Any23 {
 		
 	}
 
-	// TODO if the input can be opened multiple times (e.g. StringOpener), then no cache should be used
-	public boolean extract(InputStreamOpener in, TripleHandler outputHandler) 
+	public boolean extract(DocumentSource in, TripleHandler outputHandler) 
 	throws IOException, ExtractionException {
 		SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
 		ex.setMIMETypeDetector(mimeTypeDetector);
-		ex.setStreamCache(streamCache);
+		ex.setLocalCopyFactory(streamCache);
 		ex.run();
 		outputHandler.close();
 		return ex.hasMatchingExtractors();
