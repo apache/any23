@@ -199,8 +199,8 @@ public class Any23ValueFactoryWrapper implements ValueFactory{
 		//Remove  ending   "\" or '"'
 		if(escapedURI.endsWith("\\") || escapedURI.endsWith("\"")) escapedURI = escapedURI.substring(0,escapedURI.length()-1);
 		
-		//Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:(//)?$
-		if(escapedURI.matches("^[a-zA-Z0-9]+:(//)?$")) throw new IllegalArgumentException("no authority in URI: " + unescapedURI);
+		//Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:/?/?$
+		if(escapedURI.matches("^[a-zA-Z0-9]+:/?/?$")) throw new IllegalArgumentException("no authority in URI: " + unescapedURI);
 		
 		//Drop the triple if it matches this regex: ^javascript:
 		if(escapedURI.matches("^javascript:")) throw new IllegalArgumentException("URI starts with javascript: " + unescapedURI);
