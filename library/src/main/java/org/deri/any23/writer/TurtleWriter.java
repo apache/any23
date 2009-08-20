@@ -15,6 +15,6 @@ public class TurtleWriter extends RDFWriterTripleHandler implements FormatWriter
 	}
 	
 	public String getMIMEType() {
-		return useN3 ? "text/rdf+n3;charset=utf-8" : "application/x-turtle";
+		return useN3 ? "text/rdf+n3;charset=utf-8" : "text/turtle";
 	}
 }
