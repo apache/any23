@@ -92,7 +92,9 @@ public class DefaultHTTPClient implements HTTPClient {
       
       return new ByteArrayInputStream(response);
     } finally {
-      method.releaseConnection();
+    	if (method != null) {
+    		method.releaseConnection();
+    	}
     }
   }
 

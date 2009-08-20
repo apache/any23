@@ -30,12 +30,14 @@ public class Servlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		// Forward GET requests to the app's root to the default servlet,
-		// which will display index.html; also forward requests to /resources,
-		// this is where we can put static helper stuff
-		if (("/".equals(req.getPathInfo()) && req.getQueryString() == null)
-				|| "/index.html".equals(req.getPathInfo())
-				|| req.getPathInfo().startsWith("/resources/")) {
+		// Show /resources/form.html for GET requests to the app's root
+		if (("/".equals(req.getPathInfo()) && req.getQueryString() == null)) {
+			getServletContext().getRequestDispatcher("/resources/form.html").forward(req, resp);
+			return;
+		}
+		// forward requests to /resources/* to the default servlet, this is
+		// where we can put static files
+		if (req.getPathInfo().startsWith("/resources/")) {
 			getServletContext().getNamedDispatcher("default").forward(req, resp);
 			return;
 		}
@@ -116,14 +118,27 @@ public class Servlet extends HttpServlet {
 		}
 		if (!hasScheme(uri)) {
 			uri = "http://" + uri;
+		} else if (hasOnlySingleSlashAfterScheme(uri)) {
+			 // This is to work around an issue where Tomcat 6.0.18 is
+			 // too smart for us. Tomcat normalizes double-slashes in
+			 // the path, and thus turns "http://" into "http:/" if it
+			 // occurs in the path. So we restore the double slash.
+			uri = uri.replaceFirst(":/", "://");
 		}
 		return uri;
 	}
 	
 	// RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
-	private final static Pattern schemeRegex = Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:");
+	private final static Pattern schemeRegex = 
+		Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:");
 	private boolean hasScheme(String uri) {
 		return schemeRegex.matcher(uri).find();
+	}
+	
+	private final static Pattern schemeAndSingleSlashRegex =
+		Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:/[^/]");
+	private boolean hasOnlySingleSlashAfterScheme(String uri) {
+		return schemeAndSingleSlashRegex.matcher(uri).find();
 	}
 
 	private String getContentTypeHeader(HttpServletRequest req) {
