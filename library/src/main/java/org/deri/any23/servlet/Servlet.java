@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +29,16 @@ public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 8207685628715421336L;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		// Forward GET requests to the app's root to the default servlet,
+		// which will display index.html; also forward requests to /resources,
+		// this is where we can put static helper stuff
+		if (("/".equals(req.getPathInfo()) && req.getQueryString() == null)
+				|| "/index.html".equals(req.getPathInfo())
+				|| req.getPathInfo().startsWith("/resources/")) {
+			getServletContext().getNamedDispatcher("default").forward(req, resp);
+			return;
+		}
 		WebResponder responder = new WebResponder(this, resp);
 		String format = getFormatFromRequest(req);
 		String uri = getInputURIFromRequest(req);

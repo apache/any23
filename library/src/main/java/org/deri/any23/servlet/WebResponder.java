@@ -48,11 +48,11 @@ public class WebResponder {
 			}
 		} catch (IOException e) {
 			any23servlet.log("Could not fetch input", e);
-			sendError(400, "Could not fetch input: " + e.getMessage());
+			sendError(502, "Could not fetch input: " + e.getMessage());
 			return;
 		} catch (ExtractionException e) {
 			any23servlet.log("Could not parse input", e);
-			sendError(400, "Could not parse input: " + e.getMessage());
+			sendError(502, "Could not parse input: " + e.getMessage());
 			return;
 		}
 		any23servlet.log("Extraction complete, " + reporter.getTotalTriples() + " triples");
@@ -82,10 +82,13 @@ public class WebResponder {
 		if ("rdf".equals(format) || "xml".equals(format) || "rdfxml".equals(format)) {
 			return new RDFXMLWriter(byteOutStream);
 		}
-		if ("turtle".equals(format) || "n3".equals(format) || "ttl".equals(format)) {
+		if ("turtle".equals(format) || "ttl".equals(format)) {
 			return new TurtleWriter(byteOutStream);
 		}
-		if ("ntriples".equals(format) || "nt".equals(format)) {
+		if ("n3".equals(format)) {
+			return new TurtleWriter(byteOutStream, true);
+		}
+		if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
 			return new NTriplesWriter(byteOutStream);
 		}
 		return null;

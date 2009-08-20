@@ -1,2 +1,168 @@
-<h1>Anything To Triples Servlet</h1>
-<p>Example: <a href="/any23/n3/twitter.com/cygri">http://localhost:8080/any23/n3/twitter.com/cygri</a></p>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xml:lang="en"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <head>
+    <title>any23: Anything To Triples</title>
+    <style type="text/css">
+body { padding: 1.2em 2em; }
+th { text-align: left; }
+h1, h2, h3 { color: #600; }
+h2 { font-size: 125%; }
+h3 { font-size: 100%; }
+pre { background: #ffb; padding: 0.6em 1em; }
+    </style>
+    <script type="application/javascript">
+function init() {
+    var elements = document.getElementsByClassName('app-base-uri');
+    for (var i = 0; i < elements.length; i++) {
+        elements.item(i).childNodes(0).nodeValue = document.location;
+    }
+    document.getElementById('app-path').childNodes(0).nodeValue = document.location.pathname;
+    document.getElementById('app-host').childNodes(0).nodeValue = document.location.hostname;
+}
+    </script>
+  </head>
+  <body onLoad="init();">
+    <h1>any23: Anything To Triples</h1>
+    <p>Parses microformats, RDFa, RDF/XML, Turtle and N-Triples.</p>
+    <hr />
+    <h2>Convert document at URI</h2>
+    <form method="get" action="">
+      <p>Pick an output format and enter the URI of a web document:</p>
+      <code>
+        <span class="app-base-uri">http://.../</span><select name="format">
+          <option value="turtle">turtle</option>
+          <option value="ntriples">ntriples</option>
+          <option value="rdfxml">rdfxml</option>
+        </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
+      </code>
+      <input type="submit" value="Convert" />
+    </form>
+    <hr />
+
+    <h2>Convert copy&amp;pasted document</h2>
+    <form method="post" action="">
+      <p>Input format:
+        <select name="type">
+          <option value="">auto-detect</option>
+          <option value="text/turtle">Turtle (text/turtle)</option>
+          <option value="text/plain">N-Triples (text/plain)</option>
+          <option value="application/rdf+xml">RDF/XML (application/rdf+xml)</option>
+        </select>
+        Output format:
+        <select name="format">
+          <option value="turtle">turtle</option>
+          <option value="ntriples">ntriples</option>
+          <option value="rdfxml" selected="selected">rdfxml</option>
+        </select>
+        <input type="submit" value="Convert" /><br />
+        <textarea name="body" rows="12" cols="80">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+[] a foaf:Person;
+    foaf:name "John X. Foobar";
+    foaf:mbox_sha1sum "cef817456278b70cee8e5a1611539ef9d928810e";
+    .</textarea>
+      </p>
+
+    <hr />
+
+    <h2>API quick reference</h2>
+    <h3>Examples</h3>
+    <ul>
+      <li><code><a href="rdfxml/twitter.com/cygri"><span class="app-base-uri">http://.../</span>rdfxml/twitter.com/cygri</a></code></li>
+      <li><code><a href="ttl/http://www.w3.org/People/Berners-Lee/card"><span class="app-base-uri">http://.../</span>ttl/http://www.w3.org/People/Berners-Lee/card</a></code></li>
+      <li><code><a href="?format=nt&uri=http://dbpedia.org/resource/Berlin"><span class="app-base-uri">http://.../</span>?format=nt&uri=http://dbpedia.org/resource/Berlin</a></code></li>
+    </ul>
+    <h3>Compact API</h3>
+    <p>HTTP GET requests can be made
+      to URIs of the shape</p>
+    <p><code><span class="app-base-uri">http://.../</span><em>format</em>/<em>input-uri</em></code></p>
+    <p>The response is the input document converted to the desired output format.</p>
+
+    <h3>Form-style GET API</h3>
+    <p>HTTP GET requests can be made to
+      the URI
+      <code class="app-base-uri">http://.../</code> with the following
+      query parameters:
+    </p>
+    <table rules="all">
+      <tr><th>format</th><td>Desired output format</td></tr>
+      <tr><th>uri</th><td>URI of an input document</td></tr>
+    </table>
+    <p>The response is the input document converted to the desired output format.</p>
+
+    <h3>Direct POST API</h3>
+    <p>HTTP POSTing a document body to
+      <code><span class="app-base-uri">http://.../</span><em>format</em></code> will convert
+      the document to the specified output format. The media type of the input
+      has to be specified in the <code>Content-Type</code> HTTP header. Depending
+      on the servlet container, a <code>Content-Length</code> header specifying
+      the length of the input document in bytes might also be required. Typical
+      media types for supported input formats are:
+    </p>
+    <table rules="all">
+      <tr><th>HTML</th><td><code>text/html</code></td></tr>
+      <tr><th>RDF/XML</th><td><code>application/rdf+xml</code></td></tr>
+      <tr><th>Turtle</th><td><code>text/turtle</code></td></tr>
+      <tr><th>N-Triples</th><td><code>text/plain</code></td></tr>
+    </table>
+    <p>Example POST request:</p>
+    <pre>POST <span id="app-path">/</span>rdfxml HTTP/1.0
+Host: <span id="app-host">example.com</span>
+Content-Type: text/turtle
+Content-Length: 174
+
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
+[] a foaf:Person;
+    foaf:name "John X. Foobar";
+    foaf:mbox_sha1sum "cef817456278b70cee8e5a1611539ef9d928810e";
+    .</pre>
+
+    <h3>Form-style POST API</h3>
+    <p>A document body can also be converted by HTTP POSTing form data to
+      <code><span class="app-base-uri">http://.../</span></code>. The
+      <code>Content-Type</code> HTTP header must be set to
+      <code>application/x-www-form-urlencoded</code>. The following
+      parameters are supported:
+    </p>
+    <table rules="all">
+      <tr><th>type</th><td>Media type of the input, see above. If not present, auto-detection will be attempted.</td></tr>
+      <tr><th>body</th><td>Document body to be converted</td></tr>
+      <tr><th>format</th><td>Desired output format</td></tr>
+    </table>
+
+    <h3>Output formats</h3>
+    <p>Supported output format identifiers are:</p>
+    <ul>
+      <li><code>turtle</code>, <code>ttl</code>, <code>n3</code> for
+        <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a>/N3</li>
+      <li><code>ntriples</code>, <code>nt</code> for
+        <a href="http://www.w3.org/TR/rdf-testcases/#ntriples">N-Triples</a></li>
+      <li><code>rdfxml</code>, <code>rdf</code>, <code>xml</code> for
+        <a href="http://www.w3.org/TR/rdf-syntax-grammar/">RDF/XML</a></li>
+    </ul>
+
+    <h3>Error reporting</h3>
+    <p>Processing errors are indicated via
+      HTTP status codes and brief <code>text/plain</code> error messages.
+      The following status codes can be returned:</p>
+    <table rules="all">
+      <thead>
+        <tr><th>Code</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>200 OK</th><td>Success</td></tr>
+        <tr><th>204 No Content</th><td>Extraction from input was successful, but yielded zero triples</td></tr>
+        <tr><th>400 Bad Request</th><td>Missing or malformed input parameter</td></tr>
+        <tr><th>404 Not Found</th><td>Malformed request URI</td></tr>
+        <tr><th>415 Unsupported Media Type</th><td>Document body with unsupported media type was POSTed</td></tr>
+        <tr><th>502 Bad Gateway</th><td>Input document from a remote server could not be fetched or parsed</td></tr>
+      </tbody>
+    </table>
+    <hr />
+    <p><a href="http://any23.org/">any23 homepage</a> | <a href="http://deri.ie/">DERI Galway</a></p>
+  </body>
+</html>

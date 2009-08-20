@@ -3,7 +3,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Anything To Triples</display-name>
+  <display-name>any23 (Anything to Triples)</display-name>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -16,6 +16,6 @@
 
   <servlet-mapping>
     <servlet-name>any23</servlet-name>
-    <url-pattern>/any23/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
 </web-app>
