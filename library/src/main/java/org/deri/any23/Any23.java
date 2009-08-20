@@ -7,16 +7,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
 import org.deri.any23.extractor.ExtractorRegistry;
 import org.deri.any23.extractor.SingleDocumentExtraction;
-import org.deri.any23.extractor.WarcArchiveExtraction;
-import org.deri.any23.extractor.ZipArchiveExtraction;
 import org.deri.any23.http.AcceptHeaderBuilder;
 import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.http.HTTPClient;
@@ -39,7 +35,7 @@ import org.deri.any23.writer.TripleHandler;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Any23 {
-	private final static Logger logger = Logger.getLogger(Any23.class.getCanonicalName());
+	//private final static Logger logger = Logger.getLogger(Any23.class.getCanonicalName());
 	
 	public static final String VERSION = "0.2-dev";
 	
@@ -117,38 +113,6 @@ public class Any23 {
 			throw new ExtractionException(ex);
 		}
 		return false;
-	}
-
-	/**
-	 * @param documentURI
-	 * @param outputHandler
-	 * @return - true by default
-	 */
-	public boolean extractWARCFile(final String documentURI, final TripleHandler outputHandler) {
-		try{
-			WarcArchiveExtraction ex = new WarcArchiveExtraction(documentURI, factories, outputHandler);
-			ex.setMIMETypeDetector(mimeTypeDetector);
-			ex.run();
-			outputHandler.close();
-			return true;
-		}
-		catch(Exception e){
-			logger.log(Level.WARNING,"",e);
-			return false;
-		}
-	}
-
-	/**
-	 * @param documentURI
-	 * @param outputHandler 
-	 */
-	public boolean extractZipFile(final String documentURI, final TripleHandler outputHandler) {
-		ZipArchiveExtraction ex = new ZipArchiveExtraction(documentURI, factories, outputHandler);
-		ex.setMIMETypeDetector(mimeTypeDetector);
-		ex.run();
-		outputHandler.close();
-		return true;
-		
 	}
 
 	public boolean extract(DocumentSource in, TripleHandler outputHandler) 

@@ -171,37 +171,19 @@ public class Rover {
 		long start = System.currentTimeMillis();
 		Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
 		any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
-		if(cmd.hasOption("I")) {
-			String inputFormat = cmd.getOptionValue("I");
-			if(inputFormat.equals(ZIP)) {
-				if (!any23.extractZipFile(inputURI, outputHandler)) {
-					System.err.println("No suitable extractors");
-					System.exit(2);
-				}
-				
+		try {
+			if (!any23.extract(inputURI, outputHandler)) {
+				System.err.println("No suitable extractors");
+				System.exit(2);
 			}
-			if(inputFormat.equals(WARC)) {
-				if (!any23.extractWARCFile(inputURI, outputHandler)) {
-					System.err.println("No suitable extractors");
-					System.exit(2);
-				}
-			}
-		}
-		else {
-			try {
-				if (!any23.extract(inputURI, outputHandler)) {
-					System.err.println("No suitable extractors");
-					System.exit(2);
-				}
-			} catch (ExtractionException ex) {
-				logger.debug("Exception in Any23", ex);
-				System.err.println(ex.getMessage());
-				System.exit(3);
-			} catch (IOException ex) {
-				logger.debug("Exception in Any23", ex);
-				System.err.println(ex.getMessage());
-				System.exit(4);
-			}
+		} catch (ExtractionException ex) {
+			logger.debug("Exception in Any23", ex);
+			System.err.println(ex.getMessage());
+			System.exit(3);
+		} catch (IOException ex) {
+			logger.debug("Exception in Any23", ex);
+			System.err.println(ex.getMessage());
+			System.exit(4);
 		}
 		outputHandler.close();
 		if (benchmark != null) {
