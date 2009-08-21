@@ -33,6 +33,7 @@ function init() {
       <p>Pick an output format and enter the URI of a web document:</p>
       <code>
         <span class="app-base-uri">http://.../</span><select name="format">
+          <option value="best" selected="selected">best</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
           <option value="rdfxml">rdfxml</option>
@@ -53,9 +54,10 @@ function init() {
         </select>
         Output format:
         <select name="format">
+          <option value="best" selected="selected">best (content-negotiated)</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
-          <option value="rdfxml" selected="selected">rdfxml</option>
+          <option value="rdfxml">rdfxml</option>
         </select>
         <input type="submit" value="Convert" /><br />
         <textarea name="body" rows="12" cols="80">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
@@ -71,8 +73,10 @@ function init() {
     <h2>API quick reference</h2>
     <h3>Examples</h3>
     <ul>
-      <li><code><a href="rdfxml/twitter.com/cygri"><span class="app-base-uri">http://.../</span>rdfxml/twitter.com/cygri</a></code></li>
+      <li><code><a href="best/twitter.com/cygri"><span class="app-base-uri">http://.../</span>best/twitter.com/cygri</a></code></li>
+      <li><code><a href="rdfxml/http://data.gov"><span class="app-base-uri">http://.../</span>rdfxml/http://data.gov</a></code></li>
       <li><code><a href="ttl/http://www.w3.org/People/Berners-Lee/card"><span class="app-base-uri">http://.../</span>ttl/http://www.w3.org/People/Berners-Lee/card</a></code></li>
+      <li><code><a href="?uri=http://dbpedia.org/resource/Berlin"><span class="app-base-uri">http://.../</span>?uri=http://dbpedia.org/resource/Berlin</a></code></li>
       <li><code><a href="?format=nt&uri=http://dbpedia.org/resource/Berlin"><span class="app-base-uri">http://.../</span>?format=nt&uri=http://dbpedia.org/resource/Berlin</a></code></li>
     </ul>
     <h3>Compact API</h3>
@@ -88,8 +92,8 @@ function init() {
       query parameters:
     </p>
     <table rules="all">
-      <tr><th>format</th><td>Desired output format</td></tr>
       <tr><th>uri</th><td>URI of an input document</td></tr>
+      <tr><th>format</th><td>Desired output format; defaults to <code>best</code></td></tr>
     </table>
     <p>The response is the input document converted to the desired output format.</p>
 
@@ -131,12 +135,13 @@ Content-Length: 174
     <table rules="all">
       <tr><th>type</th><td>Media type of the input, see above. If not present, auto-detection will be attempted.</td></tr>
       <tr><th>body</th><td>Document body to be converted</td></tr>
-      <tr><th>format</th><td>Desired output format</td></tr>
+      <tr><th>format</th><td>Desired output format; defaults to <code>best</code></td></tr>
     </table>
 
     <h3>Output formats</h3>
     <p>Supported output format identifiers are:</p>
     <ul>
+      <li><code>best</code> for content negotiation according to the client's <code>Accept</code> HTTP header</li>
       <li><code>turtle</code>, <code>ttl</code>, <code>n3</code> for
         <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a>/N3</li>
       <li><code>ntriples</code>, <code>nt</code> for
@@ -158,6 +163,7 @@ Content-Length: 174
         <tr><th>204 No Content</th><td>Extraction from input was successful, but yielded zero triples</td></tr>
         <tr><th>400 Bad Request</th><td>Missing or malformed input parameter</td></tr>
         <tr><th>404 Not Found</th><td>Malformed request URI</td></tr>
+        <tr><th>406 Not Acceptable</th><td>None of the media types specified in the <code>Accept</code> header are supported</td></tr>
         <tr><th>415 Unsupported Media Type</th><td>Document body with unsupported media type was POSTed</td></tr>
         <tr><th>502 Bad Gateway</th><td>Input document from a remote server could not be fetched or parsed</td></tr>
       </tbody>

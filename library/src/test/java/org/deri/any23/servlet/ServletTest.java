@@ -15,6 +15,7 @@ import org.mortbay.jetty.testing.ServletTester;
 public class ServletTest extends TestCase {
 	ServletTester tester;
 	static String content;
+	static String acceptHeader;
 	static String requestedURI;
 
 	protected void setUp() throws Exception {
@@ -24,6 +25,7 @@ public class ServletTest extends TestCase {
 		tester.addServlet(TestableServlet.class, "/*");
 		tester.start();
 		content = "test";
+		acceptHeader = null;
 		requestedURI = null;
 	}
 
@@ -36,7 +38,7 @@ public class ServletTest extends TestCase {
 	public void testGETOnlyFormat() throws Exception {
 		HttpTester response = doGetRequest("/xml");
 		assertEquals(404, response.getStatus());
-		assertContains("Invalid GET request", response.getContent());
+		assertContains("Missing URI", response.getContent());
 	}
 
 	public void testGETWrongFormat() throws Exception {
@@ -137,9 +139,11 @@ public class ServletTest extends TestCase {
 	}
 	
 	public void testPOSTonlyURI() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doPostRequest("/", "uri=http://foo.com", "application/x-www-form-urlencoded");
-		assertEquals(400, response.getStatus());
-		assertContains("format", response.getContent());
+		assertEquals(200, response.getStatus());
+		String res = response.getContent();
+		assertContains("a vcard:VCard", res);
 	}
 
 	public void testPOSTonlyFormat() throws Exception {
@@ -177,15 +181,77 @@ public class ServletTest extends TestCase {
 	}
 	
 	public void testPOSTbodyMissingFormat() throws Exception {
-		HttpTester response = doPostRequest("/", "asdf", "text/plain");
-		assertEquals(400, response.getStatus());
-		assertContains("format", response.getContent());
+		HttpTester response = doPostRequest("/", "<html><body><div class=\"vcard fn\">Joe</div></body></html>", "text/html");
+		assertEquals(200, response.getStatus());
+		String res = response.getContent();
+		assertContains("a vcard:VCard", res);
 	}
 	
 	public void testNoExtractableTriples() throws Exception {
 		HttpTester response = doPostRequest("/n3", "<html><body>asdf</body></html>", "text/html");
 		assertEquals(204, response.getStatus());
 		assertNull(response.getContent());
+	}
+	
+	public void testContentNegotiationDefaultsToTurtle() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		assertContains("a vcard:VCard", response.getContent());
+	}
+	
+	public void testContentNegotiationForWildcardReturnsTurtle() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		acceptHeader = "*/*";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		assertContains("a vcard:VCard", response.getContent());
+	}
+	
+	public void testContentNegotiationForUnacceptableFormatReturns406() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		acceptHeader = "image/jpeg";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(406, response.getStatus());
+		assertNull(requestedURI);
+	}
+	
+	public void testContentNegotiationForTurtle() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		acceptHeader = "text/turtle";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		assertContains("a vcard:VCard", response.getContent());
+	}
+	
+	public void testContentNegotiationForTurtleAlias() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		acceptHeader = "application/x-turtle";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		assertContains("a vcard:VCard", response.getContent());
+	}
+	
+	public void testContentNegotiationForRDFXML() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		acceptHeader = "application/rdf+xml";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		assertContains("<rdf:RDF", response.getContent());
+	}
+	
+	public void testContentNegotiationForNTriples() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		acceptHeader = "text/plain";
+		HttpTester response = doGetRequest("/best/http://foo.com");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", response.getContent());
 	}
 	
 	private HttpTester doGetRequest(String path) throws IOException, Exception {
@@ -218,6 +284,9 @@ public class ServletTest extends TestCase {
 		request.setMethod(method);
 		request.setVersion("HTTP/1.0");
 		request.setHeader("Host", "tester");
+		if (acceptHeader != null) {
+			request.setHeader("Accept", acceptHeader);
+		}
 
 		request.setURI(path);
 		response.parse(tester.getResponses(request.generate()));

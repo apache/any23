@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.deri.any23.http.HTTPClient;
+import org.deri.any23.servlet.conneg.Any23Negotiator;
+import org.deri.any23.servlet.conneg.MediaRangeSpec;
 import org.deri.any23.source.ByteArrayDocumentSource;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
@@ -42,10 +44,14 @@ public class Servlet extends HttpServlet {
 			return;
 		}
 		WebResponder responder = new WebResponder(this, resp);
-		String format = getFormatFromRequest(req);
+		String format = getFormatFromRequestOrNegotiation(req);
+		if (format == null) {
+			responder.sendError(406, "Client accept header does not include a supported output format");
+			return;
+		}
 		String uri = getInputURIFromRequest(req);
-		if (format == null || uri == null) {
-			responder.sendError(404, "Invalid GET request, try /format/some-domain.example.com/my-input-file.rdf");
+		if (uri == null) {
+			responder.sendError(404, "Missing URI in GET request. Try /format/http://example.com/myfile");
 			return;
 		}
 		responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
@@ -59,9 +65,10 @@ public class Servlet extends HttpServlet {
 			return;
 		}
 		String uri = getInputURIFromRequest(req);
-		String format = getFormatFromRequest(req);
-		if (format == null || "".equals(format)) {
-			responder.sendError(400, "Invalid POST request, format parameter not specified");
+		String format = getFormatFromRequestOrNegotiation(req);
+		if (format == null) {
+			responder.sendError(406, "Client accept header does not include a supported output format");
+			return;
 		}
 		if (uri != null) {
 			log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
@@ -89,11 +96,37 @@ public class Servlet extends HttpServlet {
 				format);
 	}
 
+	private String getFormatFromRequestOrNegotiation(HttpServletRequest request) {
+		String fromRequest = getFormatFromRequest(request);
+		if (fromRequest != null && !"".equals(fromRequest) && !"best".equals(fromRequest)) {
+			return fromRequest;
+		}
+		MediaRangeSpec result = Any23Negotiator.getNegotiator().getBestMatch(request.getHeader("Accept"));
+		if (result == null) {
+			return null;
+		}
+		if ("text/turtle".equals(result.getMediaType())) {
+			return "turtle";
+		}
+		if ("text/rdf+n3".equals(result.getMediaType())) {
+			return "n3";
+		}
+		if ("application/rdf+xml".equals(result.getMediaType())) {
+			return "rdf";
+		}
+		if ("text/plain".equals(result.getMediaType())) {
+			return "nt";
+		}
+		return "turtle";	// shouldn't happen
+	}
+	
 	private String getFormatFromRequest(HttpServletRequest request) {
-		if (request.getPathInfo() == null) return null;
+		if (request.getPathInfo() == null) return "best";
 		String[] args = request.getPathInfo().split("/", 3);
 		if (args.length < 2 || "".equals(args[1])) {
-			if (request.getParameter("format") != null) {
+			if (request.getParameter("format") == null) {
+				return "best";
+			} else {
 				return request.getParameter("format");
 			}
 		}
