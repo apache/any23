@@ -5,15 +5,10 @@
 <web-app>
   <display-name>any23 (Anything to Triples)</display-name>
   
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
-  
   <servlet>
     <servlet-name>any23</servlet-name>
     <servlet-class>org.deri.any23.servlet.Servlet</servlet-class>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>any23</servlet-name>
     <url-pattern>/*</url-pattern>
