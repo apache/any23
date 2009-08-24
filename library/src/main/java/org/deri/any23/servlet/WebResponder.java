@@ -16,6 +16,8 @@ import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
 
+import sun.security.validator.ValidatorException;
+
 public class WebResponder {
 	private Servlet any23servlet;
 	private HttpServletResponse response;
@@ -47,6 +49,11 @@ public class WebResponder {
 				return;
 			}
 		} catch (IOException e) {
+			if (e.getCause() != null && ValidatorException.class.equals(e.getCause().getClass())) {
+				any23servlet.log("Could not fetch input; untrusted SSL certificate?", e.getCause());
+				sendError(502, "Could not fetch input; untrusted SSL certificate? " + e.getCause());
+				return;
+			}
 			any23servlet.log("Could not fetch input", e);
 			sendError(502, "Could not fetch input: " + e.getMessage());
 			return;
