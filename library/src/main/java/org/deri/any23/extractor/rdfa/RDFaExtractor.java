@@ -51,7 +51,8 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 		} catch (RDFHandlerException ex) {
 			throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex);
 		} catch (RDFParseException ex) {
-			throw new ExtractionException(ex);
+//			System.err.println(buffer.getBuffer().toString());
+			throw new ExtractionException("Invalid RDF/XML produced by RDFa transform: " + ex.getMessage(), ex);
 		}
 	}
 	
