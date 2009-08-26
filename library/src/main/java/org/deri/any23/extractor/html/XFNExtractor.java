@@ -58,7 +58,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 			if (containsXFNRelExceptMe(rels)) {
 				return false;	// "me" cannot be combined with any other XFN values
 			}
-			out.writeTriple(subject, XFN.me, link);
+			out.writeTriple(subject, XFN.mePage, link);
+			out.writeTriple(documentURI, XFN.getExtendedProperty("me"), link);
 		} else {
 			BNode person2 = vf.createBNode();
 			boolean foundAnyXFNRel = false;
