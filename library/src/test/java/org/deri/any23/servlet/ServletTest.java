@@ -119,6 +119,15 @@ public class ServletTest extends TestCase {
 		assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
 	}
 	
+	public void testPOSTWorksWithParametersOnContentType() throws Exception {
+		content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
+		HttpTester response = doPostRequest("/", "format=nt&uri=http://foo.com", "application/x-www-form-urlencoded;charset=UTF-8");
+		assertEquals(200, response.getStatus());
+		assertEquals("http://foo.com", requestedURI);
+		String res = response.getContent();
+		assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
+	}
+	
 	public void testPOSTBodyWorks() throws Exception {
 		String body = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
 		HttpTester response = doPostRequest("/nt", body, "text/html");

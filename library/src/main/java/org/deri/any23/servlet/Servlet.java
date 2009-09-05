@@ -70,12 +70,12 @@ public class Servlet extends HttpServlet {
 			responder.sendError(406, "Client accept header does not include a supported output format");
 			return;
 		}
-		if (uri != null) {
-			log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
-			responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
-			return;
-		}
-		if ("application/x-www-form-urlencoded".equals(req.getContentType())) {
+		if ("application/x-www-form-urlencoded".equals(getContentTypeHeader(req))) {
+			if (uri != null) {
+				log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
+				responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
+				return;
+			}
 			if (req.getParameter("body") == null) {
 				responder.sendError(400, "Invalid POST request, parameter 'uri' or 'body' required");
 				return;
@@ -177,7 +177,11 @@ public class Servlet extends HttpServlet {
 	private String getContentTypeHeader(HttpServletRequest req) {
 		if (req.getHeader("Content-Type") == null) return null;
 		if ("".equals(req.getHeader("Content-Type"))) return null;
-		return req.getHeader("Content-Type");
+		String contentType = req.getHeader("Content-Type");
+		// strip off parameters such as ";charset=UTF-8"
+		int index = contentType.indexOf(";");
+		if (index == -1) return contentType;
+		return contentType.substring(0, index);
 	}
 
 	private DocumentSource createHTTPDocumentSource(WebResponder responder, String uri) throws IOException {
