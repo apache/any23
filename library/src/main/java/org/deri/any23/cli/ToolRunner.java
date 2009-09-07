@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-public class Main {
+public class ToolRunner {
 	private static final String USAGE = " <utility> [options...]";
 	private static final String PREFIX = "org.deri.any23.cli.";
 

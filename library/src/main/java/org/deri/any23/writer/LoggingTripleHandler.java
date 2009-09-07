@@ -1,7 +1,5 @@
 package org.deri.any23.writer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,17 +12,15 @@ import org.openrdf.model.Value;
 
 
 public class LoggingTripleHandler implements TripleHandler {
-	private TripleHandler underlyingHandler;
-	private File _logFile;
-	Map<String,Integer> contextTripleMap = new HashMap<String, Integer>();
-	private PrintWriter _pw;
+	private final TripleHandler underlyingHandler;
+	private final PrintWriter destination;
+	private final Map<String,Integer> contextTripleMap = new HashMap<String, Integer>();
 	private long _startTime;
 	private long _contentLength;
 	
-		public LoggingTripleHandler(TripleHandler tripleHandler, String logFile) throws FileNotFoundException {
+	public LoggingTripleHandler(TripleHandler tripleHandler, PrintWriter destination) {
 		underlyingHandler = tripleHandler;
-		_logFile = new File(logFile);
-		_pw = new PrintWriter(_logFile);
+		this.destination = destination;
 	}
 
 	public void startDocument(URI documentURI) {
@@ -37,8 +33,8 @@ public class LoggingTripleHandler implements TripleHandler {
 	 */
 	public void close() {
 		underlyingHandler.close();
-		_pw.flush();
-		_pw.close();
+		destination.flush();
+		destination.close();
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +81,7 @@ public class LoggingTripleHandler implements TripleHandler {
 			}
 		}
 		sb.append("]");
-		_pw.println(documentURI+"\t"+_contentLength+"\t"+elapsedTime+"\t"+success+"\t"+sb.toString());
+		destination.println(documentURI+"\t"+_contentLength+"\t"+elapsedTime+"\t"+success+"\t"+sb.toString());
 		contextTripleMap.clear();
 	}
 	

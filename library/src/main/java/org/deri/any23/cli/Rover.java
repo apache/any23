@@ -3,6 +3,7 @@ package org.deri.any23.cli;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -46,57 +47,25 @@ public class Rover {
 	private final static String QUAD = "quad";
 	private final static String NTRIPLE = "ntriples";
 	private final static String RDFXML = "rdfxml";
-	private final static String ZIP = "zip";
-	private final static String WARC = "warc";
-	
-	/**
-	 * A simple main for testing
-	 * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
-	 * @throws FileNotFoundException 
-	 * @throws IOException
-	 */
-	public static void main(String[] args) throws FileNotFoundException {
-		Options options = new Options();
-		
-		//output format
-		Option outputFormat = new Option("f", "format", true,"["+TURTLE+" (default), "+NTRIPLE+", "+RDFXML+","+QUAD+"]");
-		options.addOption(outputFormat);
-		
-		//inputformat
-		Option input0 = new Option("I",true,"["+ZIP+", "+WARC+"]");
-		options.addOption(input0);
 
-		Option extractor = new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle");
-		options.addOption(extractor);
-		
-		Option outputFile = new Option("o", "output", true,"ouput file (defaults to stdout)");
-		options.addOption(outputFile);
-		
-		Option filterTrivial = new Option("t", "notrivial", false, "filter trivial statements");
-		options.addOption(filterTrivial);
-		
-		Option stats = new Option("s", "stats",false,"print out statistics of Any23");
-		options.addOption(stats);
-		
-		Option l = new Option("l", "log",true,"logging, please specify a file");
-		options.addOption(l);
-		
-		
-		Option verbose = new Option("v", "verbose", false, "show progress and debug information");
-		options.addOption(verbose);
-		
-		
-		
+	private static Options options;
+	
+	public static void main(String[] args) {
+		options = new Options();
+		options.addOption(new Option("f", "format", true,"["+TURTLE+" (default), "+NTRIPLE+", "+RDFXML+","+QUAD+"]"));
+		options.addOption(new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle"));
+		options.addOption(new Option("o", "output", true,"ouput file (defaults to stdout)"));
+		options.addOption(new Option("t", "notrivial", false, "filter trivial statements"));
+		options.addOption(new Option("s", "stats",false,"print out statistics of Any23"));
+		options.addOption(new Option("l", "log",true,"logging, please specify a file"));
+		options.addOption(new Option("v", "verbose", false, "show progress and debug information"));
 		CommandLineParser parser = new PosixParser();
 		CommandLine cmd = null;
-
 		try {
 			cmd = parser.parse(options, args);
 		} catch (ParseException e) {
-			System.err.println("***ERROR: " + e.getMessage());
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("Rover [file|url]", options,true );
-			return;
+			System.err.println(e.getMessage());
+			System.exit(-1);
 		}
 		
 		if (cmd.hasOption('v')) {
@@ -106,32 +75,15 @@ public class Rover {
 		}
 		
 		if (cmd.hasOption("h")) {
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("Rover [file|url]", options, true );
-			return;
+			printHelp();
+			System.exit(0);
 		}
-		if(cmd.getArgs().length != 1) {
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("Rover [file|url]", options, true );
-			return;
+		if (cmd.getArgs().length != 1) {
+			printHelp();
+			System.exit(-1);
 		}
 		
-		//get the input location
-		String inputURI = cmd.getArgs()[0]; 
-		if(inputURI.toLowerCase().startsWith("http:"))
-			try {
-				inputURI = new URL(inputURI.trim()).toString();
-			} catch (MalformedURLException ex) {
-				System.err.println("Malformed URL: " + ex + "(" + ex.getMessage() + ")");
-				System.exit(-1);
-			}
-		else{
-			if(!new File(inputURI.trim()).exists()){
-				System.err.println("FileNotFoundException for input file "+new File(inputURI.trim()).toURI().toString());
-				System.exit(-1);
-			}
-			inputURI = new File(inputURI.trim()).toURI().toString();
-		}
+		String inputURI = argumentToURI(cmd.getArgs()[0]);
 		
 		String[] extractorNames = null;
 		if (cmd.hasOption('e')) {
@@ -139,18 +91,17 @@ public class Rover {
 		}
 		
 		String format = TURTLE;
-		//check if an output format was specified
 		if(cmd.hasOption("f")) {
 			format = cmd.getOptionValue("f");
 		}
 		TripleHandler outputHandler = null;
-		if (TURTLE.equals(format)) {
+		if (TURTLE.equalsIgnoreCase(format)) {
 			outputHandler = new TurtleWriter(System.out);
-		} else if (NTRIPLE.equals(format)) {
+		} else if (NTRIPLE.equalsIgnoreCase(format)) {
 			outputHandler = new NTriplesWriter(System.out);
-		} else if(QUAD.equalsIgnoreCase(format)){
+		} else if (QUAD.equalsIgnoreCase(format)) {
 			outputHandler = new QuadWriter(System.out);
-		}else{
+		} else {
 			outputHandler = new RDFXMLWriter(System.out);
 		}
 		
@@ -162,8 +113,14 @@ public class Rover {
 			benchmark = new BenchmarkTripleHandler(outputHandler);
 			outputHandler = benchmark;	
 		}
-		if(cmd.hasOption('l')){
-			outputHandler = new LoggingTripleHandler(outputHandler, cmd.getOptionValue('l'));	
+		if (cmd.hasOption('l')) {
+			File logFile = new File(cmd.getOptionValue('l'));
+			try {
+				outputHandler = new LoggingTripleHandler(outputHandler, new PrintWriter(logFile));	
+			} catch (FileNotFoundException ex) {
+				System.err.println("Could not write to " + logFile + ": " + ex.getMessage());
+				System.exit(1);
+			}
 		}
 		ReportingTripleHandler reporter = new ReportingTripleHandler(outputHandler);
 		outputHandler = reporter;
@@ -190,6 +147,34 @@ public class Rover {
 			System.err.println(benchmark.report());
 		}
 		logger.debug("Extractors used: " + reporter.getExtractorNames());
-		logger.info(reporter.getTotalTriples() + " triples, "+(System.currentTimeMillis()-start)+"ms");
+		long elapsed = System.currentTimeMillis() - start;
+		logger.info(reporter.getTotalTriples() + " triples, " + elapsed + "ms");
+	}
+	
+	private static void printHelp() {
+		HelpFormatter formatter = new HelpFormatter();
+		formatter.printHelp("any23 [file|url]", options, true);
+	}
+	
+	private static String argumentToURI(String arg) {
+		arg = arg.trim(); 
+		if (arg.toLowerCase().startsWith("http:") || arg.toLowerCase().startsWith("https:")) {
+			try {
+				return new URL(arg).toString();
+			} catch (MalformedURLException ex) {
+				System.err.println("Malformed URL: " + ex + "(" + ex.getMessage() + ")");
+				System.exit(-1);
+			}
+		}
+		File f = new File(arg);
+		if (!f.exists()) {
+			System.err.println(f.toString() + ": No such file");
+			System.exit(-1);
+		}
+		if (f.isDirectory()) {
+			System.err.println(f.toString() + " is a directory");
+			System.exit(-1);
+		}
+		return f.toURI().toString();
 	}
 }

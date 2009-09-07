@@ -37,6 +37,7 @@ import org.deri.any23.writer.TripleHandler;
 public class Any23 {
 	//private final static Logger logger = Logger.getLogger(Any23.class.getCanonicalName());
 	
+	// NOTE, there's also a version string in build.xml, they should match
 	public static final String VERSION = "0.2-dev";
 	
 	private final ExtractorGroup factories;
