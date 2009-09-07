@@ -2,8 +2,7 @@ package org.deri.any23.extractor.html;
 
 import org.deri.any23.Helper;
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.extractor.html.LicenseExtractor;
-import org.deri.any23.vocab.DCTERMS;
+import org.deri.any23.vocab.XHTML;
 import org.openrdf.model.URI;
 import org.openrdf.repository.RepositoryException;
 
@@ -16,40 +15,38 @@ public class LicenseExtractorTest extends AbstractMicroformatTestCase {
 	}
 	
 	public void testOnlyCc() throws RepositoryException {
-		assertExtracts("ccBy");
-		assertContains(baseURI, DCTERMS.license, ccBy);
-		assertNotContains(baseURI, DCTERMS.license, apache);
-
+		assertExtracts("license/ccBy.html");
+		assertContains(baseURI, XHTML.license, ccBy);
+		assertNotContains(baseURI, XHTML.license, apache);
 	}
-// useless
+
 	public void testOnlyApache() throws RepositoryException {
-		assertExtracts("apache");
-		assertNotContains(baseURI, DCTERMS.license, ccBy);
-		assertContains(baseURI, DCTERMS.license, apache);
+		assertExtracts("license/apache.html");
+		assertNotContains(baseURI, XHTML.license, ccBy);
+		assertContains(baseURI, XHTML.license, apache);
 	}
 
 	public void testMultipleLicenses() throws RepositoryException {
-		assertExtracts("multiple");
-		assertContains(baseURI, DCTERMS.license, ccBy);
-		assertContains(baseURI, DCTERMS.license, apache);
+		assertExtracts("license/multiple.html");
+		assertContains(baseURI, XHTML.license, ccBy);
+		assertContains(baseURI, XHTML.license, apache);
 	}
 
 	public void testMultipleEmptyHref() throws RepositoryException {
-		assertExtracts("multiple-empty-href");
-		assertNotContains(baseURI, DCTERMS.license, "");
-		assertContains(baseURI, DCTERMS.license, apache);
+		assertExtracts("license/multiple-empty-href.html");
+		assertNotContains(baseURI, XHTML.license, "");
+		assertContains(baseURI, XHTML.license, apache);
 	}
 
-	
 	public void testEmpty() throws RepositoryException {
-		assertNotExtracts("empty");
+		assertExtracts("license/empty.html");
 		assertModelEmpty();
 	}
 
 	public void testMixedCaseTitleTag() throws RepositoryException {
-		assertExtracts("multiple-mixed-case");
-		assertContains(baseURI, DCTERMS.license, ccBy);
-		assertContains(baseURI, DCTERMS.license, apache);
+		assertExtracts("license/multiple-mixed-case.html");
+		assertContains(baseURI, XHTML.license, ccBy);
+		assertContains(baseURI, XHTML.license, apache);
 	}
 }
 
