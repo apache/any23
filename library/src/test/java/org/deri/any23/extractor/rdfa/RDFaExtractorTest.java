@@ -13,7 +13,7 @@ public class RDFaExtractorTest extends AbstractMicroformatTestCase {
 		return RDFaExtractor.factory;
 	}
 
-	public void testDummy() throws RepositoryException {
+	public void testSimple() throws RepositoryException {
 		assertExtracts("rdfa/dummy.html");
 		assertContains(DCTERMS.creator, "Alice");
 		assertContains(DCTERMS.title, "The trouble with Bob");
