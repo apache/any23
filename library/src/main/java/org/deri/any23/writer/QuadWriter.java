@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.deri.any23.extractor.ExtractionContext;
-import org.deri.any23.vocab.ANY23;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 /**

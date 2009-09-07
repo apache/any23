@@ -1,10 +1,7 @@
 package org.deri.any23.cli;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,18 +10,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
-import org.deri.any23.Any23;
-import org.deri.any23.LogUtil;
 import org.deri.any23.eval.LogEvaluator;
-import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.filter.IgnoreAccidentalRDFa;
-import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
-import org.deri.any23.writer.BenchmarkTripleHandler;
-import org.deri.any23.writer.LoggingTripleHandler;
-import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.RDFXMLWriter;
-import org.deri.any23.writer.TripleHandler;
-import org.deri.any23.writer.TurtleWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

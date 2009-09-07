@@ -24,7 +24,7 @@ public class Main {
 				usage(sb.toString());
 			}
 			
-			Class cls = Class.forName(PREFIX + args[1]);
+			Class<?> cls = Class.forName(PREFIX + args[1]);
 			
 			Method mainMethod = cls.getMethod("main", new Class[] { String[].class });
 

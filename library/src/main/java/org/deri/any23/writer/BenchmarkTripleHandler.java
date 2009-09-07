@@ -34,7 +34,6 @@ public class BenchmarkTripleHandler implements TripleHandler {
 	}
 	
 	private final Map<String,StatObject> stats;
-	private long _contentLength;
 	
 	/**
 	 * 
@@ -133,8 +132,6 @@ public class BenchmarkTripleHandler implements TripleHandler {
 
 	@Override
 	public void setContentLength(long contentLength) {
-		_contentLength = contentLength;
 		//ignore
-		;
 	}
 }

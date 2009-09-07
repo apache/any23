@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.deri.any23.extractor.ExtractionContext;
-import org.deri.any23.filter.ExtractionContextBlocker;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
