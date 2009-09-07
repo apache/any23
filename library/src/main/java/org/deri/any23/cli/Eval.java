@@ -11,8 +11,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.deri.any23.eval.LogEvaluator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A default rover implementation. Goes and fetches a URL using an hint
@@ -22,17 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Eval {
-	private static final Logger logger = LoggerFactory.getLogger(Eval.class);
-	
-	private static final String USER_AGENT_NAME = "Any23-CLI";
-	
-	//output writer constants
-	private final static String TURTLE = "turtle";
-	private final static String NTRIPLE = "ntriples";
-	private final static String RDFXML = "rdfxml";
-	private final static String ZIP = "zip";
-	private final static String WARC = "warc";
-	
+
 	/**
 	 * A simple main for testing
 	 * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
