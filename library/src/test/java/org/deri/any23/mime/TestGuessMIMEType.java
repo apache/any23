@@ -11,9 +11,15 @@ import junit.framework.TestCase;
 
 public class TestGuessMIMEType extends TestCase {
 	private final static String N3 = "text/rdf+n3";
-	private final static String TURTLE = "text/turtle";
+	private final static String TURTLE = "application/x-turtle";
 	private final static String RDFXML = "application/rdf+xml";
 	private final static String XHTML = "application/xhtml+xml";
+	private static final String XML = "application/xml";
+	private static final String HTML = "text/html";
+	private static final String PLAIN = "text/plain";
+	
+	String detectedMimeType = null;
+	
 	
 	private TikaMIMETypeDetector _identifer;
 
@@ -23,11 +29,11 @@ public class TestGuessMIMEType extends TestCase {
 	}
 	
 	public void testContentPlain() {
-		runTest("application/rdf+xml", "text/plain", "foo.rdf",true);
+		runTest("text/plain", "text/plain", "foo.rdf");
 	}
 	
 	public void testContentTextRdf() {
-		runTest("application/rdf+xml", "text/rdf", "foo",true);
+		runTest("application/rdf+xml", "text/rdf", "foo");
 	}
 	
 	public void testContentTextN3() throws IOException {
@@ -43,67 +49,65 @@ public class TestGuessMIMEType extends TestCase {
 	}
 	
 	public void testContentXml() throws IOException {
-		runTest(RDFXML, "application/xml", "foo.rdf");
+		runTest(XML, "application/xml", "foo.rdf");
 	}
 	
 	public void testExtensionN3() throws IOException {
-		runTest(N3, "text/plain", "foo.n3");
+		runTest("text/plain", "text/plain", "foo.n3");
 	}
 	
 	public void testXmlAndNoExtension() throws IOException {
-		runTest(RDFXML, "application/xml", "foo");
+		runTest(XML, "application/xml", "foo");
 	}
-	public void testTextXmlAndNoExtension() throws IOException {
-		runTest(RDFXML, "text/xml", "foo");
-	}
-
+	
 	public void testTextHtmAndNoExtension() throws IOException {
-		runTest(XHTML, "text/html", "foo");
+		runTest(HTML, "text/html", "foo");
 	}
 	
 	public void testTextPlainAndExtensions() throws IOException {
-		runTest(XHTML, "text/plain", "foo.html");
-		runTest(XHTML, "text/plain", "foo.htm");
-		runTest(XHTML, "text/plain", "foo.xhtml");
+		runTest("text/plain", "text/plain", "foo.html");
+		runTest("text/plain", "text/plain", "foo.htm");
+		runTest("text/plain", "text/plain", "foo.xhtml");
 	}
 
 	public void testApplicationXmlAndExtensions() throws IOException {
-		runTest(XHTML, "application/xml", "foo.html");
-		runTest(XHTML, "application/xml", "foo.htm");
-		runTest(XHTML, "application/xml", "foo.xhtml");
+		runTest(XML, "application/xml", "foo.html");
+		runTest(XML, "application/xml", "foo.htm");
+		runTest(XML, "application/xml", "foo.xhtml");
 	}
 	
-	private void runTest(String expectedMimeType,String contentTypeHeader, String testDir, boolean b)  {
+	private void runTest(String expectedMimeType,String contentTypeHeader, String fileName)  {
 		try{
-		File f = new File(testDir);
+		File f = new File(fileName);
 		if(f.getName().startsWith("."))return;
 		
-		System.err.println(" Test for mime type: "+expectedMimeType);
-		String detectedMimeType = null;
-		InputStream is=null;
-		if(f.exists())
-		 is = getInputStream(f);
+		InputStream is = null;
+		if(f.exists()) is = getInputStream(f);
+		
+//		
+//		System.err.println("\n Mime type test: "+expectedMimeType);
+//		System.err.println("   Content type header: "+contentTypeHeader);
+//		System.err.println("   Input file: "+f+" exisits: "+f.exists());
+//		
+		
+		
 		detectedMimeType = _identifer.guessMIMEType(f.getName(),is, MIMEType.parse(contentTypeHeader)).toString();	
-		if(b) System.out.println("  "+f.getName()+"     >> "+detectedMimeType);
+		
+//		System.err.println("  >> "+detectedMimeType);
+		
 		if(f.getName().startsWith("error"))
 			assertNotSame(expectedMimeType, detectedMimeType);
 		else {	
 			assertEquals(expectedMimeType, detectedMimeType);
 		}
-		is.close();
+		if(is!=null)
+		    is.close();
+		
 		detectedMimeType = null;
-		System.err.println(" < Success> \n------------------------------------\n");
+//		System.err.println(" < Success> \n------------------------------------\n");
 		}catch(Exception e){e.printStackTrace();}
 	}
 
-	/**
-	 * @param string
-	 * @param string2
-	 * @throws IOException 
-	 */
-	private void runTest(final String expectedMimeType, String contentTypeHeader, String file) throws IOException {
-		runTest(expectedMimeType,contentTypeHeader,file,false);
-	}
 
 	/**
 	 * @param test

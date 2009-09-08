@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  * TODO Add a method runTest(expectedMIMEType, headerMIMEType, url, contentFile) plus some invocations
  * 
  */
-public class TikaTEST extends TestCase {
+public class MimeTypeDetectionAllFeaturesTEST extends TestCase {
 
 	private TikaMIMETypeDetector _identifer;
 
@@ -33,6 +33,12 @@ public class TikaTEST extends TestCase {
 	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
+	}
+	
+	public void testSingleFile() throws IOException{
+	    InputStream is = getInputStream(new File("src/test/resources/application/rdfxml/physics.owl"));
+	    String detectedMimeType = _identifer.guessMIMEType(null,is, null).toString();	
+	    System.err.println(detectedMimeType);
 	}
 	
 	public void testRDFXML() throws Exception {
@@ -71,8 +77,6 @@ public class TikaTEST extends TestCase {
 		runTest("application/xhtml+xml","src/test/resources/application/rdfa",true);
 	}
 	
-	
-		
 	/**
 	 * @param string
 	 * @param string2
@@ -85,10 +89,11 @@ public class TikaTEST extends TestCase {
 		File f = new File(testDir);
 		String detectedMimeType = null;
 		for(File test: f.listFiles()) {
+//		    System.out.println(test);
 			if(test.getName().startsWith("."))continue;
 			InputStream is = getInputStream(test);
-			detectedMimeType = _identifer.guessMIMEType(null,is, null).toString();	
-//			if(b) System.out.println("  "+test.getName()+"     >> "+detectedMimeType);
+			detectedMimeType = _identifer.guessMIMEType(test.getName(),is, null).toString();	
+			if(b) System.out.println("  "+test.getName()+"     >> "+detectedMimeType);
 			if(test.getName().startsWith("error"))
 				assertNotSame(expectedMimeType, detectedMimeType);
 			else {	

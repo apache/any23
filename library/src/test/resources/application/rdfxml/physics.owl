@@ -1,13 +1,4 @@
 <?xml version="1.0"?>
-<!-- edited with XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) by Ed Shaya (U. of Maryland) -->
-<!DOCTYPE rdf:RDF [
-	<!ENTITY ast "http://archive.astro.umd.edu/ont/astronomy.owl#">
-	<!ENTITY u "http://archive.astro.umd.edu/ont/units.owl#">
-	<!ENTITY geo "http://archive.astro.umd.edu/ont/geometry.owl#">
-	<!ENTITY chem "http://archive.astro.umd.edu/ont/chemistry.owl#">
-	<!ENTITY ivoao "http://archive.astro.umd.edu/ont/IVOAO.owl#">
-	<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#">
-]>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:a="&ast;" xmlns="http://archive.astro.umd.edu/ont/physics.owl#" xmlns:inst="http://archive.astro.umd.edu/ont/instruments.owl#" xmlns:xsd="&xsd;" xmlns:ivoao="&ivoao;" xmlns:u="&u;" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:skos="http://archive.astro.umd.edu/ont/skos-core.owl#" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="http://archive.astro.umd.edu/ont/physics.owl">
 	<owl:Ontology rdf:about="">
 		<dc:description rdf:datatype="&xsd;string">This ontology covers classes and properties in the field of physics that are commonly used by astronomers. It includes terms from the IVOA Thesaurus plus terms from the UMD astronomical ontology</dc:description>

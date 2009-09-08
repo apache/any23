@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  * TODO Add a method runTest(expectedMIMEType, headerMIMEType, url, contentFile) plus some invocations
  * 
  */
-public class TikaTEST extends TestCase {
+public class InputStreamMimeTypeDetection extends TestCase {
 
 	private TikaMIMETypeDetector _identifer;
 
@@ -34,6 +34,8 @@ public class TikaTEST extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 	}
+	
+
 	
 	public void testRDFXML() throws Exception {
 		runTest("application/rdf+xml","src/test/resources/application/rdfxml", true);
@@ -85,6 +87,7 @@ public class TikaTEST extends TestCase {
 		File f = new File(testDir);
 		String detectedMimeType = null;
 		for(File test: f.listFiles()) {
+//		    System.out.println(test);
 			if(test.getName().startsWith("."))continue;
 			InputStream is = getInputStream(test);
 			detectedMimeType = _identifer.guessMIMEType(null,is, null).toString();	

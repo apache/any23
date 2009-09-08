@@ -91,7 +91,7 @@
 	    <match value="&lt;rdf:RDF" type="string" offset="0:64" />
 	    <match value="&lt;RDF" type="string" offset="0:64" />
 	    <match value="xmlns:rdf" type="string" offset="0:64" />
-	    <match value="&lt;DOCTYPE rdf:RDF" type="string" offset="0:64" />
+	    <match value="*&lt;DOCTYPE rdf:RDF" type="string" offset="0:120" />
 	  </magic>
 	  <glob pattern="*.rdf" />
 	  <glob pattern="*.rdfs" />
@@ -105,11 +105,6 @@
 		<root-XML localName="feed" />
 		<root-XML namespaceURI="http://fdsys.blogspot.com/atom.xml" />
 	</mime-type>
-
-
-
-
-	
 
 	<mime-type type="application/x-wsdl">
 		 <sub-class-of type="application/xml" />
@@ -643,15 +638,16 @@
 	</mime-type>
 
 
-	<!-- 
+	
 	<mime-type type="application/gzip">
 		<glob pattern="*.gz" />
 		<glob pattern="*.tgz" />
-		<magic priority="50">
+		<glob pattern="*.gzip" />
+		<!--  <magic priority="50">
 			<match type="host16" value="1f 8b 08" offset="0:2" />
-		</magic>
+		</magic>-->
 	</mime-type>
-
+<!-- 
 	<description>
 	<mimeType>application/x-compress">
 	<extensions>z" />
