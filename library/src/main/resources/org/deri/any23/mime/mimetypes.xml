@@ -139,19 +139,14 @@
 		<glob pattern="*.htm" />
 	</mime-type>
 	
-	<mime-type type="application/xhtml+rdfa">
-		
-		<sub-class-of type="application/xhtml+xml" />
-		<magic priority="50"  >
-			<match value="&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML+RDFa 1.0//EN" type="string" offset="0:100" />
-		</magic>
-	</mime-type>
-	
 	<mime-type type="application/xhtml+xml">
 		<sub-class-of type="application/xml" />
 		<root-XML namespaceURI='http://www.w3.org/1999/xhtml'
 			localName='html' />
 		<glob pattern="*.xhtml" />
+		<magic priority="50"  >
+			<match value="&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML+RDFa 1.0//EN" type="string" offset="0:64" />
+		</magic>
 	</mime-type>
  
 	<!--  
