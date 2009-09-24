@@ -23,5 +23,6 @@ public class PopularPrefixes {
 		add("hlisting", "http://sindice.com/hlisting/0.1/");
 		add("rev", "http://purl.org/stuff/rev#");
 		add("doac", "http://ramonantonio.net/doac/0.1/#");
+		add("ex", "http://example.com/ns#");
 	}};
 }

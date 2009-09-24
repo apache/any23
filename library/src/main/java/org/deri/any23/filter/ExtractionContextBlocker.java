@@ -11,38 +11,47 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+/**
+ * A wrapper around a {@link TripleHandler} that can block and unblock
+ * calls to the handler, either for the entire document, or for
+ * individual {@link ExtractionContext}s. A document is initially
+ * blocked and must be explicitly unblocked. Contexts are initially
+ * unblocked and must be explicitly blocked. Unblocking a document
+ * unblocks all contexts as well.
+ * 
+ * @author Richard Cyganiak (richard@cyganiak.de)
+ */
 public class ExtractionContextBlocker implements TripleHandler {
 	private TripleHandler wrapped;
-	private Map<String, ValvedTriplePipe> queues = new HashMap<String, ValvedTriplePipe>();
-	private boolean documentUnblocked = false;
-
-	
+	private Map<String, ValvedTriplePipe> contextQueues = new HashMap<String, ValvedTriplePipe>();
+	private boolean documentBlocked;
 	
 	public ExtractionContextBlocker(TripleHandler wrapped) {
 		this.wrapped = wrapped;
 	}
 	
 	public boolean isDocBlocked(){
-		return !documentUnblocked;
+		return documentBlocked;
 	}
 	
 	@Override
 	public void startDocument(URI documentURI) {
-		closeDocument();
+		wrapped.startDocument(documentURI);
+		documentBlocked = true;
 	}
 	
 	@Override
 	public void openContext(ExtractionContext context) {
-		queues.put(context.getUniqueID(), new ValvedTriplePipe(context));
+		contextQueues.put(context.getUniqueID(), new ValvedTriplePipe(context));
 	}
 	
 	public void blockContext(ExtractionContext context) {
-		if (documentUnblocked) return;
-		queues.get(context.getUniqueID()).block();
+		if (!documentBlocked) return;
+		contextQueues.get(context.getUniqueID()).block();
 	}
 	
 	public void unblockContext(ExtractionContext context) {
-		queues.get(context.getUniqueID()).unblock();
+		contextQueues.get(context.getUniqueID()).unblock();
 	}
 	
 	@Override
@@ -51,21 +60,21 @@ public class ExtractionContextBlocker implements TripleHandler {
 	}
 	
 	public void unblockDocument() {
-		if (documentUnblocked) return;
-		documentUnblocked = true;
-		for (ValvedTriplePipe pipe: queues.values()) {
+		if (!documentBlocked) return;
+		documentBlocked = false;
+		for (ValvedTriplePipe pipe: contextQueues.values()) {
 			pipe.unblock();
 		}
 	}
 	
 	@Override
 	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		queues.get(context.getUniqueID()).receiveTriple(s, p, o);
+		contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o);
 	}
 
 	@Override
 	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
-		queues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
+		contextQueues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
 	}
 
 	@Override
@@ -74,12 +83,17 @@ public class ExtractionContextBlocker implements TripleHandler {
 		wrapped.close();
 	}
 
+	@Override
+	public void endDocument(URI documentURI) {
+		closeDocument();
+		wrapped.endDocument(documentURI);
+	}
+	
 	private void closeDocument() {
-		documentUnblocked = false;
-		for (ValvedTriplePipe pipe: queues.values()) {
+		for (ValvedTriplePipe pipe: contextQueues.values()) {
 			pipe.close();
 		}
-		queues.clear();
+		contextQueues.clear();
 	}
 	
 	private class ValvedTriplePipe {
@@ -118,6 +132,9 @@ public class ExtractionContextBlocker implements TripleHandler {
 		void unblock() {
 			if (!blocked) return;
 			blocked = false;
+			for (int i = 0; i < prefixes.size(); i++) {
+				sendNamespace(prefixes.get(i), uris.get(i));
+			}
 			for (int i = 0; i < subjects.size(); i++) {
 				sendTriple(subjects.get(i), predicates.get(i), objects.get(i));
 			}
@@ -143,11 +160,6 @@ public class ExtractionContextBlocker implements TripleHandler {
 		}
 	}
 
-	@Override
-	public void endDocument(URI documentURI) {
-		wrapped.endDocument(documentURI);
-	}
-	
 	@Override
 	public void setContentLength(long contentLength) {
 //		_contentLength = contentLength;
