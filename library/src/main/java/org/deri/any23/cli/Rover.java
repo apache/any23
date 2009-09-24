@@ -105,9 +105,6 @@ public class Rover {
 			outputHandler = new RDFXMLWriter(System.out);
 		}
 		
-		if (cmd.hasOption('t')) {
-			outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
-		}
 		BenchmarkTripleHandler benchmark = null;
 		if(cmd.hasOption('s')){
 			benchmark = new BenchmarkTripleHandler(outputHandler);
@@ -124,6 +121,9 @@ public class Rover {
 		}
 		ReportingTripleHandler reporter = new ReportingTripleHandler(outputHandler);
 		outputHandler = reporter;
+		if (cmd.hasOption('t')) {
+			outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
+		}
 		
 		long start = System.currentTimeMillis();
 		Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
