@@ -1,5 +1,5 @@
 #!/bin/bash
-ANY23_ROOT=${0%/*}
+ANY23_ROOT=$(cd $(dirname $0); pwd -P)
 CP="$ANY23_ROOT/build"
 SEP=':'
 if [ "$(uname)" = "Cygwin" ]; then SEP=';'; fi
