@@ -13,66 +13,58 @@ import org.openrdf.model.Value;
  * be parsed from the document. This is used when we don't
  * want to have single-triple RDF documents around that
  * contain only the title triple.
- *   
+ *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
-	private final ExtractionContextBlocker blocker;
+    private final ExtractionContextBlocker blocker;
 
-	public IgnoreTitlesOfEmptyDocuments(TripleHandler wrapped) {
-		blocker = new ExtractionContextBlocker(wrapped);
-	}
-	
-	@Override
-	public void startDocument(URI documentURI) {
-		blocker.startDocument(documentURI);
-	}
-	
-	@Override
-	public void openContext(ExtractionContext context) {
-		blocker.openContext(context);
-		if (isTitleContext(context)) {
-			blocker.blockContext(context);
-		}
-	}
+    public IgnoreTitlesOfEmptyDocuments(TripleHandler wrapped) {
+        blocker = new ExtractionContextBlocker(wrapped);
+    }
 
-	@Override
-	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		if (!isTitleContext(context)) {
-			blocker.unblockDocument();
-		}
-		blocker.receiveTriple(s, p, o, context);
-	}
+    public void startDocument(URI documentURI) {
+        blocker.startDocument(documentURI);
+    }
 
-	@Override
-	public void receiveNamespace(String prefix, String uri,
-			ExtractionContext context) {
-		blocker.receiveNamespace(prefix, uri, context);
-	}
+    public void openContext(ExtractionContext context) {
+        blocker.openContext(context);
+        if (isTitleContext(context)) {
+            blocker.blockContext(context);
+        }
+    }
 
-	@Override
-	public void closeContext(ExtractionContext context) {
-		blocker.closeContext(context);
-	}
-	
-	@Override
-	public void close() {
-		blocker.close();
-	}
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+        if (!isTitleContext(context)) {
+            blocker.unblockDocument();
+        }
+        blocker.receiveTriple(s, p, o, context);
+    }
 
-	private boolean isTitleContext(ExtractionContext context) {
-		return context.getExtractorName().equals(TitleExtractor.NAME);
-	}
+    public void receiveNamespace(String prefix, String uri,
+                                 ExtractionContext context) {
+        blocker.receiveNamespace(prefix, uri, context);
+    }
 
-	@Override
-	public void endDocument(URI documentURI) {
-		blocker.endDocument(documentURI);
-	}
-	
-	@Override
-	public void setContentLength(long contentLength) {
+    public void closeContext(ExtractionContext context) {
+        blocker.closeContext(context);
+    }
+
+    public void close() {
+        blocker.close();
+    }
+
+    private boolean isTitleContext(ExtractionContext context) {
+        return context.getExtractorName().equals(TitleExtractor.NAME);
+    }
+
+    public void endDocument(URI documentURI) {
+        blocker.endDocument(documentURI);
+    }
+
+    public void setContentLength(long contentLength) {
 //		_contentLength = contentLength;
-		//ignore
-		;
-	}
+        //ignore
+        ;
+    }
 }

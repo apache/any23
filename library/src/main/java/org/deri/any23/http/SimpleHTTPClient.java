@@ -10,43 +10,41 @@ import java.net.URL;
  * Java's URL class. Not recommended for general use
  * because it doesn't allow setting of user agent,
  * accept headers and so on.
- * 
+ *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class SimpleHTTPClient implements HTTPClient {
 
-	private int _contentLength=-1;
+    private int _contentLength = -1;
 
-	public void init(String userAgent, String acceptHeader) {
-		// we're bad, ignore
-	}
-	
-	public InputStream openInputStream(String uri) throws IOException {
-		if (!uri.toLowerCase().startsWith("http:")) {
-			throw new IllegalArgumentException("Not an http:// URI: " + uri);
-		}
-		HttpURLConnection conn =(HttpURLConnection) new URL(uri).openConnection(); 
-		conn.connect();
-		_contentLength= conn.getContentLength();
-		return conn.getInputStream();
-	}
+    public void init(String userAgent, String acceptHeader) {
+        // we're bad, ignore
+    }
 
-	public void close() {
-		// do nothing
-	}
+    public InputStream openInputStream(String uri) throws IOException {
+        if (!uri.toLowerCase().startsWith("http:")) {
+            throw new IllegalArgumentException("Not an http:// URI: " + uri);
+        }
+        HttpURLConnection conn = (HttpURLConnection) new URL(uri).openConnection();
+        conn.connect();
+        _contentLength = conn.getContentLength();
+        return conn.getInputStream();
+    }
 
-	@Override
-	public long getContentLength() {
-		return _contentLength;
-	}
-	
-	@Override
-	public String getActualDocumentURI() {
-		return null;
-	}
-	
-	public String getContentType() {
-		// we're bad, just return nothing
-		return null;
-	}
+    public void close() {
+        // do nothing
+    }
+
+    public long getContentLength() {
+        return _contentLength;
+    }
+
+    public String getActualDocumentURI() {
+        return null;
+    }
+
+    public String getContentType() {
+        // we're bad, just return nothing
+        return null;
+    }
 }

@@ -12,69 +12,66 @@ import org.openrdf.rio.RDFWriter;
  * A {@link TripleHandler} that writes triples to a Sesame
  * {@link RDFWriter}, e.g. for serialization using one of
  * Sesame's writers.
- *  
+ *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 class RDFWriterTripleHandler implements TripleHandler {
-	private final RDFWriter writer;
-	private boolean closed = false;
-	
-	RDFWriterTripleHandler(RDFWriter destination) {
-		writer = destination;
-		try {
-			writer.startRDF();
-		} catch (RDFHandlerException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public void startDocument(URI documentURI) {
-		// ignore
-	}
-	
-	public void openContext(ExtractionContext context) {
-		// ignore
-	}
+    private final RDFWriter writer;
+    private boolean closed = false;
 
-	public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-		try {
-			writer.handleStatement(
-					ValueFactoryImpl.getInstance().createStatement(s, p, o));
-		} catch (RDFHandlerException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
+    RDFWriterTripleHandler(RDFWriter destination) {
+        writer = destination;
+        try {
+            writer.startRDF();
+        } catch (RDFHandlerException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-	public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
-		try {
-			writer.handleNamespace(prefix, uri);
-		} catch (RDFHandlerException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
-	
-	public void closeContext(ExtractionContext context) {
-		// ignore
-	}
-	
-	public void close() {
-		if (closed) return;
-		closed = true;
-		try {
-			writer.endRDF();
-		} catch (RDFHandlerException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public void startDocument(URI documentURI) {
+        // ignore
+    }
 
-	@Override
-	public void endDocument(URI documentURI) {
-		;
-	}
-	@Override
-	public void setContentLength(long contentLength) {
+    public void openContext(ExtractionContext context) {
+        // ignore
+    }
+
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+        try {
+            writer.handleStatement(
+                    ValueFactoryImpl.getInstance().createStatement(s, p, o));
+        } catch (RDFHandlerException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+        try {
+            writer.handleNamespace(prefix, uri);
+        } catch (RDFHandlerException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void closeContext(ExtractionContext context) {
+        // ignore
+    }
+
+    public void close() {
+        if (closed) return;
+        closed = true;
+        try {
+            writer.endRDF();
+        } catch (RDFHandlerException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void endDocument(URI documentURI) {
+    }
+
+    public void setContentLength(long contentLength) {
 //		_contentLength = contentLength;
-		//ignore
-		;
-	}
+        //ignore
+    }
 }

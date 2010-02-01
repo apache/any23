@@ -8,42 +8,37 @@ import java.io.InputStream;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ByteArrayDocumentSource implements DocumentSource {
-	private final byte[] bytes;
-	private final String documentURI;
-	private final String contentType;
-	
-	public ByteArrayDocumentSource(byte[] bytes, String documentURI, String contentType) {
-		this.bytes = bytes;
-		this.documentURI = documentURI;
-		this.contentType = contentType;
-	}
+    private final byte[] bytes;
+    private final String documentURI;
+    private final String contentType;
 
-	public ByteArrayDocumentSource(InputStream inputStream, String documentURI, String contentType) throws IOException {
-		this(MemCopyFactory.toByteArray(inputStream), documentURI, contentType);
-	}
-	
-	@Override
-	public InputStream openInputStream() throws IOException {
-		return new ByteArrayInputStream(bytes);
-	}
-	
-	@Override
-	public long getContentLength() {
-		return bytes.length;
-	}
-	
-	@Override
-	public String getDocumentURI() {
-		return documentURI;
-	}
-	
-	@Override
-	public String getContentType() {
-		return contentType;
-	}
-	
-	@Override
-	public boolean isLocal() {
-		return true;
-	}
+    public ByteArrayDocumentSource(byte[] bytes, String documentURI, String contentType) {
+        this.bytes = bytes;
+        this.documentURI = documentURI;
+        this.contentType = contentType;
+    }
+
+    public ByteArrayDocumentSource(InputStream inputStream, String documentURI, String contentType) throws IOException {
+        this(MemCopyFactory.toByteArray(inputStream), documentURI, contentType);
+    }
+
+    public InputStream openInputStream() throws IOException {
+        return new ByteArrayInputStream(bytes);
+    }
+
+    public long getContentLength() {
+        return bytes.length;
+    }
+
+    public String getDocumentURI() {
+        return documentURI;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public boolean isLocal() {
+        return true;
+    }
 }
