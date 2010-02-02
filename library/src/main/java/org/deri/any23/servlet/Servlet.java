@@ -18,8 +18,8 @@ import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 /**
- * A servlet that fetches a client-specified URI, RDFizes the content,
- * and returns it in a format chosen by the client.
+ * A <i>Servlet</i> that fetches a client-specified <i>URI</i>,
+ * RDFizes the content, and returns it in a format chosen by the client.
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 public class Servlet extends HttpServlet {
 
     public static final String DEFAULT_BASE_URI = "http://any23.org/tmp";
+
     private static final long serialVersionUID = 8207685628715421336L;
 
     @Override
@@ -213,4 +214,5 @@ public class Servlet extends HttpServlet {
         }
         return true;
     }
+    
 }

@@ -16,20 +16,56 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class WebResponder {
-    private Servlet any23servlet;
-    private HttpServletResponse response;
-    private ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
-    private TripleHandler rdfWriter = null;
-    private ReportingTripleHandler reporter = null;
-    private String outputMediaType = null;
+/**
+ * This class is responsible for building the {@link org.deri.any23.servlet.Servlet}
+ * web response.
+ */
+class WebResponder {
+
+    /**
+     * Library facade.
+     */
     private final Any23 runner;
+
+    /**
+     * Servlet for which building the response.
+     */
+    private Servlet any23servlet;
+
+    /**
+     * Servlet response object.
+     */
+    private HttpServletResponse response;
+
+    /**
+     * RDF triple writer.
+     */
+    private TripleHandler rdfWriter = null;
+
+    /**
+     * Error and statistics reporter.
+     */
+    private ReportingTripleHandler reporter = null;
+
+    /**
+     * Type of expected output.
+     */
+    private String outputMediaType = null;
+
+    /**
+     * The output stream.
+     */
+    private ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 
     public WebResponder(Servlet any23servlet, HttpServletResponse response) {
         this.any23servlet = any23servlet;
         this.response = response;
         this.runner = new Any23();
         runner.setHTTPUserAgent("Any23-Servlet");
+    }
+
+    protected Any23 getRunner() {
+        return runner;
     }
 
     public void sendError(int code, String message) throws IOException {
@@ -46,14 +82,14 @@ public class WebResponder {
                 sendError(415, "No suitable extractor found for this media type");
                 return;
             }
-        } catch (IOException e) {
-            if (e.getCause() != null && ValidatorException.class.equals(e.getCause().getClass())) {
-                any23servlet.log("Could not fetch input; untrusted SSL certificate?", e.getCause());
-                sendError(502, "Could not fetch input; untrusted SSL certificate? " + e.getCause());
+        } catch (IOException ioe) {
+            if (ioe.getCause() != null && ValidatorException.class.equals(ioe.getCause().getClass())) {
+                any23servlet.log("Could not fetch input; untrusted SSL certificate?", ioe.getCause());
+                sendError(502, "Could not fetch input; untrusted SSL certificate? " + ioe.getCause());
                 return;
             }
-            any23servlet.log("Could not fetch input", e);
-            sendError(502, "Could not fetch input: " + e.getMessage());
+            any23servlet.log("Could not fetch input", ioe);
+            sendError(502, "Could not fetch input: " + ioe.getMessage());
             return;
         } catch (ExtractionException e) {
             any23servlet.log("Could not parse input", e);
@@ -99,7 +135,4 @@ public class WebResponder {
         return null;
     }
 
-    Any23 getRunner() {
-        return runner;
-    }
 }

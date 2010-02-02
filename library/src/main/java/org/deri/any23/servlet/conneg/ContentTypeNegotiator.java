@@ -7,48 +7,36 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * This class defines a negotiator for content types based on scoring.
+ */
 public class ContentTypeNegotiator {
+
     private List<VariantSpec> variantSpecs = new ArrayList<VariantSpec>();
-    private List<MediaRangeSpec> defaultAcceptRanges =
-            Collections.singletonList(MediaRangeSpec.parseRange("*/*"));
+    private List<MediaRangeSpec> defaultAcceptRanges = Collections.singletonList(MediaRangeSpec.parseRange("*/*"));
     private Collection<AcceptHeaderOverride> userAgentOverrides = new ArrayList<AcceptHeaderOverride>();
 
-    public VariantSpec addVariant(String mediaType) {
-        VariantSpec result = new VariantSpec(mediaType);
-        variantSpecs.add(result);
-        return result;
-    }
+    protected ContentTypeNegotiator(){}
 
     /**
-     * Sets an Accept header to be used as the default if a client does
-     * not send an Accept header, or if the Accept header cannot be parsed.
-     * Defaults to "* / *".
+     * Returns the {@link org.deri.any23.servlet.conneg.MediaRangeSpec}
+     * associated to the given <i>accept</i> type.
+     * 
+     * @param accept
+     * @return
      */
-    public void setDefaultAccept(String accept) {
-        this.defaultAcceptRanges = MediaRangeSpec.parseAccept(accept);
-    }
-
-    /**
-     * Overrides the Accept header for certain user agents. This can be
-     * used to implement special-case handling for user agents that send
-     * faulty Accept headers.
-     *
-     * @param userAgentString      A pattern to be matched against the User-Agent header;
-     *                             <tt>null</tt> means regardless of User-Agent
-     * @param originalAcceptHeader Only override the Accept header if the user agent
-     *                             sends this header; <tt>null</tt> means always override
-     * @param newAcceptHeader      The Accept header to be used instead
-     */
-    public void addUserAgentOverride(Pattern userAgentString,
-                                     String originalAcceptHeader, String newAcceptHeader) {
-        this.userAgentOverrides.add(new AcceptHeaderOverride(
-                userAgentString, originalAcceptHeader, newAcceptHeader));
-    }
-
     public MediaRangeSpec getBestMatch(String accept) {
         return getBestMatch(accept, null);
     }
 
+    /**
+     * Returns the {@link org.deri.any23.servlet.conneg.MediaRangeSpec}
+     * associated to the given <i>accept</i> type and <i>userAgent</i>.
+     *
+     * @param accept
+     * @param userAgent
+     * @return
+     */
     public MediaRangeSpec getBestMatch(String accept, String userAgent) {
         if (userAgent == null) {
             userAgent = "";
@@ -64,6 +52,42 @@ public class ContentTypeNegotiator {
         return new Negotiation(toAcceptRanges(overriddenAccept)).negotiate();
     }
 
+    protected VariantSpec addVariant(String mediaType) {
+        VariantSpec result = new VariantSpec(mediaType);
+        variantSpecs.add(result);
+        return result;
+    }
+
+    /**
+     * Sets an Accept header to be used as the default if a client does
+     * not send an Accept header, or if the Accept header cannot be parsed.
+     * Defaults to "* / *".
+     */
+    protected void setDefaultAccept(String accept) {
+        this.defaultAcceptRanges = MediaRangeSpec.parseAccept(accept);
+    }
+
+    /**
+     * Overrides the Accept header for certain user agents. This can be
+     * used to implement special-case handling for user agents that send
+     * faulty Accept headers.
+     *
+     * @param userAgentString      A pattern to be matched against the User-Agent header;
+     *                             <tt>null</tt> means regardless of User-Agent
+     * @param originalAcceptHeader Only override the Accept header if the user agent
+     *                             sends this header; <tt>null</tt> means always override
+     * @param newAcceptHeader      The Accept header to be used instead
+     */
+    protected void addUserAgentOverride(
+         Pattern userAgentString,
+         String originalAcceptHeader,
+         String newAcceptHeader
+    ) {
+        this.userAgentOverrides.add(
+            new AcceptHeaderOverride(userAgentString, originalAcceptHeader, newAcceptHeader)
+        );
+    }
+
     private List<MediaRangeSpec> toAcceptRanges(String accept) {
         if (accept == null) {
             return defaultAcceptRanges;
@@ -75,7 +99,8 @@ public class ContentTypeNegotiator {
         return result;
     }
 
-    public class VariantSpec {
+    protected class VariantSpec {
+
         private MediaRangeSpec type;
         private List<MediaRangeSpec> aliases = new ArrayList<MediaRangeSpec>();
         private boolean isDefault = false;
@@ -107,6 +132,7 @@ public class ContentTypeNegotiator {
     }
 
     private class Negotiation {
+
         private final List<MediaRangeSpec> ranges;
         private MediaRangeSpec bestMatchingVariant = null;
         private MediaRangeSpec bestDefaultVariant = null;
@@ -153,9 +179,11 @@ public class ContentTypeNegotiator {
                 bestDefaultQuality = 0.00001 * variant.getQuality();
             }
         }
+        
     }
 
     private class AcceptHeaderOverride {
+
         private Pattern userAgentPattern;
         private String original;
         private String replacement;
@@ -179,5 +207,6 @@ public class ContentTypeNegotiator {
         String getReplacement() {
             return replacement;
 		}
-	}
+    }
+    
 }

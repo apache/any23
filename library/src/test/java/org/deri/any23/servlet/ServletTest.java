@@ -1,9 +1,12 @@
 package org.deri.any23.servlet;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 import org.deri.any23.http.HTTPClient;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.StringDocumentSource;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
@@ -11,14 +14,19 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-public class ServletTest extends TestCase {
-    ServletTester tester;
-    static String content;
-    static String acceptHeader;
-    static String requestedURI;
+/**
+ * Test case for {@link org.deri.any23.servlet.Servlet} class.
+ */
+public class ServletTest {
 
-    protected void setUp() throws Exception {
-        super.setUp();
+    private static String content;
+    private static String acceptHeader;
+    private static String requestedURI;
+
+    private ServletTester tester;
+
+    @Before
+    public void setUp() throws Exception {
         tester = new ServletTester();
         tester.setContextPath("/");
         tester.addServlet(TestableServlet.class, "/*");
@@ -28,248 +36,295 @@ public class ServletTest extends TestCase {
         requestedURI = null;
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         tester.stop();
         tester = null;
-        super.tearDown();
     }
 
+    @Test
     public void testGETOnlyFormat() throws Exception {
         HttpTester response = doGetRequest("/xml");
-        assertEquals(404, response.getStatus());
+        Assert.assertEquals(404, response.getStatus());
         assertContains("Missing URI", response.getContent());
     }
 
+    @Test
     public void testGETWrongFormat() throws Exception {
         HttpTester response = doGetRequest("/dummy/foo.com");
-        assertEquals(400, response.getStatus());
+        Assert.assertEquals(400, response.getStatus());
         assertContains("Invalid format", response.getContent());
     }
 
+    @Test
     public void testGETInvalidURI() throws Exception {
         HttpTester response = doGetRequest("/xml/mailto:richard@cyganiak.de");
-        assertEquals(400, response.getStatus());
+        Assert.assertEquals(400, response.getStatus());
         assertContains("Invalid input URI", response.getContent());
     }
 
+    @Test
     public void testGETWorks() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/foo.com/bar.html");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com/bar.html", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com/bar.html", requestedURI);
         String res = response.getContent();
-        assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
+        assertContains(
+                "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
+                res
+        );
     }
 
+    @Test
     public void testGETAddsHTTPScheme() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
     }
 
+    @Test
     public void testGETIncludesQueryString() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/http://foo.com?id=1");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com?id=1", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com?id=1", requestedURI);
     }
 
+    @Test
     public void testGETwithURIinParam() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt?uri=http://foo.com?id=1");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com?id=1", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com?id=1", requestedURI);
     }
 
+    @Test
     public void testGETwithFormatAndURIinParam() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/?format=nt&uri=http://foo.com?id=1");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com?id=1", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com?id=1", requestedURI);
     }
 
+    @Test
     public void testGETwithURLDecoding() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/http%3A%2F%2Ffoo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
     }
 
+    @Test
     public void testGETwithURLDecodingInParam() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt?uri=http%3A%2F%2Ffoo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
     }
 
+    @Test
     public void testPOSTNothing() throws Exception {
         HttpTester response = doPostRequest("/", "", null);
-        assertEquals(400, response.getStatus());
+        Assert.assertEquals(400, response.getStatus());
         assertContains("Invalid POST request", response.getContent());
     }
 
+    @Test
     public void testPOSTWorks() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doPostRequest("/", "format=nt&uri=http://foo.com", "application/x-www-form-urlencoded");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         String res = response.getContent();
         assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
     }
 
+    @Test
     public void testPOSTWorksWithParametersOnContentType() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
-        HttpTester response = doPostRequest("/", "format=nt&uri=http://foo.com", "application/x-www-form-urlencoded;charset=UTF-8");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        HttpTester response = doPostRequest(
+                "/",
+                "format=nt&uri=http://foo.com",
+                "application/x-www-form-urlencoded;charset=UTF-8"
+        );
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         String res = response.getContent();
-        assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
+        assertContains(
+                "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
+                res
+        );
     }
 
+    @Test
     public void testPOSTBodyWorks() throws Exception {
         String body = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doPostRequest("/nt", body, "text/html");
-        assertEquals(200, response.getStatus());
+        Assert.assertEquals(200, response.getStatus());
         String res = response.getContent();
-        assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
-        assertNull(requestedURI);
+        assertContains(
+                "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
+                res
+        );
+        Assert.assertNull(requestedURI);
     }
 
+    @Test
     public void testPOSTBodyInParamWorks() throws Exception {
         String body = URLEncoder.encode("<html><body><div class=\"vcard fn\">Joe</div></body></html>", "utf-8");
         HttpTester response = doPostRequest("/", "format=nt&body=" + body,
                 "application/x-www-form-urlencoded");
-        assertEquals(200, response.getStatus());
+        Assert.assertEquals(200, response.getStatus());
         String res = response.getContent();
-        assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
-        assertNull(requestedURI);
+        assertContains(
+                "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
+                res
+        );
+        Assert.assertNull(requestedURI);
     }
 
+    @Test
     public void testPOSTonlyURI() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doPostRequest("/", "uri=http://foo.com", "application/x-www-form-urlencoded");
-        assertEquals(200, response.getStatus());
+        Assert.assertEquals(200, response.getStatus());
         String res = response.getContent();
         assertContains("a vcard:VCard", res);
     }
 
+    @Test
     public void testPOSTonlyFormat() throws Exception {
         HttpTester response = doPostRequest("/", "format=rdf", "application/x-www-form-urlencoded");
-        assertEquals(400, response.getStatus());
+        Assert.assertEquals(400, response.getStatus());
         assertContains("uri", response.getContent());
     }
 
+    @Test
     public void testCorrectBaseURI() throws Exception {
         content = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <> a foaf:Document .";
         HttpTester response = doGetRequest("/nt/foo.com/test.n3");
-        assertEquals(200, response.getStatus());
+        Assert.assertEquals(200, response.getStatus());
         assertContains("<http://foo.com/test.n3>", response.getContent());
     }
 
+    @Test
     public void testDefaultBaseURIinPOST() throws Exception {
         String body = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <> a foaf:Document .";
         HttpTester response = doPostRequest("/nt", body, "text/rdf+n3;charset=utf-8");
-        assertEquals(200, response.getStatus());
+        Assert.assertEquals(200, response.getStatus());
         assertContains("<" + Servlet.DEFAULT_BASE_URI + ">", response.getContent());
     }
 
+    @Test
     public void testPOSTwithoutContentType() throws Exception {
         String body = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <http://example.com/asdf> a foaf:Document .";
         HttpTester response = doPostRequest("/nt", body, null);
-        assertEquals(400, response.getStatus());
+        Assert.assertEquals(400, response.getStatus());
         assertContains("Content-Type", response.getContent());
     }
 
+    @Test
     public void testPOSTwithContentTypeParam() throws Exception {
         String body = URLEncoder.encode("<http://foo.bar> <http://foo.bar> <http://foo.bar> .", "utf-8");
         HttpTester response = doPostRequest("/", "format=nt&body=" + body + "&type=application/x-foobar",
                 "application/x-www-form-urlencoded");
-        assertEquals(415, response.getStatus());
+        Assert.assertEquals(415, response.getStatus());
     }
 
+    @Test
     public void testPOSTbodyMissingFormat() throws Exception {
-        HttpTester response = doPostRequest("/", "<html><body><div class=\"vcard fn\">Joe</div></body></html>", "text/html");
-        assertEquals(200, response.getStatus());
+        HttpTester response = doPostRequest(
+                "/",
+                "<html><body><div class=\"vcard fn\">Joe</div></body></html>", "text/html"
+        );
+        Assert.assertEquals(200, response.getStatus());
         String res = response.getContent();
         assertContains("a vcard:VCard", res);
     }
 
+    @Test
     public void testNoExtractableTriples() throws Exception {
         HttpTester response = doPostRequest("/n3", "<html><body>asdf</body></html>", "text/html");
-        assertEquals(204, response.getStatus());
-        assertNull(response.getContent());
+        Assert.assertEquals(204, response.getStatus());
+        Assert.assertNull(response.getContent());
     }
 
+    @Test
     public void testContentNegotiationDefaultsToTurtle() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
+    @Test
     public void testContentNegotiationForWildcardReturnsTurtle() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         acceptHeader = "*/*";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
+    @Test
     public void testContentNegotiationForUnacceptableFormatReturns406() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         acceptHeader = "image/jpeg";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(406, response.getStatus());
-        assertNull(requestedURI);
+        Assert.assertEquals(406, response.getStatus());
+        Assert.assertNull(requestedURI);
     }
 
+    @Test
     public void testContentNegotiationForTurtle() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         acceptHeader = "text/turtle";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
+    @Test
     public void testContentNegotiationForTurtleAlias() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         acceptHeader = "application/x-turtle";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
+    @Test
     public void testContentNegotiationForRDFXML() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         acceptHeader = "application/rdf+xml";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("<rdf:RDF", response.getContent());
     }
 
+    @Test
     public void testContentNegotiationForNTriples() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         acceptHeader = "text/plain";
         HttpTester response = doGetRequest("/best/http://foo.com");
-        assertEquals(200, response.getStatus());
-        assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals(200, response.getStatus());
+        Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", response.getContent());
     }
 
-    private HttpTester doGetRequest(String path) throws IOException, Exception {
+    private HttpTester doGetRequest(String path) throws Exception {
         return doRequest(path, "GET");
     }
 
-    private HttpTester doPostRequest(String path, String content, String contentType)
-            throws IOException, Exception {
+    private HttpTester doPostRequest(String path, String content, String contentType) throws Exception {
         HttpTester response = new HttpTester();
-
         HttpTester request = new HttpTester();
 
         request.setMethod("POST");
@@ -284,8 +339,7 @@ public class ServletTest extends TestCase {
         return response;
     }
 
-    private HttpTester doRequest(String path, String method)
-            throws IOException, Exception {
+    private HttpTester doRequest(String path, String method) throws Exception {
         HttpTester request = new HttpTester();
         HttpTester response = new HttpTester();
 
@@ -304,11 +358,10 @@ public class ServletTest extends TestCase {
     private void assertContains(String expected, String actual) {
         if (actual.contains(expected))
             return;
-        fail("expected <" + expected + "> to be contained in <" + actual + ">");
+        Assert.fail("expected <" + expected + "> to be contained in <" + actual + ">");
     }
 
     public static class TestableServlet extends Servlet {
-        private static final long serialVersionUID = -4439511819287286586L;
 
         @Override
         protected DocumentSource createHTTPDocumentSource(HTTPClient httpClient, String uri)
@@ -316,5 +369,6 @@ public class ServletTest extends TestCase {
             requestedURI = uri;
             return new StringDocumentSource(content, uri);
         }
+
     }
 }

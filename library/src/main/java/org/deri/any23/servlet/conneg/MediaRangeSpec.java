@@ -7,31 +7,43 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class implements the <i>HTTP header media-range specification</i>.
+ * <br/>
+ * See <a href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616 section 14.1</a>. 
+ */
 public class MediaRangeSpec {
-    private final static Pattern tokenPattern;
-    private final static Pattern parameterPattern;
-    private final static Pattern mediaRangePattern;
-    private final static Pattern qValuePattern;
+
+    private static final Pattern tokenPattern;
+    private static final Pattern parameterPattern;
+    private static final Pattern mediaRangePattern;
+    private static final Pattern qValuePattern;
 
     static {
+
         // See RFC 2616, section 2.2
         String token = "[\\x20-\\x7E&&[^()<>@,;:\\\"/\\[\\]?={} ]]+";
         String quotedString = "\"((?:[\\x20-\\x7E\\n\\r\\t&&[^\"\\\\]]|\\\\[\\x00-\\x7F])*)\"";
+
         // See RFC 2616, section 3.6
         String parameter = ";\\s*(?!q\\s*=)(" + token + ")=(?:(" + token + ")|" + quotedString + ")";
+
         // See RFC 2616, section 3.9
         String qualityValue = "(?:0(?:\\.\\d{0,3})?|1(?:\\.0{0,3})?)";
+
         // See RFC 2616, sections 14.1
         String quality = ";\\s*q\\s*=\\s*([^;,]*)";
+
         // See RFC 2616, section 3.7
-        String regex = "(" + token + ")/(" + token + ")" +
+        String regex = "(" + token     + ")/(" + token + ")" +
                 "((?:\\s*" + parameter + ")*)" +
-                "(?:\\s*" + quality + ")?" +
+                "(?:\\s*"  + quality   + ")?" +
                 "((?:\\s*" + parameter + ")*)";
-        tokenPattern = Pattern.compile(token);
-        parameterPattern = Pattern.compile(parameter);
+
+        tokenPattern      = Pattern.compile(token);
+        parameterPattern  = Pattern.compile(parameter);
         mediaRangePattern = Pattern.compile(regex);
-        qValuePattern = Pattern.compile(qualityValue);
+        qValuePattern     = Pattern.compile(qualityValue);
     }
 
     /**
@@ -110,9 +122,12 @@ public class MediaRangeSpec {
     private final String mediaType;
     private final double quality;
 
-    private MediaRangeSpec(String type, String subtype,
-                           List<String> parameterNames, List<String> parameterValues,
-                           double quality) {
+    private MediaRangeSpec(
+            String type,
+            String subtype,
+            List<String> parameterNames, List<String> parameterValues,
+            double quality
+    ) {
         this.type = type;
         this.subtype = subtype;
         this.parameterNames = Collections.unmodifiableList(parameterNames);
@@ -161,7 +176,7 @@ public class MediaRangeSpec {
     public String getParameter(String parameterName) {
         for (int i = 0; i < parameterNames.size(); i++) {
             if (parameterNames.get(i).equals(parameterName.toLowerCase())) {
-                return (String) parameterValues.get(i);
+                return parameterValues.get(i);
             }
         }
         return null;
@@ -187,7 +202,7 @@ public class MediaRangeSpec {
         if (range.getParameterNames().isEmpty()) return 3;
         int result = 3;
         for (int i = 0; i < range.getParameterNames().size(); i++) {
-            String name = (String) range.getParameterNames().get(i);
+            String name  = range.getParameterNames().get(i);
             String value = range.getParameter(name);
             if (!value.equals(getParameter(name))) return 0;
             result++;
