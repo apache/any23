@@ -1,13 +1,13 @@
 package org.deri.any23.writer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.deri.any23.extractor.ExtractionContext;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class BenchmarkTripleHandler implements TripleHandler {

@@ -42,8 +42,8 @@ public class DOAC {
     public static final URI SocialSkill = createURI("SocialSkill");
     public static final URI ComputerSkill = createURI("ComputerSkill");
     public static final URI LanguageLevel = createURI("LanguageLevel");
-	
-	private static URI createURI(String localName) {
-		return factory.createURI(NS, localName);
-	}
+
+    private static URI createURI(String localName) {
+        return factory.createURI(NS, localName);
+    }
 }

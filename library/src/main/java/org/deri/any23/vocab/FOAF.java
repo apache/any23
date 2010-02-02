@@ -7,7 +7,7 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 public class FOAF {
     public static final String NS = "http://xmlns.com/foaf/0.1/";
 
-	private static final ValueFactory factory = ValueFactoryImpl.getInstance();
+    private static final ValueFactory factory = ValueFactoryImpl.getInstance();
 
     // Properties
     public static final URI topic_interest = createURI("topic_interest");
@@ -63,7 +63,7 @@ public class FOAF {
     public static final URI dnaChecksum = createURI("dnaChecksum");
     public static final URI nick = createURI("nick");
     public static final URI jabberID = createURI("jabberID");
-    
+
     // Classes
     public static final URI Person = createURI("Person");
     public static final URI PersonalProfileDocument = createURI("PersonalProfileDocument");
@@ -77,8 +77,8 @@ public class FOAF {
     public static final URI Document = createURI("Document");
     public static final URI Organization = createURI("Organization");
     public static final URI Image = createURI("Image");
-	
-	private static URI createURI(String localName) {
-		return factory.createURI(NS, localName);
-	}
+
+    private static URI createURI(String localName) {
+        return factory.createURI(NS, localName);
+    }
 }

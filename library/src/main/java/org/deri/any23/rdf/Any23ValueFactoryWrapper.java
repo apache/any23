@@ -1,7 +1,5 @@
 package org.deri.any23.rdf;
 
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -11,6 +9,8 @@ import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.xml.datatype.XMLGregorianCalendar;
 
 // TODO Move our URI fixing methods to a seperate utility class
 

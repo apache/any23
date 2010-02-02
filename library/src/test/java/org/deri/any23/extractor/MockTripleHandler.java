@@ -1,14 +1,14 @@
 package org.deri.any23.extractor;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.deri.any23.Helper;
 import org.deri.any23.writer.TripleHandler;
 import org.junit.Assert;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class MockTripleHandler implements TripleHandler {
     private final List<String> expectations = new LinkedList<String>();

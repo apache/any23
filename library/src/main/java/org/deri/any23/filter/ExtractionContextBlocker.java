@@ -1,15 +1,15 @@
 package org.deri.any23.filter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.writer.TripleHandler;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A wrapper around a {@link TripleHandler} that can block and unblock

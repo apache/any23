@@ -1,13 +1,13 @@
 package org.deri.any23.writer;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import org.deri.any23.extractor.ExtractionContext;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.rio.ntriples.NTriplesUtil;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * A triple handler that converts triples to quads by using the

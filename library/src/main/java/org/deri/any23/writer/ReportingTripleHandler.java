@@ -1,12 +1,12 @@
 package org.deri.any23.writer;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import org.deri.any23.extractor.ExtractionContext;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * A {@link TripleHandler} that collects various information

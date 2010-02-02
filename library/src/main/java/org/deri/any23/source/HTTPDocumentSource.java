@@ -1,11 +1,11 @@
 package org.deri.any23.source;
 
+import org.deri.any23.http.HTTPClient;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import org.deri.any23.http.HTTPClient;
 
 public class HTTPDocumentSource implements DocumentSource {
     private final HTTPClient client;

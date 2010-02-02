@@ -1,15 +1,15 @@
 package org.deri.any23.extractor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.deri.any23.rdf.Prefixes;
 import org.deri.any23.writer.TripleHandler;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * TODO Comments are out of date

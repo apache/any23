@@ -7,15 +7,15 @@ import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.repository.RepositoryException;
 
 public class RDFaExtractorTest extends AbstractMicroformatTestCase {
-	
-	@Override
-	protected ExtractorFactory<?> getExtractorFactory() {
-		return RDFaExtractor.factory;
-	}
 
-	public void testSimple() throws RepositoryException {
-		assertExtracts("rdfa/dummy.html");
-		assertContains(DCTERMS.creator, "Alice");
-		assertContains(DCTERMS.title, "The trouble with Bob");
-	}
+    @Override
+    protected ExtractorFactory<?> getExtractorFactory() {
+        return RDFaExtractor.factory;
+    }
+
+    public void testSimple() throws RepositoryException {
+        assertExtracts("rdfa/dummy.html");
+        assertContains(DCTERMS.creator, "Alice");
+        assertContains(DCTERMS.title, "The trouble with Bob");
+    }
 }
