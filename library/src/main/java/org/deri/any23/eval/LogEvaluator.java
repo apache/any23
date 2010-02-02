@@ -5,49 +5,30 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Scanner;
 
+/**
+ * Helper class for evaluating textual log files.
+ */
 public class LogEvaluator {
 
-    private boolean _append;
-    private File _outDir;
+    private static final Integer EXTRACTORS = 4;
+
     private static final File extrFrequ = new File("frequency.extractors.dat");
+
     private static final File triplesExtactors = new File("triples.extractors.dat");
 
+    Count<String> extractorCounter = new Count<String>();
+
+    Count<String> triplesPerExtractorCounter = new Count<String>();
+
+    private File outDir;
 
     public LogEvaluator() {
-        this(null, false);
+        this(null);
     }
 
     public LogEvaluator(String outDir) {
-        this(outDir, false);
-    }
-
-    /**
-     * @param append - process multiple files and store the stats
-     * @see LoggingTripleHandler
-     */
-    public LogEvaluator(String outDir, boolean append) {
-        _append = append;
-        if (outDir != null) _outDir = new File(outDir);
-        else _outDir = null;
-    }
-
-    /*
-    * Typical log lines
-    *tab separeted list of values
-    *	http://vodpod.com/watch/1502483-how-i-met-your-mother-not-a-prostitute	68283	31	true	[ html-head-title:1 html-rdfa:4]
-    * http://www.eastvillagepodcasts.com/2008/12/19/breaking-news-east-village-blizzard-hits/	28382	23	true	[ html-head-title:1 html-rdfa:31]
-    */
-
-    Count<String> extractorCounter = new Count<String>();
-    Count<String> triplesPerExtractorCounter = new Count<String>();
-
-    private final static Integer CONTENT_LENGTH = 1;
-    private final static Integer PROCESSING_TIME = 2;
-    private final static Integer EXTRACTORS = 4;
-
-    public static void main(String[] args) {
-        String s = "[ ]";
-        System.out.println(s.substring(2, s.length() - 1));
+        if (outDir != null) this.outDir = new File(outDir);
+        else this.outDir = null;
     }
 
     public void analyseDirectory(String logDir) throws FileNotFoundException {
@@ -75,12 +56,14 @@ public class LogEvaluator {
                 extField = fields[EXTRACTORS];
                 if (extField.trim().length() == 2) {
                     extractorCounter.add("EMPTY");
-//				triplesPerExtractorCounter.add(st.substring(0,st.indexOf(":")),Integer.valueOf(st.substring(st.indexOf(":")+1) ));
                 } else {
                     extractors = extField.substring(2, extField.length() - 1).split(" ");
                     for (String st : extractors) {
                         extractorCounter.add(st.substring(0, st.indexOf(":")));
-                        triplesPerExtractorCounter.add(st.substring(0, st.indexOf(":")), Integer.valueOf(st.substring(st.indexOf(":") + 1)));
+                        triplesPerExtractorCounter.add(
+                                st.substring(0, st.indexOf(":")),
+                                Integer.valueOf(st.substring(st.indexOf(":") + 1))
+                        );
                     }
                 }
             } catch (Exception e) {
@@ -94,13 +77,13 @@ public class LogEvaluator {
 
     public void close() {
         try {
-            if (_outDir != null) {
-                _outDir.mkdirs();
-                FileOutputStream fis = new FileOutputStream(new File(_outDir, extrFrequ.toString()));
+            if (outDir != null) {
+                outDir.mkdirs();
+                FileOutputStream fis = new FileOutputStream(new File(outDir, extrFrequ.toString()));
                 extractorCounter.printStats(fis);
                 fis.close();
 
-                fis = new FileOutputStream(new File(_outDir, triplesExtactors.toString()));
+                fis = new FileOutputStream(new File(outDir, triplesExtactors.toString()));
                 triplesPerExtractorCounter.printStats(fis);
                 fis.close();
             } else {
@@ -108,10 +91,9 @@ public class LogEvaluator {
                 triplesPerExtractorCounter.printStats(System.out);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-			}
+            throw new RuntimeException(e);
+	    }
 
 	}
-	
-	
+
 }
