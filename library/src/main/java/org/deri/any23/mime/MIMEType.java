@@ -6,8 +6,20 @@ package org.deri.any23.mime;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class MIMEType implements Comparable<MIMEType> {
-    private final static String msg = "Cannot parse MIME type (expected type/subtype[;q=x.x] format): ";
 
+    private final static String MSG = "Cannot parse MIME type (expected type/subtype[;q=x.y] format): ";
+
+    /**
+     * Parses the given MIME type string returning an instance of
+     * {@link org.deri.any23.mime.MIMEType}.
+     * The expected format for <code>mimeType</code> is
+     * <code>type/subtype[;q=x.y]</code> .
+     * An example of valid mime type is: <code>application/rdf+xml;q=0.9</code> 
+     *
+     * @param mimeType
+     * @return the mime type instance.
+     * @throws IllegalArgumentException if the <code>mimeType</code> is not well formatted.
+     */
     public static MIMEType parse(String mimeType) {
         if (mimeType == null) return null;
         int i = mimeType.indexOf(';');
@@ -34,13 +46,13 @@ public class MIMEType implements Comparable<MIMEType> {
         String type = mimeType.substring(0, i);
         int i2 = type.indexOf('/');
         if (i2 == -1) {
-            throw new IllegalArgumentException(msg + mimeType);
+            throw new IllegalArgumentException(MSG + mimeType);
         }
         String p1 = type.substring(0, i2).trim().toLowerCase();
         String p2 = type.substring(i2 + 1).trim().toLowerCase();
         if ("*".equals(p1)) {
             if (!"*".equals(p2)) {
-                throw new IllegalArgumentException(msg + mimeType);
+                throw new IllegalArgumentException(MSG + mimeType);
             }
             return new MIMEType(null, null, q);
         }
@@ -94,4 +106,5 @@ public class MIMEType implements Comparable<MIMEType> {
     public int compareTo(MIMEType other) {
         return getFullType().compareTo(other.getFullType());
     }
+    
 }

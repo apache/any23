@@ -1,67 +1,46 @@
 package org.deri.any23.mime;
 
 import org.apache.tika.config.TikaConfig;
-import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
-import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-
+/**
+ * Implementation of {@link org.deri.any23.mime.MIMETypeDetector} based on
+ * <a href="http://lucene.apache.org/tika/">Apache Tika</a>.
+ */
 public class TikaMIMETypeDetector implements MIMETypeDetector {
+
     private static final String RESOURCE_NAME = "/org/deri/any23/mime/tika-config.xml";
-    private static TikaConfig _config = null;
-    private static MimeTypes _types;
+    private static TikaConfig config = null;
+    private static MimeTypes types;
+
+    public static void main(String[] args) {
+        new TikaMIMETypeDetector();
+    }
 
     public TikaMIMETypeDetector() {
         InputStream is = getResourceAsStream();
-        if (_config == null)
+        if (config == null)
             try {
-                _config = new TikaConfig(is);
-            } catch (TikaException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                config = new TikaConfig(is);
+            } catch (Exception e) {
+                throw new RuntimeException("Error while loading Tika configuration.", e);
             }
-        if (_types == null)
-            _types = _config.getMimeRepository();
+        if (types == null)
+            types = config.getMimeRepository();
     }
 
-    /**
-     * load tika configuration file
-     *
-     * @return
-     */
-    private InputStream getResourceAsStream() {
-        InputStream result = null;
-        result = TikaMIMETypeDetector.class.getResourceAsStream(RESOURCE_NAME);
-        if (result == null) {
-            result = TikaMIMETypeDetector.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
-            if (result == null) {
-                result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
-            }
-        }
-//      if(result == null) {
-//       try {
-//        result = new FileInputStream(new File("src/main/java/"+RESOURCE_NAME));
-//       } catch (FileNotFoundException e) {
-//       e.printStackTrace(System.err);
-//      }
-
-//      }
-        return result;
-    }
-
-    public MIMEType guessMIMEType(String fileName, InputStream input,
-                                  MIMEType mimeTypeFromMetadata) {
+    public MIMEType guessMIMEType(
+            String fileName,
+            InputStream input,
+            MIMEType mimeTypeFromMetadata
+    ) {
 
         Metadata meta = new Metadata();
         if (mimeTypeFromMetadata != null)
@@ -74,11 +53,28 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             MimeType mt = getMimeType(input, meta);
             if (mt != null) type = mt.toString();
 
-        } catch (IOException e) {
-            e.printStackTrace(System.err);
+        } catch (IOException ioe) {
+            throw new RuntimeException("Error while retrieving mime type.", ioe);
         }
-        return MIMEType.parse(type.toString());
+        return MIMEType.parse(type);
     }
+
+    /**
+      * Loads the <code>Tika</code> configuration file.
+      *
+      * @return the input stream containing the configuration.
+      */
+     private InputStream getResourceAsStream() {
+         InputStream result;
+         result = TikaMIMETypeDetector.class.getResourceAsStream(RESOURCE_NAME);
+         if (result == null) {
+             result = TikaMIMETypeDetector.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
+             if (result == null) {
+                 result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
+             }
+         }
+         return result;
+     }
 
     /**
      * Automatically detects the MIME type of a document based on magic
@@ -95,31 +91,36 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      */
     private MimeType getMimeType(InputStream stream, final Metadata metadata) throws IOException {
         if (stream != null) {
-            MimeType type = _types.getMimeType(stream);
-//    		
-            if (type != null && type.toString() != MimeTypes.OCTET_STREAM && type.toString() != MimeTypes.PLAIN_TEXT) {
+            MimeType type = types.getMimeType(stream);
+            if (
+                    type != null
+                            &&
+                    !type.toString().equals(MimeTypes.OCTET_STREAM)
+                            &&
+                    !type.toString().equals(MimeTypes.PLAIN_TEXT)
+            ) {
                 return type;
             }
         }
 
-        // Get type based on metadata hint (if available)
+        // Get type based on metadata hint (if available).
         String typename = metadata.get(Metadata.CONTENT_TYPE);
         if (typename != null) {
             try {
-                MimeType type = _types.forName(typename);
-                if (type != null && type.toString() != MimeTypes.OCTET_STREAM) {
+                MimeType type = types.forName(typename);
+                if (type != null && !type.toString().equals(MimeTypes.OCTET_STREAM)) {
                     return type;
                 }
             }
-            catch (MimeTypeException e) {
-                ;// Malformed type name, ignore
+            catch (MimeTypeException mte) {
+                // Malformed type name, ignore.
             }
         }
 
         // Get type based on resourceName hint (if available)
         String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
         if (resourceName != null) {
-            MimeType type = _types.getMimeType(resourceName);
+            MimeType type = types.getMimeType(resourceName);
             if (type != null) {
                 return type;
             }
@@ -127,9 +128,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 
         // Finally, use the default type if no matches found
         try {
-            return _types.forName(MimeTypes.OCTET_STREAM);
+            return types.forName(MimeTypes.OCTET_STREAM);
         } catch (MimeTypeException e) {
-            ;// Should never happen
+            // Should never happen
             return null;
         }
     }
@@ -155,8 +156,5 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         return 0;
     }
 
-    public static void main(String[] args) {
-        new TikaMIMETypeDetector();
-    }
 }
 
