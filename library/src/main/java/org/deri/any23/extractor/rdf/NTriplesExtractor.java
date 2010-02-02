@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+/**
+ * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor} handling NTriples
+ * <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format
+ */
 public class NTriplesExtractor implements ContentExtractor {
 
     public void run(InputStream in, URI documentURI, final ExtractionResult out)

@@ -19,6 +19,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+/**
+ *
+ * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor} able to perform the
+ * extraction on <a href="http://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a> documents.
+ *
+ */
 public class RDFXMLExtractor implements ContentExtractor {
 
     public void run(InputStream in, URI documentURI, ExtractionResult out)

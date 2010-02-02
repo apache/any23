@@ -15,12 +15,24 @@ import java.io.InputStream;
  */
 public interface Extractor<Input> {
 
+    /**
+     * This interface specializes an {@link org.deri.any23.extractor.Extractor} able to handle
+     * {@link java.net.URI} as input format. Use it if you need to fetch a document before the extraction
+     */
     public interface BlindExtractor extends Extractor<URI> {
     }
 
+    /**
+     * This interface specializes an {@link org.deri.any23.extractor.Extractor} able to handle
+     * {@link java.io.InputStream} as input format.
+     */
     public interface ContentExtractor extends Extractor<InputStream> {
     }
 
+    /**
+     * This interface specializes an {@link org.deri.any23.extractor.Extractor} able to handle
+     * {@link org.w3c.dom.Document} as input format.
+     */
     public interface TagSoupDOMExtractor extends Extractor<Document> {
     }
 

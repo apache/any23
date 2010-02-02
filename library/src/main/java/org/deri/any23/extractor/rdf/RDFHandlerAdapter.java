@@ -13,6 +13,7 @@ import org.openrdf.rio.RDFHandlerException;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class RDFHandlerAdapter implements RDFHandler {
+
     private ExtractionResult target;
 
     public RDFHandlerAdapter(ExtractionResult target) {
@@ -23,9 +24,9 @@ public class RDFHandlerAdapter implements RDFHandler {
     }
 
     public void handleNamespace(String prefix, String uri) {
-        // TODO figure out the best way of handling namespace declarations in the content
         target.writeNamespace(prefix, uri);
-//		context.getPrefixes().addVolatile(prefix, uri);
+        // TODO (high) figure out the best way of handling namespace declarations in the content        
+        // context.getPrefixes().addVolatile(prefix, uri);
     }
 
     public void handleStatement(Statement stmt) {
@@ -37,4 +38,5 @@ public class RDFHandlerAdapter implements RDFHandler {
 
     public void endRDF() throws RDFHandlerException {
     }
+
 }
