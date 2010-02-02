@@ -2,13 +2,32 @@ package org.deri.any23.extractor;
 
 import org.openrdf.model.URI;
 
-// TODO Maybe this shouldn't store the documentURI because that's already known
-//   in every place where this class is used. The requirements are not clear
-
-//   enough to make a decision.
+/**
+ *
+ * This class provides a context for the extraction.
+ *
+ */
 public class ExtractionContext {
+
+    /**
+     * name of the extractor
+     */
     private final String extractorName;
+
+    /**
+     *
+     * URI of the document
+     *
+     * TODO (high) Maybe this shouldn't store the documentURI because that's already known
+     * in every place where this class is used. The requirements are not clear
+     * enough to make a decision.
+     *
+     */
     private final URI documentURI;
+
+    /**
+     * ID identifying the document
+     */
     private final String uniqueID;
 
     public ExtractionContext(String extractorName, URI documentURI) {
@@ -44,6 +63,7 @@ public class ExtractionContext {
     }
 
     public String toString() {
-        return "ExtractionContext(" + uniqueID + ")";
+        return String.format("ExtractionContext(%s)", uniqueID);
     }
+    
 }

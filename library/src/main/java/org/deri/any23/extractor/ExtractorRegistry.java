@@ -23,10 +23,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  Singleton class acting as a register for all the various {@link org.deri.any23.extractor.Extractor}.
+ * 
+ */
 public class ExtractorRegistry {
+
+    /**
+     * instance
+     */
     private static ExtractorRegistry instance = null;
 
+    /**
+     * maps containing the related {@link org.deri.any23.extractor.ExtractorFactory} for each
+     * registered {@link org.deri.any23.extractor.Extractor}
+     */
+    private Map<String, ExtractorFactory<?>> factories = new HashMap<String, ExtractorFactory<?>>();
+
+
+    /**
+     * @return returns the {@link org.deri.any23.extractor.ExtractorRegistry} instance
+     */
     public static ExtractorRegistry get() {
+        // TODO (low): this method should be called getInstance
         // Thread-safe
         synchronized (ExtractorRegistry.class) {
             if (instance == null) {
@@ -52,15 +71,30 @@ public class ExtractorRegistry {
         return instance;
     }
 
-    private Map<String, ExtractorFactory<?>> factories = new HashMap<String, ExtractorFactory<?>>();
-
+    /**
+     * Registers an {@link org.deri.any23.extractor.ExtractorFactory}.
+     *
+     * @param factory
+     * @throws IllegalArgumentException if trying to register a {@link org.deri.any23.extractor.ExtractorFactory}
+     * with a that already exists in the registry.
+     */
     public void register(ExtractorFactory<?> factory) {
         if (factories.containsKey(factory.getExtractorName())) {
-            throw new IllegalArgumentException("Extractor name clash: " + factory.getExtractorName());
+            throw new IllegalArgumentException(String.format("Extractor name clash: %s",
+                    factory.getExtractorName()));
         }
         factories.put(factory.getExtractorName(), factory);
     }
 
+    /**
+     *
+     * Retrieves a {@link org.deri.any23.extractor.ExtractorFactory} given its name
+     *
+     * @param name of the desired factory
+     * @return the {@link org.deri.any23.extractor.ExtractorFactory} associated to the provided name
+     * @throws IllegalArgumentException if there is not a {@link org.deri.any23.extractor.ExtractorFactory} associated to
+     * the provided name
+     */
     public ExtractorFactory<?> getFactory(String name) {
         if (!factories.containsKey(name)) {
             throw new IllegalArgumentException("Unregistered extractor name: " + name);
@@ -68,10 +102,20 @@ public class ExtractorRegistry {
         return factories.get(name);
     }
 
+    /**
+     * @return an {@link org.deri.any23.extractor.ExtractorGroup} with all the registered
+     * {@link org.deri.any23.extractor.Extractor}.
+     */
     public ExtractorGroup getExtractorGroup() {
         return getExtractorGroup(getAllNames());
     }
 
+    /**
+     * Returns an {@link org.deri.any23.extractor.ExtractorGroup} containing the
+     * {@link org.deri.any23.extractor.ExtractorFactory} mathing the names provided as input.
+     * @param names a {@link java.util.List} containing the names of the desired {@link ExtractorFactory}
+     * @return the
+     */
     public ExtractorGroup getExtractorGroup(List<String> names) {
         List<ExtractorFactory<?>> members = new ArrayList<ExtractorFactory<?>>(names.size());
         for (String name : names) {
@@ -80,26 +124,23 @@ public class ExtractorRegistry {
         return new ExtractorGroup(members);
     }
 
+    /**
+     * 
+     * @param name of the {@link org.deri.any23.extractor.ExtractorFactory}
+     * @return true iff is there a {@link org.deri.any23.extractor.ExtractorFactory} associated to the provided name
+     */
     public boolean isRegisteredName(String name) {
         return factories.containsKey(name);
-    }
-
-    public List<String> findUnregisteredNames(List<String> names) {
-        List<String> result = new ArrayList<String>();
-        for (String name : names) {
-            if (!isRegisteredName(name)) {
-                result.add(name);
-            }
-        }
-        return result;
     }
 
     /**
      * Returns the names of all registered extractors, sorted alphabetically.
      */
     public List<String> getAllNames() {
+        // TODO (low) this method should be private since it's used only within this class
         List<String> result = new ArrayList<String>(factories.keySet());
         Collections.sort(result);
         return result;
     }
+
 }

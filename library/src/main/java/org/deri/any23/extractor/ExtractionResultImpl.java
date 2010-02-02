@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * TODO Comments are out of date
+ * TODO (medium) Comments are out of date
  * <p/>
  * A default implementation of {@link ExtractionResult}; it receives
  * extraction output from one {@link Extractor} working on one document,
@@ -35,13 +35,21 @@ import java.util.Set;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ExtractionResultImpl implements ExtractionResult {
+
     private final URI documentURI;
+
     private final Extractor<?> extractor;
+
     private final TripleHandler tripleHandler;
+
     private final ExtractionContext context;
+
     private final Collection<ExtractionResult> subResults = new ArrayList<ExtractionResult>();
+
     private final Set<Object> knownContextIDs = new HashSet<Object>();
+
     private boolean isClosed = false;
+
     private boolean isInitialized = false;
 
     public ExtractionResultImpl(URI documentURI, Extractor<?> extractor, TripleHandler tripleHandler) {
@@ -105,4 +113,5 @@ public class ExtractionResultImpl implements ExtractionResult {
             throw new IllegalStateException("Not open: " + context);
         }
     }
+
 }

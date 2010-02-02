@@ -74,4 +74,5 @@ public class ExampleInputOutput {
     private boolean isBlindExtractor() {
         return factory.createExtractor() instanceof BlindExtractor;
     }
+
 }

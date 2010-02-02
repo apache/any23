@@ -6,6 +6,13 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ *
+ * It defines the signature of a generic Extractor
+ *
+ * @param <Input> the type of the input data to be processed
+ *
+ */
 public interface Extractor<Input> {
 
     public interface BlindExtractor extends Extractor<URI> {
@@ -31,7 +38,7 @@ public interface Extractor<Input> {
             throws IOException, ExtractionException;
 
     /**
-     * Returns a description of this extractor.
+     * Returns a {@link org.deri.any23.extractor.ExtractorDescription} of this extractor.
      */
     ExtractorDescription getDescription();
 }

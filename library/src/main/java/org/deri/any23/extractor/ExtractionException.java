@@ -1,7 +1,10 @@
 package org.deri.any23.extractor;
 
-// TODO: ExtractionException Should receive an ExtractionContext?
-@SuppressWarnings("serial")
+/**
+ *
+ * TODO: ExtractionException Should receive an ExtractionContext?
+ *
+ */
 public class ExtractionException extends Exception {
 
     public ExtractionException(String message) {
@@ -15,4 +18,5 @@ public class ExtractionException extends Exception {
     public ExtractionException(String message, Throwable cause) {
         super(message, cause);
     }
+
 }

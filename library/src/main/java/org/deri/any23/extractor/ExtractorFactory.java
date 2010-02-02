@@ -4,8 +4,14 @@ import org.deri.any23.mime.MIMEType;
 
 import java.util.Collection;
 
-
+/**
+ *
+ * Interface defining a factory for {@link org.deri.any23.extractor.Extractor} 
+ * 
+ * @param <T> the type of the {@link org.deri.any23.extractor.Extractor} to be created by this factory
+ */
 public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescription {
+
     T createExtractor();
 
     // Supports wildcards, e.g. "*/*" for blind extractors that merely call a web service

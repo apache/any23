@@ -33,15 +33,27 @@ import java.util.Arrays;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class RDFaExtractor implements TagSoupDOMExtractor {
+
     public final static String NAME = "html-rdfa";
+
     private final static String xsltFilename = "rdfa.xslt";
+
     private static XSLTStylesheet xslt = null;
+
+    public final static ExtractorFactory<RDFaExtractor> factory =
+            SimpleExtractorFactory.create(
+                    NAME,
+                    null,
+                    Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
+                    null,
+                    RDFaExtractor.class
+            );
 
     public void run(Document in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
         StringWriter buffer = new StringWriter();
         getXSLT().applyTo(in, buffer);
-//		System.out.println(buffer);
+
         try {
             RDFParser parser = new RDFXMLParser();
             parser.setRDFHandler(new RDFHandlerAdapter(out));
@@ -51,7 +63,6 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex);
         } catch (RDFParseException ex) {
-//			System.err.println(buffer.getBuffer().toString());
             throw new ExtractionException("Invalid RDF/XML produced by RDFa transform: " + ex.getMessage(), ex);
         }
     }
@@ -74,11 +85,4 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         return factory;
     }
 
-    public final static ExtractorFactory<RDFaExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    null,
-                    Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
-                    null,
-                    RDFaExtractor.class);
 }
