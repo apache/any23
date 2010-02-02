@@ -22,6 +22,7 @@ import java.util.Map;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ExtractionContextBlocker implements TripleHandler {
+
     private TripleHandler wrapped;
     private Map<String, ValvedTriplePipe> contextQueues = new HashMap<String, ValvedTriplePipe>();
     private boolean documentBlocked;
@@ -53,7 +54,7 @@ public class ExtractionContextBlocker implements TripleHandler {
     }
 
     public void closeContext(ExtractionContext context) {
-        // We'll close all contexts when the document is finished
+        // We'll close all contexts when the document is finished.
     }
 
     public void unblockDocument() {
@@ -90,6 +91,7 @@ public class ExtractionContextBlocker implements TripleHandler {
     }
 
     private class ValvedTriplePipe {
+
         private final ExtractionContext context;
         private final List<Resource> subjects = new ArrayList<Resource>();
         private final List<URI> predicates = new ArrayList<URI>();
@@ -162,8 +164,6 @@ public class ExtractionContextBlocker implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
-        //ignore
-        ;
+        // Ignore.
     }
 }

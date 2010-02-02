@@ -17,6 +17,7 @@ import org.openrdf.model.Value;
  * @@rel and @@rev attributes.
  */
 public class IgnoreAccidentalRDFa implements TripleHandler {
+
     private final ExtractionContextBlocker blocker;
 
     public IgnoreAccidentalRDFa(TripleHandler wrapped) {
@@ -62,8 +63,6 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
-        //ignore
-        ;
+        //Ignore.
     }
 }

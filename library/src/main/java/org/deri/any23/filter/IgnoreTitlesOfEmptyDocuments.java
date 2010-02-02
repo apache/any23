@@ -63,8 +63,6 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
-        //ignore
-        ;
+        //Ignore.
     }
 }

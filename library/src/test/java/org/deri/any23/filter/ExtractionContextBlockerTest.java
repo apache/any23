@@ -8,7 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.URI;
 
+/**
+ * Test case for {@link org.deri.any23.filter.ExtractionContextBlocker}.
+ */
 public class ExtractionContextBlockerTest {
+
     private final static URI docURI = Helper.uri("http://example.com/doc");
     private final static URI s = (URI) Helper.toRDF("ex:s");
     private final static URI p = (URI) Helper.toRDF("ex:p");
@@ -40,4 +44,5 @@ public class ExtractionContextBlockerTest {
         blocker.endDocument(docURI);
         handler.verify();
     }
+    
 }
