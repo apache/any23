@@ -18,8 +18,17 @@ import java.util.Map;
  * covered by the wildcard with a higher q value.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
+ *
  */
 public class AcceptHeaderBuilder {
+
+    private Collection<MIMEType> mimeTypes;
+
+    private MIMEType highestAnyType = null;
+
+    private Map<String, MIMEType> highestAnySubtype = new HashMap<String, MIMEType>();
+
+    private Map<String, MIMEType> highestSpecificType = new HashMap<String, MIMEType>();
 
     public static AcceptHeaderBuilder fromStrings(Collection<String> typesAsStrings) {
         Collection<MIMEType> types = new ArrayList<MIMEType>(typesAsStrings.size());
@@ -28,11 +37,6 @@ public class AcceptHeaderBuilder {
         }
         return new AcceptHeaderBuilder(types);
     }
-
-    private Collection<MIMEType> mimeTypes;
-    private MIMEType highestAnyType = null;
-    private Map<String, MIMEType> highestAnySubtype = new HashMap<String, MIMEType>();
-    private Map<String, MIMEType> highestSpecificType = new HashMap<String, MIMEType>();
 
     public AcceptHeaderBuilder(Collection<MIMEType> mimeTypes) {
         this.mimeTypes = mimeTypes;

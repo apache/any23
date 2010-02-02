@@ -18,6 +18,7 @@ public class SimpleHTTPClient implements HTTPClient {
     private int _contentLength = -1;
 
     public void init(String userAgent, String acceptHeader) {
+        // TODO (medium): fix this
         // we're bad, ignore
     }
 
@@ -32,6 +33,7 @@ public class SimpleHTTPClient implements HTTPClient {
     }
 
     public void close() {
+        // TODO (high): fix this
         // do nothing
     }
 
@@ -45,6 +47,7 @@ public class SimpleHTTPClient implements HTTPClient {
 
     public String getContentType() {
         // we're bad, just return nothing
+        // TODO (medium): fix this
         return null;
     }
 }

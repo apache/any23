@@ -20,19 +20,27 @@ import java.util.List;
  *
  * @author Paolo Capriotti
  * @author Richard Cyganiak (richard@cyganiak.de)
- *         <p/>
- *         TODO: content length and actual document URI could be messed up in multithreaded situations
+ * <p/>
+ * TODO (low): content length and actual document URI could be messed up in multithreaded situations
  */
 public class DefaultHTTPClient implements HTTPClient {
+
     private static final int DEFAULT_TIMEOUT = 5000;
+    
     private static final int DEFAULT_TOTAL_CONNECTIONS = 5;
 
     private final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
+
     private String userAgent;
+
     private String accept;
+
     private HttpClient client = null;
+
     private long _contentLength = -1;
+
     private String actualDocumentURI = null;
+
     private String contentType = null;
 
     public void init(String userAgent, String acceptHeader) {
@@ -69,11 +77,15 @@ public class DefaultHTTPClient implements HTTPClient {
         return DEFAULT_TIMEOUT;
     }
 
-    // Will follow redirects
-    /* (non-Javadoc)
-    * @see org.deri.any23.http.HTTPClient#openInputStream(java.lang.String)
-    */
-
+    /**
+     *
+     * Opens an {@link java.io.InputStream} from a given URI.
+     * It follows redirects.
+     *
+     * @param uri to be opened
+     * @return {@link java.io.InputStream}
+     * @throws IOException
+     */
     public InputStream openInputStream(String uri) throws IOException {
 
         GetMethod method = null;
@@ -99,10 +111,11 @@ public class DefaultHTTPClient implements HTTPClient {
         }
     }
 
-    /* (non-Javadoc)
-    * @see org.deri.any23.http.HTTPClient#close()
-    */
-
+    /**
+     *
+     * Shuts down the connection manager.
+     * 
+     */
     public void close() {
         manager.shutdown();
     }

@@ -1,6 +1,8 @@
 package org.deri.any23.http;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Assert;
+
 import org.deri.any23.mime.MIMEType;
 
 import java.util.ArrayList;
@@ -8,81 +10,97 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public class AcceptHeaderBuilderTest extends TestCase {
+/**
+ * Reference test for {@link org.deri.any23.http.AcceptHeaderBuilder}
+ * 
+ */
+public class AcceptHeaderBuilderTest {
 
+    @Test
     public void testEmpty() {
-        assertNull(buildHeader(Collections.<String>emptyList()));
+        Assert.assertNull(buildHeader(Collections.<String>emptyList()));
     }
 
+    @Test
     public void testSingleHeaderSpecific() {
-        assertEquals("text/html",
+        Assert.assertEquals("text/html",
                 buildHeader(Arrays.asList("text/html")));
     }
 
+    @Test
     public void testSingleHeaderSpecificWithQ() {
-        assertEquals("text/html;q=0.5",
+        Assert.assertEquals("text/html;q=0.5",
                 buildHeader(Arrays.asList("text/html;q=0.5")));
     }
 
+    @Test
     public void testSuppressQIfEquals1() {
-        assertEquals("text/html",
+        Assert.assertEquals("text/html",
                 buildHeader(Arrays.asList("text/html;q=1")));
     }
 
+    @Test
     public void testSingleHeaderSubtypeWildcard() {
-        assertEquals("text/*;q=0.5",
+        Assert.assertEquals("text/*;q=0.5",
                 buildHeader(Arrays.asList("text/*;q=0.5")));
     }
 
+    @Test
     public void testSingleHeaderTypeWildcard() {
-        assertEquals("*/*;q=0.5",
+        Assert.assertEquals("*/*;q=0.5",
                 buildHeader(Arrays.asList("*/*;q=0.5")));
     }
 
+    @Test
     public void testMultipleIndependentHeaders() {
-        assertEquals("image/jpeg;q=0.2, text/html, text/plain;q=0.5",
+        Assert.assertEquals("image/jpeg;q=0.2, text/html, text/plain;q=0.5",
                 buildHeader(Arrays.asList(
                         "image/jpeg;q=0.2", "text/html;q=1.0", "text/plain;q=0.5")));
     }
 
+    @Test
     public void testHighestSpecificValueIsChosen() {
-        assertEquals("image/jpeg",
+        Assert.assertEquals("image/jpeg",
                 buildHeader(Arrays.asList(
                         "image/jpeg;q=0.2", "image/jpeg")));
-        assertEquals("image/jpeg",
+        Assert.assertEquals("image/jpeg",
                 buildHeader(Arrays.asList(
                         "image/jpeg", "image/jpeg;q=0.2")));
     }
 
+    @Test
     public void testHighestSubtypeWildcardIsChosen() {
-        assertEquals("image/*",
+        Assert.assertEquals("image/*",
                 buildHeader(Arrays.asList(
                         "image/*;q=0.2", "image/*")));
-        assertEquals("image/*",
+        Assert.assertEquals("image/*",
                 buildHeader(Arrays.asList(
                         "image/*", "image/*;q=0.2")));
     }
 
+    @Test
     public void testHighestTypeWildcardIsChosen() {
-        assertEquals("*/*",
+        Assert.assertEquals("*/*",
                 buildHeader(Arrays.asList(
                         "*/*;q=0.2", "*/*")));
-        assertEquals("*/*",
+        Assert.assertEquals("*/*",
                 buildHeader(Arrays.asList(
                         "*/*", "*/*;q=0.2")));
     }
 
+    @Test
     public void testTypeWildcardSuppressesLowerValues() {
-        assertEquals("*/*;q=0.5",
+        Assert.assertEquals("*/*;q=0.5",
                 buildHeader(Arrays.asList(
                         "*/*;q=0.5", "image/*;q=0.2")));
-        assertEquals("*/*;q=0.5",
+        Assert.assertEquals("*/*;q=0.5",
                 buildHeader(Arrays.asList(
                         "*/*;q=0.5", "image/jpeg;q=0.2")));
     }
 
+    @Test
     public void testSubtypeWildcardSuppressesLowerValues() {
-        assertEquals("image/*;q=0.5",
+        Assert.assertEquals("image/*;q=0.5",
                 buildHeader(Arrays.asList(
                         "image/*;q=0.5", "image/jpeg;q=0.2")));
     }
