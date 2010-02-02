@@ -12,14 +12,40 @@ import org.deri.any23.extractor.ExtractorRegistry;
 
 import java.io.IOException;
 
+/**
+ * This class provides some command-line documentation
+ * about available extractors and their usage
+ * 
+ */
 public class ExtractorDocumentation {
 
+    /**
+     * Main method to access the class functionalities.
+     *
+     * Usage:
+     *     ExtractorDocumentation -list
+     *       shows the names of all available extractors
+     *
+     *     ExtractorDocumentation -i extractor-name
+     *       shows example input for the given extractor
+     *
+     *     ExtractorDocumentation -o extractor-name
+     *       shows example input for the given extractor
+     *
+     *     ExtractorDocumentation -all
+     *       shows a report about all available extractors
+     *
+     * @param args allowed arguments
+     * @throws ExtractionException
+     * @throws IOException
+     */
     public static void main(String[] args) throws ExtractionException, IOException {
         LogUtil.setDefaultLogging();
-//		LogUtil.setVerboseLogging();
+
         if (args.length == 0) {
             printUsageAndExit();
         }
+
         if ("-list".equals(args[0])) {
             if (args.length > 1) {
                 printUsageAndExit();
@@ -27,6 +53,7 @@ public class ExtractorDocumentation {
             printExtractorList();
             return;
         }
+
         if ("-i".equals(args[0])) {
             if (args.length > 2) {
                 printUsageAndExit();
@@ -37,6 +64,7 @@ public class ExtractorDocumentation {
             printExampleInput(args[1]);
             return;
         }
+
         if ("-o".equals(args[0])) {
             if (args.length > 2) {
                 printUsageAndExit();
@@ -47,6 +75,7 @@ public class ExtractorDocumentation {
             printExampleOutput(args[1]);
             return;
         }
+        
         if ("-all".equals(args[0])) {
             if (args.length > 1) {
                 printUsageAndExit();
@@ -57,6 +86,9 @@ public class ExtractorDocumentation {
         printUsageAndExit();
     }
 
+    /**
+     * Prints the command line usage help.
+     */
     public static void printUsageAndExit() {
         System.out.println("Usage:");
         System.out.println("  ExtractorDocumentation -list");
@@ -74,17 +106,29 @@ public class ExtractorDocumentation {
         System.exit(2);
     }
 
+    /**
+     * Print an error message
+     * @param msg the error message to be printed
+     */
     public static void printErrorAndExit(String msg) {
         System.err.println(msg);
         System.exit(1);
     }
 
+    /**
+     * Prints the list of all the available extractors.
+     */
     public static void printExtractorList() {
         for (String extractorName : ExtractorRegistry.get().getAllNames()) {
             System.out.println(extractorName);
         }
     }
 
+    /**
+     * Prints an example of input for the provided extractor
+     * @param extractorName the name of the extractor
+     * @throws IOException raised if no extractor is found with that name
+     */
     public static void printExampleInput(String extractorName) throws IOException {
         ExtractorFactory<?> factory = getFactory(extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
@@ -95,6 +139,12 @@ public class ExtractorDocumentation {
         System.out.println(input);
     }
 
+    /**
+     * Prints an output example for the given extractor
+     * @param extractorName the extractor name
+     * @throws IOException raised if no extractor is found with that name
+     * @throws ExtractionException
+     */
     public static void printExampleOutput(String extractorName) throws IOException, ExtractionException {
         ExtractorFactory<?> factory = getFactory(extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
@@ -105,6 +155,11 @@ public class ExtractorDocumentation {
         System.out.println(output);
     }
 
+    /**
+     * Prints a complete report on all the available extractors.
+     * @throws IOException
+     * @throws ExtractionException
+     */
     public static void printReport() throws IOException, ExtractionException {
         for (String extractorName : ExtractorRegistry.get().getAllNames()) {
             ExtractorFactory<?> factory = ExtractorRegistry.get().getFactory(extractorName);

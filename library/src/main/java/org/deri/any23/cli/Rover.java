@@ -38,6 +38,7 @@ import java.net.URL;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Rover {
+
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);
 
     private static final String USER_AGENT_NAME = "Any23-CLI";
@@ -49,6 +50,7 @@ public class Rover {
     private final static String RDFXML = "rdfxml";
 
     private static Options options;
+
 
     public static void main(String[] args) {
         options = new Options();

@@ -7,7 +7,14 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
+/**
+ * This class is the main class responsible to provide a uniform command-line
+ * access points to all the others tools like {@link org.deri.any23.cli.Eval},
+ * {@link org.deri.any23.cli.ExtractorDocumentation} and {@link org.deri.any23.cli.Rover}
+ * 
+ */
 public class ToolRunner {
+
     private static final String USAGE = " <utility> [options...]";
     private static final String PREFIX = "org.deri.any23.cli.";
 
