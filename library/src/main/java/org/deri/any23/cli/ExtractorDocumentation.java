@@ -168,7 +168,7 @@ public class ExtractorDocumentation {
             System.out.println("  type: " + getType(factory));
             String output = example.getExampleOutput();
             if (output == null) {
-                System.out.println("  (no example output)");
+                System.out.println("(no example output)");
             } else {
                 System.out.println("-------- example output --------");
                 System.out.println(output);

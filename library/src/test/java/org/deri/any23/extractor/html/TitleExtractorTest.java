@@ -1,5 +1,8 @@
 package org.deri.any23.extractor.html;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import org.deri.any23.Helper;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.DCTERMS;
@@ -13,23 +16,28 @@ public class TitleExtractorTest extends AbstractMicroformatTestCase {
         return TitleExtractor.factory;
     }
 
+    @Test
     public void testExtractPageTitle() throws RepositoryException {
         assertExtracts("xfn/simple-me.html");
-        assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
+        Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
 
+    @Test
     public void testStripSpacesFromTitle() throws RepositoryException {
         assertExtracts("xfn/strip-spaces.html");
-        assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
+        Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
 
+    @Test
     public void testNoPageTitle() throws RepositoryException {
         assertExtracts("xfn/tagsoup.html");
         assertModelEmpty();
     }
 
+    @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
         assertExtracts("xfn/mixed-case.html");
-        assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
+        Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
+    
 }

@@ -26,7 +26,7 @@ import java.util.Arrays;
  * parsing the HTML using a tagsoup parser, then applies the XSLT to the
  * DOM tree, then parses the resulting RDF/XML.
  * <p/>
- * TODO: Add configuration option for wether to add standard HTML triples
+ * TODO (medium): Add configuration option for wether to add standard HTML triples
  * (which result from rel="stylesheet" and such)
  *
  * @author Gabriele Renzi
@@ -49,8 +49,18 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
                     RDFaExtractor.class
             );
 
+    /**
+     * Triggers the execution of this extractor.
+     *
+     * @param in          The extractor's input
+     * @param documentURI The document's URI
+     * @param out         Sink for extracted data
+     * @throws IOException
+     * @throws ExtractionException
+     */
     public void run(Document in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
+
         StringWriter buffer = new StringWriter();
         getXSLT().applyTo(in, buffer);
 
@@ -63,10 +73,16 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex);
         } catch (RDFParseException ex) {
-            throw new ExtractionException("Invalid RDF/XML produced by RDFa transform: " + ex.getMessage(), ex);
+            throw new ExtractionException("Invalid RDF/XML produced by RDFa transform:", ex);
         }
     }
 
+    /**
+     *
+     * Returns a {@link org.deri.any23.extractor.rdfa.XSLTStylesheet} able to distill RDFa from
+     * HTML pages
+     *
+     */
     private synchronized XSLTStylesheet getXSLT() {
         // Lazily initialized static instance, so we don't parse
         // the XSLT unless really necessary, and only once
@@ -81,6 +97,9 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         return xslt;
     }
 
+    /**
+     * @return the {@link org.deri.any23.extractor.ExtractorDescription} of this extractor
+     */
     public ExtractorDescription getDescription() {
         return factory;
     }

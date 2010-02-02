@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class HTMLFixture {
+
     private final String filename;
 
     public HTMLFixture(String filename) {

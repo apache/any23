@@ -1,6 +1,9 @@
 package org.deri.any23.extractor.html;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert;
+
 import org.deri.any23.Helper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
@@ -24,7 +27,12 @@ import org.openrdf.sail.memory.MemoryStore;
 import java.io.IOException;
 import java.io.StringWriter;
 
-public abstract class AbstractMicroformatTestCase extends TestCase {
+/**
+ * Abstract Test Class. All the classes testing a microformat {@link org.deri.any23.extractor.Extractor}
+ * extend this one.
+ */
+public abstract class AbstractMicroformatTestCase {
+
     protected static URI baseURI = Helper.uri("http://bob.example.com/");
 
     protected RepositoryConnection conn;
@@ -33,17 +41,14 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
         super();
     }
 
-    public AbstractMicroformatTestCase(String name) {
-        super(name);
-    }
+    protected abstract ExtractorFactory<?> getExtractorFactory();    
 
+    @Before
     public void setUp() throws Exception {
         Sail store = new MemoryStore();
         store.initialize();
         conn = new SailRepository(store).getConnection();
     }
-
-    protected abstract ExtractorFactory<?> getExtractorFactory();
 
     protected void extract(String name) throws ExtractionException, IOException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(
@@ -53,19 +58,19 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
         ex.run();
     }
 
-    protected void assertContains(URI p, Resource o) throws RepositoryException {
+    public void assertContains(URI p, Resource o) throws RepositoryException {
         assertContains(null, p, o);
     }
 
-    protected void assertContains(URI p, String o) throws RepositoryException {
+    public void assertContains(URI p, String o) throws RepositoryException {
         assertContains(null, p, Helper.literal(o));
     }
 
-    protected void assertNotContains(URI p, Resource o) throws RepositoryException {
+    public void assertNotContains(URI p, Resource o) throws RepositoryException {
         assertNotContains(null, p, o);
     }
 
-    protected void assertExtracts(String fileName) {
+    public void assertExtracts(String fileName) {
         try {
             extract(fileName);
         } catch (ExtractionException ex) {
@@ -75,10 +80,10 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
         }
     }
 
-    protected void assertNotExtracts(String fileName) throws RepositoryException {
+    public void assertNotExtracts(String fileName) throws RepositoryException {
         try {
             extract(fileName);
-            fail();
+            Assert.fail();
         } catch (ExtractionException ex) {
             // expected
         } catch (IOException ex) {
@@ -86,42 +91,38 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
         }
     }
 
-    protected void assertContains(Resource subject, URI property, Value object) throws RepositoryException {
-        assertTrue(getFailedExtractionMessage(), conn.hasStatement(subject, property, object, false));
+    public void assertContains(Resource subject, URI property, Value object) throws RepositoryException {
+        Assert.assertTrue(getFailedExtractionMessage(), conn.hasStatement(subject, property, object, false));
     }
 
-    protected void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {
-        assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, Helper.literal(obj), false));
+    public void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {
+        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, Helper.literal(obj), false));
     }
 
-    protected void assertNotContains(Resource subj, URI prop, Resource obj) throws RepositoryException {
-        assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, obj, false));
+    public void assertNotContains(Resource subj, URI prop, Resource obj) throws RepositoryException {
+        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, obj, false));
     }
 
-    protected void assertModelNotEmpty() throws RepositoryException {
-        assertFalse(getFailedExtractionMessage(), conn.isEmpty());
+    public void assertModelNotEmpty() throws RepositoryException {
+        Assert.assertFalse(getFailedExtractionMessage(), conn.isEmpty());
     }
 
-    protected void assertNotContains(Resource subj, URI prop, Literal obj) throws RepositoryException {
-        assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, obj, false));
+    public void assertNotContains(Resource subj, URI prop, Literal obj) throws RepositoryException {
+        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, obj, false));
     }
 
-    protected void assertModelEmpty() throws RepositoryException {
-        assertTrue(getFailedExtractionMessage(), conn.isEmpty());
+    public void assertModelEmpty() throws RepositoryException {
+        Assert.assertTrue(getFailedExtractionMessage(), conn.isEmpty());
     }
 
-    protected Resource findExactlyOneBlankSubject(URI p, Value o) throws RepositoryException {
+    public Resource findExactlyOneBlankSubject(URI p, Value o) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
-        assertTrue(getFailedExtractionMessage(), it.hasNext());
+        Assert.assertTrue(getFailedExtractionMessage(), it.hasNext());
         Statement stmt = it.next();
         Resource result = stmt.getSubject();
-        assertTrue(getFailedExtractionMessage(), result instanceof BNode);
-        assertFalse(getFailedExtractionMessage(), it.hasNext());
+        Assert.assertTrue(getFailedExtractionMessage(), result instanceof BNode);
+        Assert.assertFalse(getFailedExtractionMessage(), it.hasNext());
         return result;
-    }
-
-    protected void dumpModel() throws RepositoryException {
-        System.err.print(dumpModelToString());
     }
 
     protected String dumpModelToString() throws RepositoryException {
@@ -138,11 +139,8 @@ public abstract class AbstractMicroformatTestCase extends TestCase {
         return "Assertion failed! Extracted triples:\n" + dumpModelToString();
     }
 
-    protected void assertStatementsSize(URI prop, Resource res, int size) throws RepositoryException {
-        assertEquals(size, conn.getStatements(null, prop, res, false).asList().size());
-    }
-
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
         assertContains(s, p, Helper.literal(o));
     }
+
 }
