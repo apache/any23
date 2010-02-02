@@ -21,8 +21,8 @@ import java.io.InputStream;
  * support namespaces and forces uppercase element names. This works
  * with the RDFa XSLT and with XPath, so we left it this way.
  * <p/>
- * TODO: We should pass encoding from the Content-Type HTTP header if available
- * TODO: Check if NekoHTML's encoding handling is sane
+ * TODO (medium): We should pass encoding from the Content-Type HTTP header if available
+ * TODO (medium): Check if NekoHTML's encoding handling is sane
  *
  * @author Richard Cyganiak (richard at cyganiak dot de)
  */
@@ -30,7 +30,9 @@ public class TagSoupParser {
     private final static Logger log = LoggerFactory.getLogger(TagSoupParser.class);
 
     private final InputStream input;
+
     private final String documentURI;
+    
     private Document result = null;
 
     public TagSoupParser(InputStream input, String documentURI) {

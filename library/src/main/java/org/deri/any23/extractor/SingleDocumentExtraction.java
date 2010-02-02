@@ -21,17 +21,28 @@ import java.io.IOException;
 import java.util.Collections;
 
 public class SingleDocumentExtraction {
+
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
     private final DocumentSource in;
-    private URI documentURI;    // TODO should be final
+
+    // TODO (low) should be final
+    private URI documentURI;
+    
     private final ExtractorGroup extractors;
+
     private final TripleHandler output;
+
     private LocalCopyFactory copyFactory = null;
+
     private DocumentSource localDocumentSource = null;
+
     private MIMETypeDetector detector = null;
+
     private ExtractorGroup matchingExtractors = null;
+
     private MIMEType detectedMIMEType = null;
+
     private Document tagSoupDOM = null;
 
     public SingleDocumentExtraction(DocumentSource in, ExtractorFactory<?> factory, TripleHandler output) {

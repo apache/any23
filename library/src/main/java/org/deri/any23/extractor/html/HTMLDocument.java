@@ -24,6 +24,7 @@ import java.util.List;
  * @author Gabriele Renzi
  */
 public class HTMLDocument {
+
     private final static Logger log = LoggerFactory.getLogger(HTMLDocument.class);
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
@@ -74,11 +75,17 @@ public class HTMLDocument {
         return DomUtils.findAll(getDocument(), xpath);
     }
 
-    /*
-      * @pre: the values are always correct to generate sensible XPATH expressions
-      * @post: always returns non-null strings
-      */
+    /**
+     * 
+     * @param objectTag
+     * @param object
+     * @param fieldTag
+     * @param field
+     * @param key
+     * @return
+     */
     public String findMicroformattedValue(String objectTag, String object, String fieldTag, String field, String key) {
+
         Node node = findMicroformattedObjectNode(objectTag, object);
         if (null == node)
             return "";
@@ -105,7 +112,8 @@ public class HTMLDocument {
     }
 
 
-    /*TODO: use one single node lookup and multiple attr and class checks
+    /**
+      * TODO (high): use one single node lookup and multiple attr and class checks
       * @pre: className is a a valid class name
       * @post: no null values are returned
       * @post: if multiple values are found just the first is returned, if we want to check that there are no n-ary values use plural finder
@@ -166,7 +174,8 @@ public class HTMLDocument {
         return all[all.length - 1];
     }
 
-    /*TODO: use one single node lookup and multiple attr and class checks
+    /**
+      * TODO (high): use one single node lookup and multiple attr and class checks
       * @pre: className is a a valid class name
       * @post: no null values are returned
       * @post: if multiple values are found just the first is returned, if we want to check that there are no n-ary values use plural finder
@@ -216,11 +225,10 @@ public class HTMLDocument {
         return nodes.get(0);
     }
 
-    /*
-      * read an attribute avoiding NullPointerExceptions, if the attr is
-      * missing it just returns an empty String
-      */
-
+    /**
+     * Read an attribute avoiding NullPointerExceptions, if the attr is
+     * missing it just returns an empty String
+     */
     public String readAttribute(String string) {
         return DomUtils.readAttribute(getDocument(), string);
     }

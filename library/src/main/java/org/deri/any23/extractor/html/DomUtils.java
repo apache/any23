@@ -38,7 +38,6 @@ public class DomUtils {
             int successors = 1;
             Node previous = node.getPreviousSibling();
             while (null != previous) {
-                ;
                 if (previous.getNodeType() == Node.ELEMENT_NODE
                         && previous.getNodeName().equals(node.getNodeName())) {
                     successors++;

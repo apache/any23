@@ -25,6 +25,7 @@ import java.util.List;
  * @author Gabriele Renzi
  */
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
+
     private HTMLDocument fragment;
 
     protected String getBaseClassName() {

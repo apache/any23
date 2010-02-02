@@ -19,6 +19,7 @@ import java.util.Arrays;
  * @author Gabriele Renzi
  */
 public class AdrExtractor extends EntityBasedMicroformatExtractor {
+
     private static final String[] addressFields = {
             "post-office-box",
             "extended-address",

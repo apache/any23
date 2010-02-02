@@ -28,6 +28,7 @@ import java.util.Arrays;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class XFNExtractor implements TagSoupDOMExtractor {
+
     private final static ValueFactory vf = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
     private HTMLDocument document;

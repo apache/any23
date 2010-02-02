@@ -23,6 +23,20 @@ import java.util.List;
  */
 public class HCalendarExtractor extends MicroformatExtractor {
 
+    private static final String[] Components = {"Vevent", "Vtodo", "Vjournal",
+            "Vfreebusy"};
+
+    private String[] textSingularProps = {
+            "dtstart",
+            "dtstamp",
+            "dtend",
+            "summary",
+            "class",
+            "transp",
+            "description",
+            "status", "location"};
+
+
     @Override
     protected boolean extract() throws ExtractionException {
         List<Node> calendars = document.findAllByClassName("vcalendar");
@@ -44,9 +58,6 @@ public class HCalendarExtractor extends MicroformatExtractor {
         out.writeTriple(cal, RDF.TYPE, ICAL.Vcalendar);
         return addComponents(node, cal);
     }
-
-    private static final String[] Components = {"Vevent", "Vtodo", "Vjournal",
-            "Vfreebusy"};
 
     private boolean addComponents(Node node, Resource cal) throws ExtractionException {
         boolean foundAny = false;
@@ -103,8 +114,6 @@ public class HCalendarExtractor extends MicroformatExtractor {
             out.writeTriple(evt, ICAL.organizer, blank);
         }
     }
-
-    private String[] textSingularProps = {"dtstart", "dtstamp", "dtend", "summary", "class", "transp", "description", "status", "location"};
 
     private void addTextProps(HTMLDocument node, Resource evt) {
 

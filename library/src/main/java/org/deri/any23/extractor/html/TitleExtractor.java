@@ -31,7 +31,7 @@ public class TitleExtractor implements TagSoupDOMExtractor {
     public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
             ExtractionException {
         String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
-        if (title != null && !"".equals(title)) {
+        if (title != null && (title.length() != 0)) {
             out.writeTriple(documentURI, DCTERMS.title, valueFactory.createLiteral(title));
         }
     }

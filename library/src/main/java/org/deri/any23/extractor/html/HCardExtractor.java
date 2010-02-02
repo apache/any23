@@ -26,7 +26,9 @@ import java.util.List;
  * @author Gabriele Renzi
  */
 public class HCardExtractor extends EntityBasedMicroformatExtractor {
+
     private HCardName name = new HCardName();
+    
     private HTMLDocument fragment;
 
     @Override
@@ -99,10 +101,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         if (!foundSomething) return false;
         out.writeTriple(card, RDF.TYPE, VCARD.VCard);
 
-// Let's not add redundant FOAF triples, they blow up the file and don't add much value
-//		addFOAFTriples(card);
-        //TODO remove single card
         return true;
+
     }
 
     private boolean addTelephones(Resource card) {
@@ -262,15 +262,6 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         }
         return found;
     }
-
-//	private void addFOAFTriples(Resource card) {
-//		if (name.getFullName() == null && name.getField(HCardName.NICKNAME) == null) return;
-//		BNode person = valueFactory.createBNode();
-//		out.writeTriple(card, FOAF.primaryTopic, person, context);
-//		out.writeTriple(person, RDF.TYPE, FOAF.Person, context);
-//		out.writeTriple(person, FOAF.name, valueFactory.createLiteral(name.getFullName()), context);
-//		out.writeTriple(person, FOAF.nick, valueFactory.createLiteral(name.getField(HCardName.NICKNAME)), context);
-//	}
 
     public ExtractorDescription getDescription() {
         return factory;

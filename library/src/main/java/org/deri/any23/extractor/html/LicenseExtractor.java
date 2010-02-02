@@ -19,7 +19,7 @@ import java.util.Arrays;
  * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a>
  * microformat.
  * <p/>
- * TODO: What happens to license links that are not valid URIs?
+ * TODO (high): What happens to license links that are not valid URIs?
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak

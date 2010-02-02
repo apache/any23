@@ -14,6 +14,10 @@ import org.openrdf.model.vocabulary.RDF;
 import java.io.IOException;
 import java.util.Collections;
 
+/**
+ * Example concrete implementation of {@link org.deri.any23.extractor.Extractor.BlindExtractor}.
+ * 
+ */
 public class ExampleExtractor implements BlindExtractor {
 
     public void run(URI in, URI documentURI, ExtractionResult out)
