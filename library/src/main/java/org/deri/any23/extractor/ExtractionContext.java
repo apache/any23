@@ -30,10 +30,6 @@ public class ExtractionContext {
 
     /**
      * URI of the document.
-     *
-     * TODO (high) Maybe this shouldn't store the documentURI because that's already known
-     * in every place where this class is used. The requirements are not clear
-     * enough to make a decision.
      */
     private final URI documentURI;
 
