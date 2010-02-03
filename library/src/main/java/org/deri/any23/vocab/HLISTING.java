@@ -44,18 +44,18 @@ public class HLISTING extends Ontology {
     public static final URI event    = createResource("event"   );
     public static final URI service  = createResource("service" );
 
-    // TODO: LOW - use vcard NS
+    // TODO: #1 - use vcard NS
     public static final URI tel       = createProperty("tel"      );
     public static final URI dtlisted  = createProperty("dtlisted" );
     public static final URI dtexpired = createProperty("dtexpired");
     public static final URI price     = createProperty("price"    );
 
-    // TODO: LOW - use DC
+    // TODO: #1 - use DC
     public static final URI description = createProperty("description");
     public static final URI summary     = createProperty("summary"    );
     public static final URI permalink   = createProperty("permalink"  );
 
-    // TODO: LOW - use adr
+    // TODO: #1 - use adr
     public static final URI region          = createProperty("region"         );
     public static final URI postOfficeBox   = createProperty("postOfficeBox"  );
     public static final URI locality        = createProperty("locality"       );
@@ -64,7 +64,7 @@ public class HLISTING extends Ontology {
     public static final URI postalCode      = createProperty("postalCode"     );
     public static final URI countryName     = createProperty("countryName"    );
 
-    // TODO: LOW - subPropertyOf foaf.homepage, domain Lister
+    // TODO: #1 - subPropertyOf foaf.homepage, domain Lister
     // should handle mbox homepage, name etc 
     public static final URI listerUrl  = createProperty("listerUrl" );
     public static final URI listerName = createProperty("listerName");
