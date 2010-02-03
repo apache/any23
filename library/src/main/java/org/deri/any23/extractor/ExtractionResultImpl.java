@@ -28,8 +28,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+// TODO: #6 - Comments are out of date
 /**
- * TODO (medium) Comments are out of date
  * <p/>
  * A default implementation of {@link ExtractionResult}; it receives
  * extraction output from one {@link Extractor} working on one document,
@@ -43,13 +43,15 @@ import java.util.Set;
  * There is usually no need to provide additional implementations
  * of the ExtractionWriter interface.
  * <p/>
- * TODO: Implementation doesn't ensure that openContext() is reported
+ *
+ * @author Richard Cyganiak (richard@cyganiak.de)
+ */
+
+/* TODO: #6 - Implementation doesn't ensure that openContext() is reported
  * to the tripleHandler for the document context. It's only reported
  * if the extractor actually requests the document context. That might
  * be bad, because the TripleHandler might want to know exactly which
  * extractors have been run on which files, for reporting purposes.
- *
- * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ExtractionResultImpl implements ExtractionResult {
 
