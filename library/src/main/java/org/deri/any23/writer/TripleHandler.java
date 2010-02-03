@@ -22,7 +22,7 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 /*
-   TODO: LOW - Throw a TripleHandlerException from all methods (maybe unchecked?),
+   TODO: #2 - Throw a TripleHandlerException from all methods (maybe unchecked?),
          and use it in implementing classes instead of RuntimeException,
          e.g. in {@link RDFWriterTripleHandler} and {@link RepositoryWriter}
  */
