@@ -129,7 +129,7 @@ public class ExtractorRegistry {
      * Returns an {@link org.deri.any23.extractor.ExtractorGroup} containing the
      * {@link org.deri.any23.extractor.ExtractorFactory} mathing the names provided as input.
      * @param names a {@link java.util.List} containing the names of the desired {@link ExtractorFactory}.
-     * @return
+     * @return the extraction group.
      */
     public ExtractorGroup getExtractorGroup(List<String> names) {
         List<ExtractorFactory<?>> members = new ArrayList<ExtractorFactory<?>>(names.size());

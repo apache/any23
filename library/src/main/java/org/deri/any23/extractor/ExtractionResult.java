@@ -62,7 +62,7 @@ public interface ExtractionResult {
      * Open a result nested in the current one.
      *
      * @param context
-     * @return
+     * @return the instance of the nested extraction result.
      */
     ExtractionResult openSubResult(Object context);
 
