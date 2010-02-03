@@ -32,7 +32,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
  * It provides a wrapper to instantiate RDF objects.
  */
-// TODO (high) Move our URI fixing methods to a separate utility class
+// TODO: #3 - Move our URI fixing methods to a separate utility class.
 public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);
@@ -156,7 +156,6 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         }
     }
 
-
     /**
      * Fixes typical errors in an absolute URI, such as unescaped spaces.
      *
@@ -168,7 +167,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         String fixed = fixURIWithException(uri);
         if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute URI: " + uri);
         // Add trailing slash if URI has only authority but no path.
-        // TODO This might not be the best place for this. Have a normalize method somewhere?
+        // TODO: #3 - This might not be the best place for this. Have a normalize method somewhere?
         if (fixed.matches("https?://[a-zA-Z0-9.-]+(:[0-9+])?")) {
             fixed = fixed + "/";
         }
@@ -220,7 +219,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         escapedURI = escapedURI.replaceAll(">.*$", "");
 
         //Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
-        // TODO write a test for this
+        // TODO: 3# - write a test for this
         if (escapedURI.matches("[<>\\[\\]|\\*\\{\\}\"\\\\]"))
             throw new IllegalArgumentException("Invalid character in URI: " + unescapedURI);
 
