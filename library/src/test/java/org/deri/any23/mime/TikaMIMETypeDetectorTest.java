@@ -39,7 +39,7 @@ public class TikaMIMETypeDetectorTest {
     private static final String PLAIN  = "text/plain";
     private static final String HTML   = "text/html";
     private static final String XML    = "application/xml";
-    private final static String XHTML  = "application/xhtml+xml"; //TODO: high -  Add test.
+    private final static String XHTML  = "application/xhtml+xml";
     private final static String RDFXML = "application/rdf+xml";
     private final static String TURTLE = "application/x-turtle";
     private final static String N3     = "text/rdf+n3";
@@ -62,6 +62,8 @@ public class TikaMIMETypeDetectorTest {
         String detectedMimeType = detector.guessMIMEType(null, is, null).toString();
         System.err.println(detectedMimeType);
     }
+
+    /* By content. */
 
     @Test
     public void testDetectRSS1ByContent() throws Exception {
@@ -108,6 +110,8 @@ public class TikaMIMETypeDetectorTest {
         detectMIMEtypeByContent("application/zip", "src/test/resources/application/zip");
     }
 
+    /* By content name and meta. */
+
     @Test
     public void testDetectContentPlain() throws IOException {
         detectMIMETypeByContentNameAndMeta("text/plain", "text/plain", "foo.rdf");
@@ -146,6 +150,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testDetectXMLAndNoExtension() throws IOException {
         detectMIMETypeByContentNameAndMeta(XML, "application/xml", "foo");
+    }
+
+    @Test
+    public void testDetectXHTMLAndNoExtension() throws IOException {
+        detectMIMETypeByContentNameAndMeta(XHTML, "application/xhtml+xml", "foo");
     }
 
     @Test
