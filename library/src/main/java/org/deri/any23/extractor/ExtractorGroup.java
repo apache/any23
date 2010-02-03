@@ -29,8 +29,6 @@ import java.util.Iterator;
  */
 public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 
-    // TODO: LOW - Add method getAcceptHeader(), probably move it from the Any23 class to here
-
     private final Collection<ExtractorFactory<?>> factories;
 
     public ExtractorGroup(Collection<ExtractorFactory<?>> factories) {
