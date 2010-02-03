@@ -28,8 +28,7 @@ import org.openrdf.model.vocabulary.RDF;
 /**
  * RDF helper class.
  */
-//TODO: MED - rename to RDFHelper.
-public class Helper {
+public class RDFHelper {
 
     public static URI uri(String uri) {
         return ValueFactoryImpl.getInstance().createURI(uri);

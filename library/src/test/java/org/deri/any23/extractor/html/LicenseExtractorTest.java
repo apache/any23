@@ -19,7 +19,7 @@ package org.deri.any23.extractor.html;
 
 import org.junit.Test;
 
-import org.deri.any23.Helper;
+import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.XHTML;
 import org.openrdf.model.URI;
@@ -32,9 +32,9 @@ import org.openrdf.repository.RepositoryException;
  */
 public class LicenseExtractorTest extends AbstractMicroformatTestCase {
 
-    private URI ccBy = Helper.uri("http://creativecommons.org/licenses/by/2.0/");
+    private URI ccBy = RDFHelper.uri("http://creativecommons.org/licenses/by/2.0/");
     
-    private URI apache = Helper.uri("http://www.apache.org/licenses/LICENSE-2.0");
+    private URI apache = RDFHelper.uri("http://www.apache.org/licenses/LICENSE-2.0");
 
     public ExtractorFactory<?> getExtractorFactory() {
         return LicenseExtractor.factory;

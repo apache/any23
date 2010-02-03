@@ -17,7 +17,7 @@
 package org.deri.any23.filter;
 
 
-import org.deri.any23.Helper;
+import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.MockTripleHandler;
 import org.junit.Before;
@@ -29,10 +29,10 @@ import org.openrdf.model.URI;
  */
 public class ExtractionContextBlockerTest {
 
-    private final static URI docURI = Helper.uri("http://example.com/doc");
-    private final static URI s = (URI) Helper.toRDF("ex:s");
-    private final static URI p = (URI) Helper.toRDF("ex:p");
-    private final static URI o = (URI) Helper.toRDF("ex:o");
+    private final static URI docURI = RDFHelper.uri("http://example.com/doc");
+    private final static URI s = (URI) RDFHelper.toRDF("ex:s");
+    private final static URI p = (URI) RDFHelper.toRDF("ex:p");
+    private final static URI o = (URI) RDFHelper.toRDF("ex:o");
     private ExtractionContextBlocker blocker;
     private MockTripleHandler handler;
 

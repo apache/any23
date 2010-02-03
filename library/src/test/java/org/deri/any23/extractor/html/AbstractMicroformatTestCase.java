@@ -18,10 +18,9 @@
 package org.deri.any23.extractor.html;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Assert;
 
-import org.deri.any23.Helper;
+import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
@@ -50,7 +49,7 @@ import java.io.StringWriter;
  */
 public abstract class AbstractMicroformatTestCase {
 
-    protected static URI baseURI = Helper.uri("http://bob.example.com/");
+    protected static URI baseURI = RDFHelper.uri("http://bob.example.com/");
 
     protected RepositoryConnection conn;
 
@@ -80,7 +79,7 @@ public abstract class AbstractMicroformatTestCase {
     }
 
     public void assertContains(URI p, String o) throws RepositoryException {
-        assertContains(null, p, Helper.literal(o));
+        assertContains(null, p, RDFHelper.literal(o));
     }
 
     public void assertNotContains(URI p, Resource o) throws RepositoryException {
@@ -113,7 +112,7 @@ public abstract class AbstractMicroformatTestCase {
     }
 
     public void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {
-        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, Helper.literal(obj), false));
+        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, RDFHelper.literal(obj), false));
     }
 
     public void assertNotContains(Resource subj, URI prop, Resource obj) throws RepositoryException {
@@ -157,7 +156,7 @@ public abstract class AbstractMicroformatTestCase {
     }
 
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
-        assertContains(s, p, Helper.literal(o));
+        assertContains(s, p, RDFHelper.literal(o));
     }
 
 }
