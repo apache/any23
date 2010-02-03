@@ -40,7 +40,9 @@ import java.util.Map;
 public class ExtractionContextBlocker implements TripleHandler {
 
     private TripleHandler wrapped;
+
     private Map<String, ValvedTriplePipe> contextQueues = new HashMap<String, ValvedTriplePipe>();
+    
     private boolean documentBlocked;
 
     public ExtractionContextBlocker(TripleHandler wrapped) {
@@ -109,12 +111,19 @@ public class ExtractionContextBlocker implements TripleHandler {
     private class ValvedTriplePipe {
 
         private final ExtractionContext context;
+
         private final List<Resource> subjects = new ArrayList<Resource>();
+
         private final List<URI> predicates = new ArrayList<URI>();
+
         private final List<Value> objects = new ArrayList<Value>();
+
         private final List<String> prefixes = new ArrayList<String>();
+
         private final List<String> uris = new ArrayList<String>();
+
         private boolean blocked = false;
+
         private boolean hasReceivedTriples = false;
 
         ValvedTriplePipe(ExtractionContext context) {

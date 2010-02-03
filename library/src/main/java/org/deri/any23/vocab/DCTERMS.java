@@ -18,6 +18,9 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
+/**
+ * Vocabulary class for <a href="http://dublincore.org/2008/01/14/dcterms.rdf">DC TERMS</a>.
+ */
 public class DCTERMS extends Ontology {
 
     public static final String NS = "http://purl.org/dc/terms/";

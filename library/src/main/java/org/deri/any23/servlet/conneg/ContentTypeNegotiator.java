@@ -29,7 +29,9 @@ import java.util.regex.Pattern;
 public class ContentTypeNegotiator {
 
     private List<VariantSpec> variantSpecs = new ArrayList<VariantSpec>();
+
     private List<MediaRangeSpec> defaultAcceptRanges = Collections.singletonList(MediaRangeSpec.parseRange("*/*"));
+    
     private Collection<AcceptHeaderOverride> userAgentOverrides = new ArrayList<AcceptHeaderOverride>();
 
     protected ContentTypeNegotiator(){}

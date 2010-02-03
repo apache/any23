@@ -33,6 +33,7 @@ import org.openrdf.model.Value;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
+    
     private final ExtractionContextBlocker blocker;
 
     public IgnoreTitlesOfEmptyDocuments(TripleHandler wrapped) {

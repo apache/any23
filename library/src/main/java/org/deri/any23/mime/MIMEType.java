@@ -25,6 +25,12 @@ public class MIMEType implements Comparable<MIMEType> {
 
     private final static String MSG = "Cannot parse MIME type (expected type/subtype[;q=x.y] format): ";
 
+    private final String type;
+
+    private final String subtype;
+    
+    private final double q;
+
     /**
      * Parses the given MIME type string returning an instance of
      * {@link org.deri.any23.mime.MIMEType}.
@@ -77,10 +83,6 @@ public class MIMEType implements Comparable<MIMEType> {
         }
         return new MIMEType(p1, p2, q);
     }
-
-    private final String type;
-    private final String subtype;
-    private final double q;
 
     private MIMEType(String type, String subtype, double q) {
         this.type = type;

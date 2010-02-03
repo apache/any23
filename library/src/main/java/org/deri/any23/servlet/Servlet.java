@@ -46,6 +46,10 @@ public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 8207685628715421336L;
 
+    // RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
+    private final static Pattern schemeRegex =
+            Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:");
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         // Show /resources/form.html for GET requests to the app's root
@@ -177,9 +181,6 @@ public class Servlet extends HttpServlet {
         return uri;
     }
 
-    // RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
-    private final static Pattern schemeRegex =
-            Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:");
 
     private boolean hasScheme(String uri) {
         return schemeRegex.matcher(uri).find();

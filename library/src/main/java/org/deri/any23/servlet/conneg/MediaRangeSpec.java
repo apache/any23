@@ -31,10 +31,26 @@ import java.util.regex.Pattern;
 public class MediaRangeSpec {
 
     private static final Pattern tokenPattern;
+
     private static final Pattern parameterPattern;
+
+
     private static final Pattern mediaRangePattern;
+
     private static final Pattern qValuePattern;
 
+    private final String type;
+
+    private final String subtype;
+
+    private final List<String> parameterNames;
+
+    private final List<String> parameterValues;
+
+    private final String mediaType;
+    
+    private final double quality;
+    
     static {
 
         // See RFC 2616, section 2.2
@@ -130,13 +146,6 @@ public class MediaRangeSpec {
     private static String escape(String s) {
         return s.replaceAll("[\\\\\"]", "\\\\$0");
     }
-
-    private final String type;
-    private final String subtype;
-    private final List<String> parameterNames;
-    private final List<String> parameterValues;
-    private final String mediaType;
-    private final double quality;
 
     private MediaRangeSpec(
             String type,

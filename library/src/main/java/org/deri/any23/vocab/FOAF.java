@@ -18,6 +18,9 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
+/**
+ * Vocabulary class for <a href="http://xmlns.com/foaf/spec/">FOAF Vocabulary</a>.
+ */
 public class FOAF extends Ontology {
 
     public static final String NS = "http://xmlns.com/foaf/0.1/";
