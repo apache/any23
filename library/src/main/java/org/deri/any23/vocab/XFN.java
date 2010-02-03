@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
-public class XFN extends Ontology {
+public class XFN extends Vocabulary {
 
     public static final String NS = "http://vocab.sindice.com/xfn#";
 

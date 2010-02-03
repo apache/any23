@@ -26,7 +26,7 @@ import org.openrdf.model.impl.ValueFactoryImpl;
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @version $Id$
  */
-public abstract class Ontology {
+public abstract class Vocabulary {
 
     private static final ValueFactory factory = ValueFactoryImpl.getInstance();
 

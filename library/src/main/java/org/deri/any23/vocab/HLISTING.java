@@ -21,7 +21,7 @@ import org.openrdf.model.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HLISTING extends Ontology {
+public class HLISTING extends Vocabulary {
 
     public static final String NS = "http://sindice.com/hlisting/0.1/";
 

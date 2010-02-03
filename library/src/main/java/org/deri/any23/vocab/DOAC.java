@@ -18,10 +18,7 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
-/**
- * Vocabulary class for <a href="http://ramonantonio.net/doac/0.1/">DOAC Vocabulary</a>.
- */
-public class DOAC extends Ontology {
+public class DOAC extends Vocabulary {
 
     public static final String NS = "http://ramonantonio.net/doac/0.1/#";
 
