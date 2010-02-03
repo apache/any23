@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.deri.any23;
+package org.deri.any23.extractor;
 
 import junit.framework.Assert;
-import org.deri.any23.extractor.ExtractionResultImpl;
+import org.deri.any23.Helper;
 import org.deri.any23.extractor.example.ExampleExtractor;
 import org.deri.any23.writer.CountingTripleHandler;
 import org.junit.Test;
@@ -26,7 +26,6 @@ import org.openrdf.model.URI;
 /**
  * Tests the <i>extraction</i> scenario.
  */
-//TODO MED - Move under extraction package.
 public class ExtractionAPITest {
 
     private static final String exampleDoc = "http://example.com/";
