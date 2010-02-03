@@ -201,7 +201,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return conditionallyAddStringProperty(card, VCARD.uid, uid);
     }
 
-    //TODO check if tests are checking plurality
+    //TODO: #7 - Check if tests are checking plurality.
     private boolean addLogo(Resource card) throws ExtractionException {
         String[] links = fragment.getPluralUrlField("logo");
         boolean found = false;
