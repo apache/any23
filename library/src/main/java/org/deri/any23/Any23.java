@@ -33,6 +33,7 @@ import java.util.Collection;
  * operations.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
+ * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
 public class Any23 {
 
@@ -46,10 +47,18 @@ public class Any23 {
     private HTTPClient httpClient = new DefaultHTTPClient();
     private boolean httpClientInitialized = false;
 
+    /**
+     * Constructor.
+     */
     public Any23() {
         this((String[]) null);
     }
 
+    /**
+     * Constructor that allows the specification of a list of extractors.
+     *
+     * @param extractorNames list of extractor's names.
+     */
     public Any23(String... extractorNames) {
         factories = (extractorNames == null)
                 ? ExtractorRegistry.get().getExtractorGroup()
@@ -57,33 +66,104 @@ public class Any23 {
         setCacheFactory(new MemCopyFactory());
     }
 
+    /**
+     * Sets the <i>HTTP Header User Agent</i>,
+     * see <i>RFC 2616-14.43</i>.
+     *
+     * @param userAgent text describing the user agent.
+     */
     public void setHTTPUserAgent(String userAgent) {
+        if(userAgent == null || userAgent.trim().length() == 0) {
+            throw new IllegalArgumentException( String.format("Invalid user agent: '%s'", userAgent) );
+        }
         if (httpClientInitialized) {
             throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
         }
         this.userAgent = userAgent;
     }
 
+    /**
+     * Returns the <i>HTTP Header User Agent</i>,
+     * see <i>RFC 2616-14.43</i>.
+     *
+     * @return text describing the user agent.
+     */
+    public String getHTTPUserAgent() {
+        return this.userAgent;
+    }
+
+    /**
+     * Allows to set the {@link org.deri.any23.http.HTTPClient} implementation
+     * used to retrieve contents. The default instance is {@link org.deri.any23.http.DefaultHTTPClient}.
+     *
+     * @param httpClient a valid client instance.
+     * @throws IllegalStateException if invoked after client has been initialized.
+     */
     public void setHTTPClient(HTTPClient httpClient) {
+        if(httpClient == null) {
+            throw new NullPointerException("httpClient cannot be null.");
+        }
         if (httpClientInitialized) {
             throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
         }
         this.httpClient = httpClient;
     }
 
+    /**
+     * Returns the current {@link org.deri.any23.http.HTTPClient} implementation.
+     *
+     * @return instance of HTTPClient.
+     * @throws IOException if the HTTP client has not initialized.
+     */
+    public HTTPClient getHTTPClient() throws IOException {
+        if (!httpClientInitialized) {
+            if (userAgent == null) {
+                throw new IOException("Must call " + Any23.class.getSimpleName() +
+                        ".setHTTPUserAgent(String) before extracting from HTTP URI");
+            }
+            httpClient.init(userAgent, getAcceptHeader());
+            httpClientInitialized = true;
+        }
+        return httpClient;
+    }
+
+    /**
+     * Allows to set a {@link org.deri.any23.source.LocalCopyFactory} instance.
+     *
+     * @param cache valid cache instance.
+     */
     public void setCacheFactory(LocalCopyFactory cache) {
+        if(cache == null) {
+            throw new NullPointerException("cache cannot be null.");
+        }
         this.streamCache = cache;
     }
 
+    /**
+     * Allows to set an instance of {@link org.deri.any23.mime.MIMETypeDetector}.
+     *
+     * @param detector a valid detector instance, if <code>null</code> all the detectors
+     *        will be used.
+     */
     public void setMIMETypeDetector(MIMETypeDetector detector) {
         this.mimeTypeDetector = detector;
     }
 
-    public boolean extract(String in, String documentURI, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
-        return extract(new StringDocumentSource(in, documentURI), outputHandler);
-    }
-
+    /**
+     * Performs metadata extraction on the <code>in</code> string
+     * associated to the <code>documentURI</code> URI, declaring
+     * <code>contentType</code> and <code>encoding</code>.
+     * The generated events are sent to the specified <code>outputHandler</code>.
+     *
+     * @param in raw data to be analyzed.
+     * @param documentURI URI from which the raw data has been extracted.
+     * @param contentType declared data content type.
+     * @param encoding declared data encoding.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
     public boolean extract(
             String in,
             String documentURI,
@@ -94,12 +174,49 @@ public class Any23 {
         return extract(new StringDocumentSource(in, documentURI, contentType, encoding), outputHandler);
     }
 
+    /**
+     * Performs metadata extraction on the <code>in</code> string
+     * associated to the <code>documentURI</code> URI, sending the generated
+     * events to the specified <code>outputHandler</code>.
+     *
+     * @param in raw data to be analyzed.
+     * @param documentURI URI from which the raw data has been extracted.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    public boolean extract(String in, String documentURI, TripleHandler outputHandler)
+    throws IOException, ExtractionException {
+        return extract(new StringDocumentSource(in, documentURI), outputHandler);
+    }
+
+    /**
+     * Performs metadata extraction from the content of the given <code>file</code>
+     * sending the generated events to the specified <code>outputHandler</code>.
+     *
+     * @param file file containing raw data.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
     public boolean extract(File file, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(new FileDocumentSource(file), outputHandler);
     }
 
-    // Will follow redirects
+    /**
+     * Performs metadata extraction from the content of the given <code>documentURI</code>
+     * sending the generated events to the specified <code>outputHandler</code>.
+     * If the <i>URI</i> is replied with a redirect, the last will be followed.
+     *
+     * @param documentURI the URI from which retrieve document.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
     public boolean extract(String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         try {
@@ -115,6 +232,17 @@ public class Any23 {
         return false;
     }
 
+    /**
+     * Performs metadata extraction from the content of the given
+     * <code>in</code> document source, sending the generated events
+     * to the specified <code>outputHandler</code>. 
+     *
+     * @param in the input document source.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
     public boolean extract(DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
@@ -131,18 +259,6 @@ public class Any23 {
             mimeTypes.addAll(factory.getSupportedMIMETypes());
         }
         return new AcceptHeaderBuilder(mimeTypes).getAcceptHeader();
-    }
-
-    public HTTPClient getHTTPClient() throws IOException {
-        if (!httpClientInitialized) {
-            if (userAgent == null) {
-                throw new IOException("Must call " + Any23.class.getSimpleName() +
-                        ".setHTTPUserAgent(String) before extracting from HTTP URI");
-            }
-            httpClient.init(userAgent, getAcceptHeader());
-            httpClientInitialized = true;
-        }
-        return httpClient;
     }
     
 }
