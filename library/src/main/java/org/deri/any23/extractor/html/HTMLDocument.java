@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -54,22 +53,6 @@ public class HTMLDocument {
         if (null == document)
             throw new IllegalArgumentException("node cannot be null when constructing an HTMLDocument");
         this.document = document;
-    }
-
-    private java.net.URI getBaseURI() throws ExtractionException {
-        if (baseURI == null) {
-            try {
-                if (document.getBaseURI() == null) {
-                    log.warn("document.getBaseURI() is null, this should not happen");
-                }
-                baseURI = new java.net.URI(Any23ValueFactoryWrapper.fixAbsoluteURI(document.getBaseURI()));
-            } catch (IllegalArgumentException ex) {
-                throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
-            } catch (URISyntaxException ex) {
-                throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
-            }
-        }
-        return baseURI;
     }
 
     /**
@@ -248,4 +231,21 @@ public class HTMLDocument {
     public List<Node> findAllByClassName(String string) {
         return DomUtils.findAllByClassName(getDocument(), string);
     }
+
+    private java.net.URI getBaseURI() throws ExtractionException {
+        if (baseURI == null) {
+            try {
+                if (document.getBaseURI() == null) {
+                    log.warn("document.getBaseURI() is null, this should not happen");
+                }
+                baseURI = new java.net.URI(Any23ValueFactoryWrapper.fixAbsoluteURI(document.getBaseURI()));
+            } catch (IllegalArgumentException ex) {
+                throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
+            } catch (URISyntaxException ex) {
+                throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
+            }
+        }
+        return baseURI;
+    }
+
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -27,12 +26,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
- * Work in progress
+ * Base class for microformat extractors based on entities.
  *
  * @author Gabriele Renzi
  */
-public abstract class EntityBasedMicroformatExtractor extends
-        MicroformatExtractor {
+public abstract class EntityBasedMicroformatExtractor extends MicroformatExtractor {
 
     protected abstract String getBaseClassName();
 
@@ -76,4 +74,5 @@ public abstract class EntityBasedMicroformatExtractor extends
             throw new RuntimeException("Should never happen, MD5 is supported", e);
 		}
 	}
+    
 }

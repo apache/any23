@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.rdfa;
@@ -55,8 +54,6 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
     private final static String xsltFilename = "rdfa.xslt";
 
-    private static XSLTStylesheet xslt = null;
-
     public final static ExtractorFactory<RDFaExtractor> factory =
             SimpleExtractorFactory.create(
                     NAME,
@@ -65,6 +62,8 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
                     null,
                     RDFaExtractor.class
             );
+
+    private static XSLTStylesheet xslt = null;
 
     /**
      * Triggers the execution of this extractor.
@@ -95,6 +94,13 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
     }
 
     /**
+     * @return the {@link org.deri.any23.extractor.ExtractorDescription} of this extractor
+     */
+    public ExtractorDescription getDescription() {
+        return factory;
+    }
+
+    /**
      *
      * Returns a {@link org.deri.any23.extractor.rdfa.XSLTStylesheet} able to distill RDFa from
      * HTML pages
@@ -112,13 +118,6 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
             xslt = new XSLTStylesheet(in);
         }
         return xslt;
-    }
-
-    /**
-     * @return the {@link org.deri.any23.extractor.ExtractorDescription} of this extractor
-     */
-    public ExtractorDescription getDescription() {
-        return factory;
     }
 
 }

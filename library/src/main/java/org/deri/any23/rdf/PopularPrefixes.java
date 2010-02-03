@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,17 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.rdf;
 
 /**
- * This class act as a container for various well-known and adopted RDF Vocabulary prefixes
- *
- * TODO (high): this way of hardcoding prefixes in a class is an anti-pattern: must try a more flexible solution. 
- *
+ * This class act as a container for various well-known and adopted RDF Vocabulary prefixes.
  */
+// TODO (high): this way of hardcoding prefixes in a class is an anti-pattern: must try a more flexible solution.
 public class PopularPrefixes {
 
     private final static Prefixes popularPrefixes = new Prefixes() {

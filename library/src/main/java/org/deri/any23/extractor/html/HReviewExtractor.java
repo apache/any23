@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -41,6 +40,19 @@ import java.util.List;
  * @author Gabriele Renzi
  */
 public class HReviewExtractor extends EntityBasedMicroformatExtractor {
+
+    public final static ExtractorFactory<HReviewExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "html-mf-hreview",
+                    PopularPrefixes.createSubset("rdf", "vcard", "rev"),
+                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
+                    null,
+                    HReviewExtractor.class
+            );
+
+    public ExtractorDescription getDescription() {
+        return factory;
+    }
 
     protected String getBaseClassName() {
         return "hreview";
@@ -114,15 +126,4 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(rev, REVIEW.text, value);
     }
 
-    public ExtractorDescription getDescription() {
-        return factory;
-    }
-
-    public final static ExtractorFactory<HReviewExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hreview",
-                    PopularPrefixes.createSubset("rdf", "vcard", "rev"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
-                    HReviewExtractor.class);
 }

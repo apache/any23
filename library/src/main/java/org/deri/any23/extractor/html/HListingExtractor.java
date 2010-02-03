@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -44,6 +43,19 @@ import java.util.List;
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
     private HTMLDocument fragment;
+
+    public final static ExtractorFactory<HListingExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "html-mf-hlisting",
+                    PopularPrefixes.createSubset("rdf", "hlisting"),
+                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
+                    null,
+                    HListingExtractor.class
+            );
+
+    public ExtractorDescription getDescription() {
+        return factory;
+    }
 
     protected String getBaseClassName() {
         return "hlisting";
@@ -235,16 +247,4 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         return actions;
     }
 
-
-    public ExtractorDescription getDescription() {
-        return factory;
-    }
-
-    public final static ExtractorFactory<HListingExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hlisting",
-                    PopularPrefixes.createSubset("rdf", "hlisting"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
-                    HListingExtractor.class);
 }

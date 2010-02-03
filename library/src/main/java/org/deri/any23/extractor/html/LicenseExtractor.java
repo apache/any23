@@ -43,6 +43,15 @@ import java.util.Arrays;
  */
 public class LicenseExtractor implements TagSoupDOMExtractor {
 
+    public final static ExtractorFactory<LicenseExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "html-mf-license",
+                    PopularPrefixes.createSubset("xhtml"),
+                    Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
+                    null,
+                    LicenseExtractor.class
+            );
+
     public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
             ExtractionException {
         HTMLDocument document = new HTMLDocument(in);
@@ -56,12 +65,5 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
     public ExtractorDescription getDescription() {
         return factory;
     }
-
-    public final static ExtractorFactory<LicenseExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-license",
-                    PopularPrefixes.createSubset("xhtml"),
-                    Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
-                    null,
-                    LicenseExtractor.class);
+    
 }

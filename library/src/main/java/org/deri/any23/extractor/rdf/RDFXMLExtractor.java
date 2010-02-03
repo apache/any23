@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.rdf;
@@ -37,10 +36,9 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 /**
- *
- * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor} able to perform the
- * extraction on <a href="http://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a> documents.
- *
+ * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor}
+ * able to perform the extraction on <a href="http://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a>
+ * documents.
  */
 public class RDFXMLExtractor implements ContentExtractor {
 

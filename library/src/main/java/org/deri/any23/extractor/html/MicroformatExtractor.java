@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
-import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
@@ -45,13 +44,17 @@ import java.io.IOException;
  * TODO: Deep class hierarchies are ugly, we should do something without protected fields
  */
 public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
+
     protected HTMLDocument document;
     protected URI documentURI;
     protected ExtractionResult out;
-    protected final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+    protected final Any23ValueFactoryWrapper valueFactory =
+            new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
-    public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
-            ExtractionException {
+    public abstract ExtractorDescription getDescription();
+    
+    public void run(Document in, URI documentURI, ExtractionResult out)
+    throws IOException, ExtractionException {
         this.document = new HTMLDocument(in);
         this.documentURI = documentURI;
         this.out = out;
@@ -106,5 +109,4 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return true;
     }
 
-    public abstract ExtractorDescription getDescription();
 }

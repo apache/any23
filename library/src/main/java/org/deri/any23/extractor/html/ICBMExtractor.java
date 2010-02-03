@@ -43,6 +43,15 @@ import java.util.Arrays;
  */
 public class ICBMExtractor implements TagSoupDOMExtractor {
 
+    public final static ExtractorFactory<ICBMExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "html-head-icbm",
+                    PopularPrefixes.createSubset("geo", "rdf"),
+                    Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
+                    null,
+                    ICBMExtractor.class
+            );
+
     public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
             ExtractionException {
 
@@ -76,11 +85,4 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
         return factory;
     }
 
-    public final static ExtractorFactory<ICBMExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-head-icbm",
-                    PopularPrefixes.createSubset("geo", "rdf"),
-                    Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
-                    null,
-                    ICBMExtractor.class);
 }

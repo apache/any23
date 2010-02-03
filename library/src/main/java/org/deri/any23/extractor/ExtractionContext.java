@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor;
@@ -20,30 +19,26 @@ package org.deri.any23.extractor;
 import org.openrdf.model.URI;
 
 /**
- *
  * This class provides a context for the extraction.
- *
  */
 public class ExtractionContext {
 
     /**
-     * name of the extractor
+     * Name of the extractor.
      */
     private final String extractorName;
 
     /**
-     *
-     * URI of the document
+     * URI of the document.
      *
      * TODO (high) Maybe this shouldn't store the documentURI because that's already known
      * in every place where this class is used. The requirements are not clear
      * enough to make a decision.
-     *
      */
     private final URI documentURI;
 
     /**
-     * ID identifying the document
+     * ID identifying the document.
      */
     private final String uniqueID;
 

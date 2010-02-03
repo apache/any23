@@ -26,7 +26,7 @@ import java.util.Collection;
 /**
  * This class is a simple and default-like implementation of {@link org.deri.any23.extractor.ExtractorFactory}.
  *
- * @param <T> the type of the {@link org.deri.any23.extractor.Extractor} served by this factory
+ * @param <T> the type of the {@link org.deri.any23.extractor.Extractor} served by this factory.
  */
 public class SimpleExtractorFactory<T extends Extractor<?>> implements ExtractorFactory<T> {
 
@@ -44,32 +44,22 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
      * Creates an instance of a {@link org.deri.any23.extractor.ExtractorFactory} serving concrete implementation
      * instances of {@link org.deri.any23.extractor.Extractor}.
      *
-     * @param name of the {@link org.deri.any23.extractor.Extractor}
-     * @param prefixes handled {@link org.deri.any23.rdf.Prefixes}
-     * @param supportedMIMETypes collection of supported MIME Types
-     * @param exampleInput a string acting as a input example
-     * @param extractorClass concrete implementation class of the {@link org.deri.any23.extractor.Extractor}
-     * @param <S> the concrete type of the {@link org.deri.any23.extractor.Extractor}
-     * @return an {@link org.deri.any23.extractor.ExtractorFactory}
+     * @param name of the {@link org.deri.any23.extractor.Extractor}.
+     * @param prefixes handled {@link org.deri.any23.rdf.Prefixes}.
+     * @param supportedMIMETypes collection of supported MIME Types.
+     * @param exampleInput a string acting as a input example.
+     * @param extractorClass concrete implementation class of the {@link org.deri.any23.extractor.Extractor}.
+     * @param <S> the concrete type of the {@link org.deri.any23.extractor.Extractor}.
+     * @return an {@link org.deri.any23.extractor.ExtractorFactory}.
      */
-    public static <S extends Extractor<?>> ExtractorFactory<S> create(String name, Prefixes prefixes,
-                                                                      Collection<String> supportedMIMETypes,
-                                                                      String exampleInput, Class<S> extractorClass) {
+    public static <S extends Extractor<?>> ExtractorFactory<S> create(
+            String name,
+            Prefixes prefixes,
+            Collection<String> supportedMIMETypes,
+            String exampleInput,
+            Class<S> extractorClass
+    ) {
         return new SimpleExtractorFactory<S>(name, prefixes, supportedMIMETypes, exampleInput, extractorClass);
-    }
-
-
-
-    private SimpleExtractorFactory(String name, Prefixes prefixes,
-                                   Collection<String> supportedMIMETypes, String exampleInput,
-                                   Class<T> extractorClass) {
-        this.name = name;
-        this.prefixes = (prefixes == null) ? Prefixes.EMPTY : prefixes;
-        for (String type : supportedMIMETypes) {
-            this.supportedMIMETypes.add(MIMEType.parse(type));
-        }
-        this.exampleInput = exampleInput;
-        this.extractorClass = extractorClass;
     }
 
     /**
@@ -111,6 +101,22 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
      */
     public String getExampleInput() {
         return exampleInput;
+    }
+
+    private SimpleExtractorFactory(
+            String name,
+            Prefixes prefixes,
+            Collection<String> supportedMIMETypes,
+            String exampleInput,
+            Class<T> extractorClass
+    ) {
+        this.name = name;
+        this.prefixes = (prefixes == null) ? Prefixes.EMPTY : prefixes;
+        for (String type : supportedMIMETypes) {
+            this.supportedMIMETypes.add(MIMEType.parse(type));
+        }
+        this.exampleInput = exampleInput;
+        this.extractorClass = extractorClass;
     }
 
 }

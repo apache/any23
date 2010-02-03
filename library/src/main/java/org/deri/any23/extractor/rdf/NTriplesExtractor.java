@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.rdf;
@@ -35,10 +34,19 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 /**
- * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor} handling NTriples
- * <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format
+ * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor}
+ * handling NTriples <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format.
  */
 public class NTriplesExtractor implements ContentExtractor {
+
+    public final static ExtractorFactory<NTriplesExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "rdf-nt",
+                    null,
+                    Arrays.asList("text/plain;q=0.1"),
+                    "example-ntriples.nt",
+                    NTriplesExtractor.class
+            );
 
     public void run(InputStream in, URI documentURI, final ExtractionResult out)
             throws IOException, ExtractionException {
@@ -57,12 +65,4 @@ public class NTriplesExtractor implements ContentExtractor {
     public ExtractorDescription getDescription() {
         return factory;
     }
-
-    public final static ExtractorFactory<NTriplesExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-nt",
-                    null,
-                    Arrays.asList("text/plain;q=0.1"),
-                    "example-ntriples.nt",
-                    NTriplesExtractor.class);
 }

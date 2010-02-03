@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.http;
@@ -65,35 +64,6 @@ public class DefaultHTTPClient implements HTTPClient {
         this.accept = acceptHeader;
     }
 
-    private void ensureClientInitialized() {
-        if (client != null) return;
-        client = new HttpClient(manager);
-        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
-        HttpConnectionManagerParams params = connectionManager.getParams();
-        params.setConnectionTimeout(DEFAULT_TIMEOUT);
-        params.setSoTimeout(DEFAULT_TIMEOUT);
-        params.setMaxTotalConnections(DEFAULT_TOTAL_CONNECTIONS);
-
-        HostConfiguration hostConf = client.getHostConfiguration();
-        List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", userAgent));
-        if (accept != null) {
-            headers.add(new Header("Accept", accept));
-        }
-        headers.add(new Header("Accept-Language", "en-us,en-gb,en,*;q=0.3"));
-        headers.add(new Header("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));
-        // headers.add(new Header("Accept-Encoding", "x-gzip, gzip"));
-        hostConf.getParams().setParameter("http.default-headers", headers);
-    }
-
-    protected int getConnectionTimeout() {
-        return DEFAULT_TIMEOUT;
-    }
-
-    protected int getSoTimeout() {
-        return DEFAULT_TIMEOUT;
-    }
-
     /**
      *
      * Opens an {@link java.io.InputStream} from a given URI.
@@ -115,7 +85,9 @@ public class DefaultHTTPClient implements HTTPClient {
             _contentLength = method.getResponseContentLength();
             contentType = method.getResponseHeader("Content-Type").getValue();
             if (method.getStatusCode() != 200) {
-                throw new IOException("Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText());
+                throw new IOException(
+                        "Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText()
+                );
             }
             actualDocumentURI = method.getURI().toString();
             byte[] response = method.getResponseBody();
@@ -129,9 +101,7 @@ public class DefaultHTTPClient implements HTTPClient {
     }
 
     /**
-     *
      * Shuts down the connection manager.
-     * 
      */
     public void close() {
         manager.shutdown();
@@ -148,4 +118,34 @@ public class DefaultHTTPClient implements HTTPClient {
     public String getContentType() {
         return contentType;
     }
+
+    protected int getConnectionTimeout() {
+        return DEFAULT_TIMEOUT;
+    }
+
+    protected int getSoTimeout() {
+        return DEFAULT_TIMEOUT;
+    }
+
+    private void ensureClientInitialized() {
+        if (client != null) return;
+        client = new HttpClient(manager);
+        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
+        HttpConnectionManagerParams params = connectionManager.getParams();
+        params.setConnectionTimeout(DEFAULT_TIMEOUT);
+        params.setSoTimeout(DEFAULT_TIMEOUT);
+        params.setMaxTotalConnections(DEFAULT_TOTAL_CONNECTIONS);
+
+        HostConfiguration hostConf = client.getHostConfiguration();
+        List<Header> headers = new ArrayList<Header>();
+        headers.add(new Header("User-Agent", userAgent));
+        if (accept != null) {
+            headers.add(new Header("Accept", accept));
+        }
+        headers.add(new Header("Accept-Language", "en-us,en-gb,en,*;q=0.3"));
+        headers.add(new Header("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));
+        // headers.add(new Header("Accept-Encoding", "x-gzip, gzip"));
+        hostConf.getParams().setParameter("http.default-headers", headers);
+    }
+
 }

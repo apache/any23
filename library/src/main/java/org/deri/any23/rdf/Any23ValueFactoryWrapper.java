@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.rdf;
@@ -30,13 +29,10 @@ import org.slf4j.LoggerFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- *
  * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
  * It provides a wrapper to instantiate RDF objects.
- *
- * // TODO (high) Move our URI fixing methods to a separate utility class
- * 
  */
+// TODO (high) Move our URI fixing methods to a separate utility class
 public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);

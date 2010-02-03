@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.rdf;
@@ -33,8 +32,7 @@ import java.util.Set;
  * while for normal mappings this causes an exception. This allows
  * combining "hard" mappings (which must be retained or something breaks)
  * and "soft" mappings (which might be read from input RDF files and
- * should be retained only if they are not in conflict with the hard
- * ones).
+ * should be retained only if they are not in conflict with the hard ones).
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -214,4 +212,5 @@ public class Prefixes {
         }
         return curie.substring(index + 1);
     }
+    
 }

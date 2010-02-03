@@ -24,11 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * It defines the signature of a generic Extractor.
  *
- * It defines the signature of a generic Extractor
- *
- * @param <Input> the type of the input data to be processed
- *
+ * @param <Input> the type of the input data to be processed.
  */
 public interface Extractor<Input> {
 

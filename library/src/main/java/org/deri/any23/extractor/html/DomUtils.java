@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -32,14 +31,15 @@ import java.util.List;
  * This class provides utility methods for DOM manipulation.
  * It is separated from {@link HTMLDocument} so that its methods
  * can be run on single DOM nodes without having to wrap them
- * into an HTMLDocument. We use a mix of XPath and DOM manipulation.
+ * into an HTMLDocument.
+ * We use a mix of XPath and DOM manipulation.
  * <p/>
  * This is likely to be a performance bottleneck but at least
  * everything is localized here.
  * <p/>
- * TODO Test DomUtils
- * TODO Move all XPath code here
  */
+ // TODO Test DomUtils
+ // TODO Move all XPath code here
 public class DomUtils {
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
@@ -89,10 +89,10 @@ public class DomUtils {
             if (DomUtils.hasClassName(node, className)) {
                 // add this
                 result.add(node);
-                /*
-             * to mimick the inheritance of CSS classes we should recur here
+            /*
+             * to mimic the inheritance of CSS classes we should recur here
              *
-             * Only one level of depth is cosidered though, so take care.
+             * Only one level of depth is considered though, so take care.
              */
 //				// add childNodes
 //				NodeList children = node.getChildNodes();
@@ -107,7 +107,7 @@ public class DomUtils {
     }
 
     /**
-     * Mimicks the JS DOM API, or prototype's $()
+     * Mimics the JS DOM API, or prototype's $()
      */
     public static Node findNodeById(Node root, String id) {
         Node node;
@@ -193,4 +193,5 @@ public class DomUtils {
 			return "";
 		return attr.getNodeValue();
 	}
+    
 }

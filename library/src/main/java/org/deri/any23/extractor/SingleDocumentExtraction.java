@@ -38,9 +38,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 /**
- *
  * This class acts as facade where all the extractors were called on a single document.
- *
  */
 public class SingleDocumentExtraction {
 
@@ -97,7 +95,9 @@ public class SingleDocumentExtraction {
     public void run() throws ExtractionException, IOException {
         ensureHasLocalCopy();
         try {
-            this.documentURI = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()).createURI(in.getDocumentURI());
+            this.documentURI = new Any23ValueFactoryWrapper(
+                    ValueFactoryImpl.getInstance()).createURI(in.getDocumentURI()
+            );
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
         }
@@ -112,11 +112,7 @@ public class SingleDocumentExtraction {
         sb.append("match " + documentURI);
         log.debug(sb.toString());
 
-        // byte[] buffer = new byte[100];
-        // int l = getInputStream().read(buffer);
-        // log.debug("Content: " + new String(buffer, 0, l));
-
-        // Invoke all extractors
+        // Invoke all extractors.
         output.startDocument(documentURI);
         output.setContentLength(in.getContentLength());
         for (ExtractorFactory<?> factory : matchingExtractors) {
@@ -135,8 +131,9 @@ public class SingleDocumentExtraction {
         return !matchingExtractors.isEmpty();
     }
 
-    private void filterExtractorsByMIMEType() throws IOException {
-        if (matchingExtractors != null) return;    // has already been run
+    private void filterExtractorsByMIMEType()
+    throws IOException {
+        if (matchingExtractors != null) return;  // has already been run.
 
         if (detector == null || extractors.allExtractorsSupportAllContentTypes()) {
             matchingExtractors = extractors;
@@ -144,8 +141,10 @@ public class SingleDocumentExtraction {
         }
         ensureHasLocalCopy();
         detectedMIMEType = detector.guessMIMEType(
-                java.net.URI.create(documentURI.stringValue()).getPath(), localDocumentSource.openInputStream(),
-                MIMEType.parse(localDocumentSource.getContentType()));
+                java.net.URI.create(documentURI.stringValue()).getPath(),
+                localDocumentSource.openInputStream(),
+                MIMEType.parse(localDocumentSource.getContentType())
+        );
         log.debug("detected media type: " + detectedMIMEType);
         matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
     }
@@ -157,7 +156,8 @@ public class SingleDocumentExtraction {
      * @throws ExtractionException
      * @throws IOException
      */
-    private void runExtractor(Extractor<?> extractor) throws ExtractionException, IOException {
+    private void runExtractor(Extractor<?> extractor)
+    throws ExtractionException, IOException {
         log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
         long startTime = System.currentTimeMillis();
         ExtractionResultImpl result = new ExtractionResultImpl(documentURI, extractor, output);
@@ -201,4 +201,5 @@ public class SingleDocumentExtraction {
         }
         return tagSoupDOM;
     }
+    
 }

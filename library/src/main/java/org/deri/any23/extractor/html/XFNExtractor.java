@@ -48,11 +48,25 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 
     private final static ValueFactory vf = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
-    private HTMLDocument document;
+    private HTMLDocument     document;
     private ExtractionResult out;
 
-    public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
-            ExtractionException {
+    public final static ExtractorFactory<XFNExtractor> factory =
+            SimpleExtractorFactory.create(
+                "html-mf-xfn",
+                PopularPrefixes.createSubset("rdf", "foaf", "xfn"),
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
+                null,
+                XFNExtractor.class
+            );
+
+    public ExtractorDescription getDescription() {
+        return factory;
+    }
+
+    public void run(Document in, URI documentURI, ExtractionResult out)
+    throws IOException, ExtractionException {
+
         document = new HTMLDocument(in);
         this.out = out;
 
@@ -66,7 +80,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
         out.writeTriple(subject, XFN.mePage, documentURI);
     }
 
-    private boolean extractLink(Node firstLink, BNode subject, URI documentURI) throws ExtractionException {
+    private boolean extractLink(Node firstLink, BNode subject, URI documentURI)
+    throws ExtractionException {
         String href = firstLink.getAttributes().getNamedItem("href").getNodeValue();
         String rel = firstLink.getAttributes().getNamedItem("rel").getNodeValue();
 
@@ -122,15 +137,4 @@ public class XFNExtractor implements TagSoupDOMExtractor {
         return true;
     }
 
-    public ExtractorDescription getDescription() {
-        return factory;
-    }
-
-    public final static ExtractorFactory<XFNExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-xfn",
-                    PopularPrefixes.createSubset("rdf", "foaf", "xfn"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
-                    XFNExtractor.class);
 }

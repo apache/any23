@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.http;
@@ -30,7 +29,6 @@ public interface HTTPClient {
 
     public abstract void init(String userAgent, String acceptHeader);
 
-    // Will follow redirects
     public abstract InputStream openInputStream(String uri) throws IOException;
 
     /**
@@ -56,4 +54,5 @@ public interface HTTPClient {
      * means that the URI is unchanged and the original URI was used.
      */
     public abstract String getActualDocumentURI();
+    
 }

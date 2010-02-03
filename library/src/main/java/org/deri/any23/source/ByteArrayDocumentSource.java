@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.source;
@@ -39,7 +38,8 @@ public class ByteArrayDocumentSource implements DocumentSource {
         this.contentType = contentType;
     }
 
-    public ByteArrayDocumentSource(InputStream inputStream, String documentURI, String contentType) throws IOException {
+    public ByteArrayDocumentSource(InputStream inputStream, String documentURI, String contentType)
+    throws IOException {
         this(MemCopyFactory.toByteArray(inputStream), documentURI, contentType);
     }
 
@@ -62,4 +62,5 @@ public class ByteArrayDocumentSource implements DocumentSource {
     public boolean isLocal() {
         return true;
     }
+    
 }

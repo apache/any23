@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -27,6 +26,7 @@ import java.util.Map;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class HCardName {
+
     public static final String GIVEN_NAME = "given-name";
     public static final String FAMILY_NAME = "family-name";
     public static final String ADDITIONAL_NAME = "additional-name";
@@ -40,15 +40,21 @@ public class HCardName {
             ADDITIONAL_NAME,
             NICKNAME,
             HONORIFIC_PREFIX,
-            HONORIFIC_SUFFIX};
+            HONORIFIC_SUFFIX
+    };
 
-    private static final String[] NAME_COMPONENTS = {HONORIFIC_PREFIX,
-            GIVEN_NAME, ADDITIONAL_NAME, FAMILY_NAME, HONORIFIC_SUFFIX};
+    private static final String[] NAME_COMPONENTS = {
+            HONORIFIC_PREFIX,
+            GIVEN_NAME,
+            ADDITIONAL_NAME,
+            FAMILY_NAME,
+            HONORIFIC_SUFFIX
+    };
 
     private Map<String, String> fields = new HashMap<String, String>();
-    private String fullName = null;
+    private String fullName     = null;
     private String organization = null;
-    private String unit = null;
+    private String unit         = null;
 
     public void setField(String fieldName, String value) {
         value = fixWhiteSpace(value);
@@ -139,4 +145,5 @@ public class HCardName {
         if ("".equals(s)) return null;
         return s;
     }
+    
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -47,6 +46,19 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     private HCardName name = new HCardName();
     
     private HTMLDocument fragment;
+
+    public final static ExtractorFactory<HCardExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "html-mf-hcard",
+                    PopularPrefixes.createSubset("rdf", "vcard"),
+                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
+                    null,
+                    HCardExtractor.class
+            );
+
+    public ExtractorDescription getDescription() {
+        return factory;
+    }
 
     @Override
     protected String getBaseClassName() {
@@ -280,15 +292,4 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return found;
     }
 
-    public ExtractorDescription getDescription() {
-        return factory;
-    }
-
-    public final static ExtractorFactory<HCardExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hcard",
-                    PopularPrefixes.createSubset("rdf", "vcard"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
-                    HCardExtractor.class);
 }

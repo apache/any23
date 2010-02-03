@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.rdf;
@@ -41,6 +40,17 @@ import java.util.Arrays;
  */
 public class TurtleExtractor implements ContentExtractor {
 
+    public final static ExtractorFactory<TurtleExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "rdf-turtle",
+                    null,
+                    Arrays.asList(
+                            "text/rdf+n3", "text/n3", "application/n3",
+                            "application/x-turtle", "application/turtle", "text/turtle"),
+                    "example-turtle.ttl",
+                    TurtleExtractor.class
+            );
+
     public void run(InputStream in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
         try {
@@ -57,14 +67,5 @@ public class TurtleExtractor implements ContentExtractor {
     public ExtractorDescription getDescription() {
         return factory;
     }
-
-    public final static ExtractorFactory<TurtleExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-turtle",
-                    null,
-                    Arrays.asList(
-                            "text/rdf+n3", "text/n3", "application/n3",
-                            "application/x-turtle", "application/turtle", "text/turtle"),
-                    "example-turtle.ttl",
-                    TurtleExtractor.class);
+    
 }

@@ -39,7 +39,8 @@ public interface ExtractionResult {
     void writeTriple(Resource s, URI p, Value o);
 
     /**
-     * Write a namespace
+     * Write a namespace.
+     *
      * @param prefix the prefix of the namespace
      * @param uri the long URI identifying the namespace
      */
@@ -48,6 +49,7 @@ public interface ExtractionResult {
     /**
      *
      * Close the result.
+     * 
      * Extractors should close their results as soon as possible, but
      * don't have to, the environment will close any remaining ones.
      * Implementations should be robust against multiple close()
@@ -56,6 +58,12 @@ public interface ExtractionResult {
      */
     void close();
 
+    /**
+     * Open a result nested in the current one.
+     *
+     * @param context
+     * @return
+     */
     ExtractionResult openSubResult(Object context);
 
 }

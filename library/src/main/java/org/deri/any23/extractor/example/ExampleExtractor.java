@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.example;
@@ -33,7 +32,6 @@ import java.util.Collections;
 
 /**
  * Example concrete implementation of {@link org.deri.any23.extractor.Extractor.BlindExtractor}.
- * 
  */
 //TODO: MED - move in test module. 
 public class ExampleExtractor implements BlindExtractor {
@@ -53,5 +51,6 @@ public class ExampleExtractor implements BlindExtractor {
                     PopularPrefixes.createSubset("rdf", "foaf"),
                     Collections.singleton("*/*;q=0.01"),
                     "http://example.com/",
-                    ExampleExtractor.class);
+                    ExampleExtractor.class
+            );
 }

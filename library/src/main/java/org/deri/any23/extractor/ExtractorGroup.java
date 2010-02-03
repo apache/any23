@@ -24,14 +24,12 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- *
  * It simple models a group of {@link org.deri.any23.extractor.ExtractorFactory} providing
  * simple accessing methods.
- *
  */
 public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 
-    // TODO: Add method getAcceptHeader(), probably move it from the Any23 class to here
+    // TODO: LOW - Add method getAcceptHeader(), probably move it from the Any23 class to here
 
     private final Collection<ExtractorFactory<?>> factories;
 
@@ -45,10 +43,10 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 
     /**
      * Returns a {@link ExtractorGroup} with a set of {@link org.deri.any23.extractor.Extractor} able to
-     * process the provided mime type
+     * process the provided mime type.
      * 
-     * @param mimeType to perform the selection
-     * @return an {@link org.deri.any23.extractor.ExtractorGroup} able to process the provided mime type
+     * @param mimeType to perform the selection.
+     * @return an {@link org.deri.any23.extractor.ExtractorGroup} able to process the provided mime type.
      */
     public ExtractorGroup filterByMIMEType(MIMEType mimeType) {
         // @@@ wildcards, q values
@@ -66,7 +64,7 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
     }
 
     /**
-     * @return true if all the {@link org.deri.any23.extractor.Extractor} contained in the group
+     * @return <code>true</code> if all the {@link org.deri.any23.extractor.Extractor} contained in the group
      * supports all the content types.
      */
     public boolean allExtractorsSupportAllContentTypes() {

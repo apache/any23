@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.html;
@@ -44,6 +43,7 @@ import java.io.InputStream;
  * @author Richard Cyganiak (richard at cyganiak dot de)
  */
 public class TagSoupParser {
+
     private final static Logger log = LoggerFactory.getLogger(TagSoupParser.class);
 
     private final InputStream input;
@@ -90,4 +90,5 @@ public class TagSoupParser {
         parser.parse(new InputSource(input));
         return parser.getDocument();
     }
+    
 }

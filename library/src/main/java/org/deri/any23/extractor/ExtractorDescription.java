@@ -21,13 +21,24 @@ import org.deri.any23.rdf.Prefixes;
 
 /**
  *
- * It defines a minimal signature for an {@link org.deri.any23.extractor.Extractor} description
+ * It defines a minimal signature for an
+ * {@link org.deri.any23.extractor.Extractor} description.
  *
  */
 public interface ExtractorDescription {
 
+    /**
+     * Returns the name of the extractor.
+     *
+     * @return a name.
+     */
     String getExtractorName();
 
+    /**
+     * An instance defining the prefixes supported by this extractor.
+     *
+     * @return prefixes instance.
+     */
     Prefixes getPrefixes();
 
 }

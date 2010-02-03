@@ -41,9 +41,20 @@ import java.util.Arrays;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class TitleExtractor implements TagSoupDOMExtractor {
+
     public final static String NAME = "html-head-title";
 
+    public final static ExtractorFactory<TitleExtractor> factory =
+            SimpleExtractorFactory.create(
+                    NAME,
+                    PopularPrefixes.createSubset("dcterms"),
+                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
+                    "example-title.html",
+                    TitleExtractor.class
+            );
+
     protected final ValueFactory valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+
 
     public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
             ExtractionException {
@@ -53,16 +64,8 @@ public class TitleExtractor implements TagSoupDOMExtractor {
         }
     }
 
-
     public ExtractorDescription getDescription() {
         return factory;
     }
-
-    public final static ExtractorFactory<TitleExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    PopularPrefixes.createSubset("dcterms"),
-                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    "example-title.html",
-                    TitleExtractor.class);
+    
 }

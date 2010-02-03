@@ -18,9 +18,8 @@
 package org.deri.any23.extractor;
 
 /**
- *
+ * Defines a specific exception raised during the metadata extraction phase.
  * TODO (medium): ExtractionException Should receive an ExtractionContext?
- *
  */
 public class ExtractionException extends Exception {
 

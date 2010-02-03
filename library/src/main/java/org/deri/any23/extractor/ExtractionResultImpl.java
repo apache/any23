@@ -73,7 +73,12 @@ public class ExtractionResultImpl implements ExtractionResult {
         this(documentURI, extractor, tripleHandler, null);
     }
 
-    public ExtractionResultImpl(URI documentURI, Extractor<?> extractor, TripleHandler tripleHandler, Object contextID) {
+    public ExtractionResultImpl(
+            URI documentURI,
+            Extractor<?> extractor,
+            TripleHandler tripleHandler,
+            Object contextID
+    ) {
         this.documentURI = documentURI;
         this.extractor = extractor;
         this.tripleHandler = tripleHandler;
