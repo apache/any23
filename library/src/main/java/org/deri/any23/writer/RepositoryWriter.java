@@ -24,9 +24,10 @@ import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 
 /**
- * A <i>triple storage</i> writer.
+ * A <i>Sesame repository</i> triple writer.
+ *
+ * @see org.openrdf.repository.Repository
  */
-// TODO: MED -  rename to TripleStorageWriter
 public class RepositoryWriter implements TripleHandler {
 
     private final RepositoryConnection conn;
