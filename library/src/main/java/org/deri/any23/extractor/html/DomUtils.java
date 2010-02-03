@@ -38,8 +38,6 @@ import java.util.List;
  * everything is localized here.
  * <p/>
  */
- // TODO Test DomUtils
- // TODO Move all XPath code here
 public class DomUtils {
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
