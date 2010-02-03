@@ -4,10 +4,17 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * String implementation of {@link org.deri.any23.source.DocumentSource}.
+ */
 public class StringDocumentSource implements DocumentSource {
+
     private final String in;
+
     private final String contentType;
+
     private final String encoding;
+    
     private final String uri;
 
     public StringDocumentSource(String in, String uri) {
@@ -47,4 +54,5 @@ public class StringDocumentSource implements DocumentSource {
     public boolean isLocal() {
         return true;
     }
+
 }

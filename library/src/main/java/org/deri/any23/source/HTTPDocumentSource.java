@@ -7,10 +7,17 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Http implementation of {@link org.deri.any23.source.DocumentSource}.
+ */
 public class HTTPDocumentSource implements DocumentSource {
+
     private final HTTPClient client;
+
     private String uri;
+
     private InputStream unusedInputStream = null;
+
     private boolean loaded = false;
 
     public HTTPDocumentSource(HTTPClient client, String uri) throws URISyntaxException {

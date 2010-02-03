@@ -11,13 +11,16 @@ import java.io.InputStream;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public interface DocumentSource {
+    
     InputStream openInputStream() throws IOException;
 
     public String getContentType();
 
     public long getContentLength();
 
-    // If redirects occur, then this is supposed to return the actual, final, canonical URI.
+    /**
+     * @return the actual, final, canonical URI if redirects occur.
+     */
     public String getDocumentURI();
 
     /**

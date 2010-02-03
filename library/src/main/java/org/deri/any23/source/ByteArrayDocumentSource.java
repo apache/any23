@@ -5,11 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * ByteArray implementation of {@link org.deri.any23.source.DocumentSource}.
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ByteArrayDocumentSource implements DocumentSource {
+
     private final byte[] bytes;
+
     private final String documentURI;
+
     private final String contentType;
 
     public ByteArrayDocumentSource(byte[] bytes, String documentURI, String contentType) {

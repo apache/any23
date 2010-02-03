@@ -5,8 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * File implementation of {@link org.deri.any23.source.DocumentSource}.
+ */
 public class FileDocumentSource implements DocumentSource {
+
     private final File file;
+
     private final String uri;
 
     public FileDocumentSource(File file) {

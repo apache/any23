@@ -2,7 +2,6 @@ package org.deri.any23.source;
 
 import java.io.IOException;
 
-
 /**
  * A factory that creates local copies of {@link DocumentSource}s.
  * The copies are usually identical in content, but stored
