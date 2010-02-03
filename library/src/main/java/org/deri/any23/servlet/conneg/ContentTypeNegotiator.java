@@ -23,7 +23,7 @@ public class ContentTypeNegotiator {
      * associated to the given <i>accept</i> type.
      * 
      * @param accept
-     * @return
+     * @return a {@link org.deri.any23.servlet.conneg.MediaRangeSpec} associated to the accept parameter 
      */
     public MediaRangeSpec getBestMatch(String accept) {
         return getBestMatch(accept, null);
@@ -35,7 +35,8 @@ public class ContentTypeNegotiator {
      *
      * @param accept
      * @param userAgent
-     * @return
+     * @return the {@link org.deri.any23.servlet.conneg.MediaRangeSpec}
+     * associated to the given <i>accept</i> type and <i>userAgent</i>.
      */
     public MediaRangeSpec getBestMatch(String accept, String userAgent) {
         if (userAgent == null) {

@@ -92,15 +92,6 @@ public class HTMLDocument {
         return DomUtils.findAll(getDocument(), xpath);
     }
 
-    /**
-     * 
-     * @param objectTag
-     * @param object
-     * @param fieldTag
-     * @param field
-     * @param key
-     * @return
-     */
     public String findMicroformattedValue(String objectTag, String object, String fieldTag, String field, String key) {
 
         Node node = findMicroformattedObjectNode(objectTag, object);
@@ -128,13 +119,14 @@ public class HTMLDocument {
         return document;
     }
 
-
     /**
-      * TODO (high): use one single node lookup and multiple attr and class checks
-      * @pre: className is a a valid class name
-      * @post: no null values are returned
-      * @post: if multiple values are found just the first is returned, if we want to check that there are no n-ary values use plural finder
-      */
+     *
+     * TODO (high): use one single node lookup and multiple attr and class checks
+     * 
+     * @param className a valid class name
+     * @return if multiple values are found just the first is returned,
+     * if we want to check that there are no n-ary values use plural finder
+     */
     public String getSingularTextField(String className) {
         String[] res = getPluralTextField(className);
         if (res.length < 1)
@@ -192,12 +184,14 @@ public class HTMLDocument {
     }
 
     /**
-      * TODO (high): use one single node lookup and multiple attr and class checks
-      * @pre: className is a a valid class name
-      * @post: no null values are returned
-      * @post: if multiple values are found just the first is returned, if we want to check that there are no n-ary values use plural finder
-      */
-
+     *
+     * TODO (high): use one single node lookup and multiple attr and class checks
+     * TODO (high): improve this documentation
+     *
+     * @param className a valid class name
+     * @return if multiple values are found just the first is returned,
+     *  if we want to check that there are no n-ary values use plural finder
+     */
     public String getSingularUrlField(String className) {
         String[] res = getPluralUrlField(className);
         if (res.length < 1)
