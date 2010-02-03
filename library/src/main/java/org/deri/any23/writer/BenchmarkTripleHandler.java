@@ -103,9 +103,11 @@ public class BenchmarkTripleHandler implements TripleHandler {
     }
 
     /**
-     * @return
+     * @return the report
+     *
      */
     public String report() {
+
         StringBuilder sb = new StringBuilder();
         StatObject sum = stats.get("SUM");
 

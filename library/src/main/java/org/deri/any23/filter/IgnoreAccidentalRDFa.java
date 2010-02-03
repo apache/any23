@@ -14,7 +14,6 @@ import org.openrdf.model.Value;
  * like stylesheet links and other non-RDFa uses of HTML's
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
- * @@rel and @@rev attributes.
  */
 public class IgnoreAccidentalRDFa implements TripleHandler {
 
