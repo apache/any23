@@ -32,7 +32,9 @@ import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hlisting">hListing</a>
@@ -41,6 +43,20 @@ import java.util.List;
  * @author Gabriele Renzi
  */
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
+
+    private static final Set<String> ActionClasses = new HashSet<String>() {
+        {
+            add("sell"    );
+            add("rent"    );
+            add("trade"   );
+            add("meet"    );
+            add("announce");
+            add("offer"   );
+            add("wanted"  );
+            add("event"   );
+            add("service" );
+        }
+    };
 
     private HTMLDocument fragment;
 
@@ -70,7 +86,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         for (String action : findActions(fragment)) {
             out.writeTriple(listing, HLISTING.action, HLISTING.getResource(action));
         }
-        out.writeTriple(listing, HLISTING.lister, addLister(listing));
+        out.writeTriple(listing, HLISTING.lister, addLister() );
         addItem(listing);
         addDateTimes(listing);
         addPrice(listing);
@@ -96,7 +112,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         addItemAddresses(fragment, blankItem);
     }
 
-    private static final List<String> validClassesForAddress = Arrays.asList(new String[]{
+    private static final List<String> validClassesForAddress = Arrays.asList(
             "post-office-box",
             "extended-address",
             "street-address",
@@ -104,7 +120,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
             "region",
             "postal-code",
             "country-name"
-    });
+    );
 
     private void addItemAddresses(HTMLDocument doc, Resource blankItem) {
         for (Node node : doc.findAll(".//*[contains(@class,'adr')]//*[@class]")) {
@@ -148,15 +164,13 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(listing, HLISTING.dtexpired, expired);
     }
 
-    // TODO cleanup
-    private Resource addLister(Resource listing) throws ExtractionException {
+    private Resource addLister() throws ExtractionException {
         Resource blankLister = valueFactory.createBNode();
         out.writeTriple(blankLister, RDF.TYPE, HLISTING.Lister);
         Node node = fragment.findMicroformattedObjectNode("*", "lister");
         if (null == node)
             return blankLister;
         HTMLDocument listerNode = new HTMLDocument(node);
-//	    addVCard(doc,blankLister);	
         addListerFn(listerNode, blankLister);
         addListerOrg(listerNode, blankLister);
         addListerEmail(listerNode, blankLister);
@@ -166,12 +180,10 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         return blankLister;
     }
 
-
     private void addListerTel(HTMLDocument doc, Resource blankLister) {
         String tel = doc.getSingularTextField("tel");
         conditionallyAddStringProperty(blankLister, HLISTING.tel, tel);
     }
-
 
     private void addListerUrl(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         String url = doc.getSingularUrlField("url");
@@ -183,8 +195,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddResourceProperty(blankLister, FOAF.mbox, fixLink(email, "mailto"));
     }
 
-
-    // TODO: actually has complex and stupid rules, microformats suck
     private void addListerFn(HTMLDocument doc, Resource blankLister) {
         String fn = doc.getSingularTextField("fn");
         conditionallyAddStringProperty(blankLister, HLISTING.listerName, fn);
@@ -195,14 +205,11 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddResourceProperty(blankLister, HLISTING.listerLogo, document.resolveURI(logo));
     }
 
-
     private void addListerOrg(HTMLDocument doc, Resource blankLister) {
         String org = doc.getSingularTextField("org");
         conditionallyAddStringProperty(blankLister, HLISTING.listerOrg, org);
     }
 
-
-    // TODO: actually has complex and stupid rules, microformats suck
     private void addItemName(HTMLDocument item, Resource blankItem) {
         String fn = item.getSingularTextField("fn");
         conditionallyAddStringProperty(blankItem, HLISTING.itemName, fn);
@@ -224,12 +231,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddResourceProperty(blankLister, HLISTING.itemPhoto, document.resolveURI(url));
     }
 
-
-    // TODO: use sorted set
-    private static final List<String> ActionClasses = Arrays.asList("sell", "rent", "trade", "meet", "announce", "offer", "wanted", "event", "service");
-
     private List<String> findActions(HTMLDocument doc) {
-
         List<String> actions = new ArrayList<String>(0);
         // first check if values are inlined
         String[] classes = doc.readAttribute("class").split("\\s+");
