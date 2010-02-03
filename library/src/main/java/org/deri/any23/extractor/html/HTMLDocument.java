@@ -41,13 +41,55 @@ import java.util.List;
  */
 public class HTMLDocument {
 
-    private final static Logger log = LoggerFactory.getLogger(HTMLDocument.class);
-
+    private final static String[] EMPTY_STRINGS = new String[]{};
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
+    private final static Logger log = LoggerFactory.getLogger(HTMLDocument.class);
 
     private Node document;
     private java.net.URI baseURI;
+
     private Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+
+    public static void readTextField(List<String> res, Node node) {
+        String name = node.getNodeName();
+        NamedNodeMap attributes = node.getAttributes();
+        // excess of safety check, should be impossible
+        if (null == attributes) {
+            res.add(node.getTextContent());
+            return;
+        }
+        // first check if there are values inside
+        List<Node> values = DomUtils.findAllByClassName(node, "value");
+        if (!values.isEmpty()) {
+            String val = "";
+            for (Node n : values)
+                val += n.getTextContent();
+            res.add(val.trim());
+            return;
+        }
+        if ("ABBR".equals(name) && (null != attributes.getNamedItem("title")))
+            res.add(attributes.getNamedItem("title").getNodeValue());
+        else if ("A".equals(name)) {
+            if (DomUtils.hasAttribute(node, "rel", "tag")) {
+
+                String href = extractRelTag(attributes);
+                res.add(href);
+            } else
+                res.add(node.getTextContent());
+        } else if ("IMG".equals(name) || "AREA".equals(name))
+            res.add(attributes.getNamedItem("alt").getNodeValue());
+        else
+            res.add(node.getTextContent());
+    }
+
+    private static String extractRelTag(NamedNodeMap attributes) {
+        String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
+        //cleanup spurious segments
+        String path = all[0];
+        // get last
+        all = path.split("/");
+        return all[all.length - 1];
+    }
 
     public HTMLDocument(Node document) {
         if (null == document)
@@ -104,8 +146,8 @@ public class HTMLDocument {
 
     /**
      *
-     * TODO (high): use one single node lookup and multiple attr and class checks
-     * 
+     * TODO: #8 - use one single node lookup and multiple attr and class checks
+     *
      * @param className a valid class name
      * @return if multiple values are found just the first is returned,
      * if we want to check that there are no n-ary values use plural finder
@@ -122,54 +164,13 @@ public class HTMLDocument {
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readTextField(res, node);
-        return res.toArray(new String[]{});
-    }
-
-    public static void readTextField(List<String> res, Node node) {
-        String name = node.getNodeName();
-        NamedNodeMap attributes = node.getAttributes();
-        // excess of safety check, should be impossible
-        if (null == attributes) {
-            res.add(node.getTextContent());
-            return;
-        }
-        // first check if there are values inside
-        List<Node> values = DomUtils.findAllByClassName(node, "value");
-        if (!values.isEmpty()) {
-            String val = "";
-            for (Node n : values)
-                val += n.getTextContent();
-            res.add(val.trim());
-            return;
-        }
-        if ("ABBR".equals(name) && (null != attributes.getNamedItem("title")))
-            res.add(attributes.getNamedItem("title").getNodeValue());
-        else if ("A".equals(name)) {
-            if (DomUtils.hasAttribute(node, "rel", "tag")) {
-
-                String href = extractRelTag(attributes);
-                res.add(href);
-            } else
-                res.add(node.getTextContent());
-        } else if ("IMG".equals(name) || "AREA".equals(name))
-            res.add(attributes.getNamedItem("alt").getNodeValue());
-        else
-            res.add(node.getTextContent());
-    }
-
-    private static String extractRelTag(NamedNodeMap attributes) {
-        String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
-        //cleanup spurious segments
-        String path = all[0];
-        // get last
-        all = path.split("/");
-        return all[all.length - 1];
+        return res.toArray(EMPTY_STRINGS);
     }
 
     /**
      *
-     * TODO (high): use one single node lookup and multiple attr and class checks
-     * TODO (high): improve this documentation
+     * TODO: #8 - use one single node lookup and multiple attr and class checks
+     * TODO: #8 - improve this documentation
      *
      * @param className a valid class name
      * @return if multiple values are found just the first is returned,
@@ -187,7 +188,7 @@ public class HTMLDocument {
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readUrlField(res, node);
-        return res.toArray(new String[]{});
+        return res.toArray(EMPTY_STRINGS);
     }
 
 
