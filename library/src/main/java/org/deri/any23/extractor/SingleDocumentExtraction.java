@@ -46,7 +46,6 @@ public class SingleDocumentExtraction {
 
     private final DocumentSource in;
 
-    // TODO (low) should be final
     private URI documentURI;
     
     private final ExtractorGroup extractors;
