@@ -34,11 +34,4 @@ public interface MIMETypeDetector {
      */
     public MIMEType guessMIMEType(String fileName, InputStream input, MIMEType mimeTypeFromMetadata);
 
-    /**
-     * The minimum buffer size expected from the detected to work properly.
-     *
-     * @return a non negative value.
-     */
-    //TODO: low - it seems to be unnecessary, remove it.
-    public int requiredBufferSize();
 }

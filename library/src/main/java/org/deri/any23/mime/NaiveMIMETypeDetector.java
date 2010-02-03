@@ -68,10 +68,6 @@ public class NaiveMIMETypeDetector implements MIMETypeDetector {
         return null;
     }
 
-    public int requiredBufferSize() {
-        return 0;
-    }
-
     private String getExtension(String filename) {
         Matcher m = extensionRegex.matcher(filename);
         if (!m.matches()) return null;

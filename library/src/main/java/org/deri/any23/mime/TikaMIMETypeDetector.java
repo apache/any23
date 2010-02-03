@@ -167,10 +167,5 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         return output.toByteArray();
     }
 
-
-    public int requiredBufferSize() {
-        return 0;
-    }
-
 }
 
