@@ -111,8 +111,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(exp, DOAC.organization, value.trim());
 
         return !"".equals(check);
-
-        //TODO: positon = role? activity=?
     }
 
     private void addEducations(HTMLDocument doc, Resource person) {
