@@ -1,34 +1,39 @@
 package org.deri.any23;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.NTriplesWriter;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
 
-// TODO These tests are not very clever
-public class TestVariousParsers extends TestCase {
-    private String url;
+/**
+ * Test case for {@link org.deri.any23.Any23} facade. 
+ */
+public class Any23Test {
 
-    public void setUp() throws MalformedURLException {
-        url = "http://bob.com";
-    }
+    private String url = "http://bob.com";
 
-    public void testTTL() throws Exception {
+    @Test
+    public void testTTLDetection() throws Exception {
         assertReads("<a> <b> <c> .", "rdf-turtle");
     }
 
-    public void testN3() throws Exception {
+    @Test
+    public void testN3Detection() throws Exception {
         assertReads("<Bob><brothers>(<Jim><Mark>).", "rdf-turtle");
     }
 
-    public void testNTRIP() throws Exception {
+    @Test
+    public void testNTRIPDetection() throws Exception {
         assertReads(
-                "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .", "rdf-nt");
+            "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .",
+            "rdf-nt"
+        );
     }
 
-    public void testHTML() throws Exception {
+    @Test
+    public void testHTMLDetection() throws Exception {
         assertReads("<html><body><div class=\"vcard fn\">Joe</div></body></html>");
     }
 
@@ -36,11 +41,11 @@ public class TestVariousParsers extends TestCase {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Any23 runner = new Any23(parsers.length == 0 ? null : parsers);
         if (parsers.length != 0) {
-            runner.setMIMETypeDetector(null);    // use all the provided extractors
+            runner.setMIMETypeDetector(null);   // Use all the provided extractors.
         }
         runner.extract(new StringDocumentSource(content, url), new NTriplesWriter(out));
         String result = out.toString("us-ascii");
-        assertNotNull(result);
-        assertTrue(result.length() > 10);
+        Assert.assertNotNull(result);
+        Assert.assertTrue(result.length() > 10);
     }
 }

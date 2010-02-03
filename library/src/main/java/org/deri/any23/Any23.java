@@ -29,20 +29,19 @@ import java.util.Collection;
 
 
 /**
- * A facade with convenience methods for typical Any23 extraction
+ * A facade with convenience methods for typical <i>Any23</i> extraction
  * operations.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Any23 {
-    //private final static Logger logger = Logger.getLogger(Any23.class.getCanonicalName());
 
-    // NOTE, there's also a version string in build.xml, they should match
+    // NOTE: there's also a version string in build.xml, they should match.
     public static final String VERSION = "0.2-dev";
 
     private final ExtractorGroup factories;
     private LocalCopyFactory streamCache;
-    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector();    // can be overridden by setter
+    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(); // Can be overridden by setter.
     private String userAgent = null;
     private HTTPClient httpClient = new DefaultHTTPClient();
     private boolean httpClientInitialized = false;
@@ -81,28 +80,28 @@ public class Any23 {
     }
 
     public boolean extract(String in, String documentURI, TripleHandler outputHandler)
-            throws IOException, ExtractionException {
+    throws IOException, ExtractionException {
         return extract(new StringDocumentSource(in, documentURI), outputHandler);
     }
 
-    public boolean extract(String in, String documentURI, String contentType, String encoding, TripleHandler outputHandler)
-            throws IOException, ExtractionException {
+    public boolean extract(
+            String in,
+            String documentURI,
+            String contentType,
+            String encoding,
+            TripleHandler outputHandler
+    ) throws IOException, ExtractionException {
         return extract(new StringDocumentSource(in, documentURI, contentType, encoding), outputHandler);
     }
 
     public boolean extract(File file, TripleHandler outputHandler)
-            throws IOException, ExtractionException {
-        return extract(file, file.toURI().toString(), outputHandler);
-    }
-
-    public boolean extract(File file, String documentURI, TripleHandler outputHandler)
-            throws IOException, ExtractionException {
+    throws IOException, ExtractionException {
         return extract(new FileDocumentSource(file), outputHandler);
     }
 
     // Will follow redirects
     public boolean extract(String documentURI, TripleHandler outputHandler)
-            throws IOException, ExtractionException {
+    throws IOException, ExtractionException {
         try {
             if (documentURI.toLowerCase().startsWith("file:")) {
                 return extract(new FileDocumentSource(new File(new URI(documentURI))), outputHandler);
@@ -117,7 +116,7 @@ public class Any23 {
     }
 
     public boolean extract(DocumentSource in, TripleHandler outputHandler)
-            throws IOException, ExtractionException {
+    throws IOException, ExtractionException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
         ex.setMIMETypeDetector(mimeTypeDetector);
         ex.setLocalCopyFactory(streamCache);
@@ -145,4 +144,5 @@ public class Any23 {
         }
         return httpClient;
     }
+    
 }

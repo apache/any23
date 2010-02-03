@@ -18,6 +18,7 @@ import java.util.Collections;
  * Example concrete implementation of {@link org.deri.any23.extractor.Extractor.BlindExtractor}.
  * 
  */
+//TODO: MED - move in test module. 
 public class ExampleExtractor implements BlindExtractor {
 
     public void run(URI in, URI documentURI, ExtractionResult out)

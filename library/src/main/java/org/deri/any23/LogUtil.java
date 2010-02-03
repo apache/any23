@@ -3,11 +3,14 @@ package org.deri.any23;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Provides specific application logger configuration methods.
+ */
 public class LogUtil {
 
     public static void setDefaultLogging() {
         Logger.getLogger("").setLevel(Level.WARNING);
-        // Suppress silly cookie warnings
+        // Suppress silly cookie warnings.
         Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.SEVERE);
         Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
     }
@@ -17,4 +20,5 @@ public class LogUtil {
         Logger.getLogger("org.deri.any23").setLevel(Level.ALL);
         Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
     }
+
 }

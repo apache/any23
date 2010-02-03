@@ -40,4 +40,5 @@ public class SesameTest {
         assertNull(b.stringValue());
         assertEquals(b, b);
     }
+    
 }

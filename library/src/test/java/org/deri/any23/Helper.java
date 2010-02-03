@@ -9,6 +9,10 @@ import org.openrdf.model.Value;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 
+/**
+ * RDF helper class.
+ */
+//TODO: MED - rename to RDFHelper.
 public class Helper {
 
     public static URI uri(String uri) {
