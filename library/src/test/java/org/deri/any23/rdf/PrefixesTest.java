@@ -1,6 +1,10 @@
 package org.deri.any23.rdf;
 
-import junit.framework.TestCase;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Assert;
+
 import org.deri.any23.Helper;
 
 import java.util.Arrays;
@@ -8,245 +12,284 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PrefixesTest extends TestCase {
+/**
+ * Reference Test class for {@link org.deri.any23.rdf.Prefixes}
+ */
+public class PrefixesTest {
+
     private Prefixes p;
 
+    @Before
     public void setUp() {
         p = new Prefixes();
     }
 
+    @Test
     public void testEmptyPrefixes() {
-        assertTrue(p.isEmpty());
-        assertTrue(p.allPrefixes().isEmpty());
+        Assert.assertTrue(p.isEmpty());
+        Assert.assertTrue(p.allPrefixes().isEmpty());
     }
 
+    @Test
     public void testUndefinedPrefix() {
-        assertFalse(p.hasPrefix("ex"));
-        assertFalse(p.hasNamespaceURI("ex"));
-        assertNull(p.getNamespaceURIFor("ex"));
+        Assert.assertFalse(p.hasPrefix("ex"));
+        Assert.assertFalse(p.hasNamespaceURI("ex"));
+        Assert.assertNull(p.getNamespaceURIFor("ex"));
     }
 
+    @Test
     public void testCannotAbbreviateUndefined() {
-        assertFalse(p.canAbbreviate("http://example.com/foo"));
+        Assert.assertFalse(p.canAbbreviate("http://example.com/foo"));
     }
 
+    @Test
     public void testCannotExpandUndefined() {
-        assertFalse(p.canExpand("ex:foo"));
+        Assert.assertFalse(p.canExpand("ex:foo"));
     }
 
+    @Test
     public void testAddPrefix() {
         p.add("ex", "http://example.com/");
-        assertFalse(p.isEmpty());
-        assertEquals(Collections.singleton("ex"), p.allPrefixes());
+        Assert.assertFalse(p.isEmpty());
+        Assert.assertEquals(Collections.singleton("ex"), p.allPrefixes());
     }
 
+    @Test
     public void testCheckForDeclaredPrefix() {
         p.add("ex", "http://example.com/");
-        assertTrue(p.hasPrefix("ex"));
-        assertTrue(p.hasNamespaceURI("http://example.com/"));
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertTrue(p.hasPrefix("ex"));
+        Assert.assertTrue(p.hasNamespaceURI("http://example.com/"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
     }
 
+    @Test
     public void testCanExpandDeclaredPrefix() {
         p.add("ex", "http://example.com/");
-        assertTrue(p.canExpand("ex:foo"));
-        assertTrue(p.canExpand("ex:"));
-        assertEquals(Helper.uri("http://example.com/foo"), p.expand("ex:foo"));
-        assertEquals(Helper.uri("http://example.com/"), p.expand("ex:"));
+        Assert.assertTrue(p.canExpand("ex:foo"));
+        Assert.assertTrue(p.canExpand("ex:"));
+        Assert.assertEquals(Helper.uri("http://example.com/foo"), p.expand("ex:foo"));
+        Assert.assertEquals(Helper.uri("http://example.com/"), p.expand("ex:"));
     }
 
+    @Test
     public void testCanContractDeclaredNamespace() {
         p.add("ex", "http://example.com/");
-        assertTrue(p.canAbbreviate("http://example.com/foo"));
-        assertTrue(p.canAbbreviate("http://example.com/"));
-        assertEquals("ex:foo", p.abbreviate("http://example.com/foo"));
-        assertEquals("ex:", p.abbreviate("http://example.com/"));
+        Assert.assertTrue(p.canAbbreviate("http://example.com/foo"));
+        Assert.assertTrue(p.canAbbreviate("http://example.com/"));
+        Assert.assertEquals("ex:foo", p.abbreviate("http://example.com/foo"));
+        Assert.assertEquals("ex:", p.abbreviate("http://example.com/"));
     }
 
+    @Test
     public void testExpandOnlyAcceptsCURIEs() {
         try {
             p.expand("@");
-            fail("Should have thrown IllegalArgumentException because argument is not a valid CURIE");
+            Assert.fail("Should have thrown IllegalArgumentException because argument is not a valid CURIE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testCanExpandOnlyAcceptsCURIEs() {
         try {
             p.expand("@");
-            fail("Should have thrown IllegalArgumentException because argument is not a valid CURIE");
+            Assert.fail("Should have thrown IllegalArgumentException because argument is not a valid CURIE");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testEmptyPrefix() {
         p.add("", "http://example.com/");
-        assertFalse(p.isEmpty());
-        assertEquals(Collections.singleton(""), p.allPrefixes());
-        assertTrue(p.hasPrefix(""));
-        assertEquals(":foo", p.abbreviate("http://example.com/foo"));
-        assertEquals(Helper.uri("http://example.com/foo"), p.expand(":foo"));
-        assertEquals(":", p.abbreviate("http://example.com/"));
-        assertEquals(Helper.uri("http://example.com/"), p.expand(":"));
+        Assert.assertFalse(p.isEmpty());
+        Assert.assertEquals(Collections.singleton(""), p.allPrefixes());
+        Assert.assertTrue(p.hasPrefix(""));
+        Assert.assertEquals(":foo", p.abbreviate("http://example.com/foo"));
+        Assert.assertEquals(Helper.uri("http://example.com/foo"), p.expand(":foo"));
+        Assert.assertEquals(":", p.abbreviate("http://example.com/"));
+        Assert.assertEquals(Helper.uri("http://example.com/"), p.expand(":"));
     }
 
+    @Test
     public void testCannotAddPrefixTwice() {
         p.add("ex", "http://example.com/");
         try {
             p.add("ex", "http://other.example.com/");
-            fail("Should have failed because of duplicate assignment of 'ex' prefix");
+            Assert.fail("Should have failed because of duplicate assignment of 'ex' prefix");
         } catch (IllegalStateException ex) {
             // expected
         }
     }
 
+    @Test
     public void testCanReAssignToSameURI() {
         p.add("ex", "http://example.com/");
         p.add("ex", "http://example.com/");
         // should NOT throw IllegalStateException
     }
 
+    @Test
     public void testRemovePrefixResultsInEmptyMapping() {
         p.add("ex", "http://example.com/");
         p.removePrefix("ex");
-        assertTrue(p.isEmpty());
-        assertFalse(p.hasPrefix("ex"));
-        assertFalse(p.hasNamespaceURI("http://example.com/"));
+        Assert.assertTrue(p.isEmpty());
+        Assert.assertFalse(p.hasPrefix("ex"));
+        Assert.assertFalse(p.hasNamespaceURI("http://example.com/"));
     }
 
+    @Test
     public void testCanAddAfterRemoving() {
         p.add("ex", "http://example.com/");
         p.removePrefix("ex");
         p.add("ex", "http://other.example.com/");
-        assertEquals("http://other.example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://other.example.com/", p.getNamespaceURIFor("ex"));
     }
 
+    @Test
     public void testMergeEmptyPrefixes() {
         p.add(new Prefixes());
-        assertTrue(p.isEmpty());
+        Assert.assertTrue(p.isEmpty());
     }
 
+    @Test
     public void testMergePrefixesWithoutConflict() {
         p.add("ex", "http://example.com/");
         p.add(Prefixes.create1("foaf", "http://xmlns.com/foaf/"));
         Set<String> prefixes = p.allPrefixes();
-        assertTrue(prefixes.contains("ex"));
-        assertTrue(prefixes.contains("foaf"));
-        assertEquals(2, prefixes.size());
+        Assert.assertTrue(prefixes.contains("ex"));
+        Assert.assertTrue(prefixes.contains("foaf"));
+        Assert.assertEquals(2, prefixes.size());
     }
 
+    @Test
     public void testCreate1() {
         p = Prefixes.create1("ex", "http://example.com/");
-        assertEquals(1, p.allPrefixes().size());
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals(1, p.allPrefixes().size());
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
     }
 
+    @Test
     public void testMergePrefixesWithConflictRaisesException() {
         p.add("ex", "http://example.com/");
         Prefixes p2 = Prefixes.create1("ex", "http://xmlns.com/foaf/");
         try {
             p.add(p2);
-            fail("Should have failed because ex is assigned twice");
+            Assert.fail("Should have failed because ex is assigned twice");
         } catch (IllegalStateException ex) {
             // expected
         }
     }
 
+    @Test
     public void testMergePrefixesWithConflictButSameNamespace() {
         p.add("ex", "http://example.com/");
         p.add(Prefixes.create1("ex", "http://example.com/"));
         Set<String> prefixes = p.allPrefixes();
-        assertTrue(prefixes.contains("ex"));
-        assertEquals(1, prefixes.size());
+        Assert.assertTrue(prefixes.contains("ex"));
+        Assert.assertEquals(1, prefixes.size());
     }
 
+    @Test
     public void testCreateSubset() {
         p.add("ex", "http://example.com/");
         p.add("foaf", "http://xmlns.com/foaf/");
         Prefixes subset = p.createSubset("ex");
-        assertEquals(1, subset.allPrefixes().size());
-        assertTrue(subset.hasPrefix("ex"));
+        Assert.assertEquals(1, subset.allPrefixes().size());
+        Assert.assertTrue(subset.hasPrefix("ex"));
     }
 
+    @Test
     public void testCreateSubsetWithUndefinedPrefixThrowsException() {
         try {
             p.createSubset("ex");
-            fail("Should have failed, p has no mapping for ex");
+            Assert.fail("Should have failed, p has no mapping for ex");
         } catch (IllegalArgumentException ex) {
             // expected
         }
     }
 
+    @Test
     public void testAsMapEmpty() {
-        assertTrue(p.asMap().isEmpty());
+        Assert.assertTrue(p.asMap().isEmpty());
     }
 
+    @Test
     public void testAsMapIsUnmodifiable() {
         try {
             p.asMap().put("ex", "http://example.com/");
-            fail("Should have failed, result of asMap() is supposed to be unmodifiable");
+            Assert.fail("Should have failed, result of asMap() is supposed to be unmodifiable");
         } catch (UnsupportedOperationException ex) {
             // expected
         }
     }
 
+    @Test
     public void testAddVolatile() {
         p.addVolatile("ex", "http://example.com/");
-        assertTrue(p.allPrefixes().contains("ex"));
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertTrue(p.allPrefixes().contains("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
     }
 
+
+    @Test
     public void testAddVolatileNeverFails() {
         p.add("ex", "http://example.com/");
         p.addVolatile("ex", "http://other.example.com/");
         p.addVolatile("foaf", "http://xmlns.com/foaf/");
         p.addVolatile("foaf", "http://foaf.example.com/");
-        assertEquals(2, p.allPrefixes().size());
-        assertTrue(p.hasPrefix("foaf"));
-        assertTrue(p.hasPrefix("ex"));
+        Assert.assertEquals(2, p.allPrefixes().size());
+        Assert.assertTrue(p.hasPrefix("foaf"));
+        Assert.assertTrue(p.hasPrefix("ex"));
     }
 
+    @Test
     public void testRemoveVolatilePrefix() {
         p.addVolatile("ex", "http://example.com/");
         p.removePrefix("ex");
-        assertTrue(p.isEmpty());
-        assertFalse(p.isVolatile("ex"));
+        Assert.assertTrue(p.isEmpty());
+        Assert.assertFalse(p.isVolatile("ex"));
     }
 
+    @Test
     public void testIsVolatile() {
         p.add("ex", "http://example.com/");
         p.addVolatile("foaf", "http://xmlns.com/foaf/");
-        assertTrue(p.isVolatile("foaf"));
-        assertFalse(p.isVolatile("ex"));
+        Assert.assertTrue(p.isVolatile("foaf"));
+        Assert.assertFalse(p.isVolatile("ex"));
     }
 
+    @Test
     public void testUndefinedPrefixIsNotVolatile() {
-        assertFalse(p.isVolatile("ex"));
+        Assert.assertFalse(p.isVolatile("ex"));
     }
 
+    @Test
     public void testAddVolatileDoesNotOverwriteHardMapping() {
         p.add("ex", "http://example.com/");
         p.addVolatile("ex", "http://other.example.com/");
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
-        assertFalse(p.isVolatile("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertFalse(p.isVolatile("ex"));
     }
 
+    @Test
     public void testAddVolatileDoesNotOverwriteVolatileMapping() {
         p.addVolatile("ex", "http://example.com/");
         p.addVolatile("ex", "http://other.example.com/");
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
-        assertTrue(p.isVolatile("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertTrue(p.isVolatile("ex"));
     }
 
+    @Test
     public void testAddHardOverwritesVolatileMapping() {
         p.addVolatile("ex", "http://other.example.com/");
         p.add("ex", "http://example.com/");
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
-        assertFalse(p.isVolatile("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertFalse(p.isVolatile("ex"));
     }
 
+    @Test
     public void testMergeWithVolatile() {
         p.add("a", "http://p1.example.com/");
         p.addVolatile("b", "http://p2.example.com/");
@@ -258,36 +301,40 @@ public class PrefixesTest extends TestCase {
         p.addVolatile("c", "http://q3.example.com/");
         p.addVolatile("e", "http://q5.example.com/");
         p.add(q);
-        assertEquals(new HashSet<String>(Arrays.asList("a", "b", "c", "d", "e")), p.allPrefixes());
-        assertEquals("http://p1.example.com/", p.getNamespaceURIFor("a"));
-        assertEquals("http://q2.example.com/", p.getNamespaceURIFor("b"));
-        assertEquals("http://p3.example.com/", p.getNamespaceURIFor("c"));
-        assertEquals("http://p4.example.com/", p.getNamespaceURIFor("d"));
-        assertEquals("http://q5.example.com/", p.getNamespaceURIFor("e"));
+        Assert.assertEquals(new HashSet<String>(Arrays.asList("a", "b", "c", "d", "e")), p.allPrefixes());
+        Assert.assertEquals("http://p1.example.com/", p.getNamespaceURIFor("a"));
+        Assert.assertEquals("http://q2.example.com/", p.getNamespaceURIFor("b"));
+        Assert.assertEquals("http://p3.example.com/", p.getNamespaceURIFor("c"));
+        Assert.assertEquals("http://p4.example.com/", p.getNamespaceURIFor("d"));
+        Assert.assertEquals("http://q5.example.com/", p.getNamespaceURIFor("e"));
     }
 
+    @Test
     public void testAddPrefixesAsVolatile() {
         p.addVolatile("ex", "http://example.com/");
         Prefixes q = new Prefixes();
         q.add("ex", "http://other.example.com/");
         p.addVolatile(q);
-        assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
     }
 
+    @Test
     public void testIncompatiblePrefixesInMergeAreDetected() {
         Prefixes p1 = PopularPrefixes.createSubset("rdf");
         Prefixes p2 = Prefixes.create1("rdf", "http://example.com/rdf#");
         try {
             p1.add(p2);
-            fail("Should fail because of different mappings for rdf prefix");
+            Assert.fail("Should fail because of different mappings for rdf prefix");
         } catch (IllegalStateException ex) {
             // expected
         }
     }
 
+    @Test
     public void testNewPrefixesFromOtherPrefixesAreIndependent() {
         Prefixes p2 = new Prefixes(p);
         p2.add("ex", "http://example.org/");
-        assertTrue(p.isEmpty());
+        Assert.assertTrue(p.isEmpty());
     }
+
 }

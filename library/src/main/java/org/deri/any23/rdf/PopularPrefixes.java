@@ -1,14 +1,12 @@
 package org.deri.any23.rdf;
 
+/**
+ * This class act as a container for various well-known and adopted RDF Vocabulary prefixes
+ *
+ * TODO (high): this way of hardcoding prefixes in a class is an anti-pattern: must try a more flexible solution. 
+ *
+ */
 public class PopularPrefixes {
-
-    public static Prefixes createSubset(String... prefixes) {
-        return popularPrefixes.createSubset(prefixes);
-    }
-
-    public static Prefixes get() {
-        return popularPrefixes;
-    }
 
     private final static Prefixes popularPrefixes = new Prefixes() {
         {
@@ -27,4 +25,26 @@ public class PopularPrefixes {
             add("ex", "http://example.com/ns#");
         }
     };
+
+
+    /**
+     *
+     * This method perform a prefix lookup. Given a set of prefixes it returns {@link org.deri.any23.rdf.Prefixes} bag
+     * class containing them.
+     *
+     * @param prefixes the input prefixes where perform the lookup
+     * @return a {@link org.deri.any23.rdf.Prefixes} containing all the prefixes mathing the input parameter
+     */
+    public static Prefixes createSubset(String... prefixes) {
+        return popularPrefixes.createSubset(prefixes);
+    }
+
+    /**
+     * @return a {@link org.deri.any23.rdf.Prefixes} with a set of well-known prefixes 
+     */
+    public static Prefixes get() {
+        return popularPrefixes;
+    }
+
+
 }

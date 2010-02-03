@@ -12,16 +12,23 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-// TODO Move our URI fixing methods to a seperate utility class
 
+/**
+ *
+ * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
+ * It provides a wrapper to instantiate RDF objects.
+ *
+ * // TODO (high) Move our URI fixing methods to a separate utility class
+ * 
+ */
 public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);
+
     private final ValueFactory _vFactory;
 
     public Any23ValueFactoryWrapper(final ValueFactory vFactory) {
         _vFactory = vFactory;
-
     }
 
     public BNode createBNode() {
@@ -194,8 +201,8 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         if (escapedURI.matches("^javascript:"))
             throw new IllegalArgumentException("URI starts with javascript: " + unescapedURI);
 
-//		//stripHTML
-//		escapedURI = escapedURI.replaceAll("\\<.*?\\>", "");
+		// stripHTML
+        // escapedURI = escapedURI.replaceAll("\\<.*?\\>", "");
 
         //>.*$ from end of lines (Neko didn't quite manage to fix broken markup)
         escapedURI = escapedURI.replaceAll(">.*$", "");
@@ -207,4 +214,5 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
         return escapedURI;
     }
+
 }
