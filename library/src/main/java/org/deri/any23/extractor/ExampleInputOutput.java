@@ -39,7 +39,7 @@ public class ExampleInputOutput {
     private final ExtractorFactory<?> factory;
 
     public ExampleInputOutput(String extractorName) {
-        this(ExtractorRegistry.get().getFactory(extractorName));
+        this(ExtractorRegistry.getInstance().getFactory(extractorName));
     }
 
     public ExampleInputOutput(ExtractorFactory<?> factory) {

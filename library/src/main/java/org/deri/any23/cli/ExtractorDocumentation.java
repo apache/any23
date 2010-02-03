@@ -135,7 +135,7 @@ public class ExtractorDocumentation {
      * Prints the list of all the available extractors.
      */
     public static void printExtractorList() {
-        for (String extractorName : ExtractorRegistry.get().getAllNames()) {
+        for (String extractorName : ExtractorRegistry.getInstance().getAllNames()) {
             System.out.println(extractorName);
         }
     }
@@ -180,8 +180,8 @@ public class ExtractorDocumentation {
      * @throws ExtractionException
      */
     public static void printReport() throws IOException, ExtractionException {
-        for (String extractorName : ExtractorRegistry.get().getAllNames()) {
-            ExtractorFactory<?> factory = ExtractorRegistry.get().getFactory(extractorName);
+        for (String extractorName : ExtractorRegistry.getInstance().getAllNames()) {
+            ExtractorFactory<?> factory = ExtractorRegistry.getInstance().getFactory(extractorName);
             ExampleInputOutput example = new ExampleInputOutput(factory);
             System.out.println("Extractor: " + extractorName);
             System.out.println("  type: " + getType(factory));
@@ -198,10 +198,10 @@ public class ExtractorDocumentation {
     }
 
     private static ExtractorFactory<?> getFactory(String name) {
-        if (!ExtractorRegistry.get().isRegisteredName(name)) {
+        if (!ExtractorRegistry.getInstance().isRegisteredName(name)) {
             printErrorAndExit("Unknown extractor name: " + name);
         }
-        return ExtractorRegistry.get().getFactory(name);
+        return ExtractorRegistry.getInstance().getFactory(name);
     }
 
     private static String getType(ExtractorFactory<?> factory) {

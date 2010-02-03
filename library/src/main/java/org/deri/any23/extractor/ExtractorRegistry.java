@@ -59,8 +59,7 @@ public class ExtractorRegistry {
     /**
      * @return returns the {@link org.deri.any23.extractor.ExtractorRegistry} instance.
      */
-    public static ExtractorRegistry get() {
-        // TODO (low): this method should be called getInstance
+    public static ExtractorRegistry getInstance() {
         // Thread-safe
         synchronized (ExtractorRegistry.class) {
             if (instance == null) {

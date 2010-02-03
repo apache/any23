@@ -77,8 +77,8 @@ public class Any23 {
      */
     public Any23(String... extractorNames) {
         factories = (extractorNames == null)
-                ? ExtractorRegistry.get().getExtractorGroup()
-                : ExtractorRegistry.get().getExtractorGroup(Arrays.asList(extractorNames));
+                ? ExtractorRegistry.getInstance().getExtractorGroup()
+                : ExtractorRegistry.getInstance().getExtractorGroup(Arrays.asList(extractorNames));
         setCacheFactory(new MemCopyFactory());
     }
 
