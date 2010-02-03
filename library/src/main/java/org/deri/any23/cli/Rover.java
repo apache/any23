@@ -56,22 +56,28 @@ import java.net.URL;
  */
 public class Rover {
 
-    private static final Logger logger = LoggerFactory.getLogger(Rover.class);
-
     private static final String USER_AGENT_NAME = "Any23-CLI";
 
     //output writer constants
-    private final static String TURTLE = "turtle";
-    private final static String QUAD = "quad";
-    private final static String NTRIPLE = "ntriples";
-    private final static String RDFXML = "rdfxml";
+    private static final String TURTLE = "turtle";
+
+    private static final String QUAD    = "quad";
+    private static final String NTRIPLE = "ntriples";
+    private static final String RDFXML  = "rdfxml";
+
+    private static final Logger logger = LoggerFactory.getLogger(Rover.class);
 
     private static Options options;
 
-
     public static void main(String[] args) {
         options = new Options();
-        options.addOption(new Option("f", "format", true, "[" + TURTLE + " (default), " + NTRIPLE + ", " + RDFXML + "," + QUAD + "]"));
+        options.addOption(
+                new Option(
+                        "f",
+                        "format",
+                        true,
+                        "[" + TURTLE + " (default), " + NTRIPLE + ", " + RDFXML + "," + QUAD + "]")
+        );
         options.addOption(new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle"));
         options.addOption(new Option("o", "output", true, "ouput file (defaults to stdout)"));
         options.addOption(new Option("t", "notrivial", false, "filter trivial statements"));
@@ -196,4 +202,5 @@ public class Rover {
         }
         return f.toURI().toString();
     }
+    
 }

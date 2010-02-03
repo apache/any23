@@ -31,8 +31,7 @@ import java.io.IOException;
 
 /**
  * This class provides some command-line documentation
- * about available extractors and their usage
- * 
+ * about available extractors and their usage.
  */
 public class ExtractorDocumentation {
 
@@ -124,7 +123,8 @@ public class ExtractorDocumentation {
     }
 
     /**
-     * Print an error message
+     * Print an error message.
+     *
      * @param msg the error message to be printed
      */
     public static void printErrorAndExit(String msg) {
@@ -142,7 +142,8 @@ public class ExtractorDocumentation {
     }
 
     /**
-     * Prints an example of input for the provided extractor
+     * Prints an example of input for the provided extractor.
+     *
      * @param extractorName the name of the extractor
      * @throws IOException raised if no extractor is found with that name
      */
@@ -157,7 +158,8 @@ public class ExtractorDocumentation {
     }
 
     /**
-     * Prints an output example for the given extractor
+     * Prints an output example for the given extractor.
+     *
      * @param extractorName the extractor name
      * @throws IOException raised if no extractor is found with that name
      * @throws ExtractionException
@@ -174,6 +176,7 @@ public class ExtractorDocumentation {
 
     /**
      * Prints a complete report on all the available extractors.
+     * 
      * @throws IOException
      * @throws ExtractionException
      */
@@ -215,4 +218,5 @@ public class ExtractorDocumentation {
         }
         return "?";
     }
+    
 }

@@ -26,9 +26,10 @@ import java.util.jar.JarInputStream;
 
 /**
  * This class is the main class responsible to provide a uniform command-line
- * access points to all the others tools like {@link org.deri.any23.cli.Eval},
- * {@link org.deri.any23.cli.ExtractorDocumentation} and {@link org.deri.any23.cli.Rover}
- * 
+ * access points to all the others tools like {@link org.deri.any23.cli.Eval}.
+ *
+ * @see org.deri.any23.cli.ExtractorDocumentation
+ * @see org.deri.any23.cli.Rover
  */
 public class ToolRunner {
 
@@ -36,7 +37,7 @@ public class ToolRunner {
     private static final String PREFIX = "org.deri.any23.cli.";
 
     public static void main(String[] args) {
-        //generate automatically the cli
+        //generate automatically the cli.
         List<String> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
 
         try {
@@ -65,7 +66,7 @@ public class ToolRunner {
     }
 
     /**
-     * http://www.rgagnon.com/javadetails/java-0513.html *
+     * See http://www.rgagnon.com/javadetails/java-0513.html
      */
     public static List<String> getClasseNamesInPackage(String jarName, String packageName) {
         boolean debug = true;

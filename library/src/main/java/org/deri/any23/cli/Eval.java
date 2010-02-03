@@ -39,9 +39,9 @@ import java.io.IOException;
 public class Eval {
 
     /**
-     * A simple main for testing
+     * A simple main for testing.
      *
-     * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML
+     * @param args a url and an optional format name such as TURTLE,N3,N-TRIPLES,RDF/XML.
      * @throws FileNotFoundException
      * @throws IOException
      */
@@ -60,7 +60,7 @@ public class Eval {
         options.addOption(outputFile);
 
         CommandLineParser parser = new PosixParser();
-        CommandLine cmd = null;
+        CommandLine cmd;
 
         try {
             cmd = parser.parse(options, args);
@@ -78,4 +78,5 @@ public class Eval {
 
         l.close();
 	}
+    
 }
