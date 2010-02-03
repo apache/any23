@@ -2,6 +2,9 @@ package org.deri.any23.writer;
 
 import java.io.OutputStream;
 
+/**
+ * <i>N3</i> triples writer.
+ */
 public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public NTriplesWriter(OutputStream out) {
@@ -11,4 +14,5 @@ public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWrit
     public String getMIMEType() {
         return "text/plain";
     }
+    
 }

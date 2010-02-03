@@ -12,6 +12,7 @@ import org.openrdf.model.Value;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class CountingTripleHandler implements TripleHandler {
+
     private int count = 0;
 
     public int getCount() {
@@ -44,12 +45,9 @@ public class CountingTripleHandler implements TripleHandler {
 
     public void endDocument(URI documentURI) {
         //ignore
-        ;
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
         //ignore
-        ;
     }
 }

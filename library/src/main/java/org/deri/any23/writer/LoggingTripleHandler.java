@@ -10,50 +10,51 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
+/**
+ * Triple handler decorator useful for logging purposes.
+ */
 public class LoggingTripleHandler implements TripleHandler {
+
+    /**
+     * Decorated.
+     */
     private final TripleHandler underlyingHandler;
-    private final PrintWriter destination;
+
     private final Map<String, Integer> contextTripleMap = new HashMap<String, Integer>();
-    private long _startTime;
-    private long _contentLength;
+    private long startTime     = 0;
+    private long contentLength = 0;
+    private final PrintWriter destination;
 
     public LoggingTripleHandler(TripleHandler tripleHandler, PrintWriter destination) {
+        if(tripleHandler == null) {
+            throw new NullPointerException("tripleHandler cannot be null.");
+        }
+        if(destination == null) {
+            throw new NullPointerException("destination cannot be null.");
+        }
         underlyingHandler = tripleHandler;
         this.destination = destination;
     }
 
     public void startDocument(URI documentURI) {
         underlyingHandler.startDocument(documentURI);
-        _startTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
     }
 
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#close()
-      */
     public void close() {
         underlyingHandler.close();
         destination.flush();
         destination.close();
     }
 
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#closeContext(org.deri.any23.extractor.ExtractionContext)
-      */
     public void closeContext(ExtractionContext context) {
         underlyingHandler.closeContext(context);
     }
 
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#openContext(org.deri.any23.extractor.ExtractionContext)
-      */
     public void openContext(ExtractionContext context) {
         underlyingHandler.openContext(context);
     }
 
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#receiveTriple(com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, org.deri.any23.extractor.ExtractionContext)
-      */
     public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
         underlyingHandler.receiveTriple(s, p, o, context);
         Integer i = contextTripleMap.get(context.getExtractorName());
@@ -66,12 +67,8 @@ public class LoggingTripleHandler implements TripleHandler {
     }
 
     public void endDocument(URI documentURI) {
-        long elapsedTime = System.currentTimeMillis() - _startTime;
+        long elapsedTime = System.currentTimeMillis() - startTime;
         boolean success = true;
-//		if(underlyingHandler instanceof ExtractionContextBlocker){
-//			success= ((ExtractionContextBlocker)underlyingHandler).isDocBlocked();
-//		}
-//		if(success){
         StringBuffer sb = new StringBuffer("[");
         for (Entry<String, Integer> ent : contextTripleMap.entrySet()) {
             sb.append(" ").append(ent.getKey()).append(":").append(ent.getValue());
@@ -80,13 +77,13 @@ public class LoggingTripleHandler implements TripleHandler {
             }
         }
         sb.append("]");
-        destination.println(documentURI + "\t" + _contentLength + "\t" + elapsedTime + "\t" + success + "\t" + sb.toString());
+        destination.println(
+                documentURI + "\t" + contentLength + "\t" + elapsedTime + "\t" + success + "\t" + sb.toString()
+        );
         contextTripleMap.clear();
     }
 
     public void setContentLength(long contentLength) {
-        _contentLength = contentLength;
-        //ignore
-        ;
+        this.contentLength = contentLength;
     }
 }

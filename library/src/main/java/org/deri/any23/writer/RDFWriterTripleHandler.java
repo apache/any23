@@ -9,13 +9,14 @@ import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
 
 /**
- * A {@link TripleHandler} that writes triples to a Sesame
- * {@link RDFWriter}, e.g. for serialization using one of
- * Sesame's writers.
+ * A {@link org.deri.any23.writer.TripleHandler} that writes
+ * triples to a Sesame {@link org.openrdf.rio.RDFWriter},
+ * eg for serialization using one of Sesame's writers.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 class RDFWriterTripleHandler implements TripleHandler {
+
     private final RDFWriter writer;
     private boolean closed = false;
 
@@ -29,11 +30,11 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void startDocument(URI documentURI) {
-        // ignore
+        // Empty.
     }
 
     public void openContext(ExtractionContext context) {
-        // ignore
+        // Empty.
     }
 
     public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
@@ -54,7 +55,7 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void closeContext(ExtractionContext context) {
-        // ignore
+        // Empty.
     }
 
     public void close() {
@@ -68,10 +69,11 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void endDocument(URI documentURI) {
+        // Empty.
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
-        //ignore
+        // Empty.
     }
+    
 }

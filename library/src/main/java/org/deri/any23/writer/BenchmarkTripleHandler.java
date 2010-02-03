@@ -10,104 +10,40 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 
+/**
+ * {@link org.deri.any23.writer.TripleHandler} decorator useful to
+ * perform benchmarking.
+ */
 public class BenchmarkTripleHandler implements TripleHandler {
+
+    /**
+     * Decorated.
+     */
     private TripleHandler underlyingHandler;
 
-    private class StatObject {
-        int methodCalls = 0;
-        int triples = 0;
-        long runtime = 0;
-        long intStart = 0;
-
-        /**
-         *
-         */
-        public void interimStart() {
-            intStart = System.currentTimeMillis();
-        }
-
-        /**
-         *
-         */
-        public void interimStop() {
-            runtime += (System.currentTimeMillis() - intStart);
-            intStart = 0;
-        }
-    }
-
+    /**
+     * Collected statistics. 
+     */
     private final Map<String, StatObject> stats;
 
     /**
-     *
+     * Constructor.
      */
     public BenchmarkTripleHandler(TripleHandler tripleHandler) {
+        if(tripleHandler == null) {
+            throw new NullPointerException("tripleHandler cannot be null.");
+        }
         underlyingHandler = tripleHandler;
         stats = new HashMap<String, StatObject>();
         stats.put("SUM", new StatObject());
     }
 
-    public void startDocument(URI documentURI) {
-        underlyingHandler.startDocument(documentURI);
-    }
-
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#close()
-      */
-
-    public void close() {
-        underlyingHandler.close();
-    }
-
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#closeContext(org.deri.any23.extractor.ExtractionContext)
-      */
-
-    public void closeContext(ExtractionContext context) {
-        if (stats.containsKey(context.getExtractorName())) {
-            stats.get(context.getExtractorName()).interimStop();
-            stats.get("SUM").interimStop();
-        }
-        underlyingHandler.closeContext(context);
-    }
-
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#openContext(org.deri.any23.extractor.ExtractionContext)
-      */
-
-    public void openContext(ExtractionContext context) {
-        if (!stats.containsKey(context.getExtractorName())) {
-            stats.put(context.getExtractorName(), new StatObject());
-        }
-        stats.get(context.getExtractorName()).methodCalls++;
-        stats.get(context.getExtractorName()).interimStart();
-        stats.get("SUM").methodCalls++;
-        stats.get("SUM").interimStart();
-        underlyingHandler.openContext(context);
-    }
-
-    /* (non-Javadoc)
-      * @see org.deri.any23.writer.TripleHandler#receiveTriple(com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, com.hp.hpl.jena.graph.Node, org.deri.any23.extractor.ExtractionContext)
-      */
-
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-        if (!stats.containsKey(context.getExtractorName())) {
-            stats.put(context.getExtractorName(), new StatObject());
-        }
-        stats.get(context.getExtractorName()).triples++;
-        stats.get("SUM").triples++;
-        underlyingHandler.receiveTriple(s, p, o, context);
-    }
-
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
-        underlyingHandler.receiveNamespace(prefix, uri, context);
-    }
-
     /**
-     * @return the report
+     * Returns the report as a human readable string.
      *
+     * @return a human readable report.
      */
     public String report() {
-
         StringBuilder sb = new StringBuilder();
         StatObject sum = stats.get("SUM");
 
@@ -123,18 +59,58 @@ public class BenchmarkTripleHandler implements TripleHandler {
         stats.remove("SUM");
 
         for (Entry<String, StatObject> ent : stats.entrySet()) {
-            sb.append("\n>Extractor: ").append(ent.getKey());
-            sb.append("\n   -total calls: ").append(ent.getValue().methodCalls);
+            sb.append("\n>Extractor: "       ).append(ent.getKey());
+            sb.append("\n   -total calls: "  ).append(ent.getValue().methodCalls);
             sb.append("\n   -total triples: ").append(ent.getValue().triples);
             sb.append("\n   -total runtime: ").append(ent.getValue().runtime).append(" ms!");
             if (ent.getValue().runtime != 0)
-                sb.append("\n   -tripls/ms: ").append(ent.getValue().triples / ent.getValue().runtime);
+                sb.append("\n   -tripls/ms: "  ).append(ent.getValue().triples / ent.getValue().runtime);
             if (ent.getValue().methodCalls != 0)
-                sb.append("\n   -ms/calls: ").append(ent.getValue().runtime / ent.getValue().methodCalls);
+                sb.append("\n   -ms/calls: "   ).append(ent.getValue().runtime / ent.getValue().methodCalls);
 
         }
 
         return sb.toString();
+    }
+
+    public void startDocument(URI documentURI) {
+        underlyingHandler.startDocument(documentURI);
+    }
+
+    public void close() {
+        underlyingHandler.close();
+    }
+
+    public void closeContext(ExtractionContext context) {
+        if (stats.containsKey(context.getExtractorName())) {
+            stats.get(context.getExtractorName()).interimStop();
+            stats.get("SUM").interimStop();
+        }
+        underlyingHandler.closeContext(context);
+    }
+
+    public void openContext(ExtractionContext context) {
+        if (!stats.containsKey(context.getExtractorName())) {
+            stats.put(context.getExtractorName(), new StatObject());
+        }
+        stats.get(context.getExtractorName()).methodCalls++;
+        stats.get(context.getExtractorName()).interimStart();
+        stats.get("SUM").methodCalls++;
+        stats.get("SUM").interimStart();
+        underlyingHandler.openContext(context);
+    }
+
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+        if (!stats.containsKey(context.getExtractorName())) {
+            stats.put(context.getExtractorName(), new StatObject());
+        }
+        stats.get(context.getExtractorName()).triples++;
+        stats.get("SUM").triples++;
+        underlyingHandler.receiveTriple(s, p, o, context);
+    }
+
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+        underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 
     public void endDocument(URI documentURI) {
@@ -142,6 +118,34 @@ public class BenchmarkTripleHandler implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-        //ignore
+        // Empty.
     }
+
+    /**
+     * A single statistics.
+     */
+    private class StatObject {
+
+        int methodCalls = 0;
+        int triples     = 0;
+        long runtime    = 0;
+        long intStart   = 0;
+
+        /**
+         * Takes the start time.
+         */
+        public void interimStart() {
+            intStart = System.currentTimeMillis();
+        }
+
+        /**
+         * Takes the stop time.
+         */
+        public void interimStop() {
+            runtime += (System.currentTimeMillis() - intStart);
+            intStart = 0;
+        }
+    }
+
 }
+

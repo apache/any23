@@ -10,22 +10,36 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A {@link TripleHandler} that wraps zero or more other triple handlers
- * and dispatches all events to each of them.
+ * A {@link TripleHandler} multi decorator, that wraps zero or more
+ * other triple handlers and dispatches all events to each of them.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class CompositeTripleHandler implements TripleHandler {
+
     private Collection<TripleHandler> children = new ArrayList<TripleHandler>();
 
+    /**
+     * Constructor with empty decorated list.
+     */
     public CompositeTripleHandler() {
         this(Collections.<TripleHandler>emptyList());
     }
 
+    /**
+     * Constructor with initial list of decorated handlers.
+     * 
+     * @param children list of decorated handlers. 
+     */
     public CompositeTripleHandler(Collection<TripleHandler> children) {
         this.children.addAll(children);
     }
 
+    /**
+     * Adds a decorated handler.
+     *
+     * @param child the decorated handler.
+     */
     public void addChild(TripleHandler child) {
         children.add(child);
     }
@@ -73,8 +87,7 @@ public class CompositeTripleHandler implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
-        //ignore
-        ;
+        // Empty.
     }
+    
 }

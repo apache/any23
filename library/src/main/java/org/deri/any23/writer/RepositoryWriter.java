@@ -7,7 +7,12 @@ import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 
+/**
+ * A <i>triple storage</i> writer.
+ */
+// TODO: MED -  rename to TripleStorageWriter
 public class RepositoryWriter implements TripleHandler {
+
     private final RepositoryConnection conn;
     private final Resource overrideContext;
 
@@ -28,17 +33,27 @@ public class RepositoryWriter implements TripleHandler {
         // ignore
     }
 
-    public void receiveTriple(Resource s, URI p, Value o,
-                              ExtractionContext context) {
+    public void receiveTriple(
+            Resource s,
+            URI p,
+            Value o,
+          ExtractionContext context
+    ) {
         try {
-            conn.add(conn.getValueFactory().createStatement(s, p, o), getContextResource(context.getDocumentURI()));
+            conn.add(
+                conn.getValueFactory().createStatement(s, p, o),
+                getContextResource(context.getDocumentURI())
+            );
         } catch (RepositoryException ex) {
             throw new RuntimeException(ex);
         }
     }
 
-    public void receiveNamespace(String prefix, String uri,
-                                 ExtractionContext context) {
+    public void receiveNamespace(
+            String prefix,
+            String uri,
+            ExtractionContext context
+    ) {
         try {
             conn.setNamespace(prefix, uri);
         } catch (RepositoryException ex) {
@@ -56,13 +71,10 @@ public class RepositoryWriter implements TripleHandler {
 
     public void endDocument(URI documentURI) {
         // ignore
-        ;
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
         //ignore
-        ;
     }
 
     private Resource getContextResource(Resource fromExtractor) {

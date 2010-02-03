@@ -20,23 +20,22 @@ import java.io.OutputStream;
  */
 public class QuadWriter implements TripleHandler {
 
+    private OutputStream out;
 
-    private OutputStream _out;
-
-    public QuadWriter(OutputStream out) {
-        _out = out;
+    public QuadWriter(OutputStream os) {
+        out = os;
     }
 
-
     public void startDocument(URI documentURI) {
-        // ignore
+        // Empty.
     }
 
     public void openContext(ExtractionContext context) {
+        // Empty.
     }
 
     public void closeContext(ExtractionContext context) {
-        // do nothing
+        // Empty.
     }
 
     public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
@@ -46,9 +45,10 @@ public class QuadWriter implements TripleHandler {
             sb.append(NTriplesUtil.toNTriplesString(p)).append(" ");
             sb.append(NTriplesUtil.toNTriplesString(o)).append(" ");
             sb.append(NTriplesUtil.toNTriplesString(context.getDocumentURI())).append(" .\n");
-            _out.write(sb.toString().getBytes());
-            _out.flush();
+            out.write(sb.toString().getBytes());
+            out.flush();
         } catch (IOException ioe) {
+            throw new RuntimeException("Error while writing on output stream.", ioe);
         }
     }
 
@@ -58,18 +58,17 @@ public class QuadWriter implements TripleHandler {
 
     public void close() {
         try {
-            _out.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            out.close();
+        } catch (IOException ioe) {
+            throw new RuntimeException("Error while closing output stream.", ioe);
         }
     }
 
     public void endDocument(URI documentURI) {
+        // Empty.
     }
 
     public void setContentLength(long contentLength) {
-//		_contentLength = contentLength;
-        //ignore
+        // Empty.
     }
 }

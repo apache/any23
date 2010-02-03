@@ -9,20 +9,37 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * A {@link TripleHandler} that collects various information
- * about the extraction process, such as the extractors used
- * and the total number of triples.
+ * A {@link org.deri.any23.writer.TripleHandler} that collects
+ * various information about the extraction process, such as
+ * the extractors used and the total number of triples.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ReportingTripleHandler implements TripleHandler {
+
     private final TripleHandler wrapped;
+
     private final Collection<String> extractorNames = new HashSet<String>();
-    private int totalTriples = 0;
+    private int totalTriples   = 0;
     private int totalDocuments = 0;
 
     public ReportingTripleHandler(TripleHandler wrapped) {
+        if(wrapped == null) {
+            throw new NullPointerException("wrapped cannot be null.");
+        }
         this.wrapped = wrapped;
+    }
+
+    public Collection<String> getExtractorNames() {
+        return extractorNames;
+    }
+
+    public int getTotalTriples() {
+        return totalTriples;
+    }
+
+    public int getTotalDocuments() {
+        return totalDocuments;
     }
 
     public void startDocument(URI documentURI) {
@@ -30,18 +47,24 @@ public class ReportingTripleHandler implements TripleHandler {
         wrapped.startDocument(documentURI);
     }
 
-
     public void openContext(ExtractionContext context) {
         wrapped.openContext(context);
     }
 
-    public void receiveNamespace(String prefix, String uri,
-                                 ExtractionContext context) {
+    public void receiveNamespace(
+            String prefix,
+            String uri,
+            ExtractionContext context
+    ) {
         wrapped.receiveNamespace(prefix, uri, context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o,
-                              ExtractionContext context) {
+    public void receiveTriple(
+            Resource s,
+            URI p,
+            Value o,
+            ExtractionContext context
+    ) {
         extractorNames.add(context.getExtractorName());
         totalTriples++;
         wrapped.receiveTriple(s, p, o, context);
@@ -63,15 +86,4 @@ public class ReportingTripleHandler implements TripleHandler {
         wrapped.close();
     }
 
-    public Collection<String> getExtractorNames() {
-        return extractorNames;
-    }
-
-    public int getTotalTriples() {
-        return totalTriples;
-    }
-
-    public int getTotalDocuments() {
-        return totalDocuments;
-    }
 }
