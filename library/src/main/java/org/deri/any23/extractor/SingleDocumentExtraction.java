@@ -37,6 +37,11 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 import java.util.Collections;
 
+/**
+ *
+ * This class acts as facade where all the extractors were called on a single document.
+ *
+ */
 public class SingleDocumentExtraction {
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
@@ -82,6 +87,13 @@ public class SingleDocumentExtraction {
         this.detector = detector;
     }
 
+    /**
+     *
+     * Triggers the execution of all the {@link org.deri.any23.extractor.Extractor} registered to this class.
+     *
+     * @throws ExtractionException
+     * @throws IOException
+     */
     public void run() throws ExtractionException, IOException {
         ensureHasLocalCopy();
         try {
@@ -100,9 +112,10 @@ public class SingleDocumentExtraction {
         sb.append("match " + documentURI);
         log.debug(sb.toString());
 
-//		byte[] buffer = new byte[100];
-//		int l = getInputStream().read(buffer);
-//		log.debug("Content: " + new String(buffer, 0, l));
+        // byte[] buffer = new byte[100];
+        // int l = getInputStream().read(buffer);
+        // log.debug("Content: " + new String(buffer, 0, l));
+
         // Invoke all extractors
         output.startDocument(documentURI);
         output.setContentLength(in.getContentLength());
@@ -137,6 +150,13 @@ public class SingleDocumentExtraction {
         matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
     }
 
+    /**
+     * Triggers the execution of a specific {@link org.deri.any23.extractor.Extractor}.
+     * 
+     * @param extractor the {@link org.deri.any23.extractor.Extractor} to be executed.
+     * @throws ExtractionException
+     * @throws IOException
+     */
     private void runExtractor(Extractor<?> extractor) throws ExtractionException, IOException {
         log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
         long startTime = System.currentTimeMillis();

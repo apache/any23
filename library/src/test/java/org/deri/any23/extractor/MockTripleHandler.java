@@ -27,7 +27,14 @@ import org.openrdf.model.Value;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ *
+ * Just a mockup implementing a {@link org.deri.any23.writer.TripleHandler}.
+ * Used only for test purposes. 
+ *
+ */
 public class MockTripleHandler implements TripleHandler {
+
     private final List<String> expectations = new LinkedList<String>();
 
     public void expectStartDocument(URI documentURI) {
@@ -110,4 +117,5 @@ public class MockTripleHandler implements TripleHandler {
         String expectation = expectations.remove(0);
         Assert.assertEquals("Invocation doesn't match expectation", expectation, invocation);
     }
+
 }
