@@ -25,6 +25,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ *
+ * This class is a wrapper around an HTML document providing a simply facade.
+ *
+ */
 public class HTMLFixture {
 
     private final String filename;
@@ -46,6 +51,9 @@ public class HTMLFixture {
         return new FileDocumentSource(getFile(), baseURI);
     }
 
+    /**
+     * @return the DOM root {@link org.w3c.dom.Node} of the whole document.
+     */
     public Node getDOM() {
         try {
             return new TagSoupParser(new FileInputStream(getFile()), "http://example.org/").getDOM();
@@ -54,6 +62,9 @@ public class HTMLFixture {
         }
     }
 
+    /**
+     * @return an {@link org.deri.any23.extractor.html.HTMLDocument} object of the whole HTML document.
+     */
     public HTMLDocument getHTMLDocument() {
         return new HTMLDocument(getDOM());
     }

@@ -29,9 +29,17 @@ import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 
+/**
+ *
+ * Reference Test class for the {@link org.deri.any23.extractor.html.XFNExtractor} extractor.
+ *
+ */
 public class XFNExtractorTest extends AbstractMicroformatTestCase {
+
     private final static URI bobsHomepage = baseURI;
+
     private final static URI alicesHomepage = Helper.uri("http://alice.example.com/");
+
     private final static URI charliesHomepage = Helper.uri("http://charlie.example.com/");
 
     protected ExtractorFactory<?> getExtractorFactory() {

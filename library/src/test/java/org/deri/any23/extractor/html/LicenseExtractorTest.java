@@ -25,8 +25,15 @@ import org.deri.any23.vocab.XHTML;
 import org.openrdf.model.URI;
 import org.openrdf.repository.RepositoryException;
 
+/**
+ *
+ * Reference Test class for the {@link org.deri.any23.extractor.html.LicenseExtractor} extractor.
+ *
+ */
 public class LicenseExtractorTest extends AbstractMicroformatTestCase {
+
     private URI ccBy = Helper.uri("http://creativecommons.org/licenses/by/2.0/");
+    
     private URI apache = Helper.uri("http://www.apache.org/licenses/LICENSE-2.0");
 
     public ExtractorFactory<?> getExtractorFactory() {

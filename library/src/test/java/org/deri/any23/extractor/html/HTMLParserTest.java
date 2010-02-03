@@ -26,6 +26,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Reference Test class for the {@link org.deri.any23.extractor.html.TagSoupParser} parser.
+ */
 public class HTMLParserTest {
 
     @Test

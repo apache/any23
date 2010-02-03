@@ -20,6 +20,10 @@ package org.deri.any23.extractor.html;
 import org.junit.Test;
 import org.junit.Assert;
 
+/**
+ * Test class to ensure behaviors of {@link org.deri.any23.extractor.html.HTMLDocument} parser with encoding
+ * corner cases. 
+ */
 public class EncodingTest {
 
     private final static String HELLO_WORLD = "Hell\u00F6 W\u00F6rld!";

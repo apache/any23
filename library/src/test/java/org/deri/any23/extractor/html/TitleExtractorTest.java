@@ -26,6 +26,10 @@ import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.model.Literal;
 import org.openrdf.repository.RepositoryException;
 
+/**
+ * Reference Test class for the {@link org.deri.any23.extractor.html.TitleExtractor} extractor.
+ * 
+ */
 public class TitleExtractorTest extends AbstractMicroformatTestCase {
     private Literal helloLiteral = Helper.literal("Hello World!");
 

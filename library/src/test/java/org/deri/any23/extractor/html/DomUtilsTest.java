@@ -26,6 +26,9 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+/**
+ * Reference Test class for the {@link org.deri.any23.extractor.html.DomUtils} class.
+ */
 public class DomUtilsTest {
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
