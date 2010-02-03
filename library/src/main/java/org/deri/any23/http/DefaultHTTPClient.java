@@ -36,8 +36,6 @@ import java.util.List;
  *
  * @author Paolo Capriotti
  * @author Richard Cyganiak (richard@cyganiak.de)
- * <p/>
- * TODO (low): content length and actual document URI could be messed up in multithreaded situations
  */
 public class DefaultHTTPClient implements HTTPClient {
 
