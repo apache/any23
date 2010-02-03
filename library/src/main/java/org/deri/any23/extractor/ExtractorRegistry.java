@@ -152,7 +152,6 @@ public class ExtractorRegistry {
      * Returns the names of all registered extractors, sorted alphabetically.
      */
     public List<String> getAllNames() {
-        // TODO (low) this method should be private since it's used only within this class
         List<String> result = new ArrayList<String>(factories.keySet());
         Collections.sort(result);
         return result;
