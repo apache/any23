@@ -52,99 +52,115 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testOneVEvent() throws RepositoryException {
-		assertExtracts("hcalendar/example1.html");
-		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal );
-		assertContains(null, RDF.TYPE, vevent );
-		RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
-		while( result.hasNext() ) {
-			Statement statement = result.next();
-            final Resource subject = statement.getSubject();
-            assertContains(null   , ICAL.component, subject);
-			assertContains(subject, RDF.TYPE, vevent);
-			assertContains(subject, ICAL.dtstart,    "19970903T163000Z");
-			assertContains(subject, ICAL.dtstamp,    "19970901T1300Z");
-			assertContains(subject, ICAL.dtend,      "19970903T190000Z");
-			assertContains(subject, ICAL.uid,        "19970901T130000Z-123401@host.com");
-			assertContains(subject, ICAL.summary,    "Annual Employee Review");
-			assertContains(subject, ICAL.class_,     "private");
-			assertContains(subject, ICAL.categories, "Business");
-			assertContains(subject, ICAL.categories, "Human Resources");
-		}
-	}
+        assertExtracts("hcalendar/example1.html");
+        assertModelNotEmpty();
+        assertContains(baseURI, RDF.TYPE, vcal);
+        assertContains(null, RDF.TYPE, vevent);
+        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        try {
+            while (result.hasNext()) {
+                Statement statement = result.next();
+                final Resource subject = statement.getSubject();
+                assertContains(null, ICAL.component, subject);
+                assertContains(subject, RDF.TYPE, vevent);
+                assertContains(subject, ICAL.dtstart, "19970903T163000Z");
+                assertContains(subject, ICAL.dtstamp, "19970901T1300Z");
+                assertContains(subject, ICAL.dtend, "19970903T190000Z");
+                assertContains(subject, ICAL.uid, "19970901T130000Z-123401@host.com");
+                assertContains(subject, ICAL.summary, "Annual Employee Review");
+                assertContains(subject, ICAL.class_, "private");
+                assertContains(subject, ICAL.categories, "Business");
+                assertContains(subject, ICAL.categories, "Human Resources");
+            }
+        } finally {
+            result.close();
+        }
+    }
 
     @Test
     public void testTransparentEvent() throws RepositoryException {
-		assertExtracts("hcalendar/example2.html");
-		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal );
-		assertContains(null, RDF.TYPE, vevent );
-		RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
-		while(result.hasNext()) {
-            Statement statement = result.next();
-            final Resource subject = statement.getSubject();
-            assertContains(null, ICAL.component, subject);
-			assertContains(subject, RDF.TYPE, vevent);
-			assertContains(subject, ICAL.dtstart,    "19970401T163000Z");
-			assertContains(subject, ICAL.dtstamp,    "19970901T1300Z");
-			assertContains(subject, ICAL.dtend,      "19970402T010000Z");
-			assertContains(subject, ICAL.uid,        "19970901T130000Z-123402@host.com");
-			assertContains(subject, ICAL.summary,    "Laurel is in sensitivity awareness class.");
-			assertContains(subject, ICAL.class_,     "public");
-			assertContains(subject, ICAL.transp,     "transparent");
-			assertContains(subject, ICAL.categories, "Business");
-			assertContains(subject, ICAL.categories, "Human Resources");
-		}
-	}
+        assertExtracts("hcalendar/example2.html");
+        assertModelNotEmpty();
+        assertContains(baseURI, RDF.TYPE, vcal);
+        assertContains(null, RDF.TYPE, vevent);
+        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        try {
+            while (result.hasNext()) {
+                Statement statement = result.next();
+                final Resource subject = statement.getSubject();
+                assertContains(null, ICAL.component, subject);
+                assertContains(subject, RDF.TYPE, vevent);
+                assertContains(subject, ICAL.dtstart, "19970401T163000Z");
+                assertContains(subject, ICAL.dtstamp, "19970901T1300Z");
+                assertContains(subject, ICAL.dtend, "19970402T010000Z");
+                assertContains(subject, ICAL.uid, "19970901T130000Z-123402@host.com");
+                assertContains(subject, ICAL.summary, "Laurel is in sensitivity awareness class.");
+                assertContains(subject, ICAL.class_, "public");
+                assertContains(subject, ICAL.transp, "transparent");
+                assertContains(subject, ICAL.categories, "Business");
+                assertContains(subject, ICAL.categories, "Human Resources");
+            }
+        } finally {
+            result.close();
+        }
+    }
 
     @Test
     public void testRepetitiveEvent() throws RepositoryException {
-		assertExtracts("hcalendar/example3.html");
-		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal );
-		assertContains(null, RDF.TYPE, vevent );
-		RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
-		while(result.hasNext()) {
-			Statement statement = result.next();
-            final Resource subject = statement.getSubject();
-            assertContains(null, ICAL.component, subject );
-			assertContains(subject, RDF.TYPE, vevent);
-			assertContains(subject, ICAL.dtstart,    "19971102");
-			assertContains(subject, ICAL.dtstamp,    "19970901T1300Z");
-			assertContains(subject, ICAL.uid,        "19970901T130000Z-123403@host.com");
-			assertContains(subject, ICAL.summary,    "Our Blissful Anniversary");
-			assertContains(subject, ICAL.class_,     "confidential");
-			assertContains(subject, ICAL.categories, "Anniversary");
-			assertContains(subject, ICAL.categories, "Personal");
-			assertContains(subject, ICAL.categories, "Special Occassion");
-			assertContains(subject, ICAL.rrule, (Value) null);
-		}
-	}
+        assertExtracts("hcalendar/example3.html");
+        assertModelNotEmpty();
+        assertContains(baseURI, RDF.TYPE, vcal);
+        assertContains(null, RDF.TYPE, vevent);
+        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        try {
+            while (result.hasNext()) {
+                Statement statement = result.next();
+                final Resource subject = statement.getSubject();
+                assertContains(null, ICAL.component, subject);
+                assertContains(subject, RDF.TYPE, vevent);
+                assertContains(subject, ICAL.dtstart, "19971102");
+                assertContains(subject, ICAL.dtstamp, "19970901T1300Z");
+                assertContains(subject, ICAL.uid, "19970901T130000Z-123403@host.com");
+                assertContains(subject, ICAL.summary, "Our Blissful Anniversary");
+                assertContains(subject, ICAL.class_, "confidential");
+                assertContains(subject, ICAL.categories, "Anniversary");
+                assertContains(subject, ICAL.categories, "Personal");
+                assertContains(subject, ICAL.categories, "Special Occassion");
+                assertContains(subject, ICAL.rrule, (Value) null);
+            }
+        } finally {
+            result.close();
+        }
+    }
 
     @Test
     public void testThreeDayEvent() throws RepositoryException {
-		assertExtracts("hcalendar/example5.html");
-		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal );
-		assertContains(null, RDF.TYPE, vevent );
-		RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
-		while(result.hasNext()) {
-			Statement statement = result.next();
-            final Resource subject = statement.getSubject();
-            assertContains(null, ICAL.component, subject);
-			assertContains(subject, RDF.TYPE, vevent);
-			assertContains(subject, ICAL.dtstart,      "19960918T143000Z");
-			assertContains(subject, ICAL.dtstamp,     "19960704T120000Z");
-			assertContains(subject, ICAL.dtend,       "19960920T220000Z");
-			assertContains(subject, ICAL.uid,         "uid1@host.com");
-			assertContains(subject, ICAL.summary,     "Networld+Interop Conference");
-			assertContains(subject, ICAL.description, "Networld+Interop Conference and Exhibit Atlanta World Congress\n" +
-                                                      "  Center Atlanta, Georgia");
-			assertContains(subject, ICAL.categories,  "Conference");
-			assertContains(subject, ICAL.status,      "CONFIRMED");
-			assertContains(subject, ICAL.organizer, (Value) null);
-		}
-	}
+        assertExtracts("hcalendar/example5.html");
+        assertModelNotEmpty();
+        assertContains(baseURI, RDF.TYPE, vcal);
+        assertContains(null, RDF.TYPE, vevent);
+        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        try {
+            while (result.hasNext()) {
+                Statement statement = result.next();
+                final Resource subject = statement.getSubject();
+                assertContains(null, ICAL.component, subject);
+                assertContains(subject, RDF.TYPE, vevent);
+                assertContains(subject, ICAL.dtstart, "19960918T143000Z");
+                assertContains(subject, ICAL.dtstamp, "19960704T120000Z");
+                assertContains(subject, ICAL.dtend, "19960920T220000Z");
+                assertContains(subject, ICAL.uid, "uid1@host.com");
+                assertContains(subject, ICAL.summary, "Networld+Interop Conference");
+                assertContains(subject, ICAL.description, "Networld+Interop Conference and Exhibit Atlanta World Congress\n" +
+                        "  Center Atlanta, Georgia");
+                assertContains(subject, ICAL.categories, "Conference");
+                assertContains(subject, ICAL.status, "CONFIRMED");
+                assertContains(subject, ICAL.organizer, (Value) null);
+            }
+        } finally {
+            result.close();
+        }
+    }
 
     @Test
     public void testHCalendarWithBudyInfo() throws RepositoryException {
@@ -352,20 +368,14 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     private Resource getExactlyOneComponent(Resource r) throws RepositoryException {
         RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, r, false);
-        Assert.assertTrue(result.hasNext());
-        Resource sub = result.next().getSubject();
-        Assert.assertFalse(result.hasNext());
-        return sub;
-    }
-
-    private void assertStatementsSize(URI prop, Value obj, int expected) throws RepositoryException {
-        RepositoryResult<Statement> result = conn.getStatements(null, prop, obj, false);
-        int count = 0;
-        while ( result.hasNext() ) {
-            result.next();
-            count++;
+        try {
+            Assert.assertTrue(result.hasNext());
+            Resource sub = result.next().getSubject();
+            Assert.assertFalse(result.hasNext());
+            return sub;
+        } finally {
+            result.close();
         }
-        Assert.assertEquals(expected, count);
     }
 
     private void assertDefault(String name) throws RepositoryException {

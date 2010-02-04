@@ -132,12 +132,16 @@ public abstract class AbstractMicroformatTestCase {
 
     public Resource findExactlyOneBlankSubject(URI p, Value o) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
-        Assert.assertTrue(getFailedExtractionMessage(), it.hasNext());
-        Statement stmt = it.next();
-        Resource result = stmt.getSubject();
-        Assert.assertTrue(getFailedExtractionMessage(), result instanceof BNode);
-        Assert.assertFalse(getFailedExtractionMessage(), it.hasNext());
-        return result;
+        try {
+            Assert.assertTrue(getFailedExtractionMessage(), it.hasNext());
+            Statement stmt = it.next();
+            Resource result = stmt.getSubject();
+            Assert.assertTrue(getFailedExtractionMessage(), result instanceof BNode);
+            Assert.assertFalse(getFailedExtractionMessage(), it.hasNext());
+            return result;
+        } finally {
+            it.close();
+        }
     }
 
     protected String dumpModelToString() throws RepositoryException {
@@ -156,6 +160,20 @@ public abstract class AbstractMicroformatTestCase {
 
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
         assertContains(s, p, RDFHelper.literal(o));
+    }
+
+    protected void assertStatementsSize(URI prop, Value obj, int expected) throws RepositoryException {
+        RepositoryResult<Statement> result = conn.getStatements(null, prop, obj, false);
+        int count = 0;
+        try {
+            while (result.hasNext()) {
+                result.next();
+                count++;
+            }
+        } finally {
+            result.close();
+        }
+        junit.framework.Assert.assertEquals(expected, count);
     }
 
 }
