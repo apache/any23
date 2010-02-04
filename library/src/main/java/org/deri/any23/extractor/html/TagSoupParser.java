@@ -28,17 +28,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Parses an InputStream into an HTML DOM tree using a tagsoup parser.
+ * Parses an {@link java.io.InputStream}
+ * into an <io>HTML DOM</i> tree using a <i>TagSoup</i> parser.
  * <p/>
- * <strong>Note:</strong> The resulting DOM tree will not be namespace
+ * <strong>Note:</strong> The resulting <i>DOM</i> tree will not be namespace
  * aware, and all element names will be upper case, while attributes
- * will be lower case. This is because the NekoHTML tagsoup parser
- * by default uses the Xerces HTML DOM implementation, which doesn't
- * support namespaces and forces uppercase element names. This works
- * with the RDFa XSLT and with XPath, so we left it this way.
+ * will be lower case. This is because the
+ * <a href="http://nekohtml.sourceforge.net/">NekoHTML</a> based <i>TagSoup</i> parser
+ * by default uses the <a href="http://xerces.apache.org/xerces2-j/dom.html">Xerces HTML DOM</a>
+ * implementation, which doesn't support namespaces and forces uppercase element names. This works
+ * with the <i>RDFa XSLT Converter</i> and with </i>XPath</i>, so we left it this way.
  * <p/>
- * TODO (medium): We should pass encoding from the Content-Type HTTP header if available
- * TODO (medium): Check if NekoHTML's encoding handling is sane
+ * TODO #10 We should pass encoding from the Content-Type HTTP header if available.
+ * TODO #10 Check if NekoHTML's encoding handling is sane.
  *
  * @author Richard Cyganiak (richard at cyganiak dot de)
  */
