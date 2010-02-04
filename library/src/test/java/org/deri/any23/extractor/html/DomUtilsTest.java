@@ -61,43 +61,43 @@ public class DomUtilsTest {
     }
 
     public void testFindAllByClassName() {
-    // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
     }
 
 	public void testFindAllByTag() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 	public void testFindAllByTagAndClassName() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 	public void testFindNodeById() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 	public void testFindAll() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 	public void testFind() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
     public void testHasClassName() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
     }
 
 	public void testHasAttribute() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 	public void testIsElementNode() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 	public void testReadAttribute() {
-        // TODO (medium): to be implemented
+        // TODO #11 - to be implemented
 	}
 
 }
