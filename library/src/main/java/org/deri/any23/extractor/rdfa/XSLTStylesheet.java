@@ -35,7 +35,7 @@ import java.io.Writer;
  * An XSLT stylesheet loaded from an InputStream, can be applied
  * to DOM trees and writes the result to a {@link Writer}.
  * <p/>
- * TODO (high): XSLTStylesheet should have better error handling
+ * TODO #12 - XSLTStylesheet should have better error handling.
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -63,7 +63,7 @@ public class XSLTStylesheet {
         try {
             transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
         } catch (TransformerException e) {
-            // TODO (high): Figure out when this can be thrown
+            // TODO #12 - Figure out when this can be thrown.
             log.info("Exception in XSLTStylesheet.applyTo; details follow", e);
             log.info("Input DOM node:", document);
             log.info("Input DOM node getBaseURI:", document.getBaseURI());
