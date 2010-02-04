@@ -41,9 +41,6 @@ import java.util.Arrays;
  * <a href="http://ns.inria.fr/grddl/rdfa/">here</a>. It works by first
  * parsing the HTML using a tagsoup parser, then applies the XSLT to the
  * DOM tree, then parses the resulting RDF/XML.
- * <p/>
- * TODO (medium): Add configuration option for wether to add standard HTML triples
- * (which result from rel="stylesheet" and such)
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
