@@ -29,19 +29,8 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 
 /**
- * TODO Validate comments/documentation throughout this file
- * <p/>
- * The abstract base class for any Microformat extractor.
- * It requires a method that returns the name of the microformat,
- * and a method that performs the extraction and writes the results
- * to an RDF model.
- * <p/>
- * The nodes generated in the model can have any name or implicit label
- * but if possible they SHOULD have names (either URIs or AnonId) that
- * are uniquely derivable from their position in the DOM tree, so that
- * multiple extractors can merge information.
- * <p/>
- * TODO: Deep class hierarchies are ugly, we should do something without protected fields
+ * The abstract base class for any
+ * <a href="microformats.org/">Microformat specification</a> extractor.
  */
 public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
@@ -51,8 +40,22 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     protected final Any23ValueFactoryWrapper valueFactory =
             new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
+    /**
+     * Returns the description of this extractor.
+     *
+     * @return a human readable description.
+     */
     public abstract ExtractorDescription getDescription();
-    
+
+    /**
+     * Performs the extraction of the data and writes them to the model.
+     * The nodes generated in the model can have any name or implicit label
+     * but if possible they </i>SHOULD</i> have names (either URIs or AnonId) that
+     * are uniquely derivable from their position in the DOM tree, so that
+     * multiple extractors can merge information.
+     */
+    protected abstract boolean extract() throws ExtractionException;
+
     public void run(Document in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
         this.document = new HTMLDocument(in);
@@ -60,11 +63,6 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         this.out = out;
         extract();
     }
-
-    /**
-     * Performs the extraction of the data and writes them to the model.
-     */
-    protected abstract boolean extract() throws ExtractionException;
 
     /**
      * Helper method that adds a literal property to a node.
@@ -83,7 +81,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
     /**
      * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
-     * TODO: Move this to the same class as fixURI()
+     * TODO #3 - Move this to the same class as fixURI().
      */
     protected URI fixLink(String link, String defaultSchema) {
         if (link == null) return null;
@@ -102,8 +100,11 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Helper method that adds a URI property to a node.
      */
-    protected boolean conditionallyAddResourceProperty(Resource subject,
-                                                       URI property, URI uri) {
+    protected boolean conditionallyAddResourceProperty(
+            Resource subject,
+            URI property,
+            URI uri
+    ) {
         if (uri == null) return false;
         out.writeTriple(subject, property, uri);
         return true;
