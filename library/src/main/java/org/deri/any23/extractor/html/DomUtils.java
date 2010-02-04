@@ -151,9 +151,7 @@ public class DomUtils {
 
     /**
      * Tells if an element has a class name <b>not checking the parents
-     * in the hierarchy</b> mimicking the CSS .foo match.
-     * <p/>
-     * TODO Find all class checks throughout the code and use this
+     * in the hierarchy</b> mimicking the <i>CSS</i> .foo match.
      */
     public static boolean hasClassName(Node node, String className) {
         return hasAttribute(node, "class", className);
