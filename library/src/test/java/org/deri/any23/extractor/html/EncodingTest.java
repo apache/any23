@@ -40,20 +40,20 @@ public class EncodingTest {
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
+     /**
+     * Known issue: NekoHTML does not auto-detect the encoding, but relies
+     * on the explicitly specified encoding (via XML declaration or
+     * HTTP-Equiv meta header). If the meta header comes *after* the
+     * title element, then NekoHTML will not use the declared encoding
+     * for the title.
+     *
+     * For this test we expect to not recognize the title.
+     * TODO #12 - Try to see if the latest version of Neko may help with that.
+     */
+    @Test
     public void testEncodingHTML_UTF_8_DeclarationAfterTitle() {
-        /**
-         * Known issue: NekoHTML does not auto-detect the encoding, but relies
-         * on the explicitly specified encoding (via XML declaration or
-         * HTTP-Equiv meta header). If the meta header comes *after* the
-         * title element, then NekoHTML will not use the declared encoding
-         * for the title.
-         *
-         * This test has been disabled.
-         * TODO (medium): try to see if the latest version of Neko may help with that
-         *
-         */
         HTMLDocument document = parseHTML("xfn/encoding-utf-8-after-title.html");
-        Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
+        Assert.assertNotSame(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
