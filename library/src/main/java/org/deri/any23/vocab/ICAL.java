@@ -512,7 +512,7 @@ public class ICAL extends Vocabulary {
      */
     public static final URI version = createProperty("version");
 
-    private static final Map<String, URI> localNamesMap = new HashMap<String, URI>(10);
+    private static Map<String, URI> localNamesMap;
 
     public static URI getResource(String name) {
         URI res = localNamesMap.get(name);
@@ -527,12 +527,18 @@ public class ICAL extends Vocabulary {
 
     private static URI createResource(String string) {
         URI res = createURI("http://www.w3.org/2002/12/cal/icaltzd#" + string);
+        if(localNamesMap == null) {
+            localNamesMap = new HashMap<String, URI>(10);
+        }
         localNamesMap.put(string, res);
         return res;
     }
 
     private static URI createProperty(String string) {
         URI res = createURI("http://www.w3.org/2002/12/cal/icaltzd#" + string);
+        if(localNamesMap == null) {
+            localNamesMap = new HashMap<String, URI>(10);
+        }
         localNamesMap.put(string, res);
         return res;
     }
