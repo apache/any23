@@ -24,6 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -231,6 +233,20 @@ public class HTMLDocument {
 
     public List<Node> findAllByClassName(String string) {
         return DomUtils.findAllByClassName(getDocument(), string);
+    }
+
+    /**
+     * Returns the text contained inside a node if leaf,
+     * <code>null</code> otherwise.
+     *
+     * @return the text of a leaf node.
+     */
+    public String getText() {
+        NodeList children = getDocument().getChildNodes();
+        if(children.getLength() == 1 && children.item(0) instanceof Text) {
+            return children.item(0).getTextContent();
+        }
+        return null;
     }
 
     private java.net.URI getBaseURI() throws ExtractionException {

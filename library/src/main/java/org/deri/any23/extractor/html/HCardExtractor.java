@@ -115,6 +115,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         foundSomething |= addPhoto(card);
         foundSomething |= addLogo(card);
         foundSomething |= addUid(card);
+        foundSomething |= addClass(card);
         foundSomething |= addStringProperty("bday", card, VCARD.bday);
         foundSomething |= addStringProperty("rev", card, VCARD.rev);
         foundSomething |= addStringProperty("tz", card, VCARD.tz);
@@ -131,7 +132,6 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         out.writeTriple(card, RDF.TYPE, VCARD.VCard);
 
         return true;
-
     }
 
     private boolean addTelephones(Resource card) {
@@ -201,6 +201,11 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return conditionallyAddStringProperty(card, VCARD.uid, uid);
     }
 
+    private boolean addClass(Resource card) {
+        String class_ = fragment.getSingularUrlField("class");
+        return conditionallyAddStringProperty(card, VCARD.class_, class_);
+    }
+
     //TODO: #7 - Check if tests are checking plurality.
     private boolean addLogo(Resource card) throws ExtractionException {
         String[] links = fragment.getPluralUrlField("logo");
@@ -268,8 +273,12 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         Node node = fragment.findMicroformattedObjectNode("*", "org");
         if (node == null) return;
         HTMLDocument doc = new HTMLDocument(node);
-        name.setOrganization(doc.getSingularTextField("organization-name"));
-        name.setOrganization(doc.getSingularTextField("org"));
+        String nodeText = doc.getText();
+        if(nodeText != null) {
+            name.setOrganization(nodeText);
+        } else {
+            name.setOrganization(doc.getSingularTextField("organization-name"));
+        }
         name.setOrganizationUnit(doc.getSingularTextField("organization-unit"));
     }
 
