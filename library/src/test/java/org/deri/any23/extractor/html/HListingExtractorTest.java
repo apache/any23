@@ -33,6 +33,8 @@ import org.openrdf.repository.RepositoryException;
  *
  * Reference Test class for the {@link org.deri.any23.extractor.html.HListingExtractor} extractor.
  *
+ * @author Davide Palmisano (dpalmisano@gmail.com)
+ *
  */
 public class HListingExtractorTest extends AbstractMicroformatTestCase {
 
@@ -87,8 +89,8 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
     public void testListerFn() throws RepositoryException {
         assertExtracts("hlisting/actions-lister-fn.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.action, HLISTING.offer);
-        assertContains(RDF.TYPE, HLISTING.Lister);
+        assertContains(HLISTING.action,     HLISTING.offer);
+        assertContains(RDF.TYPE,            HLISTING.Lister);
         assertContains(HLISTING.listerName, "mike");
     }
 
@@ -98,16 +100,16 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
         Assert.assertFalse(conn.isEmpty());
 
         assertContains(HLISTING.action, HLISTING.offer);
-        assertContains(HLISTING.listerName, "John Broker");
-        assertContains(RDF.TYPE, HLISTING.Lister);
-        assertContains(HLISTING.tel, "(110) 555-1212");
+        assertContains(HLISTING.listerName,     "John Broker");
+        assertContains(RDF.TYPE,                HLISTING.Lister);
+        assertContains(HLISTING.tel,            "(110) 555-1212");
     }
 
     @Test
     public void testItemFn() throws RepositoryException {
         assertExtracts("hlisting/item-fn.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(RDF.TYPE, HLISTING.Item);
+        assertContains(RDF.TYPE,          HLISTING.Item);
         assertContains(HLISTING.itemName, "Parking space");
     }
 
@@ -115,29 +117,28 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
     public void testItemFnUrl() throws RepositoryException {
         assertExtracts("hlisting/item-fn-url.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(RDF.TYPE, HLISTING.Item);
-        assertContains(HLISTING.itemUrl, RDFHelper.uri("http://item.com/"));
-        assertContains(HLISTING.itemName, "Parking space");
+        assertContains(RDF.TYPE,            HLISTING.Item);
+        assertContains(HLISTING.itemUrl,    RDFHelper.uri("http://item.com/"));
+        assertContains(HLISTING.itemName,   "Parking space");
     }
 
     @Test
     public void testItemPhotoImg() throws RepositoryException {
         assertExtracts("hlisting/item-fn-url-photo-img.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(RDF.TYPE, HLISTING.Item);
-        assertContains(HLISTING.itemUrl, RDFHelper.uri("http://item.com/"));
-        assertContains(HLISTING.itemName, "Parking space");
-        assertContains(HLISTING.itemPhoto, RDFHelper.uri(baseURI.stringValue() + "photo.jpg"));
-
+        assertContains(RDF.TYPE,            HLISTING.Item);
+        assertContains(HLISTING.itemUrl,    RDFHelper.uri("http://item.com/"));
+        assertContains(HLISTING.itemName,   "Parking space");
+        assertContains(HLISTING.itemPhoto,  RDFHelper.uri(baseURI.stringValue() + "photo.jpg"));
     }
 
     @Test
     public void testItemPhotoHref() throws RepositoryException {
         assertExtracts("hlisting/item-fn-photo-href.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(RDF.TYPE, HLISTING.Item);
-        assertContains(HLISTING.itemName, "Parking space");
-        assertContains(HLISTING.itemPhoto, RDFHelper.uri(baseURI.stringValue() + "pic.jpg"));
+        assertContains(RDF.TYPE,            HLISTING.Item);
+        assertContains(HLISTING.itemName,   "Parking space");
+        assertContains(HLISTING.itemPhoto,  RDFHelper.uri(baseURI.stringValue() + "pic.jpg"));
     }
 
     @Test
@@ -145,10 +146,10 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
         assertExtracts("hlisting/kelkoo.html");
         Assert.assertFalse(conn.isEmpty());
 
-        assertContains(RDF.TYPE, HLISTING.Listing);
-        assertContains(RDF.TYPE, HLISTING.Item);
-        assertContains(HLISTING.action, HLISTING.offer);
-        assertContains(HLISTING.itemName, "Benq MP622 - DLP Projector - 2700 ANSI lumens - XGA...");
+        assertContains(RDF.TYPE,            HLISTING.Listing);
+        assertContains(RDF.TYPE,            HLISTING.Item);
+        assertContains(HLISTING.action,     HLISTING.offer);
+        assertContains(HLISTING.itemName,   "Benq MP622 - DLP Projector - 2700 ANSI lumens - XGA...");
 
         assertContains(HLISTING.description, (Resource) null);
 
@@ -173,11 +174,11 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
     public void testKelkooFull() throws RepositoryException {
         assertExtracts("hlisting/kelkoo-full.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(RDF.TYPE, HLISTING.Listing);
-        assertContains(RDF.TYPE, HLISTING.Item);
-        assertContains(HLISTING.action, HLISTING.offer);
-        assertContains(HLISTING.itemUrl, RDFHelper.uri("http://bob.example.com/"));
-        assertContains(RDF.TYPE, HLISTING.Lister);
+        assertContains(RDF.TYPE,            HLISTING.Listing);
+        assertContains(RDF.TYPE,            HLISTING.Item);
+        assertContains(HLISTING.action,     HLISTING.offer);
+        assertContains(HLISTING.itemUrl,    RDFHelper.uri("http://bob.example.com/"));
+        assertContains(RDF.TYPE,            HLISTING.Lister);
 
         assertContains(HLISTING.itemName, "Hanro Touch Feeling Shape Bodysuit Underwear");
         assertContains(HLISTING.itemName, "Spanx Slim Cognito - Shaping Mid-Thigh Bodysuit");
@@ -217,42 +218,34 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
         assertContains(HLISTING.price, "\u00A354.99");
     }
 
-    /*
-     public void no() {
-         assertContains(HLISTING.region, "item region");
-         assertContains(HLISTING.locality, "item locality");
-         assertContains(HLISTING.postalCode, "postal code");
-         assertContains(HLISTING.postOfficeBox, "post office box");
-     }   */
-
     @Test
     public void testListerURL() throws RepositoryException {
         assertExtracts("hlisting/actions-lister-url.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.action, HLISTING.offer);
+        assertContains(HLISTING.action,     HLISTING.offer);
         assertContains(HLISTING.listerName, "John Broker");
-        assertContains(RDF.TYPE, HLISTING.Lister);
-        assertContains(HLISTING.listerUrl, RDFHelper.uri("http://homepage.com"));
+        assertContains(RDF.TYPE,            HLISTING.Lister);
+        assertContains(HLISTING.listerUrl,  RDFHelper.uri("http://homepage.com"));
     }
 
     @Test
     public void testListerEmail() throws RepositoryException {
         assertExtracts("hlisting/actions-lister-email.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.action, HLISTING.offer);
+        assertContains(HLISTING.action,     HLISTING.offer);
         assertContains(HLISTING.listerName, "John Broker");
-        assertContains(RDF.TYPE, HLISTING.Lister);
-        assertContains(FOAF.mbox, RDFHelper.uri("mailto:info@commerce.net"));
+        assertContains(RDF.TYPE,            HLISTING.Lister);
+        assertContains(FOAF.mbox,           RDFHelper.uri("mailto:info@commerce.net"));
     }
 
     @Test
     public void testListerEmailHref() throws RepositoryException {
         assertExtracts("hlisting/actions-lister-email-href.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.action, HLISTING.offer);
-        assertContains(RDF.TYPE, HLISTING.Lister);
+        assertContains(HLISTING.action,     HLISTING.offer);
+        assertContains(RDF.TYPE,            HLISTING.Lister);
         assertContains(HLISTING.listerName, "John Broker");
-        assertContains(FOAF.mbox, RDFHelper.uri("mailto:info@commerce.net"));
+        assertContains(FOAF.mbox,           RDFHelper.uri("mailto:info@commerce.net"));
     }
 
     @Test
@@ -260,7 +253,7 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
         assertExtracts("hlisting/dtlisted-dtexpired.html");
         Assert.assertFalse(conn.isEmpty());
         assertNotContains(HLISTING.action, HLISTING.offer);
-        assertContains(HLISTING.dtlisted, "2006-02-02");
+        assertContains(HLISTING.dtlisted,  "2006-02-02");
     }
 
     @Test
@@ -282,33 +275,33 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
     public void testDtListedAndExpired() throws RepositoryException {
         assertExtracts("hlisting/dtlisted-dtexpired.html");
         Assert.assertFalse(conn.isEmpty());
-        assertNotContains(HLISTING.action, HLISTING.offer);
-        assertContains(HLISTING.dtlisted, "2006-02-02");
-        assertContains(HLISTING.dtexpired, "2006-04-01");
+        assertNotContains(HLISTING.action,  HLISTING.offer);
+        assertContains(HLISTING.dtlisted,   "2006-02-02");
+        assertContains(HLISTING.dtexpired,  "2006-04-01");
     }
 
     @Test
     public void testPrice() throws RepositoryException {
         assertExtracts("hlisting/price.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.price, "$215/qtr");
+        assertContains(HLISTING.price,      "$215/qtr");
     }
 
     @Test
     public void testPriceAndDt() throws RepositoryException {
         assertExtracts("hlisting/dtlisted-dtexpired.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.price, "$215/qtr");
-        assertContains(HLISTING.dtlisted, "2006-02-02");
-        assertContains(HLISTING.dtexpired, "2006-04-01");
+        assertContains(HLISTING.price,      "$215/qtr");
+        assertContains(HLISTING.dtlisted,   "2006-02-02");
+        assertContains(HLISTING.dtexpired,  "2006-04-01");
     }
 
     @Test
     public void testPermalink() throws RepositoryException {
         assertExtracts("hlisting/summary-bookmark.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.permalink, "http://livre.com/book");
-        assertContains(HLISTING.listerUrl, RDFHelper.uri("http://livre.com/author"));
+        assertContains(HLISTING.permalink,  "http://livre.com/book");
+        assertContains(HLISTING.listerUrl,  RDFHelper.uri("http://livre.com/author"));
     }
 
     @Test
@@ -323,7 +316,7 @@ public class HListingExtractorTest extends AbstractMicroformatTestCase {
     public void testDescription() throws RepositoryException {
         assertExtracts("hlisting/description.html");
         Assert.assertFalse(conn.isEmpty());
-        assertContains(HLISTING.description, "bla bla bla");
+        assertContains(HLISTING.description,    "bla bla bla");
     }
 
 }
