@@ -58,6 +58,16 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         }
     };
 
+    private static final List<String> validClassesForAddress = Arrays.asList(
+            "post-office-box",
+            "extended-address",
+            "street-address",
+            "locality",
+            "region",
+            "postal-code",
+            "country-name"
+    );
+
     private HTMLDocument fragment;
 
     public final static ExtractorFactory<HListingExtractor> factory =
@@ -111,16 +121,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         addItemPhoto(fragment, blankItem);
         addItemAddresses(fragment, blankItem);
     }
-
-    private static final List<String> validClassesForAddress = Arrays.asList(
-            "post-office-box",
-            "extended-address",
-            "street-address",
-            "locality",
-            "region",
-            "postal-code",
-            "country-name"
-    );
 
     private void addItemAddresses(HTMLDocument doc, Resource blankItem) {
         for (Node node : doc.findAll(".//*[contains(@class,'adr')]//*[@class]")) {

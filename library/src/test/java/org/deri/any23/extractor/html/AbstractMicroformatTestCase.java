@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.junit.Before;
 import org.junit.Assert;
 
@@ -56,7 +57,7 @@ public abstract class AbstractMicroformatTestCase {
         super();
     }
 
-    protected abstract ExtractorFactory<?> getExtractorFactory();    
+    protected abstract ExtractorFactory<?> getExtractorFactory();
 
     @Before
     public void setUp() throws Exception {

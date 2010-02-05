@@ -75,8 +75,8 @@ public class HLISTING extends Vocabulary {
     public static final URI listerOrg  = createProperty("listerOrg" );
     public static final URI listerLogo = createProperty("listerLogo");
 
-    private static final Map<String, URI> resourceMap = new HashMap<String, URI>();
-    private static final Map<String, URI> propertyMap = new HashMap<String, URI>();
+    private static Map<String, URI> resourceMap;
+    private static Map<String, URI> propertyMap;
    
     public static URI getResource(String localName) {
         return resourceMap.get(localName);
@@ -96,12 +96,18 @@ public class HLISTING extends Vocabulary {
 
     private static URI createProperty(String localName) {
         URI result = createURI(NS, localName);
+        if(propertyMap == null) {
+            propertyMap = new HashMap<String, URI>();
+        }
         propertyMap.put(localName, result);
         return result;
     }
 
     private static URI createResource(String localName) {
         URI result = createURI(NS, localName);
+        if(resourceMap == null) {
+            resourceMap = new HashMap<String, URI>();
+        }
         resourceMap.put(localName, result);
         return result;
     }
