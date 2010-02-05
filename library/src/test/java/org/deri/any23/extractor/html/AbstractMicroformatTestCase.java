@@ -95,17 +95,6 @@ public abstract class AbstractMicroformatTestCase {
         }
     }
 
-    public void assertNotExtracts(String fileName) throws RepositoryException {
-        try {
-            extract(fileName);
-            Assert.fail();
-        } catch (ExtractionException ex) {
-            // expected
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     public void assertContains(Resource subject, URI property, Value object) throws RepositoryException {
         Assert.assertTrue(getFailedExtractionMessage(), conn.hasStatement(subject, property, object, false));
     }
