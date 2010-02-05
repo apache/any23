@@ -410,33 +410,24 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                 RDFHelper.literal("Tantek Celik")
         );
         Assert.assertNotNull(person);
-        // TODO: LOW - Fix it.
-        /*
         Resource org = findExactlyOneBlankSubject(
                 VCARD.organization_name,
                 RDFHelper.literal("Technorati")
         );
         Assert.assertNotNull(org);        
-        */
-        /*
         assertContains(
                 person,
                 VCARD.url,
                 RDFHelper.uri("http://tantek.com/")
         );
-        */
         assertContains(person, VCARD.n,   (Resource) null);
-        // TODO: LOW - fix it.
-        // assertContains(person, VCARD.org, (Resource) null);
-
+        assertContains(person, VCARD.org, (Resource) null);
     }
 
     @Test
     public void testMultipleclassNamesOnVCard() throws RepositoryException {
 		assertExtracts("hcard/02-multiple-class-names-on-vcard.html");
 		assertModelNotEmpty();
-		// TODO: LOW - fix it.
-        // assertContains( VCARD.organization_name, "Technorati");
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
 		Resource name;
 		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
