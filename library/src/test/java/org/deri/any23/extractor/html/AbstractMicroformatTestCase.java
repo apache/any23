@@ -16,15 +16,13 @@
 
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.rdf.Any23ValueFactoryWrapper;
-import org.junit.Before;
-import org.junit.Assert;
-
 import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
 import org.deri.any23.writer.RepositoryWriter;
+import org.junit.Assert;
+import org.junit.Before;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -64,14 +62,6 @@ public abstract class AbstractMicroformatTestCase {
         Sail store = new MemoryStore();
         store.initialize();
         conn = new SailRepository(store).getConnection();
-    }
-
-    protected void extract(String name) throws ExtractionException, IOException {
-        SingleDocumentExtraction ex = new SingleDocumentExtraction(
-                new HTMLFixture(name).getOpener(baseURI.toString()),
-                getExtractorFactory(), new RepositoryWriter(conn));
-        ex.setMIMETypeDetector(null);
-        ex.run();
     }
 
     public void assertContains(URI p, Resource o) throws RepositoryException {
@@ -134,6 +124,14 @@ public abstract class AbstractMicroformatTestCase {
         }
     }
 
+    protected void extract(String name) throws ExtractionException, IOException {
+        SingleDocumentExtraction ex = new SingleDocumentExtraction(
+                new HTMLFixture(name).getOpener(baseURI.toString()),
+                getExtractorFactory(), new RepositoryWriter(conn));
+        ex.setMIMETypeDetector(null);
+        ex.run();
+    }
+
     protected String dumpModelToString() throws RepositoryException {
         StringWriter w = new StringWriter();
         try {
@@ -142,10 +140,6 @@ public abstract class AbstractMicroformatTestCase {
         } catch (RDFHandlerException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    private String getFailedExtractionMessage() throws RepositoryException {
-        return "Assertion failed! Extracted triples:\n" + dumpModelToString();
     }
 
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
@@ -164,6 +158,28 @@ public abstract class AbstractMicroformatTestCase {
             result.close();
         }
         junit.framework.Assert.assertEquals(expected, count);
+    }
+
+    protected Value findObject(Resource sub, URI prop) throws RepositoryException {
+        RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, true);
+        try {
+            junit.framework.Assert.assertTrue("Expected at least a statement.", statements.hasNext());
+            return (statements.next().getObject());
+        } finally {
+            statements.close();
+        }
+    }
+
+    protected Resource findObjectAsResource(Resource sub, URI prop) throws RepositoryException {
+        return (Resource) findObject(sub, prop);
+    }
+
+    protected String findObjectAsValue(Resource sub, URI prop) throws RepositoryException {
+        return findObject(sub, prop).stringValue();
+    }
+
+    private String getFailedExtractionMessage() throws RepositoryException {
+        return "Assertion failed! Extracted triples:\n" + dumpModelToString();
     }
 
 }
