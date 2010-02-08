@@ -859,8 +859,6 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertNotContains(null, VCARD.locality,"Bonn");
 		assertNotContains(null, VCARD.street_address,"Ippendorfer Weg. 24");
 		assertNotContains(null, VCARD.country_name,"Germany");
-		// TODO: LOW - This should be ignored. 
-        // assertNotContains(null, VCARD.url, (Resource) null);
 	}
 
 	private void assertDefaultVCard() throws RepositoryException {
