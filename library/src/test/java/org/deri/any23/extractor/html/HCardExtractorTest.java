@@ -19,6 +19,7 @@ import java.io.IOException;
 /**
  * {@link org.deri.any23.extractor.html.HCardExtractor} test case.
  */
+//TODO: low - reactivate commented tests.
 public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
      protected ExtractorFactory<?> getExtractorFactory() {
@@ -213,40 +214,40 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		}
 	}
 	
-
-    /*
     @Test
 	public void testInclude() throws RepositoryException {
-		assertExtracts("31-include");
+		assertExtracts("hcard/31-include.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.type, VCARD.VCard, 3);
+		assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
 		assertStatementsSize(VCARD.email, null, 3);
 
-		ResIterator iter = model
-				.listSubjectsWithProperty(RDF.type, VCARD.VCard);
-		while (iter.hasNext()) {
-			Resource vcard = iter.nextResource();
+		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		while (statements.hasNext()) {
+			Resource vcard = statements.next().getSubject();
 
-			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
-			Assert.assertEquals("Brian Suda", vcard.getProperty(VCARD.fn).getString());
+			Assert.assertNotNull( findObject(vcard, VCARD.fn));
+			Assert.assertEquals("Brian Suda", findObjectAsValue(vcard, VCARD.fn));
 
-			Assert.assertTrue(vcard.hasProperty(VCARD.url));
-			String url = vcard.getProperty(VCARD.url).getResource().getURI();
+			Assert.assertNotNull( findObject(vcard , VCARD.url) );
+			String url = findObjectAsResource(vcard, VCARD.url).stringValue();
 			Assert.assertEquals("http://suda.co.uk/", url);
 
-			Resource name = vcard.getProperty(VCARD.n).getResource();
-			Assert.assertEquals("Brian", name.getProperty(VCARD.given_name)
-					.getString());
-			Assert.assertEquals("Suda", name.getProperty(VCARD.family_name)
-					.getString());
+			Resource name = findObjectAsResource( vcard, VCARD.n);
+			Assert.assertEquals(
+                    "Brian",
+                    findObjectAsValue(name, VCARD.given_name)
+            );
+			Assert.assertEquals(
+                    "Suda",
+                    findObjectAsValue(name, VCARD.family_name)
+            );
 
-			//include'd data
-			Assert.assertTrue(vcard.hasProperty(VCARD.email));
-			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
+			//Included data.
+			Assert.assertNotNull( findObject(vcard, VCARD.email));
+			String mail = findObjectAsValue(vcard, VCARD.email);
 			Assert.assertEquals("mailto:correct@example.com", mail);
 		}
 	}
-	*/
 
     /*
     @Test
