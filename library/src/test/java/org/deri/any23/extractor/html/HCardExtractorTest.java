@@ -275,7 +275,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                     );
                 }
             }
-            // Just to be sure there are no spurious statements-
+            // Just to be sure there are no spurious statements.
             // assertStatementsSize(VCARD.org, null, 2);
             assertStatementsSize(VCARD.url, example, 2);
         } finally {
@@ -893,27 +893,26 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         }
     }
 
-    /*
-    public void testUid() {
-		assertExtracts("38-uid");
+    @Test
+    public void testUid() throws RepositoryException {
+		assertExtracts("hcard/38-uid.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.type, VCARD.VCard, 4);
-		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+		assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
+		RepositoryResult<Statement> iter = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
 		while (iter.hasNext()) {
-			Resource vcard = (Resource) iter.nextStatement().getSubject();
-			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
-			String fn = vcard.getProperty(VCARD.fn).getString();
-			Assert.assertTrue(vcard.hasProperty(VCARD.url));
-			String url = vcard.getProperty(VCARD.url).getResource().getURI();
-			Assert.assertTrue(vcard.hasProperty(VCARD.uid));
-			String uid = vcard.getProperty(VCARD.uid).getString();
+			Resource vcard = iter.next().getSubject();
+			Assert.assertNotNull( findObject(vcard, VCARD.fn) );
+			String fn = findObjectAsLiteral(vcard, VCARD.fn);
+			Assert.assertNotNull( findObject(vcard, VCARD.url) );
+			String url =  findObjectAsLiteral(vcard, VCARD.url);
+			Assert.assertNotNull( findObject(vcard, VCARD.uid) );
+			String uid = findObjectAsLiteral(vcard, VCARD.uid);
 			Assert.assertEquals("Ryan King", fn);
 			Assert.assertEquals("http://theryanking.com/contact/",url);
 			Assert.assertEquals("http://theryanking.com/contact/", uid);
 
 		}
 	}
-	*/
 
     @Test
     public void testIgnoreChildren() throws RepositoryException {
