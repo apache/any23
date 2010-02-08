@@ -14,23 +14,28 @@ import org.openrdf.repository.RepositoryResult;
 
 import java.io.IOException;
 
+/**
+ * {@link org.deri.any23.extractor.html.HCardExtractor} test case.
+ */
 public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
      protected ExtractorFactory<?> getExtractorFactory() {
         return HCardExtractor.factory;
     }
 
-//	@Test
-//	public void testInferredPerson() throws RepositoryException {
-//		assertExtracts("23-abbr-title-everything");
-//		assertDefaultVCard();
-//		assertStatementsSize(FOAF.topic, null, 1);
-//		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
-//        Resource person = card.getProperty(FOAF.topic).getResource();
-//
-//		Assert.assertEquals(person.getProperty(FOAF.name).getString(), card.getProperty(VCARD.fn).getString());
-//		Assert.assertEquals(person.getProperty(FOAF.name).getString(), card.getProperty(VCARD.fn).getString());
-//	}
+    /*
+    @Test
+	public void testInferredPerson() throws RepositoryException {
+		assertExtracts("23-abbr-title-everything");
+		assertDefaultVCard();
+		assertStatementsSize(FOAF.topic, null, 1);
+		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
+        Resource person = card.getProperty(FOAF.topic).getResource();
+
+		Assert.assertEquals(person.getProperty(FOAF.name).getString(), card.getProperty(VCARD.fn).getString());
+		Assert.assertEquals(person.getProperty(FOAF.name).getString(), card.getProperty(VCARD.fn).getString());
+	}
+    */
 
 	@Test
 	public void testEMailNotUriReal() throws RepositoryException {
@@ -165,118 +170,130 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertNotContains(null, VCARD.addressType, "work");
 	}
 
-//	public void testfnOrg() throws RepositoryException {
-//		assertExtracts("30-fn-org");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
-//		StmtIterator iter = model.listStatements(null, RDF.TYPE, VCARD.VCard);
-//		while (iter.hasNext()) {
-//			Resource card = iter.nextStatement().getSubject();
-//			Assert.assertNotNull(card.getProperty(VCARD.fn));
-//			String name = card.getProperty(VCARD.fn).getString();
-//
-//			Assert.assertNotNull(card.getProperty(VCARD.org));
-//			String org = card.getProperty(VCARD.org).getResource()
-//					.getRequiredProperty(VCARD.organization_name).getString();
-//
-//			if (name.equals("Dan Connolly")) {
-//				Assert.assertNotNull(card.getProperty(VCARD.n));
-//				Assert.assertFalse(name.equals(org));
-//			} else {
-//				Assert.assertNull(card.getProperty(VCARD.n));
-//				Assert.assertEquals(name, org);
-//			}
-//		}
-//	}
+    /*
+    @Test
+	public void testfnOrg() throws RepositoryException {
+		assertExtracts("30-fn-org");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
+		StmtIterator iter = model.listStatements(null, RDF.TYPE, VCARD.VCard);
+		while (iter.hasNext()) {
+			Resource card = iter.nextStatement().getSubject();
+			Assert.assertNotNull(card.getProperty(VCARD.fn));
+			String name = card.getProperty(VCARD.fn).getString();
 
-//	public void testInclude() throws RepositoryException {
-//		assertExtracts("31-include");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 3);
-//		assertStatementsSize(VCARD.email, null, 3);
-//
-//		ResIterator iter = model
-//				.listSubjectsWithProperty(RDF.type, VCARD.VCard);
-//		while (iter.hasNext()) {
-//			Resource vcard = iter.nextResource();
-//
-//			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
-//			Assert.assertEquals("Brian Suda", vcard.getProperty(VCARD.fn).getString());
-//
-//			Assert.assertTrue(vcard.hasProperty(VCARD.url));
-//			String url = vcard.getProperty(VCARD.url).getResource().getURI();
-//			Assert.assertEquals("http://suda.co.uk/", url);
-//
-//			Resource name = vcard.getProperty(VCARD.n).getResource();
-//			Assert.assertEquals("Brian", name.getProperty(VCARD.given_name)
-//					.getString());
-//			Assert.assertEquals("Suda", name.getProperty(VCARD.family_name)
-//					.getString());
-//
-//			//include'd data
-//			Assert.assertTrue(vcard.hasProperty(VCARD.email));
-//			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
-//			Assert.assertEquals("mailto:correct@example.com", mail);
-//		}
-//	}
+			Assert.assertNotNull(card.getProperty(VCARD.org));
+			String org = card.getProperty(VCARD.org).getResource()
+					.getRequiredProperty(VCARD.organization_name).getString();
 
-//	public void testHeader() throws RepositoryException {
-//		assertExtracts("32-header");
-//		assertModelNotEmpty();
-//		// check fn, name, family, nick
-//		assertJohn();
-//
-//		ResIterator iter = model
-//				.listSubjectsWithProperty(RDF.type, VCARD.VCard);
-//		Resource example = model.createResource("http://example.org/");
-//		while (iter.hasNext()) {
-//			Resource card = iter.nextResource();
-//			Assert.assertTrue(card.hasProperty(VCARD.fn));
-//
-//			String fn = card.getProperty(VCARD.fn).getString();
-//			if ("Jane Doe".equals(fn)) {
-//				Assert.assertFalse(card.hasProperty(VCARD.url));
-//				Assert.assertFalse(card.hasProperty(VCARD.org));
-//			} else {
-//				Assert.assertTrue("John Doe".equals(fn) || "Brian Suda".equals(fn));
-//
-//				Assert.assertTrue(card.hasProperty(VCARD.url));
-//				Assert.assertEquals(example, card.getProperty(VCARD.url).getResource());
-//
-//				Assert.assertTrue(card.hasProperty(VCARD.org));
-//				Resource org = card.getProperty(VCARD.org).getResource();
-//				assertContains(org, RDF.type, VCARD.Organization);
-//				Assert.assertNotNull(org);
-//				Assert.assertTrue(card.hasProperty(VCARD.org));
-//				Assert.assertTrue(org.hasProperty(VCARD.organization_name));
-//				Assert.assertEquals("example.org", org.getProperty(
-//						VCARD.organization_name).getString());
-//			}
-//		}
-//		//just to be sure there are no spurious statements
-//		assertStatementsSize(VCARD.org, null, 2);
-//		assertStatementsSize(VCARD.url, example, 2);
-//	}
+			if (name.equals("Dan Connolly")) {
+				Assert.assertNotNull(card.getProperty(VCARD.n));
+				Assert.assertFalse(name.equals(org));
+			} else {
+				Assert.assertNull(card.getProperty(VCARD.n));
+				Assert.assertEquals(name, org);
+			}
+		}
+	}
+	*/
 
-//	public void testAreaFull() throws RepositoryException {
-//		assertExtracts("33-area");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 5);
-//
-//		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-//		while (iter.hasNext()) {
-//			Resource vcard = (Resource) iter.nextStatement().getSubject();
-//			Assert.assertNotNull(vcard.getProperty(VCARD.fn));
-//			String fn = vcard.getProperty(VCARD.fn).getString();
-//			Assert.assertNotNull(vcard.getProperty(VCARD.url));
-//			String url = vcard.getProperty(VCARD.url).getResource().getURI();
-//			Assert.assertNotNull(vcard.getProperty(VCARD.email));
-//			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
-//			Assert.assertEquals("Joe Public", fn);
-//			Assert.assertEquals("http://example.com/", url);
-//			Assert.assertEquals("mailto:joe@example.com", mail);
-//		}
-//	}
+    /*
+    @Test
+	public void testInclude() throws RepositoryException {
+		assertExtracts("31-include");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 3);
+		assertStatementsSize(VCARD.email, null, 3);
+
+		ResIterator iter = model
+				.listSubjectsWithProperty(RDF.type, VCARD.VCard);
+		while (iter.hasNext()) {
+			Resource vcard = iter.nextResource();
+
+			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
+			Assert.assertEquals("Brian Suda", vcard.getProperty(VCARD.fn).getString());
+
+			Assert.assertTrue(vcard.hasProperty(VCARD.url));
+			String url = vcard.getProperty(VCARD.url).getResource().getURI();
+			Assert.assertEquals("http://suda.co.uk/", url);
+
+			Resource name = vcard.getProperty(VCARD.n).getResource();
+			Assert.assertEquals("Brian", name.getProperty(VCARD.given_name)
+					.getString());
+			Assert.assertEquals("Suda", name.getProperty(VCARD.family_name)
+					.getString());
+
+			//include'd data
+			Assert.assertTrue(vcard.hasProperty(VCARD.email));
+			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
+			Assert.assertEquals("mailto:correct@example.com", mail);
+		}
+	}
+	*/
+
+    /*
+    @Test
+    public void testHeader() throws RepositoryException {
+		assertExtracts("32-header");
+		assertModelNotEmpty();
+		// check fn, name, family, nick
+		assertJohn();
+
+		ResIterator iter = model
+				.listSubjectsWithProperty(RDF.type, VCARD.VCard);
+		Resource example = model.createResource("http://example.org/");
+		while (iter.hasNext()) {
+			Resource card = iter.nextResource();
+			Assert.assertTrue(card.hasProperty(VCARD.fn));
+
+			String fn = card.getProperty(VCARD.fn).getString();
+			if ("Jane Doe".equals(fn)) {
+				Assert.assertFalse(card.hasProperty(VCARD.url));
+				Assert.assertFalse(card.hasProperty(VCARD.org));
+			} else {
+				Assert.assertTrue("John Doe".equals(fn) || "Brian Suda".equals(fn));
+
+				Assert.assertTrue(card.hasProperty(VCARD.url));
+				Assert.assertEquals(example, card.getProperty(VCARD.url).getResource());
+
+				Assert.assertTrue(card.hasProperty(VCARD.org));
+				Resource org = card.getProperty(VCARD.org).getResource();
+				assertContains(org, RDF.type, VCARD.Organization);
+				Assert.assertNotNull(org);
+				Assert.assertTrue(card.hasProperty(VCARD.org));
+				Assert.assertTrue(org.hasProperty(VCARD.organization_name));
+				Assert.assertEquals("example.org", org.getProperty(
+						VCARD.organization_name).getString());
+			}
+		}
+		//just to be sure there are no spurious statements
+		assertStatementsSize(VCARD.org, null, 2);
+		assertStatementsSize(VCARD.url, example, 2);
+	}
+	*/
+
+    /*
+    @Test
+	public void testAreaFull() throws RepositoryException {
+		assertExtracts("33-area");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 5);
+
+		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+		while (iter.hasNext()) {
+			Resource vcard = (Resource) iter.nextStatement().getSubject();
+			Assert.assertNotNull(vcard.getProperty(VCARD.fn));
+			String fn = vcard.getProperty(VCARD.fn).getString();
+			Assert.assertNotNull(vcard.getProperty(VCARD.url));
+			String url = vcard.getProperty(VCARD.url).getResource().getURI();
+			Assert.assertNotNull(vcard.getProperty(VCARD.email));
+			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
+			Assert.assertEquals("Joe Public", fn);
+			Assert.assertEquals("http://example.com/", url);
+			Assert.assertEquals("mailto:joe@example.com", mail);
+		}
+	}
+    */
 
     @Test
     public void testCategories() throws RepositoryException {
@@ -333,63 +350,69 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertContains(VCARD.uid, "unique-id-1");
 	}
 
-//	public void testUidFull() throws RepositoryException {
-//		assertExtracts("38-uid");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 4);
-//		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-//
-//		while (iter.hasNext()) {
-//			Resource vcard = (Resource) iter.nextStatement().getSubject();
-//			Assert.assertNotNull(vcard.getProperty(VCARD.fn));
-//			String fn = vcard.getProperty(VCARD.fn).getString();
-//			Assert.assertEquals("Ryan King", fn);
-//
-//			Assert.assertNotNull(vcard.getProperty(VCARD.n));
-//			Resource n = vcard.getProperty(VCARD.n).getResource();
-//			Assert.assertNotNull(n);
-//			Assert.assertNotNull(n.getProperty(VCARD.given_name));
-//			Assert.assertEquals("Ryan", n.getProperty(VCARD.given_name).getString());
-//			Assert.assertNotNull(n.getProperty(VCARD.family_name));
-//			Assert.assertEquals("King", n.getProperty(VCARD.family_name).getString());
-//
-//			Assert.assertNotNull(vcard.getProperty(VCARD.url));
-//			Resource url = vcard.getProperty(VCARD.url).getResource();
-//
-//			Assert.assertNotNull(vcard.getProperty(VCARD.uid));
-//			String uid = vcard.getProperty(VCARD.uid).getString();
-//
-//			Assert.assertEquals("http://theryanking.com/contact/", url.getURI());
-//			Assert.assertEquals("http://theryanking.com/contact/", uid);
-//
-//		}
-//	}
+    /*
+    @Test
+	public void testUidFull() throws RepositoryException {
+		assertExtracts("38-uid");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 4);
+		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
 
-//	public void testRomanianWikipedia() {
-//		assertExtracts("40-fn-inside-adr");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 1);
-//		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-//
-//		while (iter.hasNext()) {
-//			Resource card = (Resource) iter.nextStatement().getSubject();
-//			Assert.assertNotNull(card.getProperty(VCARD.fn));
-//			String fn = card.getProperty(VCARD.fn).getString();
-//			Assert.assertEquals("Berlin", fn);
-//
-//			Assert.assertTrue(card.hasProperty(VCARD.org));
-//			Resource org = card.getProperty(VCARD.org).getResource();
-//			assertContains(org, RDF.type, VCARD.Organization);
-//			Assert.assertNotNull(org);
-//			Assert.assertTrue(card.hasProperty(VCARD.org));
-//			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
-//			Assert.assertEquals("Berlin", org.getProperty(VCARD.organization_name)
-//					.getString());
-//
-//		}
-//
-//	}
-//
+		while (iter.hasNext()) {
+			Resource vcard = (Resource) iter.nextStatement().getSubject();
+			Assert.assertNotNull(vcard.getProperty(VCARD.fn));
+			String fn = vcard.getProperty(VCARD.fn).getString();
+			Assert.assertEquals("Ryan King", fn);
+
+			Assert.assertNotNull(vcard.getProperty(VCARD.n));
+			Resource n = vcard.getProperty(VCARD.n).getResource();
+			Assert.assertNotNull(n);
+			Assert.assertNotNull(n.getProperty(VCARD.given_name));
+			Assert.assertEquals("Ryan", n.getProperty(VCARD.given_name).getString());
+			Assert.assertNotNull(n.getProperty(VCARD.family_name));
+			Assert.assertEquals("King", n.getProperty(VCARD.family_name).getString());
+
+			Assert.assertNotNull(vcard.getProperty(VCARD.url));
+			Resource url = vcard.getProperty(VCARD.url).getResource();
+
+			Assert.assertNotNull(vcard.getProperty(VCARD.uid));
+			String uid = vcard.getProperty(VCARD.uid).getString();
+
+			Assert.assertEquals("http://theryanking.com/contact/", url.getURI());
+			Assert.assertEquals("http://theryanking.com/contact/", uid);
+
+		}
+	}
+    */
+
+    /*
+    @Test
+	public void testRomanianWikipedia() {
+		assertExtracts("40-fn-inside-adr");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 1);
+		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+
+		while (iter.hasNext()) {
+			Resource card = (Resource) iter.nextStatement().getSubject();
+			Assert.assertNotNull(card.getProperty(VCARD.fn));
+			String fn = card.getProperty(VCARD.fn).getString();
+			Assert.assertEquals("Berlin", fn);
+
+			Assert.assertTrue(card.hasProperty(VCARD.org));
+			Resource org = card.getProperty(VCARD.org).getResource();
+			assertContains(org, RDF.type, VCARD.Organization);
+			Assert.assertNotNull(org);
+			Assert.assertTrue(card.hasProperty(VCARD.org));
+			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
+			Assert.assertEquals("Berlin", org.getProperty(VCARD.organization_name)
+					.getString());
+
+		}
+
+	}
+    */
+
 
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
@@ -414,7 +437,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                 VCARD.organization_name,
                 RDFHelper.literal("Technorati")
         );
-        Assert.assertNotNull(org);        
+        Assert.assertNotNull(org);
         assertContains(
                 person,
                 VCARD.url,
@@ -437,41 +460,43 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		}
 	}
 
-//	public void testImpliedN() {
-//		// mighty hack:
-//		// fn, family, king
-//		String[] ns = { "Ryan King", "King", "Ryan", "Ryan King", "King",
-//				"Ryan", "Ryan King", "King", "Ryan", "Brian Suda", "Suda",
-//				"Brian", "King, Ryan", "King", "Ryan", "King, R", "King", "R",
-//				"King R", "King", "R", "King R.", "King", "R.",
-//				"Jesse James Garret", "", "", "Thomas Vander Wall", "", "" };
-//		List<String> NAMES = Arrays.asList(ns);
-//		assertExtracts("03-implied-n");
-//		assertModelNotEmpty();
-//		assertContains( VCARD.organization_name, "Technorati");
-//
-//		StmtIterator iter = model.listStatements((Resource) null, VCARD.fn,
-//				(Resource) null);
-//		Assert.assertEquals(10, iter.toSet().size());
-//		iter.close();
-//		Resource vcard;
-//
-//		while (iter.hasNext()) {
-//			vcard = (Resource) iter.nextStatement().getSubject();
-//			assertContains(vcard, RDF.type, VCARD.VCard);
-//			Resource name = (Resource) vcard.getProperty(VCARD.n).getObject()
-//					.as(Resource.class);
-//			int idx = NAMES.indexOf(vcard.getProperty(VCARD.fn).getLiteral()
-//					.getString());
-//			Assert.assertTrue("not in names", idx >= 0);
-//			Assert.assertEquals(NAMES.get(idx + 1), name
-//					.getProperty(VCARD.family_name).getLiteral().getString());
-//			Assert.assertEquals(NAMES.get(idx + 2), name.getProperty(VCARD.given_name)
-//					.getLiteral().getString());
-//		}
-//		iter.close();
-//	}
-//
+    /*
+    @Test
+	public void testImpliedN() {
+		// mighty hack:
+		// fn, family, king
+		String[] ns = { "Ryan King", "King", "Ryan", "Ryan King", "King",
+				"Ryan", "Ryan King", "King", "Ryan", "Brian Suda", "Suda",
+				"Brian", "King, Ryan", "King", "Ryan", "King, R", "King", "R",
+				"King R", "King", "R", "King R.", "King", "R.",
+				"Jesse James Garret", "", "", "Thomas Vander Wall", "", "" };
+		List<String> NAMES = Arrays.asList(ns);
+		assertExtracts("03-implied-n");
+		assertModelNotEmpty();
+		assertContains( VCARD.organization_name, "Technorati");
+
+		StmtIterator iter = model.listStatements((Resource) null, VCARD.fn,
+				(Resource) null);
+		Assert.assertEquals(10, iter.toSet().size());
+		iter.close();
+		Resource vcard;
+
+		while (iter.hasNext()) {
+			vcard = (Resource) iter.nextStatement().getSubject();
+			assertContains(vcard, RDF.type, VCARD.VCard);
+			Resource name = (Resource) vcard.getProperty(VCARD.n).getObject()
+					.as(Resource.class);
+			int idx = NAMES.indexOf(vcard.getProperty(VCARD.fn).getLiteral()
+					.getString());
+			Assert.assertTrue("not in names", idx >= 0);
+			Assert.assertEquals(NAMES.get(idx + 1), name
+					.getProperty(VCARD.family_name).getLiteral().getString());
+			Assert.assertEquals(NAMES.get(idx + 2), name.getProperty(VCARD.given_name)
+					.getLiteral().getString());
+		}
+		iter.close();
+	}
+    */
 
     @Test
     public void testIgnoreUnknowns() throws RepositoryException {
@@ -708,111 +733,119 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertContains(VCARD.bday, "2000-01-01T00:00:00-0800");
 	}
 
-//	public void testArea() throws RepositoryException {
-//		assertExtracts("33-area");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 5);
-//		//		dumpModel();
-//		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-//		while (iter.hasNext()) {
-//			Resource vcard = (Resource) iter.nextStatement().getSubject();
-//
-//			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
-//			Assert.assertEquals("Joe Public", vcard.getProperty(VCARD.fn).getString());
-//			Assert.assertNotNull(vcard.getProperty(VCARD.url));
-//			String url = vcard.getProperty(VCARD.url).getResource().getURI();
-//			Assert.assertNotNull(vcard.getProperty(VCARD.email));
-//			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
-//			Assert.assertEquals("http://example.com/", url);
-//			Assert.assertEquals("mailto:joe@example.com", mail);
-//		}
-//		iter.close();
-//
-//		// check that there are 4 organizations
-//		assertStatementsSize(RDF.type, VCARD.Organization, 4);
-//		iter = model.listStatements(null, RDF.type, VCARD.Organization);
-//		while (iter.hasNext()) {
-//			Resource org = iter.nextStatement().getSubject();
-//			assertContains(null, VCARD.org, org);
-//
-//			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
-//			Assert.assertEquals("Joe Public", org.getProperty(VCARD.organization_name).getString());
-//		}
-//
-//	}
+    /*
+    public void testArea() throws RepositoryException {
+		assertExtracts("33-area");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 5);
+		//		dumpModel();
+		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+		while (iter.hasNext()) {
+			Resource vcard = (Resource) iter.nextStatement().getSubject();
 
-//	public void testNotes() {
-//		assertExtracts("34-notes");
-//		assertModelNotEmpty();
-//		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-//		//		dumpModel();
-//		while (iter.hasNext()) {
-//			Resource vcard =  iter.nextStatement().getSubject();
-//			String fn = vcard.getProperty(VCARD.fn).getString();
-//			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
-//			Assert.assertEquals("Joe Public", fn);
-//
-//			Assert.assertEquals("mailto:joe@example.com", mail);
-//		}
-//		// TODO: reactivate
-//		//		assertContains(VCARD.note, "Note 1Note 3Note 4 with a ; and a , to be escaped");
-//	}
+			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
+			Assert.assertEquals("Joe Public", vcard.getProperty(VCARD.fn).getString());
+			Assert.assertNotNull(vcard.getProperty(VCARD.url));
+			String url = vcard.getProperty(VCARD.url).getResource().getURI();
+			Assert.assertNotNull(vcard.getProperty(VCARD.email));
+			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
+			Assert.assertEquals("http://example.com/", url);
+			Assert.assertEquals("mailto:joe@example.com", mail);
+		}
+		iter.close();
 
-//	public void testIncludePattern() {
-//		assertExtracts("35-include-pattern");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 3);
-//
-//		ResIterator iter = model.listSubjectsWithProperty(RDF.type, VCARD.Name);
-//		while (iter.hasNext()) {
-//			Resource name =  iter.nextResource();
-//			Assert.assertTrue(name.hasProperty(VCARD.given_name));
-//			String gn = name.getProperty(VCARD.given_name).getString();
-//			Assert.assertEquals("James", gn);
-//			Assert.assertTrue(name.hasProperty(VCARD.family_name));
-//			String fn = name.getProperty(VCARD.family_name).getString();
-//			Assert.assertEquals("Levine", fn);
-//		}
-//		iter.close();
-//
-//		assertStatementsSize(RDF.type, VCARD.Organization, 2);
-//		iter = model.listSubjectsWithProperty(RDF.type, VCARD.Organization);
-//		while (iter.hasNext()) {
-//			Resource org = iter.nextResource();
-//			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
-//			Assert.assertEquals("SimplyHired",org.getProperty(VCARD.organization_name).getString());
-//
-//			ResIterator ri = model.listSubjectsWithProperty(VCARD.org, org);
-//			while(ri.hasNext()) {
-//				Resource vcard = ri.nextResource();
-//				Assert.assertTrue(vcard.hasProperty(VCARD.title));
-//				Assert.assertEquals("Microformat Brainstormer",vcard.getProperty(VCARD.title).getString());
-//			}
-//			ri.close();
-//
-//		}
-//
-//	}
+		// check that there are 4 organizations
+		assertStatementsSize(RDF.type, VCARD.Organization, 4);
+		iter = model.listStatements(null, RDF.type, VCARD.Organization);
+		while (iter.hasNext()) {
+			Resource org = iter.nextStatement().getSubject();
+			assertContains(null, VCARD.org, org);
 
-//	public void testUid() {
-//		assertExtracts("38-uid");
-//		assertModelNotEmpty();
-//		assertStatementsSize(RDF.type, VCARD.VCard, 4);
-//		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-//		while (iter.hasNext()) {
-//			Resource vcard = (Resource) iter.nextStatement().getSubject();
-//			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
-//			String fn = vcard.getProperty(VCARD.fn).getString();
-//			Assert.assertTrue(vcard.hasProperty(VCARD.url));
-//			String url = vcard.getProperty(VCARD.url).getResource().getURI();
-//			Assert.assertTrue(vcard.hasProperty(VCARD.uid));
-//			String uid = vcard.getProperty(VCARD.uid).getString();
-//			Assert.assertEquals("Ryan King", fn);
-//			Assert.assertEquals("http://theryanking.com/contact/",url);
-//			Assert.assertEquals("http://theryanking.com/contact/", uid);
-//
-//		}
-//	}
+			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
+			Assert.assertEquals("Joe Public", org.getProperty(VCARD.organization_name).getString());
+		}
+
+	}
+	*/
+
+    /*
+    public void testNotes() {
+		assertExtracts("34-notes");
+		assertModelNotEmpty();
+		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+		//		dumpModel();
+		while (iter.hasNext()) {
+			Resource vcard =  iter.nextStatement().getSubject();
+			String fn = vcard.getProperty(VCARD.fn).getString();
+			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
+			Assert.assertEquals("Joe Public", fn);
+
+			Assert.assertEquals("mailto:joe@example.com", mail);
+		}
+		// TODO: reactivate
+		//		assertContains(VCARD.note, "Note 1Note 3Note 4 with a ; and a , to be escaped");
+	}
+	*/
+
+    /*
+    public void testIncludePattern() {
+		assertExtracts("35-include-pattern");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 3);
+
+		ResIterator iter = model.listSubjectsWithProperty(RDF.type, VCARD.Name);
+		while (iter.hasNext()) {
+			Resource name =  iter.nextResource();
+			Assert.assertTrue(name.hasProperty(VCARD.given_name));
+			String gn = name.getProperty(VCARD.given_name).getString();
+			Assert.assertEquals("James", gn);
+			Assert.assertTrue(name.hasProperty(VCARD.family_name));
+			String fn = name.getProperty(VCARD.family_name).getString();
+			Assert.assertEquals("Levine", fn);
+		}
+		iter.close();
+
+		assertStatementsSize(RDF.type, VCARD.Organization, 2);
+		iter = model.listSubjectsWithProperty(RDF.type, VCARD.Organization);
+		while (iter.hasNext()) {
+			Resource org = iter.nextResource();
+			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
+			Assert.assertEquals("SimplyHired",org.getProperty(VCARD.organization_name).getString());
+
+			ResIterator ri = model.listSubjectsWithProperty(VCARD.org, org);
+			while(ri.hasNext()) {
+				Resource vcard = ri.nextResource();
+				Assert.assertTrue(vcard.hasProperty(VCARD.title));
+				Assert.assertEquals("Microformat Brainstormer",vcard.getProperty(VCARD.title).getString());
+			}
+			ri.close();
+
+		}
+
+	}
+	*/
+
+    /*
+    public void testUid() {
+		assertExtracts("38-uid");
+		assertModelNotEmpty();
+		assertStatementsSize(RDF.type, VCARD.VCard, 4);
+		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+		while (iter.hasNext()) {
+			Resource vcard = (Resource) iter.nextStatement().getSubject();
+			Assert.assertTrue(vcard.hasProperty(VCARD.fn));
+			String fn = vcard.getProperty(VCARD.fn).getString();
+			Assert.assertTrue(vcard.hasProperty(VCARD.url));
+			String url = vcard.getProperty(VCARD.url).getResource().getURI();
+			Assert.assertTrue(vcard.hasProperty(VCARD.uid));
+			String uid = vcard.getProperty(VCARD.uid).getString();
+			Assert.assertEquals("Ryan King", fn);
+			Assert.assertEquals("http://theryanking.com/contact/",url);
+			Assert.assertEquals("http://theryanking.com/contact/", uid);
+
+		}
+	}
+	*/
 
     @Test
     public void testIgnoreChildren() throws RepositoryException {
