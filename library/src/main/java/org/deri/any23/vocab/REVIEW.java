@@ -18,6 +18,9 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Vocabulary definitions from vocabularies/review.rdf
  *
@@ -38,82 +41,84 @@ public class REVIEW extends Vocabulary {
     /**
      * The commenter on the review.
      */
-    public static final URI commenter = createURI("commenter");
+    public static final URI commenter =  createProperty("commenter");
 
     /**
      * Used to associate a review with a comment on the review.
      */
-    public static final URI hasComment = createURI("hasComment");
+    public static final URI hasComment = createProperty("hasComment");
 
     /**
      * Associates a review with a feedback on the review.
      */
-    public static final URI hasFeedback = createURI("hasFeedback");
+    public static final URI hasFeedback = createProperty("hasFeedback");
 
     /**
      * Associates a work with a a review.
      */
-    public static final URI hasReview = createURI("hasReview");
+    public static final URI hasReview = createProperty("hasReview");
 
     /**
      * A numeric value.
      */
-    public static final URI maxRating = createURI("maxRating");
+    public static final URI maxRating = createProperty("maxRating");
 
     /**
      * A numeric value.
      */
-    public static final URI minRating = createURI("minRating");
+    public static final URI minRating = createProperty("minRating");
 
     /**
      * Number of positive usefulness votes (integer).
      */
-    public static final URI positiveVotes = createURI("positiveVotes");
+    public static final URI positiveVotes = createProperty("positiveVotes");
 
     /**
      * A numeric value.
      */
-    public static final URI rating = createURI("rating");
+    public static final URI rating = createProperty("rating");
 
     /**
      * The person that has written the review.
      */
-    public static final URI reviewer = createURI("reviewer");
+    public static final URI reviewer = createProperty("reviewer");
 
     /**
      * The text of the review.
      */
-    public static final URI text = createURI("text");
+    public static final URI text = createProperty("text");
 
     /**
      * The title of the review.
      */
-    public static final URI title = createURI("title");
+    public static final URI title = createProperty("title");
 
     /**
      * Number of usefulness votes (integer).
      */
-    public static final URI totalVotes = createURI("totalVotes");
+    public static final URI totalVotes = createProperty("totalVotes");
 
     /**
      * The type of media of a work under review.
      */
-    public static final URI type = createURI("type");
+    public static final URI type = createProperty("type");
 
     /**
      * A comment on a review.
      */
-    public static final URI Comment = createURI("Comment");
+    public static final URI Comment = createProperty("Comment");
 
     /**
      * Feedback on the review. Expresses whether the review was useful or not.
      */
-    public static final URI Feedback = createURI("Feedback");
+    public static final URI Feedback = createProperty("Feedback");
 
     /**
      * A review of an work.
      */
-    public static final URI Review = createURI("Review");
+    public static final URI Review = createProperty("Review");
+
+    private static Map<String, URI> propertyMap;
 
     /**
      * The namespace of the vocabulary as a string.
@@ -122,6 +127,15 @@ public class REVIEW extends Vocabulary {
      */
     public static String getURI() {
         return NS;
+    }
+
+    private static URI createProperty(String localName) {
+        if (propertyMap == null) {
+            propertyMap = new HashMap<String, URI>();
+        }
+        URI result = createURI("http://purl.org/stuff/rev#" + localName);
+        propertyMap.put(localName, result);
+        return result;
     }
 
     private REVIEW(){}
