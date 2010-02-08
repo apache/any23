@@ -635,13 +635,12 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         );
 	}
 
-    // TODO: LOW - fix it.
-    // @Test
+    @Test
     public void testEMailNotUri() throws RepositoryException {
 		assertExtracts("hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains(VCARD.email, "john@example.com");
+		assertContains( VCARD.email, RDFHelper.uri("mailto:john@example.com") );
 	}
 
 	@Test

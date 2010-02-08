@@ -228,8 +228,11 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addEmail(Resource card) {
         String email = dropSubject(fragment.getSingularUrlField("email"));
-        return conditionallyAddResourceProperty(card, VCARD.email,
-                fixLink(email, "mailto"));
+        return conditionallyAddResourceProperty(
+                card,
+                VCARD.email,
+                fixLink(email, "mailto")
+        );
     }
 
     private String dropSubject(String mail) {
