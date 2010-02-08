@@ -126,7 +126,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         foundSomething |= addTelephones(card);
         foundSomething |= addStringProperty("title", card, VCARD.title);
         foundSomething |= addStringProperty("role", card, VCARD.role);
-        foundSomething |= addStringProperty("note", card, VCARD.note);
+        foundSomething |= addStringMultiProperty("note", card, VCARD.note);
         foundSomething |= addSubMicroformat("geo", card, VCARD.geo);
 
         if (!foundSomething) return false;
@@ -186,6 +186,23 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addStringProperty(String className, Resource resource, URI property) {
         return conditionallyAddStringProperty(resource, property, fragment.getSingularTextField(className));
+    }
+
+    /**
+     * Adds a property that can be associated to multiple values.
+     *
+     * @param className
+     * @param resource
+     * @param property
+     * @return
+     */
+    private boolean addStringMultiProperty(String className, Resource resource, URI property) {
+        String[] fields = fragment.getPluralTextField(className);
+        boolean found = false;
+        for(String field : fields) {
+            found |= conditionallyAddStringProperty(resource, property, field);
+        }
+        return found;
     }
 
     private boolean addCategory(Resource card) {

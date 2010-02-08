@@ -825,24 +825,28 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         }
     }
 
-    /*
-    public void testNotes() {
-		assertExtracts("34-notes");
-		assertModelNotEmpty();
-		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-		//		dumpModel();
-		while (iter.hasNext()) {
-			Resource vcard =  iter.nextStatement().getSubject();
-			String fn = vcard.getProperty(VCARD.fn).getString();
-			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
-			Assert.assertEquals("Joe Public", fn);
+    @Test
+    public void testNotes() throws RepositoryException {
+        final String[] NOTES = {"Note 1", "Note 3", "Note 4 with a ; and a , to be escaped"};
 
-			Assert.assertEquals("mailto:joe@example.com", mail);
-		}
-		// TODO: reactivate
-		//		assertContains(VCARD.note, "Note 1Note 3Note 4 with a ; and a , to be escaped");
-	}
-	*/
+        assertExtracts("hcard/34-notes.html");
+        assertModelNotEmpty();
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        try {
+            while (statements.hasNext()) {
+                Resource vcard = statements.next().getSubject();
+                String fn   = findObjectAsLiteral(vcard, VCARD.fn);
+                String mail = findObjectAsLiteral(vcard, VCARD.email);
+                Assert.assertEquals("Joe Public", fn);
+                Assert.assertEquals("mailto:joe@example.com", mail);
+            }
+        } finally {
+            statements.close();
+        }
+        for(String note : NOTES) {
+            assertContains(VCARD.note, note);
+        }
+    }
 
     /*
     public void testIncludePattern() {
