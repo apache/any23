@@ -8,6 +8,8 @@ import org.deri.any23.vocab.VCARD;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -26,18 +28,36 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
     /*
     @Test
 	public void testInferredPerson() throws RepositoryException {
-		assertExtracts("23-abbr-title-everything");
+		assertExtracts("hcard/23-abbr-title-everything.html");
 		assertDefaultVCard();
 		assertStatementsSize(FOAF.topic, null, 1);
 		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
-        Resource person = card.getProperty(FOAF.topic).getResource();
+        Resource person =  findObjectAsResource(card, FOAF.topic);
 
-		Assert.assertEquals(person.getProperty(FOAF.name).getString(), card.getProperty(VCARD.fn).getString());
-		Assert.assertEquals(person.getProperty(FOAF.name).getString(), card.getProperty(VCARD.fn).getString());
+		Assert.assertEquals( findObjectAsValue(person, FOAF.name), findObjectAsValue(card, VCARD.fn) );
+		Assert.assertEquals( findObjectAsValue(person, FOAF.name), findObjectAsValue(card, VCARD.fn) );
 	}
-    */
+	*/
 
-	@Test
+    private Value findObject(Resource sub, URI prop) throws RepositoryException {
+        RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, true);
+        try {
+            Assert.assertTrue( "Expected at least a statement.", statements.hasNext() );
+            return ( statements.next().getObject() );
+        } finally {
+            statements.close();
+        }
+    }
+
+    private Resource findObjectAsResource(Resource sub, URI prop) throws RepositoryException {
+        return (Resource) findObject(sub, prop);
+    }
+
+    private String findObjectAsValue(Resource sub, URI prop) throws RepositoryException {
+        return findObject(sub, prop).stringValue();
+    }
+
+    @Test
 	public void testEMailNotUriReal() throws RepositoryException {
 		assertExtracts("hcard/17-email-not-uri.html");
 		assertDefaultVCard();
@@ -170,32 +190,29 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertNotContains(null, VCARD.addressType, "work");
 	}
 
-    /*
+
     @Test
 	public void testfnOrg() throws RepositoryException {
-		assertExtracts("30-fn-org");
+		assertExtracts("hcard/30-fn-org.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
-		StmtIterator iter = model.listStatements(null, RDF.TYPE, VCARD.VCard);
-		while (iter.hasNext()) {
-			Resource card = iter.nextStatement().getSubject();
-			Assert.assertNotNull(card.getProperty(VCARD.fn));
-			String name = card.getProperty(VCARD.fn).getString();
+		RepositoryResult<Statement> repositoryResult = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		while ( repositoryResult.hasNext() ) {
+			Resource card = repositoryResult.next().getSubject();
+			Assert.assertNotNull( findObject(card, VCARD.fn) );
+			String name = findObjectAsValue(card, VCARD.fn);
 
-			Assert.assertNotNull(card.getProperty(VCARD.org));
-			String org = card.getProperty(VCARD.org).getResource()
-					.getRequiredProperty(VCARD.organization_name).getString();
+			Assert.assertNotNull( findObject( card, VCARD.org) );
+			Resource org = findObjectAsResource(card, VCARD.org);
+            Assert.assertNotNull( findObject(org, VCARD.organization_name) );
 
-			if (name.equals("Dan Connolly")) {
-				Assert.assertNotNull(card.getProperty(VCARD.n));
-				Assert.assertFalse(name.equals(org));
-			} else {
-				Assert.assertNull(card.getProperty(VCARD.n));
-				Assert.assertEquals(name, org);
+            if (name.equals("Dan Connolly")) {
+				Assert.assertNotNull( findObject(card, VCARD.n));
+				Assert.assertFalse(name.equals(org.stringValue()));
 			}
 		}
 	}
-	*/
+	
 
     /*
     @Test
