@@ -33,6 +33,7 @@ import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -246,19 +247,31 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         }
     }
 
+    private void addFieldTriple(BNode n, String fieldName, String fieldValue) {
+        out.writeTriple(n, VCARD.getProperty(fieldName), valueFactory.createLiteral(fieldValue));
+    }
+
     private boolean addNames(Resource card) {
-        BNode n = null;
+        BNode n = valueFactory.createBNode();
+        out.writeTriple(card, VCARD.n, n);
+        out.writeTriple(n, RDF.TYPE, VCARD.Name);
+
         for (String fieldName : HCardName.FIELDS) {
-            String value = name.getField(fieldName);
-            if (value == null) continue;
-            if (n == null) {
-                n = valueFactory.createBNode();
-                out.writeTriple(card, VCARD.n, n);
-                out.writeTriple(n, RDF.TYPE, VCARD.Name);
+            if (!name.containsField(fieldName)) {
+                continue;
             }
-            out.writeTriple(n, VCARD.getProperty(fieldName), valueFactory.createLiteral(value));
+            if (name.isMultiField(fieldName)) {
+                Collection<String> values = name.getFields(fieldName);
+                for(String value : values) {
+                    addFieldTriple(n, fieldName, value);
+                }
+            } else {
+                String value =  name.getField(fieldName);
+                if(value == null) { continue; }
+                addFieldTriple(n, fieldName, value);
+            }
         }
-        return n != null;
+        return true;
     }
 
     private void readFn() {

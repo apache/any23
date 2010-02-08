@@ -16,7 +16,12 @@
 
 package org.deri.any23.extractor.html;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,7 +56,7 @@ public class HCardName {
             HONORIFIC_SUFFIX
     };
 
-    private Map<String, String> fields = new HashMap<String, String>();
+    private Map<String, FieldValue> fields = new HashMap<String, FieldValue>();
     private String fullName     = null;
     private String organization = null;
     private String unit         = null;
@@ -59,7 +64,12 @@ public class HCardName {
     public void setField(String fieldName, String value) {
         value = fixWhiteSpace(value);
         if (value == null) return;
-        fields.put(fieldName, value);
+        FieldValue fieldValue = fields.get(fieldName);
+        if(fieldValue == null) {
+            fieldValue = new FieldValue();
+            fields.put(fieldName, fieldValue);
+        }
+        fieldValue.addValue(value);
     }
 
     public void setFullName(String value) {
@@ -74,6 +84,15 @@ public class HCardName {
         this.organization = value;
     }
 
+    public boolean isMultiField(String fieldName) {
+        FieldValue fieldValue = fields.get(fieldName);
+        return fieldValue != null && fieldValue.isMultiField();
+    }
+
+    public boolean containsField(String fieldName) {
+        return GIVEN_NAME.equals(fieldName) || FAMILY_NAME.equals(fieldName) || fields.containsKey(fieldName);
+    }
+
     public String getField(String fieldName) {
         if (GIVEN_NAME.equals(fieldName)) {
             return getFullNamePart(GIVEN_NAME, 0);
@@ -81,12 +100,18 @@ public class HCardName {
         if (FAMILY_NAME.equals(fieldName)) {
             return getFullNamePart(FAMILY_NAME, 1);
         }
-        return fields.get(fieldName);
+        FieldValue v = fields.get(fieldName);
+        return v == null ? null : v.getValue();
+    }
+
+    public Collection<String> getFields(String fieldName) {
+        FieldValue v = fields.get(fieldName);
+        return v == null ? Collections.<String>emptyList() : v.getValues();
     }
 
     private String getFullNamePart(String fieldName, int index) {
         if (fields.containsKey(fieldName)) {
-            return fields.get(fieldName);
+            return fields.get(fieldName).getValue();
         }
         if (fullName == null) return null;
         // If org and fn are the same, the hCard is for an organization, and we do not split the fn
@@ -144,6 +169,44 @@ public class HCardName {
         s = s.trim().replaceAll("\\s+", " ");
         if ("".equals(s)) return null;
         return s;
+    }
+
+    /**
+     * Represents a possible field value.
+     */
+    private class FieldValue {
+
+        private String value;
+
+        private List<String> multiValue = new ArrayList<String>();
+
+        FieldValue() {}
+
+        void addValue(String v) {
+            if(value == null && multiValue == null) {
+                value = v;
+            } else if(multiValue == null) {
+                multiValue = new ArrayList<String>();
+                multiValue.add(value);
+                value = null;
+                multiValue.add(v);
+            } else {
+                multiValue.add(v);
+            }
+        }
+
+        boolean isMultiField() {
+            return value == null;
+        }
+
+        String getValue() {
+            return value != null ? value : multiValue.get(0);
+        }
+
+        Collection<String> getValues() {
+            return value != null ? Arrays.asList(value) : multiValue;
+        }
+        
     }
     
 }

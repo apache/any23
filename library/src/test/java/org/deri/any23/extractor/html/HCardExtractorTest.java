@@ -614,8 +614,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertContains(VCARD.family_name, "Doe");
 	}
 
-    // TODO: LOW - fix it
-    // @Test
+    @Test
     public void testHonorificAdditionalMultiple() throws RepositoryException {
 		assertExtracts("hcard/16-honorific-additional-multiple.html");
 		assertDefaultVCard();
@@ -681,12 +680,6 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertDefaultVCard();
 		assertJohn();
 		assertStatementsSize(RDF.TYPE, VCARD.Address, 0);
-	}
-
-    @Test
-    public void testMultipleValueConcat() throws RepositoryException, IOException, ExtractionException {
-		extract("hcard/24-multiple-value-concat.html");
-		assertModelEmpty();
 	}
 
     @Test
