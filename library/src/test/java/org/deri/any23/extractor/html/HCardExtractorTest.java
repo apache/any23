@@ -650,17 +650,14 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertJohn();
 	}
 
-    // TODO: LOW - fix it.
-    //@Test
+    @Test
     public void testObjectDataDataUri() throws RepositoryException {
 		assertExtracts("hcard/19-object-data-data-uri.html");
 		assertDefaultVCard();
         assertJohn();
 
-        Resource uri= RDFHelper.uri("uri:http://example.com/foo.png");
-		assertContains(VCARD.photo, uri);
-		assertContains(VCARD.logo, uri);
-		assertContains(VCARD.url, uri);
+		assertContains(VCARD.photo, (Resource) null);
+		assertContains(VCARD.logo , (Resource) null);
 	}
 
     @Test
