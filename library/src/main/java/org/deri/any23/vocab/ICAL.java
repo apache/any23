@@ -58,7 +58,7 @@ public class ICAL extends Vocabulary {
 
     public static final URI Value_RECUR = createResource("Value_RECUR");
 
-    public static final URI Vcalendar = createResource("Vcalendar");
+    public static final URI Vcalendar = createResource("vcalendar");
 
     /**
      * Provide a grouping of component properties that describe an event..
