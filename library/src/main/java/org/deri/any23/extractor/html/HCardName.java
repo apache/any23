@@ -57,7 +57,7 @@ public class HCardName {
     };
 
     private Map<String, FieldValue> fields = new HashMap<String, FieldValue>();
-    private String fullName     = null;
+    private String[] fullName   = null;
     private String organization = null;
     private String unit         = null;
 
@@ -75,7 +75,16 @@ public class HCardName {
     public void setFullName(String value) {
         value = fixWhiteSpace(value);
         if (value == null) return;
-        this.fullName = value;
+        String[] split = value.split("\\s+");
+        // Supporting case: ['King,',  'Ryan'] that is converted to ['Ryan', 'King'] .
+        final String split0 = split[0];
+        final int split0Length = split0.length();
+        if(split.length > 1 && split0.charAt(split0Length -1) == ',') {
+            String swap = split[1];
+            split[1] = split0.substring(0, split0Length -1);
+            split[0] = swap;
+        }
+        this.fullName = split;
     }
 
     public void setOrganization(String value) {
@@ -98,7 +107,7 @@ public class HCardName {
             return getFullNamePart(GIVEN_NAME, 0);
         }
         if (FAMILY_NAME.equals(fieldName)) {
-            return getFullNamePart(FAMILY_NAME, 1);
+            return getFullNamePart(FAMILY_NAME, Integer.MAX_VALUE);
         }
         FieldValue v = fields.get(fieldName);
         return v == null ? null : v.getValue();
@@ -115,12 +124,11 @@ public class HCardName {
         }
         if (fullName == null) return null;
         // If org and fn are the same, the hCard is for an organization, and we do not split the fn
-        if (fullName.equals(organization)) {
+        if (fullName[0].equals(organization)) {
             return null;
         }
-        String[] split = fullName.split("\\s+");
-        if (split.length <= index) return null;
-        return split[index];
+        if (index != Integer.MAX_VALUE && fullName.length <= index) return null;
+        return fullName[ index == Integer.MAX_VALUE ? fullName.length - 1 : index];
     }
 
     public boolean hasField(String fieldName) {
@@ -135,7 +143,7 @@ public class HCardName {
     }
 
     public String getFullName() {
-        if (fullName != null) return fullName;
+        if (fullName != null) return join(fullName, " ");
         StringBuffer s = new StringBuffer();
         boolean empty = true;
         for (String fieldName : NAME_COMPONENTS) {
@@ -164,12 +172,26 @@ public class HCardName {
         return unit;
     }
 
+    private static String join(String[] sarray, String delimiter) {
+        StringBuilder builder = new StringBuilder();
+        final int sarrayLengthMin2 =  sarray.length - 1;
+        for(int i = 0; i < sarray.length; i++) {
+            builder.append(sarray[i]);
+            if( i < sarrayLengthMin2) {
+                builder.append(delimiter);
+            }
+        }
+        return builder.toString();
+    }
+
     private String fixWhiteSpace(String s) {
         if (s == null) return null;
         s = s.trim().replaceAll("\\s+", " ");
         if ("".equals(s)) return null;
         return s;
     }
+
+
 
     /**
      * Represents a possible field value.

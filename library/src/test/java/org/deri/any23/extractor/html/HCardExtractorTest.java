@@ -15,6 +15,8 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * {@link org.deri.any23.extractor.html.HCardExtractor} test case.
@@ -470,43 +472,85 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		}
 	}
 
-    /*
     @Test
-	public void testImpliedN() {
-		// mighty hack:
-		// fn, family, king
-		String[] ns = { "Ryan King", "King", "Ryan", "Ryan King", "King",
-				"Ryan", "Ryan King", "King", "Ryan", "Brian Suda", "Suda",
-				"Brian", "King, Ryan", "King", "Ryan", "King, R", "King", "R",
-				"King R", "King", "R", "King R.", "King", "R.",
-				"Jesse James Garret", "", "", "Thomas Vander Wall", "", "" };
+	public void testImpliedNames() throws RepositoryException {
+		String[] ns = {
+                "Ryan King",
+                "King",
+                "Ryan",
+
+                "Ryan King",
+                "King",
+				"Ryan",
+
+                "Ryan King",
+                "King",
+                "Ryan",
+
+                "Brian Suda",
+                "Suda",
+				"Brian",
+
+                "King, Ryan",
+                "King",
+                "Ryan",
+
+                "King, R",
+                "King",
+                "R",
+
+				"King R",
+                "R",
+                "King",
+
+                "R King",
+                "King",
+                "R",
+
+                "King R.",
+                "R.",
+                "King",
+
+                "Jesse James Garrett",
+                "Garrett",
+                "Jesse",
+
+                "Thomas Vander Wall",
+                "Wall",
+                "Thomas"
+        };
 		List<String> NAMES = Arrays.asList(ns);
-		assertExtracts("03-implied-n");
+		assertExtracts("hcard/03-implied-n.html");
 		assertModelNotEmpty();
-		assertContains( VCARD.organization_name, "Technorati");
+//		assertContains( VCARD.organization_name, "Technorati");
 
-		StmtIterator iter = model.listStatements((Resource) null, VCARD.fn,
-				(Resource) null);
-		Assert.assertEquals(10, iter.toSet().size());
-		iter.close();
-		Resource vcard;
+        RepositoryResult<Statement> statements = conn.getStatements(null, VCARD.fn, null, false);
+        Resource vcard;
+        int count = 0;
+        try {
+            while (statements.hasNext()) {
+                vcard = statements.next().getSubject();
+                assertContains(vcard, RDF.TYPE, VCARD.VCard);
+                Resource name = findObjectAsResource(vcard, VCARD.n);
 
-		while (iter.hasNext()) {
-			vcard = (Resource) iter.nextStatement().getSubject();
-			assertContains(vcard, RDF.type, VCARD.VCard);
-			Resource name = (Resource) vcard.getProperty(VCARD.n).getObject()
-					.as(Resource.class);
-			int idx = NAMES.indexOf(vcard.getProperty(VCARD.fn).getLiteral()
-					.getString());
-			Assert.assertTrue("not in names", idx >= 0);
-			Assert.assertEquals(NAMES.get(idx + 1), name
-					.getProperty(VCARD.family_name).getLiteral().getString());
-			Assert.assertEquals(NAMES.get(idx + 2), name.getProperty(VCARD.given_name)
-					.getLiteral().getString());
-		}
-		iter.close();
-	}
-    */
+                final String objLiteral = findObjectAsLiteral(vcard, VCARD.fn);
+                int idx = NAMES.indexOf(objLiteral);
+                Assert.assertTrue( String.format("not in names: '%s'", objLiteral), idx >= 0);
+                Assert.assertEquals(
+                        NAMES.get(idx + 1),
+                        findObjectAsLiteral(name, VCARD.family_name)
+                );
+                Assert.assertEquals(
+                        NAMES.get(idx + 2),
+                        findObjectAsLiteral(name, VCARD.given_name)
+                );
+                count++;
+            }
+        } finally {
+            statements.close();
+        }
+        Assert.assertEquals(10, count);
+    }
 
     @Test
     public void testIgnoreUnknowns() throws RepositoryException {
