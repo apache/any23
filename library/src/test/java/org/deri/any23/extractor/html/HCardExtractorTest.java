@@ -396,34 +396,33 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         }
     }
 
-    /*
     @Test
-	public void testRomanianWikipedia() {
-		assertExtracts("40-fn-inside-adr");
+	public void testRomanianWikipedia() throws RepositoryException {
+		assertExtracts("hcard/40-fn-inside-adr.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.type, VCARD.VCard, 1);
-		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
+		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
 
-		while (iter.hasNext()) {
-			Resource card = (Resource) iter.nextStatement().getSubject();
-			Assert.assertNotNull(card.getProperty(VCARD.fn));
-			String fn = card.getProperty(VCARD.fn).getString();
-			Assert.assertEquals("Berlin", fn);
+        try {
+            while (statements.hasNext()) {
+                Resource card = statements.next().getSubject();
+                Assert.assertNotNull( findObject(card, VCARD.fn) );
+                String fn = findObjectAsLiteral( card, VCARD.fn);
+                Assert.assertEquals("Berlin", fn);
 
-			Assert.assertTrue(card.hasProperty(VCARD.org));
-			Resource org = card.getProperty(VCARD.org).getResource();
-			assertContains(org, RDF.type, VCARD.Organization);
-			Assert.assertNotNull(org);
-			Assert.assertTrue(card.hasProperty(VCARD.org));
-			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
-			Assert.assertEquals("Berlin", org.getProperty(VCARD.organization_name)
-					.getString());
+                Assert.assertNotNull( findObject(card, VCARD.org) );
+                Resource org =  findObjectAsResource(card, VCARD.org);
+                assertContains(org, RDF.TYPE, VCARD.Organization);
+                Assert.assertNotNull(org);
+                Assert.assertNotNull( findObject(card, VCARD.org) );
+                Assert.assertNotNull( findObject(org, VCARD.organization_name) );
+                Assert.assertEquals("Berlin", findObjectAsLiteral(org, VCARD.organization_name));
 
-		}
-
-	}
-    */
-
+            }
+        } finally {
+            statements.close();
+        }
+    }
 
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
