@@ -9,6 +9,7 @@ import org.deri.any23.vocab.VCARD;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -280,28 +281,29 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         }
     }
 
-    /*
     @Test
 	public void testAreaFull() throws RepositoryException {
-		assertExtracts("33-area");
+		assertExtracts("hcard/33-area.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.type, VCARD.VCard, 5);
+		assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
 
-		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
-		while (iter.hasNext()) {
-			Resource vcard = (Resource) iter.nextStatement().getSubject();
-			Assert.assertNotNull(vcard.getProperty(VCARD.fn));
-			String fn = vcard.getProperty(VCARD.fn).getString();
-			Assert.assertNotNull(vcard.getProperty(VCARD.url));
-			String url = vcard.getProperty(VCARD.url).getResource().getURI();
-			Assert.assertNotNull(vcard.getProperty(VCARD.email));
-			String mail = vcard.getProperty(VCARD.email).getResource().getURI();
+		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		while (statements.hasNext()) {
+			Resource vcard = statements.next().getSubject();
+			final Value fnValue = findObject(vcard, VCARD.fn);
+            Assert.assertNotNull(fnValue);
+			String fn = fnValue.stringValue();
+			final Value vcardValue = findObject(vcard, VCARD.url);
+            Assert.assertNotNull(vcardValue);
+			String url = vcardValue.stringValue();
+			final Value emailValue = findObject(vcard, VCARD.email);
+            Assert.assertNotNull(emailValue);
+			String mail = emailValue.stringValue();
 			Assert.assertEquals("Joe Public", fn);
 			Assert.assertEquals("http://example.com/", url);
 			Assert.assertEquals("mailto:joe@example.com", mail);
 		}
 	}
-    */
 
     @Test
     public void testCategories() throws RepositoryException {
