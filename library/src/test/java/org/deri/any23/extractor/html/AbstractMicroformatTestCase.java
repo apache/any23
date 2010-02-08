@@ -174,7 +174,7 @@ public abstract class AbstractMicroformatTestCase {
         return (Resource) findObject(sub, prop);
     }
 
-    protected String findObjectAsValue(Resource sub, URI prop) throws RepositoryException {
+    protected String findObjectAsLiteral(Resource sub, URI prop) throws RepositoryException {
         return findObject(sub, prop).stringValue();
     }
 

@@ -34,8 +34,8 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
         Resource person =  findObjectAsResource(card, FOAF.topic);
 
-		Assert.assertEquals( findObjectAsValue(person, FOAF.name), findObjectAsValue(card, VCARD.fn) );
-		Assert.assertEquals( findObjectAsValue(person, FOAF.name), findObjectAsValue(card, VCARD.fn) );
+		Assert.assertEquals( findObjectAsLiteral(person, FOAF.name), findObjectAsLiteral(card, VCARD.fn) );
+		Assert.assertEquals( findObjectAsLiteral(person, FOAF.name), findObjectAsLiteral(card, VCARD.fn) );
 	}
 
     @Test
@@ -182,7 +182,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
             while (repositoryResult.hasNext()) {
                 Resource card = repositoryResult.next().getSubject();
                 Assert.assertNotNull(findObject(card, VCARD.fn));
-                String name = findObjectAsValue(card, VCARD.fn);
+                String name = findObjectAsLiteral(card, VCARD.fn);
 
                 Assert.assertNotNull(findObject(card, VCARD.org));
                 Resource org = findObjectAsResource(card, VCARD.org);
@@ -211,7 +211,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                 Resource vcard = statements.next().getSubject();
 
                 Assert.assertNotNull(findObject(vcard, VCARD.fn));
-                Assert.assertEquals("Brian Suda", findObjectAsValue(vcard, VCARD.fn));
+                Assert.assertEquals("Brian Suda", findObjectAsLiteral(vcard, VCARD.fn));
 
                 Assert.assertNotNull(findObject(vcard, VCARD.url));
                 String url = findObjectAsResource(vcard, VCARD.url).stringValue();
@@ -220,16 +220,16 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                 Resource name = findObjectAsResource(vcard, VCARD.n);
                 Assert.assertEquals(
                         "Brian",
-                        findObjectAsValue(name, VCARD.given_name)
+                        findObjectAsLiteral(name, VCARD.given_name)
                 );
                 Assert.assertEquals(
                         "Suda",
-                        findObjectAsValue(name, VCARD.family_name)
+                        findObjectAsLiteral(name, VCARD.family_name)
                 );
 
                 //Included data.
                 Assert.assertNotNull(findObject(vcard, VCARD.email));
-                String mail = findObjectAsValue(vcard, VCARD.email);
+                String mail = findObjectAsLiteral(vcard, VCARD.email);
                 Assert.assertEquals("mailto:correct@example.com", mail);
             }
         } finally {
@@ -251,7 +251,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                 Resource card = statements.next().getSubject();
                 Assert.assertNotNull( findObject(card, VCARD.fn) );
 
-                String fn = findObjectAsValue(card, VCARD.fn);
+                String fn = findObjectAsLiteral(card, VCARD.fn);
                 if ("Jane Doe".equals(fn)) {
                     // Assert.assertNotNull( findObject(card, VCARD.url));
                     Assert.assertNotNull( findObject(card, VCARD.org));
@@ -269,7 +269,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                     Assert.assertNotNull( findObject(org , VCARD.organization_name) );
                     Assert.assertEquals(
                             "example.org",
-                            findObjectAsValue(org, VCARD.organization_name)
+                            findObjectAsLiteral(org, VCARD.organization_name)
                     );
                 }
             }
@@ -360,40 +360,41 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertContains(VCARD.uid, "unique-id-1");
 	}
 
-    /*
     @Test
-	public void testUidFull() throws RepositoryException {
-		assertExtracts("38-uid");
-		assertModelNotEmpty();
-		assertStatementsSize(RDF.type, VCARD.VCard, 4);
-		StmtIterator iter = model.listStatements(null, RDF.type, VCARD.VCard);
+    public void testUidFull() throws RepositoryException {
+        assertExtracts("hcard/38-uid.html");
+        assertModelNotEmpty();
+        assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
 
-		while (iter.hasNext()) {
-			Resource vcard = (Resource) iter.nextStatement().getSubject();
-			Assert.assertNotNull(vcard.getProperty(VCARD.fn));
-			String fn = vcard.getProperty(VCARD.fn).getString();
-			Assert.assertEquals("Ryan King", fn);
+        try {
+            while (statements.hasNext()) {
+                Resource vcard = statements.next().getSubject();
+                Assert.assertNotNull( findObject(vcard, VCARD.fn) );
+                String fn =  findObjectAsLiteral(vcard, VCARD.fn);
+                Assert.assertEquals("Ryan King", fn);
 
-			Assert.assertNotNull(vcard.getProperty(VCARD.n));
-			Resource n = vcard.getProperty(VCARD.n).getResource();
-			Assert.assertNotNull(n);
-			Assert.assertNotNull(n.getProperty(VCARD.given_name));
-			Assert.assertEquals("Ryan", n.getProperty(VCARD.given_name).getString());
-			Assert.assertNotNull(n.getProperty(VCARD.family_name));
-			Assert.assertEquals("King", n.getProperty(VCARD.family_name).getString());
+                Assert.assertNotNull( findObject(vcard,VCARD.n) );
+                Resource n = findObjectAsResource(vcard, VCARD.n);
+                Assert.assertNotNull(n);
+                Assert.assertNotNull(findObject(n, VCARD.given_name) );
+                Assert.assertEquals("Ryan",  findObjectAsLiteral( n, VCARD.given_name) );
+                Assert.assertNotNull( findObject(n, VCARD.family_name) );
+                Assert.assertEquals("King", findObjectAsLiteral(n, VCARD.family_name) );
 
-			Assert.assertNotNull(vcard.getProperty(VCARD.url));
-			Resource url = vcard.getProperty(VCARD.url).getResource();
+                Assert.assertNotNull( findObject(vcard, VCARD.url) );
+                Resource url = findObjectAsResource(vcard, VCARD.url);
 
-			Assert.assertNotNull(vcard.getProperty(VCARD.uid));
-			String uid = vcard.getProperty(VCARD.uid).getString();
+                Assert.assertNotNull( findObject(vcard, VCARD.uid) );
+                String uid = findObjectAsLiteral(vcard, VCARD.uid);
 
-			Assert.assertEquals("http://theryanking.com/contact/", url.getURI());
-			Assert.assertEquals("http://theryanking.com/contact/", uid);
-
-		}
-	}
-    */
+                Assert.assertEquals("http://theryanking.com/contact/", url.stringValue() );
+                Assert.assertEquals("http://theryanking.com/contact/", uid);
+            }
+        } finally {
+            statements.close();
+        }
+    }
 
     /*
     @Test
