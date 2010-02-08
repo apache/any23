@@ -522,7 +522,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		List<String> NAMES = Arrays.asList(ns);
 		assertExtracts("hcard/03-implied-n.html");
 		assertModelNotEmpty();
-//		assertContains( VCARD.organization_name, "Technorati");
+        // assertContains( VCARD.organization_name, "Technorati");
 
         RepositoryResult<Statement> statements = conn.getStatements(null, VCARD.fn, null, false);
         Resource vcard;
@@ -848,43 +848,50 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         }
     }
 
-    /*
-    public void testIncludePattern() {
-		assertExtracts("35-include-pattern");
-		assertModelNotEmpty();
-		assertStatementsSize(RDF.type, VCARD.VCard, 3);
+    @Test
+    public void testIncludePattern() throws RepositoryException {
+        assertExtracts("hcard/35-include-pattern.html");
+        assertModelNotEmpty();
+        assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
 
-		ResIterator iter = model.listSubjectsWithProperty(RDF.type, VCARD.Name);
-		while (iter.hasNext()) {
-			Resource name =  iter.nextResource();
-			Assert.assertTrue(name.hasProperty(VCARD.given_name));
-			String gn = name.getProperty(VCARD.given_name).getString();
-			Assert.assertEquals("James", gn);
-			Assert.assertTrue(name.hasProperty(VCARD.family_name));
-			String fn = name.getProperty(VCARD.family_name).getString();
-			Assert.assertEquals("Levine", fn);
-		}
-		iter.close();
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.Name, false);
+        try {
+            while (statements.hasNext()) {
+                Resource name = statements.next().getSubject();
+                Assert.assertNotNull(findObject(name, VCARD.given_name));
+                String gn = findObjectAsLiteral(name, VCARD.given_name);
+                Assert.assertEquals("James", gn);
+                Assert.assertNotNull(findObject(name, VCARD.family_name));
+                String fn = findObjectAsLiteral(name, VCARD.family_name);
+                Assert.assertEquals("Levine", fn);
+            }
+        } finally {
+            statements.close();
+        }
 
-		assertStatementsSize(RDF.type, VCARD.Organization, 2);
-		iter = model.listSubjectsWithProperty(RDF.type, VCARD.Organization);
-		while (iter.hasNext()) {
-			Resource org = iter.nextResource();
-			Assert.assertTrue(org.hasProperty(VCARD.organization_name));
-			Assert.assertEquals("SimplyHired",org.getProperty(VCARD.organization_name).getString());
+        assertStatementsSize(RDF.TYPE, VCARD.Organization, 2);
+        statements = conn.getStatements(null, RDF.TYPE, VCARD.Organization, false);
+        try {
+            while (statements.hasNext()) {
+                Resource org = statements.next().getSubject();
+                Assert.assertNotNull(findObject(org, VCARD.organization_name));
+                Assert.assertEquals("SimplyHired", findObjectAsLiteral(org, VCARD.organization_name));
 
-			ResIterator ri = model.listSubjectsWithProperty(VCARD.org, org);
-			while(ri.hasNext()) {
-				Resource vcard = ri.nextResource();
-				Assert.assertTrue(vcard.hasProperty(VCARD.title));
-				Assert.assertEquals("Microformat Brainstormer",vcard.getProperty(VCARD.title).getString());
-			}
-			ri.close();
-
-		}
-
-	}
-	*/
+                RepositoryResult<Statement> statements2 = conn.getStatements(null, VCARD.org, org, false);
+                try {
+                    while (statements2.hasNext()) {
+                        Resource vcard = statements2.next().getSubject();
+                        Assert.assertNotNull(findObject(vcard, VCARD.title));
+                        Assert.assertEquals("Microformat Brainstormer", findObjectAsLiteral(vcard, VCARD.title));
+                    }
+                } finally {
+                    statements2.close();
+                }
+            }
+        } finally {
+            statements.close();
+        }
+    }
 
     /*
     public void testUid() {
