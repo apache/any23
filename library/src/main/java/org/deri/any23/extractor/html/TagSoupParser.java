@@ -26,6 +26,8 @@ import org.xml.sax.SAXException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 
 /**
  * Parses an {@link java.io.InputStream}
@@ -51,12 +53,24 @@ public class TagSoupParser {
     private final InputStream input;
 
     private final String documentURI;
+
+    private final String encoding;
     
     private Document result = null;
 
     public TagSoupParser(InputStream input, String documentURI) {
         this.input = input;
         this.documentURI = documentURI;
+        this.encoding = null;
+    }
+
+    public TagSoupParser(InputStream input, String documentURI, String encoding) {
+        if(!Charset.isSupported(encoding))
+            throw new UnsupportedCharsetException(String.format("Charset %s is not supported", encoding));
+
+        this.input = input;
+        this.documentURI = documentURI;
+        this.encoding = encoding;
     }
 
     public Document getDOM() throws IOException {
@@ -86,9 +100,13 @@ public class TagSoupParser {
     }
 
     private Document parse() throws IOException, SAXException, TransformerException {
+
         DOMParser parser = new DOMParser();
-        // must set this to false if we want to use Xerces HTML DOM
         parser.setFeature("http://xml.org/sax/features/namespaces", false);
+
+        if(this.encoding != null)
+            parser.setProperty("http://cyberneko.org/html/properties/default-encoding", this.encoding);
+
         parser.parse(new InputSource(input));
         return parser.getDocument();
     }
