@@ -23,9 +23,12 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // TODO: #6 - Comments are out of date
@@ -45,6 +48,7 @@ import java.util.Set;
  * <p/>
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
+ * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
 
 /* TODO: #6 - Implementation doesn't ensure that openContext() is reported
@@ -71,6 +75,8 @@ public class ExtractionResultImpl implements ExtractionResult {
 
     private boolean isInitialized = false;
 
+    private List<Error> errors;
+
     public ExtractionResultImpl(URI documentURI, Extractor<?> extractor, TripleHandler tripleHandler) {
         this(documentURI, extractor, tripleHandler, null);
     }
@@ -88,6 +94,33 @@ public class ExtractionResultImpl implements ExtractionResult {
                 extractor.getDescription().getExtractorName(), documentURI,
                 ((contextID == null) ? null : Integer.toHexString(contextID.hashCode())));
         knownContextIDs.add(contextID);
+    }
+
+    public boolean hasErrors() {
+        return errors != null;
+    }
+
+    public int getErrorsCount() {
+        return errors == null ? 0 : errors.size();
+    }
+
+    public void printErrorsReport(PrintStream ps) {
+        ps.print(String.format("Context: %s [errors: %d] {\n", context, getErrorsCount()));
+        if (errors != null) {
+            for (Error error : errors) {
+                ps.print(error.toString());
+                ps.print("\n");
+            }
+        }
+        // Printing sub results.
+        for (ExtractionResult er : subResults) {
+            er.printErrorsReport(ps);
+        }
+        ps.print("}\n");
+    }
+
+    public Collection<Error> getErrors() {
+        return errors == null ? Collections.<Error>emptyList() : Collections.unmodifiableList(errors);
     }
 
     public ExtractionResult openSubResult(Object contextID) {
@@ -111,6 +144,13 @@ public class ExtractionResultImpl implements ExtractionResult {
     public void writeNamespace(String prefix, String uri) {
         checkOpen();
         tripleHandler.receiveNamespace(prefix, uri, context);
+    }
+
+    public void notifyError(ErrorLevel level, String msg, int row, int col) {
+        if(errors == null) {
+            errors = new ArrayList<Error>();
+        }
+        errors.add( new Error(level, msg, row, col) );
     }
 
     public void close() {
