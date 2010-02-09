@@ -44,12 +44,8 @@ public class ExtractionResultImplTest {
     private Extractor extractor;
     private TripleHandler mockTripleHandler;
 
-    private ByteArrayOutputStream baos;
-    private PrintStream ps;
-
     @Before
     public void setUp() {
-        if(baos != null) { baos.reset(); }
         extractor = new TitleExtractor();
         mockTripleHandler = new FakeTripleHandler();
         extractionResult  = new ExtractionResultImpl(TEST_URI, extractor, mockTripleHandler );
@@ -66,35 +62,32 @@ public class ExtractionResultImplTest {
 
     @Test
     public void testNotifyErrors() throws IOException {
+        final ExtractionResult subExtractionResult = extractionResult.openSubResult("sub-id");
         notifyErrors(extractionResult);
-        ExtractionResult subExtractionResult = extractionResult.openSubResult("sub-id");
         notifyErrors(subExtractionResult);
 
-        Assert.assertEquals("Unespected number of errors.", 6, extractionResult.getErrorsCount()   );
-        Assert.assertEquals("Unspected errors list size." , 6, extractionResult.getErrors().size() );
-
-        extractionResult.printErrorsReport( getPrintStream() );
-        assertOutputString("ERROR");
-        assertOutputString("WARN");
-        assertOutputString("FATAL");
-        assertOutputString("errors: 6");
+        assertContent(extractionResult);
+        assertContent(subExtractionResult);
     }
 
     private void notifyErrors(ExtractionResult er) {
-        extractionResult.notifyError(ExtractionResult.ErrorLevel.ERROR, "Error message"  , 1, 2);
-        extractionResult.notifyError(ExtractionResult.ErrorLevel.WARN,  "Warning message", 3, 4);
-        extractionResult.notifyError(ExtractionResult.ErrorLevel.FATAL, "Fatal message"  , 5, 6);
+        er.notifyError(ExtractionResult.ErrorLevel.ERROR, "Error message"  , 1, 2);
+        er.notifyError(ExtractionResult.ErrorLevel.WARN,  "Warning message", 3, 4);
+        er.notifyError(ExtractionResult.ErrorLevel.FATAL, "Fatal message"  , 5, 6);
     }
 
-    private PrintStream getPrintStream() {
-        if(baos == null) {
-            baos = new ByteArrayOutputStream();
-            ps   = new PrintStream(baos);
-        }
-        return ps;
+    private void assertContent(ExtractionResult er) {
+        Assert.assertEquals("Unexpected errors list size." , 3, er.getErrors().size() );
+        assertOutputString(er, "ERROR");
+        assertOutputString(er, "WARN");
+        assertOutputString(er, "FATAL");
+        assertOutputString(er, "errors: 3");
     }
 
-    private void assertOutputString(String s) {
+    private void assertOutputString(ExtractionResult er, String s) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        er.printErrorsReport(ps);
         ps.flush();
         Assert.assertTrue( String.format("Cannot find string '%s' in output stream.", s), baos.toString().contains(s) );
     }
