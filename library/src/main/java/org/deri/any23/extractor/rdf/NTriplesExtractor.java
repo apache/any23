@@ -48,11 +48,14 @@ public class NTriplesExtractor implements ContentExtractor {
                     NTriplesExtractor.class
             );
 
+    private boolean stopAtFirstError = true;
+
     public void run(InputStream in, URI documentURI, final ExtractionResult out)
             throws IOException, ExtractionException {
         try {
             RDFParser parser = new NTriplesParser();
-            parser.setDatatypeHandling(DatatypeHandling.IGNORE);
+            parser.setDatatypeHandling(DatatypeHandling.VERIFY);
+            parser.setStopAtFirstError(stopAtFirstError);
             parser.setRDFHandler(new RDFHandlerAdapter(out));
             parser.parse(in, documentURI.stringValue());
         } catch (RDFHandlerException ex) {
@@ -65,4 +68,13 @@ public class NTriplesExtractor implements ContentExtractor {
     public ExtractorDescription getDescription() {
         return factory;
     }
+
+    public void setStopAtFirstError(boolean f) {
+        stopAtFirstError = f;
+    }
+
+    public boolean getStopAtFirstError() {
+        return stopAtFirstError;
+    }
+
 }

@@ -42,6 +42,15 @@ public interface Extractor<Input> {
      * {@link java.io.InputStream} as input format.
      */
     public interface ContentExtractor extends Extractor<InputStream> {
+        
+        /**
+         * If <code>true</code>, the extractor will stop at first parsing error,
+         * if<code>false</code> the extractor will attempt to ignore all parsing errors.
+         *
+         * @param f tolerance flag.
+         */
+        void setStopAtFirstError(boolean f);
+
     }
 
     /**
@@ -68,4 +77,5 @@ public interface Extractor<Input> {
      * Returns a {@link org.deri.any23.extractor.ExtractorDescription} of this extractor.
      */
     ExtractorDescription getDescription();
+
 }

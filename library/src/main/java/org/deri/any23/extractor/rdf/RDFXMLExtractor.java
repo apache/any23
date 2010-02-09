@@ -42,12 +42,26 @@ import java.util.Arrays;
  */
 public class RDFXMLExtractor implements ContentExtractor {
 
+    public final static ExtractorFactory<RDFXMLExtractor> factory =
+            SimpleExtractorFactory.create(
+                    "rdf-xml",
+                    null,
+                    Arrays.asList("application/rdf+xml", "text/rdf",
+                            "text/rdf+xml", "application/rdf",
+                            "application/xml;q=0.2", "text/xml;q=0.2"),
+                    "example-rdfxml.rdf",
+                    RDFXMLExtractor.class
+            );
+
+    private boolean stopAtFirstError = true;
+
     public void run(InputStream in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
         try {
             RDFParser parser = new RDFXMLParser();
             parser.setValueFactory(new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()));
-            parser.setDatatypeHandling(DatatypeHandling.IGNORE);
+            parser.setDatatypeHandling(DatatypeHandling.VERIFY);
+            parser.setStopAtFirstError(stopAtFirstError);
             parser.setRDFHandler(new RDFHandlerAdapter(out));
             parser.parse(in, documentURI.stringValue());
         } catch (RDFHandlerException ex) {
@@ -61,13 +75,12 @@ public class RDFXMLExtractor implements ContentExtractor {
         return factory;
     }
 
-    public final static ExtractorFactory<RDFXMLExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-xml",
-                    null,
-                    Arrays.asList("application/rdf+xml", "text/rdf",
-                            "text/rdf+xml", "application/rdf",
-                            "application/xml;q=0.2", "text/xml;q=0.2"),
-                    "example-rdfxml.rdf",
-                    RDFXMLExtractor.class);
+    public void setStopAtFirstError(boolean f) {
+        stopAtFirstError = f;
+    }
+
+    public boolean getStopAtFirstError() {
+        return stopAtFirstError;
+    }
+
 }
