@@ -255,18 +255,37 @@ public class Any23 {
      *
      * @param in the input document source.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param encoding explicit encoding see
+     *        <a href="http://www.iana.org/assignments/character-sets">available encodings</a>.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    public boolean extract(DocumentSource in, TripleHandler outputHandler, String encoding)
+    throws IOException, ExtractionException {
+        SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
+        ex.setMIMETypeDetector(mimeTypeDetector);
+        ex.setLocalCopyFactory(streamCache);
+        ex.setParserEncoding(encoding);
+        ex.run();
+        outputHandler.close();
+        return ex.hasMatchingExtractors();
+    }
+
+    /**
+     * Performs metadata extraction from the content of the given
+     * <code>in</code> document source, sending the generated events
+     * to the specified <code>outputHandler</code>.
+     *
+     * @param in the input document source.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
      * @throws IOException
      * @throws ExtractionException
      */
     public boolean extract(DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {
-        SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
-        ex.setMIMETypeDetector(mimeTypeDetector);
-        ex.setLocalCopyFactory(streamCache);
-        ex.run();
-        outputHandler.close();
-        return ex.hasMatchingExtractors();
+        return extract(in, outputHandler, null);
     }
 
     private String getAcceptHeader() {

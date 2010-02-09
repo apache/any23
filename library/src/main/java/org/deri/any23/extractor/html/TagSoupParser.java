@@ -65,7 +65,7 @@ public class TagSoupParser {
     }
 
     public TagSoupParser(InputStream input, String documentURI, String encoding) {
-        if(!Charset.isSupported(encoding))
+        if(encoding != null && !Charset.isSupported(encoding))
             throw new UnsupportedCharsetException(String.format("Charset %s is not supported", encoding));
 
         this.input = input;

@@ -64,6 +64,8 @@ public class SingleDocumentExtraction {
 
     private Document tagSoupDOM = null;
 
+    private String parserEncoding = null;
+
     public SingleDocumentExtraction(DocumentSource in, ExtractorFactory<?> factory, TripleHandler output) {
         this(in, new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)),
                 output);
@@ -128,6 +130,15 @@ public class SingleDocumentExtraction {
     public boolean hasMatchingExtractors() throws IOException {
         filterExtractorsByMIMEType();
         return !matchingExtractors.isEmpty();
+    }
+
+    public String getParserEncoding() {
+        return this.parserEncoding;
+    }
+
+    public void setParserEncoding(String encoding) {
+        this.parserEncoding = encoding;
+        tagSoupDOM = null;
     }
 
     private void filterExtractorsByMIMEType()
@@ -196,7 +207,11 @@ public class SingleDocumentExtraction {
     private Document getTagSoupDOM() throws IOException {
         if (tagSoupDOM == null) {
             ensureHasLocalCopy();
-            tagSoupDOM = new TagSoupParser(localDocumentSource.openInputStream(), documentURI.stringValue()).getDOM();
+            tagSoupDOM = new TagSoupParser(
+                    localDocumentSource.openInputStream(),
+                    documentURI.stringValue(),
+                    this.parserEncoding
+            ).getDOM();
         }
         return tagSoupDOM;
     }

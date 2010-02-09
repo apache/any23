@@ -17,16 +17,38 @@
 package org.deri.any23;
 
 import junit.framework.Assert;
+import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
+import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.RepositoryWriter;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.openrdf.model.Statement;
+import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.RepositoryResult;
+import org.openrdf.repository.sail.SailRepository;
+import org.openrdf.sail.Sail;
+import org.openrdf.sail.SailException;
+import org.openrdf.sail.memory.MemoryStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.URISyntaxException;
 
 /**
- * Test case for {@link org.deri.any23.Any23} facade. 
+ * Test case for {@link org.deri.any23.Any23} facade.
  */
 public class Any23Test {
+
+    private static final Logger logger = LoggerFactory.getLogger(Any23Test.class);
 
     private String url = "http://bob.com";
 
@@ -43,14 +65,54 @@ public class Any23Test {
     @Test
     public void testNTRIPDetection() throws Exception {
         assertReads(
-            "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .",
-            "rdf-nt"
+                "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .",
+                "rdf-nt"
         );
     }
 
     @Test
     public void testHTMLDetection() throws Exception {
         assertReads("<html><body><div class=\"vcard fn\">Joe</div></body></html>");
+    }
+
+    @Test
+    public void testEncodingBehavior() throws IOException, ExtractionException, RepositoryException, SailException {
+        FileDocumentSource fileDocumentSource;
+        Any23 any23;
+        RepositoryConnection conn;
+        RepositoryWriter repositoryWriter;
+
+        fileDocumentSource = new FileDocumentSource(new File("src/test/resources/html/encoding-test.html"));
+        any23 = new Any23();
+        Sail store = new MemoryStore();
+        store.initialize();
+        conn = new SailRepository(store).getConnection();
+        repositoryWriter = new RepositoryWriter(conn);
+        Assert.assertTrue(any23.extract(fileDocumentSource, repositoryWriter, "UTF-8"));
+
+        RepositoryResult<Statement> statements = conn.getStatements(null, DCTERMS.title, null, false);
+        try {
+            while (statements.hasNext()) {
+                Statement statement = statements.next();
+                printStatement(statement);
+                org.junit.Assert.assertTrue(statement.getObject().stringValue().contains("Knud M\u00F6ller"));
+            }
+        } finally {
+            statements.close();
+        }
+
+        fileDocumentSource = null;
+        any23 = null;
+        conn.close();
+        repositoryWriter.close();
+
+    }
+
+    private void printStatement(Statement statement) {
+        logger.info(String.format("%s\t%s\t%s",
+                statement.getSubject(),
+                statement.getPredicate(),
+                statement.getObject()));
     }
 
     private void assertReads(String content, String... parsers) throws Exception {
