@@ -16,6 +16,7 @@
 
 package org.deri.any23.mime;
 
+import org.apache.tika.Tika;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
@@ -39,6 +40,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     public static void main(String[] args) {
         new TikaMIMETypeDetector();
     }
+
+    private final Tika tika = new Tika();
 
     public TikaMIMETypeDetector() {
         InputStream is = getResourceAsStream();
@@ -66,8 +69,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 
         String type = MimeTypes.OCTET_STREAM;
         try {
-            MimeType mt = getMimeType(input, meta);
-            if (mt != null) type = mt.toString();
+            String mt = getMimeType(input, meta);
+            if (mt != null) type = mt;
 
         } catch (IOException ioe) {
             throw new RuntimeException("Error while retrieving mime type.", ioe);
@@ -105,15 +108,15 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @return MIME type of the document
      * @throws IOException if the document stream could not be read
      */
-    private MimeType getMimeType(InputStream stream, final Metadata metadata) throws IOException {
+    private String getMimeType(InputStream stream, final Metadata metadata) throws IOException {
         if (stream != null) {
-            MimeType type = types.getMimeType(stream);
+            final String type = tika.detect(stream);
             if (
                     type != null
                             &&
-                    !type.toString().equals(MimeTypes.OCTET_STREAM)
+                    !type.equals(MimeTypes.OCTET_STREAM)
                             &&
-                    !type.toString().equals(MimeTypes.PLAIN_TEXT)
+                    !type.equals(MimeTypes.PLAIN_TEXT)
             ) {
                 return type;
             }
@@ -125,7 +128,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             try {
                 MimeType type = types.forName(typename);
                 if (type != null && !type.toString().equals(MimeTypes.OCTET_STREAM)) {
-                    return type;
+                    return type.toString();
                 }
             }
             catch (MimeTypeException mte) {
@@ -138,13 +141,13 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         if (resourceName != null) {
             MimeType type = types.getMimeType(resourceName);
             if (type != null) {
-                return type;
+                return type.toString();
             }
         }
 
         // Finally, use the default type if no matches found
         try {
-            return types.forName(MimeTypes.OCTET_STREAM);
+            return types.forName(MimeTypes.OCTET_STREAM).toString();
         } catch (MimeTypeException e) {
             // Should never happen
             return null;

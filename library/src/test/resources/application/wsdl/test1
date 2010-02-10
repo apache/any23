@@ -1,64 +1,65 @@
- <?xml version="1.0" encoding="utf-8"?>
- 
-<definitions name="BibcodeQuery"
-   xmlns="http://schemas.xmlsoap.org/wsdl/"
-   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-   xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
-   xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
-   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-   targetNamespace="urn:ADSBibcodeQuery"
-   xmlns:tns="urn:ADSBibcodeQuery">
-
-  <documentation>
-     A bibcode query service provided by the ADS
-  </documentation>
+<?xml version="1.0"?>
+<definitions name="StockQuote"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="http://example.com/stockquote.wsdl"
+             xmlns:tns="http://example.com/stockquote.wsdl"
+             xmlns:xsd1="http://example.com/stockquote.xsd"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             >
 
   <types>
-    <schema xmlns="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="urn:ADSBibcodeQuery"> 
-      <element name="bibcode"   type="string" minOccurs="1" maxOccurs="100" />
-      <element name="db_key"    type="string" minOccurs="0" />
-      <element name="data_type" type="string" minOccurs="0" />
+    <schema targetNamespace="http://example.com/stockquote.xsd"
+            xmlns="http://www.w3.org/2000/10/XMLSchema">
+      <element name="TradePriceRequest">
+        <complexType>
+          <all>
+            <element name="tickerSymbol" type="string"/>
+          </all>
+        </complexType>
+      </element>
+      <element name="TradePrice">
+         <complexType>
+           <all>
+             <element name="price" type="float"/>
+           </all>
+         </complexType>
+      </element>
     </schema>
   </types>
 
-  <message name="getBibcode">
-    <part name="bibcode"   element="tns:bibcode" />
-    <part name="db_key"    element="tns:db_key" />
-    <part name="data_type" element="tns:data_type" />
+  <message name="GetLastTradePriceInput">
+    <part name="body" element="xsd1:TradePriceRequest"/>
   </message>
 
-  <!-- not sure this is correct -->
-  <message name="returnBibcode">
-    <part name="body" type="xsd:string" />
+  <message name="GetLastTradePriceOutput">
+    <part name="body" element="xsd1:TradePrice"/>
   </message>
 
-  <portType name="BibcodeQueryPort">
-    <operation name="getBibcode">
-      <input  message="tns:getBibcode" />
-      <output message="tns:returnBibcode" />
+  <portType name="StockQuotePortType">
+    <operation name="GetLastTradePrice">
+      <input message="tns:GetLastTradePriceInput"/>
+      <output message="tns:GetLastTradePriceOutput"/>
     </operation>
   </portType>
 
-  <service name="BibcodeQuery">
-    <port name="BibcodeQueryPort" binding="tns:BibcodeQueryBinding">
-      <http:address location="http://adsabs.harvard.edu/" />
-    </port>
-  </service>
-
-  <binding name="BibcodeQueryBinding" type="tns:BibcodeQueryPort">
-    <http:binding verb="GET" />
-
-    <operation name="getBibcode">
-      <http:operation location="cgi-bin/nph-bib_query" />
+  <binding name="StockQuoteSoapBinding" type="tns:StockQuotePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetLastTradePrice">
+      <soap:operation soapAction="http://example.com/GetLastTradePrice"/>
       <input>
-	<http:urlEncoded />
+        <soap:body use="literal"/>
       </input>
       <output>
-	<mime:content type="text/html" />
+        <soap:body use="literal"/>
       </output>
     </operation>
-  
   </binding>
+
+  <service name="StockQuoteService">
+    <documentation>My first service</documentation>
+    <port name="StockQuotePort" binding="tns:StockQuoteSoapBinding">
+      <soap:address location="http://example.com/stockquote"/>
+    </port>
+  </service>
 
 </definitions>
