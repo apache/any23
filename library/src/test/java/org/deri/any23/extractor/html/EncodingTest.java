@@ -47,7 +47,7 @@ public class EncodingTest {
      * for the title.
      *
      * For this test we expect to not recognize the title.
-     * TODO (LOW) - Try to see if the latest version of Neko may help with that.
+     * TODO #10 - Swithing to the latest version of neko does not help 
      */
     @Test
     public void testEncodingHTML_UTF_8_DeclarationAfterTitle() {
