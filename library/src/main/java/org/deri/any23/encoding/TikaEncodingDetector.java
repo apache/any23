@@ -32,7 +32,7 @@ public class TikaEncodingDetector implements EncodingDetector {
 
     public String guessEncoding(InputStream is) throws IOException {
         CharsetDetector charsetDetector = new CharsetDetector();
-        charsetDetector.setText( new BufferedInputStream(is) );
+        charsetDetector.setText( is instanceof BufferedInputStream ? is : new BufferedInputStream(is) );
         charsetDetector.enableInputFilter(true);
         CharsetMatch cm = charsetDetector.detect();
         return cm.getName();
