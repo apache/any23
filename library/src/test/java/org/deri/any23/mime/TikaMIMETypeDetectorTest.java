@@ -63,7 +63,7 @@ public class TikaMIMETypeDetectorTest {
         System.err.println(detectedMimeType);
     }
 
-    /* By content. */
+    /* BEGIN: by content. */
 
     @Test
     public void testDetectRSS1ByContent() throws Exception {
@@ -110,116 +110,118 @@ public class TikaMIMETypeDetectorTest {
         detectMIMEtypeByContent("application/zip", "src/test/resources/application/zip");
     }
 
-    /* By content name and meta. */
+    /* BEGIN: by content metadata. */
 
     @Test
-    public void testDetectContentPlain() throws IOException {
-        detectMIMETypeByContentNameAndMeta("text/plain", "text/plain", "foo.rdf");
+    public void testDetectContentPlainByMeta() throws IOException {
+        detectMIMETypeByMetadata("text/plain", "text/plain", "foo.rdf");
     }
 
     @Test
-    public void testDetectContentTextRDF() throws IOException {
-        detectMIMETypeByContentNameAndMeta("application/rdf+xml", "text/rdf", "foo");
+    public void testDetectTextRDFByMeta() throws IOException {
+        detectMIMETypeByMetadata("application/rdf+xml", "text/rdf", "foo");
     }
 
     @Test
-    public void testDetectContentTextN3() throws IOException {
-        detectMIMETypeByContentNameAndMeta(N3, "text/rdf+n3", "foo");
+    public void testDetectTextN3ByMeta() throws IOException {
+        detectMIMETypeByMetadata(N3, "text/rdf+n3", "foo");
     }
 
     @Test
-    public void testDetectContentTextTurtle() throws IOException {
-        detectMIMETypeByContentNameAndMeta(TURTLE, "text/turtle", "foo");
+    public void testDetectTextTurtleByMeta() throws IOException {
+        detectMIMETypeByMetadata(TURTLE, "text/turtle", "foo");
     }
 
     @Test
-    public void testDetectContentRDFXML() throws IOException {
-        detectMIMETypeByContentNameAndMeta(RDFXML, "application/rdf+xml", "foo");
+    public void testDetectRDFXMLByMeta() throws IOException {
+        detectMIMETypeByMetadata(RDFXML, "application/rdf+xml", "foo");
     }
 
     @Test
-    public void testDetectContentXML() throws IOException {
-        detectMIMETypeByContentNameAndMeta(XML, "application/xml", "foo.rdf");
+    public void testDetectXMLByMeta() throws IOException {
+        detectMIMETypeByMetadata(XML, "application/xml", "foo.rdf");
     }
 
     @Test
-    public void testDetectExtensionN3() throws IOException {
-        detectMIMETypeByContentNameAndMeta(PLAIN, "text/plain", "foo.n3");
+    public void testDetectXMLByMeta2() throws IOException {
+        detectMIMETypeByMetadata(XML, "application/xml", "foo");
     }
 
     @Test
-    public void testDetectXMLAndNoExtension() throws IOException {
-        detectMIMETypeByContentNameAndMeta(XML, "application/xml", "foo");
+    public void testDetectExtensionN3ByMeta() throws IOException {
+        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.n3");
     }
 
     @Test
-    public void testDetectXHTMLAndNoExtension() throws IOException {
-        detectMIMETypeByContentNameAndMeta(XHTML, "application/xhtml+xml", "foo");
+    public void testDetectXHTMLByMeta() throws IOException {
+        detectMIMETypeByMetadata(XHTML, "application/xhtml+xml", "foo");
     }
 
     @Test
-    public void testDetectTextHTMLAndNoExtension() throws IOException {
-        detectMIMETypeByContentNameAndMeta(HTML, "text/html", "foo");
+    public void testDetectTextHTMLByMeta() throws IOException {
+        detectMIMETypeByMetadata(HTML, "text/html", "foo");
     }
 
     @Test
-    public void testDetectTextPlainAndExtensions() throws IOException {
-        detectMIMETypeByContentNameAndMeta(PLAIN, "text/plain", "foo.html");
-        detectMIMETypeByContentNameAndMeta(PLAIN, "text/plain", "foo.htm");
-        detectMIMETypeByContentNameAndMeta(PLAIN, "text/plain", "foo.xhtml");
+    public void testDetectTextPlainByMeta() throws IOException {
+        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.html");
+        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.htm");
+        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.xhtml");
     }
 
     @Test
-    public void testDetectApplicationXMLAndExtensions() throws IOException {
-        detectMIMETypeByContentNameAndMeta(XML, "application/xml", "foo.html");
-        detectMIMETypeByContentNameAndMeta(XML, "application/xml", "foo.htm");
-        detectMIMETypeByContentNameAndMeta(XML, "application/xml", "foo.xhtml");
+    public void testDetectApplicationXMLByMeta() throws IOException {
+        detectMIMETypeByMetadata(XML, "application/xml", "foo.html");
+        detectMIMETypeByMetadata(XML, "application/xml", "foo.htm");
+        detectMIMETypeByMetadata(XML, "application/xml", "foo.xhtml");
     }
 
+    /* BEGIN: by content and name. */
+
     @Test
-    public void testRDFXML() throws Exception {
+    public void testRDFXMLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/rdf+xml", "src/test/resources/application/rdfxml");
     }
 
     @Test
-    public void testRSS1() throws Exception {
+    public void testRSS1ByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/rdf+xml", "src/test/resources/application/rss1");
     }
 
     @Test
-    public void testRSS2() throws Exception {
+    public void testRSS2ByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/rss+xml", "src/test/resources/application/rss2");
     }
 
     //TODO: #13
     // @Test
-    public void testAtom() throws Exception {
+    public void testAtomByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/atom+xml", "src/test/resources/application/atom");
     }
 
     @Test
-    public void testHTML() throws Exception {
+    public void testHTMLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("text/html", "src/test/resources/text/html");
     }
 
     @Test
-    public void testXHTML() throws Exception {
+    public void testXHTMLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/xhtml");
     }
 
     // TODO: #13
     // @Test
-    public void testWSDL() throws Exception {
+    public void testWSDLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/x-wsdl", "src/test/resources/application/wsdl");
     }
 
     @Test
-    public void testZip() throws Exception {
+    public void testZipByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/zip", "src/test/resources/application/zip");
     }
 
     @Test
-    public void testRDFa() throws Exception {
+    public void testRDFaByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/rdfa");
     }
 
@@ -263,7 +265,7 @@ public class TikaMIMETypeDetectorTest {
      * @param fileName
      * @throws IOException
      */
-    private void detectMIMETypeByContentNameAndMeta(String expectedMimeType, String contentTypeHeader, String fileName)
+    private void detectMIMETypeByMetadata(String expectedMimeType, String contentTypeHeader, String fileName)
     throws IOException {
         File f = new File(fileName);
         if (f.getName().startsWith(".")) return;
