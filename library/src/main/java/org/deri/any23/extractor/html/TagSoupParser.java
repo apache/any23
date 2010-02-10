@@ -40,10 +40,6 @@ import java.nio.charset.UnsupportedCharsetException;
  * by default uses the <a href="http://xerces.apache.org/xerces2-j/dom.html">Xerces HTML DOM</a>
  * implementation, which doesn't support namespaces and forces uppercase element names. This works
  * with the <i>RDFa XSLT Converter</i> and with </i>XPath</i>, so we left it this way.
- * <p/>
- * TODO #10 We should pass encoding from the Content-Type HTTP header if available.
- * TODO #10 Check if NekoHTML's encoding handling is sane.
- *
  * @author Richard Cyganiak (richard at cyganiak dot de)
  */
 public class TagSoupParser {

@@ -45,6 +45,8 @@ import java.net.URISyntaxException;
 
 /**
  * Test case for {@link org.deri.any23.Any23} facade.
+ * @author Davide Palmisano ( dpalmisano@gmail.com )
+ * @author Michele Mostarda ( michele.mostarda@gmail.com )
  */
 public class Any23Test {
 
@@ -75,8 +77,35 @@ public class Any23Test {
         assertReads("<html><body><div class=\"vcard fn\">Joe</div></body></html>");
     }
 
+    /**
+     * This tests the behavior of <i>Any23</i> to execute the extraction explicitly specyfing the charset
+     * encoding of the input.
+     *
+     * @throws ExtractionException
+     * @throws IOException
+     * @throws SailException
+     * @throws RepositoryException
+     */
     @Test
-    public void testEncodingBehavior() throws IOException, ExtractionException, RepositoryException, SailException {
+    public void testExplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException {
+        assertEncodingBehavior("UTF-8");    
+    }
+
+    /**
+     * This tests the behavior of <i>Any23</i> to perform the extraction without passing it any charset encoding.
+     * The encoding is therefore guessed using {@link org.deri.any23.encoding.TikaEncodingDetector} class.
+     *
+     * @throws ExtractionException
+     * @throws IOException
+     * @throws SailException
+     * @throws RepositoryException
+     */
+    @Test
+    public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException {
+        assertEncodingBehavior(null);
+    }
+
+    private void assertEncodingBehavior(String encoding) throws IOException, ExtractionException, RepositoryException, SailException {
         FileDocumentSource fileDocumentSource;
         Any23 any23;
         RepositoryConnection conn;
@@ -88,7 +117,7 @@ public class Any23Test {
         store.initialize();
         conn = new SailRepository(store).getConnection();
         repositoryWriter = new RepositoryWriter(conn);
-        Assert.assertTrue(any23.extract(fileDocumentSource, repositoryWriter, "UTF-8"));
+        Assert.assertTrue(any23.extract(fileDocumentSource, repositoryWriter, encoding));
 
         RepositoryResult<Statement> statements = conn.getStatements(null, DCTERMS.title, null, false);
         try {
@@ -105,7 +134,6 @@ public class Any23Test {
         any23 = null;
         conn.close();
         repositoryWriter.close();
-
     }
 
     private void printStatement(Statement statement) {

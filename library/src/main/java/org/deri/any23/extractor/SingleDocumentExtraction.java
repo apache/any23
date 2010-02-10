@@ -17,6 +17,8 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.encoding.EncodingDetector;
+import org.deri.any23.encoding.TikaEncodingDetector;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
@@ -34,7 +36,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 
 /**
@@ -52,6 +56,8 @@ public class SingleDocumentExtraction {
 
     private final TripleHandler output;
 
+    private final EncodingDetector encoderDetector;
+
     private LocalCopyFactory copyFactory = null;
 
     private DocumentSource localDocumentSource = null;
@@ -66,16 +72,17 @@ public class SingleDocumentExtraction {
 
     private String parserEncoding = null;
 
-    public SingleDocumentExtraction(DocumentSource in, ExtractorFactory<?> factory, TripleHandler output) {
-        this(in, new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)),
-                output);
-        this.setMIMETypeDetector(null);
-    }
-
     public SingleDocumentExtraction(DocumentSource in, ExtractorGroup extractors, TripleHandler output) {
         this.in = in;
         this.extractors = extractors;
         this.output = output;
+        this.encoderDetector = new TikaEncodingDetector();
+    }
+
+    public SingleDocumentExtraction(DocumentSource in, ExtractorFactory<?> factory, TripleHandler output) {
+        this(in, new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)),
+                output);
+        this.setMIMETypeDetector(null);
     }
 
     public void setLocalCopyFactory(LocalCopyFactory copyFactory) {
@@ -207,13 +214,25 @@ public class SingleDocumentExtraction {
     private Document getTagSoupDOM() throws IOException {
         if (tagSoupDOM == null) {
             ensureHasLocalCopy();
+            final InputStream is = new BufferedInputStream( localDocumentSource.openInputStream() );
+            is.mark(Integer.MAX_VALUE);
+            final String candidateEncoding = getCandidateEncoding(is);
+            is.reset();
             tagSoupDOM = new TagSoupParser(
-                    localDocumentSource.openInputStream(),
+                    is,
                     documentURI.stringValue(),
-                    this.parserEncoding
+                    candidateEncoding
             ).getDOM();
         }
         return tagSoupDOM;
+    }
+
+    private String getCandidateEncoding(InputStream is) throws IOException {
+        if(this.parserEncoding != null) {
+            return this.parserEncoding;    
+        }
+        return this.encoderDetector.guessEncoding(is);
+
     }
     
 }
