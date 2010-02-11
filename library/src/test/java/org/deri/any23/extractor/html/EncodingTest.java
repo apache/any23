@@ -29,13 +29,13 @@ public class EncodingTest {
 
     @Test
     public void testEncodingHTML_ISO_8859_1() {
-        HTMLDocument document = parseHTML("xfn/encoding-iso-8859-1.html");
+        HTMLDocument document = parseHTML("microformats/xfn/encoding-iso-8859-1.html");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
     public void testEncodingHTML_UTF_8() {
-        HTMLDocument document = parseHTML("xfn/encoding-utf-8.html");
+        HTMLDocument document = parseHTML("microformats/xfn/encoding-utf-8.html");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
@@ -50,19 +50,19 @@ public class EncodingTest {
      */
     @Test
     public void testEncodingHTML_UTF_8_DeclarationAfterTitle() {
-        HTMLDocument document = parseHTML("xfn/encoding-utf-8-after-title.html");
+        HTMLDocument document = parseHTML("microformats/xfn/encoding-utf-8-after-title.html");
         Assert.assertNotSame(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
     public void testEncodingXHTML_ISO_8859_1() {
-        HTMLDocument document = parseHTML("xfn/encoding-iso-8859-1.xhtml");
+        HTMLDocument document = parseHTML("microformats/xfn/encoding-iso-8859-1.xhtml");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
     public void testEncodingXHTML_UTF_8() {
-        HTMLDocument document = parseHTML("xfn/encoding-utf-8.xhtml");
+        HTMLDocument document = parseHTML("microformats/xfn/encoding-utf-8.xhtml");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 

@@ -52,7 +52,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testOneVEvent() throws RepositoryException {
-        assertExtracts("hcalendar/example1.html");
+        assertExtracts("microformats/hcalendar/example1.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -79,7 +79,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testTransparentEvent() throws RepositoryException {
-        assertExtracts("hcalendar/example2.html");
+        assertExtracts("microformats/hcalendar/example2.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -107,7 +107,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testRepetitiveEvent() throws RepositoryException {
-        assertExtracts("hcalendar/example3.html");
+        assertExtracts("microformats/hcalendar/example3.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -135,7 +135,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testThreeDayEvent() throws RepositoryException {
-        assertExtracts("hcalendar/example5.html");
+        assertExtracts("microformats/hcalendar/example5.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -164,7 +164,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testHCalendarWithBudyInfo() throws RepositoryException {
-        assertExtracts("hcalendar/example5.5.html");
+        assertExtracts("microformats/hcalendar/example5.5.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vjournal);
@@ -172,21 +172,21 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test01() throws RepositoryException {
-        assertDefault("hcalendar/01-component-vevent-dtstart-date.html");
+        assertDefault("microformats/hcalendar/01-component-vevent-dtstart-date.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "19970903");
     }
 
     @Test
     public void test02() throws RepositoryException {
-        assertDefault("hcalendar/02-component-vevent-dtstart-datetime.html");
+        assertDefault("microformats/hcalendar/02-component-vevent-dtstart-datetime.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "1997-09-05T18:00:00.000+02:00");
     }
 
     @Test
     public void test03() throws RepositoryException {
-        assertDefault("hcalendar/03-component-vevent-dtend-date.html");
+        assertDefault("microformats/hcalendar/03-component-vevent-dtend-date.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "19970903");
         assertContains(event, ICAL.dtend, "19970904");
@@ -194,7 +194,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test04() throws RepositoryException {
-        assertDefault("hcalendar/04-component-vevent-dtend-datetime.html");
+        assertDefault("microformats/hcalendar/04-component-vevent-dtend-datetime.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "1997-09-03T16:00:00.000+02:00");
         assertContains(event, ICAL.dtend, "1997-09-03T18:00:00.000+02:00");
@@ -202,7 +202,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test05() throws RepositoryException {
-        assertDefault("hcalendar/05-calendar-simple.html");
+        assertDefault("microformats/hcalendar/05-calendar-simple.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "2005-10-05");
         assertContains(event, ICAL.dtend, "2005-10-08");
@@ -213,7 +213,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test06() throws RepositoryException {
-        assertDefault("hcalendar/06-component-vevent-uri-relative.html");
+        assertDefault("microformats/hcalendar/06-component-vevent-uri-relative.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "20060115T000000");
         assertContains(event, ICAL.summary, "Bad Movie Night - Gigli (blame mike spiegelman)");
@@ -222,7 +222,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test07() throws RepositoryException {
-        assertDefault("hcalendar/07-component-vevent-description-simple.html");
+        assertDefault("microformats/hcalendar/07-component-vevent-description-simple.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.description, "Project xyz Review Meeting Minutes");
         assertNotContains(event, ICAL.url, (Resource) null);
@@ -230,7 +230,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test08() throws RepositoryException {
-        assertDefault("hcalendar/08-component-vevent-multiple-classes.html");
+        assertDefault("microformats/hcalendar/08-component-vevent-multiple-classes.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "2005-10-05");
         assertContains(event, ICAL.dtend, "2005-10-08");
@@ -241,7 +241,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test09() throws RepositoryException {
-        assertDefault("hcalendar/09-component-vevent-summary-in-img-alt.html");
+        assertDefault("microformats/hcalendar/09-component-vevent-summary-in-img-alt.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtend, "20060310");
         assertContains(event, ICAL.dtstart, "20060306");
@@ -252,7 +252,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test10() throws RepositoryException {
-        assertDefault("hcalendar/10-component-vevent-entity.html");
+        assertDefault("microformats/hcalendar/10-component-vevent-entity.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.summary, "Cricket & Tennis Centre");
         assertContains(event, ICAL.description, "Melbourne's Cricket & Tennis Centres are in the heart of the city");
@@ -260,7 +260,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test11() throws RepositoryException {
-        assertDefault("hcalendar/11-component-vevent-summary-in-subelements.html");
+        assertDefault("microformats/hcalendar/11-component-vevent-summary-in-subelements.html");
         Resource event = getExactlyOneComponent(vevent);
 
         assertContains(event, ICAL.dtstart, "20051005T1630-0700");
@@ -270,7 +270,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test12() throws RepositoryException {
-        assertDefault("hcalendar/12-component-vevent-summary-url-in-same-class.html");
+        assertDefault("microformats/hcalendar/12-component-vevent-summary-url-in-same-class.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "20060125T000000");
         assertContains(event, ICAL.url, RDFHelper.uri("http://www.laughingsquid.com/squidlist/calendar/12377/2006/1/25"));
@@ -279,7 +279,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test13() throws RepositoryException {
-        assertDefault("hcalendar/13-component-vevent-summary-url-property.html");
+        assertDefault("microformats/hcalendar/13-component-vevent-summary-url-property.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.url, RDFHelper.uri(
                 "http://dps1.travelocity.com/dparcobrand.ctl?smls=Y&Service=YHOE&.intl=us&aln_name=AA&flt_num=" +
@@ -290,7 +290,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test15() throws RepositoryException {
-        assertDefault("hcalendar/15-calendar-xml-lang.html");
+        assertDefault("microformats/hcalendar/15-calendar-xml-lang.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "2005-10-05");
         assertContains(event, ICAL.dtend, "2005-10-08");
@@ -301,7 +301,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test16() throws RepositoryException {
-        assertDefault("hcalendar/16-calendar-force-outlook.html");
+        assertDefault("microformats/hcalendar/16-calendar-force-outlook.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "2005-10-05");
         assertContains(event, ICAL.dtend, "2005-10-08");
@@ -310,7 +310,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test17() throws RepositoryException {
-        assertDefault("hcalendar/17-component-vevent-description-value-in-subelements.html");
+        assertDefault("microformats/hcalendar/17-component-vevent-description-value-in-subelements.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, ICAL.dtstart, "2006-01-18");
         assertContains(event, ICAL.dtend, "2006-01-20");
@@ -325,26 +325,26 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void test18() throws RepositoryException {
-		assertDefault("hcalendar/18-component-vevent-uid.html");
+		assertDefault("microformats/hcalendar/18-component-vevent-uid.html");
 		assertStatementsSize(RDF.TYPE, vevent, 5);
 		assertStatementsSize(ICAL.uid, RDFHelper.literal("http://example.com/foo.html"), 5);
 	}
 
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
-        extract("html-without-uf.html");
+        extract("html/html-without-uf.html");
         assertModelEmpty();
     }
 
     @Test
     public void testNoMicroformatsInStatCvsPage() throws RepositoryException, IOException, ExtractionException {
-        extract("hcalendar/empty-statcvs.html");
+        extract("microformats/hcalendar/empty-statcvs.html");
         assertModelEmpty();
     }
 
     @Test
     public void testFullHCalendarClass() throws RepositoryException {
-        assertExtracts("hcalendar/example5.3.html");
+        assertExtracts("microformats/hcalendar/example5.3.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -352,7 +352,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testHCalendarClassWithTodo() throws RepositoryException {
-        assertExtracts("hcalendar/example5.4.html");
+        assertExtracts("microformats/hcalendar/example5.4.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vtodo);
@@ -360,7 +360,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testHCalendarClassWithJournal() throws RepositoryException {
-        assertExtracts("hcalendar/example5.5.html");
+        assertExtracts("microformats/hcalendar/example5.5.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vjournal);

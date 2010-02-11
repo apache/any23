@@ -16,24 +16,22 @@
 
 package org.deri.any23.extractor.html;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Reference Test class for the {@link org.deri.any23.extractor.html.HResumeExtractor} extractor.
@@ -48,13 +46,13 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException {
-        assertExtracts("html-without-uf.html");
+        assertExtracts("html/html-without-uf.html");
         Assert.assertTrue(conn.isEmpty());
     }
 
     @Test
     public void testLinkedIn() throws RepositoryException {
-        assertExtracts("hresume/steveganz.html");
+        assertExtracts("microformats/hresume/steveganz.html");
         Assert.assertFalse(conn.isEmpty());
         assertStatementsSize(RDF.TYPE, FOAF.Person, 1);
 
@@ -85,7 +83,7 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
     @Test
     public void testLinkedInComplete() throws RepositoryException {
 
-        assertExtracts("hresume/steveganz.html");
+        assertExtracts("microformats/hresume/steveganz.html");
         Assert.assertFalse(conn.isEmpty());
 
         assertStatementsSize(RDF.TYPE, FOAF.Person, 1);
@@ -159,7 +157,7 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testAnt() throws RepositoryException {
-        assertExtracts("hresume/ant.html");
+        assertExtracts("microformats/hresume/ant.html");
         Assert.assertFalse(conn.isEmpty());
         assertModelNotEmpty();
 

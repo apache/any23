@@ -44,13 +44,13 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
 	public void testNoMicroformats() throws RepositoryException {
-		assertExtracts("html-without-uf.html");
+		assertExtracts("html/html-without-uf.html");
         Assert.assertTrue(conn.isEmpty());
 	}
 
     @Test
 	public void test01Basic() throws RepositoryException {
-		assertExtracts("hreview/01-spec.html");
+		assertExtracts("microformats/hreview/01-spec.html");
         Assert.assertFalse(conn.isEmpty());
 
         assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
@@ -101,7 +101,7 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
     @Test
 	public void test02RatedTags() throws RepositoryException {
 		
-		assertExtracts("hreview/02-spec-2.html");
+		assertExtracts("microformats/hreview/02-spec-2.html");
 		Assert.assertFalse(conn.isEmpty());
 
 		assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
@@ -157,7 +157,7 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
     @Test
 	public void test03NoHcardForItem() throws RepositoryException {
 
-        assertExtracts("hreview/03-spec-3.html");
+        assertExtracts("microformats/hreview/03-spec-3.html");
         Assert.assertFalse(conn.isEmpty());
 
         assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
@@ -210,7 +210,7 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
     @Test
 	public void test04NoHcardForItem() throws RepositoryException {
 		
-		assertExtracts("hreview/04-spec-4.html");
+		assertExtracts("microformats/hreview/04-spec-4.html");
         Assert.assertFalse(conn.isEmpty());
 
         assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);

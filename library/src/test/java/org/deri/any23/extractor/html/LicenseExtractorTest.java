@@ -41,41 +41,41 @@ public class LicenseExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testOnlyCc() throws RepositoryException {
-        assertExtracts("license/ccBy.html");
+        assertExtracts("microformats/license/ccBy.html");
         assertContains(baseURI, XHTML.license, ccBy);
         assertNotContains(baseURI, XHTML.license, apache);
     }
 
     @Test
     public void testOnlyApache() throws RepositoryException {
-        assertExtracts("license/apache.html");
+        assertExtracts("microformats/license/apache.html");
         assertNotContains(baseURI, XHTML.license, ccBy);
         assertContains(baseURI, XHTML.license, apache);
     }
 
     @Test
     public void testMultipleLicenses() throws RepositoryException {
-        assertExtracts("license/multiple.html");
+        assertExtracts("microformats/license/multiple.html");
         assertContains(baseURI, XHTML.license, ccBy);
         assertContains(baseURI, XHTML.license, apache);
     }
 
     @Test
     public void testMultipleEmptyHref() throws RepositoryException {
-        assertExtracts("license/multiple-empty-href.html");
+        assertExtracts("microformats/license/multiple-empty-href.html");
         assertNotContains(baseURI, XHTML.license, "");
         assertContains(baseURI, XHTML.license, apache);
     }
 
     @Test
     public void testEmpty() throws RepositoryException {
-        assertExtracts("license/empty.html");
+        assertExtracts("microformats/license/empty.html");
         assertModelEmpty();
     }
 
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
-        assertExtracts("license/multiple-mixed-case.html");
+        assertExtracts("microformats/license/multiple-mixed-case.html");
         assertContains(baseURI, XHTML.license, ccBy);
         assertContains(baseURI, XHTML.license, apache);
     }

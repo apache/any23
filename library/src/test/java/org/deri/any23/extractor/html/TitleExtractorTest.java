@@ -38,25 +38,25 @@ public class TitleExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testExtractPageTitle() throws RepositoryException {
-        assertExtracts("xfn/simple-me.html");
+        assertExtracts("microformats/xfn/simple-me.html");
         Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
 
     @Test
     public void testStripSpacesFromTitle() throws RepositoryException {
-        assertExtracts("xfn/strip-spaces.html");
+        assertExtracts("microformats/xfn/strip-spaces.html");
         Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
 
     @Test
     public void testNoPageTitle() throws RepositoryException {
-        assertExtracts("xfn/tagsoup.html");
+        assertExtracts("microformats/xfn/tagsoup.html");
         assertModelEmpty();
     }
 
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
-        assertExtracts("xfn/mixed-case.html");
+        assertExtracts("microformats/xfn/mixed-case.html");
         Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
     

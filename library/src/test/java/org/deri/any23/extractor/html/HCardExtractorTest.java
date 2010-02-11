@@ -42,7 +42,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
 	public void testEMailNotUriReal() throws RepositoryException {
-		assertExtracts("hcard/17-email-not-uri.html");
+		assertExtracts("microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
 		assertContains(VCARD.email, RDFHelper.uri("mailto:john@example.com"));
@@ -50,7 +50,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testTel() throws RepositoryException {
-		assertExtracts("hcard/21-tel.html");
+		assertExtracts("microformats/hcard/21-tel.html");
 		assertDefaultVCard();
 		String[] tels = {
                 "+1.415.555.1231", "+1.415.555.1235",
@@ -70,7 +70,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testAbbrTitleEverything() throws RepositoryException {
-		assertExtracts("hcard/23-abbr-title-everything.html");
+		assertExtracts("microformats/hcard/23-abbr-title-everything.html");
 		assertDefaultVCard();
 
 		assertContains(VCARD.fn, "John Doe");
@@ -115,7 +115,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testGeoAbbr() throws RepositoryException {
-		assertExtracts("hcard/25-geo-abbr.html");
+		assertExtracts("microformats/hcard/25-geo-abbr.html");
 		assertModelNotEmpty();
 		assertContains(VCARD.fn, "Paradise");
          assertContains(RDF.TYPE, VCARD.Organization);
@@ -129,7 +129,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testAncestors() throws RepositoryException {
-		assertExtracts("hcard/26-ancestors.html");
+		assertExtracts("microformats/hcard/26-ancestors.html");
 		assertModelNotEmpty();
 
 		assertContains(VCARD.fn, "John Doe");
@@ -176,7 +176,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
 	public void testfnOrg() throws RepositoryException {
-        assertExtracts("hcard/30-fn-org.html");
+        assertExtracts("microformats/hcard/30-fn-org.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
         RepositoryResult<Statement> repositoryResult = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
@@ -202,7 +202,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testInclude() throws RepositoryException {
-        assertExtracts("hcard/31-include.html");
+        assertExtracts("microformats/hcard/31-include.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
         assertStatementsSize(VCARD.email, null, 3);
@@ -241,7 +241,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testHeader() throws RepositoryException {
-        assertExtracts("hcard/32-header.html");
+        assertExtracts("microformats/hcard/32-header.html");
         assertModelNotEmpty();
         // check fn, name, family, nick.
         assertJohn();
@@ -285,7 +285,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
 	public void testAreaFull() throws RepositoryException {
-		assertExtracts("hcard/33-area.html");
+		assertExtracts("microformats/hcard/33-area.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
 
@@ -309,7 +309,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testCategories() throws RepositoryException {
-		assertExtracts("hcard/36-categories.html");
+		assertExtracts("microformats/hcard/36-categories.html");
 		assertModelNotEmpty();
 		assertContains(VCARD.given_name, "Joe");
 		assertContains(VCARD.given_name, "john");
@@ -329,7 +329,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
     @Test
     public void testSingleton() throws RepositoryException {
 		// this tests probably tests that e just get the first fn and so on
-		assertExtracts("hcard/37-singleton.html");
+		assertExtracts("microformats/hcard/37-singleton.html");
 		assertModelNotEmpty();
 		assertStatementsSize(VCARD.fn, null, 1);
 		assertContains(VCARD.fn, "john doe 1");
@@ -364,7 +364,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testUidFull() throws RepositoryException {
-        assertExtracts("hcard/38-uid.html");
+        assertExtracts("microformats/hcard/38-uid.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
         RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
@@ -400,7 +400,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
 	public void testRomanianWikipedia() throws RepositoryException {
-		assertExtracts("hcard/40-fn-inside-adr.html");
+		assertExtracts("microformats/hcard/40-fn-inside-adr.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
 		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
@@ -428,13 +428,13 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
-		extract("/html-without-uf.html");
+		extract("html/html-without-uf.html");
 		assertModelEmpty();
 	}
 
     @Test
     public void testBasic() throws RepositoryException {
-        assertExtracts("hcard/01-tantek-basic.html");
+        assertExtracts("microformats/hcard/01-tantek-basic.html");
         assertModelNotEmpty();
         assertContains(RDF.TYPE, VCARD.VCard);
         // assertContains(RDF.TYPE, VCARD.Organization);
@@ -461,7 +461,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testMultipleclassNamesOnVCard() throws RepositoryException {
-		assertExtracts("hcard/02-multiple-class-names-on-vcard.html");
+		assertExtracts("microformats/hcard/02-multiple-class-names-on-vcard.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
 		Resource name;
@@ -520,7 +520,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
                 "Thomas"
         };
 		List<String> NAMES = Arrays.asList(ns);
-		assertExtracts("hcard/03-implied-n.html");
+		assertExtracts("microformats/hcard/03-implied-n.html");
 		assertModelNotEmpty();
         // assertContains( VCARD.organization_name, "Technorati");
 
@@ -554,7 +554,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testIgnoreUnknowns() throws RepositoryException {
-		assertExtracts("hcard/04-ignore-unknowns.html");
+		assertExtracts("microformats/hcard/04-ignore-unknowns.html");
 		assertDefaultVCard();
 		assertContains(VCARD.fn, "Ryan King");
 		assertContains(VCARD.n, (Resource) null);
@@ -565,7 +565,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testMailto1() throws RepositoryException {
-		assertExtracts("hcard/05-mailto-1.html");
+		assertExtracts("microformats/hcard/05-mailto-1.html");
 		assertDefaultVCard();
 		assertContains(VCARD.fn, "Ryan King");
 		assertContains(RDF.TYPE, VCARD.Name);
@@ -581,7 +581,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testMailto2() throws RepositoryException {
-		assertExtracts("hcard/06-mailto-2.html");
+		assertExtracts("microformats/hcard/06-mailto-2.html");
 		assertDefaultVCard();
 		assertContains(VCARD.fn, "Brian Suda");
 
@@ -595,7 +595,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testRelativeUrl() throws RepositoryException {
-		assertExtracts("hcard/07-relative-url.html");
+		assertExtracts("microformats/hcard/07-relative-url.html");
 		assertDefaultVCard();
 		assertJohn();
 		assertContains( VCARD.url, RDFHelper.uri(baseURI + "home/blah") );
@@ -603,7 +603,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testRelativeUrlBase() throws RepositoryException {
-		assertExtracts("hcard/08-relative-url-base.html");
+		assertExtracts("microformats/hcard/08-relative-url-base.html");
 		assertDefaultVCard();
 		assertContains(VCARD.url, RDFHelper.uri(baseURI + "home/blah"));
 		assertJohn();
@@ -611,7 +611,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testRelativeUrlXmlBase1() throws RepositoryException {
-		assertExtracts("hcard/09-relative-url-xmlbase-1.html");
+		assertExtracts("microformats/hcard/09-relative-url-xmlbase-1.html");
 		assertDefaultVCard();
 		assertContains(VCARD.url, RDFHelper.uri((baseURI + "home/blah")));
 		assertJohn();
@@ -619,7 +619,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testRelativeUrlXmlBase2() throws RepositoryException {
-		assertExtracts("hcard/10-relative-url-xmlbase-2.html");
+		assertExtracts("microformats/hcard/10-relative-url-xmlbase-2.html");
 		assertDefaultVCard();
 		assertContains(VCARD.url, RDFHelper.uri((baseURI + "home/blah")));
 		assertJohn();
@@ -627,7 +627,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testMultipleUrls() throws RepositoryException {
-		assertExtracts("hcard/11-multiple-urls.html");
+		assertExtracts("microformats/hcard/11-multiple-urls.html");
 		assertDefaultVCard();
 		assertContains(VCARD.url, RDFHelper.uri(("http://example.com/foo")));
 		assertContains(VCARD.url, RDFHelper.uri(("http://example.com/bar")));
@@ -637,14 +637,14 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testImageSrc() throws RepositoryException {
-		assertExtracts("hcard/12-img-src-url.html");
+		assertExtracts("microformats/hcard/12-img-src-url.html");
 		assertDefaultVCard();
 		assertJohn();
 	}
 
     @Test
     public void testPhotoLogo() throws RepositoryException {
-		assertExtracts("hcard/13-photo-logo.html");
+		assertExtracts("microformats/hcard/13-photo-logo.html");
 		assertDefaultVCard();
 		assertContains(VCARD.photo, RDFHelper.uri(("http://example.org/picture.png")));
 		assertContains(VCARD.logo , RDFHelper.uri(("http://example.org/picture.png")));
@@ -653,7 +653,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testImgSrcDataUrl() throws RepositoryException {
-		assertExtracts("hcard/14-img-src-data-url.html");
+		assertExtracts("microformats/hcard/14-img-src-data-url.html");
 		assertDefaultVCard();
 		Resource data = RDFHelper.uri(
                           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAAK/"
@@ -681,7 +681,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testHonorificAdditionalSingle() throws RepositoryException {
-		assertExtracts("hcard/15-honorific-additional-single.html");
+		assertExtracts("microformats/hcard/15-honorific-additional-single.html");
 		assertDefaultVCard();
 		assertContains(VCARD.fn, "Mr. John Maurice Doe, Ph.D.");
 
@@ -695,7 +695,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testHonorificAdditionalMultiple() throws RepositoryException {
-		assertExtracts("hcard/16-honorific-additional-multiple.html");
+		assertExtracts("microformats/hcard/16-honorific-additional-multiple.html");
 		assertDefaultVCard();
 		assertContains(VCARD.honorific_prefix, "Mr.");
 		assertContains(VCARD.honorific_prefix, "Dr.");
@@ -716,7 +716,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testEMailNotUri() throws RepositoryException {
-		assertExtracts("hcard/17-email-not-uri.html");
+		assertExtracts("microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
 		assertContains( VCARD.email, RDFHelper.uri("mailto:john@example.com") );
@@ -724,14 +724,14 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
 	@Test
     public void testObjectDataHttpUri() throws RepositoryException {
-		assertExtracts("hcard/18-object-data-http-uri.html");
+		assertExtracts("microformats/hcard/18-object-data-http-uri.html");
 		assertDefaultVCard();
 		assertJohn();
 	}
 
     @Test
     public void testObjectDataDataUri() throws RepositoryException {
-		assertExtracts("hcard/19-object-data-data-uri.html");
+		assertExtracts("microformats/hcard/19-object-data-data-uri.html");
 		assertDefaultVCard();
         assertJohn();
 
@@ -741,7 +741,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testImgAlt() throws RepositoryException {
-		assertExtracts("hcard/20-image-alt.html");
+		assertExtracts("microformats/hcard/20-image-alt.html");
 		assertDefaultVCard();
 		Resource uri = RDFHelper.uri("http://example.com/foo.png");
 		assertContains(VCARD.photo, uri);
@@ -751,7 +751,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testAdr() throws RepositoryException {
-		assertExtracts("hcard/22-adr.html");
+		assertExtracts("microformats/hcard/22-adr.html");
 		assertDefaultVCard();
 		assertJohn();
 		assertStatementsSize(RDF.TYPE, VCARD.Address, 0);
@@ -759,7 +759,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testBirthDayDate() throws RepositoryException {
-		assertExtracts("hcard/27-bday-date.html");
+		assertExtracts("microformats/hcard/27-bday-date.html");
 		assertModelNotEmpty();
 		assertContains(VCARD.fn         , "john doe");
 		assertContains(VCARD.given_name , "john");
@@ -769,7 +769,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testBirthDayDateTime() throws RepositoryException {
-		assertExtracts("hcard/28-bday-datetime.html");
+		assertExtracts("microformats/hcard/28-bday-datetime.html");
 		assertModelNotEmpty();
 		assertContains(VCARD.fn         , "john doe");
 		assertContains(VCARD.given_name , "john");
@@ -779,7 +779,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testBirthDayDateTimeTimeZone() throws RepositoryException {
-		assertExtracts("hcard/29-bday-datetime-timezone.html");
+		assertExtracts("microformats/hcard/29-bday-datetime-timezone.html");
 		assertModelNotEmpty();
 		assertContains(VCARD.fn, "john doe");
 		assertContains(VCARD.given_name, "john");
@@ -789,7 +789,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     // @Test
     public void testArea() throws RepositoryException {
-        assertExtracts("hcard/33-area.html");
+        assertExtracts("microformats/hcard/33-area.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
         RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
@@ -829,7 +829,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
     public void testNotes() throws RepositoryException {
         final String[] NOTES = {"Note 1", "Note 3", "Note 4 with a ; and a , to be escaped"};
 
-        assertExtracts("hcard/34-notes.html");
+        assertExtracts("microformats/hcard/34-notes.html");
         assertModelNotEmpty();
         RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
         try {
@@ -850,7 +850,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testIncludePattern() throws RepositoryException {
-        assertExtracts("hcard/35-include-pattern.html");
+        assertExtracts("microformats/hcard/35-include-pattern.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
 
@@ -895,7 +895,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testUid() throws RepositoryException {
-		assertExtracts("hcard/38-uid.html");
+		assertExtracts("microformats/hcard/38-uid.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
 		RepositoryResult<Statement> iter = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
@@ -916,7 +916,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testIgnoreChildren() throws RepositoryException {
-		assertExtracts("hcard/41-ignore-children.html");
+		assertExtracts("microformats/hcard/41-ignore-children.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
 		assertContains(VCARD.fn, "Melanie Kl\u00f6\u00df");

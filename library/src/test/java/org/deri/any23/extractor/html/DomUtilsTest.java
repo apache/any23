@@ -52,11 +52,11 @@ public class DomUtilsTest {
 
     @Test
     public void testGetXPathForNode() {
-        check("hcard/01-tantek-basic.html", "//DIV[@class='vcard']", "/HTML[1]/BODY[1]/DIV[1]");
-        check("hcard/02-multiple-class-names-on-vcard.html", "//SPAN[@class='fn n']", "/HTML[1]/BODY[1]/DIV[1]/SPAN[1]");
-        check("hcard/02-multiple-class-names-on-vcard.html", "//SPAN/SPAN[@class='fn n']", "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]");
-        check("hcard/02-multiple-class-names-on-vcard.html", "//SPAN/SPAN/*[@class='given-name']", "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]/SPAN[1]");
-        check("hcard/02-multiple-class-names-on-vcard.html", "//SPAN/SPAN/*[@class='family-name']", "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]/SPAN[2]");
+        check("microformats/hcard/01-tantek-basic.html", "//DIV[@class='vcard']", "/HTML[1]/BODY[1]/DIV[1]");
+        check("microformats/hcard/02-multiple-class-names-on-vcard.html", "//SPAN[@class='fn n']", "/HTML[1]/BODY[1]/DIV[1]/SPAN[1]");
+        check("microformats/hcard/02-multiple-class-names-on-vcard.html", "//SPAN/SPAN[@class='fn n']", "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]");
+        check("microformats/hcard/02-multiple-class-names-on-vcard.html", "//SPAN/SPAN/*[@class='given-name']", "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]/SPAN[1]");
+        check("microformats/hcard/02-multiple-class-names-on-vcard.html", "//SPAN/SPAN/*[@class='family-name']", "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]/SPAN[2]");
     }
 
     public void testFindAllByClassName() {

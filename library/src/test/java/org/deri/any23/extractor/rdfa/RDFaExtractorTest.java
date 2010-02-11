@@ -36,7 +36,7 @@ public class RDFaExtractorTest extends AbstractMicroformatTestCase {
 
     @Test
     public void testSimple() throws RepositoryException {
-        assertExtracts("rdfa/dummy.html");
+        assertExtracts("html/rdfa/dummy.html");
         assertContains(DCTERMS.creator, "Alice");
         assertContains(DCTERMS.title, "The trouble with Bob");
     }

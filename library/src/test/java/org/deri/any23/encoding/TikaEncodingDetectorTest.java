@@ -46,27 +46,27 @@ public class TikaEncodingDetectorTest {
 
     @Test
     public void testISO8859HTML() throws IOException {
-         assertEncoding( "ISO-8859-1", new File("src/test/resources/html/xfn/encoding-iso-8859-1.html") );
+         assertEncoding( "ISO-8859-1", new File("src/test/resources/microformats/xfn/encoding-iso-8859-1.html") );
     }
 
     @Test
     public void testISO8859XHTML() throws IOException {
-         assertEncoding( "ISO-8859-1", new File("src/test/resources/html/xfn/encoding-iso-8859-1.xhtml") );
+         assertEncoding( "ISO-8859-1", new File("src/test/resources/microformats/xfn/encoding-iso-8859-1.xhtml") );
     }
 
     @Test
     public void testUTF8AfterTitle() throws IOException {
-         assertEncoding( "UTF-8", new File("src/test/resources/html/xfn/encoding-utf-8-after-title.html") );
+         assertEncoding( "UTF-8", new File("src/test/resources/microformats/xfn/encoding-utf-8-after-title.html") );
     }
 
     @Test
     public void testUTF8HTML() throws IOException {
-         assertEncoding( "UTF-8", new File("src/test/resources/html/xfn/encoding-utf-8.html") );
+         assertEncoding( "UTF-8", new File("src/test/resources/microformats/xfn/encoding-utf-8.html") );
     }
 
     @Test
     public void testUTF8XHTML() throws IOException {
-         assertEncoding( "UTF-8", new File("src/test/resources/html/xfn/encoding-utf-8.xhtml") );
+         assertEncoding( "UTF-8", new File("src/test/resources/microformats/xfn/encoding-utf-8.xhtml") );
     }
 
     @Test

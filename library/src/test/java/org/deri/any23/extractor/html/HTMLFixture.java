@@ -39,8 +39,7 @@ public class HTMLFixture {
 
     private File getFile() {
         File file = new File(
-                System.getProperty("test.data", "src/test/resources") +
-                        "/html/" + filename);
+                System.getProperty("test.data", "src/test/resources/") + filename);
         if (!file.exists())
             throw new AssertionError("the file " + file.getPath() + " does not exist");
         return file;
