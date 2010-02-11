@@ -1,0 +1,80 @@
+==========================================================================
+  Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+              http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+==========================================================================
+
+$id$
+
+                               Any23 0.2
+                             Release Notes
+
+============
+Introduction
+============
+
+This is a minor release, incorporating enhancements and bug fixes that have
+accumulated since the 0.1 release.
+Apart from some new or changed dependencies on the underlying libraries,
+this version comes with an improved unit test coverage and other features
+like the automatic charset encoding detection and an improved documentation.
+Maven build system has been introduced.
+
+
+==================================
+Summary of major changes since 0.1
+==================================
+
+These are the following features available in this release:
+
+* Better API
+    - Allow streaming output
+    - Allow choosing which extractors to use
+    - Deliver results grouped by extractor/entity instead of one big RDF model
+    - For Microformat extractors: Track each entity's position in the DOM tree
+
+* RDF library from Jena to Sesame has been switched
+* Alignment of the Microformat mappings to the official ones has been improved
+* MIME type detection ha been swithced to Apache Tika and relative unit tests has been implemented
+* A general HTML metadata extractor for title, META elements, LINK elements has been set up
+* Flexible command-line tool for easy testing is now available
+* Each extractor comes with an example file (to document its typical input and output)
+* Automatic charset encoding detection is now available
+
+=================
+Supported formats
+=================
+
+* RDF/XML
+* Notation3 and Turtle
+* N-Triples
+* RDFa
+
+Various microformats, see http://sindice.com/developers/microformat on Sindice Microformats support.
+
+===================
+Dependency Upgrade
+===================
+
+CyberNeko Html parser has been upgraded to 1.9.14.
+
+Apache Tika 0.3 has been replaced with 0.6, with the
+new support for the automatic encoding detection.
+
+=============
+Documentation
+=============
+
+Any23 getting started: http://code.google.com/p/any23/wiki/MainDocumentation
+Javadoc is available here: http://any23.googlecode.com/svn/trunk/library/javadoc
