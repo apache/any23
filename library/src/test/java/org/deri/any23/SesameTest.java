@@ -36,15 +36,23 @@ public class SesameTest {
     public void testCreateURIWithNullArgumentThrowsNPE() {
         try {
             ValueFactoryImpl.getInstance().createURI(null);
-            fail("should have thrown NPE");
+            fail("should have thrown NPE or assertion error.");
+        } catch (AssertionError ae) {
+            // espected when assertions are enabled.
         } catch (NullPointerException ex) {
-            // expected
+            // expected without assertions.
         }
     }
 
     @Test
     public void testCreateLiteralWithNullArgumentWorks() {
-        Literal l = ValueFactoryImpl.getInstance().createLiteral((String) null);
+        Literal l;
+        try {
+            l = ValueFactoryImpl.getInstance().createLiteral((String) null);
+        } catch (AssertionError ae) {
+            // Expected when assertions are enabled.
+            return;
+        }
         assertNotNull(l);
         assertNull(l.stringValue());
         assertEquals(l, l);
@@ -56,5 +64,5 @@ public class SesameTest {
         assertNull(b.stringValue());
         assertEquals(b, b);
     }
-    
+
 }
