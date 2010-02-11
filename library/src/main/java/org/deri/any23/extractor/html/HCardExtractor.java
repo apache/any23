@@ -194,7 +194,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
      * @param className
      * @param resource
      * @param property
-     * @return
+     * @return <code>true</code> if the multi property has been added, <code>false</code> otherwise.
      */
     private boolean addStringMultiProperty(String className, Resource resource, URI property) {
         String[] fields = fragment.getPluralTextField(className);
