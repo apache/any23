@@ -46,6 +46,16 @@ public class TikaMIMETypeDetectorTest {
 
     private TikaMIMETypeDetector detector;
 
+    @Test
+    public void testN3TripleLiteralDetection() throws IOException {
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
+    }
+
+    @Test
+    public void testN3TripleDetection() throws IOException {
+        assertN3Detection("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
+    }
+
     @Before
     public void setUp() throws Exception {
         detector = new TikaMIMETypeDetector();
@@ -223,6 +233,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testRDFaByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/rdfa");
+    }
+
+    private void assertN3Detection(String n3Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
+        Assert.assertTrue( TikaMIMETypeDetector.checkN3Format(bais) );
     }
 
     /**

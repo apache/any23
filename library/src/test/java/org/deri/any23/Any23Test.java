@@ -18,13 +18,14 @@ package org.deri.any23;
 
 import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.filter.IgnoreAccidentalRDFa;
+import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.RepositoryWriter;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -40,8 +41,6 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.URISyntaxException;
 
 /**
  * Test case for {@link org.deri.any23.Any23} facade.
@@ -105,7 +104,59 @@ public class Any23Test {
         assertEncodingBehavior(null);
     }
 
-    private void assertEncodingBehavior(String encoding) throws IOException, ExtractionException, RepositoryException, SailException {
+    @Test
+    public void testRDFXMLDetectionAndExtraction() throws IOException, ExtractionException {
+        String rdfXML =
+                "<?xml version='1.0'?> " +
+                "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:dc='http://purl.org/dc/elements/1.1/'>" +
+                "<rdf:Description rdf:about='http://www.example.com'>" +
+                "<dc:title>x</dc:title>" +
+                "</rdf:Description>" +
+                "</rdf:RDF>";
+        assertDetectionAndExtraction(rdfXML);
+    }
+
+    @Test
+    public void testNTriplesDetectionAndExtraction() throws IOException, ExtractionException {
+        String n3 = "<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"n3 . appo\" .";
+        assertDetectionAndExtraction(n3);
+    }
+
+    // TODO: med - nturtle is not automatically recognized due wrong mimetype assignment.
+    // @Test
+    public void testNturtleDetectionAndExtraction() throws IOException, ExtractionException {
+        String nTurtle =
+                "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
+                "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n" +
+                "@prefix ex: <http://example.org/stuff/1.0/> .\n" +
+                "\n" +
+                "<http://www.w3.org/TR/rdf-syntax-grammar>\n" +
+                "  dc:title \"RDF/XML Syntax Specification (Revised)\" ;\n" +
+                "  ex:editor [\n" +
+                "    ex:fullname \"Dave Beckett\";\n" +
+                "    ex:homePage <http://purl.org/net/dajobe/>\n" +
+                "  ] .";
+        assertDetectionAndExtraction(nTurtle);
+    }
+
+    private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
+        Any23 any23 = new Any23();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ReportingTripleHandler outputHandler = new ReportingTripleHandler(
+                new IgnoreAccidentalRDFa(
+                        new IgnoreTitlesOfEmptyDocuments(
+                                new NTriplesWriter(out)
+                        )
+                )
+        );
+        Assert.assertTrue(
+                "extracting n3 failed",
+                any23.extract(in, "http://host.com/path", outputHandler)
+        );
+    }
+
+    private void assertEncodingBehavior(String encoding)
+    throws IOException, ExtractionException, RepositoryException, SailException {
         FileDocumentSource fileDocumentSource;
         Any23 any23;
         RepositoryConnection conn;

@@ -23,19 +23,74 @@ import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.regex.Pattern;
 
 /**
  * Implementation of {@link org.deri.any23.mime.MIMETypeDetector} based on
  * <a href="http://lucene.apache.org/tika/">Apache Tika</a>.
+ *
+ * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
 public class TikaMIMETypeDetector implements MIMETypeDetector {
 
     private static final String RESOURCE_NAME = "/org/deri/any23/mime/tika-config.xml";
+
+    /**
+     * N3 triple pattern.
+     */
+    private static final Pattern triplePattern        = Pattern.compile("<.*>\\s*<.*>\\s*<.*>\\s*\\."  );
+
+    /**
+     * N3 triple literal pattern.
+     */
+    private static final Pattern tripleLiteralPattern = Pattern.compile("<.*>\\s*<.*>\\s*\".*\"\\s*\\.");
+
     private static TikaConfig config = null;
     private static MimeTypes types;
+
+    /**
+     * Checkes if the stream contains <i>N3</i> triple patterns.
+     *
+     * @param is input stream to be verified.
+     * @return <code>true</code> if <i>N3</i> patterns are detected, <code>false</code> otherwise.
+     * @throws IOException
+     */
+    public static boolean checkN3Format(InputStream is) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        final int MAX_SIZE = 1024 * 2;
+        int c;
+        boolean insideBlock = false;
+        int read = 0;
+        br.mark(MAX_SIZE);
+        try {
+            while ((c = br.read()) != -1) {
+                read++;
+                if (read > MAX_SIZE) {
+                    break;
+                }
+                if ('<' == c) {
+                    insideBlock = true;
+                } else if ('>' == c) {
+                    insideBlock = false;
+                } else if ('"' == c) {
+                    insideBlock = !insideBlock;
+                }
+                sb.append((char) c);
+                if (!insideBlock && '.' == c) {
+                    break;
+                }
+            }
+        } finally {
+            br.reset();
+        }
+        final String n3Triple = sb.toString();
+        return triplePattern.matcher(n3Triple).find() || tripleLiteralPattern.matcher(n3Triple).find();
+    }
 
     public static void main(String[] args) {
         new TikaMIMETypeDetector();
@@ -67,18 +122,21 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         if (fileName != null)
             meta.set(Metadata.RESOURCE_NAME_KEY, fileName);
 
-        String type = MimeTypes.OCTET_STREAM;
+        String type;
         try {
             String mt = getMimeType(input, meta);
-            if (mt != null) type = mt;
-
+            if( !MimeTypes.OCTET_STREAM.equals(mt) ) {
+                type = mt;
+            } else {
+                type = checkN3Format(input) ? "text/n3" : MimeTypes.OCTET_STREAM;
+            }
         } catch (IOException ioe) {
             throw new RuntimeException("Error while retrieving mime type.", ioe);
         }
         return MIMEType.parse(type);
     }
 
-    /**
+     /**
       * Loads the <code>Tika</code> configuration file.
       *
       * @return the input stream containing the configuration.
@@ -152,22 +210,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             // Should never happen
             return null;
         }
-    }
-
-    private byte[] getPrefix(InputStream input, int length) throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        byte[] buffer = new byte[Math.min(1024, length)];
-        int n = input.read(buffer);
-        while (n != -1) {
-            output.write(buffer, 0, n);
-            int remaining = length - output.size();
-            if (remaining > 0) {
-                n = input.read(buffer, 0, Math.min(buffer.length, remaining));
-            } else {
-                n = -1;
-            }
-        }
-        return output.toByteArray();
     }
 
 }
