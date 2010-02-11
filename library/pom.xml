@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    author: Michele Mostarda (michele.mostarda@gmail.com)
+    version: $Id$
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.deri</groupId>
+    <artifactId>any23</artifactId>
+    <packaging>jar</packaging>
+    <version>0.1-SNAPSHOT</version>
+    <name>Anything to Triples</name>
+    <url>http://code.google.com/p/any23/</url>
+
+    <organization>
+        <name>Digital Enterprise Research Institute (DERI)</name>
+        <url>http://www.deri.ie/</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <inceptionYear>2010</inceptionYear>
+
+    <repositories>
+		<repository>
+	        <id>aduna-software-release-repo</id>
+	        <name>Aduna SW Release Repository</name>
+			<url>http://repo.aduna-software.org/maven2/releases</url>
+	    </repository>
+        <repository>
+            <id>ibiblio-mirror-repo</id>
+		    <name>Ibiblio Mirror Repository</name>
+            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+        </repository>
+        <repository>
+            <id>java-maven2-repo</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>apache-public-repo</id>
+		    <name>Apache Public Repository</name>
+            <url>https://repository.apache.org/content/groups/public</url>
+        </repository>
+    </repositories>
+
+    <developers>
+	    <developer>
+            <id>dpalmisano</id>
+            <name>Davide Palmisano</name>
+            <email>dpalmisano at gmail dot com</email>
+            <organization>Fondazione Bruno Kessler</organization>
+            <organizationUrl>http://www.fbk.eu/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+	    <developer>
+            <id>jueumb</id>
+            <name>Jürgen Umbrich</name>
+            <email>jueumb at gmail dot com</email>
+            <organization>Digital Enterprise Research Institute (DERI)</organization>
+            <organizationUrl>http://www.deri.ie/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+	    <developer>
+            <id>rff.rff</id>
+            <name>Gabriele Renzi</name>
+            <email>rff dot rff at gmail dot com</email>
+            <organization>Digital Enterprise Research Institute (DERI)</organization>
+            <organizationUrl>http://www.deri.ie/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>michele.mostarda</id>
+            <name>Michele Mostarda</name>
+            <email>michele dot mostarda at gmail dot com</email>
+            <organization>Fondazione Bruno Kessler</organization>
+            <organizationUrl>http://www.fbk.eu/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+	    <developer>
+            <id>richard@cyganiak.de</id>
+            <name>Richard Cyganiak</name>
+            <email>richard at cyganiak dot de</email>
+            <organization>Digital Enterprise Research Institute (DERI)</organization>
+            <organizationUrl>http://www.deri.ie/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+	    <developer>
+            <id>pirroh</id>
+            <name>Michele Catasta</name>
+            <email>pirroh at gmail dot com</email>
+            <organization>Digital Enterprise Research Institute (DERI)</organization>
+            <organizationUrl>http://www.deri.ie/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+	<dependencies>
+		<dependency>
+		    <groupId>xerces</groupId>
+		    <artifactId>xercesImpl</artifactId>
+		    <version>2.9.1</version>
+		</dependency>
+	    <dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.5.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-jdk14</artifactId>
+		    <version>1.5.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>jcl-over-slf4j</artifactId>
+		    <version>1.5.6</version>
+		</dependency>
+
+        <!-- BEGIN: Jetty -->
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>7.0.0.pre5</version>
+        </dependency>
+         <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-xml</artifactId>
+            <version>7.0.0.pre5</version>
+        </dependency>
+         <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>7.0.0.pre5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>7.0.0.pre5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-servlet-tester</artifactId>
+            <version>7.0.0.pre5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-security</artifactId>
+            <version>7.0.0.pre5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>servlet-api-3.0</artifactId>
+            <version>7.0.0pre2</version>
+        </dependency>
+        <!-- END: Jetty -->
+
+        <dependency>
+		    <groupId>jdom</groupId>
+		    <artifactId>jdom</artifactId>
+		    <version>1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>jaxen</groupId>
+		    <artifactId>jaxen</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-lang</groupId>
+		    <artifactId>commons-lang</artifactId>
+		    <version>2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-httpclient</groupId>
+		    <artifactId>commons-httpclient</artifactId>
+		    <version>3.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.3</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-cli</groupId>
+		    <artifactId>commons-cli</artifactId>
+		    <version>1.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>net.sourceforge.nekohtml</groupId>
+		    <artifactId>nekohtml</artifactId>
+		    <version>1.9.14</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tika</groupId>
+		    <artifactId>tika-core</artifactId>
+		    <version>0.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.tika</groupId>
+		    <artifactId>tika-parsers</artifactId>
+		    <version>0.6</version>
+		</dependency>
+
+        <!-- BEGIN: Sesame 2.4 -->
+        <dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-sail-memory</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+        <dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-sail-inferencer</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-sail-api</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-rio-turtle</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-rio-rdfxml</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-rio-ntriples</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-rio-api</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-repository-sail</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-repository-api</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-queryalgebra-model</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-queryalgebra-evaluation</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-query</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openrdf.sesame</groupId>
+		    <artifactId>sesame-model</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-xml</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-text</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-net</artifactId>
+			<version>2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-lang</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-iteration</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>info.aduna.commons</groupId>
+			<artifactId>aduna-commons-concurrent</artifactId>
+			<version>2.2</version>
+		</dependency>
+        <!-- END: Sesame 2.4 -->
+        
+        <dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.5</version>
+		    <scope>test</scope>
+		</dependency>
+    </dependencies>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.0.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId> 
+                <version>2.6.1</version>
+                <configuration>
+                    <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+                    <docletArtifact>
+                        <groupId>org.umlgraph</groupId>
+                        <artifactId>UmlGraph</artifactId>
+                        <version>5.1</version>
+                    </docletArtifact>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <configuration>
+                    <type>range</type>
+                    <range>60</range>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <xmlOutput>true</xmlOutput>
+                    <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
+                    <threshold>High</threshold>
+                    <effort>Max</effort>
+                    <visitors>FindDeadLocalStores</visitors>
+                    <omitVisitors>FindDeadLocalStores</omitVisitors>
+                    <onlyAnalyze>com.asemantics.oauth.*</onlyAnalyze>
+                    <debug>true</debug>
+                    <relaxed>true</relaxed>
+                    <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
+                    <findbugsXmlOutput>target/findbugs-reports</findbugsXmlOutput>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>${resources.dir}/test/sun-checks.xml</configLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <configuration>
+                    <issueLinkTemplate>%URL%/detail?id=%ISSUE%</issueLinkTemplate>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>changes-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*TestCase.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
+</project>
+
