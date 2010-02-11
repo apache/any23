@@ -68,7 +68,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectByContent() throws IOException {
-        InputStream is = getInputStream(new File("src/test/resources/application/rdfxml/physics.owl"));
+        InputStream is = this.getClass().getResourceAsStream("/application/rdfxml/physics.owl");
         String detectedMimeType = detector.guessMIMEType(null, is, null).toString();
         System.err.println(detectedMimeType);
     }

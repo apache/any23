@@ -5,7 +5,9 @@
 	<property name="version" value="0.2-dev"/><!-- NOTE, there's also a version string in Any23.java, they should match! -->
 	<property name="project.package" value="com.google.code.any23"/>
 	<property name="src" value="src/main/java"/>
+	<property name="src.resources" value="src/main/resources"/>
 	<property name="src.tests" value="src/test/java"/>
+		<property name="src.tests.resources" value="src/test/resources"/>
 	<property name="build" value="bldsrc"/>
 	<property name="build.tests" value="bldtest"/>
 	<property name="build.lib" value="bldlib"/>
@@ -24,6 +26,12 @@
 			<exclude name="${junit.jar}"/>
 		</fileset>
 		<pathelement path="${java.class.path}"/>
+	</path>
+
+	<path id="runtime.class.path">
+		<path refid="project.class.path"/>
+		<pathelement path="${src.resources}"/>
+		<pathelement path="${src.tests.resources}"/>
 	</path>
 
 	<patternset id="distfiles">
@@ -91,7 +99,7 @@
 	<target name="test" depends="compile.tests,copy">
 		<junit haltonerror="true">
 			<classpath>
-				<path refid="project.class.path"/>
+				<path refid="runtime.class.path"/>
 				<pathelement path="${build}"/>
 				<pathelement path="${build.tests}"/>
 				<pathelement path="${junit.jar}"/>

@@ -25,9 +25,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- *
  * This class is a wrapper around an HTML document providing a simply facade.
- *
  */
 public class HTMLFixture {
 
