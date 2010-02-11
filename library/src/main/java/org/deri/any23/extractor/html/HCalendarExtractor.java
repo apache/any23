@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.ICAL;
 import org.openrdf.model.BNode;
@@ -28,6 +29,8 @@ import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,15 +52,21 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
     private static final String[] Components = {"Vevent", "Vtodo", "Vjournal", "Vfreebusy"};
 
+    private static final String DATE_FORMAT = "yyyyMMdd'T'HHmm'Z'";
+
     private String[] textSingularProps = {
-            "dtstart",
-            "dtstamp",
-            "dtend",
             "summary",
             "class",
             "transp",
             "description",
-            "status", "location"};
+            "status",
+            "location"};
+
+    private String[] textDateProps = {
+            "dtstart",
+            "dtstamp",
+            "dtend",
+    };
 
     public ExtractorDescription getDescription() {
         return factory;
@@ -147,6 +156,27 @@ public class HCalendarExtractor extends MicroformatExtractor {
             String val = node.getSingularTextField(date);
             conditionallyAddStringProperty(evt, ICAL.getProperty(date), val);
         }
+
+        for (String date : textDateProps) {
+            String val = node.getSingularTextField(date);
+            try {
+                conditionallyAddStringProperty(
+                        evt,
+                        ICAL.getProperty(date),
+                        Any23ValueFactoryWrapper.getXSDDate(
+                                val,
+                                DATE_FORMAT
+                        )
+                );
+            } catch (ParseException e) {
+                // unparseable date format just leave it as it is
+                conditionallyAddStringProperty(evt, ICAL.getProperty(date), val);
+            } catch (DatatypeConfigurationException e) {
+                // unparseable date format just leave it as it is
+                conditionallyAddStringProperty(evt, ICAL.getProperty(date), val);
+            }
+        }
+
         String[] values = node.getPluralTextField("category");
         for (String val : values) {
             conditionallyAddStringProperty(evt, ICAL.categories, val);

@@ -203,7 +203,7 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName("application/rss+xml", "src/test/resources/application/rss2");
     }
 
-    //TODO: #13
+    // TODO: #13
     // @Test
     public void testAtomByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/atom+xml", "src/test/resources/application/atom");

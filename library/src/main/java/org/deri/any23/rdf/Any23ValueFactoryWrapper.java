@@ -16,6 +16,7 @@
 
 package org.deri.any23.rdf;
 
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -26,7 +27,13 @@ import org.openrdf.model.ValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
@@ -172,6 +179,26 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
             fixed = fixed + "/";
         }
         return fixed;
+    }
+
+    /**
+     * This method allows to obtain an <a href="http://www.w3.org/TR/xmlschema-2/#date">XML Schema</a> compliant date
+     * providing a textual representation of a date and textual a pattern for parsing it.
+     *
+     * @param dateToBeParsed the String containing the date.
+     * @param format the pattern as descibed in {@link java.text.SimpleDateFormat}
+     * @return a {@link String} representing the date
+     * @throws ParseException
+     * @throws DatatypeConfigurationException
+     */
+    public static String getXSDDate(String dateToBeParsed, String format)
+    throws ParseException, DatatypeConfigurationException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        Date date = simpleDateFormat.parse(dateToBeParsed);
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(date);
+        XMLGregorianCalendar xml = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        return xml.toString();
     }
 
     /**
