@@ -157,3 +157,41 @@ Content-Length: 174
 *--------*-----------------------------------------+
   format | Desired output format; defaults to best
 *--------*-----------------------------------------+
+
+** Output formats
+
+ Supported output format identifiers are:
+
+ <best> for <<content negotiation>> according to the client's Accept HTTP header
+
+ <turtle>, <ttl>, n3 for <<Turtle/N3>>
+
+ <ntriples>, <nt> for <<N-Triples>> 
+
+ <rdfxml>, <rdf>, <xml> for <<RDF/XML>>
+
+** Error reporting
+
+ Processing errors are indicated via <HTTP> status codes and brief <text/plain> error messages. The following status codes can be returned:
+
+*--------*-----------------------------------------+
+  <<code>>   | <<reason>>
+*--------*-----------------------------------------+
+  200 OK | Success
+*--------*-----------------------------------------+
+  204 No Content | Extraction from input was successful, but yielded zero triples
+*--------*-----------------------------------------+
+  400 Bad Request   | Missing or malformed input parameter
+*--------*-----------------------------------------+
+  404 Not Found | Malformed request URI
+*--------*-----------------------------------------+
+  406 Not Acceptable | None of the media types specified in the Accept header are supported
+*--------*-----------------------------------------+
+  415 Unsupported Media Type | Document body with unsupported media type was POSTed
+*--------*-----------------------------------------+
+  502 Bad Gateway | Input document from a remote server could not be fetched or parsed
+*--------*-----------------------------------------+
+
+Integrating Any23 in your Java programs
+
+ TODO: fill me.
