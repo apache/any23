@@ -29,7 +29,6 @@
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-net-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-text-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-xml-2.2.jar"/>
-	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="lib/jcl-over-slf4j-1.5.6.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-concurrent-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/aduna-commons-lang-2.3.jar"/>
@@ -41,8 +40,10 @@
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-sail-inferencer-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-2.2.4/sesame-sail-memory-2.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/jaxen-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/tika-0.3.jar"/>
 	<classpathentry kind="lib" path="src/main/resources"/>
-	<classpathentry kind="lib" path="lib/nekohtml-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/nekohtml-1.9.14.jar"/>
+	<classpathentry kind="lib" path="lib/tika-core-0.6.jar"/>
+	<classpathentry kind="lib" path="lib/tika-parsers-0.6.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.9.1.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
