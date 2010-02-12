@@ -17,29 +17,43 @@ Access the Version Controlled Source Code
 * Checkout the code from SVN
 
 +---------------------------------------------------------------------------
-#>svn checkout http://any23.googlecode.com/svn/trunk/library any23-read-only
+$ svn checkout http://any23.googlecode.com/svn/trunk/library any23-read-only
 +---------------------------------------------------------------------------
 
 Build <<Any23>>
 
- Since <<Any23>> comes with two build systems, the following instructions describes how to build it with {{{http://ant.apache.org/}Ant 1.8.0}} and {{{http://maven.apache.org/}Maven 2.2.1}} respectively.
+ Since <<Any23>> comes with two build systems, the following instructions describes how to build it with {{{http://ant.apache.org/}Ant 1.7.0+}} and {{{http://maven.apache.org/}Maven 2.X.Y+}} respectively.
 
 * Build with ANT
 
 +-----------------------------------------
-#>cd any23-read-only/ ; ant clean; ant jar
+$ cd any23-read-only/ 
+$ ant clean jar
 +----------------------------------------- 
 
- This command compiles the source code and generate the library in the "lib/" folder.
+ This command compiles the source code and generate the library in the <"lib/"> folder.
 
 +-----------------------------------------
-#>ant dist
+$ ant dist
 +----------------------------------------- 
 
- This command creates the <"zip"> and <"tar.gz"> archive.
+ This command creates the <any23-x.y.zip> and <any23-x.y.tar.gz> archive.
 
 * Build with Maven
 
- TODO: fill this section
+ For specific informations about Maven see: {{{http://maven.apache.org/}}}
 
+ Go to the trunk folder:
+
++-----------
+$ cd trunk/
++-----------
+
+ and execute the following command:
+
++-----------
+$ $ mvn clean install
++-----------
+
+ This will install the <<Any23>> artifact and its dependencies in your local M2 repository.
 	

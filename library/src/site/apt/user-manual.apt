@@ -1,7 +1,14 @@
 <<Any23>> User manual
 
- <<Any23>> could be used as a command line tool from your preferred shell environment, as a library or as a Web service. This section shows how to deal with them.
+ <<Any23>> could be used as 
 
+ * a command line tool from your preferred shell environment,
+
+ * as a RESTful Webservice,
+
+ * as a library.
+
+ This section shows how to deal with them.
 
 Using Any23 as a command line tool
 
@@ -194,4 +201,4 @@ Content-Length: 174
 
 Integrating Any23 in your Java programs
 
- TODO: fill me.
+ See our {{{developers.html}Developers guide}} for more details.

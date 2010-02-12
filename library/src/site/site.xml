@@ -13,20 +13,17 @@
 			<item name="Install" href="install.html"/>
             <item name="Getting started" href="getting-started.html"/>
             <item name="User manual" href="user-manual.html"/>
-            <item name="Developers" href="developers.html"/>
+            <item name="Developers guide" href="developers.html"/>
         </menu>
 
         <menu ref="reports"/>
 
-        <menu name="Miscellaneous">
-            <item name="Java Doc" href="http://any23.googlecode.com/svn/trunk/library/javadoc/index.html"/>
-        </menu>
-
         <menu name="External links">
-            <item name="Project Page" href="http://code.google.com/p/any23/"/>
-            <item name="Downloads" href="http://code.google.com/p/any23/downloads/list"/>
-            <item name="Sindice" href="http://sindice.com"/>
-        </menu>
+			<item name="Any23.org"       href="http://any23.org"/>
+            <item name="Sindice"         href="http://sindice.com"/>
+			<item name="Developer Site"  href="http://code.google.com/p/any23"/>
+            <item name="Downloads"		 href="http://code.google.com/p/any23/downloads/list"/>       
+		</menu>
     </body>
 
 </project>
