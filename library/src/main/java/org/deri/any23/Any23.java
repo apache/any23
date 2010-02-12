@@ -242,10 +242,10 @@ public class Any23 {
             if (documentURI.toLowerCase().startsWith("http:") || documentURI.toLowerCase().startsWith("https:")) {
                 return extract(new HTTPDocumentSource(getHTTPClient(), documentURI), outputHandler);
             }
+            throw new ExtractionException("Not a valid absolute URI: " + documentURI);
         } catch (URISyntaxException ex) {
             throw new ExtractionException(ex);
         }
-        return false;
     }
 
     /**
