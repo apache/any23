@@ -1,0 +1,159 @@
+<<Any23>> User manual
+
+ <<Any23>> could be used as a command line tool from your preferred shell environment, as a library or as a Web service. This section shows how to deal with them.
+
+
+Using Any23 as a command line tool
+
+ Once <<Any23>> has been correctly {{{install.html}installed}}, if you want to use it as a command line tool, please use the provided shell scripts <<"any23">> and <<"rover(.bat)">> for linux (Windows) in the <"root"> folder of any23. Please note, that the main script to run any23 is the "rover(.bat)" script. The <<"any23">> command line tool also provides you to access testing, debugging and analyzing utilities (sorry, we do not provide a documentation for this at the moment).
+
+* Examples
+
+ We believe that any23 provides you and easy to use command line interface with self explaining optional parameters. Different usages are now described:
+
+** Overview:
+
++-------------------------------------------
+#> sh rover
+   usage: Rover [file|url] [OPTIONS]
+   where OPTIONS are:
+   -e <arg>            comma-separated list of extractors, e.g.                  
+                       rdf-xml,rdf-turtle
+   -f,--format <arg>   (turtle (default), ntriples, rdfxml,quad)
+   -I <arg>            (zip, warc)
+   -l,--log <arg>      logging, please specify a file
+   -o,--output <arg>   ouput file (defaults to stdout)
+   -s,--stats          print out statistics of Any23
+   -t,--notrivial      filter trivial statements
+   -v,--verbose        show progress and debug information
++-------------------------------------------
+
+** Extract meta information from Web documents:
+
++-----------------------------------------
+e.g.: #> sh rover http://yourdomain/yourfile
++-----------------------------------------
+
+** Extract meta information from local files:
+
++--------------------------------------
+e.g.: #>sh rover /home/user/myFoaf.rdf
++--------------------------------------
+
+** Specify the output format, use option <<"-f">> or <<"--format">>:
+
+ TURTLE - default configuration, no need for specific flag
+
++--------------------------------------
+e.g.: #> sh rover foaf.rdf
++--------------------------------------
+
+ N3 - <<-f ntriples>>
+
++--------------------------------------
+e.g.: #> sh rover -f ntriples foaf.rdf
++--------------------------------------
+
+ Quad - <<-f quad>> (please see further information about the {{{http://sw.deri.org/2008/07/n-quads/}"quad"}} format)
+
++--------------------------------------
+#> sh rover -f quad foaf.rdf
++--------------------------------------
+
+** Process archives: Use the <<"-I">> option:
+
+ Any23 supports the process of archives. Currently we only support Zip or WARC archives.
+
+ Process a zip archive
+
++--------------------------------------
+#> sh rover -I zip myArchive.zip
++--------------------------------------
+
+ Process a WARC archive
+
++--------------------------------------
+#> sh rover -I warc myArchive.warc
+#> sh rover -I warc myArchive.warc*.gz*
++--------------------------------------
+
+** Filtering trivial statements
+
+ By default, <<Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta information like the author or the software used to create the <html>. Hence, if the user is only interested in the structured content from the <HTML/body> tag we offer a filter functionality, activated by the <<"-t">> command line argument.
+
++-------------------------
+#>sh rover -t foaf.rdf
++-------------------------
+
+Using <<Any23>> as a Web service
+
+ <<Any23>> provides a web interface that you can use to extract <RDF> from Web documents. <<Any23>> services can be invoked through a RESTful AP described below.
+
+* Running the server
+
+ Run the <"server"> script from the command line in order to start up the server, then go to {{{http://localhost:8080/}}} to access the Web interface. You can also start the server from Java by running the <org.deri.any23.servlet.Any23Server> class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
+
+** Compact API
+
+ HTTP GET requests can be made to URIs of the shape
+
++-----------------------
+http://localhost:8080/{format}/{input-uri}
++-----------------------
+
+ The response is the input document converted to the desired output format.
+
+** Form-style GET API
+
+ HTTP GET requests can be made to the URI http://localhost:8080/ with the following query parameters:
+
+*--------*-----------------------------------------+
+  URI    | URI of an input document                
+*--------*-----------------------------------------+
+  format | Desired output format; defaults to best 
+*--------*-----------------------------------------+
+
+ The response is the input document converted to the desired output format.
+
+** Direct POST API
+
+ HTTP POSTing a document body to <http://localhost:8080/{format}> will convert the document to the specified output format. The media type of the input has to be specified in the <Content-Type> HTTP header. Depending on the servlet container, a <Content-Length> header specifying the length of the input document in bytes might also be required. Typical media types for supported input formats are:
+
+*--------------*------------*
+  Input format | Media type               
+*------+----------+
+  HTML | text/html
+*------+----------+
+  RDF/XML | application/rdf+xml
+*------+----------+
+  Turtle | text/turtle
+*------+----------+
+  N-Triples | text/plain
+*------+----------+
+
+ Example POST request:
+
++-----------------------
+POST /rdfxml HTTP/1.0
+Host: localhost
+Content-Type: text/turtle
+Content-Length: 174
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+[] a foaf:Person;
+    foaf:name "John X. Foobar";
+    foaf:mbox_sha1sum "cef817456278b70cee8e5a1611539ef9d928810e";
++-----------------------
+
+** Form-style POST API
+
+ A document body can also be converted by HTTP POSTing form data to <http://localhost:8080/>. The <Content-Type> HTTP header must be set to <application/x-www-form-urlencoded>. The following parameters are supported:
+
+*--------*-----------------------------------------+
+  type   | Media type of the input, see the table above. If not present, auto-detection will be attempted
+*--------*-----------------------------------------+
+  body | Document body to be converted
+*--------*-----------------------------------------+
+  format | Desired output format; defaults to best
+*--------*-----------------------------------------+
