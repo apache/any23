@@ -7,7 +7,7 @@
 	<property name="src" value="src/main/java"/>
 	<property name="src.resources" value="src/main/resources"/>
 	<property name="src.tests" value="src/test/java"/>
-		<property name="src.tests.resources" value="src/test/resources"/>
+	<property name="src.tests.resources" value="src/test/resources"/>
 	<property name="build" value="bldsrc"/>
 	<property name="build.tests" value="bldtest"/>
 	<property name="build.lib" value="bldlib"/>
@@ -48,7 +48,10 @@
 
 	<property name="execfiles" value="rover server"/>
 	
-	<target name="clean">
+	<target 
+		name="clean"
+		description="Cleanup the generated files and folders."
+	>
 		<delete dir="${javadoc}" failonerror="false"/>
 		<delete dir="${build}" failonerror="false"/>
 		<delete dir="${build.tests}" failonerror="false"/>
@@ -63,7 +66,11 @@
 		<mkdir dir="${build}"/>
 	</target>
 
-	<target name="compile" depends="init">
+	<target 
+		name="compile" 
+		depends="init"
+		description="Compile the source code."
+	>
 		<javac srcdir="${src}" destdir="${build}" debug="on" source="1.5" target="1.5">
 			<classpath refid="project.class.path"/>
 		</javac>
@@ -96,7 +103,11 @@
 				  </copy>
 	</target>
 	
-	<target name="test" depends="compile.tests,copy">
+	<target 
+		name="test" 
+		depends="compile.tests,copy"
+		description="Run the test suite."
+	>
 		<junit haltonerror="true">
 			<classpath>
 				<path refid="runtime.class.path"/>
@@ -114,7 +125,11 @@
 		</junit>
 	</target>
 
-	<target name="jar" depends="compile,copy">
+	<target 
+		name="jar" 
+		depends="compile,copy"
+		description="Generate the library JAR."
+	>
 		<jar jarfile="${jar}" basedir="${build}">
 			<manifest>
 				<attribute name="Main-Class" value="org.deri.any23.cli.Main"/>
@@ -122,7 +137,11 @@
 			</jar>
 	</target>
 
-	<target name="javadoc" depends="compile">
+	<target 
+		name="javadoc" 
+		depends="compile"
+		description="Generate the source Javadoc."
+	>
 		<!-- Creates javadoc documentation for the source
 			 (but not for the tests) -->
 		<delete dir="${javadoc}"/>
@@ -143,7 +162,11 @@
 		</javadoc>
 	</target>
 
-	<target name="zip" depends="jar,javadoc">
+	<target 
+		name="zip" 
+		depends="jar,javadoc"
+		description="Generate the ZIP library distribution."
+	>
 		<zip destfile="${zip}">
 			<zipfileset prefix="${distname}" dir=".">
 				<patternset refid="distfiles"/>
@@ -151,7 +174,11 @@
 		</zip>
 	</target>
 
-	<target name="tar" depends="jar,javadoc">
+	<target 
+		name="tar" 
+		depends="jar,javadoc"
+		description="Generate the TAR library distribution."
+	>
 		<tar destfile="${tar}" compression="gzip">
 			<tarfileset prefix="${distname}" dir="." includes="${execfiles}" mode="755"/>
 			<tarfileset prefix="${distname}" dir="." excludes="${execfiles}">
@@ -160,9 +187,17 @@
 		</tar>
 	</target>
 
-	<target name="dist" depends="zip,tar"/>
+	<target 
+		name="dist" 
+		depends="zip,tar"
+		description="Generate both ZIP and TAR distributions."
+	/>
 
-	<target name="war" depends="jar">
+	<target 
+		name="war" 
+		depends="jar"
+		description="Generate the library WAR archive."
+	>
 		<!-- The jars are in different subdirectories, we must flatten them all into
 		     one directory for the WAR file. So we copy them all into a temporary
 		     directory before building the WAR. -->
