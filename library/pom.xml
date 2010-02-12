@@ -13,6 +13,8 @@
     <packaging>jar</packaging>
     <version>0.2</version><!-- NOTE, there's also a version string in Any23.java, they should match! -->
     <name>Anything to Triples</name>
+    <description>Anything To Triples (any23) is a library and web service that extracts structured data 
+	in RDF format from a variety of Web documents.</description>
     <url>http://code.google.com/p/any23/</url>
 
     <organization>
@@ -115,7 +117,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
-            <timezone>+1</timezone>
+            <timezone>0</timezone>
         </developer>
         <developer>
             <id>michele.mostarda</id>
@@ -137,7 +139,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
-            <timezone>+1</timezone>
+            <timezone>0</timezone>
         </developer>
 	    <developer>
             <id>rff.rff</id>
@@ -148,7 +150,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
-            <timezone>+1</timezone>
+            <timezone>0</timezone>
         </developer>
 	    <developer>
             <id>pirroh</id>
@@ -159,7 +161,7 @@
             <roles>
                 <role>Developer</role>
             </roles>
-            <timezone>+1</timezone>
+            <timezone>0</timezone>
         </developer>
     </developers>
 
