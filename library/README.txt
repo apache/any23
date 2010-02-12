@@ -32,19 +32,15 @@ This will show you the list of available build targets:
 
 It will appear something as below:
 
-  clean
-  compile
-  compile.tests
-  copy
-  dist
-  init
-  init.tests
-  jar
-  javadoc
-  tar
-  test
-  war
-  zip
+    clean    Cleanup the generated files and folders.
+    compile  Compile the source code.
+    dist     Generate both ZIP and TAR distributions.
+    jar      Generate the library JAR.
+    javadoc  Generate the source Javadoc.
+    tar      Generate the TAR library distribution.
+    test     Run the test suite.
+    war      Generate the library WAR archive.
+    zip      Generate the ZIP library distribution.
 
 To obtain the library JAR distribution invoke:
 
