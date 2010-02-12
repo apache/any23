@@ -11,7 +11,7 @@
     <groupId>org.deri</groupId>
     <artifactId>any23</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2</version><!-- NOTE, there's also a version string in Any23.java, they should match! -->
     <name>Anything to Triples</name>
     <url>http://code.google.com/p/any23/</url>
 
