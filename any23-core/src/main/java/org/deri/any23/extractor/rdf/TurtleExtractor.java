@@ -63,7 +63,7 @@ public class TurtleExtractor implements ContentExtractor {
 
     private boolean stopAtFirstError = true;
 
-    public void run(InputStream in, URI documentURI, ExtractionResult out)
+    public void run(InputStream in, URI documentURI, final ExtractionResult out)
     throws IOException, ExtractionException {
         try {
             TurtleParser parser = new TurtleParser();
@@ -71,19 +71,31 @@ public class TurtleExtractor implements ContentExtractor {
             parser.setStopAtFirstError(stopAtFirstError);
             parser.setParseErrorListener( new ParseErrorListener() {
                 public void warning(String msg, int lineNo, int colNo) {
-                    logger.warn( report(msg, lineNo, colNo) );
+                    try {
+                        out.notifyError(ExtractionResult.ErrorLevel.WARN, msg, lineNo, colNo );
+                    } catch (Exception e) {
+                        notifyExceptionInNotification(e);
+                    }
                 }
 
                 public void error(String msg, int lineNo, int colNo) {
-                    logger.error( report(msg, lineNo, colNo) );
+                    try {
+                        out.notifyError(ExtractionResult.ErrorLevel.ERROR, msg, lineNo, colNo );
+                    } catch (Exception e) {
+                       notifyExceptionInNotification(e); 
+                    }
                 }
 
                 public void fatalError(String msg, int lineNo, int colNo) {
-                    logger.error( report("FATAL: " + msg, lineNo, colNo) );
+                    try {
+                        out.notifyError(ExtractionResult.ErrorLevel.FATAL, msg, lineNo, colNo );
+                    } catch (Exception e) {
+                        notifyExceptionInNotification(e);
+                    }
                 }
 
-                private String report(String msg, int lineNo, int colNo) {
-                    return String.format("'%s [%d, %d]'", msg, lineNo, colNo);
+                private void notifyExceptionInNotification(Exception e) {
+                    logger.error("An exception occurred while notifying an error.", e);
                 }
             });
             parser.setRDFHandler( new RDFHandlerAdapter(out) );
