@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="${project.name}">
+
+    <skin>
+        <groupId>com.google.code</groupId>
+        <artifactId>fluido-skin</artifactId>
+        <version>1.2</version>
+    </skin>
+
+    <body>
+        <menu name="${project.name}">
+            <item name="Introduction" href="index.html"/>
+			<item name="Install" href="install.html"/>
+            <item name="Getting started" href="getting-started.html"/>
+            <item name="User manual" href="user-manual.html"/>
+            <item name="Developers" href="developers.html"/>
+        </menu>
+
+        <menu ref="reports"/>
+
+        <menu name="Miscellaneous">
+            <item name="Java Doc" href="http://any23.googlecode.com/svn/trunk/library/javadoc/index.html"/>
+        </menu>
+
+        <menu name="External links">
+            <item name="Project Page" href="http://code.google.com/p/any23/"/>
+            <item name="Downloads" href="http://code.google.com/p/any23/downloads/list"/>
+            <item name="Sindice" href="http://sindice.com"/>
+        </menu>
+    </body>
+
+</project>

@@ -1,0 +1,45 @@
+Installing the library
+
+ This page describes how install <<Any23>>. The latest releases and the unstable snapshots are always available at the 
+ {{{http://code.google.com/p/any23/downloads/list} downloads directory}} and under SVN, respectively.
+
+Download the distribution
+
+ Most users probably don't need to have day to day access to the source code as it changes. For these users we provide easy distribution package via our {{{http://code.google.com/p/any23/downloads/list} downloads page}}.
+ 
+ * Download either the <<".zip">> or <<".tar.gz">> file and just decompress the archive.
+
+ 
+Access the Version Controlled Source Code
+
+ For the latest snapshot please checkout the code from the SVN code repository and build the library. 
+
+* Checkout the code from SVN
+
++---------------------------------------------------------------------------
+#>svn checkout http://any23.googlecode.com/svn/trunk/library any23-read-only
++---------------------------------------------------------------------------
+
+Build <<Any23>>
+
+ Since <<Any23>> comes with two build systems, the following instructions describes how to build it with {{{http://ant.apache.org/}Ant 1.8.0}} and {{{http://maven.apache.org/}Maven 2.2.1}} respectively.
+
+* Build with ANT
+
++-----------------------------------------
+#>cd any23-read-only/ ; ant clean; ant jar
++----------------------------------------- 
+
+ This command compiles the source code and generate the library in the "lib/" folder.
+
++-----------------------------------------
+#>ant dist
++----------------------------------------- 
+
+ This command creates the <"zip"> and <"tar.gz"> archive.
+
+* Build with Maven
+
+ TODO: fill this section
+
+	
