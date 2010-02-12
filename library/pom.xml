@@ -15,8 +15,8 @@
     <name>Anything to Triples</name>
     <description>Anything To Triples (any23) is a library and web service that extracts structured data 
 	in RDF format from a variety of Web documents.</description>
-    <url>http://code.google.com/p/any23/</url>
-
+	<url>http://developers.any23.org</url>
+	
     <organization>
         <name>Digital Enterprise Research Institute (DERI)</name>
         <url>http://www.deri.ie/</url>
