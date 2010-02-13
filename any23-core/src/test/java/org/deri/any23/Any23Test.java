@@ -55,29 +55,29 @@ public class Any23Test {
 
     @Test
     public void testTTLDetection() throws Exception {
-        assertReads("<a> <b> <c> .", "rdf-turtle");
+        assertDetection("<a> <b> <c> .", "rdf-turtle");
     }
 
     @Test
-    public void testN3Detection() throws Exception {
-        assertReads("<Bob><brothers>(<Jim><Mark>).", "rdf-turtle");
+    public void testN3Detection1() throws Exception {
+        assertDetection("<Bob><brothers>(<Jim><Mark>).", "rdf-turtle");
     }
 
     @Test
-    public void testNTRIPDetection() throws Exception {
-        assertReads(
+    public void testN3Detection2() throws Exception {
+        assertDetection(
                 "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .",
                 "rdf-nt"
         );
     }
 
     @Test
-    public void testHTMLDetection() throws Exception {
-        assertReads("<html><body><div class=\"vcard fn\">Joe</div></body></html>");
+    public void testHTMLBruteForceDetection() throws Exception {
+        assertDetection("<html><body><div class=\"vcard fn\">Joe</div></body></html>");
     }
 
     /**
-     * This tests the behavior of <i>Any23</i> to execute the extraction explicitly specyfing the charset
+     * This tests the behavior of <i>Any23</i> to execute the extraction explicitly specifying the charset
      * encoding of the input.
      *
      * @throws ExtractionException
@@ -86,8 +86,13 @@ public class Any23Test {
      * @throws RepositoryException
      */
     @Test
-    public void testExplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException {
-        assertEncodingBehavior("UTF-8");    
+    public void testExplicitEncoding()
+    throws ExtractionException, IOException, SailException, RepositoryException {
+        assertEncodingDetection(
+                "UTF-8",
+                new File("src/test/resources/html/encoding-test.html"),
+                "Knud M\u00F6ller"
+        );
     }
 
     /**
@@ -101,7 +106,11 @@ public class Any23Test {
      */
     @Test
     public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException {
-        assertEncodingBehavior(null);
+        assertEncodingDetection(
+                null, // The encoding will be auto detected.
+                new File("src/test/resources/html/encoding-test.html"),
+                "Knud M\u00F6ller"
+        );
     }
 
     @Test
@@ -155,14 +164,23 @@ public class Any23Test {
         );
     }
 
-    private void assertEncodingBehavior(String encoding)
+    /**
+     * Asserts the correct encoding detection for a specified data.
+     *
+     * @param encoding the expected specified encoding, if <code>null</code> will be auto detected.
+     * @throws IOException
+     * @throws ExtractionException
+     * @throws RepositoryException
+     * @throws SailException
+     */
+    private void assertEncodingDetection(String encoding, File input, String expectedContent)
     throws IOException, ExtractionException, RepositoryException, SailException {
         FileDocumentSource fileDocumentSource;
         Any23 any23;
         RepositoryConnection conn;
         RepositoryWriter repositoryWriter;
 
-        fileDocumentSource = new FileDocumentSource(new File("src/test/resources/html/encoding-test.html"));
+        fileDocumentSource = new FileDocumentSource(input);
         any23 = new Any23();
         Sail store = new MemoryStore();
         store.initialize();
@@ -175,7 +193,7 @@ public class Any23Test {
             while (statements.hasNext()) {
                 Statement statement = statements.next();
                 printStatement(statement);
-                org.junit.Assert.assertTrue(statement.getObject().stringValue().contains("Knud M\u00F6ller"));
+                org.junit.Assert.assertTrue(statement.getObject().stringValue().contains(expectedContent));
             }
         } finally {
             statements.close();
@@ -194,7 +212,15 @@ public class Any23Test {
                 statement.getObject()));
     }
 
-    private void assertReads(String content, String... parsers) throws Exception {
+    /**
+     * Will try to detect the <i>content</i> trying sequentially with all
+     * specified parser.
+     *
+     * @param content
+     * @param parsers
+     * @throws Exception
+     */
+    private void assertDetection(String content, String... parsers) throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Any23 runner = new Any23(parsers.length == 0 ? null : parsers);
         if (parsers.length != 0) {
