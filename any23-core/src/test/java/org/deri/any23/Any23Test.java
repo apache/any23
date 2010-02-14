@@ -131,8 +131,7 @@ public class Any23Test {
         assertDetectionAndExtraction(n3);
     }
 
-    // TODO: med - nturtle is not automatically recognized due wrong mimetype assignment.
-    // @Test
+    @Test
     public void testNturtleDetectionAndExtraction() throws IOException, ExtractionException {
         String nTurtle =
                 "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
@@ -159,7 +158,7 @@ public class Any23Test {
                 )
         );
         Assert.assertTrue(
-                "extracting n3 failed",
+                "Detection and extraction failed.",
                 any23.extract(in, "http://host.com/path", outputHandler)
         );
     }

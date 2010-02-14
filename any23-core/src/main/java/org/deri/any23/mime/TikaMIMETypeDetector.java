@@ -22,8 +22,14 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.turtle.TurtleParser;
+import org.openrdf.model.Statement;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,17 +55,47 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      */
     private static final Pattern tripleLiteralPattern = Pattern.compile("<.*>\\s*<.*>\\s*\".*\"\\s*\\.");
 
+    private static final FakeRDFHandler FAKE_RDF_HANDLER = new FakeRDFHandler();
+
     private static TikaConfig config = null;
     private static MimeTypes types;
 
     /**
-     * Checkes if the stream contains <i>N3</i> triple patterns.
+     * Checks if the stream contains <i>N3</i> triple patterns.
      *
      * @param is input stream to be verified.
      * @return <code>true</code> if <i>N3</i> patterns are detected, <code>false</code> otherwise.
      * @throws IOException
      */
     public static boolean checkN3Format(InputStream is) throws IOException {
+        String sample = extractDataSample(is);
+        return triplePattern.matcher(sample).find() || tripleLiteralPattern.matcher(sample).find();
+    }
+
+    /**
+     * Checks if the stream contains <i>Turtle</i> triple patterns.
+     *
+     * @param is input stream to be verified.
+     * @return <code>true</code> if <i>Turtle</i> patterns are detected, <code>false</code> otherwise.
+     * @throws IOException
+     */
+    public static boolean checkTurtleFormat(InputStream is) throws IOException {
+        String sample = extractDataSample(is);
+        TurtleParser turtleParser = new TurtleParser();
+        turtleParser.setDatatypeHandling(RDFParser.DatatypeHandling.VERIFY);
+        turtleParser.setStopAtFirstError(true);
+        turtleParser.setVerifyData(true);
+        turtleParser.setRDFHandler(FAKE_RDF_HANDLER);
+        ByteArrayInputStream bais = new ByteArrayInputStream( sample.getBytes() );
+        try {
+            turtleParser.parse(bais, "");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static String extractDataSample(InputStream is) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         final int MAX_SIZE = 1024 * 2;
@@ -86,10 +122,10 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                 }
             }
         } finally {
+            is.reset();
             br.reset();
         }
-        final String n3Triple = sb.toString();
-        return triplePattern.matcher(n3Triple).find() || tripleLiteralPattern.matcher(n3Triple).find();
+        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -128,7 +164,13 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             if( !MimeTypes.OCTET_STREAM.equals(mt) ) {
                 type = mt;
             } else {
-                type = checkN3Format(input) ? "text/n3" : MimeTypes.OCTET_STREAM;
+                if( checkN3Format(input) ) {
+                    type = "text/n3";
+                } else if( checkTurtleFormat(input) ) {
+                    type = "application/turtle";
+                } else {
+                    type = MimeTypes.OCTET_STREAM; 
+                }
             }
         } catch (IOException ioe) {
             throw new RuntimeException("Error while retrieving mime type.", ioe);
@@ -210,6 +252,23 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             // Should never happen
             return null;
         }
+    }
+
+    /**
+     * Fake implementation of {@link org.openrdf.rio.RDFHandler}.
+     */
+    private static class FakeRDFHandler implements RDFHandler {
+
+        public void startRDF() throws RDFHandlerException {}
+
+        public void endRDF() throws RDFHandlerException {}
+
+        public void handleNamespace(String s, String s1) throws RDFHandlerException {}
+
+        public void handleStatement(Statement statement) throws RDFHandlerException {}
+
+        public void handleComment(String s) throws RDFHandlerException {}
+        
     }
 
 }
