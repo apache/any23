@@ -217,6 +217,39 @@ public class ServletTest {
         assertContains("uri", response.getContent());
     }
 
+    /**
+     * This test has been disabled in order to avoid external resources dependencies
+     * @throws Exception
+     */
+    //@Test
+    public void testGETwithURLEncoding() throws Exception {
+        content = null;
+        HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller");
+        Assert.assertEquals(200, response.getStatus());
+    }
+
+     /**
+     * This test has been disabled in order to avoid external resources dependencies
+     * @throws Exception
+     */
+    //@Test
+    public void testGETwithURLEncodingWithQuery() throws Exception {
+        content = null;
+        HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller?appo=xxx");
+        Assert.assertEquals(200, response.getStatus());
+    }
+
+     /**
+     * This test has been disabled in order to avoid external resources dependencies
+     * @throws Exception
+     */
+    //@Test
+    public void testGETwithURLEncodingWithFragment() throws Exception {
+        content = null;
+        HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller#abcde");
+        Assert.assertEquals(200, response.getStatus());
+    }
+
     @Test
     public void testCorrectBaseURI() throws Exception {
         content = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <> a foaf:Document .";
@@ -383,7 +416,11 @@ public class ServletTest {
         protected DocumentSource createHTTPDocumentSource(HTTPClient httpClient, String uri)
                 throws IOException, URISyntaxException {
             requestedURI = uri;
-            return new StringDocumentSource(content, uri);
+            if(content != null) {
+                return new StringDocumentSource(content, uri);
+            } else {
+                return super.createHTTPDocumentSource(httpClient, uri);
+            }
         }
 
     }

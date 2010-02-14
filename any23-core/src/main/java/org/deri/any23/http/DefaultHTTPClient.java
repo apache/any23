@@ -27,6 +27,10 @@ import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +81,27 @@ public class DefaultHTTPClient implements HTTPClient {
 
         try {
             ensureClientInitialized();
-            method = new GetMethod(uri);
+            String uriStr = null;
+            try {
+                URI uriObj = new URI(uri);
+                // [scheme:][//authority][path][?query][#fragment]
+                final String path = uriObj.getPath();
+                final String query = uriObj.getQuery();
+                final String fragment = uriObj.getFragment();
+                uriStr = String.format(
+                        "%s://%s%s%s%s%s%s",
+                        uriObj.getScheme(),
+                        uriObj.getAuthority(),
+                        path     != null ? URLEncoder.encode(path    , "UTF-8").replaceAll("%2F", "/") : "",
+                        query == null ? "" : "?",
+                        query    != null ? URLEncoder.encode(query   , "UTF-8") : "",
+                        fragment == null ? "" : "#",
+                        fragment != null ? URLEncoder.encode(fragment, "UTF-8") : ""
+                );
+            } catch (URISyntaxException e) {
+                throw new IllegalArgumentException("Invalid URI string.", e);
+            }
+            method = new GetMethod(uriStr);
             method.setFollowRedirects(true);
             client.executeMethod(method);
             _contentLength = method.getResponseContentLength();
