@@ -8,7 +8,7 @@ Introduction
 
      * {{{http://microformats.org/}Microformats}}: Adr, Geo, hCalendar, hCard, hListing, hResume, hReview, License and XFN
 
-    <<Any23>> is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/library/LICENSE.txt}Apache License}}.
+    <<Any23>> is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/any23-core/LICENSE.txt}Apache License}}.
 
 Acknowledgement 
 
