@@ -15,7 +15,7 @@
 
 ==========================================================================
 
-$Id:$
+$Id$
 
                                Any23 0.2
                              Release Notes
@@ -24,8 +24,8 @@ $Id:$
 Introduction
 ============
 
-This is a minor release, incorporating enhancements and bug fixes that have
-accumulated since the 0.1 release.
+This release features a redesigned API and incorporating enhancements and
+bug fixes that have accumulated since the 0.1 release.
 Apart  from  some  new  or changed dependencies on the underlying libraries,
 this  version  comes  with an improved unit test coverage and other features
 like the automatic charset encoding detection and an improved documentation.
@@ -71,13 +71,6 @@ CyberNeko Html parser has been upgraded to 1.9.14.
 
 Apache Tika 0.3 has been replaced with 0.6, with the
 new  support  for  the automatic encoding detection.
-
-=============
-Documentation
-=============
-
-Any23  getting  started:   http://code.google.com/p/any23/wiki/MainDocumentation
-Javadoc is available here: http://any23.googlecode.com/svn/trunk/library/javadoc
 
 EOF
 
