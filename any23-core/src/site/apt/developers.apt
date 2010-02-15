@@ -55,7 +55,7 @@ Developers guide
 /*3*/ HTTPClient httpClient = runner.getHTTPClient();
 /*4*/ DocumentSource source = new HTTPDocumentSource(
          httpClient,
-         "http://products.semweb.bestbuy.com/y/products/7590289/"
+         "http://developers.any23.org/index.html"
       );
 /*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
 /*6*/ TripleHandler handler = new NTriplesWriter(out);
