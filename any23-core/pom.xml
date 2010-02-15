@@ -402,12 +402,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+				<!-- 
+				    This pluging has been deactivated since it needs
+				    the Graph Viz external dependecy. You can downalod 
+				    it here: http://www.graphviz.org/
+				    
                     <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
                     <docletArtifact>
                         <groupId>org.umlgraph</groupId>
                         <artifactId>UmlGraph</artifactId>
 						<version>5.1</version>
                     </docletArtifact>
+				-->
                 </configuration>
             </plugin>
 
