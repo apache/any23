@@ -185,7 +185,8 @@ public class Any23Test {
      * @throws IOException
      * @throws ExtractionException
      */
-    // Deactivated to avoid test dependency on expternal resources. @Test
+    // Deactivated to avoid test dependency on external resources.
+    @Test
     public void testDemoCodeSnippet2()
     throws IOException, ExtractionException, URISyntaxException, SailException, RepositoryException {
         /*1*/ Any23 runner = new Any23();
