@@ -20,12 +20,15 @@ import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
+import org.deri.any23.http.HTTPClient;
 import org.deri.any23.source.FileDocumentSource;
+import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.RepositoryWriter;
+import org.deri.any23.writer.TripleHandler;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -41,6 +44,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * Test case for {@link org.deri.any23.Any23} facade.
@@ -145,6 +149,65 @@ public class Any23Test {
                 "    ex:homePage <http://purl.org/net/dajobe/>\n" +
                 "  ] .";
         assertDetectionAndExtraction(nTurtle);
+    }
+
+    /**
+     * Tests out the first code snipped used in <i>Developer Manual</i>.
+     *
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    @Test
+    public void testDemoCodeSnippet1() throws IOException, ExtractionException {
+        /*1*/ Any23 runner = new Any23();
+        /*2*/ final String content = "@prefix foo: <http://example.org/ns#> .   " +
+                                     "@prefix : <http://other.example.org/ns#> ." +
+                                     "foo:bar foo: : .                          " +
+                                     ":bar : foo:bar .                           ";
+        // The second argument of StringDocumentSource() must be a valid URI.
+        /*3*/ StringDocumentSource source = new StringDocumentSource(content, "http://host.com/service");
+        /*4*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
+        /*5*/ TripleHandler handler = new NTriplesWriter(out);
+        /*6*/ runner.extract(source, handler);
+        /*7*/ String n3 = out.toString("UTF-8");
+
+        /*
+            <http://example.org/ns#bar> <http://example.org/ns#> <http://other.example.org/ns#> .
+            <http://other.example.org/ns#bar> <http://other.example.org/ns#> <http://example.org/ns#bar> .
+         */
+        System.out.println("n3: " + n3);
+        Assert.assertTrue(n3.length() > 0);
+    }
+
+    /**
+     * Tests out the second code snipped used in <i>Developer Manual</i>.
+     *
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    // Deactivated to avoid test dependency on expternal resources. @Test
+    public void testDemoCodeSnippet2()
+    throws IOException, ExtractionException, URISyntaxException, SailException, RepositoryException {
+        /*1*/ Any23 runner = new Any23();
+        /*2*/ runner.setHTTPUserAgent("test-user-agent");
+        /*3*/ HTTPClient httpClient = runner.getHTTPClient();
+        /*4*/ HTTPDocumentSource source = new HTTPDocumentSource(
+                 httpClient,
+                 "http://www.rentalinrome.com/semanticloft/semanticloft.htm"
+              );
+        /*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
+        /*6*/ TripleHandler handler = new NTriplesWriter(out);
+        /*7*/ runner.extract(source, handler);
+        /*8*/ String n3 = out.toString("UTF-8");
+
+        /*
+            <http://www.rentalinrome.com/semanticloft/semanticloft.htm>
+            <http://purl.org/dc/terms/title>
+            "Semantic Loft (beta) - Trastevere apartments | Rental in Rome - rentalinrome.com" .
+            [...]
+         */
+        System.out.println("N3 "+ n3);
+        Assert.assertTrue(n3.length() > 0);
     }
 
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
