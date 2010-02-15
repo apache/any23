@@ -1,4 +1,4 @@
-<<Any23>> User manual
+Getting started with <<Any23>>
 
  <<Any23>> could be used as 
 
@@ -21,7 +21,7 @@ Using Any23 as a command line tool
 ** Overview:
 
 +-------------------------------------------
-#> sh rover
+$ sh rover
    usage: Rover [file|url] [OPTIONS]
    where OPTIONS are:
    -e <arg>            comma-separated list of extractors, e.g.                  
@@ -38,13 +38,13 @@ Using Any23 as a command line tool
 ** Extract meta information from Web documents:
 
 +-----------------------------------------
-e.g.: #> sh rover http://yourdomain/yourfile
+e.g.: $ sh rover http://yourdomain/yourfile
 +-----------------------------------------
 
 ** Extract meta information from local files:
 
 +--------------------------------------
-e.g.: #>sh rover /home/user/myFoaf.rdf
+e.g.: $ sh rover /home/user/myFoaf.rdf
 +--------------------------------------
 
 ** Specify the output format, use option <<"-f">> or <<"--format">>:
@@ -52,19 +52,19 @@ e.g.: #>sh rover /home/user/myFoaf.rdf
  TURTLE - default configuration, no need for specific flag
 
 +--------------------------------------
-e.g.: #> sh rover foaf.rdf
+e.g.: $ sh rover foaf.rdf
 +--------------------------------------
 
  N3 - <<-f ntriples>>
 
 +--------------------------------------
-e.g.: #> sh rover -f ntriples foaf.rdf
+e.g.: $ sh rover -f ntriples foaf.rdf
 +--------------------------------------
 
  Quad - <<-f quad>> (please see further information about the {{{http://sw.deri.org/2008/07/n-quads/}"quad"}} format)
 
 +--------------------------------------
-#> sh rover -f quad foaf.rdf
+$ sh rover -f quad foaf.rdf
 +--------------------------------------
 
 ** Process archives: Use the <<"-I">> option:
@@ -74,14 +74,14 @@ e.g.: #> sh rover -f ntriples foaf.rdf
  Process a zip archive
 
 +--------------------------------------
-#> sh rover -I zip myArchive.zip
+$ sh rover -I zip myArchive.zip
 +--------------------------------------
 
  Process a WARC archive
 
 +--------------------------------------
-#> sh rover -I warc myArchive.warc
-#> sh rover -I warc myArchive.warc*.gz*
+$ sh rover -I warc myArchive.warc
+$ sh rover -I warc myArchive.warc*.gz*
 +--------------------------------------
 
 ** Filtering trivial statements
@@ -89,7 +89,7 @@ e.g.: #> sh rover -f ntriples foaf.rdf
  By default, <<Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta information like the author or the software used to create the <html>. Hence, if the user is only interested in the structured content from the <HTML/body> tag we offer a filter functionality, activated by the <<"-t">> command line argument.
 
 +-------------------------
-#>sh rover -t foaf.rdf
+$ sh rover -t foaf.rdf
 +-------------------------
 
 Using <<Any23>> as a Web service
