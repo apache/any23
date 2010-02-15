@@ -21,6 +21,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.http.HTTPClient;
+import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
@@ -165,7 +166,7 @@ public class Any23Test {
                                      "foo:bar foo: : .                          " +
                                      ":bar : foo:bar .                           ";
         // The second argument of StringDocumentSource() must be a valid URI.
-        /*3*/ StringDocumentSource source = new StringDocumentSource(content, "http://host.com/service");
+        /*3*/ DocumentSource source = new StringDocumentSource(content, "http://host.com/service");
         /*4*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
         /*5*/ TripleHandler handler = new NTriplesWriter(out);
         /*6*/ runner.extract(source, handler);
@@ -186,13 +187,13 @@ public class Any23Test {
      * @throws ExtractionException
      */
     // Deactivated to avoid test dependency on external resources.
-    @Test
+    // @Test
     public void testDemoCodeSnippet2()
     throws IOException, ExtractionException, URISyntaxException, SailException, RepositoryException {
         /*1*/ Any23 runner = new Any23();
         /*2*/ runner.setHTTPUserAgent("test-user-agent");
         /*3*/ HTTPClient httpClient = runner.getHTTPClient();
-        /*4*/ HTTPDocumentSource source = new HTTPDocumentSource(
+        /*4*/ DocumentSource source = new HTTPDocumentSource(
                  httpClient,
                  "http://www.rentalinrome.com/semanticloft/semanticloft.htm"
               );
