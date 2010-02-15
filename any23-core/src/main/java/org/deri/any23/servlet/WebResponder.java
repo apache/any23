@@ -119,9 +119,9 @@ class WebResponder {
         }
         response.setContentType(outputMediaType);
         response.setStatus(200);
-        // TODO - nigh: #14 for the moment UTF-8 has been set as the default output encoding. To fix this,
+        // TODO - high: #14 for the moment UTF-8 has been set as the default output encoding. To fix this,
         // should be implemented an improved report from the runner.extract that set the output encoding
-        // equals to the input one
+        // equals to the input one.
         response.setCharacterEncoding("UTF-8");
         response.getOutputStream().write(byteOutStream.toByteArray());
     }
