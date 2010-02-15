@@ -232,7 +232,7 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    ////@Test
+    //@Test
     public void testGETwithURLEncodingWithQuery() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller?appo=xxx");
