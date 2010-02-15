@@ -52,7 +52,7 @@ $ cd trunk/
  and execute the following command:
 
 +-----------
-$ $ mvn clean install
+$ mvn clean install
 +-----------
 
  This will install the <<Any23>> artifact and its dependencies in your local M2 repository.
