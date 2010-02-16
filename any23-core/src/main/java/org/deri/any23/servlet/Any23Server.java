@@ -38,7 +38,7 @@ public class Any23Server {
     public static void main(String[] args) throws Exception {
         final String webapp = args.length > 0 ? args[0] : "./webapp";
         if (!new File(webapp).isDirectory()) {
-            System.err.println("webapp directory not found. Server must be launched from the any23 directory.");
+            System.err.println("webapp directory not found. Server must be launched from any23's /bin directory.");
             System.exit(1);
         }
         Server server = new Server(8080);

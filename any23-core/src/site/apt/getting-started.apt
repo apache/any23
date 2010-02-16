@@ -84,7 +84,7 @@ Using <<Any23>> as a Web service
 
  Run the <"any23server"> script from the command line in order to start up the server, then go to {{{http://localhost:8080/}}} to access the web interface. The web interface also provides a REST API for converting between formats. Documentation for the API is served up by the servlet itself at {{{http://localhost:8080/}}}. We have a demo version of the servlet running at {{{http://any23.org/}}}.
 
- You can also start the server from Java by running the <org.deri.any23.servlet.Any23Server> class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
+ You can also start the server from Java by running the {{{http://developers.any23.org/apidocs/org/deri/any23/servlet/Any23Server.html}Any23Server}} class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
 
 Integrating Any23 in your Java programs
 

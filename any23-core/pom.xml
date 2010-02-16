@@ -37,6 +37,11 @@
 	    <url>http://code.google.com/p/any23source/browse/trunk</url>
 	</scm>
 	
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/any23/issues</url>
+	</issueManagement>
+
 	<distributionManagement>
     	<downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl>    	
   	</distributionManagement>

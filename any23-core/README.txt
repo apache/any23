@@ -2,21 +2,38 @@
 Any23 README
 ============
 
+Anything To Triples (any23) is a library and web service that extracts
+structured data in RDF format from a variety of Web documents.
+
+
+-------------
+Documentation
+-------------
+
+For details on the command line tool and web interface, see:
+  http://developers.any23.org/getting-started.html
+
+For a guide to using any23 as a library in your Java applications, see:
+  http://developers.any23.org/developers.html
+
+Javadocs are available here:
+  http://developers.any23.org/apidocs/
+
+
 ----------------------
 Build from Source Code
 ----------------------
 
 There are two ways to build from source code:
 
-   - using the legacy Apache Ant build system;
+   - using the Apache Ant build system;
 
    - using the Apache Maven Build system.
+
 
 ---------------------
 Build with Apache Ant
 ---------------------
-
-WARNING: THE ANT BUILD SYSTEM WILL BE NO LONGER MAINTAINED.
 
 Be sure to have the Apache Ant v.1.7.x+ installed and included in PATH.
 
@@ -48,6 +65,7 @@ To obtain the library JAR distribution invoke:
 
 You will find the library JAR and its dependencies inside the lib/ folder.
 
+
 ----------------
 Build with Maven
 ----------------
@@ -76,6 +94,4 @@ in the local M2 repository:
 
     $ MAVEN_OPTS='-Xmx512m' mvn -o clean site
 
-
 EOF
-
