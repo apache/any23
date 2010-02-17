@@ -151,6 +151,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             InputStream input,
             MIMEType mimeTypeFromMetadata
     ) {
+       if( input != null && ! input.markSupported() ) {
+           throw new IllegalArgumentException("Invalid stream, must be resettable.");
+       }
 
         Metadata meta = new Metadata();
         if (mimeTypeFromMetadata != null)
