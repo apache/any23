@@ -393,6 +393,35 @@
 		</dependency>
     </dependencies>
 
+    <profiles>
+        <!-- Generates Javadoc with browsable UML. -->
+        <profile>
+            <id>umlgraphdoc</id>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <!--
+                                NOTE:
+                                This plugin is optional since it needs the GraphViz 
+                                external dependency.
+                                You can downalod it here: http://www.graphviz.org/
+                            -->
+                            <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+                            <docletArtifact>
+                            <groupId>org.umlgraph</groupId>
+                            <artifactId>UmlGraph</artifactId>
+                            <version>5.1</version>
+                        </docletArtifact>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+    </profiles>
+
     <reporting>
         <plugins>
 	        
@@ -401,25 +430,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
             </plugin>
-            
-			<!-- Javadoc with browsable UML. -->
+
+			<!-- Javadoc plugin. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-				<!-- 
-				    This pluging has been deactivated since it needs
-				    the Graph Viz external dependecy. You can downalod 
-				    it here: http://www.graphviz.org/
-				    
-                    <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                    <docletArtifact>
-                        <groupId>org.umlgraph</groupId>
-                        <artifactId>UmlGraph</artifactId>
-						<version>5.1</version>
-                    </docletArtifact>
-				-->
-                </configuration>
             </plugin>
 
 			<!-- Browsable documentation. -->
