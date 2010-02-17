@@ -84,6 +84,50 @@ and execute the following command:
 
 This will install the Any23 artifact and its dependencies in your local M2 repository.
 
+------------------------
+Any23 Command line Tools
+------------------------
+
+Any23 comes with some command line tools:
+
+   any23       allows to perform a metadata extraction on a file or URL source.
+   any23tools  provides access to some auxiliary tools.
+
+The complete documentation about these tools can be found here: 
+http://developers.any23.org/getting-started.html
+
+To run such tools, go to the bin folder:
+
+  $ cd bin
+
+and then invoke them:
+  
+  $ ./any23
+  [usage instructions will be printed out]
+
+  $ ./any23tools
+  [usage instructions will be printed out]
+
+
+---------------------
+Run the Any23 Service
+---------------------
+
+Any23 can be run as a service. 
+To run the Any23 service go to the bin folder:
+
+  $ cd bin
+
+and then invoke:
+
+  ./any23server   
+
+You can check the service is running by accessing
+http://localhost:8080/ with your browser.
+
+The complete documentation about this service can be found here: 
+http://developers.any23.org/getting-started.html
+
 ----------------------
 Generate Documentation
 ----------------------
