@@ -84,6 +84,54 @@ and execute the following command:
 
 This will install the Any23 artifact and its dependencies in your local M2 repository.
 
+------------------------
+Any23 Command line Tools
+------------------------
+
+Any23 comes with some command line tools:
+
+   any23       allows to perform a metadata extraction on a file or URL source.
+   any23tools  provides access to some auxiliary tools.
+
+The complete documentation about these tools can be found here: 
+http://developers.any23.org/getting-started.html
+
+To run such tools, go to the bin folder:
+
+  $ cd bin
+
+and then invoke them:
+  
+  $ ./any23
+  [usage instructions will be printed out]
+
+  $ ./any23tools
+  [usage instructions will be printed out]
+
+
+---------------------
+Run the Any23 Service
+---------------------
+
+Any23 can be run as a service. 
+To run the Any23 service go to the bin folder:
+
+  $ cd bin
+
+and then invoke:
+
+  ./any23server   
+
+You can check the service is running by accessing
+http://localhost:8080/ with your browser.
+
+The complete documentation about this service can be found here: 
+http://developers.any23.org/getting-started.html
+
+----------------------
+Generate Documentation
+----------------------
+
 To generate the project site locally execute the following command:
 
     $ MAVEN_OPTS='-Xmx512m' mvn clean site
@@ -93,5 +141,12 @@ but it works only if all the involved plugin dependencies has been already downl
 in the local M2 repository:
 
     $ MAVEN_OPTS='-Xmx512m' mvn -o clean site
+
+If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
+the umlgraphdoc profile. This profile relies on graphviz ( http://www.graphviz.org/) that must be 
+installed in your system.
+
+    $ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site  
+
 
 EOF

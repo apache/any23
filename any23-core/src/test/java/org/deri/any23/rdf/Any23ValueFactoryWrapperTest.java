@@ -18,7 +18,7 @@ public class Any23ValueFactoryWrapperTest {
 
     @Test
     public void testXSDCompliantDate() throws DatatypeConfigurationException, ParseException {
-        Assert.assertEquals("1997-09-01T13:00:00.000+02:00",
+        Assert.assertEquals("1997-09-01T13:00:00.000Z",
                 Any23ValueFactoryWrapper.getXSDDate(
                         "19970901T1300Z",
                         "yyyyMMdd'T'HHmm'Z'"

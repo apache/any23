@@ -16,7 +16,6 @@
 
 package org.deri.any23.rdf;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -198,6 +197,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         GregorianCalendar gc = new GregorianCalendar();
         gc.setTime(date);
         XMLGregorianCalendar xml = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
+        xml.setTimezone(0);
         return xml.toString();
     }
 
