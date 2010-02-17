@@ -63,9 +63,9 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
                 final Resource subject = statement.getSubject();
                 assertContains(null, ICAL.component, subject);
                 assertContains(subject, RDF.TYPE, vevent);
-                assertContains(subject, ICAL.dtstart, "1997-09-05T18:00:00.000+02:00");
-                assertContains(subject, ICAL.dtstamp, "1997-09-01T13:00:00.000+02:00");
-                assertContains(subject, ICAL.dtend, "1997-09-03T19:00:00.000+02:00");
+                assertContains(subject, ICAL.dtstart, "1997-09-05T18:00:00.000Z");
+                assertContains(subject, ICAL.dtstamp, "1997-09-01T13:00:00.000Z");
+                assertContains(subject, ICAL.dtend, "1997-09-03T19:00:00.000Z");
                 assertContains(subject, ICAL.uid, "19970901T130000Z-123401@host.com");
                 assertContains(subject, ICAL.summary, "Annual Employee Review");
                 assertContains(subject, ICAL.class_, "private");
@@ -90,9 +90,9 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
                 final Resource subject = statement.getSubject();
                 assertContains(null, ICAL.component, subject);
                 assertContains(subject, RDF.TYPE, vevent);
-                assertContains(subject, ICAL.dtstart, "1997-04-03T18:00:00.000+02:00");
-                assertContains(subject, ICAL.dtstamp, "1997-09-01T13:00:00.000+02:00");
-                assertContains(subject, ICAL.dtend, "1997-04-02T01:00:00.000+02:00");
+                assertContains(subject, ICAL.dtstart, "1997-04-03T18:00:00.000Z");
+                assertContains(subject, ICAL.dtstamp, "1997-09-01T13:00:00.000Z");
+                assertContains(subject, ICAL.dtend, "1997-04-02T01:00:00.000Z");
                 assertContains(subject, ICAL.uid, "19970901T130000Z-123402@host.com");
                 assertContains(subject, ICAL.summary, "Laurel is in sensitivity awareness class.");
                 assertContains(subject, ICAL.class_, "public");
@@ -119,7 +119,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
                 assertContains(null, ICAL.component, subject);
                 assertContains(subject, RDF.TYPE, vevent);
                 assertContains(subject, ICAL.dtstart, "19971102");
-                assertContains(subject, ICAL.dtstamp, "1997-09-01T13:00:00.000+02:00");
+                assertContains(subject, ICAL.dtstamp, "1997-09-01T13:00:00.000Z");
                 assertContains(subject, ICAL.uid, "19970901T130000Z-123403@host.com");
                 assertContains(subject, ICAL.summary, "Our Blissful Anniversary");
                 assertContains(subject, ICAL.class_, "confidential");
@@ -146,9 +146,9 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
                 final Resource subject = statement.getSubject();
                 assertContains(null, ICAL.component, subject);
                 assertContains(subject, RDF.TYPE, vevent);
-                assertContains(subject, ICAL.dtstart, "1996-09-20T16:00:00.000+02:00");
-                assertContains(subject, ICAL.dtstamp, "1996-07-04T12:00:00.000+02:00");
-                assertContains(subject, ICAL.dtend, "1996-09-20T22:00:00.000+02:00");
+                assertContains(subject, ICAL.dtstart, "1996-09-20T16:00:00.000Z");
+                assertContains(subject, ICAL.dtstamp, "1996-07-04T12:00:00.000Z");
+                assertContains(subject, ICAL.dtend, "1996-09-20T22:00:00.000Z");
                 assertContains(subject, ICAL.uid, "uid1@host.com");
                 assertContains(subject, ICAL.summary, "Networld+Interop Conference");
                 assertContains(subject, ICAL.description, "Networld+Interop Conference and Exhibit Atlanta World Congress\n" +
@@ -181,7 +181,7 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
     public void test02() throws RepositoryException {
         assertDefault("microformats/hcalendar/02-component-vevent-dtstart-datetime.html");
         Resource event = getExactlyOneComponent(vevent);
-        assertContains(event, ICAL.dtstart, "1997-09-05T18:00:00.000+02:00");
+        assertContains(event, ICAL.dtstart, "1997-09-05T18:00:00.000Z");
     }
 
     @Test
@@ -196,8 +196,8 @@ public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
     public void test04() throws RepositoryException {
         assertDefault("microformats/hcalendar/04-component-vevent-dtend-datetime.html");
         Resource event = getExactlyOneComponent(vevent);
-        assertContains(event, ICAL.dtstart, "1997-09-03T16:00:00.000+02:00");
-        assertContains(event, ICAL.dtend, "1997-09-03T18:00:00.000+02:00");
+        assertContains(event, ICAL.dtstart, "1997-09-03T16:00:00.000Z");
+        assertContains(event, ICAL.dtend, "1997-09-03T18:00:00.000Z");
     }
 
     @Test
