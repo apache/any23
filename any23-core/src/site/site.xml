@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="${project.name}">
 
+	<publishDate position="right"/>
+	<version position="right"/>
+	
+	<poweredBy>
+	    <logo 
+			name="Sindice" 
+			href="http://sindice.com/"
+	        img="http://sindice.com/images/logo.png"/>
+		<logo 
+			name="Fondazione Bruno Kessler" 
+			href="http://www.fbk.eu/"
+			img="http://www.fbk.eu/sites/all/themes/fbk/logo.png"/>
+		<logo
+			name="Digital Enterprise Research Institute" 
+			href="http://www.deri.ie/"
+			img="http://www.deri.ie/fileadmin/images/elements/deri_ie_head.gif"/>
+	</poweredBy>
+
     <skin>
         <groupId>com.google.code</groupId>
         <artifactId>fluido-skin</artifactId>
