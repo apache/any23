@@ -8,19 +8,19 @@
 	    <logo 
 			name="Sindice" 
 			href="http://sindice.com/"
-	        img="http://sindice.com/images/logo.png"/>
-	    <logo 
-			name="OKKAM" 
-			href="http://www.okkam.org/"
-			img="http://www.okkam.org/logo.jpg"/>
+	        img="images/logo-sindice-90x30.png"/>
 		<logo 
 			name="Fondazione Bruno Kessler" 
 			href="http://www.fbk.eu/"
-			img="http://www.fbk.eu/sites/all/themes/fbk/logo.png"/>
+			img="images/logo-fbk-90x30.png"/>
 		<logo
 			name="Digital Enterprise Research Institute" 
 			href="http://www.deri.ie/"
-			img="http://www.deri.ie/fileadmin/images/elements/deri_ie_head.gif"/>
+			img="images/logo-deri-90x30.png"/>
+        <logo
+            name="OKKAM"
+            href="http://okkam.org/"
+            img="images/logo-okkam-90x30.png"/>
 	</poweredBy>
 
     <skin>
