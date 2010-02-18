@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 /**
  * Test case for {@link org.deri.any23.mime.TikaMIMETypeDetector} class.
@@ -69,7 +70,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testDetectByContent() throws IOException {
         InputStream is = this.getClass().getResourceAsStream("/application/rdfxml/physics.owl");
-        String detectedMimeType = detector.guessMIMEType(null, is, null).toString();
+        String detectedMimeType = detector.guessMIMEType(
+                null,
+                is instanceof BufferedInputStream ? is : new BufferedInputStream(is),
+                null
+        ).toString();
         System.err.println(detectedMimeType);
     }
 

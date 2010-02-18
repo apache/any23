@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 /**
  * File implementation of {@link org.deri.any23.source.DocumentSource}.
@@ -41,7 +42,7 @@ public class FileDocumentSource implements DocumentSource {
     }
 
     public InputStream openInputStream() throws IOException {
-        return new FileInputStream(file);
+        return new BufferedInputStream( new FileInputStream(file) );
     }
 
     public long getContentLength() {

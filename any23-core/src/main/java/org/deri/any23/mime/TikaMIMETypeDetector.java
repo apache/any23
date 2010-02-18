@@ -146,11 +146,24 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             types = config.getMimeRepository();
     }
 
+    /**
+     * Estimates the <code>MIME</code> type of the content of input file.
+     * The <i>input</i> stream must be resettable.
+     *
+     * @param fileName name of the data source.
+     * @param input <code>null</code> or a <b>resettable</i> input stream containing data.
+     * @param mimeTypeFromMetadata mimetype declared in metadata.
+     * @return the supposed mime type or <code>null</code> if nothing appropriate found.
+     * @throws IllegalArgumentException if <i>input</i> is not <code>null</code> and is not resettable.
+     */
     public MIMEType guessMIMEType(
             String fileName,
             InputStream input,
             MIMEType mimeTypeFromMetadata
     ) {
+       if( input != null && ! input.markSupported() ) {
+           throw new IllegalArgumentException("Invalid stream, must be resettable.");
+       }
 
         Metadata meta = new Metadata();
         if (mimeTypeFromMetadata != null)
