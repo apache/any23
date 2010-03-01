@@ -11,7 +11,7 @@
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-core</artifactId>
     <packaging>jar</packaging>
-    <version>0.2</version><!-- NOTE, there's also a version string in Any23.java, they should match! -->
+    <version>0.2.1</version><!-- NOTE, there's also a version string in Any23.java, they should match! -->
     <name>Anything to Triples</name>
     <description>Anything To Triples (any23) is a library and web service that extracts structured data 
 	in RDF format from a variety of Web documents.</description>
