@@ -1,0 +1,97 @@
+
+
+<rdf:RDF
+      xmlns="http://renaud.delbru.fr/rdf/foaf#"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      xmlns:owl="http://www.w3.org/2002/07/owl#"
+      xmlns:cyc="http://sw.opencyc.org/2008/06/10/concept/en/"
+      xmlns:admin="http://webns.net/mvcb/">
+
+<foaf:PersonalProfileDocument rdf:about="">
+  <rdfs:label>FOAF file of Renaud Delbru</rdfs:label>
+  <foaf:maker rdf:resource="#me"/>
+  <foaf:primaryTopic rdf:resource="#me"/>
+  <foaf:primaryTopic rdf:resource="http://www.okkam.org/entity/ok200706171184666809495"/>
+  <admin:generatorAgent rdf:resource="http://www.ldodds.com/foaf/foaf-a-matic"/>
+  <admin:errorReportsTo rdf:resource="mailto:leigh@ldodds.com"/>
+</foaf:PersonalProfileDocument>
+
+<cyc:Wine rdf:about="http://dbpedia.org/resource/Bordeaux_wine"/>
+
+<foaf:Person rdf:ID="me">
+	<foaf:name>Renaud Delbru</foaf:name>
+	<foaf:title>Mr</foaf:title>
+	<foaf:givenname>Renaud</foaf:givenname>
+	<foaf:family_name>Delbru</foaf:family_name>
+	<foaf:mbox_sha1sum>247d80518c87c6f8129d5a3ec60a07665eded006</foaf:mbox_sha1sum>
+	<foaf:homepage rdf:resource="http://renaud.delbru.fr/"/>
+	<foaf:workplaceHomepage rdf:resource="http://www.deri.ie/"/>
+	<foaf:schoolHomepage rdf:resource="http://www.epita.fr/"/>
+	<foaf:based_near rdf:resource="http://www.tagcrumbs.com/cornelius/placemarks/deri-digital-enterprise-research-institute#placemark"/>
+	<owl:sameAs rdf:resource="http://www.okkam.org/entity/ok200706171184666809495"/>
+	<foaf:topic_interest rdf:resource="http://dbpedia.org/resource/Bordeaux_wine"/>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://eyaloren.org/foaf.rdf#me">
+		<foaf:name>Eyal Oren</foaf:name>
+		<foaf:mbox_sha1sum>097f2342afa52f155f127042cc7a20c9491cf382</foaf:mbox_sha1sum>
+		<rdfs:seeAlso rdf:resource="http://www.eyaloren.org/foaf.rdf"/>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://g1o.net/foaf.rdf#me">
+		<foaf:name>Giovanni Tummarello</foaf:name>
+		<foaf:mbox_sha1sum>a9dcc29cbf526167c1bd10e8e3dd2bca60d739e1</foaf:mbox_sha1sum>
+		<rdfs:seeAlso rdf:resource="http://g1o.net/foaf.rdf"/>
+		<foaf:homepage rdf:resource="http://g1o.net"/>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://harth.org/andreas/foaf#ah">
+		<foaf:name>Andreas Harth</foaf:name>
+		<foaf:mbox_sha1sum>349ba1da7307ffb78517ae557ade1dd5177a6dbb</foaf:mbox_sha1sum>
+		<rdfs:seeAlso rdf:resource="http://harth.org/andreas/foaf"/>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://data.semanticweb.org/person/knud-moeller">
+		<foaf:name>Knud MÌ¦ller</foaf:name>
+		<foaf:mbox_sha1sum>b15d1e7efb11374644555fa9734bf75a553a362c</foaf:mbox_sha1sum>
+		<rdfs:seeAlso rdf:resource="http://sw.deri.org/~knud/knudfoaf.rdf"/>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://www.deri.ie/about/team/member/Stefan_Decker#me">
+		<foaf:name>Stefan Decker</foaf:name>
+		<foaf:mbox_sha1sum>1bc1f862b688a45b7e0c8d4a8467c23177c53fad</foaf:mbox_sha1sum>
+		<rdfs:seeAlso rdf:resource="http://www.deri.ie/fileadmin/scripts/foaf.php?id=12"/>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://semanticweb.org/id/Siegfried_Handschuh">
+		<foaf:name>Siegfried Handschuh</foaf:name>
+		<foaf:mbox_sha1sum>583cac1297018405882f186064c6d98cd127af70</foaf:mbox_sha1sum>
+		<rdfs:seeAlso rdf:resource="http://www.siegfried-handschuh.net/metadata/foaf.rdf"/>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://data.semanticweb.org/person/brian-davis">
+		<foaf:name>Brian Davis</foaf:name>
+		<foaf:mbox_sha1sum>8c6dfc17028b508310f6c7cde2ba007c545b591f</foaf:mbox_sha1sum>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://data.semanticweb.org/person/simon-scerri">
+		<foaf:name>Simon Scerri</foaf:name>
+		<foaf:mbox_sha1sum>ab6d7f6be0a4f94d5084190f850196fb50c3134a</foaf:mbox_sha1sum>
+		</foaf:Person>
+	</foaf:knows>
+	<foaf:knows>
+		<foaf:Person rdf:about="http://identi.ca/user/3546">
+		<foaf:name>JÌ?rgen Umbrich</foaf:name>
+		<foaf:mbox_sha1sum>b9514eba2ed2ae41a072765fe3ed3544de10974f</foaf:mbox_sha1sum>
+		</foaf:Person>
+	</foaf:knows>
+</foaf:Person>
+</rdf:RDF>

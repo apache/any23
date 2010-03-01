@@ -208,8 +208,7 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName("application/rss+xml", "src/test/resources/application/rss2");
     }
 
-    // TODO: #13
-    // @Test
+    @Test
     public void testAtomByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/atom+xml", "src/test/resources/application/atom");
     }
@@ -224,8 +223,7 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/xhtml");
     }
 
-    // TODO: #13
-    // @Test
+     @Test
     public void testWSDLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/x-wsdl", "src/test/resources/application/wsdl");
     }
@@ -267,7 +265,7 @@ public class TikaMIMETypeDetectorTest {
             if (test.getName().startsWith("error"))
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
             else {
-                Assert.assertNotSame(
+                Assert.assertEquals(
                         String.format("Error in mimetype detection for file %s", test.getAbsolutePath()),
                         expectedMimeType,
                         detectedMimeType
