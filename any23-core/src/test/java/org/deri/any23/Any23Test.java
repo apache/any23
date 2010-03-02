@@ -20,16 +20,14 @@ import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
+import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.http.HTTPClient;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.vocab.DCTERMS;
-import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.ReportingTripleHandler;
-import org.deri.any23.writer.RepositoryWriter;
-import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.*;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -42,9 +40,8 @@ import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -212,6 +209,58 @@ public class Any23Test {
         Assert.assertTrue(n3.length() > 0);
     }
 
+    /**
+     * This test checks the extraction behavior when the library is used programatically.
+     * This test is related to the issue #45, to verify the different behaviors between Maven and Ant.
+     * The behavior was related to a 2nd-level dependency introduced by Maven.
+     *
+     * @throws ExtractionException
+     * @throws IOException
+     * @throws URISyntaxException
+     */
+    @Test
+    public void testProgrammaticExtraction() throws ExtractionException, IOException, URISyntaxException {
+        Any23 any23 = new Any23();
+        any23.setHTTPUserAgent("Any23-Servlet");
+        any23.setHTTPClient(new DefaultHTTPClient() {
+            @Override
+            protected int getConnectionTimeout() {
+                return 5000;
+            }
+
+            @Override
+            protected int getSoTimeout() {
+                return 2000;
+            }
+        });
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        TripleHandler handler = new RDFXMLWriter(byteArrayOutputStream);
+        TripleHandler rdfWriter = new IgnoreAccidentalRDFa(handler);
+        ReportingTripleHandler reporting = new ReportingTripleHandler(rdfWriter);
+
+        DocumentSource source = new FileDocumentSource(
+                new File("src/test/resources/html/rdfa/ansa_2010-02-26_12645863.html"),
+                    "http://host.com/service");
+
+        Assert.assertTrue(any23.extract(source, reporting));
+        handler.close();
+
+        String bufferContent = byteArrayOutputStream.toString();
+        System.out.println(bufferContent);
+        int i = 0;
+        int counter = 0;
+        while( i < bufferContent.length() ) {
+            i = bufferContent.indexOf("\n", i);
+            if(i == -1) {
+                break;
+            }
+            counter++;
+            i++;
+        }
+        Assert.assertSame("Unexpected number of triples.", 38, counter);
+        
+    }
+
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
         Any23 any23 = new Any23();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -295,4 +344,5 @@ public class Any23Test {
         Assert.assertNotNull(result);
         Assert.assertTrue(result.length() > 10);
     }
+
 }
