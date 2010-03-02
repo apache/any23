@@ -17,6 +17,23 @@
 
 $Id$
 
+	                           Any23 0.2.2 
+                             Release Notes
+
+* Fixed dependency management on Maven. A second level dependency of Xerces
+  introduced a conflict on the java.xml.transform API causing wrong XSLT 
+  transformations within RDFa extractor.
+
+==========================================================================
+
+	                           Any23 0.2.1 
+                             Release Notes
+
+* Major fix on Tika configuration management. This fix solves the auto detection
+  of the main Semantic Web related formats.
+
+==========================================================================
+
                                Any23 0.2
                              Release Notes
 

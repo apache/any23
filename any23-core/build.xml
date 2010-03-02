@@ -2,7 +2,7 @@
 <project name="Any23" default="dist" basedir=".">
 
 	<property name="name" value="any23"/>
-	<property name="version" value="0.2"/><!-- NOTE, there's also a version string in Any23.java, they should match! -->
+	<property name="version" value="0.2.2"/><!-- NOTE, there's also a version string in Any23.java, they should match! -->
 	<property name="project.package" value="com.google.code.any23"/>
 	<property name="src" value="src/main/java"/>
 	<property name="src.resources" value="src/main/resources"/>
@@ -39,11 +39,16 @@
 		<exclude name="${build}/**"/>
 		<exclude name="${build.tests}/**"/>
 		<exclude name="build/**"/>
+		<exclude name="target/**"/>
 		<exclude name="${zip}"/>
 		<exclude name="${tar}"/>
 		<exclude name=".project"/>
 		<exclude name=".classpath"/>
 		<exclude name=".settings/**"/>
+		<exclude name="cobertura.ser"/>
+		<exclude name="*.ipr"/>
+		<exclude name="*.iws"/>
+		<exclude name="*.iml"/>
 	</patternset>
 
 	<property name="execfiles" value="rover server"/>

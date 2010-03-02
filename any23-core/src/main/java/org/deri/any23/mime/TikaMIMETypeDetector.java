@@ -58,6 +58,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     private static final FakeRDFHandler FAKE_RDF_HANDLER = new FakeRDFHandler();
 
     private static TikaConfig config = null;
+
+    private static Tika tika;
+
     private static MimeTypes types;
 
     /**
@@ -132,18 +135,23 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         new TikaMIMETypeDetector();
     }
 
-    private final Tika tika = new Tika();
-
     public TikaMIMETypeDetector() {
         InputStream is = getResourceAsStream();
-        if (config == null)
+        if (config == null) {
             try {
                 config = new TikaConfig(is);
             } catch (Exception e) {
                 throw new RuntimeException("Error while loading Tika configuration.", e);
             }
-        if (types == null)
+        }
+
+        if (types == null) {
             types = config.getMimeRepository();
+        }
+
+        if(tika == null) {
+            tika = new Tika(config);
+        }
     }
 
     /**
