@@ -43,15 +43,20 @@ import java.util.List;
  */
 public class HTMLDocument {
 
-    private final static String[] EMPTY_STRINGS = new String[]{};
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
-    private final static Logger log = LoggerFactory.getLogger(HTMLDocument.class);
+    private final static Logger log        = LoggerFactory.getLogger(HTMLDocument.class);
 
-    private Node document;
+    private Node         document;
     private java.net.URI baseURI;
 
-    private Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+    private final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
+    /**
+     * Reads a text field from the given node adding the content to the given <i>res</i> list.
+     * 
+     * @param res list to add the content.
+     * @param node the node from which read the content.
+     */
     public static void readTextField(List<String> res, Node node) {
         String name = node.getNodeName();
         NamedNodeMap attributes = node.getAttributes();
@@ -84,6 +89,31 @@ public class HTMLDocument {
             res.add(node.getTextContent());
     }
 
+    /**
+     * Reads an URL field from the given node adding the content to the given <i>res</i> list.
+     *
+     * @param res
+     * @param node
+     */
+    public static void readUrlField(List<String> res, Node node) {
+        String name = node.getNodeName();
+        NamedNodeMap attributes = node.getAttributes();
+        if (null == attributes) {
+            res.add(node.getTextContent());
+            return;
+        }
+        if ("A".equals(name) || "AREA".equals(name))
+            res.add(attributes.getNamedItem("href").getNodeValue());
+        else if ("ABBR".equals(name))
+            res.add(attributes.getNamedItem("title").getNodeValue());
+        else if ("IMG".equals(name))
+            res.add(attributes.getNamedItem("src").getNodeValue());
+        else if ("OBJECT".equals(name))
+            res.add(attributes.getNamedItem("data").getNodeValue());
+        else
+            res.add(node.getTextContent().trim());
+    }
+
     private static String extractRelTag(NamedNodeMap attributes) {
         String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
         //cleanup spurious segments
@@ -93,6 +123,11 @@ public class HTMLDocument {
         return all[all.length - 1];
     }
 
+    /**
+     * Constructor accepting the root node.
+     * 
+     * @param document
+     */
     public HTMLDocument(Node document) {
         if (null == document)
             throw new IllegalArgumentException("node cannot be null when constructing an HTMLDocument");
@@ -147,10 +182,9 @@ public class HTMLDocument {
     }
 
     /**
+     * Returns a singular text field. 
      *
-     * TODO: #8 - use one single node lookup and multiple attr and class checks
-     *
-     * @param className a valid class name
+     * @param className name of class containing text.
      * @return if multiple values are found just the first is returned,
      * if we want to check that there are no n-ary values use plural finder
      */
@@ -161,20 +195,24 @@ public class HTMLDocument {
         return res[0];
     }
 
+    /**
+     * Returns a plural text field.
+     * 
+     * @param className name of class node containing text.
+     * @return list of fields.
+     */
     public String[] getPluralTextField(String className) {
         List<String> res = new ArrayList<String>(0);
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readTextField(res, node);
-        return res.toArray(EMPTY_STRINGS);
+        return res.toArray( new String[res.size()] );
     }
 
     /**
+     * Returns the URL associated to the field marked with class <i>className</i>.
      *
-     * TODO: #8 - use one single node lookup and multiple attr and class checks
-     * TODO: #8 - improve this documentation
-     *
-     * @param className a valid class name
+     * @param className name of node class containing the URL field.
      * @return if multiple values are found just the first is returned,
      *  if we want to check that there are no n-ary values use plural finder
      */
@@ -185,35 +223,19 @@ public class HTMLDocument {
         return res[0];
     }
 
+    /**
+     * Returns the list of URLs associated to the fields marked with class <i>className</i>.
+     *
+     * @param className name of node class containing the URL field.
+     * @return
+     */
     public String[] getPluralUrlField(String className) {
         List<String> res = new ArrayList<String>(0);
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readUrlField(res, node);
-        return res.toArray(EMPTY_STRINGS);
+        return res.toArray( new String[res.size()] );
     }
-
-
-    public static void readUrlField(List<String> res, Node node) {
-        String name = node.getNodeName();
-        NamedNodeMap attributes = node.getAttributes();
-        if (null == attributes) {
-            res.add(node.getTextContent());
-            return;
-        }
-        if ("A".equals(name) || "AREA".equals(name))
-            res.add(attributes.getNamedItem("href").getNodeValue());
-        else if ("ABBR".equals(name))
-            res.add(attributes.getNamedItem("title").getNodeValue());
-        else if ("IMG".equals(name))
-            res.add(attributes.getNamedItem("src").getNodeValue());
-        else if ("OBJECT".equals(name))
-            res.add(attributes.getNamedItem("data").getNodeValue());
-        else
-            res.add(node.getTextContent().trim());
-
-    }
-
 
     public Node findMicroformattedObjectNode(String objectTag, String name) {
         List<Node> nodes = DomUtils.findAllByTagAndClassName(getDocument(), objectTag, name);
@@ -224,15 +246,23 @@ public class HTMLDocument {
 
     /**
      * Read an attribute avoiding NullPointerExceptions, if the attr is
-     * missing it just returns an empty String
+     * missing it just returns an empty string.
+     *
+     * @param attribute the attribute name.
+     * @return the string representing the attribute.
      */
-    public String readAttribute(String string) {
-        return DomUtils.readAttribute(getDocument(), string);
+    public String readAttribute(String attribute) {
+        return DomUtils.readAttribute(getDocument(), attribute);
     }
 
-
-    public List<Node> findAllByClassName(String string) {
-        return DomUtils.findAllByClassName(getDocument(), string);
+    /**
+     * Finds all the nodes by class name.
+     *
+     * @param clazz the class name.
+     * @return list of matching nodes.
+     */
+    public List<Node> findAllByClassName(String clazz) {
+        return DomUtils.findAllByClassName(getDocument(), clazz);
     }
 
     /**
