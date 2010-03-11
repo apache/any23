@@ -38,7 +38,6 @@ import java.util.GregorianCalendar;
  * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
  * It provides a wrapper to instantiate RDF objects.
  */
-// TODO: #3 - Move our URI fixing methods to a separate utility class.
 public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);
@@ -122,7 +121,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI createURI(String arg0) {
         if (arg0 == null) return null;
-        return _vFactory.createURI(fixURIWithException(arg0));
+        return _vFactory.createURI(RDFUtility.fixURIWithException(arg0));
     }
 
     /**
@@ -130,7 +129,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI createURI(String arg0, String arg1) {
         if (arg0 == null || arg1 == null) return null;
-        return _vFactory.createURI(fixURIWithException(arg0), arg1);
+        return _vFactory.createURI(RDFUtility.fixURIWithException(arg0), arg1);
     }
 
     /**
@@ -142,7 +141,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI resolveURI(String uri, java.net.URI baseURI) {
         try {
-            return _vFactory.createURI(baseURI.resolve(fixURIWithException(uri)).toString());
+            return _vFactory.createURI(baseURI.resolve(RDFUtility.fixURIWithException(uri)).toString());
         } catch (IllegalArgumentException ex) {
             logger.warn(ex.getMessage());
             return null;
@@ -155,7 +154,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI fixURI(String uri) {
         try {
-            return _vFactory.createURI(fixURIWithException(uri));
+            return _vFactory.createURI(RDFUtility.fixURIWithException(uri));
         } catch (Exception e) {
             logger.warn(e.getMessage());
             return null;
@@ -163,94 +162,20 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * Fixes typical errors in an absolute URI, such as unescaped spaces.
-     *
-     * @param uri An absolute URI, can have typical syntax errors
-     * @return An absolute URI that is valid against the URI syntax
-     * @throws IllegalArgumentException if URI is not fixable
+     * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
      */
-    public static String fixAbsoluteURI(String uri) {
-        String fixed = fixURIWithException(uri);
-        if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute URI: " + uri);
-        // Add trailing slash if URI has only authority but no path.
-        // TODO: #3 - This might not be the best place for this. Have a normalize method somewhere?
-        if (fixed.matches("https?://[a-zA-Z0-9.-]+(:[0-9+])?")) {
-            fixed = fixed + "/";
+    public URI fixLink(String link, String defaultSchema) {
+        if (link == null) return null;
+        link = fixWhiteSpace(link);
+        if ("".equals(link)) return null;
+        if (defaultSchema != null && !link.startsWith(defaultSchema + ":")) {
+            link = defaultSchema + ":" + link;
         }
-        return fixed;
+        return fixURI(link);
     }
 
-    /**
-     * This method allows to obtain an <a href="http://www.w3.org/TR/xmlschema-2/#date">XML Schema</a> compliant date
-     * providing a textual representation of a date and textual a pattern for parsing it.
-     *
-     * @param dateToBeParsed the String containing the date.
-     * @param format the pattern as descibed in {@link java.text.SimpleDateFormat}
-     * @return a {@link String} representing the date
-     * @throws ParseException
-     * @throws DatatypeConfigurationException
-     */
-    public static String getXSDDate(String dateToBeParsed, String format)
-    throws ParseException, DatatypeConfigurationException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        Date date = simpleDateFormat.parse(dateToBeParsed);
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(date);
-        XMLGregorianCalendar xml = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
-        xml.setTimezone(0);
-        return xml.toString();
-    }
-
-    /**
-     * Tries to fix a potentially broken relative or absolute URI
-     * <p/>
-     * These appear to be good rules:
-     * <p/>
-     * Remove whitespace or '\' or '"' in beginning and end
-     * Replace space with %20
-     * Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:(//)?$
-     * Drop the triple if it matches this regex: ^javascript:
-     * Truncate ">.*$ from end of lines (Neko didn't quite manage to fix broken markup)
-     * Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
-     */
-    private static String fixURIWithException(String unescapedURI) {
-        if (unescapedURI == null) throw new IllegalArgumentException("URI was null");
-
-        //	Remove starting and ending whitespace
-        String escapedURI = unescapedURI.trim();
-
-        //Replace space with %20
-        escapedURI = escapedURI.replaceAll(" ", "%20");
-
-        //strip linebreaks
-        escapedURI = escapedURI.replaceAll("\n", "");
-
-        //'Remove starting  "\" or '"'
-        if (escapedURI.startsWith("\\") || escapedURI.startsWith("\"")) escapedURI = escapedURI.substring(1);
-        //Remove  ending   "\" or '"'
-        if (escapedURI.endsWith("\\") || escapedURI.endsWith("\""))
-            escapedURI = escapedURI.substring(0, escapedURI.length() - 1);
-
-        //Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:/?/?$
-        if (escapedURI.matches("^[a-zA-Z0-9]+:/?/?$"))
-            throw new IllegalArgumentException("no authority in URI: " + unescapedURI);
-
-        //Drop the triple if it matches this regex: ^javascript:
-        if (escapedURI.matches("^javascript:"))
-            throw new IllegalArgumentException("URI starts with javascript: " + unescapedURI);
-
-		// stripHTML
-        // escapedURI = escapedURI.replaceAll("\\<.*?\\>", "");
-
-        //>.*$ from end of lines (Neko didn't quite manage to fix broken markup)
-        escapedURI = escapedURI.replaceAll(">.*$", "");
-
-        //Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
-        // TODO: 3# - write a test for this
-        if (escapedURI.matches("[<>\\[\\]|\\*\\{\\}\"\\\\]"))
-            throw new IllegalArgumentException("Invalid character in URI: " + unescapedURI);
-
-        return escapedURI;
+    public String fixWhiteSpace(String name) {
+        return name.replaceAll("\\s+", " ").trim();
     }
 
 }

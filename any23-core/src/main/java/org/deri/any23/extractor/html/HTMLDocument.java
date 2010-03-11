@@ -18,6 +18,7 @@ package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
+import org.deri.any23.rdf.RDFUtility;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
@@ -285,7 +286,7 @@ public class HTMLDocument {
                 if (document.getBaseURI() == null) {
                     log.warn("document.getBaseURI() is null, this should not happen");
                 }
-                baseURI = new java.net.URI(Any23ValueFactoryWrapper.fixAbsoluteURI(document.getBaseURI()));
+                baseURI = new java.net.URI(RDFUtility.fixAbsoluteURI(document.getBaseURI()));
             } catch (IllegalArgumentException ex) {
                 throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
             } catch (URISyntaxException ex) {

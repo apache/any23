@@ -76,25 +76,11 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     }
 
     protected URI fixLink(String link) {
-        return fixLink(link, null);
+        return valueFactory.fixLink(link, null);
     }
 
-    /**
-     * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
-     * TODO #3 - Move this to the same class as fixURI().
-     */
     protected URI fixLink(String link, String defaultSchema) {
-        if (link == null) return null;
-        link = fixWhiteSpace(link);
-        if ("".equals(link)) return null;
-        if (defaultSchema != null && !link.startsWith(defaultSchema + ":")) {
-            link = defaultSchema + ":" + link;
-        }
-        return valueFactory.fixURI(link);
-    }
-
-    protected String fixWhiteSpace(String name) {
-        return name.replaceAll("\\s+", " ").trim();
+        return valueFactory.fixLink(link, defaultSchema);
     }
 
     /**

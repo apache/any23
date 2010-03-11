@@ -22,6 +22,7 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
+import org.deri.any23.rdf.RDFUtility;
 import org.deri.any23.vocab.ICAL;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
@@ -163,7 +164,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
                 conditionallyAddStringProperty(
                         evt,
                         ICAL.getProperty(date),
-                        Any23ValueFactoryWrapper.getXSDDate(
+                        RDFUtility.getXSDDate(
                                 val,
                                 DATE_FORMAT
                         )

@@ -163,7 +163,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private boolean addTel(Resource card, String type, String value) {
-        URI tel = fixLink(value, "tel");
+        URI tel = super.fixLink(value, "tel");
         URI composed = VCARD.getProperty(type + "Tel");
         if (composed == null) {
             URI simple = VCARD.getProperty(type);
