@@ -36,7 +36,6 @@ import java.util.Arrays;
  * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a>
  * microformat.
  * <p/>
- * TODO: #9 - For license links that are not valid URIs: report an issue on ExtractionResult (issue reporting will come).
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak
@@ -57,7 +56,15 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
         HTMLDocument document = new HTMLDocument(in);
         for (Node node : DomUtils.findAll(in, "//A[@rel='license']/@href")) {
             String link = node.getNodeValue();
-            if ("".equals(link)) continue;
+            if ("".equals(link)) {
+                out.notifyError(
+                        ExtractionResult.ErrorLevel.WARN,
+                        String.format("Invalid license link detected within document %s.", documentURI.toString()), 
+                        0,
+                        0
+                );
+                continue;
+            }
             out.writeTriple(documentURI, XHTML.license, document.resolveURI(link));
         }
     }
