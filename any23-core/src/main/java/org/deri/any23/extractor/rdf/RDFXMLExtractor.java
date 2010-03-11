@@ -53,26 +53,36 @@ public class RDFXMLExtractor implements ContentExtractor {
                     RDFXMLExtractor.class
             );
 
-    private boolean stopAtFirstError = true;
+    private boolean verifyDataType;
 
-    public void run(InputStream in, URI documentURI, ExtractionResult out)
-            throws IOException, ExtractionException {
-        try {
-            RDFParser parser = new RDFXMLParser();
-            parser.setValueFactory(new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()));
-            parser.setDatatypeHandling(DatatypeHandling.VERIFY);
-            parser.setStopAtFirstError(stopAtFirstError);
-            parser.setRDFHandler(new RDFHandlerAdapter(out));
-            parser.parse(in, documentURI.stringValue());
-        } catch (RDFHandlerException ex) {
-            throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);
-        } catch (RDFParseException ex) {
-            throw new ExtractionException(ex);
-        }
+    private boolean stopAtFirstError;
+
+    /**
+     * Constructor, allows to specify the validation and error handling policies.
+     *
+     * @param verifyDataType if <code>true</code> the data types will be verified,
+     *         if <code>false</code> will be ignored.
+     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
+     *        if <code>false</code> will ignore non blocking errors.
+     */
+    public RDFXMLExtractor(boolean verifyDataType, boolean stopAtFirstError) {
+        this.verifyDataType   = verifyDataType;
+        this.stopAtFirstError = stopAtFirstError;
     }
 
-    public ExtractorDescription getDescription() {
-        return factory;
+    /**
+     * Default constructor, with no verification of data types and not stop at first error.
+     */
+    public RDFXMLExtractor() {
+        this(false, false);
+    }
+
+    public boolean isVerifyDataType() {
+        return verifyDataType;
+    }
+
+    public boolean isStopAtFirstError() {
+        return stopAtFirstError;
     }
 
     public void setStopAtFirstError(boolean f) {
@@ -81,6 +91,26 @@ public class RDFXMLExtractor implements ContentExtractor {
 
     public boolean getStopAtFirstError() {
         return stopAtFirstError;
+    }
+
+    public void run(InputStream in, URI documentURI, ExtractionResult out)
+            throws IOException, ExtractionException {
+        try {
+            RDFParser parser = new RDFXMLParser();
+            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()) );
+            parser.setDatatypeHandling( verifyDataType ? DatatypeHandling.VERIFY : DatatypeHandling.IGNORE);
+            parser.setStopAtFirstError(stopAtFirstError);
+            parser.setRDFHandler(new RDFHandlerAdapter(out));
+            parser.parse(in, documentURI.stringValue());
+        } catch (RDFHandlerException ex) {
+            throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
+        } catch (RDFParseException ex) {
+            throw new ExtractionException(ex);
+        }
+    }
+
+    public ExtractorDescription getDescription() {
+        return factory;
     }
 
 }
