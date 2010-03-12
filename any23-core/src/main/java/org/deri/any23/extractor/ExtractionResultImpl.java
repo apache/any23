@@ -31,7 +31,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-// TODO: #6 - Comments are out of date
 /**
  * <p/>
  * A default implementation of {@link ExtractionResult}; it receives
@@ -47,15 +46,10 @@ import java.util.Set;
  * of the ExtractionWriter interface.
  * <p/>
  *
+ * @see org.deri.any23.writer.TripleHandler
+ * @see org.deri.any23.extractor.ExtractionContext
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
- */
-
-/* TODO: #6 - Implementation doesn't ensure that openContext() is reported
- * to the tripleHandler for the document context. It's only reported
- * if the extractor actually requests the document context. That might
- * be bad, because the TripleHandler might want to know exactly which
- * extractors have been run on which files, for reporting purposes.
  */
 public class ExtractionResultImpl implements ExtractionResult {
 
@@ -135,7 +129,7 @@ public class ExtractionResultImpl implements ExtractionResult {
 
     public void writeTriple(Resource s, URI p, Value o) {
         if (s == null || p == null || o == null) return;
-        // Check for malconstructed literals or BNodes, Sesame does not catch this
+        // Check for mal-constructed literals or BNodes, Sesame does not catch this.
         if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) return;
         checkOpen();
         tripleHandler.receiveTriple(s, p, o, context);
