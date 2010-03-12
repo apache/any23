@@ -646,8 +646,10 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
     public void testPhotoLogo() throws RepositoryException {
 		assertExtracts("microformats/hcard/13-photo-logo.html");
 		assertDefaultVCard();
-		assertContains(VCARD.photo, RDFHelper.uri(("http://example.org/picture.png")));
-		assertContains(VCARD.logo , RDFHelper.uri(("http://example.org/picture.png")));
+		assertContains(VCARD.photo, RDFHelper.uri(("http://example.org/picture1.png")));
+		assertContains(VCARD.photo, RDFHelper.uri(("http://example.org/picture2.png")));
+		assertContains(VCARD.logo , RDFHelper.uri(("http://example.org/picture1.png")));
+		assertContains(VCARD.logo , RDFHelper.uri(("http://example.org/picture2.png")));
 		assertJohn();
 	}
 
