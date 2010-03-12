@@ -61,13 +61,52 @@ public class TurtleExtractor implements ContentExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(TurtleExtractor.class);
 
-    private boolean stopAtFirstError = true;
+    private boolean verifyDataType;
+    private boolean stopAtFirstError;
+
+    /**
+     * Constructor, allows to specify the validation and error handling policies.
+     *
+     * @param verifyDataType   if <code>true</code> the data types will be verified,
+     *                         if <code>false</code> will be ignored.
+     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
+     *                         if <code>false</code> will ignore non blocking errors.
+     */
+    public TurtleExtractor(boolean verifyDataType, boolean stopAtFirstError) {
+        this.verifyDataType = verifyDataType;
+        this.stopAtFirstError = stopAtFirstError;
+    }
+
+    /**
+     * Default constructor, with no verification of data types and no stop at first error.
+     */
+    public TurtleExtractor() {
+        this(false, false);
+    }
+
+    public void setStopAtFirstError(boolean f) {
+        stopAtFirstError = f;
+    }
+
+    public boolean getStopAtFirstError() {
+        return stopAtFirstError;
+    }
+
+    public boolean isVerifyDataType() {
+        return verifyDataType;
+    }
+
+    public void setVerifyDataType(boolean verifyDataType) {
+        this.verifyDataType = verifyDataType;
+    }
 
     public void run(InputStream in, URI documentURI, final ExtractionResult out)
     throws IOException, ExtractionException {
         try {
             TurtleParser parser = new TurtleParser();
-            parser.setDatatypeHandling( RDFParser.DatatypeHandling.VERIFY );
+            parser.setDatatypeHandling(
+                    verifyDataType ? RDFParser.DatatypeHandling.VERIFY  : RDFParser.DatatypeHandling.IGNORE
+            );
             parser.setStopAtFirstError(stopAtFirstError);
             parser.setParseErrorListener( new ParseErrorListener() {
                 public void warning(String msg, int lineNo, int colNo) {
@@ -109,14 +148,6 @@ public class TurtleExtractor implements ContentExtractor {
 
     public ExtractorDescription getDescription() {
         return factory;
-    }
-
-    public void setStopAtFirstError(boolean f) {
-        stopAtFirstError = f;
-    }
-
-    public boolean getStopAtFirstError() {
-        return stopAtFirstError;
     }
 
 }

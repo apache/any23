@@ -49,13 +49,51 @@ public class NTriplesExtractor implements ContentExtractor {
                     NTriplesExtractor.class
             );
 
-    private boolean stopAtFirstError = true;
+
+    private boolean verifyDataType;
+    private boolean stopAtFirstError;
+
+    /**
+     * Constructor, allows to specify the validation and error handling policies.
+     *
+     * @param verifyDataType if <code>true</code> the data types will be verified,
+     *         if <code>false</code> will be ignored.
+     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
+     *        if <code>false</code> will ignore non blocking errors.
+     */
+    public NTriplesExtractor(boolean verifyDataType, boolean stopAtFirstError) {
+        this.verifyDataType = verifyDataType;
+        this.stopAtFirstError = stopAtFirstError;
+    }
+
+    /**
+     * Default constructor, with no verification of data types and no stop at first error.
+     */    
+    public NTriplesExtractor() {
+        this(false, false);
+    }
+    
+    public void setStopAtFirstError(boolean f) {
+        stopAtFirstError = f;
+    }
+
+    public boolean getStopAtFirstError() {
+        return stopAtFirstError;
+    }
+
+    public boolean isVerifyDataType() {
+        return verifyDataType;
+    }
+
+    public void setVerifyDataType(boolean verifyDataType) {
+        this.verifyDataType = verifyDataType;
+    }
 
     public void run(InputStream in, URI documentURI, final ExtractionResult out)
             throws IOException, ExtractionException {
         try {
             RDFParser parser = new NTriplesParser();
-            parser.setDatatypeHandling(DatatypeHandling.VERIFY);
+            parser.setDatatypeHandling( verifyDataType ? DatatypeHandling.VERIFY : DatatypeHandling.IGNORE);
             parser.setStopAtFirstError(stopAtFirstError);
             parser.setRDFHandler(new RDFHandlerAdapter(out));
             parser.parse(in, documentURI.stringValue());
@@ -68,14 +106,6 @@ public class NTriplesExtractor implements ContentExtractor {
 
     public ExtractorDescription getDescription() {
         return factory;
-    }
-
-    public void setStopAtFirstError(boolean f) {
-        stopAtFirstError = f;
-    }
-
-    public boolean getStopAtFirstError() {
-        return stopAtFirstError;
     }
 
 }

@@ -54,7 +54,6 @@ public class RDFXMLExtractor implements ContentExtractor {
             );
 
     private boolean verifyDataType;
-
     private boolean stopAtFirstError;
 
     /**
