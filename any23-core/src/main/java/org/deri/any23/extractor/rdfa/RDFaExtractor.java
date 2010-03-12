@@ -49,7 +49,7 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
     public final static String NAME = "html-rdfa";
 
-    private final static String xsltFilename = "rdfa.xslt";
+    public final static String xsltFilename = "rdfa.xslt";
 
     public final static ExtractorFactory<RDFaExtractor> factory =
             SimpleExtractorFactory.create(
@@ -61,6 +61,46 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
             );
 
     private static XSLTStylesheet xslt = null;
+
+    private boolean verifyDataType;
+
+    private boolean stopAtFirstError;
+
+    /**
+     * Constructor, allows to specify the validation and error handling policies.
+     *
+     * @param verifyDataType if <code>true</code> the data types will be verified,
+     *         if <code>false</code> will be ignored.
+     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
+     *        if <code>false</code> will ignore non blocking errors.
+     */
+    public RDFaExtractor(boolean verifyDataType, boolean stopAtFirstError) {
+        this.verifyDataType   = verifyDataType;
+        this.stopAtFirstError = stopAtFirstError;
+    }
+
+    /**
+     * Default constructor, with no verification of data types and not stop at first error.
+     */    
+    public RDFaExtractor() {
+        this(false, false);
+    }
+
+    public boolean isVerifyDataType() {
+        return verifyDataType;
+    }
+
+    public void setVerifyDataType(boolean verifyDataType) {
+        this.verifyDataType = verifyDataType;
+    }
+
+    public boolean isStopAtFirstError() {
+        return stopAtFirstError;
+    }
+
+    public void setStopAtFirstError(boolean stopAtFirstError) {
+        this.stopAtFirstError = stopAtFirstError;
+    }
 
     /**
      * Triggers the execution of this extractor.
@@ -79,6 +119,10 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
         try {
             RDFParser parser = new RDFXMLParser();
+            parser.setDatatypeHandling(
+                    verifyDataType ? RDFParser.DatatypeHandling.VERIFY : RDFParser.DatatypeHandling.IGNORE
+            );
+            parser.setStopAtFirstError(stopAtFirstError);
             parser.setRDFHandler(new RDFHandlerAdapter(out));
             parser.parse(
                     new StringReader(buffer.getBuffer().toString()),

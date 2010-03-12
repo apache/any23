@@ -24,8 +24,7 @@ import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.repository.RepositoryException;
 
 /**
- * Reference Test Class for {@link org.deri.any23.extractor.rdfa.RDFaExtractor}
- * 
+ * Reference Test Class for {@link org.deri.any23.extractor.rdfa.RDFaExtractor}.
  */
 public class RDFaExtractorTest extends AbstractMicroformatTestCase {
 
@@ -40,4 +39,13 @@ public class RDFaExtractorTest extends AbstractMicroformatTestCase {
         assertContains(DCTERMS.creator, "Alice");
         assertContains(DCTERMS.title, "The trouble with Bob");
     }
+
+    /**
+     * Tests that the default parser settings enable tolerance in data type parsing.
+     */
+    @Test
+    public void testTolerantParsing() {
+        assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
+    }
+
 }

@@ -1,0 +1,1425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<!-- Original source: http://oreilly.com/catalog/9780596006549 -->        
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+        xmlns:frbr="http://vocab.org/frbr/core#"
+        xmlns:dc="http://purl.org/dc/terms/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+        xmlns:foaf="http://xmlns.com/foaf/0.1/">
+    <head>
+
+
+
+        <title>
+AspectJ Cookbook
+           - O'Reilly Media
+
+</title>
+
+    <link rel="canonical" href="http://oreilly.com/catalog/9780596006549" />
+
+    <meta name="book_title" content="AspectJ Cookbook" />
+    <meta name="author" content="Russell Miles" />
+    <meta name="publisher" content="O'Reilly Media" />
+    <meta name="graphic_large" content="http://covers.oreilly.com/images/9780596006549/cat.gif" />
+    <meta name="graphic_medium" content="http://covers.oreilly.com/images/9780596006549/bkt.gif" />
+    <meta name="graphic" content="http://covers.oreilly.com/images/9780596006549/sm.gif" />
+    <meta name="target" content="AspectJ Cookbook, 0596006543, 0-596-00654-3, 9780596006549, 978-0-596-00654-9" />
+    <meta name="keywords" content="AspectJ Cookbook, Aspect Oriented Programming, Aspects, Pointcuts, AOP, AspectJ, Java, 0-596-00654-3, 0596006543, 9780596006549, 978-0-596-00654-9, Russell Miles,oreilly, O'Reilly, o'reilly" />
+    <meta name="description" content="This hands-on book shows readers why and how common Java development problems can be solved by using new Aspect-oriented programming (AOP) techniques. With a wide variety of code recipes for solving day-to-day design and coding problems using AOP's u..." />
+    <meta name="date" content="Dec. 20, 2004" />
+    <meta name="search_date" content="2004-12-20" />
+    <meta name="ean" content="9780596006549" />
+    <meta name="Category" content="Books" />
+
+    <meta name="SubCategory" content="Format~Format~Publisher" />
+    <meta name="SubCategory_Value" content="Print~Safari Books Online~O'Reilly Media" />
+    <meta name="status" content="100" />
+
+
+    <!-- index of the current edition in  bookeditionsreference 1 based index -->
+    <meta name="edition" content="1"/>
+    <meta name="edition_full" content="First Edition"/>
+    <meta name="bookeditionsorder" content="First Edition"/>
+    <meta name="bookeditionsreference" content="9780596006549"/>
+
+    <meta name="book.tags" content="oreilly," />
+
+    <meta name="object.type" content="book" />
+    <meta name="book.title" content="AspectJ Cookbook" />
+    <meta name="book.author" content="Russell Miles" />
+    <meta name="book.isbn" content="9780596006549" />
+    <meta name="book.link" content="http://oreilly.com/catalog/9780596006549" />
+    <meta name="book.image" content="http://covers.oreilly.com/images/9780596006549/bkt.gif" />
+    <meta name="book.year" content="2004" />
+
+
+        <link href="/catalog/assets/catalog_page.css?2" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/catalog/assets/jquery.lightbox-0.5.css" media="screen" rel="stylesheet" type="text/css" />
+
+
+    <script type="text/javascript">var _sf_startpt=(new Date()).getTime()</script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/catalog/assets/scripts/jquery.lightbox-0.5.pack.js" type="text/javascript"></script>
+    <script src="/catalog/assets/scripts/catalog.js" type="text/javascript"></script>
+    <script src="/catalog/assets/pwr/engine/js/full.js" type="text/javascript"></script>
+    <script src="/catalog/assets/scripts/power_reviews_setup.js" type="text/javascript"></script>
+
+    <script src="http://books.google.com/books?bibkeys=9780596006549&amp;jscmd=viewapi" type="text/javascript"></script>
+
+    </head>
+    <body>
+        <div id="page">
+
+    <div id="header-09">
+
+<ul class="accessibility-links">
+	<li><a href="#content" title="skip navigation" accesskey="s">Skip navigation</a></li>
+	<li><a href="#q" title="Skip to search" accesskey="4">Skip to search form</a></li>
+</ul>
+
+<div id="navbar">
+
+<ul id="nav">
+<li id="home"><a href="http://oreilly.com" accesskey="h">Home</a>
+<ul>
+<li><a href="http://oreilly.com/community/">Community</a></li>
+<li><a href="http://oreilly.com/events/">Events</a></li>
+<li><a href="http://oreilly.com/webcasts/">Webcasts</a></li>
+<li><a href="http://elists.oreilly.com/">Newsletters</a></li>
+</ul></li>
+
+<li class="selected"><a href="http://oreilly.com/store/index.html">Books &amp; Videos</a>
+<ul>
+<li><a href="http://oreilly.com/store/newreleases.html">New</a></li>
+<li><a href="http://oreilly.com/store/upcoming.html">Upcoming</a></li>
+<li><a href="http://oreilly.com/store/bestsellers.html">Bestselling</a></li>
+<li><a href="http://oreilly.com/store/complete.html">Complete List</a></li>
+<li><a href="http://oreilly.com/store/publisher.html">By Publisher</a></li>
+<li><a href="http://oreilly.com/roughcuts/">Rough Cuts</a></li>
+<li><a href="http://oreilly.com/ebooks/">Ebooks</a></li>
+<li><a href="http://oreilly.com/videos/">Videos</a></li>
+<li><a href="http://oreilly.com/store/order.html">Order Info</a></li>
+</ul>
+</li>
+
+<li><a href="http://answers.oreilly.com/">Answers</a></li>
+<li><a href="http://oreilly.com/archive.html">News &amp; Commentary</a>
+<ul>
+<li><a href="http://oreilly.com/archive.html">Most Recent</a></li>
+<li><a href="http://oreilly.com/archiveaudio.html">Audio</a></li>
+<li><a href="http://oreilly.com/archivevideo.html">Video</a></li>
+<li><a href="http://oreilly.com/archivetags.html">Popular Tags</a></li>
+</ul></li>
+
+<li><a href="http://safari.oreilly.com/?cid=orm-nav-global">Safari Books Online</a>
+<ul>
+<li><a href="http://my.safaribooksonline.com/home?cid=orm-nav-global&amp;portal=oreilly">Safari Home</a></li>
+<li><a href="http://my.safaribooksonline.com/subscribe?cid=orm-nav-global&amp;portal=oreilly">Subscribe</a></li>
+<li><a href="http://my.safaribooksonline.com/trial?cid=orm-nav-global&amp;portal=oreilly">Free Trial</a></li>
+<li><a href="http://my.safaribooksonline.com/books?cid=orm-nav-global&amp;portal=oreilly">Books</a></li>
+<li><a href="http://my.safaribooksonline.com/video?cid=orm-nav-global&amp;portal=oreilly">Videos</a></li>
+</ul>
+</li>
+
+<li><a href="http://conferences.oreilly.com/">Conferences</a></li>
+
+<li><a href="http://training.oreilly.com/">Training</a>
+</li>
+<li><a href="http://www.oreillyschool.com/">School of Technology</a>
+<ul>
+<li><a href="https://oreillyschool.com/enroll/">Enroll</a></li>
+<li><a href="https://oreillyschool.com/career/">Your Career</a></li>
+<li><a href="https://oreillyschool.com/why/">Why OST</a></li>
+<li><a href="https://oreillyschool.com/courses/">Courses&nbsp;&amp;&nbsp;Certificates</a></li>
+<li><a href="https://oreillyschool.com/contact.php">Contact</a></li>
+<li><a href="https://oreillyschool.com/student/">Student Sign In</a></li>
+</ul></li>
+</ul>
+
+<ul id="account-actions">
+<li><a href="https://members.oreilly.com/" class="acct">My Account</a></li>
+<li><a href="https://epoch.oreilly.com/shop/cart.orm" class="cart">View Cart</a></li>
+</ul>
+</div>
+
+<div id="header">
+
+<h1><a href="http://oreilly.com/store/index.html">O'Reilly Books &amp; Videos</a></h1>
+<div id="tagline">Buy Direct and Save</div>
+
+	<div id="search-box" class="yui-skin-sam">
+
+		<form method="get" action="http://search.oreilly.com" id="search-form" name="searchform">
+
+			<fieldset>
+				<span id="search-input">
+					<span id="search-field"><input style="//height: 18px;" id="q" name="q" type="text" maxlength="64" accesskey="s" value="" /></span>
+					<span id="search-button">
+					<input class="button" type="submit" value="SEARCH" onclick="return searchverif();" />
+					</span>
+				</span>
+				<span class="clear"></span>
+				<div id="autocomplete"></div>
+			</fieldset>
+		</form>
+	</div>
+
+</div>
+
+<div id="subnav">
+<ul>
+<li><a href="http://oreilly.com/store/newreleases.html">New</a></li>
+<li><a href="http://oreilly.com/store/upcoming.html">Upcoming</a></li>
+<li><a href="http://oreilly.com/store/bestsellers.html">Bestselling</a></li>
+<li><a href="http://oreilly.com/store/complete.html">Complete List</a></li>
+<li><a href="http://oreilly.com/store/publisher.html">By Publisher</a></li>
+<li><a href="http://oreilly.com/roughcuts/">Rough Cuts</a></li>
+<li><a href="http://oreilly.com/ebooks/">Ebooks</a></li>
+<li><a href="http://oreilly.com/videos/">Videos</a></li>
+<li><a href="http://oreilly.com/store/order.html">Order Info</a></li>
+</ul>
+<div class="right">1-800-998-9938 / 707-827-7000 / <a href="mailto:accounts@oreilly.com">accounts@oreilly.com</a></div>
+
+</div>
+
+</div><!-- /#header-09 -->
+
+
+            <div id="content">
+
+
+
+
+
+
+
+
+<div id="content_store_rt">
+
+
+    <div id="actions">
+        <div class="buybuttonswidget">
+
+    <div class="oreilly_buy_buttons" xmlns:gr="http://purl.org/goodrelations/v1#">
+	<div class="header">Buying Options</div>
+	<div class="product_title">AspectJ Cookbook</div>
+	<div class="button_set">
+
+
+    <div class="shopping_cart_button_line" typeof="gr:Offering" about="https://epoch.oreilly.com/shop/cart.orm?prod=9780596006549.BOOK">
+    <div class="product_price">
+        <span rel="gr:includesObject">
+            <span typeof="gr:TypeAndQuantityNode">
+            <span property="gr:amountOfThisGood" content="1" datatype="xsd:float"/>
+            <span rel="gr:typeOfGood" resource="urn:x-domain:oreilly.com:product:9780596006549.BOOK"/>
+            </span>
+        </span>
+        <span class="product_type_label" property="rdfs:label">        Print</span>
+        <span rel="gr:hasPriceSpecification">
+        <span class="price" typeof="gr:UnitPriceSpecification"><span property="gr:hasCurrency" content="USD">$</span><span property="gr:hasCurrencyValue" datatype="xsd:float">44.95</span></span>
+        </span>
+
+
+    </div>
+    <a class="product_buy_link" href="https://epoch.oreilly.com/shop/cart.orm?prod=9780596006549.BOOK">
+        <img src="http://oreilly.com/catalog/assets/images/btn_add_to_cart.gif" alt="Add to Cart" />
+    </a>
+    </div>
+
+
+
+
+    <div class="outer_greenbox">
+    <div class="inner_greenbox">
+
+    <div class="shopping_cart_button_line" typeof="gr:Offering" about="http://my.safaribooksonline.com/0596006543">
+    <div class="product_price">
+        <span rel="gr:includesObject">
+            <span typeof="gr:TypeAndQuantityNode">
+            <span property="gr:amountOfThisGood" content="1" datatype="xsd:float"/>
+            <span rel="gr:typeOfGood" resource="urn:x-domain:oreilly.com:product:0596006543.SAF"/>
+            </span>
+        </span>
+        <span class="product_type_label" property="rdfs:label">        Safari Books Online</span>
+
+
+    </div>
+    <a class="product_buy_link" href="http://my.safaribooksonline.com/0596006543?portal=oreilly&amp;cid=orm-cat-readnow-0596006543">
+        <img src="http://oreilly.com/catalog/assets/images/btn_safari_book.gif" alt="Add to Cart" />
+    </a>
+    </div>
+
+
+    <a class="whatisthis" href="http://oreilly.com/store/gogreen.html" target="popup" onclick="javascript:window.open('http://oreilly.com/store/gogreen.html', 'popup','width=315, height=830');">What is this?</a>
+    </div>
+    </div>
+
+
+    <div class="shopping_cart_button_line" typeof="gr:Offering" about="http://customer.wileyeurope.com/CGI-BIN/lansaweb?procfun+shopcart+shcfn01+funcparms+parmisbn(a0130):9780596006549+parmqty(p0050):1+parmurl(l0560):http://oreilly.com/store/">
+    <div class="product_price">
+        <span rel="gr:includesObject">
+            <span typeof="gr:TypeAndQuantityNode">
+            <span property="gr:amountOfThisGood" content="1" datatype="xsd:float"/>
+            <span rel="gr:typeOfGood" resource="urn:x-domain:oreilly.com:product:9780596006549.BOOK"/>
+            </span>
+        </span>
+        <span class="product_type_label" property="rdfs:label">        Print</span>
+        <span rel="gr:hasPriceSpecification">
+        <span class="price" typeof="gr:UnitPriceSpecification"><span property="gr:hasCurrency" content="GBP">£</span><span property="gr:hasCurrencyValue" datatype="xsd:float">34.50</span></span>
+        </span>
+
+
+    </div>
+    <a class="product_buy_link" href="http://customer.wileyeurope.com/CGI-BIN/lansaweb?procfun+shopcart+shcfn01+funcparms+parmisbn(a0130):9780596006549+parmqty(p0050):1+parmurl(l0560):http://oreilly.com/store/">
+        <img src="http://oreilly.com/catalog/assets/images/btn_add_to_uk_cart.gif" alt="Add to Cart" />
+    </a>
+    </div>
+        <a class="whatisthis" href="http://oreilly.com/store/ukcart.html" target="popup" onclick="javascript:window.open('http://oreilly.com/store/ukcart.html', 'popup','width=300, height=270');">What is this?</a>
+
+
+
+	</div><!--end button_set class-->
+    </div><!--end oreilly_buy_buttons -->
+</div><!-- end buybuttonswidget id-->
+    </div>
+
+
+
+
+
+
+
+    <div class="product-metadata" about="urn:x-domain:oreilly.com:product:9780596006549.IP">
+
+        <h1 id="title" property="dc:title">AspectJ Cookbook</h1>
+
+            <h2 class='subtitle'>Aspect Oriented Solutions to Real-World Problems</h2>
+        <dl>
+            <dt>By</dt> <dd><span rel="dc:creator"><span><a about="urn:x-domain:oreilly.com:agent:pdb:1022" class="authorname" href="http://www.oreillynet.com/pub/au/1725" property="foaf:name" rel="foaf:homepage" typeof="foaf:Person">Russell Miles</a></span></span></dd>
+            <dt>Publisher:</dt> <dd id="publishers" property="dc:publisher">O'Reilly Media</dd>
+            <dt>Released:</dt>
+            <dd>
+    <span class="date" datatype="xsd:dateTime" content="2004-12-20" property="dc:issued">
+    December 2004
+    </span>
+</dd>
+
+                <dt>Pages:</dt> <dd  about="urn:x-domain:oreilly.com:product:9780596006549.BOOK" property="dc:extent">
+                    360
+                </dd>
+
+        </dl>
+
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        POWERREVIEWS.display.snippet(document, {
+        pr_page_id : '9780596006549',
+        pr_write_review : '/catalog/9780596006549/write_review',
+        pr_read_review : 'http://oreilly.com/catalog/9780596006549#reviews'
+        });
+        /* ]]> */
+    </script>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <ul id="offers">
+        <li id="b2g1f"><a href="http://oreilly.com/oreilly/cs/b2g1f.html"><span>Buy 2 Get 1 Free</span></a></li>
+        <li id="freeshipping"><a href="http://oreilly.com/news/freeshipping_0703.html"><span>Free Shipping</span></a></li>
+        <li id="guarantee"><a href="http://oreilly.com/oreilly/cs/guarantee.html"><span>100% Satisfaction Guarantee</span></a></li>
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="page-toc">
+    </div>
+
+
+
+
+
+
+
+
+
+    <div id="description" class="page_toc_entry">
+        <div class="content-subtitle">Description</div>
+        <div id="short-description">
+            <div><p>This hands-on book shows readers why and how common Java development problems can be solved by using new Aspect-oriented programming (AOP) techniques. With a wide variety of code recipes for solving day-to-day design and coding problems using AOP's unique approach, <i>AspectJ Cookbook</i> demonstrates that AOP is more than just a concept; it's a development process that will benefit users in an immediate and visible manner. </p></div>
+            <a id="fulldescButton">Full Description</a>
+        </div>
+        <div id="fulldesc" style="display:none;">
+            <div><div><p>When Object Oriented programming (OO) first appeared, it was a revelation. OO gave developers the ability to create software that was more flexible and robust, but as time went on and applications became more sophisticated, too, certain areas of "traditional" OO architectures were found wanting. Aspect-oriented programming (AOP) addresses those issues by extending the OO approach even further.</p>
+<p>Many developers are interested in AOP--especially in AspectJ, the open source extension of the Java programming language that explicitly supports the AOP approach. Yet, although AspectJ is included with Eclipse, the increasingly popular open source IDE for Java, finding a practical and non-theoretical way to learn this language and other AOP tools and techniques has been a real problem.</p>
+<p>Until now. The <i>AspectJ Cookbook</i> offers a hands-on solution--in fact, several--with a wide variety of code recipes for solving day-to-day design and coding problems using AOP's unique approach. </p>
+<p>AOP allows the global properties of a program to determine how it's compiled into an executable program. Before AOP, important program design decisions were difficult to capture in actual code. Instead, the implementation of those design decisions--known as "aspects"--were scattered throughout, resulting in "tangled" code that was hard to develop and maintain. AOP has been compared to the manufacturing of cloth, in which threads are automatically interwoven. Without AOP, programmers must stitch the threads by hand.</p>
+<p>The <i>AspectJ Cookbook</i> shows readers why, and how, common Java development problems can be solved by using AOP techniques. With our popular problem-solution-discussion format, the book presents real world examples to demonstrate that AOP is more than just a concept; it's a development process that will benefit users in an immediate and visible manner.</p>
+<p>If you're interested in how AOP is changing the way software is developed, and how you can use AspectJ to make code more modular, easier to develop, maintain, evolve and deploy, this is the book that really delivers. </p></div></div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div id="toc" class="page_toc_entry">
+    <div class="content-subtitle">Table of Contents</div>
+    <div id="toc-content">
+   <ol id="chapters">
+      <li title="1" class="chapter">
+         <h3><span class="chapter-label">Chapter 1 </span>Aspect Orientation Overview
+         </h3>
+         <ol>
+            <li title="1.1" class="sect1">
+               <h4>A Brief History of Aspect Orientation</h4>
+            </li>
+            <li title="1.2" class="sect1">
+               <h4>AspectJ</h4>
+            </li>
+            <li title="1.3" class="sect1">
+               <h4>A Definition of Aspect Orientation</h4>
+            </li>
+            <li title="1.4" class="sect1">
+               <h4>Where to Go for More Information</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="2" class="chapter">
+         <h3><span class="chapter-label">Chapter 2 </span>Getting Started with AspectJ
+         </h3>
+         <ol>
+            <li title="2.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="2.2" class="sect1">
+               <h4>Installing AspectJ</h4>
+            </li>
+            <li title="2.3" class="sect1">
+               <h4>Developing a Simple Aspect</h4>
+            </li>
+            <li title="2.4" class="sect1">
+               <h4>Compiling an Aspect and Multiple Java Files</h4>
+            </li>
+            <li title="2.5" class="sect1">
+               <h4>Weaving Aspects into Jars</h4>
+            </li>
+            <li title="2.6" class="sect1">
+               <h4>Weaving Aspects at Load Time</h4>
+            </li>
+            <li title="2.7" class="sect1">
+               <h4>Generating Javadoc Documentation</h4>
+            </li>
+            <li title="2.8" class="sect1">
+               <h4>Compiling an AspectJ Project Using Eclipse</h4>
+            </li>
+            <li title="2.9" class="sect1">
+               <h4>Selecting the Aspects That Are Woven in a Build Within Eclipse</h4>
+            </li>
+            <li title="2.10" class="sect1">
+               <h4>Building an AspectJ Project Using Ant</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="3" class="chapter">
+         <h3><span class="chapter-label">Chapter 3 </span>Deploying AspectJ Applications
+         </h3>
+         <ol>
+            <li title="3.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="3.2" class="sect1">
+               <h4>Deploying a Command-Line AspectJ Application</h4>
+            </li>
+            <li title="3.3" class="sect1">
+               <h4>Deploying an AspectJ Application as a
+
+                  Fully Contained Executable JAR File
+               </h4>
+            </li>
+            <li title="3.4" class="sect1">
+               <h4>Deploying a Java Servlet That Uses AspectJ</h4>
+            </li>
+            <li title="3.5" class="sect1">
+               <h4>Deploying a JSP That Uses AspectJ</h4>
+            </li>
+            <li title="3.6" class="sect1">
+               <h4>Deploying an Axis Web Service That Uses AspectJ</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="4" class="chapter">
+         <h3><span class="chapter-label">Chapter 4 </span>Capturing Joing Points on Methods
+         </h3>
+         <ol>
+            <li title="4.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="4.2" class="sect1">
+               <h4>Capturing a Method Call</h4>
+            </li>
+            <li title="4.3" class="sect1">
+               <h4>Capturing the Parameter Values Passed on a Method Call</h4>
+            </li>
+            <li title="4.4" class="sect1">
+               <h4>Capturing the Target of a Method Call</h4>
+            </li>
+            <li title="4.5" class="sect1">
+               <h4>Capturing a Method When It Is Executing</h4>
+            </li>
+            <li title="4.6" class="sect1">
+               <h4>Capturing the Value of the this Reference When a Method Is Executing</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="5" class="chapter">
+         <h3><span class="chapter-label">Chapter 5 </span>Capturing Join Points on Exception Handling
+         </h3>
+         <ol>
+            <li title="5.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="5.2" class="sect1">
+               <h4>Capturing When an Exception Is Caught</h4>
+            </li>
+            <li title="5.3" class="sect1">
+               <h4>Capturing the Thrown Exception</h4>
+            </li>
+            <li title="5.4" class="sect1">
+               <h4>Capturing the Object Handling the
+                  Exception
+               </h4>
+            </li>
+         </ol>
+      </li>
+      <li title="6" class="chapter">
+         <h3><span class="chapter-label">Chapter 6 </span>Capturing Join Points on Advice
+         </h3>
+         <ol>
+            <li title="6.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="6.2" class="sect1">
+               <h4>Capturing When Advice Is Executing</h4>
+            </li>
+            <li title="6.3" class="sect1">
+               <h4>Excluding Join Points That Are a Result of
+                  Advice Execution
+               </h4>
+            </li>
+            <li title="6.4" class="sect1">
+               <h4>Exposing the Original Join Point When Advice Is Being Advised</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="7" class="chapter">
+         <h3><span class="chapter-label">Chapter 7 </span>Capturing Join Points on Class Object Construction
+         </h3>
+         <ol>
+            <li title="7.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="7.2" class="sect1">
+               <h4>Capturing a Call to a Constructor</h4>
+            </li>
+            <li title="7.3" class="sect1">
+               <h4>Capturing a Constructor When It Is Executing</h4>
+            </li>
+            <li title="7.4" class="sect1">
+               <h4>Capturing When an Object Is Initialized</h4>
+            </li>
+            <li title="7.5" class="sect1">
+               <h4>Capturing When an Object Is About to Be Initialized</h4>
+            </li>
+            <li title="7.6" class="sect1">
+               <h4>Capturing When a Class Is Initialized</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="8" class="chapter">
+         <h3><span class="chapter-label">Chapter 8 </span>Capturing Join Points on Attributes
+         </h3>
+         <ol>
+            <li title="8.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="8.2" class="sect1">
+               <h4>Capturing When an Object&#8217;s Attribute Is Accessed</h4>
+            </li>
+            <li title="8.3" class="sect1">
+               <h4>Capturing the Value of the Field Being Accessed</h4>
+            </li>
+            <li title="8.4" class="sect1">
+               <h4>Capturing When an Object&#8217;s Field Is Modified</h4>
+            </li>
+            <li title="8.5" class="sect1">
+               <h4>Capturing the Value of a Field When It Is Modified</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="9" class="chapter">
+         <h3><span class="chapter-label">Chapter 9 </span>Capturing Join Points Within Programmatic Scope
+         </h3>
+         <ol>
+            <li title="9.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="9.2" class="sect1">
+               <h4>Capturing All Join Points Within a Particular Class</h4>
+            </li>
+            <li title="9.3" class="sect1">
+               <h4>Capturing All Join Points Within a Particular Package</h4>
+            </li>
+            <li title="9.4" class="sect1">
+               <h4>Capturing All Join Points Within a Particular Method</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="10" class="chapter">
+         <h3><span class="chapter-label">Chapter 10 </span>Capturing Join Points Based on Control Flow
+         </h3>
+         <ol>
+            <li title="10.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="10.2" class="sect1">
+               <h4>Capturing All Join Points Within a Program&#8217;s Control Flow Initiated by an Initial Join Point</h4>
+            </li>
+            <li title="10.3" class="sect1">
+               <h4>Capturing All Join Points Within a Program&#8217;s Control Flow, Excluding the Initial Join Point</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="11" class="chapter">
+         <h3><span class="chapter-label">Chapter 11 </span>Capturing Join Points Based on Object Type
+         </h3>
+         <ol>
+            <li title="11.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="11.2" class="sect1">
+               <h4>Capturing When the this Reference Is a Specific Type</h4>
+            </li>
+            <li title="11.3" class="sect1">
+               <h4>Capturing When a Join Point&#8217;s Target Object Is a Specific Type</h4>
+            </li>
+            <li title="11.4" class="sect1">
+               <h4>Capturing When the Arguments to a Join Point Are a Certain Number, Type, and Ordering</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="12" class="chapter">
+         <h3><span class="chapter-label">Chapter 12 </span>Capturing Join Points Based on a Boolean or Combined Expression
+         </h3>
+         <ol>
+            <li title="12.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="12.2" class="sect1">
+               <h4>Capturing When a Runtime Condition Evaluates to True on a Join Point</h4>
+            </li>
+            <li title="12.3" class="sect1">
+               <h4>Combining Pointcuts Using a Logical AND (&amp;&amp;)</h4>
+            </li>
+            <li title="12.4" class="sect1">
+               <h4>Combining Pointcuts Using a Logical OR (||)</h4>
+            </li>
+            <li title="12.5" class="sect1">
+               <h4>Capturing All Join Points NOT Specified by a Pointcut Declaration</h4>
+            </li>
+            <li title="12.6" class="sect1">
+               <h4>Declaring Anonymous Pointcuts</h4>
+            </li>
+            <li title="12.7" class="sect1">
+               <h4>Reusing Pointcuts</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="13" class="chapter">
+         <h3><span class="chapter-label">Chapter 13 </span>Defining Advice
+         </h3>
+         <ol>
+            <li title="13.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="13.2" class="sect1">
+               <h4>Accessing Class Members</h4>
+            </li>
+            <li title="13.3" class="sect1">
+               <h4>Accessing the Join Point Context</h4>
+            </li>
+            <li title="13.4" class="sect1">
+               <h4>Executing Advice Before a Join Point</h4>
+            </li>
+            <li title="13.5" class="sect1">
+               <h4>Executing Advice Around a Join Point</h4>
+            </li>
+            <li title="13.6" class="sect1">
+               <h4>Executing Advice Unconditionally After a Join Point</h4>
+            </li>
+            <li title="13.7" class="sect1">
+               <h4>Executing Advice Only After a Normal Return from a Join Point</h4>
+            </li>
+            <li title="13.8" class="sect1">
+               <h4>Executing Advice Only After an Exception Has Been Raised in a Join Point</h4>
+            </li>
+            <li title="13.9" class="sect1">
+               <h4>Controlling Advice Precedence</h4>
+            </li>
+            <li title="13.10" class="sect1">
+               <h4>Advising Aspects</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="14" class="chapter">
+         <h3><span class="chapter-label">Chapter 14 </span>Defining Aspect Instantiation
+         </h3>
+         <ol>
+            <li title="14.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="14.2" class="sect1">
+               <h4>Defining Singleton Aspects</h4>
+            </li>
+            <li title="14.3" class="sect1">
+               <h4>Defining an Aspect per Instance</h4>
+            </li>
+            <li title="14.4" class="sect1">
+               <h4>Defining an Aspect per Control Flow</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="15" class="chapter">
+         <h3><span class="chapter-label">Chapter 15 </span>Defining Aspect Relationships
+         </h3>
+         <ol>
+            <li title="15.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="15.2" class="sect1">
+               <h4>Inheriting Pointcut Definitions</h4>
+            </li>
+            <li title="15.3" class="sect1">
+               <h4>Implementing Abstract Pointcuts</h4>
+            </li>
+            <li title="15.4" class="sect1">
+               <h4>Inheriting Classes into Aspects</h4>
+            </li>
+            <li title="15.5" class="sect1">
+               <h4>Declaring Aspects Inside Classes</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="16" class="chapter">
+         <h3><span class="chapter-label">Chapter 16 </span>Enhancing Classes and the Compiler
+         </h3>
+         <ol>
+            <li title="16.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="16.2" class="sect1">
+               <h4>Extending an Existing Class</h4>
+            </li>
+            <li title="16.3" class="sect1">
+               <h4>Declaring Inheritance Between Classes</h4>
+            </li>
+            <li title="16.4" class="sect1">
+               <h4>Implementing Interfaces Using Aspects</h4>
+            </li>
+            <li title="16.5" class="sect1">
+               <h4>Declaring a Default Interface Implementation</h4>
+            </li>
+            <li title="16.6" class="sect1">
+               <h4>Softening Exceptions</h4>
+            </li>
+            <li title="16.7" class="sect1">
+               <h4>Extending Compilation</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="17" class="chapter">
+         <h3><span class="chapter-label">Chapter 17 </span>Implementing Creational Object-Oriented Design Patterns
+         </h3>
+         <ol>
+            <li title="17.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="17.2" class="sect1">
+               <h4>Implementing the Singleton Pattern</h4>
+            </li>
+            <li title="17.3" class="sect1">
+               <h4>Implementing the
+                  Prototype Pattern
+               </h4>
+            </li>
+            <li title="17.4" class="sect1">
+               <h4>Implementing the Abstract Factory Pattern</h4>
+            </li>
+            <li title="17.5" class="sect1">
+               <h4>Implementing the
+                  Factory Method Pattern
+               </h4>
+            </li>
+            <li title="17.6" class="sect1">
+               <h4>Implementing the
+                  Builder Pattern
+               </h4>
+            </li>
+         </ol>
+      </li>
+      <li title="18" class="chapter">
+         <h3><span class="chapter-label">Chapter 18 </span>Implementing Structural Object-Oriented Design Patterns
+         </h3>
+         <ol>
+            <li title="18.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="18.2" class="sect1">
+               <h4>Implementing the
+                  Composite Pattern
+               </h4>
+            </li>
+            <li title="18.3" class="sect1">
+               <h4>Implementing the
+                  Flyweight Pattern
+               </h4>
+            </li>
+            <li title="18.4" class="sect1">
+               <h4>Implementing the
+                  Adapter Pattern
+               </h4>
+            </li>
+            <li title="18.5" class="sect1">
+               <h4>Implementing the Bridge
+                  Pattern
+               </h4>
+            </li>
+            <li title="18.6" class="sect1">
+               <h4>Implementing the
+                  Decorator Pattern
+               </h4>
+            </li>
+            <li title="18.7" class="sect1">
+               <h4>Implementing the Proxy Pattern</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="19" class="chapter">
+         <h3><span class="chapter-label">Chapter 19 </span>Implementing Behavioral Object-Oriented Design Patterns
+         </h3>
+         <ol>
+            <li title="19.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="19.2" class="sect1">
+               <h4>Implementing the
+                  Observer Pattern
+               </h4>
+            </li>
+            <li title="19.3" class="sect1">
+               <h4>Implementing the Command Pattern</h4>
+            </li>
+            <li title="19.4" class="sect1">
+               <h4>Implementing the Iterator Pattern</h4>
+            </li>
+            <li title="19.5" class="sect1">
+               <h4>Implementing the
+
+                  Mediator Pattern
+               </h4>
+            </li>
+            <li title="19.6" class="sect1">
+               <h4>Implementing the Chain of Responsibility Pattern</h4>
+            </li>
+            <li title="19.7" class="sect1">
+               <h4>Implementing the Memento Pattern</h4>
+            </li>
+            <li title="19.8" class="sect1">
+               <h4>Implementing the Strategy Pattern</h4>
+            </li>
+            <li title="19.9" class="sect1">
+               <h4>Implementing the Visitor
+                  Pattern
+               </h4>
+            </li>
+            <li title="19.10" class="sect1">
+               <h4>Implementing the Template Method Pattern</h4>
+            </li>
+            <li title="19.11" class="sect1">
+               <h4>Implementing the State
+
+                  Pattern
+               </h4>
+            </li>
+            <li title="19.12" class="sect1">
+               <h4>Implementing the
+
+                  Interpreter Pattern
+               </h4>
+            </li>
+         </ol>
+      </li>
+      <li title="20" class="chapter">
+         <h3><span class="chapter-label">Chapter 20 </span>Applying Class and Component Scale Aspects
+         </h3>
+         <ol>
+            <li title="20.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="20.2" class="sect1">
+               <h4>Validating
+
+                  Parameters Passed to a Method
+               </h4>
+            </li>
+            <li title="20.3" class="sect1">
+               <h4>Overriding the
+                  Class Instantiated on a Call to a Constructor
+               </h4>
+            </li>
+            <li title="20.4" class="sect1">
+               <h4>Adding Persistence to a Class</h4>
+            </li>
+            <li title="20.5" class="sect1">
+               <h4>Applying
+
+                  Mock Components to Support Unit Testing
+               </h4>
+            </li>
+         </ol>
+      </li>
+      <li title="21" class="chapter">
+         <h3><span class="chapter-label">Chapter 21 </span>Applying Application Scale Aspects
+         </h3>
+         <ol>
+            <li title="21.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="21.2" class="sect1">
+               <h4>Applying Aspect-Oriented Tracing</h4>
+            </li>
+            <li title="21.3" class="sect1">
+               <h4>Applying Aspect-Oriented Logging</h4>
+            </li>
+            <li title="21.4" class="sect1">
+               <h4>Applying Lazy Loading</h4>
+            </li>
+            <li title="21.5" class="sect1">
+               <h4>Managing Application
+                  Properties
+               </h4>
+            </li>
+         </ol>
+      </li>
+      <li title="22" class="chapter">
+         <h3><span class="chapter-label">Chapter 22 </span>Applying Enterprise Scale Aspects
+         </h3>
+         <ol>
+            <li title="22.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="22.2" class="sect1">
+               <h4>Applying Development Guidelines and Rules</h4>
+            </li>
+            <li title="22.3" class="sect1">
+               <h4>Applying Transactions</h4>
+            </li>
+            <li title="22.4" class="sect1">
+               <h4>Applying Resource Pooling</h4>
+            </li>
+            <li title="22.5" class="sect1">
+               <h4>Remoting a
+
+                  Class Transparently Using RMI
+               </h4>
+            </li>
+            <li title="22.6" class="sect1">
+               <h4>Applying a Security Policy</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="23" class="chapter">
+         <h3><span class="chapter-label">Chapter 23 </span>Applying Aspect-Oriented Design Patterns
+         </h3>
+         <ol>
+            <li title="23.1" class="sect1">
+               <h4>Introduction</h4>
+            </li>
+            <li title="23.2" class="sect1">
+               <h4>Applying the
+                  Cuckoo&#8217;s Egg Design Pattern
+               </h4>
+            </li>
+            <li title="23.3" class="sect1">
+               <h4>Applying the Director Design Pattern</h4>
+            </li>
+            <li title="23.4" class="sect1">
+               <h4>Applying the Border Control Design Pattern</h4>
+            </li>
+            <li title="23.5" class="sect1">
+               <h4>Applying the Policy Design Pattern</h4>
+            </li>
+         </ol>
+      </li>
+   </ol>
+   <ol id="appendixes">
+      <li title="" class="appendix">
+         <h3><span class="chapter-label">Appendix  </span>The AspectJ Runtime API
+         </h3>
+         <ol>
+            <li title="" class="sect1">
+               <h4>org.aspectj.lang</h4>
+            </li>
+            <li title="" class="sect1">
+               <h4>Signature</h4>
+            </li>
+            <li title="" class="sect1">
+               <h4>org.aspectj.lang.reflect</h4>
+            </li>
+            <li title="" class="sect1">
+               <h4>The SoftException Class</h4>
+            </li>
+            <li title="" class="sect1">
+               <h4>The NoAspectBoundException Class</h4>
+            </li>
+         </ol>
+      </li>
+      <li title="" class="colophon">
+         <h3>Colophon</h3>
+      </li>
+   </ol>
+</div>
+    <div class="full-toc-button"><!-- or close-toc-button & close_toc.png --><img alt="View Full Table of Contents" src="http://oreilly.com/images/oreilly/full_toc.png"/></div>
+    </div>
+
+
+
+
+
+
+
+    <div id="related-content" class="page_toc_entry">
+        <div class="content-subtitle" style="display: none;">Related Content</div>
+
+        <div id="related-items">
+
+        </div>
+
+
+        <div id="related-recommended">
+            <div class="content-subtitle">Customers interested in this item were also interested in:</div>
+    <div class="related-item">
+        <a href="http://oreilly.com/catalog/9780596514198?cmp=il-orm-caii-book-9780596006549"><img src="http://covers.oreilly.com/images/9780596514198/bkt.gif" alt="Cover of Java Pocket Guide" class="related-cover"/></a>
+        <div class="related-item-title"><a href="http://oreilly.com/catalog/9780596514198?cmp=il-orm-caii-book-9780596006549">Java Pocket Guide</a></div>
+            <div>Print: <span class="price">$14.99</span></div>
+            <div>Ebook: <span class="price">$11.99</span></div>
+    </div>
+    <div class="related-item">
+        <a href="http://oreilly.com/catalog/9780596803742?cmp=il-orm-caii-book-9780596006549"><img src="http://covers.oreilly.com/images/9780596803742/bkt.gif" alt="Cover of Java: The Good Parts" class="related-cover"/></a>
+        <div class="related-item-title"><a href="http://oreilly.com/catalog/9780596803742?cmp=il-orm-caii-book-9780596006549">Java: The Good Parts: Rough Cuts Version</a></div>
+            <div>Print: <span class="price">$29.99</span></div>
+            <div>Ebook: <span class="price">$23.99</span></div>
+    </div>
+    <div class="related-item">
+        <a href="http://oreilly.com/catalog/9780596510220?cmp=il-orm-caii-book-9780596006549"><img src="http://covers.oreilly.com/images/9780596510220/bkt.gif" alt="Cover of Google Web Toolkit for Ajax" class="related-cover"/></a>
+        <div class="related-item-title"><a href="http://oreilly.com/catalog/9780596510220?cmp=il-orm-caii-book-9780596006549">Google Web Toolkit for Ajax</a></div>
+            <div>Ebook: <span class="price">$9.99</span></div>
+    </div>
+    <div class="related-item">
+        <a href="http://oreilly.com/catalog/9780596521981?cmp=il-orm-caii-book-9780596006549"><img src="http://covers.oreilly.com/images/9780596521981/bkt.gif" alt="Cover of Hadoop: The Definitive Guide" class="related-cover"/></a>
+        <div class="related-item-title"><a href="http://oreilly.com/catalog/9780596521981?cmp=il-orm-caii-book-9780596006549">Hadoop: The Definitive Guide</a></div>
+            <div>Print: <span class="price">$44.99</span></div>
+            <div>Ebook: <span class="price">$35.99</span></div>
+    </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+        <div id="product-details" class="page_toc_entry"
+                typeof="frbr:Expression"
+                about="urn:x-domain:oreilly.com:product:9780596006549.IP">
+            <div class="content-subtitle">Product Details</div>
+                <dl>
+                <dt>Title:</dt> <dd><cite property="dc:title">AspectJ Cookbook</cite></dd>
+                    <dt>By:</dt> <dd><span rel="dc:creator"><span><a about="urn:x-domain:oreilly.com:agent:pdb:1022" class="authorname" href="http://www.oreillynet.com/pub/au/1725" property="foaf:name" rel="foaf:homepage" typeof="foaf:Person">Russell Miles</a></span></span></dd>
+                <dt>Publisher:</dt> <dd><span property="dc:publisher">O'Reilly Media</span></dd>                <dt>Formats:</dt>
+                <dd>
+                    <ul rel="frbr:embodiment">
+
+
+                    <li
+ typeof="frbr:Manifestation" about="urn:x-domain:oreilly.com:product:9780596006549.BOOK"><span rel="dc:type" resource="http://purl.oreilly.com/product-types/BOOK">Print</span></li>
+
+                    <li
+        class="last"
+ typeof="frbr:Manifestation" about="urn:x-domain:oreilly.com:product:0596006543.SAF"><span rel="dc:type" resource="http://purl.oreilly.com/product-types/SAF">Safari Books Online</span></li>
+                    </ul>
+                </dd>
+	   			<dt>Print Release:</dt>
+                        <dd about="urn:x-domain:oreilly.com:product:9780596006549.BOOK">
+
+    <span class="date" datatype="xsd:dateTime" content="2004-12-20" property="dc:issued">
+    December 2004
+    </span>
+</dd>
+
+                <dt>Pages:</dt> <dd  about="urn:x-domain:oreilly.com:product:9780596006549.BOOK" property="dc:extent">
+                    360
+                </dd>
+
+
+                <dt>Print ISBN:</dt><dd about="urn:x-domain:oreilly.com:product:9780596006549.BOOK" rel="dc:identifier" resource="urn:isbn:9780596006549" class="isbn">978-0-596-00654-9</dd>
+                <dt class="isbn-10"> | ISBN 10:</dt> <dd>0-596-00654-3</dd>
+            </dl>
+        </div>
+
+
+
+
+    <div id="reviews" class="page_toc_entry">
+    <div class="content-subtitle" id="rr">Customer Reviews</div>
+		<script type="text/javascript">
+			POWERREVIEWS.display.engine(document, {
+			pr_page_id : '9780596006549',
+            pr_write_review : '/catalog/9780596006549/write_review'
+		});
+		</script>
+	</div>
+
+
+
+
+
+
+
+    <!-- Forums go here -->
+
+
+    <div id="colophon" class="page_toc_entry">
+        <div class="content-subtitle">Colophon</div>
+        <div><p>Our look is the result of reader comments, our own experimentation, and feedback from distribution channels. Distinctive covers complement our distinctive approach to technical topics, breathing personality and life into potentially dry subjects. The animal on the cover of <i>AspectJ Cookbook</i> is a marmoset.Marmosets are small monkeys (usually no bigger than an oversized rat) that live in the tropical and subtropical forests of South America.They are arboreal and incredibly agile.Their powerful hind legs, dextrous claw-like hands, and extra-long tails make swinging from branch to branch a breeze.</p>
+<p>Marmosets are not too picky about what they eat.They are partial to tree sap (the stickier the better), but they also enjoy lizards, frogs, snails, insects, fruit, and nectar.</p>
+<p>A group of marmosets (a social group consists of 8-20 individuals) communicates with facial expressions, body movements, and occasional squeaks. They also rely heavily on smell to identify each other.A highly adaptable species, marmosets can endure blistering temperatures and sparse forest environments. Because of this tenacity, they are not under serious threat, unlike most other primates. Matt Hutchinson was the production editor for <i>AspectJ Cookbook</i>. GEX, Inc. provided production services.Marlowe Shaeffer, Sarah Sherman, and Emily Quill provided quality control.</p>
+<p>Emma Colby designed the cover of this book, based on a series design by Edie Freedman.The cover image is a 19th-century engraving from Illustrated Natural History. Clay Fernald produced the cover layout with QuarkXPress 4.1 using Adobe's ITC Garamond font.</p>
+<p>Melanie Wang designed the interior layout, based on a series design by David Futato. This book was converted by Julie Hawks to FrameMaker 5.5.6 with a format conversion tool created by Erik Ray, Jason McIntosh, Neil Walls, and Mike Sierra that uses Perl and XML technologies.The text font is Linotype Birka; the heading font is Adobe Myriad Condensed; and the code font is LucasFont's TheSans Mono Condensed.The illustrations that appear in the book were produced by Robert Romano, Jessamyn Read, and Lesley Borash using Macromedia FreeHand MX and Adobe Photoshop CS.The tip and warning icons were drawn by Christopher Bing. This colophon was written by Matt Hutchinson.</p></div>
+    </div>
+
+
+
+
+
+
+
+</div>
+
+<div id="content_store_lt">
+    <div id="cover-block">
+        <ul id="browsebook">
+            <li class="coverimage">
+                <div id="halo">
+                    <script type="text/javascript">
+                    /* <![CDATA[ */
+                    for(isbn in _GBSBookInfo) {
+                        var book = _GBSBookInfo[isbn];
+                        if (book.embeddable) {
+                            $("#halo").append("<a href='/catalog/9780596006549/preview'><img src='http://cdn.oreilly.com/images/oreilly/browse-contents-halo.png'></a>");
+                        }
+                    }
+                    /* ]]> */
+                    </script>
+                </div>
+
+    <a id="cover_link" href="http://oreilly.com/catalog/9780596006549">
+    <img alt="Book cover of AspectJ Cookbook" id="cover" src="http://covers.oreilly.com/images/9780596006549/cat.gif" width="180" />
+    </a>
+
+             </li>
+         </ul>
+
+
+        <div id="cover-link">
+            <a href="http://covers.oreilly.com/images/9780596006549/lrg.jpg" class="lightbox">See larger cover</a>
+        </div>
+
+    </div>
+
+
+		<div id="share-options">
+			<script type="text/javascript" src="http://w.sharethis.com/button/sharethis.js#publisher=16098316-763b-41fc-a31d-7bbadcfcf894&amp;type=website&amp;onmouseover=false&amp;embeds=true&amp;style=rotate&amp;send_services=email%2Caim%2Csms&amp;post_services=twitter%2Cfriendfeed%2Cfacebook%2Cdigg%2Cdelicious%2Creddit%2Cslashdot%2Cgoogle_bmarks%2Cblogger%2Ctypepad%2Cstumbleupon%2Cwordpress%2Cwindows_live%2Cnewsvine%2Clinkedin%2Cmyspace%2Ctechnorati"></script>
+		</div>
+
+    <div id="preview-link">
+        <script type="text/javascript">
+        /* <![CDATA[ */
+        for(isbn in _GBSBookInfo) {
+            var book = _GBSBookInfo[isbn];
+            if (book.embeddable) {
+                $("#preview-link").append("<a href='/catalog/9780596006549/preview#preview'><img src='http://books.google.com/intl/en/googlebooks/images/gbs_preview_button1.gif'></a>");
+                $("#cover_link").attr("href", '/catalog/9780596006549/preview#preview');
+            }
+        }
+        /* ]]> */
+        </script>
+    </div>
+    <hr />
+
+
+    <div id="related-links">
+    <ul>
+        <li><b><a href="http://www.aspectjcookbook.com">Examples</a></b></li>
+    <li><a href="http://register.oreilly.com/" class="register-link">Register Your Book</a></li>
+    <li><a class="errata-link" href="http://oreilly.com/catalog/errata.csp?isbn=9780596006549" rel="nofollow">View/Submit Errata</a></li>
+    <li><a class="errata-link" href="http://oreilly.com/catalog/praise.csp?isbn=9780596006549" rel="nofollow">Media Praise</a></li>
+
+
+    </ul>
+    </div>
+
+
+
+
+
+        <div id="gsfn_list_widget">
+            <div class="sidebar-title">Got a Question?</div>
+            <div class="sidebar-item-content">
+                <img alt="icons" src="http://oreilly.com/images/oreilly/satisfaction-icons.gif"/>
+                <div class="gsfn_content">
+                    <form onsubmit="gsfn_search(this); return false;" accept-charset="utf-8" method="get" action="http://getsatisfaction.com/oreilly" id="gsfn_search_form">
+                        <fieldset>
+                        <input type="hidden" value="" name="widget"/>
+                        <input type="hidden" value="3" name="limit"/>
+                        <input type="hidden" value="" name="style"/>
+                        <input type="hidden" value="gsfnResultsCallback" name="callback"/>
+                        <input type="hidden" name="format" value="widget" />
+                        <label class="gsfn_label" for="gsfn_search_query">
+                        Do you have a question about <strong>O'Reilly's products and services</strong>? Share an idea! Report a problem...</label>
+                        <input type="text" maxlength="120" id="gsfn_search_query" value="" name="query" size="16"/>
+                        <input type="submit" value="Continue" id="continue"/>
+                        </fieldset>
+                    </form>
+                    <div id="gsfn_search_results"></div>
+                    </div>
+                    <div class="powered_by"><a href="http://getsatisfaction.com/"><img src="http://www.getsatisfaction.com/favicon.gif" alt="Favicon"/></a> <a href="http://getsatisfaction.com/">Service and support by Satisfaction</a></div>
+            </div>
+        </div>
+
+</div>
+
+
+
+
+            </div>
+
+
+<div class="noindex" id="footer">
+				<table style="padding-top: 20px; padding-bottom: 20px; border: 0;">
+
+				<tbody>
+
+
+				<tr><td style="valign: top; align:left; width: 25%; padding-left: 20px; padding-right: 20px;">
+				<a href="http://oreilly.com/"><img width="155" height="35" alt="O'Reilly Media" src="http://cdn.oreilly.com/images/standard/oreilly-logo-footer.gif"/></a>
+				<br /><br />
+				&#169;2010, O'Reilly Media, Inc.<br/>(707) 827-7000 / (800) 998-9938<br/> All trademarks and registered trademarks appearing on oreilly.com are the property of their respective owners. </td>
+
+				<td class="footercol1" style="valign: top;">
+				<strong>About O'Reilly</strong>
+				<br/>
+
+				<a href="http://oreilly.com/academic/">Academic Solutions</a><br/>
+				<a href="http://oreilly.com/authors/">Authors</a>
+				<br/>
+				<a href="http://oreilly.com/contact.html">Contacts</a>
+				<br/>
+
+				<a href="http://oreilly.com/oreilly/cs/">Customer Service</a>
+
+				<br/>
+				<a href="http://oreilly.com/jobs/">Jobs</a>
+				<br/>
+				<a href="http://elists.oreilly.com/">Newsletters</a>
+				<br/>
+				<a href="http://labs.oreilly.com">O'Reilly Labs</a>
+				<br/>
+
+				<a href="http://press.oreilly.com/">Press Room</a>
+				<br/>
+				<a href="http://oreilly.com/oreilly/privacy.csp">Privacy Policy</a>
+				<br/>
+				<a href="http://oreilly.com/feeds/">RSS Feeds</a>
+				<br/>
+				<a href="http://oreilly.com/terms/">Terms of Service</a>
+
+				<br/>
+
+				<a href="http://ug.oreilly.com/">User Groups</a>
+				<br/>
+				<a href="http://oreilly.com/oreilly/author/intro.csp">Writing for
+				O'Reilly</a>
+				<br />
+
+				</td>
+
+				<td class="footercol2"  style="valign: top;" >
+				<strong>Content Archive</strong><br />
+				<a href="http://oreilly.com/content/business-technology.shtml">Business Technology</a> <br />
+				<a href="http://oreilly.com/content/computer-technology.shtml">Computer Technology</a> <br />
+
+				<a href="http://oreilly.com/content/google.shtml">Google</a> <br />
+				<a href="http://oreilly.com/content/microsoft.shtml">Microsoft</a> <br />
+				<a href="http://oreilly.com/content/mobile.shtml">Mobile</a> <br />
+				<a href="http://oreilly.com/content/network.shtml"> Network</a> <br />
+				<a href="http://oreilly.com/content/operating-system.shtml">Operating System</a> <br />
+				<a href="http://oreilly.com/content/digital-photography.shtml">Digital Photography</a> <br />
+
+				<a href="http://oreilly.com/content/programming.shtml">Programming</a> <br />
+				<a href="http://oreilly.com/content/software.shtml">Software</a> <br />
+				<a href="http://oreilly.com/content/web.shtml">Web</a>
+				<br />
+				<a href="http://oreilly.com/content/web-design.shtml">Web Design</a><br />
+
+				</td>
+
+				<td class="footercol3"  style="valign: top;" >
+
+				<strong>More O'Reilly Sites</strong>
+
+				<br/>
+				<a href="http://radar.oreilly.com/">O'Reilly Radar</a>
+				<br/>
+				<a href="http://ignite.oreilly.com/">Ignite</a>
+				<br/>
+				<a href="http://toc.oreilly.com/">Tools of Change for Publishing</a>
+
+				<br/>
+				<a href="http://digitalmedia.oreilly.com/">Digital Media</a>
+
+				<br/>
+				<a href="http://digitalmedia.oreilly.com/iphone/?CMP=ILC-orm_sponsor_footer_links&amp;ATT=iphone">Inside iPhone</a>
+				<br/>
+				<a href="http://makezine.com/">makezine.com</a>
+				<br/>
+				<a href="http://craftzine.com">craftzine.com</a>
+
+				<br/>
+				<a href="http://hackszine.com">hackszine.com</a>
+				<br/>
+				<a href="http://perl.com/">perl.com</a>
+
+				<br/>
+				<a href="http://xml.com/">xml.com</a>
+				<br/><br />
+				<strong>Partner Sites</strong>
+
+				<br/>
+
+				<a href="http://insideria.com/?CMP=ILC-orm_sponsor_footer_links&amp;ATT=ria">InsideRIA</a>
+				<br/>
+				<a href="http://java.net/?CMP=ILC-orm_sponsor_footer_links&amp;ATT=java">java.net</a>
+				<br/>
+				<a href="http://www.forbes.com/oreillyinsights/">O'Reilly Insights on Forbes.com</a><br />
+				</td>
+				</tr>
+				</tbody>
+				</table>
+
+</div>
+
+
+        </div>
+
+
+        <script type="text/javascript">
+    /* <![CDATA[ */
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    /* ]]> */
+    </script>
+    <script type="text/javascript">
+    /* <![CDATA[ */
+        var pageTracker = _gat._getTracker("UA-4591498-1");
+        pageTracker._trackPageview();
+    /* ]]> */
+    </script>
+
+    <script type="text/javascript">
+/* <![CDATA[ */
+// sets variable names for accounts to capture sc analytics.
+var s_account="ororeilly,orglobal";
+    /* ]]> */
+</script>
+
+
+
+    <script src="http://assets.oreilly.com/js/s_code.js" type="text/javascript"></script>
+    <script type="text/javascript">
+/* <![CDATA[ */
+s.pageName="oreilly:store:aspectj cookbook";
+s.channel="oreilly";
+s.pageType=""; // this gets populated if a 404 error message is returned - set to errorPage and set s.pagename to 404:<page URL> if possible - otherwise omit from tag
+s.prop1="oreilly:store";
+s.prop2="oreilly:store:catalog";
+s.prop3="oreilly:store:catalog:catalog";
+s.prop4="product detail";
+s.prop5="aspectj cookbook";
+s.prop6="9780596006549";
+s.hier1="oreilly,store,catalog,catalog";
+s.campaign="";
+s.events="prodView,event18";
+
+/************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+var s_code=s.t();if(s_code)document.write(s_code)//-->
+    /* ]]> */
+</script>
+
+
+    <script src="http://getsatisfaction.com/oreilly/widgets/javascripts/3dc69f29b6/widgets.js" type="text/javascript"></script>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/yui/2.6.0/build/utilities/utilities.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/yui/2.6.0/build/datasource/datasource-min.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/yui/2.6.0/build/autocomplete/autocomplete-min.js" type="text/javascript"></script>
+	<script src="http://content.atomz.com/sp1003bcf0/publish/autocomplete_data.js?sp_js_cache_ver=3" type="text/javascript"></script>
+
+
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
