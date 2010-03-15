@@ -78,7 +78,11 @@ public class DomUtils {
     }
 
     public static List<Node> findAllByTag(Node root, String tagName) {
-        return findAllByTagAndClassName(root, tagName, "");
+        List<Node> result = new ArrayList<Node>();
+        for (Node node : findAll(root, "./descendant-or-self::" + tagName)) {
+            result.add(node);
+        }
+        return result;
     }
 
     public static List<Node> findAllByTagAndClassName(Node root, String tagName, String className) {

@@ -19,36 +19,21 @@ package org.deri.any23.extractor.html;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import java.util.List;
 
 /**
- * Reference Test class for the {@link org.deri.any23.extractor.html.DomUtils} class.
+ * Reference test class for the {@link org.deri.any23.extractor.html.DomUtils} class.
+ * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class DomUtilsTest {
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
-
-    private void check(String file, String xpath, String reverseXPath) {
-        Node dom = new HTMLFixture(file).getDOM();
-        Assert.assertNotNull(dom);
-        Node node;
-        try {
-            node = (Node) xPathEngine.evaluate(xpath, dom, XPathConstants.NODE);
-            Assert.assertNotNull(node);
-            Assert.assertEquals(Node.ELEMENT_NODE, node.getNodeType());
-            String newPath = DomUtils.getXPathForNode(node);
-            Assert.assertEquals(reverseXPath, newPath);
-            Node newNode = (Node) xPathEngine.evaluate(newPath, dom, XPathConstants.NODE);
-            Assert.assertEquals(node, newNode);
-
-        } catch (XPathExpressionException ex) {
-            Assert.fail(ex.getMessage());
-        }
-    }
 
     @Test
     public void testGetXPathForNode() {
@@ -79,44 +64,113 @@ public class DomUtilsTest {
         );
     }
 
+    @Test
     public void testFindAllByClassName() {
-        // TODO #11 - to be implemented
+        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+        Assert.assertNotNull(dom);
+        List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");
+        NodeList nodeList = null;
+        try {
+            nodeList = (NodeList) xPathEngine.evaluate(
+                    "//*[contains(@class, 'vcard')]",
+                    dom,
+                    XPathConstants.NODESET
+            );
+        } catch (XPathExpressionException e) {
+            Assert.fail(e.getMessage());
+        }
+        Assert.assertNotNull(nodeList);
+        Assert.assertEquals("vcard elements number does not match", nodes.size(), nodeList.getLength());
+        for(int i=0; i<nodeList.getLength(); i++) {
+            Assert.assertTrue(nodes.contains(nodeList.item(i)));
+        }
     }
 
+    @Test
 	public void testFindAllByTag() {
-        // TODO #11 - to be implemented
-	}
+        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+        Assert.assertNotNull(dom);
+        List<Node> nodes = DomUtils.findAllByTag(dom, "SPAN");
+        NodeList nodeList = null;
+        try {
+            nodeList = (NodeList) xPathEngine.evaluate(
+                    "./descendant-or-self::SPAN",
+                    dom,
+                    XPathConstants.NODESET
+            );
+        } catch (XPathExpressionException e) {
+            Assert.fail(e.getMessage());
+        }
 
-	public void testFindAllByTagAndClassName() {
-        // TODO #11 - to be implemented
-	}
+        Assert.assertEquals("number of elements does not match", nodes.size(), nodeList.getLength());
 
-	public void testFindNodeById() {
-        // TODO #11 - to be implemented
-	}
-
-	public void testFindAll() {
-        // TODO #11 - to be implemented
-	}
-
-	public void testFind() {
-        // TODO #11 - to be implemented
-	}
-
-    public void testHasClassName() {
-        // TODO #11 - to be implemented
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Assert.assertTrue(nodes.contains(nodeList.item(i)));
+        }
     }
 
-	public void testHasAttribute() {
-        // TODO #11 - to be implemented
-	}
+    @Test
+    public void testFindAllByTagAndClassName() {
+        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+        Assert.assertNotNull(dom);
+        List<Node> nodes = DomUtils.findAllByTagAndClassName(dom, "SPAN", "family-name");
+        NodeList nodeList = null;
+        try {
+            nodeList = (NodeList) xPathEngine.evaluate(
+                    "./descendant-or-self::SPAN[contains(@class,'family-name')]",
+                    dom,
+                    XPathConstants.NODESET
+            );
+        } catch (XPathExpressionException e) {
+            Assert.fail(e.getMessage());
+        }
 
-	public void testIsElementNode() {
-        // TODO #11 - to be implemented
-	}
+        Assert.assertEquals("number of elements does not match", nodes.size(), nodeList.getLength());
 
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Assert.assertTrue(nodes.contains(nodeList.item(i)));
+        }
+
+    }
+
+    @Test
+    public void testHasClassName() {
+        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+        Assert.assertNotNull(dom);
+        List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");
+        for(Node node : nodes) {
+            Assert.assertTrue(DomUtils.hasClassName(node, "vcard"));
+        }
+    }
+
+    @Test
 	public void testReadAttribute() {
-        // TODO #11 - to be implemented
-	}
+        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+        Assert.assertNotNull(dom);
+        List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");
+        for(Node node : nodes) {
+            // every node in nodes should have a class attribute containing vcard.
+            Assert.assertTrue(DomUtils.readAttribute(node, "class").contains("vcard"));
+        }
+
+    }
+
+    private void check(String file, String xpath, String reverseXPath) {
+        Node dom = new HTMLFixture(file).getDOM();
+        Assert.assertNotNull(dom);
+        Node node;
+        try {
+            node = (Node) xPathEngine.evaluate(xpath, dom, XPathConstants.NODE);
+            Assert.assertNotNull(node);
+            Assert.assertEquals(Node.ELEMENT_NODE, node.getNodeType());
+            String newPath = DomUtils.getXPathForNode(node);
+            Assert.assertEquals(reverseXPath, newPath);
+            Node newNode = (Node) xPathEngine.evaluate(newPath, dom, XPathConstants.NODE);
+            Assert.assertEquals(node, newNode);
+
+        } catch (XPathExpressionException ex) {
+            Assert.fail(ex.getMessage());
+        }
+    }
 
 }
