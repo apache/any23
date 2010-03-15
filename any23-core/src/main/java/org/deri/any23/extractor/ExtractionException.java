@@ -27,10 +27,6 @@ public class ExtractionException extends Exception {
         super(message);
     }
 
-    public ExtractionException(Throwable cause) {
-        super(cause);
-    }
-
     public ExtractionException(String message, Throwable cause) {
         super(message, cause);
     }

@@ -244,7 +244,7 @@ public class Any23 {
             }
             throw new ExtractionException("Not a valid absolute URI: " + documentURI);
         } catch (URISyntaxException ex) {
-            throw new ExtractionException(ex);
+            throw new ExtractionException("Error while extracting data from document URI.", ex);
         }
     }
 

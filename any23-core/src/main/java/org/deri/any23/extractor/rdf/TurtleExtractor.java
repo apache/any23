@@ -142,7 +142,7 @@ public class TurtleExtractor implements ContentExtractor {
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);
         } catch (RDFParseException ex) {
-            throw new ExtractionException(ex);
+            throw new ExtractionException("Error while parsing RDF document.", ex);
         }
     }
 
