@@ -38,5 +38,11 @@ or check the project dependencies page:
 
    http://developers.any23.org/dependencies.html
 
+The scope of a library is declared in pom.xml, within the 
+
+   dependencies/dependency/scope
+
+node. If not declared is assumed to be <scope>compile</scope>.
+
 
 EOF
