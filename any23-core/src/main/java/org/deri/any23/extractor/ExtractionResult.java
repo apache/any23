@@ -59,6 +59,13 @@ public interface ExtractionResult {
     }
 
     /**
+     * Returns the extraction context associated to this extraction result.
+     *
+     * @return a valid extraction context.
+     */
+    ExtractionContext getExtractionContext();
+
+    /**
      * Write a triple.
      * Parameters can be null, then the triple will be silently ignored.
      *

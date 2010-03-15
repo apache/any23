@@ -127,6 +127,10 @@ public class ExtractionResultImpl implements ExtractionResult {
         return result;
     }
 
+    public ExtractionContext getExtractionContext() {
+        return context;
+    }
+
     public void writeTriple(Resource s, URI p, Value o) {
         if (s == null || p == null || o == null) return;
         // Check for mal-constructed literals or BNodes, Sesame does not catch this.

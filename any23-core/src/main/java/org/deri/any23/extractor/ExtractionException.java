@@ -17,11 +17,15 @@
 
 package org.deri.any23.extractor;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 /**
  * Defines a specific exception raised during the metadata extraction phase.
- * TODO #5 - ExtractionException Should receive an ExtractionContext.
  */
 public class ExtractionException extends Exception {
+
+    private ExtractionContext exceptionContext;
 
     public ExtractionException(String message) {
         super(message);
@@ -31,4 +35,32 @@ public class ExtractionException extends Exception {
         super(message, cause);
     }
 
+    public ExtractionException(String message, Throwable cause, ExtractionContext ec) {
+        super(message, cause);
+        exceptionContext = ec;
+    }
+
+    @Override
+    public void printStackTrace(PrintStream ps) {
+        printExceptionContext( new PrintWriter(ps) );
+        super.printStackTrace(ps);
+    }
+
+    @Override
+    public void printStackTrace(PrintWriter pw) {
+        printExceptionContext(pw);
+        super.printStackTrace(pw);
+    }
+
+    private void printExceptionContext(PrintWriter ps) {
+        if(exceptionContext == null) {
+            return;
+        }
+        ps.println();
+        ps.println("------------ BEGIN Exception context ------------");
+        ps.println( exceptionContext.toString() );
+        ps.println("------------ END   Exception context ------------");
+        ps.println();
+        ps.flush();
+    }
 }

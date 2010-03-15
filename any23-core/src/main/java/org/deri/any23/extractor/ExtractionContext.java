@@ -38,15 +38,15 @@ public class ExtractionContext {
      */
     private final String uniqueID;
 
-    public ExtractionContext(String extractorName, URI documentURI) {
-        this(extractorName, documentURI, null);
-    }
-
     public ExtractionContext(String extractorName, URI documentURI, String localID) {
         this.extractorName = extractorName;
         this.documentURI = documentURI;
         this.uniqueID = "urn:x-any23:" + getExtractorName() + ":" +
                 (localID == null ? "" : localID) + ":" + documentURI;
+    }
+
+    public ExtractionContext(String extractorName, URI documentURI) {
+        this(extractorName, documentURI, null);
     }
 
     public String getExtractorName() {
