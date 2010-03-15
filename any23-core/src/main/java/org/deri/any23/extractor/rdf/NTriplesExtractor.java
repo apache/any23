@@ -39,7 +39,6 @@ import java.util.Arrays;
  */
 public class NTriplesExtractor implements ContentExtractor {
 
-    //TODO: MED - the ntriples extractor should declare a stricter mimetype (see TurtleExtractor mime types.).
     public final static ExtractorFactory<NTriplesExtractor> factory =
             SimpleExtractorFactory.create(
                     "rdf-nt",
