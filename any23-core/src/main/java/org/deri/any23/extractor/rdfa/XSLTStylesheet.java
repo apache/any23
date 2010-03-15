@@ -12,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.deri.any23.extractor.rdfa;
@@ -34,8 +33,6 @@ import java.io.Writer;
 /**
  * An XSLT stylesheet loaded from an InputStream, can be applied
  * to DOM trees and writes the result to a {@link Writer}.
- * <p/>
- * TODO #12 - XSLTStylesheet should have better error handling.
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -59,16 +56,17 @@ public class XSLTStylesheet {
      * @param document where apply the transformation
      * @param output the {@link java.io.Writer} where write on
      */
-    public synchronized void applyTo(Document document, Writer output) {
+    public synchronized void applyTo(Document document, Writer output) throws XSLTStylesheetException {
         try {
             transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
-        } catch (TransformerException e) {
-            // TODO #12 - Figure out when this can be thrown.
-            log.info("Exception in XSLTStylesheet.applyTo; details follow", e);
-            log.info("Input DOM node:", document);
-            log.info("Input DOM node getBaseURI:", document.getBaseURI());
-            log.info("Output writer:", output);
-            throw new RuntimeException("Exception occured during XSLT transformation", e);
+        } catch (TransformerException te) {
+            log.error("------ BEGIN XSLT Transformer Exception ------");
+            log.error("Exception in XSLT Stylesheet transformation.", te);
+            log.error("Input DOM node:", document);
+            log.error("Input DOM node getBaseURI:", document.getBaseURI());
+            log.error("Output writer:", output);
+            log.error("------ END XSLT Transformer Exception ------");
+            throw new XSLTStylesheetException(" An error occurred during the XSLT transformation", te);
         }
     }
     

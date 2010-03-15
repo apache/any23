@@ -115,7 +115,11 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
             throws IOException, ExtractionException {
 
         StringWriter buffer = new StringWriter();
-        getXSLT().applyTo(in, buffer);
+        try {
+            getXSLT().applyTo(in, buffer);
+        } catch (XSLTStylesheetException xslte) {
+            throw new ExtractionException("An error occurred duting the XSLT application.", xslte);
+        }
 
         try {
             RDFParser parser = new RDFXMLParser();
