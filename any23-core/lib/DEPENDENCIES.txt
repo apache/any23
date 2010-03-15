@@ -1,0 +1,42 @@
+
+================
+DEPENDENCIES.txt
+================
+
+Purpose of this document is the description of the libraries
+included within the /lib folder.
+
+The /lib folder contains all the libraries included in the
+classpath of the Ant build system. Part of such libraries
+have a compile scope, other a runtime scope and finally a 
+test scope.
+
+The Runtime Scope libraries are:
+
+  - Jetty: it is used to run the any23server.
+
+The Test Scope libraries are:
+
+  - JUnit: it is used to compile and run the JUnit test cases.
+
+The Compile Scope libraries:
+
+  - The compile scope libraries are all the libraries not 
+    included within the Compile and Runtime scope.
+
+--------------------------------
+Handle Dependencies with Maven 2
+--------------------------------
+
+All the libraries used by Ant are declared also as Maven dependencies. 
+To obtain the complete dependency tree from maven it is possible to run
+ the following command:
+
+   $  mvn dependency:tree
+
+or check the project dependencies page: 
+
+   http://developers.any23.org/dependencies.html
+
+
+EOF
