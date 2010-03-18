@@ -21,6 +21,12 @@ import org.openrdf.model.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class modeling the <a href="http://microformats.org/wiki/hlisting-proposal">hListing</a> vocabulary.
+ *
+ * @author Davide Palmisano (dpalmisano@gmail.com)
+ * 
+ */
 public class HLISTING extends Vocabulary {
 
     public static final String NS = "http://sindice.com/hlisting/0.1/";
@@ -44,32 +50,26 @@ public class HLISTING extends Vocabulary {
     public static final URI event    = createResource("event"   );
     public static final URI service  = createResource("service" );
 
-    // TODO: #1 - use vcard NS
-    public static final URI tel       = createProperty("tel"      );
+    public static final URI tel       = VCARD.tel;
     public static final URI dtlisted  = createProperty("dtlisted" );
     public static final URI dtexpired = createProperty("dtexpired");
     public static final URI price     = createProperty("price"    );
 
-    // TODO: #1 - use DC
     public static final URI description = createProperty("description");
     public static final URI summary     = createProperty("summary"    );
     public static final URI permalink   = createProperty("permalink"  );
 
-    // TODO: #1 - use adr
-    public static final URI region          = createProperty("region"         );
-    public static final URI postOfficeBox   = createProperty("postOfficeBox"  );
-    public static final URI locality        = createProperty("locality"       );
-    public static final URI extendedAddress = createProperty("extendedAddress");
-    public static final URI streetAddress   = createProperty("streetAddress"  );
-    public static final URI postalCode      = createProperty("postalCode"     );
-    public static final URI countryName     = createProperty("countryName"    );
+    public static final URI region = VCARD.region;
+    public static final URI postOfficeBox   = VCARD.post_office_box;
+    public static final URI locality        = VCARD.locality;
+    public static final URI extendedAddress = VCARD.extended_address;
+    public static final URI streetAddress   = VCARD.street_address;
+    public static final URI postalCode      = VCARD.postal_code;
+    public static final URI countryName     = VCARD.country_name;
 
-    // TODO: #1 - subPropertyOf foaf.homepage, domain Lister
-    // should handle mbox homepage, name etc 
     public static final URI listerUrl  = createProperty("listerUrl" );
     public static final URI listerName = createProperty("listerName");
-
-    public static final URI itemName   = createProperty("itemName"  ); // over Item
+    public static final URI itemName   = createProperty("itemName"  );
     public static final URI itemUrl    = createProperty("itemUrl"   );
     public static final URI itemPhoto  = createProperty("itemPhoto" );
     public static final URI listerOrg  = createProperty("listerOrg" );

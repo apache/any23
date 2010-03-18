@@ -21,7 +21,7 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 
 /**
- * Base class for the definition of an ontology.
+ * Base class for the definition of a vocabulary.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @version $Id$
