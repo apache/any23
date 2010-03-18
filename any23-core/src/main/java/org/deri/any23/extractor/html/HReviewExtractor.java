@@ -81,14 +81,14 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private void addReviewer(HTMLDocument doc, Resource rev) {
         List<Node> nodes = doc.findAllByClassName("reviewer");
         if (nodes.size() > 0)
-            out.writeTriple(rev, REVIEW.reviewer, getBlankNodeFor(nodes.get(0)));
+            addBNodeProperty(rev, REVIEW.reviewer, getBlankNodeFor(nodes.get(0)));
     }
 
-    private void addItem(HTMLDocument root, Resource rev) throws ExtractionException {
+    private void addItem(HTMLDocument root, BNode rev) throws ExtractionException {
         List<Node> nodes = root.findAllByClassName("item");
         for (Node node : nodes) {
             Resource item = findDummy(new HTMLDocument(node));
-            out.writeTriple(item, REVIEW.hasReview, rev);
+            addBNodeProperty(item, REVIEW.hasReview, rev);
         }
     }
 
@@ -97,10 +97,10 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         String val = item.getSingularTextField("fn");
         conditionallyAddStringProperty(blank, VCARD.fn, val);
         val = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blank, VCARD.url, document.resolveURI(val));
+        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(val));
         String pics[] = item.getPluralUrlField("photo");
         for (String pic : pics) {
-            out.writeTriple(blank, VCARD.photo, document.resolveURI(pic));
+            addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic));
         }
         return blank;
     }
@@ -109,7 +109,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         String value = doc.getSingularTextField("rating");
         conditionallyAddStringProperty(rev, REVIEW.rating, value);
     }
-
 
     private void addSummary(HTMLDocument doc, Resource rev) {
         String value = doc.getSingularTextField("summary");

@@ -59,8 +59,8 @@ public class HTMLDocument {
      * @param node the node from which read the content.
      */
     public static void readTextField(List<String> res, Node node) {
-        String name = node.getNodeName();
-        NamedNodeMap attributes = node.getAttributes();
+        final String name = node.getNodeName();
+        final NamedNodeMap attributes = node.getAttributes();
         // excess of safety check, should be impossible
         if (null == attributes) {
             res.add(node.getTextContent());
@@ -75,19 +75,20 @@ public class HTMLDocument {
             res.add(val.trim());
             return;
         }
-        if ("ABBR".equals(name) && (null != attributes.getNamedItem("title")))
+        if ("ABBR".equals(name) && (null != attributes.getNamedItem("title"))) {
             res.add(attributes.getNamedItem("title").getNodeValue());
-        else if ("A".equals(name)) {
+        } else if ("A".equals(name)) {
             if (DomUtils.hasAttribute(node, "rel", "tag")) {
 
                 String href = extractRelTag(attributes);
                 res.add(href);
             } else
                 res.add(node.getTextContent());
-        } else if ("IMG".equals(name) || "AREA".equals(name))
+        } else if ("IMG".equals(name) || "AREA".equals(name)) {
             res.add(attributes.getNamedItem("alt").getNodeValue());
-        else
+        } else {
             res.add(node.getTextContent());
+        }
     }
 
     /**

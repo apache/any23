@@ -18,9 +18,11 @@ package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
-import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
@@ -34,9 +36,15 @@ import java.io.IOException;
  */
 public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
-    protected HTMLDocument document;
-    protected URI documentURI;
-    protected ExtractionResult out;
+    public static final String BEGIN_SCRIPT = "<script>";
+    public static final String END_SCRIPT   = "</script>";
+
+    private HTMLDocument htmlDocument;
+
+    private URI documentURI;
+
+    private ExtractionResult out;
+
     protected final Any23ValueFactoryWrapper valueFactory =
             new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
@@ -56,23 +64,92 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      */
     protected abstract boolean extract() throws ExtractionException;
 
-    public void run(Document in, URI documentURI, ExtractionResult out)
+    public HTMLDocument getHTMLDocument() {
+        return htmlDocument;
+    }
+
+    public URI getDocumentURI() {
+        return documentURI;
+    }
+
+    public final void run(Document in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
-        this.document = new HTMLDocument(in);
+        this.htmlDocument = new HTMLDocument(in);
         this.documentURI = documentURI;
         this.out = out;
         extract();
     }
 
+    protected ExtractionResult openSubResult(Object context) {
+        return out.openSubResult(context);
+    }
+
     /**
      * Helper method that adds a literal property to a node.
+     *
+     * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddStringProperty(Resource subject, URI p, String value) {
         if (value == null) return false;
         value = value.trim();
-        if ("".equals(value)) return false;
-        out.writeTriple(subject, p, valueFactory.createLiteral(value));
+        return
+                value.length() > 0 
+                        &&
+                conditionallyAddLiteralProperty(subject, p, valueFactory.createLiteral(value));
+    }
+
+    /**
+     * Helper method that adds a literal property to a node.
+     *
+     * @param subject
+     * @param property
+     * @param literal
+     * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
+     */
+    protected boolean conditionallyAddLiteralProperty(Resource subject, URI property, Literal literal) {
+        final String literalStr = literal.stringValue();
+        if( containsScriptBlock(literalStr) ) {
+            out.notifyError(
+                    ExtractionResult.ErrorLevel.WARN,
+                    String.format("Detected script in literal: [%s]", literalStr)
+                    ,-1
+                    ,-1
+            );
+            return false;
+        }
+        out.writeTriple(subject, property, literal);
         return true;
+    }
+
+    /**
+     * Helper method that adds a URI property to a node.
+     */
+    protected boolean conditionallyAddResourceProperty(Resource subject, URI property, URI uri) {
+        if (uri == null) return false;
+        out.writeTriple(subject, property, uri);
+        return true;
+    }
+
+    /**
+     * Helper method that adds a BNode property to a node.
+     *
+     * @param subject
+     * @param property
+     * @param bnode
+     */
+    protected void addBNodeProperty(Resource subject, URI property, BNode bnode) {
+        out.writeTriple(subject, property, bnode);
+    }
+
+    /**
+     * Helper method that adds a URI property to a node.
+     *
+     * @param subject
+     * @param property
+     * @param object
+     */
+    protected void addURIProperty(Resource subject, URI property, URI object) {
+        out.writeTriple(subject, property, object);    
     }
 
     protected URI fixLink(String link) {
@@ -83,17 +160,13 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return valueFactory.fixLink(link, defaultSchema);
     }
 
-    /**
-     * Helper method that adds a URI property to a node.
-     */
-    protected boolean conditionallyAddResourceProperty(
-            Resource subject,
-            URI property,
-            URI uri
-    ) {
-        if (uri == null) return false;
-        out.writeTriple(subject, property, uri);
-        return true;
+    private boolean containsScriptBlock(String in) {
+        final String inLowerCase = in.toLowerCase();
+        final int beginBlock = inLowerCase.indexOf(BEGIN_SCRIPT);
+        if(beginBlock == -1) {
+            return false;
+        }
+        return inLowerCase.indexOf(END_SCRIPT, beginBlock + BEGIN_SCRIPT.length()) != -1;
     }
 
 }

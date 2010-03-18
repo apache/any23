@@ -20,7 +20,6 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.rdf.RDFUtility;
 import org.deri.any23.vocab.ICAL;
@@ -75,6 +74,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
     @Override
     protected boolean extract() throws ExtractionException {
+        final HTMLDocument document = getHTMLDocument();
         List<Node> calendars = document.findAllByClassName("vcalendar");
         if (calendars.size() == 0)
             // vcal allows to avoid top name, in which case whole document is
@@ -90,8 +90,8 @@ public class HCalendarExtractor extends MicroformatExtractor {
     }
 
     private boolean extractCalendar(Node node) throws ExtractionException {
-        URI cal = documentURI;
-        out.writeTriple(cal, RDF.TYPE, ICAL.Vcalendar);
+        URI cal = getDocumentURI();
+        addURIProperty(cal, RDF.TYPE, ICAL.Vcalendar);
         return addComponents(node, cal);
     }
 
@@ -109,14 +109,14 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
     private boolean extractComponent(Node node, Resource cal, String component) throws ExtractionException {
         HTMLDocument compoNode = new HTMLDocument(node);
-        Resource evt = valueFactory.createBNode();
-        out.writeTriple(evt, RDF.TYPE, ICAL.getResource(component));
+        BNode evt = valueFactory.createBNode();
+        addURIProperty(evt, RDF.TYPE, ICAL.getResource(component));
         addTextProps(compoNode, evt);
         addUrl(compoNode, evt);
         addRRule(compoNode, evt);
         addOrganizer(compoNode, evt);
         addUid(compoNode, evt);
-        out.writeTriple(cal, ICAL.component, evt);
+        addBNodeProperty(cal, ICAL.component, evt);
         return true;
     }
 
@@ -128,16 +128,16 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private void addUrl(HTMLDocument compoNode, Resource evt) throws ExtractionException {
         String url = compoNode.getSingularUrlField("url");
         if ("".equals(url)) return;
-        out.writeTriple(evt, ICAL.url, document.resolveURI(url));
+        addURIProperty(evt, ICAL.url, getHTMLDocument().resolveURI(url));
     }
 
     private void addRRule(HTMLDocument compoNode, Resource evt) {
         for (Node rule : compoNode.findAllByClassName("rrule")) {
             BNode rrule = valueFactory.createBNode();
-            out.writeTriple(rrule, RDF.TYPE, ICAL.DomainOf_rrule);
+            addURIProperty(rrule, RDF.TYPE, ICAL.DomainOf_rrule);
             String freq = new HTMLDocument(rule).getSingularTextField("freq");
             conditionallyAddStringProperty(rrule, ICAL.freq, freq);
-            out.writeTriple(evt, ICAL.rrule, rrule);
+            addBNodeProperty(evt, ICAL.rrule, rrule);
         }
     }
 
@@ -147,7 +147,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
             BNode blank = valueFactory.createBNode();
             String mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
             conditionallyAddStringProperty(blank, ICAL.calAddress, mail);
-            out.writeTriple(evt, ICAL.organizer, blank);
+            addBNodeProperty(evt, ICAL.organizer, blank);
         }
     }
 
@@ -170,10 +170,10 @@ public class HCalendarExtractor extends MicroformatExtractor {
                         )
                 );
             } catch (ParseException e) {
-                // unparseable date format just leave it as it is
+                // Unparsable date format just leave it as it is.
                 conditionallyAddStringProperty(evt, ICAL.getProperty(date), val);
             } catch (DatatypeConfigurationException e) {
-                // unparseable date format just leave it as it is
+                // Unparsable date format just leave it as it is
                 conditionallyAddStringProperty(evt, ICAL.getProperty(date), val);
             }
         }

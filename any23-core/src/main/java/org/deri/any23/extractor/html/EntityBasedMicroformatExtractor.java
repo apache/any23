@@ -38,12 +38,12 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
 
     @Override
     public boolean extract() throws ExtractionException {
-        List<Node> nodes = DomUtils.findAllByClassName(document.getDocument(), getBaseClassName());
+        List<Node> nodes = DomUtils.findAllByClassName( getHTMLDocument().getDocument(), getBaseClassName());
         boolean foundAny = false;
         int count = 1;
         for (Node node : nodes) {
             String contextID = Integer.toString(count);
-            ExtractionResult subResult = out.openSubResult(contextID);
+            ExtractionResult subResult = openSubResult(contextID);
             foundAny |= extractEntity(node, subResult);
             subResult.close();
         }
@@ -56,7 +56,7 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
      *         blank node ID like "MD5 of http://doc-uri/#xpath/to/node"
      */
     protected BNode getBlankNodeFor(Node node) {
-        return valueFactory.createBNode("node" + md5(documentURI + "#" + DomUtils.getXPathForNode(node)));
+        return valueFactory.createBNode("node" + md5(getDocumentURI() + "#" + DomUtils.getXPathForNode(node)));
     }
 
     private String md5(String s) {

@@ -77,7 +77,6 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
         assertStatementsSize(DOAC.experience, null, 7);
         assertStatementsSize(DOAC.education, null, 2);
         assertStatementsSize(DOAC.affiliation, null, 8);
-
     }
 
     @Test
@@ -152,7 +151,6 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
         } finally {
             personStatements.close();
         }
-        
     }
 
     @Test
@@ -182,10 +180,9 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
 
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
 
-        assertStatementsSize(DOAC.experience, null, 16);
-        assertStatementsSize(DOAC.education, null, 2);
-        assertStatementsSize(DOAC.affiliation, null, 0);
-
+        assertStatementsSize(DOAC.experience , null, 16);
+        assertStatementsSize(DOAC.education  , null, 2 );
+        assertStatementsSize(DOAC.affiliation, null, 0 );
     }
 
 }

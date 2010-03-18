@@ -53,6 +53,7 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         //try lat & lon
+        final HTMLDocument document = getHTMLDocument();
         BNode adr = getBlankNodeFor(node);
         out.writeTriple(adr, RDF.TYPE, VCARD.Address);
         for (String field : addressFields) {

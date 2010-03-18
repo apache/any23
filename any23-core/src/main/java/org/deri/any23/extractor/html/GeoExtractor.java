@@ -56,6 +56,7 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         //try lat & lon
+        final HTMLDocument document = getHTMLDocument();
         String lat = document.getSingularTextField("latitude");
         String lon = document.getSingularTextField("longitude");
         if ("".equals(lat) || "".equals(lon)) {

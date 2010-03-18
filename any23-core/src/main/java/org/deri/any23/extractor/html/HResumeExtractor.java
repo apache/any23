@@ -80,15 +80,15 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     private void addContact(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("contact");
         if (nodes.size() > 0)
-            out.writeTriple(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)));
+            addBNodeProperty(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)));
     }
 
     private void addExperiences(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("experience");
         for (Node node : nodes) {
-            Resource exp = valueFactory.createBNode();
+            BNode exp = valueFactory.createBNode();
             if (addExperience(exp, new HTMLDocument(node))) ;
-            out.writeTriple(person, DOAC.experience, exp);
+            addBNodeProperty(person, DOAC.experience, exp);
         }
     }
 
@@ -116,16 +116,16 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     private void addEducations(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("education");
         for (Node node : nodes) {
-            Resource exp = valueFactory.createBNode();
+            BNode exp = valueFactory.createBNode();
             if (addExperience(exp, new HTMLDocument(node))) ;
-            out.writeTriple(person, DOAC.education, exp);
+            addBNodeProperty(person, DOAC.education, exp);
         }
     }
 
     private void addAffiliations(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("affiliation");
         for (Node node : nodes) {
-            out.writeTriple(person, DOAC.affiliation, getBlankNodeFor(node));
+            addBNodeProperty(person, DOAC.affiliation, getBlankNodeFor(node));
         }
     }
 
