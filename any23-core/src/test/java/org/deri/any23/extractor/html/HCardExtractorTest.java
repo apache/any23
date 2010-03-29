@@ -32,7 +32,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 	public void testInferredPerson() throws RepositoryException {
 		assertExtracts("hcard/23-abbr-title-everything.html");
 		assertDefaultVCard();
-		assertStatementsSize(FOAF.topic, null, 1);
+		assertStatementsSize(FOAF.topic, (Value) null, 1);
 		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
         Resource person =  findObjectAsResource(card, FOAF.topic);
 
@@ -178,7 +178,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 	public void testfnOrg() throws RepositoryException {
         assertExtracts("microformats/hcard/30-fn-org.html");
         assertModelNotEmpty();
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
+        assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
         RepositoryResult<Statement> repositoryResult = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
         try {
             while (repositoryResult.hasNext()) {
@@ -205,7 +205,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
         assertExtracts("microformats/hcard/31-include.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
-        assertStatementsSize(VCARD.email, null, 3);
+        assertStatementsSize(VCARD.email, (Value) null, 3);
 
         RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
         try {
@@ -255,8 +255,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
                 String fn = findObjectAsLiteral(card, VCARD.fn);
                 if ("Jane Doe".equals(fn)) {
-                    // Assert.assertNotNull( findObject(card, VCARD.url));
-                    Assert.assertNotNull( findObject(card, VCARD.org));
+                    assertNotFound(card, VCARD.org);
                 } else {
                     Assert.assertTrue("John Doe".equals(fn) || "Brian Suda".equals(fn));
 
@@ -331,34 +330,34 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		// this tests probably tests that e just get the first fn and so on
 		assertExtracts("microformats/hcard/37-singleton.html");
 		assertModelNotEmpty();
-		assertStatementsSize(VCARD.fn, null, 1);
+		assertStatementsSize(VCARD.fn, (Value) null, 1);
 		assertContains(VCARD.fn, "john doe 1");
 
 		assertStatementsSize(RDF.TYPE, VCARD.Name, 1);
-		assertStatementsSize(VCARD.given_name, null, 1);
+		assertStatementsSize(VCARD.given_name,  (Value) null, 1);
 		assertContains(VCARD.given_name, "john");
-		assertStatementsSize(VCARD.family_name, null, 1);
+		assertStatementsSize(VCARD.family_name, (Value) null, 1);
 		assertContains(VCARD.family_name, "doe");
-		assertStatementsSize(VCARD.sort_string, null, 1);
+		assertStatementsSize(VCARD.sort_string, (Value) null, 1);
 		assertContains(VCARD.sort_string, "d");
 
-		assertStatementsSize(VCARD.bday, null, 1);
+		assertStatementsSize(VCARD.bday, (Value) null, 1);
 		assertContains(VCARD.bday, "20060707");
-		assertStatementsSize(VCARD.rev, null, 1);
+		assertStatementsSize(VCARD.rev, (Value) null, 1);
 		assertContains(VCARD.rev, "20060707");
-		assertStatementsSize(VCARD.class_, null, 1);
+		assertStatementsSize(VCARD.class_, (Value) null, 1);
 		assertContains(VCARD.class_, "public");
-		assertStatementsSize(VCARD.tz, null, 1);
+		assertStatementsSize(VCARD.tz, (Value) null, 1);
 		assertContains(VCARD.tz, "+0600");
 
 		// Why 0? because the extractor does not look at geo uF!
 		assertStatementsSize(RDF.TYPE, VCARD.Location, 0);
-		assertStatementsSize(VCARD.geo, null, 2);
+		assertStatementsSize(VCARD.geo, (Value) null, 2);
 
 		assertNotContains(null, VCARD.latitude, "123.45");
 		assertNotContains(null, VCARD.longitude, "67.89");
 
-		assertStatementsSize(VCARD.uid, null, 1);
+		assertStatementsSize(VCARD.uid, (Value) null, 1);
 		assertContains(VCARD.uid, "unique-id-1");
 	}
 
@@ -929,6 +928,20 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertNotContains(null, VCARD.street_address,"Ippendorfer Weg. 24");
 		assertNotContains(null, VCARD.country_name,"Germany");
 	}
+
+    /**
+     * Tests that the HCardName data is not cumulative and is cleaned up at each
+     * extraction.
+     *
+     * @throws RepositoryException
+     */
+    @Test
+    public void testCumulativeHNames() throws RepositoryException {
+        assertExtracts("microformats/hcard/linkedin-michelemostarda.html");
+        assertModelNotEmpty();
+        assertStatementsSize(VCARD.given_name, "Michele"  , 7);
+        assertStatementsSize(VCARD.family_name, "Mostarda", 7);
+    }
 
 	private void assertDefaultVCard() throws RepositoryException {
 		assertModelNotEmpty();

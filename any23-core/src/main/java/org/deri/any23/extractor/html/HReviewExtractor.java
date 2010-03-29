@@ -58,6 +58,11 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         return "hreview";
     }
 
+    @Override
+    protected void resetExtractor() {
+        // Empty.
+    }
+
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode rev = getBlankNodeFor(node);
         out.writeTriple(rev, RDF.TYPE, REVIEW.Review);

@@ -258,30 +258,30 @@ public class RDFMergerTest extends AbstractMicroformatTestCase {
     public void testSingleton() throws ExtractionException, IOException, RepositoryException {
         extractHCardAndRelated("microformats/hcard/37-singleton.html");
         Assert.assertFalse(conn.isEmpty());
-        assertStatementsSize(VCARD.fn, null, 1);
+        assertStatementsSize(VCARD.fn, (Value) null, 1);
         assertContains(VCARD.fn, "john doe 1");
         assertStatementsSize(RDF.TYPE, VCARD.Name, 1);
-        assertStatementsSize(VCARD.given_name, null, 1);
+        assertStatementsSize(VCARD.given_name, (Value) null, 1);
         assertContains(VCARD.given_name, "john");
-        assertStatementsSize(VCARD.family_name, null, 1);
+        assertStatementsSize(VCARD.family_name, (Value) null, 1);
         assertContains(VCARD.family_name, "doe");
-        assertStatementsSize(VCARD.sort_string, null, 1);
+        assertStatementsSize(VCARD.sort_string, (Value) null, 1);
         assertContains(VCARD.sort_string, "d");
-        assertStatementsSize(VCARD.bday, null, 1);
+        assertStatementsSize(VCARD.bday, (Value) null, 1);
         assertContains(VCARD.bday, "20060707");
-        assertStatementsSize(VCARD.rev, null, 1);
+        assertStatementsSize(VCARD.rev, (Value) null, 1);
         assertContains(VCARD.rev, "20060707");
-        assertStatementsSize(VCARD.class_, null, 1);
+        assertStatementsSize(VCARD.class_, (Value) null, 1);
         assertContains(VCARD.class_, "public");
-        assertStatementsSize(VCARD.tz, null, 1);
+        assertStatementsSize(VCARD.tz, (Value) null, 1);
         assertContains(VCARD.tz, "+0600");
         // 2 uf, one of them outside the card
         assertStatementsSize(RDF.TYPE, VCARD.Location, 2);
         // one is actually used
-        assertStatementsSize(VCARD.geo, null, 2);
+        assertStatementsSize(VCARD.geo, (Value) null, 2);
         assertContains(VCARD.latitude, "123.45");
         assertContains(VCARD.longitude, "67.89");
-        assertStatementsSize(VCARD.uid, null, 1);
+        assertStatementsSize(VCARD.uid, (Value) null, 1);
         assertContains(VCARD.uid, "unique-id-1");
     }
 
@@ -335,8 +335,8 @@ public class RDFMergerTest extends AbstractMicroformatTestCase {
 	public void test02RatedTags() throws ExtractionException, IOException, RepositoryException {
 		extractHRevAndRelated("microformats/hreview/02-spec-2.html");
 
-		assertStatementsSize(REVIEW.reviewer, null, 1);
-		assertStatementsSize(REVIEW.hasReview, null, 1);
+		assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
+		assertStatementsSize(REVIEW.hasReview, (Value) null, 1);
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
 		// reviewer, item

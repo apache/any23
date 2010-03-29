@@ -74,9 +74,9 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
 
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
 
-        assertStatementsSize(DOAC.experience, null, 7);
-        assertStatementsSize(DOAC.education, null, 2);
-        assertStatementsSize(DOAC.affiliation, null, 8);
+        assertStatementsSize(DOAC.experience, (Value) null, 7);
+        assertStatementsSize(DOAC.education, (Value) null, 2);
+        assertStatementsSize(DOAC.affiliation, (Value) null, 8);
     }
 
     @Test
@@ -90,9 +90,9 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
         //assertStatementsSize(RDF.TYPE, ICAL.Vcalendar, 2);
         
 
-		assertStatementsSize(DOAC.experience, null, 7);
-		assertStatementsSize(DOAC.education, null, 2);
-		assertStatementsSize(DOAC.affiliation, null, 8);
+		assertStatementsSize(DOAC.experience, (Value) null, 7);
+		assertStatementsSize(DOAC.education, (Value) null, 2);
+		assertStatementsSize(DOAC.affiliation, (Value) null, 8);
 
         // TODO (low): VCARD Organization triples are not produced by this extractor.
 		//assertStatementsSize(RDF.TYPE, VCARD.Organization, 17);
@@ -180,9 +180,9 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
 
         assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
 
-        assertStatementsSize(DOAC.experience , null, 16);
-        assertStatementsSize(DOAC.education  , null, 2 );
-        assertStatementsSize(DOAC.affiliation, null, 0 );
+        assertStatementsSize(DOAC.experience , (Value) null, 16);
+        assertStatementsSize(DOAC.education  , (Value) null, 2 );
+        assertStatementsSize(DOAC.affiliation, (Value) null, 0 );
     }
 
 }

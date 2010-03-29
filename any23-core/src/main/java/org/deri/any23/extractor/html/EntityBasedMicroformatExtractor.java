@@ -32,8 +32,26 @@ import java.util.List;
  */
 public abstract class EntityBasedMicroformatExtractor extends MicroformatExtractor {
 
+    /**
+     * Returns the base class name for the extractor.
+     *
+     * @return a string containing the base of the extractor.
+     */
     protected abstract String getBaseClassName();
 
+    /**
+     * Resets the internal status of the extractor to prepare it to a new extraction section.
+     */
+    protected abstract void resetExtractor();
+
+    /**
+     * Extracts an entity from a <i>DOM</i> node.
+     *
+     * @param node the DOM node.
+     * @param out the extraction result collector.
+     * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
+     * @throws ExtractionException
+     */
     protected abstract boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException;
 
     @Override
@@ -42,6 +60,7 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
         boolean foundAny = false;
         int count = 1;
         for (Node node : nodes) {
+            resetExtractor();
             String contextID = Integer.toString(count);
             ExtractionResult subResult = openSubResult(contextID);
             foundAny |= extractEntity(node, subResult);

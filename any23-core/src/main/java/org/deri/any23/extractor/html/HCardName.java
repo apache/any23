@@ -61,6 +61,16 @@ public class HCardName {
     private String organization = null;
     private String unit         = null;
 
+    /**
+     * Resets the content of the HName fields.
+     */
+    public void reset() {
+        fields.clear();
+        fullName = null;
+        organization = null;
+        unit = null;
+    }
+
     public void setField(String fieldName, String value) {
         value = fixWhiteSpace(value);
         if (value == null) return;
@@ -191,8 +201,6 @@ public class HCardName {
         return s;
     }
 
-
-
     /**
      * Represents a possible field value.
      */
@@ -228,7 +236,7 @@ public class HCardName {
         Collection<String> getValues() {
             return value != null ? Arrays.asList(value) : multiValue;
         }
-        
+
     }
     
 }

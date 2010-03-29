@@ -53,6 +53,11 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         return "geo";
     }
 
+    @Override
+    protected void resetExtractor() {
+        // Empty.
+    }
+
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         //try lat & lon

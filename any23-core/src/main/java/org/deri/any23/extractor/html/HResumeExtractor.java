@@ -57,6 +57,11 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     }
 
     @Override
+    protected void resetExtractor() {
+        // Empty.
+    }
+
+    @Override
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         BNode person = getBlankNodeFor(node);

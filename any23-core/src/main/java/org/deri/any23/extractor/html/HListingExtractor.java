@@ -88,6 +88,11 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     @Override
+    protected void resetExtractor() {
+        // Empty.
+    }
+
+    @Override
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         this.fragment = new HTMLDocument(node);
         BNode listing = getBlankNodeFor(node);

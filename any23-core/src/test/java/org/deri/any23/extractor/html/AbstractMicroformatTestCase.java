@@ -160,6 +160,19 @@ public abstract class AbstractMicroformatTestCase {
         junit.framework.Assert.assertEquals(expected, count);
     }
 
+    protected void assertStatementsSize(URI prop, String obj, int expected) throws RepositoryException {
+        assertStatementsSize(prop, obj == null ? null : RDFHelper.literal(obj), expected );
+    }
+
+    protected void assertNotFound(Resource sub, URI prop) throws RepositoryException {
+         RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, true);
+        try {
+            junit.framework.Assert.assertFalse("Expected no statements.", statements.hasNext());
+        } finally {
+            statements.close();
+        }
+    }
+
     protected Value findObject(Resource sub, URI prop) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, true);
         try {

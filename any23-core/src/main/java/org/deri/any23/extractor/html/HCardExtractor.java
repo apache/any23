@@ -66,6 +66,11 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return "vcard";
     }
 
+    @Override
+    protected void resetExtractor() {
+        name.reset(); // Cleanup of the HCardName content.
+    }
+
     private void fixIncludes(HTMLDocument document, Node node) {
         NamedNodeMap attributes = node.getAttributes();
         // header case test 32

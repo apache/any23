@@ -27,6 +27,7 @@ import org.junit.Test;
 
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -107,8 +108,8 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
 		assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
 
         // reviewer, item
-		assertStatementsSize(REVIEW.reviewer, null, 1);
-		assertStatementsSize(REVIEW.hasReview, null, 1);
+		assertStatementsSize(REVIEW.reviewer, (Value)null, 1);
+		assertStatementsSize(REVIEW.hasReview, (Value) null, 1);
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
 
         // there is one address in the item vcard
@@ -161,7 +162,7 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
         Assert.assertFalse(conn.isEmpty());
 
         assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
-        assertStatementsSize(REVIEW.reviewer, null, 1);
+        assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
 
         RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
 
@@ -215,7 +216,7 @@ public class HReviewExtractorTest extends AbstractMicroformatTestCase {
 
         assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
 		// reviewer, no item
-		assertStatementsSize(REVIEW.reviewer, null, 1);
+		assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
 
 		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
 

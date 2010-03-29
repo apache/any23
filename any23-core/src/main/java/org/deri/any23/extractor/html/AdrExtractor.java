@@ -50,6 +50,11 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         return "adr";
     }
 
+    @Override
+    protected void resetExtractor() {
+        // Empty.
+    }
+
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         //try lat & lon
