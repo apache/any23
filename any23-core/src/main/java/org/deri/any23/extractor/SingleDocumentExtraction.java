@@ -108,16 +108,20 @@ public class SingleDocumentExtraction {
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
         }
-        log.info("Processing " + this.documentURI);
+        if(log.isInfoEnabled()) {
+            log.info("Processing " + this.documentURI);
+        }
         filterExtractorsByMIMEType();
 
-        StringBuffer sb = new StringBuffer("Extractors ");
-        for (ExtractorFactory<?> factory : matchingExtractors) {
-            sb.append(factory.getExtractorName());
-            sb.append(' ');
+        if(log.isDebugEnabled()) {
+            StringBuffer sb = new StringBuffer("Extractors ");
+            for (ExtractorFactory<?> factory : matchingExtractors) {
+                sb.append(factory.getExtractorName());
+                sb.append(' ');
+            }
+            sb.append("match ").append(documentURI);
+            log.debug(sb.toString());
         }
-        sb.append("match " + documentURI);
-        log.debug(sb.toString());
 
         // Invoke all extractors.
         output.startDocument(documentURI);
@@ -174,7 +178,9 @@ public class SingleDocumentExtraction {
      */
     private void runExtractor(Extractor<?> extractor)
     throws ExtractionException, IOException {
-        log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
+        if(log.isDebugEnabled()) {
+            log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
+        }
         long startTime = System.currentTimeMillis();
         ExtractionResultImpl result = new ExtractionResultImpl(documentURI, extractor, output);
         try {
@@ -189,12 +195,16 @@ public class SingleDocumentExtraction {
                 throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
             }
         } catch (ExtractionException ex) {
-            log.info(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
+            if(log.isInfoEnabled()) {
+                log.info(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
+            }
             throw ex;
         } finally {
             result.close();
             long elapsed = System.currentTimeMillis() - startTime;
-            log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
+            if(log.isDebugEnabled()) {
+                log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
+            }
         }
     }
 
