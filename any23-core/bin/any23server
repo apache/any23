@@ -9,4 +9,14 @@ do
   if [ ! -e "$jar" ]; then continue; fi
   CP="$CP$SEP$jar"
 done
-exec java -cp "$CP" -Xmx256M org.deri.any23.servlet.Any23Server ../webapp
+# "$1" -ne "" && 
+if [ -n "$1" ]; then 
+    if [ "$1" == "-d" ]; then
+	    DEBUG_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"; 
+    else
+	    echo "Usage $0 [-d]"
+	    echo "Where d : debug mode"
+	    exit 
+    fi
+fi
+exec java -cp "$CP" -Xmx256M $DEBUG_OPTS org.deri.any23.servlet.Any23Server ../webapp
