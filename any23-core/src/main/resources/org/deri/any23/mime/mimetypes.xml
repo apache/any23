@@ -114,6 +114,7 @@
         <sub-class-of type="application/xml"/>
         <root-XML localName="feed"/>
         <root-XML namespaceURI="http://www.w3.org/2005/Atom/" localName="feed"/>
+        <root-XML namespaceURI="http://www.w3.org/2005/Atom"  localName="feed"/>
     </mime-type>
 
     <!-- WSDL -->
