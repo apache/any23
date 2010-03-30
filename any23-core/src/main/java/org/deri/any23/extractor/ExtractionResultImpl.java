@@ -160,6 +160,9 @@ public class ExtractionResultImpl implements ExtractionResult {
         if (isInitialized) {
             tripleHandler.closeContext(context);
         }
+        if(errors != null) {
+            errors.clear();
+        }
     }
 
     private void checkOpen() {
