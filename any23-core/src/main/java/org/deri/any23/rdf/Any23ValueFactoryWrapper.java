@@ -16,6 +16,7 @@
 
 package org.deri.any23.rdf;
 
+import org.deri.any23.extractor.ErrorReporter;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -26,13 +27,7 @@ import org.openrdf.model.ValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 /**
  * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
@@ -44,92 +39,117 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private final ValueFactory _vFactory;
 
-    public Any23ValueFactoryWrapper(final ValueFactory vFactory) {
+    private ErrorReporter errorReporter;
+
+    /**
+     * Constructor with error reporter.
+     *
+     * @param vFactory
+     * @param er
+     */
+    public Any23ValueFactoryWrapper(final ValueFactory vFactory, ErrorReporter er) {
         _vFactory = vFactory;
+        errorReporter = er;
+    }
+
+    public Any23ValueFactoryWrapper(final ValueFactory vFactory) {
+        this(vFactory, null);  
+    }
+
+    public ErrorReporter getErrorReporter() {
+        return errorReporter;
+    }
+
+    public void setErrorReporter(ErrorReporter er) {
+        errorReporter = er;
     }
 
     public BNode createBNode() {
         return _vFactory.createBNode();
     }
 
-    public BNode createBNode(String arg0) {
-        if (arg0 == null) return null;
-        return _vFactory.createBNode(arg0);
+    public BNode createBNode(String id) {
+        if (id == null) return null;
+        return _vFactory.createBNode(id);
     }
 
-    public Literal createLiteral(String arg0) {
-        if (arg0 == null) return null;
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(String content) {
+        if (content == null) return null;
+        return _vFactory.createLiteral(content);
     }
 
-    public Literal createLiteral(boolean arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(boolean b) {
+        return _vFactory.createLiteral(b);
     }
 
-    public Literal createLiteral(byte arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(byte b) {
+        return _vFactory.createLiteral(b);
     }
 
-    public Literal createLiteral(short arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(short i) {
+        return _vFactory.createLiteral(i);
     }
 
-    public Literal createLiteral(int arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(int i) {
+        return _vFactory.createLiteral(i);
     }
 
-    public Literal createLiteral(long arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(long l) {
+        return _vFactory.createLiteral(l);
     }
 
-    public Literal createLiteral(float arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(float v) {
+        return _vFactory.createLiteral(v);
     }
 
-    public Literal createLiteral(double arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(double v) {
+        return _vFactory.createLiteral(v);
     }
 
-    public Literal createLiteral(XMLGregorianCalendar arg0) {
-        return _vFactory.createLiteral(arg0);
+    public Literal createLiteral(XMLGregorianCalendar calendar) {
+        return _vFactory.createLiteral(calendar);
     }
 
-    public Literal createLiteral(String arg0, String arg1) {
-        if (arg0 == null) return null;
-        return _vFactory.createLiteral(arg0, arg1);
+    public Literal createLiteral(String pref, String value) {
+        if (pref == null) return null;
+        return _vFactory.createLiteral(pref, value);
     }
 
-    public Literal createLiteral(String arg0, URI arg1) {
-        if (arg0 == null) return null;
-        return _vFactory.createLiteral(arg0, arg1);
+    public Literal createLiteral(String pref, URI value) {
+        if (pref == null) return null;
+        return _vFactory.createLiteral(pref, value);
     }
 
-    public Statement createStatement(Resource arg0, URI arg1, Value arg2) {
-        if (arg0 == null || arg1 == null || arg2 == null) return null;
-        return _vFactory.createStatement(arg0, arg1, arg2);
+    public Statement createStatement(Resource sub, URI pre, Value obj) {
+        if (sub == null || pre == null || obj == null) return null;
+        return _vFactory.createStatement(sub, pre, obj);
     }
 
-    public Statement createStatement(Resource arg0, URI arg1, Value arg2,
-                                     Resource arg3) {
-        if (arg0 == null || arg1 == null || arg2 == null) return null;
-        return _vFactory.createStatement(arg0, arg1, arg2, arg3);
-    }
-
-    /**
-     * @param arg0
-     * @return a valid sesame URI or null if any exception occured
-     */
-    public URI createURI(String arg0) {
-        if (arg0 == null) return null;
-        return _vFactory.createURI(RDFUtility.fixURIWithException(arg0));
+    public Statement createStatement(Resource sub, URI pre, Value obj, Resource context) {
+        if (sub == null || pre == null || obj == null) return null;
+        return _vFactory.createStatement(sub, pre, obj, context);
     }
 
     /**
-     * @return a valid sesame URI or null if any exception occured
+     * @param uriStr
+     * @return a valid sesame URI or null if any exception occurred
      */
-    public URI createURI(String arg0, String arg1) {
-        if (arg0 == null || arg1 == null) return null;
-        return _vFactory.createURI(RDFUtility.fixURIWithException(arg0), arg1);
+    public URI createURI(String uriStr) {
+        if (uriStr == null) return null;
+        try {
+            return _vFactory.createURI(RDFUtility.fixURIWithException(uriStr));
+        } catch (Exception e) {
+            reportError(e);
+            return null;
+        }
+    }
+
+    /**
+     * @return a valid sesame URI or null if any exception occurred
+     */
+    public URI createURI(String namespace, String localName) {
+        if (namespace == null || localName == null) return null;
+        return _vFactory.createURI(RDFUtility.fixURIWithException(namespace), localName);
     }
 
     /**
@@ -142,21 +162,21 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     public URI resolveURI(String uri, java.net.URI baseURI) {
         try {
             return _vFactory.createURI(baseURI.resolve(RDFUtility.fixURIWithException(uri)).toString());
-        } catch (IllegalArgumentException ex) {
-            logger.warn(ex.getMessage());
+        } catch (IllegalArgumentException iae) {
+            reportError(iae);
             return null;
         }
     }
 
     /**
      * @param uri
-     * @return a valid sesame URI or null if any exception occured
+     * @return a valid sesame URI or null if any exception occurred
      */
     public URI fixURI(String uri) {
         try {
             return _vFactory.createURI(RDFUtility.fixURIWithException(uri));
         } catch (Exception e) {
-            logger.warn(e.getMessage());
+            reportError(e);
             return null;
         }
     }
@@ -176,6 +196,19 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     public String fixWhiteSpace(String name) {
         return name.replaceAll("\\s+", " ").trim();
+    }
+
+    /**
+     * Reports an error in the most appropriate way.
+     * 
+     * @param e error to be reported.
+     */
+    private void reportError(Exception e) {
+        if(errorReporter == null) {
+            logger.warn(e.getMessage());
+        } else {
+            errorReporter.notifyError(ErrorReporter.ErrorLevel.WARN, e.getMessage(), -1 , -1);
+        }
     }
 
 }
