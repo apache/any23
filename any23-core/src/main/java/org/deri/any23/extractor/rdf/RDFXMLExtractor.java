@@ -96,7 +96,7 @@ public class RDFXMLExtractor implements ContentExtractor {
             throws IOException, ExtractionException {
         try {
             RDFParser parser = new RDFXMLParser();
-            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance()) );
+            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out) );
             parser.setDatatypeHandling( verifyDataType ? DatatypeHandling.VERIFY : DatatypeHandling.IGNORE);
             parser.setStopAtFirstError(stopAtFirstError);
             parser.setRDFHandler(new RDFHandlerAdapter(out));

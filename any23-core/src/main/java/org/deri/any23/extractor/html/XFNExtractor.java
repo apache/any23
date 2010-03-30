@@ -46,7 +46,8 @@ import java.util.Arrays;
  */
 public class XFNExtractor implements TagSoupDOMExtractor {
 
-    private final static ValueFactory vf = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+    private final static Any23ValueFactoryWrapper factoryWrapper =
+            new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
     private HTMLDocument     document;
     private ExtractionResult out;
@@ -66,18 +67,22 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 
     public void run(Document in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
+        factoryWrapper.setErrorReporter(out);
+        try {
+            document = new HTMLDocument(in);
+            this.out = out;
 
-        document = new HTMLDocument(in);
-        this.out = out;
-
-        BNode subject = vf.createBNode();
-        boolean foundAnyXFN = false;
-        for (Node link : document.findAll("//A[@rel][@href]")) {
-            foundAnyXFN |= extractLink(link, subject, documentURI);
+            BNode subject = factoryWrapper.createBNode();
+            boolean foundAnyXFN = false;
+            for (Node link : document.findAll("//A[@rel][@href]")) {
+                foundAnyXFN |= extractLink(link, subject, documentURI);
+            }
+            if (!foundAnyXFN) return;
+            out.writeTriple(subject, RDF.TYPE, FOAF.Person);
+            out.writeTriple(subject, XFN.mePage, documentURI);
+        } finally {
+            factoryWrapper.setErrorReporter(null);
         }
-        if (!foundAnyXFN) return;
-        out.writeTriple(subject, RDF.TYPE, FOAF.Person);
-        out.writeTriple(subject, XFN.mePage, documentURI);
     }
 
     private boolean extractLink(Node firstLink, BNode subject, URI documentURI)
@@ -94,7 +99,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
             out.writeTriple(subject, XFN.mePage, link);
             out.writeTriple(documentURI, XFN.getExtendedProperty("me"), link);
         } else {
-            BNode person2 = vf.createBNode();
+            BNode person2 = factoryWrapper.createBNode();
             boolean foundAnyXFNRel = false;
             for (String aRel : rels) {
                 foundAnyXFNRel |= extractRel(aRel, subject, documentURI, person2, link);

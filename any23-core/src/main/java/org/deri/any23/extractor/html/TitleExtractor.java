@@ -53,14 +53,23 @@ public class TitleExtractor implements TagSoupDOMExtractor {
                     TitleExtractor.class
             );
 
-    protected final ValueFactory valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+    protected final Any23ValueFactoryWrapper valueFactory
+            = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
 
-    public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
-            ExtractionException {
-        String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
-        if (title != null && (title.length() != 0)) {
-            out.writeTriple(documentURI, DCTERMS.title, valueFactory.createLiteral(title));
+    public void run(
+            Document in,
+            URI documentURI,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
+        valueFactory.setErrorReporter(out);
+        try {
+            String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
+            if (title != null && (title.length() != 0)) {
+                out.writeTriple(documentURI, DCTERMS.title, valueFactory.createLiteral(title));
+            }
+        } finally {
+            valueFactory.setErrorReporter(null);
         }
     }
 

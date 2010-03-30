@@ -23,7 +23,9 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.rdf.RDFHandlerAdapter;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
@@ -127,10 +129,12 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
                     verifyDataType ? RDFParser.DatatypeHandling.VERIFY : RDFParser.DatatypeHandling.IGNORE
             );
             parser.setStopAtFirstError(stopAtFirstError);
-            parser.setRDFHandler(new RDFHandlerAdapter(out));
+            parser.setRDFHandler(new RDFHandlerAdapter(out));           
+            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out) );
             parser.parse(
                     new StringReader(buffer.getBuffer().toString()),
-                    documentURI.stringValue());
+                    documentURI.stringValue()
+            );
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex);
         } catch (RDFParseException ex) {
@@ -148,10 +152,8 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
     }
 
     /**
-     *
      * Returns a {@link org.deri.any23.extractor.rdfa.XSLTStylesheet} able to distill RDFa from
-     * HTML pages
-     *
+     * HTML pages.
      */
     private synchronized XSLTStylesheet getXSLT() {
         // Lazily initialized static instance, so we don't parse

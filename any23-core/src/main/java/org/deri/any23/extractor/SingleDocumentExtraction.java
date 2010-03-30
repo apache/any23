@@ -35,9 +35,12 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Collections;
 
 /**
@@ -93,7 +96,6 @@ public class SingleDocumentExtraction {
     }
 
     /**
-     *
      * Triggers the execution of all the {@link org.deri.any23.extractor.Extractor} registered to this class.
      *
      * @throws ExtractionException
@@ -103,8 +105,8 @@ public class SingleDocumentExtraction {
         ensureHasLocalCopy();
         try {
             this.documentURI = new Any23ValueFactoryWrapper(
-                    ValueFactoryImpl.getInstance()).createURI(in.getDocumentURI()
-            );
+                    ValueFactoryImpl.getInstance()
+            ).createURI( in.getDocumentURI() );
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
         }
@@ -200,7 +202,14 @@ public class SingleDocumentExtraction {
             }
             throw ex;
         } finally {
+            // Logging result error report.
+            if( log.isInfoEnabled() && result.hasErrors() ) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                result.printErrorsReport( new PrintStream(baos) );
+                log.info( baos.toString() );
+            }
             result.close();
+
             long elapsed = System.currentTimeMillis() - startTime;
             if(log.isDebugEnabled()) {
                 log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");

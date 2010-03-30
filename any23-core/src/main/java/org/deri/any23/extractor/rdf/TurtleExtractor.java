@@ -22,7 +22,9 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ParseErrorListener;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
@@ -138,6 +140,7 @@ public class TurtleExtractor implements ContentExtractor {
                 }
             });
             parser.setRDFHandler( new RDFHandlerAdapter(out) );
+            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out) );
             parser.parse( in, documentURI.stringValue() );
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);

@@ -77,7 +77,12 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         this.htmlDocument = new HTMLDocument(in);
         this.documentURI = documentURI;
         this.out = out;
-        extract();
+        valueFactory.setErrorReporter(out);
+        try {
+            extract();
+        } finally {
+            valueFactory.setErrorReporter(null);
+        }
     }
 
     protected ExtractionResult openSubResult(Object context) {
