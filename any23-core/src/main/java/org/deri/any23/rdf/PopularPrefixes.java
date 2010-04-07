@@ -37,6 +37,7 @@ public class PopularPrefixes {
             add("rev"     , "http://purl.org/stuff/rev#"                 );
             add("doac"    , "http://ramonantonio.net/doac/0.1/#"         );
             add("ex"      , "http://example.com/ns#"                     );
+            add("wo"      , "http://purl.org/ontology/wo/"               );
         }
     };
 
