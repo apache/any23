@@ -1,6 +1,6 @@
 Introduction
 
-    <<Anything To Triples (any23)>> is a library and web service that extracts structured data in RDF format from a variety of Web documents. Currently it supports the following input formats:
+    <<Anything To Triples (any23)>> is a library, a web service and a command line tool that extracts structured data in RDF format from a variety of Web documents. Currently it supports the following input formats:
 
      * {{{http://www.w3.org/TR/REC-rdf-syntax/}RDF/XML}}, {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}, {{{http://www.w3.org/DesignIssues/Notation3}Notation 3}}
 
