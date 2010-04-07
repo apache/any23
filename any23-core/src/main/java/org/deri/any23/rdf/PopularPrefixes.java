@@ -16,33 +16,52 @@
 
 package org.deri.any23.rdf;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Properties;
+
 /**
- * This class act as a container for various well-known and adopted RDF Vocabulary prefixes.
+ * This class act as a container for various well-known and adopted <i>RDF</i> Vocabulary prefixes.
  */
-// TODO: #4 - this way of hardcoding prefixes in a class is an anti-pattern: must try a more flexible solution.
 public class PopularPrefixes {
 
-    private final static Prefixes popularPrefixes = new Prefixes() {
-        {
-            add("rdf"     , "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-            add("rdfs"    , "ttp://www.w3.org/2000/01/rdf-schema#"       );
-            add("xhtml"   , "http://www.w3.org/1999/xhtml/vocab#"        );
-            add("dcterms" , "http://purl.org/dc/terms/"                  );
-            add("foaf"    , "http://xmlns.com/foaf/0.1/"                 );
-            add("geo"     , "http://www.w3.org/2003/01/geo/wgs84_pos#"   );
-            add("xfn"     , "http://vocab.sindice.com/xfn#"              );
-            add("vcard"   , "http://www.w3.org/2006/vcard/ns#"           );
-            add("ical"    , "http://www.w3.org/2002/12/cal/icaltzd#"     );
-            add("hlisting", "http://sindice.com/hlisting/0.1/"           );
-            add("rev"     , "http://purl.org/stuff/rev#"                 );
-            add("doac"    , "http://ramonantonio.net/doac/0.1/#"         );
-            add("ex"      , "http://example.com/ns#"                     );
-            add("wo"      , "http://purl.org/ontology/wo/"               );
+    private static final Logger logger = LoggerFactory.getLogger(PopularPrefixes.class);
+
+    private static final String RESOURCE_NAME = "/org/deri/any23/prefixes/prefixes.properties";
+
+    private static Prefixes popularPrefixes = getPrefixes();
+
+    private static Prefixes getPrefixes() {
+        Prefixes prefixes = new Prefixes();
+        Properties properties = new Properties();
+        try {
+            logger.info(String.format("Loading prefixes from %s", RESOURCE_NAME));
+            properties.load(getResourceAsStream());
+        } catch (IOException e) {
+            logger.error(String.format("Error while loading prefixes from %s", RESOURCE_NAME), e);
+            throw new RuntimeException(String.format("Error while loading prefixes from %s", RESOURCE_NAME));
         }
-    };
+        popularPrefixes = new Prefixes();
+        for (Map.Entry entry : properties.entrySet()) {
+            if (testURICompliance((String) entry.getValue())) {
+                prefixes.add(
+                        (String) entry.getKey(),
+                        (String) entry.getValue()
+                );
+            } else {
+                logger.warn(String.format("Prefixes entry %s is not a well-formad URI. Skipped.", entry.getValue()));
+            }
+        }
+        return prefixes;
+    }
 
     /**
-     *
      * This method perform a prefix lookup. Given a set of prefixes it returns {@link org.deri.any23.rdf.Prefixes} bag
      * class containing them.
      *
@@ -54,11 +73,43 @@ public class PopularPrefixes {
     }
 
     /**
-     * @return a {@link org.deri.any23.rdf.Prefixes} with a set of well-known prefixes 
+     * @return a {@link org.deri.any23.rdf.Prefixes} with a set of well-known prefixes
      */
     public static Prefixes get() {
         return popularPrefixes;
     }
+
+    /**
+     * Checks the compliance of the <i>URI</i>.
+     *
+     * @param stringUri the string of the URI to be checked
+     * @return
+     */
+    private static boolean testURICompliance(String stringUri) {
+        try {
+            new URI(stringUri);
+        } catch (URISyntaxException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+      * Loads the prefixes list configuration file.
+      *
+      * @return the input stream containing the configuration.
+      */
+     private static InputStream getResourceAsStream() {
+         InputStream result;
+         result = PopularPrefixes.class.getResourceAsStream(RESOURCE_NAME);
+         if (result == null) {
+             result = PopularPrefixes.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
+             if (result == null) {
+                 result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
+             }
+         }
+         return result;
+     }
 
 
 }
