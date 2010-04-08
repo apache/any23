@@ -1,5 +1,5 @@
 #!/bin/bash
-ANY23_ROOT=$(cd $(dirname $0); pwd -P)
+ANY23_ROOT=$(cd "$(dirname "$0")"; pwd -P)
 ANY23_ROOT="$ANY23_ROOT/.."
 CP="$ANY23_ROOT/build"
 SEP=':'
