@@ -55,7 +55,7 @@ public class PopularPrefixes {
                         (String) entry.getValue()
                 );
             } else {
-                logger.warn(String.format("Prefixes entry %s is not a well-formad URI. Skipped.", entry.getValue()));
+                logger.warn(String.format("Prefixes entry '%s' is not a well-formad URI. Skipped.", entry.getValue()));
             }
         }
         return prefixes;
