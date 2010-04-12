@@ -59,5 +59,21 @@ public class TitleExtractorTest extends AbstractMicroformatTestCase {
         assertExtracts("microformats/xfn/mixed-case.html");
         Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
     }
+
+    /**
+     * This test verifies that when present the default language this is adopted by the title literal.
+     * 
+     * @throws RepositoryException
+     */
+    @Test
+    public void testTitleWithDefaultLanguage() throws RepositoryException {
+        assertExtracts("html/default-language.html");
+        Assert.assertTrue(
+                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", "en"), false)
+        );
+        Assert.assertFalse(
+                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", null), false)
+        );
+    }
     
 }

@@ -53,6 +53,10 @@ import java.util.Set;
  */
 public class ExtractionResultImpl implements ExtractionResult {
 
+    private static final DocumentContext DEFAULT_DOCUMENT_CONTEXT = new DocumentContext(null); 
+
+    private final DocumentContext documentContext;
+
     private final URI documentURI;
 
     private final Extractor<?> extractor;
@@ -71,23 +75,40 @@ public class ExtractionResultImpl implements ExtractionResult {
 
     private List<Error> errors;
 
-    public ExtractionResultImpl(URI documentURI, Extractor<?> extractor, TripleHandler tripleHandler) {
-        this(documentURI, extractor, tripleHandler, null);
-    }
-
     public ExtractionResultImpl(
+            DocumentContext documentContext,
             URI documentURI,
             Extractor<?> extractor,
             TripleHandler tripleHandler,
             Object contextID
     ) {
-        this.documentURI = documentURI;
-        this.extractor = extractor;
-        this.tripleHandler = tripleHandler;
+        this.documentContext = documentContext; 
+        this.documentURI     = documentURI;
+        this.extractor       = extractor;
+        this.tripleHandler   = tripleHandler;
         this.context = new ExtractionContext(
-                extractor.getDescription().getExtractorName(), documentURI,
-                ((contextID == null) ? null : Integer.toHexString(contextID.hashCode())));
+                extractor.getDescription().getExtractorName(),
+                documentURI,
+                ((contextID == null) ? null : Integer.toHexString(contextID.hashCode()))
+        );
         knownContextIDs.add(contextID);
+    }
+
+    public ExtractionResultImpl(
+            DocumentContext documentContext,
+            URI documentURI,
+            Extractor<?> extractor,
+            TripleHandler tripleHandler
+    ) {
+        this(documentContext, documentURI, extractor, tripleHandler, null);
+    }
+
+    public ExtractionResultImpl(
+            URI documentURI,
+            Extractor<?> extractor,
+            TripleHandler tripleHandler
+    ) {
+        this(DEFAULT_DOCUMENT_CONTEXT, documentURI, extractor, tripleHandler, null);
     }
 
     public boolean hasErrors() {
@@ -122,9 +143,14 @@ public class ExtractionResultImpl implements ExtractionResult {
             throw new IllegalArgumentException("Duplicate contextID: " + contextID);
         }
         checkOpen();
-        ExtractionResult result = new ExtractionResultImpl(documentURI, extractor, tripleHandler, contextID);
+        ExtractionResult result =
+                new ExtractionResultImpl(documentContext, documentURI, extractor, tripleHandler, contextID);
         subResults.add(result);
         return result;
+    }
+
+    public DocumentContext getDocumentContext() {
+        return documentContext;
     }
 
     public ExtractionContext getExtractionContext() {

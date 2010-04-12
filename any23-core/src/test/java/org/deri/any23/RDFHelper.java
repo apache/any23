@@ -16,7 +16,6 @@
 
 package org.deri.any23;
 
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -25,8 +24,6 @@ import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
-
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * RDF helper class.
@@ -39,6 +36,10 @@ public class RDFHelper {
 
     public static Literal literal(String s) {
         return ValueFactoryImpl.getInstance().createLiteral(s);
+    }
+
+    public static Literal literal(String s, String l) {
+        return ValueFactoryImpl.getInstance().createLiteral(s, l);
     }
 
     public static Statement triple(Resource s, URI p, Value o) {

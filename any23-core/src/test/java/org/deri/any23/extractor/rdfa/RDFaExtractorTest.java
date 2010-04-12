@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.rdfa;
 
+import org.deri.any23.RDFHelper;
 import org.junit.Test;
 
 import org.deri.any23.extractor.ExtractorFactory;
@@ -36,8 +37,8 @@ public class RDFaExtractorTest extends AbstractMicroformatTestCase {
     @Test
     public void testSimple() throws RepositoryException {
         assertExtracts("html/rdfa/dummy.html");
-        assertContains(DCTERMS.creator, "Alice");
-        assertContains(DCTERMS.title, "The trouble with Bob");
+        assertContains(null, DCTERMS.creator, RDFHelper.literal("Alice", "en") );
+        assertContains(null, DCTERMS.title  , RDFHelper.literal("The trouble with Bob", "en") );
     }
 
     /**

@@ -120,7 +120,7 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         try {
             getXSLT().applyTo(in, buffer);
         } catch (XSLTStylesheetException xslte) {
-            throw new ExtractionException("An error occurred duting the XSLT application.", xslte);
+            throw new ExtractionException("An error occurred during the XSLT application.", xslte);
         }
 
         try {
@@ -130,7 +130,13 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
             );
             parser.setStopAtFirstError(stopAtFirstError);
             parser.setRDFHandler(new RDFHandlerAdapter(out));           
-            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out) );
+            parser.setValueFactory(
+                    new Any23ValueFactoryWrapper(
+                            ValueFactoryImpl.getInstance(),
+                            out,
+                            out.getDocumentContext().getDefaultLanguage()
+                    )
+            );
             parser.parse(
                     new StringReader(buffer.getBuffer().toString()),
                     documentURI.stringValue()

@@ -27,6 +27,13 @@ import org.openrdf.model.Value;
 public interface ExtractionResult extends ErrorReporter {
 
     /**
+     * Returns the context of the document under extraction.
+     *
+     * @return the document context.
+     */
+    DocumentContext getDocumentContext();
+
+    /**
      * Returns the extraction context associated to this extraction result.
      *
      * @return a valid extraction context.

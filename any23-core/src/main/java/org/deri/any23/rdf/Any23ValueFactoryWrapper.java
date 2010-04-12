@@ -41,19 +41,26 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private ErrorReporter errorReporter;
 
+    private String defaultLiteralLanguage;
+
     /**
      * Constructor with error reporter.
      *
      * @param vFactory
      * @param er
      */
-    public Any23ValueFactoryWrapper(final ValueFactory vFactory, ErrorReporter er) {
-        _vFactory = vFactory;
+    public Any23ValueFactoryWrapper(final ValueFactory vFactory, ErrorReporter er, String defaultLitLanguage) {
+        _vFactory     = vFactory;
         errorReporter = er;
+        defaultLiteralLanguage = defaultLitLanguage;
+    }
+
+    public Any23ValueFactoryWrapper(final ValueFactory vFactory, ErrorReporter er) {
+        this(vFactory, er, null);
     }
 
     public Any23ValueFactoryWrapper(final ValueFactory vFactory) {
-        this(vFactory, null);  
+        this(vFactory, null, null);
     }
 
     public ErrorReporter getErrorReporter() {
@@ -62,6 +69,10 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     public void setErrorReporter(ErrorReporter er) {
         errorReporter = er;
+    }
+
+    public String getDefaultLiteralLanguage() {
+        return defaultLiteralLanguage;
     }
 
     public BNode createBNode() {
@@ -75,7 +86,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     public Literal createLiteral(String content) {
         if (content == null) return null;
-        return _vFactory.createLiteral(content);
+        return _vFactory.createLiteral(content, defaultLiteralLanguage);
     }
 
     public Literal createLiteral(boolean b) {
@@ -110,9 +121,9 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return _vFactory.createLiteral(calendar);
     }
 
-    public Literal createLiteral(String pref, String value) {
-        if (pref == null) return null;
-        return _vFactory.createLiteral(pref, value);
+    public Literal createLiteral(String label, String language) {
+        if (label == null) return null;
+        return _vFactory.createLiteral(label, language);
     }
 
     public Literal createLiteral(String pref, URI value) {

@@ -27,7 +27,6 @@ import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
@@ -53,16 +52,15 @@ public class TitleExtractor implements TagSoupDOMExtractor {
                     TitleExtractor.class
             );
 
-    protected final Any23ValueFactoryWrapper valueFactory
-            = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
-
-
     public void run(
             Document in,
             URI documentURI,
             ExtractionResult out
     ) throws IOException, ExtractionException {
-        valueFactory.setErrorReporter(out);
+        final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(
+            ValueFactoryImpl.getInstance(), out, out.getDocumentContext().getDefaultLanguage()
+        );
+        
         try {
             String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
             if (title != null && (title.length() != 0)) {

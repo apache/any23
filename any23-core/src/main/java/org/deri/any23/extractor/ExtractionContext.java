@@ -19,7 +19,8 @@ package org.deri.any23.extractor;
 import org.openrdf.model.URI;
 
 /**
- * This class provides a context for the extraction.
+ * This class provides the context for the processing of
+ * a single {@link org.deri.any23.extractor.Extractor}.
  */
 public class ExtractionContext {
 

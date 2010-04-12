@@ -22,6 +22,7 @@ import org.deri.any23.encoding.TikaEncodingDetector;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.extractor.html.HTMLDocument;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
@@ -128,8 +129,10 @@ public class SingleDocumentExtraction {
         // Invoke all extractors.
         output.startDocument(documentURI);
         output.setContentLength(in.getContentLength());
+        // Create the document context.
+        final DocumentContext documentContext = new DocumentContext( extractDocumentLanguage() );
         for (ExtractorFactory<?> factory : matchingExtractors) {
-            runExtractor(factory.createExtractor());
+            runExtractor(documentContext, factory.createExtractor());
         }
         output.endDocument(documentURI);
     }
@@ -151,6 +154,31 @@ public class SingleDocumentExtraction {
     public void setParserEncoding(String encoding) {
         this.parserEncoding = encoding;
         tagSoupDOM = null;
+    }
+
+    private boolean isHTMLDocument() throws IOException {
+        filterExtractorsByMIMEType();
+        return ! matchingExtractors.filterByMIMEType( MIMEType.parse("text/html") ).isEmpty();
+    }
+
+    /**
+     * Extracts the document language where possible.
+     *
+     * @return the document language if any, <code>null</code> otherwise.
+     * @throws java.io.IOException if an error occurs during the document analysis.
+     */
+    private String extractDocumentLanguage() throws IOException {
+        if( ! isHTMLDocument() ) {
+            return null;
+        }
+        final HTMLDocument document;
+        try {
+            document = new HTMLDocument( getTagSoupDOM() );
+        } catch (IOException ioe) {
+            log.debug("Cannot extract language from document.", ioe);
+            return null;
+        }
+        return document.getDefaultLanguage();
     }
 
     private void filterExtractorsByMIMEType()
@@ -178,13 +206,13 @@ public class SingleDocumentExtraction {
      * @throws ExtractionException
      * @throws IOException
      */
-    private void runExtractor(Extractor<?> extractor)
+    private void runExtractor(DocumentContext documentContext, Extractor<?> extractor)
     throws ExtractionException, IOException {
         if(log.isDebugEnabled()) {
             log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
         }
         long startTime = System.currentTimeMillis();
-        ExtractionResultImpl result = new ExtractionResultImpl(documentURI, extractor, output);
+        ExtractionResultImpl result = new ExtractionResultImpl(documentContext, documentURI, extractor, output);
         try {
             if (extractor instanceof BlindExtractor) {
                 ((BlindExtractor) extractor).run(documentURI, documentURI, result);

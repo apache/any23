@@ -281,6 +281,26 @@ public class HTMLDocument {
         return null;
     }
 
+    /**
+     * Returns the document default language.
+     *
+     * @return default language if any, <code>null</code> otherwise.
+     */
+    public String getDefaultLanguage() {
+        final String xpathLanguageSelector = "/HTML";
+        Node html;
+        try {
+            html = (Node) xPathEngine.evaluate(xpathLanguageSelector, document, XPathConstants.NODE);
+        } catch (XPathExpressionException xpeee) {
+            throw new IllegalStateException();
+        }
+        if (html == null) {
+            return null;
+        }
+        Node langAttribute = html.getAttributes().getNamedItem("xml:lang");
+        return langAttribute == null ? null : langAttribute.getTextContent();
+    }
+
     private java.net.URI getBaseURI() throws ExtractionException {
         if (baseURI == null) {
             try {
