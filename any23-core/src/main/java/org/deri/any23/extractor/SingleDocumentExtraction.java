@@ -32,6 +32,7 @@ import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.writer.TripleHandler;
 import org.openrdf.model.URI;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,12 +43,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
+import static org.deri.any23.extractor.TagSoupExtractionResult.PropertyPath;
 
 /**
  * This class acts as facade where all the extractors were called on a single document.
  */
 public class SingleDocumentExtraction {
+
+    //TODO: define final prop URI and put under conf.
+    public static final URI DOMAIN_PROPERTY  = new URIImpl("http://vocab.sindice.net/domain" );
+    public static final URI NESTING_PROPERTY = new URIImpl("http://vocab.sindice.net/nesting");
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
@@ -131,9 +143,14 @@ public class SingleDocumentExtraction {
         output.setContentLength(in.getContentLength());
         // Create the document context.
         final DocumentContext documentContext = new DocumentContext( extractDocumentLanguage() );
+        final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
+        final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
         for (ExtractorFactory<?> factory : matchingExtractors) {
-            runExtractor(documentContext, factory.createExtractor());
+            ExtractionReport er = runExtractor(documentContext, factory.createExtractor());
+            resourceRoots.addAll( er.resourceRoots );
+            propertyPaths.addAll( er.propertyPaths );
         }
+        consolidateResources(resourceRoots, propertyPaths, output);
         output.endDocument(documentURI);
     }
 
@@ -202,12 +219,16 @@ public class SingleDocumentExtraction {
     /**
      * Triggers the execution of a specific {@link org.deri.any23.extractor.Extractor}.
      * 
+     * @param documentContext the context of the current document under processing.
      * @param extractor the {@link org.deri.any23.extractor.Extractor} to be executed.
-     * @throws ExtractionException
-     * @throws IOException
+     * @throws ExtractionException if an error specific to an extractor happens.
+     * @throws IOException if an IO error occurs during the extraction.
+     * @return the roots of the resources that have been extracted.
      */
-    private void runExtractor(DocumentContext documentContext, Extractor<?> extractor)
-    throws ExtractionException, IOException {
+    private ExtractionReport runExtractor(
+            DocumentContext documentContext,
+            Extractor<?> extractor
+    ) throws ExtractionException, IOException {
         if(log.isDebugEnabled()) {
             log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
         }
@@ -224,6 +245,11 @@ public class SingleDocumentExtraction {
             } else {
                 throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
             }
+            return
+                new ExtractionReport(
+                    new ArrayList<ResourceRoot>( result.getResourceRoots() ),
+                    new ArrayList<PropertyPath>( result.getPropertyPaths() )
+                );
         } catch (ExtractionException ex) {
             if(log.isInfoEnabled()) {
                 log.info(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
@@ -280,5 +306,116 @@ public class SingleDocumentExtraction {
         return this.encoderDetector.guessEncoding(is);
 
     }
-    
+
+    /**
+     * This function verifies if the <i>candidateSub</i> list of strings
+     * is a prefix of <i>list</i>.
+     *
+     * @param list a list of strings.
+     * @param candidateSub a list of strings.
+     * @return <code>true</code> if <i>candidateSub</i> is a sub path of <i>list</i>,
+     *         <code>false</code> otherwise.
+     */
+    private boolean subPath(String[] list, String[] candidateSub) {
+        if(candidateSub.length > list.length) {
+            return false;
+        }
+        for(int i = 0; i < candidateSub.length; i++) {
+            if( ! candidateSub[i].equals(list[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This method consolidates the graphs extracted from the same document.
+     * In particular it adds:
+     * <ul>
+     *   <li>for every microformat root node a triple indicating the original Web page domain;</li>
+     *   <li>triples indicating the nesting relationship among a microformat root and property paths of
+     *       other nested microformats.
+     *   </li>
+     * </ul>
+     * @param resourceRoots list of RDF nodes representing roots of
+     *        extracted microformat graphs and the corresponding HTML paths.
+     * @param propertyPaths list of RDF nodes representing property subjects, property URIs and the HTML paths
+     *        from which such properties have been extracted. 
+     * @param output a triple handler event collector.
+     */
+    private void consolidateResources(
+            List<ResourceRoot> resourceRoots,
+            List<PropertyPath> propertyPaths,
+            TripleHandler output
+    ) {
+        final ExtractionContext context = new ExtractionContext(
+                "consolidation-extractor",
+                documentURI,
+                UUID.randomUUID().toString()
+        );
+
+        output.openContext(context);
+        try {
+            // Add source Web domains to every resource root.
+            final String domain;
+            try {
+                domain = new java.net.URI( in.getDocumentURI() ).getHost();
+            } catch (URISyntaxException urise) {
+                throw new IllegalArgumentException(
+                        "An error occurred while extracting the host from the document URI.",
+                        urise
+                );
+            }
+            for( ResourceRoot resourceRoot : resourceRoots ) {
+                output.receiveTriple(
+                        resourceRoot.getRoot(),
+                        DOMAIN_PROPERTY,
+                        ValueFactoryImpl.getInstance().createLiteral(domain),
+                        context
+                );
+            }
+
+            // Detect the nesting relationship among different microformats and explicit them adding connection triples.
+            ResourceRoot currentResourceRoot;
+            PropertyPath currentPropertyPath;
+            for(int r = 0; r < resourceRoots.size(); r++) {
+                for(int p = 0; p < propertyPaths.size(); p++) {
+                    currentResourceRoot = resourceRoots.get(r);
+                    currentPropertyPath = propertyPaths.get(p);
+                    if( subPath(currentPropertyPath.getPath(), currentResourceRoot.getPath()) ) {
+                        createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
+                    }
+                }
+            }
+        } finally {
+            output.closeContext(context);
+        }
+    }
+
+    /**
+     * Creates a nesting relationship triple.
+     * @param from the property containing the nested microformat.
+     * @param to the root to the nested microformat.
+     * @param th the triple handler.
+     * @param ec the extraction context used to add such information.
+     */
+    private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec) {
+        th.receiveTriple(
+                from.getResource(),
+                NESTING_PROPERTY,
+                to.getRoot(),
+                ec
+        );
+    }
+
+    class ExtractionReport {
+        private final List<ResourceRoot> resourceRoots;
+        private final List<PropertyPath> propertyPaths;
+
+        public ExtractionReport(List<ResourceRoot> resourceRoots, List<PropertyPath> propertyPaths) {
+            this.resourceRoots = resourceRoots;
+            this.propertyPaths = propertyPaths;
+        }
+    }
+
 }

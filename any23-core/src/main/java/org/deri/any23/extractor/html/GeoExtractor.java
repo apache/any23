@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
@@ -72,8 +73,12 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         }
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, VCARD.Location);
-        conditionallyAddStringProperty(geo, VCARD.latitude, lat);
-        conditionallyAddStringProperty(geo, VCARD.longitude, lon);
+        conditionallyAddStringProperty(node, geo, VCARD.latitude, lat);
+        conditionallyAddStringProperty(node, geo, VCARD.longitude, lon);
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
+        tser.addResourceRoot( document.getPathToLocalRoot(), geo, getDescription().getExtractorName() );
+
         return true;
     }
     

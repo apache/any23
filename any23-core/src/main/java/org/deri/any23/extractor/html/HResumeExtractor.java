@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
@@ -73,13 +74,21 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         addExperiences(fragment, person);
         addEducations(fragment, person);
         addAffiliations(fragment, person);
-        //addSkills //reltag
+        //TODO: add skills and reltag
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addResourceRoot(
+                HTMLDocument.getPathFromRootToGivenNode(node),
+                person,
+                getDescription().getExtractorName()
+        );
+
         return true;
     }
 
     private void addSummary(HTMLDocument doc, Resource person) {
         String summary = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(person, DOAC.summary, summary);
+        conditionallyAddStringProperty(doc.getDocument(), person, DOAC.summary, summary);
     }
 
     private void addContact(HTMLDocument doc, Resource person) {
@@ -101,19 +110,19 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         String check = "";
         String value = document.getSingularTextField("title");
         check += value;
-        conditionallyAddStringProperty(exp, DOAC.title, value.trim());
+        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.title, value.trim());
         value = document.getSingularTextField("dtstart");
         check += value;
 
-        conditionallyAddStringProperty(exp, DOAC.start_date, value.trim());
+        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.start_date, value.trim());
         value = document.getSingularTextField("dtend");
         check += value;
 
-        conditionallyAddStringProperty(exp, DOAC.end_date, value.trim());
+        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.end_date, value.trim());
         value = document.getSingularTextField("summary");
         check += value;
 
-        conditionallyAddStringProperty(exp, DOAC.organization, value.trim());
+        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.organization, value.trim());
 
         return !"".equals(check);
     }

@@ -80,7 +80,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
     private void addType(HTMLDocument doc, Resource rev) {
         String value = doc.getSingularTextField("type");
-        conditionallyAddStringProperty(rev, REVIEW.type, value);
+        conditionallyAddStringProperty(doc.getDocument(), rev, REVIEW.type, value);
     }
 
     private void addReviewer(HTMLDocument doc, Resource rev) {
@@ -100,7 +100,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private Resource findDummy(HTMLDocument item) throws ExtractionException {
         Resource blank = getBlankNodeFor(item.getDocument());
         String val = item.getSingularTextField("fn");
-        conditionallyAddStringProperty(blank, VCARD.fn, val);
+        conditionallyAddStringProperty(item.getDocument(), blank, VCARD.fn, val);
         val = item.getSingularUrlField("url");
         conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(val));
         String pics[] = item.getPluralUrlField("photo");
@@ -112,22 +112,22 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
     private void addRating(HTMLDocument doc, Resource rev) {
         String value = doc.getSingularTextField("rating");
-        conditionallyAddStringProperty(rev, REVIEW.rating, value);
+        conditionallyAddStringProperty(doc.getDocument(), rev, REVIEW.rating, value);
     }
 
     private void addSummary(HTMLDocument doc, Resource rev) {
         String value = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(rev, REVIEW.title, value);
+        conditionallyAddStringProperty(doc.getDocument(), rev, REVIEW.title, value);
     }
 
     private void addTime(HTMLDocument doc, Resource rev) {
         String value = doc.getSingularTextField("dtreviewed");
-        conditionallyAddStringProperty(rev, DCTERMS.date, value);
+        conditionallyAddStringProperty(doc.getDocument(), rev, DCTERMS.date, value);
     }
 
     private void addDescription(HTMLDocument doc, Resource rev) {
         String value = doc.getSingularTextField("description");
-        conditionallyAddStringProperty(rev, REVIEW.text, value);
+        conditionallyAddStringProperty(doc.getDocument(), rev, REVIEW.text, value);
     }
 
 }

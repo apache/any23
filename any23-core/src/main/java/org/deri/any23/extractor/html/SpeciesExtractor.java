@@ -17,7 +17,8 @@ import java.util.List;
 
 /**
  * Extractor able to extract the <a href="http://microformats.org/wiki/species">Species Microformat</a>.
- * The data are represented using the <a href="http://www.bbc.co.uk/ontologies/wildlife/2010-02-22.shtml">BBC Wildlife Ontology</a>.
+ * The data are represented using the
+ * <a href="http://www.bbc.co.uk/ontologies/wildlife/2010-02-22.shtml">BBC Wildlife Ontology</a>.
  *
  * @see {@link org.deri.any23.vocab.WO}
  * @author Davide Palmisano (dpalmisano@gmail.com)
@@ -91,14 +92,14 @@ public class SpeciesExtractor extends MicroformatExtractor {
 
         if (binomialNames.size() > 0) {
             for (Node binomialName : binomialNames) {
-                conditionallyAddStringProperty(resource, WO.scientificName, binomialName.getTextContent());
+                conditionallyAddStringProperty(binomialName, resource, WO.scientificName, binomialName.getTextContent());
             }
             foundAny = true;
         }
 
         if (vernacularNames.size() > 0) {
             for (Node vernacularName : vernacularNames) {
-                conditionallyAddStringProperty(resource, WO.speciesName, vernacularName.getTextContent());
+                conditionallyAddStringProperty(vernacularName, resource, WO.speciesName, vernacularName.getTextContent());
             }
             foundAny = true;
         }
@@ -114,7 +115,7 @@ public class SpeciesExtractor extends MicroformatExtractor {
             for (Node biotaNode : biotas) {
                 BNode familyNode = valueFactory.createBNode();
                 addURIProperty(familyNode, RDF.TYPE, WO.family);
-                conditionallyAddStringProperty(familyNode, WO.familyName, binomial);
+                conditionallyAddStringProperty(biotaNode, familyNode, WO.familyName, binomial);
                 addBNodeProperty(resource, WO.familyProperty, familyNode);
                 foundAny |= extractNames(biotaNode, resource);
             }

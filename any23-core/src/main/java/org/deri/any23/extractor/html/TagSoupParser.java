@@ -94,8 +94,12 @@ public class TagSoupParser {
         return result;
     }
 
+    /*
+     * TODO: try enable parsing of non valid HTML. This is important for Microformat nesting
+     *       support when encountering invalid HTML source. For example if we find a <div>
+     *       inside an <a> tag this is not properly represented as DOM.
+     */ 
     private Document parse() throws IOException, SAXException, TransformerException {
-
         DOMParser parser = new DOMParser();
         parser.setFeature("http://xml.org/sax/features/namespaces", false);
 

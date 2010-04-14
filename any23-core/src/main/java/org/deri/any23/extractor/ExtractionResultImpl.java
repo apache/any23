@@ -51,7 +51,7 @@ import java.util.Set;
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
-public class ExtractionResultImpl implements ExtractionResult {
+public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     private static final DocumentContext DEFAULT_DOCUMENT_CONTEXT = new DocumentContext(null); 
 
@@ -74,6 +74,10 @@ public class ExtractionResultImpl implements ExtractionResult {
     private boolean isInitialized = false;
 
     private List<Error> errors;
+
+    private List<ResourceRoot> resourceRoots;
+
+    private List<PropertyPath> propertyPaths;
 
     public ExtractionResultImpl(
             DocumentContext documentContext,
@@ -186,9 +190,6 @@ public class ExtractionResultImpl implements ExtractionResult {
         if (isInitialized) {
             tripleHandler.closeContext(context);
         }
-        if(errors != null) {
-            errors.clear();
-        }
     }
 
     private void checkOpen() {
@@ -203,6 +204,48 @@ public class ExtractionResultImpl implements ExtractionResult {
         if (isClosed) {
             throw new IllegalStateException("Not open: " + context);
         }
+    }
+
+    public void addResourceRoot(String[] path, Resource root, String extractor) {
+        if(resourceRoots == null) {
+            resourceRoots = new ArrayList<ResourceRoot>();
+        }
+        resourceRoots.add( new ResourceRoot(path, root, extractor) );
+    }
+
+    public List<ResourceRoot> getResourceRoots() {
+        List<ResourceRoot> allRoots = new ArrayList<ResourceRoot>();
+        if(resourceRoots != null) {
+            allRoots.addAll( resourceRoots );
+        }
+        for(ExtractionResult er : subResults) {
+            ExtractionResultImpl eri = (ExtractionResultImpl) er;
+            if( eri.resourceRoots != null ) {
+                allRoots.addAll( eri.resourceRoots );
+            }
+        }
+        return allRoots;
+    }
+
+    public void addPropertyPath(Resource propertySubject, Resource property, String[] path) {
+        if(propertyPaths == null) {
+            propertyPaths = new ArrayList<PropertyPath>();
+        }
+        propertyPaths.add( new PropertyPath(path, property) );
+    }
+
+    public List<PropertyPath> getPropertyPaths() {
+        List<PropertyPath> allPaths = new ArrayList<PropertyPath>();
+        if(propertyPaths != null) {
+            allPaths.addAll( propertyPaths );
+        }
+        for(ExtractionResult er : subResults) {
+            ExtractionResultImpl eri = (ExtractionResultImpl) er;
+            if( eri.propertyPaths != null ) {
+                allPaths.addAll( eri.propertyPaths );
+            }
+        }
+        return allPaths;
     }
 
 }

@@ -116,6 +116,50 @@ public class HTMLDocument {
             res.add(node.getTextContent().trim());
     }
 
+    /**
+     * Given a node this method returns the index corresponding to such node
+     * within the list of the children of its parent node.
+     *
+     * @param n the node of which returning the index.
+     * @return a non negative number.
+     */
+    public static int getIndexInParent(Node n) {
+        Node parent = n.getParentNode();
+        if(parent == null) {
+            return 0;
+        }
+        NodeList nodes = parent.getChildNodes();
+        int counter = -1;
+        for(int i = 0; i < nodes.getLength(); i++) {
+            Node current = nodes.item(i);
+            if ( current.getNodeType() == n.getNodeType() && current.getNodeName().equals( n.getNodeName() ) ) {
+                counter++;
+            }
+            if( current.equals(n) ) {
+                return counter;
+            }
+        }
+        throw new IllegalStateException("Cannot find a child within its parent node list.");
+    }
+
+    /**
+     * Returns a list of tag names representing the path from
+     * the document root to the given node <i>n</i>. 
+     *
+     * @param n the node for which retrieve the path.
+     * @return a sequence of HTML tag names.
+     */
+    public static String[] getPathFromRootToGivenNode(Node n) {
+        List<String> ancestors = new ArrayList<String>();
+        ancestors.add( n.getNodeName() + getIndexInParent(n) );
+        Node parent = n.getParentNode();
+        while(parent != null) {
+            ancestors.add(0, parent.getNodeName() + getIndexInParent(parent) );
+            parent = parent.getParentNode();
+        }
+        return ancestors.toArray( new String[ancestors.size()] );
+    }
+
     private static String extractRelTag(NamedNodeMap attributes) {
         String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
         //cleanup spurious segments
@@ -190,6 +234,7 @@ public class HTMLDocument {
      * @return if multiple values are found just the first is returned,
      * if we want to check that there are no n-ary values use plural finder
      */
+    @Deprecated
     public String getSingularTextField(String className) {
         String[] res = getPluralTextField(className);
         if (res.length < 1)
@@ -203,6 +248,7 @@ public class HTMLDocument {
      * @param className name of class node containing text.
      * @return list of fields.
      */
+    @Deprecated
     public String[] getPluralTextField(String className) {
         List<String> res = new ArrayList<String>(0);
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
@@ -299,6 +345,15 @@ public class HTMLDocument {
         }
         Node langAttribute = html.getAttributes().getNamedItem("xml:lang");
         return langAttribute == null ? null : langAttribute.getTextContent();
+    }
+
+    /**
+     * Returns the sequence of ancestors from the document root to the local root (document).
+     *
+     * @return a sequence of node names.
+     */
+    public String[] getPathToLocalRoot() {
+        return getPathFromRootToGivenNode(document);
     }
 
     private java.net.URI getBaseURI() throws ExtractionException {

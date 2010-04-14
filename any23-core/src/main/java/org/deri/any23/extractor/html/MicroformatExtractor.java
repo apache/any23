@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -27,6 +28,7 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import java.io.IOException;
 
@@ -85,33 +87,49 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         }
     }
 
+    /**
+     * Returns the {@link org.deri.any23.extractor.ExtractionResult} associated
+     * to the extraction session.
+     *
+     * @return a valid extraction result.
+     */
+    protected ExtractionResult getCurrentExtractionResult() {
+        return out;
+    }
+
     protected ExtractionResult openSubResult(Object context) {
         return out.openSubResult(context);
     }
 
     /**
-     * Helper method that adds a literal property to a node.
+     * Helper method that adds a literal property to a subject only if the value of the property
+     * is a valid string.
      *
+     * @param n the <i>HTML</i> node from which the property value has been extracted.
+     * @param subject the property subject.
+     * @param p the property URI.
+     * @param value the property value.
      * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
-    protected boolean conditionallyAddStringProperty(Resource subject, URI p, String value) {
+    protected boolean conditionallyAddStringProperty(Node n, Resource subject, URI p, String value) {
         if (value == null) return false;
         value = value.trim();
         return
                 value.length() > 0 
                         &&
-                conditionallyAddLiteralProperty(subject, p, valueFactory.createLiteral(value));
+                conditionallyAddLiteralProperty(n, subject, p, valueFactory.createLiteral(value));
     }
 
     /**
      * Helper method that adds a literal property to a node.
      *
-     * @param subject
-     * @param property
-     * @param literal
+     * @param n the <i>HTML</i> node from which the property value has been extracted.
+     * @param subject subject the property subject.
+     * @param property the property URI.
+     * @param literal value the property value.
      * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
      */
-    protected boolean conditionallyAddLiteralProperty(Resource subject, URI property, Literal literal) {
+    protected boolean conditionallyAddLiteralProperty(Node n, Resource subject, URI property, Literal literal) {
         final String literalStr = literal.stringValue();
         if( containsScriptBlock(literalStr) ) {
             out.notifyError(
@@ -123,11 +141,17 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
             return false;
         }
         out.writeTriple(subject, property, literal);
+        TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addPropertyPath(subject, property, HTMLDocument.getPathFromRootToGivenNode(n) );
         return true;
     }
 
     /**
      * Helper method that adds a URI property to a node.
+     * @param subject the property subject.
+     * @param property the property URI.
+     * @param uri the property object.
+     * @return <code>true</code> if the the resource has been added, <code>false</code> otherwise. 
      */
     protected boolean conditionallyAddResourceProperty(Resource subject, URI property, URI uri) {
         if (uri == null) return false;

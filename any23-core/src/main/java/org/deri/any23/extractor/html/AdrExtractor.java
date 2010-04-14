@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
@@ -64,13 +65,17 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         for (String field : addressFields) {
             String[] values = document.getPluralTextField(field);
             for (String val : values) {
-                conditionallyAddStringProperty(adr, VCARD.getProperty(field), val);
+                conditionallyAddStringProperty(node, adr, VCARD.getProperty(field), val);
             }
         }
         String[] types = document.getPluralTextField("type");
         for (String val : types) {
-            conditionallyAddStringProperty(adr, VCARD.addressType, val);
+            conditionallyAddStringProperty(node, adr, VCARD.addressType, val);
         }
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
+        tser.addResourceRoot( document.getPathToLocalRoot(), adr, getDescription().getExtractorName() );
+
         return true;
     }
 
