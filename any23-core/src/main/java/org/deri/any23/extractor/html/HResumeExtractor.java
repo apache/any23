@@ -88,7 +88,13 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 
     private void addSummary(HTMLDocument doc, Resource person) {
         String summary = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(doc.getDocument(), person, DOAC.summary, summary);
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                doc.getDocument(),
+                person,
+                DOAC.summary,
+                summary
+        );
     }
 
     private void addContact(HTMLDocument doc, Resource person) {
@@ -110,19 +116,21 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         String check = "";
         String value = document.getSingularTextField("title");
         check += value;
-        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.title, value.trim());
+        final String extractorName = getDescription().getExtractorName();
+        final Node documentNode    = document.getDocument();
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.title, value.trim());
         value = document.getSingularTextField("dtstart");
         check += value;
 
-        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.start_date, value.trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.start_date, value.trim());
         value = document.getSingularTextField("dtend");
         check += value;
 
-        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.end_date, value.trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.end_date, value.trim());
         value = document.getSingularTextField("summary");
         check += value;
 
-        conditionallyAddStringProperty(document.getDocument(), exp, DOAC.organization, value.trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.organization, value.trim());
 
         return !"".equals(check);
     }

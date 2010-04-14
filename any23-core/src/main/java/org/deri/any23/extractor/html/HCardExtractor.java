@@ -195,7 +195,9 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addStringProperty(String className, Resource resource, URI property) {
         return conditionallyAddStringProperty(
-                fragment.getDocument(), resource, property, fragment.getSingularTextField(className)
+                getDescription().getExtractorName(),
+                fragment.getDocument(),
+                resource, property, fragment.getSingularTextField(className)
         );
     }
 
@@ -210,8 +212,13 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     private boolean addStringMultiProperty(String className, Resource resource, URI property) {
         String[] fields = fragment.getPluralTextField(className);
         boolean found = false;
+        final String extractorName = getDescription().getExtractorName();
         for(String field : fields) {
-            found |= conditionallyAddStringProperty(fragment.getDocument(), resource, property, field);
+            found |= conditionallyAddStringProperty(
+                    extractorName,
+                    fragment.getDocument(),
+                    resource, property, field
+            );
         }
         return found;
     }
@@ -219,20 +226,33 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     private boolean addCategory(Resource card) {
         String[] categories = fragment.getPluralTextField("category");
         boolean found = false;
+        final String extractorName = getDescription().getExtractorName();
         for (String category : categories) {
-            found |= conditionallyAddStringProperty(fragment.getDocument(), card, VCARD.category, category);
+            found |= conditionallyAddStringProperty(
+                    extractorName,
+                    fragment.getDocument(),
+                    card, VCARD.category, category
+            );
         }
         return found;
     }
 
     private boolean addUid(Resource card) {
         String uid = fragment.getSingularUrlField("uid");
-        return conditionallyAddStringProperty(fragment.getDocument(), card, VCARD.uid, uid);
+        return conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                fragment.getDocument(),
+                card, VCARD.uid, uid
+        );
     }
 
     private boolean addClass(Resource card) {
         String class_ = fragment.getSingularUrlField("class");
-        return conditionallyAddStringProperty(fragment.getDocument(), card, VCARD.class_, class_);
+        return conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                fragment.getDocument(),
+                card, VCARD.class_, class_
+        );
     }
 
     private boolean addLogo(Resource card) throws ExtractionException {
@@ -277,8 +297,10 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         }
     }
 
-    private void addFieldTriple(Node n, BNode bn, String fieldName, String fieldValue) {
-        conditionallyAddLiteralProperty(n, bn, VCARD.getProperty(fieldName), valueFactory.createLiteral(fieldValue));
+    private void addFieldTriple(String extractor, Node n, BNode bn, String fieldName, String fieldValue) {
+        conditionallyAddLiteralProperty(
+                extractor, n, bn, VCARD.getProperty(fieldName), valueFactory.createLiteral(fieldValue)
+        );
     }
 
     private boolean addNames(Node node, Resource card) {
@@ -286,6 +308,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         addBNodeProperty(card, VCARD.n, n);
         addURIProperty(n, RDF.TYPE, VCARD.Name);
 
+        final String extractor = getDescription().getExtractorName();
         for (String fieldName : HCardName.FIELDS) {
             if (!name.containsField(fieldName)) {
                 continue;
@@ -293,12 +316,12 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             if (name.isMultiField(fieldName)) {
                 Collection<String> values = name.getFields(fieldName);
                 for(String value : values) {
-                    addFieldTriple(node, n, fieldName, value);
+                    addFieldTriple(extractor, node, n, fieldName, value);
                 }
             } else {
                 String value =  name.getField(fieldName);
                 if(value == null) { continue; }
-                addFieldTriple(node, n, fieldName, value);
+                addFieldTriple(extractor, node, n, fieldName, value);
             }
         }
         return true;
@@ -309,7 +332,9 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private boolean addFn(Node n, Resource card) {
-        return conditionallyAddStringProperty(n, card, VCARD.fn, name.getFullName());
+        return conditionallyAddStringProperty(
+                getDescription().getExtractorName(), n, card, VCARD.fn, name.getFullName()
+        );
     }
 
     private void readOrganization() {
@@ -330,10 +355,15 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         BNode org = valueFactory.createBNode();
         addBNodeProperty(card, VCARD.org, org);
         addURIProperty(org, RDF.TYPE, VCARD.Organization);
+        final String extractorName =  getDescription().getExtractorName();
         conditionallyAddLiteralProperty(
-                n, org, VCARD.organization_name, valueFactory.createLiteral(name.getOrganization())
+                extractorName, n,
+                org, VCARD.organization_name, valueFactory.createLiteral(name.getOrganization())
         );
-        conditionallyAddStringProperty(n, org, VCARD.organization_unit, name.getOrganizationUnit());
+        conditionallyAddStringProperty(
+                extractorName, n,
+                org, VCARD.organization_unit, name.getOrganizationUnit()
+        );
         return true;
     }
 

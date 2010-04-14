@@ -90,16 +90,25 @@ public class SpeciesExtractor extends MicroformatExtractor {
         List<Node> vernacularNames = DomUtils.findAllByClassName(node, "vernacular");
         List<Node> binomialNames = DomUtils.findAllByClassName(node, "binominal");
 
+        final String extractor = getDescription().getExtractorName();
         if (binomialNames.size() > 0) {
             for (Node binomialName : binomialNames) {
-                conditionallyAddStringProperty(binomialName, resource, WO.scientificName, binomialName.getTextContent());
+                conditionallyAddStringProperty(
+                        extractor,
+                        binomialName,
+                        resource, WO.scientificName, binomialName.getTextContent()
+                );
             }
             foundAny = true;
         }
 
         if (vernacularNames.size() > 0) {
             for (Node vernacularName : vernacularNames) {
-                conditionallyAddStringProperty(vernacularName, resource, WO.speciesName, vernacularName.getTextContent());
+                conditionallyAddStringProperty(
+                        extractor,
+                        vernacularName,
+                        resource, WO.speciesName, vernacularName.getTextContent()
+                );
             }
             foundAny = true;
         }
@@ -108,6 +117,7 @@ public class SpeciesExtractor extends MicroformatExtractor {
 
     private boolean extractFamily(Node node, Resource resource) throws ExtractionException {
         boolean foundAny = false;
+        final String extractor = getDescription().getExtractorName();
         for (String binomial : binomials) {
             List<Node> biotas = DomUtils.findAllByClassName(node, binomial);
             if (biotas.size() == 0)
@@ -115,7 +125,11 @@ public class SpeciesExtractor extends MicroformatExtractor {
             for (Node biotaNode : biotas) {
                 BNode familyNode = valueFactory.createBNode();
                 addURIProperty(familyNode, RDF.TYPE, WO.family);
-                conditionallyAddStringProperty(biotaNode, familyNode, WO.familyName, binomial);
+                conditionallyAddStringProperty(
+                        extractor,
+                        biotaNode,
+                        familyNode, WO.familyName, binomial
+                );
                 addBNodeProperty(resource, WO.familyProperty, familyNode);
                 foundAny |= extractNames(biotaNode, resource);
             }

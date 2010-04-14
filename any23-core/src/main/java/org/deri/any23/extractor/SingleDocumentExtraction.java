@@ -317,7 +317,7 @@ public class SingleDocumentExtraction {
      *         <code>false</code> otherwise.
      */
     private boolean subPath(String[] list, String[] candidateSub) {
-        if(candidateSub.length > list.length) {
+        if(candidateSub.length >= list.length) {
             return false;
         }
         for(int i = 0; i < candidateSub.length; i++) {
@@ -382,6 +382,10 @@ public class SingleDocumentExtraction {
                 for(int p = 0; p < propertyPaths.size(); p++) {
                     currentResourceRoot = resourceRoots.get(r);
                     currentPropertyPath = propertyPaths.get(p);
+                    // Avoid wrong nesting relationships.
+                    if(currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
+                        continue;
+                    }
                     if( subPath(currentPropertyPath.getPath(), currentResourceRoot.getPath()) ) {
                         createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
                     }

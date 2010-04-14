@@ -62,19 +62,20 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument document = getHTMLDocument();
         BNode adr = getBlankNodeFor(node);
         out.writeTriple(adr, RDF.TYPE, VCARD.Address);
+        final String extractorName = getDescription().getExtractorName();
         for (String field : addressFields) {
             String[] values = document.getPluralTextField(field);
             for (String val : values) {
-                conditionallyAddStringProperty(node, adr, VCARD.getProperty(field), val);
+                conditionallyAddStringProperty(extractorName, node, adr, VCARD.getProperty(field), val);
             }
         }
         String[] types = document.getPluralTextField("type");
         for (String val : types) {
-            conditionallyAddStringProperty(node, adr, VCARD.addressType, val);
+            conditionallyAddStringProperty(extractorName, node, adr, VCARD.addressType, val);
         }
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), adr, getDescription().getExtractorName() );
+        tser.addResourceRoot( document.getPathToLocalRoot(), adr, extractorName );
 
         return true;
     }

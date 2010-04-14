@@ -52,11 +52,12 @@ public interface TagSoupExtractionResult extends ExtractionResult {
     /**
      * Adds a property path to the list of the extracted data.
      *
+     * @param extractor the identifier of the extractor responsible for retrieving such property.
      * @param propertySubject the subject of the property.
      * @param property the property URI.
      * @param path the path of the <i>HTML</i> node from which the property literal has been extracted.
      */
-    void addPropertyPath(Resource propertySubject, Resource property, String[] path);
+    void addPropertyPath(String extractor, Resource propertySubject, Resource property, String[] path);
 
     /**
      * Returns all the collected property paths.
@@ -118,10 +119,12 @@ public interface TagSoupExtractionResult extends ExtractionResult {
     class PropertyPath {
         private String[] path;
         private Resource resource;
+        private String extractor;
 
-        public PropertyPath(String[] path, Resource resource) {
-            this.path = path;
-            this.resource = resource;
+        public PropertyPath(String[] path, Resource resource, String extractor) {
+            this.path      = path;
+            this.resource  = resource;
+            this.extractor = extractor;
         }
 
         public String[] getPath() {
@@ -130,6 +133,10 @@ public interface TagSoupExtractionResult extends ExtractionResult {
 
         public Resource getResource() {
             return resource;
+        }
+
+        public String getExtractor() {
+            return extractor;
         }
 
         @Override

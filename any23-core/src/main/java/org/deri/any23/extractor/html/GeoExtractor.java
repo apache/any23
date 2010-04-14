@@ -73,11 +73,12 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         }
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, VCARD.Location);
-        conditionallyAddStringProperty(node, geo, VCARD.latitude, lat);
-        conditionallyAddStringProperty(node, geo, VCARD.longitude, lon);
+        final String extractorName = getDescription().getExtractorName();
+        conditionallyAddStringProperty(extractorName, node, geo, VCARD.latitude, lat);
+        conditionallyAddStringProperty(extractorName, node, geo, VCARD.longitude, lon);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), geo, getDescription().getExtractorName() );
+        tser.addResourceRoot( document.getPathToLocalRoot(), geo, extractorName );
 
         return true;
     }

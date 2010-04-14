@@ -105,31 +105,46 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * Helper method that adds a literal property to a subject only if the value of the property
      * is a valid string.
      *
+     * @param extractor the name of the extractor adding this property.
      * @param n the <i>HTML</i> node from which the property value has been extracted.
      * @param subject the property subject.
      * @param p the property URI.
      * @param value the property value.
      * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
-    protected boolean conditionallyAddStringProperty(Node n, Resource subject, URI p, String value) {
+    protected boolean conditionallyAddStringProperty(
+            String extractor,
+            Node n,
+            Resource subject, URI p, String value
+    ) {
         if (value == null) return false;
         value = value.trim();
         return
                 value.length() > 0 
                         &&
-                conditionallyAddLiteralProperty(n, subject, p, valueFactory.createLiteral(value));
+                conditionallyAddLiteralProperty(
+                        extractor, n,
+                        subject, p, valueFactory.createLiteral(value)
+                );
     }
 
     /**
      * Helper method that adds a literal property to a node.
      *
+     * @param extractor the name of the extractor adding this property.
      * @param n the <i>HTML</i> node from which the property value has been extracted.
      * @param subject subject the property subject.
      * @param property the property URI.
      * @param literal value the property value.
      * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
      */
-    protected boolean conditionallyAddLiteralProperty(Node n, Resource subject, URI property, Literal literal) {
+    protected boolean conditionallyAddLiteralProperty(
+            String extractor,
+            Node n,
+            Resource subject,
+            URI property,
+            Literal literal
+    ) {
         final String literalStr = literal.stringValue();
         if( containsScriptBlock(literalStr) ) {
             out.notifyError(
@@ -142,7 +157,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         }
         out.writeTriple(subject, property, literal);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addPropertyPath(subject, property, HTMLDocument.getPathFromRootToGivenNode(n) );
+        tser.addPropertyPath(extractor, subject, property, HTMLDocument.getPathFromRootToGivenNode(n) );
         return true;
     }
 

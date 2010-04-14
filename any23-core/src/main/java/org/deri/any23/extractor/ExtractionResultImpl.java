@@ -227,11 +227,11 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return allRoots;
     }
 
-    public void addPropertyPath(Resource propertySubject, Resource property, String[] path) {
+    public void addPropertyPath(String extractor, Resource propertySubject, Resource property, String[] path) {
         if(propertyPaths == null) {
             propertyPaths = new ArrayList<PropertyPath>();
         }
-        propertyPaths.add( new PropertyPath(path, property) );
+        propertyPaths.add( new PropertyPath(path, property, extractor) );
     }
 
     public List<PropertyPath> getPropertyPaths() {
