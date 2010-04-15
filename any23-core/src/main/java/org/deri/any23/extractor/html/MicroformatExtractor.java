@@ -157,7 +157,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         }
         out.writeTriple(subject, property, literal);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addPropertyPath(extractor, subject, property, HTMLDocument.getPathFromRootToGivenNode(n) );
+        tser.addPropertyPath(extractor, subject, property, null, HTMLDocument.getPathFromRootToGivenNode(n) );
         return true;
     }
 
@@ -177,11 +177,26 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Helper method that adds a BNode property to a node.
      *
-     * @param subject
-     * @param property
-     * @param bnode
+     * @param extractor the extractor generating such bnode.
+     * @param n the <i>HTML</i> node used for extracting such property.
+     * @param subject the property subject.
+     * @param property the property URI.
+     * @param bnode the property value.
      */
-    protected void addBNodeProperty(Resource subject, URI property, BNode bnode) {
+    protected void addBNodeProperty(String extractor, Node n, Resource subject, URI property, BNode bnode) {
+        out.writeTriple(subject, property, bnode);
+        TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addPropertyPath(extractor, subject, property, bnode, HTMLDocument.getPathFromRootToGivenNode(n) );
+    }
+
+    /**
+     * Helper method that adds a BNode property to a node.
+     *
+     * @param subject the property subject.
+     * @param property the property URI.
+     * @param bnode the property value.
+     */
+    protected void addBNodeProperty( Resource subject, URI property, BNode bnode) {
         out.writeTriple(subject, property, bnode);
     }
 

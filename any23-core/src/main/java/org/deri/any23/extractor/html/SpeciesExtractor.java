@@ -117,7 +117,7 @@ public class SpeciesExtractor extends MicroformatExtractor {
 
     private boolean extractFamily(Node node, Resource resource) throws ExtractionException {
         boolean foundAny = false;
-        final String extractor = getDescription().getExtractorName();
+        final String extractorName = getDescription().getExtractorName();
         for (String binomial : binomials) {
             List<Node> biotas = DomUtils.findAllByClassName(node, binomial);
             if (biotas.size() == 0)
@@ -126,11 +126,15 @@ public class SpeciesExtractor extends MicroformatExtractor {
                 BNode familyNode = valueFactory.createBNode();
                 addURIProperty(familyNode, RDF.TYPE, WO.family);
                 conditionallyAddStringProperty(
-                        extractor,
+                        extractorName,
                         biotaNode,
                         familyNode, WO.familyName, binomial
                 );
-                addBNodeProperty(resource, WO.familyProperty, familyNode);
+                addBNodeProperty(
+                        extractorName,
+                        biotaNode,
+                        resource, WO.familyProperty, familyNode
+                );
                 foundAny |= extractNames(biotaNode, resource);
             }
             foundAny = true;

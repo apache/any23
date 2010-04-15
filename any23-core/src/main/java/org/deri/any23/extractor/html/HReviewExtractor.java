@@ -100,15 +100,25 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
     private void addReviewer(HTMLDocument doc, Resource rev) {
         List<Node> nodes = doc.findAllByClassName("reviewer");
-        if (nodes.size() > 0)
-            addBNodeProperty(rev, REVIEW.reviewer, getBlankNodeFor(nodes.get(0)));
+        if (nodes.size() > 0) {
+            Node node0 = nodes.get(0);
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node0,
+                    rev, REVIEW.reviewer, getBlankNodeFor(node0)
+            );
+        }
     }
 
     private void addItem(HTMLDocument root, BNode rev) throws ExtractionException {
         List<Node> nodes = root.findAllByClassName("item");
         for (Node node : nodes) {
             Resource item = findDummy(new HTMLDocument(node));
-            addBNodeProperty(item, REVIEW.hasReview, rev);
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    item, REVIEW.hasReview, rev
+            );
         }
     }
 

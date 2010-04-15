@@ -191,7 +191,11 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         List<Node> nodes = fragment.findAllByClassName(className);
         if (nodes.isEmpty()) return false;
         for (Node node : nodes) {
-            addBNodeProperty(resource, property, getBlankNodeFor(node));
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    resource, property, getBlankNodeFor(node)
+            );
         }
         return true;
     }
@@ -309,10 +313,14 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addNames(Resource card) {
         BNode n = valueFactory.createBNode();
-        addBNodeProperty(card, VCARD.n, n);
+        final String extractorName = getDescription().getExtractorName();
+        addBNodeProperty(
+                extractorName,
+                this.fragment.getDocument(),
+                card, VCARD.n, n
+        );
         addURIProperty(n, RDF.TYPE, VCARD.Name);
 
-        final String extractor = getDescription().getExtractorName();
         for (String fieldName : HCardName.FIELDS) {
             if (!name.containsField(fieldName)) {
                 continue;
@@ -321,7 +329,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 Collection<HTMLDocument.TextField> values = name.getFields(fieldName);
                 for(TextField value : values) {
                     addFieldTriple(
-                            extractor,
+                            extractorName,
                             value.source(),
                             n, fieldName, value.value()
                     );
@@ -330,7 +338,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 TextField value =  name.getField(fieldName);
                 if(value == null) { continue; }
                 addFieldTriple(
-                        extractor, value.source(),
+                        extractorName,
+                        value.source(),
                         n, fieldName, value.value()
                 );
             }
@@ -367,9 +376,13 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     private boolean addOrganizationName(Resource card) {
         if (name.getOrganization() == null) return false;
         BNode org = valueFactory.createBNode();
-        addBNodeProperty(card, VCARD.org, org);
-        addURIProperty(org, RDF.TYPE, VCARD.Organization);
         final String extractorName =  getDescription().getExtractorName();
+        addBNodeProperty(
+                extractorName,
+                this.fragment.getDocument(),
+                card, VCARD.org, org
+        );
+        addURIProperty(org, RDF.TYPE, VCARD.Organization);
         final TextField organizationTextField = name.getOrganization();
         conditionallyAddLiteralProperty(
                 extractorName,

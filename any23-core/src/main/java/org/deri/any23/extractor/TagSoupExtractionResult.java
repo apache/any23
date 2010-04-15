@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor;
 
+import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 
 import java.util.Arrays;
@@ -55,9 +56,10 @@ public interface TagSoupExtractionResult extends ExtractionResult {
      * @param extractor the identifier of the extractor responsible for retrieving such property.
      * @param propertySubject the subject of the property.
      * @param property the property URI.
+     * @param object the property object if any, <code>null</code> otherwise.
      * @param path the path of the <i>HTML</i> node from which the property literal has been extracted.
      */
-    void addPropertyPath(String extractor, Resource propertySubject, Resource property, String[] path);
+    void addPropertyPath(String extractor, Resource propertySubject, Resource property, BNode object, String[] path);
 
     /**
      * Returns all the collected property paths.
@@ -117,15 +119,30 @@ public interface TagSoupExtractionResult extends ExtractionResult {
      * Defines a property path object.
      */
     class PropertyPath {
+
+        private String   extractor;
         private String[] path;
         private Resource subject;
         private Resource property;
-        private String   extractor;
+        private BNode    object;
 
-        public PropertyPath(String[] path, Resource subject, Resource property, String extractor) {
+        public PropertyPath(String[] path, Resource subject, Resource property, BNode object, String extractor) {
+            if(path == null) {
+                throw new NullPointerException("path cannot be null.");
+            }
+            if(subject == null) {
+                throw new NullPointerException("subject cannot be null.");
+            }
+            if(property == null) {
+                throw new NullPointerException("property cannot be null.");
+            }
+            if(extractor == null) {
+                throw new NullPointerException("extractor cannot be null.");
+            }
             this.path      = path;
             this.subject   = subject;
             this.property  = property;
+            this.object    = object;
             this.extractor = extractor;
         }
 
@@ -139,6 +156,10 @@ public interface TagSoupExtractionResult extends ExtractionResult {
 
         public Resource getProperty() {
             return property;
+        }
+
+        public BNode getObject() {
+            return object;
         }
 
         public String getExtractor() {

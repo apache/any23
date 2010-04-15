@@ -409,7 +409,12 @@ public class SingleDocumentExtraction {
     private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec) {
         BNode bnode = ValueFactoryImpl.getInstance().createBNode();
         th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), ec );
-        th.receiveTriple(bnode, NESTING_STRUCTURED_PROPERTY, to.getRoot(), ec );
+        th.receiveTriple(
+                bnode,
+                NESTING_STRUCTURED_PROPERTY,
+                from.getObject() == null ? to.getRoot() : from.getObject(),
+                ec
+        );
         th.receiveTriple(
                 from.getSubject(),
                 NESTING_PROPERTY,

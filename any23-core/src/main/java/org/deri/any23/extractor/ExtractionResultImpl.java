@@ -19,6 +19,7 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.rdf.Prefixes;
 import org.deri.any23.writer.TripleHandler;
+import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -227,11 +228,13 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return allRoots;
     }
 
-    public void addPropertyPath(String extractor, Resource propertySubject, Resource property, String[] path) {
+    public void addPropertyPath(
+            String extractor, Resource propertySubject, Resource property, BNode object, String[] path
+    ) {
         if(propertyPaths == null) {
             propertyPaths = new ArrayList<PropertyPath>();
         }
-        propertyPaths.add( new PropertyPath(path, propertySubject, property, extractor) );
+        propertyPaths.add( new PropertyPath(path, propertySubject, property, object, extractor) );
     }
 
     public List<PropertyPath> getPropertyPaths() {

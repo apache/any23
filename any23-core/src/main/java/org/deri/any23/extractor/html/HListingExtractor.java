@@ -127,7 +127,11 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         Node node = fragment.findMicroformattedObjectNode("*", "item");
         if (null == node) return;
         BNode blankItem = valueFactory.createBNode();
-        addBNodeProperty(listing, HLISTING.item, blankItem);
+        addBNodeProperty(
+                getDescription().getExtractorName(),
+                node,
+                listing, HLISTING.item, blankItem
+        );
         addURIProperty(blankItem, RDF.TYPE, HLISTING.Item);
 
         HTMLDocument item = new HTMLDocument(node);

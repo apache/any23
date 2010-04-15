@@ -144,12 +144,17 @@ public class HCalendarExtractor extends MicroformatExtractor {
             BNode rrule = valueFactory.createBNode();
             addURIProperty(rrule, RDF.TYPE, ICAL.DomainOf_rrule);
             TextField freq = new HTMLDocument(rule).getSingularTextField("freq");
+            final String extractorName = getDescription().getExtractorName();
             conditionallyAddStringProperty(
-                    getDescription().getExtractorName(),
+                    extractorName,
                     freq.source(),
                     rrule, ICAL.freq, freq.value()
             );
-            addBNodeProperty(evt, ICAL.rrule, rrule);
+            addBNodeProperty(
+                    extractorName,
+                    rule,
+                    evt, ICAL.rrule, rrule
+            );
         }
     }
 
@@ -158,12 +163,17 @@ public class HCalendarExtractor extends MicroformatExtractor {
             //untyped
             BNode blank = valueFactory.createBNode();
             String mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
+            final String extractorName = getDescription().getExtractorName();
             conditionallyAddStringProperty(
-                    getDescription().getExtractorName(),
+                    extractorName,
                     compoNode.getDocument(),
                     blank, ICAL.calAddress, mail
             );
-            addBNodeProperty(evt, ICAL.organizer, blank);
+            addBNodeProperty(
+                    extractorName,
+                    organizer,
+                    evt, ICAL.organizer, blank
+            );
         }
     }
 

@@ -100,15 +100,23 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     private void addContact(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("contact");
         if (nodes.size() > 0)
-            addBNodeProperty(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)));
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    nodes.get(0),
+                    person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0))
+            );
     }
 
     private void addExperiences(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("experience");
         for (Node node : nodes) {
             BNode exp = valueFactory.createBNode();
-            if (addExperience(exp, new HTMLDocument(node))) ;
-            addBNodeProperty(person, DOAC.experience, exp);
+            if (addExperience(exp, new HTMLDocument(node)))
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    person, DOAC.experience, exp
+            );
         }
     }
 
@@ -140,15 +148,23 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         List<Node> nodes = doc.findAllByClassName("education");
         for (Node node : nodes) {
             BNode exp = valueFactory.createBNode();
-            if (addExperience(exp, new HTMLDocument(node))) ;
-            addBNodeProperty(person, DOAC.education, exp);
+            if (addExperience(exp, new HTMLDocument(node)))
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    person, DOAC.education, exp
+            );
         }
     }
 
     private void addAffiliations(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("affiliation");
         for (Node node : nodes) {
-            addBNodeProperty(person, DOAC.affiliation, getBlankNodeFor(node));
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    person, DOAC.affiliation, getBlankNodeFor(node)
+            );
         }
     }
 
