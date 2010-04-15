@@ -261,6 +261,34 @@ public class Any23Test {
         
     }
 
+    /**
+     * This test checks if a URL that is supposed to be GZIPPED is correctly opend and parsed with
+     * the {@link org.deri.any23.Any23} facade.
+     *
+     * @throws IOException
+     * @throws URISyntaxException
+     * @throws ExtractionException
+     */
+    // Deactivated to avoid test dependency on external resources.    
+    //@Test
+    public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
+        Any23 runner = new Any23();
+        runner.setHTTPUserAgent("test-user-agent");
+        HTTPClient httpClient = runner.getHTTPClient();
+        DocumentSource source = new HTTPDocumentSource(
+                httpClient,
+                "http://products.semweb.bestbuy.com/y/products/7590289/"
+        );
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        TripleHandler handler = new NTriplesWriter(out);
+        runner.extract(source, handler);
+        String n3 = out.toString("UTF-8");
+
+        System.out.println("N3 "+ n3);
+        Assert.assertTrue(n3.length() > 0);
+
+    }
+
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
         Any23 any23 = new Any23();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
