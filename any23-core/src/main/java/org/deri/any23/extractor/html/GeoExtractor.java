@@ -29,6 +29,9 @@ import org.w3c.dom.Node;
 
 import java.util.Arrays;
 
+import static org.deri.any23.extractor.html.HTMLDocument.TextField;
+
+
 /**
  * Extractor for the <a href="http://microformats.org/wiki/geo">Geo</a>
  * microformat.
@@ -63,8 +66,10 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         if (null == node) return false;
         //try lat & lon
         final HTMLDocument document = getHTMLDocument();
-        String lat = document.getSingularTextField("latitude");
-        String lon = document.getSingularTextField("longitude");
+        HTMLDocument.TextField latNode = document.getSingularTextField("latitude" );
+        TextField lonNode = document.getSingularTextField("longitude");
+        String lat = latNode.value();
+        String lon = lonNode.value();
         if ("".equals(lat) || "".equals(lon)) {
             String[] both = document.getSingularUrlField("geo").split(";");
             if (both.length != 2) return false;
@@ -74,8 +79,16 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, VCARD.Location);
         final String extractorName = getDescription().getExtractorName();
-        conditionallyAddStringProperty(extractorName, node, geo, VCARD.latitude, lat);
-        conditionallyAddStringProperty(extractorName, node, geo, VCARD.longitude, lon);
+        conditionallyAddStringProperty(
+                extractorName,
+                latNode.source(),
+                geo, VCARD.latitude , lat
+        );
+        conditionallyAddStringProperty(
+                extractorName,
+                lonNode.source(),
+                geo, VCARD.longitude, lon
+        );
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
         tser.addResourceRoot( document.getPathToLocalRoot(), geo, extractorName );

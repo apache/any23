@@ -31,6 +31,7 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.writer.TripleHandler;
+import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
@@ -49,8 +50,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
 import static org.deri.any23.extractor.TagSoupExtractionResult.PropertyPath;
+import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
 
 /**
  * This class acts as facade where all the extractors were called on a single document.
@@ -58,8 +59,10 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.PropertyPath;
 public class SingleDocumentExtraction {
 
     //TODO: define final prop URI and put under conf.
-    public static final URI DOMAIN_PROPERTY  = new URIImpl("http://vocab.sindice.net/domain" );
-    public static final URI NESTING_PROPERTY = new URIImpl("http://vocab.sindice.net/nesting");
+    public static final URI DOMAIN_PROPERTY   = new URIImpl("http://vocab.sindice.net/domain" );
+    public static final URI NESTING_PROPERTY  = new URIImpl("http://vocab.sindice.net/nesting");
+    public static final URI NESTING_ORIGINAL_PROPERTY   = new URIImpl("http://vocab.sindice.net/nesting_original");
+    public static final URI NESTING_STRUCTURED_PROPERTY = new URIImpl("http://vocab.sindice.net/nesting_structured");
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
@@ -317,7 +320,7 @@ public class SingleDocumentExtraction {
      *         <code>false</code> otherwise.
      */
     private boolean subPath(String[] list, String[] candidateSub) {
-        if(candidateSub.length >= list.length) {
+        if(candidateSub.length > list.length) {
             return false;
         }
         for(int i = 0; i < candidateSub.length; i++) {
@@ -379,14 +382,14 @@ public class SingleDocumentExtraction {
             ResourceRoot currentResourceRoot;
             PropertyPath currentPropertyPath;
             for(int r = 0; r < resourceRoots.size(); r++) {
+                currentResourceRoot = resourceRoots.get(r);
                 for(int p = 0; p < propertyPaths.size(); p++) {
-                    currentResourceRoot = resourceRoots.get(r);
                     currentPropertyPath = propertyPaths.get(p);
                     // Avoid wrong nesting relationships.
                     if(currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
                         continue;
                     }
-                    if( subPath(currentPropertyPath.getPath(), currentResourceRoot.getPath()) ) {
+                    if( subPath( currentResourceRoot.getPath(), currentPropertyPath.getPath() ) ) {
                         createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
                     }
                 }
@@ -404,10 +407,13 @@ public class SingleDocumentExtraction {
      * @param ec the extraction context used to add such information.
      */
     private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec) {
+        BNode bnode = ValueFactoryImpl.getInstance().createBNode();
+        th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), ec );
+        th.receiveTriple(bnode, NESTING_STRUCTURED_PROPERTY, to.getRoot(), ec );
         th.receiveTriple(
-                from.getResource(),
+                from.getSubject(),
                 NESTING_PROPERTY,
-                to.getRoot(),
+                bnode,
                 ec
         );
     }

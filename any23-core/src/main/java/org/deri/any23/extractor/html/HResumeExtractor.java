@@ -87,13 +87,13 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addSummary(HTMLDocument doc, Resource person) {
-        String summary = doc.getSingularTextField("summary");
+        HTMLDocument.TextField summary = doc.getSingularTextField("summary");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
+                summary.source(),
                 person,
                 DOAC.summary,
-                summary
+                summary.value()
         );
     }
 
@@ -113,24 +113,25 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private boolean addExperience(Resource exp, HTMLDocument document) {
-        String check = "";
-        String value = document.getSingularTextField("title");
-        check += value;
         final String extractorName = getDescription().getExtractorName();
         final Node documentNode    = document.getDocument();
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.title, value.trim());
+        String check = "";
+
+        HTMLDocument.TextField value = document.getSingularTextField("title");
+        check += value;
+        conditionallyAddStringProperty(extractorName, value.source(), exp, DOAC.title, value.value().trim());
+
         value = document.getSingularTextField("dtstart");
         check += value;
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.start_date, value.value().trim());
 
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.start_date, value.trim());
         value = document.getSingularTextField("dtend");
         check += value;
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.end_date, value.value().trim());
 
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.end_date, value.trim());
         value = document.getSingularTextField("summary");
         check += value;
-
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.organization, value.trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.organization, value.value().trim());
 
         return !"".equals(check);
     }

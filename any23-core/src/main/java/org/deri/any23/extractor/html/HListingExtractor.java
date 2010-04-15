@@ -37,6 +37,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.deri.any23.extractor.html.HTMLDocument.TextField;
+
+
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hlisting">hListing</a>
  * microformat.
@@ -166,44 +169,44 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addPrice(Resource listing) {
-        String price = fragment.getSingularTextField("price");
+        TextField price = fragment.getSingularTextField("price");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                fragment.getDocument(),
-                listing, HLISTING.price, price
+                price.source(),
+                listing, HLISTING.price, price.value()
         );
     }
 
     private void addDescription(Resource listing) {
-        String description = fragment.getSingularTextField("description");
+        TextField description = fragment.getSingularTextField("description");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                fragment.getDocument(),
-                listing, HLISTING.description, description
+                description.source(),
+                listing, HLISTING.description, description.value()
         );
     }
 
     private void addSummary(Resource listing) {
-        String summary = fragment.getSingularTextField("summary");
+        TextField summary = fragment.getSingularTextField("summary");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                fragment.getDocument(),
-                listing, HLISTING.summary, summary
+                summary.source(),
+                listing, HLISTING.summary, summary.value()
         );
     }
 
     private void addDateTimes(Resource listing) {
-        String listed = fragment.getSingularTextField("dtlisted");
+        TextField listed = fragment.getSingularTextField("dtlisted");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                fragment.getDocument(),
-                listing, HLISTING.dtlisted, listed
+                listed.source(),
+                listing, HLISTING.dtlisted, listed.value()
         );
-        String expired = fragment.getSingularTextField("dtexpired");
+        HTMLDocument.TextField expired = fragment.getSingularTextField("dtexpired");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                fragment.getDocument(),
-                listing, HLISTING.dtexpired, expired
+                expired.source(),
+                listing, HLISTING.dtexpired, expired.value()
         );
     }
 
@@ -224,11 +227,11 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addListerTel(HTMLDocument doc, Resource blankLister) {
-        String tel = doc.getSingularTextField("tel");
+        HTMLDocument.TextField tel = doc.getSingularTextField("tel");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                blankLister, HLISTING.tel, tel
+                tel.source(),
+                blankLister, HLISTING.tel, tel.value()
         );
     }
 
@@ -243,11 +246,11 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addListerFn(HTMLDocument doc, Resource blankLister) {
-        String fn = doc.getSingularTextField("fn");
+        TextField fn = doc.getSingularTextField("fn");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                blankLister, HLISTING.listerName, fn
+                fn.source(),
+                blankLister, HLISTING.listerName, fn.value()
         );
     }
 
@@ -257,20 +260,20 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addListerOrg(HTMLDocument doc, Resource blankLister) {
-        String org = doc.getSingularTextField("org");
+        TextField org = doc.getSingularTextField("org");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                blankLister, HLISTING.listerOrg, org
+                org.source(),
+                blankLister, HLISTING.listerOrg, org.value()
         );
     }
 
     private void addItemName(HTMLDocument item, Resource blankItem) {
-        String fn = item.getSingularTextField("fn");
+        HTMLDocument.TextField fn = item.getSingularTextField("fn");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                item.getDocument(),
-                blankItem, HLISTING.itemName, fn
+                fn.source(),
+                blankItem, HLISTING.itemName, fn.value()
         );
     }
 

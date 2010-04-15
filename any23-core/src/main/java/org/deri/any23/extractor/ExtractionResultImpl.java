@@ -231,7 +231,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         if(propertyPaths == null) {
             propertyPaths = new ArrayList<PropertyPath>();
         }
-        propertyPaths.add( new PropertyPath(path, property, extractor) );
+        propertyPaths.add( new PropertyPath(path, propertySubject, property, extractor) );
     }
 
     public List<PropertyPath> getPropertyPaths() {

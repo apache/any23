@@ -47,23 +47,26 @@ public class HTMLDocument {
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
     private final static Logger log        = LoggerFactory.getLogger(HTMLDocument.class);
 
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
     private Node         document;
     private java.net.URI baseURI;
 
-    private final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+    private final Any23ValueFactoryWrapper valueFactory =
+            new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
     /**
      * Reads a text field from the given node adding the content to the given <i>res</i> list.
-     * 
+     *
      * @param res list to add the content.
      * @param node the node from which read the content.
      */
-    public static void readTextField(List<String> res, Node node) {
+    public static void readTextField(List<TextField> res, Node node) {
         final String name = node.getNodeName();
         final NamedNodeMap attributes = node.getAttributes();
         // excess of safety check, should be impossible
         if (null == attributes) {
-            res.add(node.getTextContent());
+            res.add( new TextField( node.getTextContent(), node) );
             return;
         }
         // first check if there are values inside
@@ -72,22 +75,22 @@ public class HTMLDocument {
             String val = "";
             for (Node n : values)
                 val += n.getTextContent();
-            res.add(val.trim());
+            res.add( new TextField( val.trim(), node) );
             return;
         }
         if ("ABBR".equals(name) && (null != attributes.getNamedItem("title"))) {
-            res.add(attributes.getNamedItem("title").getNodeValue());
+            res.add( new TextField(attributes.getNamedItem("title").getNodeValue(), node) );
         } else if ("A".equals(name)) {
             if (DomUtils.hasAttribute(node, "rel", "tag")) {
 
                 String href = extractRelTag(attributes);
-                res.add(href);
+                res.add( new TextField(href, node) );
             } else
-                res.add(node.getTextContent());
+                res.add( new TextField(node.getTextContent(), node) );
         } else if ("IMG".equals(name) || "AREA".equals(name)) {
-            res.add(attributes.getNamedItem("alt").getNodeValue());
+            res.add( new TextField(attributes.getNamedItem("alt").getNodeValue(), node) );
         } else {
-            res.add(node.getTextContent());
+            res.add( new TextField(node.getTextContent(), node) );
         }
     }
 
@@ -150,6 +153,9 @@ public class HTMLDocument {
      * @return a sequence of HTML tag names.
      */
     public static String[] getPathFromRootToGivenNode(Node n) {
+        if(n == null) {
+            return EMPTY_STRING_ARRAY;
+        }
         List<String> ancestors = new ArrayList<String>();
         ancestors.add( n.getNodeName() + getIndexInParent(n) );
         Node parent = n.getParentNode();
@@ -200,8 +206,13 @@ public class HTMLDocument {
         return DomUtils.findAll(getDocument(), xpath);
     }
 
-    public String findMicroformattedValue(String objectTag, String object, String fieldTag, String field, String key) {
-
+    public String findMicroformattedValue(
+            String objectTag,
+            String object,
+            String fieldTag,
+            String field,
+            String key
+    ) {
         Node node = findMicroformattedObjectNode(objectTag, object);
         if (null == node)
             return "";
@@ -234,11 +245,10 @@ public class HTMLDocument {
      * @return if multiple values are found just the first is returned,
      * if we want to check that there are no n-ary values use plural finder
      */
-    @Deprecated
-    public String getSingularTextField(String className) {
-        String[] res = getPluralTextField(className);
-        if (res.length < 1)
-            return "";
+    public TextField getSingularTextField(String className) {
+        TextField[] res = getPluralTextField(className);
+        if (res.length == 0)
+            return new TextField("", null);
         return res[0];
     }
 
@@ -248,13 +258,12 @@ public class HTMLDocument {
      * @param className name of class node containing text.
      * @return list of fields.
      */
-    @Deprecated
-    public String[] getPluralTextField(String className) {
-        List<String> res = new ArrayList<String>(0);
+    public TextField[] getPluralTextField(String className) {
+        List<TextField> res = new ArrayList<TextField>();
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readTextField(res, node);
-        return res.toArray( new String[res.size()] );
+        return res.toArray( new TextField[res.size()] );
     }
 
     /**
@@ -370,6 +379,28 @@ public class HTMLDocument {
             }
         }
         return baseURI;
+    }
+
+    /**
+     * This class represents a text extracted from the <i>HTML</i> DOM related
+     * to the node from which such test has been retrieved.
+     */
+    public static class TextField {
+        private String value;
+        private Node   source;
+
+        public TextField(String value, Node source) {
+            this.value = value;
+            this.source = source;
+        }
+
+        public String value() {
+            return value;
+        }
+
+        public Node source() {
+            return source;
+        }
     }
 
 }

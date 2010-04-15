@@ -21,6 +21,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.REVIEW;
@@ -32,6 +33,9 @@ import org.w3c.dom.Node;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.deri.any23.extractor.html.HTMLDocument.TextField;
+
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hreview">hReview</a>
@@ -74,16 +78,23 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         addDescription(fragment, rev);
         addItem(fragment, rev);
         addReviewer(fragment, rev);
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addResourceRoot(
+                HTMLDocument.getPathFromRootToGivenNode(node),
+                rev,
+                getDescription().getExtractorName()
+        );
+
         return true;
     }
 
-
     private void addType(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("type");
+        TextField value = doc.getSingularTextField("type");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                rev, REVIEW.type, value
+                value.source(),
+                rev, REVIEW.type, value.value()
         );
     }
 
@@ -103,14 +114,14 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
     private Resource findDummy(HTMLDocument item) throws ExtractionException {
         Resource blank = getBlankNodeFor(item.getDocument());
-        String val = item.getSingularTextField("fn");
+        TextField val = item.getSingularTextField("fn");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                item.getDocument(),
-                blank, VCARD.fn, val
+                val.source(),
+                blank, VCARD.fn, val.value()
         );
-        val = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(val));
+        final String url = item.getSingularUrlField("url");
+        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(url));
         String pics[] = item.getPluralUrlField("photo");
         for (String pic : pics) {
             addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic));
@@ -119,37 +130,37 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addRating(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("rating");
+        HTMLDocument.TextField value = doc.getSingularTextField("rating");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(), rev, REVIEW.rating, value
+                value.source(), rev, REVIEW.rating, value.value()
         );
     }
 
     private void addSummary(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("summary");
+        TextField value = doc.getSingularTextField("summary");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                rev, REVIEW.title, value
+                value.source(),
+                rev, REVIEW.title, value.value()
         );
     }
 
     private void addTime(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("dtreviewed");
+        TextField value = doc.getSingularTextField("dtreviewed");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                rev, DCTERMS.date, value
+                value.source(),
+                rev, DCTERMS.date, value.value()
         );
     }
 
     private void addDescription(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("description");
+        TextField value = doc.getSingularTextField("description");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                doc.getDocument(),
-                rev, REVIEW.text, value
+                value.source(),
+                rev, REVIEW.text, value.value()
         );
     }
 

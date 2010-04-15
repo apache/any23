@@ -2,6 +2,7 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.mime.TikaMIMETypeDetector;
+import org.deri.any23.vocab.ICAL;
 import org.deri.any23.writer.CompositeTripleHandler;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.RepositoryWriter;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
@@ -97,9 +99,30 @@ public class SingleDocumentExtractionTest {
     public void testNestedMicroformats() throws IOException, ExtractionException, RepositoryException {
         singleDocumentExtraction = getInstance("microformats/nested-microformats.html");
         singleDocumentExtraction.run();
+
         logStorageContent();
+
         assertTripleCount(SingleDocumentExtraction.DOMAIN_PROPERTY, "nested.test.com", 2);
-        //TODO: test nesting properties.
+        assertTriple(SingleDocumentExtraction.NESTING_PROPERTY, (Value) null);
+        assertTriple(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , ICAL.summary);
+        assertTriple(SingleDocumentExtraction.NESTING_STRUCTURED_PROPERTY, (Value) null);
+    }
+
+    /**
+     * Tests the nested microformat relationships.
+     *
+     * @throws IOException
+     * @throws ExtractionException
+     * @throws RepositoryException
+     */
+    @Test
+    public void testNestedMicroformats2() throws IOException, ExtractionException, RepositoryException {
+        singleDocumentExtraction = getInstance("microformats/nested-microformats2.html");
+        singleDocumentExtraction.run();
+
+        logStorageContent();
+
+        //TODO: add assertions on content.
     }
 
     private SingleDocumentExtraction getInstance(String file) {
@@ -141,9 +164,9 @@ public class SingleDocumentExtractionTest {
      * @param occurrences
      * @throws RepositoryException
      */
-    private void assertTripleCount(URI predicate, String value, int occurrences) throws RepositoryException {
+    private void assertTripleCount(URI predicate, Value value, int occurrences) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(
-                null, predicate, ValueFactoryImpl.getInstance().createLiteral(value), false
+                null, predicate, value, false
         );
         int count = 0;
         while (statements.hasNext()) {
@@ -157,5 +180,38 @@ public class SingleDocumentExtractionTest {
         );
     }
 
+    /**
+     * Asserts that the triple pattern is present within the storage exactly n times.
+     *
+     * @param predicate
+     * @param value
+     * @param occurrences
+     * @throws RepositoryException
+     */
+    private void assertTripleCount(URI predicate, String value, int occurrences) throws RepositoryException {
+        assertTripleCount(predicate, ValueFactoryImpl.getInstance().createLiteral(value), occurrences);
+    }
+
+    /**
+     * Asserts that a triple exists exactly once.
+     *
+     * @param predicate
+     * @param value
+     * @throws RepositoryException
+     */
+    private void assertTriple(URI predicate, Value value) throws RepositoryException {
+        assertTripleCount(predicate, value, 1);
+    }
+
+    /**
+     * Asserts that a triple exists exactly once.
+     *
+     * @param predicate
+     * @param value
+     * @throws RepositoryException
+     */
+    private void assertTriple(URI predicate, String value) throws RepositoryException {
+        assertTriple(predicate, ValueFactoryImpl.getInstance().createLiteral(value) );
+    }
 
 }
