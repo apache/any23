@@ -20,14 +20,14 @@ import org.deri.any23.RDFHelper;
 import org.junit.Test;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.extractor.html.AbstractMicroformatTestCase;
+import org.deri.any23.extractor.html.AbstractExtractorTestCase;
 import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.repository.RepositoryException;
 
 /**
  * Reference Test Class for {@link org.deri.any23.extractor.rdfa.RDFaExtractor}.
  */
-public class RDFaExtractorTest extends AbstractMicroformatTestCase {
+public class RDFaExtractorTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {

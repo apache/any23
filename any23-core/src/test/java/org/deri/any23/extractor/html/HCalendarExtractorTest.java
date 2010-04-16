@@ -39,7 +39,7 @@ import java.io.IOException;
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @version $Id$
  */
-public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
+public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     private final static URI vcal      = ICAL.Vcalendar;
     private final static URI vevent    = ICAL.Vevent;

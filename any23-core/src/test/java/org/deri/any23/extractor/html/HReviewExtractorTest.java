@@ -37,7 +37,7 @@ import org.openrdf.repository.RepositoryResult;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class HReviewExtractorTest extends AbstractMicroformatTestCase {
+public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
         protected ExtractorFactory<?> getExtractorFactory() {
         return HReviewExtractor.factory;

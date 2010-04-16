@@ -29,7 +29,7 @@ import org.openrdf.repository.RepositoryException;
  * Reference Test class for the {@link org.deri.any23.extractor.html.LicenseExtractor} extractor.
  *
  */
-public class LicenseExtractorTest extends AbstractMicroformatTestCase {
+public class LicenseExtractorTest extends AbstractExtractorTestCase {
 
     private URI ccBy = RDFHelper.uri("http://creativecommons.org/licenses/by/2.0/");
     

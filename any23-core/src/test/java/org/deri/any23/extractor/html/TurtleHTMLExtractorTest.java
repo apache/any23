@@ -32,7 +32,7 @@ import java.io.IOException;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class TurtleHTMLExtractorTest extends AbstractMicroformatTestCase {
+public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
 
     private static final Logger logger = LoggerFactory.getLogger(TurtleHTMLExtractor.class);
 

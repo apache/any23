@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class SpeciesExtractorTest extends AbstractMicroformatTestCase {
+public class SpeciesExtractorTest extends AbstractExtractorTestCase {
 
     private static final Logger logger = LoggerFactory.getLogger(SpeciesExtractorTest.class);
 

@@ -51,7 +51,7 @@ import java.util.Map;
  * @see org.deri.any23.extractor.html.HCardExtractor
  * @see org.deri.any23.extractor.html.HReviewExtractor
  */
-public class RDFMergerTest extends AbstractMicroformatTestCase {
+public class RDFMergerTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {

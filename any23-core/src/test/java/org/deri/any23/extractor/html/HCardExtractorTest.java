@@ -22,7 +22,7 @@ import java.util.List;
  * {@link org.deri.any23.extractor.html.HCardExtractor} test case.
  */
 //TODO: low - reactivate commented tests.
-public class HCardExtractorTest extends AbstractMicroformatTestCase {
+public class HCardExtractorTest extends AbstractExtractorTestCase {
 
      protected ExtractorFactory<?> getExtractorFactory() {
         return HCardExtractor.factory;

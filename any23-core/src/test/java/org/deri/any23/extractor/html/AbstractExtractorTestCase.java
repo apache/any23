@@ -43,16 +43,16 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
- * Abstract Test Class. All the classes testing a microformat {@link org.deri.any23.extractor.Extractor}
- * extend this one.
+ * Abstract class used to write {@link org.deri.any23.extractor.Extractor} specific
+ * test cases.
  */
-public abstract class AbstractMicroformatTestCase {
+public abstract class AbstractExtractorTestCase {
 
     protected static URI baseURI = RDFHelper.uri("http://bob.example.com/");
 
     protected RepositoryConnection conn;
 
-    public AbstractMicroformatTestCase() {
+    public AbstractExtractorTestCase() {
         super();
     }
 

@@ -33,7 +33,7 @@ import org.openrdf.repository.RepositoryException;
  * Reference Test class for the {@link org.deri.any23.extractor.html.XFNExtractor} extractor.
  *
  */
-public class XFNExtractorTest extends AbstractMicroformatTestCase {
+public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     private final static URI bobsHomepage = baseURI;
 

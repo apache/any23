@@ -29,7 +29,7 @@ import org.openrdf.repository.RepositoryException;
  * Reference Test class for the {@link org.deri.any23.extractor.html.TitleExtractor} extractor.
  * 
  */
-public class TitleExtractorTest extends AbstractMicroformatTestCase {
+public class TitleExtractorTest extends AbstractExtractorTestCase {
     private Literal helloLiteral = RDFHelper.literal("Hello World!");
 
     protected ExtractorFactory<?> getExtractorFactory() {

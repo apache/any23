@@ -36,7 +36,7 @@ import org.openrdf.repository.RepositoryException;
  * @author Davide Palmisano (dpalmisano@gmail.com)
  *
  */
-public class HListingExtractorTest extends AbstractMicroformatTestCase {
+public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return HListingExtractor.factory;

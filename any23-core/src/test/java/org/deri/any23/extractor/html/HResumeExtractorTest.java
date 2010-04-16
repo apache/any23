@@ -38,7 +38,7 @@ import java.util.Set;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class HResumeExtractorTest extends AbstractMicroformatTestCase {
+public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return HResumeExtractor.factory;
