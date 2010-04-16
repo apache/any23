@@ -52,7 +52,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
     public final static ExtractorFactory<TurtleHTMLExtractor> factory =
             SimpleExtractorFactory.create(
                     NAME,
-                    PopularPrefixes.createSubset("dcterms"),
+                    PopularPrefixes.get(),
                     Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
                     null,
                     TurtleHTMLExtractor.class
