@@ -17,6 +17,7 @@
 package org.deri.any23.servlet;
 
 import org.deri.any23.Any23;
+import org.deri.any23.ExtractionReport;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.source.DocumentSource;
@@ -31,6 +32,7 @@ import sun.security.validator.ValidatorException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * This class is responsible for building the {@link org.deri.any23.servlet.Servlet}
@@ -93,8 +95,10 @@ class WebResponder {
     public void runExtraction(DocumentSource in, String format) throws IOException {
         if (in == null) return;
         if (!initRdfWriter(format)) return;
+        final ExtractionReport er;
         try {
-            if (!runner.extract(in, rdfWriter)) {
+            er = runner.extract(in, rdfWriter);
+            if (! er.hasMatchingExtractors() ) {
                 sendError(415, "No suitable extractor found for this media type");
                 return;
             }
@@ -119,10 +123,13 @@ class WebResponder {
         }
         response.setContentType(outputMediaType);
         response.setStatus(200);
-        // TODO - high: #14 for the moment UTF-8 has been set as the default output encoding. To fix this,
-        // should be implemented an improved report from the runner.extract that set the output encoding
-        // equals to the input one.
-        response.setCharacterEncoding("UTF-8");
+        // Set the output encoding equals to the input one.
+        final String charsetEncoding = er.getEncoding();
+        if (Charset.isSupported(charsetEncoding)) {
+            response.setCharacterEncoding(er.getEncoding());
+        } else {
+            response.setCharacterEncoding("UTF-8");
+        }
         response.getOutputStream().write(byteOutStream.toByteArray());
     }
 

@@ -242,7 +242,7 @@ public class Any23Test {
                 new File("src/test/resources/html/rdfa/ansa_2010-02-26_12645863.html"),
                     "http://host.com/service");
 
-        Assert.assertTrue(any23.extract(source, reporting));
+        Assert.assertTrue( any23.extract(source, reporting).hasMatchingExtractors() );
         try {
             handler.close();
         } catch (TripleHandlerException e) {
@@ -305,7 +305,7 @@ public class Any23Test {
         );
         Assert.assertTrue(
                 "Detection and extraction failed.",
-                any23.extract(in, "http://host.com/path", outputHandler)
+                any23.extract(in, "http://host.com/path", outputHandler).hasMatchingExtractors()
         );
     }
 
@@ -331,7 +331,7 @@ public class Any23Test {
         store.initialize();
         conn = new SailRepository(store).getConnection();
         repositoryWriter = new RepositoryWriter(conn);
-        Assert.assertTrue(any23.extract(fileDocumentSource, repositoryWriter, encoding));
+        Assert.assertTrue( any23.extract(fileDocumentSource, repositoryWriter, encoding).hasMatchingExtractors() );
 
         RepositoryResult<Statement> statements = conn.getStatements(null, DCTERMS.title, null, false);
         try {

@@ -154,7 +154,7 @@ public class Rover {
         Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
         any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
         try {
-            if (!any23.extract(inputURI, outputHandler)) {
+            if ( ! any23.extract(inputURI, outputHandler).hasMatchingExtractors() ) {
                 System.err.println("No suitable extractors");
                 System.exit(2);
             }

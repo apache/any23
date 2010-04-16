@@ -181,7 +181,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(
+    public ExtractionReport extract(
             String in,
             String documentURI,
             String contentType,
@@ -203,7 +203,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(String in, String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(String in, String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(new StringDocumentSource(in, documentURI), outputHandler);
     }
@@ -218,7 +218,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(File file, TripleHandler outputHandler)
+    public ExtractionReport extract(File file, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(new FileDocumentSource(file), outputHandler);
     }
@@ -234,7 +234,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         try {
             if (documentURI.toLowerCase().startsWith("file:")) {
@@ -262,7 +262,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(DocumentSource in, TripleHandler outputHandler, String encoding)
+    public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler, String encoding)
     throws IOException, ExtractionException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
         ex.setMIMETypeDetector(mimeTypeDetector);
@@ -274,7 +274,11 @@ public class Any23 {
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error closing the triple handler", e);
         }
-        return ex.hasMatchingExtractors();
+        return new ExtractionReport(
+                ex.hasMatchingExtractors(),
+                ex.getParserEncoding(),
+                ex.getDetectedMIMEType()
+        );
     }
 
     /**
@@ -288,7 +292,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(DocumentSource in, TripleHandler outputHandler)
+    public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(in, outputHandler, null);
     }

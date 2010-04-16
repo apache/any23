@@ -157,7 +157,7 @@ public class SingleDocumentExtraction {
         final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
         final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
         for (ExtractorFactory<?> factory : matchingExtractors) {
-            ExtractionReport er = runExtractor(documentContext, factory.createExtractor());
+            EntityReport er = runExtractor(documentContext, factory.createExtractor());
             resourceRoots.addAll( er.resourceRoots );
             propertyPaths.addAll( er.propertyPaths );
         }
@@ -174,7 +174,7 @@ public class SingleDocumentExtraction {
 
     public String getDetectedMIMEType() throws IOException {
         filterExtractorsByMIMEType();
-        return detectedMIMEType.toString();
+        return  detectedMIMEType == null ? null : detectedMIMEType.toString();
     }
 
     public boolean hasMatchingExtractors() throws IOException {
@@ -183,6 +183,9 @@ public class SingleDocumentExtraction {
     }
 
     public String getParserEncoding() {
+        if(this.parserEncoding == null) {
+            this.parserEncoding = detectEncoding();
+        }
         return this.parserEncoding;
     }
 
@@ -243,7 +246,7 @@ public class SingleDocumentExtraction {
      * @throws IOException if an IO error occurs during the extraction.
      * @return the roots of the resources that have been extracted.
      */
-    private ExtractionReport runExtractor(
+    private EntityReport runExtractor(
             DocumentContext documentContext,
             Extractor<?> extractor
     ) throws ExtractionException, IOException {
@@ -264,7 +267,7 @@ public class SingleDocumentExtraction {
                 throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
             }
             return
-                new ExtractionReport(
+                new EntityReport(
                     new ArrayList<ResourceRoot>( result.getResourceRoots() ),
                     new ArrayList<PropertyPath>( result.getPropertyPaths() )
                 );
@@ -306,7 +309,7 @@ public class SingleDocumentExtraction {
             ensureHasLocalCopy();
             final InputStream is = new BufferedInputStream( localDocumentSource.openInputStream() );
             is.mark(Integer.MAX_VALUE);
-            final String candidateEncoding = getCandidateEncoding(is);
+            final String candidateEncoding = getParserEncoding();
             is.reset();
             tagSoupDOM = new TagSoupParser(
                     is,
@@ -317,12 +320,21 @@ public class SingleDocumentExtraction {
         return tagSoupDOM;
     }
 
-    private String getCandidateEncoding(InputStream is) throws IOException {
-        if(this.parserEncoding != null) {
-            return this.parserEncoding;    
+    /**
+     * Detects the encoding of the local document source input stream.
+     * 
+     * @return a valid encoding value.
+     */
+    private String detectEncoding() {
+        try {
+            ensureHasLocalCopy();
+            InputStream is = new BufferedInputStream(localDocumentSource.openInputStream());
+            String encoding = this.encoderDetector.guessEncoding(is);
+            is.close();
+            return encoding;
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while trying to detect the input encoding.", e);
         }
-        return this.encoderDetector.guessEncoding(is);
-
     }
 
     /**
@@ -452,11 +464,11 @@ public class SingleDocumentExtraction {
         );
     }
 
-    class ExtractionReport {
+    private class EntityReport {
         private final List<ResourceRoot> resourceRoots;
         private final List<PropertyPath> propertyPaths;
 
-        public ExtractionReport(List<ResourceRoot> resourceRoots, List<PropertyPath> propertyPaths) {
+        public EntityReport(List<ResourceRoot> resourceRoots, List<PropertyPath> propertyPaths) {
             this.resourceRoots = resourceRoots;
             this.propertyPaths = propertyPaths;
         }
