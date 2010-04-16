@@ -20,6 +20,7 @@ import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.deri.any23.writer.TurtleWriter;
 
 import java.io.ByteArrayOutputStream;
@@ -84,7 +85,11 @@ public class ExampleInputOutput {
                 new StringDocumentSource(getExampleInput(), getExampleURI()),
                 factory,
                 writer).run();
-        writer.close();
+        try {
+            writer.close();
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException("Error while closing the triple handler", e);
+        }
         return out.toString("utf-8");
     }
 

@@ -42,19 +42,19 @@ public class QuadWriter implements TripleHandler {
         out = os;
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
         try {
             StringBuffer sb = new StringBuffer();
             sb.append(NTriplesUtil.toNTriplesString(s)).append(" ");
@@ -64,23 +64,23 @@ public class QuadWriter implements TripleHandler {
             out.write(sb.toString().getBytes());
             out.flush();
         } catch (IOException ioe) {
-            throw new RuntimeException("Error while writing on output stream.", ioe);
+            throw new TripleHandlerException("Error while writing on output stream.", ioe);
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         // ignore prefix mappings
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         try {
             out.close();
         } catch (IOException ioe) {
-            throw new RuntimeException("Error while closing output stream.", ioe);
+            throw new TripleHandlerException("Error while closing output stream.", ioe);
         }
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 

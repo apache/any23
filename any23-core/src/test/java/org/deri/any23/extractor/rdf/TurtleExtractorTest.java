@@ -22,6 +22,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractionResultImpl;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class TurtleExtractorTest {
     }
 
     @Test
-    public void testMalformedLiteralSupport() throws IOException, ExtractionException {
+    public void testMalformedLiteralSupport() throws IOException, ExtractionException, TripleHandlerException {
         final URI uri = RDFHelper.uri("http://host.com/test-malformed-literal.turtle");
         File file = new File("src/test/resources/application/rdfn3/testMalformedLiteral");
         InputStream is = new FileInputStream(file);

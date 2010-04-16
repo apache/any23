@@ -21,25 +21,19 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
-/*
-   TODO: #2 - Throw a TripleHandlerException from all methods (maybe unchecked?),
-         and use it in implementing classes instead of RuntimeException,
-         e.g. in {@link RDFWriterTripleHandler} and {@link RepositoryWriter}
- */
-
 /**
  * Defines a document based triple handler.
  */
 public interface TripleHandler {
 
-    void startDocument(URI documentURI);
+    void startDocument(URI documentURI) throws TripleHandlerException;
 
     /**
      * Informs the handler that a new context has been established.
      * Contexts are not guaranteed to receive any triples, so they
      * might be closed without any triple.
      */
-    void openContext(ExtractionContext context);
+    void openContext(ExtractionContext context) throws TripleHandlerException;
 
     /**
      * Invoked with a currently open context,
@@ -49,8 +43,9 @@ public interface TripleHandler {
      * @param p triple predicate.
      * @param o triple object.
      * @param context extraction context.
+     * @throws TripleHandlerException
      */
-    void receiveTriple(Resource s, URI p, Value o, ExtractionContext context);
+    void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException;
 
     /**
      * Invoked with a currently open context, notifies the detection of a
@@ -59,8 +54,9 @@ public interface TripleHandler {
      * @param prefix namespace prefix.
      * @param uri namespace <i>URI</i>.
      * @param context namespace context.
+     * @throws TripleHandlerException
      */
-    void receiveNamespace(String prefix, String uri, ExtractionContext context);
+    void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException;
 
     /**
      * Informs the handler that no more triples will come from a
@@ -70,27 +66,31 @@ public interface TripleHandler {
      * local contexts of that document.
      *
      * @param context the context to be closed.
+     * @throws TripleHandlerException
      */
-    void closeContext(ExtractionContext context);
+    void closeContext(ExtractionContext context) throws TripleHandlerException;
 
     /**
      * Informa the handler that the end of the document
      * has been reached.
      *
      * @param documentURI document URI.
+     * @throws TripleHandlerException
      */
-    void endDocument(URI documentURI);
+    void endDocument(URI documentURI) throws TripleHandlerException;
 
     /**
      * Sets the length of the content to be processed.
      *
      * @param contentLength
+     * @throws TripleHandlerException
      */
     void setContentLength(long contentLength);
 
     /**
      * Will be called last and exactly once.
+     * @throws TripleHandlerException
      */
-    void close();
+    void close() throws TripleHandlerException;
 
 }

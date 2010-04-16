@@ -58,12 +58,12 @@ public class ReportingTripleHandler implements TripleHandler {
         return totalDocuments;
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         totalDocuments++;
         wrapped.startDocument(documentURI);
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         wrapped.openContext(context);
     }
 
@@ -71,7 +71,7 @@ public class ReportingTripleHandler implements TripleHandler {
             String prefix,
             String uri,
             ExtractionContext context
-    ) {
+    ) throws TripleHandlerException {
         wrapped.receiveNamespace(prefix, uri, context);
     }
 
@@ -80,7 +80,7 @@ public class ReportingTripleHandler implements TripleHandler {
             URI p,
             Value o,
             ExtractionContext context
-    ) {
+    ) throws TripleHandlerException {
         extractorNames.add(context.getExtractorName());
         totalTriples++;
         wrapped.receiveTriple(s, p, o, context);
@@ -90,15 +90,15 @@ public class ReportingTripleHandler implements TripleHandler {
         wrapped.setContentLength(contentLength);
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         wrapped.closeContext(context);
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         wrapped.endDocument(documentURI);
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         wrapped.close();
     }
 

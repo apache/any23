@@ -89,7 +89,7 @@ public class Any23Test {
      */
     @Test
     public void testExplicitEncoding()
-    throws ExtractionException, IOException, SailException, RepositoryException {
+            throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
         assertEncodingDetection(
                 "UTF-8",
                 new File("src/test/resources/html/encoding-test.html"),
@@ -107,7 +107,7 @@ public class Any23Test {
      * @throws RepositoryException
      */
     @Test
-    public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException {
+    public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
         assertEncodingDetection(
                 null, // The encoding will be auto detected.
                 new File("src/test/resources/html/encoding-test.html"),
@@ -243,7 +243,11 @@ public class Any23Test {
                     "http://host.com/service");
 
         Assert.assertTrue(any23.extract(source, reporting));
-        handler.close();
+        try {
+            handler.close();
+        } catch (TripleHandlerException e) {
+            Assert.fail(e.getMessage());
+        }
 
         String bufferContent = byteArrayOutputStream.toString();
         System.out.println(bufferContent);
@@ -315,7 +319,7 @@ public class Any23Test {
      * @throws SailException
      */
     private void assertEncodingDetection(String encoding, File input, String expectedContent)
-    throws IOException, ExtractionException, RepositoryException, SailException {
+            throws IOException, ExtractionException, RepositoryException, SailException, TripleHandlerException {
         FileDocumentSource fileDocumentSource;
         Any23 any23;
         RepositoryConnection conn;

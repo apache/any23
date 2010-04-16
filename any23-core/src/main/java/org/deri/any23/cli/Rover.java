@@ -35,6 +35,7 @@ import org.deri.any23.writer.QuadWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.deri.any23.writer.TurtleWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -166,7 +167,13 @@ public class Rover {
             System.err.println(ex.getMessage());
             System.exit(4);
         }
-        outputHandler.close();
+        try {
+            outputHandler.close();
+        } catch (TripleHandlerException e) {
+            logger.debug("Exception in Any23", e);
+            System.err.println(e.getMessage());
+            System.exit(4);
+        }
         if (benchmark != null) {
             System.err.println(benchmark.report());
         }

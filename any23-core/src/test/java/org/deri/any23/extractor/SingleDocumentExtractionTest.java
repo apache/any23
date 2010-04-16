@@ -7,6 +7,7 @@ import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.writer.CompositeTripleHandler;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.RepositoryWriter;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -62,7 +63,7 @@ public class SingleDocumentExtractionTest {
     }
 
     @After
-    public void tearDown() throws SailException, RepositoryException {
+    public void tearDown() throws SailException, RepositoryException, TripleHandlerException {
         rdfxmlWriter.close();
         repositoryWriter.close();
         logger.info( baos.toString() );

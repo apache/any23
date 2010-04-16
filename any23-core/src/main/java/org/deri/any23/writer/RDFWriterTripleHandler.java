@@ -45,46 +45,50 @@ class RDFWriterTripleHandler implements TripleHandler {
         }
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
         try {
             writer.handleStatement(
                     ValueFactoryImpl.getInstance().createStatement(s, p, o));
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException(ex);
+            throw new TripleHandlerException(String.format("Error while receiving triple: %s %s %s", s, p , o),
+                    ex
+            );
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         try {
             writer.handleNamespace(prefix, uri);
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException(ex);
+            throw new TripleHandlerException(String.format("Error while receiving namespace: %s:%s", prefix, uri),
+                    ex
+            );
         }
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         if (closed) return;
         closed = true;
         try {
             writer.endRDF();
         } catch (RDFHandlerException e) {
-            throw new RuntimeException(e);
+            throw new TripleHandlerException("Error while closing the triple handler.", e);
         }
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 

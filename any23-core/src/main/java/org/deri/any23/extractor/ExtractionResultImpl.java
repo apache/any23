@@ -19,6 +19,7 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.rdf.Prefixes;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
@@ -167,12 +168,26 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         // Check for mal-constructed literals or BNodes, Sesame does not catch this.
         if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) return;
         checkOpen();
-        tripleHandler.receiveTriple(s, p, o, context);
+        try {
+            tripleHandler.receiveTriple(s, p, o, context);
+        } catch (TripleHandlerException e) {
+            throw new RuntimeException(
+                    String.format("Error while receiving triple %s %s %s", s, p, o ),
+                    e
+            );
+        }
     }
 
     public void writeNamespace(String prefix, String uri) {
         checkOpen();
-        tripleHandler.receiveNamespace(prefix, uri, context);
+        try {
+            tripleHandler.receiveNamespace(prefix, uri, context);
+        } catch (TripleHandlerException e) {
+            throw new RuntimeException(
+                    String.format("Error while writing namespace %s:%s", prefix, uri),
+                    e
+            );
+        }
     }
 
     public void notifyError(ErrorLevel level, String msg, int row, int col) {
@@ -189,17 +204,31 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             subResult.close();
         }
         if (isInitialized) {
-            tripleHandler.closeContext(context);
+            try {
+                tripleHandler.closeContext(context);
+            } catch (TripleHandlerException e) {
+                throw new RuntimeException("Error while opening context", e);
+            }
         }
     }
 
     private void checkOpen() {
         if (!isInitialized) {
             isInitialized = true;
-            tripleHandler.openContext(context);
+            try {
+                tripleHandler.openContext(context);
+            } catch (TripleHandlerException e) {
+                throw new RuntimeException("Error while opening context", e);
+            }
             Prefixes prefixes = extractor.getDescription().getPrefixes();
             for (String prefix : prefixes.allPrefixes()) {
-                tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceURIFor(prefix), context);
+                try {
+                    tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceURIFor(prefix), context);
+                } catch (TripleHandlerException e) {
+                    throw new RuntimeException(String.format("Error while writing namespace %s", prefix),
+                            e
+                    );
+                }
             }
         }
         if (isClosed) {

@@ -17,9 +17,11 @@
 package org.deri.any23.filter;
 
 
+import junit.framework.Assert;
 import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.MockTripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.URI;
@@ -43,7 +45,7 @@ public class ExtractionContextBlockerTest {
     }
 
     @Test
-    public void testSendsNamespaceAfterUnblock() {
+    public void testSendsNamespaceAfterUnblock() throws TripleHandlerException {
         handler.expectOpenContext("test", docURI, null);
         handler.expectNamespace("ex", "http://example.com/", "test", docURI, null);
         handler.expectTriple(s, p, o, "test", docURI, null);
@@ -60,5 +62,5 @@ public class ExtractionContextBlockerTest {
         blocker.endDocument(docURI);
         handler.verify();
     }
-    
+
 }

@@ -60,43 +60,43 @@ public class CompositeTripleHandler implements TripleHandler {
         children.add(child);
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.startDocument(documentURI);
         }
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.openContext(context);
         }
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.closeContext(context);
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.receiveTriple(s, p, o, context);
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.receiveNamespace(prefix, uri, context);
         }
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.close();
         }
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.endDocument(documentURI);
         }

@@ -31,6 +31,7 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
@@ -142,7 +143,14 @@ public class SingleDocumentExtraction {
         }
 
         // Invoke all extractors.
-        output.startDocument(documentURI);
+        try {
+            output.startDocument(documentURI);
+        } catch (TripleHandlerException e) {
+            log.error(String.format("Error starting document with URI %s", documentURI));
+            throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
+                    e
+            );
+        }
         output.setContentLength(in.getContentLength());
         // Create the document context.
         final DocumentContext documentContext = new DocumentContext( extractDocumentLanguage() );
@@ -154,7 +162,14 @@ public class SingleDocumentExtraction {
             propertyPaths.addAll( er.propertyPaths );
         }
         consolidateResources(resourceRoots, propertyPaths, output);
-        output.endDocument(documentURI);
+        try {
+            output.endDocument(documentURI);
+        } catch (TripleHandlerException e) {
+            log.error(String.format("Error ending document with URI %s", documentURI));
+            throw new ExtractionException(String.format("Error ending document with URI %s", documentURI),
+                    e
+            );
+        }
     }
 
     public String getDetectedMIMEType() throws IOException {
@@ -345,19 +360,26 @@ public class SingleDocumentExtraction {
      * @param propertyPaths list of RDF nodes representing property subjects, property URIs and the HTML paths
      *        from which such properties have been extracted. 
      * @param output a triple handler event collector.
+     * @throws ExtractionException
      */
     private void consolidateResources(
             List<ResourceRoot> resourceRoots,
             List<PropertyPath> propertyPaths,
             TripleHandler output
-    ) {
+    ) throws ExtractionException {
         final ExtractionContext context = new ExtractionContext(
                 "consolidation-extractor",
                 documentURI,
                 UUID.randomUUID().toString()
         );
 
-        output.openContext(context);
+        try {
+            output.openContext(context);
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
+                    e
+            );
+        }
         try {
             // Add source Web domains to every resource root.
             final String domain;
@@ -394,8 +416,14 @@ public class SingleDocumentExtraction {
                     }
                 }
             }
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException("Error while writing triple triple.", e);
         } finally {
-            output.closeContext(context);
+            try {
+                output.closeContext(context);
+            } catch (TripleHandlerException e) {
+                throw new ExtractionException("Error while closing context.", e);
+            }
         }
     }
 
@@ -406,7 +434,8 @@ public class SingleDocumentExtraction {
      * @param th the triple handler.
      * @param ec the extraction context used to add such information.
      */
-    private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec) {
+    private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec)
+            throws TripleHandlerException {
         BNode bnode = ValueFactoryImpl.getInstance().createBNode();
         th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), ec );
         th.receiveTriple(

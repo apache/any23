@@ -34,6 +34,7 @@ import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 
 import java.io.File;
 import java.io.IOException;
@@ -268,7 +269,11 @@ public class Any23 {
         ex.setLocalCopyFactory(streamCache);
         ex.setParserEncoding(encoding);
         ex.run();
-        outputHandler.close();
+        try {
+            outputHandler.close();
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException("Error closing the triple handler", e);
+        }
         return ex.hasMatchingExtractors();
     }
 

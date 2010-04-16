@@ -35,31 +35,31 @@ public class CountingTripleHandler implements TripleHandler {
         return count;
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         // ignore
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         // ignore
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // ignore
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
         count++;
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         // ignore
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         // ignore
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         //ignore
     }
 
