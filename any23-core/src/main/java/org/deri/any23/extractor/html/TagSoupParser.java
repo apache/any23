@@ -102,6 +102,7 @@ public class TagSoupParser {
     private Document parse() throws IOException, SAXException, TransformerException {
         DOMParser parser = new DOMParser();
         parser.setFeature("http://xml.org/sax/features/namespaces", false);
+        parser.setFeature("http://cyberneko.org/html/features/scanner/script/strip-cdata-delims", true);
 
         if(this.encoding != null)
             parser.setProperty("http://cyberneko.org/html/properties/default-encoding", this.encoding);

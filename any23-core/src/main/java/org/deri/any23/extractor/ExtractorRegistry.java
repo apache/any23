@@ -29,6 +29,7 @@ import org.deri.any23.extractor.html.ICBMExtractor;
 import org.deri.any23.extractor.html.LicenseExtractor;
 import org.deri.any23.extractor.html.SpeciesExtractor;
 import org.deri.any23.extractor.html.TitleExtractor;
+import org.deri.any23.extractor.html.TurtleHTMLExtractor;
 import org.deri.any23.extractor.html.XFNExtractor;
 import org.deri.any23.extractor.rdf.NTriplesExtractor;
 import org.deri.any23.extractor.rdf.RDFXMLExtractor;
@@ -82,6 +83,7 @@ public class ExtractorRegistry {
                 instance.register(HResumeExtractor.factory);
                 instance.register(HReviewExtractor.factory);
                 instance.register(SpeciesExtractor.factory);
+                instance.register(TurtleHTMLExtractor.factory);
             }
         }
         return instance;

@@ -34,6 +34,7 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.rdfxml.RDFXMLWriter;
 import org.openrdf.rio.turtle.TurtleWriter;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
@@ -132,10 +133,20 @@ public abstract class AbstractMicroformatTestCase {
         ex.run();
     }
 
-    protected String dumpModelToString() throws RepositoryException {
+    protected String dumpModelToTurtle() throws RepositoryException {
         StringWriter w = new StringWriter();
         try {
             conn.export(new TurtleWriter(w));
+            return w.toString();
+        } catch (RDFHandlerException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected String dumpModelToRDFXML() throws RepositoryException {
+        StringWriter w = new StringWriter();
+        try {
+            conn.export(new RDFXMLWriter(w));
             return w.toString();
         } catch (RDFHandlerException ex) {
             throw new RuntimeException(ex);
@@ -192,7 +203,7 @@ public abstract class AbstractMicroformatTestCase {
     }
 
     private String getFailedExtractionMessage() throws RepositoryException {
-        return "Assertion failed! Extracted triples:\n" + dumpModelToString();
+        return "Assertion failed! Extracted triples:\n" + dumpModelToTurtle();
     }
 
 }

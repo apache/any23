@@ -22,13 +22,9 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.rio.ParseErrorListener;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,42 +101,8 @@ public class TurtleExtractor implements ContentExtractor {
     public void run(InputStream in, URI documentURI, final ExtractionResult out)
     throws IOException, ExtractionException {
         try {
-            TurtleParser parser = new TurtleParser();
-            parser.setDatatypeHandling(
-                    verifyDataType ? RDFParser.DatatypeHandling.VERIFY  : RDFParser.DatatypeHandling.IGNORE
-            );
-            parser.setStopAtFirstError(stopAtFirstError);
-            parser.setParseErrorListener( new ParseErrorListener() {
-                public void warning(String msg, int lineNo, int colNo) {
-                    try {
-                        out.notifyError(ExtractionResult.ErrorLevel.WARN, msg, lineNo, colNo );
-                    } catch (Exception e) {
-                        notifyExceptionInNotification(e);
-                    }
-                }
-
-                public void error(String msg, int lineNo, int colNo) {
-                    try {
-                        out.notifyError(ExtractionResult.ErrorLevel.ERROR, msg, lineNo, colNo );
-                    } catch (Exception e) {
-                       notifyExceptionInNotification(e); 
-                    }
-                }
-
-                public void fatalError(String msg, int lineNo, int colNo) {
-                    try {
-                        out.notifyError(ExtractionResult.ErrorLevel.FATAL, msg, lineNo, colNo );
-                    } catch (Exception e) {
-                        notifyExceptionInNotification(e);
-                    }
-                }
-
-                private void notifyExceptionInNotification(Exception e) {
-                    logger.error("An exception occurred while notifying an error.", e);
-                }
-            });
-            parser.setRDFHandler( new RDFHandlerAdapter(out) );
-            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out) );
+            TurtleParser parser = RDFParserFactory.getInstance()
+                    .getTurtleParserInstance(verifyDataType, stopAtFirstError, out);
             parser.parse( in, documentURI.stringValue() );
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);
