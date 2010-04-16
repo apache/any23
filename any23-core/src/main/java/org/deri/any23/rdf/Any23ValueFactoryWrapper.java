@@ -37,7 +37,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);
 
-    private final ValueFactory _vFactory;
+    private final ValueFactory wrappedFactory;
 
     private ErrorReporter errorReporter;
 
@@ -46,12 +46,20 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * Constructor with error reporter.
      *
-     * @param vFactory
-     * @param er
+     * @param factory the wrapped value factory, cannot be <code>null</code>.
+     * @param er the error reporter.
+     * @param defaultLitLanguage the default literal language.
      */
-    public Any23ValueFactoryWrapper(final ValueFactory vFactory, ErrorReporter er, String defaultLitLanguage) {
-        _vFactory     = vFactory;
-        errorReporter = er;
+    public Any23ValueFactoryWrapper(
+            final ValueFactory factory,
+            ErrorReporter er,
+            String defaultLitLanguage
+    ) {
+        if(factory == null) {
+            throw new NullPointerException("factory cannot be null.");
+        }
+        wrappedFactory = factory;
+        errorReporter  = er;
         defaultLiteralLanguage = defaultLitLanguage;
     }
 
@@ -76,69 +84,69 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     public BNode createBNode() {
-        return _vFactory.createBNode();
+        return wrappedFactory.createBNode();
     }
 
     public BNode createBNode(String id) {
         if (id == null) return null;
-        return _vFactory.createBNode(id);
+        return wrappedFactory.createBNode(id);
     }
 
     public Literal createLiteral(String content) {
         if (content == null) return null;
-        return _vFactory.createLiteral(content, defaultLiteralLanguage);
+        return wrappedFactory.createLiteral(content, defaultLiteralLanguage);
     }
 
     public Literal createLiteral(boolean b) {
-        return _vFactory.createLiteral(b);
+        return wrappedFactory.createLiteral(b);
     }
 
     public Literal createLiteral(byte b) {
-        return _vFactory.createLiteral(b);
+        return wrappedFactory.createLiteral(b);
     }
 
     public Literal createLiteral(short i) {
-        return _vFactory.createLiteral(i);
+        return wrappedFactory.createLiteral(i);
     }
 
     public Literal createLiteral(int i) {
-        return _vFactory.createLiteral(i);
+        return wrappedFactory.createLiteral(i);
     }
 
     public Literal createLiteral(long l) {
-        return _vFactory.createLiteral(l);
+        return wrappedFactory.createLiteral(l);
     }
 
     public Literal createLiteral(float v) {
-        return _vFactory.createLiteral(v);
+        return wrappedFactory.createLiteral(v);
     }
 
     public Literal createLiteral(double v) {
-        return _vFactory.createLiteral(v);
+        return wrappedFactory.createLiteral(v);
     }
 
     public Literal createLiteral(XMLGregorianCalendar calendar) {
-        return _vFactory.createLiteral(calendar);
+        return wrappedFactory.createLiteral(calendar);
     }
 
     public Literal createLiteral(String label, String language) {
         if (label == null) return null;
-        return _vFactory.createLiteral(label, language);
+        return wrappedFactory.createLiteral(label, language);
     }
 
     public Literal createLiteral(String pref, URI value) {
         if (pref == null) return null;
-        return _vFactory.createLiteral(pref, value);
+        return wrappedFactory.createLiteral(pref, value);
     }
 
     public Statement createStatement(Resource sub, URI pre, Value obj) {
         if (sub == null || pre == null || obj == null) return null;
-        return _vFactory.createStatement(sub, pre, obj);
+        return wrappedFactory.createStatement(sub, pre, obj);
     }
 
     public Statement createStatement(Resource sub, URI pre, Value obj, Resource context) {
         if (sub == null || pre == null || obj == null) return null;
-        return _vFactory.createStatement(sub, pre, obj, context);
+        return wrappedFactory.createStatement(sub, pre, obj, context);
     }
 
     /**
@@ -148,7 +156,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     public URI createURI(String uriStr) {
         if (uriStr == null) return null;
         try {
-            return _vFactory.createURI(RDFUtility.fixURIWithException(uriStr));
+            return wrappedFactory.createURI(RDFUtility.fixURIWithException(uriStr));
         } catch (Exception e) {
             reportError(e);
             return null;
@@ -160,7 +168,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI createURI(String namespace, String localName) {
         if (namespace == null || localName == null) return null;
-        return _vFactory.createURI(RDFUtility.fixURIWithException(namespace), localName);
+        return wrappedFactory.createURI(RDFUtility.fixURIWithException(namespace), localName);
     }
 
     /**
@@ -172,7 +180,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI resolveURI(String uri, java.net.URI baseURI) {
         try {
-            return _vFactory.createURI(baseURI.resolve(RDFUtility.fixURIWithException(uri)).toString());
+            return wrappedFactory.createURI(baseURI.resolve(RDFUtility.fixURIWithException(uri)).toString());
         } catch (IllegalArgumentException iae) {
             reportError(iae);
             return null;
@@ -185,7 +193,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI fixURI(String uri) {
         try {
-            return _vFactory.createURI(RDFUtility.fixURIWithException(uri));
+            return wrappedFactory.createURI(RDFUtility.fixURIWithException(uri));
         } catch (Exception e) {
             reportError(e);
             return null;
