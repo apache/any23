@@ -72,7 +72,11 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
                 conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", "en"), false)
         );
         Assert.assertFalse(
-                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", null), false)
+                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal(
+                        "Welcome to mydomain.net",
+                        (String) null),
+                        false
+                )
         );
     }
     

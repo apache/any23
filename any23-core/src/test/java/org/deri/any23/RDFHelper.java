@@ -42,6 +42,10 @@ public class RDFHelper {
         return ValueFactoryImpl.getInstance().createLiteral(s, l);
     }
 
+    public static Literal literal(String s, URI datatype) {
+        return ValueFactoryImpl.getInstance().createLiteral(s, datatype);
+    }
+
     public static Statement triple(Resource s, URI p, Value o) {
         return ValueFactoryImpl.getInstance().createStatement(s, p, o);
     }

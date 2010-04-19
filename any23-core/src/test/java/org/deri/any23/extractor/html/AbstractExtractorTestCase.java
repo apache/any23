@@ -153,6 +153,23 @@ public abstract class AbstractExtractorTestCase {
         }
     }
 
+    protected String dumpHumanReadableTriples() throws RepositoryException {
+        StringBuilder sb = new StringBuilder();
+        RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
+        while(result.hasNext()) {
+            Statement statement = result.next();
+            sb.append(String.format("%s %s %s %s\n",
+                    statement.getSubject(),
+                    statement.getPredicate(),
+                    statement.getObject(),
+                    statement.getContext()
+                    )
+            );
+            
+        }
+        return sb.toString();
+    }
+
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
         assertContains(s, p, RDFHelper.literal(o));
     }
