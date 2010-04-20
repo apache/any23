@@ -70,7 +70,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode rev = getBlankNodeFor(node);
         out.writeTriple(rev, RDF.TYPE, REVIEW.Review);
-        HTMLDocument fragment = new HTMLDocument(node);
+        final HTMLDocument fragment = new HTMLDocument(node);
         addRating(fragment, rev);
         addSummary(fragment, rev);
         addTime(fragment, rev);
@@ -130,11 +130,11 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
                 val.source(),
                 blank, VCARD.fn, val.value()
         );
-        final String url = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(url));
-        String pics[] = item.getPluralUrlField("photo");
-        for (String pic : pics) {
-            addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic));
+        final TextField url = item.getSingularUrlField("url");
+        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(url.value()));
+        TextField pics[] = item.getPluralUrlField("photo");
+        for (TextField pic : pics) {
+            addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic.value()));
         }
         return blank;
     }

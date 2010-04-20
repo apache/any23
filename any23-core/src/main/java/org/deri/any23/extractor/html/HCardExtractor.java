@@ -93,13 +93,13 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             // we have to remove the field soon to avoid infinite loops
             // no null check, we know it's there or we won't be in the loop
             current.getAttributes().removeNamedItem("class");
-            ArrayList<String> res = new ArrayList<String>(1);
+            ArrayList<TextField> res = new ArrayList<TextField>();
             HTMLDocument.readUrlField(res, current);
-            String id = res.get(0);
+            TextField id = res.get(0);
             if (null == id)
                 continue;
-            id = StringUtils.substringAfter(id, "#");
-            Node included = document.findNodeById(id);
+            id = new TextField( StringUtils.substringAfter(id.value(), "#"), id.source() );
+            Node included = document.findNodeById(id.value());
             if (null == included)
                 continue;
             current.appendChild(included.cloneNode(true));
@@ -151,10 +151,10 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         boolean found = false;
         for (Node node : fragment.findAll(".//*[contains(@class,'tel')]")) {
             HTMLDocument telFragment = new HTMLDocument(node);
-            String[] values = telFragment.getPluralUrlField("value");
+            TextField[] values = telFragment.getPluralUrlField("value");
             if (values.length == 0) {
                 //no sub values
-                String[] typeAndValue = telFragment.getSingularUrlField("tel").split(":");
+                String[] typeAndValue = telFragment.getSingularUrlField("tel").value().split(":");
                 //modem:goo fax:foo tel:bar
                 if (typeAndValue.length > 1) {
                     found |= addTel(card, "tel", typeAndValue[1]);
@@ -162,12 +162,16 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                     found |= addTel(card, "tel", typeAndValue[0]);
                 }
             } else {
+                final String[] valuesStr = new String[values.length];
+                for(int i = 0; i < values.length; i++) {
+                    valuesStr[i] = values[i].value();
+                }
                 HTMLDocument.TextField[] types = telFragment.getPluralTextField("type");
                 if (types.length == 0) {
-                    found |= addTel(card, "tel", StringUtils.join(values));
+                    found |= addTel(card, "tel", StringUtils.join(valuesStr));
                 }
                 for (HTMLDocument.TextField type : types) {
-                    found |= addTel(card, type.value(), StringUtils.join(values));
+                    found |= addTel(card, type.value(), StringUtils.join(valuesStr));
                 }
             }
         }
@@ -246,43 +250,47 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private boolean addUid(Resource card) {
-        String uid = fragment.getSingularUrlField("uid");
+        TextField uid = fragment.getSingularUrlField("uid");
         return conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fragment.getDocument(),
-                card, VCARD.uid, uid
+                card, VCARD.uid, uid.value()
         );
     }
 
     private boolean addClass(Resource card) {
-        String class_ = fragment.getSingularUrlField("class");
+        TextField class_ = fragment.getSingularUrlField("class");
         return conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fragment.getDocument(),
-                card, VCARD.class_, class_
+                card, VCARD.class_, class_.value()
         );
     }
 
     private boolean addLogo(Resource card) throws ExtractionException {
-        String[] links = fragment.getPluralUrlField("logo");
+        TextField[] links = fragment.getPluralUrlField("logo");
         boolean found = false;
-        for (String link : links) {
-            found |= conditionallyAddResourceProperty(card, VCARD.logo, getHTMLDocument().resolveURI(link));
+        for (TextField link : links) {
+            found |= conditionallyAddResourceProperty(
+                    card, VCARD.logo, getHTMLDocument().resolveURI(link.value())
+            );
         }
         return found;
     }
 
     private boolean addPhoto(Resource card) throws ExtractionException {
-        String[] links = fragment.getPluralUrlField("photo");
+        TextField[] links = fragment.getPluralUrlField("photo");
         boolean found = false;
-        for (String link : links) {
-            found |= conditionallyAddResourceProperty(card, VCARD.photo, getHTMLDocument().resolveURI(link));
+        for (TextField link : links) {
+            found |= conditionallyAddResourceProperty(
+                    card, VCARD.photo, getHTMLDocument().resolveURI(link.value())
+            );
         }
         return found;
     }
 
     private boolean addEmail(Resource card) {
-        String email = dropSubject(fragment.getSingularUrlField("email"));
+        String email = dropSubject(fragment.getSingularUrlField("email").value());
         return conditionallyAddResourceProperty(
                 card,
                 VCARD.email,
@@ -401,10 +409,10 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private boolean addUrl(Resource card) throws ExtractionException {
-        String[] links = fragment.getPluralUrlField("url");
+        TextField[] links = fragment.getPluralUrlField("url");
         boolean found = false;
-        for (String link : links) {
-            found |= conditionallyAddResourceProperty(card, VCARD.url, getHTMLDocument().resolveURI(link));
+        for (TextField link : links) {
+            found |= conditionallyAddResourceProperty(card, VCARD.url, getHTMLDocument().resolveURI(link.value()));
         }
         return found;
     }

@@ -100,23 +100,28 @@ public class HTMLDocument {
      * @param res
      * @param node
      */
-    public static void readUrlField(List<String> res, Node node) {
+    public static void readUrlField(List<TextField> res, Node node) {
         String name = node.getNodeName();
         NamedNodeMap attributes = node.getAttributes();
         if (null == attributes) {
-            res.add(node.getTextContent());
+            res.add( new TextField(node.getTextContent(), node) );
             return;
         }
-        if ("A".equals(name) || "AREA".equals(name))
-            res.add(attributes.getNamedItem("href").getNodeValue());
-        else if ("ABBR".equals(name))
-            res.add(attributes.getNamedItem("title").getNodeValue());
-        else if ("IMG".equals(name))
-            res.add(attributes.getNamedItem("src").getNodeValue());
-        else if ("OBJECT".equals(name))
-            res.add(attributes.getNamedItem("data").getNodeValue());
-        else
-            res.add(node.getTextContent().trim());
+        if ("A".equals(name) || "AREA".equals(name)) {
+            Node n = attributes.getNamedItem("href");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else if ("ABBR".equals(name)) {
+            Node n = attributes.getNamedItem("title");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else if ("IMG".equals(name)) {
+            Node n = attributes.getNamedItem("src");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else if ("OBJECT".equals(name)) {
+            Node n = attributes.getNamedItem("data");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else {
+            res.add( new TextField(node.getTextContent().trim(), node) );
+        }
     }
 
     /**
@@ -152,6 +157,7 @@ public class HTMLDocument {
      * @param n the node for which retrieve the path.
      * @return a sequence of HTML tag names.
      */
+    // TODO: move to DomUtils and merge with #getXPathForNode.
     public static String[] getPathFromRootToGivenNode(Node n) {
         if(n == null) {
             return EMPTY_STRING_ARRAY;
@@ -273,10 +279,10 @@ public class HTMLDocument {
      * @return if multiple values are found just the first is returned,
      *  if we want to check that there are no n-ary values use plural finder
      */
-    public String getSingularUrlField(String className) {
-        String[] res = getPluralUrlField(className);
+    public TextField getSingularUrlField(String className) {
+        TextField[] res = getPluralUrlField(className);
         if (res.length < 1)
-            return "";
+            return new TextField("", null);
         return res[0];
     }
 
@@ -286,12 +292,12 @@ public class HTMLDocument {
      * @param className name of node class containing the URL field.
      * @return
      */
-    public String[] getPluralUrlField(String className) {
-        List<String> res = new ArrayList<String>(0);
+    public TextField[] getPluralUrlField(String className) {
+        List<TextField> res = new ArrayList<TextField>();
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readUrlField(res, node);
-        return res.toArray( new String[res.size()] );
+        return res.toArray( new TextField[res.size()] );
     }
 
     public Node findMicroformattedObjectNode(String objectTag, String name) {

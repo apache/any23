@@ -240,13 +240,13 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addListerUrl(HTMLDocument doc, Resource blankLister) throws ExtractionException {
-        String url = doc.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blankLister, HLISTING.listerUrl, getHTMLDocument().resolveURI(url));
+        TextField url = doc.getSingularUrlField("url");
+        conditionallyAddResourceProperty(blankLister, HLISTING.listerUrl, getHTMLDocument().resolveURI(url.value()));
     }
 
     private void addListerEmail(HTMLDocument doc, Resource blankLister) {
-        String email = doc.getSingularUrlField("email");
-        conditionallyAddResourceProperty(blankLister, FOAF.mbox, fixLink(email, "mailto"));
+        TextField email = doc.getSingularUrlField("email");
+        conditionallyAddResourceProperty(blankLister, FOAF.mbox, fixLink(email.value(), "mailto"));
     }
 
     private void addListerFn(HTMLDocument doc, Resource blankLister) {
@@ -259,8 +259,8 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addListerLogo(HTMLDocument doc, Resource blankLister) throws ExtractionException {
-        String logo = doc.getSingularUrlField("logo");
-        conditionallyAddResourceProperty(blankLister, HLISTING.listerLogo, getHTMLDocument().resolveURI(logo));
+        TextField logo = doc.getSingularUrlField("logo");
+        conditionallyAddResourceProperty(blankLister, HLISTING.listerLogo, getHTMLDocument().resolveURI(logo.value()));
     }
 
     private void addListerOrg(HTMLDocument doc, Resource blankLister) {
@@ -282,8 +282,8 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void addItemUrl(HTMLDocument item, Resource blankItem) throws ExtractionException {
-        String url = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blankItem, HLISTING.itemUrl, getHTMLDocument().resolveURI(url));
+        TextField url = item.getSingularUrlField("url");
+        conditionallyAddResourceProperty(blankItem, HLISTING.itemUrl, getHTMLDocument().resolveURI(url.value()));
     }
 
     private void addItemPhoto(HTMLDocument doc, Resource blankLister) throws ExtractionException {

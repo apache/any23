@@ -129,14 +129,18 @@ public class HCalendarExtractor extends MicroformatExtractor {
     }
 
     private void addUid(HTMLDocument compoNode, Resource evt) {
-        String url = compoNode.getSingularUrlField("uid");
-        conditionallyAddStringProperty(getDescription().getExtractorName(), compoNode.getDocument(), evt, ICAL.uid, url);
+        TextField url = compoNode.getSingularUrlField("uid");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                compoNode.getDocument(),
+                evt, ICAL.uid, url.value()
+        );
     }
 
     private void addUrl(HTMLDocument compoNode, Resource evt) throws ExtractionException {
-        String url = compoNode.getSingularUrlField("url");
-        if ("".equals(url)) return;
-        addURIProperty(evt, ICAL.url, getHTMLDocument().resolveURI(url));
+        TextField url = compoNode.getSingularUrlField("url");
+        if ("".equals(url.value())) return;
+        addURIProperty(evt, ICAL.url, getHTMLDocument().resolveURI(url.value()));
     }
 
     private void addRRule(HTMLDocument compoNode, Resource evt) {
@@ -162,12 +166,12 @@ public class HCalendarExtractor extends MicroformatExtractor {
         for (Node organizer : compoNode.findAllByClassName("organizer")) {
             //untyped
             BNode blank = valueFactory.createBNode();
-            String mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
+            TextField mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
             final String extractorName = getDescription().getExtractorName();
             conditionallyAddStringProperty(
                     extractorName,
                     compoNode.getDocument(),
-                    blank, ICAL.calAddress, mail
+                    blank, ICAL.calAddress, mail.value()
             );
             addBNodeProperty(
                     extractorName,

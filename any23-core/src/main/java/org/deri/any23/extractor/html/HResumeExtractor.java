@@ -68,7 +68,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         BNode person = getBlankNodeFor(node);
         // we have a person, at least
         out.writeTriple(person, RDF.TYPE, FOAF.Person);
-        HTMLDocument fragment = new HTMLDocument(node);
+        final HTMLDocument fragment = new HTMLDocument(node);
         addSummary(fragment, person);
         addContact(fragment, person);
         addExperiences(fragment, person);
