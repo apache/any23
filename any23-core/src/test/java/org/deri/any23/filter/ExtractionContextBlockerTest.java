@@ -17,8 +17,7 @@
 package org.deri.any23.filter;
 
 
-import junit.framework.Assert;
-import org.deri.any23.RDFHelper;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.MockTripleHandler;
 import org.deri.any23.writer.TripleHandlerException;

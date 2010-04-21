@@ -17,7 +17,7 @@
 package org.deri.any23.extractor;
 
 import junit.framework.Assert;
-import org.deri.any23.RDFHelper;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.extractor.example.ExampleExtractor;
 import org.deri.any23.writer.CountingTripleHandler;
 import org.junit.Test;

@@ -30,6 +30,7 @@ import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.BNode;
@@ -441,14 +442,17 @@ public class SingleDocumentExtraction {
 
     /**
      * Creates a nesting relationship triple.
+     * 
      * @param from the property containing the nested microformat.
      * @param to the root to the nested microformat.
      * @param th the triple handler.
      * @param ec the extraction context used to add such information.
      */
     private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec)
-            throws TripleHandlerException {
-        BNode bnode = ValueFactoryImpl.getInstance().createBNode();
+    throws TripleHandlerException {
+        final BNode fromObject = from.getObject();
+        final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
+        BNode bnode = RDFHelper.getBNode(bNodeHash);
         th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), ec );
         th.receiveTriple(
                 bnode,

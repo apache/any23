@@ -16,7 +16,7 @@
 
 package org.deri.any23.extractor;
 
-import org.deri.any23.RDFHelper;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.writer.TripleHandler;
 import org.junit.Assert;
 import org.openrdf.model.Resource;

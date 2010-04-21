@@ -17,11 +17,10 @@
 package org.deri.any23.rdf;
 
 
+import org.deri.any23.util.RDFHelper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
-
-import org.deri.any23.RDFHelper;
 
 import java.util.Arrays;
 import java.util.Collections;

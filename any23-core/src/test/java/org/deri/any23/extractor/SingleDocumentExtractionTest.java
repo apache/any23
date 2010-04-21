@@ -4,6 +4,7 @@ import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.mime.TikaMIMETypeDetector;
 import org.deri.any23.vocab.ICAL;
 import org.deri.any23.vocab.REVIEW;
+import org.deri.any23.vocab.VCARD;
 import org.deri.any23.writer.CompositeTripleHandler;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.RepositoryWriter;
@@ -36,6 +37,7 @@ import java.io.IOException;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
+// TODO: solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
 public class SingleDocumentExtractionTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SingleDocumentExtractionTest.class);
@@ -156,6 +158,11 @@ public class SingleDocumentExtractionTest {
      * @throws RepositoryException
      */
     @Test
+    /* NOTE: The triple (bnode http://www.w3.org/2006/vcard/ns#url http://pizza.example.com) and
+     *       (bnode http://vocab.sindice.net/nesting_original (structured) *) are printed out twice,
+     *       once for every extractor. The RDFWriter doesn't remove the duplicates and some graph renderers
+     *       show the triple property as double. Despite this the model contains it just once.
+     */
     public void testNestedMicroformatsManaged() throws IOException, ExtractionException, RepositoryException {
         singleDocumentExtraction = getInstance("microformats/nested-microformats-managed.html");
         singleDocumentExtraction.run();
@@ -163,10 +170,13 @@ public class SingleDocumentExtractionTest {
         logStorageContent();
 
         assertTripleCount(SingleDocumentExtraction.DOMAIN_PROPERTY, "nested.test.com", 3);
-        assertTriple(SingleDocumentExtraction.NESTING_PROPERTY, (Value) null);
-        assertTriple(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , REVIEW.hasReview);
+        assertTripleCount(SingleDocumentExtraction.NESTING_PROPERTY, (Value) null, 3);
+        assertTripleCount(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , REVIEW.hasReview, 1);
+
+        assertTripleCount(VCARD.url, (Value) null, 1);
         Value object = getTripleObject(null, REVIEW.hasReview);
-        assertTriple(SingleDocumentExtraction.NESTING_STRUCTURED_PROPERTY, object);
+        assertTripleCount(SingleDocumentExtraction.NESTING_STRUCTURED_PROPERTY, object          , 1);
+        assertTripleCount(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , REVIEW.hasReview, 1);
     }
 
     private SingleDocumentExtraction getInstance(String file) {

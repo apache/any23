@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.deri.any23;
+package org.deri.any23.util;
 
 import org.deri.any23.rdf.PopularPrefixes;
+import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -29,6 +30,8 @@ import org.openrdf.model.vocabulary.RDF;
  * RDF helper class.
  */
 public class RDFHelper {
+
+    private RDFHelper(){}
 
     public static URI uri(String uri) {
         return ValueFactoryImpl.getInstance().createURI(uri);
@@ -44,6 +47,12 @@ public class RDFHelper {
 
     public static Literal literal(String s, URI datatype) {
         return ValueFactoryImpl.getInstance().createLiteral(s, datatype);
+    }
+
+    public static BNode getBNode(String id) {
+        return ValueFactoryImpl.getInstance().createBNode(
+            "node" + MathUtils.md5(id)
+        );
     }
 
     public static Statement triple(Resource s, URI p, Value o) {

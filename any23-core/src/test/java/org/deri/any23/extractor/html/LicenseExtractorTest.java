@@ -16,9 +16,9 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.util.RDFHelper;
 import org.junit.Test;
 
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.XHTML;
 import org.openrdf.model.URI;

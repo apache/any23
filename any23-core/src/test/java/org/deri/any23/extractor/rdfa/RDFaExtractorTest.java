@@ -16,7 +16,7 @@
 
 package org.deri.any23.extractor.rdfa;
 
-import org.deri.any23.RDFHelper;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.FOAF;
 import org.junit.Test;
 
