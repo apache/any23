@@ -75,7 +75,7 @@ public class TikaMIMETypeDetectorTest {
                 is instanceof BufferedInputStream ? is : new BufferedInputStream(is),
                 null
         ).toString();
-        System.err.println(detectedMimeType);
+        Assert.assertEquals("Unexpected mimetype.", "application/rdf+xml", detectedMimeType);
     }
 
     /* BEGIN: by content. */
