@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.BufferedInputStream;
 
 /**
  * Test case for {@link org.deri.any23.mime.TikaMIMETypeDetector} class.
@@ -65,17 +64,6 @@ public class TikaMIMETypeDetectorTest {
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"@it .");
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^http://xxx.net .");
-    }
-
-    @Test
-    public void testDetectByContent() throws IOException {
-        InputStream is = this.getClass().getResourceAsStream("/application/rdfxml/physics.owl");
-        String detectedMimeType = detector.guessMIMEType(
-                null,
-                is instanceof BufferedInputStream ? is : new BufferedInputStream(is),
-                null
-        ).toString();
-        Assert.assertEquals("Unexpected mimetype.", "application/rdf+xml", detectedMimeType);
     }
 
     /* BEGIN: by content. */
