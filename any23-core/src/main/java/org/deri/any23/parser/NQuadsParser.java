@@ -33,12 +33,9 @@ import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.helpers.RDFParserBase;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
 
 /**
  * <i>N-Quads</i> parser implementation based on the
@@ -50,19 +47,25 @@ import java.nio.charset.Charset;
  */
 public class NQuadsParser extends RDFParserBase {
 
-    private static RDFFormat RDF_FORMAT =
-            RDFFormat.register("N-Quads", "text/nquads", "nq", Charset.forName("UTF-8"));
-
+    /**
+     * Location listener acquired when parsing started.
+     */
     private ParseLocationListener locationListener;
 
+    /**
+     * RDF handler acquired when parsing started.
+     */
     private RDFHandler rdfHandler;
 
+    /**
+     * Current row, col and marker trackers.
+     */
     private int row, col, mark;
 
     public NQuadsParser() {}
 
     public RDFFormat getRDFFormat() {
-        return RDF_FORMAT;
+        return NQuads.FORMAT;
     }
 
     public void parse(Reader reader, String s)
@@ -104,6 +107,9 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Moves to the next row, resets the column.
+     */
     private void nextRow() {
         col = 0;
         row++;
@@ -112,6 +118,9 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Moves to the next column.
+     */
     private void nextCol() {
         col++;
         if(locationListener != null) {
@@ -119,21 +128,66 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Reads the next char.
+     *
+     * @param bis
+     * @return the next read char.
+     * @throws IOException
+     */
     private char readChar(BufferedInputStream bis) throws IOException {
         nextCol();
         return (char) bis.read();
     }
 
+    /**
+     * Marks the buffered input stream with the current location.
+     *
+     * @param bis
+     */
     private void mark(BufferedInputStream bis) {
         mark = col;
         bis.mark(Integer.MAX_VALUE);
     }
 
+    /**
+     * Resets the buffered input stream and update the new location.
+     * 
+     * @param bis
+     * @throws IOException
+     */
     private void reset(BufferedInputStream bis) throws IOException {
         col = mark;
         bis.reset();
+        if(locationListener != null) {
+            locationListener.parseLocationUpdate(row, col);
+        }
     }
 
+    /**
+     * Asserts to read a specific char.
+     *
+     * @param bis
+     * @param c
+     * @throws IOException
+     */
+    private void assertChar(BufferedInputStream bis, char c) throws IOException {
+        if( readChar(bis) != c) {
+            throw new IllegalArgumentException(
+                    String.format("Unexpected char at location %s %s, expected '%s'", row, col, c)
+            );
+        }
+    }
+
+    /**
+     * Parsers an <i>NQuads</i> line.
+     * 
+     * @param bis
+     * @return <code>true</code> if the parsing completed, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws RDFParseException
+     * @throws RDFHandlerException
+     */
     private boolean parseLine(BufferedInputStream bis)
     throws IOException, RDFParseException, RDFHandlerException {
         consumeSpaces(bis);
@@ -170,6 +224,12 @@ public class NQuadsParser extends RDFParserBase {
         return readChar(bis) == '\n';
     }
 
+    /**
+     * Consumes spaces until a non space char is detected.
+     * 
+     * @param bis
+     * @throws IOException
+     */
     private void consumeSpaces(BufferedInputStream bis) throws IOException {
         char c;
         do {
@@ -179,18 +239,23 @@ public class NQuadsParser extends RDFParserBase {
         reset(bis);
     }
 
+    /**
+     * Consumes the dot at the end of NQuads line.
+     * 
+     * @param bis
+     * @throws IOException
+     */
     private void parseDot(BufferedInputStream bis) throws IOException {
         assertChar(bis, '.');
-    }                                                                                           
-
-    private void assertChar(BufferedInputStream bis, char c) throws IOException {
-        if( readChar(bis) != c) {
-            throw new IllegalArgumentException(
-                    String.format("Unexpected char at location %s %s, expected '%s'", row, col, c)
-            );
-        }
     }
 
+    /**
+     * Parses a URI encosed within &lt; and &gt; brackets.
+     * @param bis
+     * @return
+     * @throws IOException
+     * @throws RDFParseException
+     */
     private URI parseURI(BufferedInputStream bis) throws IOException, RDFParseException {
         assertChar(bis, '<');
 
@@ -221,6 +286,14 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Parses a bnode.
+     * 
+     * @param bis
+     * @return
+     * @throws IOException
+     * @throws RDFParseException
+     */
     private BNode parseBNode(BufferedInputStream bis) throws IOException, RDFParseException {
         assertChar(bis, '_');
         assertChar(bis, ':');
@@ -246,6 +319,13 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Parses a literal attribute that can be either the language or the data type.
+     * 
+     * @param bis
+     * @return the literal attribute.
+     * @throws IOException
+     */
     private LiteralAttribute parseLiteralAttribute(BufferedInputStream bis) throws IOException {
         char c = readChar(bis);
         if(c == ' ') {
@@ -273,6 +353,15 @@ public class NQuadsParser extends RDFParserBase {
         return new LiteralAttribute( isLang, sb.toString() );
     }
 
+    /**
+     * Validates and normalize the value of a literal on the basis of the datat ype handling policy and
+     * the associated data type.
+     *
+     * @param value
+     * @param datatype
+     * @return the normalized data type. It depends on the data type handling policy and the specified data type.
+     * @throws RDFParseException
+     */
     private String validateAndNormalizeLiteral(String value, URI datatype) throws RDFParseException {
         DatatypeHandling dh = datatypeHandling();
         if(dh.equals( DatatypeHandling.IGNORE )) {
@@ -297,6 +386,14 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Parses a literal.
+     *
+     * @param bis
+     * @return the parsed literal.
+     * @throws IOException
+     * @throws RDFParseException
+     */
     private Value parseLiteral(BufferedInputStream bis) throws IOException, RDFParseException {
         assertChar(bis, '"');
 
@@ -352,10 +449,14 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
-    private URI parseGraph(BufferedInputStream bis) throws IOException, RDFParseException {
-        return parseURI(bis);
-    }
-
+    /**
+     * Parses the subject sequence.
+     *
+     * @param bis
+     * @return the corresponding URI object.
+     * @throws IOException
+     * @throws RDFParseException
+     */
     private Resource parseSubject(BufferedInputStream bis) throws IOException, RDFParseException {
         mark(bis);
         char c = readChar(bis);
@@ -367,10 +468,26 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Parses the predicate URI.
+     *
+     * @param bis
+     * @return the corresponding URI object.
+     * @throws IOException
+     * @throws RDFParseException
+     */
     private URI parsePredicate(BufferedInputStream bis) throws IOException, RDFParseException {
         return parseURI(bis);
     }
 
+    /**
+     * Parses the the object sequence.
+     *
+     * @param bis
+     * @return the corresponding URI object.
+     * @throws IOException
+     * @throws RDFParseException
+     */
     private Value parseObject(BufferedInputStream bis) throws IOException, RDFParseException {
         mark(bis);
         char c = readChar(bis);
@@ -384,6 +501,9 @@ public class NQuadsParser extends RDFParserBase {
         }
     }
 
+    /**
+     * Represents a literal with its attribute value that can be either a language or a data type.
+     */
     class LiteralAttribute {
         final boolean isLang;
         final String value;
@@ -392,6 +512,18 @@ public class NQuadsParser extends RDFParserBase {
             isLang = lang;
             this.value = value;
         }
+    }
+
+    /**
+     * Parses the graph URI.
+     *
+     * @param bis
+     * @return the corresponding URI object.
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    private URI parseGraph(BufferedInputStream bis) throws IOException, RDFParseException {
+        return parseURI(bis);
     }
 
 }
