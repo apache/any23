@@ -41,6 +41,8 @@ import org.openrdf.sail.memory.MemoryStore;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Abstract class used to write {@link org.deri.any23.extractor.Extractor} specific
@@ -125,6 +127,36 @@ public abstract class AbstractExtractorTestCase {
         }
     }
 
+    public List<Resource> findSubjects(URI p, Value o) throws RepositoryException {
+        RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
+        List<Resource> subjects = new ArrayList<Resource>();
+        try {
+            Statement statement;
+            while( it.hasNext() ) {
+                statement = it.next();
+                subjects.add( statement.getSubject() );
+            }
+        } finally {
+            it.close();
+        }
+        return subjects;
+    }
+
+    public List<Value> findObjects(Resource s, URI p) throws RepositoryException {
+        RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
+        List<Value> objects = new ArrayList<Value>();
+        try {
+            Statement statement;
+            while( it.hasNext() ) {
+                statement = it.next();
+                objects.add( statement.getObject() );
+            }
+        } finally {
+            it.close();
+        }
+        return objects;
+    }
+
     protected void extract(String name) throws ExtractionException, IOException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(
                 new HTMLFixture(name).getOpener(baseURI.toString()),
@@ -174,8 +206,9 @@ public abstract class AbstractExtractorTestCase {
         assertContains(s, p, RDFHelper.literal(o));
     }
 
-    protected void assertStatementsSize(URI prop, Value obj, int expected) throws RepositoryException {
-        RepositoryResult<Statement> result = conn.getStatements(null, prop, obj, false);
+    protected int getStatementsSize(Resource subject, URI prop, Value obj)
+    throws RepositoryException {
+        RepositoryResult<Statement> result = conn.getStatements(subject, prop, obj, false);
         int count = 0;
         try {
             while (result.hasNext()) {
@@ -185,7 +218,16 @@ public abstract class AbstractExtractorTestCase {
         } finally {
             result.close();
         }
-        junit.framework.Assert.assertEquals(expected, count);
+        return count;
+    }
+
+    protected void assertStatementsSize(Resource subject, URI prop, Value obj, int expected)
+    throws RepositoryException {
+        junit.framework.Assert.assertEquals(expected, getStatementsSize(subject, prop, obj) );
+    }
+
+    protected void assertStatementsSize(URI prop, Value obj, int expected) throws RepositoryException {
+        assertStatementsSize(null, prop, obj, expected);
     }
 
     protected void assertStatementsSize(URI prop, String obj, int expected) throws RepositoryException {
