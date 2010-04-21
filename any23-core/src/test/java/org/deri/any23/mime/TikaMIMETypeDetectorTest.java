@@ -79,6 +79,11 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
+    public void testDetectRDFN3ByContent() throws Exception {
+        detectMIMEtypeByContent("text/n3", "src/test/resources/application/rdfn3");
+    }
+
+    @Test
     public void testDetectRDFXMLByContent() throws Exception {
         detectMIMEtypeByContent("application/rdf+xml", "src/test/resources/application/rdfxml");
     }
@@ -203,6 +208,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testRSS2ByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/rss+xml", "src/test/resources/application/rss2");
+    }
+
+    @Test
+    public void testDetectRDFN3ByContentAndName() throws Exception {
+        detectMIMEtypeByContent("text/n3", "src/test/resources/application/rdfn3");
     }
 
     @Test
