@@ -44,18 +44,9 @@ public class TikaMIMETypeDetectorTest {
     private final static String RDFXML = "application/rdf+xml";
     private final static String TURTLE = "application/x-turtle";
     private final static String N3     = "text/rdf+n3";
+    private final static String NQuads = "text/rdf+nq";
 
     private TikaMIMETypeDetector detector;
-
-    @Test
-    public void testN3TripleLiteralDetection() throws IOException {
-        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
-    }
-
-    @Test
-    public void testN3TripleDetection() throws IOException {
-        assertN3Detection("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -65,6 +56,16 @@ public class TikaMIMETypeDetectorTest {
     @After
     public void tearDown() throws Exception {
         detector = null;
+    }
+
+    @Test
+    public void testN3TripleLiteralDetection() throws IOException {
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
+    }
+
+    @Test
+    public void testN3TripleDetection() throws IOException {
+        assertN3Detection("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
     }
 
     @Test
@@ -125,6 +126,8 @@ public class TikaMIMETypeDetectorTest {
         detectMIMEtypeByContent("application/zip", "src/test/resources/application/zip");
     }
 
+    /* END: by content. */
+
     /* BEGIN: by content metadata. */
 
     @Test
@@ -140,6 +143,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testDetectTextN3ByMeta() throws IOException {
         detectMIMETypeByMetadata(N3, "text/rdf+n3", "foo");
+    }
+
+    @Test
+    public void testDetectTextNQuadsByMeta() throws IOException {
+        detectMIMETypeByMetadata(NQuads, "text/rdf+nq", "foo");
     }
 
     @Test
@@ -191,6 +199,8 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByMetadata(XML, "application/xml", "foo.xhtml");
     }
 
+    /* END: by content metadata. */
+
     /* BEGIN: by content and name. */
 
     @Test
@@ -238,9 +248,16 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/rdfa");
     }
 
+    /* END: by content and name. */
+
     private void assertN3Detection(String n3Exp) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
         Assert.assertTrue( TikaMIMETypeDetector.checkN3Format(bais) );
+    }
+
+    private void assertNQuadsDetection(String n4Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
+        Assert.assertTrue( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
     }
 
     /**

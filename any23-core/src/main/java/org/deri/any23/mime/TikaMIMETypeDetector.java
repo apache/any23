@@ -46,16 +46,12 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     private static final String RESOURCE_NAME = "/org/deri/any23/mime/tika-config.xml";
 
     /**
-     * N3 triple pattern.
+     * N3 patterns.
      */
-    private static final Pattern triplePattern        = Pattern.compile("<.*>\\s*<.*>\\s*<.*>\\s*\\."  );
-
-    /**
-     * N3 triple literal pattern.
-     */
-    private static final Pattern tripleLiteralPattern = Pattern.compile("<.*>\\s*<.*>\\s*\".*\"\\s*\\.");
-
-    private static final FakeRDFHandler FAKE_RDF_HANDLER = new FakeRDFHandler();
+    private static final Pattern[] N3_PATTERNS = {
+            Pattern.compile("<.*>\\s*<.*>\\s*<.*>\\s*\\."  ), // URI URI URI
+            Pattern.compile("<.*>\\s*<.*>\\s*\".*\"\\s*\\.")  // URI URI LITERAL
+    };
 
     private static TikaConfig config = null;
 
@@ -71,8 +67,23 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @throws IOException
      */
     public static boolean checkN3Format(InputStream is) throws IOException {
-        String sample = extractDataSample(is);
-        return triplePattern.matcher(sample).find() || tripleLiteralPattern.matcher(sample).find();
+        String sample = extractDataSample(is, '.');
+        for(Pattern pattern : N3_PATTERNS) {
+            if(pattern.matcher(sample).find()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the stream contains <i>NQuads</i> patterns.
+     *
+     * @param is
+     * @return
+     */
+    public static boolean checkNQuadsFormat(InputStream is) throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -83,12 +94,11 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @throws IOException
      */
     public static boolean checkTurtleFormat(InputStream is) throws IOException {
-        String sample = extractDataSample(is);
+        String sample = extractDataSample(is, '.');
         TurtleParser turtleParser = new TurtleParser();
         turtleParser.setDatatypeHandling(RDFParser.DatatypeHandling.VERIFY);
         turtleParser.setStopAtFirstError(true);
         turtleParser.setVerifyData(true);
-        turtleParser.setRDFHandler(FAKE_RDF_HANDLER);
         ByteArrayInputStream bais = new ByteArrayInputStream( sample.getBytes() );
         try {
             turtleParser.parse(bais, "");
@@ -98,7 +108,20 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         }
     }
 
-    private static String extractDataSample(InputStream is) throws IOException {
+    public static void main(String[] args) {
+        new TikaMIMETypeDetector();
+    }
+
+    /**
+     * Extracts a sample data from the input stream, from the current
+     * mark to the first <i>breakChar</i> char.
+     *
+     * @param is the input stream to sample.
+     * @param breakChar the char to break to sample.
+     * @return the sample string.
+     * @throws IOException if an error occurs during sampling.
+     */
+    private static String extractDataSample(InputStream is, char breakChar) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
         final int MAX_SIZE = 1024 * 2;
@@ -120,7 +143,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                     insideBlock = !insideBlock;
                 }
                 sb.append((char) c);
-                if (!insideBlock && '.' == c) {
+                if (!insideBlock && breakChar == c) {
                     break;
                 }
             }
@@ -129,10 +152,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             br.reset();
         }
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        new TikaMIMETypeDetector();
     }
 
     public TikaMIMETypeDetector() {
@@ -273,23 +292,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             // Should never happen
             return null;
         }
-    }
-
-    /**
-     * Fake implementation of {@link org.openrdf.rio.RDFHandler}.
-     */
-    private static class FakeRDFHandler implements RDFHandler {
-
-        public void startRDF() throws RDFHandlerException {}
-
-        public void endRDF() throws RDFHandlerException {}
-
-        public void handleNamespace(String s, String s1) throws RDFHandlerException {}
-
-        public void handleStatement(Statement statement) throws RDFHandlerException {}
-
-        public void handleComment(String s) throws RDFHandlerException {}
-        
     }
 
 }
