@@ -59,6 +59,10 @@ public class RDFHelper {
         return ValueFactoryImpl.getInstance().createStatement(s, p, o);
     }
 
+    public static Statement quad(Resource s, URI p, Value o, Resource g) {
+        return ValueFactoryImpl.getInstance().createStatement(s, p, o, g);
+    }
+
     public static Value toRDF(String s) {
         if ("a".equals(s)) return RDF.TYPE;
         if (s.matches("[a-z0-9]+:.*")) {
