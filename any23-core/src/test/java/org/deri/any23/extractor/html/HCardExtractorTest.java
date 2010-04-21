@@ -30,7 +30,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
     // @Test
 	public void testInferredPerson() throws RepositoryException {
-		assertExtracts("hcard/23-abbr-title-everything.html");
+		assertExtracts("microformats/hcard/23-abbr-title-everything.html");
 		assertDefaultVCard();
 		assertStatementsSize(FOAF.topic, (Value) null, 1);
 		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
