@@ -59,13 +59,12 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
-    public void testN3TripleLiteralDetection() throws IOException {
-        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
-    }
-
-    @Test
-    public void testN3TripleDetection() throws IOException {
+    public void testN3Detection() throws IOException {
         assertN3Detection("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
+        assertN3Detection("_:bnode1 <http://foo.com> _:bnode2 .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"@it .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^http://xxx.net .");
     }
 
     @Test

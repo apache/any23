@@ -23,10 +23,7 @@ import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.turtle.TurtleParser;
-import org.openrdf.model.Statement;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -49,8 +46,10 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * N3 patterns.
      */
     private static final Pattern[] N3_PATTERNS = {
-            Pattern.compile("<.*>\\s*<.*>\\s*<.*>\\s*\\."  ), // URI URI URI
-            Pattern.compile("<.*>\\s*<.*>\\s*\".*\"\\s*\\.")  // URI URI LITERAL
+            Pattern.compile(".*\\s*<.*>\\s*<.*>\\s*\\."             ), // * URI URI
+            Pattern.compile(".*\\s*<.*>\\s*_:.*\\s*\\."             ), // * URI BNODE
+            Pattern.compile(".*\\s*<.*>\\s*\".*\"(@.*)?\\s*\\."     ), // * URI LLITERAL
+            Pattern.compile(".*\\s*<.*>\\s*\".*\"(\\^\\^.*)?\\s*\\.")  // * URI TLITERAL
     };
 
     private static TikaConfig config = null;
