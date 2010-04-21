@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.extractor.rdf;
+package org.deri.any23.parser;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Test case for {@link org.deri.any23.extractor.rdf.NQuadsParser}.
+ * Test case for {@link org.deri.any23.parser.NQuadsParser}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
