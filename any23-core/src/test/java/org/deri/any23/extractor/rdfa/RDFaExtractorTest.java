@@ -117,7 +117,6 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     public void testDrupalTestPage() throws RepositoryException {
         assertExtracts("html/rdfa/drupal-test-frontpage.html");
         logger.info(dumpModelToTurtle());
-
         assertContains(
                 RDFHelper.uri("http://bob.example.com/node/3"),
                 DCTERMS.title,
