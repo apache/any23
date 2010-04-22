@@ -115,7 +115,7 @@ public class NQuadsWriterTest {
         Assert.assertTrue( lines[1].matches("_:.* <.*> _:.* <.*> \\.") );
         Assert.assertTrue( lines[2].matches("_:.* <.*> \".*\" <.*> \\.") );
         Assert.assertTrue( lines[3].matches("_:.* <.*> \".*\"@en <.*> \\.") );
-        Assert.assertTrue( lines[4].matches("_:.* <.*> \".*\"\\^\\^.* <.*> \\.") );
+        Assert.assertTrue( lines[4].matches("_:.* <.*> \".*\"\\^\\^<.*> <.*> \\.") );
         Assert.assertTrue( lines[5].matches("<http://.*> <http://.*> <http://.*> <http://.*> \\.") );
     }
 

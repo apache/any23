@@ -149,13 +149,12 @@ public class NQuadsWriter implements RDFWriter {
     }
 
     /**
-     * Prints out a URI, replacing the existing prefix if found.
+     * Prints out a URI string, replacing the existing prefix if found.
      * 
-     * @param u
+     * @param uriString the URI string.
      * @throws IOException
      */
-    private void printURI(Value u) throws IOException {
-        final String uriString = u.stringValue();
+    private void printURI(String uriString) throws IOException {
         int splitIdx = 0;
         String namespace = null;
         if(namespaceTable != null) {
@@ -176,6 +175,16 @@ public class NQuadsWriter implements RDFWriter {
             writer.append(uriString);
             writer.append('>');
         }
+    }
+
+    /**
+     * Prints out a URI, replacing the existing prefix if found.
+     *
+     * @param uri the URI value.
+     * @throws IOException
+     */
+    private void printURI(Value uri) throws IOException {
+        printURI( uri.stringValue() );
     }
 
     /**
@@ -247,7 +256,7 @@ public class NQuadsWriter implements RDFWriter {
         URI datatype = l.getDatatype();
         if(datatype != null) {
             writer.append("^^");
-            writer.append( datatype.stringValue() );
+            printURI( datatype.stringValue() );
         }
     }
 
