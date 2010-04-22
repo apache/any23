@@ -190,10 +190,22 @@ public class NQuadsParser extends RDFParserBase {
      */
     private boolean parseLine(BufferedInputStream bis)
     throws IOException, RDFParseException, RDFHandlerException {
+
+        char c;
+
+        // Check if the end of stream has been reached.
+        mark(bis);
+        c = readChar(bis);
+        if(c == (char) -1) {
+            return false;
+        } else {
+            reset(bis);
+        }
+
         consumeSpaces(bis);
 
         mark(bis);
-        char c = readChar(bis);
+        c = readChar(bis);
         if(c == '\n') {
             return true;
         } else {

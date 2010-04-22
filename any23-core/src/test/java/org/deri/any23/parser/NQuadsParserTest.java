@@ -80,7 +80,7 @@ public class NQuadsParserTest {
         );
 
         rdfHandler.assertHandler(5);
-        parseLocationListerner.assertListener(5, 108);
+        parseLocationListerner.assertListener(7, 108);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class NQuadsParserTest {
 
         private void assertListener(int row, int col) {
             Assert.assertEquals("Unexpected last row", row , lastRow);
-            Assert.assertEquals("Unexpected last col", col, lastCol);
+            Assert.assertEquals("Unexpected last col", col , lastCol);
         }
 
     }
