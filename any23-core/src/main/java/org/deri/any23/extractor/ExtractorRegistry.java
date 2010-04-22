@@ -31,6 +31,7 @@ import org.deri.any23.extractor.html.SpeciesExtractor;
 import org.deri.any23.extractor.html.TitleExtractor;
 import org.deri.any23.extractor.html.TurtleHTMLExtractor;
 import org.deri.any23.extractor.html.XFNExtractor;
+import org.deri.any23.extractor.rdf.NQuadsExtractor;
 import org.deri.any23.extractor.rdf.NTriplesExtractor;
 import org.deri.any23.extractor.rdf.RDFXMLExtractor;
 import org.deri.any23.extractor.rdf.TurtleExtractor;
@@ -69,6 +70,7 @@ public class ExtractorRegistry {
                 instance.register(RDFXMLExtractor.factory);
                 instance.register(TurtleExtractor.factory);
                 instance.register(NTriplesExtractor.factory);
+                instance.register(NQuadsExtractor.factory);
                 instance.register(RDFaExtractor.factory);
                 instance.register(HeadLinkExtractor.factory);
                 instance.register(LicenseExtractor.factory);
