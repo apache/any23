@@ -339,9 +339,20 @@ public class NQuadsParser extends RDFParserBase {
             assertChar(bis, '^');
         }
 
+        // Consuming eventual open URI.
+        mark(bis);
+        c = readChar(bis);
+        if(c != '<') {
+            reset(bis);
+        }
+
         StringBuilder sb = new StringBuilder();
         while(true) {
             c = readChar(bis);
+            if(c == '>') {
+                mark(bis);
+                continue;
+            }
             if(c != ' ') {
                 mark(bis);
                 sb.append(c);

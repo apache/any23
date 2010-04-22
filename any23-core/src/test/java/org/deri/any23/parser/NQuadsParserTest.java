@@ -80,7 +80,7 @@ public class NQuadsParserTest {
         );
 
         rdfHandler.assertHandler(5);
-        parseLocationListerner.assertListener(5, 107);
+        parseLocationListerner.assertListener(5, 108);
     }
 
     @Test
