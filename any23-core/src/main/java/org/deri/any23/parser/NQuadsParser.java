@@ -247,7 +247,7 @@ public class NQuadsParser extends RDFParserBase {
         do {
             mark(bis);
             c = readChar(bis);
-        } while (c == ' ' || c ==  '\t');
+        } while (c == ' ' || c == '\r' || c == '\f' || c == '\t');
         reset(bis);
     }
 
