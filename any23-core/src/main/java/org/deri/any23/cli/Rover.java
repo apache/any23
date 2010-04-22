@@ -30,8 +30,8 @@ import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
 import org.deri.any23.writer.LoggingTripleHandler;
+import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.NquadsWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
@@ -125,7 +125,7 @@ public class Rover {
         } else if (NTRIPLE.equalsIgnoreCase(format)) {
             outputHandler = new NTriplesWriter(System.out);
         } else if (QUAD.equalsIgnoreCase(format)) {
-            outputHandler = new NquadsWriter(System.out);
+            outputHandler = new NQuadsWriter(System.out);
         } else {
             outputHandler = new RDFXMLWriter(System.out);
         }
