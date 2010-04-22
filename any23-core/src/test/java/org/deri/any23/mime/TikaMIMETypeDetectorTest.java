@@ -63,7 +63,48 @@ public class TikaMIMETypeDetectorTest {
         assertN3Detection("_:bnode1 <http://foo.com> _:bnode2 .");
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"@it .");
-        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^http://xxx.net .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^<http://xxx.net> .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^xsd:integer .");
+
+        // Wrong N3 line '.'
+        assertN3DetectionFail("" +
+                "<http://wrong.example.org/path> <http://wrong.foo.com> . <http://wrong.org/Document/foo#>"
+        );
+        // NQuads is not mislead with N3.
+        assertN3DetectionFail(
+            "<http://example.org/path> <http://foo.com> <http://dom.org/Document/foo#> <http://path/to/graph> ."
+        );
+    }
+
+    @Test
+    public void testNQuadsDetection() throws IOException {
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://foo.com> <http://example.org/Document/foo#> <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "_:bnode1 <http://foo.com> _:bnode2 <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\" <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\"@it <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://dd.cc.org/1.1/p> \"xxx\"^^<http://www.sp.net/a#tt> <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://purlo.org/1.1/title> \"yyy\"^^xsd:datetime <http://path.to.graph> ."
+        );
+
+        // Wrong NQuads line.
+        assertNQuadsDetectionFail(
+                "<http://www.wrong.com> <http://wrong.com/1.1/tt> \"x\"^^<http://xxx.net/int> . <http://path.to.graph>"
+        );
+        // N3 is not mislead with NQuads.
+        assertNQuadsDetectionFail(
+                "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> ."
+        );
     }
 
     /* BEGIN: by content. */
@@ -252,9 +293,19 @@ public class TikaMIMETypeDetectorTest {
         Assert.assertTrue( TikaMIMETypeDetector.checkN3Format(bais) );
     }
 
+    private void assertN3DetectionFail(String n3Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
+        Assert.assertFalse( TikaMIMETypeDetector.checkN3Format(bais) );
+    }
+
     private void assertNQuadsDetection(String n4Exp) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
         Assert.assertTrue( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
+    }
+
+    private void assertNQuadsDetectionFail(String n4Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
+        Assert.assertFalse( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
     }
 
     /**

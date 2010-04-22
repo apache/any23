@@ -40,16 +40,32 @@ import java.util.regex.Pattern;
  */
 public class TikaMIMETypeDetector implements MIMETypeDetector {
 
-    private static final String RESOURCE_NAME = "/org/deri/any23/mime/tika-config.xml";
+    public static final String N3_MIMETYPE = "text/n3";
+
+    public static final String NQUADS_MIMETYPE = "text/nq";
+
+    public static final String TURTLE_MIMETYPE = "application/turtle";
+
+    public static final String RESOURCE_NAME = "/org/deri/any23/mime/tika-config.xml";
 
     /**
      * N3 patterns.
      */
     private static final Pattern[] N3_PATTERNS = {
-            Pattern.compile(".*\\s*<.*>\\s*<.*>\\s*\\."             ), // * URI URI
-            Pattern.compile(".*\\s*<.*>\\s*_:.*\\s*\\."             ), // * URI BNODE
-            Pattern.compile(".*\\s*<.*>\\s*\".*\"(@.*)?\\s*\\."     ), // * URI LLITERAL
-            Pattern.compile(".*\\s*<.*>\\s*\".*\"(\\^\\^.*)?\\s*\\.")  // * URI TLITERAL
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*<\\S+>\\s*\\."             ), // * URI URI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*_:\\S+\\s*\\."             ), // * URI BNODE .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(@\\S+)?\\s*\\."     ), // * URI LLITERAL .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\.")  // * URI TLITERAL .
+    };
+
+    /**
+     * N-Quads patterns.
+     */
+    private static final Pattern[] NQUADS_PATTERNS = {
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*<\\S+>\\s*\\<\\S+>\\s*\\."             ), // * URI URI      URI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*_:\\S+\\s*\\<\\S+>\\s*\\."             ), // * URI BNODE    URI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(@\\S+)?\\s*\\<\\S+>\\s*\\."     ), // * URI LLITERAL URI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\<\\S+>\\s*\\.")  // * URI TLITERAL URI .
     };
 
     private static TikaConfig config = null;
@@ -59,30 +75,25 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     private static MimeTypes types;
 
     /**
-     * Checks if the stream contains <i>N3</i> triple patterns.
+     * Checks if the stream contains the <i>N3</i> triple patterns.
      *
      * @param is input stream to be verified.
      * @return <code>true</code> if <i>N3</i> patterns are detected, <code>false</code> otherwise.
      * @throws IOException
      */
     public static boolean checkN3Format(InputStream is) throws IOException {
-        String sample = extractDataSample(is, '.');
-        for(Pattern pattern : N3_PATTERNS) {
-            if(pattern.matcher(sample).find()) {
-                return true;
-            }
-        }
-        return false;
+        return findPattern(N3_PATTERNS, '.', is);
     }
 
     /**
-     * Checks if the stream contains <i>NQuads</i> patterns.
+     * Checks if the stream contains the <i>NQuads</i> patterns.
      *
-     * @param is
-     * @return
+     * @param is input stream to be verified.
+     * @return <code>true</code> if <i>N3</i> patterns are detected, <code>false</code> otherwise.
+     * @throws IOException
      */
     public static boolean checkNQuadsFormat(InputStream is) throws IOException {
-        throw new UnsupportedOperationException();
+        return findPattern(NQUADS_PATTERNS, '.', is);
     }
 
     /**
@@ -109,6 +120,26 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 
     public static void main(String[] args) {
         new TikaMIMETypeDetector();
+    }
+
+    /**
+     * Tries to apply one of the given patterns on a sample of the input stream.
+     *
+     * @param patterns the patterns to apply.
+     * @param delimiterChar the delimiter of the sample.
+     * @param is the input stream to sample.
+     * @return <code>true</code> if a pattern has been applied, <code>false</code> otherwise.
+     * @throws IOException
+     */
+    private static boolean findPattern(Pattern[] patterns, char delimiterChar, InputStream is)
+    throws IOException {
+        String sample = extractDataSample(is, delimiterChar);
+        for(Pattern pattern : patterns) {
+            if(pattern.matcher(sample).find()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -200,13 +231,13 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         String type;
         try {
             String mt = getMimeType(input, meta);
-            if( !MimeTypes.OCTET_STREAM.equals(mt) ) {
+            if( ! MimeTypes.OCTET_STREAM.equals(mt) ) {
                 type = mt;
             } else {
                 if( checkN3Format(input) ) {
-                    type = "text/n3";
+                    type = N3_MIMETYPE;
                 } else if( checkTurtleFormat(input) ) {
-                    type = "application/turtle";
+                    type = TURTLE_MIMETYPE;
                 } else {
                     type = MimeTypes.OCTET_STREAM; 
                 }
