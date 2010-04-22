@@ -125,6 +125,11 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
+    public void testDetectRDFNQuadsByContent() throws Exception {
+        detectMIMEtypeByContent("text/nq", "src/test/resources/application/nquads");
+    }
+
+    @Test
     public void testDetectRDFXMLByContent() throws Exception {
         detectMIMEtypeByContent("application/rdf+xml", "src/test/resources/application/rdfxml");
     }
@@ -253,7 +258,12 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRDFN3ByContentAndName() throws Exception {
-        detectMIMEtypeByContent("text/n3", "src/test/resources/application/rdfn3");
+        detectMIMETypeByContentAndName("text/n3", "src/test/resources/application/rdfn3");
+    }
+
+    @Test
+    public void testDetectRDFNQuadsByContentAndName() throws Exception {
+        detectMIMETypeByContentAndName("text/rdf+nq", "src/test/resources/application/nquads");
     }
 
     @Test
@@ -357,8 +367,8 @@ public class TikaMIMETypeDetectorTest {
         if (f.exists()) is = getInputStream(f);
 
         String detectedMimeType = detector.guessMIMEType(
-                f.getName(),
-                is,
+                null,
+                null,
                 MIMEType.parse(contentTypeHeader)
         ).toString();
 

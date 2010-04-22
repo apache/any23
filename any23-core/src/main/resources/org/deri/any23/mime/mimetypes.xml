@@ -81,6 +81,12 @@
         </magic>
     </mime-type>
 
+    <mime-type type="text/rdf+nq">
+        <alias type="text/nq"/>
+        <alias type="application/nq"/>
+        <glob pattern="*.nq"/>
+    </mime-type>
+
     <!-- Turtle -->
     <mime-type type="application/x-turtle">
         <alias type="text/turtle"/>

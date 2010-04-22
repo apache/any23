@@ -236,6 +236,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             } else {
                 if( checkN3Format(input) ) {
                     type = N3_MIMETYPE;
+                } else if( checkNQuadsFormat(input) ) {
+                    type = NQUADS_MIMETYPE;
                 } else if( checkTurtleFormat(input) ) {
                     type = TURTLE_MIMETYPE;
                 } else {
