@@ -47,11 +47,13 @@ public class CountingTripleHandler implements TripleHandler {
         // ignore
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         count++;
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         // ignore
     }
 

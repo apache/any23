@@ -96,9 +96,10 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         try {
-            contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o);
+            contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o, g);
         } catch (ValvedTriplePipeException e) {
             throw new TripleHandlerException(
                     String.format("Error while receiving triple %s %s %s", s, p, o),
@@ -169,6 +170,8 @@ public class ExtractionContextBlocker implements TripleHandler {
 
         private final List<Value> objects = new ArrayList<Value>();
 
+        private final List<URI> graphs = new ArrayList<URI>();
+
         private final List<String> prefixes = new ArrayList<String>();
 
         private final List<String> uris = new ArrayList<String>();
@@ -181,13 +184,14 @@ public class ExtractionContextBlocker implements TripleHandler {
             this.context = context;
         }
 
-        void receiveTriple(Resource s, URI p, Value o) throws ValvedTriplePipeException {
+        void receiveTriple(Resource s, URI p, Value o, URI g) throws ValvedTriplePipeException {
             if (blocked) {
                 subjects.add(s);
                 predicates.add(p);
                 objects.add(o);
+                graphs.add(g);
             } else {
-                sendTriple(s, p, o);
+                sendTriple(s, p, o, g);
             }
         }
 
@@ -212,7 +216,7 @@ public class ExtractionContextBlocker implements TripleHandler {
                 sendNamespace(prefixes.get(i), uris.get(i));
             }
             for (int i = 0; i < subjects.size(); i++) {
-                sendTriple(subjects.get(i), predicates.get(i), objects.get(i));
+                sendTriple(subjects.get(i), predicates.get(i), objects.get(i), graphs.get(i));
             }
         }
 
@@ -226,7 +230,7 @@ public class ExtractionContextBlocker implements TripleHandler {
             }
         }
 
-        private void sendTriple(Resource s, URI p, Value o) throws ValvedTriplePipeException {
+        private void sendTriple(Resource s, URI p, Value o, URI g) throws ValvedTriplePipeException {
             if (!hasReceivedTriples) {
                 try {
                 wrapped.openContext(context);
@@ -236,7 +240,7 @@ public class ExtractionContextBlocker implements TripleHandler {
                 hasReceivedTriples = true;
             }
             try {
-                wrapped.receiveTriple(s, p, o, context);
+                wrapped.receiveTriple(s, p, o, g, context);
             } catch (TripleHandlerException e) {
                 throw new ValvedTriplePipeException("Error while opening the triple handler", e);
             }

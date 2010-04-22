@@ -51,14 +51,16 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         if (isRDFaContext(context) && !p.stringValue().startsWith(XHTML.NS)) {
             blocker.unblockContext(context);
         }
-        blocker.receiveTriple(s, p, o, context);
+        blocker.receiveTriple(s, p, o, g, context);
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         blocker.receiveNamespace(prefix, uri, context);
     }
 

@@ -163,19 +163,23 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return context;
     }
 
-    public void writeTriple(Resource s, URI p, Value o) {
+    public void writeTriple(Resource s, URI p, Value o, URI g) {
         if (s == null || p == null || o == null) return;
         // Check for mal-constructed literals or BNodes, Sesame does not catch this.
         if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) return;
         checkOpen();
         try {
-            tripleHandler.receiveTriple(s, p, o, context);
+            tripleHandler.receiveTriple(s, p, o, g, context);
         } catch (TripleHandlerException e) {
             throw new RuntimeException(
                     String.format("Error while receiving triple %s %s %s", s, p, o ),
                     e
             );
         }
+    }
+
+    public void writeTriple(Resource s, URI p, Value o) {
+        writeTriple(s, p, o, null);
     }
 
     public void writeNamespace(String prefix, String uri) {

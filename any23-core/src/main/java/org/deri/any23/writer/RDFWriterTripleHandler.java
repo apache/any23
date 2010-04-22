@@ -53,18 +53,20 @@ class RDFWriterTripleHandler implements TripleHandler {
         // Empty.
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         try {
             writer.handleStatement(
-                    ValueFactoryImpl.getInstance().createStatement(s, p, o));
+                    ValueFactoryImpl.getInstance().createStatement(s, p, o, g));
         } catch (RDFHandlerException ex) {
-            throw new TripleHandlerException(String.format("Error while receiving triple: %s %s %s", s, p , o),
+            throw new TripleHandlerException(String.format("Error while receiving triple: %s %s %s %s", s, p, o, g),
                     ex
             );
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         try {
             writer.handleNamespace(prefix, uri);
         } catch (RDFHandlerException ex) {

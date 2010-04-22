@@ -54,11 +54,12 @@ public class RepositoryWriter implements TripleHandler {
             Resource s,
             URI p,
             Value o,
+            URI g,
           ExtractionContext context
     ) throws TripleHandlerException {
         try {
             conn.add(
-                conn.getValueFactory().createStatement(s, p, o),
+                conn.getValueFactory().createStatement(s, p, o, g),
                 getContextResource(context.getDocumentURI())
             );
         } catch (RepositoryException ex) {

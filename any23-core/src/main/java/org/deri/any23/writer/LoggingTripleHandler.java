@@ -71,14 +71,16 @@ public class LoggingTripleHandler implements TripleHandler {
         underlyingHandler.openContext(context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
-        underlyingHandler.receiveTriple(s, p, o, context);
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
+        underlyingHandler.receiveTriple(s, p, o, g, context);
         Integer i = contextTripleMap.get(context.getExtractorName());
         if (i == null) i = 0;
         contextTripleMap.put(context.getExtractorName(), (i + 1));
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 

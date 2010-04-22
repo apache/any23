@@ -409,6 +409,7 @@ public class SingleDocumentExtraction {
                         resourceRoot.getRoot(),
                         DOMAIN_PROPERTY,
                         ValueFactoryImpl.getInstance().createLiteral(domain),
+                        null,
                         context
                 );
             }
@@ -453,17 +454,19 @@ public class SingleDocumentExtraction {
         final BNode fromObject = from.getObject();
         final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
         BNode bnode = RDFHelper.getBNode(bNodeHash);
-        th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), ec );
+        th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), null, ec );
         th.receiveTriple(
                 bnode,
                 NESTING_STRUCTURED_PROPERTY,
                 from.getObject() == null ? to.getRoot() : from.getObject(),
+                null,
                 ec
         );
         th.receiveTriple(
                 from.getSubject(),
                 NESTING_PROPERTY,
                 bnode,
+                null,
                 ec
         );
     }

@@ -116,13 +116,14 @@ public class BenchmarkTripleHandler implements TripleHandler {
         underlyingHandler.openContext(context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
         }
         stats.get(context.getExtractorName()).triples++;
         stats.get("SUM").triples++;
-        underlyingHandler.receiveTriple(s, p, o, context);
+        underlyingHandler.receiveTriple(s, p, o, g, context);
     }
 
     public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {

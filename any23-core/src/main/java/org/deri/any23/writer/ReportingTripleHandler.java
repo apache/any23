@@ -79,11 +79,12 @@ public class ReportingTripleHandler implements TripleHandler {
             Resource s,
             URI p,
             Value o,
+            URI g,
             ExtractionContext context
     ) throws TripleHandlerException {
         extractorNames.add(context.getExtractorName());
         totalTriples++;
-        wrapped.receiveTriple(s, p, o, context);
+        wrapped.receiveTriple(s, p, o, g, context);
     }
 
     public void setContentLength(long contentLength) {

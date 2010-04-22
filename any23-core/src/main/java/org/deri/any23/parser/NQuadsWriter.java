@@ -267,7 +267,10 @@ public class NQuadsWriter implements RDFWriter {
      * @throws IOException
      */
     private void printGraph(Statement s) throws IOException {
-        printURI( s.getContext() );
+        Resource graph = s.getContext();
+        if(graph != null) {
+            printURI( s.getContext() );
+        }
     }
 
 }

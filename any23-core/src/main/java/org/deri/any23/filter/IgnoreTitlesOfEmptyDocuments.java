@@ -52,11 +52,12 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         if (!isTitleContext(context)) {
             blocker.unblockDocument();
         }
-        blocker.receiveTriple(s, p, o, context);
+        blocker.receiveTriple(s, p, o, g, context);
     }
 
     public void receiveNamespace(String prefix, String uri,

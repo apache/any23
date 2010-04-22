@@ -41,12 +41,23 @@ public interface ExtractionResult extends ErrorReporter {
     ExtractionContext getExtractionContext();
 
     /**
+     * Writes a triple.
+     * Parameters can be null, then the triple will be silently ignored.
+     *
+     * @param s subject
+     * @param p predicate
+     * @param o object
+     * @param g graph
+     */
+    void writeTriple(Resource s, URI p, Value o, URI g);
+
+    /**
      * Write a triple.
      * Parameters can be null, then the triple will be silently ignored.
      *
-     * @param s Subject
-     * @param p Predicate
-     * @param o Object
+     * @param s subject
+     * @param p predicate
+     * @param o object
      */
     void writeTriple(Resource s, URI p, Value o);
 

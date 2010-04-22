@@ -39,13 +39,14 @@ public interface TripleHandler {
      * Invoked with a currently open context,
      * notifies the detection of a triple.
      *
-     * @param s triple subject.
-     * @param p triple predicate.
-     * @param o triple object.
+     * @param s triple subject, cannot be <code>null</code>.
+     * @param p triple predicate, cannot be <code>null</code>.
+     * @param o triple object, cannot be <code>null</code>.
+     * @param g triple graph, can be <code>null</code>.
      * @param context extraction context.
      * @throws TripleHandlerException
      */
-    void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) throws TripleHandlerException;
+    void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context) throws TripleHandlerException;
 
     /**
      * Invoked with a currently open context, notifies the detection of a

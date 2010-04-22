@@ -18,6 +18,7 @@ package org.deri.any23.extractor.rdf;
 
 import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionResult;
+import org.deri.any23.parser.NQuadsParser;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ParseErrorListener;
@@ -87,12 +88,12 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.deri.any23.extractor.rdf.NTriplesExtractor}.
+     * Returns a new instance of a configured {@link org.openrdf.rio.ntriples.NTriplesParser}.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
      * @param extractionResult the output extraction result.
-     * @return a new instance of a configured RDFXML parser.
+     * @return a new instance of a configured NTriples parser.
      */
     public NTriplesParser getNTriplesParser(
             boolean verifyDataType,
@@ -100,6 +101,24 @@ public class RDFParserFactory {
             final ExtractionResult extractionResult
     ) {
         NTriplesParser parser = new NTriplesParser();
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
+        return parser;
+    }
+
+    /**
+     * Returns a new instance of a configured {@link org.deri.any23.parser.NQuadsParser}.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured NQuads parser.
+     */
+    public NQuadsParser getNQuadsParser(
+            boolean verifyDataType,
+            boolean stopAtFirstError,
+            final ExtractionResult extractionResult
+    ) {
+        NQuadsParser parser = new NQuadsParser();
         configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
         return parser;
     }

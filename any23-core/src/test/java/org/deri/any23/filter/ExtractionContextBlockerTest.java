@@ -47,7 +47,7 @@ public class ExtractionContextBlockerTest {
     public void testSendsNamespaceAfterUnblock() throws TripleHandlerException {
         handler.expectOpenContext("test", docURI, null);
         handler.expectNamespace("ex", "http://example.com/", "test", docURI, null);
-        handler.expectTriple(s, p, o, "test", docURI, null);
+        handler.expectTriple(s, p, o, null, "test", docURI, null);
         handler.expectCloseContext("test", docURI, null);
         handler.expectEndDocument(docURI);
 
@@ -55,7 +55,7 @@ public class ExtractionContextBlockerTest {
         blocker.openContext(context);
         blocker.blockContext(context);
         blocker.receiveNamespace("ex", "http://example.com/", context);
-        blocker.receiveTriple(s, p, o, context);
+        blocker.receiveTriple(s, p, o, null, context);
         blocker.closeContext(context);
         blocker.unblockContext(context);
         blocker.endDocument(docURI);
