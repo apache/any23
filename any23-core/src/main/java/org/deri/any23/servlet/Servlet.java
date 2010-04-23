@@ -131,6 +131,9 @@ public class Servlet extends HttpServlet {
         if ("text/rdf+n3".equals(result.getMediaType())) {
             return "n3";
         }
+        if ("text/rdf+nq".equals(result.getMediaType())) {
+            return "nq";
+        }
         if ("application/rdf+xml".equals(result.getMediaType())) {
             return "rdf";
         }

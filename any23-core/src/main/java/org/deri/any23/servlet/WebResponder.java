@@ -23,6 +23,7 @@ import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.FormatWriter;
 import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
@@ -136,7 +137,7 @@ class WebResponder {
     private boolean initRdfWriter(String format) throws IOException {
         FormatWriter fw = getFormatWriter(format);
         if (fw == null) {
-            sendError(400, "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples");
+            sendError(400, "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads");
             return false;
         }
         outputMediaType = fw.getMIMEType();
@@ -158,6 +159,9 @@ class WebResponder {
         }
         if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
             return new NTriplesWriter(byteOutStream);
+        }
+        if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
+            return new NQuadsWriter(byteOutStream);
         }
         return null;
     }

@@ -36,6 +36,7 @@ function init() {
           <option value="best" selected="selected">best</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
+          <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
         </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
       </code>
@@ -52,6 +53,7 @@ function init() {
           <option value="application/xhtml+xml">XHTML with RDFa or microformats (application/xhtml+xml)</option>
           <option value="text/turtle">Turtle (text/turtle)</option>
           <option value="text/plain">N-Triples (text/plain)</option>
+          <option value="text/plain">N-Quads (text/plain)</option>
           <option value="application/rdf+xml">RDF/XML (application/rdf+xml)</option>
         </select>
         Output format:
@@ -59,6 +61,7 @@ function init() {
           <option value="best" selected="selected">best (content-negotiated)</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
+          <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
         </select>
         <input type="submit" value="Convert" /><br />
@@ -114,6 +117,7 @@ function init() {
       <tr><th>RDF/XML</th><td><code>application/rdf+xml</code></td></tr>
       <tr><th>Turtle</th><td><code>text/turtle</code></td></tr>
       <tr><th>N-Triples</th><td><code>text/plain</code></td></tr>
+      <tr><th>N-Quads</th><td><code>text/plain</code></td></tr>
     </table>
     <p>Example POST request:</p>
     <pre>POST <span id="app-path">/</span>rdfxml HTTP/1.0
@@ -149,6 +153,8 @@ Content-Length: 174
         <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a>/N3</li>
       <li><code>ntriples</code>, <code>nt</code> for
         <a href="http://www.w3.org/TR/rdf-testcases/#ntriples">N-Triples</a></li>
+      <li><code>nquads</code>, <code>nq</code> for
+        <a href="http://sw.deri.org/2008/07/n-quads/">N-Quads</a></li>
       <li><code>rdfxml</code>, <code>rdf</code>, <code>xml</code> for
         <a href="http://www.w3.org/TR/rdf-syntax-grammar/">RDF/XML</a></li>
     </ul>
