@@ -16,8 +16,8 @@
 
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.util.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;

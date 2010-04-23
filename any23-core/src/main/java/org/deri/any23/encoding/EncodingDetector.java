@@ -17,8 +17,8 @@
 
 package org.deri.any23.encoding;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Defines a detector for <i>charset encoding</i>.

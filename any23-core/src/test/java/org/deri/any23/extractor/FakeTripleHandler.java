@@ -19,8 +19,8 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
-import org.openrdf.model.URI;
 import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 /**

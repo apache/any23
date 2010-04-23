@@ -16,15 +16,11 @@
 
 package org.deri.any23.extractor.html;
 
-import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.WO;
 import org.junit.Test;
-import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

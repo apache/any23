@@ -16,9 +16,8 @@
 
 package org.deri.any23.extractor.html;
 
-import org.junit.Test;
 import org.junit.Assert;
-
+import org.junit.Test;
 import org.w3c.dom.Node;
 
 import java.io.ByteArrayInputStream;

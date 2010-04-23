@@ -18,6 +18,7 @@ package org.deri.any23.rdf;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;

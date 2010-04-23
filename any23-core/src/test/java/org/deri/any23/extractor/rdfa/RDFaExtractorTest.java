@@ -16,13 +16,12 @@
 
 package org.deri.any23.extractor.rdfa;
 
-import org.deri.any23.util.RDFHelper;
-import org.deri.any23.vocab.FOAF;
-import org.junit.Test;
-
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.html.AbstractExtractorTestCase;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DCTERMS;
+import org.deri.any23.vocab.FOAF;
+import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;

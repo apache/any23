@@ -1,9 +1,9 @@
 package org.deri.any23.extractor.html;
 
 import junit.framework.Assert;
-import org.deri.any23.util.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
 import org.junit.Test;

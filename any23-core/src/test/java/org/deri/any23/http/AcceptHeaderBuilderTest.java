@@ -16,10 +16,9 @@
 
 package org.deri.any23.http;
 
-import org.junit.Test;
-import org.junit.Assert;
-
 import org.deri.any23.mime.MIMEType;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;

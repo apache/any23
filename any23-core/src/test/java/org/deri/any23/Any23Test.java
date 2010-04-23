@@ -27,7 +27,12 @@ import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.vocab.DCTERMS;
-import org.deri.any23.writer.*;
+import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.RDFXMLWriter;
+import org.deri.any23.writer.ReportingTripleHandler;
+import org.deri.any23.writer.RepositoryWriter;
+import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -40,8 +45,9 @@ import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.URI;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**

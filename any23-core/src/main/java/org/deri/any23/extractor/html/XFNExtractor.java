@@ -29,7 +29,6 @@ import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.XFN;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Document;

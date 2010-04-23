@@ -16,11 +16,11 @@
 
 package org.deri.any23.source;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.BufferedInputStream;
 
 /**
  * File implementation of {@link org.deri.any23.source.DocumentSource}.
