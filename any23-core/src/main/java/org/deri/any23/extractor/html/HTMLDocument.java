@@ -61,6 +61,7 @@ public class HTMLDocument {
      * @param res list to add the content.
      * @param node the node from which read the content.
      */
+    // TODO: this returns always a size 1 list. Remove the res input parameter.
     public static void readTextField(List<TextField> res, Node node) {
         final String name = node.getNodeName();
         final NamedNodeMap attributes = node.getAttributes();
@@ -82,7 +83,6 @@ public class HTMLDocument {
             res.add( new TextField(attributes.getNamedItem("title").getNodeValue(), node) );
         } else if ("A".equals(name)) {
             if (DomUtils.hasAttribute(node, "rel", "tag")) {
-
                 String href = extractRelTag(attributes);
                 res.add( new TextField(href, node) );
             } else
@@ -172,6 +172,7 @@ public class HTMLDocument {
         return ancestors.toArray( new String[ancestors.size()] );
     }
 
+    // TODO: this transforms a Wikipedia entity like http://en.wikipedia.org/wiki/Bow_%28weapon%29 in Bow_%28weapon%29 Why? 
     private static String extractRelTag(NamedNodeMap attributes) {
         String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
         //cleanup spurious segments

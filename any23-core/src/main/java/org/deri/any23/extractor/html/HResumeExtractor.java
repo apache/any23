@@ -74,7 +74,8 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         addExperiences(fragment, person);
         addEducations(fragment, person);
         addAffiliations(fragment, person);
-        //TODO: add skills and reltag
+        addSkills(fragment, person);
+        //TODO: add reltag
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
         tser.addResourceRoot(
@@ -166,6 +167,45 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
                     person, DOAC.affiliation, getBlankNodeFor(node)
             );
         }
+    }
+
+    private void addSkills(HTMLDocument doc, Resource person) {
+        List<Node> nodes;
+        final String extractorName = getDescription().getExtractorName();
+
+        // Extracting data from single node.
+        nodes = doc.findAllByClassName("skill");
+        for (Node node : nodes) {
+            conditionallyAddStringProperty(
+                    extractorName,
+                    node,
+                    person, DOAC.skill, extractSkillValue(node)
+            );
+        }
+        // Extracting from enlisting node.
+        nodes = doc.findAllByClassName("skills");
+        for(Node node : nodes) {
+            String nodeText = node.getTextContent();
+            String[] skills = nodeText.split(",");
+            for(String skill : skills) {
+                conditionallyAddStringProperty(
+                        extractorName,
+                        node,
+                        person, DOAC.skill, skill.trim()
+                );
+            }
+        }
+    }
+
+    private String extractSkillValue(Node n) {
+        String name = n.getNodeName();
+        String skill = null;
+        if ("A".equals(name) && DomUtils.hasAttribute(n, "rel", "tag")) {
+            skill = n.getAttributes().getNamedItem("href").getTextContent();
+        } else {
+            skill = n.getTextContent();
+        }
+        return skill;
     }
 
 }
