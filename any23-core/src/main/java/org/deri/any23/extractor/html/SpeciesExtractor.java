@@ -1,6 +1,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
@@ -13,7 +14,6 @@ import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Extractor able to extract the <a href="http://microformats.org/wiki/species">Species Microformat</a>.
@@ -23,16 +23,17 @@ import java.util.List;
  * @see {@link org.deri.any23.vocab.WO}
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class SpeciesExtractor extends MicroformatExtractor {
+public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
-    private static final String[] binomials = {
-            "bird",
-            "mammal",
-            "fish",
-            "insect",
-            "arachnid",
-            "plant",
-            "fungi"
+    private static final String[] classes = {
+            "kingdom",
+            "division",
+            "phylum",
+            "order",
+            "family",
+            "genus",
+            "species",
+            "class",
     };
 
     public final static ExtractorFactory<SpeciesExtractor> factory =
@@ -55,91 +56,92 @@ public class SpeciesExtractor extends MicroformatExtractor {
     }
 
     /**
-     * Performs the extraction of the data and writes them to the model.
-     * The nodes generated in the model can have any name or implicit label
-     * but if possible they </i>SHOULD</i> have names (either URIs or AnonId) that
-     * are uniquely derivable from their position in the DOM tree, so that
-     * multiple extractors can merge information.
+     * Returns the base class name for the extractor.
+     *
+     * @return a string containing the base of the extractor.
      */
     @Override
-    protected boolean extract() throws ExtractionException {
-        final HTMLDocument document = getHTMLDocument();
-        final URI documentURI = getDocumentURI();
-        boolean foundAny = false;
-        List<Node> biotas = document.findAllByClassName("biota");
-        if(biotas.size() > 0) {
-            for (Node biota : biotas)
-                foundAny |= extractBiotas(biota);
+    protected String getBaseClassName() {
+        return "biota";
+    }
+
+    /**
+     * Resets the internal status of the extractor to prepare it to a new extraction section.
+     */
+    @Override
+    protected void resetExtractor() {
+        // empty
+    }
+
+    /**
+     * Extracts an entity from a <i>DOM</i> node.
+     *
+     * @param node the DOM node.
+     * @param out  the extraction result collector.
+     * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
+     * @throws org.deri.any23.extractor.ExtractionException
+     *
+     */
+    @Override
+    protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
+        BNode biota = getBlankNodeFor(node);
+        out.writeTriple(biota, RDF.TYPE, WO.species);
+        final HTMLDocument fragment = new HTMLDocument(node);
+        addNames(fragment, biota);
+        addClasses(fragment, biota);
+        return true;
+    }
+
+    private void addNames(HTMLDocument doc, Resource biota) throws ExtractionException {
+        HTMLDocument.TextField binomial = doc.getSingularTextField("binomial");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                binomial.source(), biota, WO.scientificName, binomial.value()
+        );
+        HTMLDocument.TextField vernacular = doc.getSingularTextField("vernacular");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                vernacular.source(), biota, WO.speciesName, vernacular.value()
+        );
+    }
+
+    private void addClassesName(HTMLDocument doc, Resource biota) throws ExtractionException {
+        for (String clazz : classes) {
+            HTMLDocument.TextField classTextField = doc.getSingularTextField(clazz);
+            conditionallyAddStringProperty(getDescription().getExtractorName(),
+                    classTextField.source(), biota, resolvePropertyName(clazz), classTextField.value());
         }
-        if(foundAny)
-            addURIProperty(documentURI, RDF.TYPE, WO.species);
-        return foundAny;
     }
 
-    private boolean extractBiotas(Node node) throws ExtractionException {
-        boolean foundAny = false;
-        Resource biota = valueFactory.createBNode();
-        addURIProperty(biota, RDF.TYPE, WO.species);
-        foundAny |= extractNames(node, biota);
-        foundAny |= extractFamily(node, biota);
-        return foundAny;
-    }
-
-    private boolean extractNames(Node node, Resource resource) throws ExtractionException {
-        boolean foundAny = false;
-        List<Node> vernacularNames = DomUtils.findAllByClassName(node, "vernacular");
-        List<Node> binomialNames = DomUtils.findAllByClassName(node, "binominal");
-
-        final String extractor = getDescription().getExtractorName();
-        if (binomialNames.size() > 0) {
-            for (Node binomialName : binomialNames) {
-                conditionallyAddStringProperty(
-                        extractor,
-                        binomialName,
-                        resource, WO.scientificName, binomialName.getTextContent()
-                );
+    private void addClasses(HTMLDocument doc, Resource biota) throws ExtractionException {
+        for(String clazz : classes) {
+            HTMLDocument.TextField classTextField = doc.getSingularUrlField(clazz);
+            if(classTextField.source() != null) {
+                BNode classBNode = getBlankNodeFor(classTextField.source());
+                addBNodeProperty(biota, WO.getProperty(clazz), classBNode);
+                conditionallyAddResourceProperty(classBNode, RDF.TYPE, resolveClassName(clazz));
+                HTMLDocument fragment = new HTMLDocument(classTextField.source());
+                addClassesName(fragment, classBNode);
             }
-            foundAny = true;
         }
-
-        if (vernacularNames.size() > 0) {
-            for (Node vernacularName : vernacularNames) {
-                conditionallyAddStringProperty(
-                        extractor,
-                        vernacularName,
-                        resource, WO.speciesName, vernacularName.getTextContent()
-                );
-            }
-            foundAny = true;
-        }
-        return foundAny;
     }
 
-    private boolean extractFamily(Node node, Resource resource) throws ExtractionException {
-        boolean foundAny = false;
-        final String extractorName = getDescription().getExtractorName();
-        for (String binomial : binomials) {
-            List<Node> biotas = DomUtils.findAllByClassName(node, binomial);
-            if (biotas.size() == 0)
-                return foundAny;
-            for (Node biotaNode : biotas) {
-                BNode familyNode = valueFactory.createBNode();
-                addURIProperty(familyNode, RDF.TYPE, WO.family);
-                conditionallyAddStringProperty(
-                        extractorName,
-                        biotaNode,
-                        familyNode, WO.familyName, binomial
-                );
-                addBNodeProperty(
-                        extractorName,
-                        biotaNode,
-                        resource, WO.familyProperty, familyNode
-                );
-                foundAny |= extractNames(biotaNode, resource);
-            }
-            foundAny = true;
-        }
-        return foundAny;
+    private URI resolvePropertyName(String clazz) {
+        return WO.getProperty(
+                String.format(
+                        "%sName",
+                        clazz
+                )
+        );
     }
 
+    private URI resolveClassName(String clazz) {
+        String upperCaseClass = clazz.substring(0, 1);
+        return WO.getResource(
+                String.format("%s%s",
+                        upperCaseClass.toUpperCase(),
+                        clazz.substring(1)
+                )
+        );
+    }
 }

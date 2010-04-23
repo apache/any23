@@ -43,6 +43,18 @@ public class WO extends Vocabulary {
      */
     public static final URI species = createResource("species");
 
+    public static final URI kingdomClass = createResource("Kingdom");
+
+    public static final URI divisionClass = createResource("Division");
+
+    public static final URI phylumClass = createResource("Phylum");
+
+    public static final URI orderClass = createResource("Order");
+
+    public static final URI genusClass = createResource("Genus");
+
+    public static final URI classClass = createResource("Class");
+
     /**
      * A family is a scientific grouping of closely related organisms.
      * It has smaller groups, called genera and species, within it.
@@ -78,6 +90,30 @@ public class WO extends Vocabulary {
      * convenience to avoid applications having to parse the binomial name.
      */
     public static final URI scientificName = createProperty("scientificName");
+
+    public static final URI kingdom = createProperty("kingdom");
+
+    public static final URI phylum = createProperty("phylum");
+
+    public static final URI order = createProperty("order");
+
+    public static final URI genus = createProperty("genus");
+
+    public static final URI division = createProperty("division");
+
+    public static final URI clazz = createProperty("class");
+
+    public static final URI kingdomName = createProperty("kingdomName");
+
+    public static final URI phylumName = createProperty("phylumName");
+
+    public static final URI orderName = createProperty("orderName");
+
+    public static final URI genusName = createProperty("genusName");
+
+    public static final URI divisionName = createProperty("divisionName");
+
+    public static final URI clazzName = createProperty("className");
 
     private static Map<String, URI> localNamesMap;
 
