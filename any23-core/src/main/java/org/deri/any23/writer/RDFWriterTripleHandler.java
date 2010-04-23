@@ -34,7 +34,10 @@ import org.openrdf.rio.RDFWriter;
 class RDFWriterTripleHandler implements TripleHandler {
 
     private final RDFWriter writer;
+
     private boolean closed = false;
+
+    private ExtractionContext currentContext;
 
     RDFWriterTripleHandler(RDFWriter destination) {
         writer = destination;
@@ -50,16 +53,18 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        // Empty.
+        currentContext = context;
     }
 
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
+        final URI graph = g == null ? currentContext.getDocumentURI() : g;
         try {
             writer.handleStatement(
-                    ValueFactoryImpl.getInstance().createStatement(s, p, o, g));
+                    ValueFactoryImpl.getInstance().createStatement(s, p, o, graph));
         } catch (RDFHandlerException ex) {
-            throw new TripleHandlerException(String.format("Error while receiving triple: %s %s %s %s", s, p, o, g),
+            throw new TripleHandlerException(
+                    String.format("Error while receiving triple: %s %s %s %s", s, p, o, graph),
                     ex
             );
         }
@@ -77,7 +82,7 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        // Empty.
+        currentContext = null;
     }
 
     public void close() throws TripleHandlerException {
