@@ -260,7 +260,7 @@ public class HTMLDocument {
      * Returns the list of URLs associated to the fields marked with class <i>className</i>.
      *
      * @param className name of node class containing the URL field.
-     * @return
+     * @return the list of {@link org.deri.any23.extractor.html.HTMLDocument.TextField} found.
      */
     public TextField[] getPluralUrlField(String className) {
         List<TextField> res = new ArrayList<TextField>();

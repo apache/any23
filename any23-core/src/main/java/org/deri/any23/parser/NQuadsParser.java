@@ -264,7 +264,7 @@ public class NQuadsParser extends RDFParserBase {
     /**
      * Parses a URI encosed within &lt; and &gt; brackets.
      * @param bis
-     * @return
+     * @return the parsed URI.
      * @throws IOException
      * @throws RDFParseException
      */
@@ -299,10 +299,10 @@ public class NQuadsParser extends RDFParserBase {
     }
 
     /**
-     * Parses a bnode.
+     * Parses a BNode.
      * 
-     * @param bis
-     * @return
+     * @param bis the buffered input stream.
+     * @return the generated bnode.
      * @throws IOException
      * @throws RDFParseException
      */

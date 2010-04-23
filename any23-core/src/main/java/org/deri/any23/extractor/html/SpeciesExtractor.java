@@ -20,7 +20,7 @@ import java.util.Arrays;
  * The data are represented using the
  * <a href="http://www.bbc.co.uk/ontologies/wildlife/2010-02-22.shtml">BBC Wildlife Ontology</a>.
  *
- * @see {@link org.deri.any23.vocab.WO}
+ * @see org.deri.any23.vocab.WO
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class SpeciesExtractor extends EntityBasedMicroformatExtractor {

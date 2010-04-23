@@ -99,7 +99,7 @@ public class SingleDocumentExtractionTest {
      * property of a container microformat.
      *
      * For further details see
-     * {@link org.deri.any23.extractor.SingleDocumentExtraction#
+     * {@link org.deri.any23.extractor.SingleDocumentExtraction}
      * consolidateResources(java.util.List, java.util.List, org.deri.any23.writer.TripleHandler)}
      *
      * @throws IOException
@@ -125,7 +125,7 @@ public class SingleDocumentExtractionTest {
      * a microformat container property and a nested microformat root class.
      *
      * For further details see
-     * {@link org.deri.any23.extractor.SingleDocumentExtraction#
+     * {@link org.deri.any23.extractor.SingleDocumentExtraction}
      * consolidateResources(java.util.List, java.util.List, org.deri.any23.writer.TripleHandler)}
      *
      * See also the <a href="http://www.google.com/support/webmasters/bin/answer.py?answer=146862">Nested Entities</a>
@@ -271,10 +271,10 @@ public class SingleDocumentExtractionTest {
     /**
      * Retrieves the triple object matching with the given pattern that is expected to be just one.
      * 
-     * @param sub
-     * @param prop
-     * @return
-     * @throws RepositoryException
+     * @param sub the triple subject, <code>null</code> for any.
+     * @param prop the triple property, <code>null</code> for any.
+     * @return the object of the unique triple matching the given pattern.
+     * @throws RepositoryException if an error occurred during the search.
      */
     private Value getTripleObject(Resource sub, URI prop) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, false);
