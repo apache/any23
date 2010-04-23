@@ -85,7 +85,8 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     @Override
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode biota = getBlankNodeFor(node);
-        out.writeTriple(biota, RDF.TYPE, WO.species);
+        conditionallyAddResourceProperty(biota, RDF.TYPE, WO.species);
+
         final HTMLDocument fragment = new HTMLDocument(node);
         addNames(fragment, biota);
         addClasses(fragment, biota);
