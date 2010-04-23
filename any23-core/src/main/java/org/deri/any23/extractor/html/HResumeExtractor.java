@@ -75,7 +75,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         addEducations(fragment, person);
         addAffiliations(fragment, person);
         addSkills(fragment, person);
-        //TODO: add reltag
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
         tser.addResourceRoot(
