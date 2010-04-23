@@ -5,6 +5,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.WO;
 import org.openrdf.model.BNode;
@@ -90,6 +91,14 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument fragment = new HTMLDocument(node);
         addNames(fragment, biota);
         addClasses(fragment, biota);
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addResourceRoot(
+                DomUtils.getXPathListForNode(node),
+                biota,
+                getDescription().getExtractorName()
+        );
+
         return true;
     }
 
