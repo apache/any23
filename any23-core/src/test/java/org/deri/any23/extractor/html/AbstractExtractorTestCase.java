@@ -90,7 +90,10 @@ public abstract class AbstractExtractorTestCase {
     }
 
     public void assertContains(Resource subject, URI property, Value object) throws RepositoryException {
-        Assert.assertTrue(getFailedExtractionMessage(), conn.hasStatement(subject, property, object, false));
+        Assert.assertTrue(
+                getFailedExtractionMessage() +
+                        String.format("Cannot find triple (%s %s %s)", subject, property, object), 
+                conn.hasStatement(subject, property, object, false));
     }
 
     public void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {

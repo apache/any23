@@ -317,11 +317,16 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(VCARD.fn, "john doe");
 		assertContains(VCARD.fn, "Joe User");
 
+        assertContains(VCARD.category, "C1");
+        assertContains(VCARD.category, "C2a");
+        assertContains(VCARD.category, "C4");
+        assertContains(VCARD.category, "User");
 		String[] cats = {
-                "C1", "C2a", "C3", "C4", "C5", "C6", "C7", "C9", "luser", "User", "D1", "D2", "D3"
+                 "C3", "C5", "C6", "C7", "C9", "luser", "D1", "D2", "D3"
         };
 		for (String cat : cats)
-			assertContains(VCARD.category, cat);
+			assertContains(VCARD.category, "http://example.com/tag/" + cat);
+
 		assertNotContains(null, VCARD.category, "D4");
 	}
 

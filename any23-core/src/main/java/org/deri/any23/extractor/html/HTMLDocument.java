@@ -172,14 +172,33 @@ public class HTMLDocument {
         return ancestors.toArray( new String[ancestors.size()] );
     }
 
-    // TODO: this transforms a Wikipedia entity like http://en.wikipedia.org/wiki/Bow_%28weapon%29 in Bow_%28weapon%29 Why? 
-    private static String extractRelTag(NamedNodeMap attributes) {
-        String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
-        //cleanup spurious segments
+    /**
+     * Extracts the href specific rel-tag string.
+     * See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a> specification.
+     *
+     * @param hrefAttributeContent the content of the <i>href</i> attribute.
+     * @return the rel-tag specification.
+     */
+    public static String extractRelTag(String hrefAttributeContent) {
+        String[] all = hrefAttributeContent.split("[#?]");
+        // Cleanup spurious segments.
         String path = all[0];
-        // get last
-        all = path.split("/");
-        return all[all.length - 1];
+        int pathLenghtMin1 = path.length() - 1;
+        if( '/' == path.charAt(pathLenghtMin1) ) {
+            path = path.substring(0, pathLenghtMin1);
+        }
+        return path;
+    }
+
+    /**
+     * Extracts the href specific rel-tag string.
+     * See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a> specification.
+     *
+     * @param attributes the list of attributes of a node.
+     * @return the rel-tag specification.
+     */
+    public static String extractRelTag(NamedNodeMap attributes) {
+        return extractRelTag(attributes.getNamedItem("href").getNodeValue());
     }
 
     /**
