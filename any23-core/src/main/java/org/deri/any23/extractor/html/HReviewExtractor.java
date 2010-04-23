@@ -81,7 +81,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
         tser.addResourceRoot(
-                HTMLDocument.getPathFromRootToGivenNode(node),
+                DomUtils.getXPathListForNode(node),
                 rev,
                 getDescription().getExtractorName()
         );

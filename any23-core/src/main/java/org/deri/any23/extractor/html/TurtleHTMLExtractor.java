@@ -115,7 +115,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
                     ErrorReporter.ErrorLevel.ERROR,
                     String.format(
                             "An error occurred while parsing turtle content within script node: %s",
-                            Arrays.toString( HTMLDocument.getPathFromRootToGivenNode(n) )
+                            Arrays.toString( DomUtils.getXPathListForNode(n) )
                     ),
                     rdfpe.getLineNumber(), rdfpe.getColumnNumber()
             );

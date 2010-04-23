@@ -448,6 +448,7 @@ public class SingleDocumentExtraction {
      * @param to the root to the nested microformat.
      * @param th the triple handler.
      * @param ec the extraction context used to add such information.
+     * @throws org.deri.any23.writer.TripleHandlerException
      */
     private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec)
     throws TripleHandlerException {

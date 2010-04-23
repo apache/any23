@@ -47,8 +47,6 @@ public class HTMLDocument {
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
     private final static Logger log        = LoggerFactory.getLogger(HTMLDocument.class);
 
-    private static final String[] EMPTY_STRING_ARRAY = new String[0];
-
     private Node         document;
     private java.net.URI baseURI;
 
@@ -122,54 +120,6 @@ public class HTMLDocument {
         } else {
             res.add( new TextField(node.getTextContent().trim(), node) );
         }
-    }
-
-    /**
-     * Given a node this method returns the index corresponding to such node
-     * within the list of the children of its parent node.
-     *
-     * @param n the node of which returning the index.
-     * @return a non negative number.
-     */
-    public static int getIndexInParent(Node n) {
-        Node parent = n.getParentNode();
-        if(parent == null) {
-            return 0;
-        }
-        NodeList nodes = parent.getChildNodes();
-        int counter = -1;
-        for(int i = 0; i < nodes.getLength(); i++) {
-            Node current = nodes.item(i);
-            if ( current.getNodeType() == n.getNodeType() && current.getNodeName().equals( n.getNodeName() ) ) {
-                counter++;
-            }
-            if( current.equals(n) ) {
-                return counter;
-            }
-        }
-        throw new IllegalStateException("Cannot find a child within its parent node list.");
-    }
-
-    /**
-     * Returns a list of tag names representing the path from
-     * the document root to the given node <i>n</i>. 
-     *
-     * @param n the node for which retrieve the path.
-     * @return a sequence of HTML tag names.
-     */
-    // TODO: move to DomUtils and merge with #getXPathForNode.
-    public static String[] getPathFromRootToGivenNode(Node n) {
-        if(n == null) {
-            return EMPTY_STRING_ARRAY;
-        }
-        List<String> ancestors = new ArrayList<String>();
-        ancestors.add( n.getNodeName() + getIndexInParent(n) );
-        Node parent = n.getParentNode();
-        while(parent != null) {
-            ancestors.add(0, parent.getNodeName() + getIndexInParent(parent) );
-            parent = parent.getParentNode();
-        }
-        return ancestors.toArray( new String[ancestors.size()] );
     }
 
     /**
@@ -388,7 +338,7 @@ public class HTMLDocument {
      * @return a sequence of node names.
      */
     public String[] getPathToLocalRoot() {
-        return getPathFromRootToGivenNode(document);
+        return DomUtils.getXPathListForNode(document);
     }
 
     private java.net.URI getBaseURI() throws ExtractionException {

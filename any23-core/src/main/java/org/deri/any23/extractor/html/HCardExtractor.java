@@ -142,7 +142,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         out.writeTriple(card, RDF.TYPE, VCARD.VCard);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addResourceRoot( HTMLDocument.getPathFromRootToGivenNode(node), card, getDescription().getExtractorName() );
+        tser.addResourceRoot( DomUtils.getXPathListForNode(node), card, getDescription().getExtractorName() );
 
         return true;
     }
