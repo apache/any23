@@ -57,7 +57,6 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
     public boolean extract() throws ExtractionException {
         List<Node> nodes = DomUtils.findAllByClassName( getHTMLDocument().getDocument(), getBaseClassName());
         boolean foundAny = false;
-        // TODO: investigate on the missing count increment.
         int count = 1;
         for (Node node : nodes) {
             resetExtractor();
@@ -65,6 +64,7 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
             ExtractionResult subResult = openSubResult(contextID);
             foundAny |= extractEntity(node, subResult);
             subResult.close();
+            count++;
         }
         return foundAny;
     }
