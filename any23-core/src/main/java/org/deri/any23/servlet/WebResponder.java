@@ -17,10 +17,12 @@
 package org.deri.any23.servlet;
 
 import org.deri.any23.Any23;
+import org.deri.any23.ExtractionReport;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.FormatWriter;
+import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
@@ -31,6 +33,7 @@ import sun.security.validator.ValidatorException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * This class is responsible for building the {@link org.deri.any23.servlet.Servlet}
@@ -93,8 +96,10 @@ class WebResponder {
     public void runExtraction(DocumentSource in, String format) throws IOException {
         if (in == null) return;
         if (!initRdfWriter(format)) return;
+        final ExtractionReport er;
         try {
-            if (!runner.extract(in, rdfWriter)) {
+            er = runner.extract(in, rdfWriter);
+            if (! er.hasMatchingExtractors() ) {
                 sendError(415, "No suitable extractor found for this media type");
                 return;
             }
@@ -119,17 +124,20 @@ class WebResponder {
         }
         response.setContentType(outputMediaType);
         response.setStatus(200);
-        // TODO - high: #14 for the moment UTF-8 has been set as the default output encoding. To fix this,
-        // should be implemented an improved report from the runner.extract that set the output encoding
-        // equals to the input one.
-        response.setCharacterEncoding("UTF-8");
+        // Set the output encoding equals to the input one.
+        final String charsetEncoding = er.getEncoding();
+        if (Charset.isSupported(charsetEncoding)) {
+            response.setCharacterEncoding(er.getEncoding());
+        } else {
+            response.setCharacterEncoding("UTF-8");
+        }
         response.getOutputStream().write(byteOutStream.toByteArray());
     }
 
     private boolean initRdfWriter(String format) throws IOException {
         FormatWriter fw = getFormatWriter(format);
         if (fw == null) {
-            sendError(400, "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples");
+            sendError(400, "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads");
             return false;
         }
         outputMediaType = fw.getMIMEType();
@@ -151,6 +159,9 @@ class WebResponder {
         }
         if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
             return new NTriplesWriter(byteOutStream);
+        }
+        if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
+            return new NQuadsWriter(byteOutStream);
         }
         return null;
     }

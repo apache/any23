@@ -19,6 +19,8 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.rdf.Prefixes;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
+import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -51,7 +53,9 @@ import java.util.Set;
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
-public class ExtractionResultImpl implements ExtractionResult {
+public class ExtractionResultImpl implements TagSoupExtractionResult {
+
+    public static final String ROOT_EXTRACTION_RESULT_ID = "root-extraction-result-id";
 
     private static final DocumentContext DEFAULT_DOCUMENT_CONTEXT = new DocumentContext(null); 
 
@@ -75,6 +79,10 @@ public class ExtractionResultImpl implements ExtractionResult {
 
     private List<Error> errors;
 
+    private List<ResourceRoot> resourceRoots;
+
+    private List<PropertyPath> propertyPaths;
+
     public ExtractionResultImpl(
             DocumentContext documentContext,
             URI documentURI,
@@ -82,14 +90,30 @@ public class ExtractionResultImpl implements ExtractionResult {
             TripleHandler tripleHandler,
             Object contextID
     ) {
-        this.documentContext = documentContext; 
+        if(documentContext == null) {
+            throw new NullPointerException("document context cannot be null.");
+        }
+        if(documentURI == null) {
+            throw new NullPointerException("document URI cannot be null.");
+        }
+        if(extractor == null) {
+            throw new NullPointerException("extractor cannot be null.");
+        }
+        if(tripleHandler == null) {
+            throw new NullPointerException("triple handler cannot be null.");
+        }
+        if(contextID == null) {
+            throw new NullPointerException("contextID cannot be null.");
+        }
+
+        this.documentContext = documentContext;
         this.documentURI     = documentURI;
         this.extractor       = extractor;
         this.tripleHandler   = tripleHandler;
         this.context = new ExtractionContext(
                 extractor.getDescription().getExtractorName(),
                 documentURI,
-                ((contextID == null) ? null : Integer.toHexString(contextID.hashCode()))
+                Integer.toHexString(contextID.hashCode())
         );
         knownContextIDs.add(contextID);
     }
@@ -100,7 +124,7 @@ public class ExtractionResultImpl implements ExtractionResult {
             Extractor<?> extractor,
             TripleHandler tripleHandler
     ) {
-        this(documentContext, documentURI, extractor, tripleHandler, null);
+        this(documentContext, documentURI, extractor, tripleHandler, ROOT_EXTRACTION_RESULT_ID);
     }
 
     public ExtractionResultImpl(
@@ -108,7 +132,7 @@ public class ExtractionResultImpl implements ExtractionResult {
             Extractor<?> extractor,
             TripleHandler tripleHandler
     ) {
-        this(DEFAULT_DOCUMENT_CONTEXT, documentURI, extractor, tripleHandler, null);
+        this(DEFAULT_DOCUMENT_CONTEXT, documentURI, extractor, tripleHandler, ROOT_EXTRACTION_RESULT_ID);
     }
 
     public boolean hasErrors() {
@@ -142,6 +166,8 @@ public class ExtractionResultImpl implements ExtractionResult {
         if (knownContextIDs.contains(contextID)) {
             throw new IllegalArgumentException("Duplicate contextID: " + contextID);
         }
+        knownContextIDs.add(contextID);
+
         checkOpen();
         ExtractionResult result =
                 new ExtractionResultImpl(documentContext, documentURI, extractor, tripleHandler, contextID);
@@ -157,17 +183,35 @@ public class ExtractionResultImpl implements ExtractionResult {
         return context;
     }
 
-    public void writeTriple(Resource s, URI p, Value o) {
+    public void writeTriple(Resource s, URI p, Value o, URI g) {
         if (s == null || p == null || o == null) return;
         // Check for mal-constructed literals or BNodes, Sesame does not catch this.
         if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) return;
         checkOpen();
-        tripleHandler.receiveTriple(s, p, o, context);
+        try {
+            tripleHandler.receiveTriple(s, p, o, g, context);
+        } catch (TripleHandlerException e) {
+            throw new RuntimeException(
+                    String.format("Error while receiving triple %s %s %s", s, p, o ),
+                    e
+            );
+        }
+    }
+
+    public void writeTriple(Resource s, URI p, Value o) {
+        writeTriple(s, p, o, null);
     }
 
     public void writeNamespace(String prefix, String uri) {
         checkOpen();
-        tripleHandler.receiveNamespace(prefix, uri, context);
+        try {
+            tripleHandler.receiveNamespace(prefix, uri, context);
+        } catch (TripleHandlerException e) {
+            throw new RuntimeException(
+                    String.format("Error while writing namespace %s:%s", prefix, uri),
+                    e
+            );
+        }
     }
 
     public void notifyError(ErrorLevel level, String msg, int row, int col) {
@@ -184,25 +228,80 @@ public class ExtractionResultImpl implements ExtractionResult {
             subResult.close();
         }
         if (isInitialized) {
-            tripleHandler.closeContext(context);
-        }
-        if(errors != null) {
-            errors.clear();
+            try {
+                tripleHandler.closeContext(context);
+            } catch (TripleHandlerException e) {
+                throw new RuntimeException("Error while opening context", e);
+            }
         }
     }
 
     private void checkOpen() {
         if (!isInitialized) {
             isInitialized = true;
-            tripleHandler.openContext(context);
+            try {
+                tripleHandler.openContext(context);
+            } catch (TripleHandlerException e) {
+                throw new RuntimeException("Error while opening context", e);
+            }
             Prefixes prefixes = extractor.getDescription().getPrefixes();
             for (String prefix : prefixes.allPrefixes()) {
-                tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceURIFor(prefix), context);
+                try {
+                    tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceURIFor(prefix), context);
+                } catch (TripleHandlerException e) {
+                    throw new RuntimeException(String.format("Error while writing namespace %s", prefix),
+                            e
+                    );
+                }
             }
         }
         if (isClosed) {
             throw new IllegalStateException("Not open: " + context);
         }
+    }
+
+    public void addResourceRoot(String[] path, Resource root, String extractor) {
+        if(resourceRoots == null) {
+            resourceRoots = new ArrayList<ResourceRoot>();
+        }
+        resourceRoots.add( new ResourceRoot(path, root, extractor) );
+    }
+
+    public List<ResourceRoot> getResourceRoots() {
+        List<ResourceRoot> allRoots = new ArrayList<ResourceRoot>();
+        if(resourceRoots != null) {
+            allRoots.addAll( resourceRoots );
+        }
+        for(ExtractionResult er : subResults) {
+            ExtractionResultImpl eri = (ExtractionResultImpl) er;
+            if( eri.resourceRoots != null ) {
+                allRoots.addAll( eri.resourceRoots );
+            }
+        }
+        return allRoots;
+    }
+
+    public void addPropertyPath(
+            String extractor, Resource propertySubject, Resource property, BNode object, String[] path
+    ) {
+        if(propertyPaths == null) {
+            propertyPaths = new ArrayList<PropertyPath>();
+        }
+        propertyPaths.add( new PropertyPath(path, propertySubject, property, object, extractor) );
+    }
+
+    public List<PropertyPath> getPropertyPaths() {
+        List<PropertyPath> allPaths = new ArrayList<PropertyPath>();
+        if(propertyPaths != null) {
+            allPaths.addAll( propertyPaths );
+        }
+        for(ExtractionResult er : subResults) {
+            ExtractionResultImpl eri = (ExtractionResultImpl) er;
+            if( eri.propertyPaths != null ) {
+                allPaths.addAll( eri.propertyPaths );
+            }
+        }
+        return allPaths;
     }
 
 }

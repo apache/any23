@@ -16,14 +16,11 @@
 
 package org.deri.any23.extractor.html;
 
-import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.WO;
 import org.junit.Test;
-import org.openrdf.model.Statement;
-import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class SpeciesExtractorTest extends AbstractMicroformatTestCase {
+public class SpeciesExtractorTest extends AbstractExtractorTestCase {
 
     private static final Logger logger = LoggerFactory.getLogger(SpeciesExtractorTest.class);
 
@@ -41,27 +38,25 @@ public class SpeciesExtractorTest extends AbstractMicroformatTestCase {
     }
 
     /**
-     * Test the behaviour of the extractor aginst the reference <i>HTML</i>
-     * <a href="http://www.westmidlandbirdclub.com/records/lists-2004.htm">test page</a>. 
+     * Test the beahvior against two <a href="http://en.wikipedia.org/wiki/Template:Taxobox">Wikipedia Taxobox</a>.
+     *
      * @throws RepositoryException
      */
     @Test
-    public void testSpeciesMicroformatExtract() throws RepositoryException {
-        assertExtracts("microformats/species/species-example-1.html");
+    public void testSpeciesMicroformatExtractOverTaxoBox() throws RepositoryException {
+        assertExtracts("microformats/species/species-example-2.html");
         assertModelNotEmpty();
-        assertContains(baseURI, RDF.TYPE, WO.species);
-        RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
-        int i = 0;
-        try {
-            while (result.hasNext()) {
-                i++;
-                Statement statement = result.next();
-                logger.info(String.format("extracted triple: %s", statement));
-            }
-        } finally {
-            result.close();
-        }
-        Assert.assertTrue(i == 2185);
+        logger.info(dumpModelToRDFXML());
+
+        /**
+         * here I expect two species
+         */
+        assertStatementsSize(null, WO.getProperty("species"), 2);
+
+        /**
+         * overall triples amount
+         */
+        assertStatementsSize(null, (Value) null, 29);
     }
 
 }

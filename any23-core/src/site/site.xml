@@ -29,12 +29,19 @@
         <version>1.2</version>
     </skin>
 
+    <bannerLeft>
+        <name>Any23: Anything to triples</name>
+        <src>images/logo-any23.png</src>
+        <href>http://developers.any23.org/</href>
+    </bannerLeft>    
+
     <body>
         <menu name="${project.name}">
             <item name="Introduction"     href="index.html"/>
 			<item name="Install"          href="install.html"/>
             <item name="Getting started"  href="getting-started.html"/>
             <item name="Developers guide" href="developers.html"/>
+            <item name="Extraction notes" href="extraction.html"/>
         </menu>
 
         <menu ref="reports"/>

@@ -35,6 +35,10 @@ public class Any23Negotiator {
                 .addAliasMediaType("text/n3;q=0.9"                  )
                 .addAliasMediaType("application/n3;q=0.9"           );
 
+        any23negotiator.addVariant("text/rdf+nq;charset=utf-8;q=0.9")
+                .addAliasMediaType("text/nq;q=0.9"                  )
+                .addAliasMediaType("application/nq;q=0.9"           );
+
         any23negotiator.addVariant("text/turtle"                    )
                 .addAliasMediaType("application/x-turtle"           )
                 .addAliasMediaType("application/turtle"             );

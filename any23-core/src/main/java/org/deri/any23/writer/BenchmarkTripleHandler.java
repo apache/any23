@@ -89,15 +89,15 @@ public class BenchmarkTripleHandler implements TripleHandler {
         return sb.toString();
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         underlyingHandler.startDocument(documentURI);
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         underlyingHandler.close();
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         if (stats.containsKey(context.getExtractorName())) {
             stats.get(context.getExtractorName()).interimStop();
             stats.get("SUM").interimStop();
@@ -105,7 +105,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
         underlyingHandler.closeContext(context);
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
         }
@@ -116,20 +116,21 @@ public class BenchmarkTripleHandler implements TripleHandler {
         underlyingHandler.openContext(context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
         }
         stats.get(context.getExtractorName()).triples++;
         stats.get("SUM").triples++;
-        underlyingHandler.receiveTriple(s, p, o, context);
+        underlyingHandler.receiveTriple(s, p, o, g, context);
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         underlyingHandler.endDocument(documentURI);
     }
 

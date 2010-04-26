@@ -18,6 +18,7 @@ package org.deri.any23.filter;
 
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -53,22 +54,30 @@ public class ExtractionContextBlocker implements TripleHandler {
         return documentBlocked;
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         wrapped.startDocument(documentURI);
         documentBlocked = true;
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         contextQueues.put(context.getUniqueID(), new ValvedTriplePipe(context));
     }
 
     public void blockContext(ExtractionContext context) {
         if (!documentBlocked) return;
-        contextQueues.get(context.getUniqueID()).block();
+        try {
+            contextQueues.get(context.getUniqueID()).block();
+        } catch (ValvedTriplePipeException e) {
+            throw new RuntimeException("Error while blocking context", e);
+        }
     }
 
     public void unblockContext(ExtractionContext context) {
+        try {
         contextQueues.get(context.getUniqueID()).unblock();
+        } catch (ValvedTriplePipeException e) {
+            throw new RuntimeException("Error while unblocking context", e);
+        }
     }
 
     public void closeContext(ExtractionContext context) {
@@ -79,33 +88,76 @@ public class ExtractionContextBlocker implements TripleHandler {
         if (!documentBlocked) return;
         documentBlocked = false;
         for (ValvedTriplePipe pipe : contextQueues.values()) {
-            pipe.unblock();
+            try {
+                pipe.unblock();
+            } catch (ValvedTriplePipeException e) {
+                throw new RuntimeException("Error while unblocking context", e);
+            }
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-        contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o);
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
+        try {
+            contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o, g);
+        } catch (ValvedTriplePipeException e) {
+            throw new TripleHandlerException(
+                    String.format("Error while receiving triple %s %s %s", s, p, o),
+                    e
+            );
+        }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
-        contextQueues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+        try {
+            contextQueues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
+        } catch (ValvedTriplePipeException e) {
+            throw new TripleHandlerException(
+                    String.format("Error while receiving namespace %s:%s", prefix, uri),
+                    e
+            );
+        }
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         closeDocument();
         wrapped.close();
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         closeDocument();
         wrapped.endDocument(documentURI);
     }
 
     private void closeDocument() {
         for (ValvedTriplePipe pipe : contextQueues.values()) {
-            pipe.close();
+            try {
+                pipe.close();
+            } catch (ValvedTriplePipeException e) {
+                throw new RuntimeException("Error closing document", e);
+            }
         }
         contextQueues.clear();
+    }
+
+    public void setContentLength(long contentLength) {
+        // Ignore.
+    }
+
+    private class ValvedTriplePipeException extends Exception {
+
+        private ValvedTriplePipeException(String s) {
+            super(s);
+        }
+
+        private ValvedTriplePipeException(Throwable throwable) {
+            super(throwable);
+        }
+
+        private ValvedTriplePipeException(String s, Throwable throwable) {
+            super(s, throwable);
+        }
+
     }
 
     private class ValvedTriplePipe {
@@ -117,6 +169,8 @@ public class ExtractionContextBlocker implements TripleHandler {
         private final List<URI> predicates = new ArrayList<URI>();
 
         private final List<Value> objects = new ArrayList<Value>();
+
+        private final List<URI> graphs = new ArrayList<URI>();
 
         private final List<String> prefixes = new ArrayList<String>();
 
@@ -130,17 +184,18 @@ public class ExtractionContextBlocker implements TripleHandler {
             this.context = context;
         }
 
-        void receiveTriple(Resource s, URI p, Value o) {
+        void receiveTriple(Resource s, URI p, Value o, URI g) throws ValvedTriplePipeException {
             if (blocked) {
                 subjects.add(s);
                 predicates.add(p);
                 objects.add(o);
+                graphs.add(g);
             } else {
-                sendTriple(s, p, o);
+                sendTriple(s, p, o, g);
             }
         }
 
-        void receiveNamespace(String prefix, String uri) {
+        void receiveNamespace(String prefix, String uri) throws ValvedTriplePipeException {
             if (blocked) {
                 prefixes.add(prefix);
                 uris.add(uri);
@@ -149,46 +204,62 @@ public class ExtractionContextBlocker implements TripleHandler {
             }
         }
 
-        void block() {
+        void block() throws ValvedTriplePipeException {
             if (blocked) return;
             blocked = true;
         }
 
-        void unblock() {
+        void unblock() throws ValvedTriplePipeException {
             if (!blocked) return;
             blocked = false;
             for (int i = 0; i < prefixes.size(); i++) {
                 sendNamespace(prefixes.get(i), uris.get(i));
             }
             for (int i = 0; i < subjects.size(); i++) {
-                sendTriple(subjects.get(i), predicates.get(i), objects.get(i));
+                sendTriple(subjects.get(i), predicates.get(i), objects.get(i), graphs.get(i));
             }
         }
 
-        void close() {
+        void close() throws ValvedTriplePipeException {
             if (hasReceivedTriples) {
-                wrapped.closeContext(context);
+                try {
+                    wrapped.closeContext(context);
+                } catch (TripleHandlerException e) {
+                    throw new ValvedTriplePipeException("Error while closing the triple hanlder", e);
+                }
             }
         }
 
-        private void sendTriple(Resource s, URI p, Value o) {
+        private void sendTriple(Resource s, URI p, Value o, URI g) throws ValvedTriplePipeException {
             if (!hasReceivedTriples) {
+                try {
                 wrapped.openContext(context);
+                } catch(TripleHandlerException e) {
+                    throw new ValvedTriplePipeException("Error while opening the triple handler", e);
+                }
                 hasReceivedTriples = true;
             }
-            wrapped.receiveTriple(s, p, o, context);
+            try {
+                wrapped.receiveTriple(s, p, o, g, context);
+            } catch (TripleHandlerException e) {
+                throw new ValvedTriplePipeException("Error while opening the triple handler", e);
+            }
         }
 
-        private void sendNamespace(String prefix, String uri) {
+        private void sendNamespace(String prefix, String uri) throws ValvedTriplePipeException {
             if (!hasReceivedTriples) {
-                wrapped.openContext(context);
+                try {
+                    wrapped.openContext(context);
+                } catch (TripleHandlerException e) {
+                    throw new ValvedTriplePipeException("Error while sending the namespace", e);
+                }
                 hasReceivedTriples = true;
             }
-            wrapped.receiveNamespace(prefix, uri, context);
+            try {
+                wrapped.receiveNamespace(prefix, uri, context);
+            } catch (TripleHandlerException e) {
+                throw new ValvedTriplePipeException("Error while receiving the namespace", e);            }
         }
     }
 
-    public void setContentLength(long contentLength) {
-        // Ignore.
-    }
 }

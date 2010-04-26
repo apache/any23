@@ -19,6 +19,7 @@ package org.deri.any23.filter;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.html.TitleExtractor;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -40,26 +41,27 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
         blocker = new ExtractionContextBlocker(wrapped);
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         blocker.startDocument(documentURI);
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         blocker.openContext(context);
         if (isTitleContext(context)) {
             blocker.blockContext(context);
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         if (!isTitleContext(context)) {
             blocker.unblockDocument();
         }
-        blocker.receiveTriple(s, p, o, context);
+        blocker.receiveTriple(s, p, o, g, context);
     }
 
     public void receiveNamespace(String prefix, String uri,
-                                 ExtractionContext context) {
+                                 ExtractionContext context) throws TripleHandlerException {
         blocker.receiveNamespace(prefix, uri, context);
     }
 
@@ -67,7 +69,7 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
         blocker.closeContext(context);
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         blocker.close();
     }
 
@@ -75,7 +77,7 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
         return context.getExtractorName().equals(TitleExtractor.NAME);
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         blocker.endDocument(documentURI);
     }
 

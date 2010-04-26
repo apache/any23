@@ -16,21 +16,22 @@
 
 package org.deri.any23.extractor.rdf;
 
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractionResultImpl;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.URI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Test case for {@link org.deri.any23.extractor.rdf.NTriplesExtractor}.
@@ -39,6 +40,8 @@ import java.io.InputStream;
  * @version $Id$
  */
 public class TurtleExtractorTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(TurtleExtractorTest.class);
 
     private TurtleExtractor extractor;
 
@@ -52,17 +55,32 @@ public class TurtleExtractorTest {
         extractor = null;
     }
 
+    /**
+     * Tests the correct support for a typed literal with incompatible value.
+     * 
+     * @throws IOException
+     * @throws ExtractionException
+     * @throws TripleHandlerException
+     */
     @Test
-    public void testMalformedLiteralSupport() throws IOException, ExtractionException {
+    public void testTypedLiteralIncompatibleValueSupport()
+    throws IOException, ExtractionException, TripleHandlerException {
         final URI uri = RDFHelper.uri("http://host.com/test-malformed-literal.turtle");
-        File file = new File("src/test/resources/application/rdfn3/testMalformedLiteral");
-        InputStream is = new FileInputStream(file);
-        TripleHandler th = new RDFXMLWriter( System.out );
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        TripleHandler th = new RDFXMLWriter(baos);
         ExtractionResult result = new ExtractionResultImpl(uri, extractor, th);
         extractor.setStopAtFirstError(false);
-        extractor.run(is, uri, result);
-        th.close();
-        result.close();
+        try {
+            extractor.run(
+                    this.getClass().getResourceAsStream("/org/deri/any23/extractor/rdf/testMalformedLiteral"),
+                    uri,
+                    result
+            );
+        } finally {
+            logger.info(baos.toString());
+            th.close();
+            result.close();
+        }
     }
 
 }

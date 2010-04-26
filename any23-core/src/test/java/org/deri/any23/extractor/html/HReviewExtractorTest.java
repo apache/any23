@@ -16,15 +16,13 @@
 
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.VCARD;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.Value;
@@ -37,7 +35,7 @@ import org.openrdf.repository.RepositoryResult;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class HReviewExtractorTest extends AbstractMicroformatTestCase {
+public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
         protected ExtractorFactory<?> getExtractorFactory() {
         return HReviewExtractor.factory;

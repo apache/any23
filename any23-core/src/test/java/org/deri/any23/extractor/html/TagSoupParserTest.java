@@ -1,25 +1,14 @@
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.Any23;
 import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.source.FileDocumentSource;
-import org.deri.any23.vocab.DCTERMS;
-import org.deri.any23.writer.RepositoryWriter;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.model.Statement;
-import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
-import org.openrdf.repository.sail.SailRepository;
-import org.openrdf.sail.Sail;
-import org.openrdf.sail.SailException;
-import org.openrdf.sail.memory.MemoryStore;
 
-import java.io.*;
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Reference Test class for {@link org.deri.any23.extractor.html.TagSoupParser} parser.

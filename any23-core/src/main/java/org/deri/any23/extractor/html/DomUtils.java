@@ -40,7 +40,11 @@ import java.util.List;
  */
 public class DomUtils {
 
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+        
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
+
+    private DomUtils(){}
 
     /**
      * Does a reverse walking of the DOM tree to generate a unique XPath
@@ -66,6 +70,53 @@ public class DomUtils {
             return index;
         else
             return getXPathForNode(parent) + index;
+    }
+
+    /**
+     * Given a node this method returns the index corresponding to such node
+     * within the list of the children of its parent node.
+     *
+     * @param n the node of which returning the index.
+     * @return a non negative number.
+     */
+    public static int getIndexInParent(Node n) {
+        Node parent = n.getParentNode();
+        if(parent == null) {
+            return 0;
+        }
+        NodeList nodes = parent.getChildNodes();
+        int counter = -1;
+        for(int i = 0; i < nodes.getLength(); i++) {
+            Node current = nodes.item(i);
+            if ( current.getNodeType() == n.getNodeType() && current.getNodeName().equals( n.getNodeName() ) ) {
+                counter++;
+            }
+            if( current.equals(n) ) {
+                return counter;
+            }
+        }
+        throw new IllegalStateException("Cannot find a child within its parent node list.");
+    }
+
+    /**
+     * Returns a list of tag names representing the path from
+     * the document root to the given node <i>n</i>.
+     *
+     * @param n the node for which retrieve the path.
+     * @return a sequence of HTML tag names.
+     */
+    public static String[] getXPathListForNode(Node n) {
+        if(n == null) {
+            return EMPTY_STRING_ARRAY;
+        }
+        List<String> ancestors = new ArrayList<String>();
+        ancestors.add( String.format("%s[%s]", n.getNodeName(), getIndexInParent(n) ) );
+        Node parent = n.getParentNode();
+        while(parent != null) {
+            ancestors.add(0, String.format("%s[%s]", parent.getNodeName(), getIndexInParent(parent) ) );
+            parent = parent.getParentNode();
+        }
+        return ancestors.toArray( new String[ancestors.size()] );
     }
 
     /**

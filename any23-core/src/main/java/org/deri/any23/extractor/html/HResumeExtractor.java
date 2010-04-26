@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
@@ -67,53 +68,78 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         BNode person = getBlankNodeFor(node);
         // we have a person, at least
         out.writeTriple(person, RDF.TYPE, FOAF.Person);
-        HTMLDocument fragment = new HTMLDocument(node);
+        final HTMLDocument fragment = new HTMLDocument(node);
         addSummary(fragment, person);
         addContact(fragment, person);
         addExperiences(fragment, person);
         addEducations(fragment, person);
         addAffiliations(fragment, person);
-        //addSkills //reltag
+        addSkills(fragment, person);
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addResourceRoot(
+                DomUtils.getXPathListForNode(node),
+                person,
+                getDescription().getExtractorName()
+        );
+
         return true;
     }
 
     private void addSummary(HTMLDocument doc, Resource person) {
-        String summary = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(person, DOAC.summary, summary);
+        HTMLDocument.TextField summary = doc.getSingularTextField("summary");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                summary.source(),
+                person,
+                DOAC.summary,
+                summary.value()
+        );
     }
 
     private void addContact(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("contact");
         if (nodes.size() > 0)
-            addBNodeProperty(person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)));
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    nodes.get(0),
+                    person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0))
+            );
     }
 
     private void addExperiences(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("experience");
         for (Node node : nodes) {
             BNode exp = valueFactory.createBNode();
-            if (addExperience(exp, new HTMLDocument(node))) ;
-            addBNodeProperty(person, DOAC.experience, exp);
+            if (addExperience(exp, new HTMLDocument(node)))
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    person, DOAC.experience, exp
+            );
         }
     }
 
     private boolean addExperience(Resource exp, HTMLDocument document) {
+        final String extractorName = getDescription().getExtractorName();
+        final Node documentNode    = document.getDocument();
         String check = "";
-        String value = document.getSingularTextField("title");
+
+        HTMLDocument.TextField value = document.getSingularTextField("title");
         check += value;
-        conditionallyAddStringProperty(exp, DOAC.title, value.trim());
+        conditionallyAddStringProperty(extractorName, value.source(), exp, DOAC.title, value.value().trim());
+
         value = document.getSingularTextField("dtstart");
         check += value;
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.start_date, value.value().trim());
 
-        conditionallyAddStringProperty(exp, DOAC.start_date, value.trim());
         value = document.getSingularTextField("dtend");
         check += value;
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.end_date, value.value().trim());
 
-        conditionallyAddStringProperty(exp, DOAC.end_date, value.trim());
         value = document.getSingularTextField("summary");
         check += value;
-
-        conditionallyAddStringProperty(exp, DOAC.organization, value.trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.organization, value.value().trim());
 
         return !"".equals(check);
     }
@@ -122,16 +148,63 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         List<Node> nodes = doc.findAllByClassName("education");
         for (Node node : nodes) {
             BNode exp = valueFactory.createBNode();
-            if (addExperience(exp, new HTMLDocument(node))) ;
-            addBNodeProperty(person, DOAC.education, exp);
+            if (addExperience(exp, new HTMLDocument(node)))
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    person, DOAC.education, exp
+            );
         }
     }
 
     private void addAffiliations(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("affiliation");
         for (Node node : nodes) {
-            addBNodeProperty(person, DOAC.affiliation, getBlankNodeFor(node));
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    person, DOAC.affiliation, getBlankNodeFor(node)
+            );
         }
+    }
+
+    private void addSkills(HTMLDocument doc, Resource person) {
+        List<Node> nodes;
+        final String extractorName = getDescription().getExtractorName();
+
+        // Extracting data from single node.
+        nodes = doc.findAllByClassName("skill");
+        for (Node node : nodes) {
+            conditionallyAddStringProperty(
+                    extractorName,
+                    node,
+                    person, DOAC.skill, extractSkillValue(node)
+            );
+        }
+        // Extracting from enlisting node.
+        nodes = doc.findAllByClassName("skills");
+        for(Node node : nodes) {
+            String nodeText = node.getTextContent();
+            String[] skills = nodeText.split(",");
+            for(String skill : skills) {
+                conditionallyAddStringProperty(
+                        extractorName,
+                        node,
+                        person, DOAC.skill, skill.trim()
+                );
+            }
+        }
+    }
+
+    private String extractSkillValue(Node n) {
+        String name = n.getNodeName();
+        String skill = null;
+        if ("A".equals(name) && DomUtils.hasAttribute(n, "rel", "tag")) {
+            skill = n.getAttributes().getNamedItem("href").getTextContent();
+        } else {
+            skill = n.getTextContent();
+        }
+        return skill;
     }
 
 }

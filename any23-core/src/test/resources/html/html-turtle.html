@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
+  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" version="XHTML+RDFa 1.0" dir="ltr"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="http://drupalrdf.openspring.net/misc/favicon.ico" type="image/vnd.microsoft.icon" />
+<meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+  <title>Welcome to mydomain.net</title>
+  <style type="text/css" media="all">
+      @import url("http://drupalrdf.openspring.net/modules/system/system.css?f0000000000000000000");
+  <style type="text/css" media="print">@import url("http://drupalrdf.openspring.net/themes/garland/print.css?f0000000000000000000");</style>
+
+<!--[if lt IE 7]>
+<link type="text/css" rel="stylesheet" href="http://drupalrdf.openspring.net/themes/garland/fix-ie.css?f0000000000000000000" media="all" />
+<![endif]-->
+</head>
+<body class="html front not-logged-in one-sidebar sidebar-first page-node fluid-width" >
+
+<script type="text/turtle" id="graph1"><![CDATA[
+   @prefix foo:  <http://www.example.com/xyz#> .
+   @prefix gr:   <http://purl.org/goodrelations/v1#> .
+   @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+   @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+   foo:myCompany
+     a gr:BusinessEntity ;
+     rdfs:seeAlso <http://www.example.com/xyz> ;
+     gr:hasLegalName "Hepp Industries Ltd."^^xsd:string .
+]]>
+</script>
+
+<div id="skip-link">
+    <a href="#main-content">Skip to main content</a>
+</div>
+<div class="region region-page-top">
+</div>
+
+<script type="text/n3" id="graph2"><![CDATA[
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix ex: <http://example.org/stuff/1.0/> .
+
+<http://www.w3.org/TR/rdf-syntax-grammar>
+  dc:title "RDF/XML Syntax Specification (Revised)" ;
+  ex:editor [
+    ex:fullname "Dave Beckett";
+    ex:homePage <http://purl.org/net/dajobe/>
+  ] .
+]]>
+</script>
+
+<div id="wrapper">
+    <div id="container" class="clearfix">
+
+        <div id="header">
+            <div id="logo-floater">
+                <div id="branding"><strong><a href="/" title="drupalrdf.openspring.net ">
+                    <img src="http://drupalrdf.openspring.net/themes/garland/logo.png" alt="drupalrdf.openspring.net "
+                         id="logo"/>
+                    <span>drupalrdf.openspring.net</span> </a></strong></div>
+            </div>
+
+        </div>
+        <div id="sidebar-first" class="sidebar">
+            <div class="region region-sidebar-first">
+                <div id="block-user-login" class="block block-user clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/plain" id="graph3"><![CDATA[
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+
+<http://en.wikipedia.org/wiki/Tony_Benn>
+  dc:title "Tony Benn";
+  dc:publisher "Wikipedia" .
+  <#graph1> rdfs:comment "Not sure this is true. It seems like just example data." .  
+]]>
+</script>
+
+<div id="wrapper">
+    <div id="container" class="clearfix">
+
+        <div id="header">
+            <div id="logo-floater">
+                <div id="branding"><strong><a href="/" title="drupalrdf.openspring.net ">
+                    <img src="http://drupalrdf.openspring.net/themes/garland/logo.png" alt="drupalrdf.openspring.net "
+                         id="logo"/>
+                    <span>drupalrdf.openspring.net</span> </a></strong></div>
+            </div>
+
+        </div>
+        <div id="sidebar-first" class="sidebar">
+            <div class="region region-sidebar-first">
+                <div id="block-user-login" class="block block-user clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

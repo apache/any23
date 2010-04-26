@@ -1,9 +1,9 @@
 package org.deri.any23.extractor.html;
 
 import junit.framework.Assert;
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import java.util.List;
  * {@link org.deri.any23.extractor.html.HCardExtractor} test case.
  */
 //TODO: low - reactivate commented tests.
-public class HCardExtractorTest extends AbstractMicroformatTestCase {
+public class HCardExtractorTest extends AbstractExtractorTestCase {
 
      protected ExtractorFactory<?> getExtractorFactory() {
         return HCardExtractor.factory;
@@ -30,7 +30,7 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 
     // @Test
 	public void testInferredPerson() throws RepositoryException {
-		assertExtracts("hcard/23-abbr-title-everything.html");
+		assertExtracts("microformats/hcard/23-abbr-title-everything.html");
 		assertDefaultVCard();
 		assertStatementsSize(FOAF.topic, (Value) null, 1);
 		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
@@ -317,11 +317,16 @@ public class HCardExtractorTest extends AbstractMicroformatTestCase {
 		assertContains(VCARD.fn, "john doe");
 		assertContains(VCARD.fn, "Joe User");
 
+        assertContains(VCARD.category, "C1");
+        assertContains(VCARD.category, "C2a");
+        assertContains(VCARD.category, "C4");
+        assertContains(VCARD.category, "User");
 		String[] cats = {
-                "C1", "C2a", "C3", "C4", "C5", "C6", "C7", "C9", "luser", "User", "D1", "D2", "D3"
+                 "C3", "C5", "C6", "C7", "C9", "luser", "D1", "D2", "D3"
         };
 		for (String cat : cats)
-			assertContains(VCARD.category, cat);
+			assertContains(VCARD.category, "http://example.com/tag/" + cat);
+
 		assertNotContains(null, VCARD.category, "D4");
 	}
 

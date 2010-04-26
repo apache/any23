@@ -22,14 +22,11 @@ import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.deri.any23.extractor.rdf.RDFHandlerAdapter;
-import org.deri.any23.rdf.Any23ValueFactoryWrapper;
+import org.deri.any23.extractor.rdf.RDFParserFactory;
 import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.rdfxml.RDFXMLParser;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -124,19 +121,8 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         }
 
         try {
-            RDFParser parser = new RDFXMLParser();
-            parser.setDatatypeHandling(
-                    verifyDataType ? RDFParser.DatatypeHandling.VERIFY : RDFParser.DatatypeHandling.IGNORE
-            );
-            parser.setStopAtFirstError(stopAtFirstError);
-            parser.setRDFHandler(new RDFHandlerAdapter(out));           
-            parser.setValueFactory(
-                    new Any23ValueFactoryWrapper(
-                            ValueFactoryImpl.getInstance(),
-                            out,
-                            out.getDocumentContext().getDefaultLanguage()
-                    )
-            );
+            RDFParser parser
+                    = RDFParserFactory.getInstance().getRDFXMLParser(verifyDataType, stopAtFirstError, out);
             parser.parse(
                     new StringReader(buffer.getBuffer().toString()),
                     documentURI.stringValue()

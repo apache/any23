@@ -16,13 +16,12 @@
 
 package org.deri.any23.extractor.html;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.XFN;
+import org.junit.Assert;
+import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
@@ -33,7 +32,7 @@ import org.openrdf.repository.RepositoryException;
  * Reference Test class for the {@link org.deri.any23.extractor.html.XFNExtractor} extractor.
  *
  */
-public class XFNExtractorTest extends AbstractMicroformatTestCase {
+public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     private final static URI bobsHomepage = baseURI;
 

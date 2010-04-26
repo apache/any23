@@ -18,9 +18,10 @@
 package org.deri.any23.extractor;
 
 import junit.framework.Assert;
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.html.TitleExtractor;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class ExtractionResultImplTest {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws TripleHandlerException {
         extractionResult.close();
         mockTripleHandler.close();
         extractor         = null;

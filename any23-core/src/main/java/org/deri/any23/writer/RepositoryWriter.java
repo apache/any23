@@ -42,11 +42,11 @@ public class RepositoryWriter implements TripleHandler {
         this.overrideContext = overrideContext;
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         // ignore
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         // ignore
     }
 
@@ -54,15 +54,18 @@ public class RepositoryWriter implements TripleHandler {
             Resource s,
             URI p,
             Value o,
+            URI g,
           ExtractionContext context
-    ) {
+    ) throws TripleHandlerException {
         try {
             conn.add(
-                conn.getValueFactory().createStatement(s, p, o),
+                conn.getValueFactory().createStatement(s, p, o, g),
                 getContextResource(context.getDocumentURI())
             );
         } catch (RepositoryException ex) {
-            throw new RuntimeException(ex);
+            throw new TripleHandlerException(String.format("Error while receiving triple: %s %s %s", s, p , o),
+                    ex
+            );
         }
     }
 
@@ -70,23 +73,25 @@ public class RepositoryWriter implements TripleHandler {
             String prefix,
             String uri,
             ExtractionContext context
-    ) {
+    ) throws TripleHandlerException {
         try {
             conn.setNamespace(prefix, uri);
         } catch (RepositoryException ex) {
-            throw new RuntimeException(ex);
+            throw new TripleHandlerException(String.format("Error while receiving namespace: %s:%s", prefix, uri),
+                    ex
+            );
         }
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // ignore
     }
 
-    public void close() {
+    public void close()throws TripleHandlerException {
         // ignore
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         // ignore
     }
 

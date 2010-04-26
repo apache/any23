@@ -50,20 +50,22 @@ public class HTMLDocument {
     private Node         document;
     private java.net.URI baseURI;
 
-    private final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+    private final Any23ValueFactoryWrapper valueFactory =
+            new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
     /**
      * Reads a text field from the given node adding the content to the given <i>res</i> list.
-     * 
+     *
      * @param res list to add the content.
      * @param node the node from which read the content.
      */
-    public static void readTextField(List<String> res, Node node) {
+    // TODO: this returns always a size 1 list. Remove the res input parameter.
+    public static void readTextField(List<TextField> res, Node node) {
         final String name = node.getNodeName();
         final NamedNodeMap attributes = node.getAttributes();
         // excess of safety check, should be impossible
         if (null == attributes) {
-            res.add(node.getTextContent());
+            res.add( new TextField( node.getTextContent(), node) );
             return;
         }
         // first check if there are values inside
@@ -72,22 +74,21 @@ public class HTMLDocument {
             String val = "";
             for (Node n : values)
                 val += n.getTextContent();
-            res.add(val.trim());
+            res.add( new TextField( val.trim(), node) );
             return;
         }
         if ("ABBR".equals(name) && (null != attributes.getNamedItem("title"))) {
-            res.add(attributes.getNamedItem("title").getNodeValue());
+            res.add( new TextField(attributes.getNamedItem("title").getNodeValue(), node) );
         } else if ("A".equals(name)) {
             if (DomUtils.hasAttribute(node, "rel", "tag")) {
-
                 String href = extractRelTag(attributes);
-                res.add(href);
+                res.add( new TextField(href, node) );
             } else
-                res.add(node.getTextContent());
+                res.add( new TextField(node.getTextContent(), node) );
         } else if ("IMG".equals(name) || "AREA".equals(name)) {
-            res.add(attributes.getNamedItem("alt").getNodeValue());
+            res.add( new TextField(attributes.getNamedItem("alt").getNodeValue(), node) );
         } else {
-            res.add(node.getTextContent());
+            res.add( new TextField(node.getTextContent(), node) );
         }
     }
 
@@ -97,32 +98,57 @@ public class HTMLDocument {
      * @param res
      * @param node
      */
-    public static void readUrlField(List<String> res, Node node) {
+    public static void readUrlField(List<TextField> res, Node node) {
         String name = node.getNodeName();
         NamedNodeMap attributes = node.getAttributes();
         if (null == attributes) {
-            res.add(node.getTextContent());
+            res.add( new TextField(node.getTextContent(), node) );
             return;
         }
-        if ("A".equals(name) || "AREA".equals(name))
-            res.add(attributes.getNamedItem("href").getNodeValue());
-        else if ("ABBR".equals(name))
-            res.add(attributes.getNamedItem("title").getNodeValue());
-        else if ("IMG".equals(name))
-            res.add(attributes.getNamedItem("src").getNodeValue());
-        else if ("OBJECT".equals(name))
-            res.add(attributes.getNamedItem("data").getNodeValue());
-        else
-            res.add(node.getTextContent().trim());
+        if ("A".equals(name) || "AREA".equals(name)) {
+            Node n = attributes.getNamedItem("href");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else if ("ABBR".equals(name)) {
+            Node n = attributes.getNamedItem("title");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else if ("IMG".equals(name)) {
+            Node n = attributes.getNamedItem("src");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else if ("OBJECT".equals(name)) {
+            Node n = attributes.getNamedItem("data");
+            res.add( new TextField(n.getNodeValue(), n) );
+        } else {
+            res.add( new TextField(node.getTextContent().trim(), node) );
+        }
     }
 
-    private static String extractRelTag(NamedNodeMap attributes) {
-        String[] all = attributes.getNamedItem("href").getNodeValue().split("[#?]");
-        //cleanup spurious segments
+    /**
+     * Extracts the href specific rel-tag string.
+     * See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a> specification.
+     *
+     * @param hrefAttributeContent the content of the <i>href</i> attribute.
+     * @return the rel-tag specification.
+     */
+    public static String extractRelTag(String hrefAttributeContent) {
+        String[] all = hrefAttributeContent.split("[#?]");
+        // Cleanup spurious segments.
         String path = all[0];
-        // get last
-        all = path.split("/");
-        return all[all.length - 1];
+        int pathLenghtMin1 = path.length() - 1;
+        if( '/' == path.charAt(pathLenghtMin1) ) {
+            path = path.substring(0, pathLenghtMin1);
+        }
+        return path;
+    }
+
+    /**
+     * Extracts the href specific rel-tag string.
+     * See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a> specification.
+     *
+     * @param attributes the list of attributes of a node.
+     * @return the rel-tag specification.
+     */
+    public static String extractRelTag(NamedNodeMap attributes) {
+        return extractRelTag(attributes.getNamedItem("href").getNodeValue());
     }
 
     /**
@@ -156,8 +182,13 @@ public class HTMLDocument {
         return DomUtils.findAll(getDocument(), xpath);
     }
 
-    public String findMicroformattedValue(String objectTag, String object, String fieldTag, String field, String key) {
-
+    public String findMicroformattedValue(
+            String objectTag,
+            String object,
+            String fieldTag,
+            String field,
+            String key
+    ) {
         Node node = findMicroformattedObjectNode(objectTag, object);
         if (null == node)
             return "";
@@ -190,10 +221,10 @@ public class HTMLDocument {
      * @return if multiple values are found just the first is returned,
      * if we want to check that there are no n-ary values use plural finder
      */
-    public String getSingularTextField(String className) {
-        String[] res = getPluralTextField(className);
-        if (res.length < 1)
-            return "";
+    public TextField getSingularTextField(String className) {
+        TextField[] res = getPluralTextField(className);
+        if (res.length == 0)
+            return new TextField("", null);
         return res[0];
     }
 
@@ -203,12 +234,12 @@ public class HTMLDocument {
      * @param className name of class node containing text.
      * @return list of fields.
      */
-    public String[] getPluralTextField(String className) {
-        List<String> res = new ArrayList<String>(0);
+    public TextField[] getPluralTextField(String className) {
+        List<TextField> res = new ArrayList<TextField>();
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readTextField(res, node);
-        return res.toArray( new String[res.size()] );
+        return res.toArray( new TextField[res.size()] );
     }
 
     /**
@@ -218,10 +249,10 @@ public class HTMLDocument {
      * @return if multiple values are found just the first is returned,
      *  if we want to check that there are no n-ary values use plural finder
      */
-    public String getSingularUrlField(String className) {
-        String[] res = getPluralUrlField(className);
+    public TextField getSingularUrlField(String className) {
+        TextField[] res = getPluralUrlField(className);
         if (res.length < 1)
-            return "";
+            return new TextField("", null);
         return res[0];
     }
 
@@ -229,14 +260,14 @@ public class HTMLDocument {
      * Returns the list of URLs associated to the fields marked with class <i>className</i>.
      *
      * @param className name of node class containing the URL field.
-     * @return
+     * @return the list of {@link org.deri.any23.extractor.html.HTMLDocument.TextField} found.
      */
-    public String[] getPluralUrlField(String className) {
-        List<String> res = new ArrayList<String>(0);
+    public TextField[] getPluralUrlField(String className) {
+        List<TextField> res = new ArrayList<TextField>();
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readUrlField(res, node);
-        return res.toArray( new String[res.size()] );
+        return res.toArray( new TextField[res.size()] );
     }
 
     public Node findMicroformattedObjectNode(String objectTag, String name) {
@@ -301,6 +332,15 @@ public class HTMLDocument {
         return langAttribute == null ? null : langAttribute.getTextContent();
     }
 
+    /**
+     * Returns the sequence of ancestors from the document root to the local root (document).
+     *
+     * @return a sequence of node names.
+     */
+    public String[] getPathToLocalRoot() {
+        return DomUtils.getXPathListForNode(document);
+    }
+
     private java.net.URI getBaseURI() throws ExtractionException {
         if (baseURI == null) {
             try {
@@ -315,6 +355,28 @@ public class HTMLDocument {
             }
         }
         return baseURI;
+    }
+
+    /**
+     * This class represents a text extracted from the <i>HTML</i> DOM related
+     * to the node from which such test has been retrieved.
+     */
+    public static class TextField {
+        private String value;
+        private Node   source;
+
+        public TextField(String value, Node source) {
+            this.value = value;
+            this.source = source;
+        }
+
+        public String value() {
+            return value;
+        }
+
+        public Node source() {
+            return source;
+        }
     }
 
 }

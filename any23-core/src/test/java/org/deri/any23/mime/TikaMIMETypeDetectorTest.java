@@ -27,7 +27,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.BufferedInputStream;
 
 /**
  * Test case for {@link org.deri.any23.mime.TikaMIMETypeDetector} class.
@@ -44,18 +43,9 @@ public class TikaMIMETypeDetectorTest {
     private final static String RDFXML = "application/rdf+xml";
     private final static String TURTLE = "application/x-turtle";
     private final static String N3     = "text/rdf+n3";
+    private final static String NQuads = "text/rdf+nq";
 
     private TikaMIMETypeDetector detector;
-
-    @Test
-    public void testN3TripleLiteralDetection() throws IOException {
-        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
-    }
-
-    @Test
-    public void testN3TripleDetection() throws IOException {
-        assertN3Detection("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -68,14 +58,53 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
-    public void testDetectByContent() throws IOException {
-        InputStream is = this.getClass().getResourceAsStream("/application/rdfxml/physics.owl");
-        String detectedMimeType = detector.guessMIMEType(
-                null,
-                is instanceof BufferedInputStream ? is : new BufferedInputStream(is),
-                null
-        ).toString();
-        System.err.println(detectedMimeType);
+    public void testN3Detection() throws IOException {
+        assertN3Detection("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
+        assertN3Detection("_:bnode1 <http://foo.com> _:bnode2 .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\" .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"@it .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^<http://xxx.net> .");
+        assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^xsd:integer .");
+
+        // Wrong N3 line '.'
+        assertN3DetectionFail("" +
+                "<http://wrong.example.org/path> <http://wrong.foo.com> . <http://wrong.org/Document/foo#>"
+        );
+        // NQuads is not mislead with N3.
+        assertN3DetectionFail(
+            "<http://example.org/path> <http://foo.com> <http://dom.org/Document/foo#> <http://path/to/graph> ."
+        );
+    }
+
+    @Test
+    public void testNQuadsDetection() throws IOException {
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://foo.com> <http://example.org/Document/foo#> <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "_:bnode1 <http://foo.com> _:bnode2 <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\" <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\"@it <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://dd.cc.org/1.1/p> \"xxx\"^^<http://www.sp.net/a#tt> <http://path.to.graph> ."
+        );
+        assertNQuadsDetection(
+                "<http://www.ex.eu> <http://purlo.org/1.1/title> \"yyy\"^^xsd:datetime <http://path.to.graph> ."
+        );
+
+        // Wrong NQuads line.
+        assertNQuadsDetectionFail(
+                "<http://www.wrong.com> <http://wrong.com/1.1/tt> \"x\"^^<http://xxx.net/int> . <http://path.to.graph>"
+        );
+        // N3 is not mislead with NQuads.
+        assertNQuadsDetectionFail(
+                "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> ."
+        );
     }
 
     /* BEGIN: by content. */
@@ -88,6 +117,16 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testDetectRSS2ByContent() throws Exception {
         detectMIMEtypeByContent("application/rss+xml", "src/test/resources/application/rss2");
+    }
+
+    @Test
+    public void testDetectRDFN3ByContent() throws Exception {
+        detectMIMEtypeByContent("text/n3", "src/test/resources/application/rdfn3");
+    }
+
+    @Test
+    public void testDetectRDFNQuadsByContent() throws Exception {
+        detectMIMEtypeByContent("text/nq", "src/test/resources/application/nquads");
     }
 
     @Test
@@ -125,6 +164,8 @@ public class TikaMIMETypeDetectorTest {
         detectMIMEtypeByContent("application/zip", "src/test/resources/application/zip");
     }
 
+    /* END: by content. */
+
     /* BEGIN: by content metadata. */
 
     @Test
@@ -140,6 +181,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testDetectTextN3ByMeta() throws IOException {
         detectMIMETypeByMetadata(N3, "text/rdf+n3", "foo");
+    }
+
+    @Test
+    public void testDetectTextNQuadsByMeta() throws IOException {
+        detectMIMETypeByMetadata(NQuads, "text/rdf+nq", "foo");
     }
 
     @Test
@@ -191,6 +237,8 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByMetadata(XML, "application/xml", "foo.xhtml");
     }
 
+    /* END: by content metadata. */
+
     /* BEGIN: by content and name. */
 
     @Test
@@ -206,6 +254,16 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testRSS2ByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/rss+xml", "src/test/resources/application/rss2");
+    }
+
+    @Test
+    public void testDetectRDFN3ByContentAndName() throws Exception {
+        detectMIMETypeByContentAndName("text/n3", "src/test/resources/application/rdfn3");
+    }
+
+    @Test
+    public void testDetectRDFNQuadsByContentAndName() throws Exception {
+        detectMIMETypeByContentAndName("text/rdf+nq", "src/test/resources/application/nquads");
     }
 
     @Test
@@ -238,9 +296,26 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/rdfa");
     }
 
+    /* END: by content and name. */
+
     private void assertN3Detection(String n3Exp) throws IOException {
         ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
         Assert.assertTrue( TikaMIMETypeDetector.checkN3Format(bais) );
+    }
+
+    private void assertN3DetectionFail(String n3Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
+        Assert.assertFalse( TikaMIMETypeDetector.checkN3Format(bais) );
+    }
+
+    private void assertNQuadsDetection(String n4Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
+        Assert.assertTrue( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
+    }
+
+    private void assertNQuadsDetectionFail(String n4Exp) throws IOException {
+        ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
+        Assert.assertFalse( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
     }
 
     /**
@@ -292,8 +367,8 @@ public class TikaMIMETypeDetectorTest {
         if (f.exists()) is = getInputStream(f);
 
         String detectedMimeType = detector.guessMIMEType(
-                f.getName(),
-                is,
+                null,
+                null,
                 MIMEType.parse(contentTypeHeader)
         ).toString();
 

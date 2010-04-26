@@ -34,7 +34,10 @@ import org.openrdf.rio.RDFWriter;
 class RDFWriterTripleHandler implements TripleHandler {
 
     private final RDFWriter writer;
+
     private boolean closed = false;
+
+    private ExtractionContext currentContext;
 
     RDFWriterTripleHandler(RDFWriter destination) {
         writer = destination;
@@ -45,46 +48,54 @@ class RDFWriterTripleHandler implements TripleHandler {
         }
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 
-    public void openContext(ExtractionContext context) {
-        // Empty.
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
+        currentContext = context;
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
+        final URI graph = g == null ? currentContext.getDocumentURI() : g;
         try {
             writer.handleStatement(
-                    ValueFactoryImpl.getInstance().createStatement(s, p, o));
+                    ValueFactoryImpl.getInstance().createStatement(s, p, o, graph));
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException(ex);
+            throw new TripleHandlerException(
+                    String.format("Error while receiving triple: %s %s %s %s", s, p, o, graph),
+                    ex
+            );
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         try {
             writer.handleNamespace(prefix, uri);
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException(ex);
+            throw new TripleHandlerException(String.format("Error while receiving namespace: %s:%s", prefix, uri),
+                    ex
+            );
         }
     }
 
-    public void closeContext(ExtractionContext context) {
-        // Empty.
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
+        currentContext = null;
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         if (closed) return;
         closed = true;
         try {
             writer.endRDF();
         } catch (RDFHandlerException e) {
-            throw new RuntimeException(e);
+            throw new TripleHandlerException("Error while closing the triple handler.", e);
         }
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 

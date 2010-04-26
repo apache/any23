@@ -16,11 +16,10 @@
 
 package org.deri.any23.extractor.html;
 
-import org.junit.Test;
-
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.XHTML;
+import org.junit.Test;
 import org.openrdf.model.URI;
 import org.openrdf.repository.RepositoryException;
 
@@ -29,7 +28,7 @@ import org.openrdf.repository.RepositoryException;
  * Reference Test class for the {@link org.deri.any23.extractor.html.LicenseExtractor} extractor.
  *
  */
-public class LicenseExtractorTest extends AbstractMicroformatTestCase {
+public class LicenseExtractorTest extends AbstractExtractorTestCase {
 
     private URI ccBy = RDFHelper.uri("http://creativecommons.org/licenses/by/2.0/");
     

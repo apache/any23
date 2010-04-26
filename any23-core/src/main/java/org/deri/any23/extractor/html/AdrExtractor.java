@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
@@ -58,19 +59,32 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         //try lat & lon
-        final HTMLDocument document = getHTMLDocument();
+        final HTMLDocument document = new HTMLDocument(node);
         BNode adr = getBlankNodeFor(node);
         out.writeTriple(adr, RDF.TYPE, VCARD.Address);
+        final String extractorName = getDescription().getExtractorName();
         for (String field : addressFields) {
-            String[] values = document.getPluralTextField(field);
-            for (String val : values) {
-                conditionallyAddStringProperty(adr, VCARD.getProperty(field), val);
+            HTMLDocument.TextField[] values = document.getPluralTextField(field);
+            for (HTMLDocument.TextField val : values) {
+                conditionallyAddStringProperty(
+                        extractorName,
+                        val.source(),
+                        adr, VCARD.getProperty(field), val.value()
+                );
             }
         }
-        String[] types = document.getPluralTextField("type");
-        for (String val : types) {
-            conditionallyAddStringProperty(adr, VCARD.addressType, val);
+        HTMLDocument.TextField[] types = document.getPluralTextField("type");
+        for (HTMLDocument.TextField val : types) {
+            conditionallyAddStringProperty(
+                    extractorName,
+                    val.source(),
+                    adr, VCARD.addressType, val.value()
+            );
         }
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
+        tser.addResourceRoot( document.getPathToLocalRoot(), adr, extractorName );
+
         return true;
     }
 
@@ -87,4 +101,3 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
                     AdrExtractor.class
             );
 }
-

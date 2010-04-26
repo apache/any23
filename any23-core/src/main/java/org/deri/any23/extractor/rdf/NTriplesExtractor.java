@@ -22,14 +22,10 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.RDFParser.DatatypeHandling;
-import org.openrdf.rio.ntriples.NTriplesParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,11 +89,8 @@ public class NTriplesExtractor implements ContentExtractor {
     public void run(InputStream in, URI documentURI, final ExtractionResult out)
             throws IOException, ExtractionException {
         try {
-            RDFParser parser = new NTriplesParser();
-            parser.setDatatypeHandling( verifyDataType ? DatatypeHandling.VERIFY : DatatypeHandling.IGNORE);
-            parser.setStopAtFirstError(stopAtFirstError);
-            parser.setRDFHandler(new RDFHandlerAdapter(out));
-            parser.setValueFactory( new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out) );
+            RDFParser parser =
+                    RDFParserFactory.getInstance().getNTriplesParser(verifyDataType, stopAtFirstError, out);
             parser.parse(in, documentURI.stringValue());
         } catch (RDFHandlerException ex) {
             throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);

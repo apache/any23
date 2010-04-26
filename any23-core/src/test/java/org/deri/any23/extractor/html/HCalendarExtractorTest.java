@@ -17,9 +17,9 @@
 package org.deri.any23.extractor.html;
 
 import junit.framework.Assert;
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.ICAL;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -39,7 +39,7 @@ import java.io.IOException;
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @version $Id$
  */
-public class HCalendarExtractorTest extends AbstractMicroformatTestCase {
+public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     private final static URI vcal      = ICAL.Vcalendar;
     private final static URI vevent    = ICAL.Vevent;

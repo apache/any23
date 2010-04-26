@@ -20,6 +20,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
@@ -27,6 +28,9 @@ import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 import java.util.Arrays;
+
+import static org.deri.any23.extractor.html.HTMLDocument.TextField;
+
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/geo">Geo</a>
@@ -61,19 +65,34 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         //try lat & lon
-        final HTMLDocument document = getHTMLDocument();
-        String lat = document.getSingularTextField("latitude");
-        String lon = document.getSingularTextField("longitude");
+        final HTMLDocument document = new HTMLDocument(node);
+        HTMLDocument.TextField latNode = document.getSingularTextField("latitude" );
+        TextField lonNode = document.getSingularTextField("longitude");
+        String lat = latNode.value();
+        String lon = lonNode.value();
         if ("".equals(lat) || "".equals(lon)) {
-            String[] both = document.getSingularUrlField("geo").split(";");
+            String[] both = document.getSingularUrlField("geo").value().split(";");
             if (both.length != 2) return false;
             lat = both[0];
             lon = both[1];
         }
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, VCARD.Location);
-        conditionallyAddStringProperty(geo, VCARD.latitude, lat);
-        conditionallyAddStringProperty(geo, VCARD.longitude, lon);
+        final String extractorName = getDescription().getExtractorName();
+        conditionallyAddStringProperty(
+                extractorName,
+                latNode.source(),
+                geo, VCARD.latitude , lat
+        );
+        conditionallyAddStringProperty(
+                extractorName,
+                lonNode.source(),
+                geo, VCARD.longitude, lon
+        );
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
+        tser.addResourceRoot( document.getPathToLocalRoot(), geo, extractorName );
+
         return true;
     }
     

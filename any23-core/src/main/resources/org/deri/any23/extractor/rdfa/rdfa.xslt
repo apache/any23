@@ -138,7 +138,7 @@
           <with-param name="object" select ="." />
           <with-param name="datatype">
           	<choose>
-          	  <when test="@datatype='' or not(@datatype)">http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral</when> <!-- enforcing XML literal -->
+          	  <when test="@datatype='' or not(@datatype)"></when> <!-- enforcing XML literal -->
           	  <otherwise><call-template name="expand-ns"><with-param name="qname" select="@datatype"/></call-template></otherwise>
           	</choose>
           </with-param>
@@ -580,7 +580,7 @@
 	         	<otherwise> <!-- content is in the element and may include some tags -->
 	         	 <!-- On a property element, only one of the attributes rdf:parseType or rdf:datatype is permitted.
 	         	      <attribute name="rdf:datatype"><value-of select="$datatype" /></attribute> -->
-	         	 <attribute name="rdf:parseType"><value-of select="'Literal'" /></attribute>
+	         	 <attribute name="rdf:parseType"><value-of select="'XMLLiteral'" /></attribute>
 				 <for-each select="$object/node()"> 
 					<call-template name="recursive-copy" />
 				 </for-each>
@@ -604,13 +604,12 @@
 	         	<when test="$attrib='true'"> <!-- content is in an attribute -->
 	         	  <value-of select="normalize-space(string($object))" />
 	            </when>
-	         	<otherwise> <!-- content is in the text nodes of the element -->
-	         	 <attribute name="rdf:parseType"><value-of select="'Literal'" /></attribute>
-				 <for-each select="$object/node()"> 
-					<call-template name="recursive-copy" />
-				 </for-each>
-				</otherwise>
-			 </choose> 
+                 <otherwise> <!-- content is in the text nodes of the element -->
+                     <xsl:call-template name="strip-tags">
+                         <xsl:with-param name="text" select="$object"/>
+                     </xsl:call-template>
+                 </otherwise>
+             </choose>
 	        </otherwise>
 	      </choose>
 	      </element>        
@@ -674,8 +673,26 @@
   </template>
 
 
-<!-- ignore the rest of the DOM -->
-<template match="text()|@*|*" mode="rdf2rdfxml"><apply-templates mode="rdf2rdfxml" /></template>
+    <!-- ignore the rest of the DOM -->
+    <template match="text()|@*|*" mode="rdf2rdfxml">
+        <apply-templates mode="rdf2rdfxml"/>
+    </template>
+
+    <!-- strips all the inner XML tags -->
+    <template name="strip-tags">
+        <param name="text"/>
+        <choose>
+            <when test="contains($text, '&lt;')">
+                <value-of select="substring-before($text, '&lt;')"/>
+                <call-template name="strip-tags">
+                    <with-param name="text" select="substring-after($text, '&gt;')"/>
+                </call-template>
+            </when>
+            <otherwise>
+                <value-of select="$text"/>
+            </otherwise>
+        </choose>
+    </template>
 
 
 </stylesheet>

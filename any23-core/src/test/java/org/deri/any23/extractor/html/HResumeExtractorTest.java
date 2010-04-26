@@ -16,8 +16,8 @@
 
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
@@ -38,7 +38,7 @@ import java.util.Set;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class HResumeExtractorTest extends AbstractMicroformatTestCase {
+public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return HResumeExtractor.factory;
@@ -90,9 +90,10 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
         //assertStatementsSize(RDF.TYPE, ICAL.Vcalendar, 2);
         
 
-		assertStatementsSize(DOAC.experience, (Value) null, 7);
-		assertStatementsSize(DOAC.education, (Value) null, 2);
-		assertStatementsSize(DOAC.affiliation, (Value) null, 8);
+		assertStatementsSize(DOAC.experience , (Value) null, 7 );
+		assertStatementsSize(DOAC.education  , (Value) null, 2 );
+		assertStatementsSize(DOAC.affiliation, (Value) null, 8 );
+		assertStatementsSize(DOAC.skill      , (Value) null, 17);
 
         // TODO (low): VCARD Organization triples are not produced by this extractor.
 		//assertStatementsSize(RDF.TYPE, VCARD.Organization, 17);
@@ -146,6 +147,7 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
                 assertContains(card, VCARD.family_name, "Ganz");
                 assertContains(card, VCARD.given_name, "Steve");
                 assertContains(card, VCARD.locality, "San Francisco Bay Area");
+                assertContains(card, DOAC.skill, (Value) null);
             }
 
         } finally {
@@ -183,6 +185,7 @@ public class HResumeExtractorTest extends AbstractMicroformatTestCase {
         assertStatementsSize(DOAC.experience , (Value) null, 16);
         assertStatementsSize(DOAC.education  , (Value) null, 2 );
         assertStatementsSize(DOAC.affiliation, (Value) null, 0 );
+        assertStatementsSize(DOAC.skill      , (Value) null, 4 );
     }
 
 }

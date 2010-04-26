@@ -18,8 +18,9 @@
 package org.deri.any23.extractor;
 
 import org.deri.any23.writer.TripleHandler;
-import org.openrdf.model.URI;
+import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.Resource;
+import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 
 /**
@@ -35,6 +36,11 @@ public class FakeTripleHandler implements TripleHandler {
     }
 
     public void openContext(ExtractionContext context) {
+        // Empty.
+    }
+
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
         // Empty.
     }
 

@@ -16,18 +16,24 @@
 
 package org.deri.any23.extractor.rdfa;
 
-import org.deri.any23.RDFHelper;
-import org.junit.Test;
-
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.extractor.html.AbstractMicroformatTestCase;
+import org.deri.any23.extractor.html.AbstractExtractorTestCase;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DCTERMS;
+import org.deri.any23.vocab.FOAF;
+import org.junit.Test;
+import org.openrdf.model.Literal;
+import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reference Test Class for {@link org.deri.any23.extractor.rdfa.RDFaExtractor}.
  */
-public class RDFaExtractorTest extends AbstractMicroformatTestCase {
+public class RDFaExtractorTest extends AbstractExtractorTestCase {
+
+    Logger logger = LoggerFactory.getLogger(RDFaExtractorTest.class);
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
@@ -47,6 +53,75 @@ public class RDFaExtractorTest extends AbstractMicroformatTestCase {
     // TODO: investigate on this issue. @Test
     public void testTolerantParsing() {
         assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
+    }
+
+    /**
+     * This test checks if the subject of a property modeled as <i>RDFa</i> in a <i>XHTML</i> document
+     * where the subject contains inner <i>XML</i> tags is represented as a plain <i>Literal</i> stripping all
+     * the inner tags.
+     *
+     * For details see the <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a>
+     * recommendation. 
+     *  
+     * @throws RepositoryException
+     */
+    @Test
+    public void testEmptyDatatypeDeclarationWithInnerXMLTags() throws RepositoryException {
+        assertExtracts("html/rdfa/null-datatype-test.html");
+        logger.info(dumpModelToRDFXML());
+
+        assertContains(
+                RDFHelper.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                FOAF.name,
+                RDFHelper.literal("Albert Einstein", "en")
+        );
+
+    }
+
+    /**
+     * This test checks the behavior of the <i>RDFa</i> extraction where the datatype of a property is
+     * explicitly set.
+     *
+     * For details see the <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a>
+     * recommendation.
+     *  
+     * @throws RepositoryException
+     */
+    @Test
+    public void testExplicitDatatypeDeclaration() throws RepositoryException {
+        assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
+        logger.info(dumpModelToTurtle());
+
+        Literal literal = RDFHelper.literal("Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
+                "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +
+                "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</STRONG>\n", RDF.XMLLITERAL);
+
+        assertContains(
+                RDFHelper.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                FOAF.name,
+                literal
+        );
+
+    }
+
+    /**
+     * This test checks if the <i>RDF</i> extraction is compliant to the
+     * <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a> specification against the
+     * <a href="http://files.openspring.net/tmp/drupal-test-frontpage.html">Drupal test page</a>.
+     *
+     * @throws RuntimeException
+     *
+     */
+    @Test
+    public void testDrupalTestPage() throws RepositoryException {
+        assertExtracts("html/rdfa/drupal-test-frontpage.html");
+        logger.info(dumpModelToTurtle());
+        assertContains(
+                RDFHelper.uri("http://bob.example.com/node/3"),
+                DCTERMS.title,
+                RDFHelper.literal("A blog post...", "en")
+        );
+
     }
 
 }

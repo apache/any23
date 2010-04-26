@@ -83,7 +83,8 @@ public class PopularPrefixes {
      * Checks the compliance of the <i>URI</i>.
      *
      * @param stringUri the string of the URI to be checked
-     * @return
+     * @return <code>true</code> if <i> stringUri</i> is a valid URI,
+     *         <code>false</code> otherwise.
      */
     private static boolean testURICompliance(String stringUri) {
         try {

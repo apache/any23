@@ -131,6 +131,9 @@ public class Servlet extends HttpServlet {
         if ("text/rdf+n3".equals(result.getMediaType())) {
             return "n3";
         }
+        if ("text/rdf+nq".equals(result.getMediaType())) {
+            return "nq";
+        }
         if ("application/rdf+xml".equals(result.getMediaType())) {
             return "rdf";
         }
@@ -158,10 +161,10 @@ public class Servlet extends HttpServlet {
         String[] args = request.getPathInfo().split("/", 3);
         if (args.length < 3) {
             if (request.getParameter("uri") != null) {
-                return request.getParameter("uri");
+                return request.getParameter("uri").trim();
             }
             if (request.getParameter("url") != null) {
-                return request.getParameter("url");
+                return request.getParameter("url").trim();
             }
             return null;
         }
@@ -178,7 +181,7 @@ public class Servlet extends HttpServlet {
             // occurs in the path. So we restore the double slash.
             uri = uri.replaceFirst(":/", "://");
         }
-        return uri;
+        return uri.trim();
     }
 
 

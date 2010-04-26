@@ -34,6 +34,7 @@ import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +55,7 @@ import java.util.Collection;
 public class Any23 {
 
     // NOTE: there's also a version string in build.xml and pom.xml, they should match.
-    public static final String VERSION = "0.3.0-dev";
+    public static final String VERSION = "0.3.0";
 
     private final ExtractorGroup factories;
     private LocalCopyFactory streamCache;
@@ -180,7 +181,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(
+    public ExtractionReport extract(
             String in,
             String documentURI,
             String contentType,
@@ -202,7 +203,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(String in, String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(String in, String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(new StringDocumentSource(in, documentURI), outputHandler);
     }
@@ -217,7 +218,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(File file, TripleHandler outputHandler)
+    public ExtractionReport extract(File file, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(new FileDocumentSource(file), outputHandler);
     }
@@ -233,7 +234,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         try {
             if (documentURI.toLowerCase().startsWith("file:")) {
@@ -261,15 +262,23 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(DocumentSource in, TripleHandler outputHandler, String encoding)
+    public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler, String encoding)
     throws IOException, ExtractionException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
         ex.setMIMETypeDetector(mimeTypeDetector);
         ex.setLocalCopyFactory(streamCache);
         ex.setParserEncoding(encoding);
         ex.run();
-        outputHandler.close();
-        return ex.hasMatchingExtractors();
+        try {
+            outputHandler.close();
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException("Error closing the triple handler", e);
+        }
+        return new ExtractionReport(
+                ex.hasMatchingExtractors(),
+                ex.getParserEncoding(),
+                ex.getDetectedMIMEType()
+        );
     }
 
     /**
@@ -283,7 +292,7 @@ public class Any23 {
      * @throws IOException
      * @throws ExtractionException
      */
-    public boolean extract(DocumentSource in, TripleHandler outputHandler)
+    public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         return extract(in, outputHandler, null);
     }

@@ -16,10 +16,10 @@
 
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.writer.RepositoryWriter;
 import org.junit.Assert;
 import org.junit.Before;
@@ -34,24 +34,27 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.rdfxml.RDFXMLWriter;
 import org.openrdf.rio.turtle.TurtleWriter;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.memory.MemoryStore;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Abstract Test Class. All the classes testing a microformat {@link org.deri.any23.extractor.Extractor}
- * extend this one.
+ * Abstract class used to write {@link org.deri.any23.extractor.Extractor} specific
+ * test cases.
  */
-public abstract class AbstractMicroformatTestCase {
+public abstract class AbstractExtractorTestCase {
 
     protected static URI baseURI = RDFHelper.uri("http://bob.example.com/");
 
     protected RepositoryConnection conn;
 
-    public AbstractMicroformatTestCase() {
+    public AbstractExtractorTestCase() {
         super();
     }
 
@@ -87,7 +90,10 @@ public abstract class AbstractMicroformatTestCase {
     }
 
     public void assertContains(Resource subject, URI property, Value object) throws RepositoryException {
-        Assert.assertTrue(getFailedExtractionMessage(), conn.hasStatement(subject, property, object, false));
+        Assert.assertTrue(
+                getFailedExtractionMessage() +
+                        String.format("Cannot find triple (%s %s %s)", subject, property, object), 
+                conn.hasStatement(subject, property, object, false));
     }
 
     public void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {
@@ -124,6 +130,36 @@ public abstract class AbstractMicroformatTestCase {
         }
     }
 
+    public List<Resource> findSubjects(URI p, Value o) throws RepositoryException {
+        RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
+        List<Resource> subjects = new ArrayList<Resource>();
+        try {
+            Statement statement;
+            while( it.hasNext() ) {
+                statement = it.next();
+                subjects.add( statement.getSubject() );
+            }
+        } finally {
+            it.close();
+        }
+        return subjects;
+    }
+
+    public List<Value> findObjects(Resource s, URI p) throws RepositoryException {
+        RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
+        List<Value> objects = new ArrayList<Value>();
+        try {
+            Statement statement;
+            while( it.hasNext() ) {
+                statement = it.next();
+                objects.add( statement.getObject() );
+            }
+        } finally {
+            it.close();
+        }
+        return objects;
+    }
+
     protected void extract(String name) throws ExtractionException, IOException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(
                 new HTMLFixture(name).getOpener(baseURI.toString()),
@@ -132,7 +168,7 @@ public abstract class AbstractMicroformatTestCase {
         ex.run();
     }
 
-    protected String dumpModelToString() throws RepositoryException {
+    protected String dumpModelToTurtle() throws RepositoryException {
         StringWriter w = new StringWriter();
         try {
             conn.export(new TurtleWriter(w));
@@ -142,12 +178,40 @@ public abstract class AbstractMicroformatTestCase {
         }
     }
 
+    protected String dumpModelToRDFXML() throws RepositoryException {
+        StringWriter w = new StringWriter();
+        try {
+            conn.export(new RDFXMLWriter(w));
+            return w.toString();
+        } catch (RDFHandlerException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected String dumpHumanReadableTriples() throws RepositoryException {
+        StringBuilder sb = new StringBuilder();
+        RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
+        while(result.hasNext()) {
+            Statement statement = result.next();
+            sb.append(String.format("%s %s %s %s\n",
+                    statement.getSubject(),
+                    statement.getPredicate(),
+                    statement.getObject(),
+                    statement.getContext()
+                    )
+            );
+            
+        }
+        return sb.toString();
+    }
+
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
         assertContains(s, p, RDFHelper.literal(o));
     }
 
-    protected void assertStatementsSize(URI prop, Value obj, int expected) throws RepositoryException {
-        RepositoryResult<Statement> result = conn.getStatements(null, prop, obj, false);
+    protected int getStatementsSize(Resource subject, URI prop, Value obj)
+    throws RepositoryException {
+        RepositoryResult<Statement> result = conn.getStatements(subject, prop, obj, false);
         int count = 0;
         try {
             while (result.hasNext()) {
@@ -157,7 +221,16 @@ public abstract class AbstractMicroformatTestCase {
         } finally {
             result.close();
         }
-        junit.framework.Assert.assertEquals(expected, count);
+        return count;
+    }
+
+    protected void assertStatementsSize(Resource subject, URI prop, Value obj, int expected)
+    throws RepositoryException {
+        junit.framework.Assert.assertEquals(expected, getStatementsSize(subject, prop, obj) );
+    }
+
+    protected void assertStatementsSize(URI prop, Value obj, int expected) throws RepositoryException {
+        assertStatementsSize(null, prop, obj, expected);
     }
 
     protected void assertStatementsSize(URI prop, String obj, int expected) throws RepositoryException {
@@ -192,7 +265,7 @@ public abstract class AbstractMicroformatTestCase {
     }
 
     private String getFailedExtractionMessage() throws RepositoryException {
-        return "Assertion failed! Extracted triples:\n" + dumpModelToString();
+        return "Assertion failed! Extracted triples:\n" + dumpModelToTurtle();
     }
 
 }

@@ -27,7 +27,12 @@ import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.vocab.DCTERMS;
-import org.deri.any23.writer.*;
+import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.RDFXMLWriter;
+import org.deri.any23.writer.ReportingTripleHandler;
+import org.deri.any23.writer.RepositoryWriter;
+import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -40,8 +45,9 @@ import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.URI;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
@@ -89,7 +95,7 @@ public class Any23Test {
      */
     @Test
     public void testExplicitEncoding()
-    throws ExtractionException, IOException, SailException, RepositoryException {
+            throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
         assertEncodingDetection(
                 "UTF-8",
                 new File("src/test/resources/html/encoding-test.html"),
@@ -107,7 +113,7 @@ public class Any23Test {
      * @throws RepositoryException
      */
     @Test
-    public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException {
+    public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
         assertEncodingDetection(
                 null, // The encoding will be auto detected.
                 new File("src/test/resources/html/encoding-test.html"),
@@ -242,8 +248,12 @@ public class Any23Test {
                 new File("src/test/resources/html/rdfa/ansa_2010-02-26_12645863.html"),
                     "http://host.com/service");
 
-        Assert.assertTrue(any23.extract(source, reporting));
-        handler.close();
+        Assert.assertTrue( any23.extract(source, reporting).hasMatchingExtractors() );
+        try {
+            handler.close();
+        } catch (TripleHandlerException e) {
+            Assert.fail(e.getMessage());
+        }
 
         String bufferContent = byteArrayOutputStream.toString();
         System.out.println(bufferContent);
@@ -261,6 +271,34 @@ public class Any23Test {
         
     }
 
+    /**
+     * This test checks if a URL that is supposed to be GZIPPED is correctly opend and parsed with
+     * the {@link org.deri.any23.Any23} facade.
+     *
+     * @throws IOException
+     * @throws URISyntaxException
+     * @throws ExtractionException
+     */
+    // Deactivated to avoid test dependency on external resources.    
+    //@Test
+    public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
+        Any23 runner = new Any23();
+        runner.setHTTPUserAgent("test-user-agent");
+        HTTPClient httpClient = runner.getHTTPClient();
+        DocumentSource source = new HTTPDocumentSource(
+                httpClient,
+                "http://products.semweb.bestbuy.com/y/products/7590289/"
+        );
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        TripleHandler handler = new NTriplesWriter(out);
+        runner.extract(source, handler);
+        String n3 = out.toString("UTF-8");
+
+        System.out.println("N3 "+ n3);
+        Assert.assertTrue(n3.length() > 0);
+
+    }
+
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
         Any23 any23 = new Any23();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -273,7 +311,7 @@ public class Any23Test {
         );
         Assert.assertTrue(
                 "Detection and extraction failed.",
-                any23.extract(in, "http://host.com/path", outputHandler)
+                any23.extract(in, "http://host.com/path", outputHandler).hasMatchingExtractors()
         );
     }
 
@@ -287,7 +325,7 @@ public class Any23Test {
      * @throws SailException
      */
     private void assertEncodingDetection(String encoding, File input, String expectedContent)
-    throws IOException, ExtractionException, RepositoryException, SailException {
+            throws IOException, ExtractionException, RepositoryException, SailException, TripleHandlerException {
         FileDocumentSource fileDocumentSource;
         Any23 any23;
         RepositoryConnection conn;
@@ -299,7 +337,7 @@ public class Any23Test {
         store.initialize();
         conn = new SailRepository(store).getConnection();
         repositoryWriter = new RepositoryWriter(conn);
-        Assert.assertTrue(any23.extract(fileDocumentSource, repositoryWriter, encoding));
+        Assert.assertTrue( any23.extract(fileDocumentSource, repositoryWriter, encoding).hasMatchingExtractors() );
 
         RepositoryResult<Statement> statements = conn.getStatements(null, DCTERMS.title, null, false);
         try {

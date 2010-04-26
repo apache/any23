@@ -15,10 +15,10 @@
  */
 package org.deri.any23.extractor.html;
 
-import org.deri.any23.RDFHelper;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResultImpl;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.REVIEW;
@@ -51,7 +51,7 @@ import java.util.Map;
  * @see org.deri.any23.extractor.html.HCardExtractor
  * @see org.deri.any23.extractor.html.HReviewExtractor
  */
-public class RDFMergerTest extends AbstractMicroformatTestCase {
+public class RDFMergerTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {

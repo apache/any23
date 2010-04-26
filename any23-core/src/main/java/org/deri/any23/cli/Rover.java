@@ -30,11 +30,12 @@ import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
 import org.deri.any23.writer.LoggingTripleHandler;
+import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.QuadWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
 import org.deri.any23.writer.TurtleWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,7 +125,7 @@ public class Rover {
         } else if (NTRIPLE.equalsIgnoreCase(format)) {
             outputHandler = new NTriplesWriter(System.out);
         } else if (QUAD.equalsIgnoreCase(format)) {
-            outputHandler = new QuadWriter(System.out);
+            outputHandler = new NQuadsWriter(System.out);
         } else {
             outputHandler = new RDFXMLWriter(System.out);
         }
@@ -153,7 +154,7 @@ public class Rover {
         Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
         any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
         try {
-            if (!any23.extract(inputURI, outputHandler)) {
+            if ( ! any23.extract(inputURI, outputHandler).hasMatchingExtractors() ) {
                 System.err.println("No suitable extractors");
                 System.exit(2);
             }
@@ -166,7 +167,13 @@ public class Rover {
             System.err.println(ex.getMessage());
             System.exit(4);
         }
-        outputHandler.close();
+        try {
+            outputHandler.close();
+        } catch (TripleHandlerException e) {
+            logger.debug("Exception in Any23", e);
+            System.err.println(e.getMessage());
+            System.exit(4);
+        }
         if (benchmark != null) {
             System.err.println(benchmark.report());
         }

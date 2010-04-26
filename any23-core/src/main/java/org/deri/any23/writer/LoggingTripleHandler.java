@@ -52,33 +52,35 @@ public class LoggingTripleHandler implements TripleHandler {
         this.destination = destination;
     }
 
-    public void startDocument(URI documentURI) {
+    public void startDocument(URI documentURI) throws TripleHandlerException {
         underlyingHandler.startDocument(documentURI);
         startTime = System.currentTimeMillis();
     }
 
-    public void close() {
+    public void close() throws TripleHandlerException {
         underlyingHandler.close();
         destination.flush();
         destination.close();
     }
 
-    public void closeContext(ExtractionContext context) {
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         underlyingHandler.closeContext(context);
     }
 
-    public void openContext(ExtractionContext context) {
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
         underlyingHandler.openContext(context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, ExtractionContext context) {
-        underlyingHandler.receiveTriple(s, p, o, context);
+    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    throws TripleHandlerException {
+        underlyingHandler.receiveTriple(s, p, o, g, context);
         Integer i = contextTripleMap.get(context.getExtractorName());
         if (i == null) i = 0;
         contextTripleMap.put(context.getExtractorName(), (i + 1));
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 

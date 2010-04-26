@@ -21,6 +21,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.TagSoupExtractionResult;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.REVIEW;
@@ -32,6 +33,9 @@ import org.w3c.dom.Node;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.deri.any23.extractor.html.HTMLDocument.TextField;
+
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hreview">hReview</a>
@@ -66,7 +70,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode rev = getBlankNodeFor(node);
         out.writeTriple(rev, RDF.TYPE, REVIEW.Review);
-        HTMLDocument fragment = new HTMLDocument(node);
+        final HTMLDocument fragment = new HTMLDocument(node);
         addRating(fragment, rev);
         addSummary(fragment, rev);
         addTime(fragment, rev);
@@ -74,60 +78,100 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         addDescription(fragment, rev);
         addItem(fragment, rev);
         addReviewer(fragment, rev);
+
+        final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
+        tser.addResourceRoot(
+                DomUtils.getXPathListForNode(node),
+                rev,
+                getDescription().getExtractorName()
+        );
+
         return true;
     }
 
-
     private void addType(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("type");
-        conditionallyAddStringProperty(rev, REVIEW.type, value);
+        TextField value = doc.getSingularTextField("type");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                value.source(),
+                rev, REVIEW.type, value.value()
+        );
     }
 
     private void addReviewer(HTMLDocument doc, Resource rev) {
         List<Node> nodes = doc.findAllByClassName("reviewer");
-        if (nodes.size() > 0)
-            addBNodeProperty(rev, REVIEW.reviewer, getBlankNodeFor(nodes.get(0)));
+        if (nodes.size() > 0) {
+            Node node0 = nodes.get(0);
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node0,
+                    rev, REVIEW.reviewer, getBlankNodeFor(node0)
+            );
+        }
     }
 
     private void addItem(HTMLDocument root, BNode rev) throws ExtractionException {
         List<Node> nodes = root.findAllByClassName("item");
         for (Node node : nodes) {
             Resource item = findDummy(new HTMLDocument(node));
-            addBNodeProperty(item, REVIEW.hasReview, rev);
+            addBNodeProperty(
+                    getDescription().getExtractorName(),
+                    node,
+                    item, REVIEW.hasReview, rev
+            );
         }
     }
 
     private Resource findDummy(HTMLDocument item) throws ExtractionException {
         Resource blank = getBlankNodeFor(item.getDocument());
-        String val = item.getSingularTextField("fn");
-        conditionallyAddStringProperty(blank, VCARD.fn, val);
-        val = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(val));
-        String pics[] = item.getPluralUrlField("photo");
-        for (String pic : pics) {
-            addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic));
+        TextField val = item.getSingularTextField("fn");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                val.source(),
+                blank, VCARD.fn, val.value()
+        );
+        final TextField url = item.getSingularUrlField("url");
+        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(url.value()));
+        TextField pics[] = item.getPluralUrlField("photo");
+        for (TextField pic : pics) {
+            addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic.value()));
         }
         return blank;
     }
 
     private void addRating(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("rating");
-        conditionallyAddStringProperty(rev, REVIEW.rating, value);
+        HTMLDocument.TextField value = doc.getSingularTextField("rating");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                value.source(), rev, REVIEW.rating, value.value()
+        );
     }
 
     private void addSummary(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(rev, REVIEW.title, value);
+        TextField value = doc.getSingularTextField("summary");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                value.source(),
+                rev, REVIEW.title, value.value()
+        );
     }
 
     private void addTime(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("dtreviewed");
-        conditionallyAddStringProperty(rev, DCTERMS.date, value);
+        TextField value = doc.getSingularTextField("dtreviewed");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                value.source(),
+                rev, DCTERMS.date, value.value()
+        );
     }
 
     private void addDescription(HTMLDocument doc, Resource rev) {
-        String value = doc.getSingularTextField("description");
-        conditionallyAddStringProperty(rev, REVIEW.text, value);
+        TextField value = doc.getSingularTextField("description");
+        conditionallyAddStringProperty(
+                getDescription().getExtractorName(),
+                value.source(),
+                rev, REVIEW.text, value.value()
+        );
     }
 
 }

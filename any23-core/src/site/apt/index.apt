@@ -6,7 +6,7 @@ Introduction
 
      * {{{http://www.w3.org/TR/xhtml-rdfa-primer/}RDFa}}
 
-     * {{{http://microformats.org/}Microformats}}: Adr, Geo, hCalendar, hCard, hListing, hResume, hReview, License and XFN
+     * {{{http://microformats.org/}Microformats}}: Adr, Geo, hCalendar, hCard, hListing, hResume, hReview, License, XFN and Species
 
     <<Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/any23-core/LICENSE.txt}Apache License}}.
 

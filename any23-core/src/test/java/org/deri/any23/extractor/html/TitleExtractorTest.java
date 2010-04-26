@@ -16,12 +16,11 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.util.RDFHelper;
+import org.deri.any23.vocab.DCTERMS;
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.deri.any23.RDFHelper;
-import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.vocab.DCTERMS;
 import org.openrdf.model.Literal;
 import org.openrdf.repository.RepositoryException;
 
@@ -29,7 +28,7 @@ import org.openrdf.repository.RepositoryException;
  * Reference Test class for the {@link org.deri.any23.extractor.html.TitleExtractor} extractor.
  * 
  */
-public class TitleExtractorTest extends AbstractMicroformatTestCase {
+public class TitleExtractorTest extends AbstractExtractorTestCase {
     private Literal helloLiteral = RDFHelper.literal("Hello World!");
 
     protected ExtractorFactory<?> getExtractorFactory() {
@@ -72,7 +71,11 @@ public class TitleExtractorTest extends AbstractMicroformatTestCase {
                 conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", "en"), false)
         );
         Assert.assertFalse(
-                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", null), false)
+                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal(
+                        "Welcome to mydomain.net",
+                        (String) null),
+                        false
+                )
         );
     }
     

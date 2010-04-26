@@ -16,8 +16,8 @@
 
 package org.deri.any23.extractor.html;
 
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test class to ensure behaviors of {@link org.deri.any23.extractor.html.HTMLDocument} parser with encoding
