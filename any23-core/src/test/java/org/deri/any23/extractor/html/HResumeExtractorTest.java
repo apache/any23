@@ -86,7 +86,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
         Assert.assertFalse(conn.isEmpty());
 
         assertStatementsSize(RDF.TYPE, FOAF.Person, 1);
-		// TODO (low): ICAL triples are not produced by this extractor. This is the reason why this assert fails.
+		// TODO #18 - ICAL triples are not produced by this extractor. This is the reason why this assert fails.
         //assertStatementsSize(RDF.TYPE, ICAL.Vcalendar, 2);
         
 
@@ -95,7 +95,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
 		assertStatementsSize(DOAC.affiliation, (Value) null, 8 );
 		assertStatementsSize(DOAC.skill      , (Value) null, 17);
 
-        // TODO (low): VCARD Organization triples are not produced by this extractor.
+        // TODO #18 - VCARD Organization triples are not produced by this extractor.
 		//assertStatementsSize(RDF.TYPE, VCARD.Organization, 17);
 
         RepositoryResult<Statement> statements = conn.getStatements(null, DOAC.organization, null, false);

@@ -60,7 +60,7 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
-    //TODO: define final prop URI and put under conf.
+    //TODO Define final prop URI and put under conf.
     public static final URI DOMAIN_PROPERTY   = new URIImpl("http://vocab.sindice.net/domain" );
     public static final URI NESTING_PROPERTY  = new URIImpl("http://vocab.sindice.net/nesting");
     public static final URI NESTING_ORIGINAL_PROPERTY   = new URIImpl("http://vocab.sindice.net/nesting_original");

@@ -54,7 +54,6 @@
             <match value="&lt;!--" type="string" offset="0"/>
             <match value="0xFFFE3C003F0078006D006C00" type="string" offset="0"/>
             <match value="0xFEFF003C003F0078006D006C" type="string" offset="0"/>
-            <!-- TODO: Add matches for the other possible XML encoding schemes -->
         </magic>
         <glob pattern="*.xml"/>
         <glob pattern="*.xsl"/>

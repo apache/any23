@@ -59,7 +59,7 @@ public class HTMLDocument {
      * @param res list to add the content.
      * @param node the node from which read the content.
      */
-    // TODO: this returns always a size 1 list. Remove the res input parameter.
+    // TODO #15 - This returns always a size 1 list. Remove the res input parameter.
     public static void readTextField(List<TextField> res, Node node) {
         final String name = node.getNodeName();
         final NamedNodeMap attributes = node.getAttributes();

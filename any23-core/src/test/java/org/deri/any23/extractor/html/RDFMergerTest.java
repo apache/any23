@@ -304,7 +304,6 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 assertContains(review, REVIEW.rating, "5");
                 assertContains(review, REVIEW.title, "Crepes on Cole is awesome");
 			    assertContains(review, DCTERMS.date, "20050418T2300-0700");
-                // TODO keep html
 			    assertContains(
 					REVIEW.text,
 					"Crepes on Cole is one of the best little \n"

@@ -37,7 +37,7 @@ import java.io.IOException;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-// TODO: solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
+// TODO #20 - Solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
 public class SingleDocumentExtractionTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SingleDocumentExtractionTest.class);
