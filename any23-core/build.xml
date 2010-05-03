@@ -3,7 +3,7 @@
 
 	<property name="name" value="any23"/>
     <!-- NOTE, there's also a version string in Any23.java, they should match! -->
-	<property name="version" value="0.3.0"/>
+	<property name="version" value="0.4.0-dev"/>
 	<property name="project.package" value="com.google.code.any23"/>
 	<property name="src" value="src/main/java"/>
 	<property name="src.resources" value="src/main/resources"/>
