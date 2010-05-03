@@ -31,11 +31,11 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.util.RDFHelper;
+import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,11 +60,13 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
-    //TODO Define final prop URI and put under conf.
-    public static final URI DOMAIN_PROPERTY   = new URIImpl("http://vocab.sindice.net/domain" );
-    public static final URI NESTING_PROPERTY  = new URIImpl("http://vocab.sindice.net/nesting");
-    public static final URI NESTING_ORIGINAL_PROPERTY   = new URIImpl("http://vocab.sindice.net/nesting_original");
-    public static final URI NESTING_STRUCTURED_PROPERTY = new URIImpl("http://vocab.sindice.net/nesting_structured");
+    private static final String DOMAIN = "domain";
+
+    private static final String NESTING = "nesting";
+
+    private static final String NESTING_ORIGINAL = "nesting_original";
+
+    private static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
@@ -407,7 +409,7 @@ public class SingleDocumentExtraction {
             for( ResourceRoot resourceRoot : resourceRoots ) {
                 output.receiveTriple(
                         resourceRoot.getRoot(),
-                        DOMAIN_PROPERTY,
+                        SINDICE.getProperty(DOMAIN),
                         ValueFactoryImpl.getInstance().createLiteral(domain),
                         null,
                         context
@@ -455,17 +457,17 @@ public class SingleDocumentExtraction {
         final BNode fromObject = from.getObject();
         final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
         BNode bnode = RDFHelper.getBNode(bNodeHash);
-        th.receiveTriple(bnode, NESTING_ORIGINAL_PROPERTY   , from.getProperty(), null, ec );
+        th.receiveTriple(bnode, SINDICE.getProperty(NESTING_ORIGINAL), from.getProperty(), null, ec );
         th.receiveTriple(
                 bnode,
-                NESTING_STRUCTURED_PROPERTY,
+                SINDICE.getProperty(NESTING_STRUCTURED_PROPERTY),
                 from.getObject() == null ? to.getRoot() : from.getObject(),
                 null,
                 ec
         );
         th.receiveTriple(
                 from.getSubject(),
-                NESTING_PROPERTY,
+                SINDICE.getProperty(NESTING),
                 bnode,
                 null,
                 ec

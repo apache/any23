@@ -4,6 +4,7 @@ import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.mime.TikaMIMETypeDetector;
 import org.deri.any23.vocab.ICAL;
 import org.deri.any23.vocab.REVIEW;
+import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.VCARD;
 import org.deri.any23.writer.CompositeTripleHandler;
 import org.deri.any23.writer.RDFXMLWriter;
@@ -39,6 +40,14 @@ import java.io.IOException;
  */
 // TODO #20 - Solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
 public class SingleDocumentExtractionTest {
+
+    private static final String DOMAIN = "domain";
+
+    private static final String NESTING = "nesting";
+
+    private static final String NESTING_ORIGINAL = "nesting_original";
+
+    private static final String NESTING_STRUCTURED = "nesting_structured";
 
     private static final Logger logger = LoggerFactory.getLogger(SingleDocumentExtractionTest.class);
 
@@ -90,7 +99,7 @@ public class SingleDocumentExtractionTest {
         singleDocumentExtraction = getInstance("microformats/microformat-domains.html");
         singleDocumentExtraction.run();
         logStorageContent();
-        assertTripleCount(SingleDocumentExtraction.DOMAIN_PROPERTY, "nested.test.com", 1);
+        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 1);
     }
 
     /**
@@ -113,10 +122,10 @@ public class SingleDocumentExtractionTest {
 
         logStorageContent();
 
-        assertTripleCount(SingleDocumentExtraction.DOMAIN_PROPERTY, "nested.test.com", 2);
-        assertTriple(SingleDocumentExtraction.NESTING_PROPERTY, (Value) null);
-        assertTriple(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , ICAL.summary);
-        assertTriple(SingleDocumentExtraction.NESTING_STRUCTURED_PROPERTY, (Value) null);
+        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 2);
+        assertTriple(SINDICE.getProperty(NESTING), (Value) null);
+        assertTriple(SINDICE.getProperty(NESTING_ORIGINAL)  , ICAL.summary);
+        assertTriple(SINDICE.getProperty(NESTING_STRUCTURED), (Value) null);
     }
 
     /**
@@ -142,10 +151,10 @@ public class SingleDocumentExtractionTest {
 
         logStorageContent();
 
-        assertTripleCount(SingleDocumentExtraction.DOMAIN_PROPERTY, "nested.test.com", 2);
-        assertTriple(SingleDocumentExtraction.NESTING_PROPERTY, (Value) null);
-        assertTriple(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , ICAL.summary);
-        assertTriple(SingleDocumentExtraction.NESTING_STRUCTURED_PROPERTY, (Value) null);
+        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 2);
+        assertTriple(SINDICE.getProperty(NESTING), (Value) null);
+        assertTriple(SINDICE.getProperty(NESTING_ORIGINAL), ICAL.summary);
+        assertTriple(SINDICE.getProperty(NESTING_STRUCTURED), (Value) null);
     }
 
     /**
@@ -169,14 +178,14 @@ public class SingleDocumentExtractionTest {
 
         logStorageContent();
 
-        assertTripleCount(SingleDocumentExtraction.DOMAIN_PROPERTY, "nested.test.com", 3);
-        assertTripleCount(SingleDocumentExtraction.NESTING_PROPERTY, (Value) null, 3);
-        assertTripleCount(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , REVIEW.hasReview, 1);
+        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 3);
+        assertTripleCount(SINDICE.getProperty(NESTING), (Value) null, 3);
+        assertTripleCount(SINDICE.getProperty(NESTING_ORIGINAL), REVIEW.hasReview, 1);
 
         assertTripleCount(VCARD.url, (Value) null, 1);
         Value object = getTripleObject(null, REVIEW.hasReview);
-        assertTripleCount(SingleDocumentExtraction.NESTING_STRUCTURED_PROPERTY, object          , 1);
-        assertTripleCount(SingleDocumentExtraction.NESTING_ORIGINAL_PROPERTY  , REVIEW.hasReview, 1);
+        assertTripleCount(SINDICE.getProperty(NESTING_STRUCTURED), object          , 1);
+        assertTripleCount(SINDICE.getProperty(NESTING_ORIGINAL)  , REVIEW.hasReview, 1);
     }
 
     private SingleDocumentExtraction getInstance(String file) {
