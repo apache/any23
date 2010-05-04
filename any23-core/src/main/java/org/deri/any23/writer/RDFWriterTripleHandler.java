@@ -58,7 +58,7 @@ class RDFWriterTripleHandler implements TripleHandler {
 
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
-        final URI graph = g == null ? currentContext.getDocumentURI() : g;
+        final URI graph = g == null ? context.getDocumentURI() : g;
         try {
             writer.handleStatement(
                     ValueFactoryImpl.getInstance().createStatement(s, p, o, graph));
