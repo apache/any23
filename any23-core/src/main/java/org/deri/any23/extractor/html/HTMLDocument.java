@@ -56,17 +56,16 @@ public class HTMLDocument {
     /**
      * Reads a text field from the given node adding the content to the given <i>res</i> list.
      *
-     * @param res list to add the content.
      * @param node the node from which read the content.
+     * @return a valid TextField
      */
-    // TODO #15 - This returns always a size 1 list. Remove the res input parameter.
-    public static void readTextField(List<TextField> res, Node node) {
+    public static TextField readTextField(Node node) {
+        TextField result;
         final String name = node.getNodeName();
         final NamedNodeMap attributes = node.getAttributes();
         // excess of safety check, should be impossible
-        if (null == attributes) {
-            res.add( new TextField( node.getTextContent(), node) );
-            return;
+        if (attributes == null ) {
+            return new TextField( node.getTextContent(), node);
         }
         // first check if there are values inside
         List<Node> values = DomUtils.findAllByClassName(node, "value");
@@ -74,23 +73,24 @@ public class HTMLDocument {
             String val = "";
             for (Node n : values)
                 val += n.getTextContent();
-            res.add( new TextField( val.trim(), node) );
-            return;
+            return new TextField( val.trim(), node);
         }
         if ("ABBR".equals(name) && (null != attributes.getNamedItem("title"))) {
-            res.add( new TextField(attributes.getNamedItem("title").getNodeValue(), node) );
+            result = new TextField(attributes.getNamedItem("title").getNodeValue(), node);
         } else if ("A".equals(name)) {
             if (DomUtils.hasAttribute(node, "rel", "tag")) {
                 String href = extractRelTag(attributes);
-                res.add( new TextField(href, node) );
+                result = new TextField(href, node);
             } else
-                res.add( new TextField(node.getTextContent(), node) );
+                result = new TextField(node.getTextContent(), node);
         } else if ("IMG".equals(name) || "AREA".equals(name)) {
-            res.add( new TextField(attributes.getNamedItem("alt").getNodeValue(), node) );
+            result = new TextField(attributes.getNamedItem("alt").getNodeValue(), node);
         } else {
-            res.add( new TextField(node.getTextContent(), node) );
+            result = new TextField(node.getTextContent(), node);
         }
+        return result;
     }
+
 
     /**
      * Reads an URL field from the given node adding the content to the given <i>res</i> list.
@@ -237,8 +237,9 @@ public class HTMLDocument {
     public TextField[] getPluralTextField(String className) {
         List<TextField> res = new ArrayList<TextField>();
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
-        for (Node node : nodes)
-            readTextField(res, node);
+        for (Node node : nodes) {
+            res.add( readTextField(node) );
+        }
         return res.toArray( new TextField[res.size()] );
     }
 
