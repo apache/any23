@@ -17,7 +17,6 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DOAC;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
@@ -123,30 +122,8 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
             Assert.assertTrue(checkSet.contains(name));
 
 		Resource person = findExactlyOneBlankSubject(RDF.TYPE, FOAF.Person);
-
         assertContains(person, FOAF.isPrimaryTopicOf, (Value) null);
-
-        RepositoryResult<Statement> personStatements = conn.getStatements(null, FOAF.isPrimaryTopicOf, person, false);
-
-        try {
-
-            while(personStatements.hasNext()) {
-                Resource card = personStatements.next().getSubject();
-                System.out.println(card.stringValue());
-                assertContains(card, RDF.TYPE, VCARD.VCard);
-                assertContains(card, VCARD.fn, (Value) null);
-                assertContains(card, VCARD.fn, "Steve Ganz");
-                assertContains(card, VCARD.url, RDFHelper.uri("http://steve.ganz.name/"));
-                assertContains(card, VCARD.title, "Principal Web Developer at LinkedIn");
-                assertContains(card, VCARD.family_name, "Ganz");
-                assertContains(card, VCARD.given_name, "Steve");
-                assertContains(card, VCARD.locality, "San Francisco Bay Area");
-                assertContains(card, DOAC.skill, (Value) null);
-            }
-
-        } finally {
-            personStatements.close();
-        }
+        findExactlyOneObject(person, FOAF.isPrimaryTopicOf);
     }
 
     @Test

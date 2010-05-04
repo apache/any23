@@ -130,6 +130,16 @@ public abstract class AbstractExtractorTestCase {
         }
     }
 
+    public Value findExactlyOneObject(Resource s, URI p) throws RepositoryException {
+        RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
+        try {
+            Assert.assertTrue(getFailedExtractionMessage(), it.hasNext());
+            return it.next().getObject();
+        } finally {
+            it.close();
+        }
+    }
+
     public List<Resource> findSubjects(URI p, Value o) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
         List<Resource> subjects = new ArrayList<Resource>();
