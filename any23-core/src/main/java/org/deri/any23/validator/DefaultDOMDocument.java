@@ -39,7 +39,7 @@ public class DefaultDOMDocument implements DOMDocument {
     }
 
     public Document getOriginalDocument() {
-        return document; 
+        return document;
     }
 
     public List<Node> getNodes(String xPath) {
