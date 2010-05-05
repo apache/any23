@@ -4,7 +4,6 @@ import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
-import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.VCARD;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -21,24 +20,11 @@ import java.util.List;
 /**
  * {@link org.deri.any23.extractor.html.HCardExtractor} test case.
  */
-//TODO #17 - Reactivate commented tests.
 public class HCardExtractorTest extends AbstractExtractorTestCase {
 
-     protected ExtractorFactory<?> getExtractorFactory() {
+    protected ExtractorFactory<?> getExtractorFactory() {
         return HCardExtractor.factory;
     }
-
-    // @Test
-	public void testInferredPerson() throws RepositoryException {
-		assertExtracts("microformats/hcard/23-abbr-title-everything.html");
-		assertDefaultVCard();
-		assertStatementsSize(FOAF.topic, (Value) null, 1);
-		Resource card = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false).next().getSubject();
-        Resource person =  findObjectAsResource(card, FOAF.topic);
-
-		Assert.assertEquals( findObjectAsLiteral(person, FOAF.name), findObjectAsLiteral(card, VCARD.fn) );
-		Assert.assertEquals( findObjectAsLiteral(person, FOAF.name), findObjectAsLiteral(card, VCARD.fn) );
-	}
 
     @Test
 	public void testEMailNotUriReal() throws RepositoryException {
@@ -526,7 +512,6 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		List<String> NAMES = Arrays.asList(ns);
 		assertExtracts("microformats/hcard/03-implied-n.html");
 		assertModelNotEmpty();
-        // assertContains( VCARD.organization_name, "Technorati");
 
         RepositoryResult<Statement> statements = conn.getStatements(null, VCARD.fn, null, false);
         Resource vcard;
@@ -793,7 +778,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(VCARD.bday, "2000-01-01T00:00:00-0800");
 	}
 
-    // @Test
+    @Test
     public void testArea() throws RepositoryException {
         assertExtracts("microformats/hcard/33-area.html");
         assertModelNotEmpty();

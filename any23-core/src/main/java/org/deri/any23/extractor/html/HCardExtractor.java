@@ -375,9 +375,13 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         String nodeText = doc.getText();
         if(nodeText != null) {
             name.setOrganization( new HTMLDocument.TextField(nodeText, node) );
-        } else {
-            name.setOrganization(doc.getSingularTextField("organization-name"));
         }
+        nodeText = doc.getSingularTextField("organization-name").value();
+        if(nodeText == null || "".equals(nodeText) ) {
+            nodeText = HTMLDocument.readTextField(node).value();
+        }
+        name.setOrganization( new TextField(nodeText, node) );
+
         name.setOrganizationUnit(doc.getSingularTextField("organization-unit"));
     }
 
