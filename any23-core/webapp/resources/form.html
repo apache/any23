@@ -40,6 +40,7 @@ function init() {
           <option value="rdfxml">rdfxml</option>
         </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
       </code>
+      <input type="checkbox" value="false" name="fix">Fix</input>
       <input type="submit" value="Convert" />
     </form>
     <hr />
@@ -64,15 +65,17 @@ function init() {
           <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
         </select>
+        <input type="checkbox" value="false" name="fix">Fix</input>
         <input type="submit" value="Convert" /><br />
         <textarea name="body" rows="12" cols="80">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
-
+      
 [] a foaf:Person;
     foaf:name "John X. Foobar";
     foaf:mbox_sha1sum "cef817456278b70cee8e5a1611539ef9d928810e";
     .</textarea>
       </p>
 
+    </form>
     <hr />
 
     <h2>API quick reference</h2>

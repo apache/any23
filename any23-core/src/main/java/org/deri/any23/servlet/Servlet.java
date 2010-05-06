@@ -16,6 +16,7 @@
 
 package org.deri.any23.servlet;
 
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.http.HTTPClient;
 import org.deri.any23.servlet.conneg.Any23Negotiator;
 import org.deri.any23.servlet.conneg.MediaRangeSpec;
@@ -74,7 +75,8 @@ public class Servlet extends HttpServlet {
             responder.sendError(404, "Missing URI in GET request. Try /format/http://example.com/myfile");
             return;
         }
-        responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
+        final ExtractionParameters eps = getExtractionParameters(req);
+        responder.runExtraction(createHTTPDocumentSource(responder, uri), eps, format);
     }
 
     @Override
@@ -90,10 +92,11 @@ public class Servlet extends HttpServlet {
             responder.sendError(406, "Client accept header does not include a supported output format");
             return;
         }
+        final ExtractionParameters eps = getExtractionParameters(req);
         if ("application/x-www-form-urlencoded".equals(getContentTypeHeader(req))) {
             if (uri != null) {
                 log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
-                responder.runExtraction(createHTTPDocumentSource(responder, uri), format);
+                responder.runExtraction(createHTTPDocumentSource(responder, uri), eps, format);
                 return;
             }
             if (req.getParameter("body") == null) {
@@ -107,13 +110,21 @@ public class Servlet extends HttpServlet {
             log("Attempting conversion to '" + format + "' from body parameter");
             responder.runExtraction(
                     new StringDocumentSource(req.getParameter("body"), Servlet.DEFAULT_BASE_URI, type),
-                    format);
+                    eps,
+                    format
+            );
             return;
         }
         log("Attempting conversion to '" + format + "' from POST body");
         responder.runExtraction(
-                new ByteArrayDocumentSource(req.getInputStream(), Servlet.DEFAULT_BASE_URI, getContentTypeHeader(req)),
-                format);
+                new ByteArrayDocumentSource(
+                        req.getInputStream(),
+                        Servlet.DEFAULT_BASE_URI,
+                        getContentTypeHeader(req)
+                ),
+                eps,
+                format
+        );
     }
 
     private String getFormatFromRequestOrNegotiation(HttpServletRequest request) {
@@ -233,6 +244,11 @@ public class Servlet extends HttpServlet {
             return false;
         }
         return true;
+    }
+
+    private ExtractionParameters getExtractionParameters(HttpServletRequest request) {
+        final boolean fix = request.getParameter("fix") != null;
+        return new ExtractionParameters(fix, fix);
     }
     
 }

@@ -26,6 +26,7 @@ import org.apache.commons.cli.PosixParser;
 import org.deri.any23.Any23;
 import org.deri.any23.LogUtil;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
@@ -80,6 +81,7 @@ public class Rover {
         );
         options.addOption(new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle"));
         options.addOption(new Option("o", "output", true, "ouput file (defaults to stdout)"));
+        options.addOption(new Option("p", "pedantic", false, "validates and fixes HTML content detecting commons issues"));
         options.addOption(new Option("t", "notrivial", false, "filter trivial statements"));
         options.addOption(new Option("s", "stats", false, "print out statistics of Any23"));
         options.addOption(new Option("l", "log", true, "logging, please specify a file"));
@@ -150,11 +152,18 @@ public class Rover {
             outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
         }
 
+        final ExtractionParameters eps =
+                cmd.hasOption('p')
+                        ?
+                new ExtractionParameters(true, true)
+                        :
+                new ExtractionParameters(false, false); 
+
         long start = System.currentTimeMillis();
         Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
         any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
         try {
-            if ( ! any23.extract(inputURI, outputHandler).hasMatchingExtractors() ) {
+            if ( ! any23.extract(eps, inputURI, outputHandler).hasMatchingExtractors() ) {
                 System.err.println("No suitable extractors");
                 System.exit(2);
             }

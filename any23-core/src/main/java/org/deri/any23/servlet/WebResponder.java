@@ -19,6 +19,7 @@ package org.deri.any23.servlet;
 import org.deri.any23.Any23;
 import org.deri.any23.ExtractionReport;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.writer.FormatWriter;
@@ -93,12 +94,13 @@ class WebResponder {
         response.getWriter().println(message);
     }
 
-    public void runExtraction(DocumentSource in, String format) throws IOException {
+    public void runExtraction(DocumentSource in, ExtractionParameters eps, String format)
+    throws IOException {
         if (in == null) return;
         if (!initRdfWriter(format)) return;
         final ExtractionReport er;
         try {
-            er = runner.extract(in, rdfWriter);
+            er = runner.extract(eps, in, rdfWriter);
             if (! er.hasMatchingExtractors() ) {
                 sendError(415, "No suitable extractor found for this media type");
                 return;

@@ -17,6 +17,7 @@
 package org.deri.any23;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
 import org.deri.any23.extractor.ExtractorRegistry;
@@ -167,6 +168,47 @@ public class Any23 {
     }
 
     /**
+     * Performs metadata extraction from the content of the given
+     * <code>in</code> document source, sending the generated events
+     * to the specified <code>outputHandler</code>.
+     *
+     * @param eps the extraction parameters to be applied.
+     * @param in the input document source.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param encoding explicit encoding see
+     *        <a href="http://www.iana.org/assignments/character-sets">available encodings</a>.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    public ExtractionReport extract(
+            ExtractionParameters eps,
+            DocumentSource in,
+            TripleHandler outputHandler,
+            String encoding
+    ) throws IOException, ExtractionException {
+        SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
+        ex.setMIMETypeDetector(mimeTypeDetector);
+        ex.setLocalCopyFactory(streamCache);
+        ex.setParserEncoding(encoding);
+        if(eps == null) {
+            ex.run();
+        } else {
+            ex.run(eps);
+        }
+        try {
+            outputHandler.close();
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException("Error closing the triple handler", e);
+        }
+        return new ExtractionReport(
+                ex.hasMatchingExtractors(),
+                ex.getParserEncoding(),
+                ex.getDetectedMIMEType()
+        );
+    }
+
+    /**
      * Performs metadata extraction on the <code>in</code> string
      * associated to the <code>documentURI</code> URI, declaring
      * <code>contentType</code> and <code>encoding</code>.
@@ -228,20 +270,21 @@ public class Any23 {
      * sending the generated events to the specified <code>outputHandler</code>.
      * If the <i>URI</i> is replied with a redirect, the last will be followed.
      *
+     * @param eps the parameters to be applied to the extraction.
      * @param documentURI the URI from which retrieve document.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
      * @throws IOException
      * @throws ExtractionException
      */
-    public ExtractionReport extract(String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(ExtractionParameters eps, String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         try {
             if (documentURI.toLowerCase().startsWith("file:")) {
-                return extract(new FileDocumentSource(new File(new URI(documentURI))), outputHandler);
+                return extract(eps, new FileDocumentSource(new File(new URI(documentURI))), outputHandler);
             }
             if (documentURI.toLowerCase().startsWith("http:") || documentURI.toLowerCase().startsWith("https:")) {
-                return extract(new HTTPDocumentSource(getHTTPClient(), documentURI), outputHandler);
+                return extract(eps, new HTTPDocumentSource(getHTTPClient(), documentURI), outputHandler);
             }
             throw new ExtractionException("Not a valid absolute URI: " + documentURI);
         } catch (URISyntaxException ex) {
@@ -250,9 +293,25 @@ public class Any23 {
     }
 
     /**
+     * Performs metadata extraction from the content of the given <code>documentURI</code>
+     * sending the generated events to the specified <code>outputHandler</code>.
+     * If the <i>URI</i> is replied with a redirect, the last will be followed.
+     *
+     * @param documentURI the URI from which retrieve document.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    public ExtractionReport extract(String documentURI, TripleHandler outputHandler)
+    throws IOException, ExtractionException {
+        return extract((ExtractionParameters) null, documentURI, outputHandler);
+    }
+
+    /**
      * Performs metadata extraction from the content of the given
      * <code>in</code> document source, sending the generated events
-     * to the specified <code>outputHandler</code>. 
+     * to the specified <code>outputHandler</code>.
      *
      * @param in the input document source.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
@@ -264,21 +323,7 @@ public class Any23 {
      */
     public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler, String encoding)
     throws IOException, ExtractionException {
-        SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
-        ex.setMIMETypeDetector(mimeTypeDetector);
-        ex.setLocalCopyFactory(streamCache);
-        ex.setParserEncoding(encoding);
-        ex.run();
-        try {
-            outputHandler.close();
-        } catch (TripleHandlerException e) {
-            throw new ExtractionException("Error closing the triple handler", e);
-        }
-        return new ExtractionReport(
-                ex.hasMatchingExtractors(),
-                ex.getParserEncoding(),
-                ex.getDetectedMIMEType()
-        );
+        return extract(null, in, outputHandler, encoding);
     }
 
     /**
@@ -294,7 +339,24 @@ public class Any23 {
      */
     public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {
-        return extract(in, outputHandler, null);
+        return extract(null, in, outputHandler, null);
+    }
+
+    /**
+     * Performs metadata extraction from the content of the given
+     * <code>in</code> document source, sending the generated events
+     * to the specified <code>outputHandler</code>.
+     *
+     * @param eps the parameters to be applied for the extraction phase.
+     * @param in the input document source.
+     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    public ExtractionReport extract(ExtractionParameters eps, DocumentSource in, TripleHandler outputHandler)
+    throws IOException, ExtractionException {
+        return extract(eps, in, outputHandler, null);
     }
 
     private String getAcceptHeader() {

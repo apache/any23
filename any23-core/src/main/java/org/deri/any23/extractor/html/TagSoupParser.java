@@ -17,6 +17,9 @@
 package org.deri.any23.extractor.html;
 
 import org.cyberneko.html.parsers.DOMParser;
+import org.deri.any23.validator.DefaultValidator;
+import org.deri.any23.validator.Validator;
+import org.deri.any23.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -40,7 +43,10 @@ import java.nio.charset.UnsupportedCharsetException;
  * by default uses the <a href="http://xerces.apache.org/xerces2-j/dom.html">Xerces HTML DOM</a>
  * implementation, which doesn't support namespaces and forces uppercase element names. This works
  * with the <i>RDFa XSLT Converter</i> and with </i>XPath</i>, so we left it this way.
+ *
  * @author Richard Cyganiak (richard at cyganiak dot de)
+ * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Davide Palmisano (palmisano@fbk.eu)
  */
 public class TagSoupParser {
 
@@ -69,6 +75,12 @@ public class TagSoupParser {
         this.encoding = encoding;
     }
 
+    /**
+     * Returns the DOM of the given document URI. 
+     *
+     * @return the <i>HTML</i> DOM.
+     * @throws IOException
+     */
     public Document getDOM() throws IOException {
         if (result == null) {
             long startTime = System.currentTimeMillis();
@@ -93,6 +105,23 @@ public class TagSoupParser {
         }
         result.setDocumentURI(documentURI);
         return result;
+    }
+
+    /**
+     * Returns the validated DOM and applies fixes on it if <i>applyFix</i>
+     * is set to <code>true</code>.
+     *
+     * @param applyFix
+     * @return a report containing the <i>HTML</i> DOM that has been validated and fixed if <i>applyFix</i>
+     *         if <code>true</code>. The reports contains also informations about the activated rules and the
+     *         the detected issues.
+     * @throws IOException
+     * @throws ValidatorException
+     */
+    public DocumentReport getValidatedDOM(boolean applyFix) throws IOException, ValidatorException {
+        Document document = getDOM();
+        Validator validator = new DefaultValidator();
+        return new DocumentReport( validator.validate(document, applyFix), document );
     }
 
     private Document parse() throws IOException, SAXException, TransformerException {

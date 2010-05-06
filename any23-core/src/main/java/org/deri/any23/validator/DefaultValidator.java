@@ -20,6 +20,7 @@ import org.deri.any23.validator.rule.MetaNameMisuseFix;
 import org.deri.any23.validator.rule.MetaNameMisuseRule;
 import org.deri.any23.validator.rule.MissingOpenGraphNamespaceRule;
 import org.deri.any23.validator.rule.OpenGraphNamespaceFix;
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,6 +72,10 @@ public class DefaultValidator implements Validator {
             }
         }
         return report;
+    }
+
+    public Report validate(Document document, boolean applyFix) throws ValidatorException {
+        return validate( new DefaultDOMDocument(document), applyFix );
     }
 
     public synchronized void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix) {

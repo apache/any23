@@ -2,7 +2,6 @@ package org.deri.any23.validator;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-import org.apache.xml.serialize.LineSeparator;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.junit.After;
 import org.junit.Assert;
@@ -85,7 +84,7 @@ public class DefaultValidatorTest {
 
     private String serialize(DOMDocument document) throws Exception {
         OutputFormat format = new OutputFormat(document.getOriginalDocument());
-        format.setLineSeparator(LineSeparator.Unix);
+        format.setLineSeparator("\n");
         format.setIndenting(true);
         format.setLineWidth(0);
         format.setPreserveSpace(true);

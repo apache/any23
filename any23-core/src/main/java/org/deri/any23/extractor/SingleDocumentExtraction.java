@@ -31,6 +31,7 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.util.RDFHelper;
+import org.deri.any23.validator.ValidatorException;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
@@ -60,6 +61,8 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
+    private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
+
     private static final String DOMAIN = "domain";
 
     private static final String NESTING = "nesting";
@@ -68,7 +71,7 @@ public class SingleDocumentExtraction {
 
     private static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
 
-    private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
+    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(false, false);
 
     private final DocumentSource in;
 
@@ -91,6 +94,8 @@ public class SingleDocumentExtraction {
     private MIMEType detectedMIMEType = null;
 
     private Document tagSoupDOM = null;
+
+    private ExtractionParameters tagSoupDOMRelatedParameters = null;
 
     private String parserEncoding = null;
 
@@ -118,10 +123,15 @@ public class SingleDocumentExtraction {
     /**
      * Triggers the execution of all the {@link org.deri.any23.extractor.Extractor} registered to this class.
      *
+     * @param extractionParameters the parameters applied to the run execution.
      * @throws ExtractionException
      * @throws IOException
      */
-    public void run() throws ExtractionException, IOException {
+    public void run(ExtractionParameters extractionParameters) throws ExtractionException, IOException {
+        if(extractionParameters == null) {
+            throw new NullPointerException("extraction parameters cannot be null.");
+        }
+        
         ensureHasLocalCopy();
         try {
             this.documentURI = new Any23ValueFactoryWrapper(
@@ -156,13 +166,19 @@ public class SingleDocumentExtraction {
         }
         output.setContentLength(in.getContentLength());
         // Create the document context.
-        final DocumentContext documentContext = new DocumentContext( extractDocumentLanguage() );
         final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
         final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
-        for (ExtractorFactory<?> factory : matchingExtractors) {
-            EntityReport er = runExtractor(documentContext, factory.createExtractor());
-            resourceRoots.addAll( er.resourceRoots );
-            propertyPaths.addAll( er.propertyPaths );
+        try {
+            final DocumentContext documentContext = new DocumentContext(
+                    extractDocumentLanguage(extractionParameters)
+            );
+            for (ExtractorFactory<?> factory : matchingExtractors) {
+                EntityReport er = runExtractor(extractionParameters, documentContext, factory.createExtractor());
+                resourceRoots.addAll( er.resourceRoots );
+                propertyPaths.addAll( er.propertyPaths );
+            }
+        } catch(ValidatorException ve) {
+            throw new ExtractionException("An error occurred during the validation phase.", ve);
         }
         consolidateResources(resourceRoots, propertyPaths, output);
         try {
@@ -173,6 +189,10 @@ public class SingleDocumentExtraction {
                     e
             );
         }
+    }
+
+    public void run() throws IOException, ExtractionException {
+        run(DEFAULT_EXTRACTION_PARAMETERS);
     }
 
     public String getDetectedMIMEType() throws IOException {
@@ -208,13 +228,14 @@ public class SingleDocumentExtraction {
      * @return the document language if any, <code>null</code> otherwise.
      * @throws java.io.IOException if an error occurs during the document analysis.
      */
-    private String extractDocumentLanguage() throws IOException {
+    private String extractDocumentLanguage(ExtractionParameters extractionParameters)
+    throws IOException, ValidatorException {
         if( ! isHTMLDocument() ) {
             return null;
         }
         final HTMLDocument document;
         try {
-            document = new HTMLDocument( getTagSoupDOM() );
+            document = new HTMLDocument( getTagSoupDOM(extractionParameters) );
         } catch (IOException ioe) {
             log.debug("Cannot extract language from document.", ioe);
             return null;
@@ -250,9 +271,10 @@ public class SingleDocumentExtraction {
      * @return the roots of the resources that have been extracted.
      */
     private EntityReport runExtractor(
+            ExtractionParameters extractionParameters,
             DocumentContext documentContext,
             Extractor<?> extractor
-    ) throws ExtractionException, IOException {
+    ) throws ExtractionException, IOException, ValidatorException {
         if(log.isDebugEnabled()) {
             log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
         }
@@ -260,12 +282,16 @@ public class SingleDocumentExtraction {
         ExtractionResultImpl result = new ExtractionResultImpl(documentContext, documentURI, extractor, output);
         try {
             if (extractor instanceof BlindExtractor) {
-                ((BlindExtractor) extractor).run(documentURI, documentURI, result);
+                final BlindExtractor blindExtractor = (BlindExtractor) extractor;
+                blindExtractor.run(documentURI, documentURI, result);
             } else if (extractor instanceof ContentExtractor) {
                 ensureHasLocalCopy();
-                ((ContentExtractor) extractor).run(localDocumentSource.openInputStream(), documentURI, result);
+                final ContentExtractor contentExtractor = (ContentExtractor) extractor;
+                contentExtractor.run(localDocumentSource.openInputStream(), documentURI, result);
             } else if (extractor instanceof TagSoupDOMExtractor) {
-                ((TagSoupDOMExtractor) extractor).run(getTagSoupDOM(), documentURI, result);
+                final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
+                final Document tagSoupDOM = getTagSoupDOM(extractionParameters);
+                tagSoupDOMExtractor.run(tagSoupDOM, documentURI, result);
             } else {
                 throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
             }
@@ -307,18 +333,25 @@ public class SingleDocumentExtraction {
         localDocumentSource = copyFactory.createLocalCopy(in);
     }
 
-    private Document getTagSoupDOM() throws IOException {
-        if (tagSoupDOM == null) {
+    private Document getTagSoupDOM(ExtractionParameters extractionParameters)
+    throws IOException, ValidatorException {
+        if (tagSoupDOM == null || !extractionParameters.equals(tagSoupDOMRelatedParameters)) {
             ensureHasLocalCopy();
             final InputStream is = new BufferedInputStream( localDocumentSource.openInputStream() );
             is.mark(Integer.MAX_VALUE);
             final String candidateEncoding = getParserEncoding();
             is.reset();
-            tagSoupDOM = new TagSoupParser(
+            final TagSoupParser tagSoupParser = new TagSoupParser(
                     is,
                     documentURI.stringValue(),
                     candidateEncoding
-            ).getDOM();
+            );
+            if(extractionParameters.isValidate()) {
+                tagSoupDOM = tagSoupParser.getValidatedDOM( extractionParameters.isFix() ).getDocument();
+            } else {
+                tagSoupDOM = tagSoupParser.getDOM();
+            }
+            tagSoupDOMRelatedParameters = extractionParameters;
         }
         return tagSoupDOM;
     }

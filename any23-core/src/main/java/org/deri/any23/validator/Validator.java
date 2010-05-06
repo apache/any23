@@ -16,6 +16,8 @@
 
 package org.deri.any23.validator;
 
+import org.w3c.dom.Document;
+
 import java.util.List;
 
 /**
@@ -28,14 +30,25 @@ import java.util.List;
 public interface Validator {
 
     /**
-     * Perfoms a validation - fixing of the provided document.
+     * Performs a validation - fixing of the provided document.
      *
-     * @param document
+     * @param document the {@link org.deri.any23.validator.DOMDocument} instance wrapping the
+     *        original <i>HTML</i> document.
      * @param applyFix if <code>true</code> tries to fix the document.
      * @return a report of the detected issues.
      * @throws ValidatorException if an error occurs during the validation process.
      */
     Report validate(DOMDocument document, boolean applyFix) throws ValidatorException;
+
+    /**
+     * Performs a validation - fixing of the provided document.
+     *
+     * @param document the original <i>HTML</i> document.
+     * @param applyFix if <code>true</code> tries to fix the document.
+     * @return a report of the detected issues.
+     * @throws ValidatorException if an error occurs during the validation process.
+     */
+    Report validate(Document document, boolean applyFix) throws ValidatorException;
 
     /**
      * Allows to register a new rule to this validator
