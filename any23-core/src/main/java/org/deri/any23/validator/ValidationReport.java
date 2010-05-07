@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-public interface Report {
+public interface ValidationReport {
 
     /**
      * Defines the different issue levels.

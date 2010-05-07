@@ -16,12 +16,15 @@
 
 package org.deri.any23;
 
+import org.deri.any23.validator.ValidationReport;
+
 
 /**
  * This class contains some statistics and general information about
  * an extraction.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Davide Palmisano (palmisano@fbk.eu)
  */
 public class ExtractionReport {
 
@@ -31,10 +34,18 @@ public class ExtractionReport {
 
     private String detectedMimeType;
 
-    public ExtractionReport(boolean hasMatchingExtractors, String encoding, String detectedMimeType) {
+    private ValidationReport validationReport;
+
+    public ExtractionReport(
+            boolean hasMatchingExtractors,
+            String encoding,
+            String detectedMimeType,
+            ValidationReport validationReport
+    ) {
         this.hasMatchingExtractors = hasMatchingExtractors;
         this.encoding              = encoding;
         this.detectedMimeType      = detectedMimeType;
+        this.validationReport     = validationReport;
     }
 
     /**
@@ -58,4 +69,12 @@ public class ExtractionReport {
     public String getDetectedMimeType() {
         return detectedMimeType;
     }
+
+    /**
+     * @return the validation report applied to the processed document.
+     */
+    public ValidationReport getValidationReport() {
+        return validationReport;
+    }
+
 }

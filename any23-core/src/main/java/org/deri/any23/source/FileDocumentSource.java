@@ -17,6 +17,7 @@
 package org.deri.any23.source;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -59,5 +60,19 @@ public class FileDocumentSource implements DocumentSource {
 
     public boolean isLocal() {
         return true;
+    }
+
+    public String readStream() throws IOException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InputStream is = openInputStream();
+        try {
+            int c;
+            while ((c = is.read()) != -1) {
+                baos.write(c);
+            }
+        } finally {
+            is.close();
+        }
+        return new String( baos.toByteArray() );
     }
 }

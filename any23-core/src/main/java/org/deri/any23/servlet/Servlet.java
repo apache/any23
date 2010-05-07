@@ -76,7 +76,8 @@ public class Servlet extends HttpServlet {
             return;
         }
         final ExtractionParameters eps = getExtractionParameters(req);
-        responder.runExtraction(createHTTPDocumentSource(responder, uri), eps, format);
+        final boolean report = isReport(req);
+        responder.runExtraction(createHTTPDocumentSource(responder, uri), eps, format, report);
     }
 
     @Override
@@ -93,10 +94,11 @@ public class Servlet extends HttpServlet {
             return;
         }
         final ExtractionParameters eps = getExtractionParameters(req);
+        final boolean report = isReport(req);
         if ("application/x-www-form-urlencoded".equals(getContentTypeHeader(req))) {
             if (uri != null) {
                 log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
-                responder.runExtraction(createHTTPDocumentSource(responder, uri), eps, format);
+                responder.runExtraction(createHTTPDocumentSource(responder, uri), eps, format, report);
                 return;
             }
             if (req.getParameter("body") == null) {
@@ -111,7 +113,8 @@ public class Servlet extends HttpServlet {
             responder.runExtraction(
                     new StringDocumentSource(req.getParameter("body"), Servlet.DEFAULT_BASE_URI, type),
                     eps,
-                    format
+                    format,
+                    report
             );
             return;
         }
@@ -123,7 +126,8 @@ public class Servlet extends HttpServlet {
                         getContentTypeHeader(req)
                 ),
                 eps,
-                format
+                format,
+                report
         );
     }
 
@@ -249,6 +253,10 @@ public class Servlet extends HttpServlet {
     private ExtractionParameters getExtractionParameters(HttpServletRequest request) {
         final boolean fix = request.getParameter("fix") != null;
         return new ExtractionParameters(fix, fix);
+    }
+
+    private boolean isReport(HttpServletRequest request) {
+        return request.getParameter("report") != null;
     }
     
 }

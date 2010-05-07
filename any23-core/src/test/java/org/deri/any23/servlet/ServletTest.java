@@ -19,6 +19,7 @@ package org.deri.any23.servlet;
 import junit.framework.Assert;
 import org.deri.any23.http.HTTPClient;
 import org.deri.any23.source.DocumentSource;
+import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.junit.After;
 import org.junit.Before;
@@ -26,6 +27,7 @@ import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -366,6 +368,20 @@ public class ServletTest {
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("http://foo.com", requestedURI);
         assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", response.getContent());
+    }
+
+    @Test
+    public void testResponseWithReport() throws Exception {
+        content = new FileDocumentSource(
+                new File("src/test/resources/org/deri/any23/validator/missing-og-namespace.html")
+        ).readStream();
+        acceptHeader = "text/plain";
+        HttpTester response = doGetRequest("/best/http://foo.com?fix=on&report=on");
+        Assert.assertEquals(200, response.getStatus());
+        final String content = response.getContent();
+        assertContains("<response>", content);
+        assertContains("<report>"  , content);
+        assertContains("<data>"    , content);
     }
 
     private HttpTester doGetRequest(String path) throws Exception {

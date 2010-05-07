@@ -31,9 +31,11 @@ import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TurtleWriter;
 import sun.security.validator.ValidatorException;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.Charset;
 
 /**
@@ -94,7 +96,7 @@ class WebResponder {
         response.getWriter().println(message);
     }
 
-    public void runExtraction(DocumentSource in, ExtractionParameters eps, String format)
+    public void runExtraction(DocumentSource in, ExtractionParameters eps, String format, boolean report)
     throws IOException {
         if (in == null) return;
         if (!initRdfWriter(format)) return;
@@ -133,7 +135,30 @@ class WebResponder {
         } else {
             response.setCharacterEncoding("UTF-8");
         }
-        response.getOutputStream().write(byteOutStream.toByteArray());
+
+        final ServletOutputStream sos = response.getOutputStream();
+        if(report) {
+            PrintStream ps = new PrintStream(sos);
+            try {
+                ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+                ps.println("<response>");
+                ps.println("<report>");
+                ps.println("<![CDATA[");
+                ps.println(er.getValidationReport());
+                ps.println("]]>");
+                ps.println("</report>");
+                ps.println("<data>");
+                ps.println("<![CDATA[");
+                ps.write(byteOutStream.toByteArray());
+                ps.println("]]>");
+                ps.println("</data>");
+                ps.println("</response>");
+            } finally {
+                ps.close();
+            }
+        } else {
+            sos.write(byteOutStream.toByteArray());
+        }
     }
 
     private boolean initRdfWriter(String format) throws IOException {

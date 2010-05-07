@@ -22,6 +22,7 @@ import org.deri.any23.encoding.TikaEncodingDetector;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.deri.any23.extractor.html.DocumentReport;
 import org.deri.any23.extractor.html.HTMLDocument;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
@@ -31,6 +32,8 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.util.RDFHelper;
+import org.deri.any23.validator.EmptyValidationReport;
+import org.deri.any23.validator.ValidationReport;
 import org.deri.any23.validator.ValidatorException;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.writer.TripleHandler;
@@ -40,7 +43,6 @@ import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -93,7 +95,7 @@ public class SingleDocumentExtraction {
 
     private MIMEType detectedMIMEType = null;
 
-    private Document tagSoupDOM = null;
+    private DocumentReport documentReport = null;
 
     private ExtractionParameters tagSoupDOMRelatedParameters = null;
 
@@ -127,9 +129,10 @@ public class SingleDocumentExtraction {
      * @throws ExtractionException
      * @throws IOException
      */
-    public void run(ExtractionParameters extractionParameters) throws ExtractionException, IOException {
+    public SingleDocumentExtractionReport run(ExtractionParameters extractionParameters)
+    throws ExtractionException, IOException {
         if(extractionParameters == null) {
-            throw new NullPointerException("extraction parameters cannot be null.");
+            extractionParameters = DEFAULT_EXTRACTION_PARAMETERS;
         }
         
         ensureHasLocalCopy();
@@ -189,6 +192,10 @@ public class SingleDocumentExtraction {
                     e
             );
         }
+
+        return new SingleDocumentExtractionReport(
+                documentReport == null ? EmptyValidationReport.getInstance() : documentReport.getReport()
+        );
     }
 
     public void run() throws IOException, ExtractionException {
@@ -214,7 +221,7 @@ public class SingleDocumentExtraction {
 
     public void setParserEncoding(String encoding) {
         this.parserEncoding = encoding;
-        tagSoupDOM = null;
+        documentReport = null;
     }
 
     private boolean isHTMLDocument() throws IOException {
@@ -235,7 +242,7 @@ public class SingleDocumentExtraction {
         }
         final HTMLDocument document;
         try {
-            document = new HTMLDocument( getTagSoupDOM(extractionParameters) );
+            document = new HTMLDocument( getTagSoupDOM(extractionParameters).getDocument() );
         } catch (IOException ioe) {
             log.debug("Cannot extract language from document.", ioe);
             return null;
@@ -264,11 +271,13 @@ public class SingleDocumentExtraction {
     /**
      * Triggers the execution of a specific {@link org.deri.any23.extractor.Extractor}.
      * 
+     * @param extractionParameters the parameters used for the extraction.
      * @param documentContext the context of the current document under processing.
      * @param extractor the {@link org.deri.any23.extractor.Extractor} to be executed.
      * @throws ExtractionException if an error specific to an extractor happens.
      * @throws IOException if an IO error occurs during the extraction.
      * @return the roots of the resources that have been extracted.
+     * @throws org.deri.any23.validator.ValidatorException if an error occurs during validation.
      */
     private EntityReport runExtractor(
             ExtractionParameters extractionParameters,
@@ -280,6 +289,7 @@ public class SingleDocumentExtraction {
         }
         long startTime = System.currentTimeMillis();
         ExtractionResultImpl result = new ExtractionResultImpl(documentContext, documentURI, extractor, output);
+        ValidationReport validationReport = EmptyValidationReport.getInstance();
         try {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
@@ -290,15 +300,17 @@ public class SingleDocumentExtraction {
                 contentExtractor.run(localDocumentSource.openInputStream(), documentURI, result);
             } else if (extractor instanceof TagSoupDOMExtractor) {
                 final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
-                final Document tagSoupDOM = getTagSoupDOM(extractionParameters);
-                tagSoupDOMExtractor.run(tagSoupDOM, documentURI, result);
+                final DocumentReport documentReport = getTagSoupDOM(extractionParameters);
+                tagSoupDOMExtractor.run(documentReport.getDocument(), documentURI, result);
+                validationReport = documentReport.getReport();
             } else {
                 throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
             }
             return
                 new EntityReport(
                     new ArrayList<ResourceRoot>( result.getResourceRoots() ),
-                    new ArrayList<PropertyPath>( result.getPropertyPaths() )
+                    new ArrayList<PropertyPath>( result.getPropertyPaths() ),
+                    validationReport
                 );
         } catch (ExtractionException ex) {
             if(log.isInfoEnabled()) {
@@ -333,9 +345,9 @@ public class SingleDocumentExtraction {
         localDocumentSource = copyFactory.createLocalCopy(in);
     }
 
-    private Document getTagSoupDOM(ExtractionParameters extractionParameters)
+    private DocumentReport getTagSoupDOM(ExtractionParameters extractionParameters)
     throws IOException, ValidatorException {
-        if (tagSoupDOM == null || !extractionParameters.equals(tagSoupDOMRelatedParameters)) {
+        if (documentReport == null || !extractionParameters.equals(tagSoupDOMRelatedParameters)) {
             ensureHasLocalCopy();
             final InputStream is = new BufferedInputStream( localDocumentSource.openInputStream() );
             is.mark(Integer.MAX_VALUE);
@@ -347,13 +359,13 @@ public class SingleDocumentExtraction {
                     candidateEncoding
             );
             if(extractionParameters.isValidate()) {
-                tagSoupDOM = tagSoupParser.getValidatedDOM( extractionParameters.isFix() ).getDocument();
+                documentReport = tagSoupParser.getValidatedDOM( extractionParameters.isFix() );
             } else {
-                tagSoupDOM = tagSoupParser.getDOM();
+                documentReport = new DocumentReport( null, tagSoupParser.getDOM() );
             }
             tagSoupDOMRelatedParameters = extractionParameters;
         }
-        return tagSoupDOM;
+        return documentReport;
     }
 
     /**
@@ -511,7 +523,11 @@ public class SingleDocumentExtraction {
         private final List<ResourceRoot> resourceRoots;
         private final List<PropertyPath> propertyPaths;
 
-        public EntityReport(List<ResourceRoot> resourceRoots, List<PropertyPath> propertyPaths) {
+        public EntityReport(
+                List<ResourceRoot> resourceRoots,
+                List<PropertyPath> propertyPaths,
+                ValidationReport validationReport
+        ) {
             this.resourceRoots = resourceRoots;
             this.propertyPaths = propertyPaths;
         }

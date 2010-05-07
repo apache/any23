@@ -17,7 +17,7 @@
 package org.deri.any23.validator.rule;
 
 import org.deri.any23.validator.DOMDocument;
-import org.deri.any23.validator.Report;
+import org.deri.any23.validator.ValidationReport;
 import org.deri.any23.validator.Rule;
 import org.deri.any23.validator.RuleContext;
 import org.w3c.dom.Node;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class MissingOpenGraphNamespaceRule implements Rule {
 
-    public boolean applyOn(DOMDocument document, RuleContext context, Report report) {
+    public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
         List<Node> metas = document.getNodes("/HTML/HEAD/META");
         boolean foundPrecondition = false;
         for(Node meta : metas) {
@@ -45,7 +45,11 @@ public class MissingOpenGraphNamespaceRule implements Rule {
         if(foundPrecondition) {
             Node htmlNode = document.getNode("/HTML");
             if( htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
-                report.reportIssue(Report.IssueLevel.error, "Missing OpenGraph namespace declaration.", htmlNode);
+                validationReport.reportIssue(
+                        ValidationReport.IssueLevel.error,
+                        "Missing OpenGraph namespace declaration.",
+                        htmlNode
+                );
                 return true;
             }
         }

@@ -22,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Default implementation of {@link org.deri.any23.validator.Report}.
+ * Default implementation of {@link ValidationReport}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-public class DefaultReport implements Report {
+public class DefaultValidationReport implements ValidationReport {
 
     private List<Issue> issues;
 
@@ -35,7 +35,7 @@ public class DefaultReport implements Report {
 
     private List<Error> errors;
 
-    public DefaultReport() {}
+    public DefaultValidationReport() {}
 
     public void reportIssue(IssueLevel issueLevel, String message, Node n) {
         if(issues == null) {

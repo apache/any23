@@ -22,6 +22,7 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
 import org.deri.any23.extractor.ExtractorRegistry;
 import org.deri.any23.extractor.SingleDocumentExtraction;
+import org.deri.any23.extractor.SingleDocumentExtractionReport;
 import org.deri.any23.http.AcceptHeaderBuilder;
 import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.http.HTTPClient;
@@ -187,15 +188,11 @@ public class Any23 {
             TripleHandler outputHandler,
             String encoding
     ) throws IOException, ExtractionException {
-        SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
+        final SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
         ex.setMIMETypeDetector(mimeTypeDetector);
         ex.setLocalCopyFactory(streamCache);
         ex.setParserEncoding(encoding);
-        if(eps == null) {
-            ex.run();
-        } else {
-            ex.run(eps);
-        }
+        final SingleDocumentExtractionReport sder = ex.run(eps);
         try {
             outputHandler.close();
         } catch (TripleHandlerException e) {
@@ -204,7 +201,8 @@ public class Any23 {
         return new ExtractionReport(
                 ex.hasMatchingExtractors(),
                 ex.getParserEncoding(),
-                ex.getDetectedMIMEType()
+                ex.getDetectedMIMEType(),
+                sder.getValidationReport()
         );
     }
 

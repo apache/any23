@@ -1,3 +1,19 @@
+/*
+ * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.deri.any23.validator;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
@@ -51,18 +67,18 @@ public class DefaultValidatorTest {
     public void testMissingOGNamespace() throws IOException, ValidatorException {
         DOMDocument document = loadDocument("missing-og-namespace.html");
         Assert.assertNull( document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og") );
-        Report report = validator.validate(document, true);
+        ValidationReport validationReport = validator.validate(document, true);
         Assert.assertNotNull( document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og") );
         if(logger.isDebugEnabled()) {
-            logger.debug( report.toString() );
+            logger.debug( validationReport.toString() );
         }
     }
 
     @Test
     public void testMetaNameMisuse() throws Exception, ValidatorException {
         DOMDocument document = loadDocument("meta-name-misuse.html");
-        Report report = validator.validate(document, true);
-        logger.info( report.toString() );
+        ValidationReport validationReport = validator.validate(document, true);
+        logger.info( validationReport.toString() );
         if(logger.isDebugEnabled()) {
             logger.debug( serialize(document) );
         }
@@ -99,7 +115,7 @@ public class DefaultValidatorTest {
     }
 
     class FakeRule implements Rule {
-        public boolean applyOn(DOMDocument document, RuleContext context, Report report) {
+        public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
             throw new UnsupportedOperationException();
         }
     }

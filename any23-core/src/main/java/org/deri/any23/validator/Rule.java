@@ -29,9 +29,9 @@ public interface Rule {
      *
      * @param document
      * @param context
-     * @param report
+     * @param validationReport
      * @return <code>true</code> if al least an issue is detected, <code>false</code> otherwise.
      */
-    boolean applyOn(DOMDocument document, RuleContext context, Report report);
+    boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport);
 
 }

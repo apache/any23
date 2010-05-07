@@ -38,7 +38,7 @@ public interface Validator {
      * @return a report of the detected issues.
      * @throws ValidatorException if an error occurs during the validation process.
      */
-    Report validate(DOMDocument document, boolean applyFix) throws ValidatorException;
+    ValidationReport validate(DOMDocument document, boolean applyFix) throws ValidatorException;
 
     /**
      * Performs a validation - fixing of the provided document.
@@ -48,7 +48,7 @@ public interface Validator {
      * @return a report of the detected issues.
      * @throws ValidatorException if an error occurs during the validation process.
      */
-    Report validate(Document document, boolean applyFix) throws ValidatorException;
+    ValidationReport validate(Document document, boolean applyFix) throws ValidatorException;
 
     /**
      * Allows to register a new rule to this validator
