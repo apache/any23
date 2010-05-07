@@ -53,4 +53,9 @@ public class EmptyValidationReport implements ValidationReport {
     public void reportFixError(Fix r, Exception e, String msg) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public String toString() {
+        return "Validation report is empty.";
+    }
 }
