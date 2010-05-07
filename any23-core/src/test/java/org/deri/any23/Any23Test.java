@@ -18,6 +18,7 @@ package org.deri.any23;
 
 import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.http.DefaultHTTPClient;
@@ -27,6 +28,8 @@ import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.vocab.DCTERMS;
+import org.deri.any23.writer.CompositeTripleHandler;
+import org.deri.any23.writer.CountingTripleHandler;
 import org.deri.any23.writer.NTriplesWriter;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.ReportingTripleHandler;
@@ -256,7 +259,7 @@ public class Any23Test {
         }
 
         String bufferContent = byteArrayOutputStream.toString();
-        System.out.println(bufferContent);
+        logger.info(bufferContent);
         int i = 0;
         int counter = 0;
         while( i < bufferContent.length() ) {
@@ -297,6 +300,36 @@ public class Any23Test {
         System.out.println("N3 "+ n3);
         Assert.assertTrue(n3.length() > 0);
 
+    }
+
+    @Test
+    public void testExtractionParameters() throws IOException, ExtractionException {
+        Any23 runner = new Any23();
+        DocumentSource source = new FileDocumentSource(
+                new File("src/test/resources/org/deri/any23/validator/missing-og-namespace.html"),
+                "http://www.test.com"
+        );
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        CountingTripleHandler cth1 = new CountingTripleHandler();
+        NTriplesWriter ctw1 = new NTriplesWriter(baos);
+        CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
+        compositeTH1.addChild(cth1);
+        compositeTH1.addChild(ctw1);
+        runner.extract(new ExtractionParameters(false, false), source,  compositeTH1);
+        logger.info( baos.toString() );
+        Assert.assertEquals("Unexpected number of triples.", 3, cth1.getCount() );
+
+        baos.reset();
+        CountingTripleHandler cth2 = new CountingTripleHandler();
+        NTriplesWriter ctw2 = new NTriplesWriter(baos);
+        CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
+        compositeTH2.addChild(cth2);
+        compositeTH2.addChild(ctw2);
+        runner.extract(new ExtractionParameters(true, true), source,  compositeTH2);
+        logger.info( baos.toString() );
+        Assert.assertEquals("Unexpected number of triples.", 8, cth2.getCount() );
     }
 
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {

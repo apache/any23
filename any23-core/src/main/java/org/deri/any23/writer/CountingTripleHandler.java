@@ -35,6 +35,10 @@ public class CountingTripleHandler implements TripleHandler {
         return count;
     }
 
+    public void reset() {
+        count = 0;
+    }
+
     public void startDocument(URI documentURI) throws TripleHandlerException {
         // ignore
     }
