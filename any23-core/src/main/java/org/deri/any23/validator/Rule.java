@@ -25,6 +25,11 @@ package org.deri.any23.validator;
 public interface Rule {
 
     /**
+     * @return returns the human readable name for this rule.
+     */
+    String getHRName();
+
+    /**
      * Applies this rule to the given document.
      *
      * @param document

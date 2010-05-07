@@ -36,6 +36,10 @@ public class MetaNameMisuseRule implements Rule {
 
     public static final String ERRORED_META_NODES = "errored-meta-nodes";
 
+    public String getHRName() {
+        return "meta-name-misuse-rule";
+    }
+
     public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
         List<Node> metaNodes = document.getNodes("/HTML/HEAD/META");
         boolean foundIssue = false;

@@ -17,6 +17,10 @@ import java.util.List;
  */
 public class MetaNameMisuseFix implements Fix {
 
+    public String getHRName() {
+        return "meta-name-misuse-fix";
+    }
+
     public void execute(Rule rule, RuleContext context, DOMDocument document) {
         List<Node> nodes = (List<Node>) context.getData(MetaNameMisuseRule.ERRORED_META_NODES);
         for(Node node : nodes) {

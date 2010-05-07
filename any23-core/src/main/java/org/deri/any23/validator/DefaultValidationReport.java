@@ -16,6 +16,7 @@
 
 package org.deri.any23.validator;
 
+import org.deri.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class DefaultValidationReport implements ValidationReport {
         if (errors != null) {
             sb.append("Errors {\n");
             for (Error error : errors) {
-                sb.append(error.toString()).append('\n');
+                sb.append( error.toString() ).append('\n');
             }
             sb.append("}\n");
         }
@@ -111,11 +112,10 @@ public class DefaultValidationReport implements ValidationReport {
         @Override
         public String toString() {
             return String.format(
-                    "%s %s '%s' %s",
-                    this.getClass().getName(),
+                    "Issue %s '%s' %s",
                     level,
                     message,
-                    origin
+                    DomUtils.getXPathForNode(origin)
             );
         }
     }
@@ -124,7 +124,7 @@ public class DefaultValidationReport implements ValidationReport {
         private final String ruleStr;
 
         RuleActivation(Rule r) {
-            ruleStr = r.toString();
+            ruleStr = r.getHRName();
         }
         @Override
          public String toString() {
@@ -155,6 +155,10 @@ public class DefaultValidationReport implements ValidationReport {
             origin = r;
         }
 
+        @Override
+        public String toString() {
+            return String.format("%s - %s", super.toString(), origin.getHRName());
+        }
     }
 
     class FixError extends Error {
@@ -163,6 +167,11 @@ public class DefaultValidationReport implements ValidationReport {
         FixError(Fix f, Exception e, String msg) {
              super(e, msg);
              origin = f;
-         }
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s - %s", super.toString(), origin.getHRName());
+        }
     }
 }

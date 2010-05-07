@@ -32,6 +32,10 @@ import java.util.List;
  */
 public class MissingOpenGraphNamespaceRule implements Rule {
 
+    public String getHRName() {
+        return "missing-opengraph-namespace-rule";
+    }
+
     public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
         List<Node> metas = document.getNodes("/HTML/HEAD/META");
         boolean foundPrecondition = false;

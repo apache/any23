@@ -31,6 +31,10 @@ public class OpenGraphNamespaceFix implements Fix {
 
     public static final String OPENGRAPH_PROTOCOL_NS = "http://opengraphprotocol.org/schema/";
 
+    public String getHRName() {
+        return "opengraph-namespace-fix";
+    }
+
     public void execute(Rule rule, RuleContext context, DOMDocument document) {
         document.addAttribute("/HTML", "xmlns:og", OPENGRAPH_PROTOCOL_NS);
     }

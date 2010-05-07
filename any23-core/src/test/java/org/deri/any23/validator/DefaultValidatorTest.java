@@ -115,12 +115,20 @@ public class DefaultValidatorTest {
     }
 
     class FakeRule implements Rule {
+        public String getHRName() {
+            return "fake-rule";
+        }
+
         public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
             throw new UnsupportedOperationException();
         }
     }
 
     class FakeFix implements Fix {
+        public String getHRName() {
+            return "fake-fix";
+        }
+
         public void execute(Rule rule, RuleContext context, DOMDocument document) {
               throw new UnsupportedOperationException();
         }

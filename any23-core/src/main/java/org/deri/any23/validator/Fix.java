@@ -25,6 +25,18 @@ package org.deri.any23.validator;
  */
 public interface Fix {
 
+    /**
+     * @return the human readable name for this fix.
+     */
+    String getHRName();
+
+    /**
+     * Executes this fix over a document.
+     *
+     * @param rule the rule triggering this fix.
+     * @param context the rule context for this fix.
+     * @param document the document to apply this fix.
+     */
     void execute(Rule rule, RuleContext context, DOMDocument document);
 
 }
