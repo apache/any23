@@ -23,6 +23,16 @@ function init() {
     document.getElementById('app-host').childNodes(0).nodeValue = document.location.hostname;
 }
     </script>
+    <link rel="stylesheet" type="text/css" href="resources/simplePopup/simplePopup.css" />
+    <script type="text/javascript" src="resources/simplePopup/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="resources/simplePopup/simplePopup.js"></script>
+    <script type="text/javascript">
+        sPopup({
+	        width : 400, // width of the popup
+	        closeTexte : 'Close', // text of the exit button
+	        fadeSpeed : 'fast' // speed of the fading effect
+        });
+    </script>
   </head>
   <body onLoad="init();">
     <h1>any23: Anything To Triples</h1>
@@ -40,8 +50,8 @@ function init() {
           <option value="rdfxml">rdfxml</option>
         </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
       </code>
-      <input type="checkbox" name="fix">Fix</input>
-      <input type="checkbox" name="report">Report</input>
+      <input type="checkbox" name="fix">Fix<a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
+      <input type="checkbox" name="report">Report<a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
       <input type="submit" value="Convert" />
     </form>
     <hr />
@@ -66,8 +76,8 @@ function init() {
           <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
         </select>
-        <input type="checkbox" name="fix">Fix</input>
-        <input type="checkbox" name="report">Report</input>
+        <input type="checkbox" name="fix">Fix<a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
+        <input type="checkbox" name="report">Report<a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
         <input type="submit" value="Convert" /><br />
         <textarea name="body" rows="12" cols="80">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
       
@@ -184,5 +194,16 @@ Content-Length: 174
     </table>
     <hr />
     <p><a href="http://developers.any23.org/">any23 project homepage</a> | Hosted at <a href="http://deri.ie/">DERI, NUI Galway</a></p>
+    <div id="sPopup-fix">
+	    <p>If the <i>Fix</i> checkbox is activated, <b>Any23</b> tries to fix some
+            <a href="http://rdfa.info/wiki/Common-publishing-mistakes">common RDFa mistakes</a> before performing the extraction.
+            Fixing is performed according a set of fully customizable rules. Please refer to the <a href="http://developers.any23.org/ill-formed-rdfa.html">developer guide</a> for any further detail.
+        </p>
+    </div>
+    <div id="sPopup-report">
+	    <p>If the <i>Report</i> and <i>Fix</i> checkboxes are both activated, <b>Any23</b> wraps the RDF extracted triples with an XML response providing a short report
+            on which RDFa errors have been detected and which rules have been triggered to perform the fix. Please refer to the <a href="http://developers.any23.org/ill-formed-rdfa.html">developer guide</a> for any further detail.
+        </p>
+    </div>
   </body>
 </html>

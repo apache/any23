@@ -59,5 +59,4 @@ public class MissingOpenGraphNamespaceRule implements Rule {
         }
         return false;
     }
-
 }

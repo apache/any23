@@ -1,0 +1,104 @@
+Ill-formed RDFa extraction
+
+ It's widely recognized that RDFa is subjected to a plethora of different and {{{http://rdfa.info/wiki/Common-publishing-mistakes}common mistakes}}.
+ These errors may lead to a failures during RDF extraction process from HTML pages but since they are, typically, syntax errors
+ they could be easily detected and fixed with some heuristics.
+
+ This pages describes the <<Any23>> rule-based approach, that allows it to detect, fix and correctly extract
+ RDF from those ill-formed RDFa in XHTML pages.
+
+ More specifically, <<Any23>> allows you to write a {{{xref/org/deri/any23/validator/Rule.html}Rule}}
+ able to detect the errors, a {{{xref/org/deri/any23/validator/Fix.html}Fix}} containing the logic to fix the problem and a
+ {{{xref/org/deri/any23/validator/Validator.html}Validator}} which acts as a register of rules and fixes. The Validator
+ calls all the registered rules and when one of them is applied it calls the associated Fix.
+
+ The following code snipped shows how to programatically detect and fix a very common mistake with <<Any23>>.
+
+* Forgetting to Declare Prefix Mappings
+
+ Sometimes, authors forget to declare prefix mappings. For example, you can't just use something like dcterms:title
+ without first declaring the dcterms prefix mapping. If a prefix mapping isn't declared, the RDFa parser won't understand
+ the prefix when it is used in your document. This may lead <<Any23>> to don't extract such embedded RDF triples.
+
+ This:
+
++------------------------------------------------------------------------------------------
+<div>
+    The title of this document is <span property="dcterms:title">Why RDFa is Awesome</span>.
+</div>
++------------------------------------------------------------------------------------------
+
+ Should be:
+
++------------------------------------------------------------------------------------------
+<div xmlns:dcterms="http://purl.org/dc/terms/">
+    The title of this document is <span property="dcterms:title">Why RDFa is Awesome</span>.
+</div>
++------------------------------------------------------------------------------------------
+
+ With the <<Any23>> {{{xref/org/deri/any23/validator/package-summary.html}Validator}} classes it's possible to solve this
+ problem simply implementing the {{{xref/org/deri/any23/validator/Rule.html}Rule}} interface as described below:
+
++------------------------------------------------------------------------------------------
+public class MissingOpenGraphNamespaceRule implements Rule {
+
+    public String getHRName() {
+        return "missing-opengraph-namespace-rule";
+    }
+
+    public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
+        List<Node> metas = document.getNodes("/HTML/HEAD/META");
+        boolean foundPrecondition = false;
+        for(Node meta : metas) {
+            Node propertyNode = meta.getAttributes().getNamedItem("property");
+            if( propertyNode != null && propertyNode.getTextContent().indexOf("og:") == 0) {
+                foundPrecondition = true;
+                break;
+            }
+        }
+        if(foundPrecondition) {
+            Node htmlNode = document.getNode("/HTML");
+            if( htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
+                validationReport.reportIssue(
+                        ValidationReport.IssueLevel.error,
+                        "Missing OpenGraph namespace declaration.",
+                        htmlNode
+                );
+                return true;
+            }
+        }
+        return false;
+    }
+}
++------------------------------------------------------------------------------------------
+
+ The {{{xref/org/deri/any23/validator/rule/MissingOpenGraphNamespaceRule.html}MissingOpenGraphNamespaceRule}} inspects the DOM
+ structure of the HTML page and if it finds some META tags with some RDFa property (of the OpenGraph Protocol vocabulary, in this case)
+ it looks for the declaration of that name space. If there is no declaration it return <<true>>, that means that an error has been detected
+ within the document.
+
+ Writing a fix for the Rule depicted above it's quite simple:
+
++------------------------------------------------------------------------------------------
+public class OpenGraphNamespaceFix implements Fix {
+
+    public static final String OPENGRAPH_PROTOCOL_NS = "http://opengraphprotocol.org/schema/";
+
+    public String getHRName() {
+        return "opengraph-namespace-fix";
+    }
+
+    public void execute(Rule rule, RuleContext context, DOMDocument document) {
+        document.addAttribute("/HTML", "xmlns:og", OPENGRAPH_PROTOCOL_NS);
+    }
+
+}
++------------------------------------------------------------------------------------------
+
+ At this point it's enough to register the Rule and the relative Fix to the Validator:
+
++------------------------------------------------------------------------------------------
+addRule(MissingOpenGraphNamespaceRule.class, OpenGraphNamespaceFix.class);
++------------------------------------------------------------------------------------------
+
+ When the Rule precondition is matched, then the Fix is triggered modifying the DOM structure.

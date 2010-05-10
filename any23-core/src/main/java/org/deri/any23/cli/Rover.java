@@ -63,7 +63,9 @@ public class Rover {
     private static final String TURTLE = "turtle";
 
     private static final String QUAD    = "quad";
+
     private static final String NTRIPLE = "ntriples";
+
     private static final String RDFXML  = "rdfxml";
 
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);

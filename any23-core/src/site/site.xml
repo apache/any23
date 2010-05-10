@@ -42,6 +42,7 @@
             <item name="Getting started"  href="getting-started.html"/>
             <item name="Developers guide" href="developers.html"/>
             <item name="Extraction notes" href="extraction.html"/>
+            <item name="Ill-formed RDFa"  href="ill-formed-rdfa.html"/>
         </menu>
 
         <menu ref="reports"/>
