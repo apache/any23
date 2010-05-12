@@ -37,6 +37,11 @@ public interface ValidationReport {
     }
 
     /**
+     * @return the number of detected issues.
+     */
+    int getNumberOfIssues();
+
+    /**
      * Reports an issue detected on a specified node.
      *
      * @param issueLevel

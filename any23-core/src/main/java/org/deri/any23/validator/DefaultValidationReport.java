@@ -38,6 +38,10 @@ public class DefaultValidationReport implements ValidationReport {
 
     public DefaultValidationReport() {}
 
+    public int getNumberOfIssues() {
+        return issues == null ? 0 : issues.size();
+    }
+
     public void reportIssue(IssueLevel issueLevel, String message, Node n) {
         if(issues == null) {
             issues = new ArrayList<Issue>();

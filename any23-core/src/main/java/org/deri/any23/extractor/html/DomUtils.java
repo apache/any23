@@ -123,9 +123,28 @@ public class DomUtils {
      * Finds all nodes that have a declared class.
      * Note that the className is transformed to lower case before being
      * matched against the DOM.
+     * @param root the root node from which start searching.
+     * @param className the name of the filtered class.
+     * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByClassName(Node root, String className) {
         return findAllByTagAndClassName(root, "*", className.toLowerCase());
+    }
+
+    /**
+     * Finds all nodes that have a declared attribute.
+     * Note that the className is transformed to lower case before being
+     * matched against the DOM.
+     * @param root the root node from which start searching.
+     * @param attrName the name of the filtered attribue.
+     * @return list of matching nodes or an empty list.
+     */
+    public static List<Node> findAllByAttributeName(Node root, String attrName) {
+        List<Node> result = new ArrayList<Node>();
+        for (Node node : findAll(root, String.format("./descendant-or-self::*[@%s]", attrName) ) ) {
+                result.add(node);
+        }
+        return result;
     }
 
     public static List<Node> findAllByTag(Node root, String tagName) {
@@ -140,20 +159,7 @@ public class DomUtils {
         List<Node> result = new ArrayList<Node>();
         for (Node node : findAll(root, "./descendant-or-self::" + tagName + "[contains(@class,'" + className + "')]")) {
             if (DomUtils.hasClassName(node, className)) {
-                // add this
                 result.add(node);
-            /*
-             * to mimic the inheritance of CSS classes we should recur here
-             *
-             * Only one level of depth is considered though, so take care.
-             */
-//				// add childNodes
-//				NodeList children = node.getChildNodes();
-//				for(int j=0;j<children.getLength();j++){
-//					Node child = children.item(j);
-//					if (child.getNodeType()==Node.ELEMENT_NODE)
-//						result.add(child);
-//				}
             }
         }
         return result;

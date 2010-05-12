@@ -19,6 +19,7 @@ package org.deri.any23.validator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -31,15 +32,48 @@ import java.util.List;
 public interface DOMDocument {
 
     /**
+     * @return the original document URI.
+     */
+    URI getDocumentURI();
+
+    /**
      * Returns the original document.
      *
      * @return the original document.
      */
     Document getOriginalDocument();
 
+    /**
+     * Returns the list of nodes addressed by the given <i>XPath</i>.
+     *
+     * @param xPath a valid XPath
+     * @return a not null list of nodes.
+     */
     List<Node> getNodes(String xPath);
 
+    /**
+     * Returns the node addressed by the given <i>XPath</i>, if more then
+     * one an exception will be raised.
+     *
+     * @param xPath a valid XPath.
+     * @return a node or <code>null</code> if nothing found.
+     */
     Node getNode(String xPath);
 
+    /**
+     * Adds an attribute to a node addressed by the given <i>XPath</i>.
+     *
+     * @param xPath the XPath pointing the node.
+     * @param attrName the name of the attribute.
+     * @param attrValue the value of the attribute.
+     */
     void addAttribute(String xPath, String attrName, String attrValue);
+
+    /**
+     * Returns all the nodes declaring an attribute with the specified name.
+     *
+     * @param attrName name of attribute to use for filtering.
+     * @return a list of nodes. <code>null</node> if no matches found.
+     */
+    List<Node> getNodesWithAttribute(String attrName);
 }

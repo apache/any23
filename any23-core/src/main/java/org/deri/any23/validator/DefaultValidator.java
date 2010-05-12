@@ -16,12 +16,14 @@
 
 package org.deri.any23.validator;
 
+import org.deri.any23.validator.rule.AboutNotURIRule;
 import org.deri.any23.validator.rule.MetaNameMisuseFix;
 import org.deri.any23.validator.rule.MetaNameMisuseRule;
 import org.deri.any23.validator.rule.MissingOpenGraphNamespaceRule;
 import org.deri.any23.validator.rule.OpenGraphNamespaceFix;
 import org.w3c.dom.Document;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -75,9 +77,9 @@ public class DefaultValidator implements Validator {
         return validationReport;
     }
 
-    public ValidationReport validate(Document document, boolean applyFix)
+    public ValidationReport validate(URI documentURI, Document document, boolean applyFix)
     throws ValidatorException {
-        return validate( new DefaultDOMDocument(document), applyFix );
+        return validate( new DefaultDOMDocument(documentURI, document), applyFix );
     }
 
     public synchronized void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix) {
@@ -117,6 +119,7 @@ public class DefaultValidator implements Validator {
     private void loadDefaultRules() {
         addRule(MetaNameMisuseRule.class, MetaNameMisuseFix.class);
         addRule(MissingOpenGraphNamespaceRule.class, OpenGraphNamespaceFix.class);
+        addRule(AboutNotURIRule.class);
     }
 
     private Fix newInstance(Class<? extends Fix> cFix) throws ValidatorException {

@@ -30,6 +30,8 @@ import org.w3c.dom.Node;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -64,7 +66,7 @@ public class DefaultValidatorTest {
     }
 
     @Test
-    public void testMissingOGNamespace() throws IOException, ValidatorException {
+    public void testMissingOGNamespace() throws IOException, ValidatorException, URISyntaxException {
         DOMDocument document = loadDocument("missing-og-namespace.html");
         Assert.assertNull( document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og") );
         ValidationReport validationReport = validator.validate(document, true);
@@ -75,7 +77,7 @@ public class DefaultValidatorTest {
     }
 
     @Test
-    public void testMetaNameMisuse() throws Exception, ValidatorException {
+    public void testMetaNameMisuse() throws Exception {
         DOMDocument document = loadDocument("meta-name-misuse.html");
         ValidationReport validationReport = validator.validate(document, true);
         logger.info( validationReport.toString() );
@@ -92,10 +94,20 @@ public class DefaultValidatorTest {
         }
     }
 
-    private DOMDocument loadDocument(String document) throws IOException {
+    @Test
+    public void testAboutNotURIRule() throws Exception {
+        DOMDocument document = loadDocument("invalid-rdfa-about.html");
+        ValidationReport validationReport = validator.validate(document, true);
+        logger.info(validationReport.toString());
+
+        Assert.assertEquals( "Unexpected number of issues.", 1, validationReport.getNumberOfIssues() );
+    }
+
+    private DOMDocument loadDocument(String document) throws IOException, URISyntaxException {
         InputStream is = this.getClass().getResourceAsStream(document);
-        TagSoupParser tsp = new TagSoupParser(is, "http://test.com");
-        return new DefaultDOMDocument( tsp.getDOM() );
+        final String documentURI = "http://test.com";
+        TagSoupParser tsp = new TagSoupParser(is, documentURI);
+        return new DefaultDOMDocument( new URI(documentURI), tsp.getDOM() );
     }
 
     private String serialize(DOMDocument document) throws Exception {

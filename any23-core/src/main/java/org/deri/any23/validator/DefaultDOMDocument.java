@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -32,10 +33,23 @@ import java.util.List;
  */
 public class DefaultDOMDocument implements DOMDocument {
 
+    private URI documentURI;
+
     private Document document;
 
-    public DefaultDOMDocument(Document document) {
+    public DefaultDOMDocument(URI documentURI, Document document) {
+        if(documentURI == null) {
+            throw new NullPointerException("documentURI cannot be null.");
+        }
+        if(document == null) {
+            throw new NullPointerException("document cannot be null.");
+        }
+        this.documentURI = documentURI;
         this.document = document;
+    }
+
+    public URI getDocumentURI() {
+        return documentURI;
     }
 
     public Document getOriginalDocument() {
@@ -67,6 +81,10 @@ public class DefaultDOMDocument implements DOMDocument {
         Attr attr = document.createAttribute(attrName);
         attr.setNodeValue(attrValue);
         namedNodeMap.setNamedItem(attr);
+    }
+
+    public List<Node> getNodesWithAttribute(String attrName) {
+        return DomUtils.findAllByAttributeName(document, attrName);
     }
 
 }

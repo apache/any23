@@ -34,6 +34,10 @@ public class EmptyValidationReport implements ValidationReport {
 
     private EmptyValidationReport() {}
 
+    public int getNumberOfIssues() {
+        return 0;
+    }
+
     public void reportIssue(IssueLevel issueLevel, String message, Node n) {
         throw new UnsupportedOperationException();
     }

@@ -29,6 +29,8 @@ import org.xml.sax.SAXException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
@@ -119,9 +121,15 @@ public class TagSoupParser {
      * @throws ValidatorException
      */
     public DocumentReport getValidatedDOM(boolean applyFix) throws IOException, ValidatorException {
-        Document document = getDOM();
+        final URI dURI;
+        try {
+            dURI = new URI(documentURI);
+        } catch (URISyntaxException urise) {
+            throw new ValidatorException("Error while performing validation, invalid document URI.", urise);
+        }
         Validator validator = new DefaultValidator();
-        return new DocumentReport( validator.validate(document, applyFix), document );
+        Document document = getDOM();
+        return new DocumentReport( validator.validate(dURI, document, applyFix), document );
     }
 
     private Document parse() throws IOException, SAXException, TransformerException {
