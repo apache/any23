@@ -45,7 +45,7 @@ public class ExtractionReport {
         this.hasMatchingExtractors = hasMatchingExtractors;
         this.encoding              = encoding;
         this.detectedMimeType      = detectedMimeType;
-        this.validationReport     = validationReport;
+        this.validationReport      = validationReport;
     }
 
     /**

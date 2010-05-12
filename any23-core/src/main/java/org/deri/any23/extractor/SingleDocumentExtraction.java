@@ -33,7 +33,6 @@ import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.util.RDFHelper;
 import org.deri.any23.validator.EmptyValidationReport;
-import org.deri.any23.validator.ValidationReport;
 import org.deri.any23.validator.ValidatorException;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.writer.TripleHandler;
@@ -291,7 +290,6 @@ public class SingleDocumentExtraction {
         }
         long startTime = System.currentTimeMillis();
         ExtractionResultImpl result = new ExtractionResultImpl(documentContext, documentURI, extractor, output);
-        ValidationReport validationReport = EmptyValidationReport.getInstance();
         try {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
@@ -304,15 +302,13 @@ public class SingleDocumentExtraction {
                 final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
                 final DocumentReport documentReport = getTagSoupDOM(extractionParameters);
                 tagSoupDOMExtractor.run(documentReport.getDocument(), documentURI, result);
-                validationReport = documentReport.getReport();
             } else {
                 throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
             }
             return
                 new EntityReport(
                     new ArrayList<ResourceRoot>( result.getResourceRoots() ),
-                    new ArrayList<PropertyPath>( result.getPropertyPaths() ),
-                    validationReport
+                    new ArrayList<PropertyPath>( result.getPropertyPaths() )
                 );
         } catch (ExtractionException ex) {
             if(log.isInfoEnabled()) {
@@ -527,8 +523,7 @@ public class SingleDocumentExtraction {
 
         public EntityReport(
                 List<ResourceRoot> resourceRoots,
-                List<PropertyPath> propertyPaths,
-                ValidationReport validationReport
+                List<PropertyPath> propertyPaths
         ) {
             this.resourceRoots = resourceRoots;
             this.propertyPaths = propertyPaths;

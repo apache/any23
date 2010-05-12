@@ -1,29 +1,12 @@
-/*
- * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *          http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.deri.any23.validator;
 
+import org.deri.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 
+import java.util.List;
+
 /**
- * The report interface is used to generate diagnostics about validation.
- *
- * @see org.deri.any23.validator.Rule
  * @author Michele Mostarda (mostarda@fbk.eu)
- * @author Davide Palmisano (palmisano@fbk.eu)
  */
 public interface ValidationReport {
 
@@ -36,51 +19,87 @@ public interface ValidationReport {
         info
     }
 
-    /**
-     * @return the number of detected issues.
-     */
-    int getNumberOfIssues();
+    List<Issue> getIssues();
 
-    /**
-     * Reports an issue detected on a specified node.
-     *
-     * @param issueLevel
-     * @param message
-     * @param n
-     */
-    void reportIssue(IssueLevel issueLevel, String message, Node n);
+    List<RuleActivation> getRuleActivations();
 
-    /**
-     * Reports a detected issue.
-     *
-     * @param issueLevel
-     * @param message
-     */
-    void reportIssue(IssueLevel issueLevel, String message);
+    List<Error> getErrors();
 
-    /**
-     * Traces that a rule has been applied.
-     * 
-     * @param r
-     */
-    void traceRuleActivation(Rule r);
+        class Issue {
+        final IssueLevel level;
+        final String message;
+        final Node origin;
 
-    /**
-     * Reports an error occurred while executing a {@link org.deri.any23.validator.Rule}. 
-     *
-     * @param r
-     * @param e
-     * @param msg
-     */
-    void reportRuleError(Rule r, Exception e, String msg);
+        public Issue(IssueLevel level, String message, Node origin) {
+            this.level = level;
+            this.message = message;
+            this.origin = origin;
+        }
 
-    /**
-     * Reports an error occurred while executing a {@link org.deri.any23.validator.Fix}.
-     * 
-     * @param r
-     * @param e
-     * @param msg
-     */
-    void reportFixError(Fix r, Exception e, String msg);
+        @Override
+        public String toString() {
+            return String.format(
+                    "Issue %s '%s' %s",
+                    level,
+                    message,
+                    DomUtils.getXPathForNode(origin)
+            );
+        }
+    }
+
+    class RuleActivation {
+        private final String ruleStr;
+
+        RuleActivation(Rule r) {
+            ruleStr = r.getHRName();
+        }
+        @Override
+         public String toString() {
+            return ruleStr;
+        }
+    }
+
+    abstract class Error {
+        private final Exception cause;
+        private final String message;
+
+        public Error(Exception e, String msg) {
+            cause   = e;
+            message = msg;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s %s %s", this.getClass().getName(), cause, message);
+        }
+    }
+
+    class RuleError extends Error {
+        private final Rule origin;
+
+        RuleError(Rule r, Exception e, String msg) {
+            super(e, msg);
+            origin = r;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s - %s", super.toString(), origin.getHRName());
+        }
+    }
+
+    class FixError extends Error {
+        private final Fix origin;
+
+        FixError(Fix f, Exception e, String msg) {
+             super(e, msg);
+             origin = f;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s - %s", super.toString(), origin.getHRName());
+        }
+    }
 
 }

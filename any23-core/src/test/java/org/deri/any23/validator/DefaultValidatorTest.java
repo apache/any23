@@ -99,8 +99,7 @@ public class DefaultValidatorTest {
         DOMDocument document = loadDocument("invalid-rdfa-about.html");
         ValidationReport validationReport = validator.validate(document, true);
         logger.info(validationReport.toString());
-
-        Assert.assertEquals( "Unexpected number of issues.", 1, validationReport.getNumberOfIssues() );
+        Assert.assertEquals( "Unexpected number of issues.", 1, validationReport.getIssues().size() );
     }
 
     private DOMDocument loadDocument(String document) throws IOException, URISyntaxException {
@@ -131,7 +130,11 @@ public class DefaultValidatorTest {
             return "fake-rule";
         }
 
-        public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
+        public boolean applyOn(
+                DOMDocument document,
+                RuleContext context,
+                ValidationReportBuilder validationReportBuilder
+        ) {
             throw new UnsupportedOperationException();
         }
     }

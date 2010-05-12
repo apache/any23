@@ -32,11 +32,11 @@ public interface Rule {
     /**
      * Applies this rule to the given document.
      *
-     * @param document
-     * @param context
-     * @param validationReport
+     * @param document the target document.
+     * @param context the context used to pass data to an eventual {@link org.deri.any23.validator.Fix}.
+     * @param validationReportBuilder the report builder used to collect rule reporting.
      * @return <code>true</code> if al least an issue is detected, <code>false</code> otherwise.
      */
-    boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport);
+    boolean applyOn(DOMDocument document, RuleContext context, ValidationReportBuilder validationReportBuilder);
 
 }

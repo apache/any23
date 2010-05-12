@@ -50,31 +50,31 @@ public class DefaultValidator implements Validator {
 
     public ValidationReport validate(DOMDocument document, boolean applyFix)
     throws ValidatorException {
-        final ValidationReport validationReport = new DefaultValidationReport();
+        final ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
         for(Class<? extends Rule> cRule : rulesOrder) {
             Rule rule = newInstance(cRule);
             final RuleContext ruleContext = new DefaultRuleContext();            
             boolean applyOn;
             try {
-                applyOn = rule.applyOn(document, ruleContext, validationReport);
+                applyOn = rule.applyOn(document, ruleContext, validationReportBuilder);
             } catch (Exception e) {
-                validationReport.reportRuleError(rule, e, "Error while processing rule.");
+                validationReportBuilder.reportRuleError(rule, e, "Error while processing rule.");
                 continue;
             }
             if(applyFix && applyOn) {
-                validationReport.traceRuleActivation(rule);
+                validationReportBuilder.traceRuleActivation(rule);
                 List<Class<? extends Fix>> cFixes = getFixes(cRule);
                 for(Class<? extends Fix> cFix : cFixes) {
                     Fix fix = newInstance(cFix);
                     try {
                         fix.execute(rule, ruleContext, document);
                     } catch (Exception e) {
-                        validationReport.reportFixError(fix, e, "Error while processing fix.");
+                        validationReportBuilder.reportFixError(fix, e, "Error while processing fix.");
                     }
                 }
             }
         }
-        return validationReport;
+        return validationReportBuilder.getReport();
     }
 
     public ValidationReport validate(URI documentURI, Document document, boolean applyFix)

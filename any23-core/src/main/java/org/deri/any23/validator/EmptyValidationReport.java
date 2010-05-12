@@ -16,17 +16,22 @@
 
 package org.deri.any23.validator;
 
-import org.w3c.dom.Node;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * An implementation of {@link org.deri.any23.validator.ValidationReport} with no data.
+ * An implementation of {@link ValidationReportBuilder} with no data.
  *
  * @author Davide Palmisano (palmisano@fbk.eu)
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class EmptyValidationReport implements ValidationReport {
 
-    public static final EmptyValidationReport INSTANCE = new EmptyValidationReport();
+    private static final EmptyValidationReport INSTANCE = new EmptyValidationReport();
+
+    private static final List<Issue> EMPTY_ISSUES = Collections.emptyList();
+    private static final List<RuleActivation> EMPTY_RULE_ACTIVATIONS = Collections.emptyList();
+    private static final List<Error> EMPTY_ERRORS = Collections.emptyList();
 
     public static EmptyValidationReport getInstance() {
         return INSTANCE; 
@@ -34,28 +39,16 @@ public class EmptyValidationReport implements ValidationReport {
 
     private EmptyValidationReport() {}
 
-    public int getNumberOfIssues() {
-        return 0;
+    public List<Issue> getIssues() {
+        return EMPTY_ISSUES;
     }
 
-    public void reportIssue(IssueLevel issueLevel, String message, Node n) {
-        throw new UnsupportedOperationException();
+    public List<RuleActivation> getRuleActivations() {
+        return EMPTY_RULE_ACTIVATIONS;
     }
 
-    public void reportIssue(IssueLevel issueLevel, String message) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void traceRuleActivation(Rule r) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void reportRuleError(Rule r, Exception e, String msg) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void reportFixError(Fix r, Exception e, String msg) {
-        throw new UnsupportedOperationException();
+    public List<Error> getErrors() {
+        return EMPTY_ERRORS;
     }
 
     @Override

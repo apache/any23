@@ -17,9 +17,10 @@
 package org.deri.any23.validator.rule;
 
 import org.deri.any23.validator.DOMDocument;
-import org.deri.any23.validator.ValidationReport;
 import org.deri.any23.validator.Rule;
 import org.deri.any23.validator.RuleContext;
+import org.deri.any23.validator.ValidationReport;
+import org.deri.any23.validator.ValidationReportBuilder;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -40,7 +41,11 @@ public class MetaNameMisuseRule implements Rule {
         return "meta-name-misuse-rule";
     }
 
-    public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
+    public boolean applyOn(
+            DOMDocument document,
+            RuleContext context,
+            ValidationReportBuilder validationReportBuilder
+    ) {
         List<Node> metaNodes = document.getNodes("/HTML/HEAD/META");
         boolean foundIssue = false;
         final List<Node> wrongMetaNodes = new ArrayList<Node>();
@@ -49,7 +54,7 @@ public class MetaNameMisuseRule implements Rule {
             if(nameNode != null && nameNode.getTextContent().contains(":")) {
                 foundIssue = true;
                 wrongMetaNodes.add(metaNode);
-                validationReport.reportIssue(
+                validationReportBuilder.reportIssue(
                         ValidationReport.IssueLevel.error,
                         "Error detected in meta node: name property contains a prefixed value.",
                         metaNode
