@@ -114,22 +114,26 @@
 		depends="compile.tests,copy"
 		description="Run the test suite."
 	>
-		<junit haltonerror="true">
-			<classpath>
-				<path refid="runtime.class.path"/>
-				<pathelement path="${build}"/>
-				<pathelement path="${build.tests}"/>
-				<pathelement path="${junit.jar}"/>
-			</classpath>
-			<batchtest>
-				<fileset dir="${src.tests}">
-					<include name="**/Test*.java"/>
-					<include name="**/*Test.java"/>
-    			</fileset>
-				<formatter type="brief" usefile="false" />
-  			</batchtest>
-		</junit>
-	</target>
+        <junit haltonerror="true">
+            <assertions enableSystemAssertions="false">
+                <enable package="org.deri.any23"/>
+                <disable class="org.openrdf.sail.memory.model.MemValueFactory"/>
+            </assertions>
+            <classpath>
+                <path refid="runtime.class.path"/>
+                <pathelement path="${build}"/>
+                <pathelement path="${build.tests}"/>
+                <pathelement path="${junit.jar}"/>
+            </classpath>
+            <batchtest>
+                <fileset dir="${src.tests}">
+                    <include name="**/Test*.java"/>
+                    <include name="**/*Test.java"/>
+                </fileset>
+                <formatter type="brief" usefile="false"/>
+            </batchtest>
+        </junit>
+    </target>
 
 	<target 
 		name="jar" 

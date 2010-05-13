@@ -519,6 +519,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.4.3</version>
                 <configuration>
+                    <!-- Disabling assertions. -->
+                    <argLine>-ea -da:org.openrdf.sail.memory.model.MemValueFactory</argLine>
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*TestCase.java</include>

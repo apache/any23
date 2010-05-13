@@ -50,8 +50,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     /**
      * Tests that the default parser settings enable tolerance in data type parsing.
      */
-    // TODO #19 - This test doesn't run on Maven2, but runs on Ant. 
-    // @Test
+    @Test
     public void testTolerantParsing() {
         assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
     }
