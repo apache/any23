@@ -332,6 +332,36 @@ public class Any23Test {
         Assert.assertEquals("Unexpected number of triples.", 8, cth2.getCount() );
     }
 
+    @Test
+    public void testExtractionParametersWithNestingDisabled() throws IOException, ExtractionException {
+        Any23 runner = new Any23();
+        DocumentSource source = new FileDocumentSource(
+                new File("src/test/resources/microformats/nested-microformats-a1.html"),
+                "http://www.test.com"
+        );
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        CountingTripleHandler cth1 = new CountingTripleHandler();
+        RDFXMLWriter ctw1 = new RDFXMLWriter(baos);
+        CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
+        compositeTH1.addChild(cth1);
+        compositeTH1.addChild(ctw1);
+        runner.extract(new ExtractionParameters(false, false, true), source,  compositeTH1);
+        logger.info( baos.toString() );
+        Assert.assertEquals("Unexpected number of triples.", 24, cth1.getCount() );
+
+        baos.reset();
+        CountingTripleHandler cth2 = new CountingTripleHandler();
+        NTriplesWriter ctw2 = new NTriplesWriter(baos);
+        CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
+        compositeTH2.addChild(cth2);
+        compositeTH2.addChild(ctw2);
+        runner.extract(new ExtractionParameters(true, true, false), source,  compositeTH2);
+        logger.info( baos.toString() );
+        Assert.assertEquals("Unexpected number of triples.", 21, cth2.getCount() );
+    }
+
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
         Any23 any23 = new Any23();
         ByteArrayOutputStream out = new ByteArrayOutputStream();

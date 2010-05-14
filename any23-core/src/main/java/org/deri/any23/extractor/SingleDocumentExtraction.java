@@ -72,7 +72,7 @@ public class SingleDocumentExtraction {
 
     private static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
 
-    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(false, false);
+    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(false, false, true);
 
     private final DocumentSource in;
 
@@ -182,7 +182,11 @@ public class SingleDocumentExtraction {
         } catch(ValidatorException ve) {
             throw new ExtractionException("An error occurred during the validation phase.", ve);
         }
-        consolidateResources(resourceRoots, propertyPaths, output);
+        if(extractionParameters.isNestingEnabled()) {
+            consolidateResources(resourceRoots, propertyPaths, output);
+        } else {
+            consolidateResources(resourceRoots, output);
+        }
         try {
             output.endDocument(documentURI);
         } catch (TripleHandlerException e) {
@@ -449,14 +453,16 @@ public class SingleDocumentExtraction {
                         urise
                 );
             }
-            for( ResourceRoot resourceRoot : resourceRoots ) {
-                output.receiveTriple(
-                        resourceRoot.getRoot(),
-                        SINDICE.getProperty(DOMAIN),
-                        ValueFactoryImpl.getInstance().createLiteral(domain),
-                        null,
-                        context
-                );
+            if (domain != null) {
+                for (ResourceRoot resourceRoot : resourceRoots) {
+                    output.receiveTriple(
+                            resourceRoot.getRoot(),
+                            SINDICE.getProperty(DOMAIN),
+                            ValueFactoryImpl.getInstance().createLiteral(domain),
+                            null,
+                            context
+                    );
+                }
             }
 
             // Detect the nesting relationship among different microformats and explicit them adding connection triples.
@@ -473,6 +479,68 @@ public class SingleDocumentExtraction {
                     if( subPath( currentResourceRoot.getPath(), currentPropertyPath.getPath() ) ) {
                         createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
                     }
+                }
+            }
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException("Error while writing triple triple.", e);
+        } finally {
+            try {
+                output.closeContext(context);
+            } catch (TripleHandlerException e) {
+                throw new ExtractionException("Error while closing context.", e);
+            }
+        }
+    }
+
+    /**
+     * This method consolidates the graphs extracted from the same document.
+     * In particular it adds:
+     * <ul>
+     *   <li>for every microformat root node a triple indicating the original Web page domain;</li>
+     * </ul>
+     * @param resourceRoots list of RDF nodes representing roots of
+     *        extracted microformat graphs and the corresponding HTML paths.
+     *        from which such properties have been extracted.
+     * @param output a triple handler event collector.
+     * @throws ExtractionException
+     */
+    private void consolidateResources(
+            List<ResourceRoot> resourceRoots,
+            TripleHandler output
+    ) throws ExtractionException {
+        final ExtractionContext context = new ExtractionContext(
+                "consolidation-extractor",
+                documentURI,
+                UUID.randomUUID().toString()
+        );
+
+        try {
+            output.openContext(context);
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
+                    e
+            );
+        }
+        try {
+            // Add source Web domains to every resource root.
+            String domain;
+            try {
+                domain = new java.net.URI( in.getDocumentURI() ).getHost();
+            } catch (URISyntaxException urise) {
+                throw new IllegalArgumentException(
+                        "An error occurred while extracting the host from the document URI.",
+                        urise
+                );
+            }
+            if (domain != null) {
+                for (ResourceRoot resourceRoot : resourceRoots) {
+                    output.receiveTriple(
+                            resourceRoot.getRoot(),
+                            SINDICE.getProperty(DOMAIN),
+                            ValueFactoryImpl.getInstance().createLiteral(domain),
+                            null,
+                            context
+                    );
                 }
             }
         } catch (TripleHandlerException e) {

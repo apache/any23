@@ -85,6 +85,7 @@ public class Rover {
         options.addOption(new Option("o", "output", true, "ouput file (defaults to stdout)"));
         options.addOption(new Option("p", "pedantic", false, "validates and fixes HTML content detecting commons issues"));
         options.addOption(new Option("t", "notrivial", false, "filter trivial statements"));
+        options.addOption(new Option("n", "nesting", false, "disable production of nesting triples"));
         options.addOption(new Option("s", "stats", false, "print out statistics of Any23"));
         options.addOption(new Option("l", "log", true, "logging, please specify a file"));
         options.addOption(new Option("v", "verbose", false, "show progress and debug information"));
@@ -154,12 +155,14 @@ public class Rover {
             outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
         }
 
+        final boolean nestingDisabled = !cmd.hasOption('n');
+
         final ExtractionParameters eps =
                 cmd.hasOption('p')
                         ?
-                new ExtractionParameters(true, true)
+                new ExtractionParameters(true, true, nestingDisabled)
                         :
-                new ExtractionParameters(false, false); 
+                new ExtractionParameters(false, false, nestingDisabled);
 
         long start = System.currentTimeMillis();
         Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
