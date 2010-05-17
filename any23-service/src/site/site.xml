@@ -30,19 +30,14 @@
     </skin>
 
     <bannerLeft>
-        <name>Any23: Anything to Triples - Core</name>
+        <name>Any23: Anything to Triples - Service</name>
         <src>images/logo-any23.png</src>
         <href>http://developers.any23.org/</href>
     </bannerLeft>    
 
     <body>
         <menu name="${project.name}">
-            <item name="Introduction"     href="index.html"/>
-			<item name="Install"          href="install.html"/>
             <item name="Getting started"  href="getting-started.html"/>
-            <item name="Developers guide" href="developers.html"/>
-            <item name="Extraction notes" href="extraction.html"/>
-            <item name="Ill-formed RDFa"  href="ill-formed-rdfa.html"/>
         </menu>
 
         <menu ref="reports"/>

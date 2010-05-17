@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    author: Michele Mostarda (michele.mostarda@gmail.com)
+    author: Davide Palmisano (dpalmisano@gmail.com)
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.deri.any23</groupId>
+    <artifactId>any23-reactor</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+    <name>Any23 Reactor Module</name>
+
+    <modules>
+        <module>parent</module>
+        <module>any23-core</module>
+        <module>any23-service</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>merge-sites</id>
+                        <phase>site</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy todir="target/site/any23-core">
+                                    <fileset dir="any23-core/target/site/">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+                                <copy todir="target/site/any23-service">
+                                    <fileset dir="any23-service/target/site/">
+                                        <include name="**/*"/>
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

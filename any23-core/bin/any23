@@ -1,10 +1,15 @@
 #!/bin/bash
 ANY23_ROOT=$(cd "$(dirname "$0")"; pwd -P)
 ANY23_ROOT="$ANY23_ROOT/.."
-CP="$ANY23_ROOT/build"
+
+if [ ! -e $ANY23_ROOT/target/*-jar-with-dependencies.jar ]; then 
+    echo "Generating executable JAR..."
+    mvn -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly	
+fi
+
 SEP=':'
 if [ "$(uname)" = "Cygwin" ]; then SEP=';'; fi
-for jar in "$ANY23_ROOT"/lib/*.jar "$ANY23_ROOT"/lib/*/*.jar
+for jar in "$ANY23_ROOT"/target/*-jar-with-dependencies.jar
 do
   if [ ! -e "$jar" ]; then continue; fi
   CP="$CP$SEP$jar"

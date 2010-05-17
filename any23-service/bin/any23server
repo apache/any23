@@ -1,0 +1,10 @@
+#!/bin/bash
+ANY23_ROOT=$(cd "$(dirname "$0")"; pwd -P)
+ANY23_ROOT="$ANY23_ROOT/.."
+
+if [ ! -e $ANY23_ROOT/target/any23-service-*-dev.war ]; then 
+    echo "Generating executable WAR..."
+    mvn -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly	
+fi
+
+mvn -f $ANY23_ROOT/pom.xml jetty:run

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    author: Michele Mostarda (michele.mostarda@gmail.com)
+    author: Davide Palmisano (dpalmisano@gmail.com)
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.deri.any23</groupId>
+        <artifactId>any23-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.deri.any23</groupId>
+    <artifactId>any23-service</artifactId>
+    <packaging>war</packaging>
+    <version>0.4.0-dev</version>
+    <!-- NOTE, there's also a version string in Any23.java, they should match! -->
+    <name>Anything to Triples - Service Module</name>
+    <description>Anything To Triples (any23) is a library and web service that extracts structured data
+        in RDF format from a variety of Web documents.
+    </description>
+    <url>http://developers.any23.org</url>
+
+    <dependencies>
+        <!-- Core Module -->
+        <dependency>
+            <groupId>org.deri.any23</groupId>
+            <artifactId>any23-core</artifactId>
+            <version>0.4.0-dev</version>
+        </dependency>
+
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>servlet-api-3.0</artifactId>
+            <version>7.0.0pre2</version>
+        </dependency>
+
+        <!-- BEGIN: Jetty -->
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty</artifactId>
+            <version>7.0.0.pre5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-xml</artifactId>
+            <version>7.0.0.pre5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>7.0.0.pre5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>7.0.0.pre5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-servlet-tester</artifactId>
+            <version>7.0.0.pre5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-security</artifactId>
+            <version>7.0.0.pre5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- END: Jetty -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Generates a self-contained WAR. -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+

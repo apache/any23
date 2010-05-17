@@ -1,0 +1,11 @@
+<assembly>
+    <dependencySets>
+        <dependencySet>
+           <includes>
+               <include>*:jar</include>
+           </includes>
+           <unpack>false</unpack>
+           <outputDirectory>WEB-INF/lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+</assembly>
