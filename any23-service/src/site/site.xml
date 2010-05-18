@@ -37,7 +37,7 @@
 
     <body>
         <menu name="${project.name}">
-            <item name="Getting started"  href="getting-started.html"/>
+            <item name="Introduction"  href="index.html"/>
         </menu>
 
         <menu ref="reports"/>

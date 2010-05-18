@@ -12,7 +12,9 @@
     <artifactId>any23-reactor</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
-    <name>Any23 Reactor Module</name>
+    <name>Any23 - Anything to Triples</name>
+	<description>Anything To Triples (any23) is a library, a web service and a command line tool that 
+    extracts structured data in RDF format from a variety of Web documents.</description>
 
     <modules>
         <module>parent</module>
