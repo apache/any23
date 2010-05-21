@@ -144,7 +144,7 @@ class WebResponder {
                 ps.println("<response>");
                 ps.println("<report>");
                 ps.println("<![CDATA[");
-                ps.println(er.getValidationReport());
+                ps.print(er.getValidationReport());
                 ps.println("]]>");
                 ps.println("</report>");
                 ps.println("<data>");

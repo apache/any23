@@ -25,9 +25,9 @@ import java.util.List;
  */
 public class DefaultValidationReport implements ValidationReport {
 
-    private List<Issue> issues;
-    private List<RuleActivation> ruleActivations;
-    private List<Error> errors;
+    private final List<Issue> issues;
+    private final List<RuleActivation> ruleActivations;
+    private final List<Error> errors;
 
     public DefaultValidationReport(
             List<Issue> issues,
@@ -49,5 +49,20 @@ public class DefaultValidationReport implements ValidationReport {
 
     public List<Error> getErrors() {
         return errors;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        for(Issue issue : issues) {
+            sb.append(issue).append('\n');
+        }
+        for(RuleActivation ruleActivation : ruleActivations) {
+            sb.append(ruleActivation).append('\n');
+        }
+        for(Error error : errors) {
+            sb.append(error).append('\n');
+        }
+        return sb.toString();
     }
 }
