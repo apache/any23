@@ -19,13 +19,32 @@ public interface ValidationReport {
         info
     }
 
+    /**
+     * Returns the list of detected issues.
+     *
+     * @return list of detected issues.
+     */
     List<Issue> getIssues();
 
+    /**
+     * Returns the list of activated rules.
+     *
+     * @return list of activated rules.
+     */
     List<RuleActivation> getRuleActivations();
 
+    /**
+     * Returns the list of detected errors.
+     *
+     * @return list of detected errors.
+     */
     List<Error> getErrors();
 
-        class Issue {
+    /**
+     * An issue found during the validation process.
+     */
+    class Issue {
+
         final IssueLevel level;
         final String message;
         final Node origin;
@@ -47,6 +66,9 @@ public interface ValidationReport {
         }
     }
 
+    /**
+     * This class describes the activation of a rule. 
+     */
     class RuleActivation {
         private final String ruleStr;
 
@@ -59,6 +81,9 @@ public interface ValidationReport {
         }
     }
 
+    /**
+     * An error occurred while performing the validation process.
+     */
     abstract class Error {
         private final Exception cause;
         private final String message;
@@ -74,6 +99,9 @@ public interface ValidationReport {
         }
     }
 
+    /**
+     * An error occurred while executing a rule.
+     */
     class RuleError extends Error {
         private final Rule origin;
 
@@ -88,6 +116,9 @@ public interface ValidationReport {
         }
     }
 
+    /**
+     * An error occurred while executing a fix.
+     */
     class FixError extends Error {
         private final Fix origin;
 
