@@ -22,6 +22,8 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.source.DocumentSource;
+import org.deri.any23.validator.SerializationException;
+import org.deri.any23.validator.XMLValidationReportSerializer;
 import org.deri.any23.writer.FormatWriter;
 import org.deri.any23.writer.NQuadsWriter;
 import org.deri.any23.writer.NTriplesWriter;
@@ -137,6 +139,7 @@ class WebResponder {
         }
 
         final ServletOutputStream sos = response.getOutputStream();
+        XMLValidationReportSerializer reportSerializer = new XMLValidationReportSerializer();
         if(report) {
             PrintStream ps = new PrintStream(sos);
             try {
@@ -144,7 +147,7 @@ class WebResponder {
                 ps.println("<response>");
                 ps.println("<report>");
                 ps.println("<![CDATA[");
-                ps.print(er.getValidationReport());
+                reportSerializer.serialize(er.getValidationReport(), ps);
                 ps.println("]]>");
                 ps.println("</report>");
                 ps.println("<data>");
@@ -153,6 +156,8 @@ class WebResponder {
                 ps.println("]]>");
                 ps.println("</data>");
                 ps.println("</response>");
+            } catch (SerializationException se) {
+                throw new RuntimeException("An error occurred while serializing the output report.", se);
             } finally {
                 ps.close();
             }
