@@ -18,6 +18,9 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
+/**
+ * The <a href="http://www.w3.org/1999/xhtml/vocab/">XHTML</a> vocabulary.
+ */
 public class XHTML extends Vocabulary {
 
     public static final String NS = "http://www.w3.org/1999/xhtml/vocab#";

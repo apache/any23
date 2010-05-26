@@ -19,6 +19,7 @@ package org.deri.any23.validator;
 /**
  * Models a rule for an issue detection.
  *
+ * @see org.deri.any23.validator.Fix
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

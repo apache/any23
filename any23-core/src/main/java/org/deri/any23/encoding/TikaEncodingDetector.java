@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * An implementation of {@link org.deri.any23.encoding.EncodingDetector} based on
+ * <a href="http://tika.apache.org/">Apache Tika</a>.
+ *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @version $Id$

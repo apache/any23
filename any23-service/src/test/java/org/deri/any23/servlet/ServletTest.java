@@ -426,6 +426,9 @@ public class ServletTest {
         Assert.fail("expected <" + expected + "> to be contained in <" + actual + ">");
     }
 
+    /**
+     * Test purpose servlet implementation.
+     */
     public static class TestableServlet extends Servlet {
 
         @Override

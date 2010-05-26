@@ -33,6 +33,10 @@ import org.w3c.dom.Node;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * This {@link org.deri.any23.extractor.Extractor.TagSoupDOMExtractor} implementation
+ * retrieves the <code>LINK</code>s declared within the <code>HTML/HEAD</code> page header.
+ */
 public class HeadLinkExtractor implements TagSoupDOMExtractor {
 
     public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,

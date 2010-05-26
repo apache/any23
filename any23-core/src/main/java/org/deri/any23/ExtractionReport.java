@@ -23,6 +23,7 @@ import org.deri.any23.validator.ValidationReport;
  * This class contains some statistics and general information about
  * an extraction.
  *
+ * @see org.deri.any23.Any23
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

@@ -24,7 +24,6 @@ import java.io.InputStream;
  * Defines a detector for <i>charset encoding</i>.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
- * @version $Id$
  */
 public interface EncodingDetector {
 

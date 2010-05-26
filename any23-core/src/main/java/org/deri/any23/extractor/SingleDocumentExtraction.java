@@ -72,7 +72,9 @@ public class SingleDocumentExtraction {
 
     private static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
 
-    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(false, false, true);
+    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
+            false, false, true
+    );
 
     private final DocumentSource in;
 

@@ -21,6 +21,7 @@ import org.deri.any23.validator.ValidationReport;
 /**
  * This class provides the report for a {@link org.deri.any23.extractor.SingleDocumentExtraction} run.
  *
+ * @see org.deri.any23.extractor.SingleDocumentExtraction
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class SingleDocumentExtractionReport {

@@ -18,6 +18,10 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
+/**
+ * The <i>DCTERMS</code> vocabulary.
+ * See <a href="http://dublincore.org/">Dublin Core</a>.
+ */
 public class DCTERMS extends Vocabulary {
 
     public static final String NS = "http://purl.org/dc/terms/";

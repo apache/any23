@@ -19,6 +19,7 @@ package org.deri.any23.validator;
 /**
  * Defines an error raised from the {@link org.deri.any23.validator.ValidationReportSerializer}.
  *
+ * @see org.deri.any23.validator.ValidationReportSerializer
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class SerializationException extends Exception {

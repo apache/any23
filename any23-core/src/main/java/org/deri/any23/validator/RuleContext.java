@@ -20,6 +20,7 @@ package org.deri.any23.validator;
  * This context is used to pass data from a {@link org.deri.any23.validator.Rule}
  * to a {@link org.deri.any23.validator.Fix}.
  *
+ * @see org.deri.any23.validator.Rule
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

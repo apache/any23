@@ -21,7 +21,6 @@ import org.w3c.dom.Node;
 /**
  * The report interface is used to generate diagnostics about validation.
  *
- * @see org.deri.any23.validator.Rule
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

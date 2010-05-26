@@ -24,6 +24,7 @@ import org.deri.any23.validator.RuleContext;
 /**
  * This fixes the missing <i>Open Graph</i> protocol.
  *
+ * @see org.deri.any23.validator.rule.MissingOpenGraphNamespaceRule
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

@@ -1,6 +1,9 @@
 package org.deri.any23.extractor;
 
 /**
+ * This class models the parameters to be used to perform an extraction.
+ *
+ * @see org.deri.any23.Any23
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class ExtractionParameters {

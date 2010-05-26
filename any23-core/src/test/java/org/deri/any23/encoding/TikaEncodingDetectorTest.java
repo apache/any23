@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * Test case for {@link org.deri.any23.encoding.TikaEncodingDetector}.
+ *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @version $Id$

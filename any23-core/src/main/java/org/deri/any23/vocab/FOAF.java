@@ -18,6 +18,9 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
+/**
+ * The <a href="http://xmlns.com/foaf/spec/">Fried Of A Friend</a> vocabulary.
+ */
 public class FOAF extends Vocabulary {
 
     public static final String NS = "http://xmlns.com/foaf/0.1/";

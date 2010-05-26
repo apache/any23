@@ -28,6 +28,7 @@ import java.util.List;
 /**
  * This rule detects the issue of missing Open Graph namespace.
  *
+ * @see org.deri.any23.validator.rule.OpenGraphNamespaceFix
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

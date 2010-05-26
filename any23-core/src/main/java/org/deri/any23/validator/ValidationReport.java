@@ -23,7 +23,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * This class contains the report of a validation performed by
+ * the {@link org.deri.any23.validator.Validator} class.
+ *
+ * @see org.deri.any23.validator.Validator
+ * @see org.deri.any23.validator.ValidationReportBuilder 
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Davide Palmisano (palmisano@fbk.eu)
  */
 public interface ValidationReport extends Serializable {
 
