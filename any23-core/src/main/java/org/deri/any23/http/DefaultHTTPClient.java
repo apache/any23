@@ -42,7 +42,7 @@ import java.util.List;
  */
 public class DefaultHTTPClient implements HTTPClient {
 
-    private static final int DEFAULT_TIMEOUT = 5000;
+    private static final int DEFAULT_TIMEOUT = 7000;
     
     private static final int DEFAULT_TOTAL_CONNECTIONS = 5;
 
