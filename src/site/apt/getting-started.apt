@@ -12,6 +12,8 @@ Getting started with <<Any23>>
 
 Using Any23 as a command line tool
 
+ The command line tool is defined within the <<any23-core>> module.
+
  Once <<Any23>> has been correctly {{{install.html}installed}}, if you want to use it as a command line tool, please use the shell scripts provided in the <<"/bin">> directory of the download. These are provided both as Windows and Unix (Linux/OS X) versions. Note, you may want to add the /bin directory to your system path.
 
  The main script is <<"any23">>. The <<"any23tools">> command also provides access to some testing, debugging and analyzing utilities (sorry, we do not provide a documentation for this at the moment).
@@ -23,29 +25,32 @@ Using Any23 as a command line tool
 ** Overview:
 
 +-------------------------------------------
-$ ./any23
-   usage: any23 [file|url] [-e <arg>] [-f <arg>] [-l <arg>] [-o <arg>] [-s]
-          [-t] [-v]
-    -e <arg>            comma-separated list of extractors, e.g.
-                        rdf-xml,rdf-turtle
-    -f,--format <arg>   [turtle (default), ntriples, rdfxml,quad]
-    -l,--log <arg>      logging, please specify a file
-    -o,--output <arg>   ouput file (defaults to stdout)
-    -s,--stats          print out statistics of Any23
-    -t,--notrivial      filter trivial statements
-    -v,--verbose        show progress and debug information
+any23-core/bin$ ./any23
+usage: any23 [file|url] [-e <arg>] [-f <arg>] [-l <arg>] [-n] [-o <arg>]
+       [-p] [-s] [-t] [-v]
+ -e <arg>            comma-separated list of extractors, e.g.
+                     rdf-xml,rdf-turtle
+ -f,--format <arg>   [turtle (default), ntriples, rdfxml,quad]
+ -l,--log <arg>      logging, please specify a file
+ -n,--nesting        disable production of nesting triples
+ -o,--output <arg>   ouput file (defaults to stdout)
+ -p,--pedantic       validates and fixes HTML content detecting commons
+                     issues
+ -s,--stats          print out statistics of Any23
+ -t,--notrivial      filter trivial statements
+ -v,--verbose        show progress and debug information
 +-------------------------------------------
 
 ** Extract meta information from Web documents:
 
 +-----------------------------------------
-$ ./any23 http://yourdomain/yourfile
+any23-core/bin$ ./any23 http://yourdomain/yourfile
 +-----------------------------------------
 
 ** Extract meta information from local files:
 
 +--------------------------------------
-$ ./any23 /home/user/myFoaf.rdf
+any23-core/bin$ ./any23 /home/user/myFoaf.rdf
 +--------------------------------------
 
 ** Specify the output format, use option <<"-f">> or <<"--format">>:
@@ -53,19 +58,19 @@ $ ./any23 /home/user/myFoaf.rdf
  TURTLE - default configuration, no need for specific flag
 
 +--------------------------------------
-$ ./any23 foaf.rdf
+any23-core/bin$ ./any23 foaf.rdf
 +--------------------------------------
 
  N3 - <<-f ntriples>>
 
 +--------------------------------------
-$ ./any23 -f ntriples foaf.rdf
+any23-core/bin$ ./any23 -f ntriples foaf.rdf
 +--------------------------------------
 
  Quad - <<-f quad>> (please see further information about the {{{http://sw.deri.org/2008/07/n-quads/}"quad"}} format)
 
 +--------------------------------------
-$ ./any23 -f quad foaf.rdf
+any23-core/bin$ ./any23 -f quad foaf.rdf
 +--------------------------------------
 
 ** Filtering trivial statements
@@ -73,7 +78,7 @@ $ ./any23 -f quad foaf.rdf
  By default, <<Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta information like the author or the software used to create the <html>. Hence, if the user is only interested in the structured content from the <HTML/body> tag we offer a filter functionality, activated by the <<"-t">> command line argument.
 
 +-------------------------
-$ ./any23 -t foaf.rdf
+any23-core/bin$ ./any23 -t foaf.rdf
 +-------------------------
 
 Using <<Any23>> as a Web service
@@ -82,7 +87,13 @@ Using <<Any23>> as a Web service
 
 * Running the server
 
+ The server command line tool is defined within the <<any23-service>> module.
+
  Run the <"any23server"> script from the command line in order to start up the server, then go to {{{http://localhost:8080/}}} to access the web interface. The web interface also provides a REST API for converting between formats. Documentation for the API is served up by the servlet itself at {{{http://localhost:8080/}}}. We have a demo version of the servlet running at {{{http://any23.org/}}}.
+
++--------------------------
+any23-service/bin$ ./any23server
++--------------------------
 
  You can also start the server from Java by running the {{{http://developers.any23.org/apidocs/org/deri/any23/servlet/Any23Server.html}Any23Server}} class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
 
