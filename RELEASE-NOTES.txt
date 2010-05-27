@@ -3,13 +3,14 @@
                               Release Notes
 
 * The any23-service module has been separated from the any23-core module,
-  the Ant build system has been dropped.
+  the Ant build system has been dropped. [Issue 44]
 * Added support for HTML metadata (RDFa / Microformats) validation
-  and correction (validator).
-* Added flag to disable the nesting relationship property enrichment.
-* Improved coverage of Microformats tests.
-* Improved documentation.
-* Various code consolidation.
+  and correction (validator). [Issue 77]
+* Added flag to disable the nesting relationship property 
+  enrichment. [Issue 67]
+* Improved coverage of Microformats tests. [Issue 65]
+* Improved documentation. [Issue 44]
+* Various code consolidation. [Issues 68, 69, 70, 71, 72, 73, 74, 77]
 
 ==========================================================================
 
