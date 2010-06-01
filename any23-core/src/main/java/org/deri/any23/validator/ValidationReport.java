@@ -117,7 +117,7 @@ public interface ValidationReport extends Serializable {
 
         private final String ruleStr;
 
-        RuleActivation(Rule r) {
+        public RuleActivation(Rule r) {
             if(r == null) {
                 throw new NullPointerException("rule cannot be null.");
             }
@@ -174,7 +174,7 @@ public interface ValidationReport extends Serializable {
 
         private final Rule origin;
 
-        RuleError(Rule r, Exception e, String msg) {
+        public RuleError(Rule r, Exception e, String msg) {
             super(e, msg);
             if(r == null) {
                 throw new NullPointerException("rule cannot be null.");
@@ -199,7 +199,7 @@ public interface ValidationReport extends Serializable {
 
         private final Fix origin;
 
-        FixError(Fix f, Exception e, String msg) {
+        public FixError(Fix f, Exception e, String msg) {
              super(e, msg);
              origin = f;
         }

@@ -57,7 +57,7 @@ import java.util.Collection;
 public class Any23 {
 
     // NOTE: there's also a version string in pom.xml, they should match.
-    public static final String VERSION = "0.4.0";
+    public static final String VERSION = "0.5.0-SNAPSHOT";
 
     private final ExtractorGroup factories;
     private LocalCopyFactory streamCache;
