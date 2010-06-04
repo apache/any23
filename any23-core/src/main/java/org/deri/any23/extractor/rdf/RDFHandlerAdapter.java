@@ -44,7 +44,9 @@ public class RDFHandlerAdapter implements RDFHandler {
     }
 
     public void handleStatement(Statement stmt) {
-        target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject());
+        if(stmt != null) {
+            target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject());
+        }
     }
 
     public void handleComment(String comment) {

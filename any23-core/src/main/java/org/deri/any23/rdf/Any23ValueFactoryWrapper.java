@@ -140,7 +140,9 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     public Statement createStatement(Resource sub, URI pre, Value obj) {
-        if (sub == null || pre == null || obj == null) return null;
+        if (sub == null || pre == null || obj == null) {
+            return null;
+        }
         return wrappedFactory.createStatement(sub, pre, obj);
     }
 
