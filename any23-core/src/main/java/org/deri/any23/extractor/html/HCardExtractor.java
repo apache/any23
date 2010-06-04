@@ -361,6 +361,9 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addFn(Resource card) {
         final TextField fullNameTextField = name.getFullName();
+        if(fullNameTextField == null) {
+            return false;
+        }
         return conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fullNameTextField.source(),
