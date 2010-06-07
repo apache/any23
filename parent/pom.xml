@@ -90,13 +90,6 @@
             <url>https://repository.apache.org/content/groups/public</url>
             <layout>default</layout>
         </repository>
-        <!-- Fluido Skin Repository. -->
-        <repository>
-            <id>fluido-skin-repository</id>
-            <name>fluido-skin Repository for Maven</name>
-            <url>http://fluido-skin.googlecode.com/svn/repo</url>
-            <layout>default</layout>
-        </repository>
     </repositories>
 
     <developers>
