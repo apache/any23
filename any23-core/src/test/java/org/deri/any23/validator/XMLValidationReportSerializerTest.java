@@ -52,6 +52,16 @@ public class XMLValidationReportSerializerTest {
     }
 
     @Test
+    public void testSerializeEmptyReport() throws SerializationException {
+        ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
+        ValidationReport emptyReport = EmptyValidationReport.getInstance();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        serializer.serialize(emptyReport, baos);
+        Assert.assertTrue(baos.size() > 0);
+    }
+
+    @Test
     public void testSerialize()
     throws SerializationException, IllegalAccessException, InstantiationException {
         ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();

@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -66,6 +67,9 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         Method[] methods = c.getDeclaredMethods();
         List<Method> filtered = new ArrayList<Method>();
         for(Method method : methods) {
+            if(Modifier.isStatic(method.getModifiers())) {
+                continue;
+            }
             final String methodName = method.getName();
             if(
                     method.getParameterTypes().length == 0
