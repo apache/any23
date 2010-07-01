@@ -28,25 +28,34 @@
     </licenses>
 
     <inceptionYear>2010</inceptionYear>
-
+  <!--
     <scm>
         <developerConnection>scm:svn:https://any23.googlecode.com/svn/trunk</developerConnection>
         <connection>scm:svn:http://any23.googlecode.com/svn/trunk</connection>
         <url>http://code.google.com/p/any23source/browse/trunk</url>
     </scm>
 
+-->
     <issueManagement>
         <system>Google Code</system>
         <url>http://code.google.com/p/any23/issues</url>
     </issueManagement>
 
     <distributionManagement>
-        <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl>
-        <!-- Any23 Google Code Maven repo -->
-        <repository>
+        <!-- <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl> -->
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
             <id>any23-googlecode</id>
-            <name>Any23 Google Code Snapshot Repository</name>
+            <name>Any23 Google Code Maven Repository</name>
+            <url>svn:https://any23.googlecode.com/svn/repo/snapshot</url>
+            <layout>default</layout>
+        </snapshotRepository>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>any23-googlecode</id>
+            <name>Any23 Google Code Maven Repository</name>
             <url>svn:https://any23.googlecode.com/svn/repo</url>
+            <layout>default</layout>
         </repository>
     </distributionManagement>
 
@@ -68,6 +77,12 @@
     <!-- Project repository configuration. -->
 
     <repositories>
+        <repository>
+            <id>any23-googlecode</id>
+            <name>Any23 Google Code Maven Repository</name>
+            <url>http://any23.googlecode.com/svn/repo</url>
+            <layout>default</layout>            
+        </repository>
         <!-- Specific repository for Aduna / Sesame related dependencies. -->
         <repository>
             <id>aduna-software-release-repo</id>
@@ -276,7 +291,7 @@
                     <debug>true</debug>
                     <relaxed>true</relaxed>
                     <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
-                    <findbugsXmlOutput>target/findbugs-reports</findbugsXmlOutput>
+                   <!-- <findbugsXmlOutput>target/findbugs-reports</findbugsXmlOutput> -->
                 </configuration>
             </plugin>
 
@@ -336,6 +351,7 @@
 
             <!-- Maven deploy plugin. -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.5</version>
             </plugin>
