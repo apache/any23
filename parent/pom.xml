@@ -45,14 +45,14 @@
         <!-- <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl> -->
         <snapshotRepository>
             <uniqueVersion>false</uniqueVersion>
-            <id>any23-googlecode</id>
+            <id>any23-googlecode-snapshot</id>
             <name>Any23 Google Code Maven Repository</name>
             <url>svn:https://any23.googlecode.com/svn/repo/snapshot</url>
             <layout>default</layout>
         </snapshotRepository>
         <repository>
             <uniqueVersion>false</uniqueVersion>
-            <id>any23-googlecode</id>
+            <id>any23-googlecode-central</id>
             <name>Any23 Google Code Maven Repository</name>
             <url>svn:https://any23.googlecode.com/svn/repo</url>
             <layout>default</layout>
@@ -78,7 +78,13 @@
 
     <repositories>
         <repository>
-            <id>any23-googlecode</id>
+            <id>any23-googlecode-snapshot</id>
+            <name>Any23 Google Code Maven Repository</name>
+            <url>http://any23.googlecode.com/svn/repo/snapshot</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>any23-googlecode-central</id>
             <name>Any23 Google Code Maven Repository</name>
             <url>http://any23.googlecode.com/svn/repo</url>
             <layout>default</layout>            
