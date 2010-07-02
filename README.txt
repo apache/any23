@@ -119,4 +119,16 @@ settings.xml in this way:
     <password>password</password>
 </server>
 
+------------------
+Make a new release
+------------------
+
+To prepare a new release, just verify that the are no local changes and then invoke:
+
+	mvn release:prepare -Dusername=<svn.username> -Dpassword=<svn.pass>
+	
+if everything goes right, perform the release simply typing:
+
+	mvn release:perform
+
 EOF
