@@ -87,18 +87,36 @@ Generate Documentation
 
 To generate the project site locally execute the following command from the trunk dir:
 
-    trunk$ MAVEN_OPTS='-Xmx512m' mvn clean site
+    trunk$ MAVEN_OPTS='-Xmx512m' mvn clean site:site
 
 You can speed up the site generation process specifying the offline option ( -o ),
 but it works only if all the involved plugin dependencies has been already downloaded
 in the local M2 repository:
 
-    trunk$ MAVEN_OPTS='-Xmx512m' mvn -o clean site
+    trunk$ MAVEN_OPTS='-Xmx512m' mvn -o clean site:site
 
 If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
 the umlgraphdoc profile. This profile relies on graphviz ( http://www.graphviz.org/) that must be 
 installed in your system.
 
-    trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site  
+    trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site:site
+
+In order to correctly deploy the site to a remote FTP you just need to properly set up
+the following lines in your <distributionManagement> of the root pom.xml:
+
+<site>
+    <id>any23.developers</id>
+    <name>Any23 Developer Web Site</name>
+    <url>ftp://ftp.cyganiak.de</url>
+</site>
+
+Please remember that you need to set up your username and password to access to that FTP in your
+settings.xml in this way:
+
+<server>
+    <id>any23.developers</id>
+    <username>username</username>
+    <password>password</password>
+</server>
 
 EOF
