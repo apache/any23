@@ -4,25 +4,6 @@
 	<publishDate position="right"/>
 	<version position="right"/>
 
-	<poweredBy>
-	    <logo 
-			name="Sindice" 
-			href="http://sindice.com/"
-	        img="images/logo-sindice-90x30.png"/>
-		<logo 
-			name="Fondazione Bruno Kessler" 
-			href="http://www.fbk.eu/"
-			img="images/logo-fbk-90x30.png"/>
-		<logo
-			name="Digital Enterprise Research Institute" 
-			href="http://www.deri.ie/"
-			img="images/logo-deri-90x30.png"/>
-        <logo
-            name="OKKAM"
-            href="http://okkam.org/"
-            img="images/logo-okkam-90x30.png"/>
-	</poweredBy>
-
 	<skin>
 		<groupId>com.googlecode.fluido-skin</groupId>
 		<artifactId>fluido-skin</artifactId>
@@ -31,7 +12,7 @@
 	
 	<bannerLeft>
         <name>Any23: Anything to Triples - Core</name>
-        <src>images/logo-any23.png</src>
+        <src>../images/logo-any23.png</src>
         <href>http://developers.any23.org/</href>
     </bannerLeft>    
 

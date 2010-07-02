@@ -43,9 +43,9 @@
             <item name="Developers guide" href="developers.html"/>
             <item name="Extraction notes" href="extraction.html"/>
             <item name="Ill-formed RDFa"  href="ill-formed-rdfa.html"/>
-            <item name="Any23 Core"       href="any23-core/index.html"/>
-			<item name="Any23 Service"    href="any23-service/index.html"/>
         </menu>
+
+        <menu ref="modules"/>
 
         <menu name="External links">
 			<item name="Any23.org"       href="http://any23.org"/>
