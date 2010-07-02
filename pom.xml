@@ -48,12 +48,12 @@
         <repository>
             <id>any23-googlecode</id>
             <name>Any23 Google Code Snapshot Repository</name>
-            <url>svn:https://any23.googlecode.com/svn/repo</url>
+            <url>svn:https://any23.googlecode.com/svn/repo/snapshot</url>
         </repository>
         <site>
              <id>any23.developers</id>
              <name>Any23 Developer Web Site</name>
-             <url>file:///dpalmisano</url>
+             <url>ftp://ftp.cyganiak.de</url>
         </site>
     </distributionManagement>
 
