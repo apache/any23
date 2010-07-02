@@ -408,6 +408,7 @@
                 </executions>
             </plugin>
 
+            <!-- Maven release plugin. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
@@ -417,6 +418,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Maven site plugin. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -434,11 +436,14 @@
         </resources>
 
         <extensions>
+	        <!-- Wagon extension for deploying via SVN -->
             <extension>
                 <groupId>org.jvnet.wagon-svn</groupId>
                 <artifactId>wagon-svn</artifactId>
                 <version>1.8</version>
             </extension>
+
+            <!-- Wagon extension for deploying via FTP -->
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ftp</artifactId>
