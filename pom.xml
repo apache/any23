@@ -9,7 +9,7 @@
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.5.0</version>
+    <version>0.5.1-SNAPSHOT</version>
     <name>Any23 - Anything to Triples</name>
 	<description>Anything To Triples (any23) is a library, a web service and a command line tool that 
     extracts structured data in RDF format from a variety of Web documents.</description>
@@ -30,9 +30,9 @@
     <inceptionYear>2010</inceptionYear>
 
     <scm>
-        <developerConnection>scm:svn:https://any23.googlecode.com/svn/tags/any23-parent-0.5.0</developerConnection>
-        <connection>scm:svn:http://any23.googlecode.com/svn/tags/any23-parent-0.5.0</connection>
-        <url>http://code.google.com/p/any23source/browse/tags/any23-parent-0.5.0</url>
+        <developerConnection>scm:svn:https://any23.googlecode.com/svn/trunk</developerConnection>
+        <connection>scm:svn:http://any23.googlecode.com/svn/trunk</connection>
+        <url>http://code.google.com/p/any23source/browse/trunk</url>
     </scm>
 
     <issueManagement>
