@@ -64,14 +64,6 @@ public class SingleDocumentExtraction {
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
-    private static final String DOMAIN = "domain";
-
-    private static final String NESTING = "nesting";
-
-    private static final String NESTING_ORIGINAL = "nesting_original";
-
-    private static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
-
     private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
             false, false, true
     );
@@ -459,7 +451,7 @@ public class SingleDocumentExtraction {
                 for (ResourceRoot resourceRoot : resourceRoots) {
                     output.receiveTriple(
                             resourceRoot.getRoot(),
-                            SINDICE.getProperty(DOMAIN),
+                            SINDICE.getProperty(SINDICE.DOMAIN),
                             ValueFactoryImpl.getInstance().createLiteral(domain),
                             null,
                             context
@@ -538,7 +530,7 @@ public class SingleDocumentExtraction {
                 for (ResourceRoot resourceRoot : resourceRoots) {
                     output.receiveTriple(
                             resourceRoot.getRoot(),
-                            SINDICE.getProperty(DOMAIN),
+                            SINDICE.getProperty(SINDICE.DOMAIN),
                             ValueFactoryImpl.getInstance().createLiteral(domain),
                             null,
                             context
@@ -570,17 +562,17 @@ public class SingleDocumentExtraction {
         final BNode fromObject = from.getObject();
         final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
         BNode bnode = RDFHelper.getBNode(bNodeHash);
-        th.receiveTriple(bnode, SINDICE.getProperty(NESTING_ORIGINAL), from.getProperty(), null, ec );
+        th.receiveTriple(bnode, SINDICE.getProperty(SINDICE.NESTING_ORIGINAL), from.getProperty(), null, ec );
         th.receiveTriple(
                 bnode,
-                SINDICE.getProperty(NESTING_STRUCTURED_PROPERTY),
+                SINDICE.getProperty(SINDICE.NESTING_STRUCTURED_PROPERTY),
                 from.getObject() == null ? to.getRoot() : from.getObject(),
                 null,
                 ec
         );
         th.receiveTriple(
                 from.getSubject(),
-                SINDICE.getProperty(NESTING),
+                SINDICE.getProperty(SINDICE.NESTING),
                 bnode,
                 null,
                 ec

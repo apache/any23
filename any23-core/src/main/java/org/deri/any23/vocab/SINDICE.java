@@ -29,6 +29,14 @@ import java.util.Map;
  */
 public class SINDICE extends Vocabulary {
 
+    public static final String DOMAIN = "domain";
+
+    public static final String NESTING = "nesting";
+
+    public static final String NESTING_ORIGINAL = "nesting_original";
+
+    public static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
+
     /**
      * The namespace of the vocabulary as a string.
      */
