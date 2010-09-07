@@ -24,7 +24,7 @@ package org.deri.any23.validator;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-public interface RuleContext {
+public interface RuleContext <T> {
 
     /**
      * Puts a data within the context.
@@ -32,7 +32,7 @@ public interface RuleContext {
      * @param name
      * @param value
      */
-    void putData(String name, Object value);
+    void putData(String name, T value);
 
     /**
      * Retrieves a registered object.
@@ -40,7 +40,7 @@ public interface RuleContext {
      * @param name
      * @return a registered object, <code>null</code> if not found.
      */
-    <T> T getData(String name);
+    T getData(String name);
 
     /**
      * Removes a data from the context.

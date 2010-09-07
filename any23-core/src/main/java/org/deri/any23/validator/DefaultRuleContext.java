@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-public class DefaultRuleContext implements RuleContext {
+public class DefaultRuleContext implements RuleContext<Object> {
 
     private Map<String, Object> data = new HashMap<String, Object>();
 
