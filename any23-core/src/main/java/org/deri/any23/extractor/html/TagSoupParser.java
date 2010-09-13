@@ -115,7 +115,7 @@ public class TagSoupParser {
      *
      * @param applyFix
      * @return a report containing the <i>HTML</i> DOM that has been validated and fixed if <i>applyFix</i>
-     *         if <code>true</code>. The reports contains also informations about the activated rules and the
+     *         if <code>true</code>. The reports contains also information about the activated rules and the
      *         the detected issues.
      * @throws IOException
      * @throws ValidatorException
@@ -136,8 +136,7 @@ public class TagSoupParser {
         DOMParser parser = new DOMParser();
         parser.setFeature("http://xml.org/sax/features/namespaces", false);
         parser.setFeature("http://cyberneko.org/html/features/scanner/script/strip-cdata-delims", true);
-
-        if(this.encoding != null)
+        if (this.encoding != null)
             parser.setProperty("http://cyberneko.org/html/properties/default-encoding", this.encoding);
 
         parser.parse(new InputSource(input));

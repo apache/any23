@@ -5,10 +5,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.repository.RepositoryException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Reference Test class for {@link org.deri.any23.extractor.html.TagSoupParser} parser.
@@ -55,16 +57,84 @@ public class TagSoupParserTest {
      */
     @Test
     public void testImplicitEncodingBehavior() throws IOException, ExtractionException, RepositoryException {
-
         this.tagSoupParser = new TagSoupParser(
                 new FileInputStream(
                     new File("src/test/resources/html/encoding-test.html")
                 ),
                 page
         );
-
         Assert.assertNotSame(this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
                 "Knud M\u00F6ller - semanticweb.org");
+    }
+
+
+    /**
+     * Test related to the issue 78 and disabled until the underlying <i>NekoHTML</i>
+     * bug has been fixed.
+     * 
+     * @throws IOException
+     */
+    public void testEmptySpanElements() throws IOException {
+        final String page = "http://example.com/test-page";
+        InputStream brokenEmptySpanHtml = new FileInputStream(
+                new File("src/test/resources/html/empty-span-broken.html")
+        );
+        InputStream worksEmptySpanHtml = new FileInputStream(
+                new File("src/test/resources/html/empty-span-works.html")
+        );
+        this.tagSoupParser = new TagSoupParser(brokenEmptySpanHtml, page);
+        Document brokenElementDom = this.tagSoupParser.getDOM();
+        this.tagSoupParser = null; // useless but force GC
+
+        this.tagSoupParser = new TagSoupParser(worksEmptySpanHtml, page);
+        Document worksElementDom = this.tagSoupParser.getDOM();
+
+        NodeList brokenNodeList = brokenElementDom.getElementsByTagName("span");
+        Assert.assertEquals(3, brokenNodeList.getLength());
+
+        NodeList worksNodeList = worksElementDom.getElementsByTagName("span");
+        Assert.assertEquals(3, worksNodeList.getLength());
+
+        for(int i = 0; i < worksNodeList.getLength(); i++) {
+            printNode(worksNodeList.item(i), System.out);
+        }
+        for(int i = 0; i < brokenNodeList.getLength(); i++) {
+            printNode(brokenNodeList.item(i), System.out);
+        }
+
+
+        /**
+         * This assertion tests if the two {@link org.w3c.dom.Document} are
+         * equal according this <a
+         * href="http://download-llnw.oracle.com/javase/6/docs/api/org/w3c/dom/Node.html#isEqualNode(org.w3c.dom.Node)">
+         * definition</a> that fits our needs.
+         */
+        Assert.assertTrue(brokenElementDom.isEqualNode(worksElementDom));
+        }
+
+    private void printNode(Node node, PrintStream printStream) {
+        printStream.println("node name:" + node.getNodeName());
+        printStream.println("node value:" + node.getNodeValue());
+        printStream.println("node has child:" + node.hasChildNodes());
+        printStream.println("node # child:" + node.getChildNodes().getLength());
+
+        printStream.println("node child:");
+        NodeList childNodes = node.getChildNodes();
+        for (int j = 0; j < childNodes.getLength(); j++) {
+            Node brokenChild = childNodes.item(j);
+            printStream.println("    node name:" + brokenChild.getNodeName());
+            printStream.println("    node type:" + brokenChild.getNodeType());
+            printStream.println("    node value:" + brokenChild.getNodeValue());
+        }
+
+        printStream.println("node attributes:");
+        NamedNodeMap namedNodeMap = node.getAttributes();
+        for (int j = 0; j < namedNodeMap.getLength(); j++) {
+            Node attribute = namedNodeMap.item(j);
+            printStream.println("    attribute name:" + attribute.getNodeName());
+            printStream.println("    attribute value:" + attribute.getNodeValue());
+        }
+        printStream.println();
     }
 
 }
