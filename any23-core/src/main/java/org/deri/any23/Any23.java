@@ -29,6 +29,7 @@ import org.deri.any23.http.HTTPClient;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.mime.TikaMIMETypeDetector;
+import org.deri.any23.mime.purifier.WhiteSpacesPurifier;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
@@ -61,7 +62,7 @@ public class Any23 {
 
     private final ExtractorGroup factories;
     private LocalCopyFactory streamCache;
-    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(); // Can be overridden by setter.
+    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
     private String userAgent = null;
     private HTTPClient httpClient = new DefaultHTTPClient();
     private boolean httpClientInitialized = false;

@@ -22,6 +22,8 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.deri.any23.mime.purifier.Purifier;
+import org.deri.any23.mime.purifier.WhiteSpacesPurifier;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.turtle.TurtleParser;
 
@@ -39,6 +41,8 @@ import java.util.regex.Pattern;
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
 public class TikaMIMETypeDetector implements MIMETypeDetector {
+
+    private Purifier purifier;
 
     public static final String N3_MIMETYPE = "text/n3";
 
@@ -119,7 +123,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     }
 
     public static void main(String[] args) {
-        new TikaMIMETypeDetector();
+        new TikaMIMETypeDetector(new WhiteSpacesPurifier());
     }
 
     /**
@@ -184,7 +188,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         return sb.toString();
     }
 
-    public TikaMIMETypeDetector() {
+    public TikaMIMETypeDetector(Purifier purifier) {
+        this.purifier = purifier;
         InputStream is = getResourceAsStream();
         if (config == null) {
             try {
@@ -221,6 +226,14 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
        if( input != null && ! input.markSupported() ) {
            throw new IllegalArgumentException("Invalid stream, must be resettable.");
        }
+
+        if(input != null) {
+            try {
+                this.purifier.purify(input);
+            } catch (IOException e) {
+                throw new RuntimeException("Error while purifying the provided input", e);
+            }
+        }
 
         Metadata meta = new Metadata();
         if (mimeTypeFromMetadata != null)
@@ -282,6 +295,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      */
     private String getMimeType(InputStream stream, final Metadata metadata) throws IOException {
         if (stream != null) {
+            this.purifier.purify(stream);
             final String type = tika.detect(stream);
             if (
                     type != null

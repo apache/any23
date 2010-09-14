@@ -2,6 +2,7 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.mime.TikaMIMETypeDetector;
+import org.deri.any23.mime.purifier.WhiteSpacesPurifier;
 import org.deri.any23.vocab.ICAL;
 import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.SINDICE;
@@ -202,7 +203,7 @@ public class SingleDocumentExtractionTest {
                 extractorGroup,
                 cth
         );
-        instance.setMIMETypeDetector( new TikaMIMETypeDetector() );
+        instance.setMIMETypeDetector( new TikaMIMETypeDetector(new WhiteSpacesPurifier()) );
         return instance;
     }
 

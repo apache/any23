@@ -17,6 +17,7 @@
 package org.deri.any23.mime;
 
 import junit.framework.Assert;
+import org.deri.any23.mime.purifier.WhiteSpacesPurifier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Before
     public void setUp() throws Exception {
-        detector = new TikaMIMETypeDetector();
+        detector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
     }
 
     @After
