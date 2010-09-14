@@ -22,12 +22,18 @@ import org.deri.any23.parser.NQuadsParser;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ParseErrorListener;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.ntriples.NTriplesParser;
 import org.openrdf.rio.rdfxml.RDFXMLParser;
 import org.openrdf.rio.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * This factory provides a common logic for creating and configuring correctly
@@ -64,7 +70,7 @@ public class RDFParserFactory {
         if (extractionResult == null) {
             throw new NullPointerException("extractionResult cannot be null.");
         }
-        TurtleParser parser = new TurtleParser();
+        final TurtleParser parser = new ExtendedTurtleParser();
         configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
         return parser;
     }
@@ -82,7 +88,7 @@ public class RDFParserFactory {
             boolean stopAtFirstError,
             final ExtractionResult extractionResult
     ) {
-        RDFXMLParser parser = new RDFXMLParser();
+        final RDFXMLParser parser = new RDFXMLParser();
         configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
         return parser;
     }
@@ -100,7 +106,7 @@ public class RDFParserFactory {
             boolean stopAtFirstError,
             final ExtractionResult extractionResult
     ) {
-        NTriplesParser parser = new NTriplesParser();
+        final NTriplesParser parser = new NTriplesParser();
         configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
         return parser;
     }
@@ -118,7 +124,7 @@ public class RDFParserFactory {
             boolean stopAtFirstError,
             final ExtractionResult extractionResult
     ) {
-        NQuadsParser parser = new NQuadsParser();
+        final NQuadsParser parser = new NQuadsParser();
         configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
         return parser;
     }
@@ -195,4 +201,23 @@ public class RDFParserFactory {
         }
     }
 
+    /**
+     * This extended Turtle parser sets the default namespace to the base URI
+     * before the parsing.
+     */
+    private class ExtendedTurtleParser extends TurtleParser {
+        @Override
+        public void parse(Reader reader, String baseURI)
+        throws IOException, RDFParseException, RDFHandlerException {
+            setNamespace("", baseURI);
+            super.parse(reader, baseURI);
+        }
+
+        @Override
+        public void parse(InputStream in, String baseURI)
+        throws IOException, RDFParseException, RDFHandlerException {
+            setNamespace("", baseURI);
+            super.parse(in, baseURI);
+        }
+    }
 }

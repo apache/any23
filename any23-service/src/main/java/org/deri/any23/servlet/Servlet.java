@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  */
 public class Servlet extends HttpServlet {
 
-    public static final String DEFAULT_BASE_URI = "http://any23.org/tmp";
+    public static final String DEFAULT_BASE_URI = "http://any23.org/tmp/";
 
     private static final long serialVersionUID = 8207685628715421336L;
 
