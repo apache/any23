@@ -97,7 +97,7 @@ public class RDFXMLExtractor implements ContentExtractor {
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
         } catch (RDFParseException ex) {
-            throw new ExtractionException("Error while parsing RDF document.", ex, out.getExtractionContext() );
+            throw new ExtractionException("Error while parsing RDF document.", ex, out);
         }
     }
 

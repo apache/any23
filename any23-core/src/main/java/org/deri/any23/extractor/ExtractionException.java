@@ -22,10 +22,12 @@ import java.io.PrintWriter;
 
 /**
  * Defines a specific exception raised during the metadata extraction phase.
+ *
+ * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
 public class ExtractionException extends Exception {
 
-    private ExtractionContext exceptionContext;
+    private ExtractionResult extractionResult;
 
     public ExtractionException(String message) {
         super(message);
@@ -35,30 +37,30 @@ public class ExtractionException extends Exception {
         super(message, cause);
     }
 
-    public ExtractionException(String message, Throwable cause, ExtractionContext ec) {
+    public ExtractionException(String message, Throwable cause, ExtractionResult er) {
         super(message, cause);
-        exceptionContext = ec;
+        extractionResult = er;
     }
 
     @Override
     public void printStackTrace(PrintStream ps) {
-        printExceptionContext( new PrintWriter(ps) );
+        printExceptionResult( new PrintWriter(ps) );
         super.printStackTrace(ps);
     }
 
     @Override
     public void printStackTrace(PrintWriter pw) {
-        printExceptionContext(pw);
+        printExceptionResult(pw);
         super.printStackTrace(pw);
     }
 
-    private void printExceptionContext(PrintWriter ps) {
-        if(exceptionContext == null) {
+    private void printExceptionResult(PrintWriter ps) {
+        if(extractionResult == null) {
             return;
         }
         ps.println();
         ps.println("------------ BEGIN Exception context ------------");
-        ps.println( exceptionContext.toString() );
+        ps.print( extractionResult.toString() );
         ps.println("------------ END   Exception context ------------");
         ps.println();
         ps.flush();

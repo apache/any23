@@ -301,7 +301,7 @@ public class SingleDocumentExtraction {
                 final DocumentReport documentReport = getTagSoupDOM(extractionParameters);
                 tagSoupDOMExtractor.run(documentReport.getDocument(), documentURI, result);
             } else {
-                throw new RuntimeException("Extractor type not supported: " + extractor.getClass());
+                throw new IllegalStateException("Extractor type not supported: " + extractor.getClass());
             }
             return
                 new EntityReport(

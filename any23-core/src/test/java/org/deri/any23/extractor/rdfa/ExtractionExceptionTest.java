@@ -17,8 +17,14 @@
 
 package org.deri.any23.extractor.rdfa;
 
-import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.extractor.DocumentContext;
+import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
+import org.deri.any23.extractor.ExtractionResultImpl;
+import org.deri.any23.extractor.Extractor;
+import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.writer.TripleHandler;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.impl.URIImpl;
@@ -26,6 +32,9 @@ import org.openrdf.model.impl.URIImpl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -37,22 +46,33 @@ public class ExtractionExceptionTest {
 
     @Test
     public void testPrintStackTrace() throws ExtractionException, IOException {
-        final ExtractionContext ec = new ExtractionContext(
-                "fake-extractor-name",
-                new URIImpl("http://fake.document.uri"), 
-                "fake-local-id"
-        );
-        try {
-            throw new ExtractionException("Fake message.", new RuntimeException("Fake cause"), ec );
-        } catch (ExtractionException ee) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ee.printStackTrace( new PrintWriter(baos) );
-            final String bufferContent = baos.toString();
-            Assert.assertTrue("Unexpected message content.", bufferContent.contains("fake-extractor-name"));
-            Assert.assertTrue("Unexpected message content.", bufferContent.contains("http://fake.document.uri"));
-            Assert.assertTrue("Unexpected message content.", bufferContent.contains("fake-local-id"));
-            baos.close();
-        }
-    }
+        final Extractor extractor = mock(Extractor.class);
+        final ExtractorDescription ed = mock(ExtractorDescription.class);
+        when(ed.getExtractorName()).thenReturn("fake-extractor-name");
+        when(extractor.getDescription()).thenReturn(ed);
 
+        final DocumentContext dc = mock(DocumentContext.class);
+        final TripleHandler th = mock(TripleHandler.class);
+        final ExtractionResult er = new ExtractionResultImpl(dc, new URIImpl("http://fake.document.uri"), extractor, th);
+        er.notifyError(ErrorReporter.ErrorLevel.FATAL, "Fake fatal error.", 1, 2);
+        er.notifyError(ErrorReporter.ErrorLevel.ERROR, "Fake error."      , 3, 4);
+        er.notifyError(ErrorReporter.ErrorLevel.WARN , "Fake warning."    , 5, 6);
+
+        ExtractionException ee = new ExtractionException("Fake message.", new RuntimeException("Fake cause"), er);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ee.printStackTrace(new PrintWriter(baos));
+        final String bufferContent = baos.toString();
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("fake-extractor-name"));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("http://fake.document.uri"));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains(
+                Integer.toHexString(ExtractionResultImpl.ROOT_EXTRACTION_RESULT_ID.hashCode())
+        ));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("Fake fatal error."));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("(1,2)"));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("Fake error."));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("(3,4)"));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("Fake warning."));
+        Assert.assertTrue("Unexpected message content.", bufferContent.contains("(5,6)"));
+        baos.close();
+    }
 }

@@ -304,4 +304,22 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return allPaths;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append(context.toString());
+        sb.append('\n');
+        if (errors != null) {
+            sb.append("Errors {\n");
+            for (Error error : errors) {
+                sb.append('\t');
+                sb.append(error.toString());
+                sb.append('\n');
+            }
+        }
+        sb.append("}\n");
+        return sb.toString();
+    }
+
+
 }

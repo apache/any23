@@ -76,7 +76,7 @@ public interface ErrorReporter {
 
         @Override
         public String toString() {
-            return String.format("%s: '%s' (%d,%d)", level, message, row, col);
+            return String.format("%s: \t'%s' \t(%d,%d)", level, message, row, col);
         }
     }
 
