@@ -23,6 +23,7 @@ import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.validator.SerializationException;
+import org.deri.any23.validator.ValidationReport;
 import org.deri.any23.validator.XMLValidationReportSerializer;
 import org.deri.any23.writer.FormatWriter;
 import org.deri.any23.writer.NQuadsWriter;
@@ -92,12 +93,6 @@ class WebResponder {
         return runner;
     }
 
-    public void sendError(int code, String message) throws IOException {
-        response.setStatus(code);
-        response.setContentType("text/plain");
-        response.getWriter().println(message);
-    }
-
     public void runExtraction(DocumentSource in, ExtractionParameters eps, String format, boolean report)
     throws IOException {
         if (in == null) return;
@@ -106,28 +101,33 @@ class WebResponder {
         try {
             er = runner.extract(eps, in, rdfWriter);
             if (! er.hasMatchingExtractors() ) {
-                sendError(415, "No suitable extractor found for this media type");
+                sendError(415, "No suitable extractor found for this media type", null, er.getValidationReport());
                 return;
             }
-        } catch (IOException ioe) {
+        } catch (IOException ioe) { // IO Error.
             if (ioe.getCause() != null && ValidatorException.class.equals(ioe.getCause().getClass())) {
-                any23servlet.log("Could not fetch input; untrusted SSL certificate?", ioe.getCause());
-                sendError(502, "Could not fetch input; untrusted SSL certificate? " + ioe.getCause());
+                final String errMsg = "Could not fetch input, IO Error.";
+                any23servlet.log(errMsg, ioe.getCause());
+                sendError(502, errMsg, ioe, null);
                 return;
             }
             any23servlet.log("Could not fetch input", ioe);
-            sendError(502, "Could not fetch input: " + ioe.getMessage());
+            sendError(502, "Could not fetch input.", ioe, null);
             return;
-        } catch (ExtractionException e) {
+        } catch (ExtractionException e) { // Extraction error.
             any23servlet.log("Could not parse input", e);
-            sendError(502, "Could not parse input: " + e.getMessage());
+            sendError(502, "Could not parse input.", e, null);
             return;
         }
+
+        // No triples found.
         any23servlet.log("Extraction complete, " + reporter.getTotalTriples() + " triples");
         if (reporter.getTotalTriples() == 0) {
-            response.setStatus(204);    // HTTP 204 No Content
+            sendError(501, "Extraction completed. No triples have been found.", null, er.getValidationReport());
             return;
         }
+
+        // Regular response.
         response.setContentType(outputMediaType);
         response.setStatus(200);
         // Set the output encoding equals to the input one.
@@ -139,37 +139,93 @@ class WebResponder {
         }
 
         final ServletOutputStream sos = response.getOutputStream();
-        XMLValidationReportSerializer reportSerializer = new XMLValidationReportSerializer();
+        final byte[] data = byteOutStream.toByteArray();
         if(report) {
-            PrintStream ps = new PrintStream(sos);
+            final PrintStream ps = new PrintStream(sos);
             try {
-                ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
-                ps.println("<response>");
-                ps.println("<report>");
-                ps.println("<![CDATA[");
-                reportSerializer.serialize(er.getValidationReport(), ps);
-                ps.println("]]>");
-                ps.println("</report>");
-                ps.println("<data>");
-                ps.println("<![CDATA[");
-                ps.write(byteOutStream.toByteArray());
-                ps.println("]]>");
-                ps.println("</data>");
-                ps.println("</response>");
-            } catch (SerializationException se) {
-                throw new RuntimeException("An error occurred while serializing the output report.", se);
+                printHeader(ps);
+                printResponse(er.getValidationReport(), data, ps);
+            } catch (Exception e) {
+                throw new RuntimeException("An error occurred while serializing the output response.", e);
             } finally {
                 ps.close();
             }
         } else {
-            sos.write(byteOutStream.toByteArray());
+            sos.write(data);
+        }
+    }
+
+    public void sendError(int code, String msg) throws IOException {
+        sendError(code, msg, null, null);
+    }
+    
+    private void printHeader(PrintStream ps) {
+        ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+    }
+
+    private void printResponse(ValidationReport vr, byte[] data, PrintStream ps) {
+        ps.println("<response>");
+        printReport(vr, ps);
+        printData(data, ps);
+        ps.println("</response>");
+    }
+
+    private void printReport(ValidationReport vr, PrintStream ps) {
+        XMLValidationReportSerializer reportSerializer = new XMLValidationReportSerializer();
+        ps.println("<report>");
+        ps.println("<![CDATA[");
+        try {
+            reportSerializer.serialize(vr, ps);
+        } catch (SerializationException se) {
+            ps.println("An error occurred while serializing error.");
+            se.printStackTrace(ps);
+        }
+        ps.println("]]>");
+        ps.println("</report>");
+    }
+
+    private void printData(byte[] data, PrintStream ps) {
+        ps.println("<data>");
+        ps.println("<![CDATA[");
+        try {
+            ps.write(byteOutStream.toByteArray());
+        } catch (IOException ioe) {
+            ps.println("An error occurred while serializing data.");
+            ioe.printStackTrace(ps);
+        }
+        ps.println("]]>");
+        ps.println("</data>");
+    }
+
+    private void sendError(int code, String msg, Exception e, ValidationReport vr) throws IOException {
+        response.setStatus(code);
+        response.setContentType("text/plain");
+        final PrintStream ps = new PrintStream(response.getOutputStream());
+        ps.println(msg);
+        if(e != null) {
+            ps.println("================================================================");
+            e.printStackTrace(ps);
+            ps.println("================================================================");
+        }
+        if(vr != null) {
+            try {
+                printHeader(ps);
+                printReport(vr, ps);
+            } finally {
+                ps.close();
+            }
         }
     }
 
     private boolean initRdfWriter(String format) throws IOException {
         FormatWriter fw = getFormatWriter(format);
         if (fw == null) {
-            sendError(400, "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads");
+            sendError(
+                    400,
+                    "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads",
+                    null,
+                    null
+            );
             return false;
         }
         outputMediaType = fw.getMIMEType();
