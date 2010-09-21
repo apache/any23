@@ -35,6 +35,7 @@ import java.util.Map;
  * blocked and must be explicitly unblocked. Contexts are initially
  * unblocked and must be explicitly blocked. Unblocking a document
  * unblocks all contexts as well.
+ * This class it thread-safe.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -54,16 +55,7 @@ public class ExtractionContextBlocker implements TripleHandler {
         return documentBlocked;
     }
 
-    public void startDocument(URI documentURI) throws TripleHandlerException {
-        wrapped.startDocument(documentURI);
-        documentBlocked = true;
-    }
-
-    public void openContext(ExtractionContext context) throws TripleHandlerException {
-        contextQueues.put(context.getUniqueID(), new ValvedTriplePipe(context));
-    }
-
-    public void blockContext(ExtractionContext context) {
+    public synchronized void blockContext(ExtractionContext context) {
         if (!documentBlocked) return;
         try {
             contextQueues.get(context.getUniqueID()).block();
@@ -72,19 +64,28 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public void unblockContext(ExtractionContext context) {
+    public synchronized void unblockContext(ExtractionContext context) {
         try {
-        contextQueues.get(context.getUniqueID()).unblock();
+            contextQueues.get(context.getUniqueID()).unblock();
         } catch (ValvedTriplePipeException e) {
             throw new RuntimeException("Error while unblocking context", e);
         }
     }
 
-    public void closeContext(ExtractionContext context) {
-        // We'll close all contexts when the document is finished.
+    public synchronized void startDocument(URI documentURI) throws TripleHandlerException {
+        wrapped.startDocument(documentURI);
+        documentBlocked = true;
     }
 
-    public void unblockDocument() {
+    public synchronized void openContext(ExtractionContext context) throws TripleHandlerException {
+        contextQueues.put(context.getUniqueID(), new ValvedTriplePipe(context));
+    }
+
+    public synchronized void closeContext(ExtractionContext context) {
+        // Empty. We'll close all contexts when the document is finished.
+    }
+
+    public synchronized void unblockDocument() {
         if (!documentBlocked) return;
         documentBlocked = false;
         for (ValvedTriplePipe pipe : contextQueues.values()) {
@@ -96,7 +97,7 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    public synchronized void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
         try {
             contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o, g);
@@ -108,7 +109,8 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+    public synchronized void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    throws TripleHandlerException {
         try {
             contextQueues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
         } catch (ValvedTriplePipeException e) {
@@ -119,14 +121,18 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public void close() throws TripleHandlerException {
+    public synchronized void close() throws TripleHandlerException {
         closeDocument();
         wrapped.close();
     }
 
-    public void endDocument(URI documentURI) throws TripleHandlerException {
+    public synchronized void endDocument(URI documentURI) throws TripleHandlerException {
         closeDocument();
         wrapped.endDocument(documentURI);
+    }
+
+    public void setContentLength(long contentLength) {
+        // Empty.
     }
 
     private void closeDocument() {
@@ -138,10 +144,6 @@ public class ExtractionContextBlocker implements TripleHandler {
             }
         }
         contextQueues.clear();
-    }
-
-    public void setContentLength(long contentLength) {
-        // Ignore.
     }
 
     private class ValvedTriplePipeException extends Exception {
