@@ -41,7 +41,11 @@ public class NTriplesExtractor implements ContentExtractor {
             SimpleExtractorFactory.create(
                     "rdf-nt",
                     null,
-                    Arrays.asList("text/plain;q=0.1"),
+                    Arrays.asList(
+                            "text/nt;q=0.1",
+                            "text/ntriples;q=0.1",
+                            "text/plain;q=0.1"
+                    ),
                     "example-ntriples.nt",
                     NTriplesExtractor.class
             );

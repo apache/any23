@@ -44,6 +44,7 @@ public class NQuadsExtractor implements Extractor.ContentExtractor {
                 "rdf-nq",
                 null,
                 Arrays.asList(
+                        "text/rdf+nq;q=0.1",
                         "text/nq;q=0.1",
                         "text/nquads;q=0.1",
                         "text/n-quads;q=0.1"
