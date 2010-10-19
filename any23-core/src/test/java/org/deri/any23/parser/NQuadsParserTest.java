@@ -22,7 +22,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.ParseLocationListener;
 import org.openrdf.rio.RDFHandler;
@@ -33,8 +35,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
 
 /**
  * Test case for {@link org.deri.any23.parser.NQuadsParser}.
@@ -58,6 +65,138 @@ public class NQuadsParserTest {
     @After
     public void tearDown() {
         parser = null;
+    }
+
+    /**
+     * Tests basic N-Quads parsing.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testParseBasic() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "<http://www.v/dat/4b><http://www.w3.org/20/ica#dtend><http://sin/value/2><http://sin.siteserv.org/def/>."
+            .getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        Assert.assertThat(rdfHandler.getStatements().size(), is(1));
+        final Statement statement = rdfHandler.getStatements().get(0);
+        Assert.assertEquals("http://www.v/dat/4b", statement.getSubject().stringValue());
+        Assert.assertEquals("http://www.w3.org/20/ica#dtend", statement.getPredicate().stringValue());
+        Assert.assertTrue(statement.getObject() instanceof URI);
+        Assert.assertEquals("http://sin/value/2", statement.getObject().stringValue());
+        Assert.assertEquals("http://sin.siteserv.org/def/", statement.getContext().stringValue());
+    }
+
+    /**
+     * Tests basic N-Quads parsing with blank node.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testParseBasicBNode() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "_:123456768<http://www.w3.org/20/ica#dtend><http://sin/value/2><http://sin.siteserv.org/def/>."
+            .getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        Assert.assertThat(rdfHandler.getStatements().size(), is(1));
+        final Statement statement = rdfHandler.getStatements().get(0);
+        Assert.assertTrue(statement.getSubject() instanceof BNode);
+        Assert.assertEquals("http://www.w3.org/20/ica#dtend", statement.getPredicate().stringValue());
+        Assert.assertTrue(statement.getObject() instanceof URI);
+        Assert.assertEquals("http://sin/value/2", statement.getObject().stringValue());
+        Assert.assertEquals("http://sin.siteserv.org/def/", statement.getContext().stringValue());
+    }
+
+    /**
+     * Tests basic N-Quads parsing with literal.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testParseBasicLiteral() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "_:123456768<http://www.w3.org/20/ica#dtend>\"2010-05-02\"<http://sin.siteserv.org/def/>."
+            .getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        Assert.assertThat(rdfHandler.getStatements().size(), is(1));
+        final Statement statement = rdfHandler.getStatements().get(0);
+        Assert.assertTrue(statement.getSubject() instanceof BNode);
+        Assert.assertEquals("http://www.w3.org/20/ica#dtend", statement.getPredicate().stringValue());
+        Assert.assertTrue(statement.getObject() instanceof Literal);
+        Assert.assertEquals("2010-05-02", statement.getObject().stringValue());
+        Assert.assertEquals("http://sin.siteserv.org/def/", statement.getContext().stringValue());
+    }
+
+    /**
+     * Tests N-Quads parsing with literal and language.
+     * 
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testParseBasicLiteralLang() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "<http://www.v/dat/4b2-21><http://www.w3.org/20/ica#dtend>\"2010-05-02\"@en<http://sin.siteserv.org/def/>."
+            .getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        final Statement statement = rdfHandler.getStatements().get(0);
+        Assert.assertEquals("http://www.v/dat/4b2-21", statement.getSubject().stringValue());
+        Assert.assertEquals("http://www.w3.org/20/ica#dtend", statement.getPredicate().stringValue());
+        Assert.assertTrue(statement.getObject() instanceof Literal);
+        Literal object = (Literal) statement.getObject();
+        Assert.assertEquals("2010-05-02", object.stringValue());
+        Assert.assertEquals("en", object.getLanguage());
+        Assert.assertNull("en", object.getDatatype());
+        Assert.assertEquals("http://sin.siteserv.org/def/", statement.getContext().stringValue());
+    }
+
+    /**
+     * Tests N-Quads parsing with literal and datatype.
+     * 
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testParseBasicLiteraDatatype() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            ("<http://www.v/dat/4b2-21>" +
+             "<http://www.w3.org/20/ica#dtend>" +
+             "\"2010\"^^<http://www.w3.org/2001/XMLSchema#integer>" +
+             "<http://sin.siteserv.org/def/>."
+            ).getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        final Statement statement = rdfHandler.getStatements().get(0);
+        Assert.assertEquals("http://www.v/dat/4b2-21", statement.getSubject().stringValue());
+        Assert.assertEquals("http://www.w3.org/20/ica#dtend", statement.getPredicate().stringValue());
+        Assert.assertTrue(statement.getObject() instanceof Literal);
+        Literal object = (Literal) statement.getObject();
+        Assert.assertEquals("2010", object.stringValue());
+        Assert.assertNull(object.getLanguage());
+        Assert.assertEquals("http://www.w3.org/2001/XMLSchema#integer", object.getDatatype().toString());
+        Assert.assertEquals("http://sin.siteserv.org/def/", statement.getContext().stringValue());
     }
 
     @Test
@@ -122,9 +261,9 @@ public class NQuadsParserTest {
         private boolean started = false;
         private boolean ended   = false;
 
-        private int statements;
+        private final List<Statement> statements = new ArrayList<Statement>();
 
-        protected int getStatements() {
+        protected List<Statement> getStatements() {
             return statements;
         }
 
@@ -142,7 +281,7 @@ public class NQuadsParserTest {
 
         public void handleStatement(Statement statement) throws RDFHandlerException {
             logger.info(statement.toString());
-            statements++;
+            statements.add(statement);
         }
 
         public void handleComment(String s) throws RDFHandlerException {
@@ -152,14 +291,14 @@ public class NQuadsParserTest {
         public void assertHandler(int expected) {
             Assert.assertTrue("Never stated.", started);
             Assert.assertTrue("Never ended." , ended  );
-            Assert.assertEquals("Unexpected number of statements.", expected, statements);
+            Assert.assertEquals("Unexpected number of statements.", expected, statements.size());
         }
     }
 
     private class SpecificTestRDFHandler extends TestRDFHandler {
 
         public void handleStatement(Statement statement) throws RDFHandlerException {
-            int statements = getStatements();
+            int statements = getStatements().size();
             if(statements == 0){
                 Assert.assertEquals(new URIImpl("http://example.org/alice/foaf.rdf#me"), statement.getSubject() );
 
@@ -177,6 +316,5 @@ public class NQuadsParserTest {
             super.handleStatement(statement);
         }
     }
-
 
 }
