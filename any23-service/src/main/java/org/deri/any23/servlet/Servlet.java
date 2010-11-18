@@ -53,17 +53,6 @@ public class Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        // Show /resources/form.html for GET requests to the app's root
-        if (("/".equals(req.getPathInfo()) && req.getQueryString() == null)) {
-            getServletContext().getRequestDispatcher("/resources/form.html").forward(req, resp);
-            return;
-        }
-        // forward requests to /resources/* to the default servlet, this is
-        // where we can put static files
-        if (req.getPathInfo().startsWith("/resources/")) {
-            getServletContext().getNamedDispatcher("default").forward(req, resp);
-            return;
-        }
         WebResponder responder = new WebResponder(this, resp);
         String format = getFormatFromRequestOrNegotiation(req);
         if (format == null) {

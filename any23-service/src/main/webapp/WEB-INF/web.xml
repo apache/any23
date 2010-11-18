@@ -4,13 +4,20 @@
 
 <web-app>
   <display-name>any23 (Anything to Triples)</display-name>
-  
   <servlet>
     <servlet-name>any23</servlet-name>
     <servlet-class>org.deri.any23.servlet.Servlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>redirect</servlet-name>
+    <servlet-class>org.deri.any23.servlet.RedirectServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>any23</servlet-name>
+    <url-pattern>/any23/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>redirect</servlet-name>
     <url-pattern>/*</url-pattern>
   </servlet-mapping>
 </web-app>
