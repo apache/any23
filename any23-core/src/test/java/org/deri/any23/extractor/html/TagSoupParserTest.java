@@ -10,7 +10,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 /**
  * Reference Test class for {@link org.deri.any23.extractor.html.TagSoupParser} parser.
@@ -74,6 +79,7 @@ public class TagSoupParserTest {
      * 
      * @throws IOException
      */
+    @Test
     public void testEmptySpanElements() throws IOException {
         final String page = "http://example.com/test-page";
         InputStream brokenEmptySpanHtml = new FileInputStream(
@@ -95,22 +101,22 @@ public class TagSoupParserTest {
         NodeList worksNodeList = worksElementDom.getElementsByTagName("span");
         Assert.assertEquals(3, worksNodeList.getLength());
 
-        for(int i = 0; i < worksNodeList.getLength(); i++) {
-            printNode(worksNodeList.item(i), System.out);
+        final ByteArrayOutputStream out1 = new ByteArrayOutputStream();
+        PrintStream psOut1 = new PrintStream(out1);
+        for (int i = 0; i < worksNodeList.getLength(); i++) {
+            printNode(worksNodeList.item(i), psOut1);
         }
-        for(int i = 0; i < brokenNodeList.getLength(); i++) {
-            printNode(brokenNodeList.item(i), System.out);
-        }
+        psOut1.close();
 
-
-        /**
-         * This assertion tests if the two {@link org.w3c.dom.Document} are
-         * equal according this <a
-         * href="http://download-llnw.oracle.com/javase/6/docs/api/org/w3c/dom/Node.html#isEqualNode(org.w3c.dom.Node)">
-         * definition</a> that fits our needs.
-         */
-        Assert.assertTrue(brokenElementDom.isEqualNode(worksElementDom));
+        final ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+        PrintStream psOut2 = new PrintStream(out2);
+        for (int i = 0; i < brokenNodeList.getLength(); i++) {
+            printNode(brokenNodeList.item(i), psOut2);
         }
+        psOut2.close();
+
+        Assert.assertEquals(out1.toString(), out2.toString());
+    }
 
     private void printNode(Node node, PrintStream printStream) {
         printStream.println("node name:" + node.getNodeName());
@@ -124,7 +130,7 @@ public class TagSoupParserTest {
             Node brokenChild = childNodes.item(j);
             printStream.println("    node name:" + brokenChild.getNodeName());
             printStream.println("    node type:" + brokenChild.getNodeType());
-            printStream.println("    node value:" + brokenChild.getNodeValue());
+            printStream.println("    node value:" + trimValue(brokenChild.getNodeValue()));
         }
 
         printStream.println("node attributes:");
@@ -132,9 +138,13 @@ public class TagSoupParserTest {
         for (int j = 0; j < namedNodeMap.getLength(); j++) {
             Node attribute = namedNodeMap.item(j);
             printStream.println("    attribute name:" + attribute.getNodeName());
-            printStream.println("    attribute value:" + attribute.getNodeValue());
+            printStream.println("    attribute value:" + trimValue(attribute.getNodeValue()));
         }
         printStream.println();
+    }
+
+    private String trimValue(String in) {
+        return in == null ? "" : in.trim();
     }
 
 }

@@ -139,7 +139,12 @@ public class TagSoupParser {
         if (this.encoding != null)
             parser.setProperty("http://cyberneko.org/html/properties/default-encoding", this.encoding);
 
-        parser.parse(new InputSource(input));
+        /*
+         * NOTE: the SpanCloserInputStream has been added to wrap the stream passed to the CyberNeko
+         *       parser. This will ensure the correct handling of inline HTML SPAN tags.
+         *       This fix is documented at issue #78.       
+         */
+        parser.parse(new InputSource( new SpanCloserInputStream(input)));
         return parser.getDocument();
     }
     
