@@ -1,7 +1,5 @@
 package org.deri.any23.mime.purifier;
 
-import org.deri.any23.mime.purifier.Purifier;
-
 import java.io.IOException;
 import java.io.InputStream;
 
