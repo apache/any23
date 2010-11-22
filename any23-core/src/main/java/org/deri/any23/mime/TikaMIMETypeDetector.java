@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
  * <a href="http://lucene.apache.org/tika/">Apache Tika</a>.
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
+ * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class TikaMIMETypeDetector implements MIMETypeDetector {
 

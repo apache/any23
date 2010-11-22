@@ -24,6 +24,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.deri.any23.Any23;
+import org.deri.any23.Configuration;
 import org.deri.any23.LogUtil;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
@@ -57,7 +58,7 @@ import java.net.URL;
  */
 public class Rover {
 
-    private static final String USER_AGENT_NAME = "Any23-CLI";
+    private static final String USER_AGENT_NAME = Configuration.instance().getPropertyOrFail("any23.http.user.agent.name");
 
     //output writer constants
     private static final String TURTLE = "turtle";

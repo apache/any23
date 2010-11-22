@@ -23,6 +23,7 @@ import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.deri.any23.Configuration;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -42,9 +43,11 @@ import java.util.List;
  */
 public class DefaultHTTPClient implements HTTPClient {
 
-    private static final int DEFAULT_TIMEOUT = 7000;
+    private static final int DEFAULT_TIMEOUT =
+            Configuration.instance().getPropertyIntOrFail("any23.http.client.timeout");
     
-    private static final int DEFAULT_TOTAL_CONNECTIONS = 5;
+    private static final int DEFAULT_MAX_CONNECTIONS =
+            Configuration.instance().getPropertyIntOrFail("any23.http.client.max.connections");
 
     private final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
 
@@ -160,7 +163,7 @@ public class DefaultHTTPClient implements HTTPClient {
         HttpConnectionManagerParams params = connectionManager.getParams();
         params.setConnectionTimeout(DEFAULT_TIMEOUT);
         params.setSoTimeout(DEFAULT_TIMEOUT);
-        params.setMaxTotalConnections(DEFAULT_TOTAL_CONNECTIONS);
+        params.setMaxTotalConnections(DEFAULT_MAX_CONNECTIONS);
 
         HostConfiguration hostConf = client.getHostConfiguration();
         List<Header> headers = new ArrayList<Header>();
