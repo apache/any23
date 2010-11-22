@@ -30,21 +30,32 @@ import java.io.IOException;
  */
 public class RedirectServlet extends HttpServlet {
     
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        doGet(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
         // Show /resources/form.html for GET requests to the app's root
-        if (("/".equals(request.getPathInfo()) && request.getQueryString() == null)) {
+        final String pathInfo = request.getPathInfo();
+        final String queryString = request.getQueryString();
+
+        if (("/".equals(pathInfo) && queryString == null)) {
             getServletContext().getRequestDispatcher("/resources/form.html").forward(request, response);
             return;
         }
         // forward requests to /resources/* to the default servlet, this is
         // where we can put static files
-        if (request.getPathInfo().startsWith("/resources/")) {
+        if (pathInfo.startsWith("/resources/")) {
             getServletContext().getNamedDispatcher("default").forward(request, response);
             return;
         }
-        getServletContext().getRequestDispatcher("/any23").forward(request, response);        
+
+        response.sendRedirect(
+                request.getContextPath() + "/any23" +
+                        request.getPathInfo() +
+                        (queryString == null ? "" : "?" + queryString)
+        );
     }
 }
