@@ -176,6 +176,7 @@ public class Rover {
         } catch (ExtractionException ex) {
             logger.debug("Exception in Any23", ex);
             System.err.println(ex.getMessage());
+            ex.printStackTrace(System.err);
             System.exit(3);
         } catch (IOException ex) {
             logger.debug("Exception in Any23", ex);

@@ -104,7 +104,8 @@ class WebResponder {
                 sendError(415, "No suitable extractor found for this media type", null, er.getValidationReport());
                 return;
             }
-        } catch (IOException ioe) { // IO Error.
+        } catch (IOException ioe) {
+            // IO Error.
             if (ioe.getCause() != null && ValidatorException.class.equals(ioe.getCause().getClass())) {
                 final String errMsg = "Could not fetch input, IO Error.";
                 any23servlet.log(errMsg, ioe.getCause());
@@ -114,7 +115,8 @@ class WebResponder {
             any23servlet.log("Could not fetch input", ioe);
             sendError(502, "Could not fetch input.", ioe, null);
             return;
-        } catch (ExtractionException e) { // Extraction error.
+        } catch (ExtractionException e) {
+            // Extraction error.
             any23servlet.log("Could not parse input", e);
             sendError(502, "Could not parse input.", e, null);
             return;

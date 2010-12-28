@@ -42,6 +42,7 @@ import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
 import org.openrdf.repository.sail.SailRepository;
+import org.openrdf.rio.RDFParseException;
 import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
@@ -360,6 +361,22 @@ public class Any23Test {
         runner.extract(new ExtractionParameters(true, true, false), source,  compositeTH2);
         logger.info( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 21, cth2.getCount() );
+    }
+
+    @Test
+    public void testExceptionPropagation() throws IOException {
+        Any23 any23 = new Any23();
+        DocumentSource source = new FileDocumentSource(
+                new File("src/test/resources/application/turtle/geolinkeddata.ttl"),
+                "http://www.test.com"
+        );
+        CountingTripleHandler cth1 = new CountingTripleHandler();
+        try {
+            any23.extract(source, cth1);
+        } catch (ExtractionException e) {
+            Assert.assertTrue(e.getCause() instanceof RDFParseException);
+        }
+
     }
 
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {

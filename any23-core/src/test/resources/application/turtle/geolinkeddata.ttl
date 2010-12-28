@@ -1,0 +1,63 @@
+@prefix dc:      <http://purl.org/dc/elements/1.1/> .
+@prefix prv:     <http://purl.org/net/provenance/ns#> .
+@prefix geo:     <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix yago:    <http://localhost:8080/class/yago/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix meta:    <http://example.org/metadata#> .
+@prefix units:   <http://dbpedia.org/units/> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prvTypes:  <http://purl.org/net/provenance/types#> .
+@prefix p:       <http://localhost:8080/property/> .
+@prefix dbpedia:  <http://localhost:8080/resource/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix scovo:   <http://purl.org/NET/scovo#> .
+@prefix geoes:   <http://geo.linkeddata.es/ontology/> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+
+<http://geo.linkeddata.es/resource/wgs84/40.6606617825406_0.572483712994894>
+      a       geo:Point ;
+      =       <http://geo.linkeddata.es/resource/wgs84/40.6606617825406_0.572483712994894> ;
+      geo:lat "40.6606617825406"^^xsd:double ;
+      geo:long "0.572483712994894"^^xsd:double .
+
+_:b1  a       prvTypes:DataCreatingService ;
+      rdfs:seeAlso <http://geo.linkeddata.es/sparql> .
+
+<http://geo.linkeddata.es/data/wgs84/40.6606617825406_0.572483712994894>
+      a       <http://www.w3.org/2004/03/trix/rdfg-1/Graph> ;
+      rdfs:label "RDF description of _0.572483712994894" ;
+      dc:rights "La información geográfica digital comprendida en el  Equipamiento Geográfico de Referencia Nacional  (artículo 1.1 de la Orden FOM/956/2008) así como los  Metadatos   de los datos geográficos y servicios del IGN-CNIG, no requieren la aceptación de licencia y su uso será, en cualquier caso, libre y gratuito, siempre que se mencione al Instituto Geográfico Nacional como propietario de los datos."@es ;
+      dcterms:creator <http://geo.linkeddata.es/resource/Organizaci%C3%B3n/InstitutoGeogr%C3%A1ficoNacionalDeEspa%C3%B1a> ;
+      dcterms:publisher <http://geo.linkeddata.es> ;
+      dcterms:spatial <http://geo.linkeddata.es/resource/Pa%C3%ADs/Espa%C3%B1a> ;
+      prv:createdBy
+              [ a       prv:DataCreation ;
+                prv:performedAt "2010-09-25T21:28:08.21Z"^^xsd:dateTime ;
+                prv:performedBy _:b2 ;
+                prv:usedData
+                        [ a       prvTypes:QueryResult , <http://www.w3.org/2004/03/trix/rdfg-1/Graph> ;
+                          prv:createdBy
+                                  [ a       prvTypes:QueryExecution ;
+                                    prv:performedBy _:b1 ;
+                                    prv:usedData <http://geo.linkeddata.es/sparql> ;
+                                    prv:usedGuideline
+                                            [ a       <http://spinrdf.org/sp#Describe> , prv:DataItem , prvTypes:SPARQLQuery ;
+                                              rdfs:label "DEFINE sql:describe-mode \"CBD\" DESCRIBE <http://geo.linkeddata.es/resource/wgs84/40.6606617825406_0.572483712994894>"^^xsd:string
+                                            ]
+                                  ] ;
+                          prv:retrievedBy
+                                  [ a       prv:DataAccess ;
+                                    prv:accessedService _:b1 ;
+                                    prv:performedAt "2010-09-25T21:28:08.21Z"^^xsd:dateTime ;
+                                    prv:performedBy _:b2
+                                  ]
+                        ]
+              ] ;
+      foaf:primaryTopic <http://geo.linkeddata.es/resource/wgs84/40.6606617825406_0.572483712994894> .
+
+_:b2  a       prv:DataProvidingService , prvTypes:DataCreatingService ;
+      rdfs:seeAlso <http://geo.linkeddata.es/> .
