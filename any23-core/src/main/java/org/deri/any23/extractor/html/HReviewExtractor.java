@@ -36,7 +36,6 @@ import java.util.List;
 
 import static org.deri.any23.extractor.html.HTMLDocument.TextField;
 
-
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hreview">hReview</a>
  * microformat.

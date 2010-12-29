@@ -259,4 +259,60 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
 	}
 
+    /**
+     * This test is the same defined in {@link HReviewExtractorTest#test04NoHcardForItem} but
+     * assess the behavior in presence of a <i>Microformat</i> name with a different letter
+     * capitalization.
+     *
+     * @throws RepositoryException
+     */
+    @Test
+    public void testCaseSensitiveness() throws RepositoryException {
+        assertExtracts("microformats/hreview/05-spec.html");
+        Assert.assertFalse(conn.isEmpty());
+        assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+		// reviewer, no item
+		assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
+
+		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+
+        try {
+
+            while (reviews.hasNext()) {
+
+                Resource review = reviews.next().getSubject();
+
+                assertContains(review, REVIEW.rating, "4");
+                assertNotContains(REVIEW.title, null);
+                assertContains(review, DCTERMS.date, "20050418");
+
+                assertContains(
+                        REVIEW.text,
+                        "This movie has great music and visuals.");
+
+                assertStatementsSize(REVIEW.hasReview, review, 1);
+
+                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null,REVIEW.hasReview, review, false);
+
+                try {
+                    while(reviewSubjects.hasNext()) {
+                        Resource reviewSubject = reviewSubjects.next().getSubject();
+                        assertContains(reviewSubject, VCARD.fn, "Ying Xiong (HERO)");
+				        assertContains(reviewSubject, VCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
+                    }
+
+                } finally {
+                    reviewSubjects.close();
+                }
+
+
+            }
+
+        } finally {
+            reviews.close();
+        }
+    }
+
 }

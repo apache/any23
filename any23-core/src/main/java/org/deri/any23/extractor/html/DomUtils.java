@@ -157,7 +157,7 @@ public class DomUtils {
 
     public static List<Node> findAllByTagAndClassName(Node root, String tagName, String className) {
         List<Node> result = new ArrayList<Node>();
-        for (Node node : findAll(root, "./descendant-or-self::" + tagName + "[contains(@class,'" + className + "')]")) {
+        for (Node node : findAll(root, "./descendant-or-self::" + tagName + "[contains(translate(@class,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'" + className + "')]")) {
             if (DomUtils.hasClassName(node, className)) {
                 result.add(node);
             }
@@ -228,7 +228,7 @@ public class DomUtils {
 //		Pattern pattern = Pattern.compile("(^|\\s+)"+className+"(\\s+|$)");
         String attr = readAttribute(node, attributeName);
         for (String c : attr.split("\\s+"))
-            if (c.equals(className))
+            if (c.equalsIgnoreCase(className))
                 return true;
         return false;
     }
