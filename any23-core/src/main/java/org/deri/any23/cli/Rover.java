@@ -30,15 +30,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
-import org.deri.any23.writer.BenchmarkTripleHandler;
-import org.deri.any23.writer.LoggingTripleHandler;
-import org.deri.any23.writer.NQuadsWriter;
-import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.RDFXMLWriter;
-import org.deri.any23.writer.ReportingTripleHandler;
-import org.deri.any23.writer.TripleHandler;
-import org.deri.any23.writer.TripleHandlerException;
-import org.deri.any23.writer.TurtleWriter;
+import org.deri.any23.writer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +61,8 @@ public class Rover {
 
     private static final String RDFXML  = "rdfxml";
 
+    private static final String URIS  = "uris";    
+
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);
 
     private static Options options;
@@ -80,7 +74,7 @@ public class Rover {
                         "f",
                         "format",
                         true,
-                        "[" + TURTLE + " (default), " + NTRIPLE + ", " + RDFXML + "," + QUAD + "]")
+                        "[" + TURTLE + " (default), " + NTRIPLE + ", " + RDFXML + ", " + QUAD + ", " + URIS + "]")
         );
         options.addOption(new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle"));
         options.addOption(new Option("o", "output", true, "ouput file (defaults to stdout)"));
@@ -125,14 +119,17 @@ public class Rover {
         if (cmd.hasOption("f")) {
             format = cmd.getOptionValue("f");
         }
-        TripleHandler outputHandler = null;
+        TripleHandler outputHandler;
         if (TURTLE.equalsIgnoreCase(format)) {
             outputHandler = new TurtleWriter(System.out);
         } else if (NTRIPLE.equalsIgnoreCase(format)) {
             outputHandler = new NTriplesWriter(System.out);
         } else if (QUAD.equalsIgnoreCase(format)) {
             outputHandler = new NQuadsWriter(System.out);
-        } else {
+        } else if (URIS.equalsIgnoreCase(format)) {
+            outputHandler = new URIListWriter(System.out);
+        }
+        else {
             outputHandler = new RDFXMLWriter(System.out);
         }
 

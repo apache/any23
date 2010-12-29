@@ -72,7 +72,7 @@ public interface TripleHandler {
     void closeContext(ExtractionContext context) throws TripleHandlerException;
 
     /**
-     * Informa the handler that the end of the document
+     * Informs the handler that the end of the document
      * has been reached.
      *
      * @param documentURI document URI.
