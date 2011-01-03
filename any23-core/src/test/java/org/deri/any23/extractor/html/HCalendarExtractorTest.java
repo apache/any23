@@ -21,6 +21,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.ICAL;
+import org.deri.any23.vocab.SINDICE;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -333,13 +334,20 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
         extract("html/html-without-uf.html");
-        assertModelEmpty();
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);        
     }
 
     @Test
     public void testNoMicroformatsInStatCvsPage() throws RepositoryException, IOException, ExtractionException {
         extract("microformats/hcalendar/empty-statcvs.html");
-        assertModelEmpty();
+        assertModelNotEmpty();
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);
     }
 
     @Test

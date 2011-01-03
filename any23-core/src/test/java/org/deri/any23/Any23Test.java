@@ -271,7 +271,7 @@ public class Any23Test {
             counter++;
             i++;
         }
-        Assert.assertSame("Unexpected number of triples.", 38, counter);
+        Assert.assertSame("Unexpected number of triples.", 43, counter);
         
     }
 
@@ -320,7 +320,7 @@ public class Any23Test {
         compositeTH1.addChild(ctw1);
         runner.extract(new ExtractionParameters(false, false), source,  compositeTH1);
         logger.info( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 3, cth1.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -330,7 +330,7 @@ public class Any23Test {
         compositeTH2.addChild(ctw2);
         runner.extract(new ExtractionParameters(true, true), source,  compositeTH2);
         logger.info( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 8, cth2.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", 10, cth2.getCount() );
     }
 
     @Test
@@ -350,7 +350,7 @@ public class Any23Test {
         compositeTH1.addChild(ctw1);
         runner.extract(new ExtractionParameters(false, false, true), source,  compositeTH1);
         logger.info( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 24, cth1.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", 26, cth1.getCount() );
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -360,7 +360,7 @@ public class Any23Test {
         compositeTH2.addChild(ctw2);
         runner.extract(new ExtractionParameters(true, true, false), source,  compositeTH2);
         logger.info( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 21, cth2.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", 23, cth2.getCount() );
     }
 
     @Test

@@ -37,6 +37,10 @@ public class SINDICE extends Vocabulary {
 
     public static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
 
+    public static final String SIZE = "size";
+
+    public static final String DATE = "date";
+
     /**
      * The namespace of the vocabulary as a string.
      */
@@ -70,6 +74,16 @@ public class SINDICE extends Vocabulary {
      * 
      */
     public static final URI nesting_structured = createProperty("nesting_structured");
+
+    /**
+     * 
+     */
+    public static final URI size = createProperty("size");
+
+    /**
+     *
+     */
+    public static final URI date = createProperty("date");
 
     private static Map<String, URI> localNamesMap;
 

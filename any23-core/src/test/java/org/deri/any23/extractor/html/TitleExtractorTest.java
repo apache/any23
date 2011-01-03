@@ -19,9 +19,11 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.DCTERMS;
+import org.deri.any23.vocab.SINDICE;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryException;
 
 /**
@@ -50,7 +52,10 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoPageTitle() throws RepositoryException {
         assertExtracts("microformats/xfn/tagsoup.html");
-        assertModelEmpty();
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);  
     }
 
     @Test

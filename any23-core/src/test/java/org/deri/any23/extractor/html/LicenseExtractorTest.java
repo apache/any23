@@ -18,9 +18,11 @@ package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
+import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.XHTML;
 import org.junit.Test;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryException;
 
 /**
@@ -69,7 +71,10 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testEmpty() throws RepositoryException {
         assertExtracts("microformats/license/empty.html");
-        assertModelEmpty();
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);
     }
 
     @Test

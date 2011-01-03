@@ -296,13 +296,6 @@ public class ServletTest {
     }
 
     @Test
-    public void testNoExtractableTriples() throws Exception {
-        HttpTester response = doPostRequest("/n3", "<html><body>asdf</body></html>", "text/html");
-        Assert.assertEquals(501, response.getStatus());
-        Assert.assertTrue(response.getContent().toLowerCase().contains("no triples"));
-    }
-
-    @Test
     public void testContentNegotiationDefaultsToTurtle() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/best/http://foo.com");

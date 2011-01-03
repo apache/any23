@@ -26,6 +26,9 @@ import org.openrdf.model.Value;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * RDF helper class.
  */
@@ -73,5 +76,13 @@ public class RDFHelper {
 
     public static Statement toTriple(String s, String p, String o) {
         return ValueFactoryImpl.getInstance().createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
+    }
+
+    public static String toXSDDateTime(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        String s = simpleDateFormat.format(date);
+        StringBuilder sb = new StringBuilder(s);
+        sb.insert(22, ':');
+        return sb.toString();
     }
 }

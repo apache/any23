@@ -60,6 +60,10 @@ public class CompositeTripleHandler implements TripleHandler {
         children.add(child);
     }
 
+    public Collection<TripleHandler> getChilds() {
+        return children;
+    }
+
     public void startDocument(URI documentURI) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.startDocument(documentURI);

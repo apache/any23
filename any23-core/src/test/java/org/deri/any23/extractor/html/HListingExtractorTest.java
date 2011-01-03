@@ -20,9 +20,11 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.HLISTING;
+import org.deri.any23.vocab.SINDICE;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Resource;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 
@@ -43,13 +45,20 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException {
         assertExtracts("html/html-without-uf.html");
-        Assert.assertTrue(conn.isEmpty());
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);  
     }
 
     @Test
     public void testListingWithouthContent() throws RepositoryException {
         assertExtracts("microformats/hlisting/empty.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
+        System.out.println(dumpModelToRDFXML());
+        assertStatementsSize(null, null, null, 6);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);
     }
 
     @Test

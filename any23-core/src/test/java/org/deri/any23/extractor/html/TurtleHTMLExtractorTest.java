@@ -52,7 +52,7 @@ public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
     public void testExtraction() throws IOException, ExtractionException, RepositoryException {
         assertExtracts("html/html-turtle.html");
         logger.info( dumpModelToRDFXML() );
-        assertStatementsSize( null, (Value) null, 10);
+        assertStatementsSize( null, (Value) null, 12);
     }
 
 }

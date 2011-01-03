@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
+import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.VCARD;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -419,7 +420,10 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
 		extract("html/html-without-uf.html");
-		assertModelEmpty();
+		assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);
 	}
 
     @Test

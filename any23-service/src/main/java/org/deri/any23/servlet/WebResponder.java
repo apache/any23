@@ -25,13 +25,7 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.validator.SerializationException;
 import org.deri.any23.validator.ValidationReport;
 import org.deri.any23.validator.XMLValidationReportSerializer;
-import org.deri.any23.writer.FormatWriter;
-import org.deri.any23.writer.NQuadsWriter;
-import org.deri.any23.writer.NTriplesWriter;
-import org.deri.any23.writer.RDFXMLWriter;
-import org.deri.any23.writer.ReportingTripleHandler;
-import org.deri.any23.writer.TripleHandler;
-import org.deri.any23.writer.TurtleWriter;
+import org.deri.any23.writer.*;
 import sun.security.validator.ValidatorException;
 
 import javax.servlet.ServletOutputStream;
@@ -40,6 +34,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is responsible for building the {@link org.deri.any23.servlet.Servlet}
@@ -231,7 +227,10 @@ class WebResponder {
             return false;
         }
         outputMediaType = fw.getMIMEType();
-        rdfWriter = new IgnoreAccidentalRDFa(fw);
+        List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
+        tripleHandlers.add(new IgnoreAccidentalRDFa(fw));
+        tripleHandlers.add(new CountingTripleHandler());
+        rdfWriter = new CompositeTripleHandler(tripleHandlers);
         reporter = new ReportingTripleHandler(rdfWriter);
         rdfWriter = reporter;
         return true;

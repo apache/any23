@@ -19,11 +19,13 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.util.RDFHelper;
 import org.deri.any23.vocab.FOAF;
+import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.XFN;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 
@@ -47,19 +49,28 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException {
         assertExtracts("html/html-without-uf.html");
-        Assert.assertTrue(conn.isEmpty());
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);  
     }
 
     @Test
     public void testLinkWithoutRel() throws RepositoryException {
         assertExtracts("microformats/xfn/no-rel.html");
-        Assert.assertTrue(conn.isEmpty());
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);
     }
 
     @Test
     public void testNoXFNRel() throws RepositoryException {
         assertExtracts("microformats/xfn/no-valid-rel.html");
-        Assert.assertTrue(conn.isEmpty());
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);  
     }
 
     @Test
@@ -135,7 +146,10 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testForSomeReasonICantBeMyOwnSweetheart() throws RepositoryException {
         assertExtracts("microformats/xfn/me-and-sweetheart.html");
-        assertModelEmpty();
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 2);
+        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);  
     }
 
     @Test

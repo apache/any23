@@ -35,10 +35,14 @@ import org.deri.any23.util.RDFHelper;
 import org.deri.any23.validator.EmptyValidationReport;
 import org.deri.any23.validator.ValidatorException;
 import org.deri.any23.vocab.SINDICE;
+import org.deri.any23.writer.CompositeTripleHandler;
+import org.deri.any23.writer.CountingTripleHandler;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
+import org.openrdf.model.impl.LiteralImpl;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,10 +53,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.deri.any23.extractor.TagSoupExtractionResult.PropertyPath;
 import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
@@ -97,7 +98,10 @@ public class SingleDocumentExtraction {
     public SingleDocumentExtraction(DocumentSource in, ExtractorGroup extractors, TripleHandler output) {
         this.in = in;
         this.extractors = extractors;
-        this.output = output;
+        List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
+        tripleHandlers.add(output);
+        tripleHandlers.add(new CountingTripleHandler());
+        this.output = new CompositeTripleHandler(tripleHandlers);
         this.encoderDetector = new TikaEncodingDetector();
     }
 
@@ -440,7 +444,7 @@ public class SingleDocumentExtraction {
             // Add source Web domains to every resource root.
             final String domain;
             try {
-                domain = new java.net.URI( in.getDocumentURI() ).getHost();
+                domain = new java.net.URI(in.getDocumentURI()).getHost();
             } catch (URISyntaxException urise) {
                 throw new IllegalArgumentException(
                         "An error occurred while extracting the host from the document URI.",
@@ -462,18 +466,26 @@ public class SingleDocumentExtraction {
             // Detect the nesting relationship among different microformats and explicit them adding connection triples.
             ResourceRoot currentResourceRoot;
             PropertyPath currentPropertyPath;
-            for(int r = 0; r < resourceRoots.size(); r++) {
+            for (int r = 0; r < resourceRoots.size(); r++) {
                 currentResourceRoot = resourceRoots.get(r);
-                for(int p = 0; p < propertyPaths.size(); p++) {
+                for (int p = 0; p < propertyPaths.size(); p++) {
                     currentPropertyPath = propertyPaths.get(p);
                     // Avoid wrong nesting relationships.
-                    if(currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
+                    if (currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
                         continue;
                     }
-                    if( subPath( currentResourceRoot.getPath(), currentPropertyPath.getPath() ) ) {
+                    if (subPath(currentResourceRoot.getPath(), currentPropertyPath.getPath())) {
                         createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
                     }
                 }
+            }
+            try {
+                addExtractionMetadataTriples(context);
+            } catch (TripleHandlerException e) {
+                log.error(String.format("Error while adding extraction medata triples document with URI %s", documentURI));
+                throw new ExtractionException(String.format("Error while adding extraction medata triples document with URI %s", documentURI),
+                        e
+                );
             }
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error while writing triple triple.", e);
@@ -519,7 +531,7 @@ public class SingleDocumentExtraction {
             // Add source Web domains to every resource root.
             String domain;
             try {
-                domain = new java.net.URI( in.getDocumentURI() ).getHost();
+                domain = new java.net.URI(in.getDocumentURI()).getHost();
             } catch (URISyntaxException urise) {
                 throw new IllegalArgumentException(
                         "An error occurred while extracting the host from the document URI.",
@@ -537,6 +549,14 @@ public class SingleDocumentExtraction {
                     );
                 }
             }
+            try {
+                addExtractionMetadataTriples(context);
+            } catch (TripleHandlerException e) {
+                log.error(String.format("Error while adding extraction medata triples document with URI %s", documentURI));
+                throw new ExtractionException(String.format("Error while adding extraction medata triples document with URI %s", documentURI),
+                        e
+                );
+            }
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error while writing triple triple.", e);
         } finally {
@@ -546,6 +566,35 @@ public class SingleDocumentExtraction {
                 throw new ExtractionException("Error while closing context.", e);
             }
         }
+    }
+
+    private void addExtractionMetadataTriples(ExtractionContext context) throws TripleHandlerException {
+        // adding extraction date
+        String xsdDateTimeNow = RDFHelper.toXSDDateTime(new Date());
+        output.receiveTriple(
+                new URIImpl(documentURI.toString()),
+                SINDICE.getProperty("date"),
+                ValueFactoryImpl.getInstance().createLiteral(xsdDateTimeNow),
+                null,
+                context
+        );
+
+        // adding number of extracted triples
+        int numberOfTriples = 0;
+        CompositeTripleHandler cth = (CompositeTripleHandler) output;
+        for (TripleHandler th : cth.getChilds()) {
+            if (th instanceof CountingTripleHandler) {
+                numberOfTriples = ((CountingTripleHandler) th).getCount();
+            }
+        }
+        output.receiveTriple(
+                new URIImpl(documentURI.toString()),
+                SINDICE.getProperty("size"),
+                ValueFactoryImpl.getInstance().createLiteral(numberOfTriples + 1), // the number of triples plus itself
+                null,
+                context
+        );
+
     }
 
     /**
