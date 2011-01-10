@@ -377,6 +377,21 @@ public class ServletTest {
         assertContains("<data>"    , content);
     }
 
+    @Test
+    public void testJSONResponseFormat() throws Exception {
+        String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
+        HttpTester response = doPostRequest("/json", body, "text/n-quads");
+        Assert.assertEquals(200, response.getStatus());
+        final String EXPECTED_JSON =
+                "[" +
+                "{ \"type\" : \"uri\", \"value\" : \"http://sub/1\"}, " +
+                "\"http://pred/1\", " +
+                "{\"type\" : \"literal\", \"value\" : \"123\", \"lang\" : null, \"datatype\" : \"http://datatype\"}, " +
+                "\"http://graph/1\"" +
+                "]";
+        assertContains(EXPECTED_JSON, response.getContent());
+    }
+
     private HttpTester doGetRequest(String path) throws Exception {
         return doRequest(path, "GET");
     }

@@ -252,6 +252,9 @@ class WebResponder {
         if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
             return new NQuadsWriter(byteOutStream);
         }
+        if("json".equals(format)) {
+            return new JSONWriter(byteOutStream);
+        }
         return null;
     }
 
