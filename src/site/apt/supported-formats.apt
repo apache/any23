@@ -1,0 +1,131 @@
+Introduction
+
+ <<Any23>> supports all the main standard formats introduced by the <<Semantic Web>> community.
+
+ * <<Input Formats>>
+
+   The following list shows the accepted input formats and for each one the support level.
+
+   * <<(X)HTML>> with <<RDFa>> and <<Microformats>>.
+
+     <<Any23>> fully supports the {{{(X)HTML} http://www.w3.org/TR/html5/}} input format and in particular provides a set
+     of extractors for processing embedded {{{RDFa} http://www.w3.org/TR/rdfa-syntax/}} and
+     {{{Microformats} http://microformats.org/}}.
+
+   * <<Turtle>>
+
+     <<Any23>> fully supports the {{{Turtle} http://www.w3.org/TeamSubmission/turtle/}} specification.
+
+   * <<N-Triples>>
+
+     <<Any23>> fully supports the {{{N-Triples} http://www.w3.org/TR/rdf-testcases/#ntriples}} specification.
+
+   * <<N-Quads>>
+
+     <<Any23>> fully supports the {{{N-Quads} http://sw.deri.org/2008/07/n-quads/}} specification.
+
+   * <<RDF/XML>>
+
+     <<Any23>> fully supports the  {{{RDF/XML} http://www.w3.org/TR/rdf-syntax-grammar/}} specification.
+
+ * <<Output Formats>>
+
+   The supported output formats are enlisted below.
+
+   * <<Turtle>>
+
+     <<Any23>> is able to produce output in {{{Turtle} http://www.w3.org/TeamSubmission/turtle/}}.
+
+   * <<N-Triples>>
+
+     <<Any23>> is able to produce output in {{{N-Triples} http://www.w3.org/TR/rdf-testcases/#ntriples}}.
+
+   * <<N-Quads>>
+
+     <<Any23>> is able to produce output in {{{N-Quads} http://sw.deri.org/2008/07/n-quads/}}.
+
+   * <<RDF/XML>>
+
+     <<Any23>> is able to produce output in {{{RDF/XML} http://www.w3.org/TR/rdf-syntax-grammar/}}.
+
+   * <<JSON>>
+
+     <<Any23>> is able to produce output in {{{JSON} http://www.json.org/}} .
+
+     In particular we choose the format described below.
+
+     Given the following example statements (expressed in N-Quads format):
+
++-------------------------------------------------------------------------------
+   _:bn1          <http://pred/1> <http://value/1>         <http://graph/1> .
+   <http://sub/2> <http://pred/2> "language literal"@en    <http://graph/2> .
+   <http://sub/3> <http://pred/3> "123"^^<http://datatype> <http://graph/3> .
++-------------------------------------------------------------------------------
+
+     these will be represented as:
+
++-------------------------------------------------------------------------------
+ {
+    "quads" : [
+        [
+            {
+                "type" : "bnode",
+                "value" : "bn1"
+            },
+            "http://pred/1",
+            {
+                "type" : "uri",
+                "value" : "http://value/1"
+            },
+            "http://graph/1"
+        ],
+        [
+            {
+                "type" : "uri",
+                "value" : "http://sub/2"
+            },
+            "http://pred/2",
+            {
+                "type" : "literal",
+                "value" : "language literal",
+                "lang" : "en",
+                "datatype" : null
+            },
+            "http://graph/2"
+        ],
+        [
+            {
+                "type" : "uri",
+                "value" : "http://sub/3"
+            },
+            "http://pred/3",
+            {
+                "type" : "literal",
+                "value" : "123",
+                "lang" : null,
+                "datatype" : "http://datatype"
+            },
+            "http://graph/3"
+        ]
+    ]
+ }
++-------------------------------------------------------------------------------
+
+    The <<JSON object>> structure is described by the following <<BNF>> rules,
+    where quotes are omitted to improve readability:
+
++-----------------------------------------------------------------------------------------------------------------
+ <json-response> ::= { "quads" : <statements> }
+ <statements>    ::= [ <statement>+ ]
+ <statement>     ::= [ <subject> , <predicate> , <object> , <graph> ]
+ <subject>       ::= { "type" : <subject-type> , "value" : <value> }
+ <predicate>     ::= <uri>
+ <object>        ::= { "type" : <object-type> , "value" : <value> , "lang" : <lang> , "datatype" : <datatype> }
+ <graph>         ::= <uri> | null
+ <subject-type>  ::= "uri" | "bnode"
+ <object-type>   ::= "uri" | "bnode"| "literal"
+ <value>         ::= String
+ <lang>          ::= String | null
+ <datatype>      ::= <uri>  | null
+ <uri>           ::= String
++-----------------------------------------------------------------------------------------------------------------

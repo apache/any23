@@ -37,12 +37,13 @@
 
     <body>
         <menu name="${project.name}">
-	        <item name="Introduction"     href="index.html"/>
-			<item name="Install"          href="install.html"/>
-            <item name="Getting started"  href="getting-started.html"/>
-            <item name="Developers guide" href="developers.html"/>
-            <item name="Extraction notes" href="extraction.html"/>
-            <item name="Ill-formed RDFa"  href="ill-formed-rdfa.html"/>
+	        <item name="Introduction"      href="index.html"/>
+			<item name="Install"           href="install.html"/>
+            <item name="Getting Started"   href="getting-started.html"/>
+            <item name="Developers Guide"  href="developers.html"/>
+            <item name="Extraction Notes"  href="extraction.html"/>
+            <item name="Ill-formed RDFa"   href="ill-formed-rdfa.html"/>
+            <item name="Supported Formats" href="supported-formats.html"/>
         </menu>
 
         <menu ref="modules"/>
