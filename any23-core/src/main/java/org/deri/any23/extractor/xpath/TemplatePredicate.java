@@ -15,17 +15,17 @@
  *
  */
 
-package org.deri.any23.extractor.xpathextractor;
+package org.deri.any23.extractor.xpath;
 
 import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
 /**
- * Represents an <i>Quad</i> graph <i>URI template</i>.
+ * Represents a <i>Quad</i> predicate <i>template</i>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class TemplateGraph extends Term<URI> {
+public class TemplatePredicate extends Term<URI> {
 
     /**
      * Constructor.
@@ -34,17 +34,25 @@ public class TemplateGraph extends Term<URI> {
      * @param isVar if <code>true</code> it the given <code>value</code>
      *              will be resolved with the variable value.
      */
-    public TemplateGraph(String value, boolean isVar) {
+    public TemplatePredicate(String value, boolean isVar) {
         super(value, isVar);
     }
 
     @Override
     protected URI getValueInternal(String value) {
-        return new URIImpl(value);
+        try {
+            return ValueFactoryImpl.getInstance().createURI(value);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException(
+                    String.format("Expected a valid URI for predicate template, found '%s'", value),
+                    iae
+            );
+        }
     }
 
     @Override
     public String toString() {
         return "<" + super.toString() + ">";
     }
+
 }

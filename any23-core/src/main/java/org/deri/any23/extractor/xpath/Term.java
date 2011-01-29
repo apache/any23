@@ -15,11 +15,9 @@
  *
  */
 
-package org.deri.any23.extractor.xpathextractor;
+package org.deri.any23.extractor.xpath;
 
-import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
 
 import java.util.Map;
 

@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.extractor.xpathextractor;
+package org.deri.any23.extractor.xpath;
 
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.html.DomUtils;

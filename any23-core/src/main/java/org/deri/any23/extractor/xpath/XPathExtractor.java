@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.extractor.xpathextractor;
+package org.deri.any23.extractor.xpath;
 
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Implementation of an {@link TagSoupDOMExtractor} able to
+ * Implementation of an {@link org.deri.any23.extractor.Extractor.TagSoupDOMExtractor} able to
  * apply {@link XPathExtractionRule}s and generate <i>quads</i>.
  *
  * @see XPathExtractionRule

@@ -15,41 +15,43 @@
  *
  */
 
-package org.deri.any23.extractor.xpathextractor;
+package org.deri.any23.extractor.xpath;
 
-import org.openrdf.model.Resource;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.BNodeImpl;
-import org.openrdf.model.impl.URIImpl;
+import org.openrdf.model.impl.LiteralImpl;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
 /**
- * Represents a <i>Quad</i> subject <i>template</i>.
+ * Represents a <i>Quad</i> object <i>template</i>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class TemplateSubject extends Term<Resource> {
+public class TemplateObject extends Term {
 
     /**
-     * Supported subject types.
+     * Supported object types.
      */
     public enum Type {
         uri,
-        bnode
+        bnode,
+        literal
     }
 
     /**
-     * Instance subject type.
+     * Current template type.
      */
     private final Type type;
 
     /**
      * Constructor.
      *
-     * @param type subject type.
+     * @param type object template type.
      * @param value internal value.
      * @param isVar if <code>true</code> it the given <code>value</code>
      *              will be resolved with the variable value.
      */
-    public TemplateSubject(Type type, String value, boolean isVar) {
+    public TemplateObject(Type type, String value, boolean isVar) {
         super(value, isVar);
         if (type == null) {
             throw new NullPointerException("object type cannot be null.");
@@ -58,12 +60,21 @@ public class TemplateSubject extends Term<Resource> {
     }
 
     @Override
-    protected Resource getValueInternal(String value) {
+    protected Value getValueInternal(String value) {
         switch (type) {
             case uri:
-                return new URIImpl(value);
+                try {
+                    return ValueFactoryImpl.getInstance().createURI(value);
+                } catch (IllegalArgumentException iae) {
+                    throw new IllegalArgumentException(
+                            String.format("Expected a valid URI for object template, found '%s'", value),
+                            iae
+                    );
+                }
             case bnode:
                 return new BNodeImpl(value);
+            case literal:
+                return new LiteralImpl(value);
             default:
                 throw new IllegalStateException();
         }
@@ -77,6 +88,8 @@ public class TemplateSubject extends Term<Resource> {
                 return "<" + superStr + ">";
             case bnode:
                 return "_:" + superStr;
+            case literal:
+                return "'" + superStr + "'";
             default:
                 throw new IllegalStateException();
         }

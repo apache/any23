@@ -15,7 +15,7 @@
  *
  */
 
-package org.deri.any23.extractor.xpathextractor;
+package org.deri.any23.extractor.xpath;
 
 /**
  * Defines an {@link XPathExtractionRule} able
