@@ -7,9 +7,9 @@ Ill-formed RDFa extraction
  This pages describes the <<Any23>> rule-based approach, that allows it to detect, fix and correctly extract
  RDF from those ill-formed RDFa in XHTML pages.
 
- More specifically, <<Any23>> allows you to write a {{{xref/org/deri/any23/validator/Rule.html}Rule}}
- able to detect the errors, a {{{xref/org/deri/any23/validator/Fix.html}Fix}} containing the logic to fix the problem and a
- {{{xref/org/deri/any23/validator/Validator.html}Validator}} which acts as a register of rules and fixes. The Validator
+ More specifically, <<Any23>> allows you to write a {{{./xref/org/deri/any23/validator/Rule.html}Rule}}
+ able to detect the errors, a {{{./xref/org/deri/any23/validator/Fix.html}Fix}} containing the logic to fix the problem and a
+ {{{./xref/org/deri/any23/validator/Validator.html}Validator}} which acts as a register of rules and fixes. The Validator
  calls all the registered rules and when one of them is applied it calls the associated Fix.
 
  The following code snipped shows how to programatically detect and fix a very common mistake with <<Any23>>.
@@ -36,8 +36,8 @@ Ill-formed RDFa extraction
 </div>
 +------------------------------------------------------------------------------------------
 
- With the <<Any23>> {{{xref/org/deri/any23/validator/package-summary.html}Validator}} classes it's possible to solve this
- problem simply implementing the {{{xref/org/deri/any23/validator/Rule.html}Rule}} interface as described below:
+ With the <<Any23>> {{{./xref/org/deri/any23/validator/package-summary.html}Validator}} classes it's possible to solve this
+ problem simply implementing the {{{./xref/org/deri/any23/validator/Rule.html}Rule}} interface as described below:
 
 +------------------------------------------------------------------------------------------
 public class MissingOpenGraphNamespaceRule implements Rule {
@@ -72,7 +72,7 @@ public class MissingOpenGraphNamespaceRule implements Rule {
 }
 +------------------------------------------------------------------------------------------
 
- The {{{xref/org/deri/any23/validator/rule/MissingOpenGraphNamespaceRule.html}MissingOpenGraphNamespaceRule}} inspects the DOM
+ The {{{./xref/org/deri/any23/validator/rule/MissingOpenGraphNamespaceRule.html}MissingOpenGraphNamespaceRule}} inspects the DOM
  structure of the HTML page and if it finds some META tags with some RDFa property (of the OpenGraph Protocol vocabulary, in this case)
  it looks for the declaration of that name space. If there is no declaration it return <<true>>, that means that an error has been detected
  within the document.

@@ -1,6 +1,6 @@
-Notes on the extraction process
+Microformat Extractors
 
- This page describes some extractions corner-cases and their relative RDF representations. Main aim of this section is to describe how
+ This section describes some extractions corner-cases and their relative RDF representations. Main aim of this section is to describe how
  some specific cases are processed with <<Any23>> showing the correspondences between the extracted RDF triples.
 
 * Nesting different Microformats
@@ -13,7 +13,7 @@ Notes on the extraction process
 
  More specifically:
 
-  * Embedding explicitly the logic within the {{{xref/org/deri/any23/extractor/html/package-summary.html}Microformats Extractors}}
+  * Embedding explicitly the logic within the {{{./xref/org/deri/any23/extractor/html/package-summary.html}Microformats Extractors}}
 
   * Using the default <<Any23>> nesting feature.
 
@@ -33,7 +33,7 @@ Notes on the extraction process
 </span>
 +----------------------------------------------------------------------------------------------
 
- Since, as shown below, the {{{xref/org/deri/any23/extractor/html/HCardExtractor.html}HCardExtractor}}
+ Since, as shown below, the {{{./xref/org/deri/any23/extractor/html/HCardExtractor.html}HCardExtractor}}
  contains the code to handle nested hAddress,
 
 +------------------------------
@@ -110,6 +110,3 @@ private boolean addSubMicroformat(String className, Resource resource, URI prope
 
  That informally means that the vEvent Microformat has a nested hCard through the property
  http://www.w3.org/2002/12/cal/icaltzd#summary providing for them two blank nodes.
-
-
-

@@ -41,7 +41,7 @@
 			<item name="Install"           href="install.html"/>
             <item name="Getting Started"   href="getting-started.html"/>
             <item name="Developers Guide"  href="developers.html"/>
-            <item name="Extraction Notes"  href="extraction.html"/>
+            <item name="Extractors"        href="extractors.html"/>
             <item name="Ill-formed RDFa"   href="ill-formed-rdfa.html"/>
             <item name="Supported Formats" href="supported-formats.html"/>
         </menu>

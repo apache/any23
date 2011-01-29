@@ -14,7 +14,7 @@ Using Any23 as a command line tool
 
  The command line tool is defined within the <<any23-core>> module.
 
- Once <<Any23>> has been correctly {{{install.html}installed}}, if you want to use it as a command line tool, please use the shell scripts provided in the <<"/bin">> directory of the download. These are provided both as Windows and Unix (Linux/OS X) versions. Note, you may want to add the /bin directory to your system path.
+ Once <<Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a command line tool, please use the shell scripts provided in the <<"/bin">> directory of the download. These are provided both as Windows and Unix (Linux/OS X) versions. Note, you may want to add the /bin directory to your system path.
 
  The main script is <<"any23">>. The <<"any23tools">> command also provides access to some testing, debugging and analyzing utilities (sorry, we do not provide a documentation for this at the moment).
 
@@ -95,8 +95,8 @@ Using <<Any23>> as a Web service
 any23-service/bin$ ./any23server
 +--------------------------
 
- You can also start the server from Java by running the {{{http://developers.any23.org/apidocs/org/deri/any23/servlet/Servlet.html}Any23 Servlet}} class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
+ You can also start the server from Java by running the {{{./xref/org/deri/any23/servlet/Servlet.html}Any23 Servlet}} class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
 
 Integrating Any23 in your Java programs
 
- See our {{{developers.html}Developers guide}} for more details.
+ See our {{{./developers.html}Developers guide}} for more details.
