@@ -3,7 +3,9 @@
     author: Michele Mostarda (michele.mostarda@gmail.com)
     version: $Id$
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.deri.any23</groupId>
@@ -16,7 +18,7 @@
     <artifactId>any23-core</artifactId>
     <packaging>jar</packaging>
     <version>0.4.2-SNAPSHOT</version><!-- NOTE: there's also a version string in Any23.java, they should match! -->
-    <name>Anything to Triples - Core Module</name>
+    <name>Any23 - Core Module</name>
     <description>Anything To Triples (any23) is a library and web service that extracts structured data 
     in RDF format from a variety of Web documents.</description>
     <url>http://developers.any23.org</url>
@@ -190,13 +192,25 @@
             <version>2.6.0</version>
         </dependency>
         <!-- END: Sesame 2.4 -->
-        <!-- Mockito -->
+
+        <!-- BEGIN: Plugin System -->
+        <dependency>
+            <groupId>net.xeoh</groupId>
+            <artifactId>jspf</artifactId>
+            <version>0.9.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jspf.core-0.9.0.jar</systemPath>
+        </dependency>
+        <!-- END: Plugin System -->
+
+        <!-- BEGIN: Test Dependencies -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.8.5</version>
             <scope>test</scope>
         </dependency>
+        <!-- END: Test Dependencies -->
     </dependencies>
 
     <build>
