@@ -5,6 +5,17 @@ Any23 README
 Anything To Triples (any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
 
+--------------------
+Distribution Content
+--------------------
+
+any23-core           The library core codebase.
+any23-service        The library HTTP service codebase.
+plugins              Library plugins codebase.
+RELEASE-NOTES.txt    File reporting main release notes for every version.
+README.txt           This file.
+LICENSE.txt          Applicable project license.
+
 -------------
 Documentation
 -------------
@@ -120,7 +131,7 @@ settings.xml in this way:
 </server>
 
 ------------------
-Make a new release
+Make a New Release
 ------------------
 
 To prepare a new release, just verify that the are no local changes and then invoke:

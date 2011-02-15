@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:svg="http://www.w3.org/2000/svg">
+<head>
+    <title>Sindice - The semantic web index</title>
+    <meta http-equiv="Content-Type" content="xhtml/xml; charset=UTF-8"/>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/site.css"/>
+
+    <link rel="search"
+          type="application/opensearchdescription+xml"
+          href="http://sindice.com/opensearch-term.xml"
+          title="Sindice Term Search"/>
+    <link rel="search"
+          type="application/opensearchdescription+xml"
+          href="http://sindice.com/opensearch-advanced.xml"
+          title="Sindice Triple Search"/>
+    <link type="image/gif" rel="icon" href="/favicon.gif"/>
+    <link type="image/vnd.microsoft.icon" rel="shortcut icon" href="/favicon.ico"/>
+
+    <link href="/javascripts/jquery/css/start/jquery-ui-1.8.1.custom.css?1291645617" media="screen" rel="stylesheet"
+          type="text/css"/>
+    <link href="/javascripts/jquery/css/blue/style.css?1291645617" media="screen" rel="stylesheet" type="text/css"/>
+    <link href="/javascripts/jsTree/source/tree_component.css?1291645617" media="screen" rel="stylesheet"
+          type="text/css"/>
+    <link href="/javascripts/jquery/js/jquery.jcarousel.css?1291645617" media="screen" rel="stylesheet"
+          type="text/css"/>
+    <link href="/javascripts/jquery/css/jcarousel/tango/skin.css?1291645617" media="screen" rel="stylesheet"
+          type="text/css"/>
+
+
+    <script type="text/javascript" src="/javascripts/jquery/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/javascripts/jquery/js/jquery-ui-1.8.1.custom.min.js"></script>
+    <script src="/javascripts/jquery/js/jquery.jcarousel.min.js?1291645617" type="text/javascript"></script>
+    <script src="/javascripts/replacePrefix.js?1291645618" type="text/javascript"></script>
+    <script src="/javascripts/jquery/js/jquery.tablesorter.min.js?1291645617" type="text/javascript"></script>
+    <script src="/javascripts/jsTree/_lib/css.js?1291645617" type="text/javascript"></script>
+    <script src="/javascripts/jsTree/source/tree_component.js?1291645617" type="text/javascript"></script>
+    <script src="/javascripts/idleDetector.js?1291645618" type="text/javascript"></script>
+    <script src="/javascripts/mainPage.js?1291645618" type="text/javascript"></script>
+</head>
+<body>
+<div class="hidden"><a href="#main">Skip to contents</a></div>
+<div id="header" style="position:relative;" class="container fixedWidth">
+    <div class="columnL span-3">
+        <div id="logo"><a href="/"><img src="/images/logo.png" height="80" width="240" alt="Sindice" title=""/></a>
+        </div>
+        <!-- /column -->
+    </div>
+    <div class="columnR span-8a last">
+        <ul id="nav" class="_">
+            <li class="_"><a href="/">Home</a></li>
+            <li class="_"><a href="/main/about">About</a></li>
+            <li class="_"><a href="/search">Search</a></li>
+            <li class="_"><a href="/main/submit">Submit</a></li>
+            <li class="_"><a href="/main/forum">Forum</a></li>
+            <li class="_"><a href="/developers/welcome">Dev</a></li>
+        </ul>
+        <!-- /column -->
+    </div>
+    <div style="float: right; font-size: 11px; color: rgb(166, 201, 226); position:absolute; bottom:0; right:4px;"
+         id="frontendVersion">
+        web01
+        <a href="/main/changes#version-2.0.1">Version: 2.0.1</a>
+    </div>
+    <!-- /header -->
+</div>
+
+<div id="main" class="container fixedWidth">
+<div id="intro" class="clear">
+
+
+    <div class="column span-6">
+        <h1>Sindice - Data Web Services</h1>
+
+        <div id="about">
+
+            <p>
+                Billion pieces of reusable information can already be found
+                across hundreds of millions web pages which embed RDF and Microformats. Start
+                consuming this data today with Sindice Data Web services.
+            </p>
+
+            <a href="/main/about"><img src="/images/learn-more-white.png" alt="Learn more"/></a>
+
+            <!-- /padding -->
+        </div>
+
+        <!-- /column -->
+    </div>
+
+
+    <div class="column span-6 last">
+        <div id="search-w">
+            <ul class="clear">
+                <li title="search" class="current frontendTab">
+                    Search
+                </li>
+                <li title="submit" class="frontendTab">
+                    Submit
+                </li>
+                <li title="search-inspect" class="frontendTab">
+                    Inspector Tool
+                </li>
+            </ul>
+
+
+            <div id="search" class="frontendTabContent">
+                <h2>Search: </h2>
+
+                <div style="float:left;border:none;">
+                    <input class="search-types-radio" type="radio" name="search-types" id="term-type" value="term"
+                           checked="checked"/><label class="search-type-label" for="term-type">term</label>
+                    <input class="search-types-radio" type="radio" name="search-types" id="property-type"
+                           value="property"/><label class="search-type-label" for="property-type">property</label>
+                    <input class="search-types-radio" type="radio" name="search-types" id="advanced-type"
+                           value="advanced"/><label class="search-type-label" for="advanced-type">advanced</label>
+                    <input class="search-types-radio" type="radio" name="search-types" id="sigma-type"
+                           value="sigma"/><label class="search-type-label" for="sigma-type"><img
+                        style="vertical-align:sub; width:46px;margin-top:6px;" src="/images/sig.ma-about.png"/></label>
+                </div>
+                <div class="search-types" id="search-type-term">
+                    <form action="/search" method="get">
+                        <input onfocus="if (this.value=='Type one or more keywords or URI') {this.value=''} else {this.select()}; return true;"
+                               type="text" name="q" size="45" value="Type one or more keywords or URI"/>
+                        <button type="submit" class="inspectButton">
+                            SEARCH
+                        </button>
+                    </form>
+		        <span class="tip">Examples:
+		          <a href="/search?q=tim%20berners%20lee">tim berners lee</a>
+		          (by <a href="/search?q=http%3A%2F%2Fwww.w3.org%2FPeople%2FBerners-Lee%2Fcard">URI</a>),
+		          <a href="/search?q=michele">michele</a>, <a href="/search?q=deri">deri</a></span>
+
+                    <div style="height:1em;">
+                        <div class="search-numbers-small documentNumberTotal" style="display:none;">
+                            <span>Searching on about </span><span class="totalNo"></span><span> documents.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-types" style="display:none;" id="search-type-property">
+                    <form method="get" action="/search">
+                        <input type="text" name="predicate" id="predicate" value="foaf:mbox" size="20"/>
+                        <input type="text" name="value" id="value" value="mailto:timbl@w3.org" size="20"
+                               style="margin-right: 7px;"/>
+                        <button id="propertySearch" class="inspectButton">
+                            SEARCH
+                        </button>
+                    </form>
+                    <script type="text/javascript">
+                        jQuery(document).ready(function() {
+                            jQuery("#propertySearch").click(function() {
+                                var predicate = "<" + jQuery("#predicate").val() + ">";
+
+                                var value = jQuery("#value").val();
+                                if (value.indexOf("http") === 0) {
+                                    value = "<" + value + ">";
+                                } else {
+                                    value = '"' + value + '"';
+                                }
+
+                                var nq = "* " + predicate + " " + value;
+                                document.location.href = "/search?nq=" + encodeURIComponent(nq);
+                                return false;
+                            });
+                        });
+                    </script>
+			        <span class="tip">Examples:
+			          <a href="/search?nq=*+<foaf%3Aknows>+<http%3A%2F%2Frichard.cyganiak.de%2Ffoaf.rdf>">Richard's
+                          contacts</a>,
+			          <a href="/search?nq=*+<foaf%3AworkplaceHomepage>+<http%3A%2F%2Fwww.deri.ie>">deri people</a>,
+			        </span>
+
+                    <div style="height:1em;">
+                        <div class="search-numbers-small documentNumberTotal" style="display:none;">
+                            <span>Searching on about </span><span class="totalNo"></span><span> documents.</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="search-types" style="display:none;" id="search-type-advanced">
+                    <form method="get" action="/search">
+                        <input type="text" value="Type triple query" size="45" name="nq"
+                               onfocus="if (this.value=='Type triple query') {this.value=''} else {this.select()}; return true;"/>
+
+                        <button type="submit" class="inspectButton">
+                            SEARCH
+                        </button>
+                    </form>
+				        <span class="tip">
+				        <a href="developers/api#Querylanguages-AdvancedSearch">Query Language Documentation</a>,
+				        Example:
+				          <a href="/search?nq=*+%3Cvcard%3Atitle%3E+%27research%27">self confessed researchers</a>
+				        </span>
+
+                    <div style="height:1em;">
+                        <div class="search-numbers-small documentNumberTotal" style="display:none;">
+                            <span>Searching on about </span><span class="totalNo"></span><span> documents.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-types" style="display:none;" id="search-type-sigma">
+
+                    <input id="sigma-search-input" type="text" value="Type keyword query" size="45" name="q"
+                           onfocus="if (this.value=='Type keyword query') {this.value=''} else {this.select()}; return true;"/>
+
+                    <button type="submit" class="inspectButton" id="sigma-search-button">
+                        SEARCH
+                    </button>
+                    <br/>
+					        <span class="tip">Example:
+					          <a href="http://sig.ma/search?q=Michael%20Jackson">Michael Jackson</a>,
+					          <a href="http://sig.ma/search?q=Tim%20Berners%20Lee">Tim Berners Lee</a>,
+					          <a href="http://sig.ma/search?q=Barack%20Obama">Barack Obama</a>
+					        </span>
+
+                    <div style="height:1em;">
+                        <div class="search-numbers-small">
+                            Sig.ma - Live views on the Web of Data.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div id="search-inspect" style="display:none;" class="frontendTabContent">
+                <h2 style="margin-bottom:2px;">Inspect a web page for structured data content</h2>
+                <input id="inspect-search-input" type="text" value="http://www.deri.ie/about/team/" size="45" name="q"
+                       onfocus="if (this.value=='http://www.deri.ie/about/team/') {this.value=''} else {this.select()}; return true;"/>
+                <button class="inspectButton" type="submit" id="inspect-search-button">
+                    INSPECT
+                </button>
+                <br/>
+        <span class="tip">
+        <a href="http://inspector.sindice.com">The Web Data Inspector</a>
+        </span>
+
+                <div style="height:1em;">
+                    <div class="search-numbers-small">
+                        shows how Sindice sees your structured data markup.
+                    </div>
+                </div>
+            </div>
+
+            <div id="submit" style="display:none;" class="frontendTabContent">
+                <h2 style="margin-bottom:2px;">Submit a URL of a page with microformats, RDFa markup or RDF files</h2>
+
+                <form method="post" action="/api/v2/ping">
+                    <input size="45" type="text" name="url" id="url" value="http://www.deri.ie/about/team/"
+                           onfocus="if (this.value=='http://www.deri.ie/about/team/') {this.value=''} else {this.select()}; return true;"/>
+                    <button type="submit" class="inspectButton">
+                        SUBMIT
+                    </button>
+                </form>
+        <span class="tip">
+        Use the
+        <a href="/main/submit">full submit form</a>
+        </span>
+
+                <div style="height:1em;">
+                    <div class="search-numbers-small">
+                        to submit multiple pages or semantic sitemaps.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- /column -->
+    </div>
+
+    <!-- /intro -->
+</div>
+
+<div id="content" class="clear">
+
+
+    <div class="column span-6 equalColumn">
+
+
+        <div class="smallbox pubsub">
+            <h2>
+                <span>Latest data</span>
+                <a class="latestData" style="display:none;" href="/search?q=date%3Atoday&qt=term">
+                    <span class="last24"></span><span> documents processed today</span>
+                </a>
+            </h2>
+
+            <div style="clear:both;"></div>
+            <div id="jcarousel" class="jcarousel-skin-tango">
+                <ul></ul>
+            </div>
+            <script type="text/javascript">
+                var LATEST_DATA_WIDGET_SERVLET_URL = "http://api.sindice.com/latest-data-widget/latest-data-widget";
+            </script>
+            <script src="/javascripts/latest-data-widget.js?1297082337" type="text/javascript"></script>
+        </div>
+
+
+        <div id="latest-news" class="smallbox">
+            <h2>Highlights</h2>
+
+            <div id="gallery">
+                <a href="http://blog.sindice.com/2010/02/19/any23-v0-2-released/" class="show">
+                    <img src="/images/slideshow/any23-logo.png" alt="Anything to triples" alt=""
+                         title="" class="galeryImage"
+                         rel="<h3>any23</h3>Anything to Triples. New version - <b>Now available</b>"/>
+                </a>
+
+                <a href="http://siren.sindice.com">
+                    <img src="/images/slideshow/x-siren.png" alt="SIREn" alt=""
+                         title="" class="galeryImage"
+                         rel="<h3>SIREn</h3><b>Open Source!</b> Efficient Information Retrieval for Lucene"/>
+                </a>
+
+                <a href="http://sig.ma">
+                    <img src="/images/slideshow/x-sigma.png" alt="Sig.ma" alt=""
+                         title="" class="galeryImage"
+                         rel="<h3>Sig.ma</h3>See how Sindice is powering <b>Sigma</b>, live views on the Web of Data"/>
+                </a>
+
+                <a href="http://inspector.sindice.com/inspect">
+                    <img src="/images/slideshow/x-inspector.png" alt="Web data inspector" alt=""
+                         title="" class="galeryImage"
+                         rel="<h3>Web Data Inspector</h3>tool + Full Sindice Cache (with reasoning!) - <b>Now available</b>"/>
+                </a>
+
+                <div class="caption">
+                    <div class="content"></div>
+                </div>
+            </div>
+        </div>
+        <script src="/javascripts/gallery.js?1291645618" type="text/javascript"></script>
+
+
+        <div id="dev" class="smallbox">
+
+            <h2>Developers: start consuming the Web of Data</h2>
+
+            <div>
+                <img style="float:right" src="/images/icon-rdf-dev.png" alt="RDF Developer" width="106" height="60"/>
+
+                <p>
+                    Add value and cool features to your application by using our restful
+                    APIs and JS widgets.
+                    Let us help you finding the right data and the way to access it!
+                </p>
+
+                <p>
+                    How do I build my application? <a href="/developers/api">API documentation</a>
+                </p>
+                <img style="float:right" src="/images/mf-lg-ora.png" alt="Microformat" width="106" height="50"/>
+                <!--
+            <p>
+            What Data, which sources? <a href="/map">Map of the Web of Data</a>
+            </p>
+            -->
+                <p>
+                    Questions? Ideas? <a href="http://groups.google.com/group/sindice-dev">Sindice-dev</a> group.
+                </p>
+                <a href="/developers/welcome">
+                    <img src="/images/learn-more-green.png" alt="Learn more"/>
+                </a>
+            </div>
+
+            <!-- /dev -->
+        </div>
+
+
+        <!-- /column -->
+    </div>
+
+    <div class="column span-6 last equalColumn">
+
+
+        <div id="blog" class="box">
+            <h2 class="clear"><span><a href="http://blog.sindice.com">Sindice Blog</a></span>
+        <span class="feed">
+          <a href="http://blog.sindice.com/feed/atom/">Feed</a>
+        </span>
+            </h2>
+
+            <div class="blogEntriesBox">
+
+                <!-- v0.715358440328743 -->
+                <ul>
+                    <li>
+                        <div class="clear title">
+                            <h3><a href="http://blog.sindice.com/?p=273">Sindice migration</a></h3>
+                            <span class="date">Nov 26, 2010</span>
+                        </div>
+                        <p>This is mainly a test post to verify that the Sindice blog continues to work after migrating
+                            it to a new server. (<a href="http://blog.sindice.com/?p=273">More&nbsp;&rarr;</a>)</p>
+                    </li>
+                    <li>
+                        <div class="clear title">
+                            <h3><a href="http://blog.sindice.com/?p=264">Sindice now supports Efficient Data discovery
+                                and Sync</a></h3>
+                            <span class="date">Jul 09, 2010</span>
+                        </div>
+                        <p>So far semantic web search engines and semantic aggregation services have been inserting
+                            datasets by hand or have been based on &#8220;ran... (<a
+                                    href="http://blog.sindice.com/?p=264">More&nbsp;&rarr;</a>)</p>
+                    </li>
+                    <li>
+                        <div class="clear title">
+                            <h3><a href="http://blog.sindice.com/?p=258">Sindice planned downtime this weekend</a></h3>
+                            <span class="date">Jun 09, 2010</span>
+                        </div>
+                        <p>HiDue to an expansion of one of our datacentres (and the electrical work that this implies),
+                            Sindice and related services such as sig.ma w... (<a href="http://blog.sindice.com/?p=258">More&nbsp;&rarr;</a>)
+                        </p>
+                    </li>
+                    <li>
+                        <div class="clear title">
+                            <h3><a href="http://blog.sindice.com/?p=240">Any23 v0.4.0 Released</a></h3>
+                            <span class="date">May 27, 2010</span>
+                        </div>
+                        <p>Dear All, the Sindice FBK team is proud to announce the Any23 0.4.0 release. (<a
+                                href="http://blog.sindice.com/?p=240">More&nbsp;&rarr;</a>)</p>
+                    </li>
+                    <li>
+                        <div class="clear title">
+                            <h3><a href="http://blog.sindice.com/?p=225">Any23 v0.3.0 Released</a></h3>
+                            <span class="date">Apr 23, 2010</span>
+                        </div>
+                        <p>Dear All, we&#8217;re pleased to announce the Any23 0.3.0 releasePlease keep in mind this is
+                            a beta, so everybody using Any23 in a develop... (<a href="http://blog.sindice.com/?p=225">More&nbsp;&rarr;</a>)
+                        </p>
+                    </li>
+
+                </ul>
+
+
+                <div class="archives">
+                    <a href="http://blog.sindice.com/">More blog posts &rarr;</a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /column -->
+    </div>
+</div>
+
+</div>
+
+<div id="footer" class="container clear fixedWidth">
+    <div class="span-6" style="float:left;">
+        <p>
+            <a href="/">Home</a> |
+            <a href="/main/about">About</a> |
+            <a href="/search">Search</a> |
+            <a href="/main/submit">Submit</a> |
+            <a href="/main/forum">Forum</a> |
+            <a href="/developers/welcome">Dev</a>
+        </p>
+        <!-- /column -->
+    </div>
+
+    <div style="text-align: right;float:right !important;" class="span-6 last">
+        <p>
+            <a href="http://blog.sindice.com">Blog</a> |
+            <a href="/developers/feedback">Contact</a> |
+            Copyright &copy; 2008-2011 <a href="http://www.deri.ie">DERI</a>
+        </p>
+        <!-- /column -->
+    </div>
+    <!-- /footer -->
+</div>
+<div style="clear:both;"></div>
+</body>
+</html>
