@@ -198,8 +198,6 @@
             <groupId>net.xeoh</groupId>
             <artifactId>jspf</artifactId>
             <version>0.9.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jspf.core-0.9.0.jar</systemPath>
         </dependency>
         <!-- END: Plugin System -->
 
@@ -224,6 +222,27 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+            </plugin>
+            <!-- Assemblies the HTML Scraper plugin -->
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <pom>../plugins/html-scraper/pom.xml</pom>
+                    <cloneProjectsTo>${project.build.directory}/plugins/</cloneProjectsTo>
+                    <goals>
+                        <goal>clean</goal>
+                        <goal>assembly:assembly</goal>
+                    </goals>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
