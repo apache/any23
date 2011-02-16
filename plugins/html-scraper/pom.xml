@@ -44,8 +44,6 @@
             <groupId>net.xeoh</groupId>
             <artifactId>jspf</artifactId>
             <version>0.9.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../../any23-core/lib/jspf.core-0.9.0.jar</systemPath>
         </dependency>
 
         <dependency>
