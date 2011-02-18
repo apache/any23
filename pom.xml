@@ -47,7 +47,7 @@
         <!-- Any23 Google Code Maven repo -->
         <repository>
             <id>any23-googlecode</id>
-            <name>Any23 Google Code Snapshot Repository</name>
+            <name>Any23 Google Code Repository</name>
             <url>svn:https://any23.googlecode.com/svn/repo/</url>
         </repository>
         <site>

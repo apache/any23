@@ -21,6 +21,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+    <!-- Plugin Repository for resolving Any23 artifacts. -->
+    <repositories>
+        <repository>
+            <id>any23-googlecode</id>
+            <name>Any23 Google Code Repository</name>
+            <url>http://any23.googlecode.com/svn/repo/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- BEGIN: logger -->
         <dependency>
