@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    author: Michele Mostarda (michele.mostarda@gmail.com)
+    version: $Id: pom.xml 1043 2011-02-18 14:27:04Z michele.mostarda $
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.deri.any23</groupId>
+        <artifactId>any23-parent</artifactId>
+        <version>0.4.2-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.deri.any23.plugin</groupId>
+    <artifactId>integration-test</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Plugins Integration Test</name>
+    <description>Integration tests suite for Any23 plugins.</description>
+    <url>http://developers.any23.org</url>
+
+    <dependencies>
+        <!-- BEGIN: logger -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <!-- END: logger -->
+
+        <dependency>
+            <groupId>org.deri.any23</groupId>
+            <artifactId>any23-core</artifactId>
+            <version>0.4.2-SNAPSHOT</version>
+        </dependency>
+
+        <!-- BEGIN: Test Dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.8.5</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- END: Test Dependencies -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Assemblies the HTML Scraper plugin -->
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <pom>../html-scraper/pom.xml</pom>
+                    <cloneProjectsTo>${project.build.directory}/plugins/</cloneProjectsTo>
+                    <goals>
+                        <goal>clean</goal>
+                        <goal>assembly:assembly</goal>
+                    </goals>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
