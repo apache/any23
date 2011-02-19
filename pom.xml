@@ -75,6 +75,11 @@
     <!-- Project repository configuration. -->
 
     <repositories>
+        <!-- Specific repository for Any23 dependencies without a dedicated repository. -->
+        <repository>
+            <id>any23-repository-external</id>
+            <url>http://any23.googlecode.com/svn/repo-ext</url>
+        </repository>
         <!-- Specific repository for Aduna / Sesame related dependencies. -->
         <repository>
             <id>aduna-software-release-repo</id>
