@@ -7,6 +7,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+    <parent>
+        <groupId>org.deri.any23</groupId>
+        <artifactId>any23-parent</artifactId>
+        <version>0.4.2-SNAPSHOT</version>
+    </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.deri.any23.plugin</groupId>
     <artifactId>html-scraper</artifactId>
@@ -16,48 +22,50 @@
     <description>Any23 plugin for scraping HTML code.</description>
     <url>http://developers.any23.org</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
-
     <dependencies>
         <!-- BEGIN: logger -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.5.6</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
             <version>1.5.6</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.5.6</version>
+            <scope>provided</scope>
         </dependency>
         <!-- END: logger -->
 
+        <!-- Simple Plugin Framework -->
         <dependency>
             <groupId>net.xeoh</groupId>
             <artifactId>jspf</artifactId>
             <version>0.9.0</version>
+            <scope>provided</scope>
         </dependency>
 
+        <!-- Sesame. -->
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-model</artifactId>
             <version>2.3.2</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
+        <!-- Any23 Core. -->
         <dependency>
             <groupId>org.deri.any23</groupId>
             <artifactId>any23-core</artifactId>
             <version>0.4.2-SNAPSHOT</version>
-            <!--<scope>compile</scope>-->
+            <scope>provided</scope>
         </dependency>
 
         <!-- BEGIN: BoilerPipe -->
@@ -65,13 +73,13 @@
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
             <version>1.9.14</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
             <version>2.9.1</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>xml-apis</groupId>
@@ -83,7 +91,6 @@
             <groupId>de.l3s.boilerpipe</groupId>
             <artifactId>boilerpipe</artifactId>
             <version>1.1.0</version>
-            <scope>compile</scope>
         </dependency>
         <!-- END: BoilerPipe -->
 
@@ -105,26 +112,15 @@
 
     <build>
         <plugins>
-            <!-- Compiler configuration. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
-                <configuration>
-                    <compilerVersion>1.6</compilerVersion>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-            </plugin>
-
             <!-- Generates a self-contained JAR. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/extractor-plugin.xml</descriptor>
-                    </descriptors>
+                    <finalName>${project.artifactId}-${project.version}-extractor-plugin</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
         </plugins>
