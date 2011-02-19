@@ -170,7 +170,7 @@ public class Any23PluginManager {
             final File location = new File(locationStr);
             if( ! location.exists()) {
                 throw new IllegalArgumentException(
-                        String.format("Plugin location '%s' cannot be found.", locationsStr)
+                        String.format("Plugin location '%s' cannot be found.", locationStr)
                 );
             }
             locations.add(location);
