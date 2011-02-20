@@ -77,13 +77,27 @@ public class Any23 {
     /**
      * Constructor that allows the specification of a list of extractors.
      *
+     * @param extractorGroup the group of extractors to be applied.
+     */
+    public Any23(ExtractorGroup extractorGroup) {
+        factories = (extractorGroup == null)
+                ? ExtractorRegistry.getInstance().getExtractorGroup()
+                : extractorGroup;
+        setCacheFactory(new MemCopyFactory());
+    }
+
+    /**
+     * Constructor that allows the specification of a list of extractor names.
+     *
      * @param extractorNames list of extractor's names.
      */
     public Any23(String... extractorNames) {
-        factories = (extractorNames == null)
-                ? ExtractorRegistry.getInstance().getExtractorGroup()
-                : ExtractorRegistry.getInstance().getExtractorGroup(Arrays.asList(extractorNames));
-        setCacheFactory(new MemCopyFactory());
+        this(
+                extractorNames == null
+                        ?
+                null
+                        :
+                ExtractorRegistry.getInstance().getExtractorGroup( Arrays.asList(extractorNames)) );
     }
 
     /**
