@@ -16,14 +16,21 @@
 
 package org.deri.any23.plugin;
 
+import org.deri.any23.Any23;
+import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
+import org.deri.any23.source.StringDocumentSource;
+import org.deri.any23.util.StreamUtils;
+import org.deri.any23.writer.NQuadsWriter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -91,7 +98,22 @@ public class Any23PluginManagerTest {
     }
 
     @Test
-    public void testHTMLScraper() {
+    public void testHTMLScraper() throws IOException, ExtractionException {
+        final Any23 any23 = new Any23( pluginManager.getApplicableExtractors() );
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final String in = StreamUtils.asString(
+                this.getClass().getResourceAsStream("html-scraper-integration-test.html")
+        );
+        any23.extract(
+                new StringDocumentSource(in, "http://html/scaper/integration/test"),
+                new NQuadsWriter(baos)
+        );
 
+        final String nQuadsStr = baos.toString();
+        Assert.assertTrue(nQuadsStr.contains("<http://vocab.sindice.net/pagecontent/de>"));
+        Assert.assertTrue(nQuadsStr.contains("<http://vocab.sindice.net/pagecontent/ae>"));
+        Assert.assertTrue(nQuadsStr.contains("<http://vocab.sindice.net/pagecontent/lce>"));
+        Assert.assertTrue(nQuadsStr.contains("<http://vocab.sindice.net/pagecontent/ce>"));
     }
+
 }
