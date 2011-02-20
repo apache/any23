@@ -21,6 +21,7 @@ import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import org.deri.any23.Configuration;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
+import org.deri.any23.extractor.ExtractorRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,7 @@ public class Any23PluginManager {
     /**
      * @return the list of {@link ExtractorPlugin}s detected in classpath.
      */
-    // TODO: understand how to retrieve more plugins implementing the same interface.
+    // TODO: discover how to retrieve more plugins implementing the same interface.
     public ExtractorPlugin[] getExtractorPlugins() {
         final ExtractorPlugin extractorPlugin = pluginManager.getPlugin(ExtractorPlugin.class);
         return extractorPlugin == null ?  new ExtractorPlugin[]{} : new ExtractorPlugin[] {extractorPlugin};
@@ -154,6 +155,17 @@ public class Any23PluginManager {
         } finally {
             logger.info(report.toString());
         }
+    }
+
+    /**
+     * Returns an extractor group containing both the default extractors declared by the
+     * {@link ExtractorRegistry} and the {@link ExtractorPlugin}s.
+     *
+     * @return a not <code>null</code> and not empty extractor group.
+     */
+    public ExtractorGroup getApplicableExtractors() {
+        final ExtractorGroup defaultExtractors = ExtractorRegistry.getInstance().getExtractorGroup();
+        return configureExtractors(defaultExtractors);
     }
 
     /**
