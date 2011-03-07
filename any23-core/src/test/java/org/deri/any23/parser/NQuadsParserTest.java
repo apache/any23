@@ -199,8 +199,55 @@ public class NQuadsParserTest {
         Assert.assertEquals("http://sin.siteserv.org/def/", statement.getContext().stringValue());
     }
 
+    /**
+     * Tests the correct support for literal escaping.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
     @Test
-    public void testParserWithAllScenarios()
+    public void testLiteralEscapingManagement()
+    throws RDFHandlerException, IOException, RDFParseException {
+        TestParseLocationListener parseLocationListener = new TestParseLocationListener();
+        TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setParseLocationListener(parseLocationListener);
+        parser.setRDFHandler(rdfHandler);
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "<http://a> <http://b> \"\\\\\" <http://c> .".getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+
+        rdfHandler.assertHandler(1);
+        parseLocationListener.assertListener(1, 40);
+    }
+
+    /**
+     * Tests the correct support for EOS exception.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test(expected = IOException.class)
+    public void testEndOfStreamReached()
+    throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "<http://a> <http://b> \"\\\" <http://c> .".getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+    }
+
+    /**
+     * Tests the parser with all cases defined by the NQuads grammar.
+     *
+     * @throws IOException
+     * @throws RDFParseException
+     * @throws RDFHandlerException
+     */
+    @Test
+    public void testParserWithAllCases()
     throws IOException, RDFParseException, RDFHandlerException {
 
         TestParseLocationListener parseLocationListerner = new TestParseLocationListener();
@@ -219,9 +266,16 @@ public class NQuadsParserTest {
         );
 
         rdfHandler.assertHandler(5);
-        parseLocationListerner.assertListener(7, 108);
+        parseLocationListerner.assertListener(7, 107);
     }
 
+    /**
+     * Tests parser with real data.
+     *
+     * @throws IOException
+     * @throws RDFParseException
+     * @throws RDFHandlerException
+     */
     @Test
     public void testParserWithRealData()
     throws IOException, RDFParseException, RDFHandlerException {
@@ -237,7 +291,7 @@ public class NQuadsParserTest {
         );
 
         rdfHandler.assertHandler(400);
-        parseLocationListener.assertListener(400, 349);
+        parseLocationListener.assertListener(400, 348);
     }
 
     private class TestParseLocationListener implements ParseLocationListener {

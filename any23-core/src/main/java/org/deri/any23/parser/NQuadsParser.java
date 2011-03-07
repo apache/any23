@@ -136,8 +136,12 @@ public class NQuadsParser extends RDFParserBase {
      * @throws IOException
      */
     private char readChar(BufferedInputStream bis) throws IOException {
+        final int c = bis.read();
+        if(c == -1) {
+            throw new EOS();
+        }
         nextCol();
-        return (char) bis.read();
+        return (char) c;
     }
 
     /**
@@ -152,7 +156,7 @@ public class NQuadsParser extends RDFParserBase {
 
     /**
      * Resets the buffered input stream and update the new location.
-     * 
+     *
      * @param bis
      * @throws IOException
      */
@@ -181,9 +185,9 @@ public class NQuadsParser extends RDFParserBase {
 
     /**
      * Parsers an <i>NQuads</i> line.
-     * 
-     * @param bis
-     * @return <code>true</code> if the parsing completed, <code>false</code> otherwise.
+     *
+     * @param bis input stream containing NQuads.
+     * @return <code>false</code> if the parsing completed, <code>true</code> otherwise.
      * @throws IOException
      * @throws RDFParseException
      * @throws RDFHandlerException
@@ -191,25 +195,12 @@ public class NQuadsParser extends RDFParserBase {
     private boolean parseLine(BufferedInputStream bis)
     throws IOException, RDFParseException, RDFHandlerException {
 
-        char c;
-
-        // Check if the end of stream has been reached.
-        mark(bis);
-        c = readChar(bis);
-        if(c == (char) -1) {
+        if(!consumeSpacesAndNotEOS(bis)) {
             return false;
-        } else {
-            reset(bis);
         }
 
-        consumeSpaces(bis);
-
-        mark(bis);
-        c = readChar(bis);
-        if(c == '\n') {
+        if(consumeEmptyLine(bis)) {
             return true;
-        } else {
-            reset(bis);
         }
 
         Resource sub = parseSubject(bis);
@@ -221,10 +212,63 @@ public class NQuadsParser extends RDFParserBase {
         URI graph = parseGraph(bis);
         consumeSpaces(bis);
         parseDot(bis);
-        consumeSpaces(bis);
 
+        notifyStatement(sub, pred, obj, graph);
+
+        if(!consumeSpacesAndNotEOS(bis)) {
+            return false;
+        }
+        return readChar(bis) == '\n';
+    }
+
+    /**
+     * Consumes the line if empty (contains just a carriage return).
+     *
+     * @param bis input NQuads stream.
+     * @return <code>true</code> if the line is empty.
+     * @throws IOException if an error occurs while consuming stream.
+     */
+    private boolean consumeEmptyLine(BufferedInputStream bis) throws IOException {
+        char c;
+        mark(bis);
+        c = readChar(bis);
+        if (c == '\n') {
+            return true;
+        } else {
+            reset(bis);
+            return false;
+        }
+    }
+
+    /**
+     * Consumes all subsequent spaces and returns true, if End Of Stream is reached instead returns false.
+     * @param bis input NQuads stream.
+     * @return <code>true</code> if there are other chars to be consumed.
+     * @throws IOException if an error occurs while consuming stream.
+     */
+    private boolean consumeSpacesAndNotEOS(BufferedInputStream bis) throws IOException {
+        try {
+            consumeSpaces(bis);
+            return true;
+        } catch (EOS eos) {
+            return false;
+        }
+    }
+
+    /**
+     * Notifies the parsed statement to the {@link RDFHandler}.
+     *
+     * @param sub
+     * @param pred
+     * @param obj
+     * @param graph
+     * @throws RDFParseException
+     * @throws RDFHandlerException
+     */
+    private void notifyStatement(Resource sub, URI pred, Value obj, URI graph)
+    throws RDFParseException, RDFHandlerException {
         Statement statement = createStatement(sub, pred, obj, graph);
-        if(rdfHandler != null) {
+        if (rdfHandler != null) {
             try {
                 rdfHandler.handleStatement(statement);
             } catch (RDFHandlerException rdfhe) {
@@ -232,13 +276,11 @@ public class NQuadsParser extends RDFParserBase {
                 throw rdfhe;
             }
         }
-
-        return readChar(bis) == '\n';
     }
 
     /**
      * Consumes spaces until a non space char is detected.
-     * 
+     *
      * @param bis
      * @throws IOException
      */
@@ -258,7 +300,7 @@ public class NQuadsParser extends RDFParserBase {
 
     /**
      * Consumes the dot at the end of NQuads line.
-     * 
+     *
      * @param bis
      * @throws IOException
      */
@@ -305,7 +347,7 @@ public class NQuadsParser extends RDFParserBase {
 
     /**
      * Parses a BNode.
-     * 
+     *
      * @param bis the buffered input stream.
      * @return the generated bnode.
      * @throws IOException
@@ -338,7 +380,7 @@ public class NQuadsParser extends RDFParserBase {
 
     /**
      * Parses a literal attribute that can be either the language or the data type.
-     * 
+     *
      * @param bis
      * @return the literal attribute.
      * @throws IOException
@@ -431,7 +473,7 @@ public class NQuadsParser extends RDFParserBase {
         StringBuilder sb = new StringBuilder();
         while(true) {
             c = readChar(bis);
-            if( c == '\\' ) {
+            if( !escaped && c == '\\' ) {
                 escaped = true;
                 continue;
             } else if(escaped) {
@@ -553,5 +595,10 @@ public class NQuadsParser extends RDFParserBase {
     private URI parseGraph(BufferedInputStream bis) throws IOException, RDFParseException {
         return parseURI(bis);
     }
+
+    /**
+     * Defines the End Of Stream exception.
+     */
+    class EOS extends IOException {}
 
 }
