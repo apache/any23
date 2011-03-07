@@ -1,8 +1,17 @@
+
+          :::     ::::    ::: :::   :::  ::::::::   ::::::::
+       :+: :+:   :+:+:   :+: :+:   :+: :+:    :+: :+:    :+:
+     +:+   +:+  :+:+:+  +:+  +:+ +:+        +:+         +:+
+   +#++:++#++: +#+ +:+ +#+   +#++:       +#+        +#++:
+  +#+     +#+ +#+  +#+#+#    +#+      +#+             +#+
+ #+#     #+# #+#   #+#+#    #+#     #+#       #+#    #+#
+###     ### ###    ####    ###    ##########  ########
+
 ============
 Any23 README
 ============
 
-Anything To Triples (any23) is a library and web service that extracts
+Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
 
 --------------------
@@ -13,12 +22,12 @@ any23-core           The library core codebase.
 any23-service        The library HTTP service codebase.
 plugins              Library plugins codebase.
 RELEASE-NOTES.txt    File reporting main release notes for every version.
-README.txt           This file.
 LICENSE.txt          Applicable project license.
+README.txt           This file.
 
--------------
-Documentation
--------------
+--------------------
+Online Documentation
+--------------------
 
 For details on the command line tool and web interface, see:
   http://developers.any23.org/getting-started.html
@@ -26,16 +35,16 @@ For details on the command line tool and web interface, see:
 For a guide to using any23 as a library in your Java applications, see:
   http://developers.any23.org/developers.html
 
-Javadocs are available here:
+Javadocs is available here:
   http://developers.any23.org/apidocs/
 
-----------------------
-Build from Source Code
-----------------------
+----------------------------
+Build Any23 from Source Code
+----------------------------
 
-Be sure to have the Apache Maven v.2.2.x+ installed and included in PATH.
+Be sure to have the Apache Maven v.2.2.x+ installed and included in $PATH.
 
-For specific informations about Maven see: http://maven.apache.org/
+For specific information about Maven see: http://maven.apache.org/
 
 Go to the trunk folder:
 
@@ -48,9 +57,9 @@ and execute the following command:
 This will install the Any23 artifacts and its dependencies in your 
 local Maven2 repository.
 
-------------------------
-Any23 Command line Tools
-------------------------
+-------------------------------
+Run the Any23 Commandline Tools
+-------------------------------
 
 Any23 comes with some command line tools:
 
@@ -73,9 +82,9 @@ and then invoke them:
   [usage instructions will be printed out]
 
 
----------------------
-Run the Any23 Service
----------------------
+-------------------------
+Run the Any23 Web Service
+-------------------------
 
 Any23 can be run as a service. 
 To run the Any23 service go to the any23-service bin folder:
@@ -92,9 +101,9 @@ http://localhost:8080/ with your browser.
 The complete documentation about this service can be found here: 
 http://developers.any23.org/getting-started.html
 
-----------------------
-Generate Documentation
-----------------------
+--------------------------
+Generate the Documentation
+--------------------------
 
 To generate the project site locally execute the following command from the trunk dir:
 
@@ -112,27 +121,70 @@ installed in your system.
 
     trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site:site
 
-In order to correctly deploy the site to a remote FTP you just need to properly set up
-the following lines in your <distributionManagement> of the root pom.xml:
+------------------------
+Deploy the Documentation
+------------------------
 
-<site>
-    <id>any23.developers</id>
-    <name>Any23 Developer Web Site</name>
-    <url>ftp://ftp.cyganiak.de</url>
-</site>
+::Developers interest only.::
 
-Please remember that you need to set up your username and password to access to that FTP in your
+In order to correctly deploy the site to a remote FTP host you just need to properly set up
+the following lines in your <distributionManagement> section of the root pom.xml:
+
+    <site>
+        <id>any23.developers</id>
+        <name>Any23 Developer Web Site</name>
+        <url>ftp://FTP-HOSTNAME</url>
+    </site>
+
+Remember that you need to set up your username and password to access to that FTP in your
 settings.xml in this way:
 
-<server>
-    <id>any23.developers</id>
-    <username>username</username>
-    <password>password</password>
-</server>
+    <server>
+        <id>any23.developers</id>
+        <username>FTP-USERNAME</username>
+        <password>FTP-PASSWORD</password>
+    </server>
+
+To perform the deployment simply run:
+
+    mvn clean site:site site:deploy
+
+Optionally you may require to fix the mimetype for *.html files:
+
+  cd site
+  svn up
+  find . -name "*.html" | xargs svn ps svn:mime-type text/html
+  find . -name "*.css"  | xargs svn ps svn:mime-type text/css
+  svn ci
+
+----------------------------------------------
+Deploy a Snapshot Release on Remote Repository
+----------------------------------------------
+
+::Developers interest only.::
+
+Check the configuration in section distributionManagement
+within pom.xml:
+
+    <distributionManagement>
+        ...
+        <repository>
+            <id>rdf-commons-googlecode</id>
+            <name>RDF Commons Google Code Snapshot Repository</name>
+            <url>svn:https://rdf-commons.googlecode.com/svn/repo/</url>
+        </repository>
+        ...
+    <distributionManagement>
+
+Then to deploy a snapshot release perform:
+
+    mvn clean deploy
 
 ------------------
 Make a New Release
 ------------------
+
+::Developers interest only.::
 
 To prepare a new release, just verify that the are no local changes and then invoke:
 
