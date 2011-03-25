@@ -107,7 +107,7 @@ Generate the Documentation
 
 To generate the project site locally execute the following command from the trunk dir:
 
-    trunk$ MAVEN_OPTS='-Xmx512m' mvn clean site:site
+    trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site:site
 
 You can speed up the site generation process specifying the offline option ( -o ),
 but it works only if all the involved plugin dependencies has been already downloaded
@@ -119,7 +119,7 @@ If you're interested in generating the Javadoc enriched with navigable UML graph
 the umlgraphdoc profile. This profile relies on graphviz ( http://www.graphviz.org/) that must be 
 installed in your system.
 
-    trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site:site
+    trunk$ MAVEN_OPTS='-Xmx1024m' mvn -P umlgraphdoc clean site:site
 
 ------------------------
 Deploy the Documentation

@@ -47,6 +47,7 @@
         </menu>
 
         <menu ref="modules"/>
+        <menu ref="reports"/>
 
         <menu name="External links">
 			<item name="Any23.org"       href="http://any23.org"/>
