@@ -142,7 +142,7 @@ class WebResponder {
             final PrintStream ps = new PrintStream(sos);
             try {
                 printHeader(ps);
-                printResponse(er.getValidationReport(), data, ps);
+                printResponse(reporter, er.getValidationReport(), data, ps);
             } catch (Exception e) {
                 throw new RuntimeException("An error occurred while serializing the output response.", e);
             } finally {
@@ -161,24 +161,35 @@ class WebResponder {
         ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
     }
 
-    private void printResponse(ValidationReport vr, byte[] data, PrintStream ps) {
+    private void printResponse(ReportingTripleHandler rth, ValidationReport vr, byte[] data, PrintStream ps) {
         ps.println("<response>");
+        printExtractors(rth, ps);
         printReport(vr, ps);
         printData(data, ps);
         ps.println("</response>");
     }
 
+    private void printExtractors(ReportingTripleHandler rth, PrintStream ps) {
+        ps.println("<extractors>");
+        for (String extractor : rth.getExtractorNames()) {
+            ps.print("<extractor>");
+            ps.print(extractor);
+            ps.println("</extractor>");
+        }
+        ps.println("</extractors>");
+    }
+
     private void printReport(ValidationReport vr, PrintStream ps) {
         XMLValidationReportSerializer reportSerializer = new XMLValidationReportSerializer();
         ps.println("<report>");
-        ps.println("<![CDATA[");
+        // ps.println("<![CDATA[");
         try {
             reportSerializer.serialize(vr, ps);
         } catch (SerializationException se) {
             ps.println("An error occurred while serializing error.");
             se.printStackTrace(ps);
         }
-        ps.println("]]>");
+        // ps.println("]]>");
         ps.println("</report>");
     }
 

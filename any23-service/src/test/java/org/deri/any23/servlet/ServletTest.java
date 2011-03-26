@@ -372,9 +372,14 @@ public class ServletTest {
         HttpTester response = doGetRequest("/best/http://foo.com?fix=on&report=on");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
-        assertContains("<response>", content);
-        assertContains("<report>"  , content);
-        assertContains("<data>"    , content);
+        assertContainsTag("response"        , content);
+        assertContainsTag("extractors"      , content);
+        assertContainsTag("report"          , content);
+        assertContainsTag("validationReport", content);
+        assertContainsTag("errors"          , content);
+        assertContainsTag("issues"          , content);
+        assertContainsTag("ruleActivations" , content);
+        assertContainsTag("data"            , content);
     }
 
     @Test
@@ -428,10 +433,15 @@ public class ServletTest {
         return response;
     }
 
-    private void assertContains(String expected, String actual) {
-        if (actual.contains(expected))
+    private void assertContains(String expected, String container) {
+        if (container.contains(expected))
             return;
-        Assert.fail("expected <" + expected + "> to be contained in <" + actual + ">");
+        Assert.fail("expected '" + expected + "' to be contained in '" + container + "'");
+    }
+
+    private void assertContainsTag(String tag, String container) {
+        assertContains("<" + tag + ">", container);
+        assertContains("</" + tag + ">", container);
     }
 
     /**
