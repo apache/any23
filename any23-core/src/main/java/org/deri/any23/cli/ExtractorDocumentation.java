@@ -113,7 +113,7 @@ public class ExtractorDocumentation {
         System.out.println("      shows example input for the given extractor");
         System.out.println();
         System.out.println("  ExtractorDocumentation -o extractor-name");
-        System.out.println("      shows example input for the given extractor");
+        System.out.println("      shows example output for the given extractor");
         System.out.println();
         System.out.println("  ExtractorDocumentation -all");
         System.out.println("      shows a report about all available extractors");
