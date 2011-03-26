@@ -53,11 +53,10 @@ public class XMLValidationReportSerializerTest {
 
     @Test
     public void testSerializeEmptyReport() throws SerializationException {
-        ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
         ValidationReport emptyReport = EmptyValidationReport.getInstance();
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         serializer.serialize(emptyReport, baos);
+
         Assert.assertTrue(baos.size() > 0);
     }
 
@@ -90,8 +89,8 @@ public class XMLValidationReportSerializerTest {
         logger.info( baos.toString() );
 
         final String bufferContent = baos.toString();
-        Assert.assertTrue(bufferContent.contains("<defaultValidationReport>"));
-        Assert.assertTrue(bufferContent.contains("</defaultValidationReport>"));
+        Assert.assertTrue(bufferContent.contains("<validationReport>"));
+        Assert.assertTrue(bufferContent.contains("</validationReport>"));
         Assert.assertTrue(bufferContent.contains("<issue>"));
         Assert.assertTrue(bufferContent.contains("</issue>"));
         Assert.assertTrue(bufferContent.contains("<ruleActivation>"));
