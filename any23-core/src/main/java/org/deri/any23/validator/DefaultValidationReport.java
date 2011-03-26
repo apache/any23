@@ -23,6 +23,7 @@ import java.util.List;
  * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@XMLValidationReportSerializer.NodeName("validationReport")
 public class DefaultValidationReport implements ValidationReport {
 
     private final List<Issue> issues;

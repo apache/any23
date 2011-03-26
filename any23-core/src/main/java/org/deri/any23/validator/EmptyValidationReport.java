@@ -25,6 +25,8 @@ import java.util.List;
  * @author Davide Palmisano (palmisano@fbk.eu)
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+
+@XMLValidationReportSerializer.NodeName("validationReport")
 public class EmptyValidationReport implements ValidationReport {
 
     private static final EmptyValidationReport INSTANCE = new EmptyValidationReport();

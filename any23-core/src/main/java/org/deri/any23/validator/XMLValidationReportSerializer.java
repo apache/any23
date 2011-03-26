@@ -20,6 +20,11 @@ import org.w3c.dom.Element;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -49,8 +54,7 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
             return;
         }
         final Class oClass = o.getClass();
-        final String simpleName = oClass.getSimpleName();
-        final String oClassName = Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
+        final String oClassName = getClassName(oClass);
         ps.printf("<%s>\n", oClassName);
         List<Method> getters = filterGetters(o.getClass());
         if(getters.isEmpty()) {
@@ -61,6 +65,15 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
             serializeGetterValue(o, getter, ps);
         }
         ps.printf("</%s>\n", oClassName);
+    }
+
+    private String getClassName(Class oClass) {
+        final NodeName nodeName = (NodeName) oClass.getAnnotation(NodeName.class);
+        if(nodeName != null) {
+            return nodeName.value();
+        }
+        final String simpleName = oClass.getSimpleName();
+        return Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
     }
 
     private List<Method> filterGetters(Class c) {
@@ -157,6 +170,16 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
                 (o instanceof Collection)
                         ||
                 o instanceof Element;
+    }
+
+    /**
+     * Allows to specify a custom node name.
+     */
+    @Documented
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface NodeName {
+        String value();
     }
     
 }
