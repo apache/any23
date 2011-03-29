@@ -1,10 +1,27 @@
 #!/bin/bash
+
+###################################################################
+# This script runs the Any23 Service WAR using the Jetty container.
+#
+# External options can be passed via $ANY23_OPTS variable.
+###################################################################
+
 ANY23_ROOT=$(cd "$(dirname "$0")"; pwd -P)
 ANY23_ROOT="$ANY23_ROOT/.."
 
-if [ ! -e $ANY23_ROOT/target/any23-service-*-dev.war ]; then 
+if [ ! -e $ANY23_ROOT/target/any23-service-*.war ]; then
     echo "Generating executable WAR..."
-    mvn -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly	
+    mvn -Dmaven.test.skip=true -o -f $ANY23_ROOT/pom.xml clean assembly:assembly\
+    	||
+    mvn -Dmaven.test.skip=true    -f $ANY23_ROOT/pom.xml clean assembly:assembly\
+        ||
+    { echo "Error while creating assembly"; exit 1; }
 fi
 
-mvn -f $ANY23_ROOT/pom.xml jetty:run
+echo Running Jetty...
+export MAVEN_OPTS="$ANY23_OPTS"
+{ mvn -o -f $ANY23_ROOT/pom.xml jetty:run; exit $?; }\
+    ||\
+  mvn    -f $ANY23_ROOT/pom.xml jetty:run \
+    ||\
+{ echo "Error while running Jetty."; exit 2; }
