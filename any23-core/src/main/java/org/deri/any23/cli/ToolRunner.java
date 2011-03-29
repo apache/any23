@@ -36,6 +36,10 @@ public class ToolRunner {
     private static final String PREFIX = "org.deri.any23.cli.";
 
     public static void main(String[] args) {
+        if(args.length == 0) {
+            usage("Missing JAR file location.");
+        }
+
         //generate automatically the cli.
         List<String> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
 

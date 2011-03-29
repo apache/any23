@@ -72,7 +72,7 @@ public class Rover {
         options.addOption(
                 new Option(
                         "f",
-                        "format",
+                        "Output format",
                         true,
                         "[" + TURTLE + " (default), " + NTRIPLE + ", " + RDFXML + ", " + QUAD + ", " + URIS + "]")
         );
@@ -197,7 +197,7 @@ public class Rover {
 
     private static void printHelp() {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("any23 [file|url]", options, true);
+        formatter.printHelp("any23 {<url>|<file>}", options, true);
     }
 
     private static String argumentToURI(String arg) {
