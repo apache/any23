@@ -1,6 +1,7 @@
 Microformat Extractors
 
- This section describes some extractions corner-cases and their relative RDF representations. Main aim of this section is to describe how
+ This section describes some extractions corner-cases and their relative RDF representations.
+ Main aim of this section is to describe how
  some specific cases are processed with <<Any23>> showing the correspondences between the extracted RDF triples.
 
 * Nesting different Microformats
@@ -13,7 +14,8 @@ Microformat Extractors
 
  More specifically:
 
-  * Embedding explicitly the logic within the {{{./xref/org/deri/any23/extractor/html/package-summary.html}Microformats Extractors}}
+  * Embedding explicitly the logic within the
+  {{{./xref/org/deri/any23/extractor/html/package-summary.html}Microformats Extractors}}
 
   * Using the default <<Any23>> nesting feature.
 

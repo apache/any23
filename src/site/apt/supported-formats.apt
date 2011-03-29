@@ -1,59 +1,40 @@
-Introduction
+Supported Formats in Any23
 
- <<Any23>> supports all the main standard formats introduced by the <<Semantic Web>> community.
+    <<Any23>> supports all the main standard formats introduced by the <<Semantic Web>> community.
 
- * <<Input Formats>>
+* <<Input Formats>>
 
    The following list shows the accepted input formats and for each one the support level.
 
    * <<(X)HTML>> with <<RDFa>> and <<Microformats>>.
 
-     <<Any23>> fully supports the {{{http://www.w3.org/TR/html5/}(X)HTML}} input format and in particular provides a set
-     of extractors for processing embedded {{{http://www.w3.org/TR/rdfa-syntax/}RDFa}} and
+     <<Any23>> fully supports the {{{http://www.w3.org/TR/html5/}(X)HTML}} input format and in particular
+     provides a set of extractors for processing embedded {{{http://www.w3.org/TR/rdfa-syntax/}RDFa}} and
      {{{http://microformats.org/}Microformats}}.
 
-   * <<Turtle>>
+   * <<Turtle>> <<Any23>> fully supports the {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}} specification.
 
-     <<Any23>> fully supports the {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}} specification.
+   * <<N-Triples>> <<Any23>> fully supports the {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}} specification.
 
-   * <<N-Triples>>
+   * <<N-Quads>> <<Any23>> fully supports the {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}} specification.
 
-     <<Any23>> fully supports the {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}} specification.
+   * <<RDF/XML>> <<Any23>> fully supports the {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}} specification.
 
-   * <<N-Quads>>
-
-     <<Any23>> fully supports the {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}} specification.
-
-   * <<RDF/XML>>
-
-     <<Any23>> fully supports the  {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}} specification.
-
- * <<Output Formats>>
+* <<Output Formats>>
 
    The supported output formats are enlisted below.
 
-   * <<Turtle>>
+   * <<Turtle>> <<Any23>> is able to produce output in {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}.
 
-     <<Any23>> is able to produce output in {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}.
+   * <<N-Triples>> <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}}.
 
-   * <<N-Triples>>
+   * <<N-Quads>> <<Any23>> is able to produce output in {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}}.
 
-     <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}}.
+   * <<RDF/XML>> <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
 
-   * <<N-Quads>>
-
-     <<Any23>> is able to produce output in {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}}.
-
-   * <<RDF/XML>>
-
-     <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
-
-   * <<JSON>>
-
-     <<Any23>> is able to produce output in {{{http://www.json.org/}JSON}} .
+   * <<JSON>> <<Any23>> is able to produce output in {{{http://www.json.org/}JSON}} .
 
      In particular we choose the format described below.
-
      Given the following example statements (expressed in N-Quads format):
 
 +-------------------------------------------------------------------------------

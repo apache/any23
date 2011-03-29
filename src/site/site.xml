@@ -40,10 +40,11 @@
 	        <item name="Introduction"      href="index.html"/>
 			<item name="Install"           href="install.html"/>
             <item name="Getting Started"   href="getting-started.html"/>
-            <item name="Developers Guide"  href="developers.html"/>
-            <item name="Extractors"        href="extractors.html"/>
-            <item name="Ill-formed RDFa"   href="ill-formed-rdfa.html"/>
             <item name="Supported Formats" href="supported-formats.html"/>
+            <item name="Configuration"     href="configuration.html"/>
+            <item name="REST Service"      href="service.html"/>
+            <item name="Plugins"           href="plugins.html"/>
+            <item name="Developers Guide"  href="developers.html"/>
         </menu>
 
         <menu ref="modules"/>

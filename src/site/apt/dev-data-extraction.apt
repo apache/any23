@@ -1,0 +1,64 @@
+Data Extraction
+
++----------------------------------------------------------------------------------------------
+/*1*/ Any23 runner = new Any23();
+/*2*/ runner.setHTTPUserAgent("test-user-agent");
+/*3*/ HTTPClient httpClient = runner.getHTTPClient();
+/*4*/ DocumentSource source = new HTTPDocumentSource(
+         httpClient,
+         "http://www.rentalinrome.com/semanticloft/semanticloft.htm"
+      );
+/*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
+/*6*/ TripleHandler handler = new NTriplesWriter(out);
+/*7*/ runner.extract(source, handler);
+/*8*/ String n3 = out.toString("UTF-8");
++----------------------------------------------------------------------------------------------
+
+   This second example demonstrates the data extraction, that is the main purpose of <<Any23>> library.
+   At <<row 1>> we define the <<Any23>> facade instance. As described before, the constructor allows to enforce
+   the usage of specific extractors.
+
+   The <<row 2>> defines the <HTTP User Agent>, used to identify the client during <HTTP> data collection.
+   At <<row 3>> we use the runner to create an instance of {{{./xref/org/deri/any23/http/HTTPClient.html}HTTPClient}},
+   used by {{{./xref/org/deri/any23/source/HTTPDocumentSource.html}HTTPDocumentSource}} for <HTTP> content fetching.
+
+   The <<row 4>> instantiates an {{{./xref/org/deri/any23/source/HTTPDocumentSource.html}HTTPDocumentSource}} instance,
+   specifying the {{{./xref/org/deri/any23/http/HTTPClient.html}HTTPClient}} and the URL addressing the content
+   to be processed.
+
+   At <<row 5>> we define a buffered output stream used to store data produced by the
+   {{{./xref/org/deri/any23/writer/TripleHandler.html}TripleHandler}} defined at <<row 6>>.
+
+   The extraction method at <<row 7>> will run the metadata extraction.
+   As discussed in the previous example it needs at least a
+   {{{./xref/org/deri/any23/writer/TripleHandler.html}TripleHandler}} instance.
+
+   The expected output is <UTF-8> encoded at <<row 8>> and is:
+
++----------------------------------------------------------------------------------------------
+<http://www.rentalinrome.com/semanticloft/semanticloft.htm> <http://purl.org/dc/terms/title>
+"Semantic Loft (beta) - Trastevere apartments | Rental in Rome - rentalinrome.com" .
+
+<http://www.rentalinrome.com/semanticloft/semanticloft.htm#semanticloft>
+<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+<http://purl.org/goodrelations/v1#Offering> .
+
+<http://www.rentalinrome.com>
+<http://purl.org/goodrelations/v1#offers>
+<http://www.rentalinrome.com/semanticloft/semanticloft.htm#semanticloft> .
+
+<http://www.rentalinrome.com/semanticloft/semanticloft.htm#semanticloft>
+<http://www.w3.org/2000/01/rdf-schema#seeAlso>
+<http://rentalinrome.com/semanticloft/semanticloft.htm> .
+
+<http://www.rentalinrome.com/semanticloft/semanticloft.htm#semanticloft>
+<http://purl.org/goodrelations/v1#hasBusinessFunction>
+<http://purl.org/goodrelations/v1#ProvideService> .
+
+<http://www.rentalinrome.com/semanticloft/semanticloft.htm#semanticloft>
+<http://www.w3.org/2006/vcard/ns#adr>
+_:node14r93a8dex1 .
+
+[The complete output is omitted for brevity.]
++----------------------------------------------------------------------------------------------
+

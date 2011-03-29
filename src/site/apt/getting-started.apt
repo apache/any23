@@ -1,36 +1,55 @@
 Getting started with <<Any23>>
 
- <<Any23>> could be used as 
+    <<Any23>> can be used:
 
-  * a command line tool from your preferred shell environment,
+      * as a commandline tool from your preferred shell environment;
+      * as a RESTful Webservice;
+      * as a library.
 
-  * as a RESTful Webservice,
+* <<Any23>> Modules
 
-  * as a library.
+    <<Any23>> is composed of the following modules:
 
- This section shows how to deal with them.
+      * any23-core
+      * any23-sevice
+      *
 
-Using Any23 as a command line tool
+* Use <<Any23>> as a commandline Tool
 
- The command line tool is defined within the <<any23-core>> module.
+   The commandline tools are provided by the <<any23-core>> module.
 
- Once <<Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a command line tool, please use the shell scripts provided in the <<"/bin">> directory of the download. These are provided both as Windows and Unix (Linux/OS X) versions. Note, you may want to add the /bin directory to your system path.
+   Once <<Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a commandline tool,
+   use the shell scripts within the <<"any23-core/bin">> directory.
+   These are provided both for Windows and Unix (Linux/OSX).
 
- The main script is <<"any23">>. The <<"any23tools">> command also provides access to some testing, debugging and analyzing utilities (sorry, we do not provide a documentation for this at the moment).
+   The main scripts are <<"any23">> and <<"any23tools">>.
+   The <<any23>> command allows to extract metadata content from local and remote resources.
+   The <<any23tools>> provides testing, debugging and analysis utilities.
 
-* Examples
+   Simply running ./any23 without options will show the default configuration properties
+   and the usage options. The resource (URL or local file) is the only mandatory argument.
+   It is possible also to specify input format, output format and other advanced options.
 
- We believe that any23 provides you and easy to use command line interface with self explaining optional parameters. Different usages are now described:
-
-** Overview:
+   <<any23>> tool
 
 +-------------------------------------------
 any23-core/bin$ ./any23
-usage: any23 [file|url] [-e <arg>] [-f <arg>] [-l <arg>] [-n] [-o <arg>]
-       [-p] [-s] [-t] [-v]
+Mar 26, 2011 11:47:20 PM org.deri.any23.Configuration <init>
+INFO:
+======================= Configuration Properties =======================
+any23.http.client.max.connections=5
+any23.plugin.dirs=./plugins
+any23.http.user.agent.name=Any23-CLI
+any23.core.version=0.4.2-SNAPSHOT
+any23.http.client.timeout=10000
+any23.rdfa.extractor.xslt=rdfa.xslt
+========================================================================
+
+usage: any23 [-e <arg>] [-f <arg>] [-l <arg>] [-n] [-o <arg>]
+       [-p] [-s] [-t] [-v] {<url>|<file>}
  -e <arg>            comma-separated list of extractors, e.g.
                      rdf-xml,rdf-turtle
- -f,--format <arg>   [turtle (default), ntriples, rdfxml,quad]
+ -f,--format <arg>   Output format [turtle (default), ntriples, rdfxml, quad, uris]
  -l,--log <arg>      logging, please specify a file
  -n,--nesting        disable production of nesting triples
  -o,--output <arg>   ouput file (defaults to stdout)
@@ -41,19 +60,19 @@ usage: any23 [file|url] [-e <arg>] [-f <arg>] [-l <arg>] [-n] [-o <arg>]
  -v,--verbose        show progress and debug information
 +-------------------------------------------
 
-** Extract meta information from Web documents:
+  Extract metadata from an HTML page:
 
 +-----------------------------------------
 any23-core/bin$ ./any23 http://yourdomain/yourfile
 +-----------------------------------------
 
-** Extract meta information from local files:
+  Extract meta information from a local resource:
 
 +--------------------------------------
 any23-core/bin$ ./any23 /home/user/myFoaf.rdf
 +--------------------------------------
 
-** Specify the output format, use option <<"-f">> or <<"--format">>:
+  Specify the output format, use the option <<"-f">> or <<"--format">>:
 
  TURTLE - default configuration, no need for specific flag
 
@@ -73,30 +92,111 @@ any23-core/bin$ ./any23 -f ntriples foaf.rdf
 any23-core/bin$ ./any23 -f quad foaf.rdf
 +--------------------------------------
 
-** Filtering trivial statements
+  Filtering trivial statements
 
- By default, <<Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta information like the author or the software used to create the <html>. Hence, if the user is only interested in the structured content from the <HTML/body> tag we offer a filter functionality, activated by the <<"-t">> command line argument.
+    By default, <<Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta
+    information like the author or the software used to create the <html>. Hence, if the user is only interested
+    in the structured content from the <HTML/body> tag we offer a filter functionality, activated by the <<"-t">>
+    command line argument.
 
 +-------------------------
 any23-core/bin$ ./any23 -t foaf.rdf
 +-------------------------
 
-Using <<Any23>> as a Web service
+  <<any23tools>> tool
 
- <<Any23>> provides a web interface that you can use to extract <RDF> from Web documents. <<Any23>> services can be invoked through a RESTful AP described below.
+    This script detects a list of available utilities within the <<any23-core>> classpath
+    and allows to activate them.
+    Such utilities are:
+        * ExtractorDocumentation: a utility for obtaining useful information about extractors.
+        * Rover: an alias for the <<any23>> commandline tool.
 
-* Running the server
++-------------------------------------------
+any23-core/bin$ ./any23tools
+Jar ../target/any23-core-0.4.2-SNAPSHOT-jar-with-dependencies.jar looking for org/deri/any23/cli
+Found org.deri.any23.cli.Eval.class
+Found org.deri.any23.cli.ExtractorDocumentation.class
+Found org.deri.any23.cli.Rover.class
+Found org.deri.any23.cli.ToolRunner.class
+ <utility> [options...]
+ where <utility> one of
+	ExtractorDocumentation
+	Rover
++-------------------------------------------
 
- The server command line tool is defined within the <<any23-service>> module.
+   Obtain <<ExtractorDocumentation>> sub commands:
 
- Run the <"any23server"> script from the command line in order to start up the server, then go to {{{http://localhost:8080/}}} to access the web interface. The web interface also provides a REST API for converting between formats. Documentation for the API is served up by the servlet itself at {{{http://localhost:8080/}}}. We have a demo version of the servlet running at {{{http://any23.org/}}}.
++-------------------------------------------
+any23-core/bin$ ./any23tools ExtractorDocumentation
+Jar ../target/any23-core-0.4.2-SNAPSHOT-jar-with-dependencies.jar looking for org/deri/any23/cli
+Found org.deri.any23.cli.Eval.class
+Found org.deri.any23.cli.ExtractorDocumentation.class
+Found org.deri.any23.cli.Rover.class
+Found org.deri.any23.cli.ToolRunner.class
+Usage:
+  ExtractorDocumentation -list
+      shows the names of all available extractors
+
+  ExtractorDocumentation -i extractor-name
+      shows example input for the given extractor
+
+  ExtractorDocumentation -o extractor-name
+      shows example output for the given extractor
+
+  ExtractorDocumentation -all
+      shows a report about all available extractors
++-------------------------------------------
+
+   Get all declared extractors:
+
++--------------------------------------
+any23-core/bin$ ./any23tools ExtractorDocumentation -list
+Found org.deri.any23.cli.Eval.class
+Found org.deri.any23.cli.ExtractorDocumentation.class
+Found org.deri.any23.cli.Rover.class
+Found org.deri.any23.cli.ToolRunner.class
+html-head-icbm
+html-head-rdflinks
+html-head-title
+html-mf-adr
+html-mf-geo
+html-mf-hcalendar
+html-mf-hcard
+html-mf-hlisting
+html-mf-hresume
+html-mf-hreview
+html-mf-license
+html-mf-species
+html-mf-xfn
+html-rdfa
+html-script-turtle
+rdf-nq
+rdf-nt
+rdf-turtle
+rdf-xml
++--------------------------------------
+
+
+* Use <<Any23>> as a RESTful Web Service
+
+   <<Any23>> provides a Web Service that can be used to extract <RDF> from Web documents.
+   <<Any23>> services can be accessed through a {{{./service.html}RESTful API}}.
+
+   Running the server
+
+    The server command line tool is defined within the <<any23-service>> module.
+    Run the <"any23server"> script
 
 +--------------------------
 any23-service/bin$ ./any23server
 +--------------------------
 
- You can also start the server from Java by running the {{{./xref/org/deri/any23/servlet/Servlet.html}Any23 Servlet}} class. The Ant build can be used to create a WAR file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}; type <ant war> to generate the <any23.war> file.
+    from the command line in order to start up the server, then go to {{{http://localhost:8080/}}}
+    to access the web interface. A live demo version of such service is running at {{{http://any23.org/}}}.
+    You can also start the server from Java by running the
+    {{{./xref/org/deri/any23/servlet/Servlet.html}Any23 Servlet}} class. Maven can be used to create a WAR
+    file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}.
 
-Integrating Any23 in your Java programs
+* Use <<Any23>> as a Library
 
- See our {{{./developers.html}Developers guide}} for more details.
+   See our {{{./developers.html}Developers guide}} for more details.

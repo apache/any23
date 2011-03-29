@@ -4,7 +4,6 @@ This page enlists all the Any23 Extractors.
 
   Extractors package: {{{./xref/org/deri/any23/extractor/package-summary.html}Microformats Extractors}}
 
-
  * Microformat Extractors. Specific details about Microformat extractors can be found {{{./microformat-extractor.html}here}}.
 
       {{{./xref/org/deri/any23/extractor/html/GeoExtractor.html}GeoExtractor}}
@@ -24,7 +23,6 @@ This page enlists all the Any23 Extractors.
       {{{./xref/org/deri/any23/extractor/html/LicenseExtractor.html}LicenseExtractor}}
 
       {{{./xref/org/deri/any23/extractor/html/XFNExtractor.html}XFNExtractor}}
-
 
  * Metadata Extractors
 
@@ -52,3 +50,9 @@ This page enlists all the Any23 Extractors.
 
       {{{./xpath-extractor.html}XPath Extractor}}.
 
+
+It is possible to generate the list of all the available extractors invoking the following command:
+
++------------------------------------------------------------
+   <any23-core>/bin$ any23tools ExtractorDocumentation -list
++------------------------------------------------------------

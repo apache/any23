@@ -1,0 +1,26 @@
+Configuration
+
+* Configure the Core Module
+
+    The core module contains the main library code and the command line implementation.
+
+    The main library configuration parameters are managed by the
+    {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/java/org/deri/any23/Configuration.java} Configuration}}
+    class.
+
+    The default values are declared within the {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/resources/default-configuration.properties} default-configuration.properties}}
+    file and can be overriden by specifying <<java>> commandline properties with the same name.
+
+    For example to override the <<HTTP Max Client Connections>> parameter simply add the following option to the <<java>>
+    command-line invocation:
+
++----------------------------------------------------------------------------------------------
+   -Dany23.http.client.max.connections=10
++----------------------------------------------------------------------------------------------
+
+    any23, any23tools and any23server scripts accept the variable <<ANY23_OPTS>> to specify custom options.
+    It is possible to customize the <<HTTP Max Client Connections>> for the <<any23>> script simply using:
+
++----------------------------------------------------------------------------------------------
+any23-core/bin/$ ANY23_OPTS="-Dany23.http.client.max.connections=10" any23 http://path/to/resource
++----------------------------------------------------------------------------------------------
