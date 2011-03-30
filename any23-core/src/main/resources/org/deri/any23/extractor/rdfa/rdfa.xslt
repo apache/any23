@@ -6,14 +6,18 @@
     xmlns:rdf  ="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
 
-<!-- Version 0.21 by Fabien.Gandon@sophia.inria.fr -->
-<!-- This software is distributed under either the CeCILL-C license or the GNU Lesser General Public License version 3 license. -->
-<!-- This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License -->
-<!-- as published by the Free Software Foundation version 3 of the License or under the terms of the CeCILL-C license. -->
-<!-- This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied -->
-<!-- warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. -->
-<!-- See the GNU Lesser General Public License version 3 at http://www.gnu.org/licenses/  -->
-<!-- and the CeCILL-C license at http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html for more details -->
+<!--
+    Version 0.21 by Fabien.Gandon@sophia.inria.fr
+    This software is distributed under either the CeCILL-C license or the GNU Lesser General Public License version 3 license.
+    This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License
+    as published by the Free Software Foundation version 3 of the License or under the terms of the CeCILL-C license.
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Lesser General Public License version 3 at http://www.gnu.org/licenses/
+    and the CeCILL-C license at http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html for more details
+
+    This project is hosted at http://ns.inria.fr/grddl/rdfa/
+-->
 
 
 <output indent="yes" method="xml" media-type="application/rdf+xml" encoding="UTF-8" omit-xml-declaration="yes"/>
