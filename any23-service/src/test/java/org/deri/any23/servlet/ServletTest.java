@@ -375,6 +375,8 @@ public class ServletTest {
         assertContainsTag("response"        , content);
         assertContainsTag("extractors"      , content);
         assertContainsTag("report"          , content);
+        assertContainsTag("message"         , content);
+        assertContainsTag("error"           , content);
         assertContainsTag("validationReport", content);
         assertContainsTag("errors"          , content);
         assertContainsTag("issues"          , content);

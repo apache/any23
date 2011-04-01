@@ -92,12 +92,18 @@ class WebResponder {
     public void runExtraction(DocumentSource in, ExtractionParameters eps, String format, boolean report)
     throws IOException {
         if (in == null) return;
-        if (!initRdfWriter(format)) return;
+        if (!initRdfWriter(format, report)) return;
         final ExtractionReport er;
         try {
             er = runner.extract(eps, in, rdfWriter);
             if (! er.hasMatchingExtractors() ) {
-                sendError(415, "No suitable extractor found for this media type", null, er.getValidationReport());
+                sendError(
+                        415,
+                        "No suitable extractor found for this media type",
+                        null,
+                        er.getValidationReport(),
+                        report
+                );
                 return;
             }
         } catch (IOException ioe) {
@@ -105,23 +111,32 @@ class WebResponder {
             if (ioe.getCause() != null && ValidatorException.class.equals(ioe.getCause().getClass())) {
                 final String errMsg = "Could not fetch input, IO Error.";
                 any23servlet.log(errMsg, ioe.getCause());
-                sendError(502, errMsg, ioe, null);
+                sendError(502, errMsg, ioe, null, report);
                 return;
             }
             any23servlet.log("Could not fetch input", ioe);
-            sendError(502, "Could not fetch input.", ioe, null);
+            sendError(502, "Could not fetch input.", ioe, null, report);
             return;
         } catch (ExtractionException e) {
             // Extraction error.
             any23servlet.log("Could not parse input", e);
-            sendError(502, "Could not parse input.", e, null);
+            sendError(502, "Could not parse input.", e, null, report);
+            return;
+        } catch (Exception e) {
+            any23servlet.log("Internal error", e);
+            sendError(500, "Internal error.", e, null, report);
             return;
         }
 
-        // No triples found.
+        /* *** No triples found. *** */
         any23servlet.log("Extraction complete, " + reporter.getTotalTriples() + " triples");
         if (reporter.getTotalTriples() == 0) {
-            sendError(501, "Extraction completed. No triples have been found.", null, er.getValidationReport());
+            sendError(
+                    501,
+                    "Extraction completed. No triples have been found.",
+                    null,
+                    er.getValidationReport(), report
+            );
             return;
         }
 
@@ -153,8 +168,8 @@ class WebResponder {
         }
     }
 
-    public void sendError(int code, String msg) throws IOException {
-        sendError(code, msg, null, null);
+    public void sendError(int code, String msg, boolean report) throws IOException {
+        sendError(code, msg, null, null, report);
     }
     
     private void printHeader(PrintStream ps) {
@@ -164,7 +179,7 @@ class WebResponder {
     private void printResponse(ReportingTripleHandler rth, ValidationReport vr, byte[] data, PrintStream ps) {
         ps.println("<response>");
         printExtractors(rth, ps);
-        printReport(vr, ps);
+        printReport(null, null, vr, ps);
         printData(data, ps);
         ps.println("</response>");
     }
@@ -179,9 +194,17 @@ class WebResponder {
         ps.println("</extractors>");
     }
 
-    private void printReport(ValidationReport vr, PrintStream ps) {
+    private void printReport(String msg, Throwable e, ValidationReport vr, PrintStream ps) {
         XMLValidationReportSerializer reportSerializer = new XMLValidationReportSerializer();
         ps.println("<report>");
+        ps.printf("<message>%s</message>\n", msg == null ? "" : msg);
+        ps.println("<error>");
+        if(e != null) {
+            ps.println("<![CDATA[");
+            e.printStackTrace(ps);
+            ps.println("]]>");
+        }
+        ps.println("</error>");
         // ps.println("<![CDATA[");
         try {
             reportSerializer.serialize(vr, ps);
@@ -206,34 +229,37 @@ class WebResponder {
         ps.println("</data>");
     }
 
-    private void sendError(int code, String msg, Exception e, ValidationReport vr) throws IOException {
+    private void sendError(int code, String msg, Exception e, ValidationReport vr, boolean report)
+    throws IOException {
         response.setStatus(code);
         response.setContentType("text/plain");
         final PrintStream ps = new PrintStream(response.getOutputStream());
-        ps.println(msg);
-        if(e != null) {
-            ps.println("================================================================");
-            e.printStackTrace(ps);
-            ps.println("================================================================");
-        }
-        if(vr != null) {
+        if (report) {
             try {
                 printHeader(ps);
-                printReport(vr, ps);
+                printReport(msg, e, vr, ps);
             } finally {
                 ps.close();
+            }
+        } else {
+            ps.println(msg);
+            if (e != null) {
+                ps.println("================================================================");
+                e.printStackTrace(ps);
+                ps.println("================================================================");
             }
         }
     }
 
-    private boolean initRdfWriter(String format) throws IOException {
+    private boolean initRdfWriter(String format, boolean report) throws IOException {
         FormatWriter fw = getFormatWriter(format);
         if (fw == null) {
             sendError(
                     400,
                     "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads",
                     null,
-                    null
+                    null,
+                    report
             );
             return false;
         }
