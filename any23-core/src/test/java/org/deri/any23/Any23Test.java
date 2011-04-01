@@ -17,6 +17,7 @@
 package org.deri.any23;
 
 import junit.framework.Assert;
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
@@ -27,6 +28,7 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
+import org.deri.any23.util.StreamUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.writer.CompositeTripleHandler;
 import org.deri.any23.writer.CountingTripleHandler;
@@ -37,7 +39,10 @@ import org.deri.any23.writer.RepositoryWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.junit.Test;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -115,9 +120,11 @@ public class Any23Test {
      * @throws IOException
      * @throws SailException
      * @throws RepositoryException
+     * @throws org.deri.any23.writer.TripleHandlerException
      */
     @Test
-    public void testImplicitEncoding() throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
+    public void testImplicitEncoding()
+    throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
         assertEncodingDetection(
                 null, // The encoding will be auto detected.
                 new File("src/test/resources/html/encoding-test.html"),
@@ -318,7 +325,7 @@ public class Any23Test {
         CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
-        runner.extract(new ExtractionParameters(false, false), source,  compositeTH1);
+        runner.extract(new ExtractionParameters(false, false), source, compositeTH1);
         logger.info( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
 
@@ -377,6 +384,33 @@ public class Any23Test {
             Assert.assertTrue(e.getCause() instanceof RDFParseException);
         }
 
+    }
+
+    /**
+     * Test correct management of general <i>XML</i> content.
+     *
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    @Test
+    public void testXMLMimeTypeManagement() throws IOException, ExtractionException {
+        final String documentURI = "http://www.test.com/resource.xml";
+        final String contentType = "application/exe";
+        final String in = StreamUtils.asString( this.getClass().getResourceAsStream("any23-xml-mimetype.xml") );
+        final DocumentSource doc = new StringDocumentSource(in, documentURI, contentType);
+        final Any23 any23 = new Any23();
+        final CountingTripleHandler cth = new CountingTripleHandler(){
+            @Override
+            public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+            throws TripleHandlerException {
+                super.receiveTriple(s, p, o, g, context);
+                logger.info( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+            }
+        };
+        final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
+        final ExtractionReport report = any23.extract(doc, rth);
+        Assert.assertFalse(report.hasMatchingExtractors());
+        Assert.assertEquals(2, cth.getCount());
     }
 
     private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {

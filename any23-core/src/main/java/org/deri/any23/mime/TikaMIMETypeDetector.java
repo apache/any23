@@ -304,6 +304,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                     !type.equals(MimeTypes.OCTET_STREAM)
                             &&
                     !type.equals(MimeTypes.PLAIN_TEXT)
+                            &&
+                    !type.equals(MimeTypes.XML)
             ) {
                 return type;
             }

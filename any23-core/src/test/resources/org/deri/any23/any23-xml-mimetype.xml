@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+        Licensed to the Apache Software Foundation (ASF) under one or more
+        contributor license agreements. See the NOTICE file distributed with
+        this work for additional information regarding copyright ownership.
+        The ASF licenses this file to You under the Apache License, Version
+        2.0 (the "License"); you may not *.zipuse this file except in compliance
+        with the License. You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+        applicable law or agreed to in writing, software distributed under the
+        License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+        CONDITIONS OF ANY KIND, either express or implied. See the License for
+        the specific language governing permissions and limitations under the
+        License. Description: This xml file defines the valid mime types used
+        by Tika. The mime types within this file are based on the types in the
+        mime-types.xml file available in Apache Nutch.
+-->
+<mime-info>
+
+    <!-- DEFAULT -->
+    <mime-type type="application/octet-stream">
+        <magic priority="50">
+            <match value="\037\036" type="string" offset="0"/>
+            <match value="017437" type="host16" offset="0"/>
+            <match value="0x1fff" type="host16" offset="0"/>
+            <match value="\377\037" type="string" offset="0"/>
+            <match value="0145405" type="host16" offset="0"/>
+        </magic>
+        <glob pattern="*.bin"/>
+    </mime-type>
+
+    <mime-type type="text/plain">
+        <magic priority="50">
+            <match value="This is TeX," type="string" offset="0"/>
+            <match value="This is METAFONT," type="string" offset="0"/>
+        </magic>
+        <glob pattern="*.txt"/>
+        <glob pattern="*.asc"/>
+        <glob pattern="*.nt"/>
+        <glob pattern="INSTALL"/>
+        <glob pattern="KEYS"/>
+        <glob pattern="Makefile"/>
+        <glob pattern="README"/>
+        <glob pattern="abs-linkmap"/>
+        <glob pattern="abs-menulinks"/>
+    </mime-type>
+
+    <mime-type type="application/xml">
+        <alias type="text/xml"/>
+        <magic priority="50">
+            <match value="&lt;?xml" type="string" offset="0"/>
+            <match value="&lt;?XML" type="string" offset="0"/>
+            <match value="&lt;!--" type="string" offset="0"/>
+            <match value="0xFFFE3C003F0078006D006C00" type="string" offset="0"/>
+            <match value="0xFEFF003C003F0078006D006C" type="string" offset="0"/>
+        </magic>
+        <glob pattern="*.xml"/>
+        <glob pattern="*.xsl"/>
+        <glob pattern="*.xsd"/>
+        <sub-class-of type="text/plain"/>
+    </mime-type>
+
+    <!-- BEGIN: Semantic Web document mime types. -->
+
+    <!-- RSS -->
+    <mime-type type="application/rss+xml">
+        <alias type="text/rss"/>
+        <root-XML localName="rss"/>
+        <root-XML namespaceURI="http://purl.org/rss/1.0/"/>
+        <glob pattern="*.rss"/>
+    </mime-type>
+
+    <mime-type type="text/rdf+n3">
+        <alias type="text/n3"/>
+        <alias type="application/n3"/>
+        <glob pattern="*.n3"/>
+        <magic priority="50">
+            <match value="@prefix" type="string" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="text/rdf+nq">
+        <alias type="text/nq"/>
+        <alias type="application/nq"/>
+        <glob pattern="*.nq"/>
+    </mime-type>
+
+    <!-- Turtle -->
+    <mime-type type="application/x-turtle">
+        <alias type="text/turtle"/>
+        <alias type="application/turtle"/>
+        <glob pattern="*.ttl"/>
+    </mime-type>
+
+    <!-- RDF -->
+    <mime-type type="application/rdf+xml">
+        <sub-class-of type="application/xml"/>
+        <root-XML localName="RDF"/>
+        <root-XML localName="rdf"/>
+        <root-XML namespaceURI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+        <root-XML namespaceURI="http://purl.org/rss/1.0/"/>
+        <alias type="text/rdf"/>
+        <magic priority="50">
+            <match value="&lt;rdf:RDF" type="string" offset="0:64"/>
+            <match value="&lt;RDF" type="string" offset="0:64"/>
+            <match value="xmlns:rdf" type="string" offset="0:64"/>
+            <match value="*&lt;DOCTYPE rdf:RDF" type="string" offset="0:120"/>
+        </magic>
+        <glob pattern="*.rdf"/>
+        <glob pattern="*.rdfs"/>
+        <glob pattern="*.xrdf"/>
+        <glob pattern="*.owl"/>
+        <glob pattern="*.rdfx"/>
+    </mime-type>
+
+    <!-- ATOM -->
+    <mime-type type="application/atom+xml">
+        <sub-class-of type="application/xml"/>
+        <root-XML localName="feed"/>
+        <root-XML namespaceURI="http://www.w3.org/2005/Atom/" localName="feed"/>
+        <root-XML namespaceURI="http://www.w3.org/2005/Atom"  localName="feed"/>
+    </mime-type>
+
+    <!-- WSDL -->
+    <mime-type type="application/x-wsdl">
+        <sub-class-of type="application/xml"/>
+        <root-XML localName="definitions"/>
+        <root-XML namespaceURI="http://schemas.xmlsoap.org/wsdl/" localName="definitions"/>
+        <glob pattern="*.wsdl"/>
+    </mime-type>
+    <!-- END Semantic Web document mime types. -->
+
+    <mime-type type="text/html">
+        <magic priority="50">
+            <match value="&lt;!DOCTYPE HTML" type="string" offset="0:64"/>
+            <match value="&lt;!doctype html" type="string" offset="0:64"/>
+            <match value="&lt;HEAD" type="string" offset="0:64"/>
+            <match value="&lt;head" type="string" offset="0:64"/>
+            <match value="&lt;TITLE" type="string" offset="0:64"/>
+            <match value="&lt;title" type="string" offset="0:64"/>
+            <match value="&lt;html" type="string" offset="0:64"/>
+            <match value="&lt;HTML" type="string" offset="0:64"/>
+            <match value="&lt;BODY" type="string" offset="0"/>
+            <match value="&lt;body" type="string" offset="0"/>
+            <match value="&lt;TITLE" type="string" offset="0"/>
+            <match value="&lt;title" type="string" offset="0"/>
+            <match value="&lt;!--" type="string" offset="0"/>
+            <match value="&lt;h1" type="string" offset="0"/>
+            <match value="&lt;H1" type="string" offset="0"/>
+            <match value="&lt;!doctype HTML" type="string" offset="0"/>
+            <match value="&lt;!DOCTYPE html" type="string" offset="0"/>
+        </magic>
+        <glob pattern="*.html"/>
+        <glob pattern="*.htm"/>
+    </mime-type>
+
+    <mime-type type="application/xhtml+xml">
+        <sub-class-of type="application/xml"/>
+        <root-XML namespaceURI='http://www.w3.org/1999/xhtml'
+                  localName='html'/>
+        <glob pattern="*.xhtml"/>
+        <magic priority="50">
+            <match value="&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML+RDFa 1.0//EN" type="string" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <!-- BEGIN: MS-Office documents -->
+    <mime-type type="application/vnd.ms-powerpoint">
+        <glob pattern="*.ppz"/>
+        <glob pattern="*.ppt"/>
+        <glob pattern="*.pps"/>
+        <glob pattern="*.pot"/>
+        <magic priority="50">
+            <match value="0xcfd0e011" type="little32" offset="0"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.ms-excel">
+        <magic priority="50">
+            <match value="Microsoft Excel 5.0 Worksheet" type="string"
+                   offset="2080"/>
+        </magic>
+        <glob pattern="*.xls"/>
+        <glob pattern="*.xlc"/>
+        <glob pattern="*.xll"/>
+        <glob pattern="*.xlm"/>
+        <glob pattern="*.xlw"/>
+        <glob pattern="*.xla"/>
+        <glob pattern="*.xlt"/>
+        <glob pattern="*.xld"/>
+        <alias type="application/msexcel"/>
+    </mime-type>
+
+    <mime-type type="application/msword">
+        <magic priority="50">
+            <match value="\x31\xbe\x00\x00" type="string" offset="0"/>
+            <match value="PO^Q`" type="string" offset="0"/>
+            <match value="\376\067\0\043" type="string" offset="0"/>
+            <match value="\333\245-\0\0\0" type="string" offset="0"/>
+            <match value="Microsoft Word 6.0 Document" type="string"
+                   offset="2080"/>
+            <match value="Microsoft Word document data" type="string"
+                   offset="2112"/>
+        </magic>
+        <glob pattern="*.doc"/>
+        <alias type="application/vnd.ms-word"/>
+    </mime-type>
+    <!-- END: MS-Office documents -->
+
+    <!--
+         =====================================================================
+         Open Document Format for Office Applications (OpenDocument) v1.0
+         http://www.oasis-open.org/specs/index.php#opendocumentv1.0
+         =====================================================================
+     -->
+
+    <mime-type type="application/vnd.oasis.opendocument.text">
+        <comment>OpenDocument v1.0: Text document</comment>
+        <alias type="application/x-vnd.oasis.opendocument.text"/>
+        <glob pattern="*.odt"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.text"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.text-template">
+        <comment>OpenDocument v1.0: Text document used as template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.text-template"/>
+        <glob pattern="*.ott"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.text-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.graphics">
+        <comment>OpenDocument v1.0: Graphics document (Drawing)
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.graphics"/>
+        <glob pattern="*.odg"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.graphics"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.graphics-template">
+        <comment>OpenDocument v1.0: Graphics document used as
+            template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.graphics-template"/>
+        <glob pattern="*.otg"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.graphics-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.presentation">
+        <comment>OpenDocument v1.0: Presentation document
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.presentation"/>
+        <glob pattern="*.odp"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.presentation"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.presentation-template">
+        <comment>OpenDocument v1.0: Presentation document used as
+            template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.presentation-template"/>
+        <glob pattern="*.otp"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.presentation-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.spreadsheet">
+        <comment>OpenDocument v1.0: Spreadsheet document</comment>
+        <alias type="application/x-vnd.oasis.opendocument.spreadsheet"/>
+        <glob pattern="*.ods"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.spreadsheet"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.spreadsheet-template">
+        <comment>OpenDocument v1.0: Spreadsheet document used as
+            template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.spreadsheet-template"/>
+        <glob pattern="*.ots"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.spreadsheet-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.chart">
+        <comment>OpenDocument v1.0: Chart document</comment>
+        <alias type="application/x-vnd.oasis.opendocument.chart"/>
+        <glob pattern="*.odc"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.chart"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.chart-template">
+        <comment>OpenDocument v1.0: Chart document used as
+            template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.chart-template"/>
+        <glob pattern="*.otc"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.chart-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.image">
+        <comment>OpenDocument v1.0: Image document</comment>
+        <alias type="application/x-vnd.oasis.opendocument.image"/>
+        <glob pattern="*.odi"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.image"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.image-template">
+        <comment>OpenDocument v1.0: Image document used as
+            template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.image-template"/>
+        <glob pattern="*.oti"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.image-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.formula">
+        <comment>OpenDocument v1.0: Formula document</comment>
+        <alias type="application/x-vnd.oasis.opendocument.formula"/>
+        <glob pattern="*.odf"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.formula"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.formula-template">
+        <comment>OpenDocument v1.0: Formula document used as
+            template
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.formula-template"/>
+        <glob pattern="*.otf"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.formula-template"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.text-master">
+        <comment>OpenDocument v1.0: Global Text document</comment>
+        <alias type="application/x-vnd.oasis.opendocument.text-master"/>
+        <glob pattern="*.odm"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.text-master"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.oasis.opendocument.text-web">
+        <comment>OpenDocument v1.0: Text document used as template
+            for HTML documents
+        </comment>
+        <alias type="application/x-vnd.oasis.opendocument.text-web"/>
+        <glob pattern="*.oth"/>
+        <magic>
+            <match type="string" offset="0" value="PK">
+                <match type="string" offset="30"
+                       value="mimetypeapplication/vnd.oasis.opendocument.text-web"/>
+            </match>
+        </magic>
+    </mime-type>
+
+    <!-- BEGIN: OSX Specific -->
+    <mime-type type="application/mac-binhex40">
+        <glob pattern="*.hqx"/>
+    </mime-type>
+
+    <mime-type type="application/mac-compactpro">
+        <glob pattern="*.cpt"/>
+    </mime-type>
+    <!-- END: OSX Specific -->
+
+    <mime-type type="application/rtf">
+        <glob pattern="*.rtf"/>
+        <alias type="text/rtf"/>
+    </mime-type>
+
+    <mime-type type="application/pdf">
+        <magic priority="50">
+            <match value="%PDF-" type="string" offset="0"/>
+        </magic>
+        <glob pattern="*.pdf"/>
+        <alias type="application/x-pdf"/>
+    </mime-type>
+
+    <mime-type type="application/x-mif">
+        <alias type="application/vnd.mif"/>
+    </mime-type>
+
+    <mime-type type="application/vnd.wap.wbxml">
+        <glob pattern="*.wbxml"/>
+    </mime-type>
+
+    <mime-type type="application/vnd.wap.wmlc">
+        <_comment>Compiled WML Document</_comment>
+        <glob pattern="*.wmlc"/>
+    </mime-type>
+
+    <mime-type type="application/vnd.wap.wmlscriptc">
+        <_comment>Compiled WML Script</_comment>
+        <glob pattern="*.wmlsc"/>
+    </mime-type>
+
+    <mime-type type="text/vnd.wap.wmlscript">
+        <_comment>WML Script</_comment>
+        <glob pattern="*.wmls"/>
+    </mime-type>
+
+    <mime-type type="application/x-bzip">
+        <alias type="application/x-bzip2"/>
+    </mime-type>
+
+    <mime-type type="application/x-bzip-compressed-tar">
+        <glob pattern="*.tbz"/>
+        <glob pattern="*.tbz2"/>
+    </mime-type>
+
+    <mime-type type="application/x-cdlink">
+        <_comment>Virtual CD-ROM CD Image File</_comment>
+        <glob pattern="*.vcd"/>
+    </mime-type>
+
+    <mime-type type="application/x-director">
+        <_comment>Shockwave Movie</_comment>
+        <glob pattern="*.dcr"/>
+        <glob pattern="*.dir"/>
+        <glob pattern="*.dxr"/>
+    </mime-type>
+
+    <mime-type type="application/x-futuresplash">
+        <_comment>Macromedia FutureSplash File</_comment>
+        <glob pattern="*.spl"/>
+    </mime-type>
+
+    <mime-type type="application/x-java">
+        <alias type="application/java"/>
+    </mime-type>
+
+    <mime-type type="application/x-koan">
+        <_comment>SSEYO Koan File</_comment>
+        <glob pattern="*.skp"/>
+        <glob pattern="*.skd"/>
+        <glob pattern="*.skt"/>
+        <glob pattern="*.skm"/>
+    </mime-type>
+
+    <mime-type type="application/x-latex">
+        <_comment>LaTeX Source Document</_comment>
+        <glob pattern="*.latex"/>
+    </mime-type>
+
+    <mime-type type="application/x-ms-dos-executable">
+        <alias type="application/x-dosexec"/>
+    </mime-type>
+
+    <mime-type type="application/ogg">
+        <alias type="application/x-ogg"/>
+    </mime-type>
+
+    <mime-type type="application/x-rar">
+        <alias type="application/x-rar-compressed"/>
+    </mime-type>
+
+    <mime-type type="application/x-shellscript">
+        <alias type="application/x-sh"/>
+    </mime-type>
+
+    <mime-type type="audio/midi">
+        <glob pattern="*.kar"/>
+    </mime-type>
+
+    <mime-type type="audio/x-pn-realaudio">
+        <alias type="audio/x-realaudio"/>
+    </mime-type>
+
+    <mime-type type="image/tiff">
+        <magic priority="50">
+            <match value="0x4d4d2a00" type="string" offset="0"/>
+            <match value="0x49492a00" type="string" offset="0"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="message/rfc822">
+        <magic priority="50">
+            <match type="string" value="Relay-Version:" offset="0"/>
+            <match type="string" value="#! rnews" offset="0"/>
+            <match type="string" value="N#! rnews" offset="0"/>
+            <match type="string" value="Forward to" offset="0"/>
+            <match type="string" value="Pipe to" offset="0"/>
+            <match type="string" value="Return-Path:" offset="0"/>
+            <match type="string" value="From:" offset="0"/>
+            <match type="string" value="Message-ID:" offset="0"/>
+            <match type="string" value="Date:" offset="0"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="image/vnd.wap.wbmp">
+        <_comment>Wireless Bitmap File Format</_comment>
+        <glob pattern="*.wbmp"/>
+    </mime-type>
+
+    <mime-type type="image/x-psd">
+        <alias type="image/photoshop"/>
+    </mime-type>
+
+    <mime-type type="image/x-xcf">
+        <alias type="image/xcf"/>
+        <magic priority="50">
+            <match type="string" value="gimp xcf " offset="0"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="model/iges">
+        <_comment>
+            Initial Graphics Exchange Specification Format
+        </_comment>
+        <glob pattern="*.igs"/>
+        <glob pattern="*.iges"/>
+    </mime-type>
+
+    <mime-type type="model/mesh">
+        <glob pattern="*.msh"/>
+        <glob pattern="*.mesh"/>
+        <glob pattern="*.silo"/>
+    </mime-type>
+
+    <mime-type type="model/vrml">
+        <glob pattern="*.vrml"/>
+    </mime-type>
+
+    <mime-type type="text/x-tcl">
+        <alias type="application/x-tcl"/>
+    </mime-type>
+
+    <mime-type type="text/x-tex">
+        <alias type="application/x-tex"/>
+    </mime-type>
+
+    <mime-type type="text/x-texinfo">
+        <alias type="application/x-texinfo"/>
+    </mime-type>
+
+    <mime-type type="text/x-troff-me">
+        <alias type="application/x-troff-me"/>
+    </mime-type>
+
+    <mime-type type="video/vnd.mpegurl">
+        <glob pattern="*.mxu"/>
+    </mime-type>
+
+    <mime-type type="x-conference/x-cooltalk">
+        <_comment>Cooltalk Audio</_comment>
+        <glob pattern="*.ice"/>
+    </mime-type>
+
+    <!-- ===================================================================== -->
+    <!-- TIKA-85: http://www.apache.org/dev/svn-eol-style.txt                  -->
+    <!-- ===================================================================== -->
+
+    <mime-type type="image/x-icon">
+        <glob pattern="*.ico"/>
+    </mime-type>
+
+    <mime-type type="image/jpeg">
+        <glob pattern="*.jpg"/>
+    </mime-type>
+
+    <mime-type type="image/png">
+        <glob pattern="*.png"/>
+    </mime-type>
+
+    <mime-type type="application/zip">
+        <glob pattern="*.zip"/>
+        <magic priority="50">
+            <match type="string" value="PK" offset="0:2"/>
+        </magic>
+    </mime-type>
+
+
+    <mime-type type="application/gzip">
+        <glob pattern="*.gz"/>
+        <glob pattern="*.tgz"/>
+        <glob pattern="*.gzip"/>
+        <!--
+          <magic priority="50">
+              <match type="host16" value="1f 8b 08" offset="0:2" />
+          </magic>
+        -->
+    </mime-type>
+
+     <!--
+     <description>
+     <mimeType>application/x-compress">
+        <extensions>z" />
+        <magicNumber encoding="hex">1f 9d 90</magicNumber>
+     </mime-type>
+
+     <description>
+         <mimeType>application/bzip2">
+         <extensions>bz2,tbz2" />
+         <magicNumber encoding="hex">42 5a 68 39 31</magicNumber>
+     </mime-type>
+
+     <description>
+         <mimeType>application/x-tar">
+         <magicNumber encoding="string" offset="257">ustar</magicNumber>
+         <extensions>tar" />
+     </mime-type>
+
+     <description>
+         <mimeType>application/x-rar-compressed">
+         <extensions>rar" />
+         <magicNumber encoding="hex">52 61 72 21 1a</magicNumber>
+     </mime-type>
+
+     <description>
+         <mimeType>application/stuffit">
+         <extensions>sit" />
+         <magicNumber encoding="string">SIT!</magicNumber>
+     </mime-type>
+
+     <description>
+         <mimeType>application/binhex">
+         <extensions>hqx" />
+     </mime-type>
+     -->
+
+    <mime-type type="audio/basic">
+        <glob pattern="*.au"/>
+        <glob pattern="*.snd"/>
+    </mime-type>
+
+    <mime-type type="video/x-ms-asf">
+        <glob pattern="*.asf"/>
+        <magicNumber encoding="hex">30 26 b2 75 8e 66 cf 11 a6 d9 00 aa 00 62 ce 6c</magicNumber>
+    </mime-type>
+
+    <mime-type type="video/x-ms-asx">
+        <glob pattern="*.asx"/>
+        <magic priority="50">
+            <match type="string" value="&lt;asx" offset="0:64"/>
+            <match type="string" value="&lt;ASX" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="audio/x-ms-wax">
+        <glob pattern="*.wax"/>
+    </mime-type>
+
+    <mime-type type="video/x-ms-wvx">
+        <glob pattern="*.wvx"/>
+    </mime-type>
+
+    <mime-type type="video/x-ms-wmx">
+        <glob pattern="*.wmx"/>
+    </mime-type>
+
+    <mime-type type="video/x-msvideo">
+        <glob pattern="*.avi"/>
+        <!--	<magicNumber encoding="hex" offset="8">41 56 49 20</magicNumber> -->
+    </mime-type>
+
+
+    <!--
+          This MIME type was invented to let the wmv and wma media types
+          share the magic number. Differentiation between these two files
+          is only possible based on file name extension.
+    -->
+
+    <mime-type type="application/x-ms-wm">
+        <magicNumber encoding="hex">30 26 b2 75 8e 66 cf 11 a6 d9 00 aa 00 62 ce 6c</magicNumber>
+    </mime-type>
+
+    <mime-type type="audio/x-ms-wma">
+        <sub-class-of type="application/x-ms-wm"/>
+        <glob pattern="*.wma"/>
+    </mime-type>
+
+    <mime-type type="video/x-ms-wmv">
+        <sub-class-of type="application/x-ms-wm"/>
+        <glob pattern="*.wmv"/>
+        <glob pattern="*.wm"/>
+    </mime-type>
+
+    <mime-type type="video/quicktime">
+        <glob pattern="*.mov"/>
+        <!--  <magicNumber encoding="string" offset="4">moov</magicNumber> -->
+    </mime-type>
+
+    <mime-type type="video/mpeg">
+        <glob pattern="*.mpg"/>
+        <glob pattern="*.mpeg"/>
+        <!--
+      <magicNumber encoding="hex">00 00 01 b3</magicNumber>
+      <magicNumber encoding="hex">00 00 01 ba</magicNumber> -->
+    </mime-type>
+
+    <mime-type type="application/x-shockwave-flash">
+        <glob pattern="*.swf"/>
+        <!--  <magicNumber encoding="hex">46 57 53</magicNumber>-->
+    </mime-type>
+
+    <mime-type type="application/x-ogg">
+        <glob pattern="*.ogg"/>
+        <magic priority="50">
+            <match type="string" value="OggS" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/vnd.rn-realmedia">
+        <glob pattern="*.rm"/>
+        <glob pattern="*.ram"/>
+        <magic priority="50">
+            <match type="string" value=".RMF" offset="0:64"/>
+            <match type="string" value="rtsp://" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="audio/x-wav">
+        <glob pattern="*.wav"/>
+        <magic priority="50">
+            <match type="string" value="WAVE" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="audio/mpeg">
+        <glob pattern="*.mp3"/>
+        <glob pattern="*.mp2"/>
+        <magic priority="50">
+            <match type="string" value="ID3" offset="0:64"/>
+        </magic>
+
+    </mime-type>
+
+    <mime-type type="audio/midi">
+        <glob pattern="*.mid"/>
+        <glob pattern="*.midi"/>
+        <glob pattern="*.rmi"/>
+        <magic priority="50">
+            <match type="string" value="MThd" offset="0:64"/>
+            <match type="string" value="RMI" offset="0:8"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="video/x-msvideo">
+        <glob pattern="*.avi"/>
+        <!-- 	<magicNumber encoding="hex" offset="8">41 56 49 20</magicNumber> -->
+    </mime-type>
+
+    <mime-type type="video/mp4">
+        <glob pattern="*.mp4"/>
+        <glob pattern="*.mpg4"/>
+        <glob pattern="*.m4v"/>
+        <glob pattern="*.mp4v"/>
+        <glob pattern="*.divx"/>
+        <glob pattern="*.xvid"/>
+        <glob pattern="*.264"/>
+    </mime-type>
+
+    <mime-type type="audio/mp4">
+        <glob pattern="*.m4a"/>
+        <glob pattern="*.m4p"/>
+    </mime-type>
+
+    <mime-type type="video/3gpp">
+        <glob pattern="*.3gp"/>
+        <glob pattern="*.3g2"/>
+    </mime-type>
+
+    <mime-type type="audio/x-aiff">
+        <glob pattern="*.aiff"/>
+        <glob pattern="*.aif"/>
+        <glob pattern="*.aifc"/>
+        <glob pattern="*.aiff"/>
+        <magic priority="50">
+            <match type="string" value="FORM" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="application/x-ms-wmd">
+        <sub-class-of type="application/zip"/>
+        <glob pattern="*.wmd"/>
+    </mime-type>
+
+    <mime-type type="video/x-flv">
+        <glob pattern="*.flv"/>
+        <magic priority="50">
+            <match type="string" value="FLV" offset="0:64"/>
+        </magic>
+    </mime-type>
+
+    <mime-type type="audio/flac">
+        <glob pattern="*.flac"/>
+        <!--<magicNumber encoding="hex">66 4c 61 43 00 00 00 22</magicNumber>-->
+    </mime-type>
+
+    <mime-type type="application/smil">
+        <glob pattern="*.smi"/>
+        <glob pattern="*.smil"/>
+    </mime-type>
+</mime-info>
