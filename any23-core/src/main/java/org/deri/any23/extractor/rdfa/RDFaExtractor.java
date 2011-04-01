@@ -51,16 +51,36 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
     public final static String xsltFilename = Configuration.instance().getPropertyOrFail("any23.rdfa.extractor.xslt");
 
-    public final static ExtractorFactory<RDFaExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    null,
-                    Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
-                    null,
-                    RDFaExtractor.class
-            );
-
     private static XSLTStylesheet xslt = null;
+
+    public final static ExtractorFactory<RDFaExtractor> factory =
+        SimpleExtractorFactory.create(
+                NAME,
+                null,
+                Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
+                null,
+                RDFaExtractor.class
+        );
+
+    /**
+     * Returns a {@link org.deri.any23.extractor.rdfa.XSLTStylesheet} able to distill RDFa from
+     * HTML pages.
+     *
+     * @return returns a not <code>null</code> XSLT instance.
+     */
+    public static synchronized XSLTStylesheet getXSLT() {
+        // Lazily initialized static instance, so we don't parse
+        // the XSLT unless really necessary, and only once
+        if (xslt == null) {
+            InputStream in = RDFaExtractor.class.getResourceAsStream(xsltFilename);
+            if (in == null) {
+                throw new RuntimeException("Couldn't load '" + xsltFilename +
+                        "', maybe the file is not bundled in the jar?");
+            }
+            xslt = new XSLTStylesheet(in);
+        }
+        return xslt;
+    }
 
     private boolean verifyDataType;
 
@@ -142,24 +162,6 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
      */
     public ExtractorDescription getDescription() {
         return factory;
-    }
-
-    /**
-     * Returns a {@link org.deri.any23.extractor.rdfa.XSLTStylesheet} able to distill RDFa from
-     * HTML pages.
-     */
-    private synchronized XSLTStylesheet getXSLT() {
-        // Lazily initialized static instance, so we don't parse
-        // the XSLT unless really necessary, and only once
-        if (xslt == null) {
-            InputStream in = RDFaExtractor.class.getResourceAsStream(xsltFilename);
-            if (in == null) {
-                throw new RuntimeException("Couldn't load '" + xsltFilename +
-                        "', maybe the file is not bundled in the jar?");
-            }
-            xslt = new XSLTStylesheet(in);
-        }
-        return xslt;
     }
 
 }
