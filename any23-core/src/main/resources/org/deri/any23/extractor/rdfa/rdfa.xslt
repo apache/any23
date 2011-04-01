@@ -23,7 +23,15 @@
 <output indent="yes" method="xml" media-type="application/rdf+xml" encoding="UTF-8" omit-xml-declaration="yes"/>
 
 <!-- base of the current HTML doc -->
-<variable name='html_base' select="//*/h:head/h:base[position()=1]/@href"/>
+<variable name='html_base_1' select="/HTML/HEAD/BASE/@href"/>  <!-- This works for non XHTML documents. -->
+<variable name='html_base_2' select="//*/h:head/h:base[position()=1]/@href"/> <!-- This works for XHTML documents. -->
+<variable name='html_base' >
+	<choose>
+		<when test="string-length($html_base_1)>0"><value-of select="$html_base_1"/></when>
+        <when test="string-length($html_base_2)>0"><value-of select="$html_base_2"/></when>
+		<otherwise></otherwise>
+	</choose>
+</variable>
 
 <!-- default HTML vocabulary namespace -->
 <variable name='default_voc' select="'http://www.w3.org/1999/xhtml/vocab#'"/>
@@ -55,6 +63,7 @@
 <!--Start the RDF generation-->
 <template match="/">
 <rdf:RDF xmlns:rdf ="http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+  <xsl:comment>this_location: '<value-of select="$this_location" />' this_root: '<value-of select="$this_root"/>' html_base: '<value-of select="$html_base"/>'</xsl:comment>
   <apply-templates mode="rdf2rdfxml" />  <!-- the mode is used to ease integration with other XSLT templates -->
 </rdf:RDF>
 </template>

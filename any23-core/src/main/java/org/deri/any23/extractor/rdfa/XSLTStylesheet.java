@@ -58,6 +58,8 @@ public class XSLTStylesheet {
      */
     public synchronized void applyTo(Document document, Writer output) throws XSLTStylesheetException {
         try {
+            // transformer.setParameter("url", document.getBaseURI());
+            //transformer.setParameter("html_base", "http://di2.deri.ie/");
             transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
         } catch (TransformerException te) {
             log.error("------ BEGIN XSLT Transformer Exception ------");
