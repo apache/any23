@@ -197,7 +197,7 @@ public class Rover {
 
     private static void printHelp() {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("any23 {<url>|<file>}", options, true);
+        formatter.printHelp("{<url>|<file>}", options, true);
     }
 
     private static String argumentToURI(String arg) {
