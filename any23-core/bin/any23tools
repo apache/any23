@@ -6,8 +6,7 @@
 # External options can be passed via $ANY23_OPTS variable.
 ###################################################################
 
-ANY23_ROOT=$(cd "$(dirname "$0")"; pwd -P)
-ANY23_ROOT="$ANY23_ROOT/.."
+ANY23_ROOT="$(cd "$(dirname "$0")"; pwd -P)/.."
 
 if [ ! -e $ANY23_ROOT/target/*-jar-with-dependencies.jar ]; then 
     echo "Generating executable JAR..."
@@ -25,4 +24,4 @@ do
   if [ ! -e "$jar" ]; then continue; fi
   CP="$CP$SEP$jar"
 done
-exec java $ANY23_OPTS -cp "$CP" -Xmx256M org.deri.any23.cli.ToolRunner ../target/*-jar-with-dependencies.jar "$@"
+exec java $ANY23_OPTS -cp "$CP" -Xmx256M org.deri.any23.cli.ToolRunner $ANY23_ROOT/target/*-jar-with-dependencies.jar "$@"

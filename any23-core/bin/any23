@@ -6,8 +6,7 @@
 # External options can be passed via $ANY23_OPTS variable.
 ###################################################################
 
-ANY23_ROOT=$(cd "$(dirname "$0")"; pwd -P)
-ANY23_ROOT="$ANY23_ROOT/.."
+ANY23_ROOT="$(cd "$(dirname "$0")"; pwd -P)/.."
 
 if [ ! -e $ANY23_ROOT/target/*-jar-with-dependencies.jar ]; then 
     echo "Generating executable JAR..."
