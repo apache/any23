@@ -17,6 +17,10 @@
 package org.deri.any23.cli;
 
 import java.io.FileInputStream;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +29,12 @@ import java.util.jar.JarInputStream;
 
 /**
  * This class is the main class responsible to provide a uniform command-line
- * access points to all the others tools like {@link org.deri.any23.cli.Eval}.
+ * access points to all the others tools like {@link org.deri.any23.cli.Rover}.
  *
  * @see org.deri.any23.cli.ExtractorDocumentation
  * @see org.deri.any23.cli.Rover
  */
+@ToolRunner.Skip
 public class ToolRunner {
 
     private static final String USAGE = " <utility> [options...]";
@@ -41,14 +46,13 @@ public class ToolRunner {
         }
 
         //generate automatically the cli.
-        List<String> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
-
+        List<Class> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
         try {
             if (args.length < 2) {
                 StringBuffer sb = new StringBuffer();
-                sb.append(" where <utility> one of");
-                for (String util : utilities)
-                    sb.append("\n\t" + util);
+                sb.append(" where <utility> one of:");
+                for (Class util : utilities)
+                    sb.append("\n\t").append(util.getSimpleName());
                 usage(sb.toString());
             }
 
@@ -70,14 +74,16 @@ public class ToolRunner {
 
     /**
      * See http://www.rgagnon.com/javadetails/java-0513.html
+     *
+     * @param jarName
+     * @param packageName
+     * @return
      */
-    public static List<String> getClasseNamesInPackage(String jarName, String packageName) {
-        boolean debug = true;
-        ArrayList<String> classes = new ArrayList<String>();
+    public static List<Class> getClasseNamesInPackage(String jarName, String packageName) {
+        ArrayList<Class> classes = new ArrayList<Class>();
         packageName = packageName.replaceAll("\\.", "/");
         try {
-            if (debug) System.err.println
-                    ("Jar " + jarName + " looking for " + packageName);
+            System.err.println("Jar " + jarName + " looking for " + packageName);
 
             JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
             JarEntry jarEntry;
@@ -90,11 +96,15 @@ public class ToolRunner {
                 if ((jarEntry.getName().startsWith(packageName)) &&
                         (jarEntry.getName().endsWith(".class"))) {
                     String classEntry = jarEntry.getName().replaceAll("/", "\\.");
-                    if (debug) System.err.println
-                            ("Found " + jarEntry.getName().replaceAll("/", "\\."));
-
-
-                    classes.add(classEntry.substring("org.deri.any23.cli.".length(), classEntry.indexOf(".class")));
+                    final String classStr = classEntry.substring(0, classEntry.indexOf(".class"));
+                    final Class clazz = Class.forName(classStr);
+                    if(clazz.getAnnotation(Skip.class) != null) {
+                        continue;
+                    }
+                    if(clazz.isInterface()) {
+                        continue;
+                    }
+                    classes.add(clazz);
                 }
             }
         }
@@ -109,5 +119,10 @@ public class ToolRunner {
         System.err.println(msg);
         System.exit(-1);
     }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Skip {}
+
 }
 
