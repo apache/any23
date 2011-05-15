@@ -45,37 +45,43 @@ public class Eval {
      * @throws IOException
      */
     public static void main(String[] args) throws FileNotFoundException {
+        new Eval().run(args);
+    }
+
+    private void run(String[] args) throws FileNotFoundException {
         Options options = new Options();
-
-        //inputformat
-        Option input0 = new Option("i", true, "input file");
-        options.addOption(input0);
-
-        Option input1 = new Option("d", true, "input directory containing the log files");
-        options.addOption(input1);
-
-
+        Option inputFile = new Option("i", true, "input file");
+        options.addOption(inputFile);
+        Option inputDir = new Option("d", true, "input directory containing the log files");
+        options.addOption(inputDir);
         Option outputFile = new Option("o", "output", true, "ouput file (defaults to stdout)");
         options.addOption(outputFile);
 
         CommandLineParser parser = new PosixParser();
         CommandLine cmd;
-
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
-            System.err.println("***ERROR: " + e.getMessage());
-            HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("Rover [file|url]", options, true);
-            return;
+            printHelp(options, e.getMessage());
+            throw new IllegalStateException();
         }
 
-
         LogEvaluator l = new LogEvaluator(cmd.getOptionValue("o"));
-        if (cmd.hasOption("i")) l.analyseFile(cmd.getOptionValue("i"));
-        if (cmd.hasOption("d")) l.analyseDirectory(cmd.getOptionValue("d"));
+        if (cmd.hasOption("i"))
+            l.analyseFile(cmd.getOptionValue("i"));
+        else if (cmd.hasOption("d"))
+            l.analyseDirectory(cmd.getOptionValue("d"));
+        else
+            printHelp(options, "Must specify at least one option.");
 
         l.close();
 	}
+
+    private void printHelp(Options options, String msg) {
+        System.err.println("***ERROR: " + msg);
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp("[file|url]", options, true);
+        System.exit(1);
+    }
     
 }
