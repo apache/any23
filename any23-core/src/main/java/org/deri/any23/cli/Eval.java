@@ -80,7 +80,7 @@ public class Eval {
     private void printHelp(Options options, String msg) {
         System.err.println("***ERROR: " + msg);
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("[file|url]", options, true);
+        formatter.printHelp(this.getClass().getSimpleName() + " [file|url]", options, true);
         System.exit(1);
     }
     

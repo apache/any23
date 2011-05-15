@@ -42,7 +42,7 @@ public class PluginVerifier {
 
     private void printHelp(String msg) {
         System.err.println("***ERROR: " + msg);
-        System.err.println("Usage: <plugins-dir>");
+        System.err.println("Usage: " + this.getClass().getSimpleName() + " <plugins-dir>");
         System.exit(1);
     }
 

@@ -37,26 +37,29 @@ import java.util.jar.JarInputStream;
 @ToolRunner.Skip
 public class ToolRunner {
 
-    private static final String USAGE = " <utility> [options...]";
+    private static final String USAGE = "Usage: " + ToolRunner.class.getSimpleName() + " <utility> [options...]";
     private static final String PREFIX = "org.deri.any23.cli.";
 
     public static void main(String[] args) {
         if(args.length == 0) {
-            usage("Missing JAR file location.");
+            usage("Missing JAR file location.", null);
         }
 
         //generate automatically the cli.
         List<Class> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
         try {
             if (args.length < 2) {
-                StringBuffer sb = new StringBuffer();
-                sb.append(" where <utility> one of:");
-                for (Class util : utilities)
-                    sb.append("\n\t").append(util.getSimpleName());
-                usage(sb.toString());
+                usage( getUtilitiesMessage(utilities), utilities );
             }
 
-            Class<?> cls = Class.forName(PREFIX + args[1]);
+            final String className = args[1];
+            final Class<?> cls;
+            try {
+                cls = Class.forName(PREFIX + className);
+            } catch (ClassNotFoundException cnfe) {
+                usage( String.format("[%s] is not a valid tool name.", className), utilities);
+                throw new IllegalStateException();
+            }
 
             Method mainMethod = cls.getMethod("main", new Class[]{String[].class});
 
@@ -68,7 +71,7 @@ public class ToolRunner {
             e.printStackTrace();
             Throwable cause = e.getCause();
             cause.printStackTrace();
-            usage(e.toString());
+            usage(e.toString(), null);
         }
     }
 
@@ -114,10 +117,22 @@ public class ToolRunner {
         return classes;
     }
 
-    private static void usage(String msg) {
+    private static String getUtilitiesMessage(List<Class> utilities) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" where <utility> one of:");
+        for (Class util : utilities)
+            sb.append("\n\t").append(util.getSimpleName());
+        return sb.toString();
+    }
+
+    private static void usage(String msg, List<Class> utilities) {
+        System.err.println("*** ERROR: " + msg);
+        System.err.println();
         System.err.println(USAGE);
-        System.err.println(msg);
-        System.exit(-1);
+        if(utilities != null) {
+            System.err.println( getUtilitiesMessage(utilities) );
+        }
+        System.exit(1);
     }
 
     @Retention(RetentionPolicy.RUNTIME)

@@ -106,16 +106,16 @@ public class ExtractorDocumentation {
      */
     public static void printUsageAndExit() {
         System.out.println("Usage:");
-        System.out.println("  ExtractorDocumentation -list");
+        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -list");
         System.out.println("      shows the names of all available extractors");
         System.out.println();
-        System.out.println("  ExtractorDocumentation -i extractor-name");
+        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -i extractor-name");
         System.out.println("      shows example input for the given extractor");
         System.out.println();
-        System.out.println("  ExtractorDocumentation -o extractor-name");
+        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -o extractor-name");
         System.out.println("      shows example output for the given extractor");
         System.out.println();
-        System.out.println("  ExtractorDocumentation -all");
+        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -all");
         System.out.println("      shows a report about all available extractors");
         System.out.println();
         System.exit(2);
