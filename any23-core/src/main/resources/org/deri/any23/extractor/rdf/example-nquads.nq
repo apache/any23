@@ -1,0 +1,3 @@
+<http://www.michelemostarda.com/foaf.rdf#me> <http://xmlns.com/foaf/0.1/workplaceHomepage> <http://www.fbk.eu> <http://www.michelemostarda.com/foaf.rdf> .
+<http://www.michelemostarda.com/foaf.rdf#me> <http://xmlns.com/foaf/0.1/workInfoHomepage> <http://www.michelemostarda.com/work.html> <http://www.michelemostarda.com/foaf.rdf> .
+<http://www.michelemostarda.com/foaf.rdf#me> <http://xmlns.com/foaf/0.1/knows> _:node15v04bhrfx709971 <http://www.michelemostarda.com/foaf.rdf> .
