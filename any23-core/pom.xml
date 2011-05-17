@@ -227,6 +227,30 @@
 
     <build>
         <plugins>
+            <plugin>
+                <!-- Sets the correct Any23 version within the default configuration file. -->
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <target>
+                                <replace file="${project.build.outputDirectory}/default-configuration.properties">
+                                    <replacefilter>
+                                        <replacetoken>@any23.version@</replacetoken>
+                                        <replacevalue>${any23.version}</replacevalue>
+                                    </replacefilter>
+                                </replace>
+
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Generates a self-contained JAR. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
