@@ -25,14 +25,14 @@
     <parent>
         <groupId>org.deri.any23</groupId>
         <artifactId>any23-parent</artifactId>
-        <version>0.4.2-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-service</artifactId>
     <packaging>war</packaging>
-    <version>0.4.2-SNAPSHOT</version><!-- NOTE: there's also a version string in Any23.java, they should match! -->
+    <version>${any23.version}</version>
     <name>Any23 - Service Module</name>
     <description>Anything To Triples (any23) is a library and web service that extracts structured data
         in RDF format from a variety of Web documents.
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>org.deri.any23</groupId>
             <artifactId>any23-core</artifactId>
-            <version>0.4.2-SNAPSHOT</version><!-- NOTE, there's also a version string in Any23.java, they should match! -->
+            <version>${any23.version}</version>
         </dependency>
 
         <!-- BEGIN: Jetty -->
