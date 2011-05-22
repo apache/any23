@@ -1,0 +1,66 @@
+Any23 Plugins
+
+* Introduction
+
+    This section describes the *Any23* initial support for plugins.
+
+    *Any23* cames with a set of predefined plugins. Plugins are located
+    under <any23-root>/plugins dir.
+
+    Every plugin is a standard Maven2 module implementing at least the *ExtractorPlugin* interface.
+
+    Currently it is possible to add only new *Extractor*s.
+
+* How to Build a Plugin
+
+   *Any23* takes care to build and test plugins when distributed from its reactor pom.
+   It is aways possible to rebuild a plugin using the command:
+
++--------------------------------------
+  <plugin-dir>$ mvn clean compile
++--------------------------------------
+
+* How to Add a Plugin
+
+   A plugin can be added to *Any23* simply adding its JAR to the Any23 classpath.
+   *Any23* will auto detect the plugin and will register it to the extractors list.
+
+* How to Write a Plugin
+
+   Currently only Extractors can be defined as plugin. To declare a new plugin it
+   is needed to implement the {{{ExtractorPlugin}}} interface and to annotate the
+   implementation with the {{{net.xeoh.plugins.base.annotations.@PluginImplementation}}}
+   annotation. An example of plugin is defined below.
+
++--------------------------------------
+  @PluginImplementation
+  @Author(name="Michele Mostarda (mostarda@fbk.eu)")
+  public class HTMLScraperPlugin implements ExtractorPlugin {
+
+    private static final Logger logger = LoggerFactory.getLogger(HTMLScraperPlugin.class);
+
+    @Init
+    public void init() {
+        logger.info("Plugin initialization.");
+    }
+
+    @Shutdown
+    public void shutdown() {
+        logger.info("Plugin shutdown.");
+    }
+
+    public ExtractorFactory getExtractorFactory() {
+        return HTMLScraperExtractor.factory;
+    }
+
+  }
++--------------------------------------
+
+* Available Plugins
+
+  * <HTMLScraperPlugin>
+
+    The HTMLScraperPlugin is able to extract significant text from any HTML page
+    and transform it to a literal.
+
+    The plugin is documented {{{./plugin-html-scraper.html}here}}.
