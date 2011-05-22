@@ -113,7 +113,7 @@ You can speed up the site generation process specifying the offline option ( -o 
 but it works only if all the involved plugin dependencies has been already downloaded
 in the local M2 repository:
 
-    trunk$ MAVEN_OPTS='-Xmx512m' mvn -o clean site:site
+    trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site:site
 
 If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
 the umlgraphdoc profile. This profile relies on graphviz ( http://www.graphviz.org/) that must be 
