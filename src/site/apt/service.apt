@@ -92,3 +92,49 @@ Code	                    Reason
 501 Not Implemented	        Extraction from input was successful, but yielded zero triples.
 502 Bad Gateway	            Input document from a remote server could not be fetched or parsed.
 +---------------------------------------------------
+
+* Report Format
+
+    The <Any23 Service> can optionally return an XML report and attempt error fix if
+    the flags <fix> and <report> are activated ( <fix=on&report=on> ).
+    The following URL shows how to use these flags.
+
++---------------------------------------------------
+http://any23.org/any23-service/any23/?format=best&uri=http%3A%2F%2Fpath%2Fto%2Fresource&fix=on&report=on
++---------------------------------------------------
+
+    The <fix> functionality is described {{{./dev-validation-fix.html}here}}.
+
+    A report format example is listed below.
+    In particular ath path <response/extractors/extractor> it is possible to find the list
+    of all extractors activated during the page processing.
+    The section <response/report/message> contains an eventual error message while the
+    <response/report/error> section the error stack trace if available.
+
+    The result of validation is contained within the <response/report/validationReport> node.
+    Whithin that node there is the list of the activated rules, the issues detected and
+    the errors generated.
+
++---------------------------------------------------
+<?xml version="1.0" encoding="UTF-8" ?>
+<response>
+    <extractors>
+        <extractor>extractor-a</extractor>
+        <extractor>extractor-b</extractor>
+    </extractors>
+    <report>
+        <message/>
+        <error> </error>
+        <validationReport>
+            <errors> </errors>
+            <issues> </issues>
+            <ruleActivations> </ruleActivations>
+        </validationReport>
+    </report>
+    <data>
+        <![CDATA[
+        <http://sub> <http://pred> <http://obj> <http://graph> .
+        ]]>
+    </data>
+</response>
++---------------------------------------------------
