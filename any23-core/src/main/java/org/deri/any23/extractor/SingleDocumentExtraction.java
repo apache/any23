@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.Configuration;
 import org.deri.any23.encoding.EncodingDetector;
 import org.deri.any23.encoding.TikaEncodingDetector;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
@@ -71,6 +72,9 @@ public class SingleDocumentExtraction {
     private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
             false, false, true
     );
+
+    private static final boolean extractMetadataTriples =
+            Configuration.instance().getFlagProperty("any23.extraction.metadata");
 
     private final DocumentSource in;
 
@@ -482,13 +486,17 @@ public class SingleDocumentExtraction {
                     }
                 }
             }
-            try {
-                addExtractionMetadataTriples(context);
-            } catch (TripleHandlerException e) {
-                log.error(String.format("Error while adding extraction medata triples document with URI %s", documentURI));
-                throw new ExtractionException(String.format("Error while adding extraction medata triples document with URI %s", documentURI),
-                        e
-                );
+            if (extractMetadataTriples) {
+                try {
+                    addExtractionMetadataTriples(context);
+                } catch (TripleHandlerException e) {
+                    throw new ExtractionException(
+                            String.format(
+                                "Error while adding extraction metadata triples document with URI %s", documentURI
+                            ),
+                            e
+                    );
+                }
             }
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error while writing triple triple.", e);
