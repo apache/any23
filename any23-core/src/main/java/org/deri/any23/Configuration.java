@@ -34,6 +34,10 @@ public class Configuration {
      */
     public static final String DEFAULT_CONFIG_FILE = "/default-configuration.properties";
 
+    public static final String FLAG_PROPERTY_ON  = "on";
+
+    public static final String FLAG_PROPERTY_OFF = "off";
+
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
 
     private static final Configuration configuration = new Configuration();
@@ -137,6 +141,25 @@ public class Configuration {
         } catch (NumberFormatException nfe) {
             throw new NumberFormatException("The retrieved property is not a valid Integer: '" + trimValue + "'");
         }
+    }
+
+    public synchronized boolean getFlagProperty(final String propertyName) {
+        final String value = getProperty(propertyName, null);
+        if(value == null) {
+            return false;
+        }
+        if(FLAG_PROPERTY_ON.equals(value)) {
+            return true;
+        }
+        if(FLAG_PROPERTY_OFF.equals(value)) {
+            return false;
+        }
+        throw new IllegalArgumentException(
+                String.format(
+                    "Invalid value [%s] for flag property [%s]. Supported values are %s|%s",
+                    value, propertyName, FLAG_PROPERTY_ON, FLAG_PROPERTY_OFF
+                )
+        );
     }
 
     private String getPropertyValue(String propertyName) {

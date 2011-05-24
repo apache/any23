@@ -43,7 +43,7 @@ public class ConfigurationTest {
     @Test
     public void testGetProperties() {
         final String[] properties = configuration.getProperties();
-        Assert.assertEquals(6, properties.length);
+        Assert.assertEquals(7, properties.length);
         for(String property : properties) {
             Assert.assertTrue(property.startsWith("any23."));
         }
@@ -95,4 +95,10 @@ public class ConfigurationTest {
     public void testGetPropertyIntOrFailNok() {
         configuration.getPropertyIntOrFail("any23.http.user.agent.name");
     }
+
+    @Test
+    public void testGetFlagProperty() {
+        Assert.assertTrue( configuration.getFlagProperty("any23.extraction.metadata") );
+    }
+
 }
