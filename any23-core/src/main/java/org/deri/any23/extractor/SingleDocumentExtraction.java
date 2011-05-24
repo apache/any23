@@ -41,7 +41,6 @@ import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
-import org.openrdf.model.impl.LiteralImpl;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.slf4j.Logger;
@@ -53,7 +52,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import static org.deri.any23.extractor.TagSoupExtractionResult.PropertyPath;
 import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
@@ -573,7 +576,7 @@ public class SingleDocumentExtraction {
         String xsdDateTimeNow = RDFHelper.toXSDDateTime(new Date());
         output.receiveTriple(
                 new URIImpl(documentURI.toString()),
-                SINDICE.getProperty("date"),
+                SINDICE.getProperty(SINDICE.DATE),
                 ValueFactoryImpl.getInstance().createLiteral(xsdDateTimeNow),
                 null,
                 context
@@ -589,7 +592,7 @@ public class SingleDocumentExtraction {
         }
         output.receiveTriple(
                 new URIImpl(documentURI.toString()),
-                SINDICE.getProperty("size"),
+                SINDICE.getProperty(SINDICE.SIZE),
                 ValueFactoryImpl.getInstance().createLiteral(numberOfTriples + 1), // the number of triples plus itself
                 null,
                 context
@@ -614,7 +617,7 @@ public class SingleDocumentExtraction {
         th.receiveTriple(bnode, SINDICE.getProperty(SINDICE.NESTING_ORIGINAL), from.getProperty(), null, ec );
         th.receiveTriple(
                 bnode,
-                SINDICE.getProperty(SINDICE.NESTING_STRUCTURED_PROPERTY),
+                SINDICE.getProperty(SINDICE.NESTING_STRUCTURED),
                 from.getObject() == null ? to.getRoot() : from.getObject(),
                 null,
                 ec

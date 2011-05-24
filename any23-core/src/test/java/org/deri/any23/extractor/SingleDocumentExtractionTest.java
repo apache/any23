@@ -42,14 +42,6 @@ import java.io.IOException;
 // TODO #20 - Solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
 public class SingleDocumentExtractionTest {
 
-    private static final String DOMAIN = "domain";
-
-    private static final String NESTING = "nesting";
-
-    private static final String NESTING_ORIGINAL = "nesting_original";
-
-    private static final String NESTING_STRUCTURED = "nesting_structured";
-
     private static final Logger logger = LoggerFactory.getLogger(SingleDocumentExtractionTest.class);
 
     private SingleDocumentExtraction singleDocumentExtraction;
@@ -100,7 +92,7 @@ public class SingleDocumentExtractionTest {
         singleDocumentExtraction = getInstance("microformats/microformat-domains.html");
         singleDocumentExtraction.run();
         logStorageContent();
-        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 1);
+        assertTripleCount(SINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 1);
     }
 
     /**
@@ -123,10 +115,10 @@ public class SingleDocumentExtractionTest {
 
         logStorageContent();
 
-        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 2);
-        assertTriple(SINDICE.getProperty(NESTING), (Value) null);
-        assertTriple(SINDICE.getProperty(NESTING_ORIGINAL)  , ICAL.summary);
-        assertTriple(SINDICE.getProperty(NESTING_STRUCTURED), (Value) null);
+        assertTripleCount(SINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 2);
+        assertTriple(SINDICE.getProperty(SINDICE.NESTING), (Value) null);
+        assertTriple(SINDICE.getProperty(SINDICE.NESTING_ORIGINAL)  , ICAL.summary);
+        assertTriple(SINDICE.getProperty(SINDICE.NESTING_STRUCTURED), (Value) null);
     }
 
     /**
@@ -152,10 +144,10 @@ public class SingleDocumentExtractionTest {
 
         logStorageContent();
 
-        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 2);
-        assertTriple(SINDICE.getProperty(NESTING), (Value) null);
-        assertTriple(SINDICE.getProperty(NESTING_ORIGINAL), ICAL.summary);
-        assertTriple(SINDICE.getProperty(NESTING_STRUCTURED), (Value) null);
+        assertTripleCount(SINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 2);
+        assertTriple(SINDICE.getProperty(SINDICE.NESTING), (Value) null);
+        assertTriple(SINDICE.getProperty(SINDICE.NESTING_ORIGINAL), ICAL.summary);
+        assertTriple(SINDICE.getProperty(SINDICE.NESTING_STRUCTURED), (Value) null);
     }
 
     /**
@@ -179,14 +171,14 @@ public class SingleDocumentExtractionTest {
 
         logStorageContent();
 
-        assertTripleCount(SINDICE.getProperty(DOMAIN), "nested.test.com", 3);
-        assertTripleCount(SINDICE.getProperty(NESTING), (Value) null, 3);
-        assertTripleCount(SINDICE.getProperty(NESTING_ORIGINAL), REVIEW.hasReview, 1);
+        assertTripleCount(SINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 3);
+        assertTripleCount(SINDICE.getProperty(SINDICE.NESTING), (Value) null, 3);
+        assertTripleCount(SINDICE.getProperty(SINDICE.NESTING_ORIGINAL), REVIEW.hasReview, 1);
 
         assertTripleCount(VCARD.url, (Value) null, 1);
         Value object = getTripleObject(null, REVIEW.hasReview);
-        assertTripleCount(SINDICE.getProperty(NESTING_STRUCTURED), object          , 1);
-        assertTripleCount(SINDICE.getProperty(NESTING_ORIGINAL)  , REVIEW.hasReview, 1);
+        assertTripleCount(SINDICE.getProperty(SINDICE.NESTING_STRUCTURED), object          , 1);
+        assertTripleCount(SINDICE.getProperty(SINDICE.NESTING_ORIGINAL)  , REVIEW.hasReview, 1);
     }
 
     private SingleDocumentExtraction getInstance(String file) {

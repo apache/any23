@@ -35,7 +35,7 @@ public class SINDICE extends Vocabulary {
 
     public static final String NESTING_ORIGINAL = "nesting_original";
 
-    public static final String NESTING_STRUCTURED_PROPERTY = "nesting_structured";
+    public static final String NESTING_STRUCTURED = "nesting_structured";
 
     public static final String SIZE = "size";
 
@@ -56,37 +56,44 @@ public class SINDICE extends Vocabulary {
      * it is applied. It is intended to be used to keep track of the domain provenance
      * of each resource.
      */
-    public static final URI domain = createProperty("domain");
+    public static final URI domain = createProperty(DOMAIN);
 
     /**
      * This property links a resource with a <i>blank node</i> that represents
      * a nested <i>Microformat</i> node.
      */
-    public static final URI nesting = createProperty("nesting");
+    public static final URI nesting = createProperty(NESTING);
 
     /**
      * This property is used to keep track of the original nested <i>RDF property</i>.
      */
-    public static final URI nesting_original = createProperty("nesting_original");
+    public static final URI nesting_original = createProperty(NESTING_ORIGINAL);
 
     /**
      * This property links the resource with a <i>node</i> representing the nested <i>Microformat</i>
      * 
      */
-    public static final URI nesting_structured = createProperty("nesting_structured");
+    public static final URI nesting_structured = createProperty(NESTING_STRUCTURED);
 
     /**
-     * 
+     * Size meta property indicating the number of triples within the returned dataset.
      */
-    public static final URI size = createProperty("size");
+    public static final URI size = createProperty(SIZE);
 
     /**
-     *
+     * Date meta property indicating the data generation time.
      */
-    public static final URI date = createProperty("date");
+    public static final URI date = createProperty(DATE);
+
 
     private static Map<String, URI> localNamesMap;
 
+    /**
+     * Returns a resource defined within this vocabulary.
+     *
+     * @param name resource name.
+     * @return the URI associated to such resource.
+     */
     public static URI getResource(String name) {
         URI res = localNamesMap.get(name);
         if (null == res)
@@ -99,6 +106,12 @@ public class SINDICE extends Vocabulary {
         return res;
     }
 
+    /**
+     * Returns a property defined within this vocabulary.
+     *
+     * @param name resource name.
+     * @return the URI associated to such resource.
+     */
     public static URI getProperty(String name) {
         return getResource(name);
     }

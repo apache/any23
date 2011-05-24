@@ -73,8 +73,8 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/license/empty.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty("date"), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty("size"), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
