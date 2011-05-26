@@ -101,6 +101,33 @@ http://localhost:8080/ with your browser.
 The complete documentation about this service can be found here: 
 http://developers.any23.org/getting-started.html
 
+-------------------------------
+Build the Any23 Web Service WAR
+-------------------------------
+
+The Any23 Service WAR by default will be generated as self-contained,
+all the dependencies will be included as JAR within the WEB-INF/lib archive dir.
+
+To generate the self contained WAR invoke:
+
+  any23-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
+
+Where -o will build the process offline, and -Dmaven.test.skip=true
+will force the test skipping.
+
+The WAR will be generated in
+
+  target/any23-service-X.Y.Z-VERSION.war
+
+To produce a instead a WAR WITHOUT the included JAR dependencies it is possible to use
+the war-without-deps profile:
+
+  any23-service$ mvn [-o] [-Dmaven.test.skip=true] -Pwar-without-deps clean package
+
+Again the WAR will be generated in
+
+  target/any23-service-X.Y.Z-VERSION.war
+
 --------------------------
 Generate the Documentation
 --------------------------
