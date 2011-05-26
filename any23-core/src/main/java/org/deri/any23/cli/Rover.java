@@ -150,7 +150,10 @@ public class Rover {
         ReportingTripleHandler reporter = new ReportingTripleHandler(outputHandler);
         outputHandler = reporter;
         if (cmd.hasOption('t')) {
-            outputHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(outputHandler));
+            outputHandler = new IgnoreAccidentalRDFa(
+                    new IgnoreTitlesOfEmptyDocuments(outputHandler),
+                    true // suppress stylesheet triples.
+            );
         }
 
         final boolean nestingDisabled = !cmd.hasOption('n');
