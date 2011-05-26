@@ -36,8 +36,14 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
 
     private final ExtractionContextBlocker blocker;
 
-    public IgnoreAccidentalRDFa(TripleHandler wrapped) {
+    private final boolean suppressStylesheetTriples;
+
+    public IgnoreAccidentalRDFa(TripleHandler wrapped, boolean suppressStylesheetTriples) {
         this.blocker = new ExtractionContextBlocker(wrapped);
+        this.suppressStylesheetTriples = suppressStylesheetTriples;
+    }
+    public IgnoreAccidentalRDFa(TripleHandler wrapped) {
+        this(wrapped, false);
     }
 
     public void startDocument(URI documentURI) throws TripleHandlerException {
@@ -53,7 +59,11 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
 
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
-        if (isRDFaContext(context) && !p.stringValue().startsWith(XHTML.NS)) {
+        // Suppress stylesheet triples.
+        if(suppressStylesheetTriples && p.stringValue().equals(XHTML.stylesheet.stringValue())) {
+            return;
+        }
+        if (isRDFaContext(context)) {
             blocker.unblockContext(context);
         }
         blocker.receiveTriple(s, p, o, g, context);
