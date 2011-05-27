@@ -32,6 +32,7 @@ import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This {@link org.deri.any23.extractor.Extractor.TagSoupDOMExtractor} implementation
@@ -44,7 +45,8 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
         HTMLDocument html = new HTMLDocument(in);
         ValueFactory vf = ValueFactoryImpl.getInstance();
 
-        for (Node node : DomUtils.findAll(in,
+        final List<Node> headLinkNodes = DomUtils.findAll(
+                in,
                 "/HTML/HEAD/LINK[(" +
                         "@type='application/rdf+xml' or " +
                         "@type='text/rdf' or " +
@@ -52,19 +54,31 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
                         "@type='application/turtle' or " +
                         "@type='text/turtle' or " +
                         "@type='text/rdf+n3'" +
-                        ") and @href and @rel]")) {
-            URI href = html.resolveURI(DomUtils.find(node, "@href"));
-            String rel = DomUtils.find(node, "@rel");
+                        ") and @href and @rel]"
+        );
+        for (Node node : headLinkNodes) {
+            final URI href = html.resolveURI(DomUtils.find(node, "@href"));
+            final String rel = DomUtils.find(node, "@rel");
             out.writeTriple(
                     documentURI,
                     vf.createURI(XHTML.NS + rel),
-                    href);
-            String title = DomUtils.find(node, "@title");
+                    href
+            );
+            final String title = DomUtils.find(node, "@title");
             if (title != null && !"".equals(title)) {
                 out.writeTriple(
                         href,
                         factory.getPrefixes().expand("dcterms:title"),
-                        vf.createLiteral(title));
+                        vf.createLiteral(title)
+                );
+            }
+            final String type = DomUtils.find(node, "@type");
+            if (type != null && !"".equals(type)) {
+                out.writeTriple(
+                        href,
+                        factory.getPrefixes().expand("dcterms:format"),
+                        vf.createLiteral(type)
+                );
             }
         }
     }
@@ -75,7 +89,7 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
 
     public final static ExtractorFactory<HeadLinkExtractor> factory =
             SimpleExtractorFactory.create(
-                    "html-head-rdflinks",
+                    "html-head-links",
                     PopularPrefixes.createSubset("xhtml", "dcterms"),
                     Arrays.asList("text/html;q=0.05", "application/xhtml+xml;q=0.05"),
                     null,
