@@ -11,9 +11,9 @@ ANY23_ROOT="$ANY23_ROOT/.."
 
 if [ ! -e $ANY23_ROOT/target/any23-service-*.war ]; then
     echo "Generating executable WAR..."
-    mvn -Dmaven.test.skip=true -o -f $ANY23_ROOT/pom.xml clean assembly:assembly\
+    mvn -Dmaven.test.skip=true -o -f $ANY23_ROOT/pom.xml clean package\
     	||
-    mvn -Dmaven.test.skip=true    -f $ANY23_ROOT/pom.xml clean assembly:assembly\
+    mvn -Dmaven.test.skip=true    -f $ANY23_ROOT/pom.xml clean package\
         ||
     { echo "Error while creating assembly"; exit 1; }
 fi
