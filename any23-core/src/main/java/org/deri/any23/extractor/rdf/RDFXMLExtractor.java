@@ -42,14 +42,19 @@ public class RDFXMLExtractor implements ContentExtractor {
             SimpleExtractorFactory.create(
                     "rdf-xml",
                     null,
-                    Arrays.asList("application/rdf+xml", "text/rdf",
-                            "text/rdf+xml", "application/rdf",
-                            "application/xml;q=0.2", "text/xml;q=0.2"),
+                    Arrays.asList(
+                            "application/rdf+xml",
+                            "text/rdf",
+                            "text/rdf+xml",
+                            "application/rdf"
+                            // "application/xml;q=0.2",
+                            // "text/xml;q=0.2"
+                    ),
                     "example-rdfxml.rdf",
                     RDFXMLExtractor.class
             );
 
-    private boolean verifyDataType;
+    private final boolean verifyDataType;
     private boolean stopAtFirstError;
 
     /**
@@ -69,7 +74,7 @@ public class RDFXMLExtractor implements ContentExtractor {
      * Default constructor, with no verification of data types and not stop at first error.
      */
     public RDFXMLExtractor() {
-        this(false, false);
+        this(true, true);
     }
 
     public boolean isVerifyDataType() {

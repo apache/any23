@@ -395,7 +395,7 @@ public class Any23Test {
     @Test
     public void testXMLMimeTypeManagement() throws IOException, ExtractionException {
         final String documentURI = "http://www.test.com/resource.xml";
-        final String contentType = "application/exe";
+        final String contentType = "application/xml";
         final String in = StreamUtils.asString( this.getClass().getResourceAsStream("any23-xml-mimetype.xml") );
         final DocumentSource doc = new StringDocumentSource(in, documentURI, contentType);
         final Any23 any23 = new Any23();
@@ -409,6 +409,30 @@ public class Any23Test {
         };
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(doc, rth);
+        Assert.assertFalse(report.hasMatchingExtractors());
+        Assert.assertEquals(2, cth.getCount());
+    }
+
+    /**
+     * Test correct management of general <i>XML</i> content from <i>URL</i> source.
+     *
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    // @Test Deactivated online test.
+    public void testXMLMimeTypeManagementViaURL() throws IOException, ExtractionException {
+        final Any23 any23 = new Any23();
+        any23.setHTTPUserAgent("test-user-agent");
+        final CountingTripleHandler cth = new CountingTripleHandler(){
+            @Override
+            public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+            throws TripleHandlerException {
+                super.receiveTriple(s, p, o, g, context);
+                logger.info( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+            }
+        };
+        final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
+        final ExtractionReport report = any23.extract("http://www.nativeremedies.com/XML/combos.xml", rth);
         Assert.assertFalse(report.hasMatchingExtractors());
         Assert.assertEquals(2, cth.getCount());
     }
