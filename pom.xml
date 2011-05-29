@@ -86,6 +86,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <any23.version>0.4.2-SNAPSHOT</any23.version>
+        <maven.javadoc.plugin.version>2.8</maven.javadoc.plugin.version>
     </properties>
 
     <!-- Project repository configuration. -->
@@ -240,11 +241,12 @@
         <!-- Generates Javadoc with browsable UML. -->
         <profile>
             <id>umlgraphdoc</id>
-            <reporting>
+            <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven.javadoc.plugin.version}</version>
                         <configuration>
                             <!--
                                 NOTE:
@@ -259,9 +261,18 @@
                                 <version>5.1</version>
                             </docletArtifact>
                         </configuration>
+                        <executions>
+                            <execution>
+                                <id>aggregate</id>
+                                <goals>
+                                    <goal>aggregate</goal>
+                                </goals>
+                                <phase>site</phase>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
-            </reporting>
+            </build>
         </profile>
     </profiles>
 
@@ -278,10 +289,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
-                <configuration>
-                    <aggregate>true</aggregate>
-                </configuration>
+                <version>${maven.javadoc.plugin.version}</version>
             </plugin>
 
             <!-- Browsable documentation. -->
@@ -390,17 +398,18 @@
                 </configuration>
             </plugin>
 
+            <!-- Javadoc plugin. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
+                <version>${maven.javadoc.plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
-                        <phase>package</phase>
+                        <id>aggregate</id>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>aggregate</goal>
                         </goals>
+                        <phase>site</phase>
                     </execution>
                 </executions>
             </plugin>
