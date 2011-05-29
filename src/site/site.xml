@@ -47,7 +47,7 @@
             <item name="Developers Guide"  href="developers.html"/>
         </menu>
 
-        <menu ref="modules"/>
+        <!--<menu ref="modules"/>-->
         <menu ref="reports"/>
 
         <menu name="External links">
