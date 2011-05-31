@@ -41,6 +41,7 @@ import java.util.List;
  * Provides convenience access to various parts of the document.
  *
  * @author Gabriele Renzi
+ * @author Michele Mostarda
  */
 public class HTMLDocument {
 
@@ -90,7 +91,6 @@ public class HTMLDocument {
         }
         return result;
     }
-
 
     /**
      * Reads an URL field from the given node adding the content to the given <i>res</i> list.
@@ -149,6 +149,20 @@ public class HTMLDocument {
      */
     public static String extractRelTag(NamedNodeMap attributes) {
         return extractRelTag(attributes.getNamedItem("href").getNodeValue());
+    }
+
+    /**
+     * Reads the text content of the given node and returns it.
+     * If the <code>prettify</code> flag is <code>true</code>
+     * the text is cleaned up.
+     *
+     * @param node node to read content.
+     * @param prettify if <code>true</code> blank chars will be removed.
+     * @return the read text.
+     */
+    public static String readNodeContent(Node node, boolean prettify) {
+        final String content = node.getTextContent();
+        return prettify ? content.trim().replaceAll("\\n", " ").replaceAll(" +", " ") : content;
     }
 
     /**
@@ -340,6 +354,20 @@ public class HTMLDocument {
      */
     public String[] getPathToLocalRoot() {
         return DomUtils.getXPathListForNode(document);
+    }
+
+    /**
+     * Extracts all the <code>rel</code> tag nodes.
+     *
+     * @return list of rel tag nodes.
+     */
+    public TextField[] extractRelTagNodes() {
+        final List<Node> relTagNodes = DomUtils.findAllByAttributeName(getDocument(), "rel");
+        final List<TextField> result = new ArrayList<TextField>();
+        for(Node relTagNode : relTagNodes) {
+            readUrlField(result, relTagNode);
+        }
+        return result.toArray( new TextField[result.size()] );
     }
 
     private java.net.URI getBaseURI() throws ExtractionException {
