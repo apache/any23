@@ -26,6 +26,7 @@ import org.openrdf.model.impl.ValueFactoryImpl;
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @version $Id$
  */
+// TODO: refactor vocabulary methods, move within this class the createProperty and createClass methods.
 public abstract class Vocabulary {
 
     private static final ValueFactory factory = ValueFactoryImpl.getInstance();
