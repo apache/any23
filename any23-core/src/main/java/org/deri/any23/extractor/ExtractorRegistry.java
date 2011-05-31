@@ -22,6 +22,7 @@ import org.deri.any23.extractor.html.GeoExtractor;
 import org.deri.any23.extractor.html.HCalendarExtractor;
 import org.deri.any23.extractor.html.HCardExtractor;
 import org.deri.any23.extractor.html.HListingExtractor;
+import org.deri.any23.extractor.html.HRecipeExtractor;
 import org.deri.any23.extractor.html.HResumeExtractor;
 import org.deri.any23.extractor.html.HReviewExtractor;
 import org.deri.any23.extractor.html.HeadLinkExtractor;
@@ -44,7 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  Singleton class acting as a register for all the various {@link org.deri.any23.extractor.Extractor}.
+ *  Singleton class acting as a register for all the various
+ *  {@link org.deri.any23.extractor.Extractor}.
  */
 public class ExtractorRegistry {
 
@@ -84,6 +86,7 @@ public class ExtractorRegistry {
                 instance.register(HListingExtractor.factory);
                 instance.register(HResumeExtractor.factory);
                 instance.register(HReviewExtractor.factory);
+                instance.register(HRecipeExtractor.factory);
                 instance.register(SpeciesExtractor.factory);
                 instance.register(TurtleHTMLExtractor.factory);
             }
