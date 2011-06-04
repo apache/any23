@@ -1,4 +1,42 @@
 
+                               Any23 0.5.0
+                              Release Notes
+
+Fixes
+
+ * Fixed wrong conversion of a generic XML file to RDF. [131]
+ * Fixed usage of 'base' tag when resolving relative URIs
+   in RDFa. [75]
+ * Fixed error parsing Turtle data. [87]
+ * Fixed issue with escaping in NQuads parser. [126]
+ * Fixed XML DTD validation attempt. [95]
+ * Fixed concurrent modification exception in
+   ExtractionContentBlocker filter. [86]
+ * Fixed mime type detection of direct input when source
+   contains blank chars. [83, 90]
+ * Fixed reporting when producing no triples. [79]
+ * Fixed any23-service packaging, added profile for excluding
+   embedded dependencies. [113]
+
+Enhancements
+
+ * Improved extraction report: added list of 
+   activated extractors. [89]
+ * Improved extraction of HTML link element. [133]
+ * Added XPath HTML extractor. [124]
+ * Added HRecipe Microformat extractor. [103]
+ * Added plugin support for Any23. [111]
+ * Implemented HTML Scraper Plugin. [123]
+ * Upgraded to Sesame 2.4.0. [136]
+ * Upgraded to Jetty 8.0.0 [138]
+ * Upgraded maven-site-plugin. [85]
+ * Added flags to exclude metadata triples [134]
+ * Added removal of CSS related triples. [135]
+ * Improved overall documentation. [130]
+ * Overall POM refactoring. [125]
+
+==========================================================================
+
                                Any23 0.4.0 
                               Release Notes
 
