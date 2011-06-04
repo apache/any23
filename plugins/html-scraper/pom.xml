@@ -78,7 +78,7 @@
         <dependency>
             <groupId>org.deri.any23</groupId>
             <artifactId>any23-core</artifactId>
-            <version>0.4.2-SNAPSHOT</version>
+            <version>${any23.version}</version>
             <scope>provided</scope>
         </dependency>
 
