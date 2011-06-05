@@ -238,17 +238,34 @@ public class DomUtils {
     }
 
     /**
-     * Reads the value of an attribute, returning an empty string
-     * instead of null if it is not present.
+     * Reads the value of an <code>attribute</code>, returning the
+     * <code>defaultValue</code> string if not present.
+     *
+     * @param node node to read the attribute.
+     * @param attribute attribute name.
+     * @param defaultValue the default value to return if attribute is not found.
+     * @return the attribute value or <code>defaultValue</code> if not found.
      */
-    public static String readAttribute(Node document, String attribute) {
-        NamedNodeMap attributes = document.getAttributes();
+    public static String readAttribute(Node node, String attribute, String defaultValue) {
+        NamedNodeMap attributes = node.getAttributes();
         if (null == attributes)
-            return "";
+            return defaultValue;
         Node attr = attributes.getNamedItem(attribute);
         if (null==attr)
-			return "";
+			return defaultValue;
 		return attr.getNodeValue();
 	}
+
+    /**
+     * Reads the value of an <code>attribute</code>, returning the
+     * empty string if not present.
+     *
+     * @param node node to read the attribute.
+     * @param attribute attribute name.
+     * @return the attribute value or <code>""</code> if not found.
+     */
+    public static String readAttribute(Node node, String attribute) {
+        return readAttribute(node, attribute, "");
+    }
     
 }
