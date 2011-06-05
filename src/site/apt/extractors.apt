@@ -1,10 +1,12 @@
 Any23 Extractors
 
-This page enlists all the Any23 Extractors.
+  This page enlists all the Any23 Extractors.
 
   Extractors package: {{{./xref/org/deri/any23/extractor/package-summary.html}Microformats Extractors}}
 
- * Microformat Extractors. Specific details about Microformat extractors can be found {{{./microformat-extractor.html}here}}.
+* Microformat Extractors
+
+      Specific details about Microformat extractors can be found {{{./microformat-extractor.html}here}}.
 
       {{{./xref/org/deri/any23/extractor/html/GeoExtractor.html}GeoExtractor}}
 
@@ -24,7 +26,7 @@ This page enlists all the Any23 Extractors.
 
       {{{./xref/org/deri/any23/extractor/html/XFNExtractor.html}XFNExtractor}}
 
- * Metadata Extractors
+* Metadata Extractors
 
       {{{./xref/org/deri/any23/extractor/html/HeadLinkExtractor.html}HeadLinkExtractor}}
 
@@ -34,7 +36,7 @@ This page enlists all the Any23 Extractors.
 
       {{{./xref/org/deri/any23/extractor/html/TurtleHTMLExtractor.html}TurtleHTMLExtractor}}
 
- *  RDF
+*  RDF
 
       {{{./xref/org/deri/any23/extractor/rdf/NQuadsExtractor.html}NQuadsExtractor}}
 
@@ -42,16 +44,17 @@ This page enlists all the Any23 Extractors.
 
       {{{./xref/org/deri/any23/extractor/rdf/TurtleExtractor.html}TurtleExtractor}}
 
- *  RDFa
+*  RDFa
 
       {{{./xref/org/deri/any23/extractor/rdfa/RDFaExtractor.html}RDFaExtractor}}
 
- * Content Extractors
+* Content Extractors
 
       {{{./xpath-extractor.html}XPath Extractor}}.
 
+Get more documentation
 
-It is possible to generate the list of all the available extractors invoking the following command:
+  It is possible to generate the list of all the available extractors invoking the following command:
 
 +------------------------------------------------------------
    <any23-core>/bin$ any23tools ExtractorDocumentation -list

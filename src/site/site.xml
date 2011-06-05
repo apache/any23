@@ -41,9 +41,10 @@
 			<item name="Install"           href="install.html"/>
             <item name="Getting Started"   href="getting-started.html"/>
             <item name="Supported Formats" href="supported-formats.html"/>
+            <item name="Extractors"        href="extractors.html"/>
             <item name="Configuration"     href="configuration.html"/>
             <item name="REST Service"      href="service.html"/>
-            <item name="Plugins"           href="plugins.html"/>
+            <item name="Any23 Plugins"     href="any23-plugins.html"/>
             <item name="Developers Guide"  href="developers.html"/>
         </menu>
 
