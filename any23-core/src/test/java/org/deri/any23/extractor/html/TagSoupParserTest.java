@@ -10,6 +10,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,8 +38,17 @@ public class TagSoupParserTest {
     }
 
     @Test
-    public void testExplicitEncodingBehavior() throws IOException, ExtractionException, RepositoryException {
+    public void testParseSimpleHTML() throws IOException {
+        String html = "<html><head><title>Test</title></head><body><h1>Hello!</h1></body></html>";
+        InputStream input = new ByteArrayInputStream(html.getBytes());
+        Node document = new TagSoupParser(input, "http://example.com/").getDOM();
+        Assert.assertEquals("Test", new HTMLDocument(document).find("//TITLE"));
+        Assert.assertEquals("Hello!", new HTMLDocument(document).find("//H1"));
+    }
 
+    @Test
+    public void testExplicitEncodingBehavior()
+    throws IOException, ExtractionException, RepositoryException {
         this.tagSoupParser = new TagSoupParser(
                 new FileInputStream(
                     new File("src/test/resources/html/encoding-test.html")
@@ -47,8 +57,10 @@ public class TagSoupParserTest {
                 "UTF-8"
         );
 
-        Assert.assertEquals(this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(), 
-                "Knud M\u00F6ller - semanticweb.org");
+        Assert.assertEquals(
+            this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
+            "Knud M\u00F6ller - semanticweb.org"
+        );
     }
 
     /**
@@ -68,8 +80,10 @@ public class TagSoupParserTest {
                 ),
                 page
         );
-        Assert.assertNotSame(this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
-                "Knud M\u00F6ller - semanticweb.org");
+        Assert.assertNotSame(
+                this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
+                "Knud M\u00F6ller - semanticweb.org"
+        );
     }
 
 
