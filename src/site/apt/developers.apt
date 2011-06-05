@@ -2,16 +2,25 @@ Developers Guide
 
     This section introduces some <<Any23>> programming fundamentals.
 
-  TOC
+TOC
 
-    * {{{./dev-data-extraction.html}Data Extraction}} -
-      Explains how to extract RDF data from HTTP resources with <<Any23>>.
-    * {{{./dev-data-conversion.html}Data Conversion}} -
-      Shows how to perform RDF data conversion with <<Any23>>.
-    * {{{./dev-validation-fix.html}Validation and Fixing}} -
-      Demonstrates how to define validation and correction rules for HTML content with <<Any23>>.
-    * {{{./dev-xpath-extractor.html}XPath Extractor}} -
-      Explains how to write custom scraping rules for extracting RDF data from any HTML content with <<Any23>>.
-    * {{{./dev-microformat-extractors.html}Microformat Extractors}} -
-      Explains how to write new Microformat extractors with <<Any23>> and also report interesting notes on
-      microformat nesting representation.
+* {{{./dev-data-extraction.html}Data Extraction}}
+  
+  Explains how to extract RDF data from HTTP resources with <<Any23>>.
+
+* {{{./dev-data-conversion.html}Data Conversion}}
+  
+   Shows how to perform RDF data conversion with <<Any23>>.
+
+* {{{./dev-validation-fix.html}Validation and Fixing}}
+  
+  Demonstrates how to define validation and correction rules for HTML content with <<Any23>>.
+    
+* {{{./dev-xpath-extractor.html}XPath Extractor}}
+  
+  Explains how to write custom scraping rules for extracting RDF data from any HTML content with <<Any23>>.
+    
+* {{{./dev-microformat-extractors.html}Microformat Extractors}}
+  
+  Explains how to write new Microformat extractors with <<Any23>> and also report interesting notes on
+  microformat nesting representation.
