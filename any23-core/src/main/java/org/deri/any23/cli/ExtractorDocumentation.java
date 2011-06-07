@@ -32,6 +32,7 @@ import java.io.IOException;
  * This class provides some command-line documentation
  * about available extractors and their usage.
  */
+@ToolRunner.Description("Utility for obtaining documentation about metadata extractors.")
 public class ExtractorDocumentation {
 
     /**

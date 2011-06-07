@@ -117,11 +117,26 @@ public class ToolRunner {
         return classes;
     }
 
+    private static String padLeft(String s, int n) {
+        return String.format("%1$#" + n + "s", s);
+    }
+
     private static String getUtilitiesMessage(List<Class> utilities) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" where <utility> one of:");
-        for (Class util : utilities)
-            sb.append("\n\t").append(util.getSimpleName());
+        sb.append(" where <utility> one of:\n");
+        Description description;
+        String utilityName;
+        int padding;
+        for (Class util : utilities) {
+            utilityName = util.getSimpleName();
+            sb.append("\t").append(utilityName);
+            description = (Description) util.getAnnotation(Description.class);
+            padding = 100 - utilityName.length();
+            if (description != null) {
+                sb.append( padLeft( description.value(), padding >= 0 ? padding : 0) );
+            }
+            sb.append('\n');
+        }
         return sb.toString();
     }
 
@@ -140,6 +155,10 @@ public class ToolRunner {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Skip {}
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Description { String value();  }
 
 }
 

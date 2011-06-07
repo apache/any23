@@ -35,6 +35,7 @@ import java.io.IOException;
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
+@ToolRunner.Description("Utility for processing output log.")
 public class Eval {
 
     /**
@@ -54,7 +55,7 @@ public class Eval {
         options.addOption(inputFile);
         Option inputDir = new Option("d", true, "input directory containing the log files");
         options.addOption(inputDir);
-        Option outputFile = new Option("o", "output", true, "ouput file (defaults to stdout)");
+        Option outputFile = new Option("o", "output", true, "output file (defaults to stdout)");
         options.addOption(outputFile);
 
         CommandLineParser parser = new PosixParser();

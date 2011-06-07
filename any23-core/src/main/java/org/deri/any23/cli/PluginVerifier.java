@@ -32,6 +32,7 @@ import java.util.Collection;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@ToolRunner.Description("Utility for plugin management verification.")
 public class PluginVerifier {
 
     private Any23PluginManager pluginManager = Any23PluginManager.getInstance();

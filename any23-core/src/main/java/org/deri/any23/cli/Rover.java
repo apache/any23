@@ -48,9 +48,12 @@ import java.net.URL;
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
+@ToolRunner.Description("Any23 Command Line Tool.")
 public class Rover {
 
-    private static final String USER_AGENT_NAME = Configuration.instance().getPropertyOrFail("any23.http.user.agent.name");
+    private static final String USER_AGENT_NAME = Configuration.instance().getPropertyOrFail(
+            "any23.http.user.agent.name"
+    );
 
     //output writer constants
     private static final String TURTLE = "turtle";
