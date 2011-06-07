@@ -55,13 +55,52 @@ public class MicrodataUtils {
     );
 
     /**
-     * Returns all the items detected within the given root node.
+     * Returns all the <i>itemScope</i>s detected within the given root node.
      *
      * @param node root node to search in.
      * @return list of detected items.
      */
-    public static List<Node> getItems(Node node) {
+    public static List<Node> getItemScopeNodes(Node node) {
         return DomUtils.findAllByAttributeName(node, ITEMSCOPE_ATTRIBUTE);
+    }
+
+    /**
+     * Returns all the <i>itemProp</i>s detected within the given root node.
+     *
+     * @param node root node to search in.
+     * @return list of detected items.
+     */
+    public static List<Node> getItemPropNodes(Node node) {
+        return DomUtils.findAllByAttributeName(node, ITEMPROP_ATTRIBUTE);
+    }
+
+    /**
+     * Returns only nodes that are not nested one each other.
+     *
+     * @param candidates list of candidate nodes.
+     * @return list of unnested nodes.
+     */
+    public static List<Node> getUnnestedNodes(List<Node> candidates) {
+        final List<Node> unnesteds  = new ArrayList<Node>();
+        for(int i = 0; i < candidates.size(); i++) {
+            boolean skip = false;
+            for(int j = 0; j < candidates.size(); j++) {
+                if(i == j) continue;
+                if(
+                        isPrefix(
+                                DomUtils.getXPathForNode(candidates.get(j)),
+                                DomUtils.getXPathForNode(candidates.get(i))
+                        )
+                ) {
+                    skip = true;
+                    break;
+                }
+            }
+            if(!skip) {
+                unnesteds.add( candidates.get(i) );
+            }
+        }
+        return unnesteds;
     }
 
     /**
@@ -70,7 +109,7 @@ public class MicrodataUtils {
      * @param node node to check.
      * @return <code>true</code> if the node is an item, <code>false</code> otherwise.
      */
-    public static boolean isItem(Node node) {
+    public static boolean isItemScope(Node node) {
         return DomUtils.readAttribute(node, ITEMSCOPE_ATTRIBUTE, null) != null;
     }
 
@@ -101,7 +140,7 @@ public class MicrodataUtils {
             return new ItemPropValue( DomUtils.readAttribute(node, "datetime"), ItemPropValue.Type.DateTime);
         }
 
-        if( isItem(node) ) {
+        if( isItemScope(node) ) {
             return new ItemPropValue( getItemScope(document, node), ItemPropValue.Type.Nested );
         }
 
@@ -118,7 +157,7 @@ public class MicrodataUtils {
      * @return the list of <b>itemprop<b>s detected within the given <b>itemscope</b>.
      */
     public static List<ItemProp> getItemProps(Document document, Node node, boolean skipCurrent) {
-        final List<Node> itemPropNodes = DomUtils.findAllByAttributeName(node, ITEMPROP_ATTRIBUTE);
+        final List<Node> itemPropNodes = getItemPropNodes(node);
         final List<ItemProp> result = new ArrayList<ItemProp>();
         for(Node itemPropNode :  itemPropNodes) {
             if(itemPropNode.equals(node) && skipCurrent) {
@@ -190,12 +229,31 @@ public class MicrodataUtils {
      * @return list of <b>itemscope</b> items.
      */
     public static ItemScope[] getMicrodata(Document document) {
-        final List<Node> itemNodes = getItems(document);
+        final List<Node> itemNodes = getUnnestedNodes( getItemScopeNodes(document) );
         final List<ItemScope> items = new ArrayList<ItemScope>();
         for(Node itemNode : itemNodes) {
             items.add( getItemScope(document, itemNode) );
         }
         return items.toArray( new ItemScope[items.size()] );
+    }
+
+    /**
+     * Check whether string <code>a</code> is prefix of string <code>b</code>.
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    private static boolean isPrefix(String a, String b) {
+        if(a.length() > b.length()) {
+            return false;
+        }
+        for(int i = 0; i < a.length(); i++) {
+            if(a.charAt(i) != b.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
