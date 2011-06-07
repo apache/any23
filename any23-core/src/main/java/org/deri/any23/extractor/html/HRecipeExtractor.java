@@ -22,6 +22,8 @@ import java.util.Arrays;
  */
 public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final HRECIPE vHRECIPE = HRECIPE.getInstance();
+
     public final static ExtractorFactory<HRecipeExtractor> factory =
             SimpleExtractorFactory.create(
                     "html-mf-hrecipe",
@@ -50,7 +52,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
     @Override
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         final BNode recipe = getBlankNodeFor(node);
-        conditionallyAddResourceProperty(recipe, RDF.TYPE, HRECIPE.Recipe);
+        conditionallyAddResourceProperty(recipe, RDF.TYPE, vHRECIPE.Recipe);
         final HTMLDocument fragment = new HTMLDocument(node);
         addFN(fragment, recipe);
         addIngredients(fragment, recipe);
@@ -89,7 +91,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      * @param recipe
      */
     private void addFN(HTMLDocument fragment, BNode recipe) {
-        mapFieldWithProperty(fragment, recipe, "fn", HRECIPE.fn);
+        mapFieldWithProperty(fragment, recipe, "fn", vHRECIPE.fn);
     }
 
     /**
@@ -101,16 +103,16 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      */
     private BNode addIngredient(HTMLDocument fragment,  HTMLDocument.TextField ingredient) {
         final BNode ingredientBnode = getBlankNodeFor(ingredient.source());
-        addURIProperty(ingredientBnode, RDF.TYPE, HRECIPE.Ingredient);
+        addURIProperty(ingredientBnode, RDF.TYPE, vHRECIPE.Ingredient);
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 ingredient.source(),
                 ingredientBnode,
-                HRECIPE.ingredientName,
+                vHRECIPE.ingredientName,
                 HTMLDocument.readNodeContent(ingredient.source(), true)
         );
-        mapFieldWithProperty(fragment, ingredientBnode, "value", HRECIPE.ingredientQuantity);
-        mapFieldWithProperty(fragment, ingredientBnode, "type" , HRECIPE.ingredientQuantityType);
+        mapFieldWithProperty(fragment, ingredientBnode, "value", vHRECIPE.ingredientQuantity);
+        mapFieldWithProperty(fragment, ingredientBnode, "type" , vHRECIPE.ingredientQuantityType);
         return ingredientBnode;
     }
 
@@ -124,7 +126,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
     private void addIngredients(HTMLDocument fragment, BNode recipe) {
         final HTMLDocument.TextField[] ingredients = fragment.getPluralTextField("ingredient");
         for(HTMLDocument.TextField ingredient : ingredients) {
-            addBNodeProperty(recipe, HRECIPE.ingredient, addIngredient(fragment, ingredient));
+            addBNodeProperty(recipe, vHRECIPE.ingredient, addIngredient(fragment, ingredient));
         }
     }
 
@@ -135,7 +137,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      * @param recipe
      */
     private void addInstructions(HTMLDocument fragment, BNode recipe) {
-        mapFieldWithProperty(fragment, recipe, "instructions", HRECIPE.instructions);
+        mapFieldWithProperty(fragment, recipe, "instructions", vHRECIPE.instructions);
 
     }
 
@@ -146,7 +148,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      * @param recipe
      */
     private void addYield(HTMLDocument fragment, BNode recipe) {
-        mapFieldWithProperty(fragment, recipe, "yield", HRECIPE.yield);
+        mapFieldWithProperty(fragment, recipe, "yield", vHRECIPE.yield);
     }
 
     /**
@@ -159,13 +161,13 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
     //TODO: USE http://microformats.org/wiki/value-class-pattern to read correct date format.
     private BNode addDuration(HTMLDocument fragment, HTMLDocument.TextField duration) {
         final BNode durationBnode = getBlankNodeFor(duration.source());
-        addURIProperty(durationBnode, RDF.TYPE, HRECIPE.Duration);
+        addURIProperty(durationBnode, RDF.TYPE, vHRECIPE.Duration);
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 duration.source(),
-                durationBnode, HRECIPE.durationTime, duration.value()
+                durationBnode, vHRECIPE.durationTime, duration.value()
         );
-        mapFieldWithProperty(fragment, durationBnode, "value-title", HRECIPE.durationTitle);
+        mapFieldWithProperty(fragment, durationBnode, "value-title", vHRECIPE.durationTitle);
         return durationBnode;
     }
 
@@ -178,7 +180,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
     private void addDurations(HTMLDocument fragment, BNode recipe) {
       final HTMLDocument.TextField[] durations = fragment.getPluralTextField("duration");
         for(HTMLDocument.TextField duration : durations) {
-            addBNodeProperty(recipe, HRECIPE.duration, addDuration(fragment, duration));
+            addBNodeProperty(recipe, vHRECIPE.duration, addDuration(fragment, duration));
         }
     }
 
@@ -192,7 +194,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
     private void addPhoto(HTMLDocument fragment, BNode recipe) throws ExtractionException {
         final HTMLDocument.TextField[] photos = fragment.getPluralUrlField("photo");
         for(HTMLDocument.TextField photo : photos) {
-            addURIProperty(recipe, HRECIPE.photo, fragment.resolveURI(photo.value()));
+            addURIProperty(recipe, vHRECIPE.photo, fragment.resolveURI(photo.value()));
         }
     }
 
@@ -203,7 +205,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      * @param recipe
      */
     private void addSummary(HTMLDocument fragment, BNode recipe) {
-        mapFieldWithProperty(fragment, recipe, "summary", HRECIPE.summary);
+        mapFieldWithProperty(fragment, recipe, "summary", vHRECIPE.summary);
     }
 
     /**
@@ -218,7 +220,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
              conditionallyAddStringProperty(
                     getDescription().getExtractorName(),
                     author.source(),
-                    recipe, HRECIPE.author, author.value()
+                    recipe, vHRECIPE.author, author.value()
               );
         }
     }
@@ -231,7 +233,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      */
     //TODO: USE http://microformats.org/wiki/value-class-pattern to read correct date format.
     private void addPublished(HTMLDocument fragment, BNode recipe) {
-        mapFieldWithProperty(fragment, recipe, "published", HRECIPE.published);
+        mapFieldWithProperty(fragment, recipe, "published", vHRECIPE.published);
     }
 
     /**
@@ -243,14 +245,14 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      */
     private BNode addNutrition(HTMLDocument fragment, HTMLDocument.TextField nutrition) {
         final BNode nutritionBnode = getBlankNodeFor(nutrition.source());
-        addURIProperty(nutritionBnode, RDF.TYPE, HRECIPE.Nutrition);
+        addURIProperty(nutritionBnode, RDF.TYPE, vHRECIPE.Nutrition);
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 nutrition.source(),
-                nutritionBnode, HRECIPE.nutritionValue, nutrition.value()
+                nutritionBnode, vHRECIPE.nutritionValue, nutrition.value()
         );
-        mapFieldWithProperty(fragment, nutritionBnode, "value", HRECIPE.nutritionValue);
-        mapFieldWithProperty(fragment, nutritionBnode, "type", HRECIPE.nutritionValueType);
+        mapFieldWithProperty(fragment, nutritionBnode, "value", vHRECIPE.nutritionValue);
+        mapFieldWithProperty(fragment, nutritionBnode, "type" , vHRECIPE.nutritionValueType);
         return nutritionBnode;
     }
 
@@ -263,7 +265,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
     private void addNutritions(HTMLDocument fragment, BNode recipe) {
         HTMLDocument.TextField[] nutritions = fragment.getPluralTextField("nutrition");
         for (HTMLDocument.TextField nutrition : nutritions) {
-            addBNodeProperty(recipe, HRECIPE.nutrition, addNutrition(fragment, nutrition));
+            addBNodeProperty(recipe, vHRECIPE.nutrition, addNutrition(fragment, nutrition));
         }
     }
 
@@ -279,7 +281,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
             conditionallyAddStringProperty(
                     getDescription().getExtractorName(),
                     tag.source(),
-                    recipe, HRECIPE.tag, tag.value()
+                    recipe, vHRECIPE.tag, tag.value()
               );
         }
     }

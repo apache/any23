@@ -41,7 +41,9 @@ import java.util.Arrays;
  */
 public class TitleExtractor implements TagSoupDOMExtractor {
 
-    public final static String NAME = "html-head-title";
+    public static final String NAME = "html-head-title";
+
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
 
     public final static ExtractorFactory<TitleExtractor> factory =
             SimpleExtractorFactory.create(
@@ -64,7 +66,7 @@ public class TitleExtractor implements TagSoupDOMExtractor {
         try {
             String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
             if (title != null && (title.length() != 0)) {
-                out.writeTriple(documentURI, DCTERMS.title, valueFactory.createLiteral(title));
+                out.writeTriple(documentURI, vDCTERMS.title, valueFactory.createLiteral(title));
             }
         } finally {
             valueFactory.setErrorReporter(null);

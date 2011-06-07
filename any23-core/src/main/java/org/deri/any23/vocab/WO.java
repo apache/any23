@@ -18,9 +18,6 @@ package org.deri.any23.vocab;
 
 import org.openrdf.model.URI;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * This class models the <a href="http://purl.org/ontology/wo/">BBC Wildlife Ontology</a>.
  *
@@ -33,27 +30,36 @@ public class WO extends Vocabulary {
      */
     public static final String NS = "http://purl.org/ontology/wo/";
 
+    private static WO instance;
+
+    public static WO getInstance() {
+        if(instance == null) {
+            instance = new WO();
+        }
+        return instance;
+    }
+
     /**
      * The namespace of the vocabulary as a URI.
      */
-    public static final URI NAMESPACE = createResource(NS);
+    public final URI NAMESPACE = createResource(NS);
 
     /**
      * Generic class defining a biological species
      */
-    public static final URI species = createResource("species");
+    public final URI species = createProperty("species");
 
-    public static final URI kingdomClass = createResource("Kingdom");
+    public final URI kingdomClass = createResource("Kingdom");
 
-    public static final URI divisionClass = createResource("Division");
+    public final URI divisionClass = createResource("Division");
 
-    public static final URI phylumClass = createResource("Phylum");
+    public final URI phylumClass = createResource("Phylum");
 
-    public static final URI orderClass = createResource("Order");
+    public final URI orderClass = createResource("Order");
 
-    public static final URI genusClass = createResource("Genus");
+    public final URI genusClass = createResource("Genus");
 
-    public static final URI classClass = createResource("Class");
+    public final URI classClass = createResource("Class");
 
     /**
      * A family is a scientific grouping of closely related organisms.
@@ -61,17 +67,17 @@ public class WO extends Vocabulary {
      * A family can have a lot of members or only a few.
      * Examples of families include the cats (Felidae), the gulls (Laridae) and the grasses (Poaceae).
      */
-    public static final URI family = createResource("Family");
+    public final URI family = createResource("Family");
 
     /**
      * associates a taxon rank with a family 
      */
-    public static final URI familyProperty = createProperty("family");
+    public final URI familyProperty = createProperty("family");
 
     /**
      * Used to specify the name of a family as part of a Taxon Name
      */
-    public static final URI familyName = createProperty("familyName");
+    public final URI familyName = createProperty("familyName");
 
     /**
      * specifies the species part of a binomial name, allowing
@@ -80,7 +86,7 @@ public class WO extends Vocabulary {
      * associated with species. The property is largely provided as a 
      * convenience to avoid applications having to parse the binomial name.
      */
-    public static final URI speciesName = createProperty("speciesName");
+    public final URI speciesName = createProperty("speciesName");
 
     /**
      * specifies the scientific name of a species, allowing
@@ -89,61 +95,38 @@ public class WO extends Vocabulary {
      * associated with species. The property is largely provided as a
      * convenience to avoid applications having to parse the binomial name.
      */
-    public static final URI scientificName = createProperty("scientificName");
+    public final URI scientificName = createProperty("scientificName");
 
-    public static final URI kingdom = createProperty("kingdom");
+    public final URI kingdom = createProperty("kingdom");
 
-    public static final URI phylum = createProperty("phylum");
+    public final URI phylum = createProperty("phylum");
 
-    public static final URI order = createProperty("order");
+    public final URI order = createProperty("order");
 
-    public static final URI genus = createProperty("genus");
+    public final URI genus = createProperty("genus");
 
-    public static final URI division = createProperty("division");
+    public final URI division = createProperty("division");
 
-    public static final URI clazz = createProperty("class");
+    public final URI clazz = createProperty("class");
 
-    public static final URI kingdomName = createProperty("kingdomName");
+    public final URI kingdomName = createProperty("kingdomName");
 
-    public static final URI phylumName = createProperty("phylumName");
+    public final URI phylumName = createProperty("phylumName");
 
-    public static final URI orderName = createProperty("orderName");
+    public final URI orderName = createProperty("orderName");
 
-    public static final URI genusName = createProperty("genusName");
+    public final URI genusName = createProperty("genusName");
 
-    public static final URI divisionName = createProperty("divisionName");
+    public final URI divisionName = createProperty("divisionName");
 
-    public static final URI clazzName = createProperty("className");
+    public final URI clazzName = createProperty("className");
 
-    private static Map<String, URI> localNamesMap;
-
-    public static URI getResource(String name) {
-        URI res = localNamesMap.get(name);
-        if (null == res)
-            throw new RuntimeException("heck, you are using a non existing URI:" + name);
-        return res;
+    private URI createResource(String name) {
+        return createResource(NS, name);
     }
 
-    public static URI getProperty(String name) {
-        return getResource(name);
-    }
-
-    private static URI createResource(String string) {
-        URI res = createURI(NS + string);
-        if(localNamesMap == null) {
-            localNamesMap = new HashMap<String, URI>(10);
-        }
-        localNamesMap.put(string, res);
-        return res;
-    }
-
-    private static URI createProperty(String string) {
-        URI res = createURI(NS + string);
-        if(localNamesMap == null) {
-            localNamesMap = new HashMap<String, URI>(10);
-        }
-        localNamesMap.put(string, res);
-        return res;
+    private URI createProperty(String name) {
+        return createProperty(NS, name);
     }
 
     private WO(){}

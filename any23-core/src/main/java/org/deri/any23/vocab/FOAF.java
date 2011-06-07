@@ -25,74 +25,83 @@ public class FOAF extends Vocabulary {
 
     public static final String NS = "http://xmlns.com/foaf/0.1/";
 
-    // Properties.
-    public static final URI topic_interest          = createURI(NS, "topic_interest");
-    public static final URI phone                   = createURI(NS, "phone");
-    public static final URI icqChatID               = createURI(NS, "icqChatID");
-    public static final URI yahooChatID             = createURI(NS, "yahooChatID");
-    public static final URI member                  = createURI(NS, "member");
-    public static final URI givenname               = createURI(NS, "givenname");
-    public static final URI birthday                = createURI(NS, "birthday");
-    public static final URI img                     = createURI(NS, "img");
-    public static final URI name                    = createURI(NS, "name");
-    public static final URI maker                   = createURI(NS, "maker");
-    public static final URI tipjar                  = createURI(NS, "tipjar");
-    public static final URI membershipClass         = createURI(NS, "membershipClass");
-    public static final URI accountName             = createURI(NS, "accountName");
-    public static final URI mbox_sha1sum            = createURI(NS, "mbox_sha1sum");
-    public static final URI geekcode                = createURI(NS, "geekcode");
-    public static final URI interest                = createURI(NS, "interest");
-    public static final URI depicts                 = createURI(NS, "depicts");
-    public static final URI knows                   = createURI(NS, "knows");
-    public static final URI homepage                = createURI(NS, "homepage");
-    public static final URI firstName               = createURI(NS, "firstName");
-    public static final URI surname                 = createURI(NS, "surname");
-    public static final URI isPrimaryTopicOf        = createURI(NS, "isPrimaryTopicOf");
-    public static final URI page                    = createURI(NS, "page");
-    public static final URI accountServiceHomepage  = createURI(NS, "accountServiceHomepage");
-    public static final URI depiction               = createURI(NS, "depiction");
-    public static final URI fundedBy                = createURI(NS, "fundedBy");
-    public static final URI title                   = createURI(NS, "title");
-    public static final URI weblog                  = createURI(NS, "weblog");
-    public static final URI logo                    = createURI(NS, "logo");
-    public static final URI workplaceHomepage       = createURI(NS, "workplaceHomepage");
-    public static final URI based_near              = createURI(NS, "based_near");
-    public static final URI thumbnail               = createURI(NS, "thumbnail");
-    public static final URI primaryTopic            = createURI(NS, "primaryTopic");
-    public static final URI aimChatID               = createURI(NS, "aimChatID");
-    public static final URI made                    = createURI(NS, "made");
-    public static final URI workInfoHomepage        = createURI(NS, "workInfoHomepage");
-    public static final URI currentProject          = createURI(NS, "currentProject");
-    public static final URI holdsAccount            = createURI(NS, "holdsAccount");
-    public static final URI publications            = createURI(NS, "publications");
-    public static final URI sha1                    = createURI(NS, "sha1");
-    public static final URI gender                  = createURI(NS, "gender");
-    public static final URI mbox                    = createURI(NS, "mbox");
-    public static final URI myersBriggs             = createURI(NS, "myersBriggs");
-    public static final URI plan                    = createURI(NS, "plan");
-    public static final URI pastProject             = createURI(NS, "pastProject");
-    public static final URI schoolHomepage          = createURI(NS, "schoolHomepage");
-    public static final URI family_name             = createURI(NS, "family_name");
-    public static final URI msnChatID               = createURI(NS, "msnChatID");
-    public static final URI theme                   = createURI(NS, "theme");
-    public static final URI topic                   = createURI(NS, "topic");
-    public static final URI dnaChecksum             = createURI(NS, "dnaChecksum");
-    public static final URI nick                    = createURI(NS, "nick");
-    public static final URI jabberID                = createURI(NS, "jabberID");
+    private static FOAF instance;
 
-    // Classes.
-    public static final URI Person                  = createURI(NS, "Person");
-    public static final URI PersonalProfileDocument = createURI(NS, "PersonalProfileDocument");
-    public static final URI Project                 = createURI(NS, "Project");
-    public static final URI OnlineChatAccount       = createURI(NS, "OnlineChatAccount");
-    public static final URI OnlineAccount           = createURI(NS, "OnlineAccount");
-    public static final URI Agent                   = createURI(NS, "Agent");
-    public static final URI Group                   = createURI(NS, "Group");
-    public static final URI OnlineGamingAccount     = createURI(NS, "OnlineGamingAccount");
-    public static final URI OnlineEcommerceAccount  = createURI(NS, "OnlineEcommerceAccount");
-    public static final URI Document                = createURI(NS, "Document");
-    public static final URI Organization            = createURI(NS, "Organization");
-    public static final URI Image                   = createURI(NS, "Image");
+    public static FOAF getInstance() {
+        if(instance == null) {
+            instance = new FOAF();
+        }
+        return instance;
+    }
+
+    // Properties.
+    public final URI topic_interest          = createProperty(NS, "topic_interest");
+    public final URI phone                   = createProperty(NS, "phone");
+    public final URI icqChatID               = createProperty(NS, "icqChatID");
+    public final URI yahooChatID             = createProperty(NS, "yahooChatID");
+    public final URI member                  = createProperty(NS, "member");
+    public final URI givenname               = createProperty(NS, "givenname");
+    public final URI birthday                = createProperty(NS, "birthday");
+    public final URI img                     = createProperty(NS, "img");
+    public final URI name                    = createProperty(NS, "name");
+    public final URI maker                   = createProperty(NS, "maker");
+    public final URI tipjar                  = createProperty(NS, "tipjar");
+    public final URI membershipClass         = createProperty(NS, "membershipClass");
+    public final URI accountName             = createProperty(NS, "accountName");
+    public final URI mbox_sha1sum            = createProperty(NS, "mbox_sha1sum");
+    public final URI geekcode                = createProperty(NS, "geekcode");
+    public final URI interest                = createProperty(NS, "interest");
+    public final URI depicts                 = createProperty(NS, "depicts");
+    public final URI knows                   = createProperty(NS, "knows");
+    public final URI homepage                = createProperty(NS, "homepage");
+    public final URI firstName               = createProperty(NS, "firstName");
+    public final URI surname                 = createProperty(NS, "surname");
+    public final URI isPrimaryTopicOf        = createProperty(NS, "isPrimaryTopicOf");
+    public final URI page                    = createProperty(NS, "page");
+    public final URI accountServiceHomepage  = createProperty(NS, "accountServiceHomepage");
+    public final URI depiction               = createProperty(NS, "depiction");
+    public final URI fundedBy                = createProperty(NS, "fundedBy");
+    public final URI title                   = createProperty(NS, "title");
+    public final URI weblog                  = createProperty(NS, "weblog");
+    public final URI logo                    = createProperty(NS, "logo");
+    public final URI workplaceHomepage       = createProperty(NS, "workplaceHomepage");
+    public final URI based_near              = createProperty(NS, "based_near");
+    public final URI thumbnail               = createProperty(NS, "thumbnail");
+    public final URI primaryTopic            = createProperty(NS, "primaryTopic");
+    public final URI aimChatID               = createProperty(NS, "aimChatID");
+    public final URI made                    = createProperty(NS, "made");
+    public final URI workInfoHomepage        = createProperty(NS, "workInfoHomepage");
+    public final URI currentProject          = createProperty(NS, "currentProject");
+    public final URI holdsAccount            = createProperty(NS, "holdsAccount");
+    public final URI publications            = createProperty(NS, "publications");
+    public final URI sha1                    = createProperty(NS, "sha1");
+    public final URI gender                  = createProperty(NS, "gender");
+    public final URI mbox                    = createProperty(NS, "mbox");
+    public final URI myersBriggs             = createProperty(NS, "myersBriggs");
+    public final URI plan                    = createProperty(NS, "plan");
+    public final URI pastProject             = createProperty(NS, "pastProject");
+    public final URI schoolHomepage          = createProperty(NS, "schoolHomepage");
+    public final URI family_name             = createProperty(NS, "family_name");
+    public final URI msnChatID               = createProperty(NS, "msnChatID");
+    public final URI theme                   = createProperty(NS, "theme");
+    public final URI topic                   = createProperty(NS, "topic");
+    public final URI dnaChecksum             = createProperty(NS, "dnaChecksum");
+    public final URI nick                    = createProperty(NS, "nick");
+    public final URI jabberID                = createProperty(NS, "jabberID");
+
+    // Resources.
+    public final URI Person                  = createResource(NS, "Person");
+    public final URI PersonalProfileDocument = createResource(NS, "PersonalProfileDocument");
+    public final URI Project                 = createResource(NS, "Project");
+    public final URI OnlineChatAccount       = createResource(NS, "OnlineChatAccount");
+    public final URI OnlineAccount           = createResource(NS, "OnlineAccount");
+    public final URI Agent                   = createResource(NS, "Agent");
+    public final URI Group                   = createResource(NS, "Group");
+    public final URI OnlineGamingAccount     = createResource(NS, "OnlineGamingAccount");
+    public final URI OnlineEcommerceAccount  = createResource(NS, "OnlineEcommerceAccount");
+    public final URI Document                = createResource(NS, "Document");
+    public final URI Organization            = createResource(NS, "Organization");
+    public final URI Image                   = createResource(NS, "Image");
 
     private FOAF(){}
     

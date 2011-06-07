@@ -48,6 +48,8 @@ import static org.deri.any23.extractor.html.HTMLDocument.TextField;
  */
 public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final VCARD vCARD = VCARD.getInstance();
+
     private HCardName name = new HCardName();
     
     private HTMLDocument fragment;
@@ -119,27 +121,27 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         foundSomething |= addFn(card);
         foundSomething |= addNames(card);
         foundSomething |= addOrganizationName(card);
-        foundSomething |= addStringProperty("sort-string", card, VCARD.sort_string);
+        foundSomething |= addStringProperty("sort-string", card, vCARD.sort_string);
         foundSomething |= addUrl(card);
         foundSomething |= addEmail(card);
         foundSomething |= addPhoto(card);
         foundSomething |= addLogo(card);
         foundSomething |= addUid(card);
         foundSomething |= addClass(card);
-        foundSomething |= addStringProperty("bday", card, VCARD.bday);
-        foundSomething |= addStringProperty("rev", card, VCARD.rev);
-        foundSomething |= addStringProperty("tz", card, VCARD.tz);
+        foundSomething |= addStringProperty("bday", card, vCARD.bday);
+        foundSomething |= addStringProperty("rev", card, vCARD.rev);
+        foundSomething |= addStringProperty("tz", card, vCARD.tz);
         foundSomething |= addCategory(card);
-        foundSomething |= addStringProperty("card", card, VCARD.class_);
-        foundSomething |= addSubMicroformat("adr", card, VCARD.adr);
+        foundSomething |= addStringProperty("card", card, vCARD.class_);
+        foundSomething |= addSubMicroformat("adr", card, vCARD.adr);
         foundSomething |= addTelephones(card);
-        foundSomething |= addStringProperty("title", card, VCARD.title);
-        foundSomething |= addStringProperty("role", card, VCARD.role);
-        foundSomething |= addStringMultiProperty("note", card, VCARD.note);
-        foundSomething |= addSubMicroformat("geo", card, VCARD.geo);
+        foundSomething |= addStringProperty("title", card, vCARD.title);
+        foundSomething |= addStringProperty("role", card, vCARD.role);
+        foundSomething |= addStringMultiProperty("note", card, vCARD.note);
+        foundSomething |= addSubMicroformat("geo", card, vCARD.geo);
 
         if (!foundSomething) return false;
-        out.writeTriple(card, RDF.TYPE, VCARD.VCard);
+        out.writeTriple(card, RDF.TYPE, vCARD.VCard);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
         tser.addResourceRoot( DomUtils.getXPathListForNode(node), card, getDescription().getExtractorName() );
@@ -180,11 +182,11 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addTel(Resource card, String type, String value) {
         URI tel = super.fixLink(value, "tel");
-        URI composed = VCARD.getProperty(type + "Tel");
+        URI composed = vCARD.getProperty(type + "Tel", null);
         if (composed == null) {
-            URI simple = VCARD.getProperty(type);
+            URI simple = vCARD.getProperty(type, null);
             if (simple == null) {
-                return conditionallyAddResourceProperty(card, VCARD.tel, tel);
+                return conditionallyAddResourceProperty(card, vCARD.tel, tel);
             }
             return conditionallyAddResourceProperty(card, simple, tel);
         }
@@ -243,7 +245,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             found |= conditionallyAddStringProperty(
                     extractorName,
                     category.source(),
-                    card, VCARD.category, category.value()
+                    card, vCARD.category, category.value()
             );
         }
         return found;
@@ -254,7 +256,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fragment.getDocument(),
-                card, VCARD.uid, uid.value()
+                card, vCARD.uid, uid.value()
         );
     }
 
@@ -263,7 +265,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fragment.getDocument(),
-                card, VCARD.class_, class_.value()
+                card, vCARD.class_, class_.value()
         );
     }
 
@@ -272,7 +274,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         boolean found = false;
         for (TextField link : links) {
             found |= conditionallyAddResourceProperty(
-                    card, VCARD.logo, getHTMLDocument().resolveURI(link.value())
+                    card, vCARD.logo, getHTMLDocument().resolveURI(link.value())
             );
         }
         return found;
@@ -283,7 +285,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         boolean found = false;
         for (TextField link : links) {
             found |= conditionallyAddResourceProperty(
-                    card, VCARD.photo, getHTMLDocument().resolveURI(link.value())
+                    card, vCARD.photo, getHTMLDocument().resolveURI(link.value())
             );
         }
         return found;
@@ -293,7 +295,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         String email = dropSubject(fragment.getSingularUrlField("email").value());
         return conditionallyAddResourceProperty(
                 card,
-                VCARD.email,
+                vCARD.email,
                 fixLink(email, "mailto")
         );
     }
@@ -315,7 +317,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private void addFieldTriple(String extractor, Node n, BNode bn, String fieldName, String fieldValue) {
         conditionallyAddLiteralProperty(
-                extractor, n, bn, VCARD.getProperty(fieldName), valueFactory.createLiteral(fieldValue)
+                extractor, n, bn, vCARD.getProperty(fieldName), valueFactory.createLiteral(fieldValue)
         );
     }
 
@@ -325,9 +327,9 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         addBNodeProperty(
                 extractorName,
                 this.fragment.getDocument(),
-                card, VCARD.n, n
+                card, vCARD.n, n
         );
-        addURIProperty(n, RDF.TYPE, VCARD.Name);
+        addURIProperty(n, RDF.TYPE, vCARD.Name);
 
         for (String fieldName : HCardName.FIELDS) {
             if (!name.containsField(fieldName)) {
@@ -367,7 +369,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         return conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fullNameTextField.source(),
-                card, VCARD.fn, fullNameTextField.value() 
+                card, vCARD.fn, fullNameTextField.value()
         );
     }
 
@@ -395,21 +397,21 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         addBNodeProperty(
                 extractorName,
                 this.fragment.getDocument(),
-                card, VCARD.org, org
+                card, vCARD.org, org
         );
-        addURIProperty(org, RDF.TYPE, VCARD.Organization);
+        addURIProperty(org, RDF.TYPE, vCARD.Organization);
         final TextField organizationTextField = name.getOrganization();
         conditionallyAddLiteralProperty(
                 extractorName,
                 organizationTextField.source(),
-                org, VCARD.organization_name, valueFactory.createLiteral( organizationTextField.value() )
+                org, vCARD.organization_name, valueFactory.createLiteral( organizationTextField.value() )
         );
         final TextField organizationUnitTextField = name.getOrganizationUnit();
         if(organizationUnitTextField != null) {
             conditionallyAddStringProperty(
                     extractorName,
                     organizationUnitTextField.source(),
-                    org, VCARD.organization_unit, organizationUnitTextField.value()
+                    org, vCARD.organization_unit, organizationUnitTextField.value()
             );
         }
         return true;
@@ -419,7 +421,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         TextField[] links = fragment.getPluralUrlField("url");
         boolean found = false;
         for (TextField link : links) {
-            found |= conditionallyAddResourceProperty(card, VCARD.url, getHTMLDocument().resolveURI(link.value()));
+            found |= conditionallyAddResourceProperty(card, vCARD.url, getHTMLDocument().resolveURI(link.value()));
         }
         return found;
     }

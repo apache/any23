@@ -40,6 +40,11 @@ import java.util.Set;
  */
 public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+    private static final FOAF    vFOAF    = FOAF.getInstance();
+    private static final DOAC    vDOAC    = DOAC.getInstance();
+    private static final VCARD   vVCARD   = VCARD.getInstance();
+
     protected ExtractorFactory<?> getExtractorFactory() {
         return HResumeExtractor.factory;
     }
@@ -49,23 +54,23 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("html/html-without-uf.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
     public void testLinkedIn() throws RepositoryException {
         assertExtracts("microformats/hresume/steveganz.html");
         Assert.assertFalse(conn.isEmpty());
-        assertStatementsSize(RDF.TYPE, FOAF.Person, 1);
+        assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
-        Resource person = findExactlyOneBlankSubject(RDF.TYPE, FOAF.Person);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
 
-        assertContains(person, DOAC.summary, (Resource) null);
+        assertContains(person, vDOAC.summary, (Resource) null);
 
         assertContains(
                 person,
-                DOAC.summary,
+                vDOAC.summary,
                 "Steve Ganz is passionate about connecting people,\n" +
                         "semantic markup, sushi, and disc golf - not necessarily in that order.\n" +
                         "Currently obsessed with developing the user experience at LinkedIn,\n" +
@@ -73,13 +78,13 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
                         "professional who has been building human-computer interfaces since 1994.");
 
 
-        assertContains(person, FOAF.isPrimaryTopicOf, (Resource) null);
+        assertContains(person, vFOAF.isPrimaryTopicOf, (Resource) null);
 
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
-        assertStatementsSize(DOAC.experience, (Value) null, 7);
-        assertStatementsSize(DOAC.education, (Value) null, 2);
-        assertStatementsSize(DOAC.affiliation, (Value) null, 8);
+        assertStatementsSize(vDOAC.experience , (Value) null, 7);
+        assertStatementsSize(vDOAC.education  , (Value) null, 2);
+        assertStatementsSize(vDOAC.affiliation, (Value) null, 8);
     }
 
     @Test
@@ -88,14 +93,14 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hresume/steveganz.html");
         Assert.assertFalse(conn.isEmpty());
 
-        assertStatementsSize(RDF.TYPE, FOAF.Person, 1);
+        assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
-		assertStatementsSize(DOAC.experience , (Value) null, 7 );
-		assertStatementsSize(DOAC.education  , (Value) null, 2 );
-		assertStatementsSize(DOAC.affiliation, (Value) null, 8 );
-		assertStatementsSize(DOAC.skill      , (Value) null, 17);
+		assertStatementsSize(vDOAC.experience , (Value) null, 7 );
+		assertStatementsSize(vDOAC.education  , (Value) null, 2 );
+		assertStatementsSize(vDOAC.affiliation, (Value) null, 8 );
+		assertStatementsSize(vDOAC.skill      , (Value) null, 17);
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, DOAC.organization, null, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, vDOAC.organization, null, false);
 
         Set<String> checkSet = new HashSet<String>();
 
@@ -125,9 +130,9 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
         for(String name: names)
             Assert.assertTrue(checkSet.contains(name));
 
-		Resource person = findExactlyOneBlankSubject(RDF.TYPE, FOAF.Person);
-        assertContains(person, FOAF.isPrimaryTopicOf, (Value) null);
-        findExactlyOneObject(person, FOAF.isPrimaryTopicOf);
+		Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        assertContains(person, vFOAF.isPrimaryTopicOf, (Value) null);
+        findExactlyOneObject(person, vFOAF.isPrimaryTopicOf);
     }
 
     @Test
@@ -136,15 +141,15 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
         Assert.assertFalse(conn.isEmpty());
         assertModelNotEmpty();
 
-        assertStatementsSize(RDF.TYPE, FOAF.Person, 1);
+        assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
 
-        Resource person = findExactlyOneBlankSubject(RDF.TYPE, FOAF.Person);
-        assertContains(person, DOAC.summary, (Resource) null);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        assertContains(person, vDOAC.summary, (Resource) null);
 
         assertContains(
                 person,
-                DOAC.summary,
+                vDOAC.summary,
                 "Senior Systems\n              Analyst/Developer.\n              " +
                         "Experienced in the analysis, design and\n              " +
                         "implementation of distributed, multi-tier\n              " +
@@ -153,14 +158,14 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
                         "              Web.");
 
 
-        assertContains(person, FOAF.isPrimaryTopicOf, (Resource) null);
+        assertContains(person, vFOAF.isPrimaryTopicOf, (Resource) null);
 
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
-        assertStatementsSize(DOAC.experience , (Value) null, 16);
-        assertStatementsSize(DOAC.education  , (Value) null, 2 );
-        assertStatementsSize(DOAC.affiliation, (Value) null, 0 );
-        assertStatementsSize(DOAC.skill      , (Value) null, 4 );
+        assertStatementsSize(vDOAC.experience , (Value) null, 16);
+        assertStatementsSize(vDOAC.education  , (Value) null, 2 );
+        assertStatementsSize(vDOAC.affiliation, (Value) null, 0 );
+        assertStatementsSize(vDOAC.skill      , (Value) null, 4 );
     }
 
 }

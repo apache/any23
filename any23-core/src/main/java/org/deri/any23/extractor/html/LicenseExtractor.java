@@ -42,6 +42,8 @@ import java.util.Arrays;
  */
 public class LicenseExtractor implements TagSoupDOMExtractor {
 
+    private static final XHTML vXHTML = XHTML.getInstance();
+
     public final static ExtractorFactory<LicenseExtractor> factory =
             SimpleExtractorFactory.create(
                     "html-mf-license",
@@ -65,7 +67,7 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
                 );
                 continue;
             }
-            out.writeTriple(documentURI, XHTML.license, document.resolveURI(link));
+            out.writeTriple(documentURI, vXHTML.license, document.resolveURI(link));
         }
     }
 

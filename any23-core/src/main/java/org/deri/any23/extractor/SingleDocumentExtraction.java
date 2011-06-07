@@ -67,6 +67,8 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
     private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
@@ -462,7 +464,7 @@ public class SingleDocumentExtraction {
                 for (ResourceRoot resourceRoot : resourceRoots) {
                     output.receiveTriple(
                             resourceRoot.getRoot(),
-                            SINDICE.getProperty(SINDICE.DOMAIN),
+                            vSINDICE.getProperty(SINDICE.DOMAIN),
                             ValueFactoryImpl.getInstance().createLiteral(domain),
                             null,
                             context
@@ -553,7 +555,7 @@ public class SingleDocumentExtraction {
                 for (ResourceRoot resourceRoot : resourceRoots) {
                     output.receiveTriple(
                             resourceRoot.getRoot(),
-                            SINDICE.getProperty(SINDICE.DOMAIN),
+                            vSINDICE.getProperty(SINDICE.DOMAIN),
                             ValueFactoryImpl.getInstance().createLiteral(domain),
                             null,
                             context
@@ -584,7 +586,7 @@ public class SingleDocumentExtraction {
         String xsdDateTimeNow = RDFHelper.toXSDDateTime(new Date());
         output.receiveTriple(
                 new URIImpl(documentURI.toString()),
-                SINDICE.getProperty(SINDICE.DATE),
+                vSINDICE.getProperty(SINDICE.DATE),
                 ValueFactoryImpl.getInstance().createLiteral(xsdDateTimeNow),
                 null,
                 context
@@ -600,7 +602,7 @@ public class SingleDocumentExtraction {
         }
         output.receiveTriple(
                 new URIImpl(documentURI.toString()),
-                SINDICE.getProperty(SINDICE.SIZE),
+                vSINDICE.getProperty(SINDICE.SIZE),
                 ValueFactoryImpl.getInstance().createLiteral(numberOfTriples + 1), // the number of triples plus itself
                 null,
                 context
@@ -622,17 +624,17 @@ public class SingleDocumentExtraction {
         final BNode fromObject = from.getObject();
         final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
         BNode bnode = RDFHelper.getBNode(bNodeHash);
-        th.receiveTriple(bnode, SINDICE.getProperty(SINDICE.NESTING_ORIGINAL), from.getProperty(), null, ec );
+        th.receiveTriple(bnode, vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), from.getProperty(), null, ec );
         th.receiveTriple(
                 bnode,
-                SINDICE.getProperty(SINDICE.NESTING_STRUCTURED),
+                vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED),
                 from.getObject() == null ? to.getRoot() : from.getObject(),
                 null,
                 ec
         );
         th.receiveTriple(
                 from.getSubject(),
-                SINDICE.getProperty(SINDICE.NESTING),
+                vSINDICE.getProperty(SINDICE.NESTING),
                 bnode,
                 null,
                 ec

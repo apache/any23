@@ -11,30 +11,39 @@ public class HRECIPE extends Vocabulary {
 
     public static final String NS = SINDICE.NS + "hrecipe/";
 
-    // Classes.
-    public static URI Recipe     = createURI(NS, "Recipe");
-    public static URI Duration   = createURI(NS, "Duration");
-    public static URI Ingredient = createURI(NS, "Ingredient");
-    public static URI Nutrition  = createURI(NS, "Nutrition");
+    private static HRECIPE instance;
+
+    public static HRECIPE getInstance() {
+        if(instance == null) {
+            instance = new HRECIPE();
+        }
+        return instance;
+    }
+
+    // Resources.
+    public URI Recipe     = createResource(NS, "Recipe");
+    public URI Duration   = createResource(NS, "Duration");
+    public URI Ingredient = createResource(NS, "Ingredient");
+    public URI Nutrition  = createResource(NS, "Nutrition");
 
     // Properties.
-    public static URI fn                     = createURI(NS, "fn");
-    public static URI duration               = createURI(NS, "duration");
-    public static URI durationTitle          = createURI(NS, "durationTitle");
-    public static URI durationTime           = createURI(NS, "durationTime");
-    public static URI photo                  = createURI(NS, "photo");
-    public static URI summary                = createURI(NS, "summary");
-    public static URI author                 = createURI(NS, "author");
-    public static URI published              = createURI(NS, "published");
-    public static URI nutrition              = createURI(NS, "nutrition");
-    public static URI nutritionValue         = createURI(NS, "nutritionValue");
-    public static URI nutritionValueType     = createURI(NS, "nutritionValueType");
-    public static URI tag                    = createURI(NS, "tag");
-    public static URI ingredient             = createURI(NS, "ingredient");
-    public static URI ingredientName         = createURI(NS, "ingredientName");
-    public static URI ingredientQuantity     = createURI(NS, "ingredientQuantity");
-    public static URI ingredientQuantityType = createURI(NS, "ingredientQuantityType");
-    public static URI instructions           = createURI(NS, "instructions");
-    public static URI yield                  = createURI(NS, "yield");
+    public URI fn                     = createProperty(NS, "fn");
+    public URI duration               = createProperty(NS, "duration");
+    public URI durationTitle          = createProperty(NS, "durationTitle");
+    public URI durationTime           = createProperty(NS, "durationTime");
+    public URI photo                  = createProperty(NS, "photo");
+    public URI summary                = createProperty(NS, "summary");
+    public URI author                 = createProperty(NS, "author");
+    public URI published              = createProperty(NS, "published");
+    public URI nutrition              = createProperty(NS, "nutrition");
+    public URI nutritionValue         = createProperty(NS, "nutritionValue");
+    public URI nutritionValueType     = createProperty(NS, "nutritionValueType");
+    public URI tag                    = createProperty(NS, "tag");
+    public URI ingredient             = createProperty(NS, "ingredient");
+    public URI ingredientName         = createProperty(NS, "ingredientName");
+    public URI ingredientQuantity     = createProperty(NS, "ingredientQuantity");
+    public URI ingredientQuantityType = createProperty(NS, "ingredientQuantityType");
+    public URI instructions           = createProperty(NS, "instructions");
+    public URI yield                  = createProperty(NS, "yield");
 
 }

@@ -34,6 +34,8 @@ import org.openrdf.model.Value;
  */
 public class IgnoreAccidentalRDFa implements TripleHandler {
 
+    private static final XHTML vXHTML = XHTML.getInstance();
+
     private final ExtractionContextBlocker blocker;
 
     private final boolean suppressStylesheetTriples;
@@ -60,7 +62,7 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
         // Suppress stylesheet triples.
-        if(suppressStylesheetTriples && p.stringValue().equals(XHTML.stylesheet.stringValue())) {
+        if(suppressStylesheetTriples && p.stringValue().equals(vXHTML.stylesheet.stringValue())) {
             return;
         }
         if (isRDFaContext(context)) {

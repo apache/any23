@@ -34,6 +34,8 @@ import java.util.List;
  */
 public class AdrExtractorTest extends AbstractExtractorTestCase {
 
+    private static final VCARD vVCARD = VCARD.getInstance();
+
     protected ExtractorFactory<?> getExtractorFactory() {
         return AdrExtractor.factory;
     }
@@ -42,7 +44,7 @@ public class AdrExtractorTest extends AbstractExtractorTestCase {
     public void testVCardMultiAddress() throws RepositoryException {
         assertExtracts("microformats/hcard/lastfm-adr-multi-address.html");
         assertModelNotEmpty();
-        List<Resource> addresses = findSubjects(RDF.TYPE, VCARD.Address);
+        List<Resource> addresses = findSubjects(RDF.TYPE, vVCARD.Address);
         for (Resource address : addresses) {
             int size = getStatementsSize(address, null, null);
             Assert.assertTrue(

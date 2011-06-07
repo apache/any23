@@ -53,6 +53,11 @@ import java.util.Map;
  */
 public class RDFMergerTest extends AbstractExtractorTestCase {
 
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final FOAF    vFOAF    = FOAF.getInstance();
+    private static final REVIEW  vREVIEW  = REVIEW.getInstance();
+    private static final VCARD   vVCARD   = VCARD.getInstance();
+
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
         return null;
@@ -68,16 +73,16 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
     public void test01XFNFoaf() throws RepositoryException {
 		assertExtracts("mixed/01-xfn-foaf.html");
         Assert.assertFalse(conn.isEmpty());
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
-        Resource vcard = findExactlyOneBlankSubject(RDF.TYPE, VCARD.VCard);
-        RepositoryResult<Statement> statements = conn.getStatements(null, FOAF.topic, vcard, false);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
+        Resource vcard = findExactlyOneBlankSubject(RDF.TYPE, vVCARD.VCard);
+        RepositoryResult<Statement> statements = conn.getStatements(null, vFOAF.topic, vcard, false);
 
         try {
             while(statements.hasNext()) {
                 Statement statement = statements.next();
                 Resource person = statement.getSubject();
                 Resource blank = findExactlyOneBlankSubject(OWL.SAMEAS, person);
-		        assertContains(blank, RDF.TYPE, FOAF.Person);
+		        assertContains(blank, RDF.TYPE, vFOAF.Person);
 
             }
 
@@ -93,42 +98,42 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 	public void testAbbrTitleEverything() throws ExtractionException, IOException, RepositoryException {
 		extractHCardAndRelated("microformats/hcard/23-abbr-title-everything.html");
 
-		assertContains(VCARD.fn, "John Doe");
-		assertContains(VCARD.nickname, "JJ");
+		assertContains(vVCARD.fn, "John Doe");
+		assertContains(vVCARD.nickname, "JJ");
 
-		assertContains(VCARD.given_name, "Jonathan");
-		assertContains(VCARD.additional_name, "John");
-		assertContains(VCARD.family_name, "Doe-Smith");
-		assertContains(VCARD.honorific_suffix, "Medical Doctor");
-        assertContains(VCARD.title, "President");
-		assertContains(VCARD.role, "Chief");
-		assertContains(VCARD.tz, "-0700");
-		assertContains(VCARD.bday, "2006-04-04");
-		assertContains(VCARD.tel, RDFHelper.uri("tel:415.555.1234"));
-		assertContains(VCARD.uid, "abcdefghijklmnopqrstuvwxyz");
-		assertContains(VCARD.class_, "public");
-		assertContains(VCARD.note, "this is a note");
-		assertContains(VCARD.organization_name, "Intellicorp");
-		assertContains(VCARD.organization_unit, "Intelligence");
-        assertContains(RDF.TYPE, VCARD.Location);
-		assertContains(VCARD.geo, (Resource) null);
-		assertContains(VCARD.latitude, "37.77");
-		assertContains(VCARD.longitude, "-122.41");
-        assertContains(VCARD.post_office_box, "Box 1234");
-		assertContains(VCARD.extended_address, "Suite 100");
-		assertContains(VCARD.street_address, "123 Fake Street");
-		assertContains(VCARD.locality, "San Francisco");
-		assertContains(VCARD.region, "California");
-		assertContains(VCARD.postal_code, "12345-6789");
-		assertContains(VCARD.country_name, "United States of America");
-		assertContains(VCARD.addressType, "work");
+		assertContains(vVCARD.given_name, "Jonathan");
+		assertContains(vVCARD.additional_name, "John");
+		assertContains(vVCARD.family_name, "Doe-Smith");
+		assertContains(vVCARD.honorific_suffix, "Medical Doctor");
+        assertContains(vVCARD.title, "President");
+		assertContains(vVCARD.role, "Chief");
+		assertContains(vVCARD.tz, "-0700");
+		assertContains(vVCARD.bday, "2006-04-04");
+		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
+		assertContains(vVCARD.class_, "public");
+		assertContains(vVCARD.note, "this is a note");
+		assertContains(vVCARD.organization_name, "Intellicorp");
+		assertContains(vVCARD.organization_unit, "Intelligence");
+        assertContains(RDF.TYPE, vVCARD.Location);
+		assertContains(vVCARD.geo, (Resource) null);
+		assertContains(vVCARD.latitude, "37.77");
+		assertContains(vVCARD.longitude, "-122.41");
+        assertContains(vVCARD.post_office_box, "Box 1234");
+		assertContains(vVCARD.extended_address, "Suite 100");
+		assertContains(vVCARD.street_address, "123 Fake Street");
+		assertContains(vVCARD.locality, "San Francisco");
+		assertContains(vVCARD.region, "California");
+		assertContains(vVCARD.postal_code, "12345-6789");
+		assertContains(vVCARD.country_name, "United States of America");
+		assertContains(vVCARD.addressType, "work");
 	}
 
     @Test
     public void testAdr() throws ExtractionException, IOException, RepositoryException {
 		extractHRevAndRelated("microformats/hcard/22-adr.html");
 
-		assertStatementsSize(RDF.TYPE, VCARD.Address, 4);
+		assertStatementsSize(RDF.TYPE, vVCARD.Address, 4);
 
 		Map<String,String[]> addresses = new HashMap<String,String[]>(4);
         addresses.put(
@@ -169,19 +174,19 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                         "California"
                 });
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.Address, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.Address, false);
 
         try {
             while (statements.hasNext()) {
                 Resource adr = statements.next().getSubject();
-                RepositoryResult<Statement> innerStatements = conn.getStatements(adr, VCARD.street_address, null, false);
+                RepositoryResult<Statement> innerStatements = conn.getStatements(adr, vVCARD.street_address, null, false);
                 try {
                     while (innerStatements.hasNext()) {
                         Value innerValue = innerStatements.next().getObject();
-                        assertContains(adr, VCARD.country_name, addresses.get(innerValue.stringValue())[0]);
-                        assertContains(adr, VCARD.locality, addresses.get(innerValue.stringValue())[1]);
-                        assertContains(adr, VCARD.postal_code, addresses.get(innerValue.stringValue())[2]);
-                        assertContains(adr, VCARD.region, addresses.get(innerValue.stringValue())[3]);
+                        assertContains(adr, vVCARD.country_name, addresses.get(innerValue.stringValue())[0]);
+                        assertContains(adr, vVCARD.locality, addresses.get(innerValue.stringValue())[1]);
+                        assertContains(adr, vVCARD.postal_code, addresses.get(innerValue.stringValue())[2]);
+                        assertContains(adr, vVCARD.region, addresses.get(innerValue.stringValue())[3]);
                     }
 
                 } finally {
@@ -194,21 +199,21 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
             statements.close();
         }
 
-		assertContains(VCARD.post_office_box, "PO Box 1234");
-        assertContains(VCARD.addressType, "home");
+		assertContains(vVCARD.post_office_box, "PO Box 1234");
+        assertContains(vVCARD.addressType, "home");
 	}
 
     @Test
 	public void testGeoAbbr() throws ExtractionException, IOException, RepositoryException {
 		extractHCardAndRelated("microformats/hcard/25-geo-abbr.html");
 		Assert.assertFalse(conn.isEmpty());
-		assertContains(VCARD.fn, "Paradise");
-		assertContains(RDF.TYPE, VCARD.Organization);
-		assertContains(VCARD.organization_name, "Paradise");
-		assertContains(RDF.TYPE, VCARD.Location);
-		assertContains(VCARD.geo, (Resource) null);
-		assertContains(VCARD.latitude, "30.267991");
-		assertContains(VCARD.longitude, "-97.739568");
+		assertContains(vVCARD.fn, "Paradise");
+		assertContains(RDF.TYPE, vVCARD.Organization);
+		assertContains(vVCARD.organization_name, "Paradise");
+		assertContains(RDF.TYPE, vVCARD.Location);
+		assertContains(vVCARD.geo, (Resource) null);
+		assertContains(vVCARD.latitude, "30.267991");
+		assertContains(vVCARD.longitude, "-97.739568");
 	}
 
     @Test
@@ -216,73 +221,73 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		extractHCardAndRelated("microformats/hcard/26-ancestors.html");
         Assert.assertFalse(conn.isEmpty());
 		
-        assertContains(VCARD.fn, "John Doe");
-		assertNotContains(null, VCARD.fn,
+        assertContains(vVCARD.fn, "John Doe");
+		assertNotContains(null, vVCARD.fn,
 		    "Mister Jonathan John Doe-Smith Medical Doctor");
-		assertContains(VCARD.nickname, "JJ");
-		assertContains(RDF.TYPE, VCARD.Address);
-		assertContains(VCARD.tz, "-0700");
-		assertContains(VCARD.title, "President");
-		assertContains(VCARD.role, "Chief");
-		assertContains(VCARD.organization_name, "Intellicorp");
-		assertContains(VCARD.organization_unit, "Intelligence");
+		assertContains(vVCARD.nickname, "JJ");
+		assertContains(RDF.TYPE, vVCARD.Address);
+		assertContains(vVCARD.tz, "-0700");
+		assertContains(vVCARD.title, "President");
+		assertContains(vVCARD.role, "Chief");
+		assertContains(vVCARD.organization_name, "Intellicorp");
+		assertContains(vVCARD.organization_unit, "Intelligence");
 
-		assertContains(VCARD.tel, RDFHelper.uri("tel:415.555.1234"));
-		assertContains(VCARD.uid, "abcdefghijklmnopqrstuvwxyz");
-		assertContains(VCARD.note, "this is a note");
-		assertContains(VCARD.class_, "public");
+		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
+		assertContains(vVCARD.note, "this is a note");
+		assertContains(vVCARD.class_, "public");
 
-		assertContains(RDF.TYPE, VCARD.Location);
-		assertContains(VCARD.geo, (Resource) null);
-		assertContains(null, VCARD.latitude, "37.77");
-		assertContains(null, VCARD.longitude, "-122.41");
+		assertContains(RDF.TYPE, vVCARD.Location);
+		assertContains(vVCARD.geo, (Resource) null);
+		assertContains(null, vVCARD.latitude, "37.77");
+		assertContains(null, vVCARD.longitude, "-122.41");
 
-		assertContains(RDF.TYPE, VCARD.Name);
-		assertContains(VCARD.additional_name, "John");
-		assertContains(VCARD.given_name, "Jonathan");
-		assertContains(VCARD.family_name, "Doe-Smith");
-		assertContains(VCARD.honorific_prefix, "Mister");
-		assertContains(VCARD.honorific_suffix, "Medical Doctor");
+		assertContains(RDF.TYPE, vVCARD.Name);
+		assertContains(vVCARD.additional_name, "John");
+		assertContains(vVCARD.given_name, "Jonathan");
+		assertContains(vVCARD.family_name, "Doe-Smith");
+		assertContains(vVCARD.honorific_prefix, "Mister");
+		assertContains(vVCARD.honorific_suffix, "Medical Doctor");
 
-		assertContains(VCARD.post_office_box, "Box 1234");
-		assertContains(VCARD.extended_address, "Suite 100");
-		assertContains(VCARD.street_address, "123 Fake Street");
-		assertContains(VCARD.locality, "San Francisco");
-		assertContains(VCARD.region, "California");
-		assertContains(VCARD.postal_code, "12345-6789");
-		assertContains(VCARD.country_name, "United States of America");
-		assertContains(VCARD.addressType, "work");
+		assertContains(vVCARD.post_office_box, "Box 1234");
+		assertContains(vVCARD.extended_address, "Suite 100");
+		assertContains(vVCARD.street_address, "123 Fake Street");
+		assertContains(vVCARD.locality, "San Francisco");
+		assertContains(vVCARD.region, "California");
+		assertContains(vVCARD.postal_code, "12345-6789");
+		assertContains(vVCARD.country_name, "United States of America");
+		assertContains(vVCARD.addressType, "work");
 	}
 
     @Test
     public void testSingleton() throws ExtractionException, IOException, RepositoryException {
         extractHCardAndRelated("microformats/hcard/37-singleton.html");
         Assert.assertFalse(conn.isEmpty());
-        assertStatementsSize(VCARD.fn, (Value) null, 1);
-        assertContains(VCARD.fn, "john doe 1");
-        assertStatementsSize(RDF.TYPE, VCARD.Name, 1);
-        assertStatementsSize(VCARD.given_name, (Value) null, 1);
-        assertContains(VCARD.given_name, "john");
-        assertStatementsSize(VCARD.family_name, (Value) null, 1);
-        assertContains(VCARD.family_name, "doe");
-        assertStatementsSize(VCARD.sort_string, (Value) null, 1);
-        assertContains(VCARD.sort_string, "d");
-        assertStatementsSize(VCARD.bday, (Value) null, 1);
-        assertContains(VCARD.bday, "20060707");
-        assertStatementsSize(VCARD.rev, (Value) null, 1);
-        assertContains(VCARD.rev, "20060707");
-        assertStatementsSize(VCARD.class_, (Value) null, 1);
-        assertContains(VCARD.class_, "public");
-        assertStatementsSize(VCARD.tz, (Value) null, 1);
-        assertContains(VCARD.tz, "+0600");
+        assertStatementsSize(vVCARD.fn, (Value) null, 1);
+        assertContains(vVCARD.fn, "john doe 1");
+        assertStatementsSize(RDF.TYPE, vVCARD.Name, 1);
+        assertStatementsSize(vVCARD.given_name, (Value) null, 1);
+        assertContains(vVCARD.given_name, "john");
+        assertStatementsSize(vVCARD.family_name, (Value) null, 1);
+        assertContains(vVCARD.family_name, "doe");
+        assertStatementsSize(vVCARD.sort_string, (Value) null, 1);
+        assertContains(vVCARD.sort_string, "d");
+        assertStatementsSize(vVCARD.bday, (Value) null, 1);
+        assertContains(vVCARD.bday, "20060707");
+        assertStatementsSize(vVCARD.rev, (Value) null, 1);
+        assertContains(vVCARD.rev, "20060707");
+        assertStatementsSize(vVCARD.class_, (Value) null, 1);
+        assertContains(vVCARD.class_, "public");
+        assertStatementsSize(vVCARD.tz, (Value) null, 1);
+        assertContains(vVCARD.tz, "+0600");
         // 2 uf, one of them outside the card
-        assertStatementsSize(RDF.TYPE, VCARD.Location, 2);
+        assertStatementsSize(RDF.TYPE, vVCARD.Location, 2);
         // one is actually used
-        assertStatementsSize(VCARD.geo, (Value) null, 2);
-        assertContains(VCARD.latitude, "123.45");
-        assertContains(VCARD.longitude, "67.89");
-        assertStatementsSize(VCARD.uid, (Value) null, 1);
-        assertContains(VCARD.uid, "unique-id-1");
+        assertStatementsSize(vVCARD.geo, (Value) null, 2);
+        assertContains(vVCARD.latitude, "123.45");
+        assertContains(vVCARD.longitude, "67.89");
+        assertStatementsSize(vVCARD.uid, (Value) null, 1);
+        assertContains(vVCARD.uid, "unique-id-1");
     }
 
     @Test
@@ -290,22 +295,22 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		extractHRevAndRelated("microformats/hreview/01-spec.html");
         Assert.assertFalse(conn.isEmpty());
 
-		assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+		assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, item
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 2);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 2);
 		// there is one address in the item vcard
-		assertStatementsSize(RDF.TYPE, VCARD.Address, 1);
+		assertStatementsSize(RDF.TYPE, vVCARD.Address, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
             while(reviews.hasNext()) {
                 Resource review = reviews.next().getSubject();
-                assertContains(review, REVIEW.rating, "5");
-                assertContains(review, REVIEW.title, "Crepes on Cole is awesome");
-			    assertContains(review, DCTERMS.date, "20050418T2300-0700");
+                assertContains(review, vREVIEW.rating, "5");
+                assertContains(review, vREVIEW.title, "Crepes on Cole is awesome");
+			    assertContains(review, vDCTERMS.date, "20050418T2300-0700");
 			    assertContains(
-					REVIEW.text,
+					vREVIEW.text,
 					"Crepes on Cole is one of the best little \n"
 					+ "      creperies in San Francisco.\n      "
 					+ "Excellent food and service. Plenty of tables in a variety of sizes\n"
@@ -315,7 +320,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 					+ "      I've had many fun social gatherings here, as well as gotten\n"
 					+ "      plenty of work done thanks to neighborhood WiFi.");
 
-			assertContains(null, REVIEW.hasReview, review);
+			assertContains(null, vREVIEW.hasReview, review);
             }
         }
         finally {
@@ -323,10 +328,10 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         }
 
 		// generic checks that vcards are correct, improve
-		assertContains(VCARD.fn, "Crepes on Cole");
-		assertContains(VCARD.fn, "Tantek");
-		assertContains(VCARD.locality, "San Francisco");
-		assertContains(VCARD.organization_name, "Crepes on Cole");
+		assertContains(vVCARD.fn, "Crepes on Cole");
+		assertContains(vVCARD.fn, "Tantek");
+		assertContains(vVCARD.locality, "San Francisco");
+		assertContains(vVCARD.organization_name, "Crepes on Cole");
 
 	}
     
@@ -334,25 +339,25 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 	public void test02RatedTags() throws ExtractionException, IOException, RepositoryException {
 		extractHRevAndRelated("microformats/hreview/02-spec-2.html");
 
-		assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
-		assertStatementsSize(REVIEW.hasReview, (Value) null, 1);
+		assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
+		assertStatementsSize(vREVIEW.hasReview, (Value) null, 1);
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+		assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, item
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 2);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 2);
 		// there is one address in the item vcard
-		assertStatementsSize(RDF.TYPE, VCARD.Address, 1);
+		assertStatementsSize(RDF.TYPE, vVCARD.Address, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
             while (reviews.hasNext()) {
                 Resource review = reviews.next().getSubject();
-                assertContains(review, REVIEW.rating, "18");
-                assertContains(review, REVIEW.title, "Cafe Borrone");
-                assertContains(review, DCTERMS.date, "20050428T2130-0700");
-                assertContains(null, REVIEW.hasReview, review);
-                assertContains(REVIEW.type, "business");
+                assertContains(review, vREVIEW.rating, "18");
+                assertContains(review, vREVIEW.title, "Cafe Borrone");
+                assertContains(review, vDCTERMS.date, "20050428T2130-0700");
+                assertContains(null, vREVIEW.hasReview, review);
+                assertContains(vREVIEW.type, "business");
             }
 
         } finally {
@@ -360,9 +365,9 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         }
 
 		// generic checks that vcards are correct, improve
-		assertContains(VCARD.fn, "Cafe Borrone");
-		assertContains(VCARD.fn, "anonymous");
-		assertContains(VCARD.organization_name, "Cafe Borrone");
+		assertContains(vVCARD.fn, "Cafe Borrone");
+		assertContains(vVCARD.fn, "anonymous");
+		assertContains(vVCARD.organization_name, "Cafe Borrone");
         
 	}
 
@@ -371,20 +376,20 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		extractHRevAndRelated("microformats/hreview/03-spec-3.html");
 
         Assert.assertFalse(conn.isEmpty());
-        assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
+        assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
             while (reviews.hasNext()) {
                 Resource review = reviews.next().getSubject();
-                assertContains(review, REVIEW.rating, "5");
-                assertNotContains(REVIEW.title, null);
-                assertContains(review, DCTERMS.date, "200502");
+                assertContains(review, vREVIEW.rating, "5");
+                assertNotContains(vREVIEW.title, null);
+                assertContains(review, vDCTERMS.date, "200502");
 
                 assertContains(
-                        REVIEW.text,
+                        vREVIEW.text,
                         "\"The people thought they were just being rewarded for " +
                                 "treating others\n       as they like to be treated, for " +
                                 "obeying stop signs and curing diseases,\n       for mailing " +
@@ -392,14 +397,14 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                                 "      I plan on sleeping in...\"\n     \n     \"Nothing Better\"" +
                                 " is a great track on this album, too...");
 
-                RepositoryResult<Statement> whatHasAReview = conn.getStatements(null, REVIEW.hasReview, review, false);
+                RepositoryResult<Statement> whatHasAReview = conn.getStatements(null, vREVIEW.hasReview, review, false);
 
                 try {
                     while(whatHasAReview.hasNext()) {
                         Resource subject = whatHasAReview.next().getSubject();
-                        assertContains(subject, VCARD.fn, "The Postal Service: Give Up");
-				        assertContains(subject, VCARD.url, RDFHelper.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
-				        assertContains(subject, VCARD.photo, RDFHelper.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));	
+                        assertContains(subject, vVCARD.fn, "The Postal Service: Give Up");
+				        assertContains(subject, vVCARD.url, RDFHelper.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
+				        assertContains(subject, vVCARD.photo, RDFHelper.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
                     }
 
                 } finally {
@@ -412,8 +417,8 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
             reviews.close();
         }
 
-        assertContains(VCARD.fn, "Adam Rifkin");
-		assertContains(VCARD.url, RDFHelper.uri("http://ifindkarma.com/blog/"));
+        assertContains(vVCARD.fn, "Adam Rifkin");
+		assertContains(vVCARD.url, RDFHelper.uri("http://ifindkarma.com/blog/"));
 	}
 
 	@Override

@@ -37,6 +37,8 @@ import java.util.Arrays;
  */
 public class AdrExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final VCARD vVCARD = VCARD.getInstance();
+
     private static final String[] addressFields = {
             "post-office-box",
             "extended-address",
@@ -61,7 +63,7 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         //try lat & lon
         final HTMLDocument document = new HTMLDocument(node);
         BNode adr = getBlankNodeFor(node);
-        out.writeTriple(adr, RDF.TYPE, VCARD.Address);
+        out.writeTriple(adr, RDF.TYPE, vVCARD.Address);
         final String extractorName = getDescription().getExtractorName();
         for (String field : addressFields) {
             HTMLDocument.TextField[] values = document.getPluralTextField(field);
@@ -69,7 +71,7 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
                 conditionallyAddStringProperty(
                         extractorName,
                         val.source(),
-                        adr, VCARD.getProperty(field), val.value()
+                        adr, vVCARD.getProperty(field), val.value()
                 );
             }
         }
@@ -78,7 +80,7 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
             conditionallyAddStringProperty(
                     extractorName,
                     val.source(),
-                    adr, VCARD.addressType, val.value()
+                    adr, vVCARD.addressType, val.value()
             );
         }
 

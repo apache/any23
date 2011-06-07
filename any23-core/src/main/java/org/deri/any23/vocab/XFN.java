@@ -31,47 +31,56 @@ public class XFN extends Vocabulary {
 
     public static final String NS = "http://vocab.sindice.com/xfn#";
 
-    public static final URI contact      = createProperty("contact");
-    public static final URI acquaintance = createProperty("acquaintance");
-    public static final URI friend       = createProperty("friend");
-    public static final URI met          = createProperty("met");
-    public static final URI coWorker     = createProperty("co-worker");
-    public static final URI colleague    = createProperty("colleague");
-    public static final URI coResident   = createProperty("co-resident");
-    public static final URI neighbor     = createProperty("neighbor");
-    public static final URI child        = createProperty("child");
-    public static final URI parent       = createProperty("parent");
-    public static final URI spouse       = createProperty("spouse");
-    public static final URI kin          = createProperty("kin");
-    public static final URI muse         = createProperty("muse");
-    public static final URI crush        = createProperty("crush");
-    public static final URI date         = createProperty("date");
-    public static final URI sweetheart   = createProperty("sweetheart");
-    public static final URI me           = createProperty("me");
+    private static XFN instance;
 
-    public static final URI mePage = createURI(NS, "mePage");
+    public static XFN getInstance() {
+        if(instance == null) {
+            instance = new XFN();
+        }
+        return instance;
+    }
 
-    private static  Map<String, URI> PeopleXFNProperties;
+    public final URI contact      = createProperty("contact");
+    public final URI acquaintance = createProperty("acquaintance");
+    public final URI friend       = createProperty("friend");
+    public final URI met          = createProperty("met");
+    public final URI coWorker     = createProperty("co-worker");
+    public final URI colleague    = createProperty("colleague");
+    public final URI coResident   = createProperty("co-resident");
+    public final URI neighbor     = createProperty("neighbor");
+    public final URI child        = createProperty("child");
+    public final URI parent       = createProperty("parent");
+    public final URI spouse       = createProperty("spouse");
+    public final URI kin          = createProperty("kin");
+    public final URI muse         = createProperty("muse");
+    public final URI crush        = createProperty("crush");
+    public final URI date         = createProperty("date");
+    public final URI sweetheart   = createProperty("sweetheart");
+    public final URI me           = createProperty("me");
 
-    private static Map<String, URI> HyperlinkXFNProperties;
+    public final URI mePage = createProperty(NS, "mePage");
 
-    public static URI getPropertyByLocalName(String localName) {
+    private  Map<String, URI> PeopleXFNProperties;
+
+    private Map<String, URI> HyperlinkXFNProperties;
+
+    public URI getPropertyByLocalName(String localName) {
         return PeopleXFNProperties.get(localName);
     }
 
-    public static URI getExtendedProperty(String localName) {
+    public URI getExtendedProperty(String localName) {
         return HyperlinkXFNProperties.get(localName);
     }
 
-    public static boolean isXFNLocalName(String localName) {
+    public boolean isXFNLocalName(String localName) {
         return PeopleXFNProperties.containsKey(localName);
     }
 
-    public static boolean isExtendedXFNLocalName(String localName) {
+    public boolean isExtendedXFNLocalName(String localName) {
         return PeopleXFNProperties.containsKey(localName);
     }
 
-    private static URI createProperty(String localName) {
+    private URI createProperty(String localName) {
         if(HyperlinkXFNProperties == null) {
             HyperlinkXFNProperties = new HashMap<String, URI>();
         }
@@ -79,10 +88,10 @@ public class XFN extends Vocabulary {
             PeopleXFNProperties =  new HashMap<String, URI>();
         }
 
-        URI result = createURI(NS + localName + "-hyperlink");
+        URI result = createProperty(NS, localName + "-hyperlink");
         HyperlinkXFNProperties.put(localName, result);
 
-        result = createURI(NS, localName);
+        result = createProperty(NS, localName);
         PeopleXFNProperties.put(localName, result);
         return result;
     }

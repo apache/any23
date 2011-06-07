@@ -35,9 +35,11 @@ import java.util.Collections;
  */
 public class ExampleExtractor implements BlindExtractor {
 
+    private static final FOAF vFOAF = FOAF.getInstance();
+
     public void run(URI in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
-        out.writeTriple(documentURI, RDF.TYPE, FOAF.Document);
+        out.writeTriple(documentURI, RDF.TYPE, vFOAF.Document);
     }
 
     public ExtractorDescription getDescription() {

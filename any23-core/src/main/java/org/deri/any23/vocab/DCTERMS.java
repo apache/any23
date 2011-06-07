@@ -26,13 +26,22 @@ public class DCTERMS extends Vocabulary {
 
     public static final String NS = "http://purl.org/dc/terms/";
 
+    private static DCTERMS instance;
+
+    public static DCTERMS getInstance() {
+        if(instance == null) {
+            instance = new DCTERMS();
+        }
+        return instance;
+    }
+
     // Properties
-    public static final URI license = createURI(NS, "license");
-    public static final URI title   = createURI(NS, "title"  );
-    public static final URI creator = createURI(NS, "creator");
-    public static final URI related = createURI(NS, "related");
-    public static final URI date    = createURI(NS, "date"   );
-    public static final URI source  = createURI(NS, "source" );
+    public final URI license = createProperty(NS, "license");
+    public final URI title   = createProperty(NS, "title"  );
+    public final URI creator = createProperty(NS, "creator");
+    public final URI related = createProperty(NS, "related");
+    public final URI date    = createProperty(NS, "date"   );
+    public final URI source  = createProperty(NS, "source" );
 
     private DCTERMS(){}
 }

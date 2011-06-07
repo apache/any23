@@ -25,10 +25,19 @@ public class XHTML extends Vocabulary {
 
     public static final String NS = "http://www.w3.org/1999/xhtml/vocab#";
 
-    public static final URI license    = createURI(NS, "license"   );
-    public static final URI meta       = createURI(NS, "meta"      );
-    public static final URI alternate  = createURI(NS, "alternate" );
-    public static final URI stylesheet = createURI(NS, "stylesheet");
+    private static XHTML instance;
+
+    public static XHTML getInstance() {
+        if(instance == null) {
+            instance = new XHTML();
+        }
+        return instance;
+    }
+
+    public final URI license    = createProperty(NS, "license"   );
+    public final URI meta       = createProperty(NS, "meta"      );
+    public final URI alternate  = createProperty(NS, "alternate" );
+    public final URI stylesheet = createProperty(NS, "stylesheet");
 
     private XHTML(){}
     

@@ -45,6 +45,9 @@ import java.util.Arrays;
  */
 public class XFNExtractor implements TagSoupDOMExtractor {
 
+    private static final FOAF vFOAF = FOAF.getInstance();
+    private static final XFN  vXFN  = XFN.getInstance();
+
     private final static Any23ValueFactoryWrapper factoryWrapper =
             new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
 
@@ -77,8 +80,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
                 foundAnyXFN |= extractLink(link, subject, documentURI);
             }
             if (!foundAnyXFN) return;
-            out.writeTriple(subject, RDF.TYPE, FOAF.Person);
-            out.writeTriple(subject, XFN.mePage, documentURI);
+            out.writeTriple(subject, RDF.TYPE, vFOAF.Person);
+            out.writeTriple(subject, vXFN.mePage, documentURI);
         } finally {
             factoryWrapper.setErrorReporter(null);
         }
@@ -95,8 +98,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
             if (containsXFNRelExceptMe(rels)) {
                 return false;    // "me" cannot be combined with any other XFN values
             }
-            out.writeTriple(subject, XFN.mePage, link);
-            out.writeTriple(documentURI, XFN.getExtendedProperty("me"), link);
+            out.writeTriple(subject, vXFN.mePage, link);
+            out.writeTriple(documentURI, vXFN.getExtendedProperty("me"), link);
         } else {
             BNode person2 = factoryWrapper.createBNode();
             boolean foundAnyXFNRel = false;
@@ -106,8 +109,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
             if (!foundAnyXFNRel) {
                 return false;
             }
-            out.writeTriple(person2, RDF.TYPE, FOAF.Person);
-            out.writeTriple(person2, XFN.mePage, link);
+            out.writeTriple(person2, RDF.TYPE, vFOAF.Person);
+            out.writeTriple(person2, vXFN.mePage, link);
         }
         return true;
     }
@@ -123,7 +126,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 
     private boolean containsXFNRelExceptMe(String[] rels) {
         for (String rel : rels) {
-            if (!"me".equals(rel.toLowerCase()) && XFN.isXFNLocalName(rel)) {
+            if (!"me".equals(rel.toLowerCase()) && vXFN.isXFNLocalName(rel)) {
                 return true;
             }
         }
@@ -131,8 +134,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
     }
 
     private boolean extractRel(String rel, BNode person1, URI uri1, BNode person2, URI uri2) {
-        URI peopleProp = XFN.getPropertyByLocalName(rel);
-        URI hyperlinkProp = XFN.getExtendedProperty(rel);
+        URI peopleProp = vXFN.getPropertyByLocalName(rel);
+        URI hyperlinkProp = vXFN.getExtendedProperty(rel);
         if (peopleProp == null) {
             return false;
         }

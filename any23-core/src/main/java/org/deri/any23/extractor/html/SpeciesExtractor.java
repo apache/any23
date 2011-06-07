@@ -26,6 +26,8 @@ import java.util.Arrays;
  */
 public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final WO vWO = WO.getInstance();
+
     private static final String[] classes = {
             "kingdom",
             "division",
@@ -86,7 +88,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     @Override
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode biota = getBlankNodeFor(node);
-        conditionallyAddResourceProperty(biota, RDF.TYPE, WO.species);
+        conditionallyAddResourceProperty(biota, RDF.TYPE, vWO.species);
 
         final HTMLDocument fragment = new HTMLDocument(node);
         addNames(fragment, biota);
@@ -106,12 +108,12 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
         HTMLDocument.TextField binomial = doc.getSingularTextField("binomial");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                binomial.source(), biota, WO.scientificName, binomial.value()
+                binomial.source(), biota, vWO.scientificName, binomial.value()
         );
         HTMLDocument.TextField vernacular = doc.getSingularTextField("vernacular");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                vernacular.source(), biota, WO.speciesName, vernacular.value()
+                vernacular.source(), biota, vWO.speciesName, vernacular.value()
         );
     }
 
@@ -128,7 +130,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
             HTMLDocument.TextField classTextField = doc.getSingularUrlField(clazz);
             if(classTextField.source() != null) {
                 BNode classBNode = getBlankNodeFor(classTextField.source());
-                addBNodeProperty(biota, WO.getProperty(clazz), classBNode);
+                addBNodeProperty(biota, vWO.getProperty(clazz), classBNode);
                 conditionallyAddResourceProperty(classBNode, RDF.TYPE, resolveClassName(clazz));
                 HTMLDocument fragment = new HTMLDocument(classTextField.source());
                 addClassesName(fragment, classBNode);
@@ -137,7 +139,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private URI resolvePropertyName(String clazz) {
-        return WO.getProperty(
+        return vWO.getProperty(
                 String.format(
                         "%sName",
                         clazz
@@ -147,7 +149,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
     private URI resolveClassName(String clazz) {
         String upperCaseClass = clazz.substring(0, 1);
-        return WO.getResource(
+        return vWO.getResource(
                 String.format("%s%s",
                         upperCaseClass.toUpperCase(),
                         clazz.substring(1)

@@ -66,6 +66,8 @@ import java.net.URISyntaxException;
  */
 public class Any23Test {
 
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+
     private static final Logger logger = LoggerFactory.getLogger(Any23Test.class);
 
     private String url = "http://bob.com";
@@ -477,7 +479,7 @@ public class Any23Test {
         repositoryWriter = new RepositoryWriter(conn);
         Assert.assertTrue( any23.extract(fileDocumentSource, repositoryWriter, encoding).hasMatchingExtractors() );
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, DCTERMS.title, null, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, vDCTERMS.title, null, false);
         try {
             while (statements.hasNext()) {
                 Statement statement = statements.next();

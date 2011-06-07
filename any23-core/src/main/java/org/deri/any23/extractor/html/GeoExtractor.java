@@ -40,6 +40,8 @@ import static org.deri.any23.extractor.html.HTMLDocument.TextField;
  */
 public class GeoExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final VCARD vVCARD = VCARD.getInstance();
+
     public static final ExtractorFactory<GeoExtractor> factory =
             SimpleExtractorFactory.create(
                 "html-mf-geo",
@@ -77,17 +79,17 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
             lon = both[1];
         }
         BNode geo = getBlankNodeFor(node);
-        out.writeTriple(geo, RDF.TYPE, VCARD.Location);
+        out.writeTriple(geo, RDF.TYPE, vVCARD.Location);
         final String extractorName = getDescription().getExtractorName();
         conditionallyAddStringProperty(
                 extractorName,
                 latNode.source(),
-                geo, VCARD.latitude , lat
+                geo, vVCARD.latitude , lat
         );
         conditionallyAddStringProperty(
                 extractorName,
                 lonNode.source(),
-                geo, VCARD.longitude, lon
+                geo, vVCARD.longitude, lon
         );
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();

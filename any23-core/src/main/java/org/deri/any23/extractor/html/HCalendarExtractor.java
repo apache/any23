@@ -46,6 +46,8 @@ import static org.deri.any23.extractor.html.HTMLDocument.TextField;
  */
 public class HCalendarExtractor extends MicroformatExtractor {
 
+    private static final ICAL vICAL = ICAL.getInstance();
+
     public final static ExtractorFactory<HCalendarExtractor> factory =
             SimpleExtractorFactory.create(
                     "html-mf-hcalendar",
@@ -95,7 +97,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
     private boolean extractCalendar(Node node) throws ExtractionException {
         URI cal = getDocumentURI();
-        addURIProperty(cal, RDF.TYPE, ICAL.Vcalendar);
+        addURIProperty(cal, RDF.TYPE, vICAL.Vcalendar);
         return addComponents(node, cal);
     }
 
@@ -114,13 +116,13 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private boolean extractComponent(Node node, Resource cal, String component) throws ExtractionException {
         HTMLDocument compoNode = new HTMLDocument(node);
         BNode evt = valueFactory.createBNode();
-        addURIProperty(evt, RDF.TYPE, ICAL.getResource(component));
+        addURIProperty(evt, RDF.TYPE, vICAL.getResource(component));
         addTextProps(compoNode, evt);
         addUrl(compoNode, evt);
         addRRule(compoNode, evt);
         addOrganizer(compoNode, evt);
         addUid(compoNode, evt);
-        addBNodeProperty(cal, ICAL.component, evt);
+        addBNodeProperty(cal, vICAL.component, evt);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
         tser.addResourceRoot( compoNode.getPathToLocalRoot(), evt, getDescription().getExtractorName() );
@@ -133,31 +135,31 @@ public class HCalendarExtractor extends MicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 compoNode.getDocument(),
-                evt, ICAL.uid, url.value()
+                evt, vICAL.uid, url.value()
         );
     }
 
     private void addUrl(HTMLDocument compoNode, Resource evt) throws ExtractionException {
         TextField url = compoNode.getSingularUrlField("url");
         if ("".equals(url.value())) return;
-        addURIProperty(evt, ICAL.url, getHTMLDocument().resolveURI(url.value()));
+        addURIProperty(evt, vICAL.url, getHTMLDocument().resolveURI(url.value()));
     }
 
     private void addRRule(HTMLDocument compoNode, Resource evt) {
         for (Node rule : compoNode.findAllByClassName("rrule")) {
             BNode rrule = valueFactory.createBNode();
-            addURIProperty(rrule, RDF.TYPE, ICAL.DomainOf_rrule);
+            addURIProperty(rrule, RDF.TYPE, vICAL.DomainOf_rrule);
             TextField freq = new HTMLDocument(rule).getSingularTextField("freq");
             final String extractorName = getDescription().getExtractorName();
             conditionallyAddStringProperty(
                     extractorName,
                     freq.source(),
-                    rrule, ICAL.freq, freq.value()
+                    rrule, vICAL.freq, freq.value()
             );
             addBNodeProperty(
                     extractorName,
                     rule,
-                    evt, ICAL.rrule, rrule
+                    evt, vICAL.rrule, rrule
             );
         }
     }
@@ -171,12 +173,12 @@ public class HCalendarExtractor extends MicroformatExtractor {
             conditionallyAddStringProperty(
                     extractorName,
                     compoNode.getDocument(),
-                    blank, ICAL.calAddress, mail.value()
+                    blank, vICAL.calAddress, mail.value()
             );
             addBNodeProperty(
                     extractorName,
                     organizer,
-                    evt, ICAL.organizer, blank
+                    evt, vICAL.organizer, blank
             );
         }
     }
@@ -189,7 +191,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
             conditionallyAddStringProperty(
                     extractor,
                     val.source(),
-                    evt, ICAL.getProperty(date), val.value()
+                    evt, vICAL.getProperty(date), val.value()
             );
         }
 
@@ -200,7 +202,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
                         extractor,
                         val.source(),
                         evt,
-                        ICAL.getProperty(date),
+                        vICAL.getProperty(date),
                         RDFUtility.getXSDDate(
                                 val.value(),
                                 DATE_FORMAT
@@ -208,16 +210,16 @@ public class HCalendarExtractor extends MicroformatExtractor {
                 );
             } catch (ParseException e) {
                 // Unparsable date format just leave it as it is.
-                conditionallyAddStringProperty(extractor, val.source(), evt, ICAL.getProperty(date), val.value());
+                conditionallyAddStringProperty(extractor, val.source(), evt, vICAL.getProperty(date), val.value());
             } catch (DatatypeConfigurationException e) {
                 // Unparsable date format just leave it as it is
-                conditionallyAddStringProperty(extractor, val.source(), evt, ICAL.getProperty(date), val.value());
+                conditionallyAddStringProperty(extractor, val.source(), evt, vICAL.getProperty(date), val.value());
             }
         }
 
         HTMLDocument.TextField[] values = node.getPluralTextField("category");
         for (TextField val : values) {
-            conditionallyAddStringProperty(extractor, val.source(), evt, ICAL.categories, val.value());
+            conditionallyAddStringProperty(extractor, val.source(), evt, vICAL.categories, val.value());
         }
     }
 

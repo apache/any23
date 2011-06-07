@@ -31,6 +31,10 @@ import org.openrdf.repository.RepositoryException;
  * 
  */
 public class TitleExtractorTest extends AbstractExtractorTestCase {
+
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+
     private Literal helloLiteral = RDFHelper.literal("Hello World!");
 
     protected ExtractorFactory<?> getExtractorFactory() {
@@ -40,13 +44,13 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtractPageTitle() throws RepositoryException {
         assertExtracts("microformats/xfn/simple-me.html");
-        Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
+        Assert.assertTrue(conn.hasStatement(baseURI, vDCTERMS.title, helloLiteral, false));
     }
 
     @Test
     public void testStripSpacesFromTitle() throws RepositoryException {
         assertExtracts("microformats/xfn/strip-spaces.html");
-        Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
+        Assert.assertTrue(conn.hasStatement(baseURI, vDCTERMS.title, helloLiteral, false));
     }
 
     @Test
@@ -54,14 +58,14 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/xfn/tagsoup.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
         assertExtracts("microformats/xfn/mixed-case.html");
-        Assert.assertTrue(conn.hasStatement(baseURI, DCTERMS.title, helloLiteral, false));
+        Assert.assertTrue(conn.hasStatement(baseURI, vDCTERMS.title, helloLiteral, false));
     }
 
     /**
@@ -73,10 +77,10 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     public void testTitleWithDefaultLanguage() throws RepositoryException {
         assertExtracts("html/default-language.html");
         Assert.assertTrue(
-                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", "en"), false)
+                conn.hasStatement(baseURI, vDCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", "en"), false)
         );
         Assert.assertFalse(
-                conn.hasStatement(baseURI, DCTERMS.title, RDFHelper.literal(
+                conn.hasStatement(baseURI, vDCTERMS.title, RDFHelper.literal(
                         "Welcome to mydomain.net",
                         (String) null),
                         false

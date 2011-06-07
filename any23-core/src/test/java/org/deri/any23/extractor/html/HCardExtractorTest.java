@@ -23,6 +23,9 @@ import java.util.List;
  */
 public class HCardExtractorTest extends AbstractExtractorTestCase {
 
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+    private static final VCARD   vVCARD   = VCARD.getInstance();
+
     protected ExtractorFactory<?> getExtractorFactory() {
         return HCardExtractor.factory;
     }
@@ -32,7 +35,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains(VCARD.email, RDFHelper.uri("mailto:john@example.com"));
+		assertContains(vVCARD.email, RDFHelper.uri("mailto:john@example.com"));
 	}
 
     @Test
@@ -46,12 +49,12 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 				"+1.415.555.1242", "+1.415.555.1243"
         };
 		for (String tel : tels) {
-			assertContains(VCARD.tel, RDFHelper.uri("tel:" + tel));
+			assertContains(vVCARD.tel, RDFHelper.uri("tel:" + tel));
 		}
 		Resource telResource = RDFHelper.uri("tel:+14155551233");
-		assertContains(VCARD.fax, telResource);
-		assertContains(VCARD.workTel, telResource);
-		assertContains(VCARD.homeTel, telResource);
+		assertContains(vVCARD.fax, telResource);
+		assertContains(vVCARD.workTel, telResource);
+		assertContains(vVCARD.homeTel, telResource);
 		assertJohn();
 	}
 
@@ -60,58 +63,58 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/23-abbr-title-everything.html");
 		assertDefaultVCard();
 
-		assertContains(VCARD.fn, "John Doe");
-		assertContains(VCARD.nickname, "JJ");
+		assertContains(vVCARD.fn, "John Doe");
+		assertContains(vVCARD.nickname, "JJ");
 
-		assertContains(VCARD.given_name, "Jonathan");
-		assertContains(VCARD.additional_name, "John");
-		assertContains(VCARD.family_name, "Doe-Smith");
-		assertContains(VCARD.honorific_suffix, "Medical Doctor");
+		assertContains(vVCARD.given_name, "Jonathan");
+		assertContains(vVCARD.additional_name, "John");
+		assertContains(vVCARD.family_name, "Doe-Smith");
+		assertContains(vVCARD.honorific_suffix, "Medical Doctor");
 
-		assertContains(VCARD.title, "President");
-		assertContains(VCARD.role, "Chief");
-		assertContains(VCARD.tz, "-0700");
-		assertContains(VCARD.bday, "2006-04-04");
-		assertContains(VCARD.tel, RDFHelper.uri("tel:415.555.1234"));
-		assertContains(VCARD.uid, "abcdefghijklmnopqrstuvwxyz");
-		assertContains(VCARD.class_, "public");
-		assertContains(VCARD.note, "this is a note");
-		assertContains(VCARD.organization_name, "Intellicorp");
-		assertContains(VCARD.organization_unit, "Intelligence");
+		assertContains(vVCARD.title, "President");
+		assertContains(vVCARD.role, "Chief");
+		assertContains(vVCARD.tz, "-0700");
+		assertContains(vVCARD.bday, "2006-04-04");
+		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
+		assertContains(vVCARD.class_, "public");
+		assertContains(vVCARD.note, "this is a note");
+		assertContains(vVCARD.organization_name, "Intellicorp");
+		assertContains(vVCARD.organization_unit, "Intelligence");
 		
 		// We define the property in this extractor _but_ we do not parse it.
-		assertContains(VCARD.geo, (Resource) null);
+		assertContains(vVCARD.geo, (Resource) null);
 		// Thus we do not cointain these.
 		// The interaction is in @link RDFMergerTest.java
-		assertNotContains(RDF.TYPE, VCARD.Location);
-		assertNotContains(null, VCARD.latitude, "37.77");
-		assertNotContains(null, VCARD.longitude, "-122.41");
+		assertNotContains(RDF.TYPE, vVCARD.Location);
+		assertNotContains(null, vVCARD.latitude, "37.77");
+		assertNotContains(null, vVCARD.longitude, "-122.41");
 
 		//see above
-		assertContains(VCARD.adr, (Resource) null);
-		assertNotContains(RDF.TYPE, VCARD.Address);
-		assertNotContains(null, VCARD.post_office_box, "Box 1234");
-		assertNotContains(null, VCARD.extended_address, "Suite 100");
-		assertNotContains(null, VCARD.street_address, "123 Fake Street");
-		assertNotContains(null, VCARD.locality, "San Francisco");
-		assertNotContains(null, VCARD.region, "California");
-		assertNotContains(null, VCARD.postal_code, "12345-6789");
-		assertNotContains(null, VCARD.country_name, "United States of America");
-		assertNotContains(null, VCARD.addressType, "work");
+		assertContains(vVCARD.adr, (Resource) null);
+		assertNotContains(RDF.TYPE, vVCARD.Address);
+		assertNotContains(null, vVCARD.post_office_box, "Box 1234");
+		assertNotContains(null, vVCARD.extended_address, "Suite 100");
+		assertNotContains(null, vVCARD.street_address, "123 Fake Street");
+		assertNotContains(null, vVCARD.locality, "San Francisco");
+		assertNotContains(null, vVCARD.region, "California");
+		assertNotContains(null, vVCARD.postal_code, "12345-6789");
+		assertNotContains(null, vVCARD.country_name, "United States of America");
+		assertNotContains(null, vVCARD.addressType, "work");
 	}
 
     @Test
     public void testGeoAbbr() throws RepositoryException {
 		assertExtracts("microformats/hcard/25-geo-abbr.html");
 		assertModelNotEmpty();
-		assertContains(VCARD.fn, "Paradise");
-         assertContains(RDF.TYPE, VCARD.Organization);
-		 assertContains(VCARD.organization_name, "Paradise");
+		assertContains(vVCARD.fn, "Paradise");
+         assertContains(RDF.TYPE, vVCARD.Organization);
+		 assertContains(vVCARD.organization_name, "Paradise");
 		// See above: geo property yes, gteo blank node no.
-		assertContains(VCARD.geo, (Resource) null);
-		assertNotContains(RDF.TYPE, VCARD.Location);
-		assertNotContains(null, VCARD.latitude, "30.267991");
-		assertNotContains(null, VCARD.longitude, "-97.739568");
+		assertContains(vVCARD.geo, (Resource) null);
+		assertNotContains(RDF.TYPE, vVCARD.Location);
+		assertNotContains(null, vVCARD.latitude, "30.267991");
+		assertNotContains(null, vVCARD.longitude, "-97.739568");
 	}
 
     @Test
@@ -119,45 +122,45 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/26-ancestors.html");
 		assertModelNotEmpty();
 
-		assertContains(VCARD.fn, "John Doe");
+		assertContains(vVCARD.fn, "John Doe");
 		assertNotContains(
                 null,
-                VCARD.fn,
+                vVCARD.fn,
 				"Mister Jonathan John Doe-Smith Medical Doctor"
         );
-		assertContains(VCARD.nickname, "JJ");
-		assertNotContains(RDF.TYPE, VCARD.Address);
-		assertContains(VCARD.tz, "-0700");
-		assertContains(VCARD.title, "President");
-		assertContains(VCARD.role, "Chief");
-		assertContains(VCARD.organization_name, "Intellicorp");
-		assertContains(VCARD.organization_unit, "Intelligence");
+		assertContains(vVCARD.nickname, "JJ");
+		assertNotContains(RDF.TYPE, vVCARD.Address);
+		assertContains(vVCARD.tz, "-0700");
+		assertContains(vVCARD.title, "President");
+		assertContains(vVCARD.role, "Chief");
+		assertContains(vVCARD.organization_name, "Intellicorp");
+		assertContains(vVCARD.organization_unit, "Intelligence");
 
-		assertContains(VCARD.tel, RDFHelper.uri("tel:415.555.1234"));
-		assertContains(VCARD.uid, "abcdefghijklmnopqrstuvwxyz");
-		assertContains(VCARD.note, "this is a note");
-		assertContains(VCARD.class_, "public");
+		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
+		assertContains(vVCARD.note, "this is a note");
+		assertContains(vVCARD.class_, "public");
 
-		assertNotContains(RDF.TYPE, VCARD.Location);
-		assertContains(VCARD.geo, (Resource) null);
-		assertNotContains(null, VCARD.latitude, "37.77");
-		assertNotContains(null, VCARD.longitude, "-122.41");
+		assertNotContains(RDF.TYPE, vVCARD.Location);
+		assertContains(vVCARD.geo, (Resource) null);
+		assertNotContains(null, vVCARD.latitude, "37.77");
+		assertNotContains(null, vVCARD.longitude, "-122.41");
 
-		assertContains(RDF.TYPE, VCARD.Name);
-		assertContains(VCARD.additional_name, "John");
-		assertContains(VCARD.given_name, "Jonathan");
-		assertContains(VCARD.family_name, "Doe-Smith");
-		assertContains(VCARD.honorific_prefix, "Mister");
-		assertContains(VCARD.honorific_suffix, "Medical Doctor");
+		assertContains(RDF.TYPE, vVCARD.Name);
+		assertContains(vVCARD.additional_name, "John");
+		assertContains(vVCARD.given_name, "Jonathan");
+		assertContains(vVCARD.family_name, "Doe-Smith");
+		assertContains(vVCARD.honorific_prefix, "Mister");
+		assertContains(vVCARD.honorific_suffix, "Medical Doctor");
 
-		assertNotContains(null, VCARD.post_office_box, "Box 1234");
-		assertNotContains(null, VCARD.extended_address, "Suite 100");
-		assertNotContains(null, VCARD.street_address, "123 Fake Street");
-		assertNotContains(null, VCARD.locality, "San Francisco");
-		assertNotContains(null, VCARD.region, "California");
-		assertNotContains(null, VCARD.postal_code, "12345-6789");
-		assertNotContains(null, VCARD.country_name, "United States of America");
-		assertNotContains(null, VCARD.addressType, "work");
+		assertNotContains(null, vVCARD.post_office_box, "Box 1234");
+		assertNotContains(null, vVCARD.extended_address, "Suite 100");
+		assertNotContains(null, vVCARD.street_address, "123 Fake Street");
+		assertNotContains(null, vVCARD.locality, "San Francisco");
+		assertNotContains(null, vVCARD.region, "California");
+		assertNotContains(null, vVCARD.postal_code, "12345-6789");
+		assertNotContains(null, vVCARD.country_name, "United States of America");
+		assertNotContains(null, vVCARD.addressType, "work");
 	}
 
 
@@ -165,20 +168,20 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testfnOrg() throws RepositoryException {
         assertExtracts("microformats/hcard/30-fn-org.html");
         assertModelNotEmpty();
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
-        RepositoryResult<Statement> repositoryResult = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
+        RepositoryResult<Statement> repositoryResult = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
         try {
             while (repositoryResult.hasNext()) {
                 Resource card = repositoryResult.next().getSubject();
-                Assert.assertNotNull(findObject(card, VCARD.fn));
-                String name = findObjectAsLiteral(card, VCARD.fn);
+                Assert.assertNotNull(findObject(card, vVCARD.fn));
+                String name = findObjectAsLiteral(card, vVCARD.fn);
 
-                Assert.assertNotNull(findObject(card, VCARD.org));
-                Resource org = findObjectAsResource(card, VCARD.org);
-                Assert.assertNotNull(findObject(org, VCARD.organization_name));
+                Assert.assertNotNull(findObject(card, vVCARD.org));
+                Resource org = findObjectAsResource(card, vVCARD.org);
+                Assert.assertNotNull(findObject(org, vVCARD.organization_name));
 
                 if (name.equals("Dan Connolly")) {
-                    Assert.assertNotNull(findObject(card, VCARD.n));
+                    Assert.assertNotNull(findObject(card, vVCARD.n));
                     Assert.assertFalse(name.equals(org.stringValue()));
                 }
             }
@@ -191,34 +194,34 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testInclude() throws RepositoryException {
         assertExtracts("microformats/hcard/31-include.html");
         assertModelNotEmpty();
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
-        assertStatementsSize(VCARD.email, (Value) null, 3);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 3);
+        assertStatementsSize(vVCARD.email, (Value) null, 3);
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
 
-                Assert.assertNotNull(findObject(vcard, VCARD.fn));
-                Assert.assertEquals("Brian Suda", findObjectAsLiteral(vcard, VCARD.fn));
+                Assert.assertNotNull(findObject(vcard, vVCARD.fn));
+                Assert.assertEquals("Brian Suda", findObjectAsLiteral(vcard, vVCARD.fn));
 
-                Assert.assertNotNull(findObject(vcard, VCARD.url));
-                String url = findObjectAsResource(vcard, VCARD.url).stringValue();
+                Assert.assertNotNull(findObject(vcard, vVCARD.url));
+                String url = findObjectAsResource(vcard, vVCARD.url).stringValue();
                 Assert.assertEquals("http://suda.co.uk/", url);
 
-                Resource name = findObjectAsResource(vcard, VCARD.n);
+                Resource name = findObjectAsResource(vcard, vVCARD.n);
                 Assert.assertEquals(
                         "Brian",
-                        findObjectAsLiteral(name, VCARD.given_name)
+                        findObjectAsLiteral(name, vVCARD.given_name)
                 );
                 Assert.assertEquals(
                         "Suda",
-                        findObjectAsLiteral(name, VCARD.family_name)
+                        findObjectAsLiteral(name, vVCARD.family_name)
                 );
 
                 //Included data.
-                Assert.assertNotNull(findObject(vcard, VCARD.email));
-                String mail = findObjectAsLiteral(vcard, VCARD.email);
+                Assert.assertNotNull(findObject(vcard  , vVCARD.email));
+                String mail = findObjectAsLiteral(vcard, vVCARD.email);
                 Assert.assertEquals("mailto:correct@example.com", mail);
             }
         } finally {
@@ -233,37 +236,37 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         // check fn, name, family, nick.
         assertJohn();
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
         try {
             Resource example = RDFHelper.uri("http://example.org/");
             while (statements.hasNext()) {
                 Resource card = statements.next().getSubject();
-                Assert.assertNotNull( findObject(card, VCARD.fn) );
+                Assert.assertNotNull( findObject(card, vVCARD.fn) );
 
-                String fn = findObjectAsLiteral(card, VCARD.fn);
+                String fn = findObjectAsLiteral(card, vVCARD.fn);
                 if ("Jane Doe".equals(fn)) {
-                    assertNotFound(card, VCARD.org);
+                    assertNotFound(card, vVCARD.org);
                 } else {
                     Assert.assertTrue("John Doe".equals(fn) || "Brian Suda".equals(fn));
 
-                    Assert.assertNotNull( findObject(card, VCARD.url));
-                    Assert.assertEquals(example, findObjectAsResource(card, VCARD.url));
+                    Assert.assertNotNull( findObject(card, vVCARD.url));
+                    Assert.assertEquals(example, findObjectAsResource(card, vVCARD.url));
 
-                    Assert.assertNotNull( findObject(card, VCARD.org) );
-                    Resource org = findObjectAsResource(card, VCARD.org);
-                    assertContains(org, RDF.TYPE, VCARD.Organization);
+                    Assert.assertNotNull( findObject(card, vVCARD.org) );
+                    Resource org = findObjectAsResource(card, vVCARD.org);
+                    assertContains(org, RDF.TYPE, vVCARD.Organization);
                     Assert.assertNotNull(org);
-                    Assert.assertNotNull( findObject(card, VCARD.org) );
-                    Assert.assertNotNull( findObject(org , VCARD.organization_name) );
+                    Assert.assertNotNull( findObject(card, vVCARD.org) );
+                    Assert.assertNotNull( findObject(org , vVCARD.organization_name) );
                     Assert.assertEquals(
                             "example.org",
-                            findObjectAsLiteral(org, VCARD.organization_name)
+                            findObjectAsLiteral(org, vVCARD.organization_name)
                     );
                 }
             }
             // Just to be sure there are no spurious statements.
             // assertStatementsSize(VCARD.org, null, 2);
-            assertStatementsSize(VCARD.url, example, 2);
+            assertStatementsSize(vVCARD.url, example, 2);
         } finally {
             statements.close();
         }
@@ -273,18 +276,18 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testAreaFull() throws RepositoryException {
 		assertExtracts("microformats/hcard/33-area.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 5);
 
-		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
 		while (statements.hasNext()) {
 			Resource vcard = statements.next().getSubject();
-			final Value fnValue = findObject(vcard, VCARD.fn);
+			final Value fnValue = findObject(vcard, vVCARD.fn);
             Assert.assertNotNull(fnValue);
 			String fn = fnValue.stringValue();
-			final Value vcardValue = findObject(vcard, VCARD.url);
+			final Value vcardValue = findObject(vcard, vVCARD.url);
             Assert.assertNotNull(vcardValue);
 			String url = vcardValue.stringValue();
-			final Value emailValue = findObject(vcard, VCARD.email);
+			final Value emailValue = findObject(vcard, vVCARD.email);
             Assert.assertNotNull(emailValue);
 			String mail = emailValue.stringValue();
 			Assert.assertEquals("Joe Public", fn);
@@ -297,24 +300,24 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testCategories() throws RepositoryException {
 		assertExtracts("microformats/hcard/36-categories.html");
 		assertModelNotEmpty();
-		assertContains(VCARD.given_name, "Joe");
-		assertContains(VCARD.given_name, "john");
-		assertContains(VCARD.family_name, "doe");
-		assertContains(VCARD.family_name, "User");
-		assertContains(VCARD.fn, "john doe");
-		assertContains(VCARD.fn, "Joe User");
+		assertContains(vVCARD.given_name, "Joe");
+		assertContains(vVCARD.given_name, "john");
+		assertContains(vVCARD.family_name, "doe");
+		assertContains(vVCARD.family_name, "User");
+		assertContains(vVCARD.fn, "john doe");
+		assertContains(vVCARD.fn, "Joe User");
 
-        assertContains(VCARD.category, "C1");
-        assertContains(VCARD.category, "C2a");
-        assertContains(VCARD.category, "C4");
-        assertContains(VCARD.category, "User");
+        assertContains(vVCARD.category, "C1");
+        assertContains(vVCARD.category, "C2a");
+        assertContains(vVCARD.category, "C4");
+        assertContains(vVCARD.category, "User");
 		String[] cats = {
                  "C3", "C5", "C6", "C7", "C9", "luser", "D1", "D2", "D3"
         };
 		for (String cat : cats)
-			assertContains(VCARD.category, "http://example.com/tag/" + cat);
+			assertContains(vVCARD.category, "http://example.com/tag/" + cat);
 
-		assertNotContains(null, VCARD.category, "D4");
+		assertNotContains(null, vVCARD.category, "D4");
 	}
 
     @Test
@@ -322,64 +325,64 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		// this tests probably tests that e just get the first fn and so on
 		assertExtracts("microformats/hcard/37-singleton.html");
 		assertModelNotEmpty();
-		assertStatementsSize(VCARD.fn, (Value) null, 1);
-		assertContains(VCARD.fn, "john doe 1");
+		assertStatementsSize(vVCARD.fn, (Value) null, 1);
+		assertContains(vVCARD.fn, "john doe 1");
 
-		assertStatementsSize(RDF.TYPE, VCARD.Name, 1);
-		assertStatementsSize(VCARD.given_name,  (Value) null, 1);
-		assertContains(VCARD.given_name, "john");
-		assertStatementsSize(VCARD.family_name, (Value) null, 1);
-		assertContains(VCARD.family_name, "doe");
-		assertStatementsSize(VCARD.sort_string, (Value) null, 1);
-		assertContains(VCARD.sort_string, "d");
+		assertStatementsSize(RDF.TYPE, vVCARD.Name, 1);
+		assertStatementsSize(vVCARD.given_name,  (Value) null, 1);
+		assertContains(vVCARD.given_name, "john");
+		assertStatementsSize(vVCARD.family_name, (Value) null, 1);
+		assertContains(vVCARD.family_name, "doe");
+		assertStatementsSize(vVCARD.sort_string, (Value) null, 1);
+		assertContains(vVCARD.sort_string, "d");
 
-		assertStatementsSize(VCARD.bday, (Value) null, 1);
-		assertContains(VCARD.bday, "20060707");
-		assertStatementsSize(VCARD.rev, (Value) null, 1);
-		assertContains(VCARD.rev, "20060707");
-		assertStatementsSize(VCARD.class_, (Value) null, 1);
-		assertContains(VCARD.class_, "public");
-		assertStatementsSize(VCARD.tz, (Value) null, 1);
-		assertContains(VCARD.tz, "+0600");
+		assertStatementsSize(vVCARD.bday, (Value) null, 1);
+		assertContains(vVCARD.bday, "20060707");
+		assertStatementsSize(vVCARD.rev, (Value) null, 1);
+		assertContains(vVCARD.rev, "20060707");
+		assertStatementsSize(vVCARD.class_, (Value) null, 1);
+		assertContains(vVCARD.class_, "public");
+		assertStatementsSize(vVCARD.tz, (Value) null, 1);
+		assertContains(vVCARD.tz, "+0600");
 
 		// Why 0? because the extractor does not look at geo uF!
-		assertStatementsSize(RDF.TYPE, VCARD.Location, 0);
-		assertStatementsSize(VCARD.geo, (Value) null, 2);
+		assertStatementsSize(RDF.TYPE, vVCARD.Location, 0);
+		assertStatementsSize(vVCARD.geo, (Value) null, 2);
 
-		assertNotContains(null, VCARD.latitude, "123.45");
-		assertNotContains(null, VCARD.longitude, "67.89");
+		assertNotContains(null, vVCARD.latitude, "123.45");
+		assertNotContains(null, vVCARD.longitude, "67.89");
 
-		assertStatementsSize(VCARD.uid, (Value) null, 1);
-		assertContains(VCARD.uid, "unique-id-1");
+		assertStatementsSize(vVCARD.uid, (Value) null, 1);
+		assertContains(vVCARD.uid, "unique-id-1");
 	}
 
     @Test
     public void testUidFull() throws RepositoryException {
         assertExtracts("microformats/hcard/38-uid.html");
         assertModelNotEmpty();
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
 
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
-                Assert.assertNotNull( findObject(vcard, VCARD.fn) );
-                String fn =  findObjectAsLiteral(vcard, VCARD.fn);
+                Assert.assertNotNull( findObject(vcard, vVCARD.fn) );
+                String fn =  findObjectAsLiteral(vcard, vVCARD.fn);
                 Assert.assertEquals("Ryan King", fn);
 
-                Assert.assertNotNull( findObject(vcard,VCARD.n) );
-                Resource n = findObjectAsResource(vcard, VCARD.n);
+                Assert.assertNotNull( findObject(vcard,vVCARD.n) );
+                Resource n = findObjectAsResource(vcard, vVCARD.n);
                 Assert.assertNotNull(n);
-                Assert.assertNotNull(findObject(n, VCARD.given_name) );
-                Assert.assertEquals("Ryan",  findObjectAsLiteral( n, VCARD.given_name) );
-                Assert.assertNotNull( findObject(n, VCARD.family_name) );
-                Assert.assertEquals("King", findObjectAsLiteral(n, VCARD.family_name) );
+                Assert.assertNotNull(findObject(n, vVCARD.given_name) );
+                Assert.assertEquals("Ryan",  findObjectAsLiteral( n, vVCARD.given_name) );
+                Assert.assertNotNull( findObject(n, vVCARD.family_name) );
+                Assert.assertEquals("King", findObjectAsLiteral(n, vVCARD.family_name) );
 
-                Assert.assertNotNull( findObject(vcard, VCARD.url) );
-                Resource url = findObjectAsResource(vcard, VCARD.url);
+                Assert.assertNotNull( findObject(vcard, vVCARD.url) );
+                Resource url = findObjectAsResource(vcard, vVCARD.url);
 
-                Assert.assertNotNull( findObject(vcard, VCARD.uid) );
-                String uid = findObjectAsLiteral(vcard, VCARD.uid);
+                Assert.assertNotNull( findObject(vcard, vVCARD.uid) );
+                String uid = findObjectAsLiteral(vcard, vVCARD.uid);
 
                 Assert.assertEquals("http://theryanking.com/contact/", url.stringValue() );
                 Assert.assertEquals("http://theryanking.com/contact/", uid);
@@ -393,23 +396,23 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testRomanianWikipedia() throws RepositoryException {
 		assertExtracts("microformats/hcard/40-fn-inside-adr.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
-		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
+		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
 
         try {
             while (statements.hasNext()) {
                 Resource card = statements.next().getSubject();
-                Assert.assertNotNull( findObject(card, VCARD.fn) );
-                String fn = findObjectAsLiteral( card, VCARD.fn);
+                Assert.assertNotNull( findObject(card, vVCARD.fn) );
+                String fn = findObjectAsLiteral( card, vVCARD.fn);
                 Assert.assertEquals("Berlin", fn);
 
-                Assert.assertNotNull( findObject(card, VCARD.org) );
-                Resource org =  findObjectAsResource(card, VCARD.org);
-                assertContains(org, RDF.TYPE, VCARD.Organization);
+                Assert.assertNotNull( findObject(card, vVCARD.org) );
+                Resource org =  findObjectAsResource(card, vVCARD.org);
+                assertContains(org, RDF.TYPE, vVCARD.Organization);
                 Assert.assertNotNull(org);
-                Assert.assertNotNull( findObject(card, VCARD.org) );
-                Assert.assertNotNull( findObject(org, VCARD.organization_name) );
-                Assert.assertEquals("Berlin", findObjectAsLiteral(org, VCARD.organization_name));
+                Assert.assertNotNull( findObject(card, vVCARD.org) );
+                Assert.assertNotNull( findObject(org, vVCARD.organization_name) );
+                Assert.assertEquals("Berlin", findObjectAsLiteral(org, vVCARD.organization_name));
 
             }
         } finally {
@@ -422,47 +425,47 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		extract("html/html-without-uf.html");
 		assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
 	}
 
     @Test
     public void testBasic() throws RepositoryException {
         assertExtracts("microformats/hcard/01-tantek-basic.html");
         assertModelNotEmpty();
-        assertContains(RDF.TYPE, VCARD.VCard);
-        // assertContains(RDF.TYPE, VCARD.Organization);
-        assertContains(RDF.TYPE, VCARD.Name);
-        // assertContains(VCARD.organization_name, "Technorati");
+        assertContains(RDF.TYPE, vVCARD.VCard);
+        // assertContains(RDF.TYPE, vVCARD.Organization);
+        assertContains(RDF.TYPE, vVCARD.Name);
+        // assertContains(vVCARD.organization_name, "Technorati");
         Resource person = findExactlyOneBlankSubject(
-                VCARD.fn,
+                vVCARD.fn,
                 RDFHelper.literal("Tantek Celik")
         );
         Assert.assertNotNull(person);
         Resource org = findExactlyOneBlankSubject(
-                VCARD.organization_name,
+                vVCARD.organization_name,
                 RDFHelper.literal("Technorati")
         );
         Assert.assertNotNull(org);
         assertContains(
                 person,
-                VCARD.url,
+                vVCARD.url,
                 RDFHelper.uri("http://tantek.com/")
         );
-        assertContains(person, VCARD.n,   (Resource) null);
-        assertContains(person, VCARD.org, (Resource) null);
+        assertContains(person, vVCARD.n,   (Resource) null);
+        assertContains(person, vVCARD.org, (Resource) null);
     }
 
     @Test
     public void testMultipleclassNamesOnVCard() throws RepositoryException {
 		assertExtracts("microformats/hcard/02-multiple-class-names-on-vcard.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
 		Resource name;
-		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
 		while (statements.hasNext()) {
 			name = statements.next().getSubject();
-			assertContains(name, VCARD.fn, "Ryan King");
+			assertContains(name, vVCARD.fn, "Ryan King");
 		}
 	}
 
@@ -517,25 +520,25 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/03-implied-n.html");
 		assertModelNotEmpty();
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, VCARD.fn, null, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, vVCARD.fn, null, false);
         Resource vcard;
         int count = 0;
         try {
             while (statements.hasNext()) {
                 vcard = statements.next().getSubject();
-                assertContains(vcard, RDF.TYPE, VCARD.VCard);
-                Resource name = findObjectAsResource(vcard, VCARD.n);
+                assertContains(vcard, RDF.TYPE, vVCARD.VCard);
+                Resource name = findObjectAsResource(vcard, vVCARD.n);
 
-                final String objLiteral = findObjectAsLiteral(vcard, VCARD.fn);
+                final String objLiteral = findObjectAsLiteral(vcard, vVCARD.fn);
                 int idx = NAMES.indexOf(objLiteral);
                 Assert.assertTrue( String.format("not in names: '%s'", objLiteral), idx >= 0);
                 Assert.assertEquals(
                         NAMES.get(idx + 1),
-                        findObjectAsLiteral(name, VCARD.family_name)
+                        findObjectAsLiteral(name, vVCARD.family_name)
                 );
                 Assert.assertEquals(
                         NAMES.get(idx + 2),
-                        findObjectAsLiteral(name, VCARD.given_name)
+                        findObjectAsLiteral(name, vVCARD.given_name)
                 );
                 count++;
             }
@@ -549,41 +552,41 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testIgnoreUnknowns() throws RepositoryException {
 		assertExtracts("microformats/hcard/04-ignore-unknowns.html");
 		assertDefaultVCard();
-		assertContains(VCARD.fn, "Ryan King");
-		assertContains(VCARD.n, (Resource) null);
+		assertContains(vVCARD.fn, "Ryan King");
+		assertContains(vVCARD.n, (Resource) null);
 		assertContains(null, "Ryan");
-		assertContains(VCARD.given_name, "Ryan");
-		assertContains(VCARD.family_name, "King");
+		assertContains(vVCARD.given_name, "Ryan");
+		assertContains(vVCARD.family_name, "King");
 	}
 
     @Test
     public void testMailto1() throws RepositoryException {
 		assertExtracts("microformats/hcard/05-mailto-1.html");
 		assertDefaultVCard();
-		assertContains(VCARD.fn, "Ryan King");
-		assertContains(RDF.TYPE, VCARD.Name);
+		assertContains(vVCARD.fn, "Ryan King");
+		assertContains(RDF.TYPE, vVCARD.Name);
 
 		assertContains(
-                VCARD.email,
+                vVCARD.email,
 				RDFHelper.uri("mailto:ryan@technorati.com")
         );
 
-		assertContains(VCARD.given_name , "Ryan");
-		assertContains(VCARD.family_name, "King");
+		assertContains(vVCARD.given_name , "Ryan");
+		assertContains(vVCARD.family_name, "King");
 	}
 
     @Test
     public void testMailto2() throws RepositoryException {
 		assertExtracts("microformats/hcard/06-mailto-2.html");
 		assertDefaultVCard();
-		assertContains(VCARD.fn, "Brian Suda");
+		assertContains(vVCARD.fn, "Brian Suda");
 
 		assertContains(
-                VCARD.email,
+                vVCARD.email,
 				RDFHelper.uri("mailto:brian@example.com")
         );
-		assertContains(VCARD.given_name, "Brian");
-		assertContains(VCARD.family_name, "Suda");
+		assertContains(vVCARD.given_name, "Brian");
+		assertContains(vVCARD.family_name, "Suda");
 	}
 
     @Test
@@ -591,14 +594,14 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/07-relative-url.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains( VCARD.url, RDFHelper.uri(baseURI + "home/blah") );
+		assertContains( vVCARD.url, RDFHelper.uri(baseURI + "home/blah") );
 	}
 
     @Test
     public void testRelativeUrlBase() throws RepositoryException {
 		assertExtracts("microformats/hcard/08-relative-url-base.html");
 		assertDefaultVCard();
-		assertContains(VCARD.url, RDFHelper.uri(baseURI + "home/blah"));
+		assertContains(vVCARD.url, RDFHelper.uri(baseURI + "home/blah"));
 		assertJohn();
 	}
 
@@ -606,7 +609,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testRelativeUrlXmlBase1() throws RepositoryException {
 		assertExtracts("microformats/hcard/09-relative-url-xmlbase-1.html");
 		assertDefaultVCard();
-		assertContains(VCARD.url, RDFHelper.uri((baseURI + "home/blah")));
+		assertContains(vVCARD.url, RDFHelper.uri((baseURI + "home/blah")));
 		assertJohn();
 	}
 
@@ -614,7 +617,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testRelativeUrlXmlBase2() throws RepositoryException {
 		assertExtracts("microformats/hcard/10-relative-url-xmlbase-2.html");
 		assertDefaultVCard();
-		assertContains(VCARD.url, RDFHelper.uri((baseURI + "home/blah")));
+		assertContains(vVCARD.url, RDFHelper.uri((baseURI + "home/blah")));
 		assertJohn();
 	}
 
@@ -622,8 +625,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testMultipleUrls() throws RepositoryException {
 		assertExtracts("microformats/hcard/11-multiple-urls.html");
 		assertDefaultVCard();
-		assertContains(VCARD.url, RDFHelper.uri(("http://example.com/foo")));
-		assertContains(VCARD.url, RDFHelper.uri(("http://example.com/bar")));
+		assertContains(vVCARD.url, RDFHelper.uri(("http://example.com/foo")));
+		assertContains(vVCARD.url, RDFHelper.uri(("http://example.com/bar")));
 
 		assertJohn();
 	}
@@ -639,10 +642,10 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testPhotoLogo() throws RepositoryException {
 		assertExtracts("microformats/hcard/13-photo-logo.html");
 		assertDefaultVCard();
-		assertContains(VCARD.photo, RDFHelper.uri(("http://example.org/picture1.png")));
-		assertContains(VCARD.photo, RDFHelper.uri(("http://example.org/picture2.png")));
-		assertContains(VCARD.logo , RDFHelper.uri(("http://example.org/picture1.png")));
-		assertContains(VCARD.logo , RDFHelper.uri(("http://example.org/picture2.png")));
+		assertContains(vVCARD.photo, RDFHelper.uri(("http://example.org/picture1.png")));
+		assertContains(vVCARD.photo, RDFHelper.uri(("http://example.org/picture2.png")));
+		assertContains(vVCARD.logo , RDFHelper.uri(("http://example.org/picture1.png")));
+		assertContains(vVCARD.logo , RDFHelper.uri(("http://example.org/picture2.png")));
 		assertJohn();
 	}
 
@@ -669,8 +672,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 						+ "IAUuuxdZWQvILQABBmSxMjBj5EpcWgACCMoFOYYSpZyHQHgMIMACt2hmoVEikCQAAAABJRU5ErkJggg=="
         );
 
-		assertContains(VCARD.photo, data);
-		assertContains(VCARD.logo, data);
+		assertContains(vVCARD.photo, data);
+		assertContains(vVCARD.logo, data);
 		assertJohn();
 	}
 
@@ -678,33 +681,33 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testHonorificAdditionalSingle() throws RepositoryException {
 		assertExtracts("microformats/hcard/15-honorific-additional-single.html");
 		assertDefaultVCard();
-		assertContains(VCARD.fn, "Mr. John Maurice Doe, Ph.D.");
+		assertContains(vVCARD.fn, "Mr. John Maurice Doe, Ph.D.");
 
-		assertContains(VCARD.honorific_prefix, "Mr.");
-		assertContains(VCARD.honorific_suffix, "Ph.D.");
+		assertContains(vVCARD.honorific_prefix, "Mr.");
+		assertContains(vVCARD.honorific_suffix, "Ph.D.");
 
-		assertContains(VCARD.given_name, "John");
-		assertContains(VCARD.additional_name, "Maurice");
-		assertContains(VCARD.family_name, "Doe");
+		assertContains(vVCARD.given_name, "John");
+		assertContains(vVCARD.additional_name, "Maurice");
+		assertContains(vVCARD.family_name, "Doe");
 	}
 
     @Test
     public void testHonorificAdditionalMultiple() throws RepositoryException {
 		assertExtracts("microformats/hcard/16-honorific-additional-multiple.html");
 		assertDefaultVCard();
-		assertContains(VCARD.honorific_prefix, "Mr.");
-		assertContains(VCARD.honorific_prefix, "Dr.");
+		assertContains(vVCARD.honorific_prefix, "Mr.");
+		assertContains(vVCARD.honorific_prefix, "Dr.");
 
-		assertContains(VCARD.honorific_suffix, "Ph.D.");
-		assertContains(VCARD.honorific_suffix, "J.D.");
+		assertContains(vVCARD.honorific_suffix, "Ph.D.");
+		assertContains(vVCARD.honorific_suffix, "J.D.");
 
-		assertContains(VCARD.given_name, "John");
-		assertContains(VCARD.additional_name, "Maurice");
-		assertContains(VCARD.additional_name, "Benjamin");
-		assertContains(VCARD.family_name, "Doe");
+		assertContains(vVCARD.given_name, "John");
+		assertContains(vVCARD.additional_name, "Maurice");
+		assertContains(vVCARD.additional_name, "Benjamin");
+		assertContains(vVCARD.family_name, "Doe");
 
 		assertContains(
-                VCARD.fn,
+                vVCARD.fn,
 				"Mr. Dr. John Maurice Benjamin Doe Ph.D., J.D."
         );
 	}
@@ -714,7 +717,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains( VCARD.email, RDFHelper.uri("mailto:john@example.com") );
+		assertContains( vVCARD.email, RDFHelper.uri("mailto:john@example.com") );
 	}
 
 	@Test
@@ -730,8 +733,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertDefaultVCard();
         assertJohn();
 
-		assertContains(VCARD.photo, (Resource) null);
-		assertContains(VCARD.logo , (Resource) null);
+		assertContains(vVCARD.photo, (Resource) null);
+		assertContains(vVCARD.logo , (Resource) null);
 	}
 
     @Test
@@ -739,8 +742,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/20-image-alt.html");
 		assertDefaultVCard();
 		Resource uri = RDFHelper.uri("http://example.com/foo.png");
-		assertContains(VCARD.photo, uri);
-		assertContains(VCARD.logo, uri);
+		assertContains(vVCARD.photo, uri);
+		assertContains(vVCARD.logo, uri);
 		assertJohn();
 	}
 
@@ -749,55 +752,55 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/22-adr.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertStatementsSize(RDF.TYPE, VCARD.Address, 0);
+		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 	}
 
     @Test
     public void testBirthDayDate() throws RepositoryException {
 		assertExtracts("microformats/hcard/27-bday-date.html");
 		assertModelNotEmpty();
-		assertContains(VCARD.fn         , "john doe");
-		assertContains(VCARD.given_name , "john");
-		assertContains(VCARD.family_name, "doe");
-		assertContains(VCARD.bday       , "2000-01-01");
+		assertContains(vVCARD.fn         , "john doe");
+		assertContains(vVCARD.given_name , "john");
+		assertContains(vVCARD.family_name, "doe");
+		assertContains(vVCARD.bday       , "2000-01-01");
 	}
 
     @Test
     public void testBirthDayDateTime() throws RepositoryException {
 		assertExtracts("microformats/hcard/28-bday-datetime.html");
 		assertModelNotEmpty();
-		assertContains(VCARD.fn         , "john doe");
-		assertContains(VCARD.given_name , "john");
-		assertContains(VCARD.family_name, "doe");
-		assertContains(VCARD.bday       , "2000-01-01T00:00:00");
+		assertContains(vVCARD.fn         , "john doe");
+		assertContains(vVCARD.given_name , "john");
+		assertContains(vVCARD.family_name, "doe");
+		assertContains(vVCARD.bday       , "2000-01-01T00:00:00");
 	}
 
     @Test
     public void testBirthDayDateTimeTimeZone() throws RepositoryException {
 		assertExtracts("microformats/hcard/29-bday-datetime-timezone.html");
 		assertModelNotEmpty();
-		assertContains(VCARD.fn, "john doe");
-		assertContains(VCARD.given_name, "john");
-		assertContains(VCARD.family_name, "doe");
-		assertContains(VCARD.bday, "2000-01-01T00:00:00-0800");
+		assertContains(vVCARD.fn, "john doe");
+		assertContains(vVCARD.given_name, "john");
+		assertContains(vVCARD.family_name, "doe");
+		assertContains(vVCARD.bday, "2000-01-01T00:00:00-0800");
 	}
 
     @Test
     public void testArea() throws RepositoryException {
         assertExtracts("microformats/hcard/33-area.html");
         assertModelNotEmpty();
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 5);
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 5);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
 
-                Assert.assertNotNull(findObject(vcard, VCARD.fn));
-                Assert.assertEquals("Joe Public", findObjectAsLiteral(vcard, VCARD.fn));
-                Assert.assertNotNull(findObject(vcard, VCARD.url));
-                String url = findObjectAsLiteral(vcard, VCARD.url);
-                Assert.assertNotNull(findObject(vcard, VCARD.email));
-                String mail = findObjectAsLiteral(vcard, VCARD.email);
+                Assert.assertNotNull(findObject(vcard, vVCARD.fn));
+                Assert.assertEquals("Joe Public", findObjectAsLiteral(vcard, vVCARD.fn));
+                Assert.assertNotNull(findObject(vcard, vVCARD.url));
+                String url = findObjectAsLiteral(vcard, vVCARD.url);
+                Assert.assertNotNull(findObject(vcard, vVCARD.email));
+                String mail = findObjectAsLiteral(vcard, vVCARD.email);
                 Assert.assertEquals("http://example.com/", url);
                 Assert.assertEquals("mailto:joe@example.com", mail);
             }
@@ -806,14 +809,14 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         }
 
         // Check that there are 4 organizations.
-        assertStatementsSize(RDF.TYPE, VCARD.Organization, 4);
-        statements = conn.getStatements(null, RDF.TYPE, VCARD.Organization, false);
+        assertStatementsSize(RDF.TYPE, vVCARD.Organization, 4);
+        statements = conn.getStatements(null, RDF.TYPE, vVCARD.Organization, false);
         try {
             while (statements.hasNext()) {
                 Resource org = statements.next().getSubject();
-                assertContains(null, VCARD.org, org);
-                Assert.assertNotNull( findObject(org, VCARD.organization_name) );
-                Assert.assertEquals("Joe Public", findObjectAsLiteral(org, VCARD.organization_name) );
+                assertContains(null, vVCARD.org, org);
+                Assert.assertNotNull( findObject(org, vVCARD.organization_name) );
+                Assert.assertEquals("Joe Public", findObjectAsLiteral(org, vVCARD.organization_name) );
             }
         } finally {
             statements.close();
@@ -826,12 +829,12 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
         assertExtracts("microformats/hcard/34-notes.html");
         assertModelNotEmpty();
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
-                String fn   = findObjectAsLiteral(vcard, VCARD.fn);
-                String mail = findObjectAsLiteral(vcard, VCARD.email);
+                String fn   = findObjectAsLiteral(vcard, vVCARD.fn);
+                String mail = findObjectAsLiteral(vcard, vVCARD.email);
                 Assert.assertEquals("Joe Public", fn);
                 Assert.assertEquals("mailto:joe@example.com", mail);
             }
@@ -839,7 +842,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
             statements.close();
         }
         for(String note : NOTES) {
-            assertContains(VCARD.note, note);
+            assertContains(vVCARD.note, note);
         }
     }
 
@@ -847,37 +850,37 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testIncludePattern() throws RepositoryException {
         assertExtracts("microformats/hcard/35-include-pattern.html");
         assertModelNotEmpty();
-        assertStatementsSize(RDF.TYPE, VCARD.VCard, 3);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 3);
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, VCARD.Name, false);
+        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.Name, false);
         try {
             while (statements.hasNext()) {
                 Resource name = statements.next().getSubject();
-                Assert.assertNotNull(findObject(name, VCARD.given_name));
-                String gn = findObjectAsLiteral(name, VCARD.given_name);
+                Assert.assertNotNull(findObject(name, vVCARD.given_name));
+                String gn = findObjectAsLiteral(name, vVCARD.given_name);
                 Assert.assertEquals("James", gn);
-                Assert.assertNotNull(findObject(name, VCARD.family_name));
-                String fn = findObjectAsLiteral(name, VCARD.family_name);
+                Assert.assertNotNull(findObject(name, vVCARD.family_name));
+                String fn = findObjectAsLiteral(name, vVCARD.family_name);
                 Assert.assertEquals("Levine", fn);
             }
         } finally {
             statements.close();
         }
 
-        assertStatementsSize(RDF.TYPE, VCARD.Organization, 2);
-        statements = conn.getStatements(null, RDF.TYPE, VCARD.Organization, false);
+        assertStatementsSize(RDF.TYPE, vVCARD.Organization, 2);
+        statements = conn.getStatements(null, RDF.TYPE, vVCARD.Organization, false);
         try {
             while (statements.hasNext()) {
                 Resource org = statements.next().getSubject();
-                Assert.assertNotNull(findObject(org, VCARD.organization_name));
-                Assert.assertEquals("SimplyHired", findObjectAsLiteral(org, VCARD.organization_name));
+                Assert.assertNotNull(findObject(org, vVCARD.organization_name));
+                Assert.assertEquals("SimplyHired", findObjectAsLiteral(org, vVCARD.organization_name));
 
-                RepositoryResult<Statement> statements2 = conn.getStatements(null, VCARD.org, org, false);
+                RepositoryResult<Statement> statements2 = conn.getStatements(null, vVCARD.org, org, false);
                 try {
                     while (statements2.hasNext()) {
                         Resource vcard = statements2.next().getSubject();
-                        Assert.assertNotNull(findObject(vcard, VCARD.title));
-                        Assert.assertEquals("Microformat Brainstormer", findObjectAsLiteral(vcard, VCARD.title));
+                        Assert.assertNotNull(findObject(vcard, vVCARD.title));
+                        Assert.assertEquals("Microformat Brainstormer", findObjectAsLiteral(vcard, vVCARD.title));
                     }
                 } finally {
                     statements2.close();
@@ -892,16 +895,16 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testUid() throws RepositoryException {
 		assertExtracts("microformats/hcard/38-uid.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 4);
-		RepositoryResult<Statement> iter = conn.getStatements(null, RDF.TYPE, VCARD.VCard, false);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
+		RepositoryResult<Statement> iter = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
 		while (iter.hasNext()) {
 			Resource vcard = iter.next().getSubject();
-			Assert.assertNotNull( findObject(vcard, VCARD.fn) );
-			String fn = findObjectAsLiteral(vcard, VCARD.fn);
-			Assert.assertNotNull( findObject(vcard, VCARD.url) );
-			String url =  findObjectAsLiteral(vcard, VCARD.url);
-			Assert.assertNotNull( findObject(vcard, VCARD.uid) );
-			String uid = findObjectAsLiteral(vcard, VCARD.uid);
+			Assert.assertNotNull( findObject(vcard, vVCARD.fn) );
+			String fn = findObjectAsLiteral(vcard, vVCARD.fn);
+			Assert.assertNotNull( findObject(vcard, vVCARD.url) );
+			String url =  findObjectAsLiteral(vcard, vVCARD.url);
+			Assert.assertNotNull( findObject(vcard, vVCARD.uid) );
+			String uid = findObjectAsLiteral(vcard, vVCARD.uid);
 			Assert.assertEquals("Ryan King", fn);
 			Assert.assertEquals("http://theryanking.com/contact/",url);
 			Assert.assertEquals("http://theryanking.com/contact/", uid);
@@ -913,14 +916,14 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testIgnoreChildren() throws RepositoryException {
 		assertExtracts("microformats/hcard/41-ignore-children.html");
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
-		assertContains(VCARD.fn, "Melanie Kl\u00f6\u00df");
-		assertContains(VCARD.email, RDFHelper.uri("mailto:mkloes@gmail.com"));
-		assertContains(VCARD.adr,(Resource) null);
-		assertNotContains(null, VCARD.postal_code,"53127");
-		assertNotContains(null, VCARD.locality,"Bonn");
-		assertNotContains(null, VCARD.street_address,"Ippendorfer Weg. 24");
-		assertNotContains(null, VCARD.country_name,"Germany");
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
+		assertContains(vVCARD.fn, "Melanie Kl\u00f6\u00df");
+		assertContains(vVCARD.email, RDFHelper.uri("mailto:mkloes@gmail.com"));
+		assertContains(vVCARD.adr,(Resource) null);
+		assertNotContains(null, vVCARD.postal_code,"53127");
+		assertNotContains(null, vVCARD.locality,"Bonn");
+		assertNotContains(null, vVCARD.street_address,"Ippendorfer Weg. 24");
+		assertNotContains(null, vVCARD.country_name,"Germany");
 	}
 
     /**
@@ -933,19 +936,19 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testCumulativeHNames() throws RepositoryException {
         assertExtracts("microformats/hcard/linkedin-michelemostarda.html");
         assertModelNotEmpty();
-        assertStatementsSize(VCARD.given_name, "Michele"  , 7);
-        assertStatementsSize(VCARD.family_name, "Mostarda", 7);
+        assertStatementsSize(vVCARD.given_name, "Michele"  , 7);
+        assertStatementsSize(vVCARD.family_name, "Mostarda", 7);
     }
 
 	private void assertDefaultVCard() throws RepositoryException {
 		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 1);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
 	}
 
     private void assertJohn() throws RepositoryException {
-		assertContains(VCARD.fn, "John Doe");
-		assertContains(VCARD.given_name, "John");
-		assertContains(VCARD.family_name, "Doe");
+		assertContains(vVCARD.fn, "John Doe");
+		assertContains(vVCARD.given_name, "John");
+		assertContains(vVCARD.family_name, "Doe");
 	}
 
 }

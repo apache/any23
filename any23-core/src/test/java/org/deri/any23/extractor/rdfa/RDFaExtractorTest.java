@@ -33,6 +33,9 @@ import org.slf4j.LoggerFactory;
  */
 public class RDFaExtractorTest extends AbstractExtractorTestCase {
 
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final FOAF    vFOAF    = FOAF.getInstance();
+
     Logger logger = LoggerFactory.getLogger(RDFaExtractorTest.class);
 
     @Override
@@ -43,8 +46,8 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testSimple() throws RepositoryException {
         assertExtracts("html/rdfa/dummy.html");
-        assertContains(null, DCTERMS.creator, RDFHelper.literal("Alice", "en") );
-        assertContains(null, DCTERMS.title  , RDFHelper.literal("The trouble with Bob", "en") );
+        assertContains(null, vDCTERMS.creator, RDFHelper.literal("Alice", "en") );
+        assertContains(null, vDCTERMS.title  , RDFHelper.literal("The trouble with Bob", "en") );
     }
 
     /**
@@ -72,7 +75,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
 
         assertContains(
                 RDFHelper.uri("http://dbpedia.org/resource/Albert_Einstein"),
-                FOAF.name,
+                vFOAF.name,
                 RDFHelper.literal("Albert Einstein", "en")
         );
 
@@ -98,7 +101,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
 
         assertContains(
                 RDFHelper.uri("http://dbpedia.org/resource/Albert_Einstein"),
-                FOAF.name,
+                vFOAF.name,
                 literal
         );
 
@@ -118,7 +121,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         logger.info(dumpModelToTurtle());
         assertContains(
                 RDFHelper.uri("http://bob.example.com/node/3"),
-                DCTERMS.title,
+                vDCTERMS.title,
                 RDFHelper.literal("A blog post...", "en")
         );
 

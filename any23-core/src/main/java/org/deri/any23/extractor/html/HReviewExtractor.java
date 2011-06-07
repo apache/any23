@@ -44,6 +44,10 @@ import static org.deri.any23.extractor.html.HTMLDocument.TextField;
  */
 public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final REVIEW  vREVIEW  = REVIEW.getInstance();
+    private static final VCARD   vVCARD   = VCARD.getInstance();
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+
     public final static ExtractorFactory<HReviewExtractor> factory =
             SimpleExtractorFactory.create(
                     "html-mf-hreview",
@@ -68,7 +72,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode rev = getBlankNodeFor(node);
-        out.writeTriple(rev, RDF.TYPE, REVIEW.Review);
+        out.writeTriple(rev, RDF.TYPE, vREVIEW.Review);
         final HTMLDocument fragment = new HTMLDocument(node);
         addRating(fragment, rev);
         addSummary(fragment, rev);
@@ -93,7 +97,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 value.source(),
-                rev, REVIEW.type, value.value()
+                rev, vREVIEW.type, value.value()
         );
     }
 
@@ -104,7 +108,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
             addBNodeProperty(
                     getDescription().getExtractorName(),
                     node0,
-                    rev, REVIEW.reviewer, getBlankNodeFor(node0)
+                    rev, vREVIEW.reviewer, getBlankNodeFor(node0)
             );
         }
     }
@@ -116,7 +120,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
             addBNodeProperty(
                     getDescription().getExtractorName(),
                     node,
-                    item, REVIEW.hasReview, rev
+                    item, vREVIEW.hasReview, rev
             );
         }
     }
@@ -127,13 +131,13 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 val.source(),
-                blank, VCARD.fn, val.value()
+                blank, vVCARD.fn, val.value()
         );
         final TextField url = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blank, VCARD.url, getHTMLDocument().resolveURI(url.value()));
+        conditionallyAddResourceProperty(blank, vVCARD.url, getHTMLDocument().resolveURI(url.value()));
         TextField pics[] = item.getPluralUrlField("photo");
         for (TextField pic : pics) {
-            addURIProperty(blank, VCARD.photo, getHTMLDocument().resolveURI(pic.value()));
+            addURIProperty(blank, vVCARD.photo, getHTMLDocument().resolveURI(pic.value()));
         }
         return blank;
     }
@@ -142,7 +146,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         HTMLDocument.TextField value = doc.getSingularTextField("rating");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
-                value.source(), rev, REVIEW.rating, value.value()
+                value.source(), rev, vREVIEW.rating, value.value()
         );
     }
 
@@ -151,7 +155,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 value.source(),
-                rev, REVIEW.title, value.value()
+                rev, vREVIEW.title, value.value()
         );
     }
 
@@ -160,7 +164,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 value.source(),
-                rev, DCTERMS.date, value.value()
+                rev, vDCTERMS.date, value.value()
         );
     }
 
@@ -169,7 +173,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 value.source(),
-                rev, REVIEW.text, value.value()
+                rev, vREVIEW.text, value.value()
         );
     }
 

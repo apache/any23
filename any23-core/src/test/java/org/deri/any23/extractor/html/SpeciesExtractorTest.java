@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
  */
 public class SpeciesExtractorTest extends AbstractExtractorTestCase {
 
+    private static final WO vWO = WO.getInstance();
+
     private static final Logger logger = LoggerFactory.getLogger(SpeciesExtractorTest.class);
 
     protected ExtractorFactory<?> getExtractorFactory() {
@@ -51,7 +53,7 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
         /**
          * here I expect two species
          */
-        assertStatementsSize(null, WO.getProperty("species"), 2);
+        assertStatementsSize(null, vWO.getProperty("species"), 2);
 
         /**
          * overall triples amount

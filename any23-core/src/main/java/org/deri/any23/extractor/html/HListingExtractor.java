@@ -48,6 +48,9 @@ import static org.deri.any23.extractor.html.HTMLDocument.TextField;
  */
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final HLISTING hLISTING = HLISTING.getInstance();
+    private static final FOAF     foaf     = FOAF.getInstance();
+
     private static final Set<String> ActionClasses = new HashSet<String>() {
         {
             add("sell"    );
@@ -100,12 +103,12 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         this.fragment = new HTMLDocument(node);
         BNode listing = getBlankNodeFor(node);
-        out.writeTriple(listing, RDF.TYPE, HLISTING.Listing);
+        out.writeTriple(listing, RDF.TYPE, hLISTING.Listing);
 
         for (String action : findActions(fragment)) {
-            out.writeTriple(listing, HLISTING.action, HLISTING.getResource(action));
+            out.writeTriple(listing, hLISTING.action, hLISTING.getResource(action));
         }
-        out.writeTriple(listing, HLISTING.lister, addLister() );
+        out.writeTriple(listing, hLISTING.lister, addLister() );
         addItem(listing);
         addDateTimes(listing);
         addPrice(listing);
@@ -130,9 +133,9 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         addBNodeProperty(
                 getDescription().getExtractorName(),
                 node,
-                listing, HLISTING.item, blankItem
+                listing, hLISTING.item, blankItem
         );
-        addURIProperty(blankItem, RDF.TYPE, HLISTING.Item);
+        addURIProperty(blankItem, RDF.TYPE, hLISTING.Item);
 
         HTMLDocument item = new HTMLDocument(node);
 
@@ -152,7 +155,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                     String value = node.getNodeValue();
                     // do not use conditionallyAdd, it won't work cause of evaluation rules
                     if (!(null == value || "".equals(value))) {
-                        URI property = HLISTING.getPropertyCamelized(klass);
+                        URI property = hLISTING.getPropertyCamelized(klass);
                         conditionallyAddLiteralProperty(
                                 extractorName,
                                 node,
@@ -168,7 +171,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fragment.getDocument(),
-                listing, HLISTING.permalink, link
+                listing, hLISTING.permalink, link
         );
     }
 
@@ -177,7 +180,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 price.source(),
-                listing, HLISTING.price, price.value()
+                listing, hLISTING.price, price.value()
         );
     }
 
@@ -186,7 +189,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 description.source(),
-                listing, HLISTING.description, description.value()
+                listing, hLISTING.description, description.value()
         );
     }
 
@@ -195,7 +198,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 summary.source(),
-                listing, HLISTING.summary, summary.value()
+                listing, hLISTING.summary, summary.value()
         );
     }
 
@@ -204,19 +207,19 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 listed.source(),
-                listing, HLISTING.dtlisted, listed.value()
+                listing, hLISTING.dtlisted, listed.value()
         );
         HTMLDocument.TextField expired = fragment.getSingularTextField("dtexpired");
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 expired.source(),
-                listing, HLISTING.dtexpired, expired.value()
+                listing, hLISTING.dtexpired, expired.value()
         );
     }
 
     private Resource addLister() throws ExtractionException {
         Resource blankLister = valueFactory.createBNode();
-        addURIProperty(blankLister, RDF.TYPE, HLISTING.Lister);
+        addURIProperty(blankLister, RDF.TYPE, hLISTING.Lister);
         Node node = fragment.findMicroformattedObjectNode("*", "lister");
         if (null == node)
             return blankLister;
@@ -235,18 +238,18 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 tel.source(),
-                blankLister, HLISTING.tel, tel.value()
+                blankLister, hLISTING.tel, tel.value()
         );
     }
 
     private void addListerUrl(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         TextField url = doc.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blankLister, HLISTING.listerUrl, getHTMLDocument().resolveURI(url.value()));
+        conditionallyAddResourceProperty(blankLister, hLISTING.listerUrl, getHTMLDocument().resolveURI(url.value()));
     }
 
     private void addListerEmail(HTMLDocument doc, Resource blankLister) {
         TextField email = doc.getSingularUrlField("email");
-        conditionallyAddResourceProperty(blankLister, FOAF.mbox, fixLink(email.value(), "mailto"));
+        conditionallyAddResourceProperty(blankLister, foaf.mbox, fixLink(email.value(), "mailto"));
     }
 
     private void addListerFn(HTMLDocument doc, Resource blankLister) {
@@ -254,13 +257,13 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fn.source(),
-                blankLister, HLISTING.listerName, fn.value()
+                blankLister, hLISTING.listerName, fn.value()
         );
     }
 
     private void addListerLogo(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         TextField logo = doc.getSingularUrlField("logo");
-        conditionallyAddResourceProperty(blankLister, HLISTING.listerLogo, getHTMLDocument().resolveURI(logo.value()));
+        conditionallyAddResourceProperty(blankLister, hLISTING.listerLogo, getHTMLDocument().resolveURI(logo.value()));
     }
 
     private void addListerOrg(HTMLDocument doc, Resource blankLister) {
@@ -268,7 +271,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 org.source(),
-                blankLister, HLISTING.listerOrg, org.value()
+                blankLister, hLISTING.listerOrg, org.value()
         );
     }
 
@@ -277,24 +280,24 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         conditionallyAddStringProperty(
                 getDescription().getExtractorName(),
                 fn.source(),
-                blankItem, HLISTING.itemName, fn.value()
+                blankItem, hLISTING.itemName, fn.value()
         );
     }
 
     private void addItemUrl(HTMLDocument item, Resource blankItem) throws ExtractionException {
         TextField url = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blankItem, HLISTING.itemUrl, getHTMLDocument().resolveURI(url.value()));
+        conditionallyAddResourceProperty(blankItem, hLISTING.itemUrl, getHTMLDocument().resolveURI(url.value()));
     }
 
     private void addItemPhoto(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         // as per spec
         String url = doc.findMicroformattedValue("*", "item", "A", "photo", "@href");
-        conditionallyAddResourceProperty(blankLister, HLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
+        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
         url = doc.findMicroformattedValue("*", "item", "IMG", "photo", "@src");
-        conditionallyAddResourceProperty(blankLister, HLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
+        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
         // as per kelkoo. Remember that contains(foo,'') is true in xpath
         url = doc.findMicroformattedValue("*", "photo", "IMG", "", "@src");
-        conditionallyAddResourceProperty(blankLister, HLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
+        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
     }
 
     private List<String> findActions(HTMLDocument doc) {

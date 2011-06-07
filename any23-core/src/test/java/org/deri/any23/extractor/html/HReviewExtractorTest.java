@@ -38,7 +38,12 @@ import org.openrdf.repository.RepositoryResult;
  */
 public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
-        protected ExtractorFactory<?> getExtractorFactory() {
+    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final REVIEW  vREVIEW  = REVIEW.getInstance();
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+    private static final VCARD   vVCARD   = VCARD.getInstance();
+
+    protected ExtractorFactory<?> getExtractorFactory() {
         return HReviewExtractor.factory;
     }
 
@@ -47,8 +52,8 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("html/html-without-uf.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
 	}
 
     @Test
@@ -56,16 +61,16 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hreview/01-spec.html");
         Assert.assertFalse(conn.isEmpty());
 
-        assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+        assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 
         // reviewer, item
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
 
         // there is one address in the item vcard
-		assertStatementsSize(RDF.TYPE, VCARD.Address, 0);
+		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
             while (reviews.hasNext()) {
@@ -73,12 +78,12 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                 Resource review = reviews.next().getSubject();
                 System.out.println(review.stringValue());
 
-                assertContains(review, REVIEW.rating, "5");
-                assertContains(review, REVIEW.title, "Crepes on Cole is awesome");
-                assertContains(review, DCTERMS.date, "20050418T2300-0700");
+                assertContains(review, vREVIEW.rating, "5");
+                assertContains(review, vREVIEW.title, "Crepes on Cole is awesome");
+                assertContains(review, vDCTERMS.date, "20050418T2300-0700");
 
                 assertContains(
-                        REVIEW.text,
+                        vREVIEW.text,
                         "Crepes on Cole is one of the best little \n"
                                 + "      creperies in San Francisco.\n      "
                                 + "Excellent food and service. Plenty of tables in a variety of sizes\n"
@@ -88,7 +93,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                                 + "      I've had many fun social gatherings here, as well as gotten\n"
                                 + "      plenty of work done thanks to neighborhood WiFi.");
 
-                assertContains(null, REVIEW.hasReview, review);
+                assertContains(null, vREVIEW.hasReview, review);
 
 
             }
@@ -96,8 +101,8 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
             reviews.close();
         }
 
-		assertNotContains(VCARD.locality, null);
-		assertNotContains(VCARD.organization_name, null);
+		assertNotContains(vVCARD.locality, null);
+		assertNotContains(vVCARD.organization_name, null);
 
 	}
 
@@ -107,27 +112,27 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hreview/02-spec-2.html");
 		Assert.assertFalse(conn.isEmpty());
 
-		assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+		assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 
         // reviewer, item
-		assertStatementsSize(REVIEW.reviewer, (Value)null, 1);
-		assertStatementsSize(REVIEW.hasReview, (Value) null, 1);
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+		assertStatementsSize(vREVIEW.reviewer, (Value)null, 1);
+		assertStatementsSize(vREVIEW.hasReview, (Value) null, 1);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
         // there is one address in the item vcard
-		assertStatementsSize(RDF.TYPE, VCARD.Address, 0);
+		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
             while (reviews.hasNext()) {
                 Resource review = reviews.next().getSubject();
-                assertContains(review, REVIEW.rating, "18");
-                assertContains(review, REVIEW.title, "Cafe Borrone");
-                assertContains(review, DCTERMS.date, "20050428T2130-0700");
+                assertContains(review, vREVIEW.rating, "18");
+                assertContains(review, vREVIEW.title, "Cafe Borrone");
+                assertContains(review, vDCTERMS.date, "20050428T2130-0700");
 
                 assertContains(
-                        REVIEW.text,
+                        vREVIEW.text,
                         "This \n    cafe\n    " +
                                 "is a welcoming oasis on " +
                                 "the Peninsula.\n    " +
@@ -146,8 +151,8 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                                 "    jazz band nights."
                 );
 
-                assertContains(null, REVIEW.hasReview, review);
-                assertContains(REVIEW.type, "business");
+                assertContains(null, vREVIEW.hasReview, review);
+                assertContains(vREVIEW.type, "business");
 
             }
 
@@ -163,10 +168,10 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hreview/03-spec-3.html");
         Assert.assertFalse(conn.isEmpty());
 
-        assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
-        assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
+        assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
+        assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
 
@@ -174,12 +179,12 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
                 Resource review = reviews.next().getSubject();
 
-                assertContains(review, REVIEW.rating, "5");
-                assertNotContains(REVIEW.title, null);
-                assertContains(review, DCTERMS.date, "200502");
+                assertContains(review, vREVIEW.rating, "5");
+                assertNotContains(vREVIEW.title, null);
+                assertContains(review, vDCTERMS.date, "200502");
 
                 assertContains(
-                        REVIEW.text,
+                        vREVIEW.text,
                         "\"The people thought they were just being rewarded for " +
                                 "treating others\n       as they like to be treated, for " +
                                 "obeying stop signs and curing diseases,\n       for mailing " +
@@ -187,15 +192,15 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                                 "      I plan on sleeping in...\"\n     \n     \"Nothing Better\"" +
                                 " is a great track on this album, too...");
 
-                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, REVIEW.hasReview, review, false);
+                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, vREVIEW.hasReview, review, false);
 
                 try {
                     while (reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
-                        assertContains(reviewSubject, VCARD.fn, "The Postal Service: Give Up");
-                        assertContains(reviewSubject, VCARD.url,
+                        assertContains(reviewSubject, vVCARD.fn, "The Postal Service: Give Up");
+                        assertContains(reviewSubject, vVCARD.url,
                                 RDFHelper.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
-                        assertContains(reviewSubject, VCARD.photo,
+                        assertContains(reviewSubject, vVCARD.photo,
                                 RDFHelper.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
                     }
                 } finally {
@@ -216,14 +221,14 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hreview/04-spec-4.html");
         Assert.assertFalse(conn.isEmpty());
 
-        assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+        assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, no item
-		assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
+		assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
 
@@ -231,23 +236,23 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
                 Resource review = reviews.next().getSubject();
 
-                assertContains(review, REVIEW.rating, "4");
-                assertNotContains(REVIEW.title, null);
-                assertContains(review, DCTERMS.date, "20050418");
+                assertContains(review, vREVIEW.rating, "4");
+                assertNotContains(vREVIEW.title, null);
+                assertContains(review, vDCTERMS.date, "20050418");
 
                 assertContains(
-                        REVIEW.text,
+                        vREVIEW.text,
                         "This movie has great music and visuals.");
                 
-                assertStatementsSize(REVIEW.hasReview, review, 1);
+                assertStatementsSize(vREVIEW.hasReview, review, 1);
 
-                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null,REVIEW.hasReview, review, false);
+                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, vREVIEW.hasReview, review, false);
 
                 try {
                     while(reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
-                        assertContains(reviewSubject, VCARD.fn, "Ying Xiong (HERO)");
-				        assertContains(reviewSubject, VCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
+                        assertContains(reviewSubject, vVCARD.fn, "Ying Xiong (HERO)");
+				        assertContains(reviewSubject, vVCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
                     }
 
                 } finally {
@@ -274,13 +279,13 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     public void testCaseSensitiveness() throws RepositoryException {
         assertExtracts("microformats/hreview/05-spec.html");
         Assert.assertFalse(conn.isEmpty());
-        assertStatementsSize(RDF.TYPE, REVIEW.Review, 1);
+        assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, no item
-		assertStatementsSize(REVIEW.reviewer, (Value) null, 1);
+		assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
-		assertStatementsSize(RDF.TYPE, VCARD.VCard, 0);
+		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, REVIEW.Review, false);
+        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
 
         try {
 
@@ -288,23 +293,23 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
                 Resource review = reviews.next().getSubject();
 
-                assertContains(review, REVIEW.rating, "4");
-                assertNotContains(REVIEW.title, null);
-                assertContains(review, DCTERMS.date, "20050418");
+                assertContains(review, vREVIEW.rating, "4");
+                assertNotContains(vREVIEW.title, null);
+                assertContains(review, vDCTERMS.date, "20050418");
 
                 assertContains(
-                        REVIEW.text,
+                        vREVIEW.text,
                         "This movie has great music and visuals.");
 
-                assertStatementsSize(REVIEW.hasReview, review, 1);
+                assertStatementsSize(vREVIEW.hasReview, review, 1);
 
-                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null,REVIEW.hasReview, review, false);
+                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, vREVIEW.hasReview, review, false);
 
                 try {
                     while(reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
-                        assertContains(reviewSubject, VCARD.fn, "Ying Xiong (HERO)");
-				        assertContains(reviewSubject, VCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
+                        assertContains(reviewSubject, vVCARD.fn, "Ying Xiong (HERO)");
+				        assertContains(reviewSubject, vVCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
                     }
 
                 } finally {

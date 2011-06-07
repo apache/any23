@@ -40,6 +40,9 @@ import java.util.List;
  */
 public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 
+    private static final FOAF vFOAF = FOAF.getInstance();
+    private static final DOAC vDOAC = DOAC.getInstance();
+
     public final static ExtractorFactory<HResumeExtractor> factory =
             SimpleExtractorFactory.create(
                     "html-mf-hresume",
@@ -67,7 +70,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         if (null == node) return false;
         BNode person = getBlankNodeFor(node);
         // we have a person, at least
-        out.writeTriple(person, RDF.TYPE, FOAF.Person);
+        out.writeTriple(person, RDF.TYPE, vFOAF.Person);
         final HTMLDocument fragment = new HTMLDocument(node);
         addSummary(fragment, person);
         addContact(fragment, person);
@@ -92,7 +95,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
                 getDescription().getExtractorName(),
                 summary.source(),
                 person,
-                DOAC.summary,
+                vDOAC.summary,
                 summary.value()
         );
     }
@@ -103,7 +106,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             addBNodeProperty(
                     getDescription().getExtractorName(),
                     nodes.get(0),
-                    person, FOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0))
+                    person, vFOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0))
             );
     }
 
@@ -115,7 +118,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             addBNodeProperty(
                     getDescription().getExtractorName(),
                     node,
-                    person, DOAC.experience, exp
+                    person, vDOAC.experience, exp
             );
         }
     }
@@ -127,19 +130,19 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 
         HTMLDocument.TextField value = document.getSingularTextField("title");
         check += value;
-        conditionallyAddStringProperty(extractorName, value.source(), exp, DOAC.title, value.value().trim());
+        conditionallyAddStringProperty(extractorName, value.source(), exp, vDOAC.title, value.value().trim());
 
         value = document.getSingularTextField("dtstart");
         check += value;
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.start_date, value.value().trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, vDOAC.start_date, value.value().trim());
 
         value = document.getSingularTextField("dtend");
         check += value;
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.end_date, value.value().trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, vDOAC.end_date, value.value().trim());
 
         value = document.getSingularTextField("summary");
         check += value;
-        conditionallyAddStringProperty(extractorName, documentNode, exp, DOAC.organization, value.value().trim());
+        conditionallyAddStringProperty(extractorName, documentNode, exp, vDOAC.organization, value.value().trim());
 
         return !"".equals(check);
     }
@@ -152,7 +155,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             addBNodeProperty(
                     getDescription().getExtractorName(),
                     node,
-                    person, DOAC.education, exp
+                    person, vDOAC.education, exp
             );
         }
     }
@@ -163,7 +166,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             addBNodeProperty(
                     getDescription().getExtractorName(),
                     node,
-                    person, DOAC.affiliation, getBlankNodeFor(node)
+                    person, vDOAC.affiliation, getBlankNodeFor(node)
             );
         }
     }
@@ -178,7 +181,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             conditionallyAddStringProperty(
                     extractorName,
                     node,
-                    person, DOAC.skill, extractSkillValue(node)
+                    person, vDOAC.skill, extractSkillValue(node)
             );
         }
         // Extracting from enlisting node.
@@ -190,7 +193,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
                 conditionallyAddStringProperty(
                         extractorName,
                         node,
-                        person, DOAC.skill, skill.trim()
+                        person, vDOAC.skill, skill.trim()
                 );
             }
         }

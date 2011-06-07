@@ -36,6 +36,10 @@ import org.openrdf.repository.RepositoryException;
  */
 public class XFNExtractorTest extends AbstractExtractorTestCase {
 
+    private static final FOAF    vFOAF    = FOAF.getInstance();
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+    private static final XFN     vXFN     = XFN.getInstance();
+
     private final static URI bobsHomepage = baseURI;
 
     private final static URI alicesHomepage = RDFHelper.uri("http://alice.example.com/");
@@ -51,8 +55,8 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("html/html-without-uf.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
@@ -60,8 +64,8 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/xfn/no-rel.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
@@ -69,8 +73,8 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/xfn/no-valid-rel.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
@@ -81,59 +85,59 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testSimpleMeLink() throws RepositoryException {
         assertExtracts("microformats/xfn/simple-me.html");
-        Resource person = findExactlyOneBlankSubject(RDF.TYPE, FOAF.Person);
-        assertContains(person, XFN.mePage, baseURI);
-        assertContains(person, XFN.mePage, bobsHomepage);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        assertContains(person, vXFN.mePage, baseURI);
+        assertContains(person, vXFN.mePage, bobsHomepage);
     }
 
     @Test
     public void testRelativeURIisResolvedAgainstBase() throws RepositoryException {
         assertExtracts("microformats/xfn/with-relative-uri.html");
-        assertContains(null, XFN.mePage, RDFHelper.uri("http://bob.example.com/foo"));
+        assertContains(null, vXFN.mePage, RDFHelper.uri("http://bob.example.com/foo"));
     }
 
     @Test
     public void testParseTagSoup() throws RepositoryException {
         assertExtracts("microformats/xfn/tagsoup.html");
-        Resource person = findExactlyOneBlankSubject(RDF.TYPE, FOAF.Person);
-        assertContains(person, XFN.mePage, baseURI);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        assertContains(person, vXFN.mePage, baseURI);
     }
 
     @Test
     public void testSimpleFriend() throws RepositoryException {
         assertExtracts("microformats/xfn/simple-friend.html");
-        Resource bob = findExactlyOneBlankSubject(XFN.mePage, baseURI);
-        Resource alice = findExactlyOneBlankSubject(XFN.mePage, alicesHomepage);
-        assertContains(bob, RDF.TYPE, FOAF.Person);
-        assertContains(alice, RDF.TYPE, FOAF.Person);
+        Resource bob = findExactlyOneBlankSubject(vXFN.mePage, baseURI);
+        Resource alice = findExactlyOneBlankSubject(vXFN.mePage, alicesHomepage);
+        assertContains(bob, RDF.TYPE, vFOAF.Person);
+        assertContains(alice, RDF.TYPE, vFOAF.Person);
         Assert.assertFalse(alice.equals(bob));
-        assertContains(bob, XFN.friend, alice);
-        assertContains(baseURI, XFN.getExtendedProperty("friend"), alicesHomepage);
+        assertContains(bob, vXFN.friend, alice);
+        assertContains(baseURI, vXFN.getExtendedProperty("friend"), alicesHomepage);
     }
 
     @Test
     public void testFriendAndSweetheart() throws RepositoryException {
         assertExtracts("microformats/xfn/multiple-rel.html");
-        Resource bob = findExactlyOneBlankSubject(XFN.mePage, baseURI);
-        Resource alice = findExactlyOneBlankSubject(XFN.mePage, alicesHomepage);
-        assertContains(bob, XFN.friend, alice);
-        assertContains(baseURI, XFN.getExtendedProperty("friend"), alicesHomepage);
+        Resource bob = findExactlyOneBlankSubject(vXFN.mePage, baseURI);
+        Resource alice = findExactlyOneBlankSubject(vXFN.mePage, alicesHomepage);
+        assertContains(bob, vXFN.friend, alice);
+        assertContains(baseURI, vXFN.getExtendedProperty("friend"), alicesHomepage);
 
-        assertContains(bob, XFN.sweetheart, alice);
-        assertContains(baseURI, XFN.getExtendedProperty("sweetheart"), alicesHomepage);
+        assertContains(bob, vXFN.sweetheart, alice);
+        assertContains(baseURI, vXFN.getExtendedProperty("sweetheart"), alicesHomepage);
     }
 
     @Test
     public void testMultipleFriends() throws RepositoryException {
         assertExtracts("microformats/xfn/multiple-friends.html");
-        Resource bob = findExactlyOneBlankSubject(XFN.mePage, baseURI);
-        Resource alice = findExactlyOneBlankSubject(XFN.mePage, alicesHomepage);
-        Resource charlie = findExactlyOneBlankSubject(XFN.mePage, charliesHomepage);
-        assertContains(bob, XFN.friend, alice);
-        assertContains(baseURI, XFN.getExtendedProperty("friend"), alicesHomepage);
+        Resource bob = findExactlyOneBlankSubject(vXFN.mePage, baseURI);
+        Resource alice = findExactlyOneBlankSubject(vXFN.mePage, alicesHomepage);
+        Resource charlie = findExactlyOneBlankSubject(vXFN.mePage, charliesHomepage);
+        assertContains(bob, vXFN.friend, alice);
+        assertContains(baseURI, vXFN.getExtendedProperty("friend"), alicesHomepage);
 
-        assertContains(bob, XFN.friend, charlie);
-        assertContains(baseURI, XFN.getExtendedProperty("friend"), charliesHomepage);
+        assertContains(bob, vXFN.friend, charlie);
+        assertContains(baseURI, vXFN.getExtendedProperty("friend"), charliesHomepage);
     }
 
     @Test
@@ -148,24 +152,24 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/xfn/me-and-sweetheart.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(SINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
+        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
     }
 
     @Test
     public void testIgnoreExtraSpacesInRel() throws RepositoryException {
         assertExtracts("microformats/xfn/strip-spaces.html");
-        assertContains(null, XFN.mePage, baseURI);
+        assertContains(null, vXFN.mePage, baseURI);
     }
 
     @Test
     public void testMixedCaseATag() throws RepositoryException {
         assertExtracts("microformats/xfn/mixed-case.html");
-        assertContains(null, XFN.mePage, baseURI);
+        assertContains(null, vXFN.mePage, baseURI);
     }
     @Test
     public void testUpcaseHREF() throws RepositoryException {
         assertExtracts("microformats/xfn/upcase-href.html");
-        assertContains(null, XFN.mePage, baseURI);
+        assertContains(null, vXFN.mePage, baseURI);
     }
 }

@@ -25,12 +25,21 @@ public class GEO extends Vocabulary {
 
     public static final String NS = "http://www.w3.org/2003/01/geo/wgs84_pos#";
 
-    // Classes
-    public static final URI Point = createURI(NS, "Point");
+    private static Vocabulary instance;
+
+    public static Vocabulary getInstance() {
+        if(instance == null) {
+            instance = new GEO();
+        }
+        return instance;
+    }
+
+    // Resources.
+    public final URI Point = createResource(NS, "Point");
 
     // Properties
-    public static final URI lat = createURI(NS, "lat" );
-    public static final URI lon = createURI(NS, "long");
+    public final URI lat = createProperty(NS, "lat" );
+    public final URI lon = createProperty(NS, "long");
 
     private GEO(){}
 
