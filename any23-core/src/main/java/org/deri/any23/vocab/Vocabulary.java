@@ -16,9 +16,8 @@
 
 package org.deri.any23.vocab;
 
+import org.deri.any23.util.RDFHelper;
 import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +29,6 @@ import java.util.Map;
  * @version $Id$
  */
 public abstract class Vocabulary {
-
-    /**
-     * Internal URI factory.
-     */
-    private static final ValueFactory factory = ValueFactoryImpl.getInstance();
 
     /**
      * Map of vocabulary resources.
@@ -115,7 +109,7 @@ public abstract class Vocabulary {
      * @return the URI instance.
      */
     protected URI createURI(String uriStr) {
-        return factory.createURI(uriStr);
+        return RDFHelper.uri(uriStr);
     }
 
     /**
@@ -158,7 +152,7 @@ public abstract class Vocabulary {
      * @return
      */
     private URI createURI(String namespace, String localName) {
-        return factory.createURI(namespace, localName);
+        return RDFHelper.uri(namespace, localName);
     }
 
 }
