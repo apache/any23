@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.microdata;
 
 import org.deri.any23.extractor.html.DomUtils;
+import org.deri.any23.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -87,7 +88,7 @@ public class MicrodataUtils {
             for(int j = 0; j < candidates.size(); j++) {
                 if(i == j) continue;
                 if(
-                        isPrefix(
+                        StringUtils.isPrefix(
                                 DomUtils.getXPathForNode(candidates.get(j)),
                                 DomUtils.getXPathForNode(candidates.get(i))
                         )
@@ -229,31 +230,12 @@ public class MicrodataUtils {
      * @return list of <b>itemscope</b> items.
      */
     public static ItemScope[] getMicrodata(Document document) {
-        final List<Node> itemNodes = getUnnestedNodes( getItemScopeNodes(document) );
+        final List<Node> itemNodes = getUnnestedNodes(getItemScopeNodes(document));
         final List<ItemScope> items = new ArrayList<ItemScope>();
         for(Node itemNode : itemNodes) {
             items.add( getItemScope(document, itemNode) );
         }
         return items.toArray( new ItemScope[items.size()] );
-    }
-
-    /**
-     * Check whether string <code>a</code> is prefix of string <code>b</code>.
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    private static boolean isPrefix(String a, String b) {
-        if(a.length() > b.length()) {
-            return false;
-        }
-        for(int i = 0; i < a.length(); i++) {
-            if(a.charAt(i) != b.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }

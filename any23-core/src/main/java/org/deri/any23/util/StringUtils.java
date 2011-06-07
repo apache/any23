@@ -45,5 +45,50 @@ public class StringUtils {
         return occurrences;
     }
 
+    /**
+     * Check whether string <code>candidatePrefix</code> is prefix of string <code>container</code>.
+     *
+     * @param candidatePrefix
+     * @param container
+     * @return
+     */
+    public static boolean isPrefix(String candidatePrefix, String container) {
+        if(candidatePrefix == null || container == null) {
+            throw new NullPointerException("Arguments must be not null.");
+        }
+        if(candidatePrefix.length() > container.length()) {
+            return false;
+        }
+        for(int i = 0; i < candidatePrefix.length(); i++) {
+            if(candidatePrefix.charAt(i) != container.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check whether string <code>candidateSuffix</code> is suffix of string <code>container</code>.
+     *
+     * @param candidateSuffix
+     * @param container
+     * @return
+     */
+    public static boolean isSuffix(String candidateSuffix, String container) {
+        if(candidateSuffix == null || container == null) {
+            throw new NullPointerException("Arguments must be not null.");
+        }
+        if(candidateSuffix.length() > container.length()) {
+            return false;
+        }
+        final int lenDiff = container.length() - candidateSuffix.length();
+        for(int i = candidateSuffix.length() - 1; i >= 0; i--) {
+            if(candidateSuffix.charAt(i) != container.charAt(i + lenDiff)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private StringUtils() {}
 }
