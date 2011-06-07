@@ -23,6 +23,7 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 
@@ -34,36 +35,42 @@ import java.util.Date;
  */
 public class RDFHelper {
 
+    private static final ValueFactory valueFactory = ValueFactoryImpl.getInstance();
+
     private RDFHelper(){}
 
     public static URI uri(String uri) {
-        return ValueFactoryImpl.getInstance().createURI(uri);
+        return valueFactory.createURI(uri);
+    }
+
+    public static URI uri(String namespace, String localName) {
+        return valueFactory.createURI(namespace, localName);
     }
 
     public static Literal literal(String s) {
-        return ValueFactoryImpl.getInstance().createLiteral(s);
+        return valueFactory.createLiteral(s);
     }
 
     public static Literal literal(String s, String l) {
-        return ValueFactoryImpl.getInstance().createLiteral(s, l);
+        return valueFactory.createLiteral(s, l);
     }
 
     public static Literal literal(String s, URI datatype) {
-        return ValueFactoryImpl.getInstance().createLiteral(s, datatype);
+        return valueFactory.createLiteral(s, datatype);
     }
 
     public static BNode getBNode(String id) {
-        return ValueFactoryImpl.getInstance().createBNode(
+        return valueFactory.createBNode(
             "node" + MathUtils.md5(id)
         );
     }
 
     public static Statement triple(Resource s, URI p, Value o) {
-        return ValueFactoryImpl.getInstance().createStatement(s, p, o);
+        return valueFactory.createStatement(s, p, o);
     }
 
     public static Statement quad(Resource s, URI p, Value o, Resource g) {
-        return ValueFactoryImpl.getInstance().createStatement(s, p, o, g);
+        return valueFactory.createStatement(s, p, o, g);
     }
 
     public static Value toRDF(String s) {
@@ -71,11 +78,11 @@ public class RDFHelper {
         if (s.matches("[a-z0-9]+:.*")) {
             return PopularPrefixes.get().expand(s);
         }
-        return ValueFactoryImpl.getInstance().createLiteral(s);
+        return valueFactory.createLiteral(s);
     }
 
     public static Statement toTriple(String s, String p, String o) {
-        return ValueFactoryImpl.getInstance().createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
+        return valueFactory.createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
     }
 
     public static String toXSDDateTime(Date date) {
