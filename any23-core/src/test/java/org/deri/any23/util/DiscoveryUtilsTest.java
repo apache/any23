@@ -19,6 +19,7 @@ package org.deri.any23.util;
 import org.deri.any23.vocab.Vocabulary;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openrdf.model.Resource;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.List;
 public class DiscoveryUtilsTest {
 
     /**
-     * Test case for {@link DiscoveryUtils#getClassesInPackage(String, Class)}.
+     * Test case for {@link DiscoveryUtils#getClassesInPackage(String, Class)} with detection in classes dir.
      *
      * @throws ClassNotFoundException
      * @throws IOException
@@ -40,6 +41,18 @@ public class DiscoveryUtilsTest {
     public void testGetClassesInPackage() throws ClassNotFoundException, IOException {
         final List<Class> classes = DiscoveryUtils.getClassesInPackage("org.deri.any23.vocab", Vocabulary.class);
         Assert.assertTrue( classes.size() >= 13 );
+    }
+
+    /**
+     * Test case for {@link DiscoveryUtils#getClassesInPackage(String, Class)} with detection in JAR file.
+     *
+     * @throws ClassNotFoundException
+     * @throws IOException
+     */
+    @Test
+    public void testGetClassesInJAR() throws ClassNotFoundException, IOException {
+        final List<Class> classes = DiscoveryUtils.getClassesInPackage("org.openrdf.model", Resource.class);
+        Assert.assertTrue( classes.size() >= 2 );
     }
 
 }
