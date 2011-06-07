@@ -49,7 +49,7 @@ public class ToolRunner {
         List<Class> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
         try {
             if (args.length < 2) {
-                usage( getUtilitiesMessage(utilities), utilities );
+                usage( null, utilities );
             }
 
             final String className = args[1];
@@ -126,8 +126,10 @@ public class ToolRunner {
     }
 
     private static void usage(String msg, List<Class> utilities) {
-        System.err.println("*** ERROR: " + msg);
-        System.err.println();
+        if(msg != null) {
+            System.err.println("*** ERROR: " + msg);
+            System.err.println();
+        }
         System.err.println(USAGE);
         if(utilities != null) {
             System.err.println( getUtilitiesMessage(utilities) );
