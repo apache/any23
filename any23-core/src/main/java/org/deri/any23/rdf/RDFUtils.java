@@ -197,4 +197,6 @@ public class RDFUtils {
         return valueFactory.createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
     }
 
+    private RDFUtils() {}
+
 }
