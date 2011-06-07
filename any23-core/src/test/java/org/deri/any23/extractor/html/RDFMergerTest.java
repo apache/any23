@@ -18,7 +18,7 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResultImpl;
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.REVIEW;
@@ -109,7 +109,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.role, "Chief");
 		assertContains(vVCARD.tz, "-0700");
 		assertContains(vVCARD.bday, "2006-04-04");
-		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.class_, "public");
 		assertContains(vVCARD.note, "this is a note");
@@ -232,7 +232,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.organization_name, "Intellicorp");
 		assertContains(vVCARD.organization_unit, "Intelligence");
 
-		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.note, "this is a note");
 		assertContains(vVCARD.class_, "public");
@@ -403,8 +403,8 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                     while(whatHasAReview.hasNext()) {
                         Resource subject = whatHasAReview.next().getSubject();
                         assertContains(subject, vVCARD.fn, "The Postal Service: Give Up");
-				        assertContains(subject, vVCARD.url, RDFHelper.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
-				        assertContains(subject, vVCARD.photo, RDFHelper.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
+				        assertContains(subject, vVCARD.url, RDFUtils.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
+				        assertContains(subject, vVCARD.photo, RDFUtils.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
                     }
 
                 } finally {
@@ -418,7 +418,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         }
 
         assertContains(vVCARD.fn, "Adam Rifkin");
-		assertContains(vVCARD.url, RDFHelper.uri("http://ifindkarma.com/blog/"));
+		assertContains(vVCARD.url, RDFUtils.uri("http://ifindkarma.com/blog/"));
 	}
 
 	@Override

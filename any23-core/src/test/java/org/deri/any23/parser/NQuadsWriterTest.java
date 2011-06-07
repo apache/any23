@@ -17,7 +17,7 @@
 
 package org.deri.any23.parser;
 
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -59,41 +59,41 @@ public class NQuadsWriterTest {
 
     @Test
     public void testWrite() throws RDFHandlerException {
-        Statement s1 = RDFHelper.quad(
-                RDFHelper.uri("http://sub"),
-                RDFHelper.uri("http://pre"),
-                RDFHelper.uri("http://obj"),
-                RDFHelper.uri("http://gra1")
+        Statement s1 = RDFUtils.quad(
+                RDFUtils.uri("http://sub"),
+                RDFUtils.uri("http://pre"),
+                RDFUtils.uri("http://obj"),
+                RDFUtils.uri("http://gra1")
         );
-        Statement s2 = RDFHelper.quad(
-                RDFHelper.getBNode("1"),
-                RDFHelper.uri("http://pre"),
-                RDFHelper.getBNode("2"),
-                RDFHelper.uri("http://gra2")
+        Statement s2 = RDFUtils.quad(
+                RDFUtils.getBNode("1"),
+                RDFUtils.uri("http://pre"),
+                RDFUtils.getBNode("2"),
+                RDFUtils.uri("http://gra2")
         );
-        Statement s3 = RDFHelper.quad(
-                RDFHelper.getBNode("3"),
-                RDFHelper.uri("http://pre"),
-                RDFHelper.literal("Sample text 1"),
-                RDFHelper.uri("http://gra2")
+        Statement s3 = RDFUtils.quad(
+                RDFUtils.getBNode("3"),
+                RDFUtils.uri("http://pre"),
+                RDFUtils.literal("Sample text 1"),
+                RDFUtils.uri("http://gra2")
         );
-        Statement s4 = RDFHelper.quad(
-                RDFHelper.getBNode("4"),
-                RDFHelper.uri("http://pre"),
-                RDFHelper.literal("Sample text 2", "en"),
-                RDFHelper.uri("http://gra2")
+        Statement s4 = RDFUtils.quad(
+                RDFUtils.getBNode("4"),
+                RDFUtils.uri("http://pre"),
+                RDFUtils.literal("Sample text 2", "en"),
+                RDFUtils.uri("http://gra2")
         );
-        Statement s5 = RDFHelper.quad(
-                RDFHelper.getBNode("5"),
-                RDFHelper.uri("http://pre"),
-                RDFHelper.literal("12345", new URIImpl("http://www.w3.org/2001/XMLSchema#integer")),
-                RDFHelper.uri("http://gra2")
+        Statement s5 = RDFUtils.quad(
+                RDFUtils.getBNode("5"),
+                RDFUtils.uri("http://pre"),
+                RDFUtils.literal("12345", new URIImpl("http://www.w3.org/2001/XMLSchema#integer")),
+                RDFUtils.uri("http://gra2")
         );
-        Statement s6 = RDFHelper.quad(
-                RDFHelper.uri("p1:sub"),
-                RDFHelper.uri("p1:pre"),
-                RDFHelper.uri("p1:obj"),
-                RDFHelper.uri("p1:gra2")
+        Statement s6 = RDFUtils.quad(
+                RDFUtils.uri("p1:sub"),
+                RDFUtils.uri("p1:pre"),
+                RDFUtils.uri("p1:obj"),
+                RDFUtils.uri("p1:gra2")
         );
 
         // Sending events.

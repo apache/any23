@@ -17,7 +17,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.SINDICE;
@@ -199,9 +199,9 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
                         assertContains(reviewSubject, vVCARD.fn, "The Postal Service: Give Up");
                         assertContains(reviewSubject, vVCARD.url,
-                                RDFHelper.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
+                                RDFUtils.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
                         assertContains(reviewSubject, vVCARD.photo,
-                                RDFHelper.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
+                                RDFUtils.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
                     }
                 } finally {
                     reviewSubjects.close();
@@ -252,7 +252,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                     while(reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
                         assertContains(reviewSubject, vVCARD.fn, "Ying Xiong (HERO)");
-				        assertContains(reviewSubject, vVCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
+				        assertContains(reviewSubject, vVCARD.url, RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
                     }
 
                 } finally {
@@ -309,7 +309,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                     while(reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
                         assertContains(reviewSubject, vVCARD.fn, "Ying Xiong (HERO)");
-				        assertContains(reviewSubject, vVCARD.url, RDFHelper.uri("http://www.imdb.com/title/tt0299977/"));
+				        assertContains(reviewSubject, vVCARD.url, RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
                     }
 
                 } finally {

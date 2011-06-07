@@ -17,7 +17,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.XHTML;
 import org.junit.Test;
@@ -35,9 +35,9 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final XHTML   vXHTML   = XHTML.getInstance();
 
-    private URI ccBy = RDFHelper.uri("http://creativecommons.org/licenses/by/2.0/");
+    private URI ccBy = RDFUtils.uri("http://creativecommons.org/licenses/by/2.0/");
     
-    private URI apache = RDFHelper.uri("http://www.apache.org/licenses/LICENSE-2.0");
+    private URI apache = RDFUtils.uri("http://www.apache.org/licenses/LICENSE-2.0");
 
     public ExtractorFactory<?> getExtractorFactory() {
         return LicenseExtractor.factory;

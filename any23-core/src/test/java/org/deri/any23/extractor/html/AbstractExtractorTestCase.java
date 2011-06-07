@@ -19,7 +19,7 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.writer.RepositoryWriter;
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,7 +50,7 @@ import java.util.List;
  */
 public abstract class AbstractExtractorTestCase {
 
-    protected static URI baseURI = RDFHelper.uri("http://bob.example.com/");
+    protected static URI baseURI = RDFUtils.uri("http://bob.example.com/");
 
     protected RepositoryConnection conn;
 
@@ -72,7 +72,7 @@ public abstract class AbstractExtractorTestCase {
     }
 
     public void assertContains(URI p, String o) throws RepositoryException {
-        assertContains(null, p, RDFHelper.literal(o));
+        assertContains(null, p, RDFUtils.literal(o));
     }
 
     public void assertNotContains(URI p, Resource o) throws RepositoryException {
@@ -97,7 +97,7 @@ public abstract class AbstractExtractorTestCase {
     }
 
     public void assertNotContains(Resource subj, URI prop, String obj) throws RepositoryException {
-        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, RDFHelper.literal(obj), false));
+        Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(subj, prop, RDFUtils.literal(obj), false));
     }
 
     public void assertNotContains(Resource subj, URI prop, Resource obj) throws RepositoryException {
@@ -216,7 +216,7 @@ public abstract class AbstractExtractorTestCase {
     }
 
     protected void assertContains(Resource s, URI p, String o) throws RepositoryException {
-        assertContains(s, p, RDFHelper.literal(o));
+        assertContains(s, p, RDFUtils.literal(o));
     }
 
     protected int getStatementsSize(Resource subject, URI prop, Value obj)
@@ -244,7 +244,7 @@ public abstract class AbstractExtractorTestCase {
     }
 
     protected void assertStatementsSize(URI prop, String obj, int expected) throws RepositoryException {
-        assertStatementsSize(prop, obj == null ? null : RDFHelper.literal(obj), expected );
+        assertStatementsSize(prop, obj == null ? null : RDFUtils.literal(obj), expected );
     }
 
     protected void assertNotFound(Resource sub, URI prop) throws RepositoryException {

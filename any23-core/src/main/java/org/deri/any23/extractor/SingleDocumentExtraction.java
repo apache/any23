@@ -29,10 +29,10 @@ import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
-import org.deri.any23.util.RDFHelper;
 import org.deri.any23.validator.EmptyValidationReport;
 import org.deri.any23.validator.ValidatorException;
 import org.deri.any23.vocab.SINDICE;
@@ -583,7 +583,7 @@ public class SingleDocumentExtraction {
 
     private void addExtractionMetadataTriples(ExtractionContext context) throws TripleHandlerException {
         // adding extraction date
-        String xsdDateTimeNow = RDFHelper.toXSDDateTime(new Date());
+        String xsdDateTimeNow = RDFUtils.toXSDDateTime(new Date());
         output.receiveTriple(
                 new URIImpl(documentURI.toString()),
                 vSINDICE.getProperty(SINDICE.DATE),
@@ -623,7 +623,7 @@ public class SingleDocumentExtraction {
     throws TripleHandlerException {
         final BNode fromObject = from.getObject();
         final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
-        BNode bnode = RDFHelper.getBNode(bNodeHash);
+        BNode bnode = RDFUtils.getBNode(bNodeHash);
         th.receiveTriple(bnode, vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), from.getProperty(), null, ec );
         th.receiveTriple(
                 bnode,

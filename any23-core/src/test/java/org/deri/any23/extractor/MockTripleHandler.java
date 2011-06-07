@@ -16,7 +16,7 @@
 
 package org.deri.any23.extractor;
 
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.writer.TripleHandler;
 import org.junit.Assert;
 import org.openrdf.model.Resource;
@@ -61,7 +61,7 @@ public class MockTripleHandler implements TripleHandler {
     }
 
     public void expectTriple(Resource s, URI p, Value o, URI g, String extractorName, URI documentURI, String localID) {
-        expectations.add("triple(" + RDFHelper.quad(s, p, o, g) + ", " +
+        expectations.add("triple(" + RDFUtils.quad(s, p, o, g) + ", " +
                 new ExtractionContext(extractorName, documentURI, localID) + ")");
     }
 
@@ -94,7 +94,7 @@ public class MockTripleHandler implements TripleHandler {
     }
 
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context) {
-        assertNextExpectation("triple(" + RDFHelper.quad(s, p, o, g) + ", " + context + ")");
+        assertNextExpectation("triple(" + RDFUtils.quad(s, p, o, g) + ", " + context + ")");
     }
 
     public void receiveNamespace(String prefix, String uri, ExtractionContext context) {

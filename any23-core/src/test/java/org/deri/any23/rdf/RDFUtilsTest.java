@@ -25,31 +25,31 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 
 /**
- * Reference test class for {@link org.deri.any23.rdf.RDFUtility}.
+ * Reference test class for {@link RDFUtils}.
  *
  * @author Davide Palmisano (palmisano@gmail.com)
  */
-public class RDFUtilityTest {
+public class RDFUtilsTest {
 
     @Test
     public void testFixAbsoluteURI() throws UnsupportedEncodingException, URISyntaxException {
         Assert.assertEquals(
                 "Error: passed URIs are not the same.",
                 "http://example.com/resource/the%20godfather",
-                RDFUtility.fixAbsoluteURI("http://example.com/resource/the godfather")
+                RDFUtils.fixAbsoluteURI("http://example.com/resource/the godfather")
         );
 
         Assert.assertEquals(
                 "Error: passed URIs are not the same.",
                 "http://dbpedia.org/",
-                RDFUtility.fixAbsoluteURI("http://dbpedia.org")
+                RDFUtils.fixAbsoluteURI("http://dbpedia.org")
         );
     }
 
     @Test
     public void testGetXSDDate() throws DatatypeConfigurationException, ParseException {
         Assert.assertEquals("1997-09-01T13:00:00.000Z",
-                RDFUtility.getXSDDate(
+                RDFUtils.getXSDDate(
                         "19970901T1300Z",
                         "yyyyMMdd'T'HHmm'Z'"
                 )

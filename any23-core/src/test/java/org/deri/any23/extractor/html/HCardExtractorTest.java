@@ -3,7 +3,7 @@ package org.deri.any23.extractor.html;
 import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.VCARD;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains(vVCARD.email, RDFHelper.uri("mailto:john@example.com"));
+		assertContains(vVCARD.email, RDFUtils.uri("mailto:john@example.com"));
 	}
 
     @Test
@@ -49,9 +49,9 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 				"+1.415.555.1242", "+1.415.555.1243"
         };
 		for (String tel : tels) {
-			assertContains(vVCARD.tel, RDFHelper.uri("tel:" + tel));
+			assertContains(vVCARD.tel, RDFUtils.uri("tel:" + tel));
 		}
-		Resource telResource = RDFHelper.uri("tel:+14155551233");
+		Resource telResource = RDFUtils.uri("tel:+14155551233");
 		assertContains(vVCARD.fax, telResource);
 		assertContains(vVCARD.workTel, telResource);
 		assertContains(vVCARD.homeTel, telResource);
@@ -75,7 +75,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.role, "Chief");
 		assertContains(vVCARD.tz, "-0700");
 		assertContains(vVCARD.bday, "2006-04-04");
-		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.class_, "public");
 		assertContains(vVCARD.note, "this is a note");
@@ -136,7 +136,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.organization_name, "Intellicorp");
 		assertContains(vVCARD.organization_unit, "Intelligence");
 
-		assertContains(vVCARD.tel, RDFHelper.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.note, "this is a note");
 		assertContains(vVCARD.class_, "public");
@@ -238,7 +238,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
         RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
         try {
-            Resource example = RDFHelper.uri("http://example.org/");
+            Resource example = RDFUtils.uri("http://example.org/");
             while (statements.hasNext()) {
                 Resource card = statements.next().getSubject();
                 Assert.assertNotNull( findObject(card, vVCARD.fn) );
@@ -439,18 +439,18 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         // assertContains(vVCARD.organization_name, "Technorati");
         Resource person = findExactlyOneBlankSubject(
                 vVCARD.fn,
-                RDFHelper.literal("Tantek Celik")
+                RDFUtils.literal("Tantek Celik")
         );
         Assert.assertNotNull(person);
         Resource org = findExactlyOneBlankSubject(
                 vVCARD.organization_name,
-                RDFHelper.literal("Technorati")
+                RDFUtils.literal("Technorati")
         );
         Assert.assertNotNull(org);
         assertContains(
                 person,
                 vVCARD.url,
-                RDFHelper.uri("http://tantek.com/")
+                RDFUtils.uri("http://tantek.com/")
         );
         assertContains(person, vVCARD.n,   (Resource) null);
         assertContains(person, vVCARD.org, (Resource) null);
@@ -568,7 +568,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
 		assertContains(
                 vVCARD.email,
-				RDFHelper.uri("mailto:ryan@technorati.com")
+				RDFUtils.uri("mailto:ryan@technorati.com")
         );
 
 		assertContains(vVCARD.given_name , "Ryan");
@@ -583,7 +583,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
 		assertContains(
                 vVCARD.email,
-				RDFHelper.uri("mailto:brian@example.com")
+				RDFUtils.uri("mailto:brian@example.com")
         );
 		assertContains(vVCARD.given_name, "Brian");
 		assertContains(vVCARD.family_name, "Suda");
@@ -594,14 +594,14 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/07-relative-url.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains( vVCARD.url, RDFHelper.uri(baseURI + "home/blah") );
+		assertContains( vVCARD.url, RDFUtils.uri(baseURI + "home/blah") );
 	}
 
     @Test
     public void testRelativeUrlBase() throws RepositoryException {
 		assertExtracts("microformats/hcard/08-relative-url-base.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFHelper.uri(baseURI + "home/blah"));
+		assertContains(vVCARD.url, RDFUtils.uri(baseURI + "home/blah"));
 		assertJohn();
 	}
 
@@ -609,7 +609,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testRelativeUrlXmlBase1() throws RepositoryException {
 		assertExtracts("microformats/hcard/09-relative-url-xmlbase-1.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFHelper.uri((baseURI + "home/blah")));
+		assertContains(vVCARD.url, RDFUtils.uri((baseURI + "home/blah")));
 		assertJohn();
 	}
 
@@ -617,7 +617,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testRelativeUrlXmlBase2() throws RepositoryException {
 		assertExtracts("microformats/hcard/10-relative-url-xmlbase-2.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFHelper.uri((baseURI + "home/blah")));
+		assertContains(vVCARD.url, RDFUtils.uri((baseURI + "home/blah")));
 		assertJohn();
 	}
 
@@ -625,8 +625,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testMultipleUrls() throws RepositoryException {
 		assertExtracts("microformats/hcard/11-multiple-urls.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFHelper.uri(("http://example.com/foo")));
-		assertContains(vVCARD.url, RDFHelper.uri(("http://example.com/bar")));
+		assertContains(vVCARD.url, RDFUtils.uri(("http://example.com/foo")));
+		assertContains(vVCARD.url, RDFUtils.uri(("http://example.com/bar")));
 
 		assertJohn();
 	}
@@ -642,10 +642,10 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testPhotoLogo() throws RepositoryException {
 		assertExtracts("microformats/hcard/13-photo-logo.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.photo, RDFHelper.uri(("http://example.org/picture1.png")));
-		assertContains(vVCARD.photo, RDFHelper.uri(("http://example.org/picture2.png")));
-		assertContains(vVCARD.logo , RDFHelper.uri(("http://example.org/picture1.png")));
-		assertContains(vVCARD.logo , RDFHelper.uri(("http://example.org/picture2.png")));
+		assertContains(vVCARD.photo, RDFUtils.uri(("http://example.org/picture1.png")));
+		assertContains(vVCARD.photo, RDFUtils.uri(("http://example.org/picture2.png")));
+		assertContains(vVCARD.logo , RDFUtils.uri(("http://example.org/picture1.png")));
+		assertContains(vVCARD.logo , RDFUtils.uri(("http://example.org/picture2.png")));
 		assertJohn();
 	}
 
@@ -653,7 +653,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testImgSrcDataUrl() throws RepositoryException {
 		assertExtracts("microformats/hcard/14-img-src-data-url.html");
 		assertDefaultVCard();
-		Resource data = RDFHelper.uri(
+		Resource data = RDFUtils.uri(
                           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAAK/"
 						+ "INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAASUExURf///8zMzJmZmWZmZ"
 						+ "jMzMwAAAPOPemkAAAM1SURBVHjaYmBgYGBkYQUBFkYWFiCPCchixQAMCCZAACF0MAMVM4K4TFh0IGsBCC"
@@ -717,7 +717,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains( vVCARD.email, RDFHelper.uri("mailto:john@example.com") );
+		assertContains( vVCARD.email, RDFUtils.uri("mailto:john@example.com") );
 	}
 
 	@Test
@@ -741,7 +741,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testImgAlt() throws RepositoryException {
 		assertExtracts("microformats/hcard/20-image-alt.html");
 		assertDefaultVCard();
-		Resource uri = RDFHelper.uri("http://example.com/foo.png");
+		Resource uri = RDFUtils.uri("http://example.com/foo.png");
 		assertContains(vVCARD.photo, uri);
 		assertContains(vVCARD.logo, uri);
 		assertJohn();
@@ -918,7 +918,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
 		assertContains(vVCARD.fn, "Melanie Kl\u00f6\u00df");
-		assertContains(vVCARD.email, RDFHelper.uri("mailto:mkloes@gmail.com"));
+		assertContains(vVCARD.email, RDFUtils.uri("mailto:mkloes@gmail.com"));
 		assertContains(vVCARD.adr,(Resource) null);
 		assertNotContains(null, vVCARD.postal_code,"53127");
 		assertNotContains(null, vVCARD.locality,"Bonn");

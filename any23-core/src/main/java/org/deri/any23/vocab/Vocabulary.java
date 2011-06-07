@@ -16,7 +16,7 @@
 
 package org.deri.any23.vocab;
 
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.openrdf.model.URI;
 
 import java.util.HashMap;
@@ -109,7 +109,7 @@ public abstract class Vocabulary {
      * @return the URI instance.
      */
     protected URI createURI(String uriStr) {
-        return RDFHelper.uri(uriStr);
+        return RDFUtils.uri(uriStr);
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class Vocabulary {
      * @return
      */
     private URI createURI(String namespace, String localName) {
-        return RDFHelper.uri(namespace, localName);
+        return RDFUtils.uri(namespace, localName);
     }
 
 }

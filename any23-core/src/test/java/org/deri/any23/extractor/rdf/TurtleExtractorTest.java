@@ -19,7 +19,7 @@ package org.deri.any23.extractor.rdf;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractionResultImpl;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.writer.RDFXMLWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
@@ -65,7 +65,7 @@ public class TurtleExtractorTest {
     @Test
     public void testTypedLiteralIncompatibleValueSupport()
     throws IOException, ExtractionException, TripleHandlerException {
-        final URI uri = RDFHelper.uri("http://host.com/test-malformed-literal.turtle");
+        final URI uri = RDFUtils.uri("http://host.com/test-malformed-literal.turtle");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         TripleHandler th = new RDFXMLWriter(baos);
         ExtractionResult result = new ExtractionResultImpl(uri, extractor, th);

@@ -19,7 +19,7 @@ package org.deri.any23.extractor;
 
 import junit.framework.Assert;
 import org.deri.any23.extractor.html.TitleExtractor;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.junit.After;
@@ -39,7 +39,7 @@ import java.io.PrintStream;
  */
 public class ExtractionResultImplTest {
 
-    private static final URI TEST_URI = RDFHelper.uri("http://host/test/service");
+    private static final URI TEST_URI = RDFUtils.uri("http://host/test/service");
 
     private ExtractionResultImpl extractionResult;
     private Extractor extractor;

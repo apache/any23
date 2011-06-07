@@ -19,7 +19,7 @@ package org.deri.any23.extractor.html;
 import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.ICAL;
 import org.deri.any23.vocab.SINDICE;
 import org.junit.Test;
@@ -211,7 +211,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertContains(event, vICAL.dtstart, "2005-10-05");
         assertContains(event, vICAL.dtend, "2005-10-08");
         assertContains(event, vICAL.summary, "Web 2.0 Conference");
-        assertContains(event, vICAL.url, RDFHelper.uri("http://www.web2con.com/"));
+        assertContains(event, vICAL.url, RDFUtils.uri("http://www.web2con.com/"));
         assertContains(event, vICAL.location, "Argent Hotel, San Francisco, CA");
     }
 
@@ -221,7 +221,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, vICAL.dtstart, "20060115T000000");
         assertContains(event, vICAL.summary, "Bad Movie Night - Gigli (blame mike spiegelman)");
-        assertContains(event, vICAL.url, RDFHelper.uri(baseURI + "squidlist/calendar/12279/2006/1/15"));
+        assertContains(event, vICAL.url, RDFUtils.uri(baseURI + "squidlist/calendar/12279/2006/1/15"));
     }
 
     @Test
@@ -239,7 +239,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertContains(event, vICAL.dtstart, "2005-10-05");
         assertContains(event, vICAL.dtend, "2005-10-08");
         assertContains(event, vICAL.summary, "Web 2.0 Conference");
-        assertContains(event, vICAL.url, RDFHelper.uri("http://www.web2con.com/"));
+        assertContains(event, vICAL.url, RDFUtils.uri("http://www.web2con.com/"));
         assertContains(event, vICAL.location, "Argent Hotel, San Francisco, CA");
     }
 
@@ -250,7 +250,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertContains(event, vICAL.dtend, "20060310");
         assertContains(event, vICAL.dtstart, "20060306");
         assertContains(event, vICAL.summary, "O'Reilly Emerging Technology Conference");
-        assertContains(event, vICAL.url, RDFHelper.uri("http://conferences.oreillynet.com/et2006/"));
+        assertContains(event, vICAL.url, RDFUtils.uri("http://conferences.oreillynet.com/et2006/"));
         assertContains(event, vICAL.location, "Manchester Grand Hyatt in San Diego, CA");
     }
 
@@ -277,7 +277,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertDefault("microformats/hcalendar/12-component-vevent-summary-url-in-same-class.html");
         Resource event = getExactlyOneComponent(vevent);
         assertContains(event, vICAL.dtstart, "20060125T000000");
-        assertContains(event, vICAL.url, RDFHelper.uri("http://www.laughingsquid.com/squidlist/calendar/12377/2006/1/25"));
+        assertContains(event, vICAL.url, RDFUtils.uri("http://www.laughingsquid.com/squidlist/calendar/12377/2006/1/25"));
         assertContains(event, vICAL.summary, "Art Reception for Tom Schultz and Felix Macnee");
     }
 
@@ -285,7 +285,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     public void test13() throws RepositoryException {
         assertDefault("microformats/hcalendar/13-component-vevent-summary-url-property.html");
         Resource event = getExactlyOneComponent(vevent);
-        assertContains(event, vICAL.url, RDFHelper.uri(
+        assertContains(event, vICAL.url, RDFUtils.uri(
                 "http://dps1.travelocity.com/dparcobrand.ctl?smls=Y&Service=YHOE&.intl=us&aln_name=AA&flt_num=" +
                 "1655&dep_arp_name=&arr_arp_name=&dep_dt_dy_1=23&dep_dt_mn_1=Jan&dep_dt_yr_1=2006&dep_tm_1=9:00am")
         );
@@ -299,7 +299,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertContains(event, vICAL.dtstart, "2005-10-05");
         assertContains(event, vICAL.dtend, "2005-10-08");
         assertContains(event, vICAL.summary, "Web 2.0 Conference");
-        assertContains(event, vICAL.url, RDFHelper.uri("http://www.web2con.com/"));
+        assertContains(event, vICAL.url, RDFUtils.uri("http://www.web2con.com/"));
         assertContains(event, vICAL.location, "Argent Hotel, San Francisco, CA");
     }
 
@@ -331,7 +331,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     public void test18() throws RepositoryException {
 		assertDefault("microformats/hcalendar/18-component-vevent-uid.html");
 		assertStatementsSize(RDF.TYPE, vevent, 5);
-		assertStatementsSize(vICAL.uid, RDFHelper.literal("http://example.com/foo.html"), 5);
+		assertStatementsSize(vICAL.uid, RDFUtils.literal("http://example.com/foo.html"), 5);
 	}
 
     @Test

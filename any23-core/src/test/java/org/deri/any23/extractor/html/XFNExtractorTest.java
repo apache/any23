@@ -17,7 +17,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.XFN;
@@ -42,9 +42,9 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     private final static URI bobsHomepage = baseURI;
 
-    private final static URI alicesHomepage = RDFHelper.uri("http://alice.example.com/");
+    private final static URI alicesHomepage = RDFUtils.uri("http://alice.example.com/");
 
-    private final static URI charliesHomepage = RDFHelper.uri("http://charlie.example.com/");
+    private final static URI charliesHomepage = RDFUtils.uri("http://charlie.example.com/");
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return XFNExtractor.factory;
@@ -93,7 +93,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testRelativeURIisResolvedAgainstBase() throws RepositoryException {
         assertExtracts("microformats/xfn/with-relative-uri.html");
-        assertContains(null, vXFN.mePage, RDFHelper.uri("http://bob.example.com/foo"));
+        assertContains(null, vXFN.mePage, RDFUtils.uri("http://bob.example.com/foo"));
     }
 
     @Test

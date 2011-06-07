@@ -158,7 +158,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     public URI createURI(String uriStr) {
         if (uriStr == null) return null;
         try {
-            return wrappedFactory.createURI(RDFUtility.fixURIWithException(uriStr));
+            return wrappedFactory.createURI(RDFUtils.fixURIWithException(uriStr));
         } catch (Exception e) {
             reportError(e);
             return null;
@@ -170,7 +170,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI createURI(String namespace, String localName) {
         if (namespace == null || localName == null) return null;
-        return wrappedFactory.createURI(RDFUtility.fixURIWithException(namespace), localName);
+        return wrappedFactory.createURI(RDFUtils.fixURIWithException(namespace), localName);
     }
 
     /**
@@ -182,7 +182,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI resolveURI(String uri, java.net.URI baseURI) {
         try {
-            return wrappedFactory.createURI(baseURI.resolve(RDFUtility.fixURIWithException(uri)).toString());
+            return wrappedFactory.createURI(baseURI.resolve(RDFUtils.fixURIWithException(uri)).toString());
         } catch (IllegalArgumentException iae) {
             reportError(iae);
             return null;
@@ -195,7 +195,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public URI fixURI(String uri) {
         try {
-            return wrappedFactory.createURI(RDFUtility.fixURIWithException(uri));
+            return wrappedFactory.createURI(RDFUtils.fixURIWithException(uri));
         } catch (Exception e) {
             reportError(e);
             return null;

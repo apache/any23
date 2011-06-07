@@ -18,7 +18,7 @@ package org.deri.any23.extractor;
 
 import junit.framework.Assert;
 import org.deri.any23.extractor.example.ExampleExtractor;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.writer.CountingTripleHandler;
 import org.junit.Test;
 import org.openrdf.model.URI;
@@ -29,7 +29,7 @@ import org.openrdf.model.URI;
 public class ExtractionAPITest {
 
     private static final String exampleDoc = "http://example.com/";
-    private static final URI uri           = RDFHelper.uri(exampleDoc);
+    private static final URI uri           = RDFUtils.uri(exampleDoc);
 
     @Test
     public void testDirectInstantiation() throws Exception {

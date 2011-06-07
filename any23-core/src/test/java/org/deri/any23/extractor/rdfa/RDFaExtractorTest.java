@@ -18,7 +18,7 @@ package org.deri.any23.extractor.rdfa;
 
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.html.AbstractExtractorTestCase;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.FOAF;
 import org.junit.Test;
@@ -46,8 +46,8 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testSimple() throws RepositoryException {
         assertExtracts("html/rdfa/dummy.html");
-        assertContains(null, vDCTERMS.creator, RDFHelper.literal("Alice", "en") );
-        assertContains(null, vDCTERMS.title  , RDFHelper.literal("The trouble with Bob", "en") );
+        assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en") );
+        assertContains(null, vDCTERMS.title  , RDFUtils.literal("The trouble with Bob", "en") );
     }
 
     /**
@@ -74,9 +74,9 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         logger.info(dumpModelToRDFXML());
 
         assertContains(
-                RDFHelper.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
                 vFOAF.name,
-                RDFHelper.literal("Albert Einstein", "en")
+                RDFUtils.literal("Albert Einstein", "en")
         );
 
     }
@@ -95,12 +95,12 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
         logger.info(dumpModelToTurtle());
 
-        Literal literal = RDFHelper.literal("Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
+        Literal literal = RDFUtils.literal("Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
                 "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +
                 "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</STRONG>\n", RDF.XMLLITERAL);
 
         assertContains(
-                RDFHelper.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
                 vFOAF.name,
                 literal
         );
@@ -120,11 +120,10 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("html/rdfa/drupal-test-frontpage.html");
         logger.info(dumpModelToTurtle());
         assertContains(
-                RDFHelper.uri("http://bob.example.com/node/3"),
+                RDFUtils.uri("http://bob.example.com/node/3"),
                 vDCTERMS.title,
-                RDFHelper.literal("A blog post...", "en")
+                RDFUtils.literal("A blog post...", "en")
         );
-
     }
 
 }

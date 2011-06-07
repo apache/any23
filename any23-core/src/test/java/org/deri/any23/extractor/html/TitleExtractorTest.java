@@ -17,7 +17,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.SINDICE;
 import org.junit.Assert;
@@ -35,7 +35,7 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-    private Literal helloLiteral = RDFHelper.literal("Hello World!");
+    private Literal helloLiteral = RDFUtils.literal("Hello World!");
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return TitleExtractor.factory;
@@ -77,10 +77,10 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     public void testTitleWithDefaultLanguage() throws RepositoryException {
         assertExtracts("html/default-language.html");
         Assert.assertTrue(
-                conn.hasStatement(baseURI, vDCTERMS.title, RDFHelper.literal("Welcome to mydomain.net", "en"), false)
+                conn.hasStatement(baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"), false)
         );
         Assert.assertFalse(
-                conn.hasStatement(baseURI, vDCTERMS.title, RDFHelper.literal(
+                conn.hasStatement(baseURI, vDCTERMS.title, RDFUtils.literal(
                         "Welcome to mydomain.net",
                         (String) null),
                         false

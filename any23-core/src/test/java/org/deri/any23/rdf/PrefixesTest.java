@@ -17,7 +17,6 @@
 package org.deri.any23.rdf;
 
 
-import org.deri.any23.util.RDFHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,8 +81,8 @@ public class PrefixesTest {
         p.add("ex", "http://example.com/");
         Assert.assertTrue(p.canExpand("ex:foo"));
         Assert.assertTrue(p.canExpand("ex:"));
-        Assert.assertEquals(RDFHelper.uri("http://example.com/foo"), p.expand("ex:foo"));
-        Assert.assertEquals(RDFHelper.uri("http://example.com/"), p.expand("ex:"));
+        Assert.assertEquals(RDFUtils.uri("http://example.com/foo"), p.expand("ex:foo"));
+        Assert.assertEquals(RDFUtils.uri("http://example.com/"), p.expand("ex:"));
     }
 
     @Test
@@ -122,9 +121,9 @@ public class PrefixesTest {
         Assert.assertEquals(Collections.singleton(""), p.allPrefixes());
         Assert.assertTrue(p.hasPrefix(""));
         Assert.assertEquals(":foo", p.abbreviate("http://example.com/foo"));
-        Assert.assertEquals(RDFHelper.uri("http://example.com/foo"), p.expand(":foo"));
+        Assert.assertEquals(RDFUtils.uri("http://example.com/foo"), p.expand(":foo"));
         Assert.assertEquals(":", p.abbreviate("http://example.com/"));
-        Assert.assertEquals(RDFHelper.uri("http://example.com/"), p.expand(":"));
+        Assert.assertEquals(RDFUtils.uri("http://example.com/"), p.expand(":"));
     }
 
     @Test

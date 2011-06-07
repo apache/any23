@@ -16,6 +16,17 @@
 
 package org.deri.any23.rdf;
 
+import org.deri.any23.util.MathUtils;
+import org.openrdf.model.BNode;
+import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
+import org.openrdf.model.Statement;
+import org.openrdf.model.URI;
+import org.openrdf.model.Value;
+import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryImpl;
+import org.openrdf.model.vocabulary.RDF;
+
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -29,7 +40,9 @@ import java.util.GregorianCalendar;
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class RDFUtility {
+public class RDFUtils {
+
+    private static final ValueFactory valueFactory = ValueFactoryImpl.getInstance();
 
     /**
      * Fixes typical errors in an absolute URI, such as unescaped spaces.
@@ -70,16 +83,34 @@ public class RDFUtility {
     }
 
     /**
-     * Tries to fix a potentially broken relative or absolute URI
+     * Prints a <code>date</code> to the XSD datetime format.
+     *
+     * @param date date to be printed.
+     * @return the string representation of the input date.
+     */
+    public static String toXSDDateTime(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        String s = simpleDateFormat.format(date);
+        StringBuilder sb = new StringBuilder(s);
+        sb.insert(22, ':');
+        return sb.toString();
+    }
+
+    /**
+     * Tries to fix a potentially broken relative or absolute URI.
+     *
      * <p/>
      * These appear to be good rules:
-     * <p/>
      * Remove whitespace or '\' or '"' in beginning and end
      * Replace space with %20
      * Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:(//)?$
      * Drop the triple if it matches this regex: ^javascript:
      * Truncate ">.*$ from end of lines (Neko didn't quite manage to fix broken markup)
      * Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
+     * <p/>
+     *
+     * @param unescapedURI uri string to be unescaped.
+     * @return the unescaped string.
      */
     public static String fixURIWithException(String unescapedURI) {
         if (unescapedURI == null) throw new IllegalArgumentException("URI was null");
@@ -118,6 +149,52 @@ public class RDFUtility {
             throw new IllegalArgumentException("Invalid character in URI: " + unescapedURI);
 
         return escapedURI;
+    }
+
+    public static URI uri(String uri) {
+        return valueFactory.createURI(uri);
+    }
+
+    public static URI uri(String namespace, String localName) {
+        return valueFactory.createURI(namespace, localName);
+    }
+
+    public static Literal literal(String s) {
+        return valueFactory.createLiteral(s);
+    }
+
+    public static Literal literal(String s, String l) {
+        return valueFactory.createLiteral(s, l);
+    }
+
+    public static Literal literal(String s, URI datatype) {
+        return valueFactory.createLiteral(s, datatype);
+    }
+
+    public static BNode getBNode(String id) {
+        return valueFactory.createBNode(
+            "node" + MathUtils.md5(id)
+        );
+    }
+
+    public static Statement triple(Resource s, URI p, Value o) {
+        return valueFactory.createStatement(s, p, o);
+    }
+
+    public static Statement quad(Resource s, URI p, Value o, Resource g) {
+        return valueFactory.createStatement(s, p, o, g);
+    }
+
+    public static Value toRDF(String s) {
+        if ("a".equals(s)) return RDF.TYPE;
+        if (s.matches("[a-z0-9]+:.*")) {
+            return PopularPrefixes.get().expand(s);
+        }
+        return valueFactory.createLiteral(s);
+    }
+
+    public static Statement toTriple(String s, String p, String o) {
+        return valueFactory.createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
     }
 
 }

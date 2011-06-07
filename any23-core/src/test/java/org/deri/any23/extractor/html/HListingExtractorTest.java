@@ -17,7 +17,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.util.RDFHelper;
+import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.HLISTING;
 import org.deri.any23.vocab.SINDICE;
@@ -129,7 +129,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hlisting/item-fn-url.html");
         Assert.assertFalse(conn.isEmpty());
         assertContains(RDF.TYPE,             vHLISTING.Item);
-        assertContains(vHLISTING.itemUrl,    RDFHelper.uri("http://item.com/"));
+        assertContains(vHLISTING.itemUrl,    RDFUtils.uri("http://item.com/"));
         assertContains(vHLISTING.itemName,   "Parking space");
     }
 
@@ -138,9 +138,9 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hlisting/item-fn-url-photo-img.html");
         Assert.assertFalse(conn.isEmpty());
         assertContains(RDF.TYPE,             vHLISTING.Item);
-        assertContains(vHLISTING.itemUrl,    RDFHelper.uri("http://item.com/"));
+        assertContains(vHLISTING.itemUrl,    RDFUtils.uri("http://item.com/"));
         assertContains(vHLISTING.itemName,   "Parking space");
-        assertContains(vHLISTING.itemPhoto,  RDFHelper.uri(baseURI.stringValue() + "photo.jpg"));
+        assertContains(vHLISTING.itemPhoto,  RDFUtils.uri(baseURI.stringValue() + "photo.jpg"));
     }
 
     @Test
@@ -149,7 +149,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         Assert.assertFalse(conn.isEmpty());
         assertContains(RDF.TYPE,             vHLISTING.Item);
         assertContains(vHLISTING.itemName,   "Parking space");
-        assertContains(vHLISTING.itemPhoto,  RDFHelper.uri(baseURI.stringValue() + "pic.jpg"));
+        assertContains(vHLISTING.itemPhoto,  RDFUtils.uri(baseURI.stringValue() + "pic.jpg"));
     }
 
     @Test
@@ -166,17 +166,17 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
         assertContains(RDF.TYPE, vHLISTING.Lister);
 
-        assertContains(vHLISTING.listerUrl, RDFHelper.uri(baseURI.stringValue() +
+        assertContains(vHLISTING.listerUrl, RDFUtils.uri(baseURI.stringValue() +
                 "m-4621623-pc-world-business.html"));
         assertContains(vHLISTING.listerOrg, "PC World Business");
 
-        assertContains(vHLISTING.listerLogo, RDFHelper.uri(baseURI.stringValue() +
+        assertContains(vHLISTING.listerLogo, RDFUtils.uri(baseURI.stringValue() +
                 "data/merchantlogos/4621623/pcworld.gif"));
 
         assertContains(vHLISTING.listerName, "PC World Business");
 
         assertContains(vHLISTING.itemPhoto,
-                RDFHelper.uri("http://img.kelkoo.com/uk/medium/675/496/00117250662929509422269096808645163496675.jpg"));
+                RDFUtils.uri("http://img.kelkoo.com/uk/medium/675/496/00117250662929509422269096808645163496675.jpg"));
 
         assertContains(vHLISTING.price, "\u00A3480.17");
     }
@@ -188,7 +188,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(RDF.TYPE,            vHLISTING.Listing);
         assertContains(RDF.TYPE,            vHLISTING.Item);
         assertContains(vHLISTING.action,     vHLISTING.offer);
-        assertContains(vHLISTING.itemUrl,    RDFHelper.uri("http://bob.example.com/"));
+        assertContains(vHLISTING.itemUrl,    RDFUtils.uri("http://bob.example.com/"));
         assertContains(RDF.TYPE,            vHLISTING.Lister);
 
         assertContains(vHLISTING.itemName, "Hanro Touch Feeling Shape Bodysuit Underwear");
@@ -196,19 +196,19 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.itemName, "Spanx Spanx Slim Cognito High Leg Shaping...");
 
         assertContains(vHLISTING.itemPhoto,
-                RDFHelper.uri("http://img.kelkoo.com/uk/medium/657/449/00162475823966154731749844283942320449657.jpg"));
+                RDFUtils.uri("http://img.kelkoo.com/uk/medium/657/449/00162475823966154731749844283942320449657.jpg"));
         assertContains(vHLISTING.itemPhoto,
-                RDFHelper.uri("http://img.kelkoo.com/uk/medium/545/091/00154244199719224091151116421737036091545.jpg"));
+                RDFUtils.uri("http://img.kelkoo.com/uk/medium/545/091/00154244199719224091151116421737036091545.jpg"));
         assertContains(vHLISTING.itemPhoto,
-                RDFHelper.uri("http://img.kelkoo.com/uk/medium/018/426/00156227992563192632349212375692442426018.jpg"));
+                RDFUtils.uri("http://img.kelkoo.com/uk/medium/018/426/00156227992563192632349212375692442426018.jpg"));
 
 
         assertContains(vHLISTING.listerLogo,
-                RDFHelper.uri("http://bob.example.com/data/merchantlogos/6957423/socksfox.gif"));
+                RDFUtils.uri("http://bob.example.com/data/merchantlogos/6957423/socksfox.gif"));
         assertContains(vHLISTING.listerLogo,
-                RDFHelper.uri("http://bob.example.com/data/merchantlogos/3590723/mytightsnew.gif"));
+                RDFUtils.uri("http://bob.example.com/data/merchantlogos/3590723/mytightsnew.gif"));
         assertContains(vHLISTING.listerLogo,
-                RDFHelper.uri("http://bob.example.com/data/merchantlogos/2977501/pleaseonlinelogo88x311.gif"));
+                RDFUtils.uri("http://bob.example.com/data/merchantlogos/2977501/pleaseonlinelogo88x311.gif"));
 
 
         assertContains(vHLISTING.listerName, "Socks Fox");
@@ -220,9 +220,9 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.listerOrg, "My Tights");
         assertContains(vHLISTING.listerName, "Tightsplease");
 
-        assertContains(vHLISTING.listerUrl, RDFHelper.uri("http://bob.example.com/m-6957423-socks-fox.html"));
-        assertContains(vHLISTING.listerUrl, RDFHelper.uri("http://bob.example.com/m-3590723-my-tights.html"));
-        assertContains(vHLISTING.listerUrl, RDFHelper.uri("http://bob.example.com/m-2977501-tightsplease.html"));
+        assertContains(vHLISTING.listerUrl, RDFUtils.uri("http://bob.example.com/m-6957423-socks-fox.html"));
+        assertContains(vHLISTING.listerUrl, RDFUtils.uri("http://bob.example.com/m-3590723-my-tights.html"));
+        assertContains(vHLISTING.listerUrl, RDFUtils.uri("http://bob.example.com/m-2977501-tightsplease.html"));
 
         assertContains(vHLISTING.price, "\u00A380");
         assertContains(vHLISTING.price, "\u00A347.95");
@@ -236,7 +236,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(vHLISTING.listerName, "John Broker");
         assertContains(RDF.TYPE,            vHLISTING.Lister);
-        assertContains(vHLISTING.listerUrl,  RDFHelper.uri("http://homepage.com"));
+        assertContains(vHLISTING.listerUrl,  RDFUtils.uri("http://homepage.com"));
     }
 
     @Test
@@ -246,7 +246,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(vHLISTING.listerName, "John Broker");
         assertContains(RDF.TYPE,             vHLISTING.Lister);
-        assertContains(vFOAF.mbox,           RDFHelper.uri("mailto:info@commerce.net"));
+        assertContains(vFOAF.mbox,           RDFUtils.uri("mailto:info@commerce.net"));
     }
 
     @Test
@@ -256,7 +256,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(RDF.TYPE,             vHLISTING.Lister);
         assertContains(vHLISTING.listerName, "John Broker");
-        assertContains(vFOAF.mbox,           RDFHelper.uri("mailto:info@commerce.net"));
+        assertContains(vFOAF.mbox,           RDFUtils.uri("mailto:info@commerce.net"));
     }
 
     @Test
@@ -312,7 +312,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hlisting/summary-bookmark.html");
         Assert.assertFalse(conn.isEmpty());
         assertContains(vHLISTING.permalink,  "http://livre.com/book");
-        assertContains(vHLISTING.listerUrl,  RDFHelper.uri("http://livre.com/author"));
+        assertContains(vHLISTING.listerUrl,  RDFUtils.uri("http://livre.com/author"));
     }
 
     @Test
