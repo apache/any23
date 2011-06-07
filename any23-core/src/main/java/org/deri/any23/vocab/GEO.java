@@ -41,6 +41,8 @@ public class GEO extends Vocabulary {
     public final URI lat = createProperty(NS, "lat" );
     public final URI lon = createProperty(NS, "long");
 
-    private GEO(){}
+    private GEO(){
+        super(NS);
+    }
 
 }

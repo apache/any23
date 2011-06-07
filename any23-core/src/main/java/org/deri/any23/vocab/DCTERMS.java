@@ -43,5 +43,7 @@ public class DCTERMS extends Vocabulary {
     public final URI date    = createProperty(NS, "date"   );
     public final URI source  = createProperty(NS, "source" );
 
-    private DCTERMS(){}
+    private DCTERMS(){
+        super(NS);
+    }
 }

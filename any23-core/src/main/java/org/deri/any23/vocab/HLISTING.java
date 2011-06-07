@@ -90,6 +90,8 @@ public class HLISTING extends Vocabulary {
         return createResource(NS, localName);
     }
 
-    private HLISTING(){}
+    private HLISTING(){
+        super(NS);
+    }
 
 }

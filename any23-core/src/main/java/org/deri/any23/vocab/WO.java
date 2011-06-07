@@ -129,6 +129,8 @@ public class WO extends Vocabulary {
         return createProperty(NS, name);
     }
 
-    private WO(){}
+    private WO(){
+        super(NS);
+    }
 
 }

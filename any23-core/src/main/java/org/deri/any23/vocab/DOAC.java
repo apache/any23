@@ -71,6 +71,8 @@ public class DOAC extends Vocabulary {
     public final URI ComputerSkill       = createResource(NS, "ComputerSkill");
     public final URI LanguageLevel       = createResource(NS, "LanguageLevel");
 
-    private DOAC(){}
+    private DOAC(){
+        super(NS);
+    }
 
 }

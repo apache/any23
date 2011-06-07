@@ -523,6 +523,8 @@ public class ICAL extends Vocabulary {
         return createProperty(NS, string);
     }
 
-    private ICAL(){}
+    private ICAL(){
+        super(NS);
+    }
 
 }

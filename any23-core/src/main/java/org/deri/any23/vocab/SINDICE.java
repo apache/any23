@@ -102,6 +102,8 @@ public class SINDICE extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    private SINDICE(){}
+    private SINDICE(){
+        super(NS);
+    }
 
 }

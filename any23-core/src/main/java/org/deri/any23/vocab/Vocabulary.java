@@ -19,6 +19,7 @@ package org.deri.any23.vocab;
 import org.deri.any23.rdf.RDFUtils;
 import org.openrdf.model.URI;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,11 @@ import java.util.Map;
 public abstract class Vocabulary {
 
     /**
+     * Vocabulary namespace.
+     */
+    private final URI namespace;
+
+    /**
      * Map of vocabulary resources.
      */
     private Map<String,URI> resources;
@@ -39,6 +45,26 @@ public abstract class Vocabulary {
      * Map of vocabulary properties.
      */
     private Map<String,URI> properties;
+
+    /**
+     * Constructor.
+     *
+     * @param namespace the namespace URI prefix.
+     */
+    public Vocabulary(String namespace) {
+        try {
+        this.namespace =  RDFUtils.uri(namespace);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid namespace '" + namespace + "'", e);
+        }
+    }
+
+    /**
+     * @return the namespace associated to this vocabulary.
+     */
+    public URI getNamespace() {
+        return namespace;
+    }
 
     /**
      * Returns a resource defined within this vocabulary.
@@ -100,6 +126,28 @@ public abstract class Vocabulary {
             camelCase += tmp.replaceFirst("(.)", tmp.substring(0, 1).toUpperCase());
         }
         return getProperty(camelCase);
+    }
+
+    /**
+     * @return the list of all defined resources.
+     */
+    public URI[] getResources() {
+        if(resources == null) {
+            return new URI[0];
+        }
+        final Collection<URI> uris = resources.values();
+        return uris.toArray( new URI[ uris.size() ] );
+    }
+
+    /**
+     * @return the list of all defined properties.
+     */
+    public URI[] getProperties() {
+        if(properties == null) {
+            return new URI[0];
+        }
+        final Collection<URI> uris = properties.values();
+        return uris.toArray( new URI[ uris.size() ] );
     }
 
     /**

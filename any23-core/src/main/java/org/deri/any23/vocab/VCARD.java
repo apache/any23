@@ -351,5 +351,7 @@ public class VCARD extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    public VCARD(){}
+    public VCARD(){
+        super(NS);
+    }
 }

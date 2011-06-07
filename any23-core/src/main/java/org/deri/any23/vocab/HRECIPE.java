@@ -46,4 +46,7 @@ public class HRECIPE extends Vocabulary {
     public URI instructions           = createProperty(NS, "instructions");
     public URI yield                  = createProperty(NS, "yield");
 
+    private HRECIPE() {
+        super(NS);
+    }
 }

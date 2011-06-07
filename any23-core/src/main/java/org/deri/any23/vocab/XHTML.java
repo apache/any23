@@ -39,6 +39,8 @@ public class XHTML extends Vocabulary {
     public final URI alternate  = createProperty(NS, "alternate" );
     public final URI stylesheet = createProperty(NS, "stylesheet");
 
-    private XHTML(){}
+    private XHTML(){
+        super(NS);
+    }
     
 }

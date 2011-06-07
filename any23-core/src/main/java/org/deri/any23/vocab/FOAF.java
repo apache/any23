@@ -103,6 +103,8 @@ public class FOAF extends Vocabulary {
     public final URI Organization            = createResource(NS, "Organization");
     public final URI Image                   = createResource(NS, "Image");
 
-    private FOAF(){}
+    private FOAF(){
+        super(NS);
+    }
     
 }

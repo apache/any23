@@ -96,6 +96,8 @@ public class XFN extends Vocabulary {
         return result;
     }
 
-    private XFN(){}
+    private XFN(){
+        super(NS);
+    }
 
 }

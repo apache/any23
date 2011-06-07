@@ -35,7 +35,7 @@ public class REVIEW extends Vocabulary {
     /**
      * The namespace of the vocabulary as a string.
      */
-    public final String NS = "http://purl.org/stuff/rev#";
+    public static final String NS = "http://purl.org/stuff/rev#";
 
     /**
      * The namespace of the vocabulary as a URI.
@@ -126,6 +126,8 @@ public class REVIEW extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    private REVIEW(){}
+    private REVIEW(){
+        super(NS);
+    }
 
 }
