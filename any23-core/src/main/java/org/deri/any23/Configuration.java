@@ -55,16 +55,7 @@ public class Configuration {
         } catch (IOException ioe) {
             throw new IllegalStateException("Error while loading default configuration.", ioe);
         }
-        if(logger.isInfoEnabled()) {
-            final String[] defaultProperties = getProperties();
-            final StringBuilder sb = new StringBuilder();
-            sb.append("\n======================= Configuration Properties =======================\n");
-            for(String defaultProperty : defaultProperties) {
-                sb.append(defaultProperty).append('=').append( getPropertyValue(defaultProperty) ).append('\n');
-            }
-            sb.append(  "========================================================================\n");
-            logger.info( sb.toString() );
-        }
+        if(logger.isInfoEnabled()) logger.info( getConfigurationDump() );
     }
 
     /**
@@ -160,6 +151,17 @@ public class Configuration {
                     value, propertyName, FLAG_PROPERTY_ON, FLAG_PROPERTY_OFF
                 )
         );
+    }
+
+    public synchronized String getConfigurationDump() {
+        final String[] defaultProperties = getProperties();
+        final StringBuilder sb = new StringBuilder();
+        sb.append("\n======================= Configuration Properties =======================\n");
+        for (String defaultProperty : defaultProperties) {
+            sb.append(defaultProperty).append('=').append(getPropertyValue(defaultProperty)).append('\n');
+        }
+        sb.append("========================================================================\n");
+        return sb.toString();
     }
 
     private String getPropertyValue(String propertyName) {
