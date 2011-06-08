@@ -160,8 +160,33 @@ public class MicrodataUtils {
      */
     public static List<ItemProp> getItemProps(Document document, Node node, boolean skipCurrent) {
         final List<Node> itemPropNodes = getItemPropNodes(node);
+
+        // Skipping itemScopes nested to this item prop.
+        final List<Node> subItemScopes = getItemScopeNodes(node);
+        subItemScopes.remove(node);
+        final List<Node> accepted = new ArrayList<Node>();
+        String subItemScopeXpath;
+        String subItemPropXPath;
+        for(Node itemPropNode : itemPropNodes) {
+            boolean skip = false;
+            for(Node subItemScope : subItemScopes) {
+                subItemScopeXpath = DomUtils.getXPathForNode(subItemScope);
+                subItemPropXPath  = DomUtils.getXPathForNode(itemPropNode);
+                if(
+                    StringUtils.isPrefix(subItemScopeXpath, subItemPropXPath)
+                            &&
+                    // This prevent removal of itemprop that is also itemscope
+                    subItemScopeXpath.length() < subItemPropXPath.length()
+                ) {
+                    skip = true;
+                    break;
+                }
+            }
+            if(!skip) accepted.add(itemPropNode);
+        }
+
         final List<ItemProp> result = new ArrayList<ItemProp>();
-        for(Node itemPropNode :  itemPropNodes) {
+        for(Node itemPropNode :  accepted) {
             if(itemPropNode.equals(node) && skipCurrent) {
                 continue;
             }
