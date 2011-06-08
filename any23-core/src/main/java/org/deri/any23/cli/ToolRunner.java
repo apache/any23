@@ -70,7 +70,7 @@ public class ToolRunner {
         } catch (Throwable e) {
             e.printStackTrace();
             Throwable cause = e.getCause();
-            cause.printStackTrace();
+            if(cause != null) cause.printStackTrace();
             usage(e.toString(), null);
         }
     }
