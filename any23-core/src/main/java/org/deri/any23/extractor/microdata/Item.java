@@ -52,4 +52,23 @@ public abstract class Item {
         return xpath;
     }
 
+    @Override
+    public int hashCode() {
+        return xpath.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(obj == this) {
+            return true;
+        }
+        if(obj instanceof Item) {
+            final Item other = (Item) obj;
+            return xpath.equals( other.xpath );
+        }
+        return false;
+    }
 }

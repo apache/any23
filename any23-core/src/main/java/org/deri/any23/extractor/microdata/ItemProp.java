@@ -80,4 +80,23 @@ public class ItemProp extends Item {
         return toJSON();
     }
 
+    @Override
+    public int hashCode() {
+        return name.hashCode() * value.hashCode() * 3;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if( obj == null ) {
+            return false;
+        }
+        if(obj == this) {
+            return true;
+        }
+        if(obj instanceof ItemProp) {
+            final ItemProp other = (ItemProp) obj;
+            return name.equals(other.name) && value.equals( other.value );
+        }
+        return false;
+    }
 }

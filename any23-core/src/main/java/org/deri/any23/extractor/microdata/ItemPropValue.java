@@ -21,6 +21,7 @@ package org.deri.any23.extractor.microdata;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+// TODO: improve datetime support.
 public class ItemPropValue {
 
     /**
@@ -90,4 +91,25 @@ public class ItemPropValue {
                 type
         );
     }
+
+    @Override
+    public int hashCode() {
+        return content.hashCode() * type.hashCode() * 2;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(obj == this) {
+            return true;
+        }
+        if(obj instanceof ItemPropValue) {
+            final ItemPropValue other = (ItemPropValue) obj;
+            return content.equals(other.content) && type.equals(other.type);
+        }
+        return false;
+    }
+
 }

@@ -19,8 +19,8 @@ package org.deri.any23.extractor.microdata;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,10 +100,12 @@ public class ItemScope extends Item {
         for(Map.Entry<String, List<ItemProp>> propertiesEntry : tmpProperties.entrySet()) {
             properties.put(
                     propertiesEntry.getKey(),
-                    Collections.unmodifiableList( propertiesEntry.getValue() )
+                    //Collections.unmodifiableList( propertiesEntry.getValue() )
+                    propertiesEntry.getValue()
             );
         }
-        this.properties = Collections.unmodifiableMap(properties);
+        // this.properties = Collections.unmodifiableMap(properties);
+        this.properties = properties;
     }
 
     /**
@@ -139,21 +141,6 @@ public class ItemScope extends Item {
      */
     public String getItemId() {
         return itemId;
-    }
-
-    private String toJSON(String[] in) {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for(int i = 0; i <  in.length; i++) {
-            sb.append("\"");
-            sb.append(in[i]);
-            sb.append("\"");
-            if(i < in.length - 1) {
-                sb.append(", ");
-            }
-        }
-        sb.append(']');
-        return sb.toString();
     }
 
     @Override
@@ -192,6 +179,72 @@ public class ItemScope extends Item {
     @Override
     public String toString() {
         return toJSON();
+    }
+
+    @Override
+    public int hashCode() {
+        return
+                ( properties == null ? 1:  properties.hashCode() ) *
+                ( id == null ? 1 : id.hashCode() )     * 2 *
+                ( refs == null ? 1 : refs.hashCode() ) * 3 *
+                ( type == null ? 1 : type.hashCode() ) * 5 *
+                ( itemId == null ? 1 : itemId.hashCode() );
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) {
+            return false;
+        }
+        if(obj == this) {
+            return true;
+        }
+        if(obj instanceof ItemScope) {
+            final ItemScope other = (ItemScope) obj;
+            return
+                    super.getXpath().equals( other.getXpath() )
+                            &&
+                    ( properties == null ? other.properties == null : properties.equals( other.properties ) )
+                            &&
+                    ( id == null     ? other.id == null     : id.equals(other.id) )
+                            &&
+                    ( refs == null   ? other.refs == null   : Arrays.equals(refs, other.refs) )
+                            &&
+                    ( type == null   ? other.type == null   : type.equals(other.type) )
+                            &&
+                    ( itemId == null ? other.itemId == null : itemId.equals(other.itemId) );
+        }
+        return false;
+    }
+
+    protected void acquireProperty(ItemProp itemProp) {
+        List<ItemProp> itemProps = properties.get(itemProp.getName());
+        if(itemProps == null) {
+            itemProps = new ArrayList<ItemProp>();
+            properties.put(itemProp.getName(), itemProps);
+        }
+        if(!itemProps.contains(itemProp)) itemProps.add(itemProp);
+    }
+
+    protected void disownProperty(ItemProp itemProp) {
+        List<ItemProp> propList =  properties.get(itemProp.getName());
+        if(propList != null) propList.remove(itemProp);
+    }
+
+    private String toJSON(String[] in) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('[');
+        for(int i = 0; i <  in.length; i++) {
+            sb.append("\"");
+            sb.append(in[i]);
+            sb.append("\"");
+            if(i < in.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(']');
+        return sb.toString();
     }
 
 }
