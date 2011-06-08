@@ -1,0 +1,15 @@
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node161nd8236x293102 <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node161nd8236x293103 <http://bob.example.com/> .
+_:node161nd8236x293102 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://microformats.org/profile/hcard> <http://bob.example.com/> .
+_:node161nd8236x293102 <http://microformats.org/profile/hcard/fn> "Princeton" <http://bob.example.com/> .
+_:node161nd8236x293102 <http://microformats.org/profile/hcard/n> _:node161nd8236x293104 <http://bob.example.com/> .
+_:node161nd8236x293102 <http://microformats.org/profile/hcard/adr> _:node161nd8236x293105 <http://bob.example.com/> .
+_:node161nd8236x293104 <http://microformats.org/profile/hcard/given-name> "Princeton" <http://bob.example.com/> .
+_:node161nd8236x293103 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://microformats.org/profile/hcard> <http://bob.example.com/> .
+_:node161nd8236x293103 <http://microformats.org/profile/hcard/fn> "Trekkie" <http://bob.example.com/> .
+_:node161nd8236x293103 <http://microformats.org/profile/hcard/n> _:node161nd8236x293106 <http://bob.example.com/> .
+_:node161nd8236x293103 <http://microformats.org/profile/hcard/adr> _:node161nd8236x293105 <http://bob.example.com/> .
+_:node161nd8236x293106 <http://microformats.org/profile/hcard/given-name> "Trekkie" <http://bob.example.com/> .
+_:node161nd8236x293105 <http://microformats.org/profile/hcard/street-address> "Avenue Q" <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-08T12:56:39+01:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/size> "15"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

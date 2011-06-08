@@ -1,0 +1,8 @@
+_:node354215dba78682369e2e453d1b625c6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
+_:node354215dba78682369e2e453d1b625c6 <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
+_:nodeab827d7975b3b12aa944c3eff676105d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
+_:nodeab827d7975b3b12aa944c3eff676105d <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
+_:node354215dba78682369e2e453d1b625c6 <http://schema.org/Movie/director> _:nodeab827d7975b3b12aa944c3eff676105d <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node354215dba78682369e2e453d1b625c6 <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-07T22:48:04+01:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/size> "8"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .
