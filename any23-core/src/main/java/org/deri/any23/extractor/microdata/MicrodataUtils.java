@@ -22,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -236,6 +237,26 @@ public class MicrodataUtils {
             items.add( getItemScope(document, itemNode) );
         }
         return items.toArray( new ItemScope[items.size()] );
+    }
+
+    /**
+     * Returns a <i>JSON</i> containing the list of all extracted microdata.
+     *
+     * @param document
+     * @param ps
+     */
+    // TODO: this JSON must be compliant with Microdata JSON serialization specification.
+    // TODO: add string escaping for (",\n)
+    public static void getMicrodataAsJSON(Document document, PrintStream ps) {
+        final ItemScope[] itemScopes = getMicrodata(document);
+        ps.append('[');
+        for(int i = 0; i < itemScopes.length; i++) {
+            ps.print( itemScopes[i].toJSON() );
+            if( i < itemScopes.length - 1 ) {
+                ps.println(", ");
+            }
+        }
+        ps.append(']');
     }
 
 }
