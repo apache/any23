@@ -27,11 +27,23 @@ import java.io.InputStream;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public interface DocumentSource {
-    
+
+    /**
+     * Returns the input stream for accessing the content of the document.
+     *
+     * @return not <code>null</code> input stream for accessing document data.
+     * @throws IOException
+     */
     InputStream openInputStream() throws IOException;
 
+    /**
+     * @return a string describing the content type of the provided document.
+     */
     public String getContentType();
 
+    /**
+     * @return the size of the content length in bytes.
+     */
     public long getContentLength();
 
     /**
