@@ -18,6 +18,10 @@ package org.deri.any23.extractor.microdata;
 
 import org.deri.any23.util.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Describes a possible value for a <b>Microdata item property</b>.
  *
@@ -25,6 +29,8 @@ import org.deri.any23.util.StringUtils;
  */
 // TODO: improve datetime support.
 public class ItemPropValue {
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Supported types.
@@ -76,6 +82,19 @@ public class ItemPropValue {
      */
     public Object getContent() {
         return content;
+    }
+
+    /**
+     * @return the content as {@link Date}
+     *         if <code>type == Type.DateTime</code>,
+     *         <code>null</code> otherwise.
+     * @throws java.text.ParseException if the content is not a parsable date.
+     */
+    public Date getContentAsDate() throws ParseException {
+        if(type != Type.DateTime) {
+            return null;
+        }
+        return sdf.parse((String) content);
     }
 
     /**

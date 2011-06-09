@@ -28,6 +28,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.text.ParseException;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
 /**
@@ -68,6 +70,16 @@ public class MicrodataUtilsTest {
         Assert.assertEquals("Unexpected serialization for Microdata file.", expected, baos.toString());
     }
 
+    @Test
+    public void testGetContentAsDate() throws IOException, ParseException {
+        final ItemScope target = extractItems("microdata-basic")[4];
+        final GregorianCalendar gregorianCalendar = new GregorianCalendar(2009, GregorianCalendar.MAY, 10); // 2009-05-10
+        Assert.assertEquals(
+                gregorianCalendar.getTime(),
+                target.getProperties().get("birthday").get(0).getValue().getContentAsDate()
+        );
+    }
+
     private Document getDom(String document) throws IOException {
         final InputStream is = this.getClass().getResourceAsStream(document);
         try {
@@ -82,10 +94,14 @@ public class MicrodataUtilsTest {
          return getDom("/microdata/" + htmlFile + ".html");
     }
 
+    private ItemScope[] extractItems(String htmlFile) throws IOException {
+        final Document document = getMicrodataDom(htmlFile);
+        return MicrodataUtils.getMicrodata(document);
+    }
+
     private void extractItemsAndVerifyJSONSerialization(String htmlFile, String expectedResult)
     throws IOException {
-        final Document document = getMicrodataDom(htmlFile);
-        final ItemScope[] items = MicrodataUtils.getMicrodata(document);
+        final ItemScope[] items = extractItems(htmlFile);
         for(ItemScope item : items) {
             logger.info( item.toJSON() );
         }
