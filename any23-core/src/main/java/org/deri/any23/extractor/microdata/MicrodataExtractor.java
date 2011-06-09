@@ -84,13 +84,17 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     public void run(Document in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
 
+        final ItemScope[] itemScopes = MicrodataUtils.getMicrodata(in);
+        if(itemScopes.length == 0) {
+            return;
+        }
+
         documentLanguage = getDocumentLanguage(in);
 
         /**
          * 5.2.6
          */
         final Map<ItemScope, Resource> mappings = new HashMap<ItemScope, Resource>();
-        ItemScope[] itemScopes = MicrodataUtils.getMicrodata(in);
         for (ItemScope itemScope : itemScopes) {
             Resource subject = processType(itemScope, documentURI, out, mappings);
             out.writeTriple(
@@ -98,10 +102,6 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                     MICRODATA_ITEM,
                     subject
             );
-        }
-
-        if(itemScopes.length == 0) {
-            return;
         }
 
         /**
