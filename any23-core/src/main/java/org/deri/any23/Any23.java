@@ -214,7 +214,7 @@ public class Any23 {
             throw new ExtractionException("Error closing the triple handler", e);
         }
         return new ExtractionReport(
-                ex.hasMatchingExtractors(),
+                ex.getMatchingExtractors(),
                 ex.getParserEncoding(),
                 ex.getDetectedMIMEType(),
                 sder.getValidationReport()
