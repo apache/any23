@@ -90,5 +90,38 @@ public class StringUtils {
         return true;
     }
 
+    /**
+     * Escapes all the unescaped double quotes when needed.
+     *
+     * @param in input string.
+     * @return unescaped output.
+     */
+    public static String escapeDoubleQuotes(String in) {
+        final StringBuilder out = new StringBuilder();
+        boolean escaped = false;
+        char current;
+        for(int i = 0; i < in.length(); i++) {
+            current = in.charAt(i);
+            if(current == '\\') {
+                escaped = !escaped;
+            } else if(current == '"' && !escaped) {
+                out.append('\\');
+            }
+            out.append(current);
+        }
+        return out.toString();
+    }
+
+    /**
+     * Escapes the <code>in</code> string as <b>JSON</b> string
+     * to let it being embeddable within a string field.
+     *
+     * @param in string to be escaped.
+     * @return escaped string.
+     */
+    public static String escapeAsJSONString(String in) {
+        return escapeDoubleQuotes( in.replaceAll("\n", "\\\\n") );
+    }
+
     private StringUtils() {}
 }

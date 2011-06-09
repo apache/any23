@@ -34,4 +34,16 @@ public class StringUtilsTest {
         Assert.assertEquals(6, StringUtils.countOccurrences(container, contained) );
     }
 
+    @Test
+    public void testEscapeDoubleQuotes() {
+        Assert.assertEquals( "pre post"     , StringUtils.escapeDoubleQuotes("pre post"     ) );
+        Assert.assertEquals( "pre \\\" post", StringUtils.escapeDoubleQuotes("pre \" post"  ) );
+        Assert.assertEquals( "pre \\\" post", StringUtils.escapeDoubleQuotes("pre \\\" post") );
+    }
+
+    @Test
+    public void testEscapeAsJSONString() {
+        Assert.assertEquals( "pre \\\" mid \\n post", StringUtils.escapeAsJSONString("pre \" mid \n post") );
+    }
+
 }
