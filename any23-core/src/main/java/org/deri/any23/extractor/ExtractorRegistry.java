@@ -32,6 +32,7 @@ import org.deri.any23.extractor.html.SpeciesExtractor;
 import org.deri.any23.extractor.html.TitleExtractor;
 import org.deri.any23.extractor.html.TurtleHTMLExtractor;
 import org.deri.any23.extractor.html.XFNExtractor;
+import org.deri.any23.extractor.microdata.MicrodataExtractor;
 import org.deri.any23.extractor.rdf.NQuadsExtractor;
 import org.deri.any23.extractor.rdf.NTriplesExtractor;
 import org.deri.any23.extractor.rdf.RDFXMLExtractor;
@@ -89,7 +90,7 @@ public class ExtractorRegistry {
                 instance.register(HRecipeExtractor.factory);
                 instance.register(SpeciesExtractor.factory);
                 instance.register(TurtleHTMLExtractor.factory);
-                // instance.register(MicrodataExtractor.factory);
+                instance.register(MicrodataExtractor.factory);
             }
         }
         return instance;

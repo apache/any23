@@ -20,6 +20,8 @@ import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
+import org.deri.any23.extractor.Extractor;
+import org.deri.any23.extractor.microdata.MicrodataExtractor;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.http.DefaultHTTPClient;
@@ -58,6 +60,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Test case for {@link org.deri.any23.Any23} facade.
@@ -106,7 +109,7 @@ public class Any23Test {
      */
     @Test
     public void testExplicitEncoding()
-            throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
+    throws Exception {
         assertEncodingDetection(
                 "UTF-8",
                 new File("src/test/resources/html/encoding-test.html"),
@@ -126,7 +129,7 @@ public class Any23Test {
      */
     @Test
     public void testImplicitEncoding()
-    throws ExtractionException, IOException, SailException, RepositoryException, TripleHandlerException {
+    throws Exception {
         assertEncodingDetection(
                 null, // The encoding will be auto detected.
                 new File("src/test/resources/html/encoding-test.html"),
@@ -135,10 +138,12 @@ public class Any23Test {
     }
 
     @Test
-    public void testRDFXMLDetectionAndExtraction() throws IOException, ExtractionException {
+    public void testRDFXMLDetectionAndExtraction()
+    throws Exception {
         String rdfXML =
                 "<?xml version='1.0'?> " +
-                "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:dc='http://purl.org/dc/elements/1.1/'>" +
+                "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' " +
+                        "xmlns:dc='http://purl.org/dc/elements/1.1/'>" +
                 "<rdf:Description rdf:about='http://www.example.com'>" +
                 "<dc:title>x</dc:title>" +
                 "</rdf:Description>" +
@@ -147,13 +152,13 @@ public class Any23Test {
     }
 
     @Test
-    public void testNTriplesDetectionAndExtraction() throws IOException, ExtractionException {
+    public void testNTriplesDetectionAndExtraction() throws Exception {
         String n3 = "<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"n3 . appo\" .";
         assertDetectionAndExtraction(n3);
     }
 
     @Test
-    public void testNturtleDetectionAndExtraction() throws IOException, ExtractionException {
+    public void testNturtleDetectionAndExtraction() throws Exception {
         String nTurtle =
                 "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
                 "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n" +
@@ -175,7 +180,7 @@ public class Any23Test {
      * @throws ExtractionException
      */
     @Test
-    public void testDemoCodeSnippet1() throws IOException, ExtractionException {
+    public void testDemoCodeSnippet1() throws Exception {
         /*1*/ Any23 runner = new Any23();
         /*2*/ final String content = "@prefix foo: <http://example.org/ns#> .   " +
                                      "@prefix : <http://other.example.org/ns#> ." +
@@ -307,7 +312,7 @@ public class Any23Test {
         runner.extract(source, handler);
         String n3 = out.toString("UTF-8");
 
-        System.out.println("N3 "+ n3);
+        System.out.println("N3 " + n3);
         Assert.assertTrue(n3.length() > 0);
 
     }
@@ -328,7 +333,7 @@ public class Any23Test {
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
         runner.extract(new ExtractionParameters(false, false), source, compositeTH1);
-        logger.info( baos.toString() );
+        logger.info(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
 
         baos.reset();
@@ -439,7 +444,24 @@ public class Any23Test {
         Assert.assertEquals(2, cth.getCount());
     }
 
-    private void assertDetectionAndExtraction(String in) throws IOException, ExtractionException {
+    @Test
+    public void testMicrodataSupport() throws Exception {
+        final String htmlWithMicrodata = StreamUtils.asString(
+                this.getClass().getResourceAsStream("/microdata/microdata-basic.html")
+        );
+        assertExtractorActivation(htmlWithMicrodata, MicrodataExtractor.class);
+    }
+
+    /**
+     * Performs detection and extraction on the given input string
+     * and return the {@link ExtractionReport}.
+     *
+     * @param in input string.
+     * @return
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    private ExtractionReport detectAndExtract(String in) throws Exception {
         Any23 any23 = new Any23();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportingTripleHandler outputHandler = new ReportingTripleHandler(
@@ -449,23 +471,56 @@ public class Any23Test {
                         )
                 )
         );
+        return any23.extract(in, "http://host.com/path", outputHandler);
+    }
+
+    /**
+     * Asserts that a list an {@link Extractor} has been activated for the given input data.
+     *
+     * @param in input data as string.
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    private void assertDetectionAndExtraction(String in) throws Exception {
+        final ExtractionReport extractionReport = detectAndExtract(in);
         Assert.assertTrue(
-                "Detection and extraction failed.",
-                any23.extract(in, "http://host.com/path", outputHandler).hasMatchingExtractors()
+                "Detection and extraction failed, no matching extractors.",
+                extractionReport.hasMatchingExtractors()
         );
+    }
+
+    /**
+     * Assert the correct activation of the given list of {@link Extractor}s for the given input string.
+     *
+     * @param in input data as string.
+     * @param expectedExtractors
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    private void assertExtractorActivation(String in, Class<? extends Extractor>... expectedExtractors)
+    throws Exception {
+        final ExtractionReport extractionReport = detectAndExtract(in);
+        for (Class<? extends Extractor> expectedExtractorClass : expectedExtractors) {
+            Assert.assertTrue(
+                    String.format(
+                            "Detection and extraction failed, expected extractor [%s] not found.",
+                            expectedExtractorClass
+                    ),
+                    containsClass( extractionReport.getMatchingExtractors(), expectedExtractorClass )
+            );
+        }
     }
 
     /**
      * Asserts the correct encoding detection for a specified data.
      *
      * @param encoding the expected specified encoding, if <code>null</code> will be auto detected.
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
-     * @throws SailException
+     * @param input
+     * @param expectedContent
+     * @throws Exception
      */
     private void assertEncodingDetection(String encoding, File input, String expectedContent)
-            throws IOException, ExtractionException, RepositoryException, SailException, TripleHandlerException {
+    throws Exception {
         FileDocumentSource fileDocumentSource;
         Any23 any23;
         RepositoryConnection conn;
@@ -496,13 +551,6 @@ public class Any23Test {
         repositoryWriter.close();
     }
 
-    private void printStatement(Statement statement) {
-        logger.info(String.format("%s\t%s\t%s",
-                statement.getSubject(),
-                statement.getPredicate(),
-                statement.getObject()));
-    }
-
     /**
      * Will try to detect the <i>content</i> trying sequentially with all
      * specified parser.
@@ -521,6 +569,22 @@ public class Any23Test {
         String result = out.toString("us-ascii");
         Assert.assertNotNull(result);
         Assert.assertTrue(result.length() > 10);
+    }
+
+    private void printStatement(Statement statement) {
+        logger.info(String.format("%s\t%s\t%s",
+                statement.getSubject(),
+                statement.getPredicate(),
+                statement.getObject()));
+    }
+
+    private boolean containsClass(List<?> list, Class clazz) {
+        for(Object o : list) {
+            if(o.getClass().equals(clazz)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
