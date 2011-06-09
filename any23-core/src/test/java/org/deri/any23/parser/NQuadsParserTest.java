@@ -310,7 +310,7 @@ public class NQuadsParserTest {
 
     }
 
-    public static class TestRDFHandler implements RDFHandler {
+    private class TestRDFHandler implements RDFHandler {
 
         private boolean started = false;
         private boolean ended   = false;
