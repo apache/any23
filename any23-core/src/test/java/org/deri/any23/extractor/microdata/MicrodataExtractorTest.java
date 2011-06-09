@@ -1,6 +1,7 @@
 package org.deri.any23.extractor.microdata;
 
 import org.apache.log4j.Logger;
+import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.html.AbstractExtractorTestCase;
 import org.deri.any23.parser.NQuadsParser;
@@ -44,10 +45,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
      */
     @Test
     public void testSchemaOrgNestedProps()
-            throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
+            throws RepositoryException, RDFHandlerException, IOException, RDFParseException, ExtractionException {
         extractAndVerifyAgainstNQuads(
-                "schema.org-nested-properties.html",
-                "schema.org-nested-properties-expected.nquads"
+                "microdata-nested.html",
+                "microdata-nested-expected.nquads"
         );
         logger.debug(dumpHumanReadableTriples());
     }
@@ -107,11 +108,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
-            throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
+    throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         assertExtracts("microdata/" + actual);
         assertModelNotEmpty();
-        List<Statement> expectedStatements
-                = loadResultStatement("microdata/" + expected);
+        List<Statement> expectedStatements = loadResultStatement("microdata/" + expected);
         int actualStmtSize = getStatementsSize(null, null, null);
         Assert.assertEquals(actualStmtSize, expectedStatements.size());
         for (Statement statement : expectedStatements) {

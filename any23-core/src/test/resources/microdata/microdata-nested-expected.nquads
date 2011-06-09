@@ -1,0 +1,10 @@
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node84c248ad4b55a62966b5b2dcd193a76 <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node87ec5df44dff143441a2df612cc82b70 <http://bob.example.com/> .
+_:nodeeaced77c6775bab6a8b08f18bfccf149 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
+_:nodeeaced77c6775bab6a8b08f18bfccf149 <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
+_:node2d612e7120cca42c554571f7ff2324 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
+_:node2d612e7120cca42c554571f7ff2324 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
+_:nodeeaced77c6775bab6a8b08f18bfccf149 <http://schema.org/Movie/director> _:node2d612e7120cca42c554571f7ff2324 <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodeeaced77c6775bab6a8b08f18bfccf149 <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-09T17:16:49+02:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/size> "10"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

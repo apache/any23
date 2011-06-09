@@ -52,15 +52,6 @@ public class MicrodataUtilsTest {
         );
     }
 
-    @Test
-    public void testNestedMicrodataNestedProperties() throws IOException {
-        extractItemsAndVerifyJSONSerialization(
-                "schema.org-nested-properties",
-                "schema.org-nested-properties-expected"
-        );
-
-    }
-
     private Document getDom(String document) throws IOException {
         final InputStream is = this.getClass().getResourceAsStream(document);
         try {
