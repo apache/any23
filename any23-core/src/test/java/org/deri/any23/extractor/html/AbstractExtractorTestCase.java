@@ -19,6 +19,7 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
+import org.deri.any23.parser.NQuadsWriter;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.writer.RepositoryWriter;
 import org.junit.Assert;
@@ -182,6 +183,16 @@ public abstract class AbstractExtractorTestCase {
         StringWriter w = new StringWriter();
         try {
             conn.export(new TurtleWriter(w));
+            return w.toString();
+        } catch (RDFHandlerException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    protected String dumpModelToNQuads() throws RepositoryException {
+        StringWriter w = new StringWriter();
+        try {
+            conn.export(new NQuadsWriter(w));
             return w.toString();
         } catch (RDFHandlerException ex) {
             throw new RuntimeException(ex);
