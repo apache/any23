@@ -17,14 +17,17 @@
 package org.deri.any23.extractor.microdata;
 
 import org.deri.any23.extractor.html.TagSoupParser;
+import org.deri.any23.util.StreamUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Properties;
 
 /**
@@ -52,6 +55,19 @@ public class MicrodataUtilsTest {
         );
     }
 
+    @Test
+    public void testMicrodataJSONSerialization() throws IOException {
+        final Document document = getMicrodataDom("microdata-nested");
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final PrintStream ps = new PrintStream(baos);
+        MicrodataUtils.getMicrodataAsJSON(document, ps);
+        ps.flush();
+        final String expected = StreamUtils.asString(
+                this.getClass().getResourceAsStream("/microdata/microdata-json-serialization.json")
+        );
+        Assert.assertEquals("Unexpected serialization for Microdata file.", expected, baos.toString());
+    }
+
     private Document getDom(String document) throws IOException {
         final InputStream is = this.getClass().getResourceAsStream(document);
         try {
@@ -62,9 +78,13 @@ public class MicrodataUtilsTest {
         }
     }
 
+    private Document getMicrodataDom(String htmlFile) throws IOException {
+         return getDom("/microdata/" + htmlFile + ".html");
+    }
+
     private void extractItemsAndVerifyJSONSerialization(String htmlFile, String expectedResult)
     throws IOException {
-        final Document document = getDom("/microdata/" + htmlFile + ".html");
+        final Document document = getMicrodataDom(htmlFile);
         final ItemScope[] items = MicrodataUtils.getMicrodata(document);
         for(ItemScope item : items) {
             logger.info( item.toJSON() );

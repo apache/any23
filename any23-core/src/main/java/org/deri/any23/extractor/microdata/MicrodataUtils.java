@@ -270,17 +270,16 @@ public class MicrodataUtils {
      * @param document
      * @param ps
      */
-    // TODO: this JSON must be compliant with Microdata JSON serialization specification.
     public static void getMicrodataAsJSON(Document document, PrintStream ps) {
         final ItemScope[] itemScopes = getMicrodata(document);
-        ps.append('[');
+        ps.append("{ \"result\" : [");
         for(int i = 0; i < itemScopes.length; i++) {
             ps.print( itemScopes[i].toJSON() );
             if( i < itemScopes.length - 1 ) {
-                ps.println(", ");
+                ps.print(", ");
             }
         }
-        ps.append(']');
+        ps.append("] }");
     }
 
 }
