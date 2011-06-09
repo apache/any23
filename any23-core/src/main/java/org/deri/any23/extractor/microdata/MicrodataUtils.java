@@ -271,7 +271,6 @@ public class MicrodataUtils {
      * @param ps
      */
     // TODO: this JSON must be compliant with Microdata JSON serialization specification.
-    // TODO: add string escaping for (",\n)
     public static void getMicrodataAsJSON(Document document, PrintStream ps) {
         final ItemScope[] itemScopes = getMicrodata(document);
         ps.append('[');

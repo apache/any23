@@ -16,6 +16,8 @@
 
 package org.deri.any23.extractor.microdata;
 
+import org.deri.any23.util.StringUtils;
+
 /**
  * Describes a possible value for a <b>Microdata item property</b>.
  *
@@ -83,13 +85,21 @@ public class ItemPropValue {
         return type;
     }
 
-    @Override
-    public String toString() {
+    public String toJSON() {
         return String.format(
                 "{ \"content\" : %s, \"type\" : \"%s\" }",
-                content instanceof String ? "\"" + content + "\"" : content,
+                content instanceof String
+                        ?
+                    "\"" + StringUtils.escapeAsJSONString( (String) content) + "\""
+                        :
+                    content,
                 type
         );
+    }
+
+    @Override
+    public String toString() {
+        return toJSON();
     }
 
     @Override

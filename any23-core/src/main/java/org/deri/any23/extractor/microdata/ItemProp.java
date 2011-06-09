@@ -72,7 +72,12 @@ public class ItemProp extends Item {
 
     @Override
     public String toJSON() {
-        return String.format("{ \"xpath\" : \"%s\", \"name\" : \"%s\", \"value\" : %s }", getXpath(), name, value);
+        return String.format(
+                "{ \"xpath\" : \"%s\", \"name\" : \"%s\", \"value\" : %s }",
+                getXpath(),
+                name,
+                value.toJSON()
+        );
     }
 
     @Override
