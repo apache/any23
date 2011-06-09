@@ -16,7 +16,11 @@
 
 package org.deri.any23;
 
+import org.deri.any23.extractor.Extractor;
 import org.deri.any23.validator.ValidationReport;
+
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -29,21 +33,21 @@ import org.deri.any23.validator.ValidationReport;
  */
 public class ExtractionReport {
 
-    private boolean hasMatchingExtractors;
+    private final List<Extractor> matchingExtractors;
 
-    private String encoding;
+    private final String encoding;
 
-    private String detectedMimeType;
+    private final String detectedMimeType;
 
-    private ValidationReport validationReport;
+    private final ValidationReport validationReport;
 
     public ExtractionReport(
-            boolean hasMatchingExtractors,
+            final List<Extractor> matchingExtractors,
             String encoding,
             String detectedMimeType,
             ValidationReport validationReport
     ) {
-        this.hasMatchingExtractors = hasMatchingExtractors;
+        this.matchingExtractors    = Collections.unmodifiableList(matchingExtractors);
         this.encoding              = encoding;
         this.detectedMimeType      = detectedMimeType;
         this.validationReport      = validationReport;
@@ -54,7 +58,14 @@ public class ExtractionReport {
      *         at least an extractor, <code>false</code> otherwise.
      */
     public boolean hasMatchingExtractors() {
-        return hasMatchingExtractors;
+        return matchingExtractors.size() > 0;
+    }
+
+    /**
+     * @return the list of matching extractors.
+     */
+    public List<Extractor> getMatchingExtractors() {
+        return matchingExtractors;
     }
 
     /**

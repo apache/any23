@@ -224,6 +224,14 @@ public class SingleDocumentExtraction {
         return !matchingExtractors.isEmpty();
     }
 
+    public List<Extractor> getMatchingExtractors() {
+        final List<Extractor> extractorsList = new ArrayList<Extractor>();
+        for(ExtractorFactory extractorFactory : matchingExtractors) {
+            extractorsList.add( extractorFactory.createExtractor() );
+        }
+        return extractorsList;
+    }
+
     public String getParserEncoding() {
         if(this.parserEncoding == null) {
             this.parserEncoding = detectEncoding();
