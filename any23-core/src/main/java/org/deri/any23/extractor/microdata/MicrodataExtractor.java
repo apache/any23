@@ -423,23 +423,25 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         mappings.put(itemScope, subject);
 
         // ItemScope.type could be null, but surely it's a valid URL
+        String itemScopeType = "";
         if(itemScope.getType() != null) {
             String itemType;
             itemType = itemScope.getType().toString();
             out.writeTriple(subject, RDF.TYPE, RDFUtils.uri(itemType));
+            itemScopeType = itemScope.getType().toString();
         }
 
         for(String propName : itemScope.getProperties().keySet()) {
             List<ItemProp> itemProps =  itemScope.getProperties().get(propName);
             for (ItemProp itemProp : itemProps) {
                 URI predicate;
-                if (propName.equals("") || itemScope.getType() == null) {
+                if(!isAbsoluteURL(propName) && itemScopeType.equals("")) {
                     continue;
                 }
                 try {
                     predicate = RDFUtils.uri(
                             toAbsoluteURL(
-                                    itemScope.getType().toString(),
+                                    itemScopeType,
                                     propName,
                                     '/'
                             ).toString()

@@ -51,6 +51,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-nested-expected.nquads"
         );
         logger.debug(dumpHumanReadableTriples());
+        System.out.println(dumpHumanReadableTriples());
     }
 
     /**
