@@ -16,7 +16,12 @@
 
 package org.deri.any23.extractor.microdata;
 
-import org.deri.any23.extractor.*;
+import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
+import org.deri.any23.extractor.Extractor;
+import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.html.DomUtils;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.rdf.RDFUtils;
@@ -26,8 +31,6 @@ import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.XMLSchema;
 import org.w3c.dom.Document;
@@ -37,7 +40,12 @@ import org.w3c.dom.NodeList;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Default implementation of <a href="http://www.w3.org/TR/microdata/">Microdata</a> extractor,
@@ -49,7 +57,7 @@ import java.util.*;
 public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private static final URI MICRODATA_ITEM
-            = new URIImpl("http://www.w3.org/1999/xhtml/microdata#item");
+            = RDFUtils.uri("http://www.w3.org/1999/xhtml/microdata#item");
 
     public final static ExtractorFactory<MicrodataExtractor> factory =
             SimpleExtractorFactory.create(
@@ -67,11 +75,35 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * {@inheritDoc}
+     * This extraction performs the
+     * <a href="http://www.w3.org/TR/microdata/#rdf">Microdata to RDF conversion algorithm</a>.
+     * A slight modification of the specification algorithm has been introduced
+     * to avoid performing actions 5.2.1, 5.2.2, 5.2.3, 5.2.4 if step 5.2.6 doesn't detect any
+     * Microdata.
      */
     public void run(Document in, URI documentURI, ExtractionResult out)
-            throws IOException, ExtractionException {
+    throws IOException, ExtractionException {
+
         documentLanguage = getDocumentLanguage(in);
+
+        /**
+         * 5.2.6
+         */
+        final Map<ItemScope, Resource> mappings = new HashMap<ItemScope, Resource>();
+        ItemScope[] itemScopes = MicrodataUtils.getMicrodata(in);
+        for (ItemScope itemScope : itemScopes) {
+            Resource subject = processType(itemScope, documentURI, out, mappings);
+            out.writeTriple(
+                    documentURI,
+                    MICRODATA_ITEM,
+                    subject
+            );
+        }
+
+        if(itemScopes.length == 0) {
+            return;
+        }
+
         /**
          * 5.2.1
          */
@@ -84,23 +116,11 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
          * 5.2.3
          */
         processMetaElements(in, documentURI, out);
+
         /**
          * 5.2.4
          */
         processCiteElements(in, documentURI, out);
-        Map<ItemScope, Resource> mappings = new HashMap<ItemScope, Resource>();
-        /**
-         * 5.2.6
-         */
-        ItemScope[] itemScopes = MicrodataUtils.getMicrodata(in);
-        for (ItemScope itemScope : itemScopes) {
-            Resource subject = processType(itemScope, documentURI, out, mappings);
-            out.writeTriple(
-                    documentURI,
-                    MICRODATA_ITEM,
-                    subject
-            );
-        }
     }
 
     /**
@@ -148,9 +168,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             String lang = getLanguage(title);
             if (lang == null) {
                 // unable to decide the language, leave it unknown
-                object = new LiteralImpl(titleValue);
+                object = RDFUtils.literal(titleValue);
             } else {
-                object = new LiteralImpl(titleValue, lang);
+                object = RDFUtils.literal(titleValue, lang);
             }
             out.writeTriple(
                     documentURI,
@@ -232,16 +252,16 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             tokensWithNoDuplicates.add(relToken.toLowerCase());
         }
         for (String token : tokensWithNoDuplicates) {
-            URIImpl predicate;
+            URI predicate;
             if (isAbsoluteURL(token)) {
-                predicate = new URIImpl(token);
+                predicate = RDFUtils.uri(token);
             } else {
-                predicate = new URIImpl(XHTML.NS + token);
+                predicate = RDFUtils.uri(XHTML.NS + token);
             }
             out.writeTriple(
                     documentURI,
                     predicate,
-                    new URIImpl(absoluteURL.toString())
+                    RDFUtils.uri(absoluteURL.toString())
             );
         }
     }
@@ -257,12 +277,12 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         NodeList metas = in.getElementsByTagName("meta");
         for (int i = 0; i < metas.getLength(); i++) {
             Node meta = metas.item(i);
-            String name = meta.getAttributes().getNamedItem("name").getTextContent();
-            String content = meta.getAttributes().getNamedItem("content").getTextContent();
+            String name = DomUtils.readAttribute(meta, "name");
+            String content = DomUtils.readAttribute(meta, "content");
             if (name != null && content != null) {
                 if (isAbsoluteURL(name)) {
                     processMetaElement(
-                            new URIImpl(name),
+                            RDFUtils.uri(name),
                             content,
                             getLanguage(meta),
                             documentURI,
@@ -292,7 +312,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * @param out
      */
     private void processMetaElement(
-            URIImpl uri,
+            URI uri,
             String content,
             String language,
             URI documentURI,
@@ -305,9 +325,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         Literal subject;
         if (language == null) {
             // ok, we don't know the language
-            subject = new LiteralImpl(content);
+            subject = RDFUtils.literal(content);
         } else {
-            subject = new LiteralImpl(content, language);
+            subject = RDFUtils.literal(content, language);
         }
         out.writeTriple(
                 documentURI,
@@ -335,13 +355,13 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         Literal subject;
         if (language == null) {
             // ok, we don't know the language
-            subject = new LiteralImpl(content);
+            subject = RDFUtils.literal(content);
         } else {
-            subject = new LiteralImpl(content, language);
+            subject = RDFUtils.literal(content, language);
         }
         out.writeTriple(
                 documentURI,
-                new URIImpl(XHTML.NS + name.toLowerCase()),
+                RDFUtils.uri(XHTML.NS + name.toLowerCase()),
                 subject
         );
     }
@@ -370,7 +390,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             out.writeTriple(
                     documentURI,
                     DCTERMS.getInstance().source,
-                    new URIImpl(item.getAttributes().getNamedItem("cite").getTextContent())
+                    RDFUtils.uri(item.getAttributes().getNamedItem("cite").getTextContent())
             );
         }
     }
@@ -396,7 +416,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if(mappings.containsKey(itemScope)) {
             subject = mappings.get(itemScope);
         } else if (isAbsoluteURL(itemScope.getItemId())) {
-            subject = new URIImpl(itemScope.getItemId());
+            subject = RDFUtils.uri(itemScope.getItemId());
         } else {
             subject = RDFUtils.getBNode(Integer.toString(itemScope.hashCode()));
         }
@@ -406,7 +426,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if(itemScope.getType() != null) {
             String itemType;
             itemType = itemScope.getType().toString();
-            out.writeTriple(subject, RDF.TYPE, new URIImpl(itemType));
+            out.writeTriple(subject, RDF.TYPE, RDFUtils.uri(itemType));
         }
 
         for(String propName : itemScope.getProperties().keySet()) {
@@ -417,7 +437,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                     continue;
                 }
                 try {
-                    predicate = new URIImpl(
+                    predicate = RDFUtils.uri(
                             toAbsoluteURL(
                                     itemScope.getType().toString(),
                                     propName,
@@ -434,10 +454,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                 if (propType.equals(ItemPropValue.Type.Nested)) {
                     value = processType((ItemScope) propValue, documentURI, out, mappings);
                 } else if (propType.equals(ItemPropValue.Type.Plain)) {
-                    value = new LiteralImpl((String) propValue, documentLanguage);
+                    value = RDFUtils.literal((String) propValue, documentLanguage);
                 } else if (propType.equals(ItemPropValue.Type.Link)) {
                     try {
-                        value = new URIImpl(
+                        value = RDFUtils.uri(
                                 toAbsoluteURL(
                                         documentURI.toString(),
                                         (String) propValue,
@@ -449,7 +469,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                                 "Property value '" + propValue + "' cannot be used to build a resolvable URL");
                     }
                 } else if (propType.equals(ItemPropValue.Type.DateTime)) {
-                    value = new LiteralImpl((String) propValue, XMLSchema.DATE);
+                    value = RDFUtils.literal((String) propValue, XMLSchema.DATE);
                 } else {
                     throw new ExtractionException("Invalid Type '" +
                             propType + "' for ItemPropValue with name: '" + propName + "'");
