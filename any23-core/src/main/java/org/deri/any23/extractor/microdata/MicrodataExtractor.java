@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.microdata;
 
+import org.deri.any23.Configuration;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor;
@@ -70,6 +71,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private String documentLanguage;
 
+    private boolean isStrict;
+
+    private String defaultNamespace;
+
     public ExtractorDescription getDescription() {
         return factory;
     }
@@ -82,11 +87,17 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * Microdata.
      */
     public void run(Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
 
         final ItemScope[] itemScopes = MicrodataUtils.getMicrodata(in);
-        if(itemScopes.length == 0) {
+        if (itemScopes.length == 0) {
             return;
+        }
+
+        Configuration configuration = Configuration.instance();
+        isStrict = configuration.getFlagProperty("any23.microdata.strict");
+        if (!isStrict) {
+            defaultNamespace = configuration.getPropertyOrFail("any23.microdata.ns.default");
         }
 
         documentLanguage = getDocumentLanguage(in);
@@ -125,6 +136,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     /**
      * Returns the {@link Document} language if declared, <code>null</code> otherwise.
+     *
      * @param in a instance of {@link Document}.
      * @return the language declared, could be <code>null</code>.
      */
@@ -139,6 +151,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Returns the {@link Node} language if declared, or the {@link Document} one
      * if not defined.
+     *
      * @param node a {@link Node} instance.
      * @return the {@link Node} language or the {@link Document} one. Could be <code>null</code>
      */
@@ -154,9 +167,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Implements step 5.2.1 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     * @param in {@link Document} to be processed.
+     *
+     * @param in          {@link Document} to be processed.
      * @param documentURI Document current {@link URI}.
-     * @param out a valid not <code>null</code> {@link ExtractionResult}
+     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processTitle(Document in, URI documentURI, ExtractionResult out) {
         NodeList titles = in.getElementsByTagName("title");
@@ -183,9 +197,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Implements step 5.2.2 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     * @param in {@link Document} to be processed.
+     *
+     * @param in          {@link Document} to be processed.
      * @param documentURI Document current {@link URI}.
-     * @param out a valid not <code>null</code> {@link ExtractionResult}
+     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processHREFElements(Document in, URI documentURI, ExtractionResult out) {
         NodeList anchors = in.getElementsByTagName("a");
@@ -205,9 +220,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Implements sub-step for 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     * @param item {@link Node} to be processed.
+     *
+     * @param item        {@link Node} to be processed.
      * @param documentURI Document current {@link URI}.
-     * @param out a valid not <code>null</code> {@link ExtractionResult}
+     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processHREFElement(Node item, URI documentURI, ExtractionResult out) {
         Node rel = item.getAttributes().getNamedItem("rel");
@@ -241,7 +257,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         String[] relTokens = rel.getTextContent().split(" ");
         Set<String> tokensWithNoDuplicates = new HashSet<String>();
         for (String relToken : relTokens) {
-            if(relToken.contains(":")) {
+            if (relToken.contains(":")) {
                 // if contain semi-colon, skip
                 continue;
             }
@@ -269,9 +285,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Implements step 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     * @param in {@link Document} to be processed.
+     *
+     * @param in          {@link Document} to be processed.
      * @param documentURI Document current {@link URI}.
-     * @param out a valid not <code>null</code> {@link ExtractionResult}
+     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processMetaElements(Document in, URI documentURI, ExtractionResult out) {
         NodeList metas = in.getElementsByTagName("meta");
@@ -318,7 +335,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             URI documentURI,
             ExtractionResult out
     ) {
-        if(content.contains(":")) {
+        if (content.contains(":")) {
             // if it contains U+003A COLON, exit
             return;
         }
@@ -413,7 +430,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             Map<ItemScope, Resource> mappings
     ) throws ExtractionException {
         Resource subject;
-        if(mappings.containsKey(itemScope)) {
+        if (mappings.containsKey(itemScope)) {
             subject = mappings.get(itemScope);
         } else if (isAbsoluteURL(itemScope.getItemId())) {
             subject = RDFUtils.uri(itemScope.getItemId());
@@ -424,62 +441,86 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
         // ItemScope.type could be null, but surely it's a valid URL
         String itemScopeType = "";
-        if(itemScope.getType() != null) {
+        if (itemScope.getType() != null) {
             String itemType;
             itemType = itemScope.getType().toString();
             out.writeTriple(subject, RDF.TYPE, RDFUtils.uri(itemType));
             itemScopeType = itemScope.getType().toString();
         }
-
-        for(String propName : itemScope.getProperties().keySet()) {
-            List<ItemProp> itemProps =  itemScope.getProperties().get(propName);
+        for (String propName : itemScope.getProperties().keySet()) {
+            List<ItemProp> itemProps = itemScope.getProperties().get(propName);
             for (ItemProp itemProp : itemProps) {
-                URI predicate;
-                if(!isAbsoluteURL(propName) && itemScopeType.equals("")) {
-                    continue;
-                }
                 try {
-                    predicate = RDFUtils.uri(
-                            toAbsoluteURL(
-                                    itemScopeType,
-                                    propName,
-                                    '/'
-                            ).toString()
+                    processProperty(
+                            subject,
+                            propName,
+                            itemProp,
+                            itemScopeType,
+                            documentURI,
+                            mappings,
+                            out
                     );
                 } catch (MalformedURLException e) {
-                    // skip this itemprop
-                    continue;
+                    throw new ExtractionException(
+                            "Error while processing on subject '" + subject +
+                                    "' the itemProp: '" + itemProp + "' "
+                    );
                 }
-                Value value;
-                Object propValue = itemProp.getValue().getContent();
-                ItemPropValue.Type propType = itemProp.getValue().getType();
-                if (propType.equals(ItemPropValue.Type.Nested)) {
-                    value = processType((ItemScope) propValue, documentURI, out, mappings);
-                } else if (propType.equals(ItemPropValue.Type.Plain)) {
-                    value = RDFUtils.literal((String) propValue, documentLanguage);
-                } else if (propType.equals(ItemPropValue.Type.Link)) {
-                    try {
-                        value = RDFUtils.uri(
-                                toAbsoluteURL(
-                                        documentURI.toString(),
-                                        (String) propValue,
-                                        '/'
-                                ).toString()
-                        );
-                    } catch (MalformedURLException e) {
-                         throw new ExtractionException(
-                                "Property value '" + propValue + "' cannot be used to build a resolvable URL");
-                    }
-                } else if (propType.equals(ItemPropValue.Type.DateTime)) {
-                    value = RDFUtils.literal((String) propValue, XMLSchema.DATE);
-                } else {
-                    throw new ExtractionException("Invalid Type '" +
-                            propType + "' for ItemPropValue with name: '" + propName + "'");
-                }
-                out.writeTriple(subject, predicate, value);
             }
         }
         return subject;
+    }
+
+    private void processProperty(
+            Resource subject,
+            String propName,
+            ItemProp itemProp,
+            String itemScopeType,
+            URI documentURI,
+            Map<ItemScope, Resource> mappings,
+            ExtractionResult out
+    ) throws MalformedURLException, ExtractionException {
+        URI predicate;
+        if (!isAbsoluteURL(propName) && itemScopeType.equals("") && isStrict) {
+            return;
+        } else if (!isAbsoluteURL(propName) && itemScopeType.equals("") && !isStrict) {
+            predicate = RDFUtils.uri(
+                    toAbsoluteURL(
+                            defaultNamespace,
+                            propName,
+                            '/'
+                    ).toString()
+            );
+        } else {
+            predicate = RDFUtils.uri(
+                    toAbsoluteURL(
+                            itemScopeType,
+                            propName,
+                            '/'
+                    ).toString());
+        }
+        Value value;
+        Object propValue = itemProp.getValue().getContent();
+        ItemPropValue.Type propType = itemProp.getValue().getType();
+        if (propType.equals(ItemPropValue.Type.Nested)) {
+            value = processType((ItemScope) propValue, documentURI, out, mappings);
+        } else if (propType.equals(ItemPropValue.Type.Plain)) {
+            value = RDFUtils.literal((String) propValue, documentLanguage);
+        } else if (propType.equals(ItemPropValue.Type.Link)) {
+            value = RDFUtils.uri(
+                    toAbsoluteURL(
+                            documentURI.toString(),
+                            (String) propValue,
+                            '/'
+                    ).toString()
+            );
+        } else if (propType.equals(ItemPropValue.Type.DateTime)) {
+            value = RDFUtils.literal((String) propValue, XMLSchema.DATE);
+        } else {
+            throw new RuntimeException("Invalid Type '" +
+                    propType + "' for ItemPropValue with name: '" + propName + "'");
+        }
+        out.writeTriple(subject, predicate, value);
     }
 
     private boolean isAbsoluteURL(String urlString) {
@@ -497,11 +538,11 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private URL toAbsoluteURL(String ns, String part, char trailing)
             throws MalformedURLException {
-        if(isAbsoluteURL(part)) {
+        if (isAbsoluteURL(part)) {
             return new URL(part);
         }
-        char lastChar = ns.charAt(ns.length() -1 );
-        if(lastChar == '#' || lastChar == '/')
+        char lastChar = ns.charAt(ns.length() - 1);
+        if (lastChar == '#' || lastChar == '/')
             return new URL(ns + part);
         return new URL(ns + trailing + part);
     }

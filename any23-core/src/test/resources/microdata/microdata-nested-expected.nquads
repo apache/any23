@@ -1,3 +1,7 @@
+_:nodeed3d2c21991e3bef5e69713af9fa6ca <http://rdf.data-vocabulary.org/name> "Jazz Band" <http://bob.example.com/> .
+_:nodeed3d2c21991e3bef5e69713af9fa6ca <http://rdf.data-vocabulary.org/size> "12" <http://bob.example.com/> .
+_:node87f4067f244c5cdafb594973b8388f <http://rdf.data-vocabulary.org/band> _:nodeed3d2c21991e3bef5e69713af9fa6ca <http://bob.example.com/> .
+_:node87f4067f244c5cdafb594973b8388f <http://rdf.data-vocabulary.org/name> "Amanda" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node84c248ad4b55a62966b5b2dcd193a76 <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node87ec5df44dff143441a2df612cc82b70 <http://bob.example.com/> .
 _:nodeeaced77c6775bab6a8b08f18bfccf149 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
@@ -7,4 +11,4 @@ _:node2d612e7120cca42c554571f7ff2324 <http://schema.org/Person/name> "James Came
 _:nodeeaced77c6775bab6a8b08f18bfccf149 <http://schema.org/Movie/director> _:node2d612e7120cca42c554571f7ff2324 <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodeeaced77c6775bab6a8b08f18bfccf149 <http://bob.example.com/> .
 <http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-09T17:16:49+02:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "10"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/size> "16"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

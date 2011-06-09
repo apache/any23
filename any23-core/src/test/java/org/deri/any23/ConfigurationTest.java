@@ -43,7 +43,7 @@ public class ConfigurationTest {
     @Test
     public void testGetProperties() {
         final String[] properties = configuration.getProperties();
-        Assert.assertEquals(7, properties.length);
+        Assert.assertEquals(9, properties.length);
         for(String property : properties) {
             Assert.assertTrue(property.startsWith("any23."));
         }

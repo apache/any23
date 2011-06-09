@@ -35,7 +35,7 @@ public class ItemScope extends Item {
     /**
      * Map of properties and multi values.
      */
-    private final Map<String,List<ItemProp>> properties;
+    private final Map<String, List<ItemProp>> properties;
 
     /**
      * <i>itemscope</i> DOM identifier in container document.
@@ -60,12 +60,12 @@ public class ItemScope extends Item {
     /**
      * Constructor.
      *
-     * @param xpath location of this <i>itemscope</i> within the container document.
+     * @param xpath     location of this <i>itemscope</i> within the container document.
      * @param itemProps list of properties bound to this <i>itemscope</i>.
-     * @param id DOM identifier for this <i>itemscope</i>. Can be <code>null<code>.
-     * @param refs list of item prop references connected to this <i>itemscope</i>. Can be <code>null<code>.
-     * @param type <i>itemscope</i> type. Can be <code>null<code>.
-     * @param itemId <i>itemscope</i> id. Can be <code>null<code>.
+     * @param id        DOM identifier for this <i>itemscope</i>. Can be <code>null<code>.
+     * @param refs      list of item prop references connected to this <i>itemscope</i>. Can be <code>null<code>.
+     * @param type      <i>itemscope</i> type. Can be <code>null<code>.
+     * @param itemId    <i>itemscope</i> id. Can be <code>null<code>.
      */
     public ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, String type, String itemId) {
         super(xpath);
@@ -82,22 +82,22 @@ public class ItemScope extends Item {
         } else {
             this.type = null;
         }
-        this.id     = id;
-        this.refs   = refs;
+        this.id = id;
+        this.refs = refs;
         this.itemId = itemId;
 
         final Map<String, List<ItemProp>> tmpProperties = new HashMap<String, List<ItemProp>>();
         for (ItemProp itemProp : itemProps) {
             final String propName = itemProp.getName();
             List<ItemProp> propList = tmpProperties.get(propName);
-            if(propList == null) {
+            if (propList == null) {
                 propList = new ArrayList<ItemProp>();
                 tmpProperties.put(propName, propList);
             }
             propList.add(itemProp);
         }
-        final Map<String,List<ItemProp>> properties = new HashMap<String, List<ItemProp>>();
-        for(Map.Entry<String, List<ItemProp>> propertiesEntry : tmpProperties.entrySet()) {
+        final Map<String, List<ItemProp>> properties = new HashMap<String, List<ItemProp>>();
+        for (Map.Entry<String, List<ItemProp>> propertiesEntry : tmpProperties.entrySet()) {
             properties.put(
                     propertiesEntry.getKey(),
                     //Collections.unmodifiableList( propertiesEntry.getValue() )
@@ -146,11 +146,11 @@ public class ItemScope extends Item {
     @Override
     public String toJSON() {
         StringBuilder sb = new StringBuilder();
-        int i,j;
+        int i, j;
         final Collection<List<ItemProp>> itemPropsList = properties.values();
-        j=0;
+        j = 0;
         for (List<ItemProp> itemProps : itemPropsList) {
-            i=0;
+            i = 0;
             for (ItemProp itemProp : itemProps) {
                 sb.append(itemProp);
                 if (i < itemProps.size() - 1) {
@@ -164,15 +164,15 @@ public class ItemScope extends Item {
             j++;
         }
         return String.format(
-            "{ " +
-            "\"xpath\" : \"%s\", \"id\" : %s, \"refs\" : %s, \"type\" : %s, \"itemid\" : %s, \"properties\" : [ %s ]" +
-            " }",
-            getXpath(),
-            id     == null ? null : "\"" + id     +"\"",
-            refs   == null ? null : toJSON(refs),
-            type   == null ? null : "\"" + type   +"\"",
-            itemId == null ? null : "\"" + itemId +"\"",
-            sb.toString()
+                "{ " +
+                        "\"xpath\" : \"%s\", \"id\" : %s, \"refs\" : %s, \"type\" : %s, \"itemid\" : %s, \"properties\" : [ %s ]" +
+                        " }",
+                getXpath(),
+                id == null ? null : "\"" + id + "\"",
+                refs == null ? null : toJSON(refs),
+                type == null ? null : "\"" + type + "\"",
+                itemId == null ? null : "\"" + itemId + "\"",
+                sb.toString()
         );
     }
 
@@ -183,63 +183,71 @@ public class ItemScope extends Item {
 
     @Override
     public int hashCode() {
-        return
-                ( properties == null ? 1:  properties.hashCode() ) *
-                ( id == null ? 1 : id.hashCode() )     * 2 *
-                ( refs == null ? 1 : refs.hashCode() ) * 3 *
-                ( type == null ? 1 : type.hashCode() ) * 5 *
-                ( itemId == null ? 1 : itemId.hashCode() );
+        if (id == null) {
+            return
+                    (properties == null ? 1 : properties.hashCode()) *
+                            (id == null ? 1 : id.hashCode()) * 2 *
+                            (refs == null ? 1 : refs.hashCode()) * 3 *
+                            (type == null ? 1 : type.hashCode()) * 5 *
+                            (itemId == null ? 1 : itemId.hashCode());
+        } else {
+            return id.hashCode();
+        }
 
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(obj == this) {
+        if (obj == this) {
             return true;
         }
-        if(obj instanceof ItemScope) {
+        if (obj instanceof ItemScope) {
             final ItemScope other = (ItemScope) obj;
-            return
-                    super.getXpath().equals( other.getXpath() )
-                            &&
-                    ( properties == null ? other.properties == null : properties.equals( other.properties ) )
-                            &&
-                    ( id == null     ? other.id == null     : id.equals(other.id) )
-                            &&
-                    ( refs == null   ? other.refs == null   : Arrays.equals(refs, other.refs) )
-                            &&
-                    ( type == null   ? other.type == null   : type.equals(other.type) )
-                            &&
-                    ( itemId == null ? other.itemId == null : itemId.equals(other.itemId) );
+            if (this.id == null) {
+                return
+                        super.getXpath().equals(other.getXpath())
+                                &&
+                                (properties == null ? other.properties == null : properties.equals(other.properties))
+                                &&
+                                (id == null ? other.id == null : id.equals(other.id))
+                                &&
+                                (refs == null ? other.refs == null : Arrays.equals(refs, other.refs))
+                                &&
+                                (type == null ? other.type == null : type.equals(other.type))
+                                &&
+                                (itemId == null ? other.itemId == null : itemId.equals(other.itemId));
+            } else {
+                return this.id.equals(other.getId());
+            }
         }
         return false;
     }
 
     protected void acquireProperty(ItemProp itemProp) {
         List<ItemProp> itemProps = properties.get(itemProp.getName());
-        if(itemProps == null) {
+        if (itemProps == null) {
             itemProps = new ArrayList<ItemProp>();
             properties.put(itemProp.getName(), itemProps);
         }
-        if(!itemProps.contains(itemProp)) itemProps.add(itemProp);
+        if (!itemProps.contains(itemProp)) itemProps.add(itemProp);
     }
 
     protected void disownProperty(ItemProp itemProp) {
-        List<ItemProp> propList =  properties.get(itemProp.getName());
-        if(propList != null) propList.remove(itemProp);
+        List<ItemProp> propList = properties.get(itemProp.getName());
+        if (propList != null) propList.remove(itemProp);
     }
 
     private String toJSON(String[] in) {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
-        for(int i = 0; i <  in.length; i++) {
+        for (int i = 0; i < in.length; i++) {
             sb.append("\"");
             sb.append(in[i]);
             sb.append("\"");
-            if(i < in.length - 1) {
+            if (i < in.length - 1) {
                 sb.append(", ");
             }
         }
