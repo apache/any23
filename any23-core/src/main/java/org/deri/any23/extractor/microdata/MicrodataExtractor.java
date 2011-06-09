@@ -48,10 +48,8 @@ import java.util.*;
  */
 public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
-    private static URI MICRODATA_ITEM
+    private static final URI MICRODATA_ITEM
             = new URIImpl("http://www.w3.org/1999/xhtml/microdata#item");
-
-    private String documentLanguage;
 
     public final static ExtractorFactory<MicrodataExtractor> factory =
             SimpleExtractorFactory.create(
@@ -61,6 +59,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                     null,
                     MicrodataExtractor.class
             );
+
+    private String documentLanguage;
 
     public ExtractorDescription getDescription() {
         return factory;
@@ -319,6 +319,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Implements sub step for 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
      * extraction algorithm.
+     *
      * @param name
      * @param content
      * @param language
@@ -348,6 +349,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Implements sub step for 5.2.4 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
      * extraction algorithm.
+     *
      * @param in
      * @param documentURI
      * @param out

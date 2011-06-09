@@ -4,21 +4,15 @@ import org.apache.log4j.Logger;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.html.AbstractExtractorTestCase;
 import org.deri.any23.parser.NQuadsParser;
-import org.deri.any23.parser.NQuadsParserTest;
 import org.deri.any23.vocab.SINDICE;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Statement;
-import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
-import org.openrdf.sail.Sail;
-import org.openrdf.sail.SailException;
-import org.openrdf.sail.memory.MemoryStore;
 
 import java.io.File;
 import java.io.FileReader;
@@ -33,7 +27,7 @@ import java.util.List;
  */
 public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
-    private static Logger logger = Logger.getLogger(MicrodataExtractorTest.class);
+    private static final Logger logger = Logger.getLogger(MicrodataExtractorTest.class);
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
