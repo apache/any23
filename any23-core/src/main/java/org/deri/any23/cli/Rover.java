@@ -30,7 +30,16 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
-import org.deri.any23.writer.*;
+import org.deri.any23.writer.BenchmarkTripleHandler;
+import org.deri.any23.writer.LoggingTripleHandler;
+import org.deri.any23.writer.NQuadsWriter;
+import org.deri.any23.writer.NTriplesWriter;
+import org.deri.any23.writer.RDFXMLWriter;
+import org.deri.any23.writer.ReportingTripleHandler;
+import org.deri.any23.writer.TripleHandler;
+import org.deri.any23.writer.TripleHandlerException;
+import org.deri.any23.writer.TurtleWriter;
+import org.deri.any23.writer.URIListWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
