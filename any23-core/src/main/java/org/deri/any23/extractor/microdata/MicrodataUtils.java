@@ -67,6 +67,16 @@ public class MicrodataUtils {
     }
 
     /**
+     * Check whether a node is an <i>itemScope</i>.
+     *
+     * @param node node to check.
+     * @return <code>true</code> if the node is an <i>itemScope</i>., <code>false</code> otherwise.
+     */
+    public static boolean isItemScope(Node node) {
+        return DomUtils.readAttribute(node, ITEMSCOPE_ATTRIBUTE, null) != null;
+    }
+
+    /**
      * Returns all the <i>itemProp</i>s detected within the given root node.
      *
      * @param node root node to search in.
@@ -74,6 +84,33 @@ public class MicrodataUtils {
      */
     public static List<Node> getItemPropNodes(Node node) {
         return DomUtils.findAllByAttributeName(node, ITEMPROP_ATTRIBUTE);
+    }
+
+    /**
+     * Check whether a node is an <i>itemProp</i>.
+     *
+     * @param node node to check.
+     * @return <code>true</code> if the node is an <i>itemProp</i>., <code>false</code> otherwise.
+     */
+    public static boolean isItemProp(Node node) {
+        return DomUtils.readAttribute(node, ITEMPROP_ATTRIBUTE, null) != null;
+    }
+
+    /**
+     * Returns only the <i>itemScope<i>s that are top level items.
+     *
+     * @param node root node to search in.
+     * @return list of detected top item scopes.
+     */
+    public static List<Node> getTopLevelItemScopeNodes(Node node)  {
+        final List<Node> itemScopes = getItemScopeNodes(node);
+        final List<Node> topLevelItemScopes = new ArrayList<Node>();
+        for(Node itemScope : itemScopes) {
+            if( ! isItemProp(itemScope) ) {
+                topLevelItemScopes.add(itemScope);
+            }
+        }
+        return topLevelItemScopes;
     }
 
     /**
@@ -103,16 +140,6 @@ public class MicrodataUtils {
             }
         }
         return unnesteds;
-    }
-
-    /**
-     * Check whether a node is an item.
-     *
-     * @param node node to check.
-     * @return <code>true</code> if the node is an item, <code>false</code> otherwise.
-     */
-    public static boolean isItemScope(Node node) {
-        return DomUtils.readAttribute(node, ITEMSCOPE_ATTRIBUTE, null) != null;
     }
 
     /**
@@ -256,7 +283,7 @@ public class MicrodataUtils {
      * @return list of <b>itemscope</b> items.
      */
     public static ItemScope[] getMicrodata(Document document) {
-        final List<Node> itemNodes = getUnnestedNodes(getItemScopeNodes(document));
+        final List<Node> itemNodes = getUnnestedNodes(getTopLevelItemScopeNodes(document));
         final List<ItemScope> items = new ArrayList<ItemScope>();
         for(Node itemNode : itemNodes) {
             items.add( getItemScope(document, itemNode) );
