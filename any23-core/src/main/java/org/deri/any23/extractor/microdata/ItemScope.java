@@ -183,16 +183,12 @@ public class ItemScope extends Item {
 
     @Override
     public int hashCode() {
-        if (id == null) {
             return
-                    (properties == null ? 1 : properties.hashCode()) *
-                            (id == null ? 1 : id.hashCode()) * 2 *
-                            (refs == null ? 1 : refs.hashCode()) * 3 *
-                            (type == null ? 1 : type.hashCode()) * 5 *
-                            (itemId == null ? 1 : itemId.hashCode());
-        } else {
-            return id.hashCode();
-        }
+                (properties == null ? 1 : properties.hashCode()) *
+                (id == null         ? 1 : id.hashCode()) * 2 *
+                (refs == null       ? 1 : refs.hashCode()) * 3 *
+                (type == null       ? 1 : type.hashCode()) * 5 *
+                (itemId == null     ? 1 : itemId.hashCode());
 
     }
 
@@ -206,22 +202,18 @@ public class ItemScope extends Item {
         }
         if (obj instanceof ItemScope) {
             final ItemScope other = (ItemScope) obj;
-            if (this.id == null) {
                 return
                         super.getXpath().equals(other.getXpath())
-                                &&
-                                (properties == null ? other.properties == null : properties.equals(other.properties))
-                                &&
-                                (id == null ? other.id == null : id.equals(other.id))
-                                &&
-                                (refs == null ? other.refs == null : Arrays.equals(refs, other.refs))
-                                &&
-                                (type == null ? other.type == null : type.equals(other.type))
-                                &&
-                                (itemId == null ? other.itemId == null : itemId.equals(other.itemId));
-            } else {
-                return this.id.equals(other.getId());
-            }
+                            &&
+                        (properties == null ? other.properties == null : properties.equals(other.properties))
+                            &&
+                        (id == null ? other.id == null : id.equals(other.id))
+                            &&
+                        (refs == null ? other.refs == null : Arrays.equals(refs, other.refs))
+                            &&
+                        (type == null ? other.type == null : type.equals(other.type))
+                            &&
+                        (itemId == null ? other.itemId == null : itemId.equals(other.itemId));
         }
         return false;
     }

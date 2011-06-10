@@ -50,7 +50,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-nested.html",
                 "microdata-nested-expected.nquads"
         );
-        logger.debug(dumpHumanReadableTriples());
+        logger.info(dumpModelToNQuads());
     }
 
     /**
@@ -68,7 +68,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-richsnippet.html",
                 "microdata-richsnippet-expected.nquads"
         );
-        logger.debug(dumpHumanReadableTriples());
+        logger.info(dumpHumanReadableTriples());
     }
 
     /**
@@ -86,7 +86,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "5.2.1-non-normative-example-1.html",
                 "5.2.1-non-normative-example-1-expected.nquads"
         );
-        logger.debug(dumpHumanReadableTriples());
+        logger.info(dumpHumanReadableTriples());
     }
 
     /**
@@ -104,7 +104,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "5.2.1-non-normative-example-1.html",
                 "5.2.1-non-normative-example-1-expected.nquads"
         );
-        logger.debug(dumpHumanReadableTriples());
+        logger.info(dumpHumanReadableTriples());
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)

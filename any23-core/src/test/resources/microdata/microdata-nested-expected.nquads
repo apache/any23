@@ -1,14 +1,13 @@
-_:nodeed3d2c21991e3bef5e69713af9fa6ca <http://rdf.data-vocabulary.org/name> "Jazz Band" <http://bob.example.com/> .
-_:nodeed3d2c21991e3bef5e69713af9fa6ca <http://rdf.data-vocabulary.org/size> "12" <http://bob.example.com/> .
-_:node87f4067f244c5cdafb594973b8388f <http://rdf.data-vocabulary.org/band> _:nodeed3d2c21991e3bef5e69713af9fa6ca <http://bob.example.com/> .
-_:node87f4067f244c5cdafb594973b8388f <http://rdf.data-vocabulary.org/name> "Amanda" <http://bob.example.com/> .
-<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node84c248ad4b55a62966b5b2dcd193a76 <http://bob.example.com/> .
-<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node87ec5df44dff143441a2df612cc82b70 <http://bob.example.com/> .
-_:nodeeaced77c6775bab6a8b08f18bfccf149 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
-_:nodeeaced77c6775bab6a8b08f18bfccf149 <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
-_:node2d612e7120cca42c554571f7ff2324 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
-_:node2d612e7120cca42c554571f7ff2324 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
-_:nodeeaced77c6775bab6a8b08f18bfccf149 <http://schema.org/Movie/director> _:node2d612e7120cca42c554571f7ff2324 <http://bob.example.com/> .
-<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodeeaced77c6775bab6a8b08f18bfccf149 <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-09T17:16:49+02:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "16"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .
+_:node3e103839c5eaa86c975e26a96157bf2 <http://rdf.data-vocabulary.org/name> "Jazz Band" <http://bob.example.com/> .
+_:node3e103839c5eaa86c975e26a96157bf2 <http://rdf.data-vocabulary.org/size> "12" <http://bob.example.com/> .
+_:node70664686c06639b5211a24a9cf34f99 <http://rdf.data-vocabulary.org/band> _:node3e103839c5eaa86c975e26a96157bf2 <http://bob.example.com/> .
+_:node70664686c06639b5211a24a9cf34f99 <http://rdf.data-vocabulary.org/name> "Amanda" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node70664686c06639b5211a24a9cf34f99 <http://bob.example.com/> .
+_:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
+_:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
+_:noded2bffd25e1a8448b159c4c45afd3283 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
+_:noded2bffd25e1a8448b159c4c45afd3283 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
+_:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://schema.org/Movie/director> _:noded2bffd25e1a8448b159c4c45afd3283 <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-10T13:28:26+02:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://vocab.sindice.net/size> "13"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .
