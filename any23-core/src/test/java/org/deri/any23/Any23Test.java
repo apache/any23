@@ -67,13 +67,14 @@ import java.util.List;
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  */
+@SuppressWarnings("unchecked")
 public class Any23Test {
 
     private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
 
-    private static final Logger logger = LoggerFactory.getLogger(Any23Test.class);
+    private static final String PAGE_URL = "http://bob.com";
 
-    private String url = "http://bob.com";
+    private static final Logger logger = LoggerFactory.getLogger(Any23Test.class);
 
     @Test
     public void testTTLDetection() throws Exception {
@@ -565,7 +566,7 @@ public class Any23Test {
         if (parsers.length != 0) {
             runner.setMIMETypeDetector(null);   // Use all the provided extractors.
         }
-        runner.extract(new StringDocumentSource(content, url), new NTriplesWriter(out));
+        runner.extract(new StringDocumentSource(content, PAGE_URL), new NTriplesWriter(out));
         String result = out.toString("us-ascii");
         Assert.assertNotNull(result);
         Assert.assertTrue(result.length() > 10);
