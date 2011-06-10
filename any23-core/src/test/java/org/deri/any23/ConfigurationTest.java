@@ -43,7 +43,7 @@ public class ConfigurationTest {
     @Test
     public void testGetProperties() {
         final String[] properties = configuration.getProperties();
-        Assert.assertEquals(9, properties.length);
+        Assert.assertTrue(properties.length > 6);
         for(String property : properties) {
             Assert.assertTrue(property.startsWith("any23."));
         }
@@ -98,7 +98,7 @@ public class ConfigurationTest {
 
     @Test
     public void testGetFlagProperty() {
-        Assert.assertTrue( configuration.getFlagProperty("any23.extraction.metadata") );
+        Assert.assertTrue( configuration.getFlagProperty("any23.extraction.metadata.nesting") );
     }
 
 }

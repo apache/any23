@@ -17,7 +17,6 @@
 
 package org.deri.any23.extractor;
 
-import org.deri.any23.Configuration;
 import org.deri.any23.encoding.EncodingDetector;
 import org.deri.any23.encoding.TikaEncodingDetector;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
@@ -67,16 +66,14 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
+    public static final String METADATA_TIMESIZE_FLAG = "any23.extraction.metadata.timesize";
+    public static final String METADATA_NESTING_FLAG  = "any23.extraction.metadata.nesting";
+
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
-    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
-            false, false, true
-    );
-
-    private static final boolean extractMetadataTriples =
-            Configuration.instance().getFlagProperty("any23.extraction.metadata");
+    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(false, false);
 
     private final DocumentSource in;
 
@@ -189,11 +186,30 @@ public class SingleDocumentExtraction {
         } catch(ValidatorException ve) {
             throw new ExtractionException("An error occurred during the validation phase.", ve);
         }
-        if(extractionParameters.isNestingEnabled()) {
-            consolidateResources(resourceRoots, propertyPaths, output);
+
+        // Resource consolidation.
+        final ExtractionContext consolidationContext;
+        if(extractionParameters.getFlag(METADATA_NESTING_FLAG)) {
+            // Consolidation with nesting.
+            consolidationContext = consolidateResources(resourceRoots, propertyPaths, output);
         } else {
-            consolidateResources(resourceRoots, output);
+            consolidationContext = consolidateResources(resourceRoots, output);
         }
+
+        // Adding time/size meta triples.
+        if (extractionParameters.getFlag(METADATA_TIMESIZE_FLAG)) {
+            try {
+                addExtractionTimeSizeMetaTriples(consolidationContext);
+            } catch (TripleHandlerException e) {
+                throw new ExtractionException(
+                        String.format(
+                                "Error while adding extraction metadata triples document with URI %s", documentURI
+                        ),
+                        e
+                );
+            }
+        }
+
         try {
             output.endDocument(documentURI);
         } catch (TripleHandlerException e) {
@@ -439,7 +455,7 @@ public class SingleDocumentExtraction {
      * @param output a triple handler event collector.
      * @throws ExtractionException
      */
-    private void consolidateResources(
+    private ExtractionContext consolidateResources(
             List<ResourceRoot> resourceRoots,
             List<PropertyPath> propertyPaths,
             TripleHandler output
@@ -496,18 +512,7 @@ public class SingleDocumentExtraction {
                     }
                 }
             }
-            if (extractMetadataTriples) {
-                try {
-                    addExtractionMetadataTriples(context);
-                } catch (TripleHandlerException e) {
-                    throw new ExtractionException(
-                            String.format(
-                                "Error while adding extraction metadata triples document with URI %s", documentURI
-                            ),
-                            e
-                    );
-                }
-            }
+            return context;
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error while writing triple triple.", e);
         } finally {
@@ -531,7 +536,7 @@ public class SingleDocumentExtraction {
      * @param output a triple handler event collector.
      * @throws ExtractionException
      */
-    private void consolidateResources(
+    private ExtractionContext consolidateResources(
             List<ResourceRoot> resourceRoots,
             TripleHandler output
     ) throws ExtractionException {
@@ -570,14 +575,7 @@ public class SingleDocumentExtraction {
                     );
                 }
             }
-            try {
-                addExtractionMetadataTriples(context);
-            } catch (TripleHandlerException e) {
-                log.error(String.format("Error while adding extraction medata triples document with URI %s", documentURI));
-                throw new ExtractionException(String.format("Error while adding extraction medata triples document with URI %s", documentURI),
-                        e
-                );
-            }
+            return context;
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error while writing triple triple.", e);
         } finally {
@@ -589,7 +587,7 @@ public class SingleDocumentExtraction {
         }
     }
 
-    private void addExtractionMetadataTriples(ExtractionContext context) throws TripleHandlerException {
+    private void addExtractionTimeSizeMetaTriples(ExtractionContext context) throws TripleHandlerException {
         // adding extraction date
         String xsdDateTimeNow = RDFUtils.toXSDDateTime(new Date());
         output.receiveTriple(
@@ -627,8 +625,12 @@ public class SingleDocumentExtraction {
      * @param ec the extraction context used to add such information.
      * @throws org.deri.any23.writer.TripleHandlerException
      */
-    private void createNestingRelationship(PropertyPath from, ResourceRoot to, TripleHandler th, ExtractionContext ec)
-    throws TripleHandlerException {
+    private void createNestingRelationship(
+            PropertyPath from,
+            ResourceRoot to,
+            TripleHandler th,
+            ExtractionContext ec
+    ) throws TripleHandlerException {
         final BNode fromObject = from.getObject();
         final String bNodeHash = from.getProperty().stringValue() + ( fromObject == null ? "" : fromObject.getID() );
         BNode bnode = RDFUtils.getBNode(bNodeHash);
