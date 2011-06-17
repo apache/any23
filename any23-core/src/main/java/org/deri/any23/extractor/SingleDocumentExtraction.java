@@ -66,8 +66,9 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
-    public static final String METADATA_TIMESIZE_FLAG = "any23.extraction.metadata.timesize";
-    public static final String METADATA_NESTING_FLAG  = "any23.extraction.metadata.nesting";
+    public static final String METADATA_TIMESIZE_FLAG           = "any23.extraction.metadata.timesize";
+    public static final String METADATA_NESTING_FLAG            = "any23.extraction.metadata.nesting";
+    public static final String METADATA_DOMAIN_PER_ENTITY_FLAG  = "any23.extraction.metadata.domain.per.entity";
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
@@ -188,12 +189,13 @@ public class SingleDocumentExtraction {
         }
 
         // Resource consolidation.
+        final boolean addDomainTriples = extractionParameters.getFlag(METADATA_DOMAIN_PER_ENTITY_FLAG);
         final ExtractionContext consolidationContext;
         if(extractionParameters.getFlag(METADATA_NESTING_FLAG)) {
             // Consolidation with nesting.
-            consolidationContext = consolidateResources(resourceRoots, propertyPaths, output);
+            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
         } else {
-            consolidationContext = consolidateResources(resourceRoots, output);
+            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output);
         }
 
         // Adding time/size meta triples.
@@ -268,8 +270,10 @@ public class SingleDocumentExtraction {
     /**
      * Extracts the document language where possible.
      *
+     * @param extractionParameters
      * @return the document language if any, <code>null</code> otherwise.
      * @throws java.io.IOException if an error occurs during the document analysis.
+     * @throws org.deri.any23.validator.ValidatorException
      */
     private String extractDocumentLanguage(ExtractionParameters extractionParameters)
     throws IOException, ValidatorException {
@@ -439,120 +443,8 @@ public class SingleDocumentExtraction {
         return true;
     }
 
-    /**
-     * This method consolidates the graphs extracted from the same document.
-     * In particular it adds:
-     * <ul>
-     *   <li>for every microformat root node a triple indicating the original Web page domain;</li>
-     *   <li>triples indicating the nesting relationship among a microformat root and property paths of
-     *       other nested microformats.
-     *   </li>
-     * </ul>
-     * @param resourceRoots list of RDF nodes representing roots of
-     *        extracted microformat graphs and the corresponding HTML paths.
-     * @param propertyPaths list of RDF nodes representing property subjects, property URIs and the HTML paths
-     *        from which such properties have been extracted. 
-     * @param output a triple handler event collector.
-     * @throws ExtractionException
-     */
-    private ExtractionContext consolidateResources(
-            List<ResourceRoot> resourceRoots,
-            List<PropertyPath> propertyPaths,
-            TripleHandler output
-    ) throws ExtractionException {
-        final ExtractionContext context = new ExtractionContext(
-                "consolidation-extractor",
-                documentURI,
-                UUID.randomUUID().toString()
-        );
-
-        try {
-            output.openContext(context);
-        } catch (TripleHandlerException e) {
-            throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
-                    e
-            );
-        }
-        try {
-            // Add source Web domains to every resource root.
-            final String domain;
-            try {
-                domain = new java.net.URI(in.getDocumentURI()).getHost();
-            } catch (URISyntaxException urise) {
-                throw new IllegalArgumentException(
-                        "An error occurred while extracting the host from the document URI.",
-                        urise
-                );
-            }
-            if (domain != null) {
-                for (ResourceRoot resourceRoot : resourceRoots) {
-                    output.receiveTriple(
-                            resourceRoot.getRoot(),
-                            vSINDICE.getProperty(SINDICE.DOMAIN),
-                            ValueFactoryImpl.getInstance().createLiteral(domain),
-                            null,
-                            context
-                    );
-                }
-            }
-
-            // Detect the nesting relationship among different microformats and explicit them adding connection triples.
-            ResourceRoot currentResourceRoot;
-            PropertyPath currentPropertyPath;
-            for (int r = 0; r < resourceRoots.size(); r++) {
-                currentResourceRoot = resourceRoots.get(r);
-                for (int p = 0; p < propertyPaths.size(); p++) {
-                    currentPropertyPath = propertyPaths.get(p);
-                    // Avoid wrong nesting relationships.
-                    if (currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
-                        continue;
-                    }
-                    if (subPath(currentResourceRoot.getPath(), currentPropertyPath.getPath())) {
-                        createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
-                    }
-                }
-            }
-            return context;
-        } catch (TripleHandlerException e) {
-            throw new ExtractionException("Error while writing triple triple.", e);
-        } finally {
-            try {
-                output.closeContext(context);
-            } catch (TripleHandlerException e) {
-                throw new ExtractionException("Error while closing context.", e);
-            }
-        }
-    }
-
-    /**
-     * This method consolidates the graphs extracted from the same document.
-     * In particular it adds:
-     * <ul>
-     *   <li>for every microformat root node a triple indicating the original Web page domain;</li>
-     * </ul>
-     * @param resourceRoots list of RDF nodes representing roots of
-     *        extracted microformat graphs and the corresponding HTML paths.
-     *        from which such properties have been extracted.
-     * @param output a triple handler event collector.
-     * @throws ExtractionException
-     */
-    private ExtractionContext consolidateResources(
-            List<ResourceRoot> resourceRoots,
-            TripleHandler output
-    ) throws ExtractionException {
-        final ExtractionContext context = new ExtractionContext(
-                "consolidation-extractor",
-                documentURI,
-                UUID.randomUUID().toString()
-        );
-
-        try {
-            output.openContext(context);
-        } catch (TripleHandlerException e) {
-            throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
-                    e
-            );
-        }
+    private void addDomainTriplesPerResourceRoots(ExtractionContext context, List<ResourceRoot> resourceRoots)
+    throws ExtractionException {
         try {
             // Add source Web domains to every resource root.
             String domain;
@@ -575,7 +467,6 @@ public class SingleDocumentExtraction {
                     );
                 }
             }
-            return context;
         } catch (TripleHandlerException e) {
             throw new ExtractionException("Error while writing triple triple.", e);
         } finally {
@@ -585,6 +476,143 @@ public class SingleDocumentExtraction {
                 throw new ExtractionException("Error while closing context.", e);
             }
         }
+    }
+
+    private ExtractionContext createExtractionContext() {
+        return new ExtractionContext(
+                "consolidation-extractor",
+                documentURI,
+                UUID.randomUUID().toString()
+        );
+    }
+
+    /**
+     * Detect the nesting relationship among different
+     * Microformats and explicit them adding connection triples.
+     *
+     * @param context
+     * @param resourceRoots
+     * @param propertyPaths
+     * @throws TripleHandlerException
+     */
+    private void addNestingRelationship(
+            ExtractionContext context,
+            List<ResourceRoot> resourceRoots,
+            List<PropertyPath> propertyPaths
+    ) throws TripleHandlerException {
+        ResourceRoot currentResourceRoot;
+        PropertyPath currentPropertyPath;
+        for (int r = 0; r < resourceRoots.size(); r++) {
+            currentResourceRoot = resourceRoots.get(r);
+            for (int p = 0; p < propertyPaths.size(); p++) {
+                currentPropertyPath = propertyPaths.get(p);
+                // Avoid wrong nesting relationships.
+                if (currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
+                    continue;
+                }
+                if (subPath(currentResourceRoot.getPath(), currentPropertyPath.getPath())) {
+                    createNestingRelationship(currentPropertyPath, currentResourceRoot, output, context);
+                }
+            }
+        }
+    }
+
+    /**
+     * This method consolidates the graphs extracted from the same document.
+     * In particular it adds:
+     * <ul>
+     *   <li>for every microformat root node a triple indicating the original Web page domain;</li>
+     *   <li>triples indicating the nesting relationship among a microformat root and property paths of
+     *       other nested microformats.
+     *   </li>
+     * </ul>
+     * @param resourceRoots list of RDF nodes representing roots of
+     *        extracted microformat graphs and the corresponding HTML paths.
+     * @param propertyPaths list of RDF nodes representing property subjects, property URIs and the HTML paths
+     *        from which such properties have been extracted. 
+     * @param addDomainTriples
+     * @param output a triple handler event collector.
+     * @return
+     * @throws ExtractionException
+     */
+    private ExtractionContext consolidateResources(
+            List<ResourceRoot> resourceRoots,
+            List<PropertyPath> propertyPaths,
+            boolean addDomainTriples,
+            TripleHandler output
+    ) throws ExtractionException {
+        final ExtractionContext context = createExtractionContext();
+
+        try {
+            output.openContext(context);
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException(
+                    String.format("Error starting document with URI %s", documentURI),
+                    e
+            );
+        }
+
+        try {
+            if(addDomainTriples) {
+                addDomainTriplesPerResourceRoots(context, resourceRoots);
+            }
+            addNestingRelationship(context, resourceRoots, propertyPaths);
+        } catch (TripleHandlerException the) {
+            throw new ExtractionException("Error while writing triple triple.", the);
+        } finally {
+            try {
+                output.closeContext(context);
+            } catch (TripleHandlerException e) {
+                throw new ExtractionException("Error while closing context.", e);
+            }
+        }
+
+        return context;
+    }
+
+    /**
+     * This method consolidates the graphs extracted from the same document.
+     * In particular it adds:
+     * <ul>
+     *   <li>for every microformat root node a triple indicating the original Web page domain;</li>
+     * </ul>
+     * @param resourceRoots list of RDF nodes representing roots of
+     *        extracted microformat graphs and the corresponding HTML paths.
+     *        from which such properties have been extracted.
+     * @param addDomainTriples
+     * @param output a triple handler event collector.
+     * @return
+     * @throws ExtractionException
+     */
+    private ExtractionContext consolidateResources(
+            List<ResourceRoot> resourceRoots,
+            boolean addDomainTriples,
+            TripleHandler output
+    ) throws ExtractionException {
+        final ExtractionContext context = createExtractionContext();
+
+        try {
+            output.openContext(context);
+        } catch (TripleHandlerException e) {
+            throw new ExtractionException(
+                    String.format("Error starting document with URI %s", documentURI),
+                    e
+            );
+        }
+
+        try {
+            if(addDomainTriples) {
+                addDomainTriplesPerResourceRoots(context, resourceRoots);
+            }
+        } finally {
+            try {
+                output.closeContext(context);
+            } catch (TripleHandlerException the) {
+                throw new ExtractionException("Error while closing context.", the);
+            }
+        }
+
+        return context;
     }
 
     private void addExtractionTimeSizeMetaTriples(ExtractionContext context) throws TripleHandlerException {
@@ -613,7 +641,6 @@ public class SingleDocumentExtraction {
                 null,
                 context
         );
-
     }
 
     /**
