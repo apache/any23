@@ -24,12 +24,14 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -195,6 +197,15 @@ public class RDFUtils {
 
     public static Statement toTriple(String s, String p, String o) {
         return valueFactory.createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
+    }
+
+     public static boolean isAbsoluteURI(String href) {
+        try {
+            new URIImpl(href);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     private RDFUtils() {}

@@ -230,6 +230,10 @@ public abstract class AbstractExtractorTestCase {
         assertContains(s, p, RDFUtils.literal(o));
     }
 
+     protected void assertContains(Resource s, URI p, String o, String lang) throws RepositoryException {
+        assertContains(s, p, RDFUtils.literal(o, lang));
+    }
+
     protected int getStatementsSize(Resource subject, URI prop, Value obj)
     throws RepositoryException {
         RepositoryResult<Statement> result = conn.getStatements(subject, prop, obj, false);

@@ -335,7 +335,7 @@ public class Any23Test {
         compositeTH1.addChild(ctw1);
         runner.extract(new ExtractionParameters(false, false), source, compositeTH1);
         logger.info(baos.toString());
-        Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", 8, cth1.getCount() );
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -345,7 +345,7 @@ public class Any23Test {
         compositeTH2.addChild(ctw2);
         runner.extract(new ExtractionParameters(true, true), source,  compositeTH2);
         logger.info( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 10, cth2.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", 13, cth2.getCount() );
     }
 
     @Test
@@ -444,6 +444,23 @@ public class Any23Test {
         Assert.assertFalse(report.hasMatchingExtractors());
         Assert.assertEquals(2, cth.getCount());
     }
+
+    @Test
+    public void testBlankNodesViaURL() throws IOException, ExtractionException {
+        final Any23 any23 = new Any23();
+        any23.setHTTPUserAgent("test-user-agent");
+        final CountingTripleHandler cth = new CountingTripleHandler(){
+            @Override
+            public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+            throws TripleHandlerException {
+                super.receiveTriple(s, p, o, g, context);
+                logger.info( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+            }
+        };
+        final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
+        final ExtractionReport report = any23.extract("http://www.usarab.org/news/?tag=england", rth);
+    }
+
 
     @Test
     public void testMicrodataSupport() throws Exception {
