@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.Configuration;
 import org.deri.any23.extractor.html.*;
 import org.deri.any23.extractor.microdata.MicrodataExtractor;
 import org.deri.any23.extractor.rdf.NQuadsExtractor;
@@ -77,6 +78,9 @@ public class ExtractorRegistry {
                 instance.register(SpeciesExtractor.factory);
                 instance.register(TurtleHTMLExtractor.factory);
                 instance.register(MicrodataExtractor.factory);
+                if(Configuration.instance().getFlagProperty("any23.extraction.head.meta")) {
+                    instance.register(HTMLMetaExtractor.factory);
+                }
             }
         }
         return instance;
