@@ -27,7 +27,6 @@ import java.util.Date;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-// TODO: improve datetime support.
 public class ItemPropValue {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
