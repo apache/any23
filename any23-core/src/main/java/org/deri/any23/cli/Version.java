@@ -16,7 +16,7 @@
 
 package org.deri.any23.cli;
 
-import org.deri.any23.Configuration;
+import org.deri.any23.Any23;
 
 /**
  * Prints out the <b>Any23</b> library version.
@@ -27,7 +27,7 @@ import org.deri.any23.Configuration;
 public class Version {
 
     public static void main(String[] args) {
-        final String version = Configuration.instance().getProperty("any23.core.version", null);
+        final String version = Any23.VERSION;
         if(version == null) {
             System.err.println("Error while retrieving configuration info.");
             System.exit(1);
