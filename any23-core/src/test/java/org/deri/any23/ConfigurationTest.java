@@ -93,7 +93,7 @@ public class ConfigurationTest {
 
     @Test(expected = NumberFormatException.class)
     public void testGetPropertyIntOrFailNok() {
-        configuration.getPropertyIntOrFail("any23.http.user.agent.name");
+        configuration.getPropertyIntOrFail("any23.http.user.agent.default");
     }
 
     @Test

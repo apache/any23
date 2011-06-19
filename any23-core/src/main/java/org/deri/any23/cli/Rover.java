@@ -24,7 +24,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.deri.any23.Any23;
-import org.deri.any23.Configuration;
 import org.deri.any23.LogUtil;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
@@ -61,10 +60,6 @@ import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
  */
 @ToolRunner.Description("Any23 Command Line Tool.")
 public class Rover {
-
-    private static final String USER_AGENT_NAME = Configuration.instance().getPropertyOrFail(
-            "any23.http.user.agent.name"
-    );
 
     //output writer constants
     private static final String TURTLE = "turtle";
@@ -181,7 +176,7 @@ public class Rover {
 
         long start = System.currentTimeMillis();
         Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);
-        any23.setHTTPUserAgent(USER_AGENT_NAME + "/" + Any23.VERSION);
+        any23.setHTTPUserAgent(Any23.DEFAULT_HTTP_CLIENT_USER_AGENT + "/" + Any23.VERSION);
         try {
             if ( ! any23.extract(eps, inputURI, outputHandler).hasMatchingExtractors() ) {
                 System.err.println("No suitable extractors");

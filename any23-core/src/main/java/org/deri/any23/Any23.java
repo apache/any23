@@ -57,13 +57,23 @@ import java.util.Collection;
  */
 public class Any23 {
 
-    // NOTE: there's also a version string in pom.xml, they should match.
+    /**
+     * Any23 core library version.
+     * NOTE: there's also a version string in pom.xml, they should match.
+     */
     public static final String VERSION = Configuration.instance().getPropertyOrFail("any23.core.version");
+
+    /**
+     * Default HTTP User Agent.
+     */
+    public static final String DEFAULT_HTTP_CLIENT_USER_AGENT = Configuration.instance().getPropertyOrFail(
+            "any23.http.user.agent.default"
+    );
 
     private final ExtractorGroup factories;
     private LocalCopyFactory streamCache;
     private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
-    private String userAgent = null;
+    private String userAgent = DEFAULT_HTTP_CLIENT_USER_AGENT;
     private HTTPClient httpClient = new DefaultHTTPClient();
     private boolean httpClientInitialized = false;
 
@@ -107,11 +117,14 @@ public class Any23 {
      * @param userAgent text describing the user agent.
      */
     public void setHTTPUserAgent(String userAgent) {
-        if(userAgent == null || userAgent.trim().length() == 0) {
-            throw new IllegalArgumentException( String.format("Invalid user agent: '%s'", userAgent) );
-        }
         if (httpClientInitialized) {
             throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
+        }
+        if(userAgent == null) {
+            userAgent = DEFAULT_HTTP_CLIENT_USER_AGENT;
+        }
+        if(userAgent.trim().length() == 0) {
+            throw new IllegalArgumentException( String.format("Invalid user agent: '%s'", userAgent) );
         }
         this.userAgent = userAgent;
     }
