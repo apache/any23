@@ -2,7 +2,6 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.Configuration;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,50 +13,58 @@ import java.util.Map;
  */
 public class ExtractionParameters {
 
-    private final boolean validate;
+    /**
+     * Declares the supported validation actions.
+     */
+    public enum ValidationMode {
+        None,
+        Validate,
+        ValidateAndFix
+    }
 
-    private final boolean fix;
+    private final ValidationMode extractionMode;
 
-    private final Map<String, Boolean> flags;
+    private final Map<String, Boolean> extractionFlags;
 
     /**
      * Constructor.
      *
-     * @param validate if <code>true</code> validation will be performed.
-     * @param fix if <code>true</code> fixes will be applied.
-     * @param flags list of values for extraction flags.
+     * @param extractionMode specifies the required extraction mode.
+     * @param extractionFlags list of specific flags used for extraction, if not specified they will
+     *        be retrieved by the default {@link Configuration}.
      */
-    public ExtractionParameters(boolean validate, boolean fix, Map<String, Boolean> flags) {
-        if(fix && !validate) {
-            throw new IllegalArgumentException("Cannot enable the fix flag without the validate flag.");
+    public ExtractionParameters(ValidationMode extractionMode, Map<String, Boolean> extractionFlags) {
+        if(extractionMode == null) {
+            throw new NullPointerException("Extraction mode cannot be null.");
         }
-        this.validate = validate;
-        this.fix      = fix;
-        this.flags    = Collections.unmodifiableMap( flags == null ? Collections.<String,Boolean>emptyMap() : flags );
+        this.extractionMode = extractionMode;
+        this.extractionFlags =
+                extractionFlags == null
+                        ?
+                 new HashMap<String,Boolean>()
+                        :
+                new HashMap<String,Boolean>(extractionFlags);
     }
 
     /**
      * Constructor.
      *
-     * @param validate if <code>true</code> validation will be performed.
-     * @param fix if <code>true</code> fixes will be applied.
+     * @param extractionMode specifies the required extraction mode.
      */
-    public ExtractionParameters(boolean validate, boolean fix) {
-        this(validate, fix, null);
+    public ExtractionParameters(ValidationMode extractionMode) {
+        this(extractionMode, null);
     }
 
     /**
      * Constructor, allows to set explicitly the value for flag
      * {@link SingleDocumentExtraction#METADATA_NESTING_FLAG}.
      *
-     * @param validate if <code>true</code> validation will be performed.
-     * @param fix if <code>true</code> fixes will be applied.
+     * @param extractionMode specifies the required extraction mode.
      * @param nesting if <code>true</code> nesting triples will be expressed.
      */
-    public ExtractionParameters(boolean validate, boolean fix, final boolean nesting) {
+    public ExtractionParameters(ValidationMode extractionMode, final boolean nesting) {
         this(
-                validate,
-                fix,
+                extractionMode,
                 new HashMap<String, Boolean>(){{
                     put(SingleDocumentExtraction.METADATA_NESTING_FLAG, nesting);
                 }}
@@ -68,29 +75,40 @@ public class ExtractionParameters {
      * @return <code>true</code> if validation is active.
      */
     public boolean isValidate() {
-        return validate;
+        return extractionMode == ValidationMode.Validate || extractionMode == ValidationMode.ValidateAndFix;
     }
 
     /**
      * @return <code>true</code> if fix is active.
      */
     public boolean isFix() {
-        return fix;
+        return extractionMode == ValidationMode.ValidateAndFix;
     }
 
     /**
-     * Returns the value of the flag, if the flag is undefined
-     * it will be retrieved by the default configuration.
+     * Returns the value of the specified extraction flag, if the flag is undefined
+     * it will be retrieved by the default {@link Configuration}.
      *
      * @param flagName name of flag.
      * @return flag value.
      */
     public boolean getFlag(String flagName) {
-        final Boolean value = flags.get(flagName);
+        final Boolean value = extractionFlags.get(flagName);
         if(value == null) {
             return Configuration.instance().getFlagProperty(flagName);
         }
         return value;
+    }
+
+    /**
+     * Sets the value for an extraction flag.
+     *
+     * @param flagName flag name.
+     * @param value new flag value.
+     * @return the previous flag value.
+     */
+    public boolean setFlag(String flagName, boolean value) {
+        return extractionFlags.put(flagName, value);
     }
 
     @Override
@@ -103,13 +121,13 @@ public class ExtractionParameters {
         }
         if(obj instanceof ExtractionParameters) {
             ExtractionParameters other = (ExtractionParameters) obj;
-            return validate == other.validate && fix == other.fix;
+            return extractionMode == other.extractionMode && extractionFlags.equals( other.extractionFlags);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return (validate ? 1 : 1) * (fix ? 2 : 2);
+        return extractionMode.hashCode() * 2 * extractionFlags.hashCode() * 3;
     }
 }

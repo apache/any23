@@ -74,7 +74,9 @@ public class SingleDocumentExtraction {
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
-    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(false, false);
+    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
+            ExtractionParameters.ValidationMode.None
+    );
 
     private final DocumentSource in;
 

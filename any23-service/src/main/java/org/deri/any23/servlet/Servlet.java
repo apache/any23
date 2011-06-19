@@ -34,6 +34,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
+import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
+
 /**
  * A <i>Servlet</i> that fetches a client-specified <i>URI</i>,
  * RDFizes the content, and returns it in a format chosen by the client.
@@ -240,9 +242,15 @@ public class Servlet extends HttpServlet {
         return true;
     }
 
+    // TODO: add possibility to specify validation={none|validate|validate+fix}
     private ExtractionParameters getExtractionParameters(HttpServletRequest request) {
-        final boolean fix = request.getParameter("fix") != null;
-        return new ExtractionParameters(fix, fix);
+        final ValidationMode mode =
+                request.getParameter("fix") != null
+                        ?
+                ValidationMode.ValidateAndFix
+                        :
+                ValidationMode.None;
+        return new ExtractionParameters(mode);
     }
 
     private boolean isReport(HttpServletRequest request) {

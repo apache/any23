@@ -50,6 +50,8 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
+
 /**
  * A default rover implementation. Goes and fetches a URL using an hint
  * as to what format should require, then tries to convert it to RDF.
@@ -173,9 +175,9 @@ public class Rover {
         final ExtractionParameters eps =
                 cmd.hasOption('p')
                         ?
-                new ExtractionParameters(true, true, nestingDisabled)
+                new ExtractionParameters(ValidationMode.ValidateAndFix, nestingDisabled)
                         :
-                new ExtractionParameters(false, false, nestingDisabled);
+                new ExtractionParameters(ValidationMode.None          , nestingDisabled);
 
         long start = System.currentTimeMillis();
         Any23 any23 = (extractorNames == null || extractorNames.length == 0) ? new Any23() : new Any23(extractorNames);

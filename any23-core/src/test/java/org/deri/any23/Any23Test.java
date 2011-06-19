@@ -62,6 +62,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
+
 /**
  * Test case for {@link org.deri.any23.Any23} facade.
  * @author Davide Palmisano ( dpalmisano@gmail.com )
@@ -333,7 +335,7 @@ public class Any23Test {
         CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
-        runner.extract(new ExtractionParameters(false, false), source, compositeTH1);
+        runner.extract(new ExtractionParameters(ValidationMode.None), source, compositeTH1);
         logger.info(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
 
@@ -343,7 +345,7 @@ public class Any23Test {
         CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
-        runner.extract(new ExtractionParameters(true, true), source,  compositeTH2);
+        runner.extract(new ExtractionParameters(ValidationMode.ValidateAndFix), source,  compositeTH2);
         logger.info( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 10, cth2.getCount() );
     }
@@ -363,7 +365,7 @@ public class Any23Test {
         CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
-        runner.extract(new ExtractionParameters(false, false, true), source,  compositeTH1);
+        runner.extract(new ExtractionParameters(ValidationMode.None, true), source,  compositeTH1);
         logger.info( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 26, cth1.getCount() );
 
@@ -373,7 +375,7 @@ public class Any23Test {
         CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
-        runner.extract(new ExtractionParameters(true, true, false), source,  compositeTH2);
+        runner.extract(new ExtractionParameters(ValidationMode.ValidateAndFix, false), source,  compositeTH2);
         logger.info( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 23, cth2.getCount() );
     }
