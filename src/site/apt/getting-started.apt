@@ -10,9 +10,11 @@ Getting started with <<Any23>>
 
     <<Any23>> is composed of the following modules:
 
-      * any23-core
-      * any23-sevice
-      *
+      * <<<any23-core/>>>      The core library.
+
+      * <<<any23-service/>>>   The REST service.
+
+      * <<<any23-plugins/>>>   The core additional plugins.
 
 * Use <<Any23>> as a commandline Tool
 
@@ -103,36 +105,52 @@ any23-core/bin$ ./any23 -f quad foaf.rdf
 any23-core/bin$ ./any23 -t foaf.rdf
 +-------------------------
 
-  <<any23tools>> tool
+* <<any23tools>> script
 
     This script detects a list of available utilities within the <<any23-core>> classpath
     and allows to activate them.
+
     Such utilities are:
-        * ExtractorDocumentation: a utility for obtaining useful information about extractors.
-        * Rover: an alias for the <<any23>> commandline tool.
+
+        * <<<Eval>>>: commandline utility for processing Any23 generated output logs.
+
+        * <<<ExtractorDocumentation>>>: a utility for obtaining useful information about extractors.
+
+        * <<<MicrodataParser>>>:  commandline parser to extract specific Microdata content from a web page
+                            (local or remote) and produce a JSON output compliant with the Microdata
+                            specification ({{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}).
+
+        * <<<Rover>>>: an alias for the <<any23>> commandline tool.
+
+        * <<<Version>>>: prints out useful information about the library version and configuration.
+
+        * <<<VocalPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Any23.
+        
 
 +-------------------------------------------
 any23-core/bin$ ./any23tools
-Jar ../target/any23-core-0.4.2-SNAPSHOT-jar-with-dependencies.jar looking for org/deri/any23/cli
-Found org.deri.any23.cli.Eval.class
-Found org.deri.any23.cli.ExtractorDocumentation.class
-Found org.deri.any23.cli.Rover.class
-Found org.deri.any23.cli.ToolRunner.class
- <utility> [options...]
- where <utility> one of
-	ExtractorDocumentation
-	Rover
+[...configuration data...]
+Usage: ToolRunner <utility> [options...]
+ where <utility> one of:
+	Eval                                                              Utility for processing output log.
+	ExtractorDocumentation                Utility for obtaining documentation about metadata extractors.
+	MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
+	PluginVerifier                                           Utility for plugin management verification.
+	Rover                                                                       Any23 Command Line Tool.
+	Version                        Prints out the current library version and configuration information.
+	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Any23.
+
 +-------------------------------------------
 
-   Obtain <<ExtractorDocumentation>> sub commands:
+[TODO: add other tools documentation]
+
+** ExtractorDocumentation
+
+*** Obtain the <<ExtractorDocumentation>> sub commands
 
 +-------------------------------------------
 any23-core/bin$ ./any23tools ExtractorDocumentation
-Jar ../target/any23-core-0.4.2-SNAPSHOT-jar-with-dependencies.jar looking for org/deri/any23/cli
-Found org.deri.any23.cli.Eval.class
-Found org.deri.any23.cli.ExtractorDocumentation.class
-Found org.deri.any23.cli.Rover.class
-Found org.deri.any23.cli.ToolRunner.class
+[...configuration data...]
 Usage:
   ExtractorDocumentation -list
       shows the names of all available extractors
@@ -147,14 +165,11 @@ Usage:
       shows a report about all available extractors
 +-------------------------------------------
 
-   Get all declared extractors:
+*** Get all declared extractors
 
 +--------------------------------------
 any23-core/bin$ ./any23tools ExtractorDocumentation -list
-Found org.deri.any23.cli.Eval.class
-Found org.deri.any23.cli.ExtractorDocumentation.class
-Found org.deri.any23.cli.Rover.class
-Found org.deri.any23.cli.ToolRunner.class
+[...configuration data...]
 html-head-icbm
 html-head-rdflinks
 html-head-title

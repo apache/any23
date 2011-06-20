@@ -24,3 +24,7 @@ TOC
   
   Explains how to write new Microformat extractors with <<Any23>> and also report interesting notes on
   microformat nesting representation.
+
+* {{{./dev-microdata-extractor.html}Microdata Extractor}}
+
+  Explains how it works the Microdata Extractor embedded in <<Any23>>.
