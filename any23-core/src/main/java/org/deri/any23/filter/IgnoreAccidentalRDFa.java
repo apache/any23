@@ -38,11 +38,20 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
 
     private final ExtractionContextBlocker blocker;
 
-    private final boolean suppressStylesheetTriples;
+    private final boolean alwaysSuppressCSSTriples;
 
-    public IgnoreAccidentalRDFa(TripleHandler wrapped, boolean suppressStylesheetTriples) {
+    /**
+     * Constructor.
+     *
+     * @param wrapped the decorated triple handler.
+     * @param alwaysSuppressCSSTriples if <code>true</code> the <i>CSS</i> triples will be
+     *        always suppressed even if the document is not empty.
+     *        If <code>false</code> then the <i>CSS</i> triples will be suppressed only if
+     *        document is empty.
+     */
+    public IgnoreAccidentalRDFa(TripleHandler wrapped, boolean alwaysSuppressCSSTriples) {
         this.blocker = new ExtractionContextBlocker(wrapped);
-        this.suppressStylesheetTriples = suppressStylesheetTriples;
+        this.alwaysSuppressCSSTriples = alwaysSuppressCSSTriples;
     }
     public IgnoreAccidentalRDFa(TripleHandler wrapped) {
         this(wrapped, false);
@@ -62,7 +71,7 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
         // Suppress stylesheet triples.
-        if(suppressStylesheetTriples && p.stringValue().equals(vXHTML.stylesheet.stringValue())) {
+        if(alwaysSuppressCSSTriples && p.stringValue().equals(vXHTML.stylesheet.stringValue())) {
             return;
         }
         if (isRDFaContext(context)) {
