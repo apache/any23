@@ -138,7 +138,7 @@
                 <version>${jetty.version}</version>
                 <configuration>
                     <webAppConfig>
-                        <contextPath>/${artifactId}</contextPath>
+                        <contextPath>/${project.artifactId}</contextPath>
                     </webAppConfig>
                 </configuration>
             </plugin>
