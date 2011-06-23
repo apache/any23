@@ -40,13 +40,27 @@ public class Configuration {
 
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
 
-    private static final Configuration configuration = new Configuration();
+    private static final Configuration defaultConfiguration = new Configuration();
 
     private final Properties properties;
 
+    /**
+     * @return the default configuration instance <b>singleton</i>.
+     *         Such instance is unmodifiable.
+     */
     public static synchronized Configuration instance() {
-        return configuration;
+        return defaultConfiguration;
     }
+
+    /*
+    public static synchronized Configuration copy() {
+        try {
+            return (Configuration) defaultConfiguration.clone();
+        } catch (CloneNotSupportedException cnse) {
+            throw new IllegalStateException("Error while creating new configuration instance.", cnse);
+        }
+    }
+    */
 
     private Configuration() {
         properties = new Properties();
