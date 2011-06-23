@@ -166,7 +166,7 @@ public class MicrodataUtils {
             return new ItemPropValue( DomUtils.readAttribute(node, "data"), ItemPropValue.Type.Link);
         }
         if( "time".equals(nodeName) ) {
-            return new ItemPropValue( DomUtils.readAttribute(node, "datetime"), ItemPropValue.Type.DateTime);
+            return new ItemPropValue( DomUtils.readAttribute(node, "datetime"), ItemPropValue.Type.Date);
         }
 
         if( isItemScope(node) ) {

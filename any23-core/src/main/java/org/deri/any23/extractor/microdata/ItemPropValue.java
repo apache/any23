@@ -18,6 +18,8 @@ package org.deri.any23.extractor.microdata;
 
 import org.deri.any23.util.StringUtils;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +39,7 @@ public class ItemPropValue {
     public enum Type {
         Plain,
         Link,
-        DateTime,
+        Date,
         Nested
     }
 
@@ -84,23 +86,118 @@ public class ItemPropValue {
     }
 
     /**
+     * @return the content type.
+     */
+    public Type getType() {
+        return type;
+    }
+
+   /**
+     * @return <code>true</code> if type is plain text.
+     */
+    public boolean isPlain() {
+        return type == Type.Plain;
+    }
+
+    /**
+     * @return <code>true</code> if type is a link.
+     */
+    public boolean isLink() {
+        return type == Type.Link;
+    }
+
+    /**
+     * @return <code>true</code> if type is a date.
+     */
+    public boolean isDate() {
+        return type == Type.Date;
+    }
+
+    /**
+     * @return <code>true</code> if type is a nested {@link ItemScope}.
+     */
+    public boolean isNested() {
+        return type == Type.Nested;
+    }
+
+    /**
+     * @return <code>true</code> if type is an integer.
+     */
+    public boolean isInteger() {
+        if(type != Type.Plain) return false;
+         try {
+             Integer.parseInt((String) content);
+             return true;
+         } catch (Exception e) {
+             return false;
+         }
+     }
+
+    /**
+     * @return <code>true</code> if type is a float.
+     */
+     public boolean isFloat() {
+         if(type != Type.Plain) return false;
+         try {
+             Float.parseFloat((String) content);
+             return true;
+         } catch (Exception e) {
+             return false;
+         }
+     }
+
+    /**
+     * @return <code>true</code> if type is a number.
+     */
+     public boolean isNumber() {
+         return isInteger() || isFloat();
+     }
+
+    /**
+     * @return the content value as integer, or raises an exception.
+     * @throws NumberFormatException if the content is not an integer.
+     */
+     public int getAsInteger() {
+         return Integer.parseInt((String) content);
+     }
+
+    /**
+     * @return the content value as float, or raises an exception.
+     * @throws NumberFormatException if the content is not an float.
+     */
+     public float getAsFloat() {
+         return Float.parseFloat((String) content);
+     }
+
+
+    /**
      * @return the content as {@link Date}
      *         if <code>type == Type.DateTime</code>,
      *         <code>null</code> otherwise.
      * @throws java.text.ParseException if the content is not a parsable date.
      */
-    public Date getContentAsDate() throws ParseException {
-        if(type != Type.DateTime) {
-            return null;
-        }
+    public Date getAsDate() throws ParseException {
         return sdf.parse((String) content);
     }
 
     /**
-     * @return the content type.
+     * @return the content value as URL, or raises an exception.
+     * @throws MalformedURLException if the content is not a valid URL.
      */
-    public Type getType() {
-        return type;
+    public URL getAsLink() {
+        try {
+            return new URL((String) content);
+        } catch (MalformedURLException murle) {
+            throw new IllegalStateException("Error while parsing URI.", murle);
+        }
+    }
+
+    /**
+     * @return the content value as {@link ItemScope}.
+     * @throws ClassCastException if the content is not a valid nested item.
+     */
+    public ItemScope getAsNested() {
+        return (ItemScope) content;
     }
 
     public String toJSON() {

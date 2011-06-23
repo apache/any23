@@ -514,7 +514,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                             '/'
                     ).toString()
             );
-        } else if (propType.equals(ItemPropValue.Type.DateTime)) {
+        } else if (propType.equals(ItemPropValue.Type.Date)) {
             value = RDFUtils.literal((String) propValue, XMLSchema.DATE);
         } else {
             throw new RuntimeException("Invalid Type '" +

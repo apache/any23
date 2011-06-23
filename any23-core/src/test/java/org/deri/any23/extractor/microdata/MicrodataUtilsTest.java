@@ -76,7 +76,7 @@ public class MicrodataUtilsTest {
         final GregorianCalendar gregorianCalendar = new GregorianCalendar(2009, GregorianCalendar.MAY, 10); // 2009-05-10
         Assert.assertEquals(
                 gregorianCalendar.getTime(),
-                target.getProperties().get("birthday").get(0).getValue().getContentAsDate()
+                target.getProperties().get("birthday").get(0).getValue().getAsDate()
         );
     }
 
