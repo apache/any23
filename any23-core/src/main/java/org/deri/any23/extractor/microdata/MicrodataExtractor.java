@@ -294,8 +294,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         NodeList metas = in.getElementsByTagName("meta");
         for (int i = 0; i < metas.getLength(); i++) {
             Node meta = metas.item(i);
-            String name = DomUtils.readAttribute(meta, "name");
-            String content = DomUtils.readAttribute(meta, "content");
+            String name    = DomUtils.readAttribute(meta, "name"   , null);
+            String content = DomUtils.readAttribute(meta, "content", null);
             if (name != null && content != null) {
                 if (isAbsoluteURL(name)) {
                     processMetaElement(

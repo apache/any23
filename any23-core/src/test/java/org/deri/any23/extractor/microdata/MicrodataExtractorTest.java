@@ -107,13 +107,50 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         logger.info(dumpHumanReadableTriples());
     }
 
+    /**
+     * First reference test for <a href="http://schema.org/">http://schema.org/</a>.
+     *
+     * @throws RDFHandlerException
+     * @throws RepositoryException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testExampleSchemaOrg1()
+            throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
+        extractAndVerifyAgainstNQuads(
+                "schemaorg-example-1.html",
+                "schemaorg-example-1-expected.nquads"
+        );
+        logger.info(dumpHumanReadableTriples());
+    }
+
+    /**
+     * Second reference test for <a href="http://schema.org/">http://schema.org/</a>.
+     *
+     * @throws RDFHandlerException
+     * @throws RepositoryException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testExampleSchemaOrg2()
+            throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
+        extractAndVerifyAgainstNQuads(
+                "schemaorg-example-2.html",
+                "schemaorg-example-2-expected.nquads"
+        );
+        logger.info(dumpHumanReadableTriples());
+    }
+
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         assertExtracts("microdata/" + actual);
         assertModelNotEmpty();
+        System.out.println( dumpModelToNQuads() );
         List<Statement> expectedStatements = loadResultStatement("microdata/" + expected);
         int actualStmtSize = getStatementsSize(null, null, null);
-        Assert.assertEquals(actualStmtSize, expectedStatements.size());
+        Assert.assertEquals( expectedStatements.size(), actualStmtSize);
         for (Statement statement : expectedStatements) {
             if (!statement.getPredicate().equals(SINDICE.getInstance().date)) {
                 assertContains(
