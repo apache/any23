@@ -5,7 +5,6 @@
     xmlns      ="http://www.w3.org/1999/XSL/Transform"
     xmlns:rdf  ="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
-
 <!--
     Version 0.21 by Fabien.Gandon@sophia.inria.fr
     This software is distributed under either the CeCILL-C license or the GNU Lesser General Public License version 3 license.
@@ -179,20 +178,34 @@
 
 <!-- named templates to process URIs and token lists - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-  <!-- tokenize a string using space as a delimiter -->
-  <template name="tokenize">
-    <param name="string" />
-  	<if test="string-length($string)>0">
-  		<choose>
-  			<when test="contains($string,' ')">
-				<value-of select="normalize-space(substring-before($string,' '))"/>
-				<call-template name="tokenize"><with-param name="string" select="normalize-space(substring-after($string,' '))"/></call-template>  	  				
-  			</when>
-  			<otherwise><value-of select="$string"/></otherwise>
-  		</choose>
-  	</if>
-  </template>
-
+  <xsl:template name="tokenize2">
+    <xsl:param name="src"/>
+    <xsl:param name="prefix"/>
+    <xsl:param name="name"/>
+    
+    <xsl:choose>
+      <xsl:when test="contains($src,' ')">
+        <variable name="ns" select="substring-before($src,' ')"/>
+        <if test="starts-with($ns, $prefix)">
+          <value-of select="concat(substring-after($ns, concat($prefix, ':')), $name)" />
+        </if>
+        <!-- recurse -->
+        <xsl:call-template name="tokenize2">
+          <xsl:with-param name="src" 
+            select="substring-after($src,' ')"/>
+          <with-param name="prefix" select="$prefix" />
+          <with-param name="name" select="$name" />
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <if test="starts-with($src, $prefix)">
+          <variable name="ns" select="substring-after($src, concat($prefix, ':'))"/>
+          <value-of select="concat($ns, $name)" />
+        </if>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
   <!-- get file location from URL -->
   <template name="get-location">
     <param name="url" />
@@ -213,34 +226,84 @@
 	</choose>    
   </template>
 
-  <!-- return namespace of a qname -->
-  <template name="return-ns" >
+  <!-- return namespace of a property qname according RDFa 1.1-->
+  <template name="return-property-ns" >
     <param name="qname" />
     <variable name="ns_prefix" select="substring-before($qname,':')" />
+    <!-- START: seeking for RDFa 1.1 xmlns declaration. it takes precedence -->
     <if test="string-length($ns_prefix)>0"> <!-- prefix must be explicit -->
+      <variable name="name" select="substring-after($qname,':')" />
+      <for-each select="ancestor-or-self::*[@prefix]" >
+        <call-template name="tokenize2">
+          <with-param name="src" select="string(@prefix)"/>
+          <with-param name="prefix" select="$ns_prefix"/>
+        </call-template>
+      </for-each>
+    </if>
+    <!-- END: seeking for RDFa 1.1 xmlns declaration. it takes precedence -->
+    <!-- START: seeking for RDFa 1.0 xmlns declaration -->
+    <if test="string-length($ns_prefix)>0 and ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]"> <!-- prefix must be explicit -->
       <variable name="name" select="substring-after($qname,':')" />
       <value-of select="ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]" />
     </if>
+    <!-- END: seeking for RDFa 1.0 xmlns declaration -->
     <if test="string-length($ns_prefix)=0 and ancestor-or-self::*/namespace::*[name()=''][position()=1]"> <!-- no prefix -->
-		<variable name="name" select="substring-after($qname,':')" />
-		<value-of select="ancestor-or-self::*/namespace::*[name()=''][position()=1]" />
+      <variable name="name" select="substring-after($qname,':')" />
+      <value-of select="ancestor-or-self::*/namespace::*[name()=''][position()=1]" />
+    </if>
+  </template>
+  
+  <!-- return namespace of a qname according RDFa 1.1-->
+  <template name="return-ns" >
+    <param name="qname" />
+    <variable name="ns_prefix" select="substring-before($qname,':')" />
+    <!-- START: seeking for RDFa 1.1 xmlns declaration. it takes precedence -->
+    <if test="string-length($ns_prefix)>0"> <!-- prefix must be explicit -->
+      <variable name="name" select="substring-after($qname,':')" />
+      <for-each select="ancestor-or-self::*[@prefix]" >
+        <call-template name="tokenize2">
+          <with-param name="src" select="string(@prefix)"/>
+          <with-param name="prefix" select="$ns_prefix"/>
+          <with-param name="name" select="$name"></with-param>
+        </call-template>
+      </for-each>
+    </if>
+    <!-- END: seeking for RDFa 1.1 xmlns declaration. it takes precedence -->
+    <!-- START: seeking for RDFa 1.0 xmlns declaration -->
+    <if test="string-length($ns_prefix)>0 and ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]"> <!-- prefix must be explicit -->
+      <variable name="name" select="substring-after($qname,':')" />
+      <value-of select="ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]" />
+    </if>
+    <!-- END: seeking for RDFa 1.0 xmlns declaration -->
+    <if test="string-length($ns_prefix)=0 and ancestor-or-self::*/namespace::*[name()=''][position()=1]"> <!-- no prefix -->
+      <variable name="name" select="substring-after($qname,':')" />
+      <value-of select="ancestor-or-self::*/namespace::*[name()=''][position()=1]" />
     </if>
   </template>
 
-
-  <!-- expand namespace of a qname -->
+  <!-- expand namespace of a qname according RDFa 1.1-->
   <template name="expand-ns" >
     <param name="qname" />
     <variable name="ns_prefix" select="substring-before($qname,':')" />
-    <if test="string-length($ns_prefix)>0"> <!-- prefix must be explicit -->
-		<variable name="name" select="substring-after($qname,':')" />
-		<variable name="ns_uri" select="ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]" />
-		<value-of select="concat($ns_uri,$name)" />
+    <if test="string-length($ns_prefix)>0 and ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]"> <!-- prefix must be explicit -->
+      <variable name="name" select="substring-after($qname,':')" />
+      <variable name="ns_uri" select="ancestor-or-self::*/namespace::*[name()=$ns_prefix][position()=1]" />
+      <value-of select="concat($ns_uri,$name)" />
+    </if>
+    <if test="string-length($ns_prefix)>0 and ancestor-or-self::*[@prefix][position()=1]">
+      <variable name="name" select="substring-after($qname,':')" />
+      <for-each select="ancestor-or-self::*[@prefix]" >
+        <call-template name="tokenize2">
+          <with-param name="src" select="string(@prefix)"/>
+          <with-param name="prefix" select="$ns_prefix"/>
+          <with-param name="name" select="$name"></with-param>
+        </call-template>
+      </for-each>
     </if>
     <if test="string-length($ns_prefix)=0 and ancestor-or-self::*/namespace::*[name()=''][position()=1]"> <!-- no prefix -->
-		<variable name="name" select="substring-after($qname,':')" />
-		<variable name="ns_uri" select="ancestor-or-self::*/namespace::*[name()=''][position()=1]" />
-		<value-of select="concat($ns_uri,$name)" />
+      <variable name="name" select="substring-after($qname,':')" />
+      <variable name="ns_uri" select="ancestor-or-self::*/namespace::*[name()=''][position()=1]" />
+      <value-of select="concat($ns_uri,$name)" />
     </if>
   </template>
 
@@ -268,39 +331,43 @@
     </choose>
   </template>  
 			
-
-  <!-- expand CURIE / URI -->
+  <!-- expand CURIE / URI according RDFa 1.1 -->
   <template name="expand-curie-or-uri" >
     <param name="curie_or_uri" />
     <choose>
-     <when test="starts-with($curie_or_uri,'[_:')"> <!-- we have a CURIE blank node -->
-      <value-of select="concat('blank:node:',substring-after(substring-before($curie_or_uri,']'),'[_:'))"/>
-     </when>
-     <when test="starts-with($curie_or_uri,'[')"> <!-- we have a CURIE between square brackets -->
-      <call-template name="expand-ns"><with-param name="qname" select="substring-after(substring-before($curie_or_uri,']'),'[')"/></call-template>
-     </when>
-     <when test="starts-with($curie_or_uri,'#')"> <!-- we have an anchor -->
-      <value-of select="concat($this,$curie_or_uri)" />
-     </when>
-     <when test="string-length($curie_or_uri)=0"> <!-- empty anchor means the document itself -->
-      <value-of select="$this" />
-     </when>
-     <when test="not(starts-with($curie_or_uri,'[')) and contains($curie_or_uri,':')"> <!-- it is a URI -->
-      <value-of select="$curie_or_uri" />
-     </when>     
-     <when test="not(contains($curie_or_uri,'://')) and not(starts-with($curie_or_uri,'/'))"> <!-- relative URL -->
-      <value-of select="concat($this_location,$curie_or_uri)" />
-     </when>
-     <when test="not(contains($curie_or_uri,'://')) and (starts-with($curie_or_uri,'/'))"> <!-- URL from root domain -->
-<!-- RC: Resolution of relative URIs like '/something' didn't work for me,
-     so I return them verbatim and let the subsequent RDF/XML parser deal
-     with resolving them. --> 
-<!--      <value-of select="concat($this_root,substring-after($curie_or_uri,'/'))" />-->
-      <value-of select="$curie_or_uri" />
-     </when>
-     <otherwise>UNKNOWN CURIE URI</otherwise>
+      <when test="starts-with($curie_or_uri,'[_:')"> <!-- we have a CURIE blank node -->
+        <value-of select="concat('blank:node:',substring-after(substring-before($curie_or_uri,']'),'[_:'))"/>
+      </when>
+      <when test="starts-with($curie_or_uri,'[')"> <!-- we have a CURIE between square brackets -->
+        <call-template name="expand-ns"><with-param name="qname" select="substring-after(substring-before($curie_or_uri,']'),'[')"/></call-template>
+      </when>
+      <!-- START: inserted for ensure RDFa 1.1 compatibiliy -->
+      <when test="not(starts-with($curie_or_uri,'[')) and contains($curie_or_uri,':') and contains($curie_or_uri,'/') and not(contains($curie_or_uri, 'http://'))"> <!-- we have a CURIE -->
+        <call-template name="expand-ns"><with-param name="qname" select="$curie_or_uri"/></call-template>
+      </when>
+      <!-- END: inserted for ensure RDFa 1.1 compatibiliy -->
+      <when test="starts-with($curie_or_uri,'#')"> <!-- we have an anchor -->
+        <value-of select="concat($this,$curie_or_uri)" />
+      </when>
+      <when test="string-length($curie_or_uri)=0"> <!-- empty anchor means the document itself -->
+        <value-of select="$this" />
+      </when>
+      <when test="not(starts-with($curie_or_uri,'[')) and contains($curie_or_uri,':')"> <!-- it is a URI -->
+        <value-of select="$curie_or_uri" />
+      </when>     
+      <when test="not(contains($curie_or_uri,'://')) and not(starts-with($curie_or_uri,'/'))"> <!-- relative URL -->
+        <value-of select="concat($this_location,$curie_or_uri)" />
+      </when>
+      <when test="not(contains($curie_or_uri,'://')) and (starts-with($curie_or_uri,'/'))"> <!-- URL from root domain -->
+        <!-- RC: Resolution of relative URIs like '/something' didn't work for me,
+          so I return them verbatim and let the subsequent RDF/XML parser deal
+          with resolving them. --> 
+        <!--      <value-of select="concat($this_root,substring-after($curie_or_uri,'/'))" />-->
+        <value-of select="$curie_or_uri" />
+      </when>
+      <otherwise>UNKNOWN CURIE URI</otherwise>
     </choose>
-  </template>  
+  </template>
   
   <!-- returns the first token in a list separated by spaces -->
   <template name="get-first-token">
@@ -321,7 +388,7 @@
 	<variable name="ns_prefix" select="substring-before(translate($qname,'[]',''),':')" />
 	<choose>
 	  <when test="string-length($ns_prefix)>0">
-		<call-template name="return-ns"><with-param name="qname" select="$qname"/></call-template>
+		<call-template name="return-property-ns"><with-param name="qname" select="$qname"/></call-template>
 	   </when>
 	   <!-- returns default_voc if the predicate is a reserved value -->
 	   <otherwise>
@@ -334,10 +401,10 @@
   <!-- returns the namespace for a data property -->
   <template name="get-property-ns">
   	<param name="qname" />
-	<variable name="ns_prefix" select="substring-before(translate($qname,'[]',''),':')" />
-	<choose>
+	  <variable name="ns_prefix" select="substring-before(translate($qname,'[]',''),':')" />
+  <choose>
 	  <when test="string-length($ns_prefix)>0">
-		<call-template name="return-ns"><with-param name="qname" select="$qname"/></call-template>
+		<call-template name="return-property-ns"><with-param name="qname" select="$qname"/></call-template>
 	   </when>
 	   <!-- returns default_voc otherwise -->
 	   <otherwise><value-of select="$default_voc" /></otherwise>
@@ -706,6 +773,5 @@
             </otherwise>
         </choose>
     </template>
-
 
 </stylesheet>

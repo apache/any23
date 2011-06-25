@@ -157,6 +157,10 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         }
     }
 
+    private String getDocType(Document in) {
+        return in.getDoctype().getPublicId();
+    }
+
     /**
      * @return the {@link org.deri.any23.extractor.ExtractorDescription} of this extractor
      */

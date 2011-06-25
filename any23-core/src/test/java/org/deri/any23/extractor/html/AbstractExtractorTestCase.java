@@ -68,6 +68,25 @@ public abstract class AbstractExtractorTestCase {
         conn = new SailRepository(store).getConnection();
     }
 
+     protected void assertContains(Statement statement) throws RepositoryException {
+        if(statement.getSubject() instanceof BNode) {
+            conn.hasStatement(
+                    null,
+                    statement.getPredicate(),
+                    statement.getObject(),
+                    false
+            );
+        }
+        if(statement.getObject() instanceof BNode) {
+            conn.hasStatement(
+                    statement.getSubject(),
+                    statement.getPredicate(),
+                    null,
+                    false
+            );
+        }
+    }
+
     public void assertContains(URI p, Resource o) throws RepositoryException {
         assertContains(null, p, o);
     }
@@ -207,6 +226,13 @@ public abstract class AbstractExtractorTestCase {
         } catch (RDFHandlerException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    protected List<Statement> dumpAsListOfStatements()
+            throws RepositoryException {
+        List<Statement> result = conn.getStatements(null, null, null, false).asList();
+        conn.remove(null, null, null, new Resource[]{});
+        return result;
     }
 
     protected String dumpHumanReadableTriples() throws RepositoryException {

@@ -29,6 +29,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.InputStream;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An XSLT stylesheet loaded from an InputStream, can be applied
@@ -56,11 +58,31 @@ public class XSLTStylesheet {
      * @param document where apply the transformation
      * @param output the {@link java.io.Writer} where write on
      */
-    public synchronized void applyTo(Document document, Writer output) throws XSLTStylesheetException {
+    public synchronized void applyTo(Document document, Writer output)
+            throws XSLTStylesheetException {
+        this.applyTo(document, output, new HashMap<String, String>());
+    }
+
+    /**
+     * Applies the XSLT transformation
+     * @param document where apply the transformation
+     * @param output the {@link java.io.Writer} where write on
+     * @param parameters the parameters to be passed to {@link Transformer}.
+     *              Pass an empty {@link Map} if no parameters are foreseen.
+     */
+    public synchronized void applyTo(Document document, Writer output,
+                                     Map<String, String> parameters) throws XSLTStylesheetException {
+        for(String parameterKey : parameters.keySet()) {
+            transformer.setParameter(parameterKey, parameters.get(parameterKey));
+        }
         try {
-            // transformer.setParameter("url", document.getBaseURI());
-            //transformer.setParameter("html_base", "http://di2.deri.ie/");
-            transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
+            transformer.transform(
+                    new DOMSource(
+                            document,
+                            document.getBaseURI()
+                    ),
+                    new StreamResult(output)
+            );
         } catch (TransformerException te) {
             log.error("------ BEGIN XSLT Transformer Exception ------");
             log.error("Exception in XSLT Stylesheet transformation.", te);

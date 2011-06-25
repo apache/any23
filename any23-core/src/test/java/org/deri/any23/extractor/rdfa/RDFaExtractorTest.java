@@ -23,10 +23,13 @@ import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.FOAF;
 import org.junit.Test;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Statement;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Reference Test Class for {@link org.deri.any23.extractor.rdfa.RDFaExtractor}.
@@ -48,6 +51,70 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("html/rdfa/dummy.html");
         assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en") );
         assertContains(null, vDCTERMS.title  , RDFUtils.literal("The trouble with Bob", "en") );
+    }
+
+    /**
+     * This test check if the <a href=""http://www.w3.org/TR/2010/WD-rdfa-core-20100422/#s_curieprocessing">RDFa1.1 CURIEs</a> expansion is correct
+     * and backward compatible with <a href="http://www.w3.org/TR/rdfa-syntax/#s_curieprocessing">RDFa 1.0</a>.
+     *
+     * @throws RepositoryException
+     */
+    @Test
+    public void testRDFa11CURIEs() throws RepositoryException {
+        assertExtracts("html/rdfa/rdfa-11-curies.html");
+        assertModelNotEmpty();
+        assertContains(
+                RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                RDFUtils.uri("http://dbpedia.org/name"),
+                RDFUtils.literal("Albert Einstein")
+        );
+        assertContains(
+                RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                RDFUtils.uri("http://dbpedia.org/knows"),
+                RDFUtils.uri("http://dbpedia.org/resource/Franklin_Roosevlet")
+        );
+         assertContains(
+                RDFUtils.uri("http://database.org/table/Departments"),
+                RDFUtils.uri("http://database.org/description"),
+                RDFUtils.literal("Tables listing departments")
+        );
+        assertContains(
+                RDFUtils.uri("http://database.org/table/Departments"),
+                RDFUtils.uri("http://database.org/owner"),
+                RDFUtils.uri("http://database.org/people/Davide_Palmisano")
+        );
+        assertContains(
+                RDFUtils.uri("http://database.org/table/Departments"),
+                RDFUtils.uri("http://xmlns.org/foaf/01/author"),
+                RDFUtils.uri("http://database.org/people/Davide_Palmisano")
+        );
+        assertContains(
+                RDFUtils.uri("http://database.org/table/Departments"),
+                RDFUtils.uri("http://purl.org/dc/01/name"),
+                RDFUtils.literal("Departments")
+        );
+        assertStatementsSize(null, null, null, 8);
+        logger.info(dumpHumanReadableTriples());
+    }
+
+    /**
+     * Taken from the <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations test cases</a>.
+     * It checks if the extraction is the same when the namespaces are defined in <i>RDFa1.0</i> or
+     * <i>RDFa1.1</i> respectively.
+     *
+     * @throws RepositoryException
+     */
+    @Test
+    public void testRDFa11PrefixBackwardCompatibility() throws RepositoryException {
+        assertExtracts("html/rdfa/goodrelations-rdfa10.html");
+        assertModelNotEmpty();
+        List<Statement> rdfa10Stmts = dumpAsListOfStatements();
+        assertExtracts("html/rdfa/goodrelations-rdfa11.html");
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, rdfa10Stmts.size());
+        for(Statement stmt : rdfa10Stmts) {
+            assertContains(stmt);
+        }
     }
 
     /**
