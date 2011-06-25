@@ -244,6 +244,11 @@ public class MicrodataUtils {
         final List<ItemProp> result = new ArrayList<ItemProp>();
         for(String ref : refs) {
             final Element element = document.getElementById(ref);
+                if(element == null) {
+                    // TODO: missing reference. Report Error.
+                    // System.err.println("MISSING PROPERTY NAME " + ref);
+                    continue;
+                }
                 result.addAll(getItemProps(document, element, false));
             }
         return result.toArray( new ItemProp[result.size()] );
@@ -264,7 +269,15 @@ public class MicrodataUtils {
 
         final List<ItemProp> itemProps = getItemProps(document, node, true);
         final String[] itemrefIDs = itemref == null ? new String[0] : itemref.split(" ");
-        itemProps.addAll( Arrays.asList(deferProperties(document, itemrefIDs) ) );
+        final ItemProp[] deferredProperties = deferProperties(document, itemrefIDs);
+        for(ItemProp deferredProperty : deferredProperties) {
+            if( itemProps.contains(deferredProperty) ) {
+                // TODO: Duplicate itemProp: report error.
+                // System.err.println("DUPLICATE ITEM PROP");
+                continue;
+            }
+            itemProps.add(deferredProperty);
+        }
 
         return new ItemScope(
                 DomUtils.getXPathForNode(node),

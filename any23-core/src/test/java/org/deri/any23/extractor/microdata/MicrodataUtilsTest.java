@@ -42,7 +42,7 @@ public class MicrodataUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(MicrodataUtilsTest.class);
 
     @Test
-    public void testBasicMicrodataDetection() throws IOException {
+    public void testBasicFeatures() throws IOException {
         extractItemsAndVerifyJSONSerialization(
                 "microdata-basic",
                 "microdata-basic-expected"
@@ -50,10 +50,18 @@ public class MicrodataUtilsTest {
     }
 
     @Test
-    public void testNestedMicrodataDetection() throws IOException {
+    public void testNestedMicrodata() throws IOException {
         extractItemsAndVerifyJSONSerialization(
                 "microdata-nested",
                 "microdata-nested-expected"
+        );
+    }
+
+    @Test
+    public void testAdvancedItemrefManagement() throws IOException {
+        extractItemsAndVerifyJSONSerialization(
+                "microdata-itemref",
+                "microdata-itemref-expected"
         );
     }
 

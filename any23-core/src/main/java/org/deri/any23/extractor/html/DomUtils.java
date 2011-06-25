@@ -184,6 +184,9 @@ public class DomUtils {
      * expression, which must be valid.
      */
     public static List<Node> findAll(Node node, String xpath) {
+        if(node == null) {
+            throw new NullPointerException("node cannot be null.");
+        }
         try {
             NodeList nodes = (NodeList) xPathEngine.evaluate(xpath, node, XPathConstants.NODESET);
             List<Node> result = new ArrayList<Node>(nodes.getLength());
