@@ -1,4 +1,10 @@
 
+                               Any23 0.6.0-M1
+                              Release Notes
+
+The release 0.6.0-M1 is an early preview of the
+Microdata support. [114]
+
                                Any23 0.5.0
                               Release Notes
 
