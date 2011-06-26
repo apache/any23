@@ -71,17 +71,9 @@ public abstract class AbstractExtractorTestCase {
      protected void assertContains(Statement statement) throws RepositoryException {
         if(statement.getSubject() instanceof BNode) {
             conn.hasStatement(
-                    null,
+                    statement.getSubject() instanceof  BNode ? null : statement.getSubject(),
                     statement.getPredicate(),
-                    statement.getObject(),
-                    false
-            );
-        }
-        if(statement.getObject() instanceof BNode) {
-            conn.hasStatement(
-                    statement.getSubject(),
-                    statement.getPredicate(),
-                    null,
+                    statement.getObject() instanceof BNode   ? null : statement.getObject(),
                     false
             );
         }
@@ -228,8 +220,7 @@ public abstract class AbstractExtractorTestCase {
         }
     }
 
-    protected List<Statement> dumpAsListOfStatements()
-            throws RepositoryException {
+    protected List<Statement> dumpAsListOfStatements() throws RepositoryException {
         List<Statement> result = conn.getStatements(null, null, null, false).asList();
         conn.remove(null, null, null, new Resource[]{});
         return result;
