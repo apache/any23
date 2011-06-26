@@ -13,22 +13,20 @@
     </div>
 
     <!-- Loops. -->
-    <!--
     <div id="loops" itemscope>
-        <div id="plain" itemprop="text">Plain Property</div>
         <div id="loop0" itemprop="self" itemscope itemref="loop0"></div>
         <div id="loop1" itemprop="head" itemscope itemref="loop2">not in the loop</div>
         <div id="loop2" itemprop="next" itemscope itemref="loop3"></div>
         <div id="loop3" itemprop="next" itemscope itemref="loop4"></div>
         <div id="loop4" itemprop="next" itemscope itemref="loop2"></div>
     </div>
-    -->
 
-    <!--<div id="io"> &lt;!&ndash; inside-out &ndash;&gt;-->
-        <!--<div id="ioBefore" itemprop="oddstuff">included via parent</div>-->
-        <!--<div id="ioItem" itemscope itemref="io">-->
-            <!--<div id="ioChild" itemprop="oddstuff">included via tree</div>-->
-        <!--</div>-->
-        <!--<div id="ioAfter" itemprop="oddstuff">included via parent</div>-->
-    <!--</div>-->
+    <!-- Inside - Out Nesting. -->
+    <div id="insideOut">
+        <div id="idBefore" itemprop="prop">Included via parent, before.</div>
+        <div id="idItem" itemscope itemref="insideOut">
+            <div id="ioChild" itemprop="prop">Included via tree.</div>
+        </div>
+        <div id="idAfter" itemprop="prop">Included via parent, after.</div>
+    </div>
 </div>

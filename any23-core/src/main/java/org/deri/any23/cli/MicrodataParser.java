@@ -1,7 +1,6 @@
 package org.deri.any23.cli;
 
 import org.deri.any23.extractor.html.TagSoupParser;
-import org.deri.any23.extractor.microdata.MicrodataUtils;
 import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
@@ -39,7 +38,7 @@ public class MicrodataParser {
                     documentInputInputStream,
                     documentSource.getDocumentURI()
             );
-            MicrodataUtils.getMicrodataAsJSON(tagSoupParser.getDOM(), System.out);
+            org.deri.any23.extractor.microdata.MicrodataParser.getMicrodataAsJSON(tagSoupParser.getDOM(), System.out);
         } catch (Exception e) {
             System.err.println("***ERROR: " + e.getMessage());
             e.printStackTrace();

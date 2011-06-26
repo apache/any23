@@ -43,6 +43,14 @@ public class ItemPropValue {
         Nested
     }
 
+    public static Date parseDateTime(String dateStr) throws ParseException {
+        return sdf.parse(dateStr);
+    }
+
+    public static String formatDateTime(Date in) {
+        return sdf.format(in);
+    }
+
     /**
      * Internal content value.
      */
@@ -63,9 +71,6 @@ public class ItemPropValue {
         if(content == null) {
             throw new NullPointerException("content cannot be null.");
         }
-        if(content instanceof String && ((String) content).trim().length() == 0) {
-            throw new IllegalArgumentException("Invalid content '" + content + "'");
-        }
         if(type == null) {
             throw new NullPointerException("type cannot be null.");
         }
@@ -73,6 +78,14 @@ public class ItemPropValue {
             throw new IllegalArgumentException(
                     "content must be an " + ItemScope.class + " when type is " + Type.Nested
             );
+        }
+        if(type == Type.Date && !(content instanceof Date) ) {
+            throw new IllegalArgumentException(
+                    "content must be a " + Date.class.getName() + " whe type is " + Type.Date
+            );
+        }
+        if(content instanceof String && ((String) content).trim().length() == 0) {
+            throw new IllegalArgumentException("Invalid content '" + content + "'");
         }
         this.content = content;
         this.type = type;
@@ -156,6 +169,7 @@ public class ItemPropValue {
     /**
      * @return the content value as integer, or raises an exception.
      * @throws NumberFormatException if the content is not an integer.
+     * @throws ClassCastException if content is not plain.
      */
      public int getAsInteger() {
          return Integer.parseInt((String) content);
@@ -164,6 +178,7 @@ public class ItemPropValue {
     /**
      * @return the content value as float, or raises an exception.
      * @throws NumberFormatException if the content is not an float.
+     * @throws ClassCastException if content is not plain.
      */
      public float getAsFloat() {
          return Float.parseFloat((String) content);
@@ -173,16 +188,16 @@ public class ItemPropValue {
     /**
      * @return the content as {@link Date}
      *         if <code>type == Type.DateTime</code>,
-     *         <code>null</code> otherwise.
-     * @throws java.text.ParseException if the content is not a parsable date.
+     * @throws ClassCastException if content is not a valid date.
      */
-    public Date getAsDate() throws ParseException {
-        return sdf.parse((String) content);
+    public Date getAsDate() {
+        return (Date) content;
     }
 
     /**
      * @return the content value as URL, or raises an exception.
      * @throws MalformedURLException if the content is not a valid URL.
+     * @throws ClassCastException if content is not a link.
      */
     public URL getAsLink() {
         try {
@@ -201,15 +216,16 @@ public class ItemPropValue {
     }
 
     public String toJSON() {
-        return String.format(
-                "{ \"content\" : %s, \"type\" : \"%s\" }",
-                content instanceof String
-                        ?
-                    "\"" + StringUtils.escapeAsJSONString( (String) content) + "\""
-                        :
-                    content,
-                type
-        );
+        String contentStr;
+        if(content instanceof String) {
+            contentStr = "\"" + StringUtils.escapeAsJSONString( (String) content) + "\"";
+        } else if(content instanceof Date) {
+            contentStr = "\"" + sdf.format((Date) content) + "\"";
+        } else {
+            contentStr = content.toString();
+        }
+
+        return String.format( "{ \"content\" : %s, \"type\" : \"%s\" }", contentStr, type );
     }
 
     @Override

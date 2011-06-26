@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -89,7 +90,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     public void run(Document in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
 
-        final ItemScope[] itemScopes = MicrodataUtils.getMicrodata(in);
+        final ItemScope[] itemScopes = MicrodataParser.getMicrodata(in).getDetectedItemScopes();
         if (itemScopes.length == 0) {
             return;
         }
@@ -515,7 +516,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                     ).toString()
             );
         } else if (propType.equals(ItemPropValue.Type.Date)) {
-            value = RDFUtils.literal((String) propValue, XMLSchema.DATE);
+            value = RDFUtils.literal(ItemPropValue.formatDateTime((Date) propValue), XMLSchema.DATE);
         } else {
             throw new RuntimeException("Invalid Type '" +
                     propType + "' for ItemPropValue with name: '" + propName + "'");
