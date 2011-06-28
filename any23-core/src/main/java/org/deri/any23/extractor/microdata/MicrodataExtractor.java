@@ -17,12 +17,7 @@
 package org.deri.any23.extractor.microdata;
 
 import org.deri.any23.Configuration;
-import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.extractor.ExtractionResult;
-import org.deri.any23.extractor.Extractor;
-import org.deri.any23.extractor.ExtractorDescription;
-import org.deri.any23.extractor.ExtractorFactory;
-import org.deri.any23.extractor.SimpleExtractorFactory;
+import org.deri.any23.extractor.*;
 import org.deri.any23.extractor.html.DomUtils;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.rdf.RDFUtils;
@@ -90,7 +85,11 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     public void run(Document in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
 
-        final ItemScope[] itemScopes = MicrodataParser.getMicrodata(in).getDetectedItemScopes();
+        final MicrodataParserReport parserReport = MicrodataParser.getMicrodata(in);
+        if(parserReport.getErrors().length > 0) {
+            notifyErrors(parserReport.getErrors(), out);
+        }
+        final ItemScope[] itemScopes = parserReport.getDetectedItemScopes();
         if (itemScopes.length == 0) {
             return;
         }
@@ -546,6 +545,13 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if (lastChar == '#' || lastChar == '/')
             return new URL(ns + part);
         return new URL(ns + trailing + part);
+    }
+
+    private void notifyErrors(MicrodataParserException[] errors, ExtractionResult out) {
+        for(MicrodataParserException mpe : errors) {
+            // TODO: (med) grab from the MicrodataParser the row and columns value
+            out.notifyError(ErrorReporter.ErrorLevel.ERROR, mpe.toJSON(), 0 ,0);
+        }
     }
 
 }
