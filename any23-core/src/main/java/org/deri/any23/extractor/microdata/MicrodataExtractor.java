@@ -87,7 +87,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
         final MicrodataParserReport parserReport = MicrodataParser.getMicrodata(in);
         if(parserReport.getErrors().length > 0) {
-            notifyErrors(parserReport.getErrors(), out);
+            notifyError(parserReport.getErrors(), out);
         }
         final ItemScope[] itemScopes = parserReport.getDetectedItemScopes();
         if (itemScopes.length == 0) {
@@ -547,7 +547,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         return new URL(ns + trailing + part);
     }
 
-    private void notifyErrors(MicrodataParserException[] errors, ExtractionResult out) {
+    private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
         for(MicrodataParserException mpe : errors) {
             // TODO: (med) grab from the MicrodataParser the row and columns value
             out.notifyError(ErrorReporter.ErrorLevel.ERROR, mpe.toJSON(), 0 ,0);
