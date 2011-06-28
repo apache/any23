@@ -23,7 +23,6 @@ import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
-import org.deri.any23.Configuration;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -43,17 +42,9 @@ import java.util.List;
  */
 public class DefaultHTTPClient implements HTTPClient {
 
-    private static final int DEFAULT_TIMEOUT =
-            Configuration.instance().getPropertyIntOrFail("any23.http.client.timeout");
-    
-    private static final int DEFAULT_MAX_CONNECTIONS =
-            Configuration.instance().getPropertyIntOrFail("any23.http.client.max.connections");
-
     private final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
 
-    private String userAgent;
-
-    private String accept;
+    private HTTPClientConfiguration configuration;
 
     private HttpClient client = null;
 
@@ -63,9 +54,9 @@ public class DefaultHTTPClient implements HTTPClient {
 
     private String contentType = null;
 
-    public void init(String userAgent, String acceptHeader) {
-        this.userAgent = userAgent;
-        this.accept = acceptHeader;
+    public void init(HTTPClientConfiguration configuration) {
+        if(configuration == null) throw new NullPointerException("Illegal configuration, cannot be null.");
+        this.configuration = configuration;
     }
 
     /**
@@ -78,9 +69,7 @@ public class DefaultHTTPClient implements HTTPClient {
      * @throws IOException
      */
     public InputStream openInputStream(String uri) throws IOException {
-
         GetMethod method = null;
-
         try {
             ensureClientInitialized();
             String uriStr = null;
@@ -149,27 +138,28 @@ public class DefaultHTTPClient implements HTTPClient {
     }
 
     protected int getConnectionTimeout() {
-        return DEFAULT_TIMEOUT;
+        return configuration.getDefaultTimeout();
     }
 
     protected int getSoTimeout() {
-        return DEFAULT_TIMEOUT;
+        return configuration.getDefaultTimeout();
     }
 
     private void ensureClientInitialized() {
+        if(configuration == null) throw new IllegalStateException("client must be initialized first.");
         if (client != null) return;
         client = new HttpClient(manager);
         HttpConnectionManager connectionManager = client.getHttpConnectionManager();
         HttpConnectionManagerParams params = connectionManager.getParams();
-        params.setConnectionTimeout(DEFAULT_TIMEOUT);
-        params.setSoTimeout(DEFAULT_TIMEOUT);
-        params.setMaxTotalConnections(DEFAULT_MAX_CONNECTIONS);
+        params.setConnectionTimeout(configuration.getDefaultTimeout());
+        params.setSoTimeout(configuration.getDefaultTimeout());
+        params.setMaxTotalConnections(configuration.getMaxConnections());
 
         HostConfiguration hostConf = client.getHostConfiguration();
         List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", userAgent));
-        if (accept != null) {
-            headers.add(new Header("Accept", accept));
+        headers.add(new Header("User-Agent", configuration.getUserAgent()));
+        if (configuration.getAcceptHeader() != null) {
+            headers.add(new Header("Accept", configuration.getAcceptHeader()));
         }
         headers.add(new Header("Accept-Language", "en-us,en-gb,en,*;q=0.3"));
         headers.add(new Header("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));

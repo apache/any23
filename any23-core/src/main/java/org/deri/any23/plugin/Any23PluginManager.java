@@ -18,7 +18,8 @@ package org.deri.any23.plugin;
 
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
-import org.deri.any23.Configuration;
+import org.deri.any23.configuration.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.ExtractorGroup;
 import org.deri.any23.extractor.ExtractorRegistry;
@@ -101,20 +102,22 @@ public class Any23PluginManager {
 
     /**
      * Configures a new list of extractors containing the extractors declared in <code>inExtractorGroup</code>
-     * and also the extractors detected in classpath.
+     * and also the extractors detected in classpath specified by <code>pluginDirs</code>.
      *
+     * @param configuration configuration to be used to load extractors.
      * @param inExtractorGroup initial list of extractors.
      * @return full list of extractors.
      */
-    public ExtractorGroup configureExtractors(final ExtractorGroup inExtractorGroup) {
-        final String pluginDirs = Configuration.instance().getProperty(PLUGIN_DIRS_PROPERTY, null);
-        if(pluginDirs == null) {
-            logger.info( String.format("Property '%s' is not set, no plugins will be loaded.", PLUGIN_DIRS_PROPERTY));
-            return inExtractorGroup;
-        }
+    public ExtractorGroup configureExtractors(
+            final Configuration configuration,
+            final ExtractorGroup inExtractorGroup
+    ) {
+        if(configuration == null)       throw new NullPointerException("configuration cannot be null");
+        if(inExtractorGroup == null) throw new NullPointerException("inExtractorGroup cannot be null");
 
         final StringBuilder report = new StringBuilder();
         try {
+            final String pluginDirs = DefaultConfiguration.singleton().getPropertyOrFail(PLUGIN_DIRS_PROPERTY);
             final File[] pluginLocations = getPluginLocations(pluginDirs);
             report.append("\nLoading plugins from locations {\n");
             for (File pluginLocation : pluginLocations) {
@@ -155,6 +158,17 @@ public class Any23PluginManager {
         } finally {
             logger.info(report.toString());
         }
+    }
+
+    /**
+     * Configures a new list of extractors containing the extractors declared in <code>inExtractorGroup</code>
+     * and also the extractors detected in classpath.
+     *
+     * @param inExtractorGroup initial list of extractors.
+     * @return full list of extractors.
+     */
+    public ExtractorGroup configureExtractors(final ExtractorGroup inExtractorGroup) {
+        return configureExtractors(DefaultConfiguration.singleton(), inExtractorGroup);
     }
 
     /**

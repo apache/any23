@@ -17,8 +17,23 @@
 
 package org.deri.any23.extractor;
 
-import org.deri.any23.Configuration;
-import org.deri.any23.extractor.html.*;
+import org.deri.any23.configuration.DefaultConfiguration;
+import org.deri.any23.extractor.html.AdrExtractor;
+import org.deri.any23.extractor.html.GeoExtractor;
+import org.deri.any23.extractor.html.HCalendarExtractor;
+import org.deri.any23.extractor.html.HCardExtractor;
+import org.deri.any23.extractor.html.HListingExtractor;
+import org.deri.any23.extractor.html.HRecipeExtractor;
+import org.deri.any23.extractor.html.HResumeExtractor;
+import org.deri.any23.extractor.html.HReviewExtractor;
+import org.deri.any23.extractor.html.HTMLMetaExtractor;
+import org.deri.any23.extractor.html.HeadLinkExtractor;
+import org.deri.any23.extractor.html.ICBMExtractor;
+import org.deri.any23.extractor.html.LicenseExtractor;
+import org.deri.any23.extractor.html.SpeciesExtractor;
+import org.deri.any23.extractor.html.TitleExtractor;
+import org.deri.any23.extractor.html.TurtleHTMLExtractor;
+import org.deri.any23.extractor.html.XFNExtractor;
 import org.deri.any23.extractor.microdata.MicrodataExtractor;
 import org.deri.any23.extractor.rdf.NQuadsExtractor;
 import org.deri.any23.extractor.rdf.NTriplesExtractor;
@@ -78,7 +93,8 @@ public class ExtractorRegistry {
                 instance.register(SpeciesExtractor.factory);
                 instance.register(TurtleHTMLExtractor.factory);
                 instance.register(MicrodataExtractor.factory);
-                if(Configuration.instance().getFlagProperty("any23.extraction.head.meta")) {
+                // TODO: it is really needed?
+                if(DefaultConfiguration.singleton().getFlagProperty("any23.extraction.head.meta")) {
                     instance.register(HTMLMetaExtractor.factory);
                 }
             }

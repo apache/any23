@@ -70,6 +70,7 @@ public interface Extractor<Input> {
      * @throws IOException         On error while reading from the input stream
      * @throws ExtractionException On other error, such as parse errors
      */
+    //TODO: add extraction parameters object to make every single extraction configurable.
     void run(Input in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException;
 

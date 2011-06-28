@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.deri.any23;
+package org.deri.any23.configuration;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -22,22 +22,60 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test case for {@link org.deri.any23.Configuration} class.
+ * Test case for {@link org.deri.any23.configuration.Configuration} class.
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
-public class ConfigurationTest {
+public class DefaultConfigurationTest {
 
     private Configuration configuration;
 
     @Before
     public void setUp() {
-        configuration = Configuration.instance();
+        configuration = DefaultConfiguration.singleton();
     }
 
     @After
     public void tearDown() {
         configuration = null;
+    }
+
+    @Test
+    public void testSingletonAccessor() {
+        final Configuration s1 = DefaultConfiguration.singleton();
+        final Configuration s2 = DefaultConfiguration.singleton();
+        Assert.assertTrue("Invalid singleton condition.", s1 == s2);
+    }
+
+    @Test
+    public void testCopyAccessor() {
+        final ModifiableConfiguration c1 = DefaultConfiguration.copy();
+        final ModifiableConfiguration c2 = DefaultConfiguration.copy();
+        Assert.assertTrue("Invalid copy condition.", c1 != c2);
+    }
+
+    @Test
+    public void testCopyIsolation() {
+        final String TARGET_PROPERTY = "any23.http.client.max.connections";
+        final ModifiableConfiguration copy = DefaultConfiguration.copy();
+        copy.setProperty(TARGET_PROPERTY, "100");
+        Assert.assertEquals( DefaultConfiguration.singleton().getPropertyIntOrFail(TARGET_PROPERTY), 5);
+        Assert.assertEquals( copy.getPropertyIntOrFail(TARGET_PROPERTY), 100 );
+    }
+
+    @Test
+    public void testModifiableConfigurationSuccess() {
+        final String TARGET_PROPERTY = "any23.extraction.metadata.nesting";
+        final ModifiableConfiguration modifiable = DefaultConfiguration.copy();
+        final String oldValue = modifiable.setProperty(TARGET_PROPERTY, "off");
+        Assert.assertEquals("on", oldValue);
+        Assert.assertEquals("off", modifiable.getPropertyOrFail(TARGET_PROPERTY));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testModifiableConfigurationFail() {
+        final ModifiableConfiguration modifiable = DefaultConfiguration.copy();
+        modifiable.setProperty("fake.property", "fake.value");
     }
 
     @Test

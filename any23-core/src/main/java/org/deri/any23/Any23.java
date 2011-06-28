@@ -16,6 +16,8 @@
 
 package org.deri.any23;
 
+import org.deri.any23.configuration.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractorFactory;
@@ -26,6 +28,7 @@ import org.deri.any23.extractor.SingleDocumentExtractionReport;
 import org.deri.any23.http.AcceptHeaderBuilder;
 import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.http.HTTPClient;
+import org.deri.any23.http.HTTPClientConfiguration;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
 import org.deri.any23.mime.TikaMIMETypeDetector;
@@ -61,27 +64,44 @@ public class Any23 {
      * Any23 core library version.
      * NOTE: there's also a version string in pom.xml, they should match.
      */
-    public static final String VERSION = Configuration.instance().getPropertyOrFail("any23.core.version");
+    public static final String VERSION = DefaultConfiguration.singleton().getPropertyOrFail("any23.core.version");
 
     /**
-     * Default HTTP User Agent.
+     * Default HTTP User Agent defined in default configuration.
      */
-    public static final String DEFAULT_HTTP_CLIENT_USER_AGENT = Configuration.instance().getPropertyOrFail(
+    public static final String DEFAULT_HTTP_CLIENT_USER_AGENT = DefaultConfiguration.singleton().getPropertyOrFail(
             "any23.http.user.agent.default"
     );
 
-    private final ExtractorGroup factories;
-    private LocalCopyFactory streamCache;
-    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
-    private String userAgent = DEFAULT_HTTP_CLIENT_USER_AGENT;
+    private final Configuration configuration;
+    private final String        defaultUserAgent;
+
+    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector( new WhiteSpacesPurifier() );
+
     private HTTPClient httpClient = new DefaultHTTPClient();
+
     private boolean httpClientInitialized = false;
 
+    private final ExtractorGroup factories;
+    private LocalCopyFactory     streamCache;
+    private String               userAgent;
+
     /**
-     * Constructor.
+     * Constructor that allows the specification of a
+     * custom configuration and of a list of extractors.
+     *
+     * @param configuration configuration used to build the <i>Any23</i> instance.
+     * @param extractorGroup the group of extractors to be applied.
      */
-    public Any23() {
-        this((String[]) null);
+    public Any23(Configuration configuration, ExtractorGroup extractorGroup) {
+        if(configuration == null) throw new NullPointerException("configuration must be not null.");
+        this.configuration = configuration;
+        this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
+
+        this.factories = (extractorGroup == null)
+                ? ExtractorRegistry.getInstance().getExtractorGroup()
+                : extractorGroup;
+        setCacheFactory(new MemCopyFactory());
     }
 
     /**
@@ -90,10 +110,24 @@ public class Any23 {
      * @param extractorGroup the group of extractors to be applied.
      */
     public Any23(ExtractorGroup extractorGroup) {
-        factories = (extractorGroup == null)
-                ? ExtractorRegistry.getInstance().getExtractorGroup()
-                : extractorGroup;
-        setCacheFactory(new MemCopyFactory());
+        this(DefaultConfiguration.singleton(), extractorGroup);
+    }
+
+    /**
+     * Constructor that allows the specification of a
+     * custom configuration and of list of extractor names.
+     *
+     * @param extractorNames list of extractor's names.
+     */
+    public Any23(Configuration configuration, String... extractorNames) {
+        this(
+                configuration,
+                extractorNames == null
+                        ?
+                null
+                        :
+                ExtractorRegistry.getInstance().getExtractorGroup( Arrays.asList(extractorNames))
+        );
     }
 
     /**
@@ -102,12 +136,21 @@ public class Any23 {
      * @param extractorNames list of extractor's names.
      */
     public Any23(String... extractorNames) {
-        this(
-                extractorNames == null
-                        ?
-                null
-                        :
-                ExtractorRegistry.getInstance().getExtractorGroup( Arrays.asList(extractorNames)) );
+        this( DefaultConfiguration.singleton(), extractorNames );
+    }
+
+    /**
+     * Constructor accepting {@link Configuration}.
+     */
+    public Any23(Configuration configuration) {
+        this(configuration, (String[]) null);
+    }
+
+    /**
+     * Constructor with default configuration.
+     */
+    public Any23() {
+        this( DefaultConfiguration.singleton() );
     }
 
     /**
@@ -121,7 +164,7 @@ public class Any23 {
             throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
         }
         if(userAgent == null) {
-            userAgent = DEFAULT_HTTP_CLIENT_USER_AGENT;
+            userAgent = defaultUserAgent;
         }
         if(userAgent.trim().length() == 0) {
             throw new IllegalArgumentException( String.format("Invalid user agent: '%s'", userAgent) );
@@ -168,7 +211,20 @@ public class Any23 {
                 throw new IOException("Must call " + Any23.class.getSimpleName() +
                         ".setHTTPUserAgent(String) before extracting from HTTP URI");
             }
-            httpClient.init(userAgent, getAcceptHeader());
+            httpClient.init( new HTTPClientConfiguration() {
+                public String getUserAgent() {
+                    return userAgent;
+                }
+                public String getAcceptHeader() {
+                    return Any23.this.getAcceptHeader();
+                }
+                public int getDefaultTimeout() {
+                    return configuration.getPropertyIntOrFail("any23.http.client.timeout");
+                }
+                public int getMaxConnections() {
+                    return configuration.getPropertyIntOrFail("any23.http.client.max.connections");
+                }
+            } );
             httpClientInitialized = true;
         }
         return httpClient;

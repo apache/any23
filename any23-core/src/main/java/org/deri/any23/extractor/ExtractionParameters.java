@@ -1,6 +1,6 @@
 package org.deri.any23.extractor;
 
-import org.deri.any23.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class ExtractionParameters {
      *
      * @param extractionMode specifies the required extraction mode.
      * @param extractionFlags list of specific flags used for extraction, if not specified they will
-     *        be retrieved by the default {@link Configuration}.
+     *        be retrieved by the default {@link org.deri.any23.configuration.Configuration}.
      */
     public ExtractionParameters(ValidationMode extractionMode, Map<String, Boolean> extractionFlags) {
         if(extractionMode == null) {
@@ -87,7 +87,7 @@ public class ExtractionParameters {
 
     /**
      * Returns the value of the specified extraction flag, if the flag is undefined
-     * it will be retrieved by the default {@link Configuration}.
+     * it will be retrieved by the default {@link org.deri.any23.configuration.Configuration}.
      *
      * @param flagName name of flag.
      * @return flag value.
@@ -95,7 +95,7 @@ public class ExtractionParameters {
     public boolean getFlag(String flagName) {
         final Boolean value = extractionFlags.get(flagName);
         if(value == null) {
-            return Configuration.instance().getFlagProperty(flagName);
+            return DefaultConfiguration.singleton().getFlagProperty(flagName);
         }
         return value;
     }

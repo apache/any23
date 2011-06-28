@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.deri.any23;
+package org.deri.any23.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +23,14 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Facility class providing centralized configuration parameters.
+ * Default implementation of {@link Configuration}.
+ * The default property values are read from the
+ * <i>/default-configuration.properties</i> properties file
+ * in classpath.
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
-public class Configuration {
+public class DefaultConfiguration implements Configuration {
 
     /**
      * Default configuration file.
@@ -38,66 +41,55 @@ public class Configuration {
 
     public static final String FLAG_PROPERTY_OFF = "off";
 
-    private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
+    protected static final Logger logger = LoggerFactory.getLogger(DefaultConfiguration.class);
 
-    private static final Configuration defaultConfiguration = new Configuration();
+    protected static final DefaultConfiguration singleton = new DefaultConfiguration();
 
-    private final Properties properties;
+    protected final Properties properties;
 
     /**
-     * @return the default configuration instance <b>singleton</i>.
+     * @return the singleton configuration instance.
      *         Such instance is unmodifiable.
      */
-    public static synchronized Configuration instance() {
-        return defaultConfiguration;
+    public static synchronized DefaultConfiguration singleton() {
+        return singleton;
     }
 
-    /*
-    public static synchronized Configuration copy() {
-        try {
-            return (Configuration) defaultConfiguration.clone();
-        } catch (CloneNotSupportedException cnse) {
-            throw new IllegalStateException("Error while creating new configuration instance.", cnse);
-        }
+    /**
+     * @return a copy of the singleton instance. such instance is modifiable.
+     */
+    public static synchronized ModifiableConfiguration copy() {
+        final Properties propertiesCopy = (Properties) singleton.properties.clone();
+        return new DefaultModifiableConfiguration(propertiesCopy);
     }
-    */
 
-    private Configuration() {
-        properties = new Properties();
+    private static Properties loadDefaultProperties() {
+        final Properties properties = new Properties();
         try {
-            properties.load( this.getClass().getResourceAsStream(DEFAULT_CONFIG_FILE) );
+            properties.load( DefaultConfiguration.class.getResourceAsStream(DEFAULT_CONFIG_FILE) );
         } catch (IOException ioe) {
             throw new IllegalStateException("Error while loading default configuration.", ioe);
         }
+        return properties;
+    }
+
+    protected DefaultConfiguration(Properties properties) {
+        this.properties = properties;
         if(logger.isInfoEnabled()) logger.info( getConfigurationDump() );
     }
 
-    /**
-     * Returns all the defined configuration properties.
-     *
-     * @return list of defined properties.
-     */
+    private DefaultConfiguration() {
+        this( loadDefaultProperties() );
+    }
+
     public synchronized String[] getProperties() {
         return properties.keySet().toArray( new String[properties.size()] );
     }
 
-    /**
-     * Checks whether a property is defined or not in configuration.
-     *
-     * @param propertyName name of property to check.
-     * @return <code>true</code> if defined, </code>false</code> otherwise.
-     */
     public synchronized boolean defineProperty(String propertyName) {
         return properties.containsKey(propertyName);
     }
 
-    /**
-     * Returns the value of a specified property, of the default value if property is not defined.
-     *
-     * @param propertyName name of property
-     * @param defaultValue default value if not found.
-     * @return the value associated to <i>propertyName</i>.
-     */
     public synchronized String getProperty(String propertyName, String defaultValue) {
         final String value = getPropertyValue(propertyName);
         if(value == null) {
@@ -106,15 +98,6 @@ public class Configuration {
         return value;
     }
 
-    /**
-     * Returns the value of the specified <code>propertyName</code> or raises an exception
-     * if <code>propertyName</code> is not defined.
-     *
-     * @param propertyName name of property to be returned.
-     * @return property value.
-     * @throws IllegalArgumentException if the property name is not defined
-     *                                  or the found property value is blank or empty.
-     */
     public synchronized String getPropertyOrFail(String propertyName) {
         final String propertyValue = getPropertyValue(propertyName);
         if(propertyValue == null) {
@@ -128,16 +111,6 @@ public class Configuration {
         return propertyValue;
     }
 
-    /**
-     * Returns the {@link Integer} value of the specified <code>propertyName</code> or raises an exception
-     * if <code>propertyName</code> is not defined.
-     *
-     * @param propertyName name of property to be returned.
-     * @return property value.
-     * @throws NullPointerException if the property name is not defined.
-     * @throws IllegalArgumentException if the found property value is blank or empty.
-     * @throws NumberFormatException if the found property value is not a valid {@link Integer}.
-     */
     public synchronized int getPropertyIntOrFail(String propertyName) {
         final String value = getPropertyOrFail(propertyName);
         final String trimValue = value.trim();
@@ -197,4 +170,5 @@ public class Configuration {
         }
         return systemValue;
     }
+
 }

@@ -16,7 +16,7 @@
 
 package org.deri.any23.extractor.rdfa;
 
-import org.deri.any23.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
@@ -49,7 +49,8 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
     public final static String NAME = "html-rdfa";
 
-    public final static String xsltFilename = Configuration.instance().getPropertyOrFail("any23.rdfa.extractor.xslt");
+    public final static String xsltFilename =
+            DefaultConfiguration.singleton().getPropertyOrFail("any23.rdfa.extractor.xslt");
 
     private static XSLTStylesheet xslt = null;
 

@@ -16,8 +16,15 @@
 
 package org.deri.any23.extractor.microdata;
 
-import org.deri.any23.Configuration;
-import org.deri.any23.extractor.*;
+import org.deri.any23.configuration.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
+import org.deri.any23.extractor.ErrorReporter;
+import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionResult;
+import org.deri.any23.extractor.Extractor;
+import org.deri.any23.extractor.ExtractorDescription;
+import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.html.DomUtils;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.rdf.RDFUtils;
@@ -83,7 +90,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * Microdata.
      */
     public void run(Document in, URI documentURI, ExtractionResult out)
-            throws IOException, ExtractionException {
+    throws IOException, ExtractionException {
 
         final MicrodataParserReport parserReport = MicrodataParser.getMicrodata(in);
         if(parserReport.getErrors().length > 0) {
@@ -94,7 +101,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             return;
         }
 
-        Configuration configuration = Configuration.instance();
+        // TODO: this will be read from ExtractionParameters objecct passed to run().
+        final Configuration configuration = DefaultConfiguration.singleton();
         isStrict = configuration.getFlagProperty("any23.microdata.strict");
         if (!isStrict) {
             defaultNamespace = configuration.getPropertyOrFail("any23.microdata.ns.default");

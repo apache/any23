@@ -27,8 +27,20 @@ import java.io.InputStream;
  */
 public interface HTTPClient {
 
-    public abstract void init(String userAgent, String acceptHeader);
+    /**
+     * Initializes the HTTP client.
+     *
+     * @param configuration configuration for the HTTP Client.
+     */
+    public abstract void init(HTTPClientConfiguration configuration);
 
+    /**
+     * Opens the input stream for the given target URI.
+     *
+     * @param uri target URI.
+     * @return input stream to access URI content.
+     * @throws IOException if any error occurs while reading the URI content.
+     */
     public abstract InputStream openInputStream(String uri) throws IOException;
 
     /**
@@ -42,9 +54,14 @@ public interface HTTPClient {
     /**
      * The value of the Content-Type header reported by the server.
      * Can be <tt>null</tt>.
+     *
+     * @return the content type as string.
      */
     public abstract String getContentType();
 
+    /**
+     * @return content length in bytes.
+     */
     public abstract long getContentLength();
 
     /**
@@ -52,6 +69,8 @@ public interface HTTPClient {
      * This might differ from the URI passed to openInputStream()
      * if a redirect was performed. A return value of <tt>null</tt>
      * means that the URI is unchanged and the original URI was used.
+     *
+     * @return actual document URI.
      */
     public abstract String getActualDocumentURI();
     
