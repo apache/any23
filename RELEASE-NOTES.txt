@@ -1,4 +1,11 @@
 
+                               Any23 0.6.0-M2
+                              Release Notes
+
+The release 0.6.0-M2 introduces major fixes on M1 milestone
+[154, 155, 156] and improves Configuration [147] and Microdata
+ error management[157].
+
                                Any23 0.6.0-M1
                               Release Notes
 
