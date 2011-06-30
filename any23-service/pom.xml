@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.deri.any23</groupId>
         <artifactId>any23-parent</artifactId>
-        <version>0.6.0-M2</version>
+        <version>0.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -31,7 +31,7 @@
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-service</artifactId>
     <packaging>war</packaging>
-    <version>0.6.0-M2</version>
+    <version>0.6.0-SNAPSHOT</version>
     <name>Any23 - Service Module</name>
     <description>Anything To Triples (any23) is a library and web service that extracts structured data
         in RDF format from a variety of Web documents.
