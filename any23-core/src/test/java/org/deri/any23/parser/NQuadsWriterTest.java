@@ -95,6 +95,12 @@ public class NQuadsWriterTest {
                 RDFUtils.uri("p1:obj"),
                 RDFUtils.uri("p1:gra2")
         );
+        Statement s7 = RDFUtils.quad(
+                RDFUtils.uri("http://sub"),
+                RDFUtils.uri("http://pre"),
+                RDFUtils.literal("This is line 1.\nThis is line 2.\n"),
+                RDFUtils.uri("http://gra3")
+        );
 
         // Sending events.
         writer.startRDF();
@@ -105,18 +111,23 @@ public class NQuadsWriterTest {
         writer.handleStatement(s4);
         writer.handleStatement(s5);
         writer.handleStatement(s6);
+        writer.handleStatement(s7);
         writer.endRDF();
 
         // Checking content.
         String content = baos.toString();
         String[] lines = content.split("\n");
-        Assert.assertEquals("Unexpected number of lines.", 6, lines.length);
+        Assert.assertEquals("Unexpected number of lines.", 7, lines.length);
         Assert.assertTrue( lines[0].matches("<.*> <.*> <.*> <.*> \\.") );
         Assert.assertTrue( lines[1].matches("_:.* <.*> _:.* <.*> \\.") );
         Assert.assertTrue( lines[2].matches("_:.* <.*> \".*\" <.*> \\.") );
         Assert.assertTrue( lines[3].matches("_:.* <.*> \".*\"@en <.*> \\.") );
         Assert.assertTrue( lines[4].matches("_:.* <.*> \".*\"\\^\\^<.*> <.*> \\.") );
         Assert.assertTrue( lines[5].matches("<http://.*> <http://.*> <http://.*> <http://.*> \\.") );
+        Assert.assertEquals(
+                "<http://sub> <http://pre> \"This is line 1.\\nThis is line 2.\\n\" <http://gra3> .",
+                lines[6]
+        );
     }
 
     @Test

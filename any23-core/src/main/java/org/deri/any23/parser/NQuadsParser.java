@@ -457,6 +457,36 @@ public class NQuadsParser extends RDFParserBase {
     }
 
     /**
+     * Prints the escaped version of the given char c.
+     *
+     * @param c escaped char.
+     * @param sb output string builder.
+     */
+    // TODO: move in common class.
+    private void printEscaped(char c, StringBuilder sb) {
+        if(c == 'b') {
+            sb.append('\b');
+            return;
+        }
+        if(c == 'f') {
+            sb.append('\f');
+            return;
+        }
+        if(c == 'n') {
+            sb.append('\n');
+            return;
+        }
+        if(c == 'r') {
+            sb.append('\r');
+            return;
+        }
+        if(c == 't') {
+            sb.append('\t');
+            return;
+        }
+    }
+
+    /**
      * Parses a literal.
      *
      * @param bis
@@ -469,26 +499,29 @@ public class NQuadsParser extends RDFParserBase {
 
         char c;
         boolean escaped = false;
-        boolean justEscaped = false;
         StringBuilder sb = new StringBuilder();
         while(true) {
             c = readChar(bis);
-            if( !escaped && c == '\\' ) {
-                escaped = true;
+            if( c == '\\' ) {
+                if(escaped) {
+                    escaped = false;
+                    sb.append(c);
+                } else {
+                    escaped = true;
+                }
                 continue;
-            } else if(escaped) {
-                escaped = false;
-                justEscaped = true;
-                sb.append(c);
-            }
-            if(justEscaped) {
-                justEscaped = false;
-                continue;
-            }
-            if(c != '"') {
-                sb.append(c);
-            } else {
+            } else if(c == '"' && !escaped) {
                 break;
+            }
+            if(escaped) {
+                if(c == 'u') {
+                    // TODO: add unicode management.
+                } else {
+                    printEscaped(c, sb);
+                }
+                escaped = false;
+            } else {
+                sb.append(c);
             }
         }
         mark(bis);

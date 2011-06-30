@@ -26,6 +26,7 @@ import org.openrdf.model.Value;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
+import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -104,7 +105,7 @@ public class NQuadsWriter implements RDFWriter {
         if(namespaceTable == null) {
             namespaceTable = new HashMap<String, String>();
         }
-        namespaceTable.put(ns, uri);
+        namespaceTable.put(ns, NTriplesUtil.escapeString(uri) );
     }
 
     public void handleStatement(Statement statement) throws RDFHandlerException {
@@ -151,10 +152,11 @@ public class NQuadsWriter implements RDFWriter {
     /**
      * Prints out a URI string, replacing the existing prefix if found.
      * 
-     * @param uriString the URI string.
+     * @param uri the URI to print.
      * @throws IOException
      */
-    private void printURI(String uriString) throws IOException {
+    private void printURI(URI uri) throws IOException {
+        final String uriString = uri.stringValue();
         int splitIdx = 0;
         String namespace = null;
         if(namespaceTable != null) {
@@ -168,34 +170,49 @@ public class NQuadsWriter implements RDFWriter {
         if (namespace != null) {
             writer.append('<');
             writer.append(namespace);
-            writer.append(uriString.substring(splitIdx));
+            writer.append( NTriplesUtil.escapeString(uriString.substring(splitIdx)) );
             writer.append('>');
         } else {
             writer.append('<');
-            writer.append(uriString);
+            writer.append( NTriplesUtil.escapeString(uriString) );
             writer.append('>');
         }
     }
 
     /**
-     * Prints out a URI, replacing the existing prefix if found.
+     * Prints out the bnode.
      *
-     * @param uri the URI value.
+     * @param b bnode value.
      * @throws IOException
      */
-    private void printURI(Value uri) throws IOException {
-        printURI( uri.stringValue() );
+    private void printBNode(BNode b) throws IOException {
+        writer.append( NTriplesUtil.toNTriplesString(b) );
     }
 
     /**
-     * Prints out the bnode.
+     * Prints out the resource.
      *
-     * @param v bnode value.
-     * @throws IOException
+     * @param r resource value.
+     * @throws java.io.IOException
      */
-    private void printBNode(Value v) throws IOException {
-        writer.append("_:");
-        writer.append(v.stringValue());
+    private void printResource(Resource r) throws IOException {
+        if(r instanceof BNode) {
+            printBNode((BNode) r);
+        } else if(r instanceof URI) {
+            printURI((URI) r);
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    /**
+     * Prints out a literal value.
+     *
+     * @param l literal value.
+     * @throws java.io.IOException
+     */
+    private void printLiteral(Literal l) throws IOException {
+        writer.append( NTriplesUtil.toNTriplesString(l) );
     }
 
     /**
@@ -205,12 +222,7 @@ public class NQuadsWriter implements RDFWriter {
      * @throws IOException
      */
     private void printSubject(Statement s) throws IOException {
-        Resource r = s.getSubject();
-        if( r instanceof URI) {
-            printURI(r);
-        } else {
-            printBNode(r);
-        }
+        printResource( s.getSubject() );
     }
 
     /**
@@ -232,32 +244,11 @@ public class NQuadsWriter implements RDFWriter {
      */
     private void printObject(Statement s) throws IOException {
         Value v = s.getObject();
-        if(v instanceof BNode) {
-            printBNode(v);
+        if(v instanceof Resource) {
+            printResource((Resource) v);
             return;
         }
-        if(v instanceof URI) {
-            printURI(v);
-            return;
-        }
-
-        Literal l = (Literal) v;
-        writer.append('"');
-        writer.append( l.getLabel());
-        writer.append('"');
-
-        String language = l.getLanguage();
-        if(language != null) {
-            writer.append('@');
-            writer.append(language);
-            return;
-        }
-
-        URI datatype = l.getDatatype();
-        if(datatype != null) {
-            writer.append("^^");
-            printURI( datatype.stringValue() );
-        }
+        printLiteral( (Literal) v );
     }
 
     /**
@@ -269,7 +260,7 @@ public class NQuadsWriter implements RDFWriter {
     private void printGraph(Statement s) throws IOException {
         Resource graph = s.getContext();
         if(graph != null) {
-            printURI( s.getContext() );
+            printResource( s.getContext() );
         }
     }
 

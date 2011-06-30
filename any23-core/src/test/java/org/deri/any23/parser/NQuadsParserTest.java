@@ -25,6 +25,7 @@ import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
+import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.rio.ParseLocationListener;
 import org.openrdf.rio.RDFHandler;
@@ -207,7 +208,7 @@ public class NQuadsParserTest {
      * @throws RDFParseException
      */
     @Test
-    public void testLiteralEscapingManagement()
+    public void testLiteralEscapeManagement1()
     throws RDFHandlerException, IOException, RDFParseException {
         TestParseLocationListener parseLocationListener = new TestParseLocationListener();
         TestRDFHandler rdfHandler = new TestRDFHandler();
@@ -221,6 +222,33 @@ public class NQuadsParserTest {
 
         rdfHandler.assertHandler(1);
         parseLocationListener.assertListener(1, 40);
+    }
+
+    /**
+     * Tests the correct support for literal escaping.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testLiteralEscapeManagement2()
+    throws RDFHandlerException, IOException, RDFParseException {
+        TestParseLocationListener parseLocationListener = new TestParseLocationListener();
+        TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setParseLocationListener(parseLocationListener);
+        parser.setRDFHandler(rdfHandler);
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "<http://a> <http://b> \"Line text 1\\nLine text 2\" <http://c> .".getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+
+        rdfHandler.assertHandler(1);
+        final Value object = rdfHandler.getStatements().get(0).getObject();
+        Assert.assertTrue( object instanceof Literal);
+        final String literalContent = ((Literal) object).getLabel();
+        Assert.assertEquals("Line text 1\nLine text 2", literalContent);
     }
 
     /**
