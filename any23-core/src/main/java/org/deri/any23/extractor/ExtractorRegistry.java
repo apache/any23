@@ -18,6 +18,7 @@
 package org.deri.any23.extractor;
 
 import org.deri.any23.configuration.DefaultConfiguration;
+import org.deri.any23.extractor.csv.CSVExtractor;
 import org.deri.any23.extractor.html.AdrExtractor;
 import org.deri.any23.extractor.html.GeoExtractor;
 import org.deri.any23.extractor.html.HCalendarExtractor;
@@ -93,6 +94,7 @@ public class ExtractorRegistry {
                 instance.register(SpeciesExtractor.factory);
                 instance.register(TurtleHTMLExtractor.factory);
                 instance.register(MicrodataExtractor.factory);
+                instance.register(CSVExtractor.factory);
                 // TODO: it is really needed?
                 if(DefaultConfiguration.singleton().getFlagProperty("any23.extraction.head.meta")) {
                     instance.register(HTMLMetaExtractor.factory);

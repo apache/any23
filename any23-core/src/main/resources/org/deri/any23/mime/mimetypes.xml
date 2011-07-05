@@ -61,6 +61,12 @@
         <sub-class-of type="text/plain"/>
     </mime-type>
 
+     <mime-type type="text/csv">
+        <_comment>Comma separated Value</_comment>
+        <glob pattern="*.csv"/>
+         <sub-class-of type="text/plain"/>
+    </mime-type>
+
     <!-- BEGIN: Semantic Web document mime types. -->
 
     <!-- RSS -->

@@ -201,12 +201,15 @@ public class RDFUtils {
 
      public static boolean isAbsoluteURI(String href) {
         try {
-            new URIImpl(href);
+            new URIImpl(href.trim());
+            new java.net.URI(href.trim());
             return true;
         } catch (IllegalArgumentException e) {
             return false;
+        } catch (URISyntaxException e) {
+            return false;
         }
-    }
+     }
 
     private RDFUtils() {}
 

@@ -45,6 +45,7 @@ public class TikaMIMETypeDetectorTest {
     private final static String TURTLE = "application/x-turtle";
     private final static String N3     = "text/rdf+n3";
     private final static String NQuads = "text/rdf+nq";
+    private final static String CSV = "text/csv";
 
     private TikaMIMETypeDetector detector;
 
@@ -295,6 +296,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testRDFaByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/xhtml+xml", "src/test/resources/application/rdfa");
+    }
+
+    @Test
+    public void testCSVByName() throws Exception {
+        detectMIMETypeByContentAndName("text/csv","src/test/resources/org/deri/any23/extractor/csv");
     }
 
     /* END: by content and name. */

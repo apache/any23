@@ -37,8 +37,9 @@ public class RDFSchemaUtilsTest {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         RDFSchemaUtils.serializeVocabulariesToNQuads(baos);
         final String output = baos.toString();
+        System.out.println(output);
         final int occurrences= StringUtils.countOccurrences(output, "\n");
-        Assert.assertEquals(790, occurrences);
+        Assert.assertEquals(802, occurrences);
     }
 
 }
