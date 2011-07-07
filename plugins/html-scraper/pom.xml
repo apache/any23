@@ -38,32 +38,10 @@
     <url>http://developers.any23.org</url>
 
     <dependencies>
-        <!-- BEGIN: logger -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>1.5.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.5.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- END: logger -->
-
         <!-- Simple Plugin Framework -->
         <dependency>
             <groupId>net.xeoh</groupId>
             <artifactId>jspf</artifactId>
-            <version>0.9.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -71,7 +49,6 @@
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
             <artifactId>sesame-model</artifactId>
-            <version>2.4.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -87,7 +64,6 @@
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
-            <version>1.9.14</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -105,24 +81,8 @@
         <dependency>
             <groupId>de.l3s.boilerpipe</groupId>
             <artifactId>boilerpipe</artifactId>
-            <version>1.1.0</version>
         </dependency>
         <!-- END: BoilerPipe -->
-
-        <!-- BEGIN: Test Dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.8.5</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- END: Test Dependencies -->
     </dependencies>
 
     <build>

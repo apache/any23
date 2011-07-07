@@ -38,44 +38,11 @@
     <url>http://developers.any23.org</url>
 
     <dependencies>
-        <!-- BEGIN: logger -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>1.5.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.5.6</version>
-        </dependency>
-        <!-- END: logger -->
-
         <dependency>
             <groupId>org.deri.any23</groupId>
             <artifactId>any23-core</artifactId>
             <version>${any23.version}</version>
         </dependency>
-
-        <!-- BEGIN: Test Dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>1.8.5</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- END: Test Dependencies -->
     </dependencies>
 
     <build>

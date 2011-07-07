@@ -55,13 +55,11 @@
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>servlet-api-3.0</artifactId>
-            <version>7.0.0pre2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty-servlet-tester</artifactId>
-            <version>7.0.0.pre5</version>
             <scope>test</scope>
         </dependency>
         <!-- END:   Servlet Deps. -->
