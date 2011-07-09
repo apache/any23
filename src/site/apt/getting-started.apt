@@ -170,19 +170,22 @@ Usage:
 +--------------------------------------
 any23-core/bin$ ./any23tools ExtractorDocumentation -list
 [...configuration data...]
+csv
 html-head-icbm
-html-head-rdflinks
+html-head-links
 html-head-title
 html-mf-adr
 html-mf-geo
 html-mf-hcalendar
 html-mf-hcard
 html-mf-hlisting
+html-mf-hrecipe
 html-mf-hresume
 html-mf-hreview
 html-mf-license
 html-mf-species
 html-mf-xfn
+html-microdata
 html-rdfa
 html-script-turtle
 rdf-nq
