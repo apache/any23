@@ -26,6 +26,9 @@ Any23 Extractors
 
       {{{./xref/org/deri/any23/extractor/html/XFNExtractor.html}XFNExtractor}}
 
+      {{{./xref/org/deri/any23/extractor/html/HRecipeExtractor.html}HRecipeExtractor}}
+
+
 * Metadata Extractors
 
       {{{./xref/org/deri/any23/extractor/html/HeadLinkExtractor.html}HeadLinkExtractor}}
@@ -55,6 +58,8 @@ Any23 Extractors
 * Content Extractors
 
       {{{./xref/org/deri/any23/extractor/xpath/XPathExtractor.html}XPath Extractor}}.
+
+      {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.html}CSV Extractor}}.
 
 Get more documentation
 
