@@ -47,32 +47,6 @@ public class DomUtils {
     private DomUtils(){}
 
     /**
-     * Does a reverse walking of the DOM tree to generate a unique XPath
-     * expression leading to this node. The XPath generated is the canonical
-     * one based on sibling index: /html[1]/body[1]/div[2]/span[3] etc..
-     */
-    public static String getXPathForNode(Node node) {
-        String index = "";
-        if (node.getNodeType() == Node.ELEMENT_NODE) {
-            int successors = 1;
-            Node previous = node.getPreviousSibling();
-            while (null != previous) {
-                if (previous.getNodeType() == Node.ELEMENT_NODE
-                        && previous.getNodeName().equals(node.getNodeName())) {
-                    successors++;
-                }
-                previous = previous.getPreviousSibling();
-            }
-            index = "/" + node.getNodeName() + "[" + successors + "]";
-        }
-        Node parent = node.getParentNode();
-        if (null == parent)
-            return index;
-        else
-            return getXPathForNode(parent) + index;
-    }
-
-    /**
      * Given a node this method returns the index corresponding to such node
      * within the list of the children of its parent node.
      *
@@ -99,6 +73,35 @@ public class DomUtils {
     }
 
     /**
+     * Does a reverse walking of the DOM tree to generate a unique XPath
+     * expression leading to this node. The XPath generated is the canonical
+     * one based on sibling index: /html[1]/body[1]/div[2]/span[3] etc..
+     *
+     * @param node the input node.
+     * @return the XPath location of node as String.
+     */
+    public static String getXPathForNode(Node node) {
+        String index = "";
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            int successors = 1;
+            Node previous = node.getPreviousSibling();
+            while (null != previous) {
+                if (previous.getNodeType() == Node.ELEMENT_NODE
+                        && previous.getNodeName().equals(node.getNodeName())) {
+                    successors++;
+                }
+                previous = previous.getPreviousSibling();
+            }
+            index = "/" + node.getNodeName() + "[" + successors + "]";
+        }
+        Node parent = node.getParentNode();
+        if (null == parent)
+            return index;
+        else
+            return getXPathForNode(parent) + index;
+    }
+
+    /**
      * Returns a list of tag names representing the path from
      * the document root to the given node <i>n</i>.
      *
@@ -117,6 +120,27 @@ public class DomUtils {
             parent = parent.getParentNode();
         }
         return ancestors.toArray( new String[ancestors.size()] );
+    }
+
+    /**
+     * Returns the row/col location of the given node.
+     *
+     * @param n input node.
+     * @return an array of two elements of type
+     *         <code>[&lt;begin-row&gt;, &lt;begin-col&gt;, &lt;end-row&gt; &lt;end-col&gt;]</code>
+     *         or <code>null</code> if not possible to extract such data.
+     */
+    public static int[] getNodeLocation(Node n) {
+        if(n == null) throw new NullPointerException("node cannot be null.");
+        final TagSoupParser.ElementLocation elementLocation =
+            (TagSoupParser.ElementLocation) n.getUserData( TagSoupParser.ELEMENT_LOCATION );
+        if(elementLocation == null) return null;
+        return new int[]{
+                elementLocation.getBeginLineNumber(),
+                elementLocation.getBeginColumnNumber(),
+                elementLocation.getEndLineNumber(),
+                elementLocation.getEndColumnNumber()
+        };
     }
 
     /**
@@ -228,7 +252,7 @@ public class DomUtils {
      */
     public static boolean hasAttribute(Node node, String attributeName, String className) {
         // regex love, maybe faster but less easy to understand
-//		Pattern pattern = Pattern.compile("(^|\\s+)"+className+"(\\s+|$)");
+		// Pattern pattern = Pattern.compile("(^|\\s+)"+className+"(\\s+|$)");
         String attr = readAttribute(node, attributeName);
         for (String c : attr.split("\\s+"))
             if (c.equalsIgnoreCase(className))
