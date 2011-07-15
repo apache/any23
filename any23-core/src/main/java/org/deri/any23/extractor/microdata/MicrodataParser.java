@@ -471,7 +471,7 @@ public class MicrodataParser {
         try {
             deferredProperties = deferProperties(itemrefIDs);
         } catch (MicrodataParserException mpe) {
-            mpe.setLocation(node);
+            mpe.setErrorNode(node);
             throw mpe;
         }
         for(ItemProp deferredProperty : deferredProperties) {

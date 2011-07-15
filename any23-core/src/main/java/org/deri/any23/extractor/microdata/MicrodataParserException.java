@@ -28,32 +28,63 @@ import org.w3c.dom.Node;
  */
 public class MicrodataParserException extends Exception {
 
-    private String location;
+    private String errorPath;
+    private int[]  errorLocation;
 
-    public MicrodataParserException(String message, Node location) {
+    public MicrodataParserException(String message, Node errorNode) {
         super(message);
-        setLocation(location);
+        setErrorNode(errorNode);
     }
 
-    public MicrodataParserException(String message, Throwable cause, Node location) {
+    public MicrodataParserException(String message, Throwable cause, Node errorNode) {
         super(message, cause);
-        setLocation(location);
+        setErrorNode(errorNode);
     }
 
-    public String getLocation() {
-        return location;
+    public String getErrorPath() {
+        return errorPath;
+    }
+
+    public int getErrorLocationBeginRow() {
+        return errorLocation == null ? -1 : errorLocation[0];
+    }
+
+    public int getErrorLocationBeginCol() {
+        return errorLocation == null ? -1 : errorLocation[1];
+    }
+
+    public int getErrorLocationEndRow() {
+        return errorLocation == null ? -1 : errorLocation[2];
+    }
+
+    public int getErrorLocationEndCol() {
+        return errorLocation == null ? -1 : errorLocation[3];
     }
 
     public String toJSON() {
         return String.format(
-                "{ \"message\" : \"%s\", \"location\" : \"%s\" }",
+                "{ \"message\" : \"%s\", " +
+                  "\"path\" : \"%s\", " +
+                  "\"begin_row\" : %d, \"begin_col\" : %d, " +
+                  "\"end_row\" : %d, \"end_col\" : %d }",
                 getMessage().replaceAll("\"", ""),
-                getLocation()
+                getErrorPath(),
+                getErrorLocationBeginRow(),
+                getErrorLocationBeginCol(),
+                getErrorLocationEndRow(),
+                getErrorLocationEndCol()
         );
     }
 
-    protected void setLocation(Node location) {
-        this.location = location == null ? null : DomUtils.getXPathForNode(location);
+    protected void setErrorNode(Node n) {
+        if(n == null) {
+            errorPath     = null;
+            errorLocation = null;
+            return;
+        }
+
+        errorPath     = DomUtils.getXPathForNode(n);
+        errorLocation = DomUtils.getNodeLocation(n);
     }
 
 }
