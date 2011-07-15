@@ -14,6 +14,11 @@ import java.util.Map;
 public class ExtractionParameters {
 
     /**
+     * Default extraction parameters.
+     */
+    public static final ExtractionParameters DEFAULT = new ExtractionParameters(ValidationMode.None);
+
+    /**
      * Declares the supported validation actions.
      */
     public enum ValidationMode {

@@ -18,6 +18,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -53,8 +54,8 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
                     LicenseExtractor.class
             );
 
-    public void run(Document in, URI documentURI, ExtractionResult out) throws IOException,
-            ExtractionException {
+    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
+    throws IOException, ExtractionException {
         HTMLDocument document = new HTMLDocument(in);
         for (Node node : DomUtils.findAll(in, "//A[@rel='license']/@href")) {
             String link = node.getNodeValue();

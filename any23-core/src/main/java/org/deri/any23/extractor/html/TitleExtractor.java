@@ -18,6 +18,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -55,6 +56,7 @@ public class TitleExtractor implements TagSoupDOMExtractor {
             );
 
     public void run(
+            ExtractionParameters extractionParameters,
             Document in,
             URI documentURI,
             ExtractionResult out

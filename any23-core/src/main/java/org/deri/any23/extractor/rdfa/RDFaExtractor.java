@@ -18,6 +18,7 @@ package org.deri.any23.extractor.rdfa;
 
 import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -126,13 +127,14 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
     /**
      * Triggers the execution of this extractor.
      *
+     * @param extractionParameters the applied parameters.
      * @param in          The extractor's input
      * @param documentURI The document's URI
      * @param out         Sink for extracted data
      * @throws IOException
      * @throws ExtractionException
      */
-    public void run(Document in, URI documentURI, ExtractionResult out)
+    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException {
 
         StringWriter buffer = new StringWriter();

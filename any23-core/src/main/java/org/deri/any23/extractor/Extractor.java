@@ -64,18 +64,20 @@ public interface Extractor<Input> {
      * Executes the extractor. Will be invoked only once, extractors are
      * not reusable.
      *
-     * @param in          The extractor's input
-     * @param documentURI The document's URI
+     * @param extractionParameters the parameters to be applied during the extraction.
+     * @param in          The extractor input.
+     * @param documentURI The document's URI.
      * @param out         Sink for extracted data
      * @throws IOException         On error while reading from the input stream
      * @throws ExtractionException On other error, such as parse errors
      */
-    //TODO: add extraction parameters object to make every single extraction configurable.
-    void run(Input in, URI documentURI, ExtractionResult out)
+    void run(ExtractionParameters extractionParameters, Input in, URI documentURI, ExtractionResult out)
             throws IOException, ExtractionException;
 
     /**
      * Returns a {@link org.deri.any23.extractor.ExtractorDescription} of this extractor.
+     *
+     * @return the object representing the extractor description.
      */
     ExtractorDescription getDescription();
 

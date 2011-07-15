@@ -74,10 +74,6 @@ public class SingleDocumentExtraction {
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
-    private static final ExtractionParameters DEFAULT_EXTRACTION_PARAMETERS = new ExtractionParameters(
-            ExtractionParameters.ValidationMode.None
-    );
-
     private final DocumentSource in;
 
     private URI documentURI;
@@ -170,7 +166,7 @@ public class SingleDocumentExtraction {
     public SingleDocumentExtractionReport run(ExtractionParameters extractionParameters)
     throws ExtractionException, IOException {
         if(extractionParameters == null) {
-            extractionParameters = DEFAULT_EXTRACTION_PARAMETERS;
+            extractionParameters = ExtractionParameters.DEFAULT;
         }
         
         ensureHasLocalCopy();
@@ -270,7 +266,7 @@ public class SingleDocumentExtraction {
      * @throws ExtractionException
      */
     public void run() throws IOException, ExtractionException {
-        run(DEFAULT_EXTRACTION_PARAMETERS);
+        run(ExtractionParameters.DEFAULT);
     }
 
     /**
@@ -407,15 +403,15 @@ public class SingleDocumentExtraction {
         try {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
-                blindExtractor.run(documentURI, documentURI, result);
+                blindExtractor.run(extractionParameters, documentURI, documentURI, result);
             } else if (extractor instanceof ContentExtractor) {
                 ensureHasLocalCopy();
                 final ContentExtractor contentExtractor = (ContentExtractor) extractor;
-                contentExtractor.run(localDocumentSource.openInputStream(), documentURI, result);
+                contentExtractor.run(extractionParameters, localDocumentSource.openInputStream(), documentURI, result);
             } else if (extractor instanceof TagSoupDOMExtractor) {
                 final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
                 final DocumentReport documentReport = getTagSoupDOM(extractionParameters);
-                tagSoupDOMExtractor.run(documentReport.getDocument(), documentURI, result);
+                tagSoupDOMExtractor.run(extractionParameters, documentReport.getDocument(), documentURI, result);
             } else {
                 throw new IllegalStateException("Extractor type not supported: " + extractor.getClass());
             }

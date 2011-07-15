@@ -16,6 +16,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResultImpl;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.rdf.RDFUtils;
@@ -430,11 +431,27 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HCardExtractor hCardExtractor = HCardExtractor.factory.createExtractor();
-        hCardExtractor.run(document, baseURI, new ExtractionResultImpl(baseURI,
-                hCardExtractor, new RepositoryWriter(conn)));
+        hCardExtractor.run(
+                ExtractionParameters.DEFAULT,
+                document,
+                baseURI,
+                new ExtractionResultImpl(
+                        baseURI,
+                        hCardExtractor,
+                        new RepositoryWriter(conn)
+                )
+        );
         XFNExtractor xfnExtractor = XFNExtractor.factory.createExtractor();
-                xfnExtractor.run(document, baseURI, new ExtractionResultImpl(baseURI,
-                hCardExtractor, new RepositoryWriter(conn)));
+                xfnExtractor.run(
+                        ExtractionParameters.DEFAULT,
+                        document,
+                        baseURI,
+                        new ExtractionResultImpl(
+                                baseURI,
+                                hCardExtractor,
+                                new RepositoryWriter(conn)
+                        )
+                );
 	}
 
     private void extractHCardAndRelated(String filename) throws IOException, ExtractionException {
@@ -443,16 +460,39 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HCardExtractor hCardExtractor = HCardExtractor.factory.createExtractor();
-        hCardExtractor.run(document, baseURI, new ExtractionResultImpl(baseURI,
-                hCardExtractor, new RepositoryWriter(conn)));
+        hCardExtractor.run(
+                ExtractionParameters.DEFAULT,
+                document,
+                baseURI,
+                new ExtractionResultImpl(
+                        baseURI,
+                        hCardExtractor, new RepositoryWriter(conn)
+                )
+        );
 
         GeoExtractor geoExtractor = GeoExtractor.factory.createExtractor();
-        geoExtractor.run(document, baseURI, new ExtractionResultImpl(baseURI,
-                geoExtractor, new RepositoryWriter(conn)));
+        geoExtractor.run(
+                ExtractionParameters.DEFAULT,
+                document,
+                baseURI,
+                new ExtractionResultImpl(
+                        baseURI,
+                        geoExtractor,
+                        new RepositoryWriter(conn)
+                )
+        );
 
         AdrExtractor adrExtractor = AdrExtractor.factory.createExtractor();
-        adrExtractor.run(document, baseURI, new ExtractionResultImpl(baseURI,
-                adrExtractor, new RepositoryWriter(conn)));
+        adrExtractor.run(
+                ExtractionParameters.DEFAULT,
+                document,
+                baseURI,
+                new ExtractionResultImpl(
+                        baseURI,
+                        adrExtractor,
+                        new RepositoryWriter(conn)
+                )
+        );
 
     }
 
@@ -462,8 +502,16 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 System.getProperty("test.data", "src/test/resources/") + filename);
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HReviewExtractor hReviewExtractor = HReviewExtractor.factory.createExtractor();
-        hReviewExtractor.run(document, baseURI, new ExtractionResultImpl(baseURI,
-                hReviewExtractor, new RepositoryWriter(conn)));
+        hReviewExtractor.run(
+                ExtractionParameters.DEFAULT,
+                document,
+                baseURI,
+                new ExtractionResultImpl(
+                        baseURI,
+                        hReviewExtractor,
+                        new RepositoryWriter(conn)
+                )
+        );
     }
 
 }

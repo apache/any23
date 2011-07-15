@@ -20,6 +20,7 @@ import org.deri.any23.configuration.Configuration;
 import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -89,7 +90,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * to avoid performing actions 5.2.1, 5.2.2, 5.2.3, 5.2.4 if step 5.2.6 doesn't detect any
      * Microdata.
      */
-    public void run(Document in, URI documentURI, ExtractionResult out)
+    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
 
         final MicrodataParserReport parserReport = MicrodataParser.getMicrodata(in);

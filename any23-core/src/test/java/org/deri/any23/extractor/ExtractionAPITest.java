@@ -36,7 +36,7 @@ public class ExtractionAPITest {
         CountingTripleHandler out   = new CountingTripleHandler();
         ExampleExtractor extractor  = new ExampleExtractor();
         ExtractionResultImpl writer = new ExtractionResultImpl(uri, extractor, out);
-        extractor.run(uri, uri, writer);
+        extractor.run(ExtractionParameters.DEFAULT, uri, uri, writer);
         writer.close();
         Assert.assertEquals(1, out.getCount());
     }

@@ -23,6 +23,7 @@ import de.l3s.boilerpipe.extractors.CanolaExtractor;
 import de.l3s.boilerpipe.extractors.DefaultExtractor;
 import de.l3s.boilerpipe.extractors.LargestContentExtractor;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor;
 import org.deri.any23.extractor.ExtractorFactory;
@@ -84,8 +85,12 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         return extractors.toArray( new String[extractors.size()] );
     }
 
-    public void run(InputStream inputStream, URI uri, ExtractionResult extractionResult)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            InputStream inputStream,
+            URI uri,
+            ExtractionResult extractionResult
+    ) throws IOException, ExtractionException {
         try {
             for (ExtractionRule extractionRule : extractionRules) {
                 final String content = extractionRule.boilerpipeExtractor.getText(new InputStreamReader(inputStream));

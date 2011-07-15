@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.rdf;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.ExtractionResultImpl;
 import org.deri.any23.rdf.RDFUtils;
@@ -72,6 +73,7 @@ public class TurtleExtractorTest {
         extractor.setStopAtFirstError(false);
         try {
             extractor.run(
+                    ExtractionParameters.DEFAULT,
                     this.getClass().getResourceAsStream("/org/deri/any23/extractor/rdf/testMalformedLiteral"),
                     uri,
                     result

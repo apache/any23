@@ -19,6 +19,7 @@ package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -60,7 +61,8 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
 
     private TurtleParser turtleParser;
 
-    public void run(Document in, URI documentURI, ExtractionResult out) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
+    throws IOException, ExtractionException {
         HTMLDocument htmlDocument = new HTMLDocument(in);
 
         List<Node> scriptNodes;

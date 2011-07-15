@@ -18,6 +18,7 @@
 package org.deri.any23.extractor.xpath;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -69,7 +70,7 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
         return xPathExtractionRules.contains(rule);
     }
 
-    public void run(Document in, URI documentURI, ExtractionResult out)
+    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
         for(XPathExtractionRule rule : xPathExtractionRules) {
             if(rule.acceptURI(documentURI)) {

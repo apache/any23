@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.rdf;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -98,8 +99,9 @@ public class TurtleExtractor implements ContentExtractor {
         this.verifyDataType = verifyDataType;
     }
 
-    public void run(InputStream in, URI documentURI, final ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters, InputStream in, URI documentURI, final ExtractionResult out
+    ) throws IOException, ExtractionException {
         try {
             TurtleParser parser = RDFParserFactory.getInstance()
                     .getTurtleParserInstance(verifyDataType, stopAtFirstError, out);

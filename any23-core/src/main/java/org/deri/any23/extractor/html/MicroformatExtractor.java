@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -74,8 +75,12 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return documentURI;
     }
 
-    public final void run(Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public final void run(
+            ExtractionParameters extractionParameters,
+            Document in,
+            URI documentURI,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         this.htmlDocument = new HTMLDocument(in);
         this.documentURI = documentURI;
         this.out = out;

@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.rdf;
 
 import org.deri.any23.extractor.ExtractionException;
+import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor;
 import org.deri.any23.extractor.ExtractorDescription;
@@ -81,7 +82,7 @@ public class NQuadsExtractor implements Extractor.ContentExtractor {
         stopAtFirstError = b;
     }
 
-    public void run(InputStream in, URI documentURI, ExtractionResult out)
+    public void run(ExtractionParameters extractionParameters, InputStream in, URI documentURI, ExtractionResult out)
     throws IOException, ExtractionException {
          try {
             RDFParser parser =
