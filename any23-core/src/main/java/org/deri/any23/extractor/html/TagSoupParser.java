@@ -16,6 +16,10 @@
 
 package org.deri.any23.extractor.html;
 
+import org.apache.xerces.xni.Augmentations;
+import org.apache.xerces.xni.QName;
+import org.apache.xerces.xni.XMLAttributes;
+import org.apache.xerces.xni.XNIException;
 import org.cyberneko.html.parsers.DOMParser;
 import org.deri.any23.validator.DefaultValidator;
 import org.deri.any23.validator.Validator;
@@ -23,6 +27,7 @@ import org.deri.any23.validator.ValidatorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -52,7 +57,11 @@ import java.nio.charset.UnsupportedCharsetException;
  */
 public class TagSoupParser {
 
-    private final static Logger log = LoggerFactory.getLogger(TagSoupParser.class);
+    public static final String ELEMENT_LOCATION = "Element-Location";
+
+    private static final String AUGMENTATIONS_FEATURE = "http://cyberneko.org/html/features/augmentations";
+
+    private final static Logger logger = LoggerFactory.getLogger(TagSoupParser.class);
 
     private final InputStream input;
 
@@ -102,7 +111,7 @@ public class TagSoupParser {
                 }
             } finally {
                 long elapsed = System.currentTimeMillis() - startTime;
-                log.debug("Parsed " + documentURI + " with NekoHTML, " + elapsed + "ms");
+                logger.debug("Parsed " + documentURI + " with NekoHTML, " + elapsed + "ms");
             }
         }
         result.setDocumentURI(documentURI);
@@ -133,9 +142,52 @@ public class TagSoupParser {
     }
 
     private Document parse() throws IOException, SAXException, TransformerException {
-        DOMParser parser = new DOMParser();
+        final DOMParser parser = new DOMParser() {
+
+            private QName currentQName;
+            private Augmentations currentAugmentations;
+
+            @Override
+            protected Element createElementNode(QName qName) {
+                final Element created = super.createElementNode(qName);
+                if (qName.equals(currentQName) && currentAugmentations != null) {
+                    final ElementLocation elementLocation = createElementLocation(
+                        currentAugmentations.getItem(AUGMENTATIONS_FEATURE)
+                    );
+                    created.setUserData(ELEMENT_LOCATION, elementLocation, null);
+                }
+                return created;
+            }
+
+            @Override
+            public void startElement(QName qName, XMLAttributes xmlAttributes, Augmentations augmentations)
+            throws XNIException {
+                super.startElement(qName, xmlAttributes, augmentations);
+                currentQName = qName;
+                currentAugmentations = augmentations;
+            }
+
+            private ElementLocation createElementLocation(Object obj) {
+                if(obj == null) return null;
+                try {
+                    final String pattern = obj.toString();
+                    final String[] parts = pattern.split(":");
+                    return new ElementLocation(
+                            Integer.parseInt(parts[0]),
+                            Integer.parseInt(parts[1]),
+                            Integer.parseInt(parts[3]),
+                            Integer.parseInt(parts[4])
+
+                    );
+                } catch (Exception e) {
+                    logger.warn("Unexpected string format for given augmentation.", e);
+                    return null;
+                }
+            }
+        };
         parser.setFeature("http://xml.org/sax/features/namespaces", false);
         parser.setFeature("http://cyberneko.org/html/features/scanner/script/strip-cdata-delims", true);
+        parser.setFeature(AUGMENTATIONS_FEATURE, true);
         if (this.encoding != null)
             parser.setProperty("http://cyberneko.org/html/properties/default-encoding", this.encoding);
 
@@ -146,6 +198,42 @@ public class TagSoupParser {
          */
         parser.parse(new InputSource( new SpanCloserInputStream(input)));
         return parser.getDocument();
+    }
+
+    /**
+     * Describes a <i>DOM Element</i> location.
+     */
+    public static class ElementLocation {
+
+        private int beginLineNumber;
+        private int beginColumnNumber;
+        private int endLineNumber;
+        private int endColumnNumber;
+
+        private ElementLocation(
+                int beginLineNumber, int beginColumnNumber, int endLineNumber, int endColumnNumber
+        ) {
+            this.beginLineNumber = beginLineNumber;
+            this.beginColumnNumber = beginColumnNumber;
+            this.endLineNumber = endLineNumber;
+            this.endColumnNumber = endColumnNumber;
+        }
+
+        public int getBeginLineNumber() {
+            return beginLineNumber;
+        }
+
+        public int getBeginColumnNumber() {
+            return beginColumnNumber;
+        }
+
+        public int getEndLineNumber() {
+            return endLineNumber;
+        }
+
+        public int getEndColumnNumber() {
+            return endColumnNumber;
+        }
     }
     
 }
