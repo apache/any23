@@ -76,6 +76,11 @@ public class MicrodataParserException extends Exception {
         );
     }
 
+    @Override
+    public String toString() {
+        return toJSON();
+    }
+
     protected void setErrorNode(Node n) {
         if(n == null) {
             errorPath     = null;

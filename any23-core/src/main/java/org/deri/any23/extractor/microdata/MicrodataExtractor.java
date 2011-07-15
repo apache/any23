@@ -557,8 +557,12 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
         for(MicrodataParserException mpe : errors) {
-            // TODO: (med) grab from the MicrodataParser the row and columns value
-            out.notifyError(ErrorReporter.ErrorLevel.ERROR, mpe.toJSON(), 0 ,0);
+            out.notifyError(
+                    ErrorReporter.ErrorLevel.ERROR,
+                    mpe.toJSON(),
+                    mpe.getErrorLocationBeginRow() ,
+                    mpe.getErrorLocationBeginCol()
+            );
         }
     }
 
