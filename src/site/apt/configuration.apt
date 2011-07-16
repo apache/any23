@@ -9,10 +9,17 @@ Configuration
     class.
 
     The default values are declared within the {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/resources/default-configuration.properties} default-configuration.properties}}
-    file and can be overriden by specifying <<java>> commandline properties with the same name.
+    file.
 
-    For example to override the <<HTTP Max Client Connections>> parameter simply add the following option to the <<java>>
-    command-line invocation:
+    The following sections explain how to override the default configuration.
+
+** Override Default Configuration from Commandline
+
+    The default configuration can be overriden via commandline by passing to the <<java>> command system properties
+    with the same name of the ones declared in configuration.
+
+    For example to override the <<HTTP Max Client Connections>> parameter it is sufficient to add the following
+    option to the <<java>> command-line invocation:
 
 +----------------------------------------------------------------------------------------------
    -Dany23.http.client.max.connections=10
@@ -23,6 +30,45 @@ Configuration
 
 +----------------------------------------------------------------------------------------------
 any23-core/bin/$ ANY23_OPTS="-Dany23.http.client.max.connections=10" any23 http://path/to/resource
++----------------------------------------------------------------------------------------------
+
+** Override Default Configuration Programmatically
+
+    The {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/java/org/deri/any23/Configuration.java} Configuration}}
+    properties can be accessed in read-only mode just retrieving the configuration <<singleton>> instance.
+    Such instance is immutable:
+
++----------------------------------------------------------------------------------------------
+final Configuration immutableConf = DefaultConfiguration.singleton();
+final String propertyValue = immutableConf.getProperty("propertyName", "default value");
+...
++----------------------------------------------------------------------------------------------
+
+    To obtain a modifiable {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/java/org/deri/any23/Configuration.java} Configuration}}
+    instead it is possible to use the <<copy()>> method.
+    One of the <<Any23>> constructors accepts a <<Configuration>> object that allows to customize the behavior
+    of the <<Any23>> instance for its entire life-cycle.
+
++----------------------------------------------------------------------------------------------
+final Configuration modifiableConf = DefaultConfiguration.copy();
+final String oldPropertyValue = modifiable.setProperty("propertyName", "new property value");
+final Any23 any23 = new Any23(modifiableConf, "extractor1", ...);
+...
++----------------------------------------------------------------------------------------------
+
+* Use of ExtractionParameters
+
+    It is possible to customize the behavior of a single data extraction by providing an
+    {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/java/org/deri/any23/extractor/ExtractionParameters} ExtractionParameters}}
+    instance to one the <<Any23#extract()>> accepting it. <<ExtractionParameters>> allows to customize any <<property>> and <<flag>>
+    other then the <<specific extraction options>>. If no custom parameters are specified the default configuration ones are accepted.
+
++----------------------------------------------------------------------------------------------
+final Any23 any23 = ...
+final TripleHandler tripleHandler = ...
+final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
+extractionParameters.setFlag("any23.microdata.strict", true);
+any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
 +----------------------------------------------------------------------------------------------
 
 * Any23 Core Module Properties
