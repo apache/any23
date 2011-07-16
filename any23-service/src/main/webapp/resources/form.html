@@ -69,7 +69,7 @@ function init() {
     </a>
    </div>
     <h1>any23: Anything To Triples</h1>
-    <p>Parses microformats, RDFa, RDF/XML, Turtle and N-Triples.</p>
+    <p>Parses microformats, RDFa, Microdata, RDF/XML, Turtle, N-Triples and NQuads.</p>
     <hr />
     <h2>Convert document at URI</h2>
     <form method="get" action="any23/">
@@ -95,8 +95,8 @@ function init() {
       <p>Input format:
         <select name="type">
           <option value="">auto-detect</option>
-          <option value="text/html">HTML with RDFa or microformats (text/html)</option>
-          <option value="application/xhtml+xml">XHTML with RDFa or microformats (application/xhtml+xml)</option>
+          <option value="text/html">HTML with Microformats, RDFa (text/html)</option>
+          <option value="application/xhtml+xml">XHTML with Microformats, RDFa, Microdata (application/xhtml+xml)</option>
           <option value="text/turtle">Turtle (text/turtle)</option>
           <option value="text/nt">N-Triples (text/nt)</option>
           <option value="text/nq">N-Quads (text/nq)</option>
@@ -148,18 +148,19 @@ function init() {
     </p>
     <table rules="all">
       <tr><th>uri</th><td>URI of an input document</td></tr>
-      <tr><th>format</th><td>Desired output format; defaults to <code>best</code></td></tr>
+      <tr><th>format</th><td>Desired output format, defaults to <code>best</code></td></tr>
     </table>
     <p>The response is the input document converted to the desired output format.</p>
 
     <h3>Direct POST API</h3>
     <p>HTTP POSTing a document body to
       <code><span class="app-base-uri">http://.../</span><em>format</em></code> will convert
-      the document to the specified output format. The media type of the input
-      has to be specified in the <code>Content-Type</code> HTTP header. Depending
-      on the servlet container, a <code>Content-Length</code> header specifying
-      the length of the input document in bytes might also be required. Typical
-      media types for supported input formats are:
+      the document to the specified output format. <br/>
+      The media type of the input
+      has to be specified in the <code>Content-Type</code> HTTP header.
+      Depending on the servlet container, a <code>Content-Length</code> header specifying
+      the length of the input document in bytes might also be required.<br/>
+      Typical media types for supported input formats are:
     </p>
     <table rules="all">
       <tr><th>Input format</th><th>Media type</th></tr>
@@ -184,8 +185,8 @@ Content-Length: 174
 
     <h3>Form-style POST API</h3>
     <p>A document body can also be converted by HTTP POSTing form data to
-      <code><span class="app-base-uri">http://.../</span></code>. The
-      <code>Content-Type</code> HTTP header must be set to
+      <code><span class="app-base-uri">http://.../</span></code>. <br/>
+      The <code>Content-Type</code> HTTP header must be set to
       <code>application/x-www-form-urlencoded</code>. The following
       parameters are supported:
     </p>
@@ -200,7 +201,7 @@ Content-Length: 174
     <ul>
       <li><code>best</code> for content negotiation according to the client's <code>Accept</code> HTTP header</li>
       <li><code>turtle</code>, <code>ttl</code>, <code>n3</code> for
-        <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a>/N3</li>
+        <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a>/<a href="http://www.w3.org/DesignIssues/Notation3">N3</a></li>
       <li><code>ntriples</code>, <code>nt</code> for
         <a href="http://www.w3.org/TR/rdf-testcases/#ntriples">N-Triples</a></li>
       <li><code>nquads</code>, <code>nq</code> for
