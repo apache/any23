@@ -4,9 +4,16 @@ Introduction to Any23
 
     <<Anything To Triples (any23)>> is a library, a web service and a command line tool that extracts structured data
     in RDF format from a variety of Web documents. Currently it supports the following input formats:
+
      * {{{http://www.w3.org/TR/REC-rdf-syntax/}RDF/XML}}, {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}, {{{http://www.w3.org/DesignIssues/Notation3}Notation 3}}
-     * {{{http://www.w3.org/TR/xhtml-rdfa-primer/}RDFa}}
+
+     * {{{http://www.w3.org/TR/xhtml-rdfa-primer/}RDFa}} with {{{http://www.w3.org/TR/2010/WD-rdfa-core-20100422/#scoping-of-prefix-mappings}RDFa1.1 prefix mechanism}}
+
      * {{{http://microformats.org/}Microformats}}: Adr, Geo, hCalendar, hCard, hListing, hResume, hReview, License, XFN and Species
+
+     * {{{http://dev.w3.org/html5/md/}HTML5 Microdata}}: (such as {{{http://schema.org}Schema.org}})
+
+     * {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}}: Comma Separated Values with separator autodetection.
 
     A full description of available extractors is {{{./extractors.html}here}}.
 
@@ -21,12 +28,19 @@ Introduction to Any23
 * Documentation Content
 
     {{{./index.html}Introduction}}: this page.
+
     {{{./install.html}Install}}: how to install <<Any23>> library and service.
+
     {{{./getting-started.html} Getting Started}}: start using <<Any23>> command-line tools.
+
     {{{./supported-formats.html}Supported Formats}}: complete list of <<Semantic Web>> formats supported by <<Any23>>.
+
     {{{./configuration.html}Configuration}}: learn how to change default library and service configuration.
+
     {{{./rest-service.html}REST Service}}: discover how to use the <<Any23 REST Service>>.
+
     {{{./plugins.html}Plugins}}: read how to install and configure the <<Any23>> plugins.
+
     {{{./developers.html}Developers}}: understand the <<Any23>> code internals,
     how to write plugins, fixing rules and customize the code.
 

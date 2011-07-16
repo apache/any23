@@ -28,3 +28,7 @@ TOC
 * {{{./dev-microdata-extractor.html}Microdata Extractor}}
 
   Explains how it works the Microdata Extractor embedded in <<Any23>>.
+
+* {{{./dev-csv-extractor.html}CSV Extractor}}
+
+  Explains how it works the CSV Extractor embedded in <<Any23>>.

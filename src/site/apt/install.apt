@@ -40,7 +40,7 @@ trunk$ mvn clean install
     To generate the project site locally execute the following command from the trunk dir:
 
 +---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx512m' mvn clean site
+trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site
 +---------------------------------------------------------------------------
 
     You can speed up the site generation process specifying the offline option ( -o ),
@@ -48,7 +48,7 @@ trunk$ MAVEN_OPTS='-Xmx512m' mvn clean site
     in the local M2 repository:
 
 +---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx512m' mvn -o clean site
+trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site
 +---------------------------------------------------------------------------
 
     If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
