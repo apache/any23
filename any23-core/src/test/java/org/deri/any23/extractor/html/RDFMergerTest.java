@@ -432,7 +432,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HCardExtractor hCardExtractor = HCardExtractor.factory.createExtractor();
         hCardExtractor.run(
-                ExtractionParameters.DEFAULT,
+                ExtractionParameters.getDefault(),
                 document,
                 baseURI,
                 new ExtractionResultImpl(
@@ -443,7 +443,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         );
         XFNExtractor xfnExtractor = XFNExtractor.factory.createExtractor();
                 xfnExtractor.run(
-                        ExtractionParameters.DEFAULT,
+                        ExtractionParameters.getDefault(),
                         document,
                         baseURI,
                         new ExtractionResultImpl(
@@ -461,7 +461,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HCardExtractor hCardExtractor = HCardExtractor.factory.createExtractor();
         hCardExtractor.run(
-                ExtractionParameters.DEFAULT,
+                ExtractionParameters.getDefault(),
                 document,
                 baseURI,
                 new ExtractionResultImpl(
@@ -472,7 +472,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
         GeoExtractor geoExtractor = GeoExtractor.factory.createExtractor();
         geoExtractor.run(
-                ExtractionParameters.DEFAULT,
+                ExtractionParameters.getDefault(),
                 document,
                 baseURI,
                 new ExtractionResultImpl(
@@ -484,7 +484,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
         AdrExtractor adrExtractor = AdrExtractor.factory.createExtractor();
         adrExtractor.run(
-                ExtractionParameters.DEFAULT,
+                ExtractionParameters.getDefault(),
                 document,
                 baseURI,
                 new ExtractionResultImpl(
@@ -503,7 +503,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HReviewExtractor hReviewExtractor = HReviewExtractor.factory.createExtractor();
         hReviewExtractor.run(
-                ExtractionParameters.DEFAULT,
+                ExtractionParameters.getDefault(),
                 document,
                 baseURI,
                 new ExtractionResultImpl(

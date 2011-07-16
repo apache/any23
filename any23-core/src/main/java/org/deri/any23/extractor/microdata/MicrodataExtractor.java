@@ -16,8 +16,6 @@
 
 package org.deri.any23.extractor.microdata;
 
-import org.deri.any23.configuration.Configuration;
-import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
@@ -102,12 +100,13 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             return;
         }
 
-        // TODO: this will be read from ExtractionParameters objecct passed to run().
-        final Configuration configuration = DefaultConfiguration.singleton();
-        isStrict = configuration.getFlagProperty("any23.microdata.strict");
+        isStrict = extractionParameters.getFlag("any23.microdata.strict");
         if (!isStrict) {
-            defaultNamespace = configuration.getPropertyOrFail("any23.microdata.ns.default");
+            defaultNamespace = extractionParameters.getProperty("any23.microdata.ns.default");
         }
+
+        System.out.println("IS STRICT " + isStrict );
+        System.out.println("DNS " + defaultNamespace );
 
         documentLanguage = getDocumentLanguage(in);
 

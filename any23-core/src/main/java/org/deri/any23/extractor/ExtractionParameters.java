@@ -1,3 +1,19 @@
+/*
+ * Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *          http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.deri.any23.extractor;
 
 import org.deri.any23.configuration.DefaultConfiguration;
@@ -14,9 +30,11 @@ import java.util.Map;
 public class ExtractionParameters {
 
     /**
-     * Default extraction parameters.
+     * @return the default extraction parameters.
      */
-    public static final ExtractionParameters DEFAULT = new ExtractionParameters(ValidationMode.None);
+    public static final ExtractionParameters getDefault() {
+        return new ExtractionParameters(ValidationMode.None);
+    }
 
     /**
      * Declares the supported validation actions.
@@ -31,14 +49,22 @@ public class ExtractionParameters {
 
     private final Map<String, Boolean> extractionFlags;
 
+    private final Map<String,String> extractionProperties;
+
     /**
      * Constructor.
      *
      * @param extractionMode specifies the required extraction mode.
-     * @param extractionFlags list of specific flags used for extraction, if not specified they will
+     * @param extractionFlags map of specific flags used for extraction. If not specified they will
      *        be retrieved by the default {@link org.deri.any23.configuration.Configuration}.
+     * @param extractionProperties map of specific properties used for extraction. If not specified
+     *        they will ne retrieved by the default {@link org.deri.any23.configuration.Configuration}.
      */
-    public ExtractionParameters(ValidationMode extractionMode, Map<String, Boolean> extractionFlags) {
+    public ExtractionParameters(
+            ValidationMode extractionMode,
+            Map<String, Boolean> extractionFlags,
+            Map<String,String> extractionProperties
+    ) {
         if(extractionMode == null) {
             throw new NullPointerException("Extraction mode cannot be null.");
         }
@@ -46,9 +72,15 @@ public class ExtractionParameters {
         this.extractionFlags =
                 extractionFlags == null
                         ?
-                 new HashMap<String,Boolean>()
+                new HashMap<String,Boolean>()
                         :
                 new HashMap<String,Boolean>(extractionFlags);
+        this.extractionProperties =
+                extractionProperties == null
+                        ?
+                new HashMap<String,String>()
+                        :
+                new HashMap<String,String>(extractionProperties);
     }
 
     /**
@@ -57,7 +89,7 @@ public class ExtractionParameters {
      * @param extractionMode specifies the required extraction mode.
      */
     public ExtractionParameters(ValidationMode extractionMode) {
-        this(extractionMode, null);
+        this(extractionMode, null, null);
     }
 
     /**
@@ -72,7 +104,8 @@ public class ExtractionParameters {
                 extractionMode,
                 new HashMap<String, Boolean>(){{
                     put(SingleDocumentExtraction.METADATA_NESTING_FLAG, nesting);
-                }}
+                }},
+                null
         );
     }
 
@@ -112,8 +145,37 @@ public class ExtractionParameters {
      * @param value new flag value.
      * @return the previous flag value.
      */
-    public boolean setFlag(String flagName, boolean value) {
+    public Boolean setFlag(String flagName, boolean value) {
+        validateValue("flag name", flagName);
         return extractionFlags.put(flagName, value);
+    }
+
+    /**
+     * Returns the value of the specified extraction property, if the property is undefined
+     * it will be retrieved by the default {@link org.deri.any23.configuration.Configuration}.
+     *
+     * @param propertyName the property name.
+     * @return the property value.
+     */
+    public String getProperty(String propertyName) {
+        final String propertyValue = extractionProperties.get(propertyName);
+        if(propertyValue == null) {
+            return DefaultConfiguration.singleton().getPropertyOrFail(propertyName);
+        }
+        return propertyValue;
+    }
+
+    /**
+     * Sets the value for an extraction property.
+     *
+     * @param propertyName the property name.
+     * @param propertyValue the property value.
+     * @return the previous property value.
+     */
+    public String setProperty(String propertyName, String propertyValue) {
+        validateValue("property name" , propertyName);
+        validateValue("property value", propertyValue);
+        return extractionProperties.put(propertyName, propertyValue);
     }
 
     @Override
@@ -126,13 +188,23 @@ public class ExtractionParameters {
         }
         if(obj instanceof ExtractionParameters) {
             ExtractionParameters other = (ExtractionParameters) obj;
-            return extractionMode == other.extractionMode && extractionFlags.equals( other.extractionFlags);
+            return
+                    extractionMode == other.extractionMode
+                            &&
+                    extractionFlags.equals( other.extractionFlags)
+                            &&
+                    extractionProperties.equals( other.extractionProperties );
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return extractionMode.hashCode() * 2 * extractionFlags.hashCode() * 3;
+        return extractionMode.hashCode() * 2 * extractionFlags.hashCode() * 3 * extractionProperties.hashCode() * 5;
+    }
+
+    private void validateValue(String desc, String value) {
+        if(value == null || value.trim().length() == 0)
+            throw new IllegalArgumentException( String.format("Invalid %s value: '%s', flagName", desc, value) );
     }
 }

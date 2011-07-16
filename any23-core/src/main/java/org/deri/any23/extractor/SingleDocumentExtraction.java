@@ -167,7 +167,7 @@ public class SingleDocumentExtraction {
     public SingleDocumentExtractionReport run(ExtractionParameters extractionParameters)
     throws ExtractionException, IOException {
         if(extractionParameters == null) {
-            extractionParameters = ExtractionParameters.DEFAULT;
+            extractionParameters = ExtractionParameters.getDefault();
         }
         
         ensureHasLocalCopy();
@@ -267,7 +267,7 @@ public class SingleDocumentExtraction {
      * @throws ExtractionException
      */
     public void run() throws IOException, ExtractionException {
-        run(ExtractionParameters.DEFAULT);
+        run(ExtractionParameters.getDefault());
     }
 
     /**

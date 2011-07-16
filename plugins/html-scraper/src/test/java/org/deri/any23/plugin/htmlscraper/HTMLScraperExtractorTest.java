@@ -67,7 +67,7 @@ public class HTMLScraperExtractorTest {
         final InputStream is = this.getClass().getResourceAsStream("html-scraper-extractor-test.html");
         final ExtractionResult extractionResult = mock(ExtractionResult.class);
         final URI pageURI = ValueFactoryImpl.getInstance().createURI("http://fake/test/page/testrun");
-        extractor.run(ExtractionParameters.DEFAULT, is, pageURI, extractionResult);
+        extractor.run(ExtractionParameters.getDefault(), is, pageURI, extractionResult);
 
         verify(extractionResult).writeTriple(
                 eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY) , (Value) Matchers.anyObject())
