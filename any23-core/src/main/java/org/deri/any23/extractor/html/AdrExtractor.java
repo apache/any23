@@ -69,7 +69,6 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
             HTMLDocument.TextField[] values = document.getPluralTextField(field);
             for (HTMLDocument.TextField val : values) {
                 conditionallyAddStringProperty(
-                        extractorName,
                         val.source(),
                         adr, vVCARD.getProperty(field), val.value()
                 );
@@ -78,14 +77,13 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         HTMLDocument.TextField[] types = document.getPluralTextField("type");
         for (HTMLDocument.TextField val : types) {
             conditionallyAddStringProperty(
-                    extractorName,
                     val.source(),
                     adr, vVCARD.addressType, val.value()
             );
         }
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), adr, extractorName );
+        tser.addResourceRoot( document.getPathToLocalRoot(), adr, this.getClass() );
 
         return true;
     }

@@ -122,8 +122,29 @@ public class SingleDocumentExtractionTest {
 
         assertTripleCount(vSINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 2);
         assertTriple(vSINDICE.getProperty(SINDICE.NESTING), (Value) null);
-        assertTriple(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL)  , vICAL.summary);
+        assertTriple(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), vICAL.summary);
         assertTriple(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), (Value) null);
+    }
+
+    /**
+     * This test assess the absence of {@link SINDICE} <i>nesting</i> relationship,
+     * since {@link org.deri.any23.extractor.html.HCardExtractor} declared a native nesting
+     * with the {@link org.deri.any23.extractor.html.AdrExtractor}.
+     *
+     * @see {@link org.deri.any23.extractor.html.annotations.Includes}
+     * @throws IOException
+     * @throws ExtractionException
+     * @throws RepositoryException
+     */
+    @Test
+    public void testNestedVCardAdr() throws IOException, ExtractionException, RepositoryException {
+        singleDocumentExtraction = getInstance("microformats/nested-microformats-a3.html");
+        singleDocumentExtraction.run();
+
+        logStorageContent();
+
+         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), (Value) null, 0);
+         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), (Value) null, 0);
     }
 
     /**
@@ -177,7 +198,7 @@ public class SingleDocumentExtractionTest {
         logStorageContent();
 
         assertTripleCount(vSINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 3);
-        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING), (Value) null, 3);
+        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING), (Value) null, 1);
         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), vREVIEW.hasReview, 1);
 
         assertTripleCount(vVCARD.url, (Value) null, 1);

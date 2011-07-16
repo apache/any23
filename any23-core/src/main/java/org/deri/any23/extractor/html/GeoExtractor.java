@@ -82,18 +82,16 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         out.writeTriple(geo, RDF.TYPE, vVCARD.Location);
         final String extractorName = getDescription().getExtractorName();
         conditionallyAddStringProperty(
-                extractorName,
                 latNode.source(),
                 geo, vVCARD.latitude , lat
         );
         conditionallyAddStringProperty(
-                extractorName,
                 lonNode.source(),
                 geo, vVCARD.longitude, lon
         );
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), geo, extractorName );
+        tser.addResourceRoot( document.getPathToLocalRoot(), geo, this.getClass() );
 
         return true;
     }

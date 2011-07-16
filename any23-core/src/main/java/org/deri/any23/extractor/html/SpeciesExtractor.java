@@ -98,7 +98,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
         tser.addResourceRoot(
                 DomUtils.getXPathListForNode(node),
                 biota,
-                getDescription().getExtractorName()
+                this.getClass()
         );
 
         return true;
@@ -107,12 +107,10 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     private void addNames(HTMLDocument doc, Resource biota) throws ExtractionException {
         HTMLDocument.TextField binomial = doc.getSingularTextField("binomial");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 binomial.source(), biota, vWO.scientificName, binomial.value()
         );
         HTMLDocument.TextField vernacular = doc.getSingularTextField("vernacular");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 vernacular.source(), biota, vWO.speciesName, vernacular.value()
         );
     }
@@ -120,7 +118,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     private void addClassesName(HTMLDocument doc, Resource biota) throws ExtractionException {
         for (String clazz : classes) {
             HTMLDocument.TextField classTextField = doc.getSingularTextField(clazz);
-            conditionallyAddStringProperty(getDescription().getExtractorName(),
+            conditionallyAddStringProperty(
                     classTextField.source(), biota, resolvePropertyName(clazz), classTextField.value());
         }
     }

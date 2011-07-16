@@ -120,7 +120,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         tser.addResourceRoot(
                 DomUtils.getXPathListForNode(node),
                 listing,
-                getDescription().getExtractorName()
+                this.getClass()
         );
 
         return true;
@@ -131,7 +131,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         if (null == node) return;
         BNode blankItem = valueFactory.createBNode();
         addBNodeProperty(
-                getDescription().getExtractorName(),
                 node,
                 listing, hLISTING.item, blankItem
         );
@@ -157,7 +156,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                     if (!(null == value || "".equals(value))) {
                         URI property = hLISTING.getPropertyCamelized(klass);
                         conditionallyAddLiteralProperty(
-                                extractorName,
                                 node,
                                 blankItem, property, valueFactory.createLiteral(value)
                         );
@@ -169,7 +167,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addPermalink(Resource listing) {
         String link = fragment.find(".//A[contains(@rel,'self') and contains(@rel,'bookmark')]/@href");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 fragment.getDocument(),
                 listing, hLISTING.permalink, link
         );
@@ -178,7 +175,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addPrice(Resource listing) {
         TextField price = fragment.getSingularTextField("price");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 price.source(),
                 listing, hLISTING.price, price.value()
         );
@@ -187,7 +183,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addDescription(Resource listing) {
         TextField description = fragment.getSingularTextField("description");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 description.source(),
                 listing, hLISTING.description, description.value()
         );
@@ -196,7 +191,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addSummary(Resource listing) {
         TextField summary = fragment.getSingularTextField("summary");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 summary.source(),
                 listing, hLISTING.summary, summary.value()
         );
@@ -205,13 +199,11 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addDateTimes(Resource listing) {
         TextField listed = fragment.getSingularTextField("dtlisted");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 listed.source(),
                 listing, hLISTING.dtlisted, listed.value()
         );
         HTMLDocument.TextField expired = fragment.getSingularTextField("dtexpired");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 expired.source(),
                 listing, hLISTING.dtexpired, expired.value()
         );
@@ -236,7 +228,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addListerTel(HTMLDocument doc, Resource blankLister) {
         HTMLDocument.TextField tel = doc.getSingularTextField("tel");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 tel.source(),
                 blankLister, hLISTING.tel, tel.value()
         );
@@ -255,7 +246,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addListerFn(HTMLDocument doc, Resource blankLister) {
         TextField fn = doc.getSingularTextField("fn");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 fn.source(),
                 blankLister, hLISTING.listerName, fn.value()
         );
@@ -269,7 +259,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addListerOrg(HTMLDocument doc, Resource blankLister) {
         TextField org = doc.getSingularTextField("org");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 org.source(),
                 blankLister, hLISTING.listerOrg, org.value()
         );
@@ -278,7 +267,6 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
     private void addItemName(HTMLDocument item, Resource blankItem) {
         HTMLDocument.TextField fn = item.getSingularTextField("fn");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 fn.source(),
                 blankItem, hLISTING.itemName, fn.value()
         );

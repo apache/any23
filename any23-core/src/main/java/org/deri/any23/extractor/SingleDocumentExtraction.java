@@ -24,6 +24,7 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.html.DocumentReport;
 import org.deri.any23.extractor.html.HTMLDocument;
+import org.deri.any23.extractor.html.MicroformatExtractor;
 import org.deri.any23.extractor.html.TagSoupParser;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.mime.MIMETypeDetector;
@@ -601,8 +602,14 @@ public class SingleDocumentExtraction {
             currentResourceRoot = resourceRoots.get(r);
             for (int p = 0; p < propertyPaths.size(); p++) {
                 currentPropertyPath = propertyPaths.get(p);
+                Class<? extends MicroformatExtractor> currentResourceRootExtractor = currentResourceRoot.getExtractor();
+                Class<? extends MicroformatExtractor> currentPropertyPathExtractor = currentPropertyPath.getExtractor();
                 // Avoid wrong nesting relationships.
-                if (currentPropertyPath.getExtractor().equals(currentResourceRoot.getExtractor())) {
+                if (currentResourceRootExtractor.equals(currentPropertyPathExtractor)) {
+                    continue;
+                }
+                // Avoid self declaring relationships
+                if(MicroformatExtractor.includes(currentPropertyPathExtractor, currentResourceRootExtractor)) {
                     continue;
                 }
                 if (subPath(currentResourceRoot.getPath(), currentPropertyPath.getPath())) {

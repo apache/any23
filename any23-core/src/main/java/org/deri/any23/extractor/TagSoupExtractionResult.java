@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.extractor.html.MicroformatExtractor;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 
@@ -40,7 +41,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
      * @param root the property root node.
      * @param extractor the extractor responsible of such extraction.
      */
-    void addResourceRoot(String[] path, Resource root, String extractor);
+    void addResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor);
 
     /**
      * Returns all the collected property roots.
@@ -59,7 +60,13 @@ public interface TagSoupExtractionResult extends ExtractionResult {
      * @param object the property object if any, <code>null</code> otherwise.
      * @param path the path of the <i>HTML</i> node from which the property literal has been extracted.
      */
-    void addPropertyPath(String extractor, Resource propertySubject, Resource property, BNode object, String[] path);
+    void addPropertyPath(
+            Class<? extends MicroformatExtractor> extractor,
+            Resource propertySubject,
+            Resource property,
+            BNode object,
+            String[] path
+    );
 
     /**
      * Returns all the collected property paths.
@@ -74,9 +81,9 @@ public interface TagSoupExtractionResult extends ExtractionResult {
     class ResourceRoot {
         private String[] path;
         private Resource root;
-        private String   extractor;
+        private Class<? extends MicroformatExtractor>  extractor;
 
-        public ResourceRoot(String[] path, Resource root, String extractor) {
+        public ResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
             if(path == null || path.length == 0) {
                 throw new IllegalArgumentException( String.format("Invalid xpath: '%s'.", Arrays.toString(path) ) );
             }
@@ -99,7 +106,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
             return root;
         }
 
-        public String getExtractor() {
+        public Class<? extends MicroformatExtractor> getExtractor() {
             return extractor;
         }
 
@@ -120,13 +127,13 @@ public interface TagSoupExtractionResult extends ExtractionResult {
      */
     class PropertyPath {
 
-        private String   extractor;
+        private Class<? extends MicroformatExtractor>  extractor;
         private String[] path;
         private Resource subject;
         private Resource property;
         private BNode    object;
 
-        public PropertyPath(String[] path, Resource subject, Resource property, BNode object, String extractor) {
+        public PropertyPath(String[] path, Resource subject, Resource property, BNode object, Class<? extends MicroformatExtractor> extractor) {
             if(path == null) {
                 throw new NullPointerException("path cannot be null.");
             }
@@ -162,7 +169,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
             return object;
         }
 
-        public String getExtractor() {
+        public Class<? extends MicroformatExtractor> getExtractor() {
             return extractor;
         }
 

@@ -83,7 +83,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         tser.addResourceRoot(
                 DomUtils.getXPathListForNode(node),
                 person,
-                getDescription().getExtractorName()
+                this.getClass()
         );
 
         return true;
@@ -92,7 +92,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     private void addSummary(HTMLDocument doc, Resource person) {
         HTMLDocument.TextField summary = doc.getSingularTextField("summary");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 summary.source(),
                 person,
                 vDOAC.summary,
@@ -104,7 +103,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         List<Node> nodes = doc.findAllByClassName("contact");
         if (nodes.size() > 0)
             addBNodeProperty(
-                    getDescription().getExtractorName(),
                     nodes.get(0),
                     person, vFOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0))
             );
@@ -116,7 +114,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             BNode exp = valueFactory.createBNode();
             if (addExperience(exp, new HTMLDocument(node)))
             addBNodeProperty(
-                    getDescription().getExtractorName(),
                     node,
                     person, vDOAC.experience, exp
             );
@@ -124,25 +121,24 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private boolean addExperience(Resource exp, HTMLDocument document) {
-        final String extractorName = getDescription().getExtractorName();
         final Node documentNode    = document.getDocument();
         String check = "";
 
         HTMLDocument.TextField value = document.getSingularTextField("title");
         check += value;
-        conditionallyAddStringProperty(extractorName, value.source(), exp, vDOAC.title, value.value().trim());
+        conditionallyAddStringProperty(value.source(), exp, vDOAC.title, value.value().trim());
 
         value = document.getSingularTextField("dtstart");
         check += value;
-        conditionallyAddStringProperty(extractorName, documentNode, exp, vDOAC.start_date, value.value().trim());
+        conditionallyAddStringProperty(documentNode, exp, vDOAC.start_date, value.value().trim());
 
         value = document.getSingularTextField("dtend");
         check += value;
-        conditionallyAddStringProperty(extractorName, documentNode, exp, vDOAC.end_date, value.value().trim());
+        conditionallyAddStringProperty(documentNode, exp, vDOAC.end_date, value.value().trim());
 
         value = document.getSingularTextField("summary");
         check += value;
-        conditionallyAddStringProperty(extractorName, documentNode, exp, vDOAC.organization, value.value().trim());
+        conditionallyAddStringProperty(documentNode, exp, vDOAC.organization, value.value().trim());
 
         return !"".equals(check);
     }
@@ -153,7 +149,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             BNode exp = valueFactory.createBNode();
             if (addExperience(exp, new HTMLDocument(node)))
             addBNodeProperty(
-                    getDescription().getExtractorName(),
                     node,
                     person, vDOAC.education, exp
             );
@@ -164,7 +159,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         List<Node> nodes = doc.findAllByClassName("affiliation");
         for (Node node : nodes) {
             addBNodeProperty(
-                    getDescription().getExtractorName(),
                     node,
                     person, vDOAC.affiliation, getBlankNodeFor(node)
             );
@@ -173,13 +167,11 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 
     private void addSkills(HTMLDocument doc, Resource person) {
         List<Node> nodes;
-        final String extractorName = getDescription().getExtractorName();
 
         // Extracting data from single node.
         nodes = doc.findAllByClassName("skill");
         for (Node node : nodes) {
             conditionallyAddStringProperty(
-                    extractorName,
                     node,
                     person, vDOAC.skill, extractSkillValue(node)
             );
@@ -191,7 +183,6 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
             String[] skills = nodeText.split(",");
             for(String skill : skills) {
                 conditionallyAddStringProperty(
-                        extractorName,
                         node,
                         person, vDOAC.skill, skill.trim()
                 );

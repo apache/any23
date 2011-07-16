@@ -86,7 +86,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         tser.addResourceRoot(
                 DomUtils.getXPathListForNode(node),
                 rev,
-                getDescription().getExtractorName()
+                this.getClass()
         );
 
         return true;
@@ -95,7 +95,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private void addType(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("type");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 value.source(),
                 rev, vREVIEW.type, value.value()
         );
@@ -106,7 +105,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         if (nodes.size() > 0) {
             Node node0 = nodes.get(0);
             addBNodeProperty(
-                    getDescription().getExtractorName(),
                     node0,
                     rev, vREVIEW.reviewer, getBlankNodeFor(node0)
             );
@@ -118,7 +116,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         for (Node node : nodes) {
             Resource item = findDummy(new HTMLDocument(node));
             addBNodeProperty(
-                    getDescription().getExtractorName(),
                     node,
                     item, vREVIEW.hasReview, rev
             );
@@ -129,7 +126,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         Resource blank = getBlankNodeFor(item.getDocument());
         TextField val = item.getSingularTextField("fn");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 val.source(),
                 blank, vVCARD.fn, val.value()
         );
@@ -145,7 +141,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private void addRating(HTMLDocument doc, Resource rev) {
         HTMLDocument.TextField value = doc.getSingularTextField("rating");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 value.source(), rev, vREVIEW.rating, value.value()
         );
     }
@@ -153,7 +148,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private void addSummary(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("summary");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 value.source(),
                 rev, vREVIEW.title, value.value()
         );
@@ -162,7 +156,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private void addTime(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("dtreviewed");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 value.source(),
                 rev, vDCTERMS.date, value.value()
         );
@@ -171,7 +164,6 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private void addDescription(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("description");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 value.source(),
                 rev, vREVIEW.text, value.value()
         );

@@ -22,6 +22,7 @@ import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.TagSoupExtractionResult;
+import org.deri.any23.extractor.html.annotations.Includes;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -118,7 +119,6 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddStringProperty(
-            String extractor,
             Node n,
             Resource subject, URI p, String value
     ) {
@@ -128,7 +128,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
                 value.length() > 0 
                         &&
                 conditionallyAddLiteralProperty(
-                        extractor, n,
+                        n,
                         subject, p, valueFactory.createLiteral(value)
                 );
     }
@@ -136,7 +136,6 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Helper method that adds a literal property to a node.
      *
-     * @param extractor the name of the extractor adding this property.
      * @param n the <i>HTML</i> node from which the property value has been extracted.
      * @param subject subject the property subject.
      * @param property the property URI.
@@ -144,7 +143,6 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddLiteralProperty(
-            String extractor,
             Node n,
             Resource subject,
             URI property,
@@ -162,7 +160,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         }
         out.writeTriple(subject, property, literal);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addPropertyPath(extractor, subject, property, null, DomUtils.getXPathListForNode(n) );
+        tser.addPropertyPath(this.getClass(), subject, property, null, DomUtils.getXPathListForNode(n) );
         return true;
     }
 
@@ -182,16 +180,15 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Helper method that adds a BNode property to a node.
      *
-     * @param extractor the extractor generating such bnode.
      * @param n the <i>HTML</i> node used for extracting such property.
      * @param subject the property subject.
      * @param property the property URI.
      * @param bnode the property value.
      */
-    protected void addBNodeProperty(String extractor, Node n, Resource subject, URI property, BNode bnode) {
+    protected void addBNodeProperty(Node n, Resource subject, URI property, BNode bnode) {
         out.writeTriple(subject, property, bnode);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addPropertyPath(extractor, subject, property, bnode, DomUtils.getXPathListForNode(n) );
+        tser.addPropertyPath(this.getClass(), subject, property, bnode, DomUtils.getXPathListForNode(n) );
     }
 
     /**
@@ -231,6 +228,32 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
             return false;
         }
         return inLowerCase.indexOf(END_SCRIPT, beginBlock + BEGIN_SCRIPT.length()) != -1;
+    }
+
+        /**
+     * This method checks if there is a native nesting relationship between two
+     * {@link MicroformatExtractor}.
+     *
+     * @see {@link Includes}
+     * @param including the including {@link MicroformatExtractor}
+     * @param included the included {@link MicroformatExtractor}
+     * @return <code>true</code> if there is a declared nesting relationship
+     */
+    public static boolean includes(
+            Class<? extends MicroformatExtractor>including,
+            Class<? extends MicroformatExtractor> included) {
+        Includes includes = including.getAnnotation(Includes.class);
+        if (includes != null) {
+            Class<? extends MicroformatExtractor>[] extractors = includes.extractors();
+            if (extractors != null && extractors.length > 0) {
+                for (Class<? extends MicroformatExtractor> extractor : extractors) {
+                    if (extractor.equals(included)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }

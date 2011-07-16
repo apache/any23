@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.extractor.html.MicroformatExtractor;
 import org.deri.any23.rdf.Prefixes;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
@@ -260,7 +261,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         }
     }
 
-    public void addResourceRoot(String[] path, Resource root, String extractor) {
+    public void addResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
         if(resourceRoots == null) {
             resourceRoots = new ArrayList<ResourceRoot>();
         }
@@ -282,7 +283,11 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
     }
 
     public void addPropertyPath(
-            String extractor, Resource propertySubject, Resource property, BNode object, String[] path
+            Class<? extends MicroformatExtractor> extractor,
+            Resource propertySubject,
+            Resource property,
+            BNode object,
+            String[] path
     ) {
         if(propertyPaths == null) {
             propertyPaths = new ArrayList<PropertyPath>();

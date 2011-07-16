@@ -125,7 +125,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
         addBNodeProperty(cal, vICAL.component, evt);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( compoNode.getPathToLocalRoot(), evt, getDescription().getExtractorName() );
+        tser.addResourceRoot( compoNode.getPathToLocalRoot(), evt, this.getClass() );
 
         return true;
     }
@@ -133,7 +133,6 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private void addUid(HTMLDocument compoNode, Resource evt) {
         TextField url = compoNode.getSingularUrlField("uid");
         conditionallyAddStringProperty(
-                getDescription().getExtractorName(),
                 compoNode.getDocument(),
                 evt, vICAL.uid, url.value()
         );
@@ -150,14 +149,11 @@ public class HCalendarExtractor extends MicroformatExtractor {
             BNode rrule = valueFactory.createBNode();
             addURIProperty(rrule, RDF.TYPE, vICAL.DomainOf_rrule);
             TextField freq = new HTMLDocument(rule).getSingularTextField("freq");
-            final String extractorName = getDescription().getExtractorName();
             conditionallyAddStringProperty(
-                    extractorName,
                     freq.source(),
                     rrule, vICAL.freq, freq.value()
             );
             addBNodeProperty(
-                    extractorName,
                     rule,
                     evt, vICAL.rrule, rrule
             );
@@ -169,14 +165,11 @@ public class HCalendarExtractor extends MicroformatExtractor {
             //untyped
             BNode blank = valueFactory.createBNode();
             TextField mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
-            final String extractorName = getDescription().getExtractorName();
             conditionallyAddStringProperty(
-                    extractorName,
                     compoNode.getDocument(),
                     blank, vICAL.calAddress, mail.value()
             );
             addBNodeProperty(
-                    extractorName,
                     organizer,
                     evt, vICAL.organizer, blank
             );
@@ -184,12 +177,9 @@ public class HCalendarExtractor extends MicroformatExtractor {
     }
 
     private void addTextProps(HTMLDocument node, Resource evt) {
-        final String extractor = getDescription().getExtractorName();
-        final Node rootNode = node.getDocument();
         for (String date : textSingularProps) {
             HTMLDocument.TextField val = node.getSingularTextField(date);
             conditionallyAddStringProperty(
-                    extractor,
                     val.source(),
                     evt, vICAL.getProperty(date), val.value()
             );
@@ -199,7 +189,6 @@ public class HCalendarExtractor extends MicroformatExtractor {
             HTMLDocument.TextField val = node.getSingularTextField(date);
             try {
                 conditionallyAddStringProperty(
-                        extractor,
                         val.source(),
                         evt,
                         vICAL.getProperty(date),
@@ -210,16 +199,16 @@ public class HCalendarExtractor extends MicroformatExtractor {
                 );
             } catch (ParseException e) {
                 // Unparsable date format just leave it as it is.
-                conditionallyAddStringProperty(extractor, val.source(), evt, vICAL.getProperty(date), val.value());
+                conditionallyAddStringProperty( val.source(), evt, vICAL.getProperty(date), val.value());
             } catch (DatatypeConfigurationException e) {
                 // Unparsable date format just leave it as it is
-                conditionallyAddStringProperty(extractor, val.source(), evt, vICAL.getProperty(date), val.value());
+                conditionallyAddStringProperty(val.source(), evt, vICAL.getProperty(date), val.value());
             }
         }
 
         HTMLDocument.TextField[] values = node.getPluralTextField("category");
         for (TextField val : values) {
-            conditionallyAddStringProperty(extractor, val.source(), evt, vICAL.categories, val.value());
+            conditionallyAddStringProperty(val.source(), evt, vICAL.categories, val.value());
         }
     }
 
