@@ -31,7 +31,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.deri.any23.plugin</groupId>
     <artifactId>html-scraper</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>HTML Scraper Plugin Module</name>
     <description>Any23 plugin for scraping HTML code.</description>
