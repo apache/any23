@@ -76,6 +76,7 @@ public interface Configuration {
      *
      * @param propertyName name of property flag.
      * @return <code>true</code> for <code>on</code>, <code>false</code> for <code>off</code>.
+     * @throws IllegalArgumentException if the <code>propertyName</code> is not declared.
      */
     boolean getFlagProperty(final String propertyName);
 

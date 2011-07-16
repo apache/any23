@@ -122,7 +122,7 @@ public class DefaultConfiguration implements Configuration {
     }
 
     public synchronized boolean getFlagProperty(final String propertyName) {
-        final String value = getProperty(propertyName, null);
+        final String value = getPropertyOrFail(propertyName);
         if(value == null) {
             return false;
         }
