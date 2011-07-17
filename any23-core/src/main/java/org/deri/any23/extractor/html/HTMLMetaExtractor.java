@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -74,8 +75,12 @@ public class HTMLMetaExtractor implements TagSoupDOMExtractor {
     /**
      * {@inheritDoc}
      */
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         profile = extractProfile(in);
         documentLang = getDocumentLanguage(in);
         extractLinkDefinedPrefixes(in);
@@ -85,6 +90,7 @@ public class HTMLMetaExtractor implements TagSoupDOMExtractor {
             baseProfile = profile.toString();
         }
 
+        final URI documentURI = extractionContext.getDocumentURI();
         Set<Meta> metas = extractMetaElement(in, baseProfile);
         for(Meta meta : metas) {
             String lang = documentLang;

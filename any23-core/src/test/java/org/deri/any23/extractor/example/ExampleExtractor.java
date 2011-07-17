@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.example;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -38,7 +39,12 @@ public class ExampleExtractor implements BlindExtractor {
 
     private static final FOAF vFOAF = FOAF.getInstance();
 
-    public void run(ExtractionParameters extractionParameters, URI in, URI documentURI, ExtractionResult out)
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            URI documentURI,
+            ExtractionResult out
+    )
     throws IOException, ExtractionException {
         out.writeTriple(documentURI, RDF.TYPE, vFOAF.Document);
     }

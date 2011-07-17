@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.microdata;
 
 import org.deri.any23.extractor.ErrorReporter;
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -88,8 +89,12 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * to avoid performing actions 5.2.1, 5.2.2, 5.2.3, 5.2.4 if step 5.2.6 doesn't detect any
      * Microdata.
      */
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
 
         final MicrodataParserReport parserReport = MicrodataParser.getMicrodata(in);
         if(parserReport.getErrors().length > 0) {
@@ -113,6 +118,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         /**
          * 5.2.6
          */
+        final URI documentURI = extractionContext.getDocumentURI();
         final Map<ItemScope, Resource> mappings = new HashMap<ItemScope, Resource>();
         for (ItemScope itemScope : itemScopes) {
             Resource subject = processType(itemScope, documentURI, out, mappings);

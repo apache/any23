@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.rdf;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -23,7 +24,6 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
@@ -37,6 +37,7 @@ import java.util.Arrays;
  * able to perform the extraction on <a href="http://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a>
  * documents.
  */
+// TODO: introduce a common base class for {NQuads|RDFXML|NTriples|Turtle}Extractor.
 public class RDFXMLExtractor implements ContentExtractor {
 
     public final static ExtractorFactory<RDFXMLExtractor> factory =
@@ -94,12 +95,16 @@ public class RDFXMLExtractor implements ContentExtractor {
         return stopAtFirstError;
     }
 
-    public void run(ExtractionParameters extractionParameters, InputStream in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext context,
+            InputStream in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         try {
             RDFParser parser =
-                    RDFParserFactory.getInstance().getRDFXMLParser(verifyDataType, stopAtFirstError, out);
-            parser.parse(in, documentURI.stringValue());
+                RDFParserFactory.getInstance().getRDFXMLParser(verifyDataType, stopAtFirstError, context, out);
+            parser.parse(in, context.getDocumentURI().stringValue());
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
         } catch (RDFParseException ex) {

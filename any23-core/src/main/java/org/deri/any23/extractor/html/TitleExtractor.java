@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -27,7 +28,6 @@ import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.deri.any23.rdf.PopularPrefixes;
 import org.deri.any23.vocab.DCTERMS;
-import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
@@ -57,18 +57,18 @@ public class TitleExtractor implements TagSoupDOMExtractor {
 
     public void run(
             ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
             Document in,
-            URI documentURI,
             ExtractionResult out
     ) throws IOException, ExtractionException {
         final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(
-            ValueFactoryImpl.getInstance(), out, out.getDocumentContext().getDefaultLanguage()
+            ValueFactoryImpl.getInstance(), out, extractionContext.getDefaultLanguage()
         );
         
         try {
             String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
             if (title != null && (title.length() != 0)) {
-                out.writeTriple(documentURI, vDCTERMS.title, valueFactory.createLiteral(title));
+                out.writeTriple(extractionContext.getDocumentURI(), vDCTERMS.title, valueFactory.createLiteral(title));
             }
         } finally {
             valueFactory.setErrorReporter(null);

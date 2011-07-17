@@ -15,6 +15,7 @@
  */
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResultImpl;
@@ -431,23 +432,31 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HCardExtractor hCardExtractor = HCardExtractor.factory.createExtractor();
+        ExtractionContext hcExtractionContext = new ExtractionContext(
+                hCardExtractor.getDescription().getExtractorName(),
+                baseURI
+        );
         hCardExtractor.run(
                 ExtractionParameters.getDefault(),
+                hcExtractionContext,
                 document,
-                baseURI,
                 new ExtractionResultImpl(
-                        baseURI,
+                        hcExtractionContext,
                         hCardExtractor,
                         new RepositoryWriter(conn)
                 )
         );
         XFNExtractor xfnExtractor = XFNExtractor.factory.createExtractor();
-                xfnExtractor.run(
+        ExtractionContext xfnExtractionContext = new ExtractionContext(
+                xfnExtractor.getDescription().getExtractorName(),
+                baseURI
+        );
+        xfnExtractor.run(
                         ExtractionParameters.getDefault(),
+                        xfnExtractionContext,
                         document,
-                        baseURI,
                         new ExtractionResultImpl(
-                                baseURI,
+                                xfnExtractionContext,
                                 hCardExtractor,
                                 new RepositoryWriter(conn)
                         )
@@ -460,35 +469,44 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HCardExtractor hCardExtractor = HCardExtractor.factory.createExtractor();
+        ExtractionContext hCardExtractionContext = new ExtractionContext(
+                hCardExtractor.getDescription().getExtractorName(), baseURI
+        );
         hCardExtractor.run(
                 ExtractionParameters.getDefault(),
+                hCardExtractionContext,
                 document,
-                baseURI,
                 new ExtractionResultImpl(
-                        baseURI,
+                        hCardExtractionContext,
                         hCardExtractor, new RepositoryWriter(conn)
                 )
         );
 
         GeoExtractor geoExtractor = GeoExtractor.factory.createExtractor();
+        ExtractionContext geoExtractionContext = new ExtractionContext(
+                geoExtractor.getDescription().getExtractorName(), baseURI
+        );
         geoExtractor.run(
                 ExtractionParameters.getDefault(),
+                geoExtractionContext,
                 document,
-                baseURI,
                 new ExtractionResultImpl(
-                        baseURI,
+                        geoExtractionContext,
                         geoExtractor,
                         new RepositoryWriter(conn)
                 )
         );
 
         AdrExtractor adrExtractor = AdrExtractor.factory.createExtractor();
+        ExtractionContext adrExtractionContext = new ExtractionContext(
+                adrExtractor.getDescription().getExtractorName(), baseURI
+        );
         adrExtractor.run(
                 ExtractionParameters.getDefault(),
+                adrExtractionContext,
                 document,
-                baseURI,
                 new ExtractionResultImpl(
-                        baseURI,
+                        adrExtractionContext,
                         adrExtractor,
                         new RepositoryWriter(conn)
                 )
@@ -502,12 +520,15 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 System.getProperty("test.data", "src/test/resources/") + filename);
         Document document = new TagSoupParser(new FileInputStream(file), baseURI.stringValue()).getDOM();
         HReviewExtractor hReviewExtractor = HReviewExtractor.factory.createExtractor();
+        ExtractionContext hreviewExtractionContext = new ExtractionContext(
+                hReviewExtractor.getDescription().getExtractorName(), baseURI
+        );
         hReviewExtractor.run(
                 ExtractionParameters.getDefault(),
+                hreviewExtractionContext,
                 document,
-                baseURI,
                 new ExtractionResultImpl(
-                        baseURI,
+                        hreviewExtractionContext,
                         hReviewExtractor,
                         new RepositoryWriter(conn)
                 )

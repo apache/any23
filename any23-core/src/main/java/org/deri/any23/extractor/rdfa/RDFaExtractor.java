@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.rdfa;
 
 import org.deri.any23.configuration.DefaultConfiguration;
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -25,7 +26,6 @@ import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.deri.any23.extractor.rdf.RDFParserFactory;
-import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
@@ -124,18 +124,12 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         this.stopAtFirstError = stopAtFirstError;
     }
 
-    /**
-     * Triggers the execution of this extractor.
-     *
-     * @param extractionParameters the applied parameters.
-     * @param in          The extractor's input
-     * @param documentURI The document's URI
-     * @param out         Sink for extracted data
-     * @throws IOException
-     * @throws ExtractionException
-     */
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-            throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
 
         StringWriter buffer = new StringWriter();
         try {
@@ -146,13 +140,17 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
 
         try {
             RDFParser parser
-                    = RDFParserFactory.getInstance().getRDFXMLParser(verifyDataType, stopAtFirstError, out);
+                    = RDFParserFactory.getInstance().getRDFXMLParser(
+                        verifyDataType, stopAtFirstError, extractionContext, out
+                    );
             parser.parse(
                     new StringReader(buffer.getBuffer().toString()),
-                    documentURI.stringValue()
+                    extractionContext.getDocumentURI().stringValue()
             );
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex);
+            throw new IllegalStateException(
+                    "Should not happen, RDFHandlerAdapter does not throw RDFHandlerException", ex
+            );
         } catch (RDFParseException ex) {
             throw new ExtractionException(
                     "Invalid RDF/XML produced by RDFa transform.", ex, out

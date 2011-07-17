@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.rdf;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -23,7 +24,6 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
@@ -92,14 +92,19 @@ public class NTriplesExtractor implements ContentExtractor {
     }
 
     public void run(
-            ExtractionParameters extractionParameters, InputStream in, URI documentURI, final ExtractionResult out
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            InputStream in,
+            ExtractionResult out
     ) throws IOException, ExtractionException {
         try {
             RDFParser parser =
-                    RDFParserFactory.getInstance().getNTriplesParser(verifyDataType, stopAtFirstError, out);
-            parser.parse(in, documentURI.stringValue());
+                    RDFParserFactory.getInstance().getNTriplesParser(
+                            verifyDataType, stopAtFirstError, extractionContext, out
+                    );
+            parser.parse(in, extractionContext.getDocumentURI().stringValue());
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);
+            throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
         } catch (RDFParseException ex) {
             throw new ExtractionException("Error while parsing RDF document.", ex, out);
         }

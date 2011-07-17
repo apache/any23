@@ -24,6 +24,8 @@ import org.openrdf.model.URI;
  */
 public class ExtractionContext {
 
+    public static final String ROOT_EXTRACTION_RESULT_ID = "root-extraction-result-id";
+
     /**
      * Name of the extractor.
      */
@@ -35,19 +37,41 @@ public class ExtractionContext {
     private final URI documentURI;
 
     /**
+     * The document default language.
+     */
+    private String defaultLanguage;
+
+    /**
      * ID identifying the document.
      */
     private final String uniqueID;
 
-    public ExtractionContext(String extractorName, URI documentURI, String localID) {
-        this.extractorName = extractorName;
-        this.documentURI = documentURI;
-        this.uniqueID = "urn:x-any23:" + getExtractorName() + ":" +
+    public ExtractionContext(String extractorName, URI documentURI, String defaultLanguage, String localID) {
+        checkNotNull(extractorName  , "extractor name");
+        checkNotNull(documentURI    , "document URI");
+        this.extractorName   = extractorName;
+        this.documentURI     = documentURI;
+        this.defaultLanguage = defaultLanguage;
+        this.uniqueID      =
+                "urn:x-any23:" + extractorName + ":" +
                 (localID == null ? "" : localID) + ":" + documentURI;
+    }
+
+    public ExtractionContext(String extractorName, URI documentURI, String defaultLanguage) {
+        this(extractorName, documentURI, defaultLanguage, ROOT_EXTRACTION_RESULT_ID);
     }
 
     public ExtractionContext(String extractorName, URI documentURI) {
         this(extractorName, documentURI, null);
+    }
+
+    public ExtractionContext copy(String localID) {
+        return new ExtractionContext(
+                getExtractorName(),
+                getDocumentURI(),
+                getDefaultLanguage(),
+                localID
+        );
     }
 
     public String getExtractorName() {
@@ -56,6 +80,10 @@ public class ExtractionContext {
 
     public URI getDocumentURI() {
         return documentURI;
+    }
+
+    public String getDefaultLanguage() {
+        return defaultLanguage;
     }
 
     public String getUniqueID() {
@@ -73,6 +101,10 @@ public class ExtractionContext {
 
     public String toString() {
         return String.format("ExtractionContext(%s)", uniqueID);
+    }
+
+    private void checkNotNull(Object data, String desc) {
+        if(data == null) throw new NullPointerException(desc + " cannot be null.");
     }
     
 }

@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.rdf;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -23,12 +24,9 @@ import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.openrdf.model.URI;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.turtle.TurtleParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,8 +55,6 @@ public class TurtleExtractor implements ContentExtractor {
                     "example-turtle.ttl",
                     TurtleExtractor.class
             );
-
-    private static final Logger logger = LoggerFactory.getLogger(TurtleExtractor.class);
 
     private boolean verifyDataType;
     private boolean stopAtFirstError;
@@ -100,14 +96,17 @@ public class TurtleExtractor implements ContentExtractor {
     }
 
     public void run(
-            ExtractionParameters extractionParameters, InputStream in, URI documentURI, final ExtractionResult out
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            InputStream in,
+            final ExtractionResult out
     ) throws IOException, ExtractionException {
         try {
             TurtleParser parser = RDFParserFactory.getInstance()
-                    .getTurtleParserInstance(verifyDataType, stopAtFirstError, out);
-            parser.parse( in, documentURI.stringValue() );
+                    .getTurtleParserInstance(verifyDataType, stopAtFirstError, extractionContext, out);
+            parser.parse(in, extractionContext.getDocumentURI().stringValue());
         } catch (RDFHandlerException ex) {
-            throw new RuntimeException("Should not happen, RDFHandlerAdapter does not throw this", ex);
+            throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
         } catch (RDFParseException ex) {
             throw new ExtractionException("Error while parsing RDF document.", ex, out);
         }

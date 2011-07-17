@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -41,8 +42,12 @@ import java.util.List;
  */
 public class HeadLinkExtractor implements TagSoupDOMExtractor {
 
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         HTMLDocument html = new HTMLDocument(in);
         ValueFactory vf = ValueFactoryImpl.getInstance();
 
@@ -61,7 +66,7 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
             final URI href = html.resolveURI(DomUtils.find(node, "@href"));
             final String rel = DomUtils.find(node, "@rel");
             out.writeTriple(
-                    documentURI,
+                    extractionContext.getDocumentURI(),
                     vf.createURI(XHTML.NS + rel),
                     href
             );

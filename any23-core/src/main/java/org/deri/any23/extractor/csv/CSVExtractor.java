@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.csv;
 
 import org.apache.commons.csv.CSVParser;
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -74,8 +75,13 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     /**
      * {@inheritDoc}
      */
-    public void run(ExtractionParameters extractionParameters, InputStream in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            InputStream in
+            , ExtractionResult out
+    ) throws IOException, ExtractionException {
+        final URI documentURI = extractionContext.getDocumentURI();
 
         // build the parser
         csvParser = CSVReaderBuilder.build(in);

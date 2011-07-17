@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -45,6 +46,8 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
     private HTMLDocument htmlDocument;
 
+    private ExtractionContext context;
+
     private URI documentURI;
 
     private ExtractionResult out;
@@ -72,19 +75,24 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return htmlDocument;
     }
 
+    public ExtractionContext getExtractionContext() {
+        return context;
+    }
+
     public URI getDocumentURI() {
         return documentURI;
     }
 
     public final void run(
             ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
             Document in,
-            URI documentURI,
             ExtractionResult out
     ) throws IOException, ExtractionException {
         this.htmlDocument = new HTMLDocument(in);
-        this.documentURI = documentURI;
-        this.out = out;
+        this.context      = extractionContext;
+        this.documentURI  = extractionContext.getDocumentURI();
+        this.out          = out;
         valueFactory.setErrorReporter(out);
         try {
             extract();
@@ -103,7 +111,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return out;
     }
 
-    protected ExtractionResult openSubResult(Object context) {
+    protected ExtractionResult openSubResult(ExtractionContext context) {
         return out.openSubResult(context);
     }
 
@@ -111,7 +119,6 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * Helper method that adds a literal property to a subject only if the value of the property
      * is a valid string.
      *
-     * @param extractor the name of the extractor adding this property.
      * @param n the <i>HTML</i> node from which the property value has been extracted.
      * @param subject the property subject.
      * @param p the property URI.

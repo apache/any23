@@ -49,7 +49,11 @@ public class ExtractionResultImplTest {
     public void setUp() {
         extractor = new TitleExtractor();
         mockTripleHandler = new FakeTripleHandler();
-        extractionResult  = new ExtractionResultImpl(TEST_URI, extractor, mockTripleHandler );
+        extractionResult  = new ExtractionResultImpl(
+                new ExtractionContext("test-extractor-name", TEST_URI),
+                extractor,
+                mockTripleHandler
+        );
     }
 
     @After
@@ -63,7 +67,9 @@ public class ExtractionResultImplTest {
 
     @Test
     public void testNotifyErrors() throws IOException {
-        final ExtractionResult subExtractionResult = extractionResult.openSubResult("sub-id");
+        final ExtractionResult subExtractionResult = extractionResult.openSubResult(
+                new ExtractionContext("sub-id", RDFUtils.uri("http://sub/uri") )
+        );
         notifyErrors(extractionResult);
         notifyErrors(subExtractionResult);
 

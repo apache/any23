@@ -18,6 +18,7 @@
 package org.deri.any23.extractor.html;
 
 import org.deri.any23.extractor.ErrorReporter;
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -61,20 +62,24 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
 
     private TurtleParser turtleParser;
 
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
-        HTMLDocument htmlDocument = new HTMLDocument(in);
-
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         List<Node> scriptNodes;
+        HTMLDocument htmlDocument = new HTMLDocument(in);
+        final URI documentURI = extractionContext.getDocumentURI();
 
         scriptNodes = htmlDocument.findAll(".//SCRIPT[contains(@type,'text/turtle')]");
-        processScriptNodes(documentURI, out, scriptNodes);
+        processScriptNodes(documentURI, extractionContext, out, scriptNodes);
 
         scriptNodes = htmlDocument.findAll(".//SCRIPT[contains(@type,'text/n3')]");
-        processScriptNodes(documentURI, out, scriptNodes);
+        processScriptNodes(documentURI, extractionContext, out, scriptNodes);
 
         scriptNodes = htmlDocument.findAll(".//SCRIPT[contains(@type,'text/plain')]");
-        processScriptNodes(documentURI, out, scriptNodes);
+        processScriptNodes(documentURI, extractionContext,out, scriptNodes);
     }
 
     public ExtractorDescription getDescription() {
@@ -88,9 +93,9 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
      * @param er the extraction result used to store triples.
      * @param ns the list of script nodes.
      */
-    private void processScriptNodes(URI documentURI, ExtractionResult er, List<Node> ns) {
+    private void processScriptNodes(URI documentURI, ExtractionContext ec, ExtractionResult er, List<Node> ns) {
         if(ns.size() > 0 && turtleParser == null) {
-            turtleParser = RDFParserFactory.getInstance().getTurtleParserInstance(true, false, er);
+            turtleParser = RDFParserFactory.getInstance().getTurtleParserInstance(true, false, ec, er);
         }
         for(Node n : ns) {
             processScriptNode(turtleParser, documentURI, n, er);

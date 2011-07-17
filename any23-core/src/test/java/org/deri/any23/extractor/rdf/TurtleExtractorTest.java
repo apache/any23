@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor.rdf;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -68,14 +69,15 @@ public class TurtleExtractorTest {
     throws IOException, ExtractionException, TripleHandlerException {
         final URI uri = RDFUtils.uri("http://host.com/test-malformed-literal.turtle");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        TripleHandler th = new RDFXMLWriter(baos);
-        ExtractionResult result = new ExtractionResultImpl(uri, extractor, th);
+        final TripleHandler th = new RDFXMLWriter(baos);
+        final ExtractionContext extractionContext = new ExtractionContext("turtle-extractor", uri);
+        final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, th);
         extractor.setStopAtFirstError(false);
         try {
             extractor.run(
                     ExtractionParameters.getDefault(),
+                    extractionContext,
                     this.getClass().getResourceAsStream("/org/deri/any23/extractor/rdf/testMalformedLiteral"),
-                    uri,
                     result
             );
         } finally {

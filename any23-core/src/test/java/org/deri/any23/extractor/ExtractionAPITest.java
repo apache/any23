@@ -35,8 +35,9 @@ public class ExtractionAPITest {
     public void testDirectInstantiation() throws Exception {
         CountingTripleHandler out   = new CountingTripleHandler();
         ExampleExtractor extractor  = new ExampleExtractor();
-        ExtractionResultImpl writer = new ExtractionResultImpl(uri, extractor, out);
-        extractor.run(ExtractionParameters.getDefault(), uri, uri, writer);
+        ExtractionContext extractionContext = new ExtractionContext("extractor-name", uri);
+        ExtractionResultImpl writer = new ExtractionResultImpl(extractionContext, extractor, out);
+        extractor.run(ExtractionParameters.getDefault(), extractionContext, uri, writer);
         writer.close();
         Assert.assertEquals(1, out.getCount());
     }

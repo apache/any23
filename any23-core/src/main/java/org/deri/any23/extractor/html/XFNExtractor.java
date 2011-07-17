@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -68,8 +69,12 @@ public class XFNExtractor implements TagSoupDOMExtractor {
         return factory;
     }
 
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         factoryWrapper.setErrorReporter(out);
         try {
             document = new HTMLDocument(in);
@@ -77,6 +82,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 
             BNode subject = factoryWrapper.createBNode();
             boolean foundAnyXFN = false;
+            final URI documentURI = extractionContext.getDocumentURI();
             for (Node link : document.findAll("//A[@rel][@href]")) {
                 foundAnyXFN |= extractLink(link, subject, documentURI);
             }

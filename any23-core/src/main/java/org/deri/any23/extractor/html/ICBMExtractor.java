@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -53,8 +54,12 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
                     ICBMExtractor.class
             );
 
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
 
         // ICBM is the preferred method, if two values are available it is meaningless to read both
         String props = DomUtils.find(in, "//META[@name=\"ICBM\" or @name=\"geo.position\"]/@content");
@@ -71,7 +76,7 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
 
         final ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out);
         BNode point = factory.createBNode();
-        out.writeTriple(documentURI, expand("dcterms:related"), point);
+        out.writeTriple(extractionContext.getDocumentURI(), expand("dcterms:related"), point);
         out.writeTriple(point, expand("rdf:type"), expand("geo:Point"));
         out.writeTriple(point, expand("geo:lat"), factory.createLiteral(Float.toString(lat)));
         out.writeTriple(point, expand("geo:long"), factory.createLiteral(Float.toString(lon)));

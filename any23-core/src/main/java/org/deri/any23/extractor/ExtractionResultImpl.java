@@ -56,19 +56,11 @@ import java.util.Set;
  */
 public class ExtractionResultImpl implements TagSoupExtractionResult {
 
-    public static final String ROOT_EXTRACTION_RESULT_ID = "root-extraction-result-id";
-
-    private static final DocumentContext DEFAULT_DOCUMENT_CONTEXT = new DocumentContext(null); 
-
-    private final DocumentContext documentContext;
-
-    private final URI documentURI;
+    private final ExtractionContext context;
 
     private final Extractor<?> extractor;
 
     private final TripleHandler tripleHandler;
-
-    private final ExtractionContext context;
 
     private final Collection<ExtractionResult> subResults = new ArrayList<ExtractionResult>();
 
@@ -85,17 +77,12 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
     private List<PropertyPath> propertyPaths;
 
     public ExtractionResultImpl(
-            DocumentContext documentContext,
-            URI documentURI,
+            ExtractionContext context,
             Extractor<?> extractor,
-            TripleHandler tripleHandler,
-            Object contextID
+            TripleHandler tripleHandler
     ) {
-        if(documentContext == null) {
-            throw new NullPointerException("document context cannot be null.");
-        }
-        if(documentURI == null) {
-            throw new NullPointerException("document URI cannot be null.");
+        if(context == null) {
+            throw new NullPointerException("context cannot be null.");
         }
         if(extractor == null) {
             throw new NullPointerException("extractor cannot be null.");
@@ -103,37 +90,11 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         if(tripleHandler == null) {
             throw new NullPointerException("triple handler cannot be null.");
         }
-        if(contextID == null) {
-            throw new NullPointerException("contextID cannot be null.");
-        }
 
-        this.documentContext = documentContext;
-        this.documentURI     = documentURI;
         this.extractor       = extractor;
         this.tripleHandler   = tripleHandler;
-        this.context = new ExtractionContext(
-                extractor.getDescription().getExtractorName(),
-                documentURI,
-                Integer.toHexString(contextID.hashCode())
-        );
-        knownContextIDs.add(contextID);
-    }
-
-    public ExtractionResultImpl(
-            DocumentContext documentContext,
-            URI documentURI,
-            Extractor<?> extractor,
-            TripleHandler tripleHandler
-    ) {
-        this(documentContext, documentURI, extractor, tripleHandler, ROOT_EXTRACTION_RESULT_ID);
-    }
-
-    public ExtractionResultImpl(
-            URI documentURI,
-            Extractor<?> extractor,
-            TripleHandler tripleHandler
-    ) {
-        this(DEFAULT_DOCUMENT_CONTEXT, documentURI, extractor, tripleHandler, ROOT_EXTRACTION_RESULT_ID);
+        this.context         = context;
+        knownContextIDs.add( context.getUniqueID() );
     }
 
     public boolean hasErrors() {
@@ -163,7 +124,8 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return errors == null ? Collections.<Error>emptyList() : Collections.unmodifiableList(errors);
     }
 
-    public ExtractionResult openSubResult(Object contextID) {
+    public ExtractionResult openSubResult(ExtractionContext context) {
+        final String contextID = context.getUniqueID();
         if (knownContextIDs.contains(contextID)) {
             throw new IllegalArgumentException("Duplicate contextID: " + contextID);
         }
@@ -171,13 +133,9 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
         checkOpen();
         ExtractionResult result =
-                new ExtractionResultImpl(documentContext, documentURI, extractor, tripleHandler, contextID);
+                new ExtractionResultImpl(context, extractor, tripleHandler);
         subResults.add(result);
         return result;
-    }
-
-    public DocumentContext getDocumentContext() {
-        return documentContext;
     }
 
     public ExtractionContext getExtractionContext() {
@@ -325,6 +283,5 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         sb.append("}\n");
         return sb.toString();
     }
-
 
 }

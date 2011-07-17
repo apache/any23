@@ -27,20 +27,6 @@ import org.openrdf.model.Value;
 public interface ExtractionResult extends ErrorReporter {
 
     /**
-     * Returns the context of the document under extraction.
-     *
-     * @return the document context.
-     */
-    DocumentContext getDocumentContext();
-
-    /**
-     * Returns the extraction context associated to this extraction result.
-     *
-     * @return a valid extraction context.
-     */
-    ExtractionContext getExtractionContext();
-
-    /**
      * Writes a triple.
      * Parameters can be null, then the triple will be silently ignored.
      *
@@ -82,9 +68,9 @@ public interface ExtractionResult extends ErrorReporter {
     /**
      * Open a result nested in the current one.
      *
-     * @param context
+     * @param extractionContext the context to be used to open the sub result.
      * @return the instance of the nested extraction result.
      */
-    ExtractionResult openSubResult(Object context);
+    ExtractionResult openSubResult(ExtractionContext extractionContext);
 
 }

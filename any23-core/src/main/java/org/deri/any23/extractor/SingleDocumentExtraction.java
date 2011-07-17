@@ -207,11 +207,9 @@ public class SingleDocumentExtraction {
         final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
         final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
         try {
-            final DocumentContext documentContext = new DocumentContext(
-                    extractDocumentLanguage(extractionParameters)
-            );
+            final String documentLanguage = extractDocumentLanguage(extractionParameters);
             for (ExtractorFactory<?> factory : matchingExtractors) {
-                EntityReport er = runExtractor(extractionParameters, documentContext, factory.createExtractor());
+                EntityReport er = runExtractor(extractionParameters, documentLanguage, factory.createExtractor());
                 resourceRoots.addAll( er.resourceRoots );
                 propertyPaths.addAll( er.propertyPaths );
             }
@@ -384,7 +382,6 @@ public class SingleDocumentExtraction {
      * Triggers the execution of a specific {@link org.deri.any23.extractor.Extractor}.
      * 
      * @param extractionParameters the parameters used for the extraction.
-     * @param documentContext the context of the current document under processing.
      * @param extractor the {@link org.deri.any23.extractor.Extractor} to be executed.
      * @throws ExtractionException if an error specific to an extractor happens.
      * @throws IOException if an IO error occurs during the extraction.
@@ -392,27 +389,42 @@ public class SingleDocumentExtraction {
      * @throws org.deri.any23.validator.ValidatorException if an error occurs during validation.
      */
     private EntityReport runExtractor(
-            ExtractionParameters extractionParameters,
-            DocumentContext documentContext,
-            Extractor<?> extractor
+            final ExtractionParameters extractionParameters,
+            final String documentLanguage,
+            final Extractor<?> extractor
     ) throws ExtractionException, IOException, ValidatorException {
         if(log.isDebugEnabled()) {
             log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
         }
         long startTime = System.currentTimeMillis();
-        ExtractionResultImpl result = new ExtractionResultImpl(documentContext, documentURI, extractor, output);
+        final ExtractionContext extractionContext = new ExtractionContext(
+                extractor.getDescription().getExtractorName(),
+                documentURI,
+                documentLanguage
+        );
+        final ExtractionResultImpl result = new ExtractionResultImpl(extractionContext, extractor, output);
         try {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
-                blindExtractor.run(extractionParameters, documentURI, documentURI, result);
+                blindExtractor.run(extractionParameters, extractionContext, documentURI, result);
             } else if (extractor instanceof ContentExtractor) {
                 ensureHasLocalCopy();
                 final ContentExtractor contentExtractor = (ContentExtractor) extractor;
-                contentExtractor.run(extractionParameters, localDocumentSource.openInputStream(), documentURI, result);
+                contentExtractor.run(
+                        extractionParameters,
+                        extractionContext,
+                        localDocumentSource.openInputStream(),
+                        result
+                );
             } else if (extractor instanceof TagSoupDOMExtractor) {
                 final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
                 final DocumentReport documentReport = getTagSoupDOM(extractionParameters);
-                tagSoupDOMExtractor.run(extractionParameters, documentReport.getDocument(), documentURI, result);
+                tagSoupDOMExtractor.run(
+                        extractionParameters,
+                        extractionContext,
+                        documentReport.getDocument(),
+                        result
+                );
             } else {
                 throw new IllegalStateException("Extractor type not supported: " + extractor.getClass());
             }

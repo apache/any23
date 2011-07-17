@@ -17,6 +17,7 @@
 
 package org.deri.any23.extractor.html;
 
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
@@ -54,17 +55,24 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
                     LicenseExtractor.class
             );
 
-    public void run(ExtractionParameters extractionParameters, Document in, URI documentURI, ExtractionResult out)
-    throws IOException, ExtractionException {
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            Document in,
+            ExtractionResult out
+    ) throws IOException, ExtractionException {
         HTMLDocument document = new HTMLDocument(in);
+        final URI documentURI = extractionContext.getDocumentURI();
         for (Node node : DomUtils.findAll(in, "//A[@rel='license']/@href")) {
             String link = node.getNodeValue();
             if ("".equals(link)) {
                 out.notifyError(
                         ExtractionResult.ErrorLevel.WARN,
-                        String.format("Invalid license link detected within document %s.", documentURI.toString()), 
-                        0,
-                        0
+                        String.format(
+                                "Invalid license link detected within document %s.",
+                                documentURI.toString()
+                        ),
+                        0, 0
                 );
                 continue;
             }

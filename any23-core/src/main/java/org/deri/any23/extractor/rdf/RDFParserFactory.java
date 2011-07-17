@@ -17,6 +17,7 @@
 package org.deri.any23.extractor.rdf;
 
 import org.deri.any23.extractor.ErrorReporter;
+import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionResult;
 import org.deri.any23.parser.NQuadsParser;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
@@ -59,19 +60,21 @@ public class RDFParserFactory {
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured Turtle parser.
      */
     public TurtleParser getTurtleParserInstance(
-            boolean verifyDataType,
-            boolean stopAtFirstError,
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
         if (extractionResult == null) {
             throw new NullPointerException("extractionResult cannot be null.");
         }
         final TurtleParser parser = new ExtendedTurtleParser();
-        configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
 
@@ -80,16 +83,18 @@ public class RDFParserFactory {
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured RDFXML parser.
      */
     public RDFXMLParser getRDFXMLParser(
-            boolean verifyDataType,
-            boolean stopAtFirstError,
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
         final RDFXMLParser parser = new RDFXMLParser();
-        configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
 
@@ -98,16 +103,18 @@ public class RDFParserFactory {
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured NTriples parser.
      */
     public NTriplesParser getNTriplesParser(
-            boolean verifyDataType,
-            boolean stopAtFirstError,
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
         final NTriplesParser parser = new NTriplesParser();
-        configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
 
@@ -116,16 +123,18 @@ public class RDFParserFactory {
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured NQuads parser.
      */
     public NQuadsParser getNQuadsParser(
-            boolean verifyDataType,
-            boolean stopAtFirstError,
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
         final NQuadsParser parser = new NQuadsParser();
-        configureParser(parser, verifyDataType, stopAtFirstError, extractionResult);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
 
@@ -136,12 +145,14 @@ public class RDFParserFactory {
      * @param parser the parser to be configured.
      * @param verifyDataType enables the data verification.
      * @param stopAtFirstError enables the tolerant error handling.
+     * @param extractionContext the extraction context in which the parser is used.
      * @param extractionResult the extraction result used to collect the parsed data.
      */
     private void configureParser(
-            RDFParser parser,
-            boolean verifyDataType,
-            boolean stopAtFirstError,
+            final RDFParser parser,
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
         parser.setDatatypeHandling(
@@ -153,7 +164,7 @@ public class RDFParserFactory {
                 new Any23ValueFactoryWrapper(
                         ValueFactoryImpl.getInstance(),
                         extractionResult,
-                        extractionResult.getDocumentContext().getDefaultLanguage()
+                        extractionContext.getDefaultLanguage()
                 )
         );
         parser.setRDFHandler(new RDFHandlerAdapter(extractionResult));
