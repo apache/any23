@@ -110,9 +110,6 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             defaultNamespace = extractionParameters.getProperty("any23.microdata.ns.default");
         }
 
-        System.out.println("IS STRICT " + isStrict );
-        System.out.println("DNS " + defaultNamespace );
-
         documentLanguage = getDocumentLanguage(in);
 
         /**

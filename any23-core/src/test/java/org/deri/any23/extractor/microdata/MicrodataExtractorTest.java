@@ -50,7 +50,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-nested.html",
                 "microdata-nested-expected.nquads"
         );
-        logger.info(dumpModelToNQuads());
+        logger.debug(dumpModelToNQuads());
     }
 
     /**
@@ -68,7 +68,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-richsnippet.html",
                 "microdata-richsnippet-expected.nquads"
         );
-        logger.info(dumpHumanReadableTriples());
+        logger.debug(dumpHumanReadableTriples());
     }
 
     /**
@@ -86,7 +86,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "5.2.1-non-normative-example-1.html",
                 "5.2.1-non-normative-example-1-expected.nquads"
         );
-        logger.info(dumpHumanReadableTriples());
+        logger.debug(dumpHumanReadableTriples());
     }
 
     /**
@@ -104,7 +104,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "5.2.1-non-normative-example-1.html",
                 "5.2.1-non-normative-example-1-expected.nquads"
         );
-        logger.info(dumpHumanReadableTriples());
+        logger.debug(dumpHumanReadableTriples());
     }
 
     /**
@@ -122,7 +122,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "schemaorg-example-1.html",
                 "schemaorg-example-1-expected.nquads"
         );
-        logger.info(dumpHumanReadableTriples());
+        logger.debug(dumpHumanReadableTriples());
     }
 
     /**
@@ -140,14 +140,14 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "schemaorg-example-2.html",
                 "schemaorg-example-2-expected.nquads"
         );
-        logger.info(dumpHumanReadableTriples());
+        logger.debug(dumpHumanReadableTriples());
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         assertExtracts("microdata/" + actual);
         assertModelNotEmpty();
-        System.out.println( dumpModelToNQuads() );
+        logger.debug( dumpModelToNQuads() );
         List<Statement> expectedStatements = loadResultStatement("microdata/" + expected);
         int actualStmtSize = getStatementsSize(null, null, null);
         Assert.assertEquals( expectedStatements.size(), actualStmtSize);

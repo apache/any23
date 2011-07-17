@@ -171,16 +171,16 @@ public class MicrodataParserTest {
         final ItemScope[]                items  = report.getDetectedItemScopes();
         final MicrodataParserException[] errors = report.getErrors();
 
-        logger.info("begin itemScopes");
+        logger.debug("begin itemScopes");
         for(ItemScope item : items) {
-            logger.info( item.toJSON() );
+            logger.debug( item.toJSON() );
         }
-        logger.info("end itemScopes");
-        logger.info("begin errors");
+        logger.debug("end itemScopes");
+        logger.debug("begin errors");
         for(MicrodataParserException error : errors) {
-            logger.info( error.toJSON() );
+            logger.debug( error.toJSON() );
         }
-        logger.info("end errors");
+        logger.debug("end errors");
 
         final Properties resultContent = new Properties();
         resultContent.load( this.getClass().getResourceAsStream("/microdata/" + expectedResult + ".properties") );

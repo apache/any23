@@ -29,6 +29,8 @@ import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,6 +46,8 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     private static final FOAF    vFOAF    = FOAF.getInstance();
     private static final DOAC    vDOAC    = DOAC.getInstance();
     private static final VCARD   vVCARD   = VCARD.getInstance();
+
+    private static final Logger logger = LoggerFactory.getLogger(HReviewExtractorTest.class);
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return HResumeExtractor.factory;
@@ -108,7 +112,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
             while(statements.hasNext()) {
                 Statement statement = statements.next();
                 checkSet.add(statement.getObject().stringValue());
-                System.out.println(statement.getObject().stringValue());
+                logger.debug( statement.getObject().stringValue() );
             }
 
         } finally {

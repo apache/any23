@@ -81,7 +81,7 @@ public class TurtleExtractorTest {
                     result
             );
         } finally {
-            logger.info(baos.toString());
+            logger.debug(baos.toString());
             th.close();
             result.close();
         }

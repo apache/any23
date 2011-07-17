@@ -200,7 +200,7 @@ public class Any23Test {
             <http://example.org/ns#bar> <http://example.org/ns#> <http://other.example.org/ns#> .
             <http://other.example.org/ns#bar> <http://other.example.org/ns#> <http://example.org/ns#bar> .
          */
-        System.out.println("n3: " + n3);
+        logger.debug("n3: " + n3);
         Assert.assertTrue(n3.length() > 0);
     }
 
@@ -232,7 +232,7 @@ public class Any23Test {
             "Semantic Loft (beta) - Trastevere apartments | Rental in Rome - rentalinrome.com" .
             [...]
          */
-        System.out.println("N3 "+ n3);
+        logger.debug("N3 "+ n3);
         Assert.assertTrue(n3.length() > 0);
     }
 
@@ -277,7 +277,7 @@ public class Any23Test {
         }
 
         String bufferContent = byteArrayOutputStream.toString();
-        logger.info(bufferContent);
+        logger.debug(bufferContent);
         int i = 0;
         int counter = 0;
         while( i < bufferContent.length() ) {
@@ -315,7 +315,7 @@ public class Any23Test {
         runner.extract(source, handler);
         String n3 = out.toString("UTF-8");
 
-        System.out.println("N3 " + n3);
+        logger.debug("N3 " + n3);
         Assert.assertTrue(n3.length() > 0);
 
     }
@@ -336,7 +336,7 @@ public class Any23Test {
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
         runner.extract(new ExtractionParameters(ValidationMode.None), source, compositeTH1);
-        logger.info(baos.toString());
+        logger.debug(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
 
         baos.reset();
@@ -346,7 +346,7 @@ public class Any23Test {
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
         runner.extract(new ExtractionParameters(ValidationMode.ValidateAndFix), source,  compositeTH2);
-        logger.info( baos.toString() );
+        logger.debug( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 10, cth2.getCount() );
     }
 
@@ -366,7 +366,7 @@ public class Any23Test {
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
         runner.extract(new ExtractionParameters(ValidationMode.None, true), source,  compositeTH1);
-        logger.info( baos.toString() );
+        logger.debug( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 26, cth1.getCount() );
 
         baos.reset();
@@ -376,7 +376,7 @@ public class Any23Test {
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
         runner.extract(new ExtractionParameters(ValidationMode.ValidateAndFix, false), source,  compositeTH2);
-        logger.info( baos.toString() );
+        logger.debug( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 23, cth2.getCount() );
     }
 
@@ -414,7 +414,7 @@ public class Any23Test {
             public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
             throws TripleHandlerException {
                 super.receiveTriple(s, p, o, g, context);
-                logger.info( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+                logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
             }
         };
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
@@ -438,7 +438,7 @@ public class Any23Test {
             public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
             throws TripleHandlerException {
                 super.receiveTriple(s, p, o, g, context);
-                logger.info( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+                logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
             }
         };
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
@@ -456,7 +456,7 @@ public class Any23Test {
             public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
             throws TripleHandlerException {
                 super.receiveTriple(s, p, o, g, context);
-                logger.info( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+                logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
             }
         };
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
@@ -592,7 +592,7 @@ public class Any23Test {
     }
 
     private void printStatement(Statement statement) {
-        logger.info(String.format("%s\t%s\t%s",
+        logger.debug(String.format("%s\t%s\t%s",
                 statement.getSubject(),
                 statement.getPredicate(),
                 statement.getObject()));

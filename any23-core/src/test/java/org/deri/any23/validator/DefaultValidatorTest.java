@@ -80,7 +80,7 @@ public class DefaultValidatorTest {
     public void testMetaNameMisuse() throws Exception {
         DOMDocument document = loadDocument("meta-name-misuse.html");
         ValidationReport validationReport = validator.validate(document, true);
-        logger.info( validationReport.toString() );
+        logger.debug( validationReport.toString() );
         if(logger.isDebugEnabled()) {
             logger.debug( serialize(document) );
         }
@@ -98,7 +98,7 @@ public class DefaultValidatorTest {
     public void testAboutNotURIRule() throws Exception {
         DOMDocument document = loadDocument("invalid-rdfa-about.html");
         ValidationReport validationReport = validator.validate(document, true);
-        logger.info(validationReport.toString());
+        logger.debug(validationReport.toString());
         Assert.assertEquals( "Unexpected number of issues.", 1, validationReport.getIssues().size() );
     }
 

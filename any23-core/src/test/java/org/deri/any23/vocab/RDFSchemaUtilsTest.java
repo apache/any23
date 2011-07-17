@@ -19,6 +19,8 @@ package org.deri.any23.vocab;
 import org.deri.any23.util.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 
@@ -29,6 +31,8 @@ import java.io.ByteArrayOutputStream;
  */
 public class RDFSchemaUtilsTest {
 
+    private static final Logger logger = LoggerFactory.getLogger(RDFSchemaUtilsTest.class);
+
     /**
      * Test case for {@link org.deri.any23.vocab.RDFSchemaUtils#serializeVocabulariesToNQuads(java.io.OutputStream)}
      */
@@ -37,7 +41,7 @@ public class RDFSchemaUtilsTest {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         RDFSchemaUtils.serializeVocabulariesToNQuads(baos);
         final String output = baos.toString();
-        System.out.println(output);
+        logger.debug(output);
         final int occurrences= StringUtils.countOccurrences(output, "\n");
         Assert.assertEquals(802, occurrences);
     }

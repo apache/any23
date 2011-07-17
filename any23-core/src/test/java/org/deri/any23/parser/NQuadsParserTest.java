@@ -362,7 +362,7 @@ public class NQuadsParserTest {
         }
 
         public void handleStatement(Statement statement) throws RDFHandlerException {
-            logger.info(statement.toString());
+            logger.debug(statement.toString());
             statements.add(statement);
         }
 

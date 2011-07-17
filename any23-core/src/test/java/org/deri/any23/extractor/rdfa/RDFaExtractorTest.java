@@ -94,7 +94,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
                 RDFUtils.literal("Departments")
         );
         assertStatementsSize(null, null, null, 8);
-        logger.info(dumpHumanReadableTriples());
+        logger.debug(dumpHumanReadableTriples());
     }
 
     /**
@@ -138,7 +138,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testEmptyDatatypeDeclarationWithInnerXMLTags() throws RepositoryException {
         assertExtracts("html/rdfa/null-datatype-test.html");
-        logger.info(dumpModelToRDFXML());
+        logger.debug(dumpModelToRDFXML());
 
         assertContains(
                 RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
@@ -160,7 +160,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExplicitDatatypeDeclaration() throws RepositoryException {
         assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
-        logger.info(dumpModelToTurtle());
+        logger.debug(dumpModelToTurtle());
 
         Literal literal = RDFUtils.literal("Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
                 "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +
@@ -185,7 +185,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testDrupalTestPage() throws RepositoryException {
         assertExtracts("html/rdfa/drupal-test-frontpage.html");
-        logger.info(dumpModelToTurtle());
+        logger.debug(dumpModelToTurtle());
         assertContains(
                 RDFUtils.uri("http://bob.example.com/node/3"),
                 vDCTERMS.title,

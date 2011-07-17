@@ -73,7 +73,7 @@ public class XSLTStylesheetTest {
         final StringWriter sw = new StringWriter();
         RDFaExtractor.getXSLT().applyTo(tagSoupParser.getDOM(), sw);
         final String content = sw.toString();
-        logger.info(content);
+        logger.debug(content);
         final Pattern pattern = Pattern.compile("<!--this_location: '(.+)' this_root: '(.+)' html_base: '(.+)'-->");
         final Matcher matcher = pattern.matcher(content);
         Assert.assertTrue("Cannot find comment matching within generated output.", matcher.find());

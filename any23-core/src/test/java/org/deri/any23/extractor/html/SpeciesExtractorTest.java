@@ -48,7 +48,7 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
     public void testSpeciesMicroformatExtractOverTaxoBox() throws RepositoryException {
         assertExtracts("microformats/species/species-example-2.html");
         assertModelNotEmpty();
-        logger.info(dumpModelToRDFXML());
+        logger.debug(dumpModelToRDFXML());
 
         /**
          * here I expect two species

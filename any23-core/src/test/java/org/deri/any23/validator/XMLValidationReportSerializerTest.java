@@ -86,7 +86,7 @@ public class XMLValidationReportSerializerTest {
         ValidationReport vr = validationReportBuilder.getReport();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         serializer.serialize(vr, baos);
-        logger.info( baos.toString() );
+        logger.debug( baos.toString() );
 
         final String bufferContent = baos.toString();
         Assert.assertTrue(bufferContent.contains("<validationReport>"));

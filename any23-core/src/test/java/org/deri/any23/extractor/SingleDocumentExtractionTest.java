@@ -75,7 +75,7 @@ public class SingleDocumentExtractionTest {
     public void tearDown() throws SailException, RepositoryException, TripleHandlerException {
         rdfxmlWriter.close();
         repositoryWriter.close();
-        logger.info( baos.toString() );
+        logger.debug( baos.toString() );
 
         singleDocumentExtraction = null;
         extractorGroup = null;
@@ -234,7 +234,7 @@ public class SingleDocumentExtractionTest {
         RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
         while (result.hasNext()) {
             Statement statement = result.next();
-            logger.info( statement.toString() );
+            logger.debug( statement.toString() );
         }
     }
 

@@ -50,7 +50,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
-        logger.info(dumpModelToRDFXML());
+        logger.debug(dumpModelToRDFXML());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
-        logger.info(dumpModelToRDFXML());
+        logger.debug(dumpModelToRDFXML());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
-        logger.info(dumpModelToRDFXML());
+        logger.debug(dumpModelToRDFXML());
     }
 
 }

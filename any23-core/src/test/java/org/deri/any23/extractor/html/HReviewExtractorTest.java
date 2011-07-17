@@ -30,6 +30,8 @@ import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Reference Test class for the {@link org.deri.any23.extractor.html.HReviewExtractor} extractor.
@@ -42,6 +44,8 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     private static final REVIEW  vREVIEW  = REVIEW.getInstance();
     private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final VCARD   vVCARD   = VCARD.getInstance();
+
+    private static final Logger logger = LoggerFactory.getLogger(HReviewExtractorTest.class);
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return HReviewExtractor.factory;
@@ -76,7 +80,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
             while (reviews.hasNext()) {
 
                 Resource review = reviews.next().getSubject();
-                System.out.println(review.stringValue());
+                logger.debug(review.stringValue());
 
                 assertContains(review, vREVIEW.rating, "5");
                 assertContains(review, vREVIEW.title, "Crepes on Cole is awesome");

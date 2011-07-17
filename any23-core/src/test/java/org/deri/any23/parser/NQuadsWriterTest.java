@@ -52,7 +52,7 @@ public class NQuadsWriterTest {
 
     @After
     public void tearDown() {
-        logger.info( "\n" + baos.toString() );
+        logger.debug( "\n" + baos.toString() );
         baos.reset();
         writer = null;
     }

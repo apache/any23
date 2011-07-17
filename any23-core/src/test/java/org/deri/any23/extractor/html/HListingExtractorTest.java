@@ -27,6 +27,8 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -41,6 +43,8 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
     private static final SINDICE  vSINDICE  = SINDICE.getInstance();
     private static final HLISTING vHLISTING = HLISTING.getInstance();
     private static final FOAF     vFOAF     = FOAF.getInstance();
+
+    private static final Logger logger = LoggerFactory.getLogger(HListingExtractorTest.class);
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return HListingExtractor.factory;
@@ -59,7 +63,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
     public void testListingWithouthContent() throws RepositoryException {
         assertExtracts("microformats/hlisting/empty.html");
         assertModelNotEmpty();
-        System.out.println(dumpModelToRDFXML());
+        logger.debug(dumpModelToRDFXML());
         assertStatementsSize(null, null, null, 6);
         assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
         assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
