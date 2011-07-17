@@ -27,6 +27,7 @@ import org.deri.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.helpers.RDFParserBase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +37,7 @@ import java.util.Arrays;
  * Concrete implementation of {@link org.deri.any23.extractor.Extractor.ContentExtractor}
  * handling NTriples <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format.
  */
-public class NTriplesExtractor implements ContentExtractor {
+public class NTriplesExtractor extends BaseRDFExtractor {
 
     public final static ExtractorFactory<NTriplesExtractor> factory =
             SimpleExtractorFactory.create(
@@ -51,67 +52,26 @@ public class NTriplesExtractor implements ContentExtractor {
                     NTriplesExtractor.class
             );
 
-
-    private boolean verifyDataType;
-    private boolean stopAtFirstError;
-
-    /**
-     * Constructor, allows to specify the validation and error handling policies.
-     *
-     * @param verifyDataType if <code>true</code> the data types will be verified,
-     *         if <code>false</code> will be ignored.
-     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
-     *        if <code>false</code> will ignore non blocking errors.
-     */
     public NTriplesExtractor(boolean verifyDataType, boolean stopAtFirstError) {
-        this.verifyDataType = verifyDataType;
-        this.stopAtFirstError = stopAtFirstError;
+        super(verifyDataType, stopAtFirstError);
     }
 
     /**
      * Default constructor, with no verification of data types and no stop at first error.
-     */    
+     */
     public NTriplesExtractor() {
         this(false, false);
-    }
-    
-    public void setStopAtFirstError(boolean f) {
-        stopAtFirstError = f;
-    }
-
-    public boolean getStopAtFirstError() {
-        return stopAtFirstError;
-    }
-
-    public boolean isVerifyDataType() {
-        return verifyDataType;
-    }
-
-    public void setVerifyDataType(boolean verifyDataType) {
-        this.verifyDataType = verifyDataType;
-    }
-
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            InputStream in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
-        try {
-            RDFParser parser =
-                    RDFParserFactory.getInstance().getNTriplesParser(
-                            verifyDataType, stopAtFirstError, extractionContext, out
-                    );
-            parser.parse(in, extractionContext.getDocumentURI().stringValue());
-        } catch (RDFHandlerException ex) {
-            throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
-        } catch (RDFParseException ex) {
-            throw new ExtractionException("Error while parsing RDF document.", ex, out);
-        }
     }
 
     public ExtractorDescription getDescription() {
         return factory;
+    }
+
+    @Override
+    protected RDFParserBase getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
+        return RDFParserFactory.getInstance().getNTriplesParser(
+                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+        );
     }
 
 }

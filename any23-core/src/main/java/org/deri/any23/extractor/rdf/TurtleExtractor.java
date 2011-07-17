@@ -17,19 +17,12 @@
 package org.deri.any23.extractor.rdf;
 
 import org.deri.any23.extractor.ExtractionContext;
-import org.deri.any23.extractor.ExtractionException;
-import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.ExtractionResult;
-import org.deri.any23.extractor.Extractor.ContentExtractor;
 import org.deri.any23.extractor.ExtractorDescription;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SimpleExtractorFactory;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.turtle.TurtleParser;
+import org.openrdf.rio.helpers.RDFParserBase;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -38,7 +31,7 @@ import java.util.Arrays;
  * extraction on <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a> documents.
  *
  */
-public class TurtleExtractor implements ContentExtractor {
+public class TurtleExtractor extends BaseRDFExtractor {
 
     public static final ExtractorFactory<TurtleExtractor> factory =
             SimpleExtractorFactory.create(
@@ -56,9 +49,6 @@ public class TurtleExtractor implements ContentExtractor {
                     TurtleExtractor.class
             );
 
-    private boolean verifyDataType;
-    private boolean stopAtFirstError;
-
     /**
      * Constructor, allows to specify the validation and error handling policies.
      *
@@ -68,8 +58,7 @@ public class TurtleExtractor implements ContentExtractor {
      *                         if <code>false</code> will ignore non blocking errors.
      */
     public TurtleExtractor(boolean verifyDataType, boolean stopAtFirstError) {
-        this.verifyDataType = verifyDataType;
-        this.stopAtFirstError = stopAtFirstError;
+        super(verifyDataType, stopAtFirstError);
     }
 
     /**
@@ -79,41 +68,15 @@ public class TurtleExtractor implements ContentExtractor {
         this(false, false);
     }
 
-    public void setStopAtFirstError(boolean f) {
-        stopAtFirstError = f;
-    }
-
-    public boolean getStopAtFirstError() {
-        return stopAtFirstError;
-    }
-
-    public boolean isVerifyDataType() {
-        return verifyDataType;
-    }
-
-    public void setVerifyDataType(boolean verifyDataType) {
-        this.verifyDataType = verifyDataType;
-    }
-
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            InputStream in,
-            final ExtractionResult out
-    ) throws IOException, ExtractionException {
-        try {
-            TurtleParser parser = RDFParserFactory.getInstance()
-                    .getTurtleParserInstance(verifyDataType, stopAtFirstError, extractionContext, out);
-            parser.parse(in, extractionContext.getDocumentURI().stringValue());
-        } catch (RDFHandlerException ex) {
-            throw new IllegalStateException("Should not happen, RDFHandlerAdapter does not throw this", ex);
-        } catch (RDFParseException ex) {
-            throw new ExtractionException("Error while parsing RDF document.", ex, out);
-        }
-    }
-
     public ExtractorDescription getDescription() {
         return factory;
+    }
+
+    @Override
+    protected RDFParserBase getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
+        return RDFParserFactory.getInstance().getTurtleParserInstance(
+                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+        );
     }
 
 }
