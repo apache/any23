@@ -15,7 +15,8 @@ import java.util.regex.Pattern;
 
 /**
  * Command line <b>Microdata</i> parser, accepting both files and URLs and
- * returing a <i>JSON</i> representation of the extracted metadata.
+ * returing a <i>JSON</i> representation of the extracted metadata as described at
+ * <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */

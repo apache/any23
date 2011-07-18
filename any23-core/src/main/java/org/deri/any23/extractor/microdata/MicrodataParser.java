@@ -202,7 +202,8 @@ public class MicrodataParser {
     }
 
     /**
-     * Returns a <i>JSON</i> containing the list of all extracted microdata.
+     * Returns a <i>JSON</i> containing the list of all extracted Microdata,
+     * as described at <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
      *
      * @param document document to be processed.
      * @param ps
