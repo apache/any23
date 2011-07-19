@@ -134,10 +134,12 @@
         </dependency>
         <!-- END: Sesame -->
 
-        <!-- BEGIN:  Apache Commons -->
+        <!-- BEGIN:  Apache Commons, this version is hosted in the 
+                     any23-repository-external repository -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
+		    <version>1.0-SNAPSHOT-rev1148315</version>
         </dependency>
         <!-- END: Apache Commons CSV -->
 
