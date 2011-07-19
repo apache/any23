@@ -181,6 +181,15 @@ bin/any23tools MicrodataParser
 Usage: {http://path/to/resource.html|file:/path/to/local.file}
 +--------------------------------------
 
+
+** VocabPrinter
+
+   The VocabPrinter prints out the RDFSchema declared by all the <<Any23>>
+   declared vocabularies.
+
+   <<This tool is still in beta version.>>
+
+
 * Use <<Any23>> as a RESTful Web Service
 
    <<Any23>> provides a Web Service that can be used to extract <RDF> from Web documents.
