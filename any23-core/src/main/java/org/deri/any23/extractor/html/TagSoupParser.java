@@ -169,8 +169,10 @@ public class TagSoupParser {
 
             private ElementLocation createElementLocation(Object obj) {
                 if(obj == null) return null;
+                String pattern = null;
                 try {
-                    final String pattern = obj.toString();
+                    pattern = obj.toString();
+                    if( "synthesized".equals(pattern) ) return null;
                     final String[] parts = pattern.split(":");
                     return new ElementLocation(
                             Integer.parseInt(parts[0]),
@@ -180,7 +182,10 @@ public class TagSoupParser {
 
                     );
                 } catch (Exception e) {
-                    logger.warn("Unexpected string format for given augmentation.", e);
+                    logger.warn(
+                            String.format("Unexpected string format for given augmentation: [%s]", pattern),
+                            e
+                    );
                     return null;
                 }
             }
