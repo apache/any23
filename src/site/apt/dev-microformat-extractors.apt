@@ -75,6 +75,24 @@ private boolean addSubMicroformat(String className, Resource resource, URI prope
 </rdf:Description>
 +-----------------------------------------------------------------------------------------------------
 
+ It is higly recommended to decorate the extractors who natively handle the nesting relatioship using the
+  {{{./xref/org/deri/any23/extractor/html/annotations/Includes.html}@Includes}} annotation. This annotation,
+  if present, avoid the production of <nesting_original> and <nesting_structured> RDF statements.
+
+  The following example shows how the {{{./xref/org/deri/any23/extractor/html/annotations/Includes.html}@Includes}} annotation
+  could be used to claim the fact that {{{./xref/org/deri/any23/extractor/html/HCardExtractor.html}HCardExtractor}} natively
+  embedds the {{{./xref/org/deri/any23/extractor/html/AdrExtractor.html}AdrExtractor}}.
+
++----------------------------------------------------------------------------------------------
+@Includes( extractors = AdrExtractor.class )
+public class HCardExtractor extends EntityBasedMicroformatExtractor {
+
+    // code omitted for brevity
+
+}
++----------------------------------------------------------------------------------------------
+
+
  Instead, the second manner is to leave to <<Any23>> the responsibility of identifying nested Microformats and produce
  a set of descriptive RDF triples.
  More specifically, the following HTML fragment, provided as a reference example on
