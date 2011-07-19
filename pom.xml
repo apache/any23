@@ -330,13 +330,13 @@
             </dependency>
             <!-- END: Sesame -->
 
-            <!-- BEGIN:  Apache Commons -->
+            <!-- BEGIN:  Apache Commons  CSV-->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-csv</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>1.0-SNAPSHOT-rev1148315</version>
             </dependency>
-            <!-- END: Apache Commons CSV -->
+            <!-- END:    Apache Commons CSV -->
 
             <!-- BEGIN: Servlet Deps. -->
             <dependency>

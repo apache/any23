@@ -139,7 +139,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-		    <version>1.0-SNAPSHOT-rev1148315</version>
         </dependency>
         <!-- END: Apache Commons CSV -->
 
