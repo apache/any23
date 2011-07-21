@@ -634,8 +634,7 @@
                 <version>2.1</version>
                 <configuration>
                     <preparationGoals>clean install</preparationGoals>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <updateDependencies>false</updateDependencies>
+                    <autoVersionSubmodules>false</autoVersionSubmodules>
                 </configuration>
             </plugin>
 
