@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -59,6 +60,7 @@ import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 @ToolRunner.Description("Any23 Command Line Tool.")
+// TODO: this class needs a complete rewriting.
 public class Rover {
 
     //output writer constants
@@ -86,7 +88,7 @@ public class Rover {
                         "[" + TURTLE + " (default), " + NTRIPLE + ", " + RDFXML + ", " + QUAD + ", " + URIS + "]")
         );
         options.addOption(new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle"));
-        options.addOption(new Option("o", "output", true, "ouput file (defaults to stdout)"));
+        options.addOption(new Option("o", "output", true, "output file (defaults to stdout)"));
         options.addOption(new Option("p", "pedantic", false, "validates and fixes HTML content detecting commons issues"));
         options.addOption(new Option("t", "notrivial", false, "filter trivial statements"));
         options.addOption(new Option("n", "nesting", false, "disable production of nesting triples"));
@@ -124,22 +126,30 @@ public class Rover {
             extractorNames = cmd.getOptionValue('e').split(",");
         }
 
+        final PrintStream out;
+        if( cmd.hasOption("o") ) {
+            final String fileName = cmd.getOptionValue("o");
+            out = openPrintStream(fileName);
+        } else {
+            out = System.out;
+        }
+
         String format = TURTLE;
         if (cmd.hasOption("f")) {
             format = cmd.getOptionValue("f");
         }
         TripleHandler outputHandler;
         if (TURTLE.equalsIgnoreCase(format)) {
-            outputHandler = new TurtleWriter(System.out);
+            outputHandler = new TurtleWriter(out);
         } else if (NTRIPLE.equalsIgnoreCase(format)) {
-            outputHandler = new NTriplesWriter(System.out);
+            outputHandler = new NTriplesWriter(out);
         } else if (QUAD.equalsIgnoreCase(format)) {
-            outputHandler = new NQuadsWriter(System.out);
+            outputHandler = new NQuadsWriter(out);
         } else if (URIS.equalsIgnoreCase(format)) {
-            outputHandler = new URIListWriter(System.out);
+            outputHandler = new URIListWriter(out);
         }
         else {
-            outputHandler = new RDFXMLWriter(System.out);
+            outputHandler = new RDFXMLWriter(out);
         }
 
         BenchmarkTripleHandler benchmark = null;
@@ -192,6 +202,7 @@ public class Rover {
             System.err.println(ex.getMessage());
             System.exit(4);
         }
+
         try {
             outputHandler.close();
         } catch (TripleHandlerException e) {
@@ -199,12 +210,25 @@ public class Rover {
             System.err.println(e.getMessage());
             System.exit(4);
         }
+
+        out.close();
+
         if (benchmark != null) {
             System.err.println(benchmark.report());
         }
+
         logger.debug("Extractors used: " + reporter.getExtractorNames());
         long elapsed = System.currentTimeMillis() - start;
         logger.info(reporter.getTotalTriples() + " triples, " + elapsed + "ms");
+    }
+
+    private static PrintStream openPrintStream(String fileName) {
+        final File file = new File(fileName);
+        try {
+            return new PrintStream(file);
+        } catch (FileNotFoundException fnfe) {
+            throw new IllegalArgumentException("Cannot open file '" + file.getAbsolutePath() + "'", fnfe);
+        }
     }
 
     private static void printHelp() {
