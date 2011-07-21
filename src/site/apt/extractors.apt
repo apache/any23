@@ -57,9 +57,9 @@ Any23 Extractors
 
 * Content Extractors
 
-      {{{./xref/org/deri/any23/extractor/xpath/XPathExtractor.html}XPath Extractor}}.
+      {{{./xref/org/deri/any23/extractor/xpath/XPathExtractor.html}XPath Extractor}}
 
-      {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.html}CSV Extractor}}.
+      {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.html}CSV Extractor}}
 
 Get more documentation
 

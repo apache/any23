@@ -9,8 +9,8 @@ Supported Formats in Any23
    * <<(X)HTML>> with <<RDFa 1.0>>, <<RDFa 1.1>>, <<Microdata>> and <<Microformats>>. <<Any23>> fully supports the
      {{{http://www.w3.org/TR/html5/}(X)HTML5}} input format and in particular
      provides a set of extractors for processing embedded {{{http://www.w3.org/TR/rdfa-syntax/}RDFa}} 1.0,
-     RDFa 1.1, {{{http://microformats.org/}Microformats}}
-     and {{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}.
+     {{{http://www.w3.org/TR/rdfa-in-html/}RDFa 1.1}}, {{{http://microformats.org/}Microformats}}
+     and {{{http://www.w3.org/TR/microdata/}Microdata}}.
 
    * <<Turtle>> <<Any23>> fully supports the {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}} specification.
 

@@ -2,18 +2,18 @@ Any23 Plugins
 
 * Introduction
 
-    This section describes the *Any23* initial support for plugins.
+    This section describes the <Any23> initial support for plugins.
 
-    *Any23* cames with a set of predefined plugins. Plugins are located
+    <Any23> cames with a set of predefined plugins. Plugins are located
     under <any23-root>/plugins dir.
 
-    Every plugin is a standard Maven2 module implementing at least the *ExtractorPlugin* interface.
+    Every plugin is a standard Maven2 module implementing at least the <ExtractorPlugin> interface.
 
-    Currently it is possible to add only new *Extractor*s.
+    Currently it is possible to add only new <Extractor>s.
 
 * How to Build a Plugin
 
-   *Any23* takes care to build and test plugins when distributed from its reactor pom.
+   <Any23> takes care to build and test plugins when distributed from its reactor pom.
    It is aways possible to rebuild a plugin using the command:
 
 +--------------------------------------
@@ -22,8 +22,8 @@ Any23 Plugins
 
 * How to Add a Plugin
 
-   A plugin can be added to *Any23* simply adding its JAR to the Any23 classpath.
-   *Any23* will auto detect the plugin and will register it to the extractors list.
+   A plugin can be added to <Any23> simply adding its JAR to the Any23 classpath.
+   <Any23> will auto detect the plugin and will register it to the extractors list.
 
 * How to Write a Plugin
 
