@@ -219,6 +219,6 @@ To prepare a new release, just verify that the are no local changes and then inv
 	
 if everything goes right, perform the release simply typing:
 
-	mvn release:perform
+	MAVEN_OPTS='-Xmx2048m' mvn release:perform
 
 EOF
