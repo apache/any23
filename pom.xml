@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-parent</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.0</version>
     <packaging>pom</packaging>
     <name>Any23 - Anything to Triples</name>
 	<description>Anything To Triples (any23) is a library, a web service and a command line tool that 
@@ -45,9 +45,9 @@
     <inceptionYear>2010</inceptionYear>
 
     <scm>
-        <developerConnection>scm:svn:https://any23.googlecode.com/svn/trunk</developerConnection>
-        <connection>scm:svn:http://any23.googlecode.com/svn/trunk</connection>
-        <url>http://code.google.com/p/any23source/browse/trunk</url>
+        <developerConnection>scm:svn:https://any23.googlecode.com/svn/tags/any23-0.6.0</developerConnection>
+        <connection>scm:svn:http://any23.googlecode.com/svn/tags/any23-0.6.0</connection>
+        <url>http://code.google.com/p/any23source/browse/tags/any23-0.6.0</url>
     </scm>
 
     <issueManagement>

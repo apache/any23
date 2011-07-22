@@ -17,14 +17,12 @@
     author: Michele Mostarda (michele.mostarda@gmail.com)
     version: $Id$
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
         <groupId>org.deri.any23</groupId>
         <artifactId>any23-parent</artifactId>
-        <version>0.6.0-SNAPSHOT</version>
+        <version>0.6.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -32,7 +30,7 @@
     <groupId>org.deri.any23</groupId>
     <artifactId>any23-core</artifactId>
     <packaging>jar</packaging>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.0</version>
     <name>Any23 - Core Module</name>
     <description>Anything To Triples (any23) is a library and web service that extracts structured data 
     in RDF format from a variety of Web documents.</description>
