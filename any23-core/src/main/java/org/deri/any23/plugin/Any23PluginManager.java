@@ -18,6 +18,7 @@ package org.deri.any23.plugin;
 
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
+import net.xeoh.plugins.base.util.PluginManagerUtil;
 import org.deri.any23.configuration.Configuration;
 import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractorFactory;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -64,8 +66,11 @@ public class Any23PluginManager {
 
     private final PluginManager pluginManager;
 
+    private final PluginManagerUtil pluginManagerUtil;
+
     private Any23PluginManager() {
-        pluginManager = PluginManagerFactory.createPluginManager();
+        pluginManager     = PluginManagerFactory.createPluginManager();
+        pluginManagerUtil = new PluginManagerUtil(pluginManager);
     }
 
     /**
@@ -94,10 +99,9 @@ public class Any23PluginManager {
     /**
      * @return the list of {@link ExtractorPlugin}s detected in classpath.
      */
-    // TODO: discover how to retrieve more plugins implementing the same interface.
     public ExtractorPlugin[] getExtractorPlugins() {
-        final ExtractorPlugin extractorPlugin = pluginManager.getPlugin(ExtractorPlugin.class);
-        return extractorPlugin == null ?  new ExtractorPlugin[]{} : new ExtractorPlugin[] {extractorPlugin};
+        final Collection<ExtractorPlugin> extractorPlugins = pluginManagerUtil.getPlugins(ExtractorPlugin.class);
+        return extractorPlugins.toArray( new ExtractorPlugin[extractorPlugins.size()] );
     }
 
     /**
