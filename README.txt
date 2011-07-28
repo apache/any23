@@ -215,10 +215,21 @@ Make a New Release
 
 To prepare a new release, just verify that the are no local changes and then invoke:
 
-	mvn release:prepare -Dusername=<svn.username> -Dpassword=<svn.pass>
+	mvn release:prepare [-Dusername=<svn.username> -Dpassword=<svn.pass>]
 	
 if everything goes right, perform the release simply typing:
 
 	MAVEN_OPTS='-Xmx2048m' mvn release:perform
+
+
+Fix Release Procedure
+---------------------
+
+   Currently the *plugins/integration-test* module is excluded from the parent
+   reactor.
+   To fix it in tag follow procedure as described at issue #171:
+
+        http://code.google.com/p/any23/issues/detail?id=171
+
 
 EOF
