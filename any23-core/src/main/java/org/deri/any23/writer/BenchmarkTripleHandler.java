@@ -135,7 +135,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-        // Empty.
+        underlyingHandler.setContentLength(contentLength);
     }
 
     /**
