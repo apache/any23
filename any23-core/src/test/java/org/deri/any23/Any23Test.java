@@ -189,12 +189,16 @@ public class Any23Test {
                                      "@prefix : <http://other.example.org/ns#> ." +
                                      "foo:bar foo: : .                          " +
                                      ":bar : foo:bar .                           ";
-        // The second argument of StringDocumentSource() must be a valid URI.
+        //    The second argument of StringDocumentSource() must be a valid URI.
         /*3*/ DocumentSource source = new StringDocumentSource(content, "http://host.com/service");
         /*4*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
         /*5*/ TripleHandler handler = new NTriplesWriter(out);
+              try {
         /*6*/ runner.extract(source, handler);
-        /*7*/ String n3 = out.toString("UTF-8");
+              } finally {
+        /*7*/   handler.close();
+              }
+        /*8*/ String n3 = out.toString("UTF-8");
 
         /*
             <http://example.org/ns#bar> <http://example.org/ns#> <http://other.example.org/ns#> .
@@ -585,7 +589,9 @@ public class Any23Test {
         if (parsers.length != 0) {
             runner.setMIMETypeDetector(null);   // Use all the provided extractors.
         }
-        runner.extract(new StringDocumentSource(content, PAGE_URL), new NTriplesWriter(out));
+        final NTriplesWriter tripleHandler = new NTriplesWriter(out);
+        runner.extract(new StringDocumentSource(content, PAGE_URL), tripleHandler);
+        tripleHandler.close();
         String result = out.toString("us-ascii");
         Assert.assertNotNull(result);
         Assert.assertTrue(result.length() > 10);

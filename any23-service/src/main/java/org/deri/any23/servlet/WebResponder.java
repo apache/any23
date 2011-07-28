@@ -96,6 +96,7 @@ class WebResponder {
         final ExtractionReport er;
         try {
             er = runner.extract(eps, in, rdfWriter);
+            rdfWriter.close();
             if (! er.hasMatchingExtractors() ) {
                 sendError(
                         415,
