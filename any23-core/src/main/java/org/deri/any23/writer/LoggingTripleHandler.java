@@ -50,6 +50,8 @@ public class LoggingTripleHandler implements TripleHandler {
         }
         underlyingHandler = tripleHandler;
         this.destination = destination;
+
+        printHeader(destination);
     }
 
     public void startDocument(URI documentURI) throws TripleHandlerException {
@@ -84,7 +86,8 @@ public class LoggingTripleHandler implements TripleHandler {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 
-    public void endDocument(URI documentURI) {
+    public void endDocument(URI documentURI) throws TripleHandlerException {
+        underlyingHandler.endDocument(documentURI);
         long elapsedTime = System.currentTimeMillis() - startTime;
         boolean success = true;
         StringBuffer sb = new StringBuffer("[");
@@ -102,6 +105,11 @@ public class LoggingTripleHandler implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
+        underlyingHandler.setContentLength(contentLength);
         this.contentLength = contentLength;
+    }
+
+    private void printHeader(PrintWriter writer) {
+        writer.println("# Document-URI\tContent-Length\tElapsed-Time\tSuccess\tExtractors");
     }
 }
