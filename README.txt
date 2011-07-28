@@ -219,7 +219,23 @@ To prepare a new release, just verify that the are no local changes and then inv
 	
 if everything goes right, perform the release simply typing:
 
-	MAVEN_OPTS='-Xmx2048m' mvn release:perform
+	trunk$ MAVEN_OPTS='-Xmx2048m' mvn release:perform
+
+Checkout the just created tag:
+
+    cd any23/tags && svn up
+
+Package all modules for direct download:
+
+    $ cd tags/<curr-tag>/
+    <curr-tag>$ mvn clean package
+    cd ..
+    tar cvzf any23-<curr-tag>.tar.gz tags/<curr-tag>
+    zip   -r any23-<curr-tag>.zip    tags/<curr-tag>
+
+Upload the produced packages in download section:
+
+   http://code.google.com/p/any23/downloads/list
 
 
 Fix Release Procedure
