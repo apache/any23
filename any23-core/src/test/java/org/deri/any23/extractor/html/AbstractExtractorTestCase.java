@@ -186,6 +186,8 @@ public abstract class AbstractExtractorTestCase {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(
                 new HTMLFixture(name).getOpener(baseURI.toString()),
                 getExtractorFactory(), new RepositoryWriter(conn));
+        // TODO: MimeType detector to null forces the execution of all extractors, but extraction
+        //       tests should be based on mimetype detection.
         ex.setMIMETypeDetector(null);
         ex.run();
     }
