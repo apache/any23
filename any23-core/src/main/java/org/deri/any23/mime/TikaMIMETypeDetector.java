@@ -224,10 +224,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             InputStream input,
             MIMEType mimeTypeFromMetadata
     ) {
-       if( input != null && ! input.markSupported() ) {
-           throw new IllegalArgumentException("Invalid stream, must be resettable.");
-       }
-
         if(input != null) {
             try {
                 this.purifier.purify(input);
@@ -236,7 +232,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             }
         }
 
-        Metadata meta = new Metadata();
+        final Metadata meta = new Metadata();
         if (mimeTypeFromMetadata != null)
             meta.set(Metadata.CONTENT_TYPE, mimeTypeFromMetadata.getFullType());
         if (fileName != null)
@@ -244,7 +240,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 
         String type;
         try {
-            String mt = getMimeType(input, meta);
+            final String mt = guessMimeTypeByInputAndMeta(input, meta);
             if( ! MimeTypes.OCTET_STREAM.equals(mt) ) {
                 type = mt;
             } else {
@@ -294,53 +290,63 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @return MIME type of the document
      * @throws IOException if the document stream could not be read
      */
-    private String getMimeType(InputStream stream, final Metadata metadata) throws IOException {
+    private String guessMimeTypeByInputAndMeta(InputStream stream, final Metadata metadata)
+    throws IOException {
         if (stream != null) {
-            this.purifier.purify(stream);
             final String type = tika.detect(stream);
-            if (
-                    type != null
-                            &&
-                    !type.equals(MimeTypes.OCTET_STREAM)
-                            &&
-                    !type.equals(MimeTypes.PLAIN_TEXT)
-                            &&
-                    !type.equals(MimeTypes.XML)
-            ) {
+            if ( type != null && ! isGenericMIMEType(type) ) {
                 return type;
             }
         }
 
-        // Get type based on metadata hint (if available).
-        String typename = metadata.get(Metadata.CONTENT_TYPE);
-        if (typename != null) {
+        // Determines the MIMEType based on Content-Type hint if available.
+        final String contentType = metadata.get(Metadata.CONTENT_TYPE);
+        String candidateMIMEType = null;
+        if (contentType != null) {
             try {
-                MimeType type = types.forName(typename);
-                if (type != null && !type.toString().equals(MimeTypes.OCTET_STREAM)) {
-                    return type.toString();
+                MimeType type = types.forName(contentType);
+                if (type != null) {
+                    if( ! isPlainMIMEType(type.getName()) ) {
+                        return type.getName();
+                    } else {
+                        candidateMIMEType = type.getName();
+                    }
                 }
             }
             catch (MimeTypeException mte) {
-                // Malformed type name, ignore.
+                // Malformed ocntent-type value, ignore.
             }
         }
 
-        // Get type based on resourceName hint (if available)
-        String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
+        // Determines the MIMEType based on resource name hint if available.
+        final String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
         if (resourceName != null) {
             MimeType type = types.getMimeType(resourceName);
             if (type != null) {
-                return type.toString();
+                return type.getName();
             }
         }
 
         // Finally, use the default type if no matches found
-        try {
-            return types.forName(MimeTypes.OCTET_STREAM).toString();
-        } catch (MimeTypeException e) {
-            // Should never happen
-            return null;
+        if(candidateMIMEType != null) {
+            return candidateMIMEType;
+        } else {
+            return MimeTypes.OCTET_STREAM;
         }
+    }
+
+    private boolean isPlainMIMEType(String type) {
+        return
+            type.equals(MimeTypes.OCTET_STREAM)
+                ||
+            type.equals(MimeTypes.PLAIN_TEXT);
+    }
+
+    private boolean isGenericMIMEType(String type) {
+        return
+            isPlainMIMEType(type)
+                ||
+            type.equals(MimeTypes.XML);
     }
 
 }

@@ -45,7 +45,7 @@ public class TikaMIMETypeDetectorTest {
     private final static String TURTLE = "application/x-turtle";
     private final static String N3     = "text/rdf+n3";
     private final static String NQuads = "text/rdf+nq";
-    private final static String CSV = "text/csv";
+    private final static String CSV    = "text/csv";
 
     private TikaMIMETypeDetector detector;
 
@@ -166,77 +166,83 @@ public class TikaMIMETypeDetectorTest {
         detectMIMEtypeByContent("application/zip", "src/test/resources/application/zip");
     }
 
+    // TODO:  we need a method to detect a CSV by content @Test
+    public void testDetectCSVByContent() throws Exception {
+        detectMIMEtypeByContent("text/csv", "src/test/resources/org/deri/any23/extractor/csv/");
+    }
+
     /* END: by content. */
 
     /* BEGIN: by content metadata. */
 
     @Test
     public void testDetectContentPlainByMeta() throws IOException {
-        detectMIMETypeByMetadata("text/plain", "text/plain", "foo.rdf");
+        detectMIMETypeByMimeTypeHint("text/plain", "text/plain");
     }
 
     @Test
     public void testDetectTextRDFByMeta() throws IOException {
-        detectMIMETypeByMetadata("application/rdf+xml", "text/rdf", "foo");
+        detectMIMETypeByMimeTypeHint("application/rdf+xml", "text/rdf");
     }
 
     @Test
     public void testDetectTextN3ByMeta() throws IOException {
-        detectMIMETypeByMetadata(N3, "text/rdf+n3", "foo");
+        detectMIMETypeByMimeTypeHint(N3, "text/rdf+n3");
     }
 
     @Test
     public void testDetectTextNQuadsByMeta() throws IOException {
-        detectMIMETypeByMetadata(NQuads, "text/rdf+nq", "foo");
+        detectMIMETypeByMimeTypeHint(NQuads, "text/rdf+nq");
     }
 
     @Test
     public void testDetectTextTurtleByMeta() throws IOException {
-        detectMIMETypeByMetadata(TURTLE, "text/turtle", "foo");
+        detectMIMETypeByMimeTypeHint(TURTLE, "text/turtle");
     }
 
     @Test
     public void testDetectRDFXMLByMeta() throws IOException {
-        detectMIMETypeByMetadata(RDFXML, "application/rdf+xml", "foo");
+        detectMIMETypeByMimeTypeHint(RDFXML, "application/rdf+xml");
     }
 
     @Test
     public void testDetectXMLByMeta() throws IOException {
-        detectMIMETypeByMetadata(XML, "application/xml", "foo.rdf");
+        detectMIMETypeByMimeTypeHint(XML, "application/xml");
     }
 
     @Test
     public void testDetectXMLByMeta2() throws IOException {
-        detectMIMETypeByMetadata(XML, "application/xml", "foo");
+        detectMIMETypeByMimeTypeHint(XML, "application/xml");
     }
 
     @Test
     public void testDetectExtensionN3ByMeta() throws IOException {
-        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.n3");
+        detectMIMETypeByMimeTypeHint(PLAIN, "text/plain");
     }
 
     @Test
     public void testDetectXHTMLByMeta() throws IOException {
-        detectMIMETypeByMetadata(XHTML, "application/xhtml+xml", "foo");
+        detectMIMETypeByMimeTypeHint(XHTML, "application/xhtml+xml");
     }
 
     @Test
     public void testDetectTextHTMLByMeta() throws IOException {
-        detectMIMETypeByMetadata(HTML, "text/html", "foo");
+        detectMIMETypeByMimeTypeHint(HTML, "text/html");
     }
 
     @Test
     public void testDetectTextPlainByMeta() throws IOException {
-        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.html");
-        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.htm");
-        detectMIMETypeByMetadata(PLAIN, "text/plain", "foo.xhtml");
+        detectMIMETypeByMimeTypeHint(PLAIN, "text/plain");
     }
 
     @Test
     public void testDetectApplicationXMLByMeta() throws IOException {
-        detectMIMETypeByMetadata(XML, "application/xml", "foo.html");
-        detectMIMETypeByMetadata(XML, "application/xml", "foo.htm");
-        detectMIMETypeByMetadata(XML, "application/xml", "foo.xhtml");
+        detectMIMETypeByMimeTypeHint(XML, "application/xml");
+    }
+
+    @Test
+    public void testDetectApplicationCSVByMeta() throws IOException {
+        detectMIMETypeByMimeTypeHint(CSV, "text/csv");
     }
 
     /* END: by content metadata. */
@@ -299,7 +305,7 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
-    public void testCSVByName() throws Exception {
+    public void testCSVByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("text/csv","src/test/resources/org/deri/any23/extractor/csv");
     }
 
@@ -362,30 +368,16 @@ public class TikaMIMETypeDetectorTest {
      *
      * @param expectedMimeType
      * @param contentTypeHeader
-     * @param fileName
      * @throws IOException
      */
-    private void detectMIMETypeByMetadata(String expectedMimeType, String contentTypeHeader, String fileName)
+    private void detectMIMETypeByMimeTypeHint(String expectedMimeType, String contentTypeHeader)
     throws IOException {
-        File f = new File(fileName);
-        if (f.getName().startsWith(".")) return;
-
-        InputStream is = null;
-        if (f.exists()) is = getInputStream(f);
-
         String detectedMimeType = detector.guessMIMEType(
                 null,
                 null,
                 MIMEType.parse(contentTypeHeader)
         ).toString();
-
-        if (f.getName().startsWith("error"))
-            Assert.assertNotSame(expectedMimeType, detectedMimeType);
-        else {
-            Assert.assertEquals(expectedMimeType, detectedMimeType);
-        }
-        if (is != null)
-            is.close();
+        Assert.assertEquals(expectedMimeType, detectedMimeType);
     }
 
     /**
