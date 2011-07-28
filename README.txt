@@ -221,14 +221,14 @@ if everything goes right, perform the release simply typing:
 
 	trunk$ MAVEN_OPTS='-Xmx2048m' mvn release:perform
 
-Checkout the just created tag:
+Export the just created tag:
 
-    cd any23/tags && svn up
+    tmp-dir$ svn export <path/to/curr-tag>
 
 Package all modules for direct download:
 
-    $ cd tags/<curr-tag>/
-    <curr-tag>$ mvn clean package
+    $ cd <curr-tag-export>/
+    <curr-tag-export>$ mvn clean package
     cd ..
     tar cvzf any23-<curr-tag>.tar.gz tags/<curr-tag>
     zip   -r any23-<curr-tag>.zip    tags/<curr-tag>
