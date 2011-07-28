@@ -46,7 +46,7 @@ public class Any23PluginManagerTest {
      * 'Assemblies the HTML Scraper plugin' in module POM.
      */
     private static final String TEST_PLUGIN_LOCATION =
-            "./target/plugins/target/html-scraper-1.0.0-SNAPSHOT-extractor-plugin.jar";
+            "./target/plugins/target/html-scraper-1.0.0-extractor-plugin.jar";
 
     private Any23PluginManager pluginManager;
 

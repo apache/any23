@@ -24,14 +24,14 @@
     <parent>
         <groupId>org.deri.any23</groupId>
         <artifactId>any23-parent</artifactId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.6.1</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.deri.any23.plugin</groupId>
     <artifactId>integration-test</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>Plugins Integration Test</name>
     <description>Integration tests suite for Any23 plugins.</description>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.deri.any23</groupId>
             <artifactId>any23-core</artifactId>
-            <version>${any23.version}</version>
+            <version>0.6.1</version>
         </dependency>
     </dependencies>
 
