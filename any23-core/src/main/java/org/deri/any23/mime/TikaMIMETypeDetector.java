@@ -22,6 +22,7 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.deri.any23.extractor.csv.CSVReaderBuilder;
 import org.deri.any23.mime.purifier.Purifier;
 import org.deri.any23.mime.purifier.WhiteSpacesPurifier;
 import org.openrdf.rio.RDFParser;
@@ -45,11 +46,15 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 
     private Purifier purifier;
 
+    // TODO: centralize mimetype strings somewhere.
+
     public static final String N3_MIMETYPE = "text/n3";
 
     public static final String NQUADS_MIMETYPE = "text/nq";
 
     public static final String TURTLE_MIMETYPE = "application/turtle";
+
+    public static final String CSV_MIMETYPE = "text/csv";
 
     public static final String RESOURCE_NAME = "/org/deri/any23/mime/tika-config.xml";
 
@@ -121,6 +126,17 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * Checks if the stream contains a valid <i>CSV</i> pattern.
+     *
+     * @param is input stream to be verified.
+     * @return <code>true</code> if <i>CSV</i> patterns are detected, <code>false</code> otherwise.
+     * @throws IOException
+     */
+    public static boolean checkCSVFormat(InputStream is) throws IOException {
+        return CSVReaderBuilder.isCSV(is);
     }
 
     public static void main(String[] args) {
@@ -250,7 +266,10 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                     type = NQUADS_MIMETYPE;
                 } else if( checkTurtleFormat(input) ) {
                     type = TURTLE_MIMETYPE;
-                } else {
+                } else if( checkCSVFormat(input) ) {
+                    type = CSV_MIMETYPE;
+                }
+                else {
                     type = MimeTypes.OCTET_STREAM; 
                 }
             }

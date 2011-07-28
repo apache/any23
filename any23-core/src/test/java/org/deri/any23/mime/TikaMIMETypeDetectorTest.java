@@ -166,7 +166,7 @@ public class TikaMIMETypeDetectorTest {
         detectMIMEtypeByContent("application/zip", "src/test/resources/application/zip");
     }
 
-    // TODO:  we need a method to detect a CSV by content @Test
+    @Test
     public void testDetectCSVByContent() throws Exception {
         detectMIMEtypeByContent("text/csv", "src/test/resources/org/deri/any23/extractor/csv/");
     }
