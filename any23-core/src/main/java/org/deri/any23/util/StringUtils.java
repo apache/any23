@@ -25,6 +25,26 @@ package org.deri.any23.util;
 public class StringUtils {
 
     /**
+     * Joins the given input sting <code>data</code> list
+     * using the specified <code>delimiter</code>.
+     *
+     * @param delimiter string delimiter.
+     * @param data list of data to be joined.
+     * @return the joined string.
+     */
+    public static String join(String delimiter, String... data) {
+        final StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < data.length; i++) {
+            sb.append(data[i]);
+            if (i >= data.length - 1) {
+                break;
+            }
+            sb.append(delimiter);
+        }
+        return sb.toString();
+    }
+
+    /**
      * Counts how many times <code>content</code> appears within <code>container</code>
      * without string overlapping.
      *
