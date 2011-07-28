@@ -1,3 +1,11 @@
+                               Any23 0.6.1
+                              Release Notes
+
+Fixes
+
+ * Improved MIMEType detection for CSV input. [172, 176]
+
+==========================================================================
 
                                Any23 0.6.0
                               Release Notes
