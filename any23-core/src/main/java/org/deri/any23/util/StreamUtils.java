@@ -41,10 +41,11 @@ public class StreamUtils {
      * Returns the string content of a stream.
      *
      * @param is input stream.
+     * @param preserveNL preserves new line chars.
      * @return the string content.
      * @throws IOException if an error occurs while consuming the <code>is</code> stream.
      */
-    public static String asString(InputStream is) throws IOException {
+    public static String asString(InputStream is, boolean preserveNL) throws IOException {
         if (is == null) {
             throw new NullPointerException("input stream is null.");
         }
@@ -53,13 +54,25 @@ public class StreamUtils {
             final StringBuilder content = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
-                content.append(line).append('\n');
+                content.append(line);
+                if(preserveNL) content.append('\n');
             }
             return content.toString();
         } finally {
             closeGracefully(br);
         }
     }
+
+    /**
+     * Returns the string content of a stream, new line chars will be removed.
+     *
+     * @param is input stream.
+     * @return the string content.
+     * @throws IOException if an error occurs while consuming the <code>is</code> stream.
+     */
+     public static String asString(InputStream is) throws IOException {
+         return asString(is, false);
+     }
 
     /**
      * Closes the closable interface and reports error if any.

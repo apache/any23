@@ -66,12 +66,12 @@ public class StringUtils {
     }
 
     /**
-     * Counts the number of <code>CR</code> in the given <i>in</i> string.
+     * Counts the number of <code>NL</code> in the given <i>in</i> string.
      *
      * @param in input string.
-     * @return the number of carriage returns.
+     * @return the number of new line chars.
      */
-    public static int countCR(String in) {
+    public static int countNL(String in) {
         return countOccurrences(in, "\n");
     }
 

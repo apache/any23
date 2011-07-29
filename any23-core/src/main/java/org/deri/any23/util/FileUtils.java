@@ -171,7 +171,7 @@ public class FileUtils {
      */
     public static String readFileContent(File f) throws IOException {
         FileInputStream fis = new FileInputStream(f);
-        return StreamUtils.asString(fis);
+        return StreamUtils.asString(fis, true);
     }
 
     /**
