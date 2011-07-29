@@ -18,8 +18,10 @@
 package org.deri.any23.cli;
 
 import org.deri.any23.Any23OnlineTestBase;
+import org.junit.Assert;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Base class for <i>CLI</i> related tests.
@@ -41,8 +43,8 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      * Runs the underlying tool.
      *
      * @param args tool arguments.
-     * @throws Exception
      * @return the tool exit code.
+     * @throws Exception
      */
     protected int runTool(String... args)
     throws Exception {
@@ -55,11 +57,29 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      * Runs the underlying tool.
      *
      * @param args args tool arguments.
-     * @throws Exception
      * @return the tool exit code.
+     * @throws Exception
      */
     protected int runTool(String args) throws Exception {
         return runTool(args.split(" "));
+    }
+
+    /**
+     * Runs the underlying tool and verify the exit code to <code>0</code>.
+     *
+     * @param args tool arguments.
+     * @throws Exception
+     */
+    protected void runToolCheckExit0(String... args) throws Exception {
+        Assert.assertEquals(
+                String.format(
+                        "Unexpected exit code for tool [%s] invoked with %s",
+                        toolClazz.getSimpleName(),
+                        Arrays.asList(args)
+                ),
+                0,
+                runTool(args)
+        );
     }
 
 }
