@@ -148,6 +148,7 @@ public class RDFParserFactory {
      * @param extractionContext the extraction context in which the parser is used.
      * @param extractionResult the extraction result used to collect the parsed data.
      */
+    // TODO: what about passing just default language and ErrorReport to configureParser() ?
     private void configureParser(
             final RDFParser parser,
             final boolean verifyDataType,
