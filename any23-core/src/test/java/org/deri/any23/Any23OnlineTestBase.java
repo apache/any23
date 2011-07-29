@@ -18,7 +18,6 @@
 package org.deri.any23;
 
 import org.junit.Assume;
-import org.junit.BeforeClass;
 
 /**
  * Base class for any <code>Any23</code> test class containing online tests
@@ -34,7 +33,6 @@ public abstract class Any23OnlineTestBase {
     /**
      * Check whether or not running online tests.
      */
-    @BeforeClass
     public static void assumeOnlineAllowed() {
         Assume.assumeTrue(System.getProperty(ONLINE_TEST_DISABLED_FLAG, null) == null);
     }
