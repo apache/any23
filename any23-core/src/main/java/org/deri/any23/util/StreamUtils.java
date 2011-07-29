@@ -84,7 +84,7 @@ public class StreamUtils {
             try {
                 closable.close();
             } catch (Exception e) {
-                logger.error("Error while closing closable object.", e);
+                logger.error("Error while closing object " + closable, e);
             }
         }
     }
