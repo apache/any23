@@ -62,7 +62,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
                     Arrays.asList(
                             "text/csv;q=0.1"
                     ),
-                    "example-csv.csv",
+                    null,
                     CSVExtractor.class
             );
 
