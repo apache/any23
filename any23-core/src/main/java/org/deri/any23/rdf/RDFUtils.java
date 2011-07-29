@@ -16,6 +16,7 @@
 
 package org.deri.any23.rdf;
 
+import org.deri.any23.parser.NQuadsParser;
 import org.deri.any23.util.MathUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -27,22 +28,45 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.rio.RDFHandler;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.ntriples.NTriplesParser;
+import org.openrdf.rio.rdfxml.RDFXMLParser;
+import org.openrdf.rio.turtle.TurtleParser;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Basic class providing a set of utility methods when dealing with <i>RDF</i>.
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
+ * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class RDFUtils {
+
+    /**
+     * List of supported <i>RDF</i> parsers.
+     */
+    public enum Parser {
+        RDFXML,
+        Turtle,
+        NTriples,
+        NQuads
+    }
 
     private static final ValueFactory valueFactory = ValueFactoryImpl.getInstance();
 
@@ -153,40 +177,72 @@ public class RDFUtils {
         return escapedURI;
     }
 
+    /**
+     * Creates a {@link URI}.
+     */
     public static URI uri(String uri) {
         return valueFactory.createURI(uri);
     }
 
+    /**
+     * Creates a {@link URI}.
+     */
     public static URI uri(String namespace, String localName) {
         return valueFactory.createURI(namespace, localName);
     }
 
+    /**
+     * Creates a {@link Literal}.
+     */
     public static Literal literal(String s) {
         return valueFactory.createLiteral(s);
     }
 
+    /**
+     * Creates a {@link Literal}.
+     */
     public static Literal literal(String s, String l) {
         return valueFactory.createLiteral(s, l);
     }
 
+    /**
+     * Creates a {@link Literal}.
+     */
     public static Literal literal(String s, URI datatype) {
         return valueFactory.createLiteral(s, datatype);
     }
 
+    /**
+     * Creates a {@link BNode}.
+     */
     public static BNode getBNode(String id) {
         return valueFactory.createBNode(
             "node" + MathUtils.md5(id)
         );
     }
 
+    /**
+     * Creates a {@link Statement}.
+     */
     public static Statement triple(Resource s, URI p, Value o) {
         return valueFactory.createStatement(s, p, o);
     }
 
+    /**
+     * Creates a {@link Statement}.
+     */
     public static Statement quad(Resource s, URI p, Value o, Resource g) {
         return valueFactory.createStatement(s, p, o, g);
     }
 
+    /**
+     * Creates a {@link Value}. If <code>s == 'a'</code> returns
+     * an {@link RDF#TYPE}. If <code> s.matches('[a-z0-9]+:.*')</code>
+     * expands the corresponding prefix using {@link PopularPrefixes}.
+     *
+     * @param s
+     * @return a value instance.
+     */
     public static Value toRDF(String s) {
         if ("a".equals(s)) return RDF.TYPE;
         if (s.matches("[a-z0-9]+:.*")) {
@@ -195,11 +251,104 @@ public class RDFUtils {
         return valueFactory.createLiteral(s);
     }
 
+    /**
+     * Creates a statement of type: <code>toRDF(s), toRDF(p), toRDF(o)</code>
+     *
+     * @param s subject.
+     * @param p predicate.
+     * @param o object.
+     * @return a statement instance.
+     */
     public static Statement toTriple(String s, String p, String o) {
         return valueFactory.createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
     }
 
-     public static boolean isAbsoluteURI(String href) {
+    /**
+     * Creates a new {@link RDFParser} instance.
+     *
+     * @param p parser type.
+     * @return parser instance.
+     * @throws IllegalArgumentException if parser is unsupported.
+     */
+    public static RDFParser getRDFParser(Parser p) {
+        switch (p) {
+            case RDFXML:
+                return new RDFXMLParser();
+            case Turtle:
+                return new TurtleParser();
+            case NTriples:
+                return new NTriplesParser();
+            case NQuads:
+                return new NQuadsParser();
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    /**
+     * Parses the content of <code>is</code> input stream with the
+     * specified parser <code>p</code> using <code>baseURI</code>.
+     *
+     * @param p parser type.
+     * @param is input stream containing <code>RDF</data>.
+     * @param baseURI base uri.
+     * @return list of statements detected within the input stream.
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    public static Statement[] parseRDF(Parser p, InputStream is, String baseURI)
+    throws RDFHandlerException, IOException, RDFParseException {
+        final BufferRDFHandler handler = new BufferRDFHandler();
+        final RDFParser parser = getRDFParser(p);
+        parser.setVerifyData(true);
+        parser.setStopAtFirstError(true);
+        parser.setPreserveBNodeIDs(true);
+        parser.setRDFHandler(handler);
+        parser.parse(is, baseURI);
+        return handler.statements.toArray( new Statement[handler.statements.size()] );
+    }
+
+    /**
+     * Parses the content of <code>is</code> input stream with the
+     * specified parser <code>p</code> using <code>''</code> as base URI.
+     *
+     * @param p parser type.
+     * @param is input stream containing <code>RDF</data>.
+     * @return list of statements detected within the input stream.
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    public static Statement[] parseRDF(Parser p, InputStream is)
+    throws RDFHandlerException, IOException, RDFParseException {
+        return parseRDF(p, is, "");
+    }
+
+    /**
+     * Parses the content of <code>in</code> string with the
+     * specified parser <code>p</code> using <code>''</code> as base URI.
+     *
+     * @param p parser type.
+     * @param in input string containing <code>RDF</data>.
+     * @return list of statements detected within the input string.
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    public static Statement[] parseRDF(Parser p, String in)
+    throws RDFHandlerException, IOException, RDFParseException {
+        return parseRDF(p, new ByteArrayInputStream(in.getBytes()));
+    }
+
+    /**
+     * Checks if <code>href</code> is absolute or not.
+     *
+     * @param href candidate URI.
+     * @return <code>true</code> if <code>href</code> is absolute,
+     *         <code>false</code> otherwise.
+     */
+    public static boolean isAbsoluteURI(String href) {
         try {
             new URIImpl(href.trim());
             new java.net.URI(href.trim());
@@ -209,8 +358,43 @@ public class RDFUtils {
         } catch (URISyntaxException e) {
             return false;
         }
-     }
+    }
 
     private RDFUtils() {}
+
+    private static class BufferRDFHandler implements RDFHandler {
+
+        private final List<Statement> statements = new ArrayList<Statement>();
+
+        private int documents = 0;
+        private boolean open = false;
+
+        @Override
+        public void startRDF() throws RDFHandlerException {
+            documents++;
+            open = true;
+        }
+
+        @Override
+        public void endRDF() throws RDFHandlerException {
+            open = false;
+        }
+
+        @Override
+        public void handleNamespace(String s, String s1) throws RDFHandlerException {
+            // Empty.
+        }
+
+        @Override
+        public void handleStatement(Statement statement) throws RDFHandlerException {
+            statements.add(statement);
+        }
+
+        @Override
+        public void handleComment(String s) throws RDFHandlerException {
+            // Empty.
+        }
+
+    }
 
 }
