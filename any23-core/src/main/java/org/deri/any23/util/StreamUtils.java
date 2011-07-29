@@ -17,7 +17,11 @@
 
 package org.deri.any23.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,6 +32,8 @@ import java.io.InputStreamReader;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class StreamUtils {
+
+    private static final Logger logger = LoggerFactory.getLogger(StreamUtils.class);
 
     private StreamUtils(){}
 
@@ -47,11 +53,26 @@ public class StreamUtils {
             final StringBuilder content = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
-                content.append(line);
+                content.append(line).append('\n');
             }
             return content.toString();
         } finally {
-            br.close();
+            closeGracefully(br);
+        }
+    }
+
+    /**
+     * Closes the closable interface and reports error if any.
+     *
+     * @param closable the closable object to be closed.
+     */
+    public static void closeGracefully(Closeable closable) {
+        if (closable != null) {
+            try {
+                closable.close();
+            } catch (Exception e) {
+                logger.error("Error while closing closable object.", e);
+            }
         }
     }
 

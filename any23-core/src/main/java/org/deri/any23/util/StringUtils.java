@@ -52,7 +52,7 @@ public class StringUtils {
      * @param content content string.
      * @return occurrences count.
      */
-    public static int countOccurrences(String container, String content){
+    public static int countOccurrences(String container, String content) {
         int lastIndex, currIndex = 0, occurrences = 0;
         while(true) {
             lastIndex = container.indexOf(content, currIndex);
@@ -64,6 +64,17 @@ public class StringUtils {
         }
         return occurrences;
     }
+
+    /**
+     * Counts the number of <code>CR</code> in the given <i>in</i> string.
+     *
+     * @param in input string.
+     * @return the number of carriage returns.
+     */
+    public static int countCR(String in) {
+        return countOccurrences(in, "\n");
+    }
+
 
     /**
      * Check whether string <code>candidatePrefix</code> is prefix of string <code>container</code>.
