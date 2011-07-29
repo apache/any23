@@ -34,6 +34,7 @@ import java.util.jar.JarInputStream;
  * @see org.deri.any23.cli.ExtractorDocumentation
  * @see org.deri.any23.cli.Rover
  */
+// TODO: this code should use inspection facilities to detect CLI declared in plugins.
 @ToolRunner.Skip
 public class ToolRunner {
 

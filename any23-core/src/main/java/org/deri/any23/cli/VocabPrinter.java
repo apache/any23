@@ -27,15 +27,25 @@ import java.io.IOException;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @ToolRunner.Description("Prints out the RDF Schema of the vocabularies used by Any23.")
-public class VocabPrinter {
+public class VocabPrinter implements Tool {
 
     public static void main(String[] args) throws IOException {
+        System.exit( new VocabPrinter().run(args) );
+    }
+
+    public int run(String[] args) {
         final BufferedOutputStream bos = new BufferedOutputStream(System.out);
         try {
             RDFSchemaUtils.serializeVocabulariesToNQuads(System.out);
+        }catch (Exception e) {
+            e.printStackTrace(System.err);
+            return 1;
         } finally {
-            bos.close();
+            try {
+                bos.flush();
+            } catch (IOException ioe) { ioe.printStackTrace(System.err); }
         }
+        return 0;
     }
 
 }

@@ -36,7 +36,7 @@ import java.io.IOException;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 @ToolRunner.Description("Utility for processing output log.")
-public class Eval {
+public class Eval implements Tool {
 
     /**
      * A simple main for testing.
@@ -46,11 +46,11 @@ public class Eval {
      * @throws IOException
      */
     public static void main(String[] args) throws FileNotFoundException {
-        new Eval().run(args);
+        System.exit(new Eval().run(args));
     }
 
-    private void run(String[] args) throws FileNotFoundException {
-        Options options = new Options();
+    public int run(String[] args) {
+        final Options options = new Options();
         Option inputFile = new Option("i", true, "input file");
         options.addOption(inputFile);
         Option inputDir = new Option("d", true, "input directory containing the log files");
@@ -58,31 +58,40 @@ public class Eval {
         Option outputFile = new Option("o", "output", true, "output file (defaults to stdout)");
         options.addOption(outputFile);
 
-        CommandLineParser parser = new PosixParser();
-        CommandLine cmd;
+        final CommandLineParser parser = new PosixParser();
+        final CommandLine cmd;
         try {
             cmd = parser.parse(options, args);
         } catch (ParseException e) {
             printHelp(options, e.getMessage());
-            throw new IllegalStateException();
+            return 1;
         }
 
-        LogEvaluator l = new LogEvaluator(cmd.getOptionValue("o"));
-        if (cmd.hasOption("i"))
-            l.analyseFile(cmd.getOptionValue("i"));
-        else if (cmd.hasOption("d"))
-            l.analyseDirectory(cmd.getOptionValue("d"));
-        else
-            printHelp(options, "Must specify at least one option.");
+        LogEvaluator l = null;
+        try {
+            l = new LogEvaluator(cmd.getOptionValue("o"));
+            if (cmd.hasOption("i"))
+                l.analyseFile(cmd.getOptionValue("i"));
+            else if (cmd.hasOption("d"))
+                l.analyseDirectory(cmd.getOptionValue("d"));
+            else {
+                printHelp(options, "Must specify at least one option.");
+                return 2;
+            }
+        } catch (FileNotFoundException fnfe) {
+            fnfe.printStackTrace(System.err);
+            return 3;
+        } finally {
+            if (l != null) l.close();
+        }
 
-        l.close();
-	}
+        return 0;
+    }
 
     private void printHelp(Options options, String msg) {
         System.err.println("***ERROR: " + msg);
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp(this.getClass().getSimpleName() + " [file|url]", options, true);
-        System.exit(1);
     }
     
 }

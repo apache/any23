@@ -21,7 +21,6 @@ package org.deri.any23.cli;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-// TODO: add this interface to every existing tool.
 public interface Tool {
 
     /**

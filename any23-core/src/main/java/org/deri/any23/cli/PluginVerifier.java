@@ -33,28 +33,24 @@ import java.util.Collection;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @ToolRunner.Description("Utility for plugin management verification.")
-public class PluginVerifier {
+public class PluginVerifier implements Tool {
 
     private Any23PluginManager pluginManager = Any23PluginManager.getInstance();
 
     public static void main(String[] args) {
-        new PluginVerifier().run(args);
+        System.exit( new PluginVerifier().run(args) );
     }
 
-    private void printHelp(String msg) {
-        System.err.println("***ERROR: " + msg);
-        System.err.println("Usage: " + this.getClass().getSimpleName() + " <plugins-dir>");
-        System.exit(1);
-    }
-
-    private void run(String[] args) {
+    public int run(String[] args) {
         if(args.length != 1) {
             printHelp("Invalid argument.");
+            return 1;
         }
 
         final File pluginsDir = new File(args[0]);
         if(!pluginsDir.isDirectory()) {
             printHelp("<plugins-dir> must be a valid dir.");
+            return 1;
         }
 
         pluginManager.loadPlugins(pluginsDir);
@@ -64,6 +60,12 @@ public class PluginVerifier {
             printPluginData(p, System.out);
             System.out.println("-----------------------------");
         }
+        return 0;
+    }
+
+    private void printHelp(String msg) {
+        System.err.println("***ERROR: " + msg);
+        System.err.println("Usage: " + this.getClass().getSimpleName() + " <plugins-dir>");
     }
 
     private String getMimeTypesStr(Collection<MIMEType> mimeTypes) {

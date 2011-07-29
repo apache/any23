@@ -33,10 +33,10 @@ import java.io.IOException;
  * about available extractors and their usage.
  */
 @ToolRunner.Description("Utility for obtaining documentation about metadata extractors.")
-public class ExtractorDocumentation {
+public class ExtractorDocumentation implements Tool {
 
     /**
-     * Main method to access the class functionalities.
+     * Main method to access the class functionality.
      *
      * Usage:
      *     ExtractorDocumentation -list
@@ -46,7 +46,7 @@ public class ExtractorDocumentation {
      *       shows example input for the given extractor
      *
      *     ExtractorDocumentation -o extractor-name
-     *       shows example input for the given extractor
+     *       shows example output for the given extractor
      *
      *     ExtractorDocumentation -all
      *       shows a report about all available extractors
@@ -56,56 +56,67 @@ public class ExtractorDocumentation {
      * @throws IOException
      */
     public static void main(String[] args) throws ExtractionException, IOException {
+        System.exit( new ExtractorDocumentation().run(args) );
+    }
+
+    public int run(String[] args) {
         LogUtil.setDefaultLogging();
+        try {
+            if (args.length == 0) {
+                printUsage();
+                return 1;
+            }
 
-        if (args.length == 0) {
-            printUsageAndExit();
+            final String option = args[0];
+            if ("-list".equals(option)) {
+                if (args.length > 1) {
+                    printUsage();
+                    return 2;
+                }
+                printExtractorList();
+            }
+            else if ("-i".equals(option)) {
+                if (args.length > 2) {
+                    printUsage();
+                    return 3;
+                }
+                if (args.length < 2) {
+                    printError("Required argument for -i: extractor name");
+                    return 4;
+                }
+                printExampleInput(args[1]);
+            }
+            else if ("-o".equals(option)) {
+                if (args.length > 2) {
+                    printUsage();
+                    return 5;
+                }
+                if (args.length < 2) {
+                    printError("Required argument for -o: extractor name");
+                    return 6;
+                }
+                printExampleOutput(args[1]);
+            }
+            else if ("-all".equals(option)) {
+                if (args.length > 1) {
+                    printUsage();
+                    return 7;
+                }
+                printReport();
+            } else {
+                printUsage();
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return 8;
         }
-
-        if ("-list".equals(args[0])) {
-            if (args.length > 1) {
-                printUsageAndExit();
-            }
-            printExtractorList();
-            return;
-        }
-
-        if ("-i".equals(args[0])) {
-            if (args.length > 2) {
-                printUsageAndExit();
-            }
-            if (args.length < 2) {
-                printErrorAndExit("Required argument for -i: extractor name");
-            }
-            printExampleInput(args[1]);
-            return;
-        }
-
-        if ("-o".equals(args[0])) {
-            if (args.length > 2) {
-                printUsageAndExit();
-            }
-            if (args.length < 2) {
-                printErrorAndExit("Required argument for -o: extractor name");
-            }
-            printExampleOutput(args[1]);
-            return;
-        }
-        
-        if ("-all".equals(args[0])) {
-            if (args.length > 1) {
-                printUsageAndExit();
-            }
-            printReport();
-            return;
-        }
-        printUsageAndExit();
+        return 0;
     }
 
     /**
      * Prints the command line usage help.
      */
-    public static void printUsageAndExit() {
+    public void printUsage() {
         System.out.println("Usage:");
         System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -list");
         System.out.println("      shows the names of all available extractors");
@@ -119,7 +130,6 @@ public class ExtractorDocumentation {
         System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -all");
         System.out.println("      shows a report about all available extractors");
         System.out.println();
-        System.exit(2);
     }
 
     /**
@@ -127,15 +137,14 @@ public class ExtractorDocumentation {
      *
      * @param msg the error message to be printed
      */
-    public static void printErrorAndExit(String msg) {
+    public void printError(String msg) {
         System.err.println(msg);
-        System.exit(1);
     }
 
     /**
      * Prints the list of all the available extractors.
      */
-    public static void printExtractorList() {
+    public void printExtractorList() {
         for (String extractorName : ExtractorRegistry.getInstance().getAllNames()) {
             System.out.println(extractorName);
         }
@@ -147,12 +156,12 @@ public class ExtractorDocumentation {
      * @param extractorName the name of the extractor
      * @throws IOException raised if no extractor is found with that name
      */
-    public static void printExampleInput(String extractorName) throws IOException {
+    public void printExampleInput(String extractorName) throws IOException {
         ExtractorFactory<?> factory = getFactory(extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
         String input = example.getExampleInput();
         if (input == null) {
-            printErrorAndExit("Extractor " + extractorName + " provides no example input");
+            throw new IllegalArgumentException("Extractor " + extractorName + " provides no example input");
         }
         System.out.println(input);
     }
@@ -164,12 +173,12 @@ public class ExtractorDocumentation {
      * @throws IOException raised if no extractor is found with that name
      * @throws ExtractionException
      */
-    public static void printExampleOutput(String extractorName) throws IOException, ExtractionException {
+    public void printExampleOutput(String extractorName) throws IOException, ExtractionException {
         ExtractorFactory<?> factory = getFactory(extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
         String output = example.getExampleOutput();
         if (output == null) {
-            printErrorAndExit("Extractor " + extractorName + " provides no example output");
+            throw new IllegalArgumentException("Extractor " + extractorName + " provides no example output");
         }
         System.out.println(output);
     }
@@ -180,7 +189,7 @@ public class ExtractorDocumentation {
      * @throws IOException
      * @throws ExtractionException
      */
-    public static void printReport() throws IOException, ExtractionException {
+    public void printReport() throws IOException, ExtractionException {
         for (String extractorName : ExtractorRegistry.getInstance().getAllNames()) {
             ExtractorFactory<?> factory = ExtractorRegistry.getInstance().getFactory(extractorName);
             ExampleInputOutput example = new ExampleInputOutput(factory);
@@ -198,23 +207,23 @@ public class ExtractorDocumentation {
         }
     }
 
-    private static ExtractorFactory<?> getFactory(String name) {
+    private ExtractorFactory<?> getFactory(String name) {
         if (!ExtractorRegistry.getInstance().isRegisteredName(name)) {
-            printErrorAndExit("Unknown extractor name: " + name);
+            throw new IllegalArgumentException("Unknown extractor name: " + name);
         }
         return ExtractorRegistry.getInstance().getFactory(name);
     }
 
-    private static String getType(ExtractorFactory<?> factory) {
+    private String getType(ExtractorFactory<?> factory) {
         Extractor<?> extractor = factory.createExtractor();
         if (extractor instanceof BlindExtractor) {
-            return "BlindExtractor";
+            return BlindExtractor.class.getSimpleName();
         }
         if (extractor instanceof TagSoupDOMExtractor) {
-            return "TagSoupDOMExtractor";
+            return TagSoupDOMExtractor.class.getSimpleName();
         }
         if (extractor instanceof ContentExtractor) {
-            return "ContentExtractor";
+            return ContentExtractor.class.getSimpleName();
         }
         return "?";
     }

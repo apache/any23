@@ -24,17 +24,21 @@ import org.deri.any23.Any23;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @ToolRunner.Description("Prints out the current library version and configuration information.")
-public class Version {
+public class Version implements Tool {
 
     public static void main(String[] args) {
+        System.exit( new Version().run(args) );
+    }
+
+    public int run(String[] args) {
         final String version = Any23.VERSION;
         if(version == null) {
             System.err.println("Error while retrieving configuration info.");
-            System.exit(1);
+            return 1;
         }
         System.out.println(String.format("Any23 Core v. %s", version));
         System.out.println();
-        System.exit(0);
+        return 0;
     }
 
 }

@@ -5,6 +5,7 @@ import org.deri.any23.http.DefaultHTTPClient;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
+import org.deri.any23.util.StreamUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,15 +22,19 @@ import java.util.regex.Pattern;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @ToolRunner.Description("Commandline Tool for extracting Microdata from file/HTTP source.")
-public class MicrodataParser {
+public class MicrodataParser implements Tool {
 
     private static final String HTTP_DOCUMENT_SOURCE = "^https?://.*";
     private static final String FILE_DOCUMENT_SOURCE = "^file:(.*)$";
 
     public static void main(String[] args) throws URISyntaxException, IOException {
+        System.exit( new MicrodataParser().run(args) );
+    }
+
+    public int run(String[] args) {
         if(args.length != 1) {
             System.err.println("USAGE: {http://path/to/resource.html|file:/path/to/local.file}");
-            System.exit(1);
+            return 1;
         }
         InputStream documentInputInputStream = null;
         try {
@@ -43,14 +48,14 @@ public class MicrodataParser {
         } catch (Exception e) {
             System.err.println("***ERROR: " + e.getMessage());
             e.printStackTrace();
-            System.exit(1);
+            return 1;
         } finally {
-            if(documentInputInputStream != null) documentInputInputStream.close();
+            if(documentInputInputStream != null) StreamUtils.closeGracefully(documentInputInputStream);
         }
-        System.exit(0);
+        return 0;
     }
 
-    private static DocumentSource getDocumentSource(String source) throws URISyntaxException {
+    private DocumentSource getDocumentSource(String source) throws URISyntaxException {
         final Matcher httpMatcher = Pattern.compile(HTTP_DOCUMENT_SOURCE).matcher(source);
         if(httpMatcher.find()) {
             return new HTTPDocumentSource(new DefaultHTTPClient(), source);
@@ -61,4 +66,5 @@ public class MicrodataParser {
         }
         throw new IllegalArgumentException("Invalid source protocol: '" + source + "'");
     }
+
 }
