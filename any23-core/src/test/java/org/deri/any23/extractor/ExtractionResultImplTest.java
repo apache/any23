@@ -25,6 +25,7 @@ import org.deri.any23.writer.TripleHandlerException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.openrdf.model.URI;
 
 import java.io.ByteArrayOutputStream;
@@ -48,7 +49,7 @@ public class ExtractionResultImplTest {
     @Before
     public void setUp() {
         extractor = new TitleExtractor();
-        mockTripleHandler = new FakeTripleHandler();
+        mockTripleHandler = Mockito.mock(TripleHandler.class);
         extractionResult  = new ExtractionResultImpl(
                 new ExtractionContext("test-extractor-name", TEST_URI),
                 extractor,
