@@ -201,6 +201,55 @@ public class RDFUtils {
     /**
      * Creates a {@link Literal}.
      */
+    public static Literal literal(boolean b) {
+        return valueFactory.createLiteral(b);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
+    public static Literal literal(byte b) {
+        return valueFactory.createLiteral(b);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
+    public static Literal literal(short s) {
+        return valueFactory.createLiteral(s);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
+    public static Literal literal(int i) {
+        return valueFactory.createLiteral(i);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
+    public static Literal literal(long l) {
+        return valueFactory.createLiteral(l);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
+    public static Literal literal(float f) {
+        return valueFactory.createLiteral(f);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
+    public static Literal literal(double d) {
+        return valueFactory.createLiteral(d);
+    }
+
+    /**
+     * Creates a {@link Literal}.
+     */
     public static Literal literal(String s, String l) {
         return valueFactory.createLiteral(s, l);
     }
