@@ -66,7 +66,7 @@ import static org.deri.any23.extractor.ExtractionParameters.ValidationMode;
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  */
 @SuppressWarnings("unchecked")
-public class Any23Test {
+public class Any23Test extends Any23OnlineTestBase {
 
     private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
 
@@ -440,6 +440,7 @@ public class Any23Test {
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract("http://www.usarab.org/news/?tag=england", rth);
+        Assert.assertTrue( report.hasMatchingExtractors() );
     }
 
 
