@@ -32,6 +32,7 @@ import java.util.List;
  * Used only for test purposes. 
  *
  */
+//TODO: replace with Mockito
 public class MockTripleHandler implements TripleHandler {
 
     private final List<String> expectations = new LinkedList<String>();
