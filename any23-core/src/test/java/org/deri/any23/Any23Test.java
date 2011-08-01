@@ -422,8 +422,9 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws ExtractionException
      */
-    // @Test Deactivated online test.
+    @Test
     public void testXMLMimeTypeManagementViaURL() throws IOException, ExtractionException {
+        assumeOnlineAllowed();
         final Any23 any23 = new Any23();
         any23.setHTTPUserAgent("test-user-agent");
         final CountingTripleHandler cth = new CountingTripleHandler(false);
@@ -435,6 +436,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testBlankNodesViaURL() throws IOException, ExtractionException {
+        assumeOnlineAllowed();
         final Any23 any23 = new Any23();
         any23.setHTTPUserAgent("test-user-agent");
         final CountingTripleHandler cth = new CountingTripleHandler(false);
