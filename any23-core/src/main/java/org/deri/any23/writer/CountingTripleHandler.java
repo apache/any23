@@ -20,16 +20,31 @@ import org.deri.any23.extractor.ExtractionContext;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A simple {@link TripleHandler} that merely counts the number
  * of triples it has received.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
+ * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class CountingTripleHandler implements TripleHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(CountingTripleHandler.class);
+
+    private final boolean logTriples;
+
     private int count = 0;
+
+    public CountingTripleHandler(boolean logTriples) {
+        this.logTriples = logTriples;
+    }
+
+    public CountingTripleHandler() {
+        this(false);
+    }
 
     public int getCount() {
         return count;
@@ -54,6 +69,7 @@ public class CountingTripleHandler implements TripleHandler {
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
         count++;
+        if(logTriples) logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
     }
 
     public void receiveNamespace(String prefix, String uri, ExtractionContext context)

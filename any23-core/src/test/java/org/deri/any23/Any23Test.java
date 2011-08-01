@@ -17,7 +17,6 @@
 package org.deri.any23;
 
 import junit.framework.Assert;
-import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.Extractor;
@@ -41,10 +40,7 @@ import org.deri.any23.writer.RepositoryWriter;
 import org.deri.any23.writer.TripleHandler;
 import org.deri.any23.writer.TripleHandlerException;
 import org.junit.Test;
-import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -413,14 +409,7 @@ public class Any23Test {
         final String in = StreamUtils.asString( this.getClass().getResourceAsStream("any23-xml-mimetype.xml") );
         final DocumentSource doc = new StringDocumentSource(in, documentURI, contentType);
         final Any23 any23 = new Any23();
-        final CountingTripleHandler cth = new CountingTripleHandler(){
-            @Override
-            public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
-            throws TripleHandlerException {
-                super.receiveTriple(s, p, o, g, context);
-                logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
-            }
-        };
+        final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(doc, rth);
         Assert.assertFalse(report.hasMatchingExtractors());
@@ -437,14 +426,7 @@ public class Any23Test {
     public void testXMLMimeTypeManagementViaURL() throws IOException, ExtractionException {
         final Any23 any23 = new Any23();
         any23.setHTTPUserAgent("test-user-agent");
-        final CountingTripleHandler cth = new CountingTripleHandler(){
-            @Override
-            public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
-            throws TripleHandlerException {
-                super.receiveTriple(s, p, o, g, context);
-                logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
-            }
-        };
+        final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract("http://www.nativeremedies.com/XML/combos.xml", rth);
         Assert.assertFalse(report.hasMatchingExtractors());
@@ -455,14 +437,7 @@ public class Any23Test {
     public void testBlankNodesViaURL() throws IOException, ExtractionException {
         final Any23 any23 = new Any23();
         any23.setHTTPUserAgent("test-user-agent");
-        final CountingTripleHandler cth = new CountingTripleHandler(){
-            @Override
-            public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
-            throws TripleHandlerException {
-                super.receiveTriple(s, p, o, g, context);
-                logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
-            }
-        };
+        final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract("http://www.usarab.org/news/?tag=england", rth);
     }
