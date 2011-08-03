@@ -24,9 +24,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class for handling files.
@@ -172,6 +175,41 @@ public class FileUtils {
     public static String readFileContent(File f) throws IOException {
         FileInputStream fis = new FileInputStream(f);
         return StreamUtils.asString(fis, true);
+    }
+
+    /**
+     * Lists the content of a dir applying the specified filter.
+     *
+     * @param dir directory root.
+     * @param filenameFilter filter to be applied.
+     * @return list of matching files.
+     */
+    public static File[] listFilesRecursively(File dir, FilenameFilter filenameFilter) {
+        if( ! dir.isDirectory() ) {
+            throw new IllegalArgumentException(dir.getAbsolutePath() + " must be a directory.");
+        }
+        final List<File> result = new ArrayList<File>();
+        visitFilesRecursively(dir, filenameFilter, result);
+        return result.toArray( new File[result.size()] );
+    }
+
+    /**
+     * Visits a directory recursively, applying the given filter and adding matches to the result list.
+     *
+     * @param dir directory to find.
+     * @param filenameFilter filter to apply.
+     * @param result result list.
+     */
+    private static void visitFilesRecursively(File dir, FilenameFilter filenameFilter, List<File> result) {
+        for (File file : dir.listFiles()) {
+            if (!file.isDirectory()) {
+                if (filenameFilter == null || filenameFilter.accept(dir, file.getName())) {
+                    result.add(file);
+                }
+            } else {
+                visitFilesRecursively(file, filenameFilter, result);
+            }
+        }
     }
 
     /**
