@@ -39,6 +39,10 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
         return factories.isEmpty();
     }
 
+    public int getNumOfExtractors() {
+        return factories.size();
+    }
+
     /**
      * Returns a {@link ExtractorGroup} with a set of {@link org.deri.any23.extractor.Extractor} able to
      * process the provided mime type.
