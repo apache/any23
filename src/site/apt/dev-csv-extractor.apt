@@ -1,9 +1,9 @@
-CSV Extractor
+CSV Extractor Algorithm
 
-  The <<CSV>> extractor produces an RDF representation of a CSV file compliant
-  with the {{{http://www.ietf.org/rfc/rfc4180.txt}RFC 4180}} and that foresees an header.
-  The {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.java}CSVExtractor}} relies on the
-  presence of an header to use the named fields as RDF properties.
+  The {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.html}CSV Extractor}} produces 
+  an RDF representation of a CSV file compliant with the {{{http://www.ietf.org/rfc/rfc4180.txt}RFC 4180}} 
+  and that foresees an header.
+  Such extractor relies on the presence of an header to use the named fields as RDF properties.
   Field delimiter could be automatically guessed or specified via {{{./configuration.html}Any23 Configuration}}.
 
   Given a document with URL <url>, <<Any23>> uses the following algorithm to extract RDF:

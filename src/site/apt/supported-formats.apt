@@ -20,7 +20,7 @@ Supported Formats in Any23
 
    * <<RDF/XML>> <<Any23>> fully supports the {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}} specification.
 
-   * <<CSV>> <<Any23>> allows you to represent header-provided {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}} files with RDF using a specific {{{./csv-extraction.html}algorithm}}.
+   * <<CSV>> <<Any23>> allows you to represent header-provided {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}} files with RDF using a specific {{{./dev-csv-extractor.html}algorithm}}.
 
 * <<Output Formats>>
 
