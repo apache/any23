@@ -47,7 +47,7 @@ final String propertyValue = immutableConf.getProperty("propertyName", "default 
 
 +----------------------------------------------------------------------------------------------
 final ModifiableConfiguration modifiableConf = DefaultConfiguration.copy();
-final String oldPropertyValue = modifiable.setProperty("propertyName", "new property value");
+final String oldPropertyValue = modifiableConf.setProperty("propertyName", "new property value");
 final Any23 any23 = new Any23(modifiableConf, "extractor1", ...);
 ...
 +----------------------------------------------------------------------------------------------
