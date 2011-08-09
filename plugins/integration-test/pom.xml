@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.deri.any23</groupId>
         <artifactId>any23-parent</artifactId>
-        <version>0.5.0-SNAPSHOT</version>
+        <version>0.6.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -41,34 +41,8 @@
         <dependency>
             <groupId>org.deri.any23</groupId>
             <artifactId>any23-core</artifactId>
-            <version>${any23.version}</version>
+            <version>0.6.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <!-- Assemblies the HTML Scraper plugin -->
-            <plugin>
-                <artifactId>maven-invoker-plugin</artifactId>
-                <version>1.5</version>
-                <configuration>
-                    <pom>../html-scraper/pom.xml</pom>
-                    <cloneProjectsTo>${project.build.directory}/plugins/</cloneProjectsTo>
-                    <goals>
-                        <goal>clean</goal>
-                        <goal>assembly:assembly</goal>
-                    </goals>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
 

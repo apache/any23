@@ -36,13 +36,6 @@
     <url>http://developers.any23.org</url>
 
     <dependencies>
-        <!-- Simple Plugin Framework -->
-        <dependency>
-            <groupId>net.xeoh</groupId>
-            <artifactId>jspf</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- Sesame. -->
         <dependency>
             <groupId>org.openrdf.sesame</groupId>
@@ -58,13 +51,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- BEGIN: Apache POI -->
+        <!-- Apache POI -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>3.7</version>
         </dependency>
-        <!-- END:   Apache POI -->
     </dependencies>
 
     <build>

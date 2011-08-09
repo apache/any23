@@ -139,13 +139,6 @@
             <artifactId>commons-csv</artifactId>
         </dependency>
         <!-- END: Apache Commons CSV -->
-
-        <!-- BEGIN: Plugin System -->
-        <dependency>
-            <groupId>net.xeoh</groupId>
-            <artifactId>jspf</artifactId>
-        </dependency>
-        <!-- END: Plugin System -->
     </dependencies>
 
     <build>
@@ -174,6 +167,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!-- Generates a self-contained JAR. -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -186,6 +180,41 @@
             </plugin>
         </plugins>
     </build>
-
+    <profiles>
+        <profile>
+            <id>plugin-integration</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- Assemblies the HTML Scraper plugin -->
+                    <plugin>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <version>1.5</version>
+                        <configuration>
+                            <projectsDirectory>../plugins/</projectsDirectory>
+                            <pomIncludes>
+                                <pomInclude>*/pom.xml</pomInclude>
+                            </pomIncludes>
+                            <goals>
+                                <goal>clean</goal>
+                                <goal>compile</goal>
+                                <goal>dependency:copy-dependencies</goal>
+                            </goals>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>generate-test-sources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
 

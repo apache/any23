@@ -16,16 +16,14 @@
 
 package org.deri.any23.cli;
 
-import java.io.FileInputStream;
+import org.deri.any23.plugin.Any23PluginManager;
+
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 
 /**
  * This class is the main class responsible to provide a uniform command-line
@@ -34,40 +32,49 @@ import java.util.jar.JarInputStream;
  * @see org.deri.any23.cli.ExtractorDocumentation
  * @see org.deri.any23.cli.Rover
  */
-// TODO: this code should use inspection facilities to detect CLI declared in plugins.
+// TODO: remove JAR input parameter.
 @ToolRunner.Skip
 public class ToolRunner {
 
-    private static final String USAGE = "Usage: " + ToolRunner.class.getSimpleName() + " <utility> [options...]";
-    private static final String PREFIX = "org.deri.any23.cli.";
+    public static final File HOME_PLUGIN_DIR = new File(
+            new File(System.getProperty("user.home")),
+            ".any23/plugins"
+    );
 
-    public static void main(String[] args) {
+    private static final String USAGE = String.format(
+            "Usage: %s <utility> [options...]",
+            ToolRunner.class.getSimpleName()
+    );
+
+    public static void main(String[] args) throws IOException {
         if(args.length == 0) {
             usage("Missing JAR file location.", null);
         }
 
         //generate automatically the cli.
-        List<Class> utilities = getClasseNamesInPackage(args[0], "org.deri.any23.cli");
+        final Class<Tool>[] tools = getToolsInClasspath();
         try {
             if (args.length < 2) {
-                usage( null, utilities );
+                usage(null, tools);
             }
 
-            final String className = args[1];
-            final Class<?> cls;
-            try {
-                cls = Class.forName(PREFIX + className);
-            } catch (ClassNotFoundException cnfe) {
-                usage( String.format("[%s] is not a valid tool name.", className), utilities);
+            final String toolName = args[1];
+            Class<Tool> targetTool = null;
+            for(Class<Tool> tool : tools) {
+                if(tool.getSimpleName().equals(toolName)) {
+                    targetTool = tool;
+                    break;
+                }
+            }
+            if(targetTool == null) {
+                usage( String.format("[%s] is not a valid tool name.", toolName), tools);
                 throw new IllegalStateException();
             }
 
-            Method mainMethod = cls.getMethod("main", new Class[]{String[].class});
-
             String[] mainArgs = new String[args.length - 2];
             System.arraycopy(args, 2, mainArgs, 0, mainArgs.length);
-
-            mainMethod.invoke(null, new Object[]{mainArgs});
+            final Tool targetToolInstance = targetTool.newInstance();
+            targetToolInstance.run(mainArgs);
         } catch (Throwable e) {
             e.printStackTrace();
             Throwable cause = e.getCause();
@@ -76,62 +83,26 @@ public class ToolRunner {
         }
     }
 
-    /**
-     * See http://www.rgagnon.com/javadetails/java-0513.html
-     *
-     * @param jarName
-     * @param packageName
-     * @return
-     */
-    public static List<Class> getClasseNamesInPackage(String jarName, String packageName) {
-        ArrayList<Class> classes = new ArrayList<Class>();
-        packageName = packageName.replaceAll("\\.", "/");
-        try {
-            System.err.println("Jar " + jarName + " looking for " + packageName);
-
-            JarInputStream jarFile = new JarInputStream(new FileInputStream(jarName));
-            JarEntry jarEntry;
-
-            while (true) {
-                jarEntry = jarFile.getNextJarEntry();
-                if (jarEntry == null) {
-                    break;
-                }
-                if ((jarEntry.getName().startsWith(packageName)) &&
-                        (jarEntry.getName().endsWith(".class"))) {
-                    String classEntry = jarEntry.getName().replaceAll("/", "\\.");
-                    final String classStr = classEntry.substring(0, classEntry.indexOf(".class"));
-                    final Class clazz = Class.forName(classStr);
-                    if(clazz.getAnnotation(Skip.class) != null) {
-                        continue;
-                    }
-                    if(clazz.isInterface()) {
-                        continue;
-                    }
-                    classes.add(clazz);
-                }
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return classes;
+    public static Class<Tool>[] getToolsInClasspath() throws IOException {
+        final Any23PluginManager pluginManager =  Any23PluginManager.getInstance();
+        pluginManager.loadJARDir(HOME_PLUGIN_DIR);
+        return pluginManager.getTools();
     }
 
     private static String padLeft(String s, int n) {
         return String.format("%1$#" + n + "s", s);
     }
 
-    private static String getUtilitiesMessage(List<Class> utilities) {
+    private static String getUtilitiesMessage(Class<Tool>[] toolClasses) {
         StringBuffer sb = new StringBuffer();
-        sb.append(" where <utility> one of:\n");
+        sb.append(" where <utility> is one of:\n");
         Description description;
         String utilityName;
         int padding;
-        for (Class util : utilities) {
-            utilityName = util.getSimpleName();
+        for (Class<Tool> toolClass :  toolClasses) {
+            utilityName = toolClass.getSimpleName();
             sb.append("\t").append(utilityName);
-            description = (Description) util.getAnnotation(Description.class);
+            description = toolClass.getAnnotation(Description.class);
             padding = 100 - utilityName.length();
             if (description != null) {
                 sb.append( padLeft( description.value(), padding >= 0 ? padding : 0) );
@@ -141,7 +112,7 @@ public class ToolRunner {
         return sb.toString();
     }
 
-    private static void usage(String msg, List<Class> utilities) {
+    private static void usage(String msg, Class<Tool>[] utilities) {
         if(msg != null) {
             System.err.println("*** ERROR: " + msg);
             System.err.println();

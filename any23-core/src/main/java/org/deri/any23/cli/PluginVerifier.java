@@ -16,14 +16,15 @@
 
 package org.deri.any23.cli;
 
-import net.xeoh.plugins.base.annotations.meta.Author;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.mime.MIMEType;
 import org.deri.any23.plugin.Any23PluginManager;
+import org.deri.any23.plugin.Author;
 import org.deri.any23.plugin.ExtractorPlugin;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.util.Collection;
 
 /**
@@ -37,7 +38,7 @@ public class PluginVerifier implements Tool {
 
     private Any23PluginManager pluginManager = Any23PluginManager.getInstance();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
         System.exit( new PluginVerifier().run(args) );
     }
 
@@ -50,12 +51,18 @@ public class PluginVerifier implements Tool {
         final File pluginsDir = new File(args[0]);
         if(!pluginsDir.isDirectory()) {
             printHelp("<plugins-dir> must be a valid dir.");
-            return 1;
+            return 2;
         }
 
-        pluginManager.loadPlugins(pluginsDir);
-        final ExtractorPlugin[] plugins = pluginManager.getExtractorPlugins();
-        for(ExtractorPlugin p : plugins) {
+        final Class<ExtractorPlugin>[] plugins;
+        try{
+            pluginManager.loadJARDir(pluginsDir);
+            plugins = pluginManager.getPlugins();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return 3;
+        }
+        for(Class<ExtractorPlugin> p : plugins) {
             System.out.println("-----------------------------");
             printPluginData(p, System.out);
             System.out.println("-----------------------------");
@@ -76,9 +83,15 @@ public class PluginVerifier implements Tool {
         return sb.toString();
     }
 
-    private void printPluginData(ExtractorPlugin extractorPlugin, PrintStream ps) {
-        final Author authorAnnotation = extractorPlugin.getClass().getAnnotation(Author.class);
-        final ExtractorFactory extractorFactory = extractorPlugin.getExtractorFactory();
+    private void printPluginData(Class<ExtractorPlugin> extractorPlugin, PrintStream ps) {
+        final Author authorAnnotation = extractorPlugin.getAnnotation(Author.class);
+        final ExtractorPlugin instance;
+        try {
+            instance = extractorPlugin.newInstance();
+        } catch (Exception e) {
+            throw new IllegalStateException("Error while instantiating plugin.", e);
+        }
+        final ExtractorFactory extractorFactory = instance.getExtractorFactory();
         ps.printf("Plugin class     : %s\n", extractorPlugin.getClass());
         ps.printf("Plugin author    : %s\n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
         ps.printf("Plugin factory   : %s\n", extractorFactory.getClass());

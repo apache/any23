@@ -16,14 +16,9 @@
 
 package org.deri.any23.plugin.htmlscraper;
 
-import net.xeoh.plugins.base.annotations.PluginImplementation;
-import net.xeoh.plugins.base.annotations.events.Init;
-import net.xeoh.plugins.base.annotations.events.Shutdown;
-import net.xeoh.plugins.base.annotations.meta.Author;
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.plugin.Author;
 import org.deri.any23.plugin.ExtractorPlugin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of {@link ExtractorPlugin} based on the
@@ -32,23 +27,11 @@ import org.slf4j.LoggerFactory;
  * @see HTMLScraperExtractor
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@PluginImplementation
 @Author(name="Michele Mostarda (mostarda@fbk.eu)")
 public class HTMLScraperPlugin implements ExtractorPlugin {
-
-    private static final Logger logger = LoggerFactory.getLogger(HTMLScraperPlugin.class);
-
-    @Init
-    public void init() {
-        logger.info("Plugin initialization.");
-    }
-
-    @Shutdown
-    public void shutdown() {
-        logger.info("Plugin shutdown.");
-    }
 
     public ExtractorFactory getExtractorFactory() {
         return HTMLScraperExtractor.factory;
     }
+
 }

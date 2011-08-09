@@ -16,19 +16,16 @@
 
 package org.deri.any23.plugin;
 
-import org.deri.any23.extractor.ExtractorFactory;
-
 /**
- * This interface defines an {@link org.deri.any23.Any23}
- * extractor plugin that can be detected and registered from the library classpath.
+ * Describes the author of the plugin.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public interface ExtractorPlugin {
+public @interface Author {
 
     /**
-     * @return the {@link ExtractorFactory} for the plugin.
+     * @return The author's name.
      */
-    ExtractorFactory getExtractorFactory();
+    String name();
 
 }

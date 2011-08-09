@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package org.deri.any23.plugin;
+package org.deri.any23.plugin.officescraper;
 
 import org.deri.any23.extractor.ExtractorFactory;
+import org.deri.any23.plugin.Author;
+import org.deri.any23.plugin.ExtractorPlugin;
 
 /**
- * This interface defines an {@link org.deri.any23.Any23}
- * extractor plugin that can be detected and registered from the library classpath.
+ * Implementation of {@link ExtractorPlugin} for {@link ExcelExtractor}.
  *
+ * @see ExcelExtractor
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public interface ExtractorPlugin {
+@Author(name="Michele Mostarda (mostarda@fbk.eu)")
+public class ExcelPlugin implements ExtractorPlugin {
 
-    /**
-     * @return the {@link ExtractorFactory} for the plugin.
-     */
-    ExtractorFactory getExtractorFactory();
+    public ExtractorFactory getExtractorFactory() {
+        return ExcelExtractor.factory;
+    }
 
 }

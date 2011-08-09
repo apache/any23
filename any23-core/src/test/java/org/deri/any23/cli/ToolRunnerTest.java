@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package org.deri.any23.plugin;
+package org.deri.any23.cli;
 
-import org.deri.any23.extractor.ExtractorFactory;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.IOException;
 
 /**
- * This interface defines an {@link org.deri.any23.Any23}
- * extractor plugin that can be detected and registered from the library classpath.
+ * Test case for {@link ToolRunner}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public interface ExtractorPlugin {
+public class ToolRunnerTest {
 
-    /**
-     * @return the {@link ExtractorFactory} for the plugin.
-     */
-    ExtractorFactory getExtractorFactory();
+    @Test
+    public void testGetToolsInClasspath() throws IOException {
+        Class<Tool>[] tools = ToolRunner.getToolsInClasspath();
+        Assert.assertEquals(7, tools.length);
+    }
 
 }

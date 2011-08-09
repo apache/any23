@@ -353,21 +353,13 @@
             </dependency>
         <!-- END:   Servlet Deps. -->
 
-            <!-- BEGIN: Plugin System -->
-            <dependency>
-                <groupId>net.xeoh</groupId>
-                <artifactId>jspf</artifactId>
-                <version>0.9.0</version>
-            </dependency>
-            <!-- END: Plugin System -->
-
-            <!-- BEGIN: Plugins specific dependencies -->
-            <dependency>
-                <groupId>de.l3s.boilerpipe</groupId>
-                <artifactId>boilerpipe</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-            <!-- END: Plugins specific dependencies -->
+        <!-- BEGIN: Plugins specific dependencies -->
+        <dependency>
+            <groupId>de.l3s.boilerpipe</groupId>
+            <artifactId>boilerpipe</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <!-- END: Plugins specific dependencies -->
         </dependencies>
     </dependencyManagement>
 
@@ -677,7 +669,6 @@
         <module>any23-core</module>
         <module>plugins/html-scraper</module>
         <module>plugins/office-scraper</module>
-        <!--<module>plugins/integration-test</module>-->
         <module>any23-service</module>
     </modules>
 

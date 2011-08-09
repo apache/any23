@@ -16,19 +16,14 @@
 
 package org.deri.any23.plugin;
 
-import org.deri.any23.extractor.ExtractorFactory;
-
 /**
- * This interface defines an {@link org.deri.any23.Any23}
- * extractor plugin that can be detected and registered from the library classpath.
+ * Defines the filter to select specific classes.
  *
+ * @see Any23PluginManager
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public interface ExtractorPlugin {
+public interface ClassFilter {
 
-    /**
-     * @return the {@link ExtractorFactory} for the plugin.
-     */
-    ExtractorFactory getExtractorFactory();
+    boolean accept(Class clazz);
 
 }
