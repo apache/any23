@@ -29,6 +29,7 @@ import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
+import org.deri.any23.util.FileUtils;
 import org.deri.any23.util.StreamUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.writer.CompositeTripleHandler;
@@ -211,7 +212,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws ExtractionException
      */
     // Deactivated to avoid test dependency on external resources.
-    // @Test
+    // TODO: @Test
     public void testDemoCodeSnippet2()
     throws IOException, ExtractionException, URISyntaxException, SailException, RepositoryException {
         /*1*/ Any23 runner = new Any23();
@@ -301,7 +302,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws ExtractionException
      */
     // Deactivated to avoid test dependency on external resources.    
-    //@Test
+    //TODO: @Test
     public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
         Any23 runner = new Any23();
         runner.setHTTPUserAgent("test-user-agent");
@@ -445,13 +446,36 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertTrue( report.hasMatchingExtractors() );
     }
 
-
     @Test
     public void testMicrodataSupport() throws Exception {
         final String htmlWithMicrodata = StreamUtils.asString(
                 this.getClass().getResourceAsStream("/microdata/microdata-basic.html")
         );
         assertExtractorActivation(htmlWithMicrodata, MicrodataExtractor.class);
+    }
+
+    @Test
+    public void testIssue186_1() throws IOException, ExtractionException{
+        final Any23 runner = new Any23();
+        final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-1.xhtml");
+        final DocumentSource source = new StringDocumentSource(content, "http://base.com");
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final TripleHandler handler = new NTriplesWriter(out);
+        runner.extract(source, handler);
+        String n3 = out.toString("UTF-8");
+        logger.debug(n3);
+    }
+
+    @Test
+    public void testIssue186_2() throws IOException, ExtractionException{
+    	final Any23 runner = new Any23();
+        final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-2.xhtml");
+        final DocumentSource source = new StringDocumentSource(content, "http://richard.cyganiak.de/");
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final TripleHandler handler = new NTriplesWriter(out);
+        runner.extract(source, handler);
+        final String n3 = out.toString("UTF-8");
+        logger.debug(n3);
     }
 
     /**
