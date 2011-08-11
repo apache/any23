@@ -211,10 +211,10 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws ExtractionException
      */
-    // Deactivated to avoid test dependency on external resources.
-    // TODO: @Test
-    public void testDemoCodeSnippet2()
-    throws IOException, ExtractionException, URISyntaxException, SailException, RepositoryException {
+    @Test
+    public void testDemoCodeSnippet2() throws Exception{
+        assumeOnlineAllowed();
+
         /*1*/ Any23 runner = new Any23();
         /*2*/ runner.setHTTPUserAgent("test-user-agent");
         /*3*/ HTTPClient httpClient = runner.getHTTPClient();
@@ -225,7 +225,8 @@ public class Any23Test extends Any23OnlineTestBase {
         /*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
         /*6*/ TripleHandler handler = new NTriplesWriter(out);
         /*7*/ runner.extract(source, handler);
-        /*8*/ String n3 = out.toString("UTF-8");
+        /*8*/ handler.close();
+        /*9*/ String n3 = out.toString("UTF-8");
 
         /*
             <http://www.rentalinrome.com/semanticloft/semanticloft.htm>
@@ -301,9 +302,10 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws URISyntaxException
      * @throws ExtractionException
      */
-    // Deactivated to avoid test dependency on external resources.    
-    //TODO: @Test
+    @Test
     public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
+        assumeOnlineAllowed();
+
         Any23 runner = new Any23();
         runner.setHTTPUserAgent("test-user-agent");
         HTTPClient httpClient = runner.getHTTPClient();
