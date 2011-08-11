@@ -75,7 +75,6 @@ public class DefaultConfiguration implements Configuration {
 
     protected DefaultConfiguration(Properties properties) {
         this.properties = properties;
-        if(logger.isInfoEnabled()) logger.info( getConfigurationDump() );
     }
 
     private DefaultConfiguration() {

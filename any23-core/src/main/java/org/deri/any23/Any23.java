@@ -40,6 +40,8 @@ import org.deri.any23.source.LocalCopyFactory;
 import org.deri.any23.source.MemCopyFactory;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.writer.TripleHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +74,8 @@ public class Any23 {
             "any23.http.user.agent.default"
     );
 
+    protected static final Logger logger = LoggerFactory.getLogger(Any23.class);
+
     private final Configuration configuration;
     private final String        defaultUserAgent;
 
@@ -95,6 +99,8 @@ public class Any23 {
     public Any23(Configuration configuration, ExtractorGroup extractorGroup) {
         if(configuration == null) throw new NullPointerException("configuration must be not null.");
         this.configuration = configuration;
+        logger.info( configuration.getConfigurationDump() );
+
         this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
 
         this.factories = (extractorGroup == null)

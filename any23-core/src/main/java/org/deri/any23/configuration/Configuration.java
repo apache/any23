@@ -80,4 +80,11 @@ public interface Configuration {
      */
     boolean getFlagProperty(final String propertyName);
 
+    /**
+     * Returns a human readable string containing the configuration dump.
+     *
+     * @return a string describing the configuration options.
+     */
+    String getConfigurationDump();
+
 }
