@@ -75,7 +75,7 @@ public class TurtleExtractorTest {
         extractor.setStopAtFirstError(false);
         try {
             extractor.run(
-                    ExtractionParameters.getDefault(),
+                    ExtractionParameters.newDefault(),
                     extractionContext,
                     this.getClass().getResourceAsStream("/org/deri/any23/extractor/rdf/testMalformedLiteral"),
                     result

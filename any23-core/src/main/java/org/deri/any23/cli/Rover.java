@@ -24,6 +24,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 import org.deri.any23.Any23;
 import org.deri.any23.LogUtil;
+import org.deri.any23.configuration.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
@@ -316,12 +318,13 @@ public class Rover implements Tool {
 
     private ExtractionParameters getExtractionParameters(CommandLine cl) {
         final boolean nestingDisabled = ! cl.hasOption('n');
+        final Configuration configuration = DefaultConfiguration.singleton();
         return
                 cl.hasOption('p')
                         ?
-                new ExtractionParameters(ValidationMode.ValidateAndFix, nestingDisabled)
+                new ExtractionParameters(configuration, ValidationMode.ValidateAndFix, nestingDisabled)
                         :
-                new ExtractionParameters(ValidationMode.None          , nestingDisabled);
+                new ExtractionParameters(configuration, ValidationMode.None          , nestingDisabled);
     }
 
     private Any23 createAny23(String[] extractorNames) {

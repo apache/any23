@@ -1,0 +1,12 @@
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix ns1:    <http://199.204.218.139/resource/image/> .
+@prefix ns2:    <http://199.204.218.139/resource/MD/> .
+ns1:MD_2933956  foaf:depicts    ns2:MD_2933956 .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+ns2:MD_2933956  rdf:type    foaf:Person .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+ns2:MD_2933956  rdfs:label  "LEROY WILKINS" ;
+    rdfs:comment    "A registered sex offender in the state of Maryland." ;
+    foaf:gender "Male" ;
+    foaf:family_name    "WILKINS" ;
+    foaf:givenname  "LEROY" .

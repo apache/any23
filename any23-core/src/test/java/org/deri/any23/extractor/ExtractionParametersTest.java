@@ -26,7 +26,7 @@ public class ExtractionParametersTest {
 
     @Test
     public void testReadDefaultConfig() {
-        final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
+        final ExtractionParameters extractionParameters = ExtractionParameters.newDefault();
         Assert.assertEquals(
                 false,
                 extractionParameters.getFlag("any23.microdata.strict")
@@ -39,7 +39,7 @@ public class ExtractionParametersTest {
 
     @Test
     public void testReadOverridenConfig() {
-        final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
+        final ExtractionParameters extractionParameters = ExtractionParameters.newDefault();
         extractionParameters.setFlag("any23.microdata.strict", true);
         final String CUSTOM_PROP = "http://fake/property";
         extractionParameters.setProperty(

@@ -72,7 +72,7 @@ public class HTMLScraperExtractorTest {
                 extractor.getDescription().getExtractorName(),
                 pageURI
         );
-        extractor.run(ExtractionParameters.getDefault(), extractionContext, is, extractionResult);
+        extractor.run(ExtractionParameters.newDefault(), extractionContext, is, extractionResult);
 
         verify(extractionResult).writeTriple(
                 eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY) , (Value) Matchers.anyObject())

@@ -77,7 +77,7 @@ public class ExcelExtractorTest {
     }
 
     private void processFile(String resource) throws IOException, ExtractionException, TripleHandlerException {
-        final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
+        final ExtractionParameters extractionParameters = ExtractionParameters.newDefault();
         final ExtractionContext extractionContext = new ExtractionContext(
                 extractor.getDescription().getExtractorName(),
                 RDFUtils.uri("file://" + resource)

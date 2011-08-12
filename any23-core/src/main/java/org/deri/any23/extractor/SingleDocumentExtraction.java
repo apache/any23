@@ -17,6 +17,8 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.configuration.Configuration;
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.encoding.EncodingDetector;
 import org.deri.any23.encoding.TikaEncodingDetector;
 import org.deri.any23.extractor.Extractor.BlindExtractor;
@@ -75,6 +77,8 @@ public class SingleDocumentExtraction {
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
+    private final Configuration configuration;
+
     private final DocumentSource in;
 
     private URI documentURI;
@@ -105,13 +109,20 @@ public class SingleDocumentExtraction {
      * Builds an extractor by the specification of document source,
      * list of extractors and output triple handler.
      *
+     * @param configuration configuration applied during extraction.
      * @param in input document source.
      * @param extractors list of extractors to be applied.
      * @param output output triple handler.
      */
-    public SingleDocumentExtraction(DocumentSource in, ExtractorGroup extractors, TripleHandler output) {
+    public SingleDocumentExtraction(
+            Configuration configuration, DocumentSource in, ExtractorGroup extractors, TripleHandler output
+    ) {
+        if(configuration == null) throw new NullPointerException("configuration cannot be null.");
+        if(in == null)            throw new NullPointerException("in cannot be null.");
+        this.configuration = configuration;
         this.in = in;
         this.extractors = extractors;
+
         List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
         tripleHandlers.add(output);
         tripleHandlers.add(new CountingTripleHandler());
@@ -123,13 +134,41 @@ public class SingleDocumentExtraction {
      * Builds an extractor by the specification of document source,
      * extractors factory and output triple handler.
      *
+     * @param configuration configuration applied during extraction.
      * @param in input document source.
      * @param factory the extractors factory.
      * @param output output triple handler.
      */
-    public SingleDocumentExtraction(DocumentSource in, ExtractorFactory<?> factory, TripleHandler output) {
-        this(in, new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)),
-                output);
+    public SingleDocumentExtraction(
+            Configuration configuration, DocumentSource in, ExtractorFactory<?> factory, TripleHandler output
+    ) {
+        this(
+                configuration,
+                in,
+                new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)),
+                output
+        );
+        this.setMIMETypeDetector(null);
+    }
+
+    /**
+     * Builds an extractor by the specification of document source,
+     * extractors factory and output triple handler, using the
+     * {@link org.deri.any23.configuration.DefaultConfiguration}.
+     *
+     * @param in input document source.
+     * @param factory the extractors factory.
+     * @param output output triple handler.
+     */
+    public SingleDocumentExtraction(
+        DocumentSource in, ExtractorFactory<?> factory, TripleHandler output
+    ) {
+        this(
+                DefaultConfiguration.singleton(),
+                in,
+                new ExtractorGroup(Collections.<ExtractorFactory<?>>singletonList(factory)),
+                output
+        );
         this.setMIMETypeDetector(null);
     }
 
@@ -167,7 +206,7 @@ public class SingleDocumentExtraction {
     public SingleDocumentExtractionReport run(ExtractionParameters extractionParameters)
     throws ExtractionException, IOException {
         if(extractionParameters == null) {
-            extractionParameters = ExtractionParameters.getDefault();
+            extractionParameters = ExtractionParameters.newDefault(configuration);
         }
         
         ensureHasLocalCopy();
@@ -265,7 +304,7 @@ public class SingleDocumentExtraction {
      * @throws ExtractionException
      */
     public void run() throws IOException, ExtractionException {
-        run(ExtractionParameters.getDefault());
+        run(ExtractionParameters.newDefault(configuration));
     }
 
     /**

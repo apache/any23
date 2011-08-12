@@ -37,7 +37,7 @@ public class ExtractionAPITest {
         ExampleExtractor extractor  = new ExampleExtractor();
         ExtractionContext extractionContext = new ExtractionContext("extractor-name", uri);
         ExtractionResultImpl writer = new ExtractionResultImpl(extractionContext, extractor, out);
-        extractor.run(ExtractionParameters.getDefault(), extractionContext, uri, writer);
+        extractor.run(ExtractionParameters.newDefault(), extractionContext, uri, writer);
         writer.close();
         Assert.assertEquals(1, out.getCount());
     }

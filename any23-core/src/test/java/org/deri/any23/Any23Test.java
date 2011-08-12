@@ -17,6 +17,8 @@
 package org.deri.any23;
 
 import junit.framework.Assert;
+import org.deri.any23.configuration.DefaultConfiguration;
+import org.deri.any23.configuration.ModifiableConfiguration;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.extractor.Extractor;
@@ -338,7 +340,14 @@ public class Any23Test extends Any23OnlineTestBase {
         CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
-        runner.extract(new ExtractionParameters(ValidationMode.None), source, compositeTH1);
+        runner.extract(
+                new ExtractionParameters(
+                        DefaultConfiguration.singleton(),
+                        ValidationMode.None
+                ),
+                source,
+                compositeTH1
+        );
         logger.debug(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
 
@@ -348,7 +357,14 @@ public class Any23Test extends Any23OnlineTestBase {
         CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
-        runner.extract(new ExtractionParameters(ValidationMode.ValidateAndFix), source,  compositeTH2);
+        runner.extract(
+                new ExtractionParameters(
+                        DefaultConfiguration.singleton(),
+                        ValidationMode.ValidateAndFix
+                ),
+                source,
+                compositeTH2
+        );
         logger.debug( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 10, cth2.getCount() );
     }
@@ -368,7 +384,14 @@ public class Any23Test extends Any23OnlineTestBase {
         CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
-        runner.extract(new ExtractionParameters(ValidationMode.None, true), source,  compositeTH1);
+        runner.extract(
+                new ExtractionParameters(
+                        DefaultConfiguration.singleton(),
+                        ValidationMode.None, true
+                ),
+                source,
+                compositeTH1
+        );
         logger.debug( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 26, cth1.getCount() );
 
@@ -378,7 +401,13 @@ public class Any23Test extends Any23OnlineTestBase {
         CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
-        runner.extract(new ExtractionParameters(ValidationMode.ValidateAndFix, false), source,  compositeTH2);
+        runner.extract(
+                new ExtractionParameters(
+                        DefaultConfiguration.singleton(),
+                        ValidationMode.ValidateAndFix, false),
+                source,
+                compositeTH2
+        );
         logger.debug( baos.toString() );
         Assert.assertEquals("Unexpected number of triples.", 23, cth2.getCount() );
     }
@@ -457,7 +486,7 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testIssue186_1() throws IOException, ExtractionException{
+    public void testAbstractMethodErrorIssue186_1() throws IOException, ExtractionException{
         final Any23 runner = new Any23();
         final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-1.xhtml");
         final DocumentSource source = new StringDocumentSource(content, "http://base.com");
@@ -469,7 +498,7 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testIssue186_2() throws IOException, ExtractionException{
+    public void testAbstractMethodErrorIssue186_2() throws IOException, ExtractionException{
     	final Any23 runner = new Any23();
         final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-2.xhtml");
         final DocumentSource source = new StringDocumentSource(content, "http://richard.cyganiak.de/");
@@ -478,6 +507,31 @@ public class Any23Test extends Any23OnlineTestBase {
         runner.extract(source, handler);
         final String n3 = out.toString("UTF-8");
         logger.debug(n3);
+    }
+
+    @Test
+    public void testModifiableConfiguration_issue183() throws Exception {
+        final ModifiableConfiguration modifiableConf = DefaultConfiguration.copy();
+        modifiableConf.setProperty("any23.extraction.metadata.timesize", "off");
+        final Any23 any23 = new Any23(modifiableConf);
+
+        final String content = FileUtils.readResourceContent("/rdf/rdf-issue183.ttl");
+        final DocumentSource source = new StringDocumentSource(content, "http://base.com");
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final TripleHandler handler = new NTriplesWriter(out);
+        any23.extract(source, handler);
+        handler.close();
+        final String n3 = out.toString("UTF-8");
+
+        logger.debug(n3);
+        Assert.assertFalse(
+                "Should not contain triple with http://vocab.sindice.net/date",
+                n3.contains("http://vocab.sindice.net/date")
+        );
+        Assert.assertFalse(
+                "Should not contain triple with http://vocab.sindice.net/size",
+                n3.contains("http://vocab.sindice.net/size")
+        );
     }
 
     /**

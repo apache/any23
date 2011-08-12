@@ -16,6 +16,7 @@
 
 package org.deri.any23.servlet;
 
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionParameters;
 import org.deri.any23.http.HTTPClient;
 import org.deri.any23.servlet.conneg.Any23Negotiator;
@@ -250,7 +251,7 @@ public class Servlet extends HttpServlet {
                 ValidationMode.ValidateAndFix
                         :
                 ValidationMode.None;
-        return new ExtractionParameters(mode);
+        return new ExtractionParameters(DefaultConfiguration.singleton(), mode);
     }
 
     private boolean isReport(HttpServletRequest request) {

@@ -1,5 +1,6 @@
 package org.deri.any23.extractor;
 
+import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.html.HTMLFixture;
 import org.deri.any23.mime.TikaMIMETypeDetector;
 import org.deri.any23.mime.purifier.WhiteSpacesPurifier;
@@ -217,6 +218,7 @@ public class SingleDocumentExtractionTest {
         cth.addChild(repositoryWriter);
 
         SingleDocumentExtraction instance =  new SingleDocumentExtraction(
+                DefaultConfiguration.singleton(),
                 new HTMLFixture(file).getOpener("http://nested.test.com"),
                 extractorGroup,
                 cth

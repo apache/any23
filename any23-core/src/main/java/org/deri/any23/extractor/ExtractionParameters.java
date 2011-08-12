@@ -16,6 +16,7 @@
 
 package org.deri.any23.extractor;
 
+import org.deri.any23.configuration.Configuration;
 import org.deri.any23.configuration.DefaultConfiguration;
 
 import java.util.HashMap;
@@ -30,10 +31,20 @@ import java.util.Map;
 public class ExtractionParameters {
 
     /**
+     * @param c the underlying configuration.
      * @return the default extraction parameters.
      */
-    public static final ExtractionParameters getDefault() {
-        return new ExtractionParameters(ValidationMode.None);
+    public static final ExtractionParameters newDefault(Configuration c) {
+        return new ExtractionParameters(c, ValidationMode.None);
+    }
+
+    /**
+     * Creates the default extraction parameters with {@link DefaultConfiguration}.
+     *
+     * @return the default extraction parameters.
+     */
+    public static final ExtractionParameters newDefault() {
+        return new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.None);
     }
 
     /**
@@ -45,6 +56,8 @@ public class ExtractionParameters {
         ValidateAndFix
     }
 
+    private final Configuration configuration;
+
     private final ValidationMode extractionMode;
 
     private final Map<String, Boolean> extractionFlags;
@@ -54,6 +67,7 @@ public class ExtractionParameters {
     /**
      * Constructor.
      *
+     * @param configuration underlying configuration.
      * @param extractionMode specifies the required extraction mode.
      * @param extractionFlags map of specific flags used for extraction. If not specified they will
      *        be retrieved by the default {@link org.deri.any23.configuration.Configuration}.
@@ -61,13 +75,18 @@ public class ExtractionParameters {
      *        they will ne retrieved by the default {@link org.deri.any23.configuration.Configuration}.
      */
     public ExtractionParameters(
+            Configuration configuration,
             ValidationMode extractionMode,
             Map<String, Boolean> extractionFlags,
             Map<String,String> extractionProperties
     ) {
+        if(configuration == null) {
+            throw new NullPointerException("Configuration cannot be null.");
+        }
         if(extractionMode == null) {
             throw new NullPointerException("Extraction mode cannot be null.");
         }
+        this.configuration  = configuration;
         this.extractionMode = extractionMode;
         this.extractionFlags =
                 extractionFlags == null
@@ -86,21 +105,24 @@ public class ExtractionParameters {
     /**
      * Constructor.
      *
+     * @param configuration underlying configuration.
      * @param extractionMode specifies the required extraction mode.
      */
-    public ExtractionParameters(ValidationMode extractionMode) {
-        this(extractionMode, null, null);
+    public ExtractionParameters(Configuration configuration, ValidationMode extractionMode) {
+        this(configuration, extractionMode, null, null);
     }
 
     /**
      * Constructor, allows to set explicitly the value for flag
      * {@link SingleDocumentExtraction#METADATA_NESTING_FLAG}.
      *
+     * @param configuration the underlying configuration.
      * @param extractionMode specifies the required extraction mode.
      * @param nesting if <code>true</code> nesting triples will be expressed.
      */
-    public ExtractionParameters(ValidationMode extractionMode, final boolean nesting) {
+    public ExtractionParameters(Configuration configuration, ValidationMode extractionMode, final boolean nesting) {
         this(
+                configuration,
                 extractionMode,
                 new HashMap<String, Boolean>(){{
                     put(SingleDocumentExtraction.METADATA_NESTING_FLAG, nesting);
@@ -133,7 +155,7 @@ public class ExtractionParameters {
     public boolean getFlag(String flagName) {
         final Boolean value = extractionFlags.get(flagName);
         if(value == null) {
-            return DefaultConfiguration.singleton().getFlagProperty(flagName);
+            return configuration.getFlagProperty(flagName);
         }
         return value;
     }
@@ -146,6 +168,7 @@ public class ExtractionParameters {
      * @return the previous flag value.
      */
     public Boolean setFlag(String flagName, boolean value) {
+        checkPropertyExists(flagName);
         validateValue("flag name", flagName);
         return extractionFlags.put(flagName, value);
     }
@@ -160,7 +183,7 @@ public class ExtractionParameters {
     public String getProperty(String propertyName) {
         final String propertyValue = extractionProperties.get(propertyName);
         if(propertyValue == null) {
-            return DefaultConfiguration.singleton().getPropertyOrFail(propertyName);
+            return configuration.getPropertyOrFail(propertyName);
         }
         return propertyValue;
     }
@@ -173,6 +196,7 @@ public class ExtractionParameters {
      * @return the previous property value.
      */
     public String setProperty(String propertyName, String propertyValue) {
+        checkPropertyExists(propertyName);
         validateValue("property name" , propertyName);
         validateValue("property value", propertyValue);
         return extractionProperties.put(propertyName, propertyValue);
@@ -201,6 +225,14 @@ public class ExtractionParameters {
     @Override
     public int hashCode() {
         return extractionMode.hashCode() * 2 * extractionFlags.hashCode() * 3 * extractionProperties.hashCode() * 5;
+    }
+
+    private void checkPropertyExists(String propertyName) {
+        if(! configuration.defineProperty(propertyName) ) {
+            throw new IllegalArgumentException(
+                    String.format("Property '%s' is unknown and cannot be set.", propertyName)
+            );
+        }
     }
 
     private void validateValue(String desc, String value) {

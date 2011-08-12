@@ -437,7 +437,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 baseURI
         );
         hCardExtractor.run(
-                ExtractionParameters.getDefault(),
+                ExtractionParameters.newDefault(),
                 hcExtractionContext,
                 document,
                 new ExtractionResultImpl(
@@ -452,7 +452,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 baseURI
         );
         xfnExtractor.run(
-                        ExtractionParameters.getDefault(),
+                        ExtractionParameters.newDefault(),
                         xfnExtractionContext,
                         document,
                         new ExtractionResultImpl(
@@ -473,7 +473,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 hCardExtractor.getDescription().getExtractorName(), baseURI
         );
         hCardExtractor.run(
-                ExtractionParameters.getDefault(),
+                ExtractionParameters.newDefault(),
                 hCardExtractionContext,
                 document,
                 new ExtractionResultImpl(
@@ -487,7 +487,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 geoExtractor.getDescription().getExtractorName(), baseURI
         );
         geoExtractor.run(
-                ExtractionParameters.getDefault(),
+                ExtractionParameters.newDefault(),
                 geoExtractionContext,
                 document,
                 new ExtractionResultImpl(
@@ -502,7 +502,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 adrExtractor.getDescription().getExtractorName(), baseURI
         );
         adrExtractor.run(
-                ExtractionParameters.getDefault(),
+                ExtractionParameters.newDefault(),
                 adrExtractionContext,
                 document,
                 new ExtractionResultImpl(
@@ -524,7 +524,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 hReviewExtractor.getDescription().getExtractorName(), baseURI
         );
         hReviewExtractor.run(
-                ExtractionParameters.getDefault(),
+                ExtractionParameters.newDefault(),
                 hreviewExtractionContext,
                 document,
                 new ExtractionResultImpl(

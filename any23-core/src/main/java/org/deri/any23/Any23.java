@@ -277,7 +277,7 @@ public class Any23 {
             TripleHandler outputHandler,
             String encoding
     ) throws IOException, ExtractionException {
-        final SingleDocumentExtraction ex = new SingleDocumentExtraction(in, factories, outputHandler);
+        final SingleDocumentExtraction ex = new SingleDocumentExtraction(configuration, in, factories, outputHandler);
         ex.setMIMETypeDetector(mimeTypeDetector);
         ex.setLocalCopyFactory(streamCache);
         ex.setParserEncoding(encoding);
