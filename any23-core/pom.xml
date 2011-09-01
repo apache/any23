@@ -189,6 +189,7 @@
             <build>
                 <plugins>
                     <!-- Assemblies the HTML Scraper plugin -->
+                    <!--
                     <plugin>
                         <artifactId>maven-invoker-plugin</artifactId>
                         <version>1.5</version>
@@ -212,6 +213,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    -->
                 </plugins>
             </build>
         </profile>
