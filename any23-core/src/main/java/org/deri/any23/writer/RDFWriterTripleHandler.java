@@ -17,6 +17,7 @@
 package org.deri.any23.writer;
 
 import org.deri.any23.extractor.ExtractionContext;
+import org.deri.any23.rdf.RDFUtils;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -37,8 +38,6 @@ class RDFWriterTripleHandler implements TripleHandler {
 
     private boolean closed = false;
 
-    private ExtractionContext currentContext;
-
     RDFWriterTripleHandler(RDFWriter destination) {
         writer = destination;
         try {
@@ -53,7 +52,7 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        currentContext = context;
+        // Empty.
     }
 
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
@@ -61,7 +60,7 @@ class RDFWriterTripleHandler implements TripleHandler {
         final URI graph = g == null ? context.getDocumentURI() : g;
         try {
             writer.handleStatement(
-                    ValueFactoryImpl.getInstance().createStatement(s, p, o, graph));
+                    RDFUtils.quad(s, p, o, graph));
         } catch (RDFHandlerException ex) {
             throw new TripleHandlerException(
                     String.format("Error while receiving triple: %s %s %s %s", s, p, o, graph),
@@ -82,7 +81,7 @@ class RDFWriterTripleHandler implements TripleHandler {
     }
 
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        currentContext = null;
+        // Empty.
     }
 
     public void close() throws TripleHandlerException {
