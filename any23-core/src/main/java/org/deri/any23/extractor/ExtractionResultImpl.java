@@ -144,8 +144,10 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     public void writeTriple(Resource s, URI p, Value o, URI g) {
         if (s == null || p == null || o == null) return;
-        // Check for mal-constructed literals or BNodes, Sesame does not catch this.
-        if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) return;
+        // Check for misconstructed literals or BNodes, Sesame does not catch this.
+        if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) {
+            throw new IllegalArgumentException("The statement arguments must be not null.");
+        }
         checkOpen();
         try {
             tripleHandler.receiveTriple(s, p, o, g, context);
