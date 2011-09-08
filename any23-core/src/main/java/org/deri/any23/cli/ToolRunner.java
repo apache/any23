@@ -85,7 +85,9 @@ public class ToolRunner {
 
     public static Class<Tool>[] getToolsInClasspath() throws IOException {
         final Any23PluginManager pluginManager =  Any23PluginManager.getInstance();
-        pluginManager.loadJARDir(HOME_PLUGIN_DIR);
+        if(HOME_PLUGIN_DIR.exists()) {
+            pluginManager.loadJARDir(HOME_PLUGIN_DIR);
+        }
         return pluginManager.getTools();
     }
 
