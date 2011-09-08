@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+    author: Michele Mostarda (michele.mostarda@gmail.com)
+    version: $Id$
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.deri.any23</groupId>
+        <artifactId>any23-parent</artifactId>
+        <version>0.6.2-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.deri.any23.plugin</groupId>
+    <artifactId>integration-test</artifactId>
+    <version>0.6.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Any23 - Plugin Integration Test</name>
+    <description>Any23 plugin integration test module.</description>
+    <url>http://developers.any23.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.deri.any23</groupId>
+            <artifactId>any23-core</artifactId>
+            <version>0.6.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deri.any23.plugin</groupId>
+            <artifactId>html-scraper</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.deri.any23.plugin</groupId>
+            <artifactId>office-scraper</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--
+                Detect any plugin declared within the ./plugin classes,
+                for each one performs a compilation and a dependency distribution.
+                Such step is required for the subsequent integration test.
+            -->
+            <plugin>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <projectsDirectory>..</projectsDirectory>
+                    <cloneProjectsTo>${project.build.directory}/plugins-build</cloneProjectsTo>
+                    <pomIncludes>
+                        <pomInclude>*/pom.xml</pomInclude>
+                    </pomIncludes>
+                    <pomExcludes>
+                        <pomExclude>integration-test/*</pomExclude>
+                    </pomExcludes>
+                    <goals>
+                        <goal>clean</goal>
+                        <goal>dependency:copy-dependencies</goal>
+                        <goal>integration-test</goal>
+                    </goals>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+                Runs the integration tests declared in this module.
+                An integration test ends by IT.java
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.3</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <skip>false</skip>
+                            <excludes>
+                                <exclude>none</exclude>
+                            </excludes>
+                            <includes>
+                                <include>**/*IT.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+

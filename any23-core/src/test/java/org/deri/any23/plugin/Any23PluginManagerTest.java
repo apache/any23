@@ -17,7 +17,6 @@
 package org.deri.any23.plugin;
 
 import org.deri.any23.cli.Tool;
-import org.deri.any23.extractor.ExtractorGroup;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -41,14 +40,7 @@ import java.util.zip.ZipInputStream;
  */
 public class Any23PluginManagerTest {
 
-    private static final int NUM_OF_EXTRACTORS = 22;
-
     private static final File TARGET_TEST_JAR = new File("src/test/resources/org/deri/any23/plugin/target.jar");
-
-    private static final File HTML_SCRAPER_TARGET_DIR     = new File("../plugins/html-scraper/target/classes");
-    private static final File HTML_SCRAPER_DEPENDENCY_DIR = new File("../plugins/html-scraper/target/dependency");
-    private static final File OFFICE_SCRAPER_TARGET_DIR     = new File("../plugins/office-scraper/target/classes");
-    private static final File OFFICE_SCRAPER_DEPENDENCY_DIR = new File("../plugins/office-scraper/target/dependency");
 
     private Any23PluginManager manager;
 
@@ -107,20 +99,6 @@ public class Any23PluginManagerTest {
     public void testGetPlugins() throws IOException {
         Class<ExtractorPlugin>[] extractorPlugins = manager.getPlugins();
         Assert.assertEquals(0, extractorPlugins.length);
-    }
-
-    @Test
-    public void testGetApplicableExtractors() throws IOException, InstantiationException, IllegalAccessException {
-        final ExtractorGroup extractorGroup = manager.getApplicableExtractors(
-                HTML_SCRAPER_TARGET_DIR,
-                HTML_SCRAPER_DEPENDENCY_DIR, // Required to satisfy class dependencies.
-                OFFICE_SCRAPER_TARGET_DIR,
-                OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
-        );
-        Assert.assertEquals(
-                NUM_OF_EXTRACTORS + 2, // HTMLScraper Plugin, OfficeScraper Plugin.
-                extractorGroup.getNumOfExtractors()
-        );
     }
 
     private void decompressJar(File jarFile, File destination) throws IOException {
