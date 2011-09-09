@@ -34,4 +34,4 @@ do
   CP="$CP$SEP$jar"
 done
 
-exec java $ANY23_OPTS -cp "$CP" -Xmx256M org.deri.any23.cli.ToolRunner $ANY23_ROOT/target/*-jar-with-dependencies.jar "$@"
+exec java $ANY23_OPTS -cp "$CP" -Xmx256M org.deri.any23.cli.ToolRunner "$@"

@@ -32,7 +32,6 @@ import java.lang.annotation.Target;
  * @see org.deri.any23.cli.ExtractorDocumentation
  * @see org.deri.any23.cli.Rover
  */
-// TODO: remove JAR input parameter.
 @ToolRunner.Skip
 public class ToolRunner {
 
@@ -47,18 +46,14 @@ public class ToolRunner {
     );
 
     public static void main(String[] args) throws IOException {
-        if(args.length == 0) {
-            usage("Missing JAR file location.", null);
-        }
-
-        //generate automatically the cli.
+        //Generate automatically the cli.
         final Class<Tool>[] tools = getToolsInClasspath();
         try {
-            if (args.length < 2) {
+            if (args.length < 1) {
                 usage(null, tools);
             }
 
-            final String toolName = args[1];
+            final String toolName = args[0];
             Class<Tool> targetTool = null;
             for(Class<Tool> tool : tools) {
                 if(tool.getSimpleName().equals(toolName)) {
@@ -71,8 +66,8 @@ public class ToolRunner {
                 throw new IllegalStateException();
             }
 
-            String[] mainArgs = new String[args.length - 2];
-            System.arraycopy(args, 2, mainArgs, 0, mainArgs.length);
+            String[] mainArgs = new String[args.length - 1];
+            System.arraycopy(args, 1, mainArgs, 0, mainArgs.length);
             final Tool targetToolInstance = targetTool.newInstance();
             targetToolInstance.run(mainArgs);
         } catch (Throwable e) {
