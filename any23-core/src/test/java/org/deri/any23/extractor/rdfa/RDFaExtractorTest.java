@@ -21,6 +21,7 @@ import org.deri.any23.extractor.html.AbstractExtractorTestCase;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.FOAF;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Statement;
@@ -46,16 +47,35 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         return RDFaExtractor.factory;
     }
 
+    /**
+     * Verify the basic RDFa support.
+     *
+     * @throws RepositoryException
+     */
     @Test
-    public void testSimple() throws RepositoryException {
-        assertExtracts("html/rdfa/dummy.html");
+    public void testBasic() throws RepositoryException {
+        assertExtracts("html/rdfa/basic.html");
         assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en") );
         assertContains(null, vDCTERMS.title  , RDFUtils.literal("The trouble with Bob", "en") );
+        assertContains(null, RDFUtils.uri("http://fake.org/prop"), RDFUtils.literal("Mary", "en") );
+    }
+
+    @Test @Ignore
+    public void testObjectResourceConversion() throws RepositoryException {
+        assertExtracts("html/rdfa/object-resource-test.html");
+        logger.debug(dumpModelToTurtle());
+         assertContains(
+                null,
+                FOAF.getInstance().page,
+                RDFUtils.uri("http://en.wikipedia.org/New_York")
+        );
     }
 
     /**
-     * This test check if the <a href=""http://www.w3.org/TR/2010/WD-rdfa-core-20100422/#s_curieprocessing">RDFa1.1 CURIEs</a> expansion is correct
-     * and backward compatible with <a href="http://www.w3.org/TR/rdfa-syntax/#s_curieprocessing">RDFa 1.0</a>.
+     * This test check if the
+     * <a href=""http://www.w3.org/TR/2010/WD-rdfa-core-20100422/#s_curieprocessing">RDFa1.1 CURIEs</a>
+     * expansion is correct and backward compatible with
+     * <a href="http://www.w3.org/TR/rdfa-syntax/#s_curieprocessing">RDFa 1.0</a>.
      *
      * @throws RepositoryException
      */
@@ -118,18 +138,9 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     }
 
     /**
-     * Tests that the default parser settings enable tolerance in data type parsing.
-     */
-    @Test
-    public void testTolerantParsing() {
-        assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
-    }
-
-    /**
      * This test checks if the subject of a property modeled as <i>RDFa</i> in a <i>XHTML</i> document
      * where the subject contains inner <i>XML</i> tags is represented as a plain <i>Literal</i> stripping all
      * the inner tags.
-     *
      * For details see the <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a>
      * recommendation. 
      *  
@@ -149,9 +160,8 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
     }
 
     /**
-     * This test checks the behavior of the <i>RDFa</i> extraction where the datatype of a property is
-     * explicitly set.
-     *
+     * This test checks the behavior of the <i>RDFa</i> extraction where the datatype
+     * of a property is explicitly set.
      * For details see the <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a>
      * recommendation.
      *  
@@ -162,16 +172,25 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
         logger.debug(dumpModelToTurtle());
 
-        Literal literal = RDFUtils.literal("Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
-                "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +
-                "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</STRONG>\n", RDF.XMLLITERAL);
-
+        Literal literal = RDFUtils.literal(
+                "Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
+                "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" "  +
+                "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</STRONG>\n",
+                RDF.XMLLITERAL
+        );
         assertContains(
                 RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
                 vFOAF.name,
                 literal
         );
+    }
 
+    /**
+     * Tests that the default parser settings enable tolerance in data type parsing.
+     */
+    @Test
+    public void testTolerantParsing() {
+        assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
     }
 
     /**
@@ -179,8 +198,7 @@ public class RDFaExtractorTest extends AbstractExtractorTestCase {
      * <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a> specification against the
      * <a href="http://files.openspring.net/tmp/drupal-test-frontpage.html">Drupal test page</a>.
      *
-     * @throws RuntimeException
-     *
+     * @throws org.openrdf.repository.RepositoryException
      */
     @Test
     public void testDrupalTestPage() throws RepositoryException {
