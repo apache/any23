@@ -229,6 +229,9 @@ Package all modules for direct download:
 
     $ cd <curr-tag-export>/
     <curr-tag-export>$ mvn clean package
+    cd any23-core
+    mvn assembly:assembly
+    cd ..
     cd ..
     tar cvzf any23-<curr-tag>.tar.gz tags/<curr-tag>
     zip   -r any23-<curr-tag>.zip    tags/<curr-tag>
