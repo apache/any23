@@ -2,8 +2,6 @@ Developers Guide
 
     This section introduces some <<Any23>> programming fundamentals.
 
-TOC
-
 * {{{./dev-data-extraction.html}Data Extraction}}
   
   Explains how to extract RDF data from HTTP resources with <<Any23>>.

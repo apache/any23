@@ -1,12 +1,10 @@
 Any23 Extractors
 
-  This page enlists all the Any23 Extractors.
-
-  Extractors package: {{{./xref/org/deri/any23/extractor/package-summary.html}Microformats Extractors}}
+  This page enlists all the Any23 Extractors (see source code {{{./xref/org/deri/any23/extractor/package-summary.html}package}}).
 
 * Microformat Extractors
 
-      Specific details about Microformat extractors can be found {{{./microformat-extractor.html}here}}.
+      Specific details about Microformat extractors can be found {{{./dev-microformat-extractors.html}here}}.
 
       {{{./xref/org/deri/any23/extractor/html/GeoExtractor.html}GeoExtractor}}
 
@@ -57,9 +55,9 @@ Any23 Extractors
 
 * Content Extractors
 
-      {{{./xref/org/deri/any23/extractor/xpath/XPathExtractor.html}XPath Extractor}}
+      {{{./xref/org/deri/any23/extractor/xpath/XPathExtractor.html}XPath Extractor}} (<<Experimental>>)
 
-      {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.html}CSV Extractor}}
+      {{{./xref/org/deri/any23/extractor/csv/CSVExtractor.html}CSV Extractor}} (See the extraction {{{./dev-csv-extractor.html}algorithm}}.)
 
 Get more documentation
 

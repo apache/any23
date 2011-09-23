@@ -19,7 +19,7 @@ $ svn checkout http://any23.googlecode.com/svn/trunk any23-trunk-readonly
 
 * Build <<Any23>>
 
-    The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 2.X.Y+}}.
+    The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 2.x.y+}}.
     For specific information about Maven see: {{{http://maven.apache.org/}}}
     Go to the trunk folder:
 

@@ -15,9 +15,9 @@ Introduction to Any23
 
      * {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}}: Comma Separated Values with separator autodetection.
 
-    A full description of available extractors is {{{./extractors.html}here}}.
+    A detailed description of available extractors is {{{./extractors.html}here}}.
 
-    <<Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/any23-core/LICENSE.txt}Apache License}}.
+    <<Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/LICENSE.txt}Apache License}}.
     <<Any23>> can be used in various ways:
      * As a library in Java applications that consume structured data from the Web.
      * As a command-line tool for extracting and converting between the supported formats.
@@ -37,9 +37,9 @@ Introduction to Any23
 
     {{{./configuration.html}Configuration}}: learn how to change default library and service configuration.
 
-    {{{./rest-service.html}REST Service}}: discover how to use the <<Any23 REST Service>>.
+    {{{./service.html}REST Service}}: discover how to use the <<Any23 REST Service>>.
 
-    {{{./plugins.html}Plugins}}: read how to install and configure the <<Any23>> plugins.
+    {{{./any23-plugins.html}Plugins}}: read how to install and configure the <<Any23>> plugins.
 
     {{{./developers.html}Developers}}: understand the <<Any23>> code internals,
     how to write plugins, fixing rules and customize the code.
