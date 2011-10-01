@@ -34,16 +34,32 @@ public class RDFSchemaUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(RDFSchemaUtilsTest.class);
 
     /**
-     * Test case for {@link org.deri.any23.vocab.RDFSchemaUtils#serializeVocabulariesToNQuads(java.io.OutputStream)}
+     * Test case for
+     * {@link org.deri.any23.vocab.RDFSchemaUtils#serializeVocabularies(
+     * org.deri.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.OutputStream)} with <i>NTriples</i> format.
      */
     @Test
-    public void testSerializeVocabularies() {
+    public void testSerializeVocabulariesNTriples() {
+        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.NTriples, 802);
+    }
+
+    /**
+     * Test case for
+     * {@link org.deri.any23.vocab.RDFSchemaUtils#serializeVocabularies(
+     * org.deri.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.OutputStream)} with <i>RDFXML</i> format.
+     */
+    @Test
+    public void testSerializeVocabulariesRDFXML() {
+        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.RDFXML, 2065);
+    }
+
+    private void serializeVocabularies(RDFSchemaUtils.VocabularyFormat format, int expectedLines) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        RDFSchemaUtils.serializeVocabulariesToNQuads(baos);
+        RDFSchemaUtils.serializeVocabularies(format, baos);
         final String output = baos.toString();
         logger.debug(output);
         final int occurrences= StringUtils.countOccurrences(output, "\n");
-        Assert.assertEquals(802, occurrences);
+        Assert.assertEquals(expectedLines, occurrences);
     }
 
 }

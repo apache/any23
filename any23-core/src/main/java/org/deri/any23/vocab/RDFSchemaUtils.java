@@ -16,7 +16,6 @@
 
 package org.deri.any23.vocab;
 
-import org.deri.any23.parser.NQuadsWriter;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.util.DiscoveryUtils;
 import org.openrdf.model.URI;
@@ -24,6 +23,8 @@ import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
+import org.openrdf.rio.ntriples.NTriplesWriter;
+import org.openrdf.rio.rdfxml.RDFXMLWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -37,6 +38,14 @@ import java.util.List;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class RDFSchemaUtils {
+
+    /**
+     * Supported formats for vocabulary serialization.
+     */
+    public enum VocabularyFormat {
+        RDFXML,
+        NTriples
+    }
 
     /**
      * Serializes a vocabulary composed of the given <code>namespace</code>,
@@ -87,35 +96,45 @@ public class RDFSchemaUtils {
      * Serializes the given <code>vocabulary</code> to <i>NQuads</i> over the given output stream.
      *
      * @param vocabulary vocabulary to be serialized.
+     * @param format output format for vocabulary.
      * @param os output stream.
      * @throws RDFHandlerException
      */
-    public static void serializeVocabularyToNQuads(Vocabulary vocabulary, OutputStream os)
+    public static void serializeVocabulary(Vocabulary vocabulary, VocabularyFormat format, OutputStream os)
     throws RDFHandlerException {
-        final NQuadsWriter nQuadsWriter = new NQuadsWriter(os);
-        serializeVocabulary(vocabulary, nQuadsWriter);
+        final RDFWriter rdfWriter;
+        if(format == VocabularyFormat.RDFXML) {
+            rdfWriter = new RDFXMLWriter(os);
+        } else if(format == VocabularyFormat.NTriples) {
+            rdfWriter = new NTriplesWriter(os);
+        } else {
+            throw new IllegalArgumentException("Unsupported format " + format);
+        }
+        serializeVocabulary(vocabulary, rdfWriter);
     }
 
     /**
      * Serialized the given <code>vocabulary</code> to <i>NQuads</i> and return them as string.
      *
      * @param vocabulary vocabulary to be serialized.
+     * @param format output format for vocabulary.
      * @return string contained serialization.
      * @throws RDFHandlerException
      */
-    public static String serializeVocabularyToNQuads(Vocabulary vocabulary)
+    public static String serializeVocabulary(Vocabulary vocabulary, VocabularyFormat format)
     throws RDFHandlerException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializeVocabularyToNQuads(vocabulary, baos);
+        serializeVocabulary(vocabulary, format, baos);
         return baos.toString();
     }
 
     /**
      * Serializes all the vocabularies to <i>NQuads</i> over the given output stream.
      *
+     * @param format output format for vocabularies.
      * @param os output stream.
      */
-    public static void serializeVocabulariesToNQuads(OutputStream os) {
+    public static void serializeVocabularies(VocabularyFormat format, OutputStream os) {
         final Class vocabularyClass = Vocabulary.class;
         final List<Class> vocabularies = DiscoveryUtils.getClassesInPackage(
                 vocabularyClass.getPackage().getName(),
@@ -131,7 +150,7 @@ public class RDFSchemaUtils {
                 throw new RuntimeException("Error while instantiating vocabulary class " + vocabClazz, e);
             }
             try {
-                serializeVocabularyToNQuads(instance, os);
+                serializeVocabulary(instance, format, os);
             } catch (RDFHandlerException rdfhe) {
                 throw new RuntimeException("Error while serializing vocabulary.", rdfhe);
             }
