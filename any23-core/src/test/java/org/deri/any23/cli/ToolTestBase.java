@@ -28,6 +28,7 @@ import java.util.Arrays;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+// TODO: improve support for Tool testing, intercept i/o streams.
 public abstract class ToolTestBase extends Any23OnlineTestBase {
 
     public static final String TOOL_RUN_METHOD = "run";
