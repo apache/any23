@@ -16,6 +16,7 @@
 
 package org.deri.any23.vocab;
 
+import org.deri.any23.parser.NQuadsWriter;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.util.DiscoveryUtils;
 import org.openrdf.model.URI;
@@ -43,8 +44,9 @@ public class RDFSchemaUtils {
      * Supported formats for vocabulary serialization.
      */
     public enum VocabularyFormat {
-        RDFXML,
-        NTriples
+        NQuads,
+        NTriples,
+        RDFXML
     }
 
     /**
@@ -107,7 +109,10 @@ public class RDFSchemaUtils {
             rdfWriter = new RDFXMLWriter(os);
         } else if(format == VocabularyFormat.NTriples) {
             rdfWriter = new NTriplesWriter(os);
-        } else {
+        } else if(format == VocabularyFormat.NQuads) {
+            rdfWriter = new NQuadsWriter(os);
+        }
+        else {
             throw new IllegalArgumentException("Unsupported format " + format);
         }
         serializeVocabulary(vocabulary, rdfWriter);

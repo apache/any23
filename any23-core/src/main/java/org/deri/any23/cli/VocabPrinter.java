@@ -53,7 +53,8 @@ public class VocabPrinter implements Tool {
                     new Option(
                         "f", "format",
                         true,
-                        "Vocabulary output format, supported values are: " + Arrays.toString(RDFSchemaUtils.VocabularyFormat.values())
+                        "Vocabulary output format, supported values are: " +
+                        Arrays.toString(RDFSchemaUtils.VocabularyFormat.values())
                     )
             );
             commandLine = parser.parse(options, args);
@@ -63,7 +64,7 @@ public class VocabPrinter implements Tool {
             }
             try {
                 format = RDFSchemaUtils.VocabularyFormat.valueOf(
-                        commandLine.getOptionValue("f", RDFSchemaUtils.VocabularyFormat.RDFXML.name())
+                        commandLine.getOptionValue("f", RDFSchemaUtils.VocabularyFormat.NQuads.name())
                 );
             } catch (IllegalArgumentException iae) {
                 throw new IllegalArgumentException("Unknown format [" + commandLine.getOptionValue("f") + "'");
