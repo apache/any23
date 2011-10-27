@@ -67,7 +67,7 @@ public class RDFSchemaUtils {
     ) throws RDFHandlerException {
         writer.startRDF();
         for(URI entity : resources) {
-            writer.handleStatement( RDFUtils.quad(entity, RDF.TYPE, RDFS.RESOURCE, namespace) );
+            writer.handleStatement( RDFUtils.quad(entity, RDF.TYPE, RDFS.CLASS  , namespace)  );
             writer.handleStatement( RDFUtils.quad(entity, RDFS.MEMBER, namespace, namespace)  );
         }
         for(URI property : properties) {
