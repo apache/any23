@@ -33,6 +33,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
  * It provides a wrapper to instantiate RDF objects.
  */
+// TODO: Merge with RDFUtils.java
 public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(Any23ValueFactoryWrapper.class);
