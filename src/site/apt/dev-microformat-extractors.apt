@@ -7,6 +7,8 @@ Microformat Extractors
 {microformat-nesting}
 * Nesting different Microformats
 
+[TODO: add picture about microformat nesting structure.]
+
  This section describes how <<Any23>> represents, with RDF, the content of an HTML fragments containing different nested
  Microformats.
  <<Any23>> performs the extraction executing different extractors for every supported Microformat on a input HTML page.
