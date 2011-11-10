@@ -4,6 +4,7 @@ Microformat Extractors
  Main aim of this section is to describe how
  some specific cases are processed with <<Any23>> showing the correspondences between the extracted RDF triples.
 
+{microformat-nesting}
 * Nesting different Microformats
 
  This section describes how <<Any23>> represents, with RDF, the content of an HTML fragments containing different nested
