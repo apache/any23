@@ -179,6 +179,7 @@ public class ExtractionParameters {
      *
      * @param propertyName the property name.
      * @return the property value.
+     * @throws IllegalArgumentException if the property name is not defined in configuration.
      */
     public String getProperty(String propertyName) {
         final String propertyValue = extractionProperties.get(propertyName);
@@ -237,6 +238,6 @@ public class ExtractionParameters {
 
     private void validateValue(String desc, String value) {
         if(value == null || value.trim().length() == 0)
-            throw new IllegalArgumentException( String.format("Invalid %s value: '%s', flagName", desc, value) );
+            throw new IllegalArgumentException( String.format("Invalid %s: '%s'", desc, value) );
     }
 }

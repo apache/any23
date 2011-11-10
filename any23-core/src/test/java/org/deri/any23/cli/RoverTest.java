@@ -53,6 +53,32 @@ public class RoverTest extends ToolTestBase {
         runWithMultiSourcesAndVerify(TARGET_FILES, 0);
     }
 
+    @Test
+    public void testRunWithDefaultNS() throws Exception {
+        final String DEFAULT_GRAPH = "http://test/default/ns";
+        final File outFile = File.createTempFile("rover-test", "out");
+        final int exitCode = runTool(
+                String.format(
+                        "-v -o %s -f nquads -p -n %s -d %s",
+                        outFile.getAbsolutePath(),
+                        "src/test/resources/cli/rover-test1.nq",
+                        DEFAULT_GRAPH
+                )
+        );
+
+        Assert.assertEquals("Unexpected exit code.", 0, exitCode);
+        Assert.assertTrue(outFile.exists());
+        final String fileContent = FileUtils.readFileContent(outFile);
+        final String[] lines = fileContent.split("\\n");
+        int graphCounter = 0;
+        for(String line : lines) {
+            if(line.contains(DEFAULT_GRAPH)) {
+                graphCounter++;
+            }
+        }
+        Assert.assertEquals(2, graphCounter);
+    }
+
     /* BEGIN: online tests. */
 
     @Test

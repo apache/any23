@@ -69,6 +69,8 @@ import static org.deri.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
+    public static final String EXTRACTION_CONTEXT_URI_PROPERTY = "any23.extraction.context.uri";
+
     public static final String METADATA_TIMESIZE_FLAG           = "any23.extraction.metadata.timesize";
     public static final String METADATA_NESTING_FLAG            = "any23.extraction.metadata.nesting";
     public static final String METADATA_DOMAIN_PER_ENTITY_FLAG  = "any23.extraction.metadata.domain.per.entity";
@@ -208,12 +210,13 @@ public class SingleDocumentExtraction {
         if(extractionParameters == null) {
             extractionParameters = ExtractionParameters.newDefault(configuration);
         }
-        
+
+        final String contextURI = extractionParameters.getProperty(EXTRACTION_CONTEXT_URI_PROPERTY);
         ensureHasLocalCopy();
         try {
             this.documentURI = new Any23ValueFactoryWrapper(
                     ValueFactoryImpl.getInstance()
-            ).createURI( in.getDocumentURI() );
+            ).createURI( "?".equals(contextURI) ? in.getDocumentURI() : contextURI);
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
         }

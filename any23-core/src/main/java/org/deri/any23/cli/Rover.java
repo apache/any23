@@ -28,6 +28,7 @@ import org.deri.any23.configuration.Configuration;
 import org.deri.any23.configuration.DefaultConfiguration;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractionParameters;
+import org.deri.any23.extractor.SingleDocumentExtraction;
 import org.deri.any23.filter.IgnoreAccidentalRDFa;
 import org.deri.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.deri.any23.writer.BenchmarkTripleHandler;
@@ -161,16 +162,16 @@ public class Rover implements Tool {
     private Options createOptions() {
         final Options options = new Options();
         options.addOption(
-                new Option("v", "verbose", false, "show debug and progress information")
+                new Option("v", "verbose", false, "Show debug and progress information.")
         );
         options.addOption(
-                new Option("h", "help", false, "print this help")
+                new Option("h", "help", false, "Print this help.")
         );
         options.addOption(
-                new Option("e", true, "comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
+                new Option("e", true, "Specify a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle.")
         );
         options.addOption(
-                new Option("o", "output", true, "output file (defaults to standard output)")
+                new Option("o", "output", true, "Specify Output file (defaults to standard output).")
         );
         options.addOption(
                 new Option(
@@ -187,19 +188,22 @@ public class Rover implements Tool {
                 )
         );
         options.addOption(
-                new Option("t", "notrivial", false, "filter trivial statements")
+                new Option("t", "notrivial", false, "Filter trivial statements (e.g. CSS related ones).")
         );
         options.addOption(
-                new Option("s", "stats", false, "print out extraction statistics")
+                new Option("s", "stats", false, "Print out extraction statistics.")
         );
         options.addOption(
-                new Option("l", "log", true, "produces log within a file")
+                new Option("l", "log", true, "Produce log within a file.")
         );
         options.addOption(
-                new Option("p", "pedantic", false, "validate and fixes HTML content detecting commons issues")
+                new Option("p", "pedantic", false, "Validate and fixes HTML content detecting commons issues.")
         );
         options.addOption(
-                new Option("n", "nesting", false, "disable production of nesting triples")
+                new Option("n", "nesting", false, "Disable production of nesting triples.")
+        );
+        options.addOption(
+                new Option("d", "defaultns", true, "Override the default namespace used to produce statements.")
         );
         return options;
     }
@@ -319,12 +323,19 @@ public class Rover implements Tool {
     private ExtractionParameters getExtractionParameters(CommandLine cl) {
         final boolean nestingDisabled = ! cl.hasOption('n');
         final Configuration configuration = DefaultConfiguration.singleton();
-        return
+        final ExtractionParameters extractionParameters =
                 cl.hasOption('p')
                         ?
                 new ExtractionParameters(configuration, ValidationMode.ValidateAndFix, nestingDisabled)
                         :
                 new ExtractionParameters(configuration, ValidationMode.None          , nestingDisabled);
+        if( cl.hasOption('d') ) {
+            extractionParameters.setProperty(
+                    SingleDocumentExtraction.EXTRACTION_CONTEXT_URI_PROPERTY,
+                    cl.getOptionValue('d')
+            );
+        }
+        return extractionParameters;
     }
 
     private Any23 createAny23(String[] extractorNames) {
@@ -335,11 +346,9 @@ public class Rover implements Tool {
         return any23;
     }
 
-    private void performExtraction(
-            Any23 any23, ExtractionParameters eps, String target, TripleHandler th
-    ) {
+    private void performExtraction(Any23 any23, ExtractionParameters eps, String documentURI, TripleHandler th) {
         try {
-            if (! any23.extract(eps, target, th).hasMatchingExtractors()) {
+            if (! any23.extract(eps, documentURI, th).hasMatchingExtractors()) {
                 throw new SpecificExitException("No suitable extractors found.", 2);
             }
         } catch (ExtractionException ex) {
