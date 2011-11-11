@@ -9,6 +9,8 @@ Any23 Extractors
       Specific details about *Microformats* extractors can be found {{{./dev-microformat-extractors.html}here}}.
       In particular the *Microformats Nesting* representation policy is described {{{./dev-microformat-extractors.html#microformat-nesting}here}}.
 
+      {{{./xref/org/deri/any23/extractor/html/AdrExtractor.html}AdrExtractor}}
+
       {{{./xref/org/deri/any23/extractor/html/GeoExtractor.html}GeoExtractor}}
 
       {{{./xref/org/deri/any23/extractor/html/HCalendarExtractor.html}HCalendar}}
@@ -44,19 +46,23 @@ Any23 Extractors
 
 *  RDF
 
-      {{{./xref/org/deri/any23/extractor/rdf/NQuadsExtractor.html}NQuadsExtractor}}
+      {{{./xref/org/deri/any23/extractor/rdf/RDFXMLExtractor.html}RDFXMLExtractor}}
 
-      {{{./xref/org/deri/any23/extractor/rdf/NTriplesExtractor.html}NTriplesExtractor}}
+      {{{./xref/org/deri/any23/extractor/rdf/NQuadsExtractor.html}NQuadsExtractor}}
 
       {{{./xref/org/deri/any23/extractor/rdf/TurtleExtractor.html}TurtleExtractor}}
 
+      {{{./xref/org/deri/any23/extractor/rdf/NTriplesExtractor.html}NTriplesExtractor}}
+
 * Metadata Extractors
+
+      {{{./xref/org/deri/any23/extractor/html/TitleExtractor.html}TitleExtractor}}
+
+      {{{./xref/org/deri/any23/extractor/html/HTMLMetaExtractor.html}HTMLMetaExtractor}}
 
       {{{./xref/org/deri/any23/extractor/html/HeadLinkExtractor.html}HeadLinkExtractor}}
 
       {{{./xref/org/deri/any23/extractor/html/ICBMExtractor.html}ICBMExtractor}}
-
-      {{{./xref/org/deri/any23/extractor/html/TitleExtractor.html}TitleExtractor}}
 
       {{{./xref/org/deri/any23/extractor/html/TurtleHTMLExtractor.html}TurtleHTMLExtractor}}
 
