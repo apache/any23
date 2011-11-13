@@ -595,8 +595,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.9</version>
                 <configuration>
-                    <!-- Disabling assertions. -->
-                    <argLine>-ea -da:org.openrdf.sail.memory.model.MemValueFactory</argLine>
+                    <!--
+                        Declaring default file encoding: UTF-8
+                        Enabling assertions.
+                        Disabling assertions for Sesame Sail.
+                     -->
+                    <argLine>-Dfile.encoding=UTF-8 -ea -da:org.openrdf.sail.memory.model.MemValueFactory</argLine>
                     <includes>
                         <include>**/*Test.java</include>
                         <include>**/*TestCase.java</include>

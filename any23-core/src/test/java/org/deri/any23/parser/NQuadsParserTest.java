@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -66,6 +67,38 @@ public class NQuadsParserTest {
     @After
     public void tearDown() {
         parser = null;
+    }
+
+    /**
+     * Tests the correct behavior with incomplete input.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test(expected = RDFParseException.class)
+    public void testIncompleteParsing() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                "<http://s> <http://p> <http://o> <http://g>".getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+    }
+
+    /**
+     * Tests parsing of empty lines and comments.
+     *
+     * @throws java.io.IOException
+     */
+    @Test
+    public void testParseEmptyLinesAndComments() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "  \n\n\n# This is a comment\n\n#this is another comment."
+            .getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        Assert.assertEquals(rdfHandler.getStatements().size(), 0);
     }
 
     /**
@@ -252,13 +285,104 @@ public class NQuadsParserTest {
     }
 
     /**
+     * Tests the correct decoding of UTF-8 encoded chars in URIs.
+     *
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    @Test
+    public void testURIDecodingManagement() throws RDFHandlerException, IOException, RDFParseException {
+        TestParseLocationListener parseLocationListener = new TestParseLocationListener();
+        TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setParseLocationListener(parseLocationListener);
+        parser.setRDFHandler(rdfHandler);
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            "<http://s/\\u306F\\u3080> <http://p/\\u306F\\u3080> <http://o/\\u306F\\u3080> <http://g/\\u306F\\u3080> ."
+            .getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+
+        rdfHandler.assertHandler(1);
+        final Statement statement = rdfHandler.getStatements().get(0);
+
+        final Resource subject = statement.getSubject();
+        Assert.assertTrue( subject instanceof URI);
+        final String subjectURI = subject.toString();
+        Assert.assertEquals("http://s/はむ", subjectURI);
+
+        final Resource predicate = statement.getPredicate();
+        Assert.assertTrue( predicate instanceof URI);
+        final String predicateURI = predicate.toString();
+        Assert.assertEquals("http://p/はむ", predicateURI);
+
+        final Value object = statement.getObject();
+        Assert.assertTrue( object instanceof URI);
+        final String objectURI = object.toString();
+        Assert.assertEquals("http://o/はむ", objectURI);
+
+        final Resource graph = statement.getContext();
+        Assert.assertTrue( graph instanceof URI);
+        final String graphURI = graph.toString();
+        Assert.assertEquals("http://g/はむ", graphURI);
+    }
+
+    @Test
+    public void testUnicodeLiteralManagement() throws RDFHandlerException, IOException, RDFParseException {
+        TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        final String INPUT_LITERAL = "[は、イギリスおよびイングランドの首都である] [是大不列顛及北愛爾蘭聯合王國和英格蘭的首都]";
+        final String INPUT_STRING = String.format(
+                "<http://a> <http://b> \"%s\" <http://c> .",
+                INPUT_LITERAL
+        );
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            INPUT_STRING.getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+
+        rdfHandler.assertHandler(1);
+        final Literal obj = (Literal) rdfHandler.getStatements().get(0).getObject();
+        Assert.assertEquals(INPUT_LITERAL, obj.getLabel());
+    }
+
+    @Test
+    public void testUnicodeLiteralDecoding() throws RDFHandlerException, IOException, RDFParseException {
+        TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        final String INPUT_LITERAL_PLAIN   = "[は]";
+        final String INPUT_LITERAL_ENCODED = "[\\u306F]";
+        final String INPUT_STRING = String.format(
+                "<http://a> <http://b> \"%s\" <http://c> .",
+                INPUT_LITERAL_ENCODED
+        );
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            INPUT_STRING.getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+
+        rdfHandler.assertHandler(1);
+        final Literal obj = (Literal) rdfHandler.getStatements().get(0).getObject();
+        Assert.assertEquals(INPUT_LITERAL_PLAIN, obj.getLabel());
+    }
+
+    @Test(expected = RDFParseException.class)
+    public void testWrongUnicodeEncodedCharFail() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                "<http://s> <http://p> \"\\u123X\" <http://g> .".getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+    }
+
+    /**
      * Tests the correct support for EOS exception.
      *
      * @throws RDFHandlerException
      * @throws IOException
      * @throws RDFParseException
      */
-    @Test(expected = IOException.class)
+    @Test(expected = RDFParseException.class)
     public void testEndOfStreamReached()
     throws RDFHandlerException, IOException, RDFParseException {
         final ByteArrayInputStream bais = new ByteArrayInputStream(
@@ -277,7 +401,6 @@ public class NQuadsParserTest {
     @Test
     public void testParserWithAllCases()
     throws IOException, RDFParseException, RDFHandlerException {
-
         TestParseLocationListener parseLocationListerner = new TestParseLocationListener();
         SpecificTestRDFHandler rdfHandler = new SpecificTestRDFHandler();
         parser.setParseLocationListener(parseLocationListerner);
@@ -307,7 +430,6 @@ public class NQuadsParserTest {
     @Test
     public void testParserWithRealData()
     throws IOException, RDFParseException, RDFHandlerException {
-
         TestParseLocationListener parseLocationListener = new TestParseLocationListener();
         TestRDFHandler rdfHandler = new TestRDFHandler();
         parser.setParseLocationListener(parseLocationListener);
@@ -320,6 +442,38 @@ public class NQuadsParserTest {
 
         rdfHandler.assertHandler(400);
         parseLocationListener.assertListener(400, 348);
+    }
+
+    @Test(expected = RDFParseException.class)
+    public void testStatementWithInvalidDatatypeAndStrictValidation()
+    throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                (
+                "<http://dbpedia.org/resource/Camillo_Benso,_conte_di_Cavour> " +
+                "<http://dbpedia.org/property/mandatofine> " +
+                "\"1380.0\"^^<http://dbpedia.org/datatype/second> " +
+                "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
+                ).getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+    }
+
+    @Test
+    public void testStatementWithInvalidDatatypeAndTolerantValidation()
+    throws RDFHandlerException, IOException, RDFParseException {
+        TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.setDatatypeHandling(RDFParser.DatatypeHandling.IGNORE);
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                (
+                        "<http://dbpedia.org/resource/Camillo_Benso,_conte_di_Cavour> " +
+                        "<http://dbpedia.org/property/mandatofine> " +
+                        "\"1380.0\"^^<http://dbpedia.org/datatype/second> " +
+                        "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
+                ).getBytes()
+        );
+        parser.parse(bais, "http://base-uri");
+        rdfHandler.assertHandler(1);
     }
 
     private class TestParseLocationListener implements ParseLocationListener {
