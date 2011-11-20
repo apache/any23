@@ -40,6 +40,7 @@ import org.deri.any23.extractor.rdf.NQuadsExtractor;
 import org.deri.any23.extractor.rdf.NTriplesExtractor;
 import org.deri.any23.extractor.rdf.RDFXMLExtractor;
 import org.deri.any23.extractor.rdf.TurtleExtractor;
+import org.deri.any23.extractor.rdfa.RDFa11Extractor;
 import org.deri.any23.extractor.rdfa.RDFaExtractor;
 
 import java.util.ArrayList;
@@ -71,13 +72,18 @@ public class ExtractorRegistry {
     public static ExtractorRegistry getInstance() {
         // Thread-safe
         synchronized (ExtractorRegistry.class) {
+            final DefaultConfiguration conf = DefaultConfiguration.singleton();
             if (instance == null) {
                 instance = new ExtractorRegistry();
                 instance.register(RDFXMLExtractor.factory);
                 instance.register(TurtleExtractor.factory);
                 instance.register(NTriplesExtractor.factory);
                 instance.register(NQuadsExtractor.factory);
-                instance.register(RDFaExtractor.factory);
+                if(conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
+                    instance.register(RDFa11Extractor.factory);
+                } else {
+                    instance.register(RDFaExtractor.factory);
+                }
                 instance.register(HeadLinkExtractor.factory);
                 instance.register(LicenseExtractor.factory);
                 instance.register(TitleExtractor.factory);
@@ -95,8 +101,7 @@ public class ExtractorRegistry {
                 instance.register(TurtleHTMLExtractor.factory);
                 instance.register(MicrodataExtractor.factory);
                 instance.register(CSVExtractor.factory);
-                // TODO: it is really needed?
-                if(DefaultConfiguration.singleton().getFlagProperty("any23.extraction.head.meta")) {
+                if(conf.getFlagProperty("any23.extraction.head.meta")) {
                     instance.register(HTMLMetaExtractor.factory);
                 }
             }

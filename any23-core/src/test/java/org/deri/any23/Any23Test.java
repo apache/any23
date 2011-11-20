@@ -33,6 +33,7 @@ import org.deri.any23.source.HTTPDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
 import org.deri.any23.util.FileUtils;
 import org.deri.any23.util.StreamUtils;
+import org.deri.any23.util.StringUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.writer.CompositeTripleHandler;
 import org.deri.any23.writer.CountingTripleHandler;
@@ -280,24 +281,14 @@ public class Any23Test extends Any23OnlineTestBase {
             Assert.fail(e.getMessage());
         }
 
-        String bufferContent = byteArrayOutputStream.toString();
+        final String bufferContent = byteArrayOutputStream.toString();
         logger.debug(bufferContent);
-        int i = 0;
-        int counter = 0;
-        while( i < bufferContent.length() ) {
-            i = bufferContent.indexOf("\n", i);
-            if(i == -1) {
-                break;
-            }
-            counter++;
-            i++;
-        }
-        Assert.assertSame("Unexpected number of triples.", 43, counter);
+        Assert.assertSame("Unexpected number of triples.", 44, StringUtils.countNL(bufferContent));
         
     }
 
     /**
-     * This test checks if a URL that is supposed to be GZIPPED is correctly opend and parsed with
+     * This test checks if a URL that is supposed to be GZIPPED is correctly opened and parsed with
      * the {@link org.deri.any23.Any23} facade.
      *
      * @throws IOException
@@ -370,7 +361,8 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testExtractionParametersWithNestingDisabled() throws IOException, ExtractionException {
+    public void testExtractionParametersWithNestingDisabled() throws IOException, ExtractionException, TripleHandlerException {
+        final int EXPECTED_TRIPLES = 22;
         Any23 runner = new Any23();
         DocumentSource source = new FileDocumentSource(
                 new File("src/test/resources/microformats/nested-microformats-a1.html"),
@@ -392,8 +384,9 @@ public class Any23Test extends Any23OnlineTestBase {
                 source,
                 compositeTH1
         );
-        logger.debug( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 26, cth1.getCount() );
+        compositeTH1.close();
+        logger.debug("Out1: " + baos.toString());
+        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES + 3, cth1.getCount() );
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -408,8 +401,9 @@ public class Any23Test extends Any23OnlineTestBase {
                 source,
                 compositeTH2
         );
-        logger.debug( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 23, cth2.getCount() );
+        compositeTH2.close();
+        logger.debug("Out2: " + baos.toString());
+        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth2.getCount() );
     }
 
     @Test

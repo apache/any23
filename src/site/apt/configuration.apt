@@ -89,6 +89,8 @@ any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.extraction.metadata.domain.per.entity|on (possible values: on/off)   |Activates/deactivates the generation of domain triple per entity.                   |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.rdfa.programmatic         |on (possible values: on/off)   |Switches between the programmatic RDFa 1.1 Extractor and the RDFa 1.0 XSLT base one.|                                                                                    |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.extraction.context.uri               |?(means current document URI)  |Default value for extraction content URI.                                           |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.plugin.dirs                          |./plugins                      |Directory containing Any23 plugins.                                                 |
