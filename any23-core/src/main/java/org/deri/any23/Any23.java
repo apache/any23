@@ -286,7 +286,8 @@ public class Any23 {
                 ex.getMatchingExtractors(),
                 ex.getParserEncoding(),
                 ex.getDetectedMIMEType(),
-                sder.getValidationReport()
+                sder.getValidationReport(),
+                sder.getExtractorToErrors()
         );
     }
 

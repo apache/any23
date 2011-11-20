@@ -20,7 +20,6 @@ import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.SINDICE;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Value;
@@ -44,13 +43,13 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtractPageTitle() throws RepositoryException {
         assertExtracts("microformats/xfn/simple-me.html");
-        Assert.assertTrue(conn.hasStatement(baseURI, vDCTERMS.title, helloLiteral, false));
+        assertContains(baseURI, vDCTERMS.title, helloLiteral);
     }
 
     @Test
     public void testStripSpacesFromTitle() throws RepositoryException {
         assertExtracts("microformats/xfn/strip-spaces.html");
-        Assert.assertTrue(conn.hasStatement(baseURI, vDCTERMS.title, helloLiteral, false));
+        assertContains(baseURI, vDCTERMS.title, helloLiteral);
     }
 
     @Test
@@ -65,7 +64,7 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
         assertExtracts("microformats/xfn/mixed-case.html");
-        Assert.assertTrue(conn.hasStatement(baseURI, vDCTERMS.title, helloLiteral, false));
+        assertContains(baseURI, vDCTERMS.title, helloLiteral);
     }
 
     /**
@@ -76,16 +75,8 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testTitleWithDefaultLanguage() throws RepositoryException {
         assertExtracts("html/default-language.html");
-        Assert.assertTrue(
-                conn.hasStatement(baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"), false)
-        );
-        Assert.assertFalse(
-                conn.hasStatement(baseURI, vDCTERMS.title, RDFUtils.literal(
-                        "Welcome to mydomain.net",
-                        (String) null),
-                        false
-                )
-        );
+        assertContains   (baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"));
+        assertNotContains(baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net",(String) null));
     }
     
 }

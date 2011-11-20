@@ -169,7 +169,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hcard/30-fn-org.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
-        RepositoryResult<Statement> repositoryResult = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+        RepositoryResult<Statement> repositoryResult = getStatements(null, RDF.TYPE, vVCARD.VCard);
         try {
             while (repositoryResult.hasNext()) {
                 Resource card = repositoryResult.next().getSubject();
@@ -197,7 +197,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 3);
         assertStatementsSize(vVCARD.email, (Value) null, 3);
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
@@ -236,7 +236,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         // check fn, name, family, nick.
         assertJohn();
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
         try {
             Resource example = RDFUtils.uri("http://example.org/");
             while (statements.hasNext()) {
@@ -278,7 +278,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 5);
 
-		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+		RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
 		while (statements.hasNext()) {
 			Resource vcard = statements.next().getSubject();
 			final Value fnValue = findObject(vcard, vVCARD.fn);
@@ -361,7 +361,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hcard/38-uid.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
 
         try {
             while (statements.hasNext()) {
@@ -397,7 +397,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/40-fn-inside-adr.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
-		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+		RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
 
         try {
             while (statements.hasNext()) {
@@ -462,7 +462,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
 		Resource name;
-		RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+		RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
 		while (statements.hasNext()) {
 			name = statements.next().getSubject();
 			assertContains(name, vVCARD.fn, "Ryan King");
@@ -520,7 +520,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/03-implied-n.html");
 		assertModelNotEmpty();
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, vVCARD.fn, null, false);
+        RepositoryResult<Statement> statements = getStatements(null, vVCARD.fn, null);
         Resource vcard;
         int count = 0;
         try {
@@ -790,7 +790,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hcard/33-area.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 5);
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
@@ -810,7 +810,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
         // Check that there are 4 organizations.
         assertStatementsSize(RDF.TYPE, vVCARD.Organization, 4);
-        statements = conn.getStatements(null, RDF.TYPE, vVCARD.Organization, false);
+        statements = getStatements(null, RDF.TYPE, vVCARD.Organization);
         try {
             while (statements.hasNext()) {
                 Resource org = statements.next().getSubject();
@@ -829,7 +829,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
         assertExtracts("microformats/hcard/34-notes.html");
         assertModelNotEmpty();
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.VCard);
         try {
             while (statements.hasNext()) {
                 Resource vcard = statements.next().getSubject();
@@ -852,7 +852,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 3);
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.Name, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.Name);
         try {
             while (statements.hasNext()) {
                 Resource name = statements.next().getSubject();
@@ -868,14 +868,14 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         }
 
         assertStatementsSize(RDF.TYPE, vVCARD.Organization, 2);
-        statements = conn.getStatements(null, RDF.TYPE, vVCARD.Organization, false);
+        statements = getStatements(null, RDF.TYPE, vVCARD.Organization);
         try {
             while (statements.hasNext()) {
                 Resource org = statements.next().getSubject();
                 Assert.assertNotNull(findObject(org, vVCARD.organization_name));
                 Assert.assertEquals("SimplyHired", findObjectAsLiteral(org, vVCARD.organization_name));
 
-                RepositoryResult<Statement> statements2 = conn.getStatements(null, vVCARD.org, org, false);
+                RepositoryResult<Statement> statements2 = getStatements(null, vVCARD.org, org);
                 try {
                     while (statements2.hasNext()) {
                         Resource vcard = statements2.next().getSubject();
@@ -896,7 +896,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtracts("microformats/hcard/38-uid.html");
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 4);
-		RepositoryResult<Statement> iter = conn.getStatements(null, RDF.TYPE, vVCARD.VCard, false);
+		RepositoryResult<Statement> iter = getStatements(null, RDF.TYPE, vVCARD.VCard);
 		while (iter.hasNext()) {
 			Resource vcard = iter.next().getSubject();
 			Assert.assertNotNull( findObject(vcard, vVCARD.fn) );

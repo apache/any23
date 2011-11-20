@@ -62,7 +62,8 @@ public interface ErrorReporter {
     /**
      * This class defines a generic error traced by this extraction result.
      */
-    class Error {
+    public class Error {
+
         private ErrorLevel level;
         private String message;
         private int row, col;
@@ -72,6 +73,22 @@ public interface ErrorReporter {
             message = msg;
             row = r;
             col = c;
+        }
+
+        public ErrorLevel getLevel() {
+            return level;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        public int getCol() {
+            return col;
         }
 
         @Override

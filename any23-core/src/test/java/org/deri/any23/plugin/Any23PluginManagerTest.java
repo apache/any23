@@ -86,7 +86,7 @@ public class Any23PluginManagerTest {
     @Test
     public <T> void testGetClassesFromClasspath() throws IOException {
         Set<Class<T>> clazzes = manager.getClassesInPackage("org.deri.any23", null);
-        Assert.assertEquals(185, clazzes.size());
+        Assert.assertEquals(188, clazzes.size());
     }
 
     @Test

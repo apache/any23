@@ -31,6 +31,7 @@ import java.util.List;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
+// TODO: merge with ErrorReporter
 public interface ValidationReport extends Serializable {
 
     /**

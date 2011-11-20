@@ -22,7 +22,6 @@ import org.deri.any23.vocab.DCTERMS;
 import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.vocab.VCARD;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -63,7 +62,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     @Test
 	public void test01Basic() throws RepositoryException {
 		assertExtracts("microformats/hreview/01-spec.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 
@@ -74,7 +73,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
         // there is one address in the item vcard
 		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
             while (reviews.hasNext()) {
@@ -114,7 +113,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 	public void test02RatedTags() throws RepositoryException {
 		
 		assertExtracts("microformats/hreview/02-spec-2.html");
-		Assert.assertFalse(conn.isEmpty());
+		assertModelNotEmpty();
 
 		assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 
@@ -126,7 +125,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
         // there is one address in the item vcard
 		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
             while (reviews.hasNext()) {
@@ -170,12 +169,12 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 	public void test03NoHcardForItem() throws RepositoryException {
 
         assertExtracts("microformats/hreview/03-spec-3.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
         assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
 
@@ -196,7 +195,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                                 "      I plan on sleeping in...\"\n     \n     \"Nothing Better\"" +
                                 " is a great track on this album, too...");
 
-                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, vREVIEW.hasReview, review, false);
+                RepositoryResult<Statement> reviewSubjects = getStatements(null, vREVIEW.hasReview, review);
 
                 try {
                     while (reviewSubjects.hasNext()) {
@@ -223,7 +222,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 	public void test04NoHcardForItem() throws RepositoryException {
 		
 		assertExtracts("microformats/hreview/04-spec-4.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, no item
@@ -232,7 +231,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
 
@@ -250,7 +249,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                 
                 assertStatementsSize(vREVIEW.hasReview, review, 1);
 
-                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, vREVIEW.hasReview, review, false);
+                RepositoryResult<Statement> reviewSubjects = getStatements(null, vREVIEW.hasReview, review);
 
                 try {
                     while(reviewSubjects.hasNext()) {
@@ -282,14 +281,14 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testCaseSensitiveness() throws RepositoryException {
         assertExtracts("microformats/hreview/05-spec.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, no item
 		assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
 
@@ -307,7 +306,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
                 assertStatementsSize(vREVIEW.hasReview, review, 1);
 
-                RepositoryResult<Statement> reviewSubjects = conn.getStatements(null, vREVIEW.hasReview, review, false);
+                RepositoryResult<Statement> reviewSubjects = getStatements(null, vREVIEW.hasReview, review);
 
                 try {
                     while(reviewSubjects.hasNext()) {

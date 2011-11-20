@@ -16,11 +16,14 @@
 
 package org.deri.any23;
 
+import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.Extractor;
 import org.deri.any23.validator.ValidationReport;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -41,16 +44,25 @@ public class ExtractionReport {
 
     private final ValidationReport validationReport;
 
+    private final Map<String,Collection<ErrorReporter.Error>> extractorErrors;
+
     public ExtractionReport(
             final List<Extractor> matchingExtractors,
             String encoding,
             String detectedMimeType,
-            ValidationReport validationReport
+            ValidationReport validationReport,
+            Map<String,Collection<ErrorReporter.Error>> extractorErrors
     ) {
+        if(matchingExtractors == null) throw new NullPointerException("list of matching extractors cannot be null.");
+        if(encoding == null) throw new NullPointerException("encoding cannot be null.");
+        // if(detectedMimeType == null) throw new NullPointerException("detected mime type cannot be null.");
+        if(validationReport == null) throw new NullPointerException("validation report cannot be null.");
+
         this.matchingExtractors    = Collections.unmodifiableList(matchingExtractors);
         this.encoding              = encoding;
         this.detectedMimeType      = detectedMimeType;
         this.validationReport      = validationReport;
+        this.extractorErrors       = Collections.unmodifiableMap(extractorErrors);
     }
 
     /**
@@ -62,7 +74,7 @@ public class ExtractionReport {
     }
 
     /**
-     * @return the list of matching extractors.
+     * @return the (unmodifiable) list of matching extractors.
      */
     public List<Extractor> getMatchingExtractors() {
         return matchingExtractors;
@@ -87,6 +99,19 @@ public class ExtractionReport {
      */
     public ValidationReport getValidationReport() {
         return validationReport;
+    }
+
+    /**
+     * @param extractorName name of the extractor.
+     * @return the (unmodifiable) map of errors per extractor.
+     */
+    public Collection<ErrorReporter.Error> getExtractorErrors(String extractorName) {
+        final Collection<ErrorReporter.Error> errors = extractorErrors.get(extractorName);
+        return  errors == null
+                ?
+                Collections.<ErrorReporter.Error>emptyList()
+                :
+                Collections.unmodifiableCollection(errors);
     }
 
 }

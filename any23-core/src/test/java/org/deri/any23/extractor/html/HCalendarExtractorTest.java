@@ -60,7 +60,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
-        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        RepositoryResult<Statement> result = getStatements(null, RDF.TYPE, vevent);
         try {
             while (result.hasNext()) {
                 Statement statement = result.next();
@@ -87,7 +87,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
-        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        RepositoryResult<Statement> result = getStatements(null, RDF.TYPE, vevent);
         try {
             while (result.hasNext()) {
                 Statement statement = result.next();
@@ -115,7 +115,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
-        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        RepositoryResult<Statement> result = getStatements(null, RDF.TYPE, vevent);
         try {
             while (result.hasNext()) {
                 Statement statement = result.next();
@@ -143,7 +143,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
-        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, vevent, false);
+        RepositoryResult<Statement> result = getStatements(null, RDF.TYPE, vevent);
         try {
             while (result.hasNext()) {
                 Statement statement = result.next();
@@ -378,7 +378,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     }
 
     private Resource getExactlyOneComponent(Resource r) throws RepositoryException {
-        RepositoryResult<Statement> result = conn.getStatements(null, RDF.TYPE, r, false);
+        RepositoryResult<Statement> result = getStatements(null, RDF.TYPE, r);
         try {
             Assert.assertTrue(result.hasNext());
             Resource sub = result.next().getSubject();

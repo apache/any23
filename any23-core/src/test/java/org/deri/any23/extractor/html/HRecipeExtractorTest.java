@@ -3,7 +3,6 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.HRECIPE;
 import org.deri.any23.vocab.SINDICE;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
@@ -36,7 +35,7 @@ public class HRecipeExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtraction() throws RepositoryException {
         assertExtracts("microformats/hrecipe/01-spec.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vHRECIPE.Recipe    , 1);
         assertStatementsSize(RDF.TYPE, vHRECIPE.Ingredient, 3);
         assertStatementsSize(RDF.TYPE, vHRECIPE.Duration  , 2);

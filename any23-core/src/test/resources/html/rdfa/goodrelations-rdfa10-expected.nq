@@ -1,0 +1,33 @@
+<http://bob.example.com/#offer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/goodrelations/v1#Offering> <http://bob.example.com/> .
+_:node16dssb0gtx1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.data-vocabulary.org/#Review-aggregate> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://rdf.data-vocabulary.org/#hasReview> _:node16dssb0gtx1 <http://bob.example.com/> .
+_:node16dssb0gtx1 <http://rdf.data-vocabulary.org/#rating> "4.4"@en <http://bob.example.com/> .
+_:node16dssb0gtx1 <http://rdf.data-vocabulary.org/#count> "89"@en <http://bob.example.com/> .
+<http://www.heppnetz.de/rdfa4google/company.html#business> <http://purl.org/goodrelations/v1#offers> <http://bob.example.com/#offer> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#name> "Canon Rebel T2i (EOS 550D)"@en <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#description> "The Rebel T2i EOS 550D is Canon's top-of-the-line digital SLR camera."@en <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#hasBusinessFunction> <http://purl.org/goodrelations/v1#Sell> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#acceptedPaymentMethods> <http://purl.org/goodrelations/v1#PayPal> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#acceptedPaymentMethods> <http://purl.org/goodrelations/v1#MasterCard> <http://bob.example.com/> .
+_:node16dssb0gtx2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/goodrelations/v1#UnitPriceSpecification> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#hasPriceSpecification> _:node16dssb0gtx2 <http://bob.example.com/> .
+_:node16dssb0gtx2 <http://purl.org/goodrelations/v1#hasCurrency> "USD"@en <http://bob.example.com/> .
+_:node16dssb0gtx2 <http://purl.org/goodrelations/v1#hasCurrencyValue> "899"^^<http://www.w3.org/2001/XMLSchema#float> <http://bob.example.com/> .
+_:node16dssb0gtx2 <http://purl.org/goodrelations/v1#validFrom> "2009-12-30T23:59:59Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node16dssb0gtx2 <http://purl.org/goodrelations/v1#validThrough> "2014-12-30T23:59:59Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node16dssb0gtx2 <http://purl.org/goodrelations/v1#valueAddedTaxIncluded> "true"^^<http://www.w3.org/2001/XMLSchema#boolean> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/goodrelations/v1#SomeItems> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#includes> <http://bob.example.com/#product> <http://bob.example.com/> .
+_:node16dssb0gtx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/goodrelations/v1#QuantitativeValue> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#includes> _:node16dssb0gtx3 <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://purl.org/goodrelations/v1#hasInventoryLevel> _:node16dssb0gtx3 <http://bob.example.com/> .
+_:node16dssb0gtx3 <http://purl.org/goodrelations/v1#hasMinValue> "1"^^<http://www.w3.org/2001/XMLSchema#float> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://xmlns.com/foaf/0.1/page> <http://bob.example.com/> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://www.w3.org/2000/01/rdf-schema#label> "Canon Rebel T2i (EOS 550D)"@en <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://www.w3.org/2000/01/rdf-schema#comment> "The Rebel T2i EOS 550D is Canon's top-of-the-line digital SLR camera."@en <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://purl.org/goodrelations/v1#hasEAN_UCC-13> "013803123784"^^<http://www.w3.org/2001/XMLSchema#string> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://purl.org/goodrelations/v1#hasStockKeepingUnit> "10363780"^^<http://www.w3.org/2001/XMLSchema#string> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://purl.org/goodrelations/v1#hasMPN> "EOS550D"^^<http://www.w3.org/2001/XMLSchema#string> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#includes> <http://www.heppnetz.de/searchmonkey/pscsi.jpg> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://xmlns.com/foaf/0.1/depiction> <http://www.heppnetz.de/searchmonkey/pscsi.jpg> <http://bob.example.com/> .
+<http://bob.example.com/#product> <http://purl.org/goodrelations/v1#hasManufacturer> <http://www.google.com/#company> <http://bob.example.com/> .

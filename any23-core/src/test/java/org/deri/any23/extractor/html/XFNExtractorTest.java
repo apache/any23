@@ -143,8 +143,8 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testSomeLinksWithoutRel() throws RepositoryException {
         assertExtracts("microformats/xfn/some-links-without-rel.html");
-        Assert.assertFalse(conn.hasStatement(null, null, alicesHomepage, false));
-        assertContains(null, null, charliesHomepage);
+        assertNotContains(null, null, alicesHomepage);
+        assertContains   (null, null, charliesHomepage);
     }
 
     @Test

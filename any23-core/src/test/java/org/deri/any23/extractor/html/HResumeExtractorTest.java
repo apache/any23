@@ -65,7 +65,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testLinkedIn() throws RepositoryException {
         assertExtracts("microformats/hresume/steveganz.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
         Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
@@ -95,7 +95,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     public void testLinkedInComplete() throws RepositoryException {
 
         assertExtracts("microformats/hresume/steveganz.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
@@ -104,7 +104,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
 		assertStatementsSize(vDOAC.affiliation, (Value) null, 8 );
 		assertStatementsSize(vDOAC.skill      , (Value) null, 17);
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, vDOAC.organization, null, false);
+        RepositoryResult<Statement> statements = getStatements(null, vDOAC.organization, null);
 
         Set<String> checkSet = new HashSet<String>();
 
@@ -142,7 +142,6 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testAnt() throws RepositoryException {
         assertExtracts("microformats/hresume/ant.html");
-        Assert.assertFalse(conn.isEmpty());
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);

@@ -56,9 +56,12 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.deri.any23.extractor.TagSoupExtractionResult.PropertyPath;
@@ -248,12 +251,20 @@ public class SingleDocumentExtraction {
         // Create the document context.
         final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
         final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
+        final Map<String,Collection<ErrorReporter.Error>> extractorToErrors =
+            new HashMap<String,Collection<ErrorReporter.Error>>();
         try {
             final String documentLanguage = extractDocumentLanguage(extractionParameters);
             for (ExtractorFactory<?> factory : matchingExtractors) {
-                EntityReport er = runExtractor(extractionParameters, documentLanguage, factory.createExtractor());
+                final Extractor extractor = factory.createExtractor();
+                final SingleExtractionReport er = runExtractor(
+                        extractionParameters,
+                        documentLanguage,
+                        extractor
+                );
                 resourceRoots.addAll( er.resourceRoots );
                 propertyPaths.addAll( er.propertyPaths );
+                extractorToErrors.put(factory.getExtractorName(), er.errors);
             }
         } catch(ValidatorException ve) {
             throw new ExtractionException("An error occurred during the validation phase.", ve);
@@ -295,7 +306,8 @@ public class SingleDocumentExtraction {
         return new SingleDocumentExtractionReport(
                 documentReport == null
                         ?
-                EmptyValidationReport.getInstance() : documentReport.getReport()
+                EmptyValidationReport.getInstance() : documentReport.getReport(),
+                extractorToErrors
         );
     }
 
@@ -305,9 +317,10 @@ public class SingleDocumentExtraction {
      *
      * @throws IOException
      * @throws ExtractionException
+     * @return the extraction report.
      */
-    public void run() throws IOException, ExtractionException {
-        run(ExtractionParameters.newDefault(configuration));
+    public SingleDocumentExtractionReport run() throws IOException, ExtractionException {
+        return run(ExtractionParameters.newDefault(configuration));
     }
 
     /**
@@ -430,7 +443,7 @@ public class SingleDocumentExtraction {
      * @return the roots of the resources that have been extracted.
      * @throws org.deri.any23.validator.ValidatorException if an error occurs during validation.
      */
-    private EntityReport runExtractor(
+    private SingleExtractionReport runExtractor(
             final ExtractionParameters extractionParameters,
             final String documentLanguage,
             final Extractor<?> extractor
@@ -444,11 +457,11 @@ public class SingleDocumentExtraction {
                 documentURI,
                 documentLanguage
         );
-        final ExtractionResultImpl result = new ExtractionResultImpl(extractionContext, extractor, output);
+        final ExtractionResultImpl extractionResult = new ExtractionResultImpl(extractionContext, extractor, output);
         try {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
-                blindExtractor.run(extractionParameters, extractionContext, documentURI, result);
+                blindExtractor.run(extractionParameters, extractionContext, documentURI, extractionResult);
             } else if (extractor instanceof ContentExtractor) {
                 ensureHasLocalCopy();
                 final ContentExtractor contentExtractor = (ContentExtractor) extractor;
@@ -456,7 +469,7 @@ public class SingleDocumentExtraction {
                         extractionParameters,
                         extractionContext,
                         localDocumentSource.openInputStream(),
-                        result
+                        extractionResult
                 );
             } else if (extractor instanceof TagSoupDOMExtractor) {
                 final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
@@ -465,29 +478,30 @@ public class SingleDocumentExtraction {
                         extractionParameters,
                         extractionContext,
                         documentReport.getDocument(),
-                        result
+                        extractionResult
                 );
             } else {
                 throw new IllegalStateException("Extractor type not supported: " + extractor.getClass());
             }
             return
-                new EntityReport(
-                    new ArrayList<ResourceRoot>( result.getResourceRoots() ),
-                    new ArrayList<PropertyPath>( result.getPropertyPaths() )
+                new SingleExtractionReport(
+                    extractionResult.getErrors(),
+                    new ArrayList<ResourceRoot>( extractionResult.getResourceRoots() ),
+                    new ArrayList<PropertyPath>( extractionResult.getPropertyPaths() )
                 );
         } catch (ExtractionException ex) {
-            if(log.isInfoEnabled()) {
-                log.info(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
+            if(log.isDebugEnabled()) {
+                log.debug(extractor.getDescription().getExtractorName() + ": " + ex.getMessage());
             }
             throw ex;
         } finally {
             // Logging result error report.
-            if( log.isInfoEnabled() && result.hasErrors() ) {
+            if( log.isDebugEnabled() && extractionResult.hasErrors() ) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                result.printErrorsReport( new PrintStream(baos) );
-                log.info( baos.toString() );
+                extractionResult.printErrorsReport( new PrintStream(baos) );
+                log.debug(baos.toString());
             }
-            result.close();
+            extractionResult.close();
 
             long elapsed = System.currentTimeMillis() - startTime;
             if(log.isDebugEnabled()) {
@@ -845,14 +859,17 @@ public class SingleDocumentExtraction {
     /**
      * Entity detection report.
      */
-    private class EntityReport {
+    private class SingleExtractionReport {
+        private final Collection<ErrorReporter.Error> errors;
         private final List<ResourceRoot> resourceRoots;
         private final List<PropertyPath> propertyPaths;
 
-        public EntityReport(
+        public SingleExtractionReport(
+                Collection<ErrorReporter.Error>  errors,
                 List<ResourceRoot> resourceRoots,
                 List<PropertyPath> propertyPaths
         ) {
+            this.errors        = errors;
             this.resourceRoots = resourceRoots;
             this.propertyPaths = propertyPaths;
         }

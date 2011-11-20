@@ -18,6 +18,9 @@ package org.deri.any23.extractor;
 
 import org.deri.any23.validator.ValidationReport;
 
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * This class provides the report for a {@link org.deri.any23.extractor.SingleDocumentExtraction} run.
  *
@@ -26,14 +29,26 @@ import org.deri.any23.validator.ValidationReport;
  */
 public class SingleDocumentExtractionReport {
 
-    private ValidationReport validationReport;
+    private final ValidationReport validationReport;
 
-    public SingleDocumentExtractionReport(ValidationReport validationReport) {
-        this.validationReport = validationReport;
+    private final Map<String, Collection<ErrorReporter.Error>> extractorToErrors;
+
+    public SingleDocumentExtractionReport(
+            ValidationReport validationReport,
+            Map<String, Collection<ErrorReporter.Error>> extractorToErrors
+    ) {
+        if(validationReport  == null) throw new NullPointerException("validation report cannot be null.");
+        if(extractorToErrors == null) throw new NullPointerException("extractor errors map cannot be null.");
+        this.validationReport  = validationReport;
+        this.extractorToErrors = extractorToErrors;
     }
 
     public ValidationReport getValidationReport() {
         return validationReport;
     }
-    
+
+    public Map<String, Collection<ErrorReporter.Error>> getExtractorToErrors() {
+        return extractorToErrors;
+    }
+
 }

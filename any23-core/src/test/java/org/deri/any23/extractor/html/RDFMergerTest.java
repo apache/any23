@@ -26,7 +26,6 @@ import org.deri.any23.vocab.FOAF;
 import org.deri.any23.vocab.REVIEW;
 import org.deri.any23.vocab.VCARD;
 import org.deri.any23.writer.RepositoryWriter;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -68,16 +67,16 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
     @Test
 	public void testNoMicroformats() throws RepositoryException, ExtractionException, IOException {
 		extract("html-without-uf.html");
-		Assert.assertTrue(conn.isEmpty());
+        assertModelEmpty();
 	}
 
     @Test
     public void test01XFNFoaf() throws RepositoryException {
 		assertExtracts("mixed/01-xfn-foaf.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
         Resource vcard = findExactlyOneBlankSubject(RDF.TYPE, vVCARD.VCard);
-        RepositoryResult<Statement> statements = conn.getStatements(null, vFOAF.topic, vcard, false);
+        RepositoryResult<Statement> statements =  getStatements(null, vFOAF.topic, vcard);
 
         try {
             while(statements.hasNext()) {
@@ -91,9 +90,6 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
         } finally {
             statements.close();
         }
-
-
-		
 	}
 
     @Test
@@ -176,12 +172,12 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                         "California"
                 });
 
-        RepositoryResult<Statement> statements = conn.getStatements(null, RDF.TYPE, vVCARD.Address, false);
+        RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE, vVCARD.Address);
 
         try {
             while (statements.hasNext()) {
                 Resource adr = statements.next().getSubject();
-                RepositoryResult<Statement> innerStatements = conn.getStatements(adr, vVCARD.street_address, null, false);
+                RepositoryResult<Statement> innerStatements = getStatements(adr, vVCARD.street_address, null);
                 try {
                     while (innerStatements.hasNext()) {
                         Value innerValue = innerStatements.next().getObject();
@@ -194,7 +190,6 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 } finally {
                     innerStatements.close();
                 }
-
             }
 
         } finally {
@@ -208,7 +203,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
     @Test
 	public void testGeoAbbr() throws ExtractionException, IOException, RepositoryException {
 		extractHCardAndRelated("microformats/hcard/25-geo-abbr.html");
-		Assert.assertFalse(conn.isEmpty());
+		assertModelNotEmpty();
 		assertContains(vVCARD.fn, "Paradise");
 		assertContains(RDF.TYPE, vVCARD.Organization);
 		assertContains(vVCARD.organization_name, "Paradise");
@@ -221,7 +216,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
     @Test
 	public void testAncestors() throws ExtractionException, IOException, RepositoryException {
 		extractHCardAndRelated("microformats/hcard/26-ancestors.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
 		
         assertContains(vVCARD.fn, "John Doe");
 		assertNotContains(null, vVCARD.fn,
@@ -264,7 +259,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
     @Test
     public void testSingleton() throws ExtractionException, IOException, RepositoryException {
         extractHCardAndRelated("microformats/hcard/37-singleton.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
         assertStatementsSize(vVCARD.fn, (Value) null, 1);
         assertContains(vVCARD.fn, "john doe 1");
         assertStatementsSize(RDF.TYPE, vVCARD.Name, 1);
@@ -295,7 +290,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
     @Test
 	public void test01Basic() throws ExtractionException, IOException, RepositoryException {
 		extractHRevAndRelated("microformats/hreview/01-spec.html");
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
 
 		assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		// reviewer, item
@@ -303,7 +298,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		// there is one address in the item vcard
 		assertStatementsSize(RDF.TYPE, vVCARD.Address, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
             while(reviews.hasNext()) {
@@ -350,7 +345,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		// there is one address in the item vcard
 		assertStatementsSize(RDF.TYPE, vVCARD.Address, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
             while (reviews.hasNext()) {
@@ -377,11 +372,11 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 	public void test03NoHcardForItem() throws ExtractionException, IOException, RepositoryException {
 		extractHRevAndRelated("microformats/hreview/03-spec-3.html");
 
-        Assert.assertFalse(conn.isEmpty());
+        assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
 
-        RepositoryResult<Statement> reviews = conn.getStatements(null, RDF.TYPE, vREVIEW.Review, false);
+        RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
         try {
             while (reviews.hasNext()) {
@@ -399,14 +394,22 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                                 "      I plan on sleeping in...\"\n     \n     \"Nothing Better\"" +
                                 " is a great track on this album, too...");
 
-                RepositoryResult<Statement> whatHasAReview = conn.getStatements(null, vREVIEW.hasReview, review, false);
+                RepositoryResult<Statement> whatHasAReview = getStatements(null, vREVIEW.hasReview, review);
 
                 try {
                     while(whatHasAReview.hasNext()) {
                         Resource subject = whatHasAReview.next().getSubject();
                         assertContains(subject, vVCARD.fn, "The Postal Service: Give Up");
-				        assertContains(subject, vVCARD.url, RDFUtils.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
-				        assertContains(subject, vVCARD.photo, RDFUtils.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
+				        assertContains(
+                                subject,
+                                vVCARD.url,
+                                RDFUtils.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/")
+                        );
+				        assertContains(
+                                subject,
+                                vVCARD.photo,
+                                RDFUtils.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg")
+                        );
                     }
 
                 } finally {
@@ -443,7 +446,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 new ExtractionResultImpl(
                         hcExtractionContext,
                         hCardExtractor,
-                        new RepositoryWriter(conn)
+                        new RepositoryWriter(getConnection())
                 )
         );
         XFNExtractor xfnExtractor = XFNExtractor.factory.createExtractor();
@@ -458,7 +461,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                         new ExtractionResultImpl(
                                 xfnExtractionContext,
                                 hCardExtractor,
-                                new RepositoryWriter(conn)
+                                new RepositoryWriter(getConnection())
                         )
                 );
 	}
@@ -478,7 +481,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 document,
                 new ExtractionResultImpl(
                         hCardExtractionContext,
-                        hCardExtractor, new RepositoryWriter(conn)
+                        hCardExtractor, new RepositoryWriter(getConnection())
                 )
         );
 
@@ -493,7 +496,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 new ExtractionResultImpl(
                         geoExtractionContext,
                         geoExtractor,
-                        new RepositoryWriter(conn)
+                        new RepositoryWriter(getConnection())
                 )
         );
 
@@ -508,7 +511,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 new ExtractionResultImpl(
                         adrExtractionContext,
                         adrExtractor,
-                        new RepositoryWriter(conn)
+                        new RepositoryWriter(getConnection())
                 )
         );
 
@@ -530,7 +533,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
                 new ExtractionResultImpl(
                         hreviewExtractionContext,
                         hReviewExtractor,
-                        new RepositoryWriter(conn)
+                        new RepositoryWriter(getConnection())
                 )
         );
     }

@@ -18,13 +18,20 @@ package org.deri.any23.extractor.html;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -153,6 +160,28 @@ public class DomUtilsTest {
             Assert.assertTrue(DomUtils.readAttribute(node, "class").contains("vcard"));
         }
 
+    }
+
+    @Test
+    public void testSerializeToXML() throws ParserConfigurationException, TransformerException, IOException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        DOMImplementation impl = builder.getDOMImplementation();
+        Document doc = impl.createDocument(null, null, null);
+        Node n1 = doc.createElement("DIV");
+        Node n2 = doc.createElement("SPAN");
+        Node n3 = doc.createElement("P");
+        n1.setTextContent("Content 1");
+        n2.setTextContent("Content 2");
+        n3.setTextContent("Content 3");
+        n1.appendChild(n2);
+        n2.appendChild(n3);
+        doc.appendChild(n1);
+
+        Assert.assertEquals(
+                "<DIV>Content 1<SPAN>Content 2<P>Content 3</P></SPAN></DIV>",
+                DomUtils.serializeToXML(doc, false)
+        );
     }
 
     private void check(String file, String xpath, String reverseXPath) {
