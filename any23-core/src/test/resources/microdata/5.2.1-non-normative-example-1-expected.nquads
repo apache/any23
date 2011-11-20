@@ -8,5 +8,3 @@
 <http://books.example.com/products/9780596802189.EBOOK> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/vocab/frbr/core#Expression> <http://bob.example.com/> .
 <http://books.example.com/products/9780596802189.EBOOK> <http://purl.org/dc/terms/type> <http://books.example.com/product-types/EBOOK> <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> <http://books.example.com/works/45U8QJGZSQKDH8N> <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-08T12:36:00+01:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "12"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

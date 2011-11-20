@@ -337,20 +337,13 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {
         extract("html/html-without-uf.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test
     public void testNoMicroformatsInStatCvsPage() throws RepositoryException, IOException, ExtractionException {
         extract("microformats/hcalendar/empty-statcvs.html");
-        assertModelNotEmpty();
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test

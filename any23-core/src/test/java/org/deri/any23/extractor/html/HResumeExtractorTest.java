@@ -56,10 +56,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException {
         assertExtracts("html/html-without-uf.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test

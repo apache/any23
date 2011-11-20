@@ -9,5 +9,3 @@ _:noded2bffd25e1a8448b159c4c45afd3283 <http://www.w3.org/1999/02/22-rdf-syntax-n
 _:noded2bffd25e1a8448b159c4c45afd3283 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
 _:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://schema.org/Movie/director> _:noded2bffd25e1a8448b159c4c45afd3283 <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-10T13:28:26+02:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "13"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

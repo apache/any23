@@ -10,5 +10,3 @@ _:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/name> "
 _:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/affiliation> "University of Dreams" <http://bob.example.com/> .
 _:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/url> <http://www.JohnnyD.com> <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodee6ae2861b16a51a6519079d82c13763 <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-08T11:55:52+01:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "14"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

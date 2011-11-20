@@ -45,7 +45,7 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testRDFa11PrefixBackwardCompatibility()
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        final int EXPECTED_STATEMENTS = 33;
+        final int EXPECTED_STATEMENTS = 31;
 
         assertExtracts("html/rdfa/goodrelations-rdfa10.html");
         logger.debug("Model 1 " + dumpHumanReadableTriples());

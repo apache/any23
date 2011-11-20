@@ -83,7 +83,7 @@ any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.rdfa.extractor.xslt                  |rdfa.xslt                      |XSLT Stylesheet to be used to perform HTML to RDF extraction of RDFa.               |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
-|any23.extraction.metadata.timesize         |on (possible values: on/off)   |Activates/deactivates the generation of time and size metadata triples.             |
+|any23.extraction.metadata.timesize         |off (possible values: on/off)  |Activates/deactivates the generation of time and size metadata triples.             |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.extraction.metadata.nesting          |on (possible values: on/off)   |Activates/deactivates the generation of nesting triples for Microformat entities.   |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+

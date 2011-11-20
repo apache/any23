@@ -46,7 +46,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         CSV csv = CSV.getInstance();
         assertExtracts("org/deri/any23/extractor/csv/test-comma.csv");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 30);
+        assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
@@ -58,7 +58,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         CSV csv = CSV.getInstance();
         assertExtracts("org/deri/any23/extractor/csv/test-semicolon.csv");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 30);
+        assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
@@ -70,7 +70,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         CSV csv = CSV.getInstance();
         assertExtracts("org/deri/any23/extractor/csv/test-tab.csv");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 30);
+        assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));

@@ -283,7 +283,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
         final String bufferContent = byteArrayOutputStream.toString();
         logger.debug(bufferContent);
-        Assert.assertSame("Unexpected number of triples.", 44, StringUtils.countNL(bufferContent));
+        Assert.assertSame("Unexpected number of triples.", 42, StringUtils.countNL(bufferContent));
         
     }
 
@@ -318,6 +318,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testExtractionParameters() throws IOException, ExtractionException {
+        final int EXPECTED_TRIPLES  = 3;
         Any23 runner = new Any23();
         DocumentSource source = new FileDocumentSource(
                 new File("src/test/resources/org/deri/any23/validator/missing-og-namespace.html"),
@@ -340,7 +341,7 @@ public class Any23Test extends Any23OnlineTestBase {
                 compositeTH1
         );
         logger.debug(baos.toString());
-        Assert.assertEquals("Unexpected number of triples.", 5, cth1.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth1.getCount() );
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -357,12 +358,12 @@ public class Any23Test extends Any23OnlineTestBase {
                 compositeTH2
         );
         logger.debug( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", 10, cth2.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES + 5, cth2.getCount() );
     }
 
     @Test
     public void testExtractionParametersWithNestingDisabled() throws IOException, ExtractionException, TripleHandlerException {
-        final int EXPECTED_TRIPLES = 22;
+        final int EXPECTED_TRIPLES = 20;
         Any23 runner = new Any23();
         DocumentSource source = new FileDocumentSource(
                 new File("src/test/resources/microformats/nested-microformats-a1.html"),
@@ -439,7 +440,7 @@ public class Any23Test extends Any23OnlineTestBase {
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(doc, rth);
         Assert.assertFalse(report.hasMatchingExtractors());
-        Assert.assertEquals(2, cth.getCount());
+        Assert.assertEquals(0, cth.getCount());
     }
 
     /**
@@ -457,7 +458,7 @@ public class Any23Test extends Any23OnlineTestBase {
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract("http://www.nativeremedies.com/XML/combos.xml", rth);
         Assert.assertFalse(report.hasMatchingExtractors());
-        Assert.assertEquals(2, cth.getCount());
+        Assert.assertEquals(0, cth.getCount());
     }
 
     @Test

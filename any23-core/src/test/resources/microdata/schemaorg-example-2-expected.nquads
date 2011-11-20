@@ -12,5 +12,3 @@ _:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/Product/url> <http://v
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/vocab#robots> "noarchive" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/vocab#description> "HTML5 Microdata Example for http://schema.org/Product" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/vocab#author> "Edward Lewis" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-24T17:05:01+02:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "16"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

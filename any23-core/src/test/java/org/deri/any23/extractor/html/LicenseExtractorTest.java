@@ -74,10 +74,7 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testEmpty() throws RepositoryException {
         assertExtracts("microformats/license/empty.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test

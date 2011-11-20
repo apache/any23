@@ -52,10 +52,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException {
         assertExtracts("html/html-without-uf.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test
@@ -63,9 +60,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hlisting/empty.html");
         assertModelNotEmpty();
         logger.debug(dumpModelToRDFXML());
-        assertStatementsSize(null, null, null, 6);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertStatementsSize(null, null, null, 4);
     }
 
     @Test

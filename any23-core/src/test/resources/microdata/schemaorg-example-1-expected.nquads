@@ -5,5 +5,3 @@ _:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/name> "12oc
 _:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/encodingFormat> "mp3" <http://bob.example.com/> .
 _:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/contentURL> "http://media.freesound.org/data/0/previews/719__elmomo__12oclock_girona_preview.mp3" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node86af95e129f7381bd44dceb4ff02b7e <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/date> "2011-06-24T16:47:20+02:00" <http://bob.example.com/> .
-<http://bob.example.com/> <http://vocab.sindice.net/size> "9"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .

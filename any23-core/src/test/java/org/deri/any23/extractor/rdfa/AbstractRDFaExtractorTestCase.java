@@ -93,7 +93,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
                 RDFUtils.uri("http://purl.org/dc/01/name"),
                 RDFUtils.literal("Departments")
         );
-        assertStatementsSize(null, null, null, 8);
+        assertStatementsSize(null, null, null, 6);
         logger.debug(dumpHumanReadableTriples());
     }
 

@@ -53,28 +53,19 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMicroformats() throws RepositoryException {
         assertExtracts("html/html-without-uf.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test
     public void testLinkWithoutRel() throws RepositoryException {
         assertExtracts("microformats/xfn/no-rel.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test
     public void testNoXFNRel() throws RepositoryException {
         assertExtracts("microformats/xfn/no-valid-rel.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test
@@ -150,10 +141,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testForSomeReasonICantBeMyOwnSweetheart() throws RepositoryException {
         assertExtracts("microformats/xfn/me-and-sweetheart.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test

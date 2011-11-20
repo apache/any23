@@ -58,7 +58,7 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
         /**
          * overall triples amount
          */
-        assertStatementsSize(null, (Value) null, 31);
+        assertStatementsSize(null, (Value) null, 29);
     }
 
 }

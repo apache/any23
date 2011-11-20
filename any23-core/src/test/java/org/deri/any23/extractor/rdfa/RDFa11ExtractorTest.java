@@ -165,7 +165,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testRDFa10Extraction()
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        final int EXPECTED_STATEMENTS = 35;
+        final int EXPECTED_STATEMENTS = 33;
 
         assertExtracts("html/rdfa/goodrelations-rdfa10.html");
         logger.debug(dumpModelToNQuads());
@@ -186,7 +186,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testRDFa11Extraction()
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        final int EXPECTED_STATEMENTS = 35;
+        final int EXPECTED_STATEMENTS = 33;
 
         assertExtracts("html/rdfa/goodrelations-rdfa11.html");
         logger.debug(dumpHumanReadableTriples());

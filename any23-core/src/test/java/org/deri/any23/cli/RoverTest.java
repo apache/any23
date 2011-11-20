@@ -76,7 +76,7 @@ public class RoverTest extends ToolTestBase {
                 graphCounter++;
             }
         }
-        Assert.assertEquals(2, graphCounter);
+        Assert.assertEquals(0, graphCounter);
     }
 
     /* BEGIN: online tests. */

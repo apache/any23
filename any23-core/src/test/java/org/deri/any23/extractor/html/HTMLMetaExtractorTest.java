@@ -40,7 +40,7 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
     public void testExtractPageMeta() throws RepositoryException {
         assertExtracts("html/html-head-meta-extractor.html");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 9);
+        assertStatementsSize(null, null, null, 7);
         assertContains(
                 new URIImpl("http://bob.example.com/"),
                 new URIImpl("http://purl.org/dc/elements/1.1/title"),
@@ -88,10 +88,7 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoMeta() throws RepositoryException {
         assertExtracts("html/html-head-link-extractor.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertContains(null, vSINDICE.date, (Value) null);
-        assertContains(null, vSINDICE.size, (Value) null);
+        assertModelEmpty();
     }
     
 }

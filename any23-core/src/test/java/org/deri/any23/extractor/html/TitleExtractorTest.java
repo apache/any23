@@ -55,10 +55,7 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testNoPageTitle() throws RepositoryException {
         assertExtracts("microformats/xfn/tagsoup.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 2);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.DATE), (Value) null, 1);
-        assertStatementsSize(vSINDICE.getProperty(SINDICE.SIZE), (Value) null, 1);
+        assertModelEmpty();
     }
 
     @Test
