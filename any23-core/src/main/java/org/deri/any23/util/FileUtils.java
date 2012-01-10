@@ -166,15 +166,27 @@ public class FileUtils {
     }
 
     /**
-     * Reads the content of a file and return it in a string.
+     * Returns the content of a file a single string.
      *
      * @param f the file to read.
      * @return the content of file.
-     * @throws IOException if an exception occurs while locating or accessing the file.
+     * @throws IOException if an error occurs while locating or accessing the file.
      */
     public static String readFileContent(File f) throws IOException {
         FileInputStream fis = new FileInputStream(f);
         return StreamUtils.asString(fis, true);
+    }
+
+    /**
+     * Returns all the lines of a file.
+     *
+     * @param f the file to read.
+     * @return a not <code>null</code> array with not <code>null</code> line strings.
+     * @throws IOException if an error occurs while locating or accessing the file.
+     */
+    public static String[] readFileLines(File f) throws IOException {
+        FileInputStream fis = new FileInputStream(f);
+        return StreamUtils.asLines(fis);
     }
 
     /**

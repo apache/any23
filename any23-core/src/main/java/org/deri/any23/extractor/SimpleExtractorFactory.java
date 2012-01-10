@@ -83,9 +83,15 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
         return supportedMIMETypes;
     }
 
+    @Override
+    public Class<T> getExtractorType() {
+        return extractorClass;
+    }
+
     /**
      * @return an instance of type T concrete implementation of {@link org.deri.any23.extractor.Extractor}
      */
+    @Override
     public T createExtractor() {
         try {
             return extractorClass.newInstance();
@@ -99,6 +105,7 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
     /**
      * @return an input example
      */
+    @Override
     public String getExampleInput() {
         return exampleInput;
     }

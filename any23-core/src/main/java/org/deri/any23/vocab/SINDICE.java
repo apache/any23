@@ -43,7 +43,7 @@ public class SINDICE extends Vocabulary {
     /**
      * The namespace of the vocabulary as a string.
      */
-    public static final String NS = "http://vocab.sindice.net/";
+    public static final String NS = "http://vocab.sindice.net/any23#";
 
     private static SINDICE instance;
 
@@ -57,7 +57,7 @@ public class SINDICE extends Vocabulary {
     /**
      * The namespace of the vocabulary as a URI.
      */
-    public final URI NAMESPACE = createResource(NS);
+    public final URI NAMESPACE = createURI(NS);
 
     /**
      * This property expresses the DNS domain of the resource on which
@@ -94,8 +94,8 @@ public class SINDICE extends Vocabulary {
     public final URI date = createProperty(DATE);
 
 
-    private URI createResource(String localName) {
-        return createResource(NS, localName);
+    private URI createClass(String localName) {
+        return createClass(NS, localName);
     }
 
     private URI createProperty(String localName) {

@@ -56,7 +56,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
                     NAME,
                     PopularPrefixes.get(),
                     Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    null,
+                    "example-script-turtle.html",
                     TurtleHTMLExtractor.class
             );
 

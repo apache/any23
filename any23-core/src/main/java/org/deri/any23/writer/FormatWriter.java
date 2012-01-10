@@ -17,15 +17,24 @@
 package org.deri.any23.writer;
 
 /**
- * Base interface used for the definition of <i>formatted writers</i>.
+ * Base interface used for the definition of <i>RDF format writers</i>.
  */
 public interface FormatWriter extends TripleHandler {
 
     /**
-     * The MIME type used by the writer.
+     * If <code>true</code> then the produced <b>RDF</b> is annotated with
+     * the extractors used to generate the specific statements.
      *
-     * @return a MIME type.
+     * @return the annotation flag value.
      */
-    String getMIMEType();
-    
+     boolean isAnnotated();
+
+    /**
+     * Sets the <i>annotation</i> flag.
+     *
+     * @param f If <code>true</code> then the produced <b>RDF</b> is annotated with
+     *          the extractors used to generate the specific statements.
+     */
+     void setAnnotated(boolean f);
+
 }

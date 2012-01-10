@@ -2,7 +2,7 @@ Getting started with <<Any23>>
 
     <<Any23>> can be used:
 
-      * as a commandline tool from your preferred shell environment;
+      * via CLI (command line interface) from your preferred shell environment;
       * as a RESTful Webservice;
       * as a library.
 
@@ -18,7 +18,7 @@ Getting started with <<Any23>>
 
 * Use the <<Any23>> CLI
 
-   The command-line tools are provided by the <<any23-core>> module.
+   The command-line tools support is provided by the <<any23-core>> module.
 
    Once <<Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a commandline tool,
    use the shell scripts within the <<"any23-core/bin">> directory.
@@ -32,37 +32,37 @@ Getting started with <<Any23>>
 
 +-------------------------------------------
 any23-core/bin$ ./any23tools
-[...configuration data...]
 Usage: ToolRunner <utility> [options...]
-where <utility> one of:
-	Eval                                                              Utility for processing output log.
+ where <utility> is one of:
 	ExtractorDocumentation                Utility for obtaining documentation about metadata extractors.
 	MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
+	MimeDetector                                                                MIME Type Detector Tool.
 	PluginVerifier                                           Utility for plugin management verification.
 	Rover                                                                       Any23 Command Line Tool.
 	Version                        Prints out the current library version and configuration information.
 	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Any23.
-
 +-------------------------------------------
 
-   The <any23tools> script detects a list of available utilities within the <<any23-core>> classpath
-   and allows to activate them.
+   The <any23tools> script detects a list of available utilities within the <<any23-core>> and <<plugins>>
+   classpath and allows to activate them.
 
-   Such utilities are:
-
-       * <<<Rover>>>: the RDF extraction tool.
+   The <any23-core> CLI tools are:
 
        * <<<ExtractorDocumentation>>>: a utility for obtaining useful information about extractors.
 
        * <<<MicrodataParser>>>:  commandline parser to extract specific Microdata content from a web page
-                        (local or remote) and produce a JSON output compliant with the Microdata
-                        specification ({{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}).
+         (local or remote) and produce a JSON output compliant with the Microdata
+         specification ({{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}).
+
+       * <<<MimeDetector>>>: detects the MIME Type for any HTTP / file / direct input resource.
+
+       * <<<PluginVerifier>>>: a utility for verifying <Any23> plugins.
+
+       * <<<Rover>>>: the RDF extraction tool.
 
        * <<<Version>>>: prints out useful information about the library version and configuration.
 
        * <<<VocabPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Any23.
-       
-       * <<<Eval>>>: commandline utility for processing Any23 generated output logs.
 
 ** Rover
    
@@ -72,21 +72,26 @@ where <utility> one of:
   
 +-------------------------------------------
 any23-core/bin$ any23tools Rover
-[...configuration data...]
-usage: {<url>|<file>} [-e <arg>] [-f <arg>] [-l <arg>] [-n] [-o <arg>]
-       [-p] [-s] [-t] [-v]
- -e <arg>                   comma-separated list of extractors, e.g.
-                            rdf-xml,rdf-turtle
- -f,--Output format <arg>   [turtle (default), ntriples, rdfxml, quad,
-                            uris]
- -l,--log <arg>             logging, please specify a file
- -n,--nesting               disable production of nesting triples
- -o,--output <arg>          ouput file (defaults to stdout)
- -p,--pedantic              validates and fixes HTML content detecting
-                            commons issues
- -s,--stats                 print out statistics of Any23
- -t,--notrivial             filter trivial statements
- -v,--verbose               show progress and debug information
+usage: [{<url>|<file>}]+ [-d <arg>] [-e <arg>] [-f <arg>] [-h] [-l <arg>]
+       [-n] [-o <arg>] [-p] [-s] [-t] [-v]
+ -d,--defaultns <arg>       Override the default namespace used to produce
+                            statements.
+ -e <arg>                   Specify a comma-separated list of extractors,
+                            e.g. rdf-xml,rdf-turtle.
+ -f,--Output format <arg>   [turtle (default), rdfxml, ntriples, nquads,
+                            trix, json, uri]
+ -h,--help                  Print this help.
+ -l,--log <arg>             Produce log within a file.
+ -n,--nesting               Disable production of nesting triples.
+ -o,--output <arg>          Specify Output file (defaults to standard
+                            output).
+ -p,--pedantic              Validate and fixes HTML content detecting
+                            commons issues.
+ -s,--stats                 Print out extraction statistics.
+ -t,--notrivial             Filter trivial statements (e.g. CSS related
+                            ones).
+ -v,--verbose               Show debug and progress information.
+Expected at least 1 argument.
 +-------------------------------------------
 
   Extract metadata from an <<HTML>> page:
@@ -126,7 +131,6 @@ any23-core/bin$ ./any23tools Rover -t -f quad myfoaf.rdf
 
 +-------------------------------------------
 any23-core/bin$ ./any23tools ExtractorDocumentation
-[...configuration data...]
 Usage:
   ExtractorDocumentation -list
       shows the names of all available extractors
@@ -145,29 +149,29 @@ Usage:
 
 +--------------------------------------
 any23-core/bin$ ./any23tools ExtractorDocumentation -list
-[...configuration data...]
-csv
-html-head-icbm
-html-head-links
-html-head-title
-html-mf-adr
-html-mf-geo
-html-mf-hcalendar
-html-mf-hcard
-html-mf-hlisting
-html-mf-hrecipe
-html-mf-hresume
-html-mf-hreview
-html-mf-license
-html-mf-species
-html-mf-xfn
-html-microdata
-html-rdfa
-html-script-turtle
-rdf-nq
-rdf-nt
-rdf-turtle
-rdf-xml
+                      csv [class org.deri.any23.extractor.csv.CSVExtractor]
+           html-head-icbm [class org.deri.any23.extractor.html.ICBMExtractor]
+          html-head-links [class org.deri.any23.extractor.html.HeadLinkExtractor]
+          html-head-title [class org.deri.any23.extractor.html.TitleExtractor]
+              html-mf-adr [class org.deri.any23.extractor.html.AdrExtractor]
+              html-mf-geo [class org.deri.any23.extractor.html.GeoExtractor]
+        html-mf-hcalendar [class org.deri.any23.extractor.html.HCalendarExtractor]
+            html-mf-hcard [class org.deri.any23.extractor.html.HCardExtractor]
+         html-mf-hlisting [class org.deri.any23.extractor.html.HListingExtractor]
+          html-mf-hrecipe [class org.deri.any23.extractor.html.HRecipeExtractor]
+          html-mf-hresume [class org.deri.any23.extractor.html.HResumeExtractor]
+          html-mf-hreview [class org.deri.any23.extractor.html.HReviewExtractor]
+          html-mf-license [class org.deri.any23.extractor.html.LicenseExtractor]
+          html-mf-species [class org.deri.any23.extractor.html.SpeciesExtractor]
+              html-mf-xfn [class org.deri.any23.extractor.html.XFNExtractor]
+           html-microdata [class org.deri.any23.extractor.microdata.MicrodataExtractor]
+              html-rdfa11 [class org.deri.any23.extractor.rdfa.RDFa11Extractor]
+       html-script-turtle [class org.deri.any23.extractor.html.TurtleHTMLExtractor]
+                   rdf-nq [class org.deri.any23.extractor.rdf.NQuadsExtractor]
+                   rdf-nt [class org.deri.any23.extractor.rdf.NTriplesExtractor]
+                 rdf-trix [class org.deri.any23.extractor.rdf.TriXExtractor]
+               rdf-turtle [class org.deri.any23.extractor.rdf.TurtleExtractor]
+                  rdf-xml [class org.deri.any23.extractor.rdf.RDFXMLExtractor]
 +--------------------------------------
 
 ** MicrodataParser
@@ -177,18 +181,96 @@ rdf-xml
    declared in the Microdata specification section {{{http://www.w3.org/TR/microdata/#json}JSON}}.
 
 +--------------------------------------
-bin/any23tools MicrodataParser
+any23-core/bin$ ./any23tools MicrodataParser
 Usage: {http://path/to/resource.html|file:/path/to/local.file}
 +--------------------------------------
 
 
 ** VocabPrinter
 
-   The VocabPrinter prints out the RDFSchema declared by all the <<Any23>>
+   The VocabPrinter Tool prints out the RDFSchema declared by all the <<Any23>>
    declared vocabularies.
 
    <<This tool is still in beta version.>>
 
+** MimeDetector
+
+   The MimeDetector Tool extracts the <<MIME Type>> for a given source (http:// file:// inline://).
+
+   Examples:
+
++--------------------------------------
+any23-core/bin$ ./any23tools MimeDetector http://www.michelemostarda.com/foaf.rdf
+application/rdf+xml
+
+any23-core/bin$ ./any23tools MimeDetector file://../src/test/resources/application/trix/test1.trx
+application/trix
+
+any23-core/bin$ ./any23tools MimeDetector 'inline://<http://s> <http://p> <http://o> .'
+text/n3
++--------------------------------------
+
+** PluginVerifier
+
+   TODO: missing.
+
+* <<Any23>> CLI <Plugins>
+
+   The <<Any23>> ToolRunner CLI (<bin/any23tools>) supports the auto detection of Tool plugins within the classpath.
+   For further details see {{{./any23-plugins.html}Plugins}} section.
+
+   The default <<any23>> CLI plugins are enlisted below.
+
+** Crawler Plugin
+
+   {crawler-tool}
+   The <Crawler Plugin> provides basic site crawling and metadata extraction capabilities.
+
++----------------------------------------------------------------------------
+any23-core/bin$ ./any23tools Crawler
+usage: [{<url>|<file>}]+ [-d <arg>] [-e <arg>] [-f <arg>] [-h] [-l <arg>]
+       [-maxdepth <arg>] [-maxpages <arg>] [-n] [-numcrawlers <arg>] [-o
+       <arg>] [-p] [-pagefilter <arg>] [-politenessdelay <arg>] [-s]
+       [-storagefolder <arg>] [-t] [-v]
+ -d,--defaultns <arg>       Override the default namespace used to produce
+                            statements.
+ -e <arg>                   Specify a comma-separated list of extractors,
+                            e.g. rdf-xml,rdf-turtle.
+ -f,--Output format <arg>   [turtle (default), rdfxml, ntriples, nquads,
+                            trix, json, uri]
+ -h,--help                  Print this help.
+ -l,--log <arg>             Produce log within a file.
+ -maxdepth <arg>            Max allowed crawler depth. Default: no limit.
+ -maxpages <arg>            Max number of pages before interrupting crawl.
+                            Default: no limit.
+ -n,--nesting               Disable production of nesting triples.
+ -numcrawlers <arg>         Sets the number of crawlers. Default: 10
+ -o,--output <arg>          Specify Output file (defaults to standard
+                            output).
+ -p,--pedantic              Validate and fixes HTML content detecting
+                            commons issues.
+ -pagefilter <arg>          Regex used to filter out page URLs during
+                            crawling. Default:
+                            '.*(\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|
+                            mp3|mp4|wav|wma|avi|mov|mpeg|ram|m4v|wmv|rm|sm
+                            il|pdf|swf|zip|rar|gz|xml|txt))$'
+ -politenessdelay <arg>     Politeness delay in milliseconds. Default: no
+                            limit.
+ -s,--stats                 Print out extraction statistics.
+ -storagefolder <arg>       Folder used to store crawler temporary data.
+                            Default:
+                            [/var/folders/d5/c_0b4h1d7t1gx6tzz_dn5cj40000g
+                            q/T/]
+ -t,--notrivial             Filter trivial statements (e.g. CSS related
+                            ones).
+ -v,--verbose               Show debug and progress information.
++----------------------------------------------------------------------------
+
+    A usage example:
+
++----------------------------------------------------------------------------
+any23-core/bin$ ./any23tools Crawler -s -f ntriples http://www.repubblica.it 1> out.nt 2> repubblica.log
++----------------------------------------------------------------------------
 
 * Use <<Any23>> as a RESTful Web Service
 

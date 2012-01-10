@@ -16,7 +16,7 @@
 
 package org.deri.any23.rdf;
 
-import org.deri.any23.parser.NQuadsParser;
+import org.deri.any23.io.nquads.NQuadsParser;
 import org.deri.any23.util.MathUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;

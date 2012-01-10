@@ -32,6 +32,7 @@ import java.util.List;
  * 
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
+@Writer(identifier = "uri", mimeType = "text/plain")
 public class URIListWriter implements FormatWriter {
 
     private List<Resource> resources;
@@ -45,10 +46,6 @@ public class URIListWriter implements FormatWriter {
     public URIListWriter(OutputStream outputStream) {
         this.resources = new ArrayList<Resource>();
         this.printStream = new PrintStream(outputStream);
-    }
-
-    public String getMIMEType() {
-        return "text/plain";
     }
 
     public void startDocument(URI documentURI) throws TripleHandlerException {}
@@ -85,5 +82,15 @@ public class URIListWriter implements FormatWriter {
 
     public void close() throws TripleHandlerException {
         this.printStream.close();
+    }
+
+    @Override
+    public boolean isAnnotated() {
+        return false;
+    }
+
+    @Override
+    public void setAnnotated(boolean f) {
+        // Empty.
     }
 }

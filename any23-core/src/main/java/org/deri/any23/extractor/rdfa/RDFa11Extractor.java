@@ -45,7 +45,7 @@ public class RDFa11Extractor implements Extractor.TagSoupDOMExtractor {
                     NAME,
                     null,
                     Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
-                    null,
+                    "example-rdfa11.html",
                     RDFa11Extractor.class
             );
 

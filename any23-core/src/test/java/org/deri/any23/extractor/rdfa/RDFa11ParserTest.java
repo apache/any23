@@ -31,6 +31,18 @@ public class RDFa11ParserTest {
     }
 
     @Test
+    public void testExtractPrefixSections() {
+        final String[] sections = RDFa11Parser.extractPrefixSections("p1:v1 p2: v2 p3:   v3\np4:v4      p5:     v5");
+        Assert.assertEquals(5, sections.length);
+        int i = 0;
+        Assert.assertEquals("p1:v1", sections[i++]);
+        Assert.assertEquals("p2:v2", sections[i++]);
+        Assert.assertEquals("p3:v3", sections[i++]);
+        Assert.assertEquals("p4:v4", sections[i++]);
+        Assert.assertEquals("p5:v5", sections[i]);
+    }
+
+    @Test
     public void testIsCURIEPositive() {
         Assert.assertTrue( RDFa11Parser.isCURIE("[dbr:Albert_Einstein]") );
     }

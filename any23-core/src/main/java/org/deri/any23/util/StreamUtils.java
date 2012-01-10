@@ -25,6 +25,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains general utility functions for handling streams.
@@ -36,6 +38,27 @@ public class StreamUtils {
     private static final Logger logger = LoggerFactory.getLogger(StreamUtils.class);
 
     private StreamUtils(){}
+
+    /**
+     * Returns all the lines read from an input stream.
+     *
+     * @param is input stream.
+     * @return list of not <code>null</code> lines.
+     * @throws IOException
+     */
+    public static String[] asLines(InputStream is) throws IOException {
+        final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        final List<String> lines = new ArrayList<String>();
+        try {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+            return lines.toArray( new String[ lines.size() ] );
+        } finally {
+            closeGracefully(br);
+        }
+    }
 
     /**
      * Returns the string content of a stream.

@@ -21,14 +21,11 @@ import java.io.OutputStream;
 /**
  * <i>N3</i> triples writer.
  */
+@Writer(identifier = "ntriples", mimeType = "text/plain")
 public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public NTriplesWriter(OutputStream out) {
         super(new org.openrdf.rio.ntriples.NTriplesWriter(out));
     }
 
-    public String getMIMEType() {
-        return "text/plain";
-    }
-    
 }

@@ -154,5 +154,21 @@ public class StringUtils {
         return escapeDoubleQuotes( in.replaceAll("\n", "\\\\n") );
     }
 
+    /**
+     * Builds a string composed of the given char <code>c<code/> <code>n</code> times.
+     *
+     * @param c char to be multiplied.
+     * @param times number of times.
+     * @return the string containing the multiplied char.
+     */
+    public static String multiply(char c, int times) {
+        if(times <= 0) throw new IllegalArgumentException("Invalid number of times, must be > 0 .");
+        final char[] buffer = new char[times];
+        for(int i = 0; i < times; i++) {
+            buffer[i] = c;
+        }
+        return new String(buffer);
+    }
+
     private StringUtils() {}
 }

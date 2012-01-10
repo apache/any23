@@ -90,18 +90,18 @@ public class FOAF extends Vocabulary {
     public final URI jabberID                = createProperty(NS, "jabberID");
 
     // Resources.
-    public final URI Person                  = createResource(NS, "Person");
-    public final URI PersonalProfileDocument = createResource(NS, "PersonalProfileDocument");
-    public final URI Project                 = createResource(NS, "Project");
-    public final URI OnlineChatAccount       = createResource(NS, "OnlineChatAccount");
-    public final URI OnlineAccount           = createResource(NS, "OnlineAccount");
-    public final URI Agent                   = createResource(NS, "Agent");
-    public final URI Group                   = createResource(NS, "Group");
-    public final URI OnlineGamingAccount     = createResource(NS, "OnlineGamingAccount");
-    public final URI OnlineEcommerceAccount  = createResource(NS, "OnlineEcommerceAccount");
-    public final URI Document                = createResource(NS, "Document");
-    public final URI Organization            = createResource(NS, "Organization");
-    public final URI Image                   = createResource(NS, "Image");
+    public final URI Person                  = createClass(NS, "Person");
+    public final URI PersonalProfileDocument = createClass(NS, "PersonalProfileDocument");
+    public final URI Project                 = createClass(NS, "Project");
+    public final URI OnlineChatAccount       = createClass(NS, "OnlineChatAccount");
+    public final URI OnlineAccount           = createClass(NS, "OnlineAccount");
+    public final URI Agent                   = createClass(NS, "Agent");
+    public final URI Group                   = createClass(NS, "Group");
+    public final URI OnlineGamingAccount     = createClass(NS, "OnlineGamingAccount");
+    public final URI OnlineEcommerceAccount  = createClass(NS, "OnlineEcommerceAccount");
+    public final URI Document                = createClass(NS, "Document");
+    public final URI Organization            = createClass(NS, "Organization");
+    public final URI Image                   = createClass(NS, "Image");
 
     private FOAF(){
         super(NS);

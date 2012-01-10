@@ -48,7 +48,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-hresume",
                     PopularPrefixes.createSubset("rdf", "doac", "foaf"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hresume.html",
                     HResumeExtractor.class
             );
 

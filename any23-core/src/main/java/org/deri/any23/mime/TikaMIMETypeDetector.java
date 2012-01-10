@@ -139,10 +139,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         return CSVReaderBuilder.isCSV(is);
     }
 
-    public static void main(String[] args) {
-        new TikaMIMETypeDetector(new WhiteSpacesPurifier());
-    }
-
     /**
      * Tries to apply one of the given patterns on a sample of the input stream.
      *
@@ -223,6 +219,10 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         if(tika == null) {
             tika = new Tika(config);
         }
+    }
+
+    public TikaMIMETypeDetector() {
+        this( new WhiteSpacesPurifier() );
     }
 
     /**

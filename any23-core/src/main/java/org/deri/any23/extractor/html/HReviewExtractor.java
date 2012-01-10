@@ -53,7 +53,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-hreview",
                     PopularPrefixes.createSubset("rdf", "vcard", "rev"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hreview.html",
                     HReviewExtractor.class
             );
 

@@ -54,7 +54,7 @@ public class RDFa11Parser {
     private static final Logger logger = LoggerFactory.getLogger(RDFa11Parser.class);
 
     public static final String CURIE_SEPARATOR      = ":";
-    public static final String URI_PREFIX_SEPARATOR = ":";
+    public static final char   URI_PREFIX_SEPARATOR = ':';
     public static final String URI_SCHEMA_SEPARATOR = "://";
     public static final String URI_PATH_SEPARATOR   = "/";
 
@@ -113,8 +113,38 @@ public class RDFa11Parser {
         return documentURL;
     }
 
+    /**
+     * Given a prefix declaration returns a list of <code>prefixID:prefixURL</code> strings
+     * normalizing blanks where present.
+     *
+     * @param prefixesDeclaration
+     * @return
+     */
+    protected static String[] extractPrefixSections(String prefixesDeclaration) {
+        final String[] parts = prefixesDeclaration.split("\\s");
+        final List<String> out = new ArrayList<String>();
+        int i = 0;
+        while(i < parts.length) {
+            final String part = parts[i];
+            if(part.length() == 0) {
+                i++;
+                continue;
+            }
+            if(part.charAt( part.length() -1 ) == URI_PREFIX_SEPARATOR) {
+                i++;
+                while(i < parts.length && parts[i].length() == 0) i++;
+                out.add( part + (i < parts.length ? parts[i] : "") );
+                i++;
+            } else {
+                out.add(parts[i]);
+                i++;
+            }
+        }
+        return out.toArray( new String[out.size()] );
+    }
+
     protected static boolean isAbsoluteURI(String uri) {
-        return uri.indexOf(URI_SCHEMA_SEPARATOR) != -1;
+        return uri.contains(URI_SCHEMA_SEPARATOR);
     }
 
     protected static boolean isCURIE(String curie) {
@@ -640,7 +670,7 @@ public class RDFa11Parser {
     private void extractPrefixes(Node node, List<PrefixMap> prefixMapList) {
         final String prefixAttribute = DomUtils.readAttribute(node, PREFIX_ATTRIBUTE, null);
         if(prefixAttribute == null) return;
-        final String[] prefixParts = prefixAttribute.split("\\s");
+        final String[] prefixParts = extractPrefixSections(prefixAttribute);
         for(String prefixPart : prefixParts) {
             int splitPoint = prefixPart.indexOf(URI_PREFIX_SEPARATOR);
             final String prefix = prefixPart.substring(0, splitPoint);
@@ -883,8 +913,8 @@ public class RDFa11Parser {
             mapping = mapping.substring(1);
         }
 
-        final String[] parts = mapping.split(":");
-        if(parts.length != 2) { // there is no prefix separator.
+        final int prefixSeparatorIndex = mapping.indexOf(':');
+        if(prefixSeparatorIndex == -1) { // there is no prefix separator.
             if(resolutionPolicy == ResolutionPolicy.NSRequired) {
                 throw new IllegalArgumentException(
                         String.format("Invalid mapping string [%s], must declare a prefix.", mapping)
@@ -900,11 +930,12 @@ public class RDFa11Parser {
             return resolveURI(documentBase.toString() + mapping);
         }
 
-        final URI curieMapping = getMapping(parts[0]);
+        final String prefix = mapping.substring(0, prefixSeparatorIndex);
+        final URI curieMapping = getMapping(prefix);
         if(curieMapping == null) {
-            throw new IllegalArgumentException( String.format("Cannot map prefix '%s'", parts[0]) );
+            throw new IllegalArgumentException( String.format("Cannot map prefix '%s'", prefix) );
         }
-        final String candidateCURIEStr = curieMapping.toString() + parts[1];
+        final String candidateCURIEStr = curieMapping.toString() + mapping.substring(prefixSeparatorIndex + 1);
         final java.net.URI candidateCURIE;
         try {
             candidateCURIE = new java.net.URI(candidateCURIEStr);

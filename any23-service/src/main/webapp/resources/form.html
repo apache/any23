@@ -73,7 +73,7 @@ function init() {
    </div>
     <h1>Any23 - Anything To Triples - Live Service Demo</h1>
     <p>Parses Microformats, RDFa, Microdata, RDF/XML, Turtle, N-Triples and NQuads.</p>
-    <p>Download and install Any23: visit the <a href="http://code.google.com/p/any23/">Developers Site</a> and the <a href="http://developers.any23.org/">Documentation</a>.
+    <p>Download and install Any23: visit the <a href="http://code.google.com/p/any23/" target="_blank">Developers Site</a> and the <a href="http://developers.any23.org/" target="_blank">Documentation</a>.
     <hr />
     <h2>Convert document at URI</h2>
     <form method="get" action="any23/">
@@ -83,13 +83,23 @@ function init() {
           <option value="best" selected="selected">best</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
-          <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
+          <option value="nquads">nquads</option>
+          <option value="trix">trix</option>
           <option value="json">json</option>
         </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
       </code>
-      <input type="checkbox" name="fix">Fix<a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
-      <input type="checkbox" name="report">Report<a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
+      Validation:
+      <select id="url-validation" name="validation-mode" onclick="if(document.getElementById('url-validation').value == 'validate') { document.getElementById('url-report').checked = true; }">
+          <option value="none">none</option>
+          <option value="validate">validate</option>
+          <option value="validate-fix">validate+fix</option>
+      </select>
+      <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
+      Report:<input id="url-report" type="checkbox" name="report">
+      <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
+      Annotate:<input id="url-annotate" type="checkbox" name="annotate">
+      <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a></input>
       <input type="submit" value="Convert" />
     </form>
     <hr />
@@ -104,6 +114,7 @@ function init() {
           <option value="text/turtle">Turtle (text/turtle)</option>
           <option value="text/nt">N-Triples (text/nt)</option>
           <option value="text/nq">N-Quads (text/nq)</option>
+          <option value="application/trix">TriX (application/trix)</option>
           <option value="application/rdf+xml">RDF/XML (application/rdf+xml)</option>
           <option value="text/csv">CSV (text/csv)</option>
         </select>
@@ -112,12 +123,22 @@ function init() {
           <option value="best" selected="selected">best (content-negotiated)</option>
           <option value="turtle">turtle</option>
           <option value="ntriples">ntriples</option>
-          <option value="nquads">nquads</option>
           <option value="rdfxml">rdfxml</option>
+          <option value="nquads">nquads</option>
+          <option value="trix">trix</option>
           <option value="json">json</option>
         </select>
-        <input type="checkbox" name="fix">Fix<a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
-        <input type="checkbox" name="report">Report<a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
+          Validation:
+        <select id="direct-validation" name="validation-mode" onclick="if(document.getElementById('direct-validation').value == 'validate') { document.getElementById('direct-report').checked = true; }">
+            <option value="none">none</option>
+            <option value="validate">validate</option>
+            <option value="validate-fix">validate+fix</option>
+        </select>
+        <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
+        Report:<input id="direct-report" type="checkbox" name="report">
+        <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
+        Annotate:<input id="direct-annotate" type="checkbox" name="annotate">
+        <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a></input>
         <input type="submit" value="Convert" /><br />
         <textarea name="body" rows="12" cols="80">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
       
@@ -152,8 +173,9 @@ function init() {
       query parameters:
     </p>
     <table rules="all">
-      <tr><th>uri</th><td>URI of an input document</td></tr>
-      <tr><th>format</th><td>Desired output format, defaults to <code>best</code></td></tr>
+      <tr><th>uri</th><td>URI of an input document.</td></tr>
+      <tr><th>format</th><td>Desired output format, defaults to <code>best</code>.</td></tr>
+      <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.</td></tr>
     </table>
     <p>The response is the input document converted to the desired output format.</p>
 
@@ -172,8 +194,9 @@ function init() {
       <tr><th>HTML</th><td><code>text/html</code></td></tr>
       <tr><th>RDF/XML</th><td><code>application/rdf+xml</code></td></tr>
       <tr><th>Turtle</th><td><code>text/turtle</code></td></tr>
-      <tr><th>N-Triples</th><td><code>text/plain</code></td></tr>
-      <tr><th>N-Quads</th><td><code>text/plain</code></td></tr>
+      <tr><th>N-Triples</th><td><code>text/nt</code></td></tr>
+      <tr><th>N-Quads</th><td><code>text/nq</code></td></tr>
+      <tr><th>TriX</th><td><code>application/trix</code></td></tr>
     </table>
     <p>Example POST request:</p>
     <pre>POST <span id="app-path">/</span>rdfxml HTTP/1.0
@@ -197,8 +220,9 @@ Content-Length: 174
     </p>
     <table rules="all">
       <tr><th>type</th><td>Media type of the input, see the table above. If not present, auto-detection will be attempted.</td></tr>
-      <tr><th>body</th><td>Document body to be converted</td></tr>
-      <tr><th>format</th><td>Desired output format; defaults to <code>best</code></td></tr>
+      <tr><th>body</th><td>Document body to be converted.</td></tr>
+      <tr><th>format</th><td>Desired output format; defaults to <code>best</code>.</td></tr>
+       <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.</td></tr>
     </table>
 
     <h3>Output formats</h3>
@@ -206,14 +230,16 @@ Content-Length: 174
     <ul>
       <li><code>best</code> for content negotiation according to the client's <code>Accept</code> HTTP header</li>
       <li><code>turtle</code>, <code>ttl</code>, <code>n3</code> for
-        <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a>/<a href="http://www.w3.org/DesignIssues/Notation3">N3</a></li>
+        <a href="http://www.w3.org/TeamSubmission/turtle/" target="_blank">Turtle</a>/<a href="http://www.w3.org/DesignIssues/Notation3" target="_blank">N3</a></li>
       <li><code>ntriples</code>, <code>nt</code> for
-        <a href="http://www.w3.org/TR/rdf-testcases/#ntriples">N-Triples</a></li>
+        <a href="http://www.w3.org/TR/rdf-testcases/#ntriples" target="_blank">N-Triples</a></li>
       <li><code>nquads</code>, <code>nq</code> for
-        <a href="http://sw.deri.org/2008/07/n-quads/">N-Quads</a></li>
+        <a href="http://sw.deri.org/2008/07/n-quads/" target="_blank">N-Quads</a></li>
+      <li><code>trix</code> for
+        <a href="http://www.w3.org/2004/03/trix/" target="_blank">TriX</a></li>
       <li><code>rdfxml</code>, <code>rdf</code>, <code>xml</code> for
-        <a href="http://www.w3.org/TR/rdf-syntax-grammar/">RDF/XML</a></li>
-      <li><code>json</code> for <a href="http://json.org/">JSON</a></li>
+        <a href="http://www.w3.org/TR/rdf-syntax-grammar/" target="_blank">RDF/XML</a></li>
+      <li><code>json</code> for <a href="http://json.org/" target="_blank">JSON</a></li>
     </ul>
 
     <h3>Error reporting</h3>
@@ -236,20 +262,42 @@ Content-Length: 174
     </table>
     <h3>Report Format</h3>
     <p>The XML report format is subjected to changes. The current content is described in section
-       <a href="http://developers.any23.org/service.html">Any23 Service</a>.
+       <a href="http://developers.any23.org/service.html" target="_blank">Any23 Service</a>.
     </p>
     <hr />
     <p><b>Any23 v.@any23.version@</b></p>
-    <p><a href="http://code.google.com/p/any23/">Any23 project homepage</a> | Hosted at <a href="http://deri.ie/">DERI, NUI Galway</a></p>
+    <p><a href="http://code.google.com/p/any23/" target="_blank">Any23 project homepage</a> | Hosted at <a href="http://deri.ie/" target="_blank">DERI, NUI Galway</a></p>
     <div id="sPopup-fix">
-	    <p>If the <i>Fix</i> checkbox is activated, <b>Any23</b> tries to fix some
-            <a href="http://rdfa.info/wiki/Common-publishing-mistakes">common RDFa mistakes</a> before performing the extraction.
-            Fixing is performed according a set of fully customizable rules. Please refer to the <a href="http://developers.any23.org/dev-validation-fix.html">developer guide</a> for any further detail.
+	    <p> 
+            The <b>Any23</b> service tries to fix some <a href="http://rdfa.info/wiki/Common-publishing-mistakes" target="_blank">common issues</a>
+            before performing a metadata extraction. The fixing is performed according a set of fully customizable rules. 
+	        <br/>
+            The following <i>Validation</i> options are available.
+            <b>none</b>: no validation will be performed. 
+            <b>validate</b>: common errors within the document will be detected and reported. When selected this option the
+                <b>Report</b> flag will be activated to visualize the validation outcome.
+            <br/>
+            <b>validate+fix</b>: the common issues will be detected and a fix will be applied when available.
+            <br/>
+            Please refer to the <a href="http://developers.any23.org/dev-validation-fix.html" target="_blank">Developer Guide</a>
+            for any further detail.
         </p>
     </div>
     <div id="sPopup-report">
-	    <p>If the <i>Report</i> and <i>Fix</i> checkboxes are both activated, <b>Any23</b> wraps the RDF extracted triples with an XML response providing a short report
-            on which RDFa errors have been detected and which rules have been triggered to perform the fix. Please refer to the <a href="http://developers.any23.org/dev-validation-fix.html">developer guide</a> for any further detail.
+	    <p>
+        If the <i>Report</i> checkbox is selected, the <b>Any23</b> service returns an <b>XML</b> output containing,
+        other then the <b>extracted RDF statements</b>, other information as the list of the <b>activated extractors</b>
+        and the <b>detected errors</b>.
+        <br/>
+        If the <b>validation</b> or <b> validation and fix</b> has been activated then the report contains also a list
+        of the applied fixes</a>.
+        </p>
+    </div>
+    <div id="sPopup-annotate">
+	    <p>
+        If the <i>Annotate</i> checkbox is selected, the <b>Any23</b> service returns an output expressed in the
+        selected <b>RDF</b> format containing also specific format <b>comments</b> describing the activated extractor
+        scopes for every produced statement.
         </p>
     </div>
   </body>

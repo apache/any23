@@ -19,7 +19,7 @@ package org.deri.any23.extractor.rdf;
 import org.deri.any23.extractor.ErrorReporter;
 import org.deri.any23.extractor.ExtractionContext;
 import org.deri.any23.extractor.ExtractionResult;
-import org.deri.any23.parser.NQuadsParser;
+import org.deri.any23.io.nquads.NQuadsParser;
 import org.deri.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ParseErrorListener;
@@ -28,6 +28,7 @@ import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.ntriples.NTriplesParser;
 import org.openrdf.rio.rdfxml.RDFXMLParser;
+import org.openrdf.rio.trix.TriXParser;
 import org.openrdf.rio.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ import java.io.Reader;
 
 /**
  * This factory provides a common logic for creating and configuring correctly
- * any RDF parser used within the library.
+ * any <i>RDF</i> parser used within the library.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -119,7 +120,7 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.deri.any23.parser.NQuadsParser}.
+     * Returns a new instance of a configured {@link org.deri.any23.io.nquads.NQuadsParser}.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
@@ -134,6 +135,26 @@ public class RDFParserFactory {
             final ExtractionResult extractionResult
     ) {
         final NQuadsParser parser = new NQuadsParser();
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
+
+    /**
+     * Returns a new instance of a configured {@link TriXParser}.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured TriX parser.
+     */
+    public TriXParser getTriXParser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final TriXParser parser = new TriXParser();
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }

@@ -50,7 +50,7 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
                     "html-head-icbm",
                     PopularPrefixes.createSubset("geo", "rdf"),
                     Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
-                    null,
+                    "example-icbm.html",
                     ICBMExtractor.class
             );
 

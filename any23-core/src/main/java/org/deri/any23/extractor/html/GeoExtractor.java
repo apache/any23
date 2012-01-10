@@ -47,7 +47,7 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
                 "html-mf-geo",
                 PopularPrefixes.createSubset("rdf", "vcard"),
                 Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                null,
+                "example-mf-geo.html",
                 GeoExtractor.class
             );
 

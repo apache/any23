@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.html.AbstractExtractorTestCase;
-import org.deri.any23.parser.NQuadsParser;
+import org.deri.any23.io.nquads.NQuadsParser;
 import org.deri.any23.vocab.SINDICE;
 import org.junit.Assert;
 import org.junit.Test;

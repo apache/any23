@@ -19,7 +19,7 @@ package org.deri.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * Vocabulary definitions from ical.rdf
+ * Vocabulary definitions from <code>ical.rdf</code>
  */
 public class ICAL extends Vocabulary {
 
@@ -42,53 +42,52 @@ public class ICAL extends Vocabulary {
      */
     public final URI NAMESPACE = createURI(NS);
 
-    public final URI DomainOf_rrule = createResource("DomainOf_rrule");
-
-    public final URI List_of_Float = createResource("List_of_Float");
+    public final URI DomainOf_rrule = createClass("DomainOf_rrule");
+    public final URI List_of_Float  = createClass("List_of_Float");
 
     /**
      * Provide a grouping of component properties that define an alarm..
      */
-    public final URI Valarm = createResource("Valarm");
+    public final URI Valarm            = createClass("Valarm");
 
-    public final URI Value_CAL_ADDRESS = createResource("Value_CAL-ADDRESS");
+    public final URI Value_CAL_ADDRESS = createClass("Value_CAL-ADDRESS");
 
-    public final URI Value_DATE = createResource("Value_DATE");
+    public final URI Value_DATE        = createClass("Value_DATE");
 
-    public final URI Value_DURATION = createResource("Value_DURATION");
+    public final URI Value_DURATION    = createClass("Value_DURATION");
 
-    public final URI Value_PERIOD = createResource("Value_PERIOD");
+    public final URI Value_PERIOD      = createClass("Value_PERIOD");
 
-    public final URI Value_RECUR = createResource("Value_RECUR");
+    public final URI Value_RECUR       = createClass("Value_RECUR");
 
-    public final URI Vcalendar = createResource("vcalendar");
+    public final URI Vcalendar         = createClass("vcalendar");
 
     /**
      * Provide a grouping of component properties that describe an event..
      */
-    public final URI Vevent = createResource("Vevent");
+    public final URI Vevent = createClass("Vevent");
 
     /**
      * Provide a grouping of component properties that describe either a request
      * for free/busy time, describe a response to a request for free/busy time or
      * describe a published set of busy time..
      */
-    public final URI Vfreebusy = createResource("Vfreebusy");
+    public final URI Vfreebusy = createClass("Vfreebusy");
 
     /**
      * Provide a grouping of component properties that describe a journal entry..
      */
-    public final URI Vjournal = createResource("Vjournal");
+    public final URI Vjournal = createClass("Vjournal");
 
     /**
      * Provide a grouping of component properties that defines a time zone..
      */
-    public final URI Vtimezone = createResource("Vtimezone");
+    public final URI Vtimezone = createClass("Vtimezone");
 
     /**
      * Provide a grouping of calendar properties that describe a to-do..
      */
-    public final URI Vtodo = createResource("Vtodo");
+    public final URI Vtodo = createClass("Vtodo");
 
 
     /**
@@ -101,13 +100,10 @@ public class ICAL extends Vocabulary {
      * The URI defines an "Attendee" within a calendar component.value type:
      * CAL-ADDRESS.
      */
-    public final URI attendee = createProperty("attendee");
-
+    public final URI attendee   = createProperty("attendee");
     public final URI calAddress = createProperty("calAddress");
-
-    public final URI component = createProperty("component");
-
-    public final URI daylight = createProperty("daylight");
+    public final URI component  = createProperty("component");
+    public final URI daylight  = createProperty("daylight");
 
     /**
      * The URI specifies a positive duration of time.value type: DURATION.
@@ -515,8 +511,8 @@ public class ICAL extends Vocabulary {
      */
     public final URI version = createProperty("version");
 
-    private URI createResource(String string) {
-        return createResource(NS, string);
+    private URI createClass(String string) {
+        return createClass(NS, string);
     }
 
     private URI createProperty(String string) {

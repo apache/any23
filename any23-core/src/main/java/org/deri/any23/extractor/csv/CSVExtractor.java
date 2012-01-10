@@ -62,7 +62,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
                     Arrays.asList(
                             "text/csv;q=0.1"
                     ),
-                    null,
+                    "example-csv.csv",
                     CSVExtractor.class
             );
 
@@ -124,12 +124,29 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     /**
+     * Check whether a number is an integer.
+     *
      * @param number
      * @return
      */
-    private boolean isNumber(String number) {
+    private boolean isInteger(String number) {
         try {
-            Double.valueOf(number);
+            Integer.valueOf(number);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Check whether a number is a float.
+     *
+     * @param number
+     * @return
+     */
+    private boolean isFloat(String number) {
+        try {
+            Float.valueOf(number);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -236,8 +253,10 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             object = new URIImpl(cell);
         } else {
             URI datatype = XMLSchema.STRING;
-            if (isNumber(cell)) {
+            if (isInteger(cell)) {
                 datatype = XMLSchema.INTEGER;
+            } else if(isFloat(cell)) {
+                datatype = XMLSchema.FLOAT;
             }
             object = new LiteralImpl(cell, datatype);
         }

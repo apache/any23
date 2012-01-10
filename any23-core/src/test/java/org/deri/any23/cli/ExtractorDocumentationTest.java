@@ -16,7 +16,6 @@
 
 package org.deri.any23.cli;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -42,13 +41,13 @@ public class ExtractorDocumentationTest extends ToolTestBase {
         runToolCheckExit0("-all");
     }
 
-    @Ignore("no available example")
+    //@Ignore("no available example")
     @Test
     public void testExampleInput() throws Exception {
         runToolCheckExit0("-i", TARGET_EXTRACTOR);
     }
 
-    @Ignore("no available example")
+    //@Ignore("no available example")
     @Test
     public void testExampleOutput() throws Exception {
         runToolCheckExit0("-o", TARGET_EXTRACTOR);

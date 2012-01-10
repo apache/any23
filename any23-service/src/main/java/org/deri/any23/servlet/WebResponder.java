@@ -43,6 +43,8 @@ import java.util.List;
  */
 class WebResponder {
 
+    private static final WriterRegistry writerRegistry = WriterRegistry.getInstance();
+
     /**
      * Library facade.
      */
@@ -89,10 +91,14 @@ class WebResponder {
         return runner;
     }
 
-    public void runExtraction(DocumentSource in, ExtractionParameters eps, String format, boolean report)
-    throws IOException {
+    public void runExtraction(
+            DocumentSource in,
+            ExtractionParameters eps,
+            String format,
+            boolean report, boolean annotate
+    ) throws IOException {
         if (in == null) return;
-        if (!initRdfWriter(format, report)) return;
+        if (!initRdfWriter(format, report, annotate)) return;
         final ExtractionReport er;
         try {
             er = runner.extract(eps, in, rdfWriter);
@@ -221,7 +227,7 @@ class WebResponder {
         ps.println("<data>");
         ps.println("<![CDATA[");
         try {
-            ps.write(byteOutStream.toByteArray());
+            ps.write(data);
         } catch (IOException ioe) {
             ps.println("An error occurred while serializing data.");
             ioe.printStackTrace(ps);
@@ -252,19 +258,19 @@ class WebResponder {
         }
     }
 
-    private boolean initRdfWriter(String format, boolean report) throws IOException {
-        FormatWriter fw = getFormatWriter(format);
+    private boolean initRdfWriter(String format, boolean report, boolean annotate) throws IOException {
+        final FormatWriter fw = getFormatWriter(format, annotate);
         if (fw == null) {
             sendError(
                     400,
-                    "Invalid format '" + format + "', try one of rdfxml, turtle, ntriples, nquads",
+                    "Invalid format '" + format + "', try one of: [rdfxml, turtle, ntriples, nquads, trix, json]",
                     null,
                     null,
                     report
             );
             return false;
         }
-        outputMediaType = fw.getMIMEType();
+        outputMediaType = WriterRegistry.getMimeType( fw.getClass() );
         List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
         tripleHandlers.add(new IgnoreAccidentalRDFa(fw));
         tripleHandlers.add(new CountingTripleHandler());
@@ -274,26 +280,28 @@ class WebResponder {
         return true;
     }
 
-    private FormatWriter getFormatWriter(String format) throws IOException {
+    private FormatWriter getFormatWriter(String format, boolean annotate) throws IOException {
+        final String finalFormat;
         if ("rdf".equals(format) || "xml".equals(format) || "rdfxml".equals(format)) {
-            return new RDFXMLWriter(byteOutStream);
+            finalFormat = "rdfxml";
+        } else if ("turtle".equals(format) || "ttl".equals(format)) {
+            finalFormat = "turtle";
+        } else if ("n3".equals(format)) {
+            finalFormat = "turtle";
+        } else if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
+            finalFormat = "ntriples";
+        } else if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
+            finalFormat = "nquads";
+        } else if("trix".equals(format)) {
+            finalFormat = "trix";
+        } else if("json".equals(format)) {
+            finalFormat = "json";
+        } else {
+            return null;
         }
-        if ("turtle".equals(format) || "ttl".equals(format)) {
-            return new TurtleWriter(byteOutStream);
-        }
-        if ("n3".equals(format)) {
-            return new TurtleWriter(byteOutStream, true);
-        }
-        if ("n-triples".equals(format) || "ntriples".equals(format) || "nt".equals(format)) {
-            return new NTriplesWriter(byteOutStream);
-        }
-        if("nquads".equals(format) || "n-quads".equals(format) || "nq".equals(format)) {
-            return new NQuadsWriter(byteOutStream);
-        }
-        if("json".equals(format)) {
-            return new JSONWriter(byteOutStream);
-        }
-        return null;
+        final FormatWriter writer = writerRegistry.getWriterInstanceByIdentifier(finalFormat, byteOutStream);
+        writer.setAnnotated(annotate);
+        return writer;
     }
 
 }

@@ -21,10 +21,10 @@ public class HRECIPE extends Vocabulary {
     }
 
     // Resources.
-    public URI Recipe     = createResource(NS, "Recipe");
-    public URI Duration   = createResource(NS, "Duration");
-    public URI Ingredient = createResource(NS, "Ingredient");
-    public URI Nutrition  = createResource(NS, "Nutrition");
+    public URI Recipe     = createClass(NS, "Recipe");
+    public URI Duration   = createClass(NS, "Duration");
+    public URI Ingredient = createClass(NS, "Ingredient");
+    public URI Nutrition  = createClass(NS, "Nutrition");
 
     // Properties.
     public URI fn                     = createProperty(NS, "fn");

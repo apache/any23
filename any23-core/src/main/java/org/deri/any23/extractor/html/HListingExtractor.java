@@ -82,7 +82,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-hlisting",
                     PopularPrefixes.createSubset("rdf", "hlisting"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hlisting.html",
                     HListingExtractor.class
             );
 
@@ -106,7 +106,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
         out.writeTriple(listing, RDF.TYPE, hLISTING.Listing);
 
         for (String action : findActions(fragment)) {
-            out.writeTriple(listing, hLISTING.action, hLISTING.getResource(action));
+            out.writeTriple(listing, hLISTING.action, hLISTING.getClass(action));
         }
         out.writeTriple(listing, hLISTING.lister, addLister() );
         addItem(listing);
@@ -154,7 +154,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                     String value = node.getNodeValue();
                     // do not use conditionallyAdd, it won't work cause of evaluation rules
                     if (!(null == value || "".equals(value))) {
-                        URI property = hLISTING.getPropertyCamelized(klass);
+                        URI property = hLISTING.getPropertyCamelCase(klass);
                         conditionallyAddLiteralProperty(
                                 node,
                                 blankItem, property, valueFactory.createLiteral(value)

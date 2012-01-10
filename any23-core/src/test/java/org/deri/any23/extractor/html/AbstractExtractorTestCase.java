@@ -21,7 +21,7 @@ import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.extractor.SingleDocumentExtraction;
 import org.deri.any23.extractor.SingleDocumentExtractionReport;
-import org.deri.any23.parser.NQuadsWriter;
+import org.deri.any23.io.nquads.NQuadsWriter;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.SINDICE;
 import org.deri.any23.writer.RepositoryWriter;

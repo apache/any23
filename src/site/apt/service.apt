@@ -65,13 +65,19 @@ Content-Length: 174
 
 * Form-style POST API
 
-  A document body can also be converted by HTTP POSTing form data to http://any23.org/. The Content-Type HTTP header must be set to application/x-www-form-urlencoded. The following parameters are supported:
+  A document body can also be converted by HTTP POSTing form data to http://any23.org/.
+  The Content-Type HTTP header must be set to <application/x-www-form-urlencoded>.
+  The following parameters are supported:
 
-+---------------------------------------------------
-type	Media type of the input, see the table above. If not present, auto-detection will be attempted.
-body	Document body to be converted
-format	Desired output format; defaults to best
-+---------------------------------------------------
+*----------+------------------------------------------------------------------------------------------------------------+
+|type	   |Media type of the input, see the table above. If not present, auto-detection will be attempted.             |
+*----------+------------------------------------------------------------------------------------------------------------+
+|body	   |Document body to be converted.                                                                              |
+*----------+------------------------------------------------------------------------------------------------------------+
+|format	   |Desired output format; defaults to <<best>>.                                                                |
+*----------+------------------------------------------------------------------------------------------------------------+
+|validation|The validation level to be applied, supported values: <<none>> (default), <<validate>> and <<validate-fix>>.|              |                                                                                 |
+*----------+------------------------------------------------------------------------------------------------------------+
 
 * Output Formats
 
@@ -93,14 +99,16 @@ Code	                    Reason
 502 Bad Gateway	            Input document from a remote server could not be fetched or parsed.
 +---------------------------------------------------
 
-* Report Format
+* XML Report Format
+
+    {report-format}
 
     The <Any23 Service> can optionally return an XML report and attempt error fix if
     the flags <fix> and <report> are activated ( <fix=on&report=on> ).
     The following URL shows how to use these flags.
 
 +---------------------------------------------------
-http://any23.org/any23-service/any23/?format=best&uri=http%3A%2F%2Fpath%2Fto%2Fresource&fix=on&report=on
+http://any23.org/any23-service/any23/?format=best&uri=http%3A%2F%2Fpath%2Fto%2Fresource&validation=none&report=on
 +---------------------------------------------------
 
     The <fix> functionality is described {{{./dev-validation-fix.html}here}}.
@@ -112,29 +120,37 @@ http://any23.org/any23-service/any23/?format=best&uri=http%3A%2F%2Fpath%2Fto%2Fr
     <response/report/error> section the error stack trace if available.
 
     The result of validation is contained within the <response/report/validationReport> node.
-    Whithin that node there is the list of the activated rules, the issues detected and
+    Within that node there is the list of the activated rules, the issues detected and
     the errors generated.
 
-+---------------------------------------------------
++-----------------------------------------------------------------------------------------------------------------
 <?xml version="1.0" encoding="UTF-8" ?>
 <response>
+    <!-- List of activated extractors. -->
     <extractors>
-        <extractor>extractor-a</extractor>
-        <extractor>extractor-b</extractor>
+        <extractor><!-- Extractor name. --></extractor>
+         <!-- ... -->
     </extractors>
     <report>
-        <message/>
-        <error> </error>
-        <validationReport>
-            <errors> </errors>
-            <issues> </issues>
-            <ruleActivations> </ruleActivations>
-        </validationReport>
-    </report>
+        <message></message>
+        <error></error>
+    <!-- Validation specific report, contains all errors and issues detected within the document. -->
+    <validationReport>
+        <!-- List of errors found while validating the document. -->
+        <errors>
+        </errors>
+        <!-- List of issues found while validating the document. -->
+        <issues>
+        </issues>
+        <!-- List of rules activated to solve the detected issues. -->
+        <ruleActivations>
+        </ruleActivations>
+    </validationReport>
+</report>
     <data>
-        <![CDATA[
-        <http://sub> <http://pred> <http://obj> <http://graph> .
-        ]]>
+<![CDATA[
+ -- Actual Data in the format specified as output. --
+]]>
     </data>
 </response>
-+---------------------------------------------------
++-----------------------------------------------------------------------------------------------------------------

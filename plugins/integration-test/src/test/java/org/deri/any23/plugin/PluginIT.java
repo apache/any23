@@ -32,7 +32,7 @@ import java.io.IOException;
  */
 public class PluginIT {
 
-    private static final int NUM_OF_EXTRACTORS = 22;
+    private static final int NUM_OF_EXTRACTORS = 23;
 
     private static final String PLUGIN_LOCATION = "target/plugins-build/";
 

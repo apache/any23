@@ -57,7 +57,7 @@ public class Any23PluginManagerTest {
     @Test
     public <T> void testGetClassesInPackageFromJAR() throws IOException {
         Set<Class<T>> classes = new HashSet<Class<T>>();
-                manager.getClassesInPackageFromJAR(
+                manager.loadClassesInPackageFromJAR(
                         TARGET_TEST_JAR,
                         "org.hsqldb.store",
                         null,
@@ -74,7 +74,7 @@ public class Any23PluginManagerTest {
         decompressJar(TARGET_TEST_JAR, tmpDir);
 
         Set<Class<T>> classes = new HashSet<Class<T>>();
-        manager.getClassesInPackageFromDir(
+        manager.loadClassesInPackageFromDir(
                 tmpDir,
                 "org.hsqldb.store",
                 null,
@@ -85,14 +85,14 @@ public class Any23PluginManagerTest {
 
     @Test
     public <T> void testGetClassesFromClasspath() throws IOException {
-        Set<Class<T>> clazzes = manager.getClassesInPackage("org.deri.any23", null);
-        Assert.assertEquals(188, clazzes.size());
+        Set<Class<T>> clazzes = manager.getClassesInPackage("org.deri.any23.plugin", null);
+        Assert.assertTrue(clazzes.size() >= 4);
     }
 
     @Test
     public void testGetTools() throws IOException {
         Class<Tool>[] tools = manager.getTools();
-        Assert.assertEquals(7, tools.length);
+        Assert.assertTrue(tools.length > 0); // NOTE: Punctual tool detection verification done by ToolRunnerTest.java
     }
 
     @Test
@@ -101,6 +101,7 @@ public class Any23PluginManagerTest {
         Assert.assertEquals(0, extractorPlugins.length);
     }
 
+    // TODO: move in FileUtils
     private void decompressJar(File jarFile, File destination) throws IOException {
         final int BUFFER = 1024 * 1024;
         BufferedOutputStream dest = null;

@@ -55,21 +55,21 @@ public class DOAC extends Vocabulary {
     public final URI reference_type      = createProperty(NS, "reference-type");
 
     // Resources.
-    public final URI Publication         = createResource(NS, "Publication");
-    public final URI Education           = createResource(NS, "Education");
-    public final URI OrganisationalSkill = createResource(NS, "OrganisationalSkill");
-    public final URI PrimarySchool       = createResource(NS, "PrimarySchool");
-    public final URI Reference           = createResource(NS, "Reference");
-    public final URI DrivingSkill        = createResource(NS, "DrivingSkill");
-    public final URI Degree              = createResource(NS, "Degree");
-    public final URI LanguageSkill       = createResource(NS, "LanguageSkill");
-    public final URI Skill               = createResource(NS, "Skill");
-    public final URI SecondarySchool     = createResource(NS, "SecondarySchool");
-    public final URI Course              = createResource(NS, "Course");
-    public final URI Experience          = createResource(NS, "Experience");
-    public final URI SocialSkill         = createResource(NS, "SocialSkill");
-    public final URI ComputerSkill       = createResource(NS, "ComputerSkill");
-    public final URI LanguageLevel       = createResource(NS, "LanguageLevel");
+    public final URI Publication         = createClass(NS, "Publication");
+    public final URI Education           = createClass(NS, "Education");
+    public final URI OrganisationalSkill = createClass(NS, "OrganisationalSkill");
+    public final URI PrimarySchool       = createClass(NS, "PrimarySchool");
+    public final URI Reference           = createClass(NS, "Reference");
+    public final URI DrivingSkill        = createClass(NS, "DrivingSkill");
+    public final URI Degree              = createClass(NS, "Degree");
+    public final URI LanguageSkill       = createClass(NS, "LanguageSkill");
+    public final URI Skill               = createClass(NS, "Skill");
+    public final URI SecondarySchool     = createClass(NS, "SecondarySchool");
+    public final URI Course              = createClass(NS, "Course");
+    public final URI Experience          = createClass(NS, "Experience");
+    public final URI SocialSkill         = createClass(NS, "SocialSkill");
+    public final URI ComputerSkill       = createClass(NS, "ComputerSkill");
+    public final URI LanguageLevel       = createClass(NS, "LanguageLevel");
 
     private DOAC(){
         super(NS);

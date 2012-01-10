@@ -59,6 +59,7 @@ public class Servlet extends HttpServlet {
         final WebResponder responder = new WebResponder(this, resp);
         final String format = getFormatFromRequestOrNegotiation(req);
         final boolean report = isReport(req);
+        final boolean annotate = isAnnotated(req);
         if (format == null) {
             responder.sendError(406, "Client accept header does not include a supported output format", report);
             return;
@@ -69,13 +70,14 @@ public class Servlet extends HttpServlet {
             return;
         }
         final ExtractionParameters eps = getExtractionParameters(req);
-        responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report);
+        responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report, annotate);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final WebResponder responder = new WebResponder(this, resp);
         final boolean report = isReport(req);
+        final boolean annotate = isAnnotated(req);
         if (req.getContentType() == null) {
             responder.sendError(400, "Invalid POST request, no Content-Type for the message body specified", report);
             return;
@@ -90,7 +92,7 @@ public class Servlet extends HttpServlet {
         if ("application/x-www-form-urlencoded".equals(getContentTypeHeader(req))) {
             if (uri != null) {
                 log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
-                responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report);
+                responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report, annotate);
                 return;
             }
             if (req.getParameter("body") == null) {
@@ -106,7 +108,7 @@ public class Servlet extends HttpServlet {
                     new StringDocumentSource(req.getParameter("body"), Servlet.DEFAULT_BASE_URI, type),
                     eps,
                     format,
-                    report
+                    report, annotate
             );
             return;
         }
@@ -119,7 +121,7 @@ public class Servlet extends HttpServlet {
                 ),
                 eps,
                 format,
-                report
+                report, annotate
         );
     }
 
@@ -243,19 +245,29 @@ public class Servlet extends HttpServlet {
         return true;
     }
 
-    // TODO: add possibility to specify validation={none|validate|validate+fix}
+    private ValidationMode getValidationMode(HttpServletRequest request) {
+        final String PARAMETER = "validation-mode";
+        final String validationMode = request.getParameter(PARAMETER);
+        if(validationMode == null) return ValidationMode.None;
+        if("none".equalsIgnoreCase(validationMode)) return ValidationMode.None;
+        if("validate".equalsIgnoreCase(validationMode)) return ValidationMode.Validate;
+        if("validate-fix".equalsIgnoreCase(validationMode)) return ValidationMode.ValidateAndFix;
+        throw new IllegalArgumentException(
+                String.format("Invalid value '%s' for '%s' parameter.", validationMode, PARAMETER)
+        );
+    }
+    
     private ExtractionParameters getExtractionParameters(HttpServletRequest request) {
-        final ValidationMode mode =
-                request.getParameter("fix") != null
-                        ?
-                ValidationMode.ValidateAndFix
-                        :
-                ValidationMode.None;
+        final ValidationMode mode = getValidationMode(request);
         return new ExtractionParameters(DefaultConfiguration.singleton(), mode);
     }
 
     private boolean isReport(HttpServletRequest request) {
         return request.getParameter("report") != null;
     }
-    
+
+    private boolean isAnnotated(HttpServletRequest request) {
+        return request.getParameter("annotate") != null;
+    }
+
 }

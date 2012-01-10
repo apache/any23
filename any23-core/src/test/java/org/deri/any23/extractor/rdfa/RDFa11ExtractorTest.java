@@ -17,9 +17,11 @@
 package org.deri.any23.extractor.rdfa;
 
 import org.deri.any23.extractor.ErrorReporter;
+import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.vocab.FOAF;
+import org.deri.any23.vocab.OGP;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Literal;
@@ -193,6 +195,37 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
         assertContainsModel("/html/rdfa/goodrelations-rdfa10-expected.nq");
+    }
+
+    /**
+     * Tests the correct support of the new <em>Open Graph Protocol</em>
+     * <a href="http://ogp.me/#structured">Structured Properties</a>.
+     *
+     * @throws IOException
+     * @throws org.deri.any23.extractor.ExtractionException
+     * @throws RepositoryException
+     */
+    @Test
+    public void testOpenGraphStructuredProperties() throws IOException, ExtractionException, RepositoryException {
+        assertExtracts("html/rdfa/opengraph-structured-properties.html");
+        logger.info( dumpHumanReadableTriples() );
+
+        Assert.assertEquals(8, getStatementsSize(null, null, null) );
+        final OGP vOGP = OGP.getInstance();
+        assertContains(baseURI, vOGP.audio, RDFUtils.literal("http://example.com/bond/theme.mp3") );
+        assertContains(
+                baseURI,
+                vOGP.description,
+                RDFUtils.literal(
+                        "Sean Connery found fame and fortune as the suave, sophisticated British agent, James Bond."
+                )
+        );
+        assertContains(baseURI, vOGP.determiner, RDFUtils.literal("the") );
+        assertContains(baseURI, vOGP.locale, RDFUtils.literal("en_UK") );
+        assertContains(baseURI, vOGP.localeAlternate, RDFUtils.literal("fr_FR") );
+        assertContains(baseURI, vOGP.localeAlternate, RDFUtils.literal("es_ES") );
+        assertContains(baseURI, vOGP.siteName, RDFUtils.literal("IMDb") );
+        assertContains(baseURI, vOGP.video, RDFUtils.literal("http://example.com/bond/trailer.swf") );
     }
 
     @Override

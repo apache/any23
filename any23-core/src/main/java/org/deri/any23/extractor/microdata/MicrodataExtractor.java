@@ -68,7 +68,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                     "html-microdata",
                     PopularPrefixes.createSubset("rdf", "doac", "foaf"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-microdata.html",
                     MicrodataExtractor.class
             );
 

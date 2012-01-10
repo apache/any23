@@ -21,8 +21,10 @@ import org.deri.any23.http.HTTPClient;
 import org.deri.any23.source.DocumentSource;
 import org.deri.any23.source.FileDocumentSource;
 import org.deri.any23.source.StringDocumentSource;
+import org.deri.any23.util.StringUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
@@ -35,6 +37,8 @@ import java.net.URLEncoder;
 /**
  * Test case for {@link org.deri.any23.servlet.Servlet} class.
  */
+// TODO: some test verifications are not strict enough.
+//       The assertContainsTag() doesn't verify the entire output content.
 public class ServletTest {
 
     private static String content;
@@ -223,7 +227,8 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    // Deactivated online test @Test
+    @Test
+    @Ignore
     public void testGETwithURLEncoding() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller");
@@ -234,7 +239,8 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    // Deactivated online test @Test
+    @Test
+    @Ignore
     public void testGETwithURLEncodingWithQuery() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller?appo=xxx");
@@ -245,7 +251,8 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources dependencies
      * @throws Exception
      */
-    // Deactivated online test @Test
+    @Test
+    @Ignore
     public void testGETwithURLEncodingWithFragment() throws Exception {
         content = null;
         HttpTester response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller#abcde");
@@ -399,6 +406,17 @@ public class ServletTest {
         assertContains(EXPECTED_JSON, response.getContent());
     }
 
+    @Test
+    public void testTriXResponseFormat() throws Exception {
+        String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
+        HttpTester response = doPostRequest("/trix", body, "text/n-quads");
+        Assert.assertEquals(200, response.getStatus());
+        final String content = response.getContent();
+        assertContainsTag("graph", content, 1);
+        assertContainsTag("uri", content, 3);
+        assertContainsTag("triple", content, 1);
+    }
+
     private HttpTester doGetRequest(String path) throws Exception {
         return doRequest(path, "GET");
     }
@@ -436,14 +454,27 @@ public class ServletTest {
     }
 
     private void assertContains(String expected, String container) {
-        if (container.contains(expected))
-            return;
+        if(expected.length() == 0)
+            throw new IllegalArgumentException("expected string must contains at lease one char.");
+        if (container.contains(expected)) return;
         Assert.fail("expected '" + expected + "' to be contained in '" + container + "'");
     }
 
+    private void assertContainsTag(String tag, String container, int occurrences) {
+        Assert.assertEquals(
+                String.format("Cannot find open tag %s %d times", tag, occurrences),
+                occurrences,
+                StringUtils.countOccurrences(container, "<" + tag + ">")
+        );
+        Assert.assertEquals(
+                String.format("Cannot find close tag %s %d times", tag, occurrences),
+                occurrences,
+                StringUtils.countOccurrences(container, "</" + tag + ">")
+        );
+    }
+
     private void assertContainsTag(String tag, String container) {
-        assertContains("<" + tag + ">", container);
-        assertContains("</" + tag + ">", container);
+        assertContainsTag(tag, container, 1);
     }
 
     /**

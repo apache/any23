@@ -16,9 +16,10 @@
 
 package org.deri.any23.vocab;
 
-import org.deri.any23.parser.NQuadsWriter;
+import org.deri.any23.io.nquads.NQuadsWriter;
 import org.deri.any23.rdf.RDFUtils;
 import org.deri.any23.util.DiscoveryUtils;
+import org.deri.any23.util.StringUtils;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
@@ -28,9 +29,10 @@ import org.openrdf.rio.ntriples.NTriplesWriter;
 import org.openrdf.rio.rdfxml.RDFXMLWriter;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
+import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides a set of methods for generating
@@ -40,6 +42,8 @@ import java.util.List;
  */
 public class RDFSchemaUtils {
 
+    private static final String RDF_XML_SEPARATOR = StringUtils.multiply('=', 100);
+    
     /**
      * Supported formats for vocabulary serialization.
      */
@@ -54,25 +58,33 @@ public class RDFSchemaUtils {
      * <code>resources</code> and <code>properties</code>.
      *
      * @param namespace vocabulary namespace.
-     * @param resources list of resources.
+     * @param classes list of classes.
      * @param properties list of properties.
+     * @param comments map of resource comments.
      * @param writer writer to print out the RDF Schema triples.
      * @throws RDFHandlerException
      */
     public static void serializeVocabulary(
             URI namespace,
-            URI[] resources,
+            URI[] classes,
             URI[] properties,
+            Map<URI,String> comments,
             RDFWriter writer
     ) throws RDFHandlerException {
         writer.startRDF();
-        for(URI entity : resources) {
-            writer.handleStatement( RDFUtils.quad(entity, RDF.TYPE, RDFS.CLASS  , namespace)  );
-            writer.handleStatement( RDFUtils.quad(entity, RDFS.MEMBER, namespace, namespace)  );
+        for(URI clazz : classes) {
+            writer.handleStatement( RDFUtils.quad(clazz, RDF.TYPE, RDFS.CLASS  , namespace) );
+            writer.handleStatement( RDFUtils.quad(clazz, RDFS.MEMBER, namespace, namespace) );
+            final String comment = comments.get(clazz);
+            if(comment != null)
+                writer.handleStatement( RDFUtils.quad(clazz, RDFS.COMMENT, RDFUtils.literal(comment), namespace) );
         }
         for(URI property : properties) {
             writer.handleStatement(RDFUtils.quad(property, RDF.TYPE, RDF.PROPERTY, namespace));
             writer.handleStatement(RDFUtils.quad(property, RDFS.MEMBER, namespace, namespace));
+            final String comment = comments.get(property);
+            if(comment != null)
+                writer.handleStatement( RDFUtils.quad(property, RDFS.COMMENT, RDFUtils.literal(comment), namespace) );
         }
         writer.endRDF();
     }
@@ -88,8 +100,9 @@ public class RDFSchemaUtils {
     throws RDFHandlerException {
         serializeVocabulary(
                 vocabulary.getNamespace(),
-                vocabulary.getResources(),
+                vocabulary.getClasses(),
                 vocabulary.getProperties(),
+                vocabulary.getComments(),
                 writer
         );
     }
@@ -99,18 +112,27 @@ public class RDFSchemaUtils {
      *
      * @param vocabulary vocabulary to be serialized.
      * @param format output format for vocabulary.
-     * @param os output stream.
+     * @param willFollowAnother if <code>true</code> another vocab will be printed in the same stream.
+     * @param ps output stream.
      * @throws RDFHandlerException
      */
-    public static void serializeVocabulary(Vocabulary vocabulary, VocabularyFormat format, OutputStream os)
-    throws RDFHandlerException {
+    public static void serializeVocabulary(
+            Vocabulary vocabulary,
+            VocabularyFormat format,
+            boolean willFollowAnother,
+            PrintStream ps
+    ) throws RDFHandlerException {
         final RDFWriter rdfWriter;
         if(format == VocabularyFormat.RDFXML) {
-            rdfWriter = new RDFXMLWriter(os);
+            rdfWriter = new RDFXMLWriter(ps);
+            if(willFollowAnother)
+                ps.print("\n");
+                ps.print(RDF_XML_SEPARATOR);
+                ps.print("\n");
         } else if(format == VocabularyFormat.NTriples) {
-            rdfWriter = new NTriplesWriter(os);
+            rdfWriter = new NTriplesWriter(ps);
         } else if(format == VocabularyFormat.NQuads) {
-            rdfWriter = new NQuadsWriter(os);
+            rdfWriter = new NQuadsWriter(ps);
         }
         else {
             throw new IllegalArgumentException("Unsupported format " + format);
@@ -129,7 +151,9 @@ public class RDFSchemaUtils {
     public static String serializeVocabulary(Vocabulary vocabulary, VocabularyFormat format)
     throws RDFHandlerException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        serializeVocabulary(vocabulary, format, baos);
+        final PrintStream ps = new PrintStream(baos);
+        serializeVocabulary(vocabulary, format, false, ps);
+        ps.close();
         return baos.toString();
     }
 
@@ -137,14 +161,15 @@ public class RDFSchemaUtils {
      * Serializes all the vocabularies to <i>NQuads</i> over the given output stream.
      *
      * @param format output format for vocabularies.
-     * @param os output stream.
+     * @param ps output print stream.
      */
-    public static void serializeVocabularies(VocabularyFormat format, OutputStream os) {
+    public static void serializeVocabularies(VocabularyFormat format, PrintStream ps) {
         final Class vocabularyClass = Vocabulary.class;
         final List<Class> vocabularies = DiscoveryUtils.getClassesInPackage(
                 vocabularyClass.getPackage().getName(),
                 vocabularyClass
         );
+        int currentIndex = 0;
         for (Class vocabClazz : vocabularies) {
             final Vocabulary instance;
             try {
@@ -155,7 +180,7 @@ public class RDFSchemaUtils {
                 throw new RuntimeException("Error while instantiating vocabulary class " + vocabClazz, e);
             }
             try {
-                serializeVocabulary(instance, format, os);
+                serializeVocabulary(instance, format, currentIndex < vocabularies.size() - 2, ps);
             } catch (RDFHandlerException rdfhe) {
                 throw new RuntimeException("Error while serializing vocabulary.", rdfhe);
             }

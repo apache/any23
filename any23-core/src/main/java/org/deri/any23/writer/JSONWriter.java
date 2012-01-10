@@ -32,6 +32,7 @@ import java.io.PrintStream;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@Writer(identifier = "json", mimeType = "text/json" )
 public class JSONWriter implements FormatWriter {
 
     private final PrintStream ps;
@@ -46,10 +47,6 @@ public class JSONWriter implements FormatWriter {
             throw new NullPointerException("Output stream cannot be null.");
         }
         this.ps = new PrintStream(new BufferedOutputStream(os));
-    }
-
-    public String getMIMEType() {
-        return "text/json";
     }
 
     public void startDocument(URI documentURI) throws TripleHandlerException {
@@ -216,5 +213,15 @@ public class JSONWriter implements FormatWriter {
         } else {
             ps.print("null");
         }
+    }
+
+    @Override
+    public boolean isAnnotated() {
+        return false; // TODO: add annotation support.
+    }
+
+    @Override
+    public void setAnnotated(boolean f) {
+        // Empty.
     }
 }

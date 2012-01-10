@@ -21,7 +21,6 @@ import org.deri.any23.rdf.RDFUtils;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
 
@@ -31,12 +30,18 @@ import org.openrdf.rio.RDFWriter;
  * eg for serialization using one of Sesame's writers.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
+ * @author Michele Mostarda (mostarda@fbk.eu)
  */
-class RDFWriterTripleHandler implements TripleHandler {
+public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHandler {
 
     private final RDFWriter writer;
 
     private boolean closed = false;
+
+    /**
+     * The annotation flag.
+     */
+    private boolean annotated = false;
 
     RDFWriterTripleHandler(RDFWriter destination) {
         writer = destination;
@@ -47,14 +52,39 @@ class RDFWriterTripleHandler implements TripleHandler {
         }
     }
 
+    /**
+     * If <code>true</code> then the produced <b>RDF</b> is annotated with
+     * the extractors used to generate the specific statements.
+     *
+     * @return the annotation flag value.
+     */
+    @Override
+    public boolean isAnnotated() {
+        return annotated;
+    }
+
+    /**
+     * Sets the <i>annotation</i> flag.
+     *
+     * @param f If <code>true</code> then the produced <b>RDF</b> is annotated with
+     *          the extractors used to generate the specific statements.
+     */
+    @Override
+    public void setAnnotated(boolean f) {
+        annotated = f;
+    }
+
+    @Override
     public void startDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 
+    @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        // Empty.
+        handleComment( String.format("BEGIN: " + context) );
     }
 
+    @Override
     public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
     throws TripleHandlerException {
         final URI graph = g == null ? context.getDocumentURI() : g;
@@ -69,6 +99,7 @@ class RDFWriterTripleHandler implements TripleHandler {
         }
     }
 
+    @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context)
     throws TripleHandlerException {
         try {
@@ -80,10 +111,12 @@ class RDFWriterTripleHandler implements TripleHandler {
         }
     }
 
+    @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        // Empty.
+        handleComment( String.format("END: " + context) );
     }
 
+    @Override
     public void close() throws TripleHandlerException {
         if (closed) return;
         closed = true;
@@ -94,12 +127,23 @@ class RDFWriterTripleHandler implements TripleHandler {
         }
     }
 
+    @Override
     public void endDocument(URI documentURI) throws TripleHandlerException {
         // Empty.
     }
 
+    @Override
     public void setContentLength(long contentLength) {
         // Empty.
     }
-    
+
+    private void handleComment(String comment) throws TripleHandlerException {
+        if( !annotated ) return;
+        try {
+            writer.handleComment(comment);
+        } catch (RDFHandlerException rdfhe) {
+            throw new TripleHandlerException("Error while handing comment.", rdfhe);
+        }
+    }
+
 }

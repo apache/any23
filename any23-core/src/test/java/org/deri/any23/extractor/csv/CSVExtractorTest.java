@@ -45,36 +45,55 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
     public void testExtractionCommaSeparated() throws RepositoryException {
         CSV csv = CSV.getInstance();
         assertExtracts("org/deri/any23/extractor/csv/test-comma.csv");
+        logger.debug(dumpModelToRDFXML());
+
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
-        logger.debug(dumpModelToRDFXML());
     }
 
     @Test
     public void testExtractionSemicolonSeparated() throws RepositoryException {
         CSV csv = CSV.getInstance();
         assertExtracts("org/deri/any23/extractor/csv/test-semicolon.csv");
+        logger.debug(dumpModelToRDFXML());
+
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
-        logger.debug(dumpModelToRDFXML());
     }
 
     @Test
     public void testExtractionTabSeparated() throws RepositoryException {
         CSV csv = CSV.getInstance();
         assertExtracts("org/deri/any23/extractor/csv/test-tab.csv");
+        logger.debug(dumpModelToRDFXML());
+
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
         assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
         assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
+    }
+
+    @Test
+    public void testTypeManagement() throws RepositoryException {
+        CSV csv = CSV.getInstance();
+        assertExtracts("org/deri/any23/extractor/csv/test-type.csv");
         logger.debug(dumpModelToRDFXML());
+
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 21);
+        assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+        assertContains(null, csv.numberOfColumns, new LiteralImpl("2", XMLSchema.INTEGER));
+        assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
+        assertContains(null, null, new LiteralImpl("5.2", XMLSchema.FLOAT));
+        assertContains(null, null, new LiteralImpl("7.9", XMLSchema.FLOAT));
+        assertContains(null, null, new LiteralImpl("10" , XMLSchema.INTEGER));
     }
 
 }

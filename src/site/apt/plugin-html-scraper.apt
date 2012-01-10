@@ -11,4 +11,4 @@ HTML Scraper Plugin
 +-----------------
 
   The plugin engine is based on the {{{http://code.google.com/p/boilerpipe/} Boilerpipe}} library extractor.
-  The extractors mentioned as DE, AE, LCE and CE are the ones defined within the library.
+  The extractors mentioned as <<DE>>, <<AE>>, <<LCE>> and <<CE>> are the ones defined within the library.

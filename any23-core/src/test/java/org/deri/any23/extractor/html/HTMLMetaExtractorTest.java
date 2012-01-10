@@ -19,7 +19,6 @@ package org.deri.any23.extractor.html;
 import org.deri.any23.extractor.ExtractorFactory;
 import org.deri.any23.vocab.SINDICE;
 import org.junit.Test;
-import org.openrdf.model.Value;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.repository.RepositoryException;
 
@@ -73,13 +72,13 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
         );
         assertContains(
                 new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://vocab.sindice.net/robots"),
+                new URIImpl(vSINDICE.NAMESPACE.toString() + "robots"),
                 "index, follow",
                 "en"
         );
         assertContains(
                 new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://vocab.sindice.net/content-language"),
+                new URIImpl(vSINDICE.NAMESPACE.toString() + "content-language"),
                 "en",
                 "en"
         );

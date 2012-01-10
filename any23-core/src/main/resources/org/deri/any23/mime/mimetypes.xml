@@ -69,14 +69,7 @@
 
     <!-- BEGIN: Semantic Web document mime types. -->
 
-    <!-- RSS -->
-    <mime-type type="application/rss+xml">
-        <alias type="text/rss"/>
-        <root-XML localName="rss"/>
-        <root-XML namespaceURI="http://purl.org/rss/1.0/"/>
-        <glob pattern="*.rss"/>
-    </mime-type>
-
+    <!-- N3 -->
     <mime-type type="text/rdf+n3">
         <alias type="text/n3"/>
         <alias type="application/n3"/>
@@ -86,6 +79,7 @@
         </magic>
     </mime-type>
 
+    <!-- NQuads -->
     <mime-type type="text/rdf+nq">
         <alias type="text/nq"/>
         <alias type="application/nq"/>
@@ -99,7 +93,7 @@
         <glob pattern="*.ttl"/>
     </mime-type>
 
-    <!-- RDF -->
+    <!-- RDFXML -->
     <mime-type type="application/rdf+xml">
         <sub-class-of type="application/xml"/>
         <root-XML localName="RDF"/>
@@ -120,6 +114,25 @@
         <glob pattern="*.rdfx"/>
     </mime-type>
 
+    <!-- TriX -->
+    <mime-type type="application/trix">
+        <sub-class-of type="application/xml"/>
+        <root-XML namespaceURI="http://www.w3.org/2004/03/trix/trix-1/" localName="TriX"/>
+        <root-XML localName="TriX"/>
+        <glob pattern="*.trx"/>
+        <glob pattern="*.trix"/>
+    </mime-type>
+
+    <!-- END Semantic Web document mime types. -->
+
+    <!-- RSS -->
+    <mime-type type="application/rss+xml">
+        <alias type="text/rss"/>
+        <root-XML localName="rss"/>
+        <root-XML namespaceURI="http://purl.org/rss/1.0/"/>
+        <glob pattern="*.rss"/>
+    </mime-type>
+
     <!-- ATOM -->
     <mime-type type="application/atom+xml">
         <sub-class-of type="application/xml"/>
@@ -135,8 +148,8 @@
         <root-XML namespaceURI="http://schemas.xmlsoap.org/wsdl/" localName="definitions"/>
         <glob pattern="*.wsdl"/>
     </mime-type>
-    <!-- END Semantic Web document mime types. -->
 
+    <!-- HTML -->
     <mime-type type="text/html">
         <magic priority="50">
             <match value="&lt;!DOCTYPE HTML" type="string" offset="0:64"/>
@@ -161,6 +174,7 @@
         <glob pattern="*.htm"/>
     </mime-type>
 
+    <!-- XHTML -->
     <mime-type type="application/xhtml+xml">
         <sub-class-of type="application/xml"/>
         <root-XML namespaceURI='http://www.w3.org/1999/xhtml'
@@ -657,43 +671,6 @@
           </magic>
         -->
     </mime-type>
-
-     <!--
-     <description>
-     <mimeType>application/x-compress">
-        <extensions>z" />
-        <magicNumber encoding="hex">1f 9d 90</magicNumber>
-     </mime-type>
-
-     <description>
-         <mimeType>application/bzip2">
-         <extensions>bz2,tbz2" />
-         <magicNumber encoding="hex">42 5a 68 39 31</magicNumber>
-     </mime-type>
-
-     <description>
-         <mimeType>application/x-tar">
-         <magicNumber encoding="string" offset="257">ustar</magicNumber>
-         <extensions>tar" />
-     </mime-type>
-
-     <description>
-         <mimeType>application/x-rar-compressed">
-         <extensions>rar" />
-         <magicNumber encoding="hex">52 61 72 21 1a</magicNumber>
-     </mime-type>
-
-     <description>
-         <mimeType>application/stuffit">
-         <extensions>sit" />
-         <magicNumber encoding="string">SIT!</magicNumber>
-     </mime-type>
-
-     <description>
-         <mimeType>application/binhex">
-         <extensions>hqx" />
-     </mime-type>
-     -->
 
     <mime-type type="audio/basic">
         <glob pattern="*.au"/>

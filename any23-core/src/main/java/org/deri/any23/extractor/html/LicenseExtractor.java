@@ -51,7 +51,7 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
                     "html-mf-license",
                     PopularPrefixes.createSubset("xhtml"),
                     Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
-                    null,
+                    "example-mf-license.html",
                     LicenseExtractor.class
             );
 

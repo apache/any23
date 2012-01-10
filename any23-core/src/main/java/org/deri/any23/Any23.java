@@ -258,6 +258,28 @@ public class Any23 {
     }
 
     /**
+     * Returns the most appropriate {@link DocumentSource} for the given<code>documentURI</code>.
+     *
+     * @param documentURI the document <i>URI</i>.
+     * @return a new instance of DocumentSource.
+     * @throws URISyntaxException if an error occurs while parsing the <code>documentURI</code> as a <i>URI</i>.
+     * @throws IOException if an error occurs while initializing the internal {@link HTTPClient}.
+     */
+    public DocumentSource createDocumentSource(String documentURI) throws URISyntaxException, IOException {
+        if(documentURI == null) throw new NullPointerException("documentURI cannot be null.");
+        if (documentURI.toLowerCase().startsWith("file:")) {
+            return new FileDocumentSource( new File(new URI(documentURI)) );
+        }
+        if (documentURI.toLowerCase().startsWith("http:") || documentURI.toLowerCase().startsWith("https:")) {
+            return new HTTPDocumentSource(getHTTPClient(), documentURI);
+        }
+        throw new IllegalArgumentException(
+                String.format("Unsupported protocol for document URI: '%s' .", documentURI)
+        );
+    }
+
+
+    /**
      * Performs metadata extraction from the content of the given
      * <code>in</code> document source, sending the generated events
      * to the specified <code>outputHandler</code>.
@@ -363,13 +385,7 @@ public class Any23 {
     public ExtractionReport extract(ExtractionParameters eps, String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         try {
-            if (documentURI.toLowerCase().startsWith("file:")) {
-                return extract(eps, new FileDocumentSource(new File(new URI(documentURI))), outputHandler);
-            }
-            if (documentURI.toLowerCase().startsWith("http:") || documentURI.toLowerCase().startsWith("https:")) {
-                return extract(eps, new HTTPDocumentSource(getHTTPClient(), documentURI), outputHandler);
-            }
-            throw new ExtractionException("Not a valid absolute URI: " + documentURI);
+            return extract(eps, createDocumentSource(documentURI), outputHandler);
         } catch (URISyntaxException ex) {
             throw new ExtractionException("Error while extracting data from document URI.", ex);
         }

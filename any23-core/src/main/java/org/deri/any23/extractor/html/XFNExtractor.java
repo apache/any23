@@ -61,7 +61,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
                 "html-mf-xfn",
                 PopularPrefixes.createSubset("rdf", "foaf", "xfn"),
                 Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                null,
+                "example-mf-xfn.html",
                 XFNExtractor.class
             );
 

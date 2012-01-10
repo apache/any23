@@ -58,6 +58,13 @@ public class ReportingTripleHandler implements TripleHandler {
         return totalDocuments;
     }
 
+    /**
+     * @return a human readable report.
+     */
+    public String printReport() {
+        return String.format("Total Documents: %d, Total Triples: %d", getTotalDocuments(), getTotalTriples());
+    }
+
     public void startDocument(URI documentURI) throws TripleHandlerException {
         totalDocuments++;
         wrapped.startDocument(documentURI);

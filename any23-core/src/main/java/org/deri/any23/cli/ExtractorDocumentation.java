@@ -16,7 +16,7 @@
 
 package org.deri.any23.cli;
 
-import org.deri.any23.LogUtil;
+import org.deri.any23.util.LogUtils;
 import org.deri.any23.extractor.ExampleInputOutput;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.Extractor;
@@ -60,7 +60,7 @@ public class ExtractorDocumentation implements Tool {
     }
 
     public int run(String[] args) {
-        LogUtil.setDefaultLogging();
+        LogUtils.setDefaultLogging();
         try {
             if (args.length == 0) {
                 printUsage();
@@ -145,8 +145,8 @@ public class ExtractorDocumentation implements Tool {
      * Prints the list of all the available extractors.
      */
     public void printExtractorList() {
-        for (String extractorName : ExtractorRegistry.getInstance().getAllNames()) {
-            System.out.println(extractorName);
+        for(ExtractorFactory factory : ExtractorRegistry.getInstance().getExtractorGroup()) {
+            System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorType()));
         }
     }
 
@@ -194,16 +194,20 @@ public class ExtractorDocumentation implements Tool {
             ExtractorFactory<?> factory = ExtractorRegistry.getInstance().getFactory(extractorName);
             ExampleInputOutput example = new ExampleInputOutput(factory);
             System.out.println("Extractor: " + extractorName);
-            System.out.println("  type: " + getType(factory));
-            String output = example.getExampleOutput();
-            if (output == null) {
-                System.out.println("(no example output)");
-            } else {
-                System.out.println("-------- example output --------");
-                System.out.println(output);
-            }
+            System.out.println("\ttype: " + getType(factory));
             System.out.println();
+            final String exampleInput = example.getExampleInput();
+            if(exampleInput == null) {
+                System.out.println("(No Example Available)");
+            } else {
+                System.out.println("-------- Example Input  --------");
+                System.out.println(exampleInput);
+                System.out.println("-------- Example Output --------");
+                String output = example.getExampleOutput();
+                System.out.println(output == null || output.trim().length() == 0 ? "(No Output Generated)" : output);
+            }
             System.out.println("================================");
+            System.out.println();
         }
     }
 

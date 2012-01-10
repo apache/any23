@@ -9,12 +9,12 @@
 ANY23_ROOT="$(cd "$(dirname "$0")"; pwd -P)/.."
 
 if [ ! -e $ANY23_ROOT/target/*-jar-with-dependencies.jar ]; then 
-    echo "Generating executable JAR..."
-    mvn -o -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly\
+    echo "Generating executable JAR..." >&2
+    mvn -o -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly >&2 \
         ||\
-    mvn    -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly\
+    mvn    -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly >&2 \
     	||\
-    { echo "Error while generating commandline assembly."; exit 1; }
+    { echo "Error while generating commandline assembly."  >&2; exit 1; }
 fi
 
 SEP=':'

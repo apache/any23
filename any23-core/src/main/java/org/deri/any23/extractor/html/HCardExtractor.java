@@ -61,7 +61,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-hcard",
                     PopularPrefixes.createSubset("rdf", "vcard"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hcard.html",
                     HCardExtractor.class
             );
 

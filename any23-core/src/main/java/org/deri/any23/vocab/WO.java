@@ -42,24 +42,24 @@ public class WO extends Vocabulary {
     /**
      * The namespace of the vocabulary as a URI.
      */
-    public final URI NAMESPACE = createResource(NS);
+    public final URI NAMESPACE = createURI(NS);
 
     /**
      * Generic class defining a biological species
      */
     public final URI species = createProperty("species");
 
-    public final URI kingdomClass = createResource("Kingdom");
+    public final URI kingdomClass = createClass("Kingdom");
 
-    public final URI divisionClass = createResource("Division");
+    public final URI divisionClass = createClass("Division");
 
-    public final URI phylumClass = createResource("Phylum");
+    public final URI phylumClass = createClass("Phylum");
 
-    public final URI orderClass = createResource("Order");
+    public final URI orderClass = createClass("Order");
 
-    public final URI genusClass = createResource("Genus");
+    public final URI genusClass = createClass("Genus");
 
-    public final URI classClass = createResource("Class");
+    public final URI classClass = createClass("Class");
 
     /**
      * A family is a scientific grouping of closely related organisms.
@@ -67,7 +67,7 @@ public class WO extends Vocabulary {
      * A family can have a lot of members or only a few.
      * Examples of families include the cats (Felidae), the gulls (Laridae) and the grasses (Poaceae).
      */
-    public final URI family = createResource("Family");
+    public final URI family = createClass("Family");
 
     /**
      * associates a taxon rank with a family 
@@ -121,8 +121,8 @@ public class WO extends Vocabulary {
 
     public final URI clazzName = createProperty("className");
 
-    private URI createResource(String name) {
-        return createResource(NS, name);
+    private URI createClass(String name) {
+        return createClass(NS, name);
     }
 
     private URI createProperty(String name) {

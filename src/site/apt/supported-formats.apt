@@ -34,9 +34,16 @@ Supported Formats in Any23
 
    * <<RDF/XML>> <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
 
-   * <<JSON>> <<Any23>> is able to produce output in {{{http://www.json.org/}JSON}} .
+   * <<JSON Statements>> <<Any23>> is able to produce output in {{{http://www.json.org/}JSON}} . See the specific {{{json-statements}format}}.
 
-     In particular we choose the format described below.
+   * <<XML Report>> <<Any23>> is able to produce a detailed report of the latest document extraction if required. See further details {{{./service.html#report-format}here}}.
+
+* JSON Statements Format
+
+  {json-statements}
+
+     Any23 is able to produce JSON output following the format described below.
+
      Given the following example statements (expressed in N-Quads format):
 
 +-------------------------------------------------------------------------------
@@ -97,7 +104,7 @@ Supported Formats in Any23
     The <<JSON object>> structure is described by the following <<BNF>> rules,
     where quotes are omitted to improve readability:
 
-+-----------------------------------------------------------------------------------------------------------------
++-------------------------------------------------------------------------------
  <json-response> ::= { "quads" : <statements> }
  <statements>    ::= [ <statement>+ ]
  <statement>     ::= [ <subject> , <predicate> , <object> , <graph> ]
@@ -111,4 +118,4 @@ Supported Formats in Any23
  <lang>          ::= String | null
  <datatype>      ::= <uri>  | null
  <uri>           ::= String
-+-----------------------------------------------------------------------------------------------------------------
++-------------------------------------------------------------------------------

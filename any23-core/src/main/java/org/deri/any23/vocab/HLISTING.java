@@ -38,24 +38,24 @@ public class HLISTING extends Vocabulary {
     }
 
     // Resources.
-    public final URI Listing = createResource("Listing");
-    public final URI Lister  = createResource("Lister" ); // isa FOAF.Person
-    public final URI Item    = createResource("Item"   ); // isa ?
+    public final URI Listing = createClass("Listing");
+    public final URI Lister  = createClass("Lister" ); // isa FOAF.Person
+    public final URI Item    = createClass("Item"   ); // isa ?
 
     // Properties.
     public final URI action = createProperty("action");
     public final URI lister = createProperty("lister"); // ranges over Lister
     public final URI item   = createProperty("item"  );
 
-    public final URI sell     = createResource("sell"    );
-    public final URI rent     = createResource("rent"    );
-    public final URI trade    = createResource("trade"   );
-    public final URI meet     = createResource("meet"    );
-    public final URI announce = createResource("announce");
-    public final URI offer    = createResource("offer"   );
-    public final URI wanted   = createResource("wanted"  );
-    public final URI event    = createResource("event"   );
-    public final URI service  = createResource("service" );
+    public final URI sell     = createClass("sell"    );
+    public final URI rent     = createClass("rent"    );
+    public final URI trade    = createClass("trade"   );
+    public final URI meet     = createClass("meet"    );
+    public final URI announce = createClass("announce");
+    public final URI offer    = createClass("offer"   );
+    public final URI wanted   = createClass("wanted"  );
+    public final URI event    = createClass("event"   );
+    public final URI service  = createClass("service" );
 
     public final URI tel       = VCARD.getInstance().tel;
     public final URI dtlisted  = createProperty("dtlisted" );
@@ -86,8 +86,8 @@ public class HLISTING extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    private URI createResource(String localName) {
-        return createResource(NS, localName);
+    private URI createClass(String localName) {
+        return createClass(NS, localName);
     }
 
     private HLISTING(){

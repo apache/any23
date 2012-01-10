@@ -98,6 +98,6 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
                     "html-head-links",
                     PopularPrefixes.createSubset("xhtml", "dcterms"),
                     Arrays.asList("text/html;q=0.05", "application/xhtml+xml;q=0.05"),
-                    null,
+                    "example-head-link.html",
                     HeadLinkExtractor.class);
 }

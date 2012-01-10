@@ -53,7 +53,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
                     "html-mf-hcalendar",
                     PopularPrefixes.createSubset("rdf", "ical"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hcalendar.html",
                     HCalendarExtractor.class);
 
     private static final String[] Components = {"Vevent", "Vtodo", "Vjournal", "Vfreebusy"};
@@ -116,7 +116,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private boolean extractComponent(Node node, Resource cal, String component) throws ExtractionException {
         HTMLDocument compoNode = new HTMLDocument(node);
         BNode evt = valueFactory.createBNode();
-        addURIProperty(evt, RDF.TYPE, vICAL.getResource(component));
+        addURIProperty(evt, RDF.TYPE, vICAL.getClass(component));
         addTextProps(compoNode, evt);
         addUrl(compoNode, evt);
         addRRule(compoNode, evt);

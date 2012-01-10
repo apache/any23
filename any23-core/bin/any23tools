@@ -11,12 +11,12 @@ ANY23_ROOT="$(cd "$(dirname "$0")"; pwd -P)/.."
 PLUGINS_DIR=plugins
 
 if [ ! -e $ANY23_ROOT/target/*-jar-with-dependencies.jar ]; then 
-    echo "Generating executable JAR..."
-    mvn -o -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly\
+    echo "Generating executable JAR..." >&2
+    mvn -o -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly >&2 \
         ||\
-    mvn    -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly\
+    mvn    -f $ANY23_ROOT/pom.xml -Dmaven.test.skip=true clean assembly:assembly >&2 \
     	||\
-    { echo "Error while generating commandline assembly."; exit 1; }
+    { echo "Error while generating commandline assembly." >&2; exit 1; }
 fi
 
 SEP=':'
@@ -30,6 +30,7 @@ done
 # Plugins classpath.
 for jar in $(find $ANY23_ROOT/../$PLUGINS_DIR/*/target -name "*-plugin.jar" -depth 1)
 do
+  echo Detected plugin $(basename $jar) [$(dirname $jar)] >&2
   if [ ! -e "$jar" ]; then continue; fi
   CP="$CP$SEP$jar"
 done

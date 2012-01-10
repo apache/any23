@@ -39,6 +39,7 @@ import org.deri.any23.extractor.microdata.MicrodataExtractor;
 import org.deri.any23.extractor.rdf.NQuadsExtractor;
 import org.deri.any23.extractor.rdf.NTriplesExtractor;
 import org.deri.any23.extractor.rdf.RDFXMLExtractor;
+import org.deri.any23.extractor.rdf.TriXExtractor;
 import org.deri.any23.extractor.rdf.TurtleExtractor;
 import org.deri.any23.extractor.rdfa.RDFa11Extractor;
 import org.deri.any23.extractor.rdfa.RDFaExtractor;
@@ -79,6 +80,7 @@ public class ExtractorRegistry {
                 instance.register(TurtleExtractor.factory);
                 instance.register(NTriplesExtractor.factory);
                 instance.register(NQuadsExtractor.factory);
+                instance.register(TriXExtractor.factory);
                 if(conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
                     instance.register(RDFa11Extractor.factory);
                 } else {

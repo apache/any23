@@ -29,7 +29,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
                     "html-mf-hrecipe",
                     PopularPrefixes.createSubset("rdf", "hrecipe"),
                     Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    null,
+                    "example-mf-hrecipe.html",
                     HRecipeExtractor.class
             );
 

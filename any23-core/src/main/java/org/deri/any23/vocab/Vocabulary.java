@@ -19,9 +19,16 @@ package org.deri.any23.vocab;
 import org.deri.any23.rdf.RDFUtils;
 import org.openrdf.model.URI;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Base class for the definition of a vocabulary.
@@ -32,6 +39,16 @@ import java.util.Map;
 public abstract class Vocabulary {
 
     /**
+     * Allows to add comments to <code>namespaces</code>,
+     * <code>classes</code> and <code>properties</code>.
+     */
+    @Target({FIELD})
+    @Retention(RUNTIME)
+    @interface Comment {
+        String value();
+    }
+
+    /**
      * Vocabulary namespace.
      */
     private final URI namespace;
@@ -39,12 +56,17 @@ public abstract class Vocabulary {
     /**
      * Map of vocabulary resources.
      */
-    private Map<String,URI> resources;
+    private Map<String,URI> classes;
 
     /**
      * Map of vocabulary properties.
      */
     private Map<String,URI> properties;
+
+    /**
+     * Map any resource with the relative comment.
+     */
+    private Map<URI,String> resourceToCommentMap;
 
     /**
      * Constructor.
@@ -67,13 +89,13 @@ public abstract class Vocabulary {
     }
 
     /**
-     * Returns a resource defined within this vocabulary.
+     * Returns a class defined within this vocabulary.
      *
-     * @param name resource name.
+     * @param name class name.
      * @return the URI associated to such resource.
      */
-    public URI getResource(String name) {
-        URI res = resources.get(name);
+    public URI getClass(String name) {
+        URI res = classes.get(name);
         if (null == res) {
             throw new IllegalArgumentException("Unknown resource name '" + name + "'");
         }
@@ -118,7 +140,7 @@ public abstract class Vocabulary {
      * @param property property name.
      * @return property URI.
      */
-    public URI getPropertyCamelized(String property) {
+    public URI getPropertyCamelCase(String property) {
         String[] names = property.split("\\W");
         String camelCase = names[0];
         for (int i = 1; i < names.length; i++) {
@@ -129,13 +151,13 @@ public abstract class Vocabulary {
     }
 
     /**
-     * @return the list of all defined resources.
+     * @return the list of all defined classes.
      */
-    public URI[] getResources() {
-        if(resources == null) {
+    public URI[] getClasses() {
+        if(classes == null) {
             return new URI[0];
         }
-        final Collection<URI> uris = resources.values();
+        final Collection<URI> uris = classes.values();
         return uris.toArray( new URI[ uris.size() ] );
     }
 
@@ -151,6 +173,28 @@ public abstract class Vocabulary {
     }
 
     /**
+     * Returns all the defined comments for resources.
+     *
+     * @return unmodifiable list of comments.
+     */
+    public Map<URI,String> getComments() {
+        fillResourceToCommentMap();
+        return Collections.unmodifiableMap(resourceToCommentMap);
+    }
+
+    /**
+     * Returns the comment for the given resource.
+     *
+     * @param resource input resource to have a comment.
+     * @return the human readable comment associated to the
+     *         given resource.
+     */
+    public String getCommentFor(URI resource) {
+        fillResourceToCommentMap();
+        return resourceToCommentMap.get(resource);
+    }
+    
+    /**
      * Creates a URI.
      *
      * @param uriStr the URI string
@@ -161,18 +205,18 @@ public abstract class Vocabulary {
     }
 
     /**
-     * Creates a resource and register it to the {@link #resources} map.
+     * Creates a resource and register it to the {@link #classes} map.
      *
      * @param namespace vocabulary namespace.
      * @param resource name of the resource.
      * @return the created resource URI.
      */
-    protected URI createResource(String namespace, String resource) {
+    protected URI createClass(String namespace, String resource) {
         URI res = createURI(namespace, resource);
-        if(resources == null) {
-            resources = new HashMap<String, URI>(10);
+        if(classes == null) {
+            classes = new HashMap<String, URI>(10);
         }
-        resources.put(resource, res);
+        classes.put(resource, res);
         return res;
     }
 
@@ -201,6 +245,23 @@ public abstract class Vocabulary {
      */
     private URI createURI(String namespace, String localName) {
         return RDFUtils.uri(namespace, localName);
+    }
+
+    private void fillResourceToCommentMap() {
+        if(resourceToCommentMap != null) return;
+        final Map<URI,String> newMap = new HashMap<URI, String>();
+        for (Field field : this.getClass().getFields()) {
+            try {
+                final Object value = field.get(this);
+                if(value instanceof URI) {
+                    final Comment comment = field.getAnnotation(Comment.class);
+                    if(comment != null) newMap.put((URI) value, comment.value());
+                }
+            } catch (IllegalAccessException iae) {
+                throw new RuntimeException("Error while creating resource to comment map.", iae);
+            }
+        }
+        resourceToCommentMap = newMap;
     }
 
 }

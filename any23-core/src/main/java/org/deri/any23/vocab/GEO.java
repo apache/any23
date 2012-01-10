@@ -35,7 +35,7 @@ public class GEO extends Vocabulary {
     }
 
     // Resources.
-    public final URI Point = createResource(NS, "Point");
+    public final URI Point = createClass(NS, "Point");
 
     // Properties
     public final URI lat = createProperty(NS, "lat" );

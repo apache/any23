@@ -20,7 +20,8 @@ Distribution Content
 
 any23-core           The library core codebase.
 any23-service        The library HTTP service codebase.
-plugins              Library plugins codebase.
+lib                  Contains the Any23 the external deps (read lib/README.txt for further details).
+plugins              Library plugins codebase (read plugins/README.txt for further details).
 RELEASE-NOTES.txt    File reporting main release notes for every version.
 LICENSE.txt          Applicable project license.
 README.txt           This file.
@@ -240,15 +241,14 @@ Upload the produced packages in download section:
 
    http://code.google.com/p/any23/downloads/list
 
+--------------------
+Manage External Deps
+--------------------
 
-Fix Release Procedure
----------------------
+::Developers interest only.::
 
-   Currently the *plugins/integration-test* module is excluded from the parent
-   reactor.
-   To fix it in tag follow procedure as described at issue #171:
-
-        http://code.google.com/p/any23/issues/detail?id=171
-
+External Deps are libraries used by some Any23 modules which are
+not available in public Maven repositories. Such libraries are
+managed within the 'lib' dir.
 
 EOF

@@ -40,6 +40,7 @@ public class TikaMIMETypeDetectorTest {
     private static final String PLAIN  = "text/plain";
     private static final String HTML   = "text/html";
     private static final String XML    = "application/xml";
+    private static final String TRIX   = "application/trix";
     private final static String XHTML  = "application/xhtml+xml";
     private final static String RDFXML = "application/rdf+xml";
     private final static String TURTLE = "application/x-turtle";
@@ -137,6 +138,11 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
+    public void testDetectTriXByContent() throws Exception {
+        detectMIMEtypeByContent("application/trix", "src/test/resources/application/trix");
+    }
+
+    @Test
     public void testDetectAtomByContent() throws Exception {
         detectMIMEtypeByContent("application/atom+xml", "src/test/resources/application/atom");
     }
@@ -211,8 +217,8 @@ public class TikaMIMETypeDetectorTest {
     }
 
     @Test
-    public void testDetectXMLByMeta2() throws IOException {
-        detectMIMETypeByMimeTypeHint(XML, "application/xml");
+    public void testDetectTriXByMeta() throws IOException {
+        detectMIMETypeByMimeTypeHint(TRIX, "application/trix");
     }
 
     @Test
@@ -252,6 +258,11 @@ public class TikaMIMETypeDetectorTest {
     @Test
     public void testRDFXMLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/rdf+xml", "src/test/resources/application/rdfxml");
+    }
+
+    @Test
+    public void testTriXByContentAndName() throws Exception {
+        detectMIMETypeByContentAndName("application/trix", "src/test/resources/application/trix");
     }
 
     @Test
