@@ -1,9 +1,0 @@
-XPath Extractor
-
-    The XPath extractor is a specific extractor meant to scrape
-    data from pages not containing RDF information.
-    Such extractor is based on a set of configurable extraction rules
-    activated by a regular expression over the page URL.
-    When an extraction rule is activated all the variables it defines are
-    evaluated and then a NQuads template is expanded for generating statements.
-    See {{{./xref/org/deri/any23/extractor/xpath/package-summary.html}Javadoc}}.
