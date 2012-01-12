@@ -21,14 +21,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.deri.any23</groupId>
+        <groupId>org.apache.any23</groupId>
         <artifactId>any23-parent</artifactId>
         <version>0.6.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.deri.any23</groupId>
+    <groupId>org.apache.any23</groupId>
     <artifactId>any23-service</artifactId>
     <packaging>war</packaging>
     <version>0.6.2-SNAPSHOT</version>
@@ -36,7 +36,7 @@
     <description>Anything To Triples (any23) is a library and web service that extracts structured data
         in RDF format from a variety of Web documents.
     </description>
-    <url>http://developers.any23.org</url>
+    <url>http://incubator.apache.org/any23</url>
 
     <properties>
         <maven.war.plugin.version>2.1.1</maven.war.plugin.version>
@@ -142,5 +142,23 @@
             </plugin>
         </plugins>
     </build>
+    <organization>
+    	<name>Apache Software Foundation</name>
+    	<url>http://www.apache.org</url>
+    </organization>
+    <scm>
+    	<url>https://svn.apache.org/repos/asf/incubator/any23/</url>
+    	<connection>https://svn.apache.org/repos/asf/incubator/any23/</connection>
+    	<developerConnection>https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
+    	<tag>https://svn.apache.org/repos/asf/incubator/any23/tags/</tag>
+    </scm>
+    <issueManagement>
+    	<system>Apache JIRA</system>
+    	<url>https://issues.apache.org/jira/browse/ANY23</url>
+    </issueManagement>
+    <ciManagement>
+    	<system>Hudson Jenkins</system>
+    	<url>https://builds.apache.org/job/Any23-trunk/</url>
+    </ciManagement>
 </project>
 

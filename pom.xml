@@ -21,18 +21,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.deri.any23</groupId>
+    <groupId>org.apache.any23</groupId>
     <artifactId>any23-parent</artifactId>
     <version>0.6.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Any23 - Anything to Triples</name>
 	<description>Anything To Triples (any23) is a library, a web service and a command line tool that 
     extracts structured data in RDF format from a variety of Web documents.</description>
-    <url>http://developers.any23.org</url>
+    <url>http://incubator.apache.org/any23</url>
 
     <organization>
-        <name>Digital Enterprise Research Institute (DERI)</name>
-        <url>http://www.deri.ie/</url>
+        <name>Apache Software Foundation</name>
+        <url>http://www.apache.org</url>
     </organization>
 
     <licenses>
@@ -45,37 +45,38 @@
     <inceptionYear>2010</inceptionYear>
 
     <scm>
-        <developerConnection>scm:svn:https://any23.googlecode.com/svn/trunk</developerConnection>
-        <connection>scm:svn:http://any23.googlecode.com/svn/trunk</connection>
-        <url>http://code.google.com/p/any23source/browse/trunk</url>
+        <developerConnection>https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
+        <connection>https://svn.apache.org/repos/asf/incubator/any23/</connection>
+        <url>https://svn.apache.org/repos/asf/incubator/any23/</url>
+        <tag>https://svn.apache.org/repos/asf/incubator/any23/tags/</tag>
     </scm>
 
     <issueManagement>
-        <system>Google Code</system>
-        <url>http://code.google.com/p/any23/issues</url>
+        <system>Apache JIRA</system>
+        <url>https://issues.apache.org/jira/browse/ANY23</url>
     </issueManagement>
 
     <distributionManagement>
-        <downloadUrl>http://code.google.com/p/any23/downloads/list</downloadUrl>
-        <!-- Any23 Google Code Maven repo -->
+        <downloadUrl></downloadUrl>
+        <!-- Any23 ASF Maven repo -->
         <repository>
-            <id>any23-googlecode</id>
-            <name>Any23 Google Code Repository</name>
-            <url>svn:https://any23.googlecode.com/svn/repo/</url>
+            <id></id>
+            <name></name>
+            <url></url>
         </repository>
         <site>
-             <id>any23.developers</id>
-             <name>Any23 Developer Web Site</name>
-             <url>ftp://ftp.cyganiak.de</url>
+             <id></id>
+             <name></name>
+             <url></url>
         </site>
     </distributionManagement>
 
     <mailingLists>
         <mailingList>
-            <name>Dev List</name>
-            <subscribe>http://groups.google.com/group/any23-dev/subscribe</subscribe>
-            <post>http://groups.google.com/group/any23-dev</post>
-            <archive>http://groups.google.com/group/any23-dev</archive>
+            <name>Any23-dev List</name>
+            <subscribe>mailto:any23-dev-subscribe@incubator.apache.org</subscribe>
+            <post>mailto:any23-dev@incubator.apache.org</post>
+            <archive></archive>
         </mailingList>
     </mailingLists>
 
@@ -204,6 +205,18 @@
             <email>pirroh at gmail dot com</email>
             <organization>Digital Enterprise Research Institute (DERI)</organization>
             <organizationUrl>http://www.deri.ie/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
+            <id>lewismc</id>
+            <name>Lewis John McGibbney</name>
+            <email>lewismc at apache dot org</email>
+            <organization>Glasgow Caledonian University</organization>
+            <organizationUrl>http://www.gcu.ac.uk/ebe/staff/researchstudents/lewisjohnmcgibbney/
+            </organizationUrl>
             <roles>
                 <role>Developer</role>
             </roles>
@@ -682,4 +695,8 @@
         <module>any23-service</module>
     </modules>
 
+    <ciManagement>
+    	<system>Hudson Jenkins</system>
+    	<url>https://builds.apache.org/job/Any23-trunk/</url>
+    </ciManagement>
 </project>
