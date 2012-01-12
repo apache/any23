@@ -1,206 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    Copyright 2008-2010 Digital Enterprise Research Institute (DERI)
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
 
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
+   http://www.apache.org/licenses/LICENSE-2.0
 
-        http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
-    author: Michele Mostarda (michele.mostarda@gmail.com)
-    version: $Id$
- -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-    <parent>
-        <groupId>org.apache.any23</groupId>
-        <artifactId>any23-parent</artifactId>
-        <version>0.6.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
+  <parent>
     <groupId>org.apache.any23</groupId>
-    <artifactId>any23-core</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>any23-parent</artifactId>
     <version>0.6.2-SNAPSHOT</version>
-    <name>Any23 - Core Module</name>
-    <description>Anything To Triples (any23) is a library and web service that extracts structured data 
-    in RDF format from a variety of Web documents.</description>
-    <url>http://incubator.apache.org/any23</url>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-cli</groupId>
-            <artifactId>commons-cli</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.nekohtml</groupId>
-            <artifactId>nekohtml</artifactId>
-        </dependency>
+  <artifactId>any23-core</artifactId>
 
-        <!-- BEGIN: Tika -->
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers</artifactId>
-        </dependency>
-        <!-- END: Tika -->
+  <name>Any23 - Core Module</name>
 
-        <!-- BEGIN: Sesame -->
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-turtle</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-rdfxml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-ntriples</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-rio-trix</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-repository-sail</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-sail-memory</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-repository-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-xml</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-text</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-net</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-iteration</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>info.aduna.commons</groupId>
-            <artifactId>aduna-commons-concurrent</artifactId>
-        </dependency>
-        <!-- END: Sesame -->
+  <dependencies>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-cli</groupId>
+      <artifactId>commons-cli</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sourceforge.nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
+    </dependency>
 
-        <!-- BEGIN:  Apache Commons, this version is hosted in the 
-                     any23-repository-external repository -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-        </dependency>
-        <!-- END: Apache Commons CSV -->
-    </dependencies>
+    <!-- BEGIN: Tika -->
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-parsers</artifactId>
+    </dependency>
+    <!-- END: Tika -->
 
-    <build>
-        <plugins>
-            <plugin>
-                <!-- Sets the correct Any23 version within the default configuration file. -->
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <target>
-                                <replace file="${project.build.outputDirectory}/default-configuration.properties">
-                                    <replacefilter>
-                                        <replacetoken>@any23.version@</replacetoken>
-                                        <replacevalue>${project.version}</replacevalue>
-                                    </replacefilter>
-                                </replace>
+    <!-- BEGIN: Sesame -->
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-rio-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-rio-turtle</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-rio-rdfxml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-rio-ntriples</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-rio-trix</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-repository-sail</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-sail-memory</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-repository-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-xml</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-text</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-net</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-iteration</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>info.aduna.commons</groupId>
+      <artifactId>aduna-commons-concurrent</artifactId>
+    </dependency>
+    <!-- END: Sesame -->
 
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+    <!-- BEGIN:  Apache Commons, this version is hosted in the 
+           any23-repository-external repository -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-csv</artifactId>
+    </dependency>
+    <!-- END: Apache Commons CSV -->
+  </dependencies>
 
-            <!-- Generates a self-contained JAR. -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-beta-5</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <organization>
-    	<name>Apache Software Foundation</name>
-    	<url>http://www.apache.org</url>
-    </organization>
-    <scm>
-    	<url>https://svn.apache.org/repos/asf/incubator/any23/</url>
-    	<connection>https://svn.apache.org/repos/asf/incubator/any23/</connection>
-    	<developerConnection>https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
-    	<tag>https://svn.apache.org/repos/asf/incubator/any23/tags/</tag>
-    </scm>
-    <issueManagement>
-    	<system>Apache JIRA</system>
-    	<url>https://issues.apache.org/jira/browse/ANY23</url>
-    </issueManagement>
-    <ciManagement>
-    	<system>Hudson Jenkins</system>
-    	<url>https://builds.apache.org/job/Any23-trunk/</url>
-    </ciManagement>
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- Generates a self-contained JAR. -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2-beta-5</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
-
