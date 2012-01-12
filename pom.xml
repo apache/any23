@@ -576,22 +576,6 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-
-    <extensions>
-	    <!-- Wagon extension for deploying via SVN -->
-      <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.12</version>
-      </extension>
-
-      <!-- Wagon extension for deploying via FTP -->
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ftp</artifactId>
-        <version>1.0</version>
-        </extension>
-    </extensions>
   </build>
 
   <reporting>
