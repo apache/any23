@@ -30,7 +30,7 @@ Validation and Fixing
 
 +------------------------------------------------------------------------------------------
 <div>
-    The title of this document is <span property="dcterms:title">Why RDFa is Awesome</span>.
+  The title of this document is <span property="dcterms:title">Why RDFa is Awesome</span>.
 </div>
 +------------------------------------------------------------------------------------------
 
@@ -38,7 +38,7 @@ Validation and Fixing
 
 +------------------------------------------------------------------------------------------
 <div xmlns:dcterms="http://purl.org/dc/terms/">
-    The title of this document is <span property="dcterms:title">Why RDFa is Awesome</span>.
+  The title of this document is <span property="dcterms:title">Why RDFa is Awesome</span>.
 </div>
 +------------------------------------------------------------------------------------------
 
@@ -55,16 +55,16 @@ public class MissingOpenGraphNamespaceRule implements Rule {
     public boolean applyOn(DOMDocument document, RuleContext context, ValidationReport validationReport) {
         List<Node> metas = document.getNodes("/HTML/HEAD/META");
         boolean foundPrecondition = false;
-        for(Node meta : metas) {
+        for (Node meta : metas) {
             Node propertyNode = meta.getAttributes().getNamedItem("property");
             if( propertyNode != null && propertyNode.getTextContent().indexOf("og:") == 0) {
                 foundPrecondition = true;
                 break;
             }
         }
-        if(foundPrecondition) {
+        if (foundPrecondition) {
             Node htmlNode = document.getNode("/HTML");
-            if( htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
+            if (htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
                 validationReport.reportIssue(
                         ValidationReport.IssueLevel.error,
                         "Missing OpenGraph namespace declaration.",
