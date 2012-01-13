@@ -46,74 +46,74 @@ Michele; Mostarda; http://g1o.net;
 
 +---------------------------------------------------------------
 <rdf:RDF
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
 <rdf:Description rdf:about="http://bob.example.com/firstName">
-	<label xmlns="http://www.w3.org/2000/01/rdf-schema#">first name</label>
-	<columnPosition xmlns="http://vocab.sindice.net/csv/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</columnPosition>
+  <label xmlns="http://www.w3.org/2000/01/rdf-schema#">first name</label>
+  <columnPosition xmlns="http://vocab.sindice.net/csv/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</columnPosition>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/lastName">
-	<label xmlns="http://www.w3.org/2000/01/rdf-schema#">last name</label>
-	<columnPosition xmlns="http://vocab.sindice.net/csv/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</columnPosition>
+  <label xmlns="http://www.w3.org/2000/01/rdf-schema#">last name</label>
+  <columnPosition xmlns="http://vocab.sindice.net/csv/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</columnPosition>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://xmlns.org/foaf/01/knows">
-	<columnPosition xmlns="http://vocab.sindice.net/csv/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</columnPosition>
+  <columnPosition xmlns="http://vocab.sindice.net/csv/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</columnPosition>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/age">
-	<label xmlns="http://www.w3.org/2000/01/rdf-schema#">age</label>
-	<columnPosition xmlns="http://vocab.sindice.net/csv/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</columnPosition>
+  <label xmlns="http://www.w3.org/2000/01/rdf-schema#">age</label>
+  <columnPosition xmlns="http://vocab.sindice.net/csv/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</columnPosition>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/row/0">
-	<rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
-	<firstName xmlns="http://bob.example.com/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Davide</firstName>
-	<lastName xmlns="http://bob.example.com/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Palmisano</lastName>
-	<knows xmlns="http://xmlns.org/foaf/01/"
-	rdf:resource="http://michelemostarda.com"/
-	<age xmlns="http://bob.example.com/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</age>
+  <rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
+  <firstName xmlns="http://bob.example.com/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Davide</firstName>
+  <lastName xmlns="http://bob.example.com/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Palmisano</lastName>
+  <knows xmlns="http://xmlns.org/foaf/01/"
+  rdf:resource="http://michelemostarda.com"/
+  <age xmlns="http://bob.example.com/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</age>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/">
-	<row xmlns="http://vocab.sindice.net/csv/" rdf:resource="http://bob.example.com/row/0"/>
+  <row xmlns="http://vocab.sindice.net/csv/" rdf:resource="http://bob.example.com/row/0"/>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/row/0">
-	<rowPosition xmlns="http://vocab.sindice.net/csv/">0</rowPosition>
+  <rowPosition xmlns="http://vocab.sindice.net/csv/">0</rowPosition>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/row/1">
-	<rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
-	<firstName xmlns="http://bob.example.com/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michele</firstName>
-	<lastName xmlns="http://bob.example.com/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mostarda</lastName>
-	<knows xmlns="http://xmlns.org/foaf/01/" rdf:resource="http://g1o.net" />
+  <rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
+  <firstName xmlns="http://bob.example.com/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michele</firstName>
+  <lastName xmlns="http://bob.example.com/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mostarda</lastName>
+  <knows xmlns="http://xmlns.org/foaf/01/" rdf:resource="http://g1o.net" />
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/">
-	<row xmlns="http://vocab.sindice.net/csv/"
-	rdf:resource="http://bob.example.com/row/1"/>
+  <row xmlns="http://vocab.sindice.net/csv/"
+  rdf:resource="http://bob.example.com/row/1"/>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/row/1">
-	<rowPosition xmlns="http://vocab.sindice.net/csv/">1</rowPosition>
+  <rowPosition xmlns="http://vocab.sindice.net/csv/">1</rowPosition>
 </rdf:Description>
 
 <rdf:Description rdf:about="http://bob.example.com/">
-	<numberOfRows xmlns="http://vocab.sindice.net/csv/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</numberOfRows>
-	<numberOfColumns xmlns="http://vocab.sindice.net/csv/"
-	rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</numberOfColumns>
+  <numberOfRows xmlns="http://vocab.sindice.net/csv/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</numberOfRows>
+  <numberOfColumns xmlns="http://vocab.sindice.net/csv/"
+  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</numberOfColumns>
 </rdf:Description>
 
 </rdf:RDF>
