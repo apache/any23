@@ -182,7 +182,7 @@
   <scm>
     <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
     <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/</connection>
-    <url>https://svn.apache.org/repos/asf/incubator/any23/</url>
+    <url>https://svn.apache.org/viewvc/incubator/any23/</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
