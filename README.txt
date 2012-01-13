@@ -31,13 +31,13 @@ Online Documentation
 --------------------
 
 For details on the command line tool and web interface, see:
-  http://developers.any23.org/getting-started.html
+  http://incubator.apache.org/any23/getting-started.html
 
 For a guide to using any23 as a library in your Java applications, see:
-  http://developers.any23.org/developers.html
+  http://incubator.apache.org/any23/developers.html
 
 Javadocs is available here:
-  http://developers.any23.org/apidocs/
+  http://incubator.apache.org/any23/apidocs/
 
 ----------------------------
 Build Any23 from Source Code
@@ -68,7 +68,7 @@ Any23 comes with some command line tools:
    any23tools  provides access to some auxiliary tools.
 
 The complete documentation about these tools can be found here: 
-http://developers.any23.org/getting-started.html
+http://incubator.apache.org/any23/getting-started.html
 
 To run such tools, go to the any23-core bin folder:
 
@@ -100,7 +100,7 @@ You can check the service is running by accessing
 http://localhost:8080/ with your browser.
 
 The complete documentation about this service can be found here: 
-http://developers.any23.org/getting-started.html
+http://incubator.apache.org/any23/getting-started.html
 
 -------------------------------
 Build the Any23 Web Service WAR
