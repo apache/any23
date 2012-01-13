@@ -648,17 +648,6 @@
         </configuration>
       </plugin>
 
-      <!-- Changelog report. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changelog-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <type>range</type>
-          <range>60</range>
-        </configuration>
-      </plugin>
-
       <!-- Cobertura report. -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
