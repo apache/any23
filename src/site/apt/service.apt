@@ -1,6 +1,6 @@
-Any23 REST Service
+Apache Any23 REST Service
 
-    <Any23> provides REST Service module <any23-service> able to provide useful processing methods.
+    <Apache Any23> provides REST Service module <any23-service> able to provide useful processing methods.
 
 * Compact API
 
@@ -103,7 +103,7 @@ Code	                    Reason
 
     {report-format}
 
-    The <Any23 Service> can optionally return an XML report and attempt error fix if
+    The <Apache Any23 Service> can optionally return an XML report and attempt error fix if
     the flags <fix> and <report> are activated ( <fix=on&report=on> ).
     The following URL shows how to use these flags.
 

@@ -4,9 +4,9 @@ CSV Extractor Algorithm
   an RDF representation of a CSV file compliant with the {{{http://www.ietf.org/rfc/rfc4180.txt}RFC 4180}} 
   and that foresees an header.
   Such extractor relies on the presence of an header to use the named fields as RDF properties.
-  Field delimiter could be automatically guessed or specified via {{{./configuration.html}Any23 Configuration}}.
+  Field delimiter could be automatically guessed or specified via {{{./configuration.html}Apache Any23 Configuration}}.
 
-  Given a document with URL <url>, <<Any23>> uses the following algorithm to extract RDF:
+  Given a document with URL <url>, <<Apache Any23>> uses the following algorithm to extract RDF:
 
      * It tries to guess the fields delimiter and to detect the header
 

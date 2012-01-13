@@ -2,7 +2,7 @@ Validation and Fixing
 
   Introduction
 
-   <<Any23>> Is able to detect <<ill-formed HTML DOM content>> and apply fixes over it.
+   <<Apache Any23>> Is able to detect <<ill-formed HTML DOM content>> and apply fixes over it.
 
    This section will show how to write RDFa validation Rule and Fix for RDFa.
 
@@ -10,21 +10,21 @@ Validation and Fixing
    These errors may lead to a failures during RDF extraction process from HTML pages but since they are, typically, syntax errors
    they could be easily detected and fixed with some heuristics.
 
-   This pages describes the <<Any23>> rule-based approach, that allows it to detect, fix and correctly extract
+   This pages describes the <<Apache Any23>> rule-based approach, that allows it to detect, fix and correctly extract
    RDF from those ill-formed RDFa in XHTML pages.
 
-   More specifically, <<Any23>> allows you to write a {{{./xref/org/apache/any23/validator/Rule.html}Rule}}
+   More specifically, <<Apache Any23>> allows you to write a {{{./xref/org/apache/any23/validator/Rule.html}Rule}}
    able to detect the errors, a {{{./xref/org/apache/any23/validator/Fix.html}Fix}} containing the logic to fix the problem and a
    {{{./xref/org/apache/any23/validator/Validator.html}Validator}} which acts as a register of rules and fixes. The Validator
    calls all the registered rules and when one of them is applied it calls the associated Fix.
 
-   The following code snipped shows how to programmatically detect and fix a very common data error with <<Any23>>.
+   The following code snipped shows how to programmatically detect and fix a very common data error with <<Apache Any23>>.
 
   Fix Missing Prefix Mappings Declaration
 
    Sometimes, web authors forget to declare prefix mappings. For example, you can't just use something like dcterms:title
    without first declaring the dcterms prefix mapping. If a prefix mapping isn't declared, the RDFa parser won't understand
-   the prefix when it is used in your document. This may lead <<Any23>> to don't extract such embedded RDF triples.
+   the prefix when it is used in your document. This may lead <<Apache Any23>> to don't extract such embedded RDF triples.
 
    This:
 
@@ -42,7 +42,7 @@ Validation and Fixing
 </div>
 +------------------------------------------------------------------------------------------
 
-   With the <<Any23>> {{{./xref/org/apache/any23/validator/package-summary.html}Validator}} classes it's possible to solve this
+   With the <<Apache Any23>> {{{./xref/org/apache/any23/validator/package-summary.html}Validator}} classes it's possible to solve this
    problem simply implementing the {{{./xref/org/apache/any23/validator/Rule.html}Rule}} interface as described below:
 
 +------------------------------------------------------------------------------------------

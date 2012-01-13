@@ -1,4 +1,4 @@
-Introduction to Any23
+Introduction to Apache Any23
 
 * Library
 
@@ -17,8 +17,8 @@ Introduction to Any23
 
     A detailed description of available extractors is {{{./extractors.html}here}}.
 
-    <<Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/LICENSE.txt}Apache License}}.
-    <<Any23>> can be used in various ways:
+    <<Apache Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/LICENSE.txt}Apache License}}.
+    <<Apache Any23>> can be used in various ways:
      * As a library in Java applications that consume structured data from the Web.
      * As a command-line tool for extracting and converting between the supported formats.
      * As online service API available at {{{http://any23.org/}any23.org}}.
@@ -29,19 +29,19 @@ Introduction to Any23
 
     {{{./index.html}Introduction}}: this page.
 
-    {{{./install.html}Install}}: how to install <<Any23>> library and service.
+    {{{./install.html}Install}}: how to install <<Apache Any23>> library and service.
 
-    {{{./getting-started.html} Getting Started}}: start using <<Any23>> command-line tools.
+    {{{./getting-started.html} Getting Started}}: start using <<Apache Any23>> command-line tools.
 
-    {{{./supported-formats.html}Supported Formats}}: complete list of <<Semantic Web>> formats supported by <<Any23>>.
+    {{{./supported-formats.html}Supported Formats}}: complete list of <<Semantic Web>> formats supported by <<Apache Any23>>.
 
     {{{./configuration.html}Configuration}}: learn how to change default library and service configuration.
 
-    {{{./service.html}REST Service}}: discover how to use the <<Any23 REST Service>>.
+    {{{./service.html}REST Service}}: discover how to use the <<Apache Any23 REST Service>>.
 
-    {{{./any23-plugins.html}Plugins}}: read how to install and configure the <<Any23>> plugins.
+    {{{./any23-plugins.html}Plugins}}: read how to install and configure the <<Apache Any23>> plugins.
 
-    {{{./developers.html}Developers}}: understand the <<Any23>> code internals,
+    {{{./developers.html}Developers}}: understand the <<Apache Any23>> code internals,
     how to write plugins, fixing rules and customize the code.
 
 * Community

@@ -1,32 +1,32 @@
 Developers Guide
 
-    This section introduces some <<Any23>> programming fundamentals.
+    This section introduces some <<Apache Any23>> programming fundamentals.
 
 * {{{./dev-data-extraction.html}Data Extraction}}
   
-  Explains how to extract RDF data from HTTP resources with <<Any23>>.
+  Explains how to extract RDF data from HTTP resources with <<Apache Any23>>.
 
 * {{{./dev-data-conversion.html}Data Conversion}}
   
-   Shows how to perform RDF data conversion with <<Any23>>.
+   Shows how to perform RDF data conversion with <<Apache Any23>>.
 
 * {{{./dev-validation-fix.html}Validation and Fixing}}
   
-  Demonstrates how to define validation and correction rules for HTML content with <<Any23>>.
+  Demonstrates how to define validation and correction rules for HTML content with <<Apache Any23>>.
     
 * {{{./dev-xpath-extractor.html}XPath Extractor}}
   
-  Explains how to write custom scraping rules for extracting RDF data from any HTML content with <<Any23>>.
+  Explains how to write custom scraping rules for extracting RDF data from any HTML content with <<Apache Any23>>.
     
 * {{{./dev-microformat-extractors.html}Microformat Extractors}}
   
-  Explains how to write new Microformat extractors with <<Any23>> and also report interesting notes on
+  Explains how to write new Microformat extractors with <<Apache Any23>> and also report interesting notes on
   microformat nesting representation.
 
 * {{{./dev-microdata-extractor.html}Microdata Extractor}}
 
-  Explains how it works the Microdata Extractor embedded in <<Any23>>.
+  Explains how it works the Microdata Extractor embedded in <<Apache Any23>>.
 
 * {{{./dev-csv-extractor.html}CSV Extractor}}
 
-  Explains how it works the CSV Extractor embedded in <<Any23>>.
+  Explains how it works the CSV Extractor embedded in <<Apache Any23>>.

@@ -1,7 +1,7 @@
 Data Conversion
 
 +----------------------------------------------------------------------------------------------
-/*1*/ Any23 runner = new Any23();
+/*1*/ Apache Any23 runner = new Apache Any23();
 /*2*/ final String content = "@prefix foo: <http://example.org/ns#> .   " +
                              "@prefix : <http://other.example.org/ns#> ." +
                              "foo:bar foo: : .                          " +
@@ -18,10 +18,10 @@ Data Conversion
 /*8*/ String nt = out.toString("UTF-8");
 +----------------------------------------------------------------------------------------------
 
- This example aims to demonstrate how to use <<Any23>> to perform RDF data conversion.
+ This example aims to demonstrate how to use <<Apache Any23>> to perform RDF data conversion.
  In this code we provide some input data expressed as <<Turtle>> and convert it in <<NTriples>> format.
 
- At <<line 1>> we define a new instance of the <<Any23>> facade, that provides all the methods
+ At <<line 1>> we define a new instance of the <<Apache Any23>> facade, that provides all the methods
  useful for the transformation. The facade constructor accepts a list of extractor names, if specified
  the extraction will be done only over this list, otherwise the data <MIME Type> will detected and will be applied
  all the compatible extractors declared within the

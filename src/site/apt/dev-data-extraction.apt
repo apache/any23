@@ -1,7 +1,7 @@
 Data Extraction
 
 +----------------------------------------------------------------------------------------------
-/*1*/ Any23 runner = new Any23();
+/*1*/ Apache Any23 runner = new Apache Any23();
 /*2*/ runner.setHTTPUserAgent("test-user-agent");
 /*3*/ HTTPClient httpClient = runner.getHTTPClient();
 /*4*/ DocumentSource source = new HTTPDocumentSource(
@@ -18,8 +18,8 @@ Data Extraction
 /*9*/ String n3 = out.toString("UTF-8");
 +----------------------------------------------------------------------------------------------
 
-   This example demonstrates the data extraction, that is the main purpose of <<Any23>> library.
-   At <<line 1>> we define the <<Any23>> facade instance. As described before, the constructor allows to enforce
+   This example demonstrates the data extraction, that is the main purpose of <<Apache Any23>> library.
+   At <<line 1>> we define the <<Apache Any23>> facade instance. As described before, the constructor allows to enforce
    the usage of specific extractors.
 
    The <<line 2>> defines the <HTTP User Agent>, used to identify the client during <HTTP> data collection.
@@ -71,7 +71,7 @@ _:node14r93a8dex1 .
 
 Filter Out Accidental Triples
 
-   To remove accidental triples <<Any23>> provides a set of useful filters, located
+   To remove accidental triples <<Apache Any23>> provides a set of useful filters, located
    within the <<org.deri.any23.filter>> package.
 
    The filter {{{./xref/org/apache/any23/filter/IgnoreTitlesOfEmptyDocuments.html}IgnoreTitlesOfEmptyDocuments}}

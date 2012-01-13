@@ -10,6 +10,6 @@ Microdata Extractor
   It is possible to retrieve the <<JSON>> representation of the same Microdata as defined
   at section {{{http://www.w3.org/TR/microdata/#json}http://www.w3.org/TR/microdata/#json}}
   by using the Microdata commandline tool,
-  see {{{./getting-started.html#any23tools_script}Getting Started - Any23 Tools}}.
+  see {{{./getting-started.html#any23tools_script}Getting Started - Apache Any23 Tools}}.
 
   

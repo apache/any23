@@ -1,10 +1,10 @@
-Any23 Plugins
+Apache Any23 Plugins
 
 * Introduction
 
-    This section describes the <Any23> plugins support.
+    This section describes the <Apache Any23> plugins support.
 
-    <Any23> comes with a set of predefined plugins.
+    <Apache Any23> comes with a set of predefined plugins.
     Such plugins are located under the <any23-root>/<<plugins>> dir.
 
     A plugin is a standard <Maven3> module containing any implementation of
@@ -15,9 +15,9 @@ Any23 Plugins
 
 * How to Register a Plugin
 
-   A plugin can be added to <Any23> by:
+   A plugin can be added to <Apache Any23> by:
 
-   * adding its <JAR> to the <Any23> <JVM classpath>;
+   * adding its <JAR> to the <Apache Any23> <JVM classpath>;
 
    * adding its <JAR> to the <$HOME/.any23/plugins> directory.
 
@@ -25,7 +25,7 @@ Any23 Plugins
 
    TODO: plugin support in library
 
-   TODO: plugin support in Any23 Service
+   TODO: plugin support in Apache Any23 Service
 
     Any implementation of <ExtractorPlugin> will automatically registered to the
     {{{./xref/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
@@ -35,7 +35,7 @@ Any23 Plugins
 
 * How to Build a Plugin
 
-   <Any23> takes care to <test> and <package> plugins when distributed from its reactor <POM>.
+   <Apache Any23> takes care to <test> and <package> plugins when distributed from its reactor <POM>.
    It is aways possible to rebuild a plugin using the command:
 
 +------------------------------------------
@@ -94,12 +94,12 @@ public class Version implements Tool {
     }
 
     public int run(String[] args) {
-        final String version = Any23.VERSION;
+        final String version = Apache Any23.VERSION;
         if(version == null) {
             System.err.println("Error while retrieving configuration info.");
             return 1;
         }
-        System.out.println(String.format("Any23 Core v. %s", version));
+        System.out.println(String.format("Apache Any23 Core v. %s", version));
         System.out.println();
         return 0;
     }

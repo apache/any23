@@ -1,48 +1,48 @@
-Supported Formats in Any23
+Supported Formats in Apache Any23
 
-    <<Any23>> supports all the main standard formats introduced by the <<Semantic Web>> community.
+    <<Apache Any23>> supports all the main standard formats introduced by the <<Semantic Web>> community.
 
 * <<Input Formats>>
 
    The following list shows the accepted input formats and for each one the support level.
 
-   * <<(X)HTML>> with <<RDFa 1.0>>, <<RDFa 1.1>>, <<Microdata>> and <<Microformats>>. <<Any23>> fully supports the
+   * <<(X)HTML>> with <<RDFa 1.0>>, <<RDFa 1.1>>, <<Microdata>> and <<Microformats>>. <<Apache Any23>> fully supports the
      {{{http://www.w3.org/TR/html5/}(X)HTML5}} input format and in particular
      provides a set of extractors for processing embedded {{{http://www.w3.org/TR/rdfa-syntax/}RDFa 1.0}},
      {{{http://www.w3.org/TR/rdfa-core/}RDFa 1.1}}, {{{http://microformats.org/}Microformats}}
      and {{{http://www.w3.org/TR/microdata/}Microdata}}.
 
-   * <<Turtle>> <<Any23>> fully supports the {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}} specification.
+   * <<Turtle>> <<Apache Any23>> fully supports the {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}} specification.
 
-   * <<N-Triples>> <<Any23>> fully supports the {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}} specification.
+   * <<N-Triples>> <<Apache Any23>> fully supports the {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}} specification.
 
-   * <<N-Quads>> <<Any23>> fully supports the {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}} specification.
+   * <<N-Quads>> <<Apache Any23>> fully supports the {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}} specification.
 
-   * <<RDF/XML>> <<Any23>> fully supports the {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}} specification.
+   * <<RDF/XML>> <<Apache Any23>> fully supports the {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}} specification.
 
-   * <<CSV>> <<Any23>> allows you to represent header-provided {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}} files with RDF using a specific {{{./dev-csv-extractor.html}algorithm}}.
+   * <<CSV>> <<Apache Any23>> allows you to represent header-provided {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}} files with RDF using a specific {{{./dev-csv-extractor.html}algorithm}}.
 
 * <<Output Formats>>
 
    The supported output formats are enlisted below.
 
-   * <<Turtle>> <<Any23>> is able to produce output in {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}.
+   * <<Turtle>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}.
 
-   * <<N-Triples>> <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}}.
+   * <<N-Triples>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}}.
 
-   * <<N-Quads>> <<Any23>> is able to produce output in {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}}.
+   * <<N-Quads>> <<Apache Any23>> is able to produce output in {{{http://sw.deri.org/2008/07/n-quads/}N-Quads}}.
 
-   * <<RDF/XML>> <<Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
+   * <<RDF/XML>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
 
-   * <<JSON Statements>> <<Any23>> is able to produce output in {{{http://www.json.org/}JSON}} . See the specific {{{json-statements}format}}.
+   * <<JSON Statements>> <<Apache Any23>> is able to produce output in {{{http://www.json.org/}JSON}} . See the specific {{{json-statements}format}}.
 
-   * <<XML Report>> <<Any23>> is able to produce a detailed report of the latest document extraction if required. See further details {{{./service.html#report-format}here}}.
+   * <<XML Report>> <<Apache Any23>> is able to produce a detailed report of the latest document extraction if required. See further details {{{./service.html#report-format}here}}.
 
 * JSON Statements Format
 
   {json-statements}
 
-     Any23 is able to produce JSON output following the format described below.
+     Apache Any23 is able to produce JSON output following the format described below.
 
      Given the following example statements (expressed in N-Quads format):
 

@@ -1,6 +1,6 @@
-Any23 Installation Guide
+Apache Any23 Installation Guide
 
-    This page describes how to install <<Any23>>.
+    This page describes how to install <<Apache Any23>>.
 
 * Download a Stable Distribution
 
@@ -17,7 +17,7 @@ Any23 Installation Guide
 $ svn checkout http://any23.googlecode.com/svn/trunk any23-trunk-readonly
 +---------------------------------------------------------------------------
 
-* Build <<Any23>>
+* Build <<Apache Any23>>
 
     The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 2.x.y+}}.
     For specific information about Maven see: {{{http://maven.apache.org/}}}
@@ -33,7 +33,7 @@ $ cd trunk/
 trunk$ mvn clean install
 +-----------
 
-    This will install the <<Any23>> artifact and its dependencies in your local M2 repository.
+    This will install the <<Apache Any23>> artifact and its dependencies in your local M2 repository.
 
 * Generate Documentation
 

@@ -2,16 +2,16 @@ Microformat Extractors
 
  This section describes some extractions corner-cases and their relative RDF representations.
  Main aim of this section is to describe how
- some specific cases are processed with <<Any23>> showing the correspondences between the extracted RDF triples.
+ some specific cases are processed with <<Apache Any23>> showing the correspondences between the extracted RDF triples.
 
 {microformat-nesting}
 * Nesting different Microformats
 
 [TODO: add picture about microformat nesting structure.]
 
- This section describes how <<Any23>> represents, with RDF, the content of an HTML fragments containing different nested
+ This section describes how <<Apache Any23>> represents, with RDF, the content of an HTML fragments containing different nested
  Microformats.
- <<Any23>> performs the extraction executing different extractors for every supported Microformat on a input HTML page.
+ <<Apache Any23>> performs the extraction executing different extractors for every supported Microformat on a input HTML page.
  There are two different possibilities to write extractors able to produce a set of RDF triples that coherently
  represents this nesting.
 
@@ -20,7 +20,7 @@ Microformat Extractors
   * Embedding explicitly the logic within the
   {{{./xref/org/apache/any23/extractor/html/package-summary.html}Microformats Extractors}}
 
-  * Using the default <<Any23>> nesting feature.
+  * Using the default <<Apache Any23>> nesting feature.
 
  In the first case, the logic for representing the nested values, is directly embedded in the upper-level Extractor.
  For example, the following HTML fragment shows an hCard that contains an hAddress Microformat.
@@ -96,7 +96,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 +----------------------------------------------------------------------------------------------
 
 
- Instead, the second manner is to leave to <<Any23>> the responsibility of identifying nested Microformats and produce
+ Instead, the second manner is to leave to <<Apache Any23>> the responsibility of identifying nested Microformats and produce
  a set of descriptive RDF triples.
  More specifically, the following HTML fragment, provided as a reference example on
  the {{{http://www.google.com/support/webmasters/bin/answer.py?answer=146862}Google Webmaster tools blog}},
@@ -117,7 +117,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 </p>
 +----------------------------------------------------------------------------------------------
 
- Due to the fact that the <<Any23>> provided extractors don't explicitly foresee the possibility of nesting such two
+ Due to the fact that the <<Apache Any23>> provided extractors don't explicitly foresee the possibility of nesting such two
  Microformats, it automatically identifies the nesting relationship and represents it with the following triples:
 
 +---------------------------------------------------------

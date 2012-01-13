@@ -42,13 +42,13 @@ final String propertyValue = immutableConf.getProperty("propertyName", "default 
 
     To obtain a <modifiable> {{{./xref/org/apache/any23/configuration/Configuration.html} Configuration}}
     instead it is possible to use the <<copy()>> method.\
-    One of the <<Any23>> constructors accepts a <<Configuration>> object that allows to customize the behavior
-    of the <<Any23>> instance for its entire life-cycle.
+    One of the <<Apache Any23>> constructors accepts a <<Configuration>> object that allows to customize the behavior
+    of the <<Apache Any23>> instance for its entire life-cycle.
 
 +----------------------------------------------------------------------------------------------
 final ModifiableConfiguration modifiableConf = DefaultConfiguration.copy();
 final String oldPropertyValue = modifiableConf.setProperty("propertyName", "new property value");
-final Any23 any23 = new Any23(modifiableConf, "extractor1", ...);
+final Apache Any23 any23 = new Apache Any23(modifiableConf, "extractor1", ...);
 ...
 +----------------------------------------------------------------------------------------------
 
@@ -56,30 +56,30 @@ final Any23 any23 = new Any23(modifiableConf, "extractor1", ...);
 
     It is possible to customize the behavior of a single data extraction by providing an
     {{{./xref/org/apache/any23/extractor/ExtractionParameters.html} ExtractionParameters}}
-    instance to one the <Any23#extract()> methods accepting it. <<ExtractionParameters>> allows to customize any <property> and <flag>
+    instance to one the <Apache Any23#extract()> methods accepting it. <<ExtractionParameters>> allows to customize any <property> and <flag>
     other then the <<specific extraction options>>.\
     If no custom parameters are specified the default configuration values are used.
 
 +----------------------------------------------------------------------------------------------
-final Any23 any23 = ...
+final Apache Any23 any23 = ...
 final TripleHandler tripleHandler = ...
 final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
 extractionParameters.setFlag("any23.microdata.strict", true);
 any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
 +----------------------------------------------------------------------------------------------
 
-* Any23 Core Module Default Configuration
+* Apache Any23 Core Module Default Configuration
 
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 | Property Name                             | Default Property Value        |Description                                                                         |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
-| any23.core.version                        | <current any23 core version>  |String declaring the Any23 Core module version.                                     |
+| any23.core.version                        | <current any23 core version>  |String declaring the Apache Any23 Core module version.                                     |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
-|any23.http.user.agent.default              |Any23-CLI                      |User Agent Name used for HTTP requests.                                             |
+|any23.http.user.agent.default              |Apache Any23-CLI                      |User Agent Name used for HTTP requests.                                             |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.http.client.timeout                  |10000 (10 secs)                |Timeout in milliseconds for a HTTP request.                                         |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
-|any23.http.client.max.connections          |5                              |Max number of concurrent HTTP connections allowed by the internal Any23 HTTP client.|
+|any23.http.client.max.connections          |5                              |Max number of concurrent HTTP connections allowed by the internal Apache Any23 HTTP client.|
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.rdfa.extractor.xslt                  |rdfa.xslt                      |XSLT Stylesheet to be used to perform HTML to RDF extraction of RDFa.               |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
@@ -93,7 +93,7 @@ any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.extraction.context.uri               |?(means current document URI)  |Default value for extraction content URI.                                           |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
-|any23.plugin.dirs                          |./plugins                      |Directory containing Any23 plugins.                                                 |
+|any23.plugin.dirs                          |./plugins                      |Directory containing Apache Any23 plugins.                                                 |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.microdata.strict                     |on (possible values: on/off)   |Activates/deactivates the microdata strict validation.                              |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+

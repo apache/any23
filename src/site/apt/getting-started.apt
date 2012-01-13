@@ -1,14 +1,14 @@
-Getting started with <<Any23>>
+Getting started with <<Apache Any23>>
 
-    <<Any23>> can be used:
+    <<Apache Any23>> can be used:
 
       * via CLI (command line interface) from your preferred shell environment;
       * as a RESTful Webservice;
       * as a library.
 
-* <<Any23>> Modules
+* <<Apache Any23>> Modules
 
-    <<Any23>> is composed of the following modules:
+    <<Apache Any23>> is composed of the following modules:
 
       * <<<any23-core/>>>      The core library.
 
@@ -16,11 +16,11 @@ Getting started with <<Any23>>
 
       * <<<any23-plugins/>>>   The core additional plugins.
 
-* Use the <<Any23>> CLI
+* Use the <<Apache Any23>> CLI
 
    The command-line tools support is provided by the <<any23-core>> module.
 
-   Once <<Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a commandline tool,
+   Once <<Apache Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a commandline tool,
    use the shell scripts within the <<"any23-core/bin">> directory.
    These are provided both for Unix (Linux/OSX).
 
@@ -38,9 +38,9 @@ Usage: ToolRunner <utility> [options...]
 	MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
 	MimeDetector                                                                MIME Type Detector Tool.
 	PluginVerifier                                           Utility for plugin management verification.
-	Rover                                                                       Any23 Command Line Tool.
+	Rover                                                                       Apache Any23 Command Line Tool.
 	Version                        Prints out the current library version and configuration information.
-	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Any23.
+	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Apache Any23.
 +-------------------------------------------
 
    The <any23tools> script detects a list of available utilities within the <<any23-core>> and <<plugins>>
@@ -56,13 +56,13 @@ Usage: ToolRunner <utility> [options...]
 
        * <<<MimeDetector>>>: detects the MIME Type for any HTTP / file / direct input resource.
 
-       * <<<PluginVerifier>>>: a utility for verifying <Any23> plugins.
+       * <<<PluginVerifier>>>: a utility for verifying <Apache Any23> plugins.
 
        * <<<Rover>>>: the RDF extraction tool.
 
        * <<<Version>>>: prints out useful information about the library version and configuration.
 
-       * <<<VocabPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Any23.
+       * <<<VocabPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Apache Any23.
 
 ** Rover
    
@@ -115,7 +115,7 @@ any23-core/bin$ ./any23tools Rover -f quad myfoaf.rdf
 
   Filtering trivial statements
 
-    By default, <<Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta
+    By default, <<Apache Any23>> will extract <HTML/head> meta information, such as links to <CSS stylesheets> or meta
     information like the author or the software used to create the <html>. Hence, if the user is only interested
     in the structured content from the <HTML/body> tag we offer a filter functionality, activated by the <<"-t">>
     command line argument.
@@ -188,7 +188,7 @@ Usage: {http://path/to/resource.html|file:/path/to/local.file}
 
 ** VocabPrinter
 
-   The VocabPrinter Tool prints out the RDFSchema declared by all the <<Any23>>
+   The VocabPrinter Tool prints out the RDFSchema declared by all the <<Apache Any23>>
    declared vocabularies.
 
    <<This tool is still in beta version.>>
@@ -214,9 +214,9 @@ text/n3
 
    TODO: missing.
 
-* <<Any23>> CLI <Plugins>
+* <<Apache Any23>> CLI <Plugins>
 
-   The <<Any23>> ToolRunner CLI (<bin/any23tools>) supports the auto detection of Tool plugins within the classpath.
+   The <<Apache Any23>> ToolRunner CLI (<bin/any23tools>) supports the auto detection of Tool plugins within the classpath.
    For further details see {{{./any23-plugins.html}Plugins}} section.
 
    The default <<any23>> CLI plugins are enlisted below.
@@ -272,10 +272,10 @@ usage: [{<url>|<file>}]+ [-d <arg>] [-e <arg>] [-f <arg>] [-h] [-l <arg>]
 any23-core/bin$ ./any23tools Crawler -s -f ntriples http://www.repubblica.it 1> out.nt 2> repubblica.log
 +----------------------------------------------------------------------------
 
-* Use <<Any23>> as a RESTful Web Service
+* Use <<Apache Any23>> as a RESTful Web Service
 
-   <<Any23>> provides a Web Service that can be used to extract <RDF> from Web documents.
-   <<Any23>> services can be accessed through a {{{./service.html}RESTful API}}.
+   <<Apache Any23>> provides a Web Service that can be used to extract <RDF> from Web documents.
+   <<Apache Any23>> services can be accessed through a {{{./service.html}RESTful API}}.
 
    Running the server
 
@@ -289,9 +289,9 @@ any23-service/bin$ ./any23server
     from the command line in order to start up the server, then go to {{{http://localhost:8080/}}}
     to access the web interface. A live demo version of such service is running at {{{http://any23.org/}}}.
     You can also start the server from Java by running the
-    {{{./xref/org/apache/any23/servlet/Servlet.html}Any23 Servlet}} class. Maven can be used to create a WAR
+    {{{./xref/org/apache/any23/servlet/Servlet.html}Apache Any23 Servlet}} class. Maven can be used to create a WAR
     file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}.
 
-* Use <<Any23>> as a Library
+* Use <<Apache Any23>> as a Library
 
    See our {{{./developers.html}Developers guide}} for more details.
