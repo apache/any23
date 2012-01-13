@@ -28,7 +28,7 @@
 
   <groupId>org.apache.any23.plugin</groupId>
   <artifactId>html-scraper</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.1-incubating-SNAPSHOT</version>
 
   <name>Apache Any23 :: Plugins :: HTML Scraper</name>
   <description>Any23 plugin for scraping HTML code.</description>
