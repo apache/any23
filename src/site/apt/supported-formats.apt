@@ -47,15 +47,15 @@ Supported Formats in Apache Any23
      Given the following example statements (expressed in N-Quads format):
 
 +-------------------------------------------------------------------------------
-   _:bn1          <http://pred/1> <http://value/1>         <http://graph/1> .
-   <http://sub/2> <http://pred/2> "language literal"@en    <http://graph/2> .
-   <http://sub/3> <http://pred/3> "123"^^<http://datatype> <http://graph/3> .
+_:bn1          <http://pred/1> <http://value/1>         <http://graph/1> .
+<http://sub/2> <http://pred/2> "language literal"@en    <http://graph/2> .
+<http://sub/3> <http://pred/3> "123"^^<http://datatype> <http://graph/3> .
 +-------------------------------------------------------------------------------
 
      these will be represented as:
 
 +-------------------------------------------------------------------------------
- {
+{
     "quads" : [
         [
             {
@@ -98,24 +98,24 @@ Supported Formats in Apache Any23
             "http://graph/3"
         ]
     ]
- }
+}
 +-------------------------------------------------------------------------------
 
     The <<JSON object>> structure is described by the following <<BNF>> rules,
     where quotes are omitted to improve readability:
 
 +-------------------------------------------------------------------------------
- <json-response> ::= { "quads" : <statements> }
- <statements>    ::= [ <statement>+ ]
- <statement>     ::= [ <subject> , <predicate> , <object> , <graph> ]
- <subject>       ::= { "type" : <subject-type> , "value" : <value> }
- <predicate>     ::= <uri>
- <object>        ::= { "type" : <object-type> , "value" : <value> , "lang" : <lang> , "datatype" : <datatype> }
- <graph>         ::= <uri> | null
- <subject-type>  ::= "uri" | "bnode"
- <object-type>   ::= "uri" | "bnode"| "literal"
- <value>         ::= String
- <lang>          ::= String | null
- <datatype>      ::= <uri>  | null
- <uri>           ::= String
+<json-response> ::= { "quads" : <statements> }
+<statements>    ::= [ <statement>+ ]
+<statement>     ::= [ <subject> , <predicate> , <object> , <graph> ]
+<subject>       ::= { "type" : <subject-type> , "value" : <value> }
+<predicate>     ::= <uri>
+<object>        ::= { "type" : <object-type> , "value" : <value> , "lang" : <lang> , "datatype" : <datatype> }
+<graph>         ::= <uri> | null
+<subject-type>  ::= "uri" | "bnode"
+<object-type>   ::= "uri" | "bnode"| "literal"
+<value>         ::= String
+<lang>          ::= String | null
+<datatype>      ::= <uri>  | null
+<uri>           ::= String
 +-------------------------------------------------------------------------------
