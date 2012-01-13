@@ -34,13 +34,13 @@ Getting started with <<Apache Any23>>
 any23-core/bin$ ./any23tools
 Usage: ToolRunner <utility> [options...]
  where <utility> is one of:
-	ExtractorDocumentation                Utility for obtaining documentation about metadata extractors.
-	MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
-	MimeDetector                                                                MIME Type Detector Tool.
-	PluginVerifier                                           Utility for plugin management verification.
-	Rover                                                                       Apache Any23 Command Line Tool.
-	Version                        Prints out the current library version and configuration information.
-	VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Apache Any23.
+    ExtractorDocumentation                Utility for obtaining documentation about metadata extractors.
+    MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
+    MimeDetector                                                                MIME Type Detector Tool.
+    PluginVerifier                                           Utility for plugin management verification.
+    Rover                                                                       Apache Any23 Command Line Tool.
+    Version                        Prints out the current library version and configuration information.
+    VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Apache Any23.
 +-------------------------------------------
 
    The <any23tools> script detects a list of available utilities within the <<any23-core>> and <<plugins>>
@@ -65,11 +65,11 @@ Usage: ToolRunner <utility> [options...]
        * <<<VocabPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Apache Any23.
 
 ** Rover
-   
+
    Rover is the main extraction tool. It allows to extract metadata from local and remote (HTTP)
    resources, specify a custom list of extractors, specify the desired output format and other flags
    to suppress noise and generate advanced reports.
-  
+
 +-------------------------------------------
 any23-core/bin$ any23tools Rover
 usage: [{<url>|<file>}]+ [-d <arg>] [-e <arg>] [-f <arg>] [-h] [-l <arg>]
