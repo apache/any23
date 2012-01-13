@@ -1,5 +1,0 @@
-Any23 Change Log
-
-Trunk (unreleased changes):
-
-* ANY23-22 Edit trunk/lib/install-deps.sh to point to correct repos for dependencies. (lewismc)
