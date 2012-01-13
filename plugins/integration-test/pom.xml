@@ -28,7 +28,6 @@
 
   <groupId>org.apache.any23.plugin</groupId>
   <artifactId>integration-test</artifactId>
-  <version>0.6.2-incubating-SNAPSHOT</version>
 
   <name>Apache Any23 :: Plugins :: Integration Test</name>
   <description>Any23 plugin integration test module.</description>
