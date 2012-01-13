@@ -77,5 +77,5 @@ Get more documentation
   It is possible to generate the list of all the available extractors invoking the following command:
 
 +------------------------------------------------------------
-   <any23-core>/bin$ any23tools ExtractorDocumentation -list
+<any23-core>/bin$ any23tools ExtractorDocumentation -list
 +------------------------------------------------------------
