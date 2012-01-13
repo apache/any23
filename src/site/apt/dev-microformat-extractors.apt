@@ -1,0 +1,135 @@
+Microformat Extractors
+
+ This section describes some extractions corner-cases and their relative RDF representations.
+ Main aim of this section is to describe how
+ some specific cases are processed with <<Any23>> showing the correspondences between the extracted RDF triples.
+
+{microformat-nesting}
+* Nesting different Microformats
+
+[TODO: add picture about microformat nesting structure.]
+
+ This section describes how <<Any23>> represents, with RDF, the content of an HTML fragments containing different nested
+ Microformats.
+ <<Any23>> performs the extraction executing different extractors for every supported Microformat on a input HTML page.
+ There are two different possibilities to write extractors able to produce a set of RDF triples that coherently
+ represents this nesting.
+
+ More specifically:
+
+  * Embedding explicitly the logic within the
+  {{{./xref/org/apache/any23/extractor/html/package-summary.html}Microformats Extractors}}
+
+  * Using the default <<Any23>> nesting feature.
+
+ In the first case, the logic for representing the nested values, is directly embedded in the upper-level Extractor.
+ For example, the following HTML fragment shows an hCard that contains an hAddress Microformat.
+
++----------------------------------------------------------------------------------------------
+<span class="vcard">
+    <span class="fn">L'Amourita Pizza</span>
+     Located at
+    <span class="adr">
+        <span class="street-address">123 Main St</span>,
+        <span class="locality">Albequerque</span>,
+        <span class="region">NM</span>.
+    </span>
+    <a href="http://pizza.example.com" class="url">http://pizza.example.com</a>
+</span>
++----------------------------------------------------------------------------------------------
+
+ Since, as shown below, the {{{./xref/org/apache/any23/extractor/html/HCardExtractor.html}HCardExtractor}}
+ contains the code to handle nested hAddress,
+
++------------------------------
+
+foundSomething |= addSubMicroformat("adr", card, VCARD.adr);
+
+...
+
+private boolean addSubMicroformat(String className, Resource resource, URI property) {
+    List<Node> nodes = fragment.findAllByClassName(className);
+    if (nodes.isEmpty()) return false;
+    for (Node node : nodes) {
+        addBNodeProperty(
+            getDescription().getExtractorName(),
+            node,
+            resource, property, getBlankNodeFor(node)
+        );
+    }
+    return true;
+}
+
++------------------------------
+
+ it explicitly produces the triples claiming the native nesting relationship:
+
++----------------------------------------------------------------------------------------------------
+<rdf:Description rdf:nodeID="nodee2296b803cbf5c7953614ce9998c4083">
+	<vcard:url rdf:resource="http://pizza.example.com"/>
+	<vcard:adr rdf:nodeID="nodea8badeafb65268ab3269455dd5377a5e"/>
+	<rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard"/>
+
+	<rdf:Description rdf:nodeID="nodea8badeafb65268ab3269455dd5377a5e">
+	<rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address"/>
+	<vcard:street-address>123 Main St</vcard:street-address>
+	<vcard:locality>Albequerque</vcard:locality>
+	<vcard:region>NM</vcard:region>
+</rdf:Description>
++-----------------------------------------------------------------------------------------------------
+
+ It is higly recommended to decorate the extractors who natively handle the nesting relatioship using the
+  {{{./xref/org/apache/any23/extractor/html/annotations/Includes.html}@Includes}} annotation. This annotation,
+  if present, avoid the production of <nesting_original> and <nesting_structured> RDF statements.
+
+  The following example shows how the {{{./xref/org/apache/any23/extractor/html/annotations/Includes.html}@Includes}} annotation
+  could be used to claim the fact that {{{./xref/org/apache/any23/extractor/html/HCardExtractor.html}HCardExtractor}} natively
+  embedds the {{{./xref/org/apache/any23/extractor/html/AdrExtractor.html}AdrExtractor}}.
+
++----------------------------------------------------------------------------------------------
+@Includes( extractors = AdrExtractor.class )
+public class HCardExtractor extends EntityBasedMicroformatExtractor {
+
+    // code omitted for brevity
+
+}
++----------------------------------------------------------------------------------------------
+
+
+ Instead, the second manner is to leave to <<Any23>> the responsibility of identifying nested Microformats and produce
+ a set of descriptive RDF triples.
+ More specifically, the following HTML fragment, provided as a reference example on
+ the {{{http://www.google.com/support/webmasters/bin/answer.py?answer=146862}Google Webmaster tools blog}},
+ shows a vEvent Microformat with a nested vCard.
+
++----------------------------------------------------------------------------------------------
+<p class="schedule vevent">
+    <span class="summary">
+        <span style="font-weight:bold; color: #3E4876;">
+           This event is organized by
+            <span class="vcard">
+                <a class="url fn" href="http://tantek.com/">Tantek Celik</a>
+                <span class="org">Technorati</span>
+            </span>
+        </span>
+        <a href="/cs/web2005/view/e_spkr/1852">Tantek Celik</a>
+    </span>
+</p>
++----------------------------------------------------------------------------------------------
+
+ Due to the fact that the <<Any23>> provided extractors don't explicitly foresee the possibility of nesting such two
+ Microformats, it automatically identifies the nesting relationship and represents it with the following triples:
+
++---------------------------------------------------------
+<rdf:Description rdf:nodeID="node755b2b367973b6854ec68c77bec9b3">
+	<nesting_original xmlns="http://vocab.sindice.net/" rdf:resource="http://www.w3.org/2002/12/cal/icaltzd#summary"/>
+	<nesting_structured xmlns="http://vocab.sindice.net/" rdf:nodeID="node985d8f2b9afb02eeddf2e72b5eeb74"/>
+</rdf:Description>
+
+<rdf:Description rdf:nodeID="node150ldsavbx29">
+	<nesting xmlns="http://vocab.sindice.net/" rdf:nodeID="node755b2b367973b6854ec68c77bec9b3"/>
+</rdf:Description>
++---------------------------------------------------------
+
+ That informally means that the vEvent Microformat has a nested hCard through the property
+ http://www.w3.org/2002/12/cal/icaltzd#summary providing for them two blank nodes.

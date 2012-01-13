@@ -1,0 +1,107 @@
+Configuration
+
+* Configure the Core Module
+
+    The core module contains the main library code and the command-line implementation.
+
+    The main library configuration parameters are managed by the
+    {{{./xref/org/apache/any23/configuration/DefaultConfiguration.html} Configuration}}
+    class. The default values are declared within the {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/resources/default-configuration.properties} default-configuration.properties}}
+    file. The following sections explain how to override the default configuration.
+
+** Override Default Configuration from Command-line
+
+    The default configuration can be overriden via command-line by passing to the <<java>> command system properties
+    with the same name of the ones declared in configuration.
+
+    For example to override the <<HTTP Max Client Connections>> parameter it is sufficient to add the following
+    option to the <<java>> command-line invocation:
+
++----------------------------------------------------------------------------------------------
+   -Dany23.http.client.max.connections=10
++----------------------------------------------------------------------------------------------
+
+    any23, any23tools and any23server scripts accept the variable <<ANY23_OPTS>> to specify custom options.
+    It is possible to customize the <<HTTP Max Client Connections>> for the <<any23>> script simply using:
+
++----------------------------------------------------------------------------------------------
+any23-core/bin/$ ANY23_OPTS="-Dany23.http.client.max.connections=10" any23 http://path/to/resource
++----------------------------------------------------------------------------------------------
+
+** Override Default Configuration Programmatically
+
+    The {{{./xref/org/apache/any23/configuration/Configuration.html} Configuration}}
+    properties can be accessed in read-only mode just retrieving the configuration <<singleton>> instance.\
+    Such instance is <immutable>:
+
++----------------------------------------------------------------------------------------------
+final Configuration immutableConf = DefaultConfiguration.singleton();
+final String propertyValue = immutableConf.getProperty("propertyName", "default value");
+...
++----------------------------------------------------------------------------------------------
+
+    To obtain a <modifiable> {{{./xref/org/apache/any23/configuration/Configuration.html} Configuration}}
+    instead it is possible to use the <<copy()>> method.\
+    One of the <<Any23>> constructors accepts a <<Configuration>> object that allows to customize the behavior
+    of the <<Any23>> instance for its entire life-cycle.
+
++----------------------------------------------------------------------------------------------
+final ModifiableConfiguration modifiableConf = DefaultConfiguration.copy();
+final String oldPropertyValue = modifiableConf.setProperty("propertyName", "new property value");
+final Any23 any23 = new Any23(modifiableConf, "extractor1", ...);
+...
++----------------------------------------------------------------------------------------------
+
+* Use of ExtractionParameters
+
+    It is possible to customize the behavior of a single data extraction by providing an
+    {{{./xref/org/apache/any23/extractor/ExtractionParameters.html} ExtractionParameters}}
+    instance to one the <Any23#extract()> methods accepting it. <<ExtractionParameters>> allows to customize any <property> and <flag>
+    other then the <<specific extraction options>>.\
+    If no custom parameters are specified the default configuration values are used.
+
++----------------------------------------------------------------------------------------------
+final Any23 any23 = ...
+final TripleHandler tripleHandler = ...
+final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
+extractionParameters.setFlag("any23.microdata.strict", true);
+any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
++----------------------------------------------------------------------------------------------
+
+* Any23 Core Module Default Configuration
+
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+| Property Name                             | Default Property Value        |Description                                                                         |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+| any23.core.version                        | <current any23 core version>  |String declaring the Any23 Core module version.                                     |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.http.user.agent.default              |Any23-CLI                      |User Agent Name used for HTTP requests.                                             |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.http.client.timeout                  |10000 (10 secs)                |Timeout in milliseconds for a HTTP request.                                         |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.http.client.max.connections          |5                              |Max number of concurrent HTTP connections allowed by the internal Any23 HTTP client.|
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.rdfa.extractor.xslt                  |rdfa.xslt                      |XSLT Stylesheet to be used to perform HTML to RDF extraction of RDFa.               |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.metadata.timesize         |off (possible values: on/off)  |Activates/deactivates the generation of time and size metadata triples.             |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.metadata.nesting          |on (possible values: on/off)   |Activates/deactivates the generation of nesting triples for Microformat entities.   |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.metadata.domain.per.entity|on (possible values: on/off)   |Activates/deactivates the generation of domain triple per entity.                   |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.rdfa.programmatic         |on (possible values: on/off)   |Switches between the programmatic RDFa 1.1 Extractor and the RDFa 1.0 XSLT base one.|                                                                                    |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.context.uri               |?(means current document URI)  |Default value for extraction content URI.                                           |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.plugin.dirs                          |./plugins                      |Directory containing Any23 plugins.                                                 |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.microdata.strict                     |on (possible values: on/off)   |Activates/deactivates the microdata strict validation.                              |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.microdata.ns.default                 |http://rdf.data-vocabulary.org/|Microdata default namespace.                                                        |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.head.meta                 |on (possible values: on/off)   |Activates/deactivates the HTMLMetaExtractor.                                        |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.csv.field                 |,                              |CSVExtractor field separator.                                                       |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
+|any23.extraction.csv.comment               |#                              |CSVExtractor line comment marker.                                                   |
+*-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+

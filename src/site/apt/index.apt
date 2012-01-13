@@ -1,0 +1,59 @@
+Introduction to Any23
+
+* Library
+
+    <<Anything To Triples (any23)>> is a library, a web service and a command line tool that extracts structured data
+    in RDF format from a variety of Web documents. Currently it supports the following input formats:
+
+     * {{{http://www.w3.org/TR/REC-rdf-syntax/}RDF/XML}}, {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}}, {{{http://www.w3.org/DesignIssues/Notation3}Notation 3}}
+
+     * {{{http://www.w3.org/TR/xhtml-rdfa-primer/}RDFa}} with {{{http://www.w3.org/TR/2010/WD-rdfa-core-20100422/#scoping-of-prefix-mappings}RDFa1.1 prefix mechanism}}
+
+     * {{{http://microformats.org/}Microformats}}: Adr, Geo, hCalendar, hCard, hListing, hResume, hReview, License, XFN and Species
+
+     * {{{http://dev.w3.org/html5/md/}HTML5 Microdata}}: (such as {{{http://schema.org}Schema.org}})
+
+     * {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}}: Comma Separated Values with separator autodetection.
+
+    A detailed description of available extractors is {{{./extractors.html}here}}.
+
+    <<Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/LICENSE.txt}Apache License}}.
+    <<Any23>> can be used in various ways:
+     * As a library in Java applications that consume structured data from the Web.
+     * As a command-line tool for extracting and converting between the supported formats.
+     * As online service API available at {{{http://any23.org/}any23.org}}.
+
+    You can <<download>> the latest release from the {{{http://code.google.com/p/any23/downloads/list}download site at Google Code}}.
+
+* Documentation Content
+
+    {{{./index.html}Introduction}}: this page.
+
+    {{{./install.html}Install}}: how to install <<Any23>> library and service.
+
+    {{{./getting-started.html} Getting Started}}: start using <<Any23>> command-line tools.
+
+    {{{./supported-formats.html}Supported Formats}}: complete list of <<Semantic Web>> formats supported by <<Any23>>.
+
+    {{{./configuration.html}Configuration}}: learn how to change default library and service configuration.
+
+    {{{./service.html}REST Service}}: discover how to use the <<Any23 REST Service>>.
+
+    {{{./any23-plugins.html}Plugins}}: read how to install and configure the <<Any23>> plugins.
+
+    {{{./developers.html}Developers}}: understand the <<Any23>> code internals,
+    how to write plugins, fixing rules and customize the code.
+
+* Community
+
+    Questions, comments? Get in touch on the {{{http://groups.google.com/group/any23-dev}mailing list}}!
+    Bugs, feature requests, patches? Please submit to the {{{http://code.google.com/p/any23/issues}issue tracker}}.
+    You can access the source through Subversion, see the {{{./install.html}Installation Guide}} for details.
+
+* Acknowledgements
+
+    The original code base comes from open-sourcing the <"RDFizer"> component of the {{{http://www.sindice.com}Sindice}}
+    search engine. The project is supported by {{{http://www.deri.ie/}DERI, NUI Galway}},
+    {{{http://wed.fbk.eu/en/home}Web of Data - FBK}} and the {{{http://www.okkam.org/}OKKAM project (ICT-215032)}}.
+    Individual developers who have contributed to <<any23>> include:
+    Michele Catasta, Richard Cyganiak, Michele Mostarda, Davide Palmisano, Gabriele Renzi, Jürgen Umbrich.
