@@ -18,7 +18,7 @@ Configuration
     option to the <<java>> command-line invocation:
 
 +----------------------------------------------------------------------------------------------
-   -Dany23.http.client.max.connections=10
+-Dany23.http.client.max.connections=10
 +----------------------------------------------------------------------------------------------
 
     any23, any23tools and any23server scripts accept the variable <<ANY23_OPTS>> to specify custom options.

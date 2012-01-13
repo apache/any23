@@ -39,7 +39,7 @@ Apache Any23 Plugins
    It is aways possible to rebuild a plugin using the command:
 
 +------------------------------------------
-  <plugin-dir>$ mvn clean assembly:assembly
+<plugin-dir>$ mvn clean assembly:assembly
 +------------------------------------------
 
 * How to Write an Extractor Plugin
@@ -53,8 +53,8 @@ Apache Any23 Plugins
    An example of plugin is defined below.
 
 +--------------------------------------
-  @Author(name="Michele Mostarda (mostarda@fbk.eu)")
-  public class HTMLScraperPlugin implements ExtractorPlugin {
+@Author(name="Michele Mostarda (mostarda@fbk.eu)")
+public class HTMLScraperPlugin implements ExtractorPlugin {
 
     private static final Logger logger = LoggerFactory.getLogger(HTMLScraperPlugin.class);
 
@@ -72,7 +72,7 @@ Apache Any23 Plugins
         return HTMLScraperExtractor.factory;
     }
 
-  }
+}
 +--------------------------------------
 
 * How to Write a Tool Plugin
