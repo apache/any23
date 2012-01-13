@@ -33,7 +33,7 @@
     <artifactId>basic-crawler</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Basic Crawler Plugin Module</name>
+    <name>Apache Any23 :: Plugins :: Basic Crawler</name>
     <description>Any23 plugin for crawling sites.</description>
     <url>http://developers.any23.org</url>
 

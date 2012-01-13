@@ -29,7 +29,7 @@
   <artifactId>any23-service</artifactId>
   <packaging>war</packaging>
 
-  <name>Any23 - Service Module</name>
+  <name>Apache Any23 :: Service</name>
 
   <properties>
     <maven.war.plugin.version>2.1.1</maven.war.plugin.version>

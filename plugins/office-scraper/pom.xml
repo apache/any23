@@ -31,7 +31,7 @@
     <artifactId>office-scraper</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Office Scraper Plugin Module</name>
+    <name>Apache Any23 :: Plugins :: Office Scraper</name>
     <description>Any23 plugin for scraping metadata from MS Office related file formats.</description>
     <url>http://incubator.apache.org/any23</url>
 

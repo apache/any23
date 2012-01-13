@@ -31,7 +31,7 @@
     <artifactId>integration-test</artifactId>
     <version>0.6.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Any23 - Plugin Integration Test</name>
+    <name>Apache Any23 :: Plugins :: Integration Test</name>
     <description>Any23 plugin integration test module.</description>
     <url>http://incubator.apache.org/any23</url>
 

@@ -28,7 +28,7 @@
 
   <artifactId>any23-core</artifactId>
 
-  <name>Any23 - Core Module</name>
+  <name>Apache Any23 :: Core</name>
 
   <dependencies>
     <dependency>

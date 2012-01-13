@@ -31,7 +31,7 @@
     <artifactId>html-scraper</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>HTML Scraper Plugin Module</name>
+    <name>Apache Any23 :: Plugins :: HTML Scraper</name>
     <description>Any23 plugin for scraping HTML code.</description>
     <url>http://incubator.apache.org/any23</url>
 
