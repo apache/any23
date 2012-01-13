@@ -40,8 +40,17 @@ The <action> type attribute can be add,update,fix,remove.
 
   <body>
     <release version="0.6.2" description="First Apache release">
+      <action dev="simonetripodi" type="update" issue="ANY23-29">
+        Update all Maven POM's in trunk
+      </action>
+      <action dev="mostarda" type="add" issue="ANY23-27">
+        Import revisions r1547 to r1607 from Google Code SVN to ASF SVN
+      </action>
       <action dev="lewismc" type="fix" issue="ANY23-22">
         Edit trunk/lib/install-deps.sh to point to correct repos for dependencies.
+      </action>
+      <action dev="simonetripodi" type="update" issue="ANY23-9">
+        Move any23 site documentation out of trunk and into its own SVN directory
       </action>
     </release>
   </body>
