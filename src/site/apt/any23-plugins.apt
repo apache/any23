@@ -48,7 +48,7 @@ Apache Any23 Plugins
 
    * implementing the {{{./xref/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}} interface;
 
-   * packaged under <<org.deri.any23.plugin>> .
+   * packaged under <<org.apache.any23.plugin>> .
 
    An example of plugin is defined below.
 
@@ -81,7 +81,7 @@ public class HTMLScraperPlugin implements ExtractorPlugin {
 
    * implementing the {{{./xref/org/apache/any23/cli/Tool.html}Tool}} interface;
 
-   * packaged under <<org.deri.any23.cli>> .
+   * packaged under <<org.apache.any23.cli>> .
 
    An example of plugin is defined below.
 
