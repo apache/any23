@@ -90,7 +90,7 @@ Content-Length: 174
 +---------------------------------------------------
 Code	                    Reason
 -------------------------------------------------------------------------------------------------------------
-200 OK	                    Success.
+200 OK                      Success.
 400 Bad                     Request	Missing or malformed input parameter.
 404 Not                     Found	Malformed request URI.
 406 Not                     Acceptable	None of the media types specified in the Accept header are supported.
@@ -126,31 +126,31 @@ http://any23.org/any23-service/any23/?format=best&uri=http%3A%2F%2Fpath%2Fto%2Fr
 +-----------------------------------------------------------------------------------------------------------------
 <?xml version="1.0" encoding="UTF-8" ?>
 <response>
-    <!-- List of activated extractors. -->
-    <extractors>
-        <extractor><!-- Extractor name. --></extractor>
-         <!-- ... -->
-    </extractors>
-    <report>
-        <message></message>
-        <error></error>
+  <!-- List of activated extractors. -->
+  <extractors>
+    <extractor><!-- Extractor name. --></extractor>
+    <!-- ... -->
+  </extractors>
+  <report>
+    <message></message>
+    <error></error>
     <!-- Validation specific report, contains all errors and issues detected within the document. -->
     <validationReport>
-        <!-- List of errors found while validating the document. -->
-        <errors>
-        </errors>
-        <!-- List of issues found while validating the document. -->
-        <issues>
-        </issues>
-        <!-- List of rules activated to solve the detected issues. -->
-        <ruleActivations>
-        </ruleActivations>
+      <!-- List of errors found while validating the document. -->
+      <errors>
+      </errors>
+      <!-- List of issues found while validating the document. -->
+      <issues>
+      </issues>
+      <!-- List of rules activated to solve the detected issues. -->
+      <ruleActivations>
+      </ruleActivations>
     </validationReport>
-</report>
-    <data>
-<![CDATA[
- -- Actual Data in the format specified as output. --
-]]>
-    </data>
+  </report>
+  <data>
+  <![CDATA[
+  -- Actual Data in the format specified as output. --
+  ]]>
+  </data>
 </response>
 +-----------------------------------------------------------------------------------------------------------------
