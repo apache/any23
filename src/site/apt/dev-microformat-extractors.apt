@@ -27,14 +27,14 @@ Microformat Extractors
 
 +----------------------------------------------------------------------------------------------
 <span class="vcard">
-    <span class="fn">L'Amourita Pizza</span>
-     Located at
-    <span class="adr">
-        <span class="street-address">123 Main St</span>,
-        <span class="locality">Albequerque</span>,
-        <span class="region">NM</span>.
-    </span>
-    <a href="http://pizza.example.com" class="url">http://pizza.example.com</a>
+  <span class="fn">L'Amourita Pizza</span>
+   Located at
+  <span class="adr">
+    <span class="street-address">123 Main St</span>,
+    <span class="locality">Albequerque</span>,
+    <span class="region">NM</span>.
+  </span>
+  <a href="http://pizza.example.com" class="url">http://pizza.example.com</a>
 </span>
 +----------------------------------------------------------------------------------------------
 
@@ -66,15 +66,15 @@ private boolean addSubMicroformat(String className, Resource resource, URI prope
 
 +----------------------------------------------------------------------------------------------------
 <rdf:Description rdf:nodeID="nodee2296b803cbf5c7953614ce9998c4083">
-	<vcard:url rdf:resource="http://pizza.example.com"/>
-	<vcard:adr rdf:nodeID="nodea8badeafb65268ab3269455dd5377a5e"/>
-	<rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard"/>
+  <vcard:url rdf:resource="http://pizza.example.com"/>
+  <vcard:adr rdf:nodeID="nodea8badeafb65268ab3269455dd5377a5e"/>
+  <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#VCard"/>
 
-	<rdf:Description rdf:nodeID="nodea8badeafb65268ab3269455dd5377a5e">
-	<rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address"/>
-	<vcard:street-address>123 Main St</vcard:street-address>
-	<vcard:locality>Albequerque</vcard:locality>
-	<vcard:region>NM</vcard:region>
+  <rdf:Description rdf:nodeID="nodea8badeafb65268ab3269455dd5377a5e">
+  <rdf:type rdf:resource="http://www.w3.org/2006/vcard/ns#Address"/>
+  <vcard:street-address>123 Main St</vcard:street-address>
+  <vcard:locality>Albequerque</vcard:locality>
+  <vcard:region>NM</vcard:region>
 </rdf:Description>
 +-----------------------------------------------------------------------------------------------------
 
@@ -104,16 +104,16 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
 +----------------------------------------------------------------------------------------------
 <p class="schedule vevent">
-    <span class="summary">
-        <span style="font-weight:bold; color: #3E4876;">
-           This event is organized by
-            <span class="vcard">
-                <a class="url fn" href="http://tantek.com/">Tantek Celik</a>
-                <span class="org">Technorati</span>
-            </span>
-        </span>
-        <a href="/cs/web2005/view/e_spkr/1852">Tantek Celik</a>
+  <span class="summary">
+    <span style="font-weight:bold; color: #3E4876;">
+       This event is organized by
+      <span class="vcard">
+        <a class="url fn" href="http://tantek.com/">Tantek Celik</a>
+        <span class="org">Technorati</span>
+      </span>
     </span>
+    <a href="/cs/web2005/view/e_spkr/1852">Tantek Celik</a>
+  </span>
 </p>
 +----------------------------------------------------------------------------------------------
 
@@ -122,14 +122,15 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
 +---------------------------------------------------------
 <rdf:Description rdf:nodeID="node755b2b367973b6854ec68c77bec9b3">
-	<nesting_original xmlns="http://vocab.sindice.net/" rdf:resource="http://www.w3.org/2002/12/cal/icaltzd#summary"/>
-	<nesting_structured xmlns="http://vocab.sindice.net/" rdf:nodeID="node985d8f2b9afb02eeddf2e72b5eeb74"/>
+  <nesting_original xmlns="http://vocab.sindice.net/" rdf:resource="http://www.w3.org/2002/12/cal/icaltzd#summary"/>
+  <nesting_structured xmlns="http://vocab.sindice.net/" rdf:nodeID="node985d8f2b9afb02eeddf2e72b5eeb74"/>
 </rdf:Description>
 
 <rdf:Description rdf:nodeID="node150ldsavbx29">
-	<nesting xmlns="http://vocab.sindice.net/" rdf:nodeID="node755b2b367973b6854ec68c77bec9b3"/>
+  <nesting xmlns="http://vocab.sindice.net/" rdf:nodeID="node755b2b367973b6854ec68c77bec9b3"/>
 </rdf:Description>
 +---------------------------------------------------------
 
  That informally means that the vEvent Microformat has a nested hCard through the property
  http://www.w3.org/2002/12/cal/icaltzd#summary providing for them two blank nodes.
+ 
