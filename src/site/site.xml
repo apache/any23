@@ -73,10 +73,10 @@
         <item name="Downloads"   href="http://code.google.com/p/any23/downloads/list"/>       
       </menu>
 
-    <footer>
-      <div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Maven project logos are trademarks of The Apache Software Foundation.
-      All other marks mentioned may be trademarks or registered trademarks of their respective owners.</div>
-    </footer>
+      <footer>
+        <div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Maven project logos are trademarks of The Apache Software Foundation.
+        All other marks mentioned may be trademarks or registered trademarks of their respective owners.</div>
+      </footer>
     </body>
 
 </project>
