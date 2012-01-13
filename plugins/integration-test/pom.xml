@@ -15,122 +15,103 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.apache.any23</groupId>
-        <artifactId>any23-parent</artifactId>
-        <version>0.6.2-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
-    </parent>
-
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.any23.plugin</groupId>
-    <artifactId>integration-test</artifactId>
+  <parent>
+    <groupId>org.apache.any23</groupId>
+    <artifactId>any23-parent</artifactId>
     <version>0.6.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>Apache Any23 :: Plugins :: Integration Test</name>
-    <description>Any23 plugin integration test module.</description>
-    <url>http://incubator.apache.org/any23</url>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.deri.any23</groupId>
-            <artifactId>any23-core</artifactId>
-            <version>0.6.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deri.any23.plugin</groupId>
-            <artifactId>html-scraper</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.deri.any23.plugin</groupId>
-            <artifactId>office-scraper</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+  <groupId>org.apache.any23.plugin</groupId>
+  <artifactId>integration-test</artifactId>
+  <version>0.6.2-SNAPSHOT</version>
 
-    <build>
-        <plugins>
-            <!--
-                Detect any plugin declared within the ./plugin classes,
-                for each one performs a compilation and a dependency distribution.
-                Such step is required for the subsequent integration test.
-            -->
-            <plugin>
-                <artifactId>maven-invoker-plugin</artifactId>
-                <version>1.5</version>
-                <configuration>
-                    <projectsDirectory>..</projectsDirectory>
-                    <cloneProjectsTo>${project.build.directory}/plugins-build</cloneProjectsTo>
-                    <pomIncludes>
-                        <pomInclude>*/pom.xml</pomInclude>
-                    </pomIncludes>
-                    <pomExcludes>
-                        <pomExclude>integration-test/*</pomExclude>
-                    </pomExcludes>
-                    <goals>
-                        <goal>clean</goal>
-                        <goal>dependency:copy-dependencies</goal>
-                        <goal>integration-test</goal>
-                    </goals>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--
-                Runs the integration tests declared in this module.
-                An integration test ends by IT.java
-            -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <skip>false</skip>
-                            <excludes>
-                                <exclude>none</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/*IT.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+  <name>Apache Any23 :: Plugins :: Integration Test</name>
+  <description>Any23 plugin integration test module.</description>
 
-    <organization>
-    	<name>Apache Software Foundation</name>
-    	<url>http://www.apache.org</url>
-    </organization>
-    <scm>
-    	<url>https://svn.apache.org/repos/asf/incubator/any23/</url>
-    	<connection>https://svn.apache.org/repos/asf/incubator/any23/</connection>
-    	<developerConnection>https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
-    	<tag>https://svn.apache.org/repos/asf/incubator/any23/tags/</tag>
-    </scm>
-    <issueManagement>
-    	<system>Apache SVN</system>
-    	<url>https://issues.apache.org/jira/browse/ANY23</url>
-    </issueManagement>
-    <ciManagement>
-    	<system>Hudson Jenkins</system>
-    	<url>https://builds.apache.org/job/Any23-trunk/</url>
-    </ciManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.any23</groupId>
+      <artifactId>any23-core</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.any23.plugin</groupId>
+      <artifactId>html-scraper</artifactId>
+      <version>1.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.any23.plugin</groupId>
+      <artifactId>office-scraper</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--
+        Detect any plugin declared within the ./plugin classes,
+        for each one performs a compilation and a dependency distribution.
+        Such step is required for the subsequent integration test.
+      -->
+      <plugin>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <version>1.5</version>
+        <configuration>
+          <projectsDirectory>..</projectsDirectory>
+          <cloneProjectsTo>${project.build.directory}/plugins-build</cloneProjectsTo>
+          <pomIncludes>
+            <pomInclude>*/pom.xml</pomInclude>
+          </pomIncludes>
+          <pomExcludes>
+            <pomExclude>integration-test/*</pomExclude>
+          </pomExcludes>
+          <goals>
+            <goal>clean</goal>
+            <goal>dependency:copy-dependencies</goal>
+            <goal>integration-test</goal>
+          </goals>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!--
+        Runs the integration tests declared in this module.
+        An integration test ends by IT.java
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.4.3</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skip>false</skip>
+              <excludes>
+                <exclude>none</exclude>
+              </excludes>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
-

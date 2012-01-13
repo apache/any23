@@ -15,97 +15,79 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.apache.any23</groupId>
-        <artifactId>any23-parent</artifactId>
-        <version>0.6.2-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
-    </parent>
+  <parent>
+    <groupId>org.apache.any23</groupId>
+    <artifactId>any23-parent</artifactId>
+    <version>0.6.2-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.any23.plugin</groupId>
-    <artifactId>html-scraper</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>Apache Any23 :: Plugins :: HTML Scraper</name>
-    <description>Any23 plugin for scraping HTML code.</description>
-    <url>http://incubator.apache.org/any23</url>
+  <groupId>org.apache.any23.plugin</groupId>
+  <artifactId>html-scraper</artifactId>
+  <version>1.0.1-SNAPSHOT</version>
 
-    <dependencies>
-        <!-- Sesame. -->
-        <dependency>
-            <groupId>org.openrdf.sesame</groupId>
-            <artifactId>sesame-model</artifactId>
-            <scope>provided</scope>
-        </dependency>
+  <name>Apache Any23 :: Plugins :: HTML Scraper</name>
+  <description>Any23 plugin for scraping HTML code.</description>
 
-        <!-- Any23 Core. -->
-        <dependency>
-            <groupId>org.deri.any23</groupId>
-            <artifactId>any23-core</artifactId>
-            <version>0.6.2-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+  <dependencies>
+    <!-- Sesame. -->
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-model</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
-        <!-- BEGIN: BoilerPipe -->
-        <dependency>
-            <groupId>net.sourceforge.nekohtml</groupId>
-            <artifactId>nekohtml</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.9.1</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>xml-apis</groupId>
-                    <artifactId>xml-apis</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>de.l3s.boilerpipe</groupId>
-            <artifactId>boilerpipe</artifactId>
-        </dependency>
-        <!-- END: BoilerPipe -->
-    </dependencies>
+    <!-- Any23 Core. -->
+    <dependency>
+      <groupId>org.deri.any23</groupId>
+      <artifactId>any23-core</artifactId>
+      <version>0.6.2-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
 
-    <build>
-        <plugins>
-            <!-- Generates a self-contained JAR. -->
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <finalName>${project.artifactId}-${project.version}-extractor-plugin</finalName>
-                    <appendAssemblyId>false</appendAssemblyId>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <organization>
-    	<name>Apache Software Foundation</name>
-    	<url>http://www.apache.org</url>
-    </organization>
-    <scm>
-    	<url>https://svn.apache.org/repos/asf/incubator/any23/</url>
-    	<connection>https://svn.apache.org/repos/asf/incubator/any23/</connection>
-    	<developerConnection>https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
-    	<tag>https://svn.apache.org/repos/asf/incubator/any23/tags/</tag>
-    </scm>
-    <issueManagement>
-    	<system>Apache JIRA</system>
-    	<url>https://issues.apache.org/jira/browse/ANY23</url>
-    </issueManagement>
-    <ciManagement>
-    	<system>Hudson Jenkins</system>
-    	<url>https://builds.apache.org/job/Any23-trunk/</url>
-    </ciManagement>
+    <!-- BEGIN: BoilerPipe -->
+    <dependency>
+      <groupId>net.sourceforge.nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.9.1</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>xml-apis</groupId>
+          <artifactId>xml-apis</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>de.l3s.boilerpipe</groupId>
+      <artifactId>boilerpipe</artifactId>
+    </dependency>
+    <!-- END: BoilerPipe -->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Generates a self-contained JAR. -->
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <finalName>${project.artifactId}-${project.version}-extractor-plugin</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
-
