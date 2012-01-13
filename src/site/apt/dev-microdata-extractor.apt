@@ -11,5 +11,3 @@ Microdata Extractor
   at section {{{http://www.w3.org/TR/microdata/#json}http://www.w3.org/TR/microdata/#json}}
   by using the Microdata commandline tool,
   see {{{./getting-started.html#any23tools_script}Getting Started - Apache Any23 Tools}}.
-
-  
