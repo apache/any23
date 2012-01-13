@@ -192,6 +192,13 @@
     <system>Jenkins</system>
     <url>https://builds.apache.org/job/Any23-trunk/</url>
   </ciManagement>
+  <distributionManagement>
+    <site>
+      <id>any23.website</id>
+      <name>Apache Any23 website</name>
+      <url>scp://people.apache.org/www/incubator.apache.org/any23/</url>
+    </site>
+  </distributionManagement>
 
   <!-- General properties. -->
   <properties>
@@ -595,6 +602,9 @@
             <version>1.0</version>
           </dependency>
         </dependencies>
+        <configuration>
+          <stagingSiteURL>scp://people.apache.org/www/incubator.apache.org/any23/${project.version}</stagingSiteURL>
+        </configuration>
       </plugin>
     </plugins>
 
