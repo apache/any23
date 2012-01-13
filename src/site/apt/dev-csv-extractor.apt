@@ -8,31 +8,31 @@ CSV Extractor Algorithm
 
   Given a document with URL <url>, <<Apache Any23>> uses the following algorithm to extract RDF:
 
-     * It tries to guess the fields delimiter and to detect the header
+   * It tries to guess the fields delimiter and to detect the header
 
-     * for each field <name>:
+   * for each field <name>:
 
-        * if <name> is a valid URI keep it as an URI since could be derefenceable.
+    * if <name> is a valid URI keep it as an URI since could be derefenceable.
 
-        * if <name> is not a valid URI, the associated RDF Property URI <propUri>
-          will be in the form of: <url> concatenated <name>
+    * if <name> is not a valid URI, the associated RDF Property URI <propUri>
+      will be in the form of: <url> concatenated <name>
 
-        * add label statement: <propUri> rdfs:label <name>
+    * add label statement: <propUri> rdfs:label <name>
 
-        * add column index statement: <propUri> \<http://vocab.sindice.net/csv/rowPosition\> <index>
+    * add column index statement: <propUri> \<http://vocab.sindice.net/csv/rowPosition\> <index>
 
-     * for each <row>:
+   * for each <row>:
 
-        * add RDFS type statement: \<url/row/<index>\> rdfs:type \<http://vocab.sindice.net/csv/Row\>,
-        where <index> is the column index number.
+    * add RDFS type statement: \<url/row/<index>\> rdfs:type \<http://vocab.sindice.net/csv/Row\>,
+    where <index> is the column index number.
 
-        * for each <cell> value:
+    * for each <cell> value:
 
-            * write statement, \<url/row/\<index\>\> <propUri> <cell> where:
-               <cell> could be an URI if the cell value is an URI, or a typed literal
-               according the value of the CSV actual value <cell>.
+      * write statement, \<url/row/\<index\>\> <propUri> <cell> where:
+         <cell> could be an URI if the cell value is an URI, or a typed literal
+         according the value of the CSV actual value <cell>.
 
-     * add RDF statements claiming number of rows and columns.
+   * add RDF statements claiming number of rows and columns.
 
   For example, given this trivial CSV with an header and just two rows:
 
@@ -45,76 +45,75 @@ Michele; Mostarda; http://g1o.net;
   the following RDF (serialized in RDF/XML) is produced:
 
 +---------------------------------------------------------------
-<rdf:RDF
-  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
-<rdf:Description rdf:about="http://bob.example.com/firstName">
-  <label xmlns="http://www.w3.org/2000/01/rdf-schema#">first name</label>
-  <columnPosition xmlns="http://vocab.sindice.net/csv/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</columnPosition>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/firstName">
+    <label xmlns="http://www.w3.org/2000/01/rdf-schema#">first name</label>
+    <columnPosition xmlns="http://vocab.sindice.net/csv/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</columnPosition>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/lastName">
-  <label xmlns="http://www.w3.org/2000/01/rdf-schema#">last name</label>
-  <columnPosition xmlns="http://vocab.sindice.net/csv/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</columnPosition>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/lastName">
+    <label xmlns="http://www.w3.org/2000/01/rdf-schema#">last name</label>
+    <columnPosition xmlns="http://vocab.sindice.net/csv/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</columnPosition>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://xmlns.org/foaf/01/knows">
-  <columnPosition xmlns="http://vocab.sindice.net/csv/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</columnPosition>
-</rdf:Description>
+  <rdf:Description rdf:about="http://xmlns.org/foaf/01/knows">
+    <columnPosition xmlns="http://vocab.sindice.net/csv/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</columnPosition>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/age">
-  <label xmlns="http://www.w3.org/2000/01/rdf-schema#">age</label>
-  <columnPosition xmlns="http://vocab.sindice.net/csv/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</columnPosition>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/age">
+    <label xmlns="http://www.w3.org/2000/01/rdf-schema#">age</label>
+    <columnPosition xmlns="http://vocab.sindice.net/csv/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</columnPosition>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/row/0">
-  <rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
-  <firstName xmlns="http://bob.example.com/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Davide</firstName>
-  <lastName xmlns="http://bob.example.com/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Palmisano</lastName>
-  <knows xmlns="http://xmlns.org/foaf/01/"
-  rdf:resource="http://michelemostarda.com"/
-  <age xmlns="http://bob.example.com/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</age>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/row/0">
+    <rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
+    <firstName xmlns="http://bob.example.com/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Davide</firstName>
+    <lastName xmlns="http://bob.example.com/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Palmisano</lastName>
+    <knows xmlns="http://xmlns.org/foaf/01/"
+    rdf:resource="http://michelemostarda.com"/
+    <age xmlns="http://bob.example.com/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</age>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/">
-  <row xmlns="http://vocab.sindice.net/csv/" rdf:resource="http://bob.example.com/row/0"/>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/">
+    <row xmlns="http://vocab.sindice.net/csv/" rdf:resource="http://bob.example.com/row/0"/>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/row/0">
-  <rowPosition xmlns="http://vocab.sindice.net/csv/">0</rowPosition>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/row/0">
+    <rowPosition xmlns="http://vocab.sindice.net/csv/">0</rowPosition>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/row/1">
-  <rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
-  <firstName xmlns="http://bob.example.com/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michele</firstName>
-  <lastName xmlns="http://bob.example.com/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mostarda</lastName>
-  <knows xmlns="http://xmlns.org/foaf/01/" rdf:resource="http://g1o.net" />
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/row/1">
+    <rdf:type rdf:resource="http://vocab.sindice.net/csv/Row"/>
+    <firstName xmlns="http://bob.example.com/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michele</firstName>
+    <lastName xmlns="http://bob.example.com/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mostarda</lastName>
+    <knows xmlns="http://xmlns.org/foaf/01/" rdf:resource="http://g1o.net" />
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/">
-  <row xmlns="http://vocab.sindice.net/csv/"
-  rdf:resource="http://bob.example.com/row/1"/>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/">
+    <row xmlns="http://vocab.sindice.net/csv/"
+    rdf:resource="http://bob.example.com/row/1"/>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/row/1">
-  <rowPosition xmlns="http://vocab.sindice.net/csv/">1</rowPosition>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/row/1">
+    <rowPosition xmlns="http://vocab.sindice.net/csv/">1</rowPosition>
+  </rdf:Description>
 
-<rdf:Description rdf:about="http://bob.example.com/">
-  <numberOfRows xmlns="http://vocab.sindice.net/csv/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</numberOfRows>
-  <numberOfColumns xmlns="http://vocab.sindice.net/csv/"
-  rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</numberOfColumns>
-</rdf:Description>
+  <rdf:Description rdf:about="http://bob.example.com/">
+    <numberOfRows xmlns="http://vocab.sindice.net/csv/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</numberOfRows>
+    <numberOfColumns xmlns="http://vocab.sindice.net/csv/"
+    rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4</numberOfColumns>
+  </rdf:Description>
 
 </rdf:RDF>
 +---------------------------------------------------------------
