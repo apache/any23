@@ -8,10 +8,10 @@
 ###     ### ###    ####    ###    ##########  ########
 
 ============
-Any23 README
+Apache Any23 README
 ============
 
-Anything To Triples (Any23) is a library and web service that extracts
+Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
 
 --------------------
@@ -20,7 +20,7 @@ Distribution Content
 
 any23-core           The library core codebase.
 any23-service        The library HTTP service codebase.
-lib                  Contains the Any23 the external deps (read lib/README.txt for further details).
+lib                  Contains the the external deps (read lib/README.txt for further details).
 plugins              Library plugins codebase (read plugins/README.txt for further details).
 RELEASE-NOTES.txt    File reporting main release notes for every version.
 LICENSE.txt          Applicable project license.

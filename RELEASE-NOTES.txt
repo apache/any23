@@ -1,4 +1,4 @@
-                               Any23 0.6.1
+                             Apache Any23 0.6.1
                               Release Notes
 
 Fixes
@@ -7,13 +7,13 @@ Fixes
 
 ==========================================================================
 
-                               Any23 0.6.0
+                             Apache Any23 0.6.0
                               Release Notes
 
 Fixes
 
  * Fixed several bugs. [151, 153, 154, 155, 156, 164, 168]
- * Removed unused Any23 dependencies. [162]
+ * Removed unused Apache Any23 dependencies. [162]
  * Introduced parent POM dependencyManagement. [163]
  * Minor code refactoring. [142]
  * Updated project documentation. [161]
@@ -29,11 +29,11 @@ Enhancements
  * Improved nesting relationship explicitation in Microformat extractors. [80]
  * Major Extractor interface refactoring. [160, 167]
  * Improved TagSoup Extractor based error reporting. [159]
- * Added command-line tool to print out the Any23 declared vocabularies. [114]
+ * Added command-line tool to print out the Apache Any23 declared vocabularies. [114]
 
 ==========================================================================
 
-                                Any23 0.6.0-M2
+                              Apache Any23 0.6.0-M2
                                 Release Notes
 
 The release 0.6.0-M2 introduces major fixes on M1 milestone
@@ -42,7 +42,7 @@ The release 0.6.0-M2 introduces major fixes on M1 milestone
 
 ==========================================================================
 
-                               Any23 0.6.0-M1
+                             Apache Any23 0.6.0-M1
                                Release Notes
 
 The release 0.6.0-M1 is an early preview of the
@@ -50,7 +50,7 @@ Microdata support. [114]
 
 ==========================================================================
 
-                               Any23 0.5.0
+                             Apache Any23 0.5.0
                               Release Notes
 
 Fixes
@@ -76,7 +76,7 @@ Enhancements
  * Improved extraction of HTML link element. [133]
  * Added XPath HTML extractor. [124]
  * Added HRecipe Microformat extractor. [103]
- * Added plugin support for Any23. [111]
+ * Added plugin support for Apache Any23. [111]
  * Implemented HTML Scraper Plugin. [123]
  * Upgraded to Sesame 2.4.0. [136]
  * Upgraded to Jetty 8.0.0 [138]
@@ -88,7 +88,7 @@ Enhancements
 
 ==========================================================================
 
-                               Any23 0.4.0 
+                             Apache Any23 0.4.0 
                               Release Notes
 
 * The any23-service module has been separated from the any23-core module,
@@ -103,7 +103,7 @@ Enhancements
 
 ==========================================================================
 
-	                           Any23 0.3.0 
+	                         Apache Any23 0.3.0 
                               Release Notes
 
 * Added detection and enrichment of nested microformats. [Issue #61]
@@ -117,7 +117,7 @@ Enhancements
 
 ==========================================================================
 
-	                           Any23 0.2.2 
+	                         Apache Any23 0.2.2 
                               Release Notes
 
 * Fixed dependency management on Maven. A second level dependency of Xerces
@@ -126,7 +126,7 @@ Enhancements
 
 ==========================================================================
 
-	                           Any23 0.2.1 
+	                         Apache Any23 0.2.1 
                               Release Notes
 
 * Major applyFix on Tika configuration management. This applyFix solves the 
@@ -134,7 +134,7 @@ Enhancements
 
 ==========================================================================
 
-                               Any23 0.2
+                            Apache Any23 0.2
                              Release Notes
 
 ============
