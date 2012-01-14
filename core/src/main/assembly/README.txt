@@ -18,7 +18,7 @@ Apache Any23 (${implementation.build}; ${maven.build.timestamp})
   What is it?
   -----------
 
-  ${project.description}
+  ${project.parent.description}
 
   Documentation
   -------------
