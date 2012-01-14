@@ -179,7 +179,7 @@
                   <name>any23</name>
                 </program>
                 <program>
-                  <mainClass>org.deri.any23.cli.ToolRunner</mainClass>
+                  <mainClass>org.apache.any23.cli.ToolRunner</mainClass>
                   <name>any23tools</name>
                 </program>
               </programs>

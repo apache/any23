@@ -43,7 +43,7 @@
 
     <!-- Any23 Core. -->
     <dependency>
-      <groupId>org.deri.any23</groupId>
+      <groupId>org.apache.any23</groupId>
       <artifactId>any23-core</artifactId>
       <version>0.6.2-incubating-SNAPSHOT</version>
       <scope>provided</scope>

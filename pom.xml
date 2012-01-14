@@ -684,7 +684,7 @@
           <effort>Max</effort>
           <visitors>FindDeadLocalStores</visitors>
           <omitVisitors>FindDeadLocalStores</omitVisitors>
-          <onlyAnalyze>org.deri.any23.*</onlyAnalyze>
+          <onlyAnalyze>org.apache.any23.*</onlyAnalyze>
           <debug>true</debug>
           <relaxed>true</relaxed>
           <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
