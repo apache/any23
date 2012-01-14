@@ -97,10 +97,10 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
-		assertStatementsSize(vDOAC.experience , (Value) null, 7 );
-		assertStatementsSize(vDOAC.education  , (Value) null, 2 );
-		assertStatementsSize(vDOAC.affiliation, (Value) null, 8 );
-		assertStatementsSize(vDOAC.skill      , (Value) null, 17);
+        assertStatementsSize(vDOAC.experience , (Value) null, 7 );
+        assertStatementsSize(vDOAC.education  , (Value) null, 2 );
+        assertStatementsSize(vDOAC.affiliation, (Value) null, 8 );
+        assertStatementsSize(vDOAC.skill      , (Value) null, 17);
 
         RepositoryResult<Statement> statements = getStatements(null, vDOAC.organization, null);
 
@@ -132,7 +132,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
         for(String name: names)
             Assert.assertTrue(checkSet.contains(name));
 
-		Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
         assertContains(person, vFOAF.isPrimaryTopicOf, (Value) null);
         findExactlyOneObject(person, vFOAF.isPrimaryTopicOf);
     }

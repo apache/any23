@@ -142,7 +142,7 @@ public class RDFUtils {
     public static String fixURIWithException(String unescapedURI) {
         if (unescapedURI == null) throw new IllegalArgumentException("URI was null");
 
-        //	Remove starting and ending whitespace
+        //    Remove starting and ending whitespace
         String escapedURI = unescapedURI.trim();
 
         //Replace space with %20
@@ -165,7 +165,7 @@ public class RDFUtils {
         if (escapedURI.matches("^javascript:"))
             throw new IllegalArgumentException("URI starts with javascript: " + unescapedURI);
 
-		// stripHTML
+        // stripHTML
         // escapedURI = escapedURI.replaceAll("\\<.*?\\>", "");
 
         //>.*$ from end of lines (Neko didn't quite manage to fix broken markup)

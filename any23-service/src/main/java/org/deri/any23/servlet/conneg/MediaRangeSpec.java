@@ -252,5 +252,5 @@ public class MediaRangeSpec {
 
     public String toString() {
         return mediaType + ";q=" + quality;
-	}
+    }
 }

@@ -498,7 +498,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testAbstractMethodErrorIssue186_2() throws IOException, ExtractionException{
-    	final Any23 runner = new Any23();
+        final Any23 runner = new Any23();
         final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-2.xhtml");
         final DocumentSource source = new StringDocumentSource(content, "http://richard.cyganiak.de/");
         final ByteArrayOutputStream out = new ByteArrayOutputStream();

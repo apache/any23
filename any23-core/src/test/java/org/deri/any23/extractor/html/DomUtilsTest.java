@@ -95,7 +95,7 @@ public class DomUtilsTest {
     }
 
     @Test
-	public void testFindAllByTag() {
+    public void testFindAllByTag() {
         Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByTag(dom, "SPAN");
@@ -152,7 +152,7 @@ public class DomUtilsTest {
     }
 
     @Test
-	public void testReadAttribute() {
+    public void testReadAttribute() {
         Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");

@@ -330,10 +330,10 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void test18() throws RepositoryException {
-		assertDefault("microformats/hcalendar/18-component-vevent-uid.html");
-		assertStatementsSize(RDF.TYPE, vevent, 5);
-		assertStatementsSize(vICAL.uid, RDFUtils.literal("http://example.com/foo.html"), 5);
-	}
+        assertDefault("microformats/hcalendar/18-component-vevent-uid.html");
+        assertStatementsSize(RDF.TYPE, vevent, 5);
+        assertStatementsSize(vICAL.uid, RDFUtils.literal("http://example.com/foo.html"), 5);
+    }
 
     @Test
     public void testNoMicroformats() throws RepositoryException, IOException, ExtractionException {

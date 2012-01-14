@@ -41,10 +41,10 @@ public class HRecipeExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-	public void testNoMicroformats() throws RepositoryException {
-		assertExtracts("html/html-without-uf.html");
+    public void testNoMicroformats() throws RepositoryException {
+        assertExtracts("html/html-without-uf.html");
         assertModelEmpty();
-	}
+    }
 
     @Test
     public void testExtraction() throws RepositoryException {

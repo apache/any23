@@ -226,7 +226,7 @@ public class ContentTypeNegotiator {
 
         String getReplacement() {
             return replacement;
-		}
+        }
     }
     
 }

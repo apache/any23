@@ -435,6 +435,6 @@ public class TikaMIMETypeDetectorTest {
         InputStream bais;
         bais = new ByteArrayInputStream(bos.toByteArray());
         return bais;
-	}
+    }
     
 }

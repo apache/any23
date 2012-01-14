@@ -294,7 +294,7 @@ public class DomUtils {
      */
     public static boolean hasAttribute(Node node, String attributeName, String className) {
         // regex love, maybe faster but less easy to understand
-		// Pattern pattern = Pattern.compile("(^|\\s+)"+className+"(\\s+|$)");
+        // Pattern pattern = Pattern.compile("(^|\\s+)"+className+"(\\s+|$)");
         String attr = readAttribute(node, attributeName);
         for (String c : attr.split("\\s+"))
             if (c.equalsIgnoreCase(className))
@@ -338,9 +338,9 @@ public class DomUtils {
             return defaultValue;
         Node attr = attributes.getNamedItem(attribute);
         if (null==attr)
-			return defaultValue;
-		return attr.getNodeValue();
-	}
+            return defaultValue;
+        return attr.getNodeValue();
+    }
 
     /**
      * Reads the value of the first <i>attribute</i> which name matches with the specified <code>attributePrefix</code>.

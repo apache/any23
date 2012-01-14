@@ -129,7 +129,7 @@ public class AcceptHeaderBuilder {
             if (accept.getQuality() <= highestAnyType.getQuality()) {
                 highestAnySubtype.remove(accept.getMajorType());
             }
-		}
-	}
+        }
+    }
     
 }

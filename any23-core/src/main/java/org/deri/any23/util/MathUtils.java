@@ -43,7 +43,7 @@ public class MathUtils {
             return result.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Should never happen, MD5 is supported", e);
-		}
-	}
+        }
+    }
 
 }

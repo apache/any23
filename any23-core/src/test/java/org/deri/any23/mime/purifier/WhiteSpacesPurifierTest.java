@@ -75,7 +75,7 @@ public class WhiteSpacesPurifierTest {
         InputStream bais;
         bais = new ByteArrayInputStream(bos.toByteArray());
         return bais;
-	}
+    }
 
     /**
      * Reads an {@link java.io.InputStream} as a {@link String}.

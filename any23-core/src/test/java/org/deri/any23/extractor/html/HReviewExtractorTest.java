@@ -52,24 +52,24 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-	public void testNoMicroformats() throws RepositoryException {
-		assertExtracts("html/html-without-uf.html");
+    public void testNoMicroformats() throws RepositoryException {
+        assertExtracts("html/html-without-uf.html");
         assertModelEmpty();
-	}
+    }
 
     @Test
-	public void test01Basic() throws RepositoryException {
-		assertExtracts("microformats/hreview/01-spec.html");
+    public void test01Basic() throws RepositoryException {
+        assertExtracts("microformats/hreview/01-spec.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 
         // reviewer, item
-		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
 
         // there is one address in the item vcard
-		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 
         RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
@@ -102,26 +102,26 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
             reviews.close();
         }
 
-		assertNotContains(vVCARD.locality, null);
-		assertNotContains(vVCARD.organization_name, null);
+        assertNotContains(vVCARD.locality, null);
+        assertNotContains(vVCARD.organization_name, null);
 
-	}
+    }
 
     @Test
-	public void test02RatedTags() throws RepositoryException {
-		
-		assertExtracts("microformats/hreview/02-spec-2.html");
-		assertModelNotEmpty();
+    public void test02RatedTags() throws RepositoryException {
+        
+        assertExtracts("microformats/hreview/02-spec-2.html");
+        assertModelNotEmpty();
 
-		assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
+        assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
 
         // reviewer, item
-		assertStatementsSize(vREVIEW.reviewer, (Value)null, 1);
-		assertStatementsSize(vREVIEW.hasReview, (Value) null, 1);
-		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
+        assertStatementsSize(vREVIEW.reviewer, (Value)null, 1);
+        assertStatementsSize(vREVIEW.hasReview, (Value) null, 1);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
         // there is one address in the item vcard
-		assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.Address, 0);
 
         RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
@@ -161,10 +161,10 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
             reviews.close();
         }
 
-	}
+    }
 
     @Test
-	public void test03NoHcardForItem() throws RepositoryException {
+    public void test03NoHcardForItem() throws RepositoryException {
 
         assertExtracts("microformats/hreview/03-spec-3.html");
         assertModelNotEmpty();
@@ -214,19 +214,19 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
             reviews.close();
         }
 
-	}
+    }
 
     @Test
-	public void test04NoHcardForItem() throws RepositoryException {
-		
-		assertExtracts("microformats/hreview/04-spec-4.html");
+    public void test04NoHcardForItem() throws RepositoryException {
+        
+        assertExtracts("microformats/hreview/04-spec-4.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
-		// reviewer, no item
-		assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
+        // reviewer, no item
+        assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
-		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
 
         RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
@@ -253,7 +253,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                     while(reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
                         assertContains(reviewSubject, vVCARD.fn, "Ying Xiong (HERO)");
-				        assertContains(reviewSubject, vVCARD.url, RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
+                        assertContains(reviewSubject, vVCARD.url, RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
                     }
 
                 } finally {
@@ -267,7 +267,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
             reviews.close();
         }
 
-	}
+    }
 
     /**
      * This test is the same defined in {@link HReviewExtractorTest#test04NoHcardForItem} but
@@ -281,10 +281,10 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
         assertExtracts("microformats/hreview/05-spec.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
-		// reviewer, no item
-		assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
+        // reviewer, no item
+        assertStatementsSize(vREVIEW.reviewer, (Value) null, 1);
 
-		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
         RepositoryResult<Statement> reviews = getStatements(null, RDF.TYPE, vREVIEW.Review);
 
@@ -310,7 +310,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
                     while(reviewSubjects.hasNext()) {
                         Resource reviewSubject = reviewSubjects.next().getSubject();
                         assertContains(reviewSubject, vVCARD.fn, "Ying Xiong (HERO)");
-				        assertContains(reviewSubject, vVCARD.url, RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
+                        assertContains(reviewSubject, vVCARD.url, RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
                     }
 
                 } finally {
