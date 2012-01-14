@@ -34,7 +34,7 @@ Apache Any23 (${implementation.build}; ${maven.build.timestamp})
   -------------------
 
   JDK:
-    ${javac.target.version} or above.
+    ${javac.target.version} or above. (see http://www.oracle.com/technetwork/java/)
   Memory:
     No minimum requirement.
   Disk:
@@ -46,25 +46,55 @@ Apache Any23 (${implementation.build}; ${maven.build.timestamp})
   Installing Apache Any23
   ----------------
 
-  1) Unpack the archive where you would like to store the binaries, eg:
+** Windows 2000/XP
 
-    Unix-based Operating Systems (Linux, Solaris and Mac OS X)
-      tar zxvf apache-any23-${project.version}-bin.tar.gz
-    Windows 2000/XP
-      unzip apache-any23-${project.version}-bin.zip
+  1) Unzip the distribution archive, i.e. apache-any23-${project.version}-bin.zip to the directory you wish to
+        install Apache Any23 ${project.version}.
+        These instructions assume you chose C:\Program Files\Apache Software Foundation.
+        The subdirectory apache-any23-${project.version} will be created from the archive.
 
-  2) A directory called "apache-any23-${project.version}" will be created.
+  2) Add the ANY23_HOME environment variable by opening up the system properties (WinKey + Pause),
+        selecting the "Advanced" tab, and the "Environment Variables" button, then adding the ANY23_HOME
+        variable in the user variables with the value
+        C:\Program Files\Apache Software Foundation\apache-any23-${project.version}.
 
-  3) Add the bin directory to your PATH, eg:
+  3) In the same dialog, add the ANY23 environment variable in the user variables with the value %ANY23_HOME%\bin.
 
-    Unix-based Operating Systems (Linux, Solaris and Mac OS X)
-      export PATH=/usr/local/apache-any23-${project.version}/bin:$PATH
-    Windows 2000/XP
-      set PATH="c:\program files\apache-any23-${project.version}\bin";%PATH%
+  4) Optional: In the same dialog, add the EXTRA_JVM_ARGUMENTS environment variable in the user variables to specify
+        JVM properties, e.g. the value -Xms256m -Xmx512m. This environment variable can be used to supply extra options.
+        By default, it is set to: -Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit
 
-  4) Make sure JAVA_HOME is set to the location of your JDK
+  5) In the same dialog, update/create the Path environment variable in the user variables and prepend the value
+        %ANY23% to add Apache Any23 available in the command line.
 
-  5) Run "any23 --version" to verify that it is correctly installed.
+  6) In the same dialog, make sure that JAVA_HOME exists in your user variables or in the system variables and it is
+        set to the location of your JDK, e.g. C:\Program Files\Java\jdk1.5.0_02 and that %JAVA_HOME%\bin is in your Path
+        environment variable.
+
+  7) Open a new command prompt (Winkey + R then type cmd) and run any23 --version to verify that it is correctly installed.
+
+** Unix-based Operating Systems (Linux, Solaris and Mac OS X)
+
+  1) Extract the distribution archive, i.e. apache-any23-${project.version}-bin.tar.gz to the directory you wish to
+        install Apache Any23 ${project.version}.
+        These instructions assume you chose /usr/local/apache-any23.
+        The subdirectory apache-any23-${project.version} will be created from the archive.
+
+  2) In a command terminal, add the ANY23_HOME environment variable, e.g.
+        export ANY23_HOME=/usr/local/apache-any23/apache-any23-${project.version}.
+
+  3) Add the ANY23 environment variable, e.g. export ANY23=$ANY23_HOME/bin.
+
+  4) Optional: Add the EXTRA_JVM_ARGUMENTS environment variable to specify JVM properties, e.g.
+        export EXTRA_JVM_ARGUMENTS="-Xms256m -Xmx512m".
+        This environment variable can be used to supply extra options.
+
+  5) Add M2 environment variable to your path, e.g. export PATH=$ANY23:$PATH.
+
+  6) Make sure that JAVA_HOME is set to the location of your JDK, e.g.
+        export JAVA_HOME=/usr/java/jdk1.5.0_02 and that $JAVA_HOME/bin is in your PATH environment variable.
+
+  7) Run any23 --version to verify that it is correctly installed.
 
   Licensing
   ---------
