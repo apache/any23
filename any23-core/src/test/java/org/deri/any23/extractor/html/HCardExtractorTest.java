@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+package org.deri.any23.extractor.html;
+
 import junit.framework.Assert;
 import org.deri.any23.extractor.ExtractionException;
 import org.deri.any23.extractor.ExtractorFactory;
@@ -96,7 +98,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.note, "this is a note");
 		assertContains(vVCARD.organization_name, "Intellicorp");
 		assertContains(vVCARD.organization_unit, "Intelligence");
-		
+
 		// We define the property in this extractor _but_ we do not parse it.
 		assertContains(vVCARD.geo, (Resource) null);
 		// Thus we do not cointain these.
