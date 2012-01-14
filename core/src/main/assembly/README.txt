@@ -49,18 +49,18 @@ Apache Any23 (${implementation.build}; ${maven.build.timestamp})
   1) Unpack the archive where you would like to store the binaries, eg:
 
     Unix-based Operating Systems (Linux, Solaris and Mac OS X)
-      tar zxvf ${project.build.finalName}.tar.gz
+      tar zxvf apache-any23-${project.version}-bin.tar.gz
     Windows 2000/XP
-      unzip ${project.build.finalName}.zip
+      unzip apache-any23-${project.version}-bin.zip
 
-  2) A directory called "apache-${project.build.finalName}" will be created.
+  2) A directory called "apache-any23-${project.version}" will be created.
 
   3) Add the bin directory to your PATH, eg:
 
     Unix-based Operating Systems (Linux, Solaris and Mac OS X)
-      export PATH=/usr/local/apache-${project.build.finalName}/bin:$PATH
+      export PATH=/usr/local/apache-any23-${project.version}/bin:$PATH
     Windows 2000/XP
-      set PATH="c:\program files\apache-${project.build.finalName}\bin";%PATH%
+      set PATH="c:\program files\apache-any23-${project.version}\bin";%PATH%
 
   4) Make sure JAVA_HOME is set to the location of your JDK
 
