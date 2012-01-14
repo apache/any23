@@ -145,6 +145,16 @@
         <directory>${basedir}/src/main/resources</directory>
         <filtering>true</filtering>
       </resource>
+
+      <resource>
+        <directory>${basedir}/../</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>DISCLAIMER.txt</include>
+          <include>LICENSE.txt</include>
+          <include>NOTICE.txt</include>
+        </includes>
+      </resource>
     </resources>
 
     <plugins>
