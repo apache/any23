@@ -27,7 +27,7 @@
   </parent>
 
   <groupId>org.apache.any23.plugin</groupId>
-  <artifactId>integration-test</artifactId>
+  <artifactId>any23-integration-test</artifactId>
 
   <name>Apache Any23 :: Plugins :: Integration Test</name>
   <description>Any23 plugin integration test module.</description>

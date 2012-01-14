@@ -27,7 +27,7 @@
   </parent>
 
   <groupId>org.apache.any23.plugin</groupId>
-  <artifactId>html-scraper</artifactId>
+  <artifactId>any23-html-scraper</artifactId>
   <version>1.0.1-incubating-SNAPSHOT</version>
 
   <name>Apache Any23 :: Plugins :: HTML Scraper</name>

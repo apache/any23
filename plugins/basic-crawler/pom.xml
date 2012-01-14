@@ -27,7 +27,7 @@
   </parent>
 
   <groupId>org.apache.any23.plugin</groupId>
-  <artifactId>basic-crawler</artifactId>
+  <artifactId>any23-basic-crawler</artifactId>
   <version>1.0.0-incubating-SNAPSHOT</version>
 
   <name>Apache Any23 :: Plugins :: Basic Crawler</name>

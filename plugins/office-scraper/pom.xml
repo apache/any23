@@ -27,7 +27,7 @@
   </parent>
 
   <groupId>org.apache.any23.plugin</groupId>
-  <artifactId>office-scraper</artifactId>
+  <artifactId>any23-office-scraper</artifactId>
   <version>1.0.0-incubating-SNAPSHOT</version>
 
   <name>Apache Any23 :: Plugins :: Office Scraper</name>
