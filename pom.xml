@@ -171,12 +171,12 @@
   </mailingLists>
 
   <modules>
-    <module>any23-core</module>
+    <module>core</module>
     <module>plugins/basic-crawler</module>
     <module>plugins/html-scraper</module>
     <module>plugins/office-scraper</module>
     <module>plugins/integration-test</module>
-    <module>any23-service</module>
+    <module>service</module>
   </modules>
 
   <scm>
