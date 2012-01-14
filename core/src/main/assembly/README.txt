@@ -49,9 +49,9 @@ Apache Any23 (${implementation.build}; ${maven.build.timestamp})
   1) Unpack the archive where you would like to store the binaries, eg:
 
     Unix-based Operating Systems (Linux, Solaris and Mac OS X)
-      tar zxvf ${project.build.finalName}-bin.tar.gz
+      tar zxvf ${project.build.finalName}.tar.gz
     Windows 2000/XP
-      unzip ${project.build.finalName}-bin.zip
+      unzip ${project.build.finalName}.zip
 
   2) A directory called "apache-${project.build.finalName}" will be created.
 
