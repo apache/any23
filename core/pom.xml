@@ -204,6 +204,8 @@
         <configuration>
           <attach>false</attach>
           <tarLongFileMode>gnu</tarLongFileMode>
+          <finalName>apache-${project.build.finalName}</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
           </descriptors>
