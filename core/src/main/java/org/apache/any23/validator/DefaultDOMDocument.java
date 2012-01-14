@@ -1,0 +1,91 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.any23.validator;
+
+import org.apache.any23.extractor.html.DomUtils;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
+import java.net.URI;
+import java.util.List;
+
+/**
+ * This class wraps the <i>DOM</i> document.
+ *
+ * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Davide Palmisano (palmisano@fbk.eu)
+ */
+public class DefaultDOMDocument implements DOMDocument {
+
+    private URI documentURI;
+
+    private Document document;
+
+    public DefaultDOMDocument(URI documentURI, Document document) {
+        if(documentURI == null) {
+            throw new NullPointerException("documentURI cannot be null.");
+        }
+        if(document == null) {
+            throw new NullPointerException("document cannot be null.");
+        }
+        this.documentURI = documentURI;
+        this.document = document;
+    }
+
+    public URI getDocumentURI() {
+        return documentURI;
+    }
+
+    public Document getOriginalDocument() {
+        return document;
+    }
+
+    public List<Node> getNodes(String xPath) {
+        return DomUtils.findAll(document, xPath);
+    }
+
+    public Node getNode(String xPath) {
+        List<Node> nodes = DomUtils.findAll(document, xPath);
+        if(nodes.size() == 0) {
+            throw new IllegalArgumentException(
+                    String.format("Cannot find node at XPath '%s'", xPath)
+            );
+        }
+        if(nodes.size() > 1) {
+            throw new IllegalArgumentException(
+                    String.format("The given XPath '%s' corresponds to more than one node.", xPath)
+            );
+        }
+        return nodes.get(0);
+    }
+
+    public void addAttribute(String xPath, String attrName, String attrValue) {
+        Node node = getNode(xPath);
+        NamedNodeMap namedNodeMap =  node.getAttributes();
+        Attr attr = document.createAttribute(attrName);
+        attr.setNodeValue(attrValue);
+        namedNodeMap.setNamedItem(attr);
+    }
+
+    public List<Node> getNodesWithAttribute(String attrName) {
+        return DomUtils.findAllByAttributeName(document, attrName);
+    }
+
+}

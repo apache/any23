@@ -1,0 +1,111 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.any23.extractor;
+
+import org.openrdf.model.URI;
+
+/**
+ * This class provides the context for the processing of
+ * a single {@link Extractor}.
+ */
+public class ExtractionContext {
+
+    public static final String ROOT_EXTRACTION_RESULT_ID = "root-extraction-result-id";
+
+    /**
+     * Name of the extractor.
+     */
+    private final String extractorName;
+
+    /**
+     * URI of the document.
+     */
+    private final URI documentURI;
+
+    /**
+     * The document default language.
+     */
+    private String defaultLanguage;
+
+    /**
+     * ID identifying the document.
+     */
+    private final String uniqueID;
+
+    public ExtractionContext(String extractorName, URI documentURI, String defaultLanguage, String localID) {
+        checkNotNull(extractorName  , "extractor name");
+        checkNotNull(documentURI    , "document URI");
+        this.extractorName   = extractorName;
+        this.documentURI     = documentURI;
+        this.defaultLanguage = defaultLanguage;
+        this.uniqueID      =
+                "urn:x-any23:" + extractorName + ":" +
+                (localID == null ? "" : localID) + ":" + documentURI;
+    }
+
+    public ExtractionContext(String extractorName, URI documentURI, String defaultLanguage) {
+        this(extractorName, documentURI, defaultLanguage, ROOT_EXTRACTION_RESULT_ID);
+    }
+
+    public ExtractionContext(String extractorName, URI documentURI) {
+        this(extractorName, documentURI, null);
+    }
+
+    public ExtractionContext copy(String localID) {
+        return new ExtractionContext(
+                getExtractorName(),
+                getDocumentURI(),
+                getDefaultLanguage(),
+                localID
+        );
+    }
+
+    public String getExtractorName() {
+        return extractorName;
+    }
+
+    public URI getDocumentURI() {
+        return documentURI;
+    }
+
+    public String getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public String getUniqueID() {
+        return uniqueID;
+    }
+
+    public int hashCode() {
+        return uniqueID.hashCode();
+    }
+
+    public boolean equals(Object other) {
+        if (!(other instanceof ExtractionContext)) return false;
+        return ((ExtractionContext) other).uniqueID.equals(uniqueID);
+    }
+
+    public String toString() {
+        return String.format("ExtractionContext(%s)", uniqueID);
+    }
+
+    private void checkNotNull(Object data, String desc) {
+        if(data == null) throw new NullPointerException(desc + " cannot be null.");
+    }
+    
+}

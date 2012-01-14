@@ -24,11 +24,11 @@
 
   <servlet>
     <servlet-name>any23</servlet-name>
-    <servlet-class>org.deri.any23.servlet.Servlet</servlet-class>
+    <servlet-class>org.apache.any23.servlet.Servlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>redirect</servlet-name>
-    <servlet-class>org.deri.any23.servlet.RedirectServlet</servlet-class>
+    <servlet-class>org.apache.any23.servlet.RedirectServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
