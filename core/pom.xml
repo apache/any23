@@ -168,23 +168,20 @@
             <goals>
               <goal>assemble</goal>
             </goals>
-            <configuration>
-              <repositoryLayout>flat</repositoryLayout>
-              <repositoryName>lib</repositoryName>
-              <extraJvmArguments>-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit</extraJvmArguments>
-              <programs>
-                <program>
-                  <mainClass>org.apache.any23.cli.Rover</mainClass>
-                  <name>any23</name>
-                </program>
-                <program>
-                  <mainClass>org.apache.any23.cli.ToolRunner</mainClass>
-                  <name>any23tools</name>
-                </program>
-              </programs>
-            </configuration>
           </execution>
         </executions>
+        <configuration>
+          <programs>
+            <program>
+              <mainClass>org.apache.any23.cli.Rover</mainClass>
+              <name>any23</name>
+            </program>
+            <program>
+              <mainClass>org.apache.any23.cli.ToolRunner</mainClass>
+              <name>any23tools</name>
+            </program>
+          </programs>
+        </configuration>
       </plugin>
 
       <!-- Generates the distribution package -->
