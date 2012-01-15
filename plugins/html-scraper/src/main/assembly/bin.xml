@@ -51,6 +51,10 @@
     <dependencySet>
       <useProjectArtifact>true</useProjectArtifact>
       <outputDirectory>/lib</outputDirectory>
+      <excludes>
+        <!-- already provided from Any23 -->
+        <exclude>org.slf4j:*</exclude>
+      </excludes>
     </dependencySet>
   </dependencySets>
 
