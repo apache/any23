@@ -1,0 +1,8 @@
+Apache Any23
+Copyright 2011-2012 The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+This product includes software developed by
+Christian Kohlschuetter (http://code.google.com/p/boilerpipe/)
