@@ -1,0 +1,11 @@
+Apache Any23
+Copyright 2011-2012 The Apache Software Foundation
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+This product includes software developed by
+UniMI (http://www.unimi.it/)
+
+This product includes software developed by
+Yasser Ganjisaffar (http://code.google.com/p/crawler4j/)
