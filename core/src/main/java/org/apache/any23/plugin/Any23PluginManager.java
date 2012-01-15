@@ -515,6 +515,7 @@ public class Any23PluginManager {
         for (String classPathEntry : classpathEntries) {
             if(classPathEntry.trim().length() == 0) continue;
             final File codePath = new File(URLDecoder.decode(classPathEntry, "UTF-8"));
+            if( ! codePath.exists() ) continue;
             if (codePath.isDirectory()) {
                 loadClassesInPackageFromDir(codePath, packageName, filter, result);
             } else {
