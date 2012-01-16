@@ -27,7 +27,7 @@ Apache Any23 Installation Guide
 * Download a Stable Distribution
 
     Most users probably don't need to have day to day access to the source code as it changes.
-    For these users we provide distribution packages via our {{{http://code.google.com/p/any23/downloads/list}
+    For these users we provide distribution packages via our {{{./downloads.html}
     downloads page}}. Download either the <<".zip">> or <<".tar.gz">> file and decompress the archive.
  
 * Access a Snapshot Version
