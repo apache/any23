@@ -150,6 +150,7 @@
         <configuration>
           <attach>false</attach>
           <tarLongFileMode>gnu</tarLongFileMode>
+          <finalName>apache-${project.build.finalName}</finalName>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
             <descriptor>${basedir}/src/main/assembly/bin-without-deps.xml</descriptor>
