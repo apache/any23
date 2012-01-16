@@ -33,6 +33,7 @@
 
   <properties>
     <jetty.version>8.0.0.M2</jetty.version>
+    <jetty.runner.version>8.1.0.RC4</jetty.runner.version>
   </properties>
 
   <dependencies>
@@ -55,6 +56,16 @@
       <scope>test</scope>
     </dependency>
     <!-- END:   Servlet Deps. -->
+
+    <!-- BEGIN: Jetty Deps. -->
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty-runner</artifactId>
+      <version>8.1.0.RC4</version>
+      <scope>provided</scope>
+      <optional>true</optional>
+    </dependency>
+    <!-- END:   Jetty Deps. -->
   </dependencies>
 
   <build>
@@ -142,6 +153,7 @@
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
             <descriptor>${basedir}/src/main/assembly/bin-without-deps.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/bin-server-embedded.xml</descriptor>
           </descriptors>
         </configuration>
       </plugin>
