@@ -67,14 +67,22 @@
       <item name="Install"           href="./install.html"/>
     </menu>
 
-    <menu name="User guide">
+    <menu name="Documentation">
       <item name="Getting Started"   href="./getting-started.html"/>
       <item name="Supported Formats" href="./supported-formats.html"/>
       <item name="Extractors"        href="./extractors.html"/>
       <item name="Configuration"     href="./configuration.html"/>
       <item name="REST Service"      href="./service.html"/>
       <item name="Any23 Plugins"     href="./any23-plugins.html"/>
-      <item name="Developers Guide"  href="./developers.html"/>
+      <item name="Developers Guide"  href="./developers.html" collapse="true">
+        <item href="./dev-data-extraction.html"        name="Data Extraction"/>
+        <item href="./dev-data-conversion.html"        name="Data Conversion"/>
+        <item href="./dev-validation-fix.html"         name="Validation and Fixing"/>
+        <item href="./dev-xpath-extractor.html"        name="XPath Extractor"/>
+        <item href="./dev-microformat-extractors.html" name="Microformat Extractors"/>
+        <item href="./dev-microdata-extractor.html"    name="Microdata Extractor"/>
+        <item href="./dev-csv-extractor.html"          name="CSV Extractor"/>
+      </item>
     </menu>
 
     <menu name="External links">
