@@ -55,30 +55,34 @@
 
   <body>
     <menu name="${project.name}">
-      <item name="Introduction"        href="./index.html"/>
-      <item name="Install"             href="./install.html"/>
-        <item name="Getting Started"   href="./getting-started.html"/>
-        <item name="Supported Formats" href="./supported-formats.html"/>
-        <item name="Extractors"        href="./extractors.html"/>
-        <item name="Configuration"     href="./configuration.html"/>
-        <item name="REST Service"      href="./service.html"/>
-        <item name="Any23 Plugins"     href="./any23-plugins.html"/>
-        <item name="Developers Guide"  href="./developers.html"/>
-      </menu>
+      <item name="Introduction"      href="./index.html"/>
+      <item name="Download"          href="./download.html"/>
+      <item name="Install"           href="./install.html"/>
+    </menu>
 
-      <menu name="External links">
-        <item name="Any23.org"       href="http://any23.org"/>
-        <item name="Sindice"     href="http://sindice.com"/>
-        <item name="Developer Site"  href="http://code.google.com/p/any23"/>
-        <item name="Downloads"   href="http://code.google.com/p/any23/downloads/list"/>       
-      </menu>
+    <menu name="User guide">
+      <item name="Getting Started"   href="./getting-started.html"/>
+      <item name="Supported Formats" href="./supported-formats.html"/>
+      <item name="Extractors"        href="./extractors.html"/>
+      <item name="Configuration"     href="./configuration.html"/>
+      <item name="REST Service"      href="./service.html"/>
+      <item name="Any23 Plugins"     href="./any23-plugins.html"/>
+      <item name="Developers Guide"  href="./developers.html"/>
+    </menu>
 
-      <menu ref="reports"/>
+    <menu name="External links">
+      <item name="Any23.org"         href="http://any23.org"/>
+      <item name="Sindice"           href="http://sindice.com"/>
+      <item name="Developer Site"    href="http://code.google.com/p/any23"/>
+      <item name="Downloads"         href="http://code.google.com/p/any23/downloads/list"/>       
+    </menu>
 
-      <footer>
-        <div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Maven project logos are trademarks of The Apache Software Foundation.
-        All other marks mentioned may be trademarks or registered trademarks of their respective owners.</div>
-      </footer>
-    </body>
+    <menu ref="reports"/>
+
+    <footer>
+      <div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Maven project logos are trademarks of The Apache Software Foundation.
+      All other marks mentioned may be trademarks or registered trademarks of their respective owners.</div>
+    </footer>
+  </body>
 
 </project>
