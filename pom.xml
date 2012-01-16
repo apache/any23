@@ -27,7 +27,7 @@
 
   <groupId>org.apache.any23</groupId>
   <artifactId>any23-parent</artifactId>
-  <version>0.6.2-incubating-SNAPSHOT</version>
+  <version>0.7.0-incubating-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Any23 :: Parent</name>
