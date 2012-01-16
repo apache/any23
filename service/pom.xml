@@ -32,7 +32,7 @@
   <name>Apache Any23 :: Service</name>
 
   <properties>
-    <jetty.version>8.0.0.M2</jetty.version>
+    <!-- the following property is used in the bash script as well, don't remove it! -->
     <jetty.runner.version>8.1.0.RC4</jetty.runner.version>
   </properties>
 
@@ -85,7 +85,7 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty.version}</version>
+        <version>8.0.0.M2</version>
         <configuration>
           <webAppConfig>
             <contextPath>/${project.artifactId}</contextPath>
