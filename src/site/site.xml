@@ -88,8 +88,6 @@
     <menu name="External links">
       <item name="Any23.org"         href="http://any23.org"/>
       <item name="Sindice"           href="http://sindice.com"/>
-      <item name="Developer Site"    href="http://code.google.com/p/any23"/>
-      <item name="Downloads"         href="http://code.google.com/p/any23/downloads/list"/>       
     </menu>
 
     <menu ref="reports"/>
