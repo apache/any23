@@ -1,0 +1,76 @@
+                                    ------
+                                    Apache Any23 - Build from sources
+                                    ------
+                              The Apache Software Foundation
+                                    ------
+                                     2011-2012
+
+~~  Licensed to the Apache Software Foundation (ASF) under one or more
+~~  contributor license agreements.  See the NOTICE file distributed with
+~~  this work for additional information regarding copyright ownership.
+~~  The ASF licenses this file to You under the Apache License, Version 2.0
+~~  (the "License"); you may not use this file except in compliance with
+~~  the License.  You may obtain a copy of the License at
+~~
+~~     http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~  Unless required by applicable law or agreed to in writing, software
+~~  distributed under the License is distributed on an "AS IS" BASIS,
+~~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~  See the License for the specific language governing permissions and
+~~  limitations under the License.
+
+Build Apache Any23 from sources
+
+    This page describes how to build <<Apache Any23>>.
+ 
+* Access a Snapshot Version
+
+    For the latest snapshot please checkout the code from the SVN code repository and build the library.
+    Checkout the code from SVN:
+
++---------------------------------------------------------------------------
+$ svn checkout http://svn.apache.org/repos/asf/incubator/any23/trunk apache-any23-trunk-readonly
++---------------------------------------------------------------------------
+
+* Build <<Apache Any23>>
+
+    The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 2.x.y+}}.
+    For specific information about Maven see: {{{http://maven.apache.org/}}}
+    Go to the trunk folder:
+
++-----------
+$ cd trunk/
++-----------
+
+    and execute the following command:
+
++-----------
+trunk$ mvn clean install
++-----------
+
+    This will install the <<Apache Any23>> artifact and its dependencies in your local M2 repository.
+
+* Generate Documentation
+
+    To generate the project site locally execute the following command from the trunk dir:
+
++---------------------------------------------------------------------------
+trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site
++---------------------------------------------------------------------------
+
+    You can speed up the site generation process specifying the offline option ( -o ),
+    but it works only if all the involved plugin dependencies has been already downloaded
+    in the local M2 repository:
+
++---------------------------------------------------------------------------
+trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site
++---------------------------------------------------------------------------
+
+    If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
+    the umlgraphdoc profile. This profile relies on {{{http://www.graphviz.org/}Graphviz}} that must be
+    installed in your system.
+
++---------------------------------------------------------------------------
+trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site
++---------------------------------------------------------------------------

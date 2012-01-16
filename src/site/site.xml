@@ -75,6 +75,7 @@
       <item name="REST Service"      href="./service.html"/>
       <item name="Any23 Plugins"     href="./any23-plugins.html"/>
       <item name="Developers Guide"  href="./developers.html" collapse="true">
+        <item href="./build-src.html"                  name="Build from sources"/>
         <item href="./dev-data-extraction.html"        name="Data Extraction"/>
         <item href="./dev-data-conversion.html"        name="Data Conversion"/>
         <item href="./dev-validation-fix.html"         name="Validation and Fixing"/>
