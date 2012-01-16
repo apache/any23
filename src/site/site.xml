@@ -56,7 +56,14 @@
   <body>
     <menu name="${project.name}">
       <item name="Introduction"      href="./index.html"/>
-      <item name="Download"          href="./download.html"/>
+      <item name="Downloads"         href="./download.html" collapse="true">
+        <item name="Sources"         href="./download.html#Apache_Any23_Sources" />
+        <item name="Core"            href="./download.html#Apache_Any23_Core" />
+        <item name="Basic Crawler"   href="./download.html#Basic_Crawler" />
+        <item name="HTML Scarper"    href="./download.html#HTML_Scarper" />
+        <item name="Office Scraper"  href="./download.html#Office_Scraper" />
+        <item name="Service"         href="./download.html#Apache_Any23_Service" />
+      </item>
       <item name="Install"           href="./install.html"/>
     </menu>
 
