@@ -188,18 +188,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>assembly</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
-          <attach>false</attach>
-          <tarLongFileMode>gnu</tarLongFileMode>
           <finalName>apache-any23-${project.version}</finalName>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
