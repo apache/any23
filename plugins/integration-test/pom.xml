@@ -41,12 +41,12 @@
     <dependency>
       <groupId>org.apache.any23.plugin</groupId>
       <artifactId>html-scraper</artifactId>
-      <version>1.0.1-SNAPSHOT</version>
+      <version>1.0.1-incubating-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.any23.plugin</groupId>
       <artifactId>office-scraper</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0.0-incubating-SNAPSHOT</version>
     </dependency>
   </dependencies>
 
