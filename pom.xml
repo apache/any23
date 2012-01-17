@@ -196,7 +196,7 @@
     <site>
       <id>any23.website</id>
       <name>Apache Any23 website</name>
-      <url>scp://people.apache.org/www/incubator.apache.org/any23/</url>
+      <url>svn:https://svn.apache.org/repos/asf/incubator/any23/site</url>
     </site>
   </distributionManagement>
 
@@ -599,13 +599,13 @@
         <version>3.0</version>
         <dependencies>
           <dependency>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh</artifactId>
-            <version>1.0</version>
+            <groupId>org.jvnet.wagon-svn</groupId>
+            <artifactId>wagon-svn</artifactId>
+            <version>1.12</version>
           </dependency>
         </dependencies>
         <configuration>
-          <stagingSiteURL>scp://people.apache.org/www/incubator.apache.org/any23/${project.version}</stagingSiteURL>
+          <stagingSiteURL>svn:https://svn.apache.org/repos/asf/incubator/any23/site/${project.version}</stagingSiteURL>
         </configuration>
       </plugin>
     </plugins>
