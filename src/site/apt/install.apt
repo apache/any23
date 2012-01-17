@@ -28,55 +28,126 @@ Apache Any23 Installation Guide
 
     Most users probably don't need to have day to day access to the source code as it changes.
     For these users we provide distribution packages via our {{{./downloads.html}
-    downloads page}}. Download either the <<".zip">> or <<".tar.gz">> file and decompress the archive.
+    downloads page}}. Download either the <<".zip">> or <<".tar.gz">> file and extract the archive.
  
-* Access a Snapshot Version
+Installing the Core
 
-    For the latest snapshot please checkout the code from the SVN code repository and build the library.
-    Checkout the code from SVN:
+* Windows 2000/XP
 
-+---------------------------------------------------------------------------
-$ svn checkout http://any23.googlecode.com/svn/trunk any23-trunk-readonly
-+---------------------------------------------------------------------------
+  [[1]] Unzip the distribution archive, i.e. <<<apache-any23-${project.version}-bin.zip>>> to the directory you wish to
+        install Apache Any23 ${project.version}.
+        These instructions assume you chose <<<C:\Program Files\Apache Software Foundation>>>.
+        The subdirectory <<<apache-any23-${project.version}>>> will be created from the archive.
 
-* Build <<Apache Any23>>
+  [[2]] Add the <<<ANY23_HOME>>> environment variable by opening up the system properties (WinKey + Pause),
+        selecting the "Advanced" tab, and the "Environment Variables" button, then adding the <<<ANY23_HOME>>>
+        variable in the user variables with the value
+        <<<C:\Program Files\Apache Software Foundation\apache-any23-${project.version}>>>.
 
-    The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 2.x.y+}}.
-    For specific information about Maven see: {{{http://maven.apache.org/}}}
-    Go to the trunk folder:
+  [[3]] In the same dialog, add the <<<ANY23>>> environment variable in the user variables with the value <<<%ANY23_HOME%\bin>>>.
 
-+-----------
-$ cd trunk/
-+-----------
+  [[4]] Optional: In the same dialog, add the <<<EXTRA_JVM_ARGUMENTS>>> environment variable in the user variables to specify
+        JVM properties, e.g. the value <<<-Xms256m -Xmx512m>>>. This environment variable can be used to supply extra options.
+        By default, it is set to: <<<-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit>>>.
 
-    and execute the following command:
+  [[5]] In the same dialog, update/create the Path environment variable in the user variables and prepend the value
+        <<<%ANY23%>>> to add Apache Any23 available in the command line.
 
-+-----------
-trunk$ mvn clean install
-+-----------
+  [[6]] In the same dialog, make sure that <<<JAVA_HOME>>> exists in your user variables or in the system variables and it is
+        set to the location of your JDK, e.g. <<<C:\Program Files\Java\jdk1.5.0_02>>> and that <<<%JAVA_HOME%\bin>>> is in your Path
+        environment variable.
 
-    This will install the <<Apache Any23>> artifact and its dependencies in your local M2 repository.
+  [[7]] Open a new command prompt (Winkey + R then type cmd) and run <<<any23 --version>>> to verify that it is correctly installed.
 
-* Generate Documentation
+* Unix-based Operating Systems (Linux, Solaris and Mac OS X)
 
-    To generate the project site locally execute the following command from the trunk dir:
+  [[1]] Extract the distribution archive, i.e. <<<apache-any23-${project.version}-bin.tar.gz>>> to the directory you wish to
+        install Apache Any23 ${project.version}.
+        These instructions assume you chose <<</usr/local/apache-any23>>>.
+        The subdirectory <<<apache-any23-${project.version}>>> will be created from the archive.
 
-+---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site
-+---------------------------------------------------------------------------
+  [[2]] In a command terminal, add the <<<ANY23_HOME>>> environment variable, e.g.
+        <<<export ANY23_HOME=/usr/local/apache-any23/apache-any23-${project.version}>>>.
 
-    You can speed up the site generation process specifying the offline option ( -o ),
-    but it works only if all the involved plugin dependencies has been already downloaded
-    in the local M2 repository:
+  [[3]] Add the <<<ANY23>>> environment variable, e.g. <<<export ANY23=$ANY23_HOME/bin>>>.
 
-+---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site
-+---------------------------------------------------------------------------
+  [[4]] Optional: Add the <<<EXTRA_JVM_ARGUMENTS>>> environment variable to specify JVM properties, e.g.
+        <<<export EXTRA_JVM_ARGUMENTS="-Xms256m -Xmx512m">.
+        This environment variable can be used to supply extra options.
 
-    If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
-    the umlgraphdoc profile. This profile relies on {{{http://www.graphviz.org/}Graphviz}} that must be
-    installed in your system.
+  [[5]] Add M2 environment variable to your path, e.g. <<<export PATH=$ANY23:$PATH>>>.
 
-+---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site
-+---------------------------------------------------------------------------
+  [[6]] Make sure that <<<JAVA_HOME>>> is set to the location of your JDK, e.g.
+        <<<export JAVA_HOME=/usr/java/jdk1.5.0_02>>> and that <<<$JAVA_HOME/bin>>> is in your PATH environment variable.
+
+  [[7]] Run <<<any23 --version>>> to verify that it is correctly installed.
+
+Installing a plugin
+
+* Windows 2000/XP
+
+  [[1]] Unzip the distribution archive, i.e. <<<apache-${plugin.name}-bin.zip>>>
+        The subdirectory <<<apache-${plugin.name}>>> will be created from the archive.
+
+  [[2]] Copy the jar files under <<<C:\Documents and Settings\<username>\.any23\plugins>>>
+
+* Unix-based Operating Systems (Linux, Solaris and Mac OS X)
+
+  [[1]] Extract the distribution archive, i.e. <<<apache-${plugin.name}-bin.tar.gz>>>.
+        The subdirectory <<<apache-${plugin.name}>>> will be created from the archive.
+
+  [[2]] Copy the jar files under <<<~/.any23/plugins>>>
+
+Installing the service
+
+* Installing the standalone server
+
+** Windows 2000/XP
+
+  [[1]] Unzip the distribution archive, i.e. <<<apache-any23-service-${project.version}-bin-server-embedded.zip>>> to the directory you wish to
+        install Apache Any23 ${project.version}.
+        These instructions assume you chose <<<C:\Program Files\Apache Software Foundation>>>.
+        The subdirectory <<<apache-${project.version}-server-embedded>>> will be created from the archive.
+
+  [[2]] Add the <<<ANY23_HOME>>> environment variable by opening up the system properties (WinKey + Pause),
+        selecting the "Advanced" tab, and the "Environment Variables" button, then adding the <<<ANY23_HOME>>>
+        variable in the user variables with the value
+        <<<C:\Program Files\Apache Software Foundation\apache-${project.version}>>>.
+
+  [[3]] In the same dialog, add the <<<ANY23>>> environment variable in the user variables with the value <<<%ANY23_HOME%\bin>>>.
+
+  [[4]] Optional: In the same dialog, add the <<<EXTRA_JVM_ARGUMENTS>>> environment variable in the user variables to specify
+        JVM properties, e.g. the value <<<-Xms256m -Xmx512m>>>. This environment variable can be used to supply extra options.
+        By default, it is set to: <<<-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit>>>.
+
+  [[5]] In the same dialog, update/create the Path environment variable in the user variables and prepend the value
+        <<<%ANY23%>>> to add Apache Any23 available in the command line.
+
+  [[6]] In the same dialog, make sure that <<<JAVA_HOME>>> exists in your user variables or in the system variables and it is
+        set to the location of your JDK, e.g. <<<C:\Program Files\Java\jdk1.5.0_02>>> and that <<<%JAVA_HOME%\bin>>> is in your Path
+        environment variable.
+
+  [[7]] Open a new command prompt (Winkey + R then type cmd) and run <<<any23server>>> to launch the service.
+
+** Unix-based Operating Systems (Linux, Solaris and Mac OS X)
+
+  [[1]] Extract the distribution archive, i.e. <<<apache-${project.version}-bin-server-embedded.tar.gz>>> to the directory you wish to
+        install Apache Any23 ${project.version}.
+        These instructions assume you chose <<</usr/local/apache-any23>>>.
+        The subdirectory <<<apache-${project.version}-server-embedded>>> will be created from the archive.
+
+  [[2]] In a command terminal, add the <<<ANY23_HOME>>> environment variable, e.g.
+        <<<export ANY23_HOME=/usr/local/apache-any23/apache-${project.version}-server-embedded>>>.
+
+  [[3]] Add the <<<ANY23>>> environment variable, e.g. <<<export ANY23=$ANY23_HOME/bin>>>.
+
+  [[4]] Optional: Add the <<<EXTRA_JVM_ARGUMENTS>>> environment variable to specify JVM properties, e.g.
+        <<<export EXTRA_JVM_ARGUMENTS="-Xms256m -Xmx512m">>>.
+        This environment variable can be used to supply extra options.
+
+  [[5]] Add <<<ANY23>>> environment variable to your path, e.g. <<<export PATH=$ANY23:$PATH>>>.
+
+  [[6]] Make sure that <<<JAVA_HOME>>> is set to the location of your JDK, e.g.
+        <<<export JAVA_HOME=/usr/java/jdk1.5.0_02>>> and that <<<$JAVA_HOME/bin>>> is in your PATH environment variable.
+
+  [[7]] Run <<<any23server>>> to launch the service.
