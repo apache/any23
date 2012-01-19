@@ -196,7 +196,7 @@
     <site>
       <id>any23.website</id>
       <name>Apache Any23 website</name>
-      <url>svn:https://svn.apache.org/repos/asf/incubator/any23/site</url>
+      <url>${site.deploymentBaseUrl}</url>
     </site>
   </distributionManagement>
 
@@ -212,6 +212,18 @@
     <maven.javadoc.plugin.version>2.8</maven.javadoc.plugin.version>
     <slf4j.logger.version>1.5.6</slf4j.logger.version>
     <sesame.version>2.6.1</sesame.version>
+    <!--
+     | Any23 website has to be stored in SVN
+     |
+     | using the appropriate wagon, site deploy is slow, because deploy works file-by-file
+     | So consider the alternative of
+     | deploying the site in a local dir (where you checked out the site dir)
+     | then committing in one shot, i.e.
+     |
+     | svn co https://svn.apache.org/repos/asf/incubator/any23/site
+     | mvn site-deploy -Dsite.deploymentBaseUrl=file://path/to/checked/out/site
+    -->
+    <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
   </properties>
 
   <dependencyManagement>
