@@ -34,6 +34,12 @@
     <href>./index.html</href>
   </bannerLeft>
 
+  <bannerRight>
+    <name>Apache Incubator</name>
+    <src>http://incubator.apache.org/images/apache-incubator-logo.png</src>
+    <href>http://incubator.apache.org/</href>
+  </bannerRight>
+
   <poweredBy>
     <logo
           name="Sindice"
