@@ -92,12 +92,20 @@
       </item>
     </menu>
 
+    <menu ref="reports"/>
+
+    <menu name="ASF">
+      <item name="How Apache Works" href="http://www.apache.org/foundation/how-it-works.html"/>
+      <item name="Foundation" href="http://www.apache.org/foundation/"/>
+      <item name="Sponsoring Apache" href="http://www.apache.org/foundation/sponsorship.html"/>
+      <item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
+      <item name="Apache Incubator" href="http://incubator.apache.org/"/>
+    </menu>
+
     <menu name="External links">
       <item name="Any23.org"         href="http://any23.org"/>
       <item name="Sindice"           href="http://sindice.com"/>
     </menu>
-
-    <menu ref="reports"/>
 
     <footer>
       <div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation.
