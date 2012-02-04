@@ -283,6 +283,17 @@ public abstract class AbstractExtractorTestCase {
     }
 
     /**
+     * Asserts that the extraction generated no errors.
+     */
+    protected void assertNoIssues() {
+        for( Map.Entry<String, Collection<ErrorReporter.Error>> entry : report.getExtractorToErrors().entrySet() ) {
+            if(entry.getValue().size() > 0) {
+                Assert.fail("Unexpected issue for extractor " + entry.getKey() + " : " + entry.getValue());
+            }
+        }
+    }
+
+    /**
      * Asserts that an error has been produced by the processed {@link org.apache.any23.extractor.Extractor}.
      *
      * @param level expected error level
