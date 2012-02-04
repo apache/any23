@@ -345,7 +345,12 @@ public class RDFa11Parser {
      * @return
      */
     protected URI resolveURI(String uriStr) {
-        return RDFUtils.uri(uriStr);
+        return
+                isAbsoluteURI(uriStr)
+                        ?
+                RDFUtils.uri(uriStr)
+                        :
+                RDFUtils.uri( this.documentBase.toExternalForm(), uriStr );
     }
 
     /**
@@ -505,7 +510,7 @@ public class RDFa11Parser {
      * @param extractionResult
      */
     private void writeTriple(Resource s, URI p, Value o, ExtractionResult extractionResult) {
-        if(logger.isTraceEnabled()) logger.trace(String.format("writeTriple(%s %s %s)" , s, p, o));
+        // if(logger.isTraceEnabled()) logger.trace(String.format("writeTriple(%s %s %s)" , s, p, o));
         assert s != null : "subject   is null.";
         assert p != null : "predicate is null.";
         assert o != null : "object    is null.";
@@ -524,7 +529,7 @@ public class RDFa11Parser {
      */
     // TODO: add references to the RDFa 1.1 algorithm.
     private void processNode(Node currentElement, ExtractionResult extractionResult) throws Exception {
-        if(logger.isTraceEnabled()) logger.trace("processNode(" + DomUtils.getXPathForNode(currentElement) + ")");
+        // if(logger.isTraceEnabled()) logger.trace("processNode(" + DomUtils.getXPathForNode(currentElement) + ")");
         final EvaluationContext currentEvaluationContext = getContext();
         try {
             if(
@@ -883,7 +888,7 @@ public class RDFa11Parser {
     }
 
     private void pushMappings(Node sourceNode, List<PrefixMap> prefixMapList) {
-        logger.trace("pushMappings()");
+        // logger.trace("pushMappings()");
 
         final Map<String, URI> mapping = new HashMap<String, URI>();
         for (PrefixMap prefixMap : prefixMapList) {
@@ -896,7 +901,7 @@ public class RDFa11Parser {
         if(uriMappingStack.isEmpty()) return;
         final URIMapping peek = uriMappingStack.peek();
         if( ! DomUtils.isAncestorOf(peek.sourceNode, node) ) {
-            logger.trace("popMappings()");
+            // logger.trace("popMappings()");
             uriMappingStack.pop();
         }
     }

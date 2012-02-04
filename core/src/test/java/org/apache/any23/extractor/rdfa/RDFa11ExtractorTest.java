@@ -48,7 +48,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testObjectResourceConversion() throws RepositoryException {
-        assertExtracts("html/rdfa/object-resource-test.html");
+        extractsAndCheckNoIssues("html/rdfa/object-resource-test.html");
         logger.debug(dumpModelToTurtle());
          assertContains(
                 null,
@@ -67,7 +67,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testExplicitDatatypeDeclaration() throws RepositoryException {
-        assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
+        extractsAndCheckNoIssues("html/rdfa/xmlliteral-datatype-test.html");
         logger.debug(dumpModelToTurtle());
 
         Literal literal = RDFUtils.literal(
@@ -88,7 +88,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRelWithHref() throws RepositoryException {
-         assertExtracts("html/rdfa/rel-href.html");
+        extractsAndCheckNoIssues("html/rdfa/rel-href.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -110,7 +110,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRelRevSupport() throws RepositoryException {
-        assertExtracts("html/rdfa/rel-rev.html");
+        extractsAndCheckNoIssues("html/rdfa/rel-rev.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -132,7 +132,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testVocabSupport() throws RepositoryException {
-        assertExtracts("html/rdfa/vocab.html");
+        extractsAndCheckNoIssues("html/rdfa/vocab.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -170,7 +170,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 33;
 
-        assertExtracts("html/rdfa/goodrelations-rdfa10.html");
+        extractsAndCheckNoIssues("html/rdfa/goodrelations-rdfa10.html");
         logger.debug(dumpModelToNQuads());
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
@@ -191,7 +191,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 33;
 
-        assertExtracts("html/rdfa/goodrelations-rdfa11.html");
+        extractsAndCheckNoIssues("html/rdfa/goodrelations-rdfa11.html");
         logger.debug(dumpHumanReadableTriples());
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
@@ -208,7 +208,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testOpenGraphStructuredProperties() throws IOException, ExtractionException, RepositoryException {
-        assertExtracts("html/rdfa/opengraph-structured-properties.html");
+        extractsAndCheckNoIssues("html/rdfa/opengraph-structured-properties.html");
         logger.info( dumpHumanReadableTriples() );
 
         Assert.assertEquals(8, getStatementsSize(null, null, null) );
@@ -228,10 +228,15 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         assertContains(baseURI, vOGP.siteName, RDFUtils.literal("IMDb") );
         assertContains(baseURI, vOGP.video, RDFUtils.literal("http://example.com/bond/trailer.swf") );
     }
-
+    
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
         return RDFa11Extractor.factory;
+    }
+    
+    private void extractsAndCheckNoIssues(String resource) {
+        assertExtracts(resource);
+        assertNoIssues();
     }
 
 }

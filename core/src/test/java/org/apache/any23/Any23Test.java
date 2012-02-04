@@ -287,7 +287,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
         final String bufferContent = byteArrayOutputStream.toString();
         logger.debug(bufferContent);
-        Assert.assertSame("Unexpected number of triples.", 42, StringUtils.countNL(bufferContent));
+        Assert.assertSame("Unexpected number of triples.", 65, StringUtils.countNL(bufferContent));
         
     }
 
@@ -321,8 +321,8 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testExtractionParameters() throws IOException, ExtractionException {
-        final int EXPECTED_TRIPLES  = 3;
+    public void testExtractionParameters() throws IOException, ExtractionException, TripleHandlerException {
+        final int EXPECTED_TRIPLES  = 6;
         Any23 runner = new Any23();
         DocumentSource source = new FileDocumentSource(
                 new File("src/test/resources/org/apache/any23/validator/missing-og-namespace.html"),
@@ -336,15 +336,19 @@ public class Any23Test extends Any23OnlineTestBase {
         CompositeTripleHandler compositeTH1 = new CompositeTripleHandler();
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
-        runner.extract(
-                new ExtractionParameters(
-                        DefaultConfiguration.singleton(),
-                        ValidationMode.None
-                ),
-                source,
-                compositeTH1
-        );
-        logger.debug(baos.toString());
+        try {
+            runner.extract(
+                    new ExtractionParameters(
+                            DefaultConfiguration.singleton(),
+                            ValidationMode.None
+                    ),
+                    source,
+                    compositeTH1
+            );
+        } finally {
+            compositeTH1.close();
+        }
+        logger.info(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth1.getCount() );
 
         baos.reset();
@@ -366,8 +370,9 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testExtractionParametersWithNestingDisabled() throws IOException, ExtractionException, TripleHandlerException {
-        final int EXPECTED_TRIPLES = 20;
+    public void testExtractionParametersWithNestingDisabled()
+    throws IOException, ExtractionException, TripleHandlerException {
+        final int EXPECTED_TRIPLES = 21;
         Any23 runner = new Any23();
         DocumentSource source = new FileDocumentSource(
                 new File("src/test/resources/microformats/nested-microformats-a1.html"),
