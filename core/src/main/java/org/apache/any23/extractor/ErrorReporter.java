@@ -25,6 +25,7 @@ import java.util.Collection;
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
+// TODO: rename ErrorReporter in IssueReporter ( most of reported errors are not blocking ).
 public interface ErrorReporter {
 
     /**
