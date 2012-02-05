@@ -43,7 +43,7 @@ public class AdrExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testVCardMultiAddress() throws RepositoryException {
-        assertExtracts("microformats/hcard/lastfm-adr-multi-address.html");
+        assertExtract("microformats/hcard/lastfm-adr-multi-address.html");
         assertModelNotEmpty();
         List<Resource> addresses = findSubjects(RDF.TYPE, vVCARD.Address);
         for (Resource address : addresses) {

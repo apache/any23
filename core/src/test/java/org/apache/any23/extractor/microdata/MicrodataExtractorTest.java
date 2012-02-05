@@ -162,7 +162,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        assertExtracts("microdata/" + actual);
+        assertExtract("microdata/" + actual);
         assertModelNotEmpty();
         logger.debug( dumpModelToNQuads() );
         List<Statement> expectedStatements = loadResultStatement("microdata/" + expected);

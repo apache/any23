@@ -45,7 +45,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
      */
     @Test
     public void testBasic() throws RepositoryException {
-        assertExtracts("html/rdfa/basic.html");
+        assertExtract("html/rdfa/basic.html");
         System.out.println( dumpModelToNQuads() );
         assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en") );
         assertContains(null, vDCTERMS.title  , RDFUtils.literal("The trouble with Bob", "en") );
@@ -62,7 +62,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
      */
     @Test
     public void testRDFa11CURIEs() throws RepositoryException {
-        assertExtracts("html/rdfa/rdfa-11-curies.html");
+        assertExtract("html/rdfa/rdfa-11-curies.html");
         assertModelNotEmpty();
         assertContains(
                 RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
@@ -109,7 +109,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
      */
     @Test
     public void testEmptyDatatypeDeclarationWithInnerXMLTags() throws RepositoryException {
-        assertExtracts("html/rdfa/null-datatype-test.html");
+        assertExtract("html/rdfa/null-datatype-test.html");
         logger.debug(dumpModelToRDFXML());
 
         assertContains(
@@ -129,7 +129,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
      */
     @Test
     public void testDrupalTestPage() throws RepositoryException {
-        assertExtracts("html/rdfa/drupal-test-frontpage.html");
+        assertExtract("html/rdfa/drupal-test-frontpage.html");
         logger.debug(dumpModelToTurtle());
         assertContains(
                 RDFUtils.uri("http://bob.example.com/node/3"),
@@ -145,7 +145,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
      */
     @Test
     public void testIncompleteTripleManagement() throws RepositoryException {
-        assertExtracts("html/rdfa/incomplete-triples.html");
+        assertExtract("html/rdfa/incomplete-triples.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(

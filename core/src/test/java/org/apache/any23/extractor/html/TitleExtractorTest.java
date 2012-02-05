@@ -42,25 +42,25 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testExtractPageTitle() throws RepositoryException {
-        assertExtracts("microformats/xfn/simple-me.html");
+        assertExtract("microformats/xfn/simple-me.html");
         assertContains(baseURI, vDCTERMS.title, helloLiteral);
     }
 
     @Test
     public void testStripSpacesFromTitle() throws RepositoryException {
-        assertExtracts("microformats/xfn/strip-spaces.html");
+        assertExtract("microformats/xfn/strip-spaces.html");
         assertContains(baseURI, vDCTERMS.title, helloLiteral);
     }
 
     @Test
     public void testNoPageTitle() throws RepositoryException {
-        assertExtracts("microformats/xfn/tagsoup.html");
+        assertExtract("microformats/xfn/tagsoup.html");
         assertModelEmpty();
     }
 
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
-        assertExtracts("microformats/xfn/mixed-case.html");
+        assertExtract("microformats/xfn/mixed-case.html");
         assertContains(baseURI, vDCTERMS.title, helloLiteral);
     }
 
@@ -71,7 +71,7 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
      */
     @Test
     public void testTitleWithDefaultLanguage() throws RepositoryException {
-        assertExtracts("html/default-language.html");
+        assertExtract("html/default-language.html");
         assertContains   (baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"));
         assertNotContains(baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net",(String) null));
     }

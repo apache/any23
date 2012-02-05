@@ -48,7 +48,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testObjectResourceConversion() throws RepositoryException {
-        assertExtracts("html/rdfa/object-resource-test.html");
+        assertExtract("html/rdfa/object-resource-test.html");
         logger.debug(dumpModelToTurtle());
          assertContains(
                 null,
@@ -67,7 +67,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testExplicitDatatypeDeclaration() throws RepositoryException {
-        assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
+        assertExtract("html/rdfa/xmlliteral-datatype-test.html");
         logger.debug(dumpModelToTurtle());
 
         Literal literal = RDFUtils.literal(
@@ -88,7 +88,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRelWithHref() throws RepositoryException {
-        assertExtracts("html/rdfa/rel-href.html");
+        assertExtract("html/rdfa/rel-href.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -110,7 +110,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRelRevSupport() throws RepositoryException {
-        assertExtracts("html/rdfa/rel-rev.html");
+        assertExtract("html/rdfa/rel-rev.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -132,7 +132,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testVocabSupport() throws RepositoryException {
-        assertExtracts("html/rdfa/vocab.html");
+        assertExtract("html/rdfa/vocab.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -152,7 +152,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testTolerantParsing() {
-        assertExtracts("html/rdfa/oreilly-invalid-datatype.html", false);
+        assertExtract("html/rdfa/oreilly-invalid-datatype.html", false);
         assertError(ErrorReporter.ErrorLevel.WARN, ".*Cannot map prefix \'mailto\'.*");
     }
 
@@ -170,7 +170,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 33;
 
-        assertExtracts("html/rdfa/goodrelations-rdfa10.html");
+        assertExtract("html/rdfa/goodrelations-rdfa10.html");
         logger.debug(dumpModelToNQuads());
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
@@ -191,7 +191,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 33;
 
-        assertExtracts("html/rdfa/goodrelations-rdfa11.html");
+        assertExtract("html/rdfa/goodrelations-rdfa11.html");
         logger.debug(dumpHumanReadableTriples());
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
@@ -208,7 +208,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testOpenGraphStructuredProperties() throws IOException, ExtractionException, RepositoryException {
-        assertExtracts("html/rdfa/opengraph-structured-properties.html");
+        assertExtract("html/rdfa/opengraph-structured-properties.html");
         logger.info( dumpHumanReadableTriples() );
 
         Assert.assertEquals(8, getStatementsSize(null, null, null) );

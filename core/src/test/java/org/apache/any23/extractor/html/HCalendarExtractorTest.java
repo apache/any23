@@ -57,7 +57,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testOneVEvent() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example1.html");
+        assertExtract("microformats/hcalendar/example1.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -84,7 +84,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testTransparentEvent() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example2.html");
+        assertExtract("microformats/hcalendar/example2.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -112,7 +112,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testRepetitiveEvent() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example3.html");
+        assertExtract("microformats/hcalendar/example3.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -140,7 +140,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testThreeDayEvent() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example5.html");
+        assertExtract("microformats/hcalendar/example5.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -169,7 +169,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testHCalendarWithBudyInfo() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example5.5.html");
+        assertExtract("microformats/hcalendar/example5.5.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vjournal);
@@ -349,7 +349,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testFullHCalendarClass() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example5.3.html");
+        assertExtract("microformats/hcalendar/example5.3.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vevent);
@@ -357,7 +357,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testHCalendarClassWithTodo() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example5.4.html");
+        assertExtract("microformats/hcalendar/example5.4.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vtodo);
@@ -365,7 +365,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testHCalendarClassWithJournal() throws RepositoryException {
-        assertExtracts("microformats/hcalendar/example5.5.html");
+        assertExtract("microformats/hcalendar/example5.5.html");
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertContains(null, RDF.TYPE, vjournal);
@@ -384,7 +384,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     }
 
     private void assertDefault(String name) throws RepositoryException {
-        assertExtracts(name);
+        assertExtract(name);
         assertModelNotEmpty();
         assertContains(baseURI, RDF.TYPE, vcal);
         assertStatementsSize(RDF.TYPE, vcal, 1);

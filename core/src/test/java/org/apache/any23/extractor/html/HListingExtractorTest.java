@@ -51,13 +51,13 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException {
-        assertExtracts("html/html-without-uf.html");
+        assertExtract("html/html-without-uf.html");
         assertModelEmpty();
     }
 
     @Test
     public void testListingWithouthContent() throws RepositoryException {
-        assertExtracts("microformats/hlisting/empty.html");
+        assertExtract("microformats/hlisting/empty.html");
         assertModelNotEmpty();
         logger.debug(dumpModelToRDFXML());
         assertStatementsSize(null, null, null, 4);
@@ -65,14 +65,14 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testSingleAction() throws RepositoryException {
-        assertExtracts("microformats/hlisting/single-action.html");
+        assertExtract("microformats/hlisting/single-action.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action, vHLISTING.offer);
     }
 
     @Test
     public void testMultipleActions() throws RepositoryException {
-        assertExtracts("microformats/hlisting/multiple-actions.html");
+        assertExtract("microformats/hlisting/multiple-actions.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action, vHLISTING.offer);
         assertContains(vHLISTING.action, vHLISTING.sell);
@@ -80,7 +80,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testMultipleActionsNested() throws RepositoryException {
-        assertExtracts("microformats/hlisting/multiple-actions-nested.html");
+        assertExtract("microformats/hlisting/multiple-actions-nested.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action, vHLISTING.offer);
         assertContains(vHLISTING.action, vHLISTING.sell);
@@ -89,14 +89,14 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testActionsOutside() throws RepositoryException {
-        assertExtracts("microformats/hlisting/single-action-outside.html");
+        assertExtract("microformats/hlisting/single-action-outside.html");
         assertModelNotEmpty();
         assertNotContains(vHLISTING.action, vHLISTING.offer);
     }
 
     @Test
     public void testListerFn() throws RepositoryException {
-        assertExtracts("microformats/hlisting/actions-lister-fn.html");
+        assertExtract("microformats/hlisting/actions-lister-fn.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(RDF.TYPE,             vHLISTING.Lister);
@@ -105,7 +105,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testListerFnTel() throws RepositoryException {
-        assertExtracts("microformats/hlisting/actions-lister-fn-tel.html");
+        assertExtract("microformats/hlisting/actions-lister-fn-tel.html");
         assertModelNotEmpty();
 
         assertContains(vHLISTING.action    , vHLISTING.offer);
@@ -116,7 +116,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testItemFn() throws RepositoryException {
-        assertExtracts("microformats/hlisting/item-fn.html");
+        assertExtract("microformats/hlisting/item-fn.html");
         assertModelNotEmpty();
         assertContains(RDF.TYPE,           vHLISTING.Item);
         assertContains(vHLISTING.itemName, "Parking space");
@@ -124,7 +124,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testItemFnUrl() throws RepositoryException {
-        assertExtracts("microformats/hlisting/item-fn-url.html");
+        assertExtract("microformats/hlisting/item-fn-url.html");
         assertModelNotEmpty();
         assertContains(RDF.TYPE,             vHLISTING.Item);
         assertContains(vHLISTING.itemUrl,    RDFUtils.uri("http://item.com/"));
@@ -133,7 +133,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testItemPhotoImg() throws RepositoryException {
-        assertExtracts("microformats/hlisting/item-fn-url-photo-img.html");
+        assertExtract("microformats/hlisting/item-fn-url-photo-img.html");
         assertModelNotEmpty();
         assertContains(RDF.TYPE,             vHLISTING.Item);
         assertContains(vHLISTING.itemUrl,    RDFUtils.uri("http://item.com/"));
@@ -143,7 +143,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testItemPhotoHref() throws RepositoryException {
-        assertExtracts("microformats/hlisting/item-fn-photo-href.html");
+        assertExtract("microformats/hlisting/item-fn-photo-href.html");
         assertModelNotEmpty();
         assertContains(RDF.TYPE,             vHLISTING.Item);
         assertContains(vHLISTING.itemName,   "Parking space");
@@ -152,7 +152,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testKelkoo() throws RepositoryException {
-        assertExtracts("microformats/hlisting/kelkoo.html");
+        assertExtract("microformats/hlisting/kelkoo.html");
         assertModelNotEmpty();
 
         assertContains(RDF.TYPE,             vHLISTING.Listing);
@@ -181,7 +181,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testKelkooFull() throws RepositoryException {
-        assertExtracts("microformats/hlisting/kelkoo-full.html");
+        assertExtract("microformats/hlisting/kelkoo-full.html");
         assertModelNotEmpty();
         assertContains(RDF.TYPE,            vHLISTING.Listing);
         assertContains(RDF.TYPE,            vHLISTING.Item);
@@ -229,7 +229,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testListerURL() throws RepositoryException {
-        assertExtracts("microformats/hlisting/actions-lister-url.html");
+        assertExtract("microformats/hlisting/actions-lister-url.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(vHLISTING.listerName, "John Broker");
@@ -239,7 +239,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testListerEmail() throws RepositoryException {
-        assertExtracts("microformats/hlisting/actions-lister-email.html");
+        assertExtract("microformats/hlisting/actions-lister-email.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(vHLISTING.listerName, "John Broker");
@@ -249,7 +249,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testListerEmailHref() throws RepositoryException {
-        assertExtracts("microformats/hlisting/actions-lister-email-href.html");
+        assertExtract("microformats/hlisting/actions-lister-email-href.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.action,     vHLISTING.offer);
         assertContains(RDF.TYPE,             vHLISTING.Lister);
@@ -259,7 +259,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testDtListed() throws RepositoryException {
-        assertExtracts("microformats/hlisting/dtlisted-dtexpired.html");
+        assertExtract("microformats/hlisting/dtlisted-dtexpired.html");
         assertModelNotEmpty();
         assertNotContains(vHLISTING.action, vHLISTING.offer);
         assertContains(vHLISTING.dtlisted,  "2006-02-02");
@@ -267,7 +267,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testDtExpired() throws RepositoryException {
-        assertExtracts("microformats/hlisting/dtlisted-dtexpired.html");
+        assertExtract("microformats/hlisting/dtlisted-dtexpired.html");
         assertModelNotEmpty();
         assertNotContains(vHLISTING.action,  vHLISTING.offer);
         assertContains(vHLISTING.dtexpired, "2006-04-01");
@@ -275,14 +275,14 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testSummary() throws RepositoryException {
-        assertExtracts("microformats/hlisting/summary.html");
+        assertExtract("microformats/hlisting/summary.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.summary, "summary stuff");
     }
 
     @Test
     public void testDtListedAndExpired() throws RepositoryException {
-        assertExtracts("microformats/hlisting/dtlisted-dtexpired.html");
+        assertExtract("microformats/hlisting/dtlisted-dtexpired.html");
         assertModelNotEmpty();
         assertNotContains(vHLISTING.action,   vHLISTING.offer);
         assertContains(vHLISTING.dtlisted,   "2006-02-02");
@@ -291,14 +291,14 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testPrice() throws RepositoryException {
-        assertExtracts("microformats/hlisting/price.html");
+        assertExtract("microformats/hlisting/price.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.price,      "$215/qtr");
     }
 
     @Test
     public void testPriceAndDt() throws RepositoryException {
-        assertExtracts("microformats/hlisting/dtlisted-dtexpired.html");
+        assertExtract("microformats/hlisting/dtlisted-dtexpired.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.price,      "$215/qtr");
         assertContains(vHLISTING.dtlisted,   "2006-02-02");
@@ -307,7 +307,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testPermalink() throws RepositoryException {
-        assertExtracts("microformats/hlisting/summary-bookmark.html");
+        assertExtract("microformats/hlisting/summary-bookmark.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.permalink,  "http://livre.com/book");
         assertContains(vHLISTING.listerUrl,  RDFUtils.uri("http://livre.com/author"));
@@ -315,7 +315,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testComplexDescription() throws RepositoryException {
-        assertExtracts("microformats/hlisting/description-complex.html");
+        assertExtract("microformats/hlisting/description-complex.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.description,
                 "BenQ today introduced two new additions to its renowned bus... + Show details");
@@ -323,7 +323,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testDescription() throws RepositoryException {
-        assertExtracts("microformats/hlisting/description.html");
+        assertExtract("microformats/hlisting/description.html");
         assertModelNotEmpty();
         assertContains(vHLISTING.description,    "bla bla bla");
     }

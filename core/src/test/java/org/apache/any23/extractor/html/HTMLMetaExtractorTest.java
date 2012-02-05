@@ -38,7 +38,7 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testExtractPageMeta() throws RepositoryException {
-        assertExtracts("html/html-head-meta-extractor.html");
+        assertExtract("html/html-head-meta-extractor.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 7);
         assertContains(
@@ -87,7 +87,7 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testNoMeta() throws RepositoryException {
-        assertExtracts("html/html-head-link-extractor.html");
+        assertExtract("html/html-head-link-extractor.html");
         assertModelEmpty();
     }
     

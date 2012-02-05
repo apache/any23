@@ -47,7 +47,7 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
      */
     @Test
     public void testSpeciesMicroformatExtractOverTaxoBox() throws RepositoryException {
-        assertExtracts("microformats/species/species-example-2.html");
+        assertExtract("microformats/species/species-example-2.html");
         assertModelNotEmpty();
         logger.debug(dumpModelToRDFXML());
 

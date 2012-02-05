@@ -49,28 +49,28 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testOnlyCc() throws RepositoryException {
-        assertExtracts("microformats/license/ccBy.html");
+        assertExtract("microformats/license/ccBy.html");
         assertContains(baseURI, vXHTML.license, ccBy);
         assertNotContains(baseURI, vXHTML.license, apache);
     }
 
     @Test
     public void testOnlyApache() throws RepositoryException {
-        assertExtracts("microformats/license/apache.html");
+        assertExtract("microformats/license/apache.html");
         assertNotContains(baseURI, vXHTML.license, ccBy);
         assertContains(baseURI, vXHTML.license, apache);
     }
 
     @Test
     public void testMultipleLicenses() throws RepositoryException {
-        assertExtracts("microformats/license/multiple.html");
+        assertExtract("microformats/license/multiple.html");
         assertContains(baseURI, vXHTML.license, ccBy);
         assertContains(baseURI, vXHTML.license, apache);
     }
 
     @Test
     public void testMultipleEmptyHref() throws RepositoryException {
-        assertExtracts("microformats/license/multiple-empty-href.html", false);
+        assertExtract("microformats/license/multiple-empty-href.html", false);
         assertNotContains(baseURI, vXHTML.license, "");
         assertContains(baseURI, vXHTML.license, apache);
         
@@ -83,13 +83,13 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testEmpty() throws RepositoryException {
-        assertExtracts("microformats/license/empty.html");
+        assertExtract("microformats/license/empty.html");
         assertModelEmpty();
     }
 
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
-        assertExtracts("microformats/license/multiple-mixed-case.html");
+        assertExtract("microformats/license/multiple-mixed-case.html");
         assertContains(baseURI, vXHTML.license, ccBy);
         assertContains(baseURI, vXHTML.license, apache);
     }

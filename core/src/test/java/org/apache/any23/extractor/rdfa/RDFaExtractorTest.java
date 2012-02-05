@@ -48,14 +48,14 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 31;
 
-        assertExtracts("html/rdfa/goodrelations-rdfa10.html");
+        assertExtract("html/rdfa/goodrelations-rdfa10.html");
         logger.debug("Model 1 " + dumpHumanReadableTriples());
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
         List<Statement> rdfa10Stmts = dumpAsListOfStatements();
 
         //assertContainsModel("/html/rdfa/goodrelations-rdfa10-expected.nq");
 
-        assertExtracts("html/rdfa/goodrelations-rdfa11.html");
+        assertExtract("html/rdfa/goodrelations-rdfa11.html");
         logger.debug("Model 2 " + dumpHumanReadableTriples());
         Assert.assertTrue(dumpAsListOfStatements().size() >= EXPECTED_STATEMENTS);
 
@@ -69,7 +69,7 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testTolerantParsing() {
-        assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
+        assertExtract("html/rdfa/oreilly-invalid-datatype.html");
     }
 
     @Override

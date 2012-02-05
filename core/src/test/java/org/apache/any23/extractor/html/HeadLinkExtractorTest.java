@@ -38,7 +38,7 @@ public class HeadLinkExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testLinkExtraction() throws RepositoryException {
-        assertExtracts("html/html-head-link-extractor.html");
+        assertExtract("html/html-head-link-extractor.html");
         assertModelNotEmpty();
         final ValueFactory valueFactory = new ValueFactoryImpl();
         final URI externalLinkURI = valueFactory.createURI("http://www.myexperiment.org/workflows/16.rdf");

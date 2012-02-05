@@ -177,7 +177,7 @@ public abstract class AbstractExtractorTestCase {
      * @param resource resource name.
      * @param assertNoIssues if <code>true</code>invokes {@link #assertNoIssues()}  after the extraction.
      */
-    protected void assertExtracts(String resource, boolean assertNoIssues) {
+    protected void assertExtract(String resource, boolean assertNoIssues) {
         try {
             extract(resource);
             if(assertNoIssues) assertNoIssues();
@@ -194,8 +194,8 @@ public abstract class AbstractExtractorTestCase {
      *
      * @param resource
      */
-    protected void assertExtracts(String resource) {
-        assertExtracts(resource, true);
+    protected void assertExtract(String resource) {
+        assertExtract(resource, true);
     }
 
     /**
