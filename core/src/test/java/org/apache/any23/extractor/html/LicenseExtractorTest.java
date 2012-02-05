@@ -17,13 +17,17 @@
 
 package org.apache.any23.extractor.html;
 
+import org.apache.any23.extractor.ErrorReporter;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.apache.any23.vocab.XHTML;
+import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.URI;
 import org.openrdf.repository.RepositoryException;
+
+import java.util.Collection;
 
 /**
  *
@@ -66,9 +70,15 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testMultipleEmptyHref() throws RepositoryException {
-        assertExtracts("microformats/license/multiple-empty-href.html");
+        assertExtracts("microformats/license/multiple-empty-href.html", false);
         assertNotContains(baseURI, vXHTML.license, "");
         assertContains(baseURI, vXHTML.license, apache);
+        
+        final Collection<ErrorReporter.Error> errors = getErrors();
+        Assert.assertEquals(1, errors.size());
+        ErrorReporter.Error error = errors.iterator().next();
+        Assert.assertTrue(error.getMessage().contains("Invalid license link detected"));
+        Assert.assertEquals(ErrorReporter.ErrorLevel.WARN, error.getLevel());
     }
 
     @Test

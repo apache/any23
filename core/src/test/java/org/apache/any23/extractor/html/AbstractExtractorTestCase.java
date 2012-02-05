@@ -144,6 +144,15 @@ public abstract class AbstractExtractorTestCase {
     }
 
     /**
+     * Returns the list of errors raised by the extractor under testing.
+     *
+     * @return collection of errors.
+     */
+    protected Collection<ErrorReporter.Error> getErrors() {
+        return getErrors( getExtractorFactory().getExtractorName() );
+    }
+
+    /**
      * Applies the extractor provided by the {@link #getExtractorFactory()} to the specified resource.
      *
      * @param resource resource name.
@@ -163,18 +172,30 @@ public abstract class AbstractExtractorTestCase {
 
     /**
      * Performs data extraction over the content of a resource
-     * and assert that the extraction was correct.
+     * and assert that the extraction was fine.
      *
      * @param resource resource name.
+     * @param assertNoIssues if <code>true</code>invokes {@link #assertNoIssues()}  after the extraction.
      */
-    protected void assertExtracts(String resource) {
+    protected void assertExtracts(String resource, boolean assertNoIssues) {
         try {
             extract(resource);
+            if(assertNoIssues) assertNoIssues();
         } catch (ExtractionException ex) {
             throw new RuntimeException(ex);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * Performs data extraction over the content of a resource
+     *  and assert that the extraction was fine and raised no issues.
+     *
+     * @param resource
+     */
+    protected void assertExtracts(String resource) {
+        assertExtracts(resource, true);
     }
 
     /**

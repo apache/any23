@@ -48,7 +48,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testObjectResourceConversion() throws RepositoryException {
-        extractsAndCheckNoIssues("html/rdfa/object-resource-test.html");
+        assertExtracts("html/rdfa/object-resource-test.html");
         logger.debug(dumpModelToTurtle());
          assertContains(
                 null,
@@ -67,7 +67,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testExplicitDatatypeDeclaration() throws RepositoryException {
-        extractsAndCheckNoIssues("html/rdfa/xmlliteral-datatype-test.html");
+        assertExtracts("html/rdfa/xmlliteral-datatype-test.html");
         logger.debug(dumpModelToTurtle());
 
         Literal literal = RDFUtils.literal(
@@ -88,7 +88,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRelWithHref() throws RepositoryException {
-        extractsAndCheckNoIssues("html/rdfa/rel-href.html");
+        assertExtracts("html/rdfa/rel-href.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -110,7 +110,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRelRevSupport() throws RepositoryException {
-        extractsAndCheckNoIssues("html/rdfa/rel-rev.html");
+        assertExtracts("html/rdfa/rel-rev.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -132,7 +132,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testVocabSupport() throws RepositoryException {
-        extractsAndCheckNoIssues("html/rdfa/vocab.html");
+        assertExtracts("html/rdfa/vocab.html");
         logger.debug(dumpModelToTurtle());
 
         assertContains(
@@ -152,7 +152,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testTolerantParsing() {
-        assertExtracts("html/rdfa/oreilly-invalid-datatype.html");
+        assertExtracts("html/rdfa/oreilly-invalid-datatype.html", false);
         assertError(ErrorReporter.ErrorLevel.WARN, ".*Cannot map prefix \'mailto\'.*");
     }
 
@@ -170,7 +170,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 33;
 
-        extractsAndCheckNoIssues("html/rdfa/goodrelations-rdfa10.html");
+        assertExtracts("html/rdfa/goodrelations-rdfa10.html");
         logger.debug(dumpModelToNQuads());
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
@@ -191,7 +191,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 33;
 
-        extractsAndCheckNoIssues("html/rdfa/goodrelations-rdfa11.html");
+        assertExtracts("html/rdfa/goodrelations-rdfa11.html");
         logger.debug(dumpHumanReadableTriples());
 
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
@@ -208,7 +208,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testOpenGraphStructuredProperties() throws IOException, ExtractionException, RepositoryException {
-        extractsAndCheckNoIssues("html/rdfa/opengraph-structured-properties.html");
+        assertExtracts("html/rdfa/opengraph-structured-properties.html");
         logger.info( dumpHumanReadableTriples() );
 
         Assert.assertEquals(8, getStatementsSize(null, null, null) );
@@ -232,11 +232,6 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
         return RDFa11Extractor.factory;
-    }
-    
-    private void extractsAndCheckNoIssues(String resource) {
-        assertExtracts(resource);
-        assertNoIssues();
     }
 
 }

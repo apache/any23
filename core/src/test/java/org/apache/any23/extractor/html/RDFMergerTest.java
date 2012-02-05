@@ -74,7 +74,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
     @Test
     public void test01XFNFoaf() throws RepositoryException {
-        assertExtracts("mixed/01-xfn-foaf.html");
+        assertExtracts("mixed/01-xfn-foaf.html", false);
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
         Resource vcard = findExactlyOneBlankSubject(RDF.TYPE, vVCARD.VCard);
