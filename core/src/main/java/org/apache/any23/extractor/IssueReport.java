@@ -21,63 +21,62 @@ import java.io.PrintStream;
 import java.util.Collection;
 
 /**
- * This interface models an error reporter.
+ * This interface models an issue reporter.
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
-// TODO: rename ErrorReporter in IssueReporter ( most of reported errors are not blocking ).
-public interface ErrorReporter {
+public interface IssueReport {
 
     /**
-     * Notifies an error occurred while performing an extraction on an input stream.
+     * Notifies an issue occurred while performing an extraction on an input stream.
      *
-     * @param level error level.
-     * @param msg   error message.
-     * @param row   error row.
-     * @param col   error column.
+     * @param level issue level.
+     * @param msg   issue message.
+     * @param row   issue row.
+     * @param col   issue column.
      */
-    void notifyError(ErrorLevel level, String msg, int row, int col);
+    void notifyIssue(IssueLevel level, String msg, int row, int col);
 
     /**
-     * Prints out an errors report.
+     * Prints out the content of the report.
      *
      * @param ps
      */
-    void printErrorsReport(PrintStream ps);
+    void printReport(PrintStream ps);
 
     /**
-     * Returns all the collected errors.
+     * Returns all the collected issues.
      *
-     * @return a collection of {@link ErrorReporter.Error}s.
+     * @return a collection of {@link org.apache.any23.extractor.IssueReport.Issue}s.
      */
-    Collection<Error> getErrors();
+    Collection<Issue> getIssues();
 
     /**
-     * Possible error levels.
+     * Possible issue levels.
      */
-    enum ErrorLevel {
-        WARN,
-        ERROR,
-        FATAL
+    enum IssueLevel {
+        Warning,
+        Error,
+        Fatal
     }
 
     /**
-     * This class defines a generic error traced by this extraction result.
+     * This class defines a generic issue traced by this extraction result.
      */
-    public class Error {
+    public class Issue {
 
-        private ErrorLevel level;
-        private String message;
-        private int row, col;
+        private IssueLevel level;
+        private String     message;
+        private int        row, col;
 
-        Error(ErrorLevel l, String msg, int r, int c) {
+        Issue(IssueLevel l, String msg, int r, int c) {
             level = l;
             message = msg;
             row = r;
             col = c;
         }
 
-        public ErrorLevel getLevel() {
+        public IssueLevel getLevel() {
             return level;
         }
 

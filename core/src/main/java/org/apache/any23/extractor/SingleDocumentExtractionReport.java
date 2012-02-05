@@ -32,24 +32,24 @@ public class SingleDocumentExtractionReport {
 
     private final ValidationReport validationReport;
 
-    private final Map<String, Collection<ErrorReporter.Error>> extractorToErrors;
+    private final Map<String, Collection<IssueReport.Issue>> extractorToIssues;
 
     public SingleDocumentExtractionReport(
             ValidationReport validationReport,
-            Map<String, Collection<ErrorReporter.Error>> extractorToErrors
+            Map<String, Collection<IssueReport.Issue>> extractorToIssues
     ) {
         if(validationReport  == null) throw new NullPointerException("validation report cannot be null.");
-        if(extractorToErrors == null) throw new NullPointerException("extractor errors map cannot be null.");
+        if(extractorToIssues == null) throw new NullPointerException("extractor issues map cannot be null.");
         this.validationReport  = validationReport;
-        this.extractorToErrors = extractorToErrors;
+        this.extractorToIssues = extractorToIssues;
     }
 
     public ValidationReport getValidationReport() {
         return validationReport;
     }
 
-    public Map<String, Collection<ErrorReporter.Error>> getExtractorToErrors() {
-        return extractorToErrors;
+    public Map<String, Collection<IssueReport.Issue>> getExtractorToIssues() {
+        return extractorToIssues;
     }
 
 }

@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.html;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
@@ -74,11 +74,11 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
         assertNotContains(baseURI, vXHTML.license, "");
         assertContains(baseURI, vXHTML.license, apache);
         
-        final Collection<ErrorReporter.Error> errors = getErrors();
+        final Collection<IssueReport.Issue> errors = getIssues();
         Assert.assertEquals(1, errors.size());
-        ErrorReporter.Error error = errors.iterator().next();
+        IssueReport.Issue error = errors.iterator().next();
         Assert.assertTrue(error.getMessage().contains("Invalid license link detected"));
-        Assert.assertEquals(ErrorReporter.ErrorLevel.WARN, error.getLevel());
+        Assert.assertEquals(IssueReport.IssueLevel.Warning, error.getLevel());
     }
 
     @Test

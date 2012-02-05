@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.microdata;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -561,10 +561,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
         for(MicrodataParserException mpe : errors) {
-            out.notifyError(
-                    ErrorReporter.ErrorLevel.ERROR,
+            out.notifyIssue(
+                    IssueReport.IssueLevel.Error,
                     mpe.toJSON(),
-                    mpe.getErrorLocationBeginRow() ,
+                    mpe.getErrorLocationBeginRow(),
                     mpe.getErrorLocationBeginCol()
             );
         }

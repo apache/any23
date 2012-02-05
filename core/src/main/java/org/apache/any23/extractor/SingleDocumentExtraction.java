@@ -251,8 +251,8 @@ public class SingleDocumentExtraction {
         // Create the document context.
         final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
         final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
-        final Map<String,Collection<ErrorReporter.Error>> extractorToErrors =
-            new HashMap<String,Collection<ErrorReporter.Error>>();
+        final Map<String,Collection<IssueReport.Issue>> extractorToIssues =
+            new HashMap<String,Collection<IssueReport.Issue>>();
         try {
             final String documentLanguage = extractDocumentLanguage(extractionParameters);
             for (ExtractorFactory<?> factory : matchingExtractors) {
@@ -264,7 +264,7 @@ public class SingleDocumentExtraction {
                 );
                 resourceRoots.addAll( er.resourceRoots );
                 propertyPaths.addAll( er.propertyPaths );
-                extractorToErrors.put(factory.getExtractorName(), er.errors);
+                extractorToIssues.put(factory.getExtractorName(), er.issues);
             }
         } catch(ValidatorException ve) {
             throw new ExtractionException("An error occurred during the validation phase.", ve);
@@ -307,7 +307,7 @@ public class SingleDocumentExtraction {
                 documentReport == null
                         ?
                 EmptyValidationReport.getInstance() : documentReport.getReport(),
-                extractorToErrors
+                extractorToIssues
         );
     }
 
@@ -485,7 +485,7 @@ public class SingleDocumentExtraction {
             }
             return
                 new SingleExtractionReport(
-                    extractionResult.getErrors(),
+                    extractionResult.getIssues(),
                     new ArrayList<ResourceRoot>( extractionResult.getResourceRoots() ),
                     new ArrayList<PropertyPath>( extractionResult.getPropertyPaths() )
                 );
@@ -496,9 +496,9 @@ public class SingleDocumentExtraction {
             throw ex;
         } finally {
             // Logging result error report.
-            if( log.isDebugEnabled() && extractionResult.hasErrors() ) {
+            if(log.isDebugEnabled() && extractionResult.hasIssues() ) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                extractionResult.printErrorsReport( new PrintStream(baos) );
+                extractionResult.printReport(new PrintStream(baos));
                 log.debug(baos.toString());
             }
             extractionResult.close();
@@ -860,16 +860,16 @@ public class SingleDocumentExtraction {
      * Entity detection report.
      */
     private class SingleExtractionReport {
-        private final Collection<ErrorReporter.Error> errors;
-        private final List<ResourceRoot> resourceRoots;
-        private final List<PropertyPath> propertyPaths;
+        private final Collection<IssueReport.Issue> issues;
+        private final List<ResourceRoot>            resourceRoots;
+        private final List<PropertyPath>            propertyPaths;
 
         public SingleExtractionReport(
-                Collection<ErrorReporter.Error>  errors,
+                Collection<IssueReport.Issue>  issues,
                 List<ResourceRoot> resourceRoots,
                 List<PropertyPath> propertyPaths
         ) {
-            this.errors        = errors;
+            this.issues        = issues;
             this.resourceRoots = resourceRoots;
             this.propertyPaths = propertyPaths;
         }

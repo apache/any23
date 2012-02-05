@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.html;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SingleDocumentExtraction;
@@ -125,31 +125,31 @@ public abstract class AbstractExtractorTestCase {
     }
 
     /**
-     * Returns the list of errors raised by a given extractor.
+     * Returns the list of issues raised by a given extractor.
      *
      * @param extractorName name of the extractor.
-     * @return collection of errors.
+     * @return collection of issues.
      */
-    protected Collection<ErrorReporter.Error> getErrors(String extractorName) {
+    protected Collection<IssueReport.Issue> getIssues(String extractorName) {
         for(
-                Map.Entry<String, Collection<ErrorReporter.Error>> errorEntry
+                Map.Entry<String, Collection<IssueReport.Issue>> issueEntry
                 :
-                report.getExtractorToErrors().entrySet()
+                report.getExtractorToIssues().entrySet()
         ) {
-            if(errorEntry.getKey().equals(extractorName)) {
-                return errorEntry.getValue();
+            if(issueEntry.getKey().equals(extractorName)) {
+                return issueEntry.getValue();
             }
         }
         return Collections.emptyList();
     }
 
     /**
-     * Returns the list of errors raised by the extractor under testing.
+     * Returns the list of issues raised by the extractor under testing.
      *
-     * @return collection of errors.
+     * @return collection of issues.
      */
-    protected Collection<ErrorReporter.Error> getErrors() {
-        return getErrors( getExtractorFactory().getExtractorName() );
+    protected Collection<IssueReport.Issue> getIssues() {
+        return getIssues(getExtractorFactory().getExtractorName());
     }
 
     /**
@@ -304,10 +304,10 @@ public abstract class AbstractExtractorTestCase {
     }
 
     /**
-     * Asserts that the extraction generated no errors.
+     * Asserts that the extraction generated no issues.
      */
     protected void assertNoIssues() {
-        for( Map.Entry<String, Collection<ErrorReporter.Error>> entry : report.getExtractorToErrors().entrySet() ) {
+        for( Map.Entry<String, Collection<IssueReport.Issue>> entry : report.getExtractorToIssues().entrySet() ) {
             if(entry.getValue().size() > 0) {
                 Assert.fail("Unexpected issue for extractor " + entry.getKey() + " : " + entry.getValue());
             }
@@ -315,22 +315,22 @@ public abstract class AbstractExtractorTestCase {
     }
 
     /**
-     * Asserts that an error has been produced by the processed {@link org.apache.any23.extractor.Extractor}.
+     * Asserts that an issue has been produced by the processed {@link org.apache.any23.extractor.Extractor}.
      *
-     * @param level expected error level
-     * @param errorRegex regex matching the expected human readable error message.
+     * @param level expected issue level
+     * @param issueRegex regex matching the expected human readable issue message.
      */
-    protected void assertError(ErrorReporter.ErrorLevel level, String errorRegex) {
-        final Collection<ErrorReporter.Error> errors = getErrors( getExtractorFactory().getExtractorName() );
+    protected void assertIssue(IssueReport.IssueLevel level, String issueRegex) {
+        final Collection<IssueReport.Issue> issues = getIssues(getExtractorFactory().getExtractorName());
         boolean found = false;
-        for(ErrorReporter.Error error : errors) {
-            if(error.getLevel() == level && error.getMessage().matches(errorRegex)) {
+        for(IssueReport.Issue issue : issues) {
+            if(issue.getLevel() == level && issue.getMessage().matches(issueRegex)) {
                 found = true;
                 break;
             }
         }
         Assert.assertTrue(
-                String.format("Cannot find error with level %s matching expression '%s'", level, errorRegex),
+                String.format("Cannot find issue with level %s matching expression '%s'", level, issueRegex),
                 found
         );
     }

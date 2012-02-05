@@ -23,6 +23,7 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.XHTML;
@@ -66,8 +67,8 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
         for (Node node : DomUtils.findAll(in, "//A[@rel='license']/@href")) {
             String link = node.getNodeValue();
             if ("".equals(link)) {
-                out.notifyError(
-                        ExtractionResult.ErrorLevel.WARN,
+                out.notifyIssue(
+                        IssueReport.IssueLevel.Warning,
                         String.format(
                                 "Invalid license link detected within document %s.",
                                 documentURI.toString()

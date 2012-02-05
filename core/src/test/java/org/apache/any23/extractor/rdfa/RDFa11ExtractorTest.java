@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.rdfa;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
@@ -153,7 +153,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testTolerantParsing() {
         assertExtract("html/rdfa/oreilly-invalid-datatype.html", false);
-        assertError(ErrorReporter.ErrorLevel.WARN, ".*Cannot map prefix \'mailto\'.*");
+        assertIssue(IssueReport.IssueLevel.Warning, ".*Cannot map prefix \'mailto\'.*");
     }
 
     /**

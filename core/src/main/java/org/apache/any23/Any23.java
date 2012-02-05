@@ -310,7 +310,7 @@ public class Any23 {
                 ex.getParserEncoding(),
                 ex.getDetectedMIMEType(),
                 sder.getValidationReport(),
-                sder.getExtractorToErrors()
+                sder.getExtractorToIssues()
         );
     }
 

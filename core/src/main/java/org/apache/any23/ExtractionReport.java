@@ -17,7 +17,7 @@
 
 package org.apache.any23;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.validator.ValidationReport;
 
@@ -45,14 +45,14 @@ public class ExtractionReport {
 
     private final ValidationReport validationReport;
 
-    private final Map<String,Collection<ErrorReporter.Error>> extractorErrors;
+    private final Map<String,Collection<IssueReport.Issue>> extractorIssues;
 
     public ExtractionReport(
             final List<Extractor> matchingExtractors,
             String encoding,
             String detectedMimeType,
             ValidationReport validationReport,
-            Map<String,Collection<ErrorReporter.Error>> extractorErrors
+            Map<String,Collection<IssueReport.Issue>> extractorIssues
     ) {
         if(matchingExtractors == null) throw new NullPointerException("list of matching extractors cannot be null.");
         if(encoding == null) throw new NullPointerException("encoding cannot be null.");
@@ -63,7 +63,7 @@ public class ExtractionReport {
         this.encoding              = encoding;
         this.detectedMimeType      = detectedMimeType;
         this.validationReport      = validationReport;
-        this.extractorErrors       = Collections.unmodifiableMap(extractorErrors);
+        this.extractorIssues       = Collections.unmodifiableMap(extractorIssues);
     }
 
     /**
@@ -104,13 +104,13 @@ public class ExtractionReport {
 
     /**
      * @param extractorName name of the extractor.
-     * @return the (unmodifiable) map of errors per extractor.
+     * @return the (unmodifiable) map of issues per extractor.
      */
-    public Collection<ErrorReporter.Error> getExtractorErrors(String extractorName) {
-        final Collection<ErrorReporter.Error> errors = extractorErrors.get(extractorName);
+    public Collection<IssueReport.Issue> getExtractorIssues(String extractorName) {
+        final Collection<IssueReport.Issue> errors = extractorIssues.get(extractorName);
         return  errors == null
                 ?
-                Collections.<ErrorReporter.Error>emptyList()
+                Collections.<IssueReport.Issue>emptyList()
                 :
                 Collections.unmodifiableCollection(errors);
     }

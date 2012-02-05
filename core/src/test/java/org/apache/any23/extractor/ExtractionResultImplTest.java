@@ -79,23 +79,23 @@ public class ExtractionResultImplTest {
     }
 
     private void notifyErrors(ExtractionResult er) {
-        er.notifyError(ExtractionResult.ErrorLevel.ERROR, "Error message"  , 1, 2);
-        er.notifyError(ExtractionResult.ErrorLevel.WARN,  "Warning message", 3, 4);
-        er.notifyError(ExtractionResult.ErrorLevel.FATAL, "Fatal message"  , 5, 6);
+        er.notifyIssue(IssueReport.IssueLevel.Error  , "Error message"  , 1, 2);
+        er.notifyIssue(IssueReport.IssueLevel.Warning, "Warning message", 3, 4);
+        er.notifyIssue(IssueReport.IssueLevel.Fatal  , "Fatal message"  , 5, 6);
     }
 
     private void assertContent(ExtractionResult er) {
-        Assert.assertEquals("Unexpected errors list size." , 3, er.getErrors().size() );
-        assertOutputString(er, "ERROR");
-        assertOutputString(er, "WARN");
-        assertOutputString(er, "FATAL");
+        Assert.assertEquals("Unexpected errors list size." , 3, er.getIssues().size() );
+        assertOutputString(er, IssueReport.IssueLevel.Error.toString());
+        assertOutputString(er, IssueReport.IssueLevel.Warning.toString());
+        assertOutputString(er, IssueReport.IssueLevel.Fatal.toString());
         assertOutputString(er, "errors: 3");
     }
 
     private void assertOutputString(ExtractionResult er, String s) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
-        er.printErrorsReport(ps);
+        er.printReport(ps);
         ps.flush();
         Assert.assertTrue( String.format("Cannot find string '%s' in output stream.", s), baos.toString().contains(s) );
     }

@@ -17,7 +17,7 @@
 
 package org.apache.any23.rdf;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -41,7 +41,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     private final ValueFactory wrappedFactory;
 
-    private ErrorReporter errorReporter;
+    private IssueReport issueReport;
 
     private String defaultLiteralLanguage;
 
@@ -54,18 +54,18 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      */
     public Any23ValueFactoryWrapper(
             final ValueFactory factory,
-            ErrorReporter er,
+            IssueReport er,
             String defaultLitLanguage
     ) {
         if(factory == null) {
             throw new NullPointerException("factory cannot be null.");
         }
         wrappedFactory = factory;
-        errorReporter  = er;
+        issueReport = er;
         defaultLiteralLanguage = defaultLitLanguage;
     }
 
-    public Any23ValueFactoryWrapper(final ValueFactory vFactory, ErrorReporter er) {
+    public Any23ValueFactoryWrapper(final ValueFactory vFactory, IssueReport er) {
         this(vFactory, er, null);
     }
 
@@ -73,12 +73,12 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         this(vFactory, null, null);
     }
 
-    public ErrorReporter getErrorReporter() {
-        return errorReporter;
+    public IssueReport getIssueReport() {
+        return issueReport;
     }
 
-    public void setErrorReporter(ErrorReporter er) {
-        errorReporter = er;
+    public void setIssueReport(IssueReport er) {
+        issueReport = er;
     }
 
     public String getDefaultLiteralLanguage() {
@@ -227,10 +227,10 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      * @param e error to be reported.
      */
     private void reportError(Exception e) {
-        if(errorReporter == null) {
+        if(issueReport == null) {
             logger.warn(e.getMessage());
         } else {
-            errorReporter.notifyError(ErrorReporter.ErrorLevel.WARN, e.getMessage(), -1 , -1);
+            issueReport.notifyIssue(IssueReport.IssueLevel.Warning, e.getMessage(), -1, -1);
         }
     }
 

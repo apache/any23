@@ -22,6 +22,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.annotations.Includes;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
@@ -94,11 +95,11 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         this.context      = extractionContext;
         this.documentURI  = extractionContext.getDocumentURI();
         this.out          = out;
-        valueFactory.setErrorReporter(out);
+        valueFactory.setIssueReport(out);
         try {
             extract();
         } finally {
-            valueFactory.setErrorReporter(null);
+            valueFactory.setIssueReport(null);
         }
     }
 
@@ -158,11 +159,11 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     ) {
         final String literalStr = literal.stringValue();
         if( containsScriptBlock(literalStr) ) {
-            out.notifyError(
-                    ExtractionResult.ErrorLevel.WARN,
+            out.notifyIssue(
+                    IssueReport.IssueLevel.Warning,
                     String.format("Detected script in literal: [%s]", literalStr)
-                    ,-1
-                    ,-1
+                    , -1
+                    , -1
             );
             return false;
         }

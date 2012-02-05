@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.html;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -118,16 +118,16 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
         try {
             turtleParser.parse( new StringReader(n.getTextContent()), graphName );
         } catch (RDFParseException rdfpe) {
-            er.notifyError(
-                    ErrorReporter.ErrorLevel.ERROR,
+            er.notifyIssue(
+                    IssueReport.IssueLevel.Error,
                     String.format(
                             "An error occurred while parsing turtle content within script node: %s",
-                            Arrays.toString( DomUtils.getXPathListForNode(n) )
+                            Arrays.toString(DomUtils.getXPathListForNode(n))
                     ),
                     rdfpe.getLineNumber(), rdfpe.getColumnNumber()
             );
         } catch (Exception e) {
-            er.notifyError(ErrorReporter.ErrorLevel.ERROR, "An error occurred while processing RDF data.", -1 , -1);
+            er.notifyIssue(IssueReport.IssueLevel.Error, "An error occurred while processing RDF data.", -1, -1);
         }
     }
 

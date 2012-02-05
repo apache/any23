@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.rdfa;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
@@ -93,7 +93,7 @@ public class RDFa11Parser {
 
     public static final String XMLNS_DEFAULT = "http://www.w3.org/1999/xhtml";
 
-    private ErrorReporter errorReporter;
+    private IssueReport issueReport;
 
     private URL documentBase;
 
@@ -205,7 +205,7 @@ public class RDFa11Parser {
     public void processDocument(URL documentURL, Document document, ExtractionResult extractionResult)
     throws RDFa11ParserException {
         try {
-            this.errorReporter = extractionResult;
+            this.issueReport = extractionResult;
 
             // Check RDFa1.0[4.1.3] : default XMLNS declaration.
             if( ! isXMLNSDeclared(document)) {
@@ -241,7 +241,7 @@ public class RDFa11Parser {
      * Resets the parser to the original state.
      */
     public void reset() {
-        errorReporter = null;
+        issueReport = null;
         documentBase  = null;
         uriMappingStack.clear();
         listOfIncompleteTriples.clear();
@@ -459,8 +459,8 @@ public class RDFa11Parser {
                 DomUtils.getXPathForNode(n), msg
         );
         final int[] errorLocation = DomUtils.getNodeLocation(n);
-        this.errorReporter.notifyError(
-                ErrorReporter.ErrorLevel.WARN,
+        this.issueReport.notifyIssue(
+                IssueReport.IssueLevel.Warning,
                 errorMsg,
                 errorLocation == null ? -1 : errorLocation[0],
                 errorLocation == null ? -1 : errorLocation[1]

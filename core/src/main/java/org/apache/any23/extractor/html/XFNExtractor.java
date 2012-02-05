@@ -75,7 +75,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
             Document in,
             ExtractionResult out
     ) throws IOException, ExtractionException {
-        factoryWrapper.setErrorReporter(out);
+        factoryWrapper.setIssueReport(out);
         try {
             document = new HTMLDocument(in);
             this.out = out;
@@ -90,7 +90,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
             out.writeTriple(subject, RDF.TYPE, vFOAF.Person);
             out.writeTriple(subject, vXFN.mePage, documentURI);
         } finally {
-            factoryWrapper.setErrorReporter(null);
+            factoryWrapper.setIssueReport(null);
         }
     }
 

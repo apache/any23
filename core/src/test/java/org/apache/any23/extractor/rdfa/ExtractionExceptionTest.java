@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.rdfa;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
@@ -58,9 +58,9 @@ public class ExtractionExceptionTest {
                 new URIImpl("http://fake.document.uri")
         );
         final ExtractionResult er = new ExtractionResultImpl(extractionContext, extractor, th);
-        er.notifyError(ErrorReporter.ErrorLevel.FATAL, "Fake fatal error.", 1, 2);
-        er.notifyError(ErrorReporter.ErrorLevel.ERROR, "Fake error."      , 3, 4);
-        er.notifyError(ErrorReporter.ErrorLevel.WARN , "Fake warning."    , 5, 6);
+        er.notifyIssue(IssueReport.IssueLevel.Fatal  , "Fake fatal error.", 1, 2);
+        er.notifyIssue(IssueReport.IssueLevel.Error  , "Fake error."      , 3, 4);
+        er.notifyIssue(IssueReport.IssueLevel.Warning, "Fake warning."    , 5, 6);
 
         ExtractionException ee = new ExtractionException("Fake message.", new RuntimeException("Fake cause"), er);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

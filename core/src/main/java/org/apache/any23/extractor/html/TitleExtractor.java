@@ -71,7 +71,7 @@ public class TitleExtractor implements TagSoupDOMExtractor {
                 out.writeTriple(extractionContext.getDocumentURI(), vDCTERMS.title, valueFactory.createLiteral(title));
             }
         } finally {
-            valueFactory.setErrorReporter(null);
+            valueFactory.setIssueReport(null);
         }
     }
 

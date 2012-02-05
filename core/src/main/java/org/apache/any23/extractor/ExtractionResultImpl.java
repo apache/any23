@@ -70,7 +70,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     private boolean isInitialized = false;
 
-    private List<Error> errors;
+    private List<Issue> issues;
 
     private List<ResourceRoot> resourceRoots;
 
@@ -97,31 +97,31 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         knownContextIDs.add( context.getUniqueID() );
     }
 
-    public boolean hasErrors() {
-        return errors != null;
+    public boolean hasIssues() {
+        return issues != null;
     }
 
-    public int getErrorsCount() {
-        return errors == null ? 0 : errors.size();
+    public int getIssuesCount() {
+        return issues == null ? 0 : issues.size();
     }
 
-    public void printErrorsReport(PrintStream ps) {
-        ps.print(String.format("Context: %s [errors: %d] {\n", context, getErrorsCount()));
-        if (errors != null) {
-            for (Error error : errors) {
-                ps.print(error.toString());
+    public void printReport(PrintStream ps) {
+        ps.print(String.format("Context: %s [errors: %d] {\n", context, getIssuesCount()));
+        if (issues != null) {
+            for (Issue issue : issues) {
+                ps.print(issue.toString());
                 ps.print("\n");
             }
         }
         // Printing sub results.
         for (ExtractionResult er : subResults) {
-            er.printErrorsReport(ps);
+            er.printReport(ps);
         }
         ps.print("}\n");
     }
 
-    public Collection<Error> getErrors() {
-        return errors == null ? Collections.<Error>emptyList() : Collections.unmodifiableList(errors);
+    public Collection<Issue> getIssues() {
+        return issues == null ? Collections.<Issue>emptyList() : Collections.unmodifiableList(issues);
     }
 
     public ExtractionResult openSubResult(ExtractionContext context) {
@@ -175,11 +175,11 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         }
     }
 
-    public void notifyError(ErrorLevel level, String msg, int row, int col) {
-        if(errors == null) {
-            errors = new ArrayList<Error>();
+    public void notifyIssue(IssueLevel level, String msg, int row, int col) {
+        if(issues == null) {
+            issues = new ArrayList<Issue>();
         }
-        errors.add( new Error(level, msg, row, col) );
+        issues.add(new Issue(level, msg, row, col));
     }
 
     public void close() {
@@ -274,11 +274,11 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         final StringBuilder sb = new StringBuilder();
         sb.append(context.toString());
         sb.append('\n');
-        if (errors != null) {
+        if (issues != null) {
             sb.append("Errors {\n");
-            for (Error error : errors) {
+            for (Issue issue : issues) {
                 sb.append('\t');
-                sb.append(error.toString());
+                sb.append(issue.toString());
                 sb.append('\n');
             }
         }

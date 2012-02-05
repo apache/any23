@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.rdf;
 
-import org.apache.any23.extractor.ErrorReporter;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.io.nquads.NQuadsParser;
@@ -198,15 +198,15 @@ public class RDFParserFactory {
      */
     private class InternalParseErrorListener implements ParseErrorListener {
 
-        private final ErrorReporter extractionResult;
+        private final IssueReport extractionResult;
 
-        public InternalParseErrorListener(ErrorReporter er) {
+        public InternalParseErrorListener(IssueReport er) {
             extractionResult = er;
         }
 
         public void warning(String msg, int lineNo, int colNo) {
             try {
-                extractionResult.notifyError(ExtractionResult.ErrorLevel.WARN, msg, lineNo, colNo);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.Warning, msg, lineNo, colNo);
             } catch (Exception e) {
                 notifyExceptionInNotification(e);
             }
@@ -214,7 +214,7 @@ public class RDFParserFactory {
 
         public void error(String msg, int lineNo, int colNo) {
             try {
-                extractionResult.notifyError(ExtractionResult.ErrorLevel.ERROR, msg, lineNo, colNo);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.Error, msg, lineNo, colNo);
             } catch (Exception e) {
                 notifyExceptionInNotification(e);
             }
@@ -222,7 +222,7 @@ public class RDFParserFactory {
 
         public void fatalError(String msg, int lineNo, int colNo) {
             try {
-                extractionResult.notifyError(ExtractionResult.ErrorLevel.FATAL, msg, lineNo, colNo);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.Fatal, msg, lineNo, colNo);
             } catch (Exception e) {
                 notifyExceptionInNotification(e);
             }

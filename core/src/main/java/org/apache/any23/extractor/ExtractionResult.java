@@ -24,7 +24,7 @@ import org.openrdf.model.Value;
 /**
  * Interface defining the methods that a representation of an extraction result must have.
  */
-public interface ExtractionResult extends ErrorReporter {
+public interface ExtractionResult extends IssueReport {
 
     /**
      * Writes a triple.
