@@ -77,7 +77,7 @@ public class Any23PluginManager {
     /**
      * Singleton lazy instance.
      */
-    private static Any23PluginManager instance;
+    private static final Any23PluginManager instance = new Any23PluginManager();
 
     /**
      * Internal class loader used to dynamically load classes.
@@ -88,9 +88,6 @@ public class Any23PluginManager {
      * @return a singleton instance of {@link Any23PluginManager}.
      */
     public static synchronized Any23PluginManager getInstance() {
-        if(instance == null) {
-            instance = new Any23PluginManager();
-        }
         return instance;
     }
 
