@@ -566,7 +566,7 @@ public class Any23PluginManager {
     /**
      * Dynamic local file class loader.
      */
-    private class DynamicClassLoader extends URLClassLoader {
+    private static final class DynamicClassLoader extends URLClassLoader {
 
         private final Set<String> addedURLs = new HashSet<String>();
 
