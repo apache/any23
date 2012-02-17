@@ -575,7 +575,7 @@ public class Any23PluginManager {
         private final List<File> dirs;
 
         public DynamicClassLoader(URL[] urls) {
-            super(urls);
+            super(urls, Any23PluginManager.class.getClassLoader());
             jars = new ArrayList<File>();
             dirs = new ArrayList<File>();
         }
