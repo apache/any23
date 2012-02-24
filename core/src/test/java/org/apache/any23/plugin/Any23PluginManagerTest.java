@@ -17,11 +17,8 @@
 
 package org.apache.any23.plugin;
 
-import org.apache.any23.cli.Tool;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -29,10 +26,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import org.apache.any23.cli.Tool;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test case for {@link Any23PluginManager}.
@@ -40,8 +41,6 @@ import java.util.zip.ZipInputStream;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class Any23PluginManagerTest {
-
-    private static final File TARGET_TEST_JAR = new File("src/test/resources/org/apache/any23/plugin/target.jar");
 
     private Any23PluginManager manager;
 
@@ -56,50 +55,15 @@ public class Any23PluginManagerTest {
     }
 
     @Test
-    public <T> void testGetClassesInPackageFromJAR() throws IOException {
-        Set<Class<T>> classes = new HashSet<Class<T>>();
-                manager.loadClassesInPackageFromJAR(
-                        TARGET_TEST_JAR,
-                        "org.hsqldb.store",
-                        null,
-                        classes
-                );
-        Assert.assertEquals(6, classes.size());
-    }
-
-    @Test
-    public <T> void testGetClassesInPackageFromDir() throws IOException {
-        final File tmpDir = File.createTempFile("test-plugin-manager", ".decompressed");
-        tmpDir.delete();
-        tmpDir.mkdirs();
-        decompressJar(TARGET_TEST_JAR, tmpDir);
-
-        Set<Class<T>> classes = new HashSet<Class<T>>();
-        manager.loadClassesInPackageFromDir(
-                tmpDir,
-                "org.hsqldb.store",
-                null,
-                classes
-        );
-        Assert.assertEquals(6, classes.size());
-    }
-
-    @Test
-    public <T> void testGetClassesFromClasspath() throws IOException {
-        Set<Class<T>> clazzes = manager.getClassesInPackage("org.apache.any23.plugin", null);
-        Assert.assertTrue(clazzes.size() >= 4);
-    }
-
-    @Test
     public void testGetTools() throws IOException {
-        Class<Tool>[] tools = manager.getTools();
-        Assert.assertTrue(tools.length > 0); // NOTE: Punctual tool detection verification done by ToolRunnerTest.java
+        Iterator<Tool> tools = manager.getTools();
+        assertTrue(tools.hasNext()); // NOTE: Punctual tool detection verification done by ToolRunnerTest.java
     }
 
     @Test
     public void testGetPlugins() throws IOException {
-        Class<ExtractorPlugin>[] extractorPlugins = manager.getPlugins();
-        Assert.assertEquals(0, extractorPlugins.length);
+        Iterator<ExtractorPlugin> extractorPlugins = manager.getExtractors();
+        assertFalse(extractorPlugins.hasNext());
     }
 
     // TODO: move in FileUtils

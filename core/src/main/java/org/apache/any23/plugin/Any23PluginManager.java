@@ -17,29 +17,27 @@
 
 package org.apache.any23.plugin;
 
-import org.apache.any23.cli.Tool;
-import org.apache.any23.configuration.DefaultConfiguration;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.ExtractorGroup;
-import org.apache.any23.extractor.ExtractorRegistry;
-import org.apache.any23.util.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.ServiceLoader.load;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
+
+import org.apache.any23.cli.Tool;
+import org.apache.any23.configuration.DefaultConfiguration;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.ExtractorGroup;
+import org.apache.any23.extractor.ExtractorRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The <i>Any23PluginManager</i> is responsible for inspecting
@@ -247,17 +245,9 @@ public class Any23PluginManager {
      * @return list of matching classes.
      * @throws IOException
      */
-    public synchronized <T> Set<Class<T>> getClassesInPackage(final String packageName, final ClassFilter filter)
+    public synchronized <T> Iterator<T> getPlugins(final Class<T> type)
     throws IOException {
-        final Set<Class<T>> result = new HashSet<Class<T>>();
-        loadClassesInPackageFromClasspath(packageName, filter, result);
-        for(File jar : dynamicClassLoader.jars) {
-            loadClassesInPackageFromJAR(jar, packageName, filter, result);
-        }
-        for(File dir : dynamicClassLoader.dirs) {
-            loadClassesInPackageFromDir(dir, packageName, filter, result);
-        }
-        return result;
+        return load(type, dynamicClassLoader).iterator();
     }
 
     /**
@@ -266,17 +256,8 @@ public class Any23PluginManager {
      * @return not <code>null</code> list of tool classes.
      * @throws IOException
      */
-    public synchronized Class<Tool>[] getTools() throws IOException {
-        final Set<Class<Tool>> result = getClassesInPackage(
-                CLI_PACKAGE,
-                new ClassFilter() {
-                    @Override
-                    public boolean accept(Class clazz) {
-                        return !clazz.equals(Tool.class) && Tool.class.isAssignableFrom(clazz);
-                    }
-                }
-        );
-        return result.toArray( new Class[result.size()] );
+    public synchronized Iterator<Tool> getTools() throws IOException {
+        return getPlugins(Tool.class);
     }
 
     /**
@@ -285,17 +266,8 @@ public class Any23PluginManager {
      * @return not <code>null</code> list of plugin classes.
      * @throws IOException
      */
-    public synchronized Class<ExtractorPlugin>[] getPlugins() throws IOException {
-        final Set<Class<ExtractorPlugin>> result = getClassesInPackage(
-                PLUGINS_PACKAGE,
-                new ClassFilter() {
-                    @Override
-                    public boolean accept(Class clazz) {
-                        return !clazz.equals(ExtractorPlugin.class) && ExtractorPlugin.class.isAssignableFrom(clazz);
-                    }
-                }
-        );
-        return result.toArray( new Class[result.size()] );
+    public synchronized Iterator<ExtractorPlugin> getExtractors() throws IOException {
+        return getPlugins(ExtractorPlugin.class);
     }
 
     /**
@@ -333,27 +305,26 @@ public class Any23PluginManager {
                 report.append("}\n");
             }
 
-            final Class<ExtractorPlugin>[] extractorPluginClasses = getPlugins();
-            if (extractorPluginClasses.length == 0) {
-                report.append("\n=== No plugins have been found.===\n");
-                return initialExtractorGroup;
-            } else {
-                report.append("\nThe following plugins have been found {\n");
-                final List<ExtractorFactory<?>> newFactoryList = new ArrayList<ExtractorFactory<?>>();
-                for (Class<ExtractorPlugin> extractorPluginClass : extractorPluginClasses) {
-                    final ExtractorPlugin extractorPlugin = extractorPluginClass.newInstance();
-                    newFactoryList.add(extractorPlugin.getExtractorFactory());
-                    report.append(
-                            extractorPlugin.getExtractorFactory().getExtractorName()
-                    ).append("\n");
-                }
-                report.append("}\n");
+            final List<ExtractorFactory<?>> newFactoryList = new ArrayList<ExtractorFactory<?>>();
 
-                for(ExtractorFactory extractorFactory : initialExtractorGroup) {
-                    newFactoryList.add(extractorFactory);
-                }
-                return new ExtractorGroup(newFactoryList);
+            Iterator<ExtractorPlugin> extarctors = getExtractors();
+            while (extarctors.hasNext()) {
+                ExtractorFactory<?> factory = extarctors.next().getExtractorFactory();
+
+                report.append("\n - found plugin: ").append(factory.getExtractorName()).append("\n");
+
+                newFactoryList.add(factory);
             }
+
+            if (newFactoryList.isEmpty()) {
+                report.append("\n=== No plugins have been found.===\n");
+            }
+
+            for (ExtractorFactory<?> extractorFactory : initialExtractorGroup) {
+                newFactoryList.add(extractorFactory);
+            }
+
+            return new ExtractorGroup(newFactoryList);
         } finally {
             logger.info(report.toString());
         }
@@ -390,156 +361,6 @@ public class Any23PluginManager {
     throws IOException, IllegalAccessException, InstantiationException {
         final ExtractorGroup defaultExtractors = ExtractorRegistry.getInstance().getExtractorGroup();
         return configureExtractors(defaultExtractors, pluginLocations);
-    }
-
-    /**
-     * Filters classes by criteria within a <i>JAR</i>.
-     *
-     * @param jarFile file addressing the JAR.
-     * @param packageName name of package to scan.
-     * @param filter filter class, all returned classes must extend the specified one.
-     * @param result list for writing result.
-     * @throws java.io.IOException
-     */
-    protected <T> void loadClassesInPackageFromJAR(
-            File jarFile,
-            String packageName,
-            ClassFilter filter,
-            Set<Class<T>> result
-    ) throws IOException {
-        loadJAR(jarFile);
-        packageName = packageName.replaceAll("\\.", "/");
-        JarInputStream jarInputStream = new JarInputStream(new FileInputStream(jarFile));
-        JarEntry jarEntry;
-        while (true) {
-            try {
-                jarEntry = jarInputStream.getNextJarEntry();
-            } catch (IOException ioe) {
-                throw new IllegalStateException("Error while accessing JAR.", ioe);
-            }
-            if (jarEntry == null) {
-                break;
-            }
-            final String jarEntryName = jarEntry.getName();
-            if (jarEntryName.startsWith(packageName) && isValidClassName(jarEntryName)) {
-                final String classEntry = jarEntryName.replaceAll("/", "\\.");
-                final String classStr = classEntry.substring(0, classEntry.indexOf(".class"));
-                final Class clazz;
-                try {
-                    clazz = Class.forName(classStr, true, dynamicClassLoader);
-                } catch (ClassNotFoundException cnfe) {
-                    throw new IllegalStateException("Error while creating class.", cnfe);
-                }
-                if (filter == null || filter.accept(clazz)) {
-                    result.add(clazz);
-                }
-            }
-        }
-    }
-
-    /**
-     * Filters classes by criteria within a <i>class dir</i>.
-     *
-     * @param classDir class directory.
-     * @param packageName name of package to scan.
-     * @param filter filter class, all returned classes must extend the specified one.
-     * @param result list for writing result.
-     * @param <T> class types.
-     * @throws MalformedURLException
-     */
-    protected <T> void loadClassesInPackageFromDir(
-            File classDir,
-            final String packageName,
-            final ClassFilter filter,
-            Set<Class<T>> result
-    ) throws MalformedURLException {
-        if(packageName != null && packageName.trim().length() == 0) {
-            throw new IllegalArgumentException("Invalid packageName filter '" + packageName + "'");
-        }
-        loadClassDir(classDir);
-        final int PREFIX_LENGTH = classDir.getAbsolutePath().length();
-        File[] classFiles = FileUtils.listFilesRecursively(
-                classDir,
-                new FilenameFilter() {
-                    @Override
-                    public boolean accept(File dir, String name) {
-                        if (!isValidClassName(name)) return false;
-                        if (packageName == null) return true;
-                        final String absolutePath = dir.getAbsolutePath();
-                        if (absolutePath.length() <= PREFIX_LENGTH) return false;
-                        return
-                                absolutePath
-                                        .substring(PREFIX_LENGTH + 1)
-                                        .replaceAll("/", "\\.")
-                                        .startsWith(packageName);
-                    }
-                }
-        );
-        final int classDirPathLength = classDir.getAbsolutePath().length();
-        for (File classFile : classFiles) {
-            final Class clazz;
-            try {
-                String className =
-                        classFile
-                                .getAbsolutePath()
-                                .substring(classDirPathLength + 1);
-                className = className.substring(0, className.length() - ".class".length()).replaceAll("/", "\\.");
-                clazz = Class.forName(className, true, dynamicClassLoader);
-            } catch (ClassNotFoundException cnfe) {
-                throw new IllegalStateException("Error while instantiating class.", cnfe);
-            }
-            if (filter == null || filter.accept(clazz)) {
-                result.add(clazz);
-            }
-        }
-    }
-
-    /**
-     * Filters classes by criteria within the initialization <i>classpath</i>.
-     *
-     * @param packageName name of package to scan.
-     * @param filter filter class, all returned classes must extend the specified one.
-     * @param result list for writing result.
-     * @param <T>
-     * @throws IOException
-     */
-    protected <T> void loadClassesInPackageFromClasspath(
-            final String packageName,
-            final ClassFilter filter,
-            Set<Class<T>> result
-    ) throws IOException {
-        final String[] classpathEntries = getClasspathEntries();
-        for (String classPathEntry : classpathEntries) {
-            if(classPathEntry.trim().length() == 0) continue;
-            final File codePath = new File(URLDecoder.decode(classPathEntry, "UTF-8"));
-            if( ! codePath.exists() ) continue;
-            if (codePath.isDirectory()) {
-                loadClassesInPackageFromDir(codePath, packageName, filter, result);
-            } else {
-                loadClassesInPackageFromJAR(codePath, packageName, filter, result);
-            }
-        }
-    }
-
-    /**
-     * @return the classpath entries.
-     */
-    private String[] getClasspathEntries() {
-        final String classpath          = System.getProperty("java.class.path");
-        assert classpath != null : "Class path is null.";
-        final String classpathSeparator = System.getProperty("path.separator");
-        assert classpathSeparator != null : "Class path separator is null.";
-        return classpath.split("\\" + classpathSeparator);
-    }
-
-    /**
-     * Checks if the class name is valid.
-     *
-     * @param clazzName
-     * @return
-     */
-    private boolean isValidClassName(String clazzName) {
-        return clazzName.endsWith(".class") && ! clazzName.contains("$");
     }
 
     /**

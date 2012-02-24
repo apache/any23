@@ -24,6 +24,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+import org.kohsuke.MetaInfServices;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import java.util.Arrays;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@MetaInfServices
 @ToolRunner.Description("Prints out the RDF Schema of the vocabularies used by Any23.")
 public class VocabPrinter implements Tool {
 

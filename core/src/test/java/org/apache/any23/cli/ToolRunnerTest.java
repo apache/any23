@@ -17,13 +17,15 @@
 
 package org.apache.any23.cli;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+import org.junit.Test;
 
 /**
  * Test case for {@link ToolRunner}.
@@ -44,8 +46,10 @@ public class ToolRunnerTest {
 
     @Test
     public void testGetToolsInClasspath() throws IOException {
-        Class<Tool>[] tools = ToolRunner.getToolsInClasspath();
-        Assert.assertTrue("Some core tools have not been detected.", coreTools.containsAll(Arrays.asList(tools)));
+        Iterator<Tool> tools = ToolRunner.getToolsInClasspath();
+        while (tools.hasNext()) {
+            assertTrue("Some core tools have not been detected.", coreTools.contains(tools.next().getClass()));
+        }
     }
 
 }

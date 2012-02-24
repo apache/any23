@@ -26,6 +26,7 @@ import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.kohsuke.MetaInfServices;
 
 import java.io.IOException;
 
@@ -33,6 +34,7 @@ import java.io.IOException;
  * This class provides some command-line documentation
  * about available extractors and their usage.
  */
+@MetaInfServices
 @ToolRunner.Description("Utility for obtaining documentation about metadata extractors.")
 public class ExtractorDocumentation implements Tool {
 
@@ -186,7 +188,7 @@ public class ExtractorDocumentation implements Tool {
 
     /**
      * Prints a complete report on all the available extractors.
-     * 
+     *
      * @throws IOException
      * @throws ExtractionException
      */
@@ -232,5 +234,5 @@ public class ExtractorDocumentation implements Tool {
         }
         return "?";
     }
-    
+
 }

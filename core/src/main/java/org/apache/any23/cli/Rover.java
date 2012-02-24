@@ -39,6 +39,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
+import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +63,7 @@ import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Gabriele Renzi
  */
+@MetaInfServices
 @ToolRunner.Description("Any23 Command Line Tool.")
 public class Rover implements Tool {
 

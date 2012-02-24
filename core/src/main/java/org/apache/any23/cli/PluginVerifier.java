@@ -17,16 +17,18 @@
 
 package org.apache.any23.cli;
 
+import java.io.File;
+import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.plugin.Any23PluginManager;
 import org.apache.any23.plugin.Author;
 import org.apache.any23.plugin.ExtractorPlugin;
-
-import java.io.File;
-import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.util.Collection;
+import org.kohsuke.MetaInfServices;
 
 /**
  * Commandline utility to verify the <b>Any23</b> plugins
@@ -34,6 +36,7 @@ import java.util.Collection;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@MetaInfServices
 @ToolRunner.Description("Utility for plugin management verification.")
 public class PluginVerifier implements Tool {
 
@@ -55,17 +58,17 @@ public class PluginVerifier implements Tool {
             return 2;
         }
 
-        final Class<ExtractorPlugin>[] plugins;
+        final Iterator<ExtractorPlugin> plugins;
         try{
             pluginManager.loadJARDir(pluginsDir);
-            plugins = pluginManager.getPlugins();
+            plugins = pluginManager.getExtractors();
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return 3;
         }
-        for(Class<ExtractorPlugin> p : plugins) {
+        while (plugins.hasNext()) {
             System.out.println("-----------------------------");
-            printPluginData(p, System.out);
+            printPluginData(plugins.next().getClass(), System.out);
             System.out.println("-----------------------------");
         }
         return 0;
@@ -84,7 +87,7 @@ public class PluginVerifier implements Tool {
         return sb.toString();
     }
 
-    private void printPluginData(Class<ExtractorPlugin> extractorPlugin, PrintStream ps) {
+    private void printPluginData(Class<? extends ExtractorPlugin> extractorPlugin, PrintStream ps) {
         final Author authorAnnotation = extractorPlugin.getAnnotation(Author.class);
         final ExtractorPlugin instance;
         try {
@@ -92,7 +95,7 @@ public class PluginVerifier implements Tool {
         } catch (Exception e) {
             throw new IllegalStateException("Error while instantiating plugin.", e);
         }
-        final ExtractorFactory extractorFactory = instance.getExtractorFactory();
+        final ExtractorFactory<?> extractorFactory = instance.getExtractorFactory();
         ps.printf("Plugin class     : %s\n", extractorPlugin.getClass());
         ps.printf("Plugin author    : %s\n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
         ps.printf("Plugin factory   : %s\n", extractorFactory.getClass());

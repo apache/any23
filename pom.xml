@@ -402,6 +402,15 @@
     </dependency>
     <!-- END: logger -->
 
+    <!-- BEGIN: plugins -->
+    <dependency>
+      <groupId>org.kohsuke.metainf-services</groupId>
+      <artifactId>metainf-services</artifactId>
+      <version>1.3</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- END: plugins -->
+
     <!-- BEGIN: Test Dependencies -->
     <dependency>
       <groupId>junit</groupId>

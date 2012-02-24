@@ -24,6 +24,7 @@ import org.apache.any23.source.StringDocumentSource;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.kohsuke.MetaInfServices;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +39,7 @@ import java.util.regex.PatternSyntaxException;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@MetaInfServices
 @ToolRunner.Description("Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
 

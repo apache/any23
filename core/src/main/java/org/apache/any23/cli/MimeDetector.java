@@ -28,6 +28,7 @@ import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.FileDocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
+import org.kohsuke.MetaInfServices;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -39,6 +40,7 @@ import java.net.URISyntaxException;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@MetaInfServices
 @ToolRunner.Description("MIME Type Detector Tool.")
 public class MimeDetector implements Tool{
 

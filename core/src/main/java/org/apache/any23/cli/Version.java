@@ -18,12 +18,14 @@
 package org.apache.any23.cli;
 
 import org.apache.any23.Any23;
+import org.kohsuke.MetaInfServices;
 
 /**
  * Prints out the <b>Any23</b> library version.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@MetaInfServices
 @ToolRunner.Description("Prints out the current library version and configuration information.")
 public class Version implements Tool {
 

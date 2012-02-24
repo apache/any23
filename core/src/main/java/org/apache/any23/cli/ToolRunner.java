@@ -17,14 +17,15 @@
 
 package org.apache.any23.cli;
 
-import org.apache.any23.plugin.Any23PluginManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Iterator;
+
+import org.apache.any23.plugin.Any23PluginManager;
 
 /**
  * This class is the main class responsible to provide a uniform command-line
@@ -33,7 +34,6 @@ import java.lang.annotation.Target;
  * @see ExtractorDocumentation
  * @see Rover
  */
-@ToolRunner.Skip
 public class ToolRunner {
 
     public static final File HOME_PLUGIN_DIR = new File(
@@ -48,29 +48,26 @@ public class ToolRunner {
 
     public static void main(String[] args) throws IOException {
         //Generate automatically the cli.
-        final Class<Tool>[] tools = getToolsInClasspath();
+        final Iterator<Tool> tools = getToolsInClasspath();
         try {
             if (args.length < 1) {
                 usage(null, tools);
             }
 
             final String toolName = args[0];
-            Class<Tool> targetTool = null;
-            for(Class<Tool> tool : tools) {
-                if(tool.getSimpleName().equals(toolName)) {
-                    targetTool = tool;
-                    break;
+
+            while (tools.hasNext()) {
+                Tool tool = tools.next();
+                if (tool.getClass().getSimpleName().equals(toolName)) {
+                    String[] mainArgs = new String[args.length - 1];
+                    System.arraycopy(args, 1, mainArgs, 0, mainArgs.length);
+
+                    System.exit(tool.run(mainArgs));
                 }
             }
-            if(targetTool == null) {
-                usage( String.format("[%s] is not a valid tool name.", toolName), tools);
-                throw new IllegalStateException();
-            }
 
-            String[] mainArgs = new String[args.length - 1];
-            System.arraycopy(args, 1, mainArgs, 0, mainArgs.length);
-            final Tool targetToolInstance = targetTool.newInstance();
-            targetToolInstance.run(mainArgs);
+            usage( String.format("[%s] is not a valid tool name.", toolName), tools);
+            throw new IllegalStateException();
         } catch (Throwable e) {
             e.printStackTrace();
             Throwable cause = e.getCause();
@@ -79,7 +76,7 @@ public class ToolRunner {
         }
     }
 
-    public static Class<Tool>[] getToolsInClasspath() throws IOException {
+    public static Iterator<Tool> getToolsInClasspath() throws IOException {
         final Any23PluginManager pluginManager =  Any23PluginManager.getInstance();
         if(HOME_PLUGIN_DIR.exists()) {
             pluginManager.loadJARDir(HOME_PLUGIN_DIR);
@@ -91,13 +88,14 @@ public class ToolRunner {
         return String.format("%1$#" + n + "s", s);
     }
 
-    private static String getUtilitiesMessage(Class<Tool>[] toolClasses) {
+    private static String getUtilitiesMessage(Iterator<Tool> toolClasses) {
         StringBuffer sb = new StringBuffer();
         sb.append(" where <utility> is one of:\n");
         Description description;
         String utilityName;
         int padding;
-        for (Class<Tool> toolClass :  toolClasses) {
+        while (toolClasses.hasNext()) {
+            Class<?> toolClass = toolClasses.next().getClass();
             utilityName = toolClass.getSimpleName();
             sb.append("\t").append(utilityName);
             description = toolClass.getAnnotation(Description.class);
@@ -110,21 +108,17 @@ public class ToolRunner {
         return sb.toString();
     }
 
-    private static void usage(String msg, Class<Tool>[] utilities) {
-        if(msg != null) {
+    private static void usage(String msg, Iterator<Tool> utilities) {
+        if (msg != null) {
             System.err.println("*** ERROR: " + msg);
             System.err.println();
         }
         System.err.println(USAGE);
-        if(utilities != null) {
-            System.err.println( getUtilitiesMessage(utilities) );
+        if (utilities != null) {
+            System.err.println(getUtilitiesMessage(utilities));
         }
         System.exit(1);
     }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    public @interface Skip {}
 
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
