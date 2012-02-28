@@ -32,3 +32,41 @@ integration-test
 ----------------
 
 This module contains the integration tests for all the defined plugins.
+
+Generate Plugin Packaging
+=========================
+
+To generate the desired plugin package, navigate to the plugin directory and execute 'mvn package'
+e.g. to generate the basic-crawler plugin package
+
+$cd $ANY23-HOME/plugins/basic-crawler
+$ mvn package
+
+From the basic-crawler directory this generates
+
+.
+|-- pom.xml
+|-- src
+|   |-- main
+|   |   |-- assembly
+|   |   `-- java
+|   `-- test
+`-- target
+    |-- any23-basic-crawler-1.0.0-incubating-SNAPSHOT.jar
+    |-- apache-any23-basic-crawler-1.0.0-incubating-SNAPSHOT-bin.tar.gz <<<
+    |-- apache-any23-basic-crawler-1.0.0-incubating-SNAPSHOT-bin.zip <<<
+    |-- archive-tmp
+    |-- classes
+    |   |-- META-INF
+    |   `-- org
+    |-- generated-sources
+    |-- maven-archiver
+    |-- maven-shared-archive-resources
+    |-- surefire
+    |-- surefire-reports
+    `-- test-classes
+...
+45 directories, 56 files
+
+Plugin specific README's can be found in either ./target/*.tar.gz || ./target/*.zip (annotated above with '<<<')
+  
