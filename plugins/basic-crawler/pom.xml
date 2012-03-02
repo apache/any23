@@ -49,39 +49,14 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- BEGIN: Crawler4j -->
-    <dependency>
-      <groupId>edu.uci.ics</groupId>
-      <artifactId>crawler4j</artifactId>
-      <version>2.6.1</version>
+    <!-- Crawler4j -->
+ 	<dependency>
+        <groupId>edu.uci.ics</groupId>
+        <artifactId>crawler4j</artifactId>
+        <version>3.3</version>
+        <type>jar</type>
+        <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.sleepycat</groupId>
-      <artifactId>je</artifactId>
-      <version>4.0.92</version>
-    </dependency>
-    <dependency>
-      <groupId>it.unimi.dsi</groupId>
-      <artifactId>fastutil</artifactId>
-      <version>6.4.1</version>
-    </dependency>
-    <dependency>
-      <groupId>it.unimi.dsi</groupId>
-      <artifactId>dsiutils</artifactId>
-      <version>2.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.1</version>
-    </dependency>
-    <!--TODO: resolve dependency conflict.-->
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.4</version>
-    </dependency>
-    <!-- END: Crawler4j -->
   </dependencies>
 
   <build>

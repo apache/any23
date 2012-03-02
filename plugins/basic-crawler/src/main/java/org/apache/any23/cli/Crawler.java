@@ -18,6 +18,8 @@
 package org.apache.any23.cli;
 
 import edu.uci.ics.crawler4j.crawler.Page;
+import edu.uci.ics.crawler4j.parser.HtmlParseData;
+import edu.uci.ics.crawler4j.parser.ParseData;
 import org.apache.any23.plugin.crawler.CrawlerListener;
 import org.apache.any23.plugin.crawler.SiteCrawler;
 import org.apache.any23.source.StringDocumentSource;
@@ -86,20 +88,25 @@ public class Crawler extends Rover {
                 public void visitedPage(Page page) {
                     final String pageURL = page.getWebURL().getURL();
                     System.err.println( String.format("Processing page: [%s]", pageURL) );
-                    try {
-                        synchronized (roverLock) {
-                            Crawler.super.performExtraction(
-                                    new StringDocumentSource(
-                                            page.getHTML(),
-                                            pageURL
 
-                                    )
+                    final ParseData parseData = page.getParseData();
+                    if (parseData instanceof HtmlParseData) {
+                        final HtmlParseData htmlParseData = (HtmlParseData) parseData;
+                        try {
+                            synchronized (roverLock) {
+                                Crawler.super.performExtraction(
+                                        new StringDocumentSource(
+                                                htmlParseData.getHtml(),
+                                                pageURL
+
+                                        )
+                                );
+                            }
+                        } catch (Exception e) {
+                            System.err.println(
+                                    String.format("Error while processing page [%s], error: %s .", pageURL, e.getMessage())
                             );
                         }
-                    } catch (Exception e) {
-                        System.err.println(
-                                String.format("Error while processing page [%s], error: %s .", pageURL, e.getMessage())
-                        );
                     }
                 }
             });

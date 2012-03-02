@@ -17,8 +17,12 @@
 
 package org.apache.any23.plugin.crawler;
 
+import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.fetcher.PageFetcher;
+import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
+import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 import java.io.File;
 import java.net.URL;
@@ -85,19 +89,9 @@ public class SiteCrawler {
     private Class<? extends WebCrawler> webCrawler = DEFAULT_WEB_CRAWLER;
 
     /**
-     * Max allowed depth, <code>-1</code> means no limit.
+     * Internal crawler configuration.
      */
-    private int maxDepth = -1;
-
-    /**
-     *  Max allowed pages, <code>-1</code> means no limit.
-     */
-    private int maxPages = -1;
-
-    /**
-     * Subsequent call politeness delay, <code>-1</code> means no limit.
-     */
-    private int politenessDelay = -1;
+    private final CrawlConfig crawlConfig;
 
     /**
      * Internal executor service.
@@ -111,7 +105,15 @@ public class SiteCrawler {
      */
     public SiteCrawler(File storageFolder) {
         try {
-            controller = new CrawlController( storageFolder.getAbsolutePath() );
+            crawlConfig = new CrawlConfig();
+            crawlConfig.setCrawlStorageFolder( storageFolder.getAbsolutePath() );
+            
+            final PageFetcher pageFetcher = new PageFetcher(crawlConfig);
+
+            RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+            final RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+            
+            controller = new CrawlController(crawlConfig, pageFetcher, robotstxtServer);
         } catch (Exception e) {
             throw new IllegalArgumentException("Error while initializing crawler controller.", e);
         }
@@ -139,7 +141,7 @@ public class SiteCrawler {
     }
 
     /**
-     * Sets the actual crawler clas.
+     * Sets the actual crawler class.
      *
      * @param c a not <code>class</code>.
      */
@@ -152,7 +154,7 @@ public class SiteCrawler {
      * @return the max allowed crawl depth, <code>-1</code> means no limit.
      */
     public int getMaxDepth() {
-        return maxDepth;
+        return crawlConfig.getMaxDepthOfCrawling();
     }
 
     /**
@@ -162,19 +164,14 @@ public class SiteCrawler {
      */
     public void setMaxDepth(int maxDepth) {
         if(maxDepth < -1 || maxDepth == 0) throw new IllegalArgumentException("Invalid maxDepth, must be -1 or > 0");
-        if(maxDepth > 0) try {
-            controller.setMaximumCrawlDepth(maxDepth);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error while setting maxDepth.", e);
-        }
-        this.maxDepth = maxDepth;
+        crawlConfig.setMaxDepthOfCrawling(maxDepth);
     }
 
     /**
      * @return max number of allowed pages.
      */
     public int getMaxPages() {
-        return maxPages;
+        return crawlConfig.getMaxPagesToFetch();
     }
 
     /**
@@ -184,26 +181,23 @@ public class SiteCrawler {
      */
     public void setMaxPages(int maxPages) {
         if(maxPages < -1 || maxPages == 0) throw new IllegalArgumentException("Invalid maxPages, must be -1 or > 0");
-        if(maxPages > 0) controller.setMaximumPagesToFetch(maxPages);
-        this.maxPages = maxPages;
+        crawlConfig.setMaxPagesToFetch(maxPages);
     }
 
     /**
      * @return the politeness delay in milliseconds.
      */
     public int getPolitenessDelay() {
-        return politenessDelay;
+        return crawlConfig.getPolitenessDelay();
     }
 
     /**
-     * Sets the politeness delay. <code>-1</code> means no politeness.
+     * Sets the politeness delay.
      *
      * @param millis delay in milliseconds.
      */
     public void setPolitenessDelay(int millis) {
-        if(millis < -1) throw new IllegalArgumentException("Invalid politenessDelay, must be >= -1");
-        if(millis >= 0) controller.setPolitenessDelay(millis);
-        this.politenessDelay = millis;
+        if(millis >= 0) crawlConfig.setPolitenessDelay(millis);
     }
 
     /**

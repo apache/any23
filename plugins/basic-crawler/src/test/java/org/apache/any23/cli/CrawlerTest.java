@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Test case for {@link Crawler} CLI.
@@ -70,6 +71,9 @@ public class CrawlerTest extends Any23OnlineTestBase {
             future.get(10, TimeUnit.SECONDS);
         } catch (Exception e) {
             // OK.
+            if( ! (e instanceof TimeoutException) ) {
+                e.printStackTrace();
+            }
         }
         Assert.assertTrue("The output file has not been created.", outFile.exists());
 
