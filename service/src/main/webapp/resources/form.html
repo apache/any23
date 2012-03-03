@@ -21,14 +21,9 @@
     xmlns:dc="http://purl.org/dc/elements/1.1/">
   <head>
     <title>Apache Any23: Anything To Triples - Service ((${implementation.build}; ${maven.build.timestamp}))</title>
-    <style type="text/css">
-body { padding: 1.2em 2em; font-family:arial; font-size:12px}
-th { text-align: left; }
-h1, h2, h3 { color: #3b97b9; }
-h2 { font-size: 125%; }
-h3 { font-size: 100%; }
-pre { background: #e1e1e1; padding: 0.6em 1em; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="resources/simplePopup/simplePopup.css" />
+    <script type="text/javascript" src="resources/simplePopup/jquery-1.4.2.js"></script>
     <script type="application/javascript">
 function init() {
     var elements = document.getElementsByClassName('app-base-uri');
@@ -39,19 +34,17 @@ function init() {
     document.getElementById('app-host').childNodes(0).nodeValue = document.location.hostname;
 }
     </script>
-    <link rel="stylesheet" type="text/css" href="resources/simplePopup/simplePopup.css" />
-    <script type="text/javascript" src="resources/simplePopup/jquery-1.4.2.js"></script>
     <script type="text/javascript" src="resources/simplePopup/simplePopup.js"></script>
     <script type="text/javascript">
         sPopup({
-	        width : 400, // width of the popup
-	        closeTexte : 'Close', // text of the exit button
-	        fadeSpeed : 'fast' // speed of the fading effect
+            width : 400, // width of the popup
+            closeTexte : 'Close', // text of the exit button
+            fadeSpeed : 'fast' // speed of the fading effect
         });
     </script>
   </head>
   <body onLoad="init();">
-  <div align="right">
+  <div class="container">
     <a href="http://incubator.apache.org/projects/any23.html" title="Apache Any23 Dev Site" target="_blank">
         <img
             alt="Apache Any23 Dev Site"
@@ -64,83 +57,138 @@ function init() {
             src="resources/images/logo-apache-90x30.png"
             width="90"
         /></a>
-   </div>
+
     <h1>Apache Any23 - Anything To Triples - Live Service Demo</h1>
     <p>Parses Microformats, RDFa, Microdata, RDF/XML, Turtle, N-Triples and NQuads.</p>
     <p>Download and install Any23: visit the <a href="http://incubator.apache.org/projects/any23.html" target="_blank">Developers Site</a> and the <a href="http://incubator.apache.org/any23/" target="_blank">Documentation</a>.
     <hr />
     <h2>Convert document at URI</h2>
-    <form method="get" action="any23/">
-      <p>Pick an output format and enter the URI of a web document:</p>
-      <code>
-        <span class="app-base-uri">http://.../</span><select name="format">
-          <option value="best" selected="selected">best</option>
-          <option value="turtle">turtle</option>
-          <option value="ntriples">ntriples</option>
-          <option value="rdfxml">rdfxml</option>
-          <option value="nquads">nquads</option>
-          <option value="trix">trix</option>
-          <option value="json">json</option>
-        </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
-      </code>
-      Validation:
-      <select id="url-validation" name="validation-mode" onclick="if(document.getElementById('url-validation').value == 'validate') { document.getElementById('url-report').checked = true; }">
+    <form class="well form-horizontal" method="get" action="any23/">
+      <label>Pick an output format and enter the URI of a web document:</label>
+
+      <div class="control-group">
+        <label class="control-label app-base-uri" for="format">http://.../</label>
+        <div class="controls">
+            <select id="format" name="format">
+            <option value="best" selected="selected">best</option>
+            <option value="turtle">turtle</option>
+            <option value="ntriples">ntriples</option>
+            <option value="rdfxml">rdfxml</option>
+            <option value="nquads">nquads</option>
+            <option value="trix">trix</option>
+            <option value="json">json</option>
+          </select>/<input type="text" size="50" name="uri" value="http://twitter.com/cygri" />
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="url-validation">Validation</label>
+        <div class="controls">
+          <select id="url-validation" name="validation-mode" onclick="if(document.getElementById('url-validation').value == 'validate') { document.getElementById('url-report').checked = true; }">
           <option value="none">none</option>
           <option value="validate">validate</option>
           <option value="validate-fix">validate+fix</option>
-      </select>
-      <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
-      Report:<input id="url-report" type="checkbox" name="report">
-      <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
-      Annotate:<input id="url-annotate" type="checkbox" name="annotate">
-      <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a></input>
-      <input type="submit" value="Convert" />
+        </select>
+          <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="url-report">Report</label>
+          <div class="controls">
+           <label class="checkbox">
+             <input id="url-report" type="checkbox" name="report">
+             <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a>
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="url-annotate">Annotate</label>
+          <div class="controls">
+           <label class="checkbox">
+             <input id="url-annotate" type="checkbox" type="checkbox" name="annotate">
+             <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a>
+          </label>
+        </div>
+      </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Convert</button>
+      <button type="reset" class="btn">Cancel</button>
+    </div>
     </form>
     <hr />
 
     <h2>Convert copy&amp;pasted document</h2>
-    <form method="post" action="any23/">
-      <p>Input format:
-        <select name="type">
-          <option value="">auto-detect</option>
-          <option value="text/html">HTML with Microformats, RDFa (text/html)</option>
-          <option value="application/xhtml+xml">XHTML with Microformats, RDFa, Microdata (application/xhtml+xml)</option>
-          <option value="text/turtle">Turtle (text/turtle)</option>
-          <option value="text/nt">N-Triples (text/nt)</option>
-          <option value="text/nq">N-Quads (text/nq)</option>
-          <option value="application/trix">TriX (application/trix)</option>
-          <option value="application/rdf+xml">RDF/XML (application/rdf+xml)</option>
-          <option value="text/csv">CSV (text/csv)</option>
+    <form class="well form-horizontal" method="post" action="any23/">
+      <div class="control-group">
+        <label class="control-label" for="type">Input format</label>
+        <div class="controls">
+            <select id="type" name="type">
+            <option value="">auto-detect</option>
+            <option value="text/html">HTML with Microformats, RDFa (text/html)</option>
+            <option value="application/xhtml+xml">XHTML with Microformats, RDFa, Microdata (application/xhtml+xml)</option>
+            <option value="text/turtle">Turtle (text/turtle)</option>
+            <option value="text/nt">N-Triples (text/nt)</option>
+            <option value="text/nq">N-Quads (text/nq)</option>
+            <option value="application/trix">TriX (application/trix)</option>
+            <option value="application/rdf+xml">RDF/XML (application/rdf+xml)</option>
+            <option value="text/csv">CSV (text/csv)</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="out-format">Output format</label>
+        <div class="controls">
+            <select id="out-format" name="format">
+            <option value="best" selected="selected">best (content-negotiated)</option>
+            <option value="turtle">turtle</option>
+            <option value="ntriples">ntriples</option>
+            <option value="rdfxml">rdfxml</option>
+            <option value="nquads">nquads</option>
+            <option value="trix">trix</option>
+            <option value="json">json</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="url-validation">Validation</label>
+        <div class="controls">
+          <select id="url-validation" name="validation-mode" onclick="if(document.getElementById('url-validation').value == 'validate') { document.getElementById('url-report').checked = true; }">
+          <option value="none">none</option>
+          <option value="validate">validate</option>
+          <option value="validate-fix">validate+fix</option>
         </select>
-        Output format:
-        <select name="format">
-          <option value="best" selected="selected">best (content-negotiated)</option>
-          <option value="turtle">turtle</option>
-          <option value="ntriples">ntriples</option>
-          <option value="rdfxml">rdfxml</option>
-          <option value="nquads">nquads</option>
-          <option value="trix">trix</option>
-          <option value="json">json</option>
-        </select>
-          Validation:
-        <select id="direct-validation" name="validation-mode" onclick="if(document.getElementById('direct-validation').value == 'validate') { document.getElementById('direct-report').checked = true; }">
-            <option value="none">none</option>
-            <option value="validate">validate</option>
-            <option value="validate-fix">validate+fix</option>
-        </select>
-        <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a></input>
-        Report:<input id="direct-report" type="checkbox" name="report">
-        <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a></input>
-        Annotate:<input id="direct-annotate" type="checkbox" name="annotate">
-        <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a></input>
-        <input type="submit" value="Convert" /><br />
-        <textarea name="body" rows="12" cols="80">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
-      
+          <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="url-report">Report</label>
+          <div class="controls">
+           <label class="checkbox">
+             <input id="url-report" type="checkbox" name="report">
+             <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a>
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="url-annotate">Annotate</label>
+          <div class="controls">
+           <label class="checkbox">
+             <input id="url-annotate" type="checkbox" type="checkbox" name="annotate">
+             <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a>
+          </label>
+        </div>
+      </div>
+
+        <textarea class="span11" name="body" rows="12">@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+
 [] a foaf:Person;
     foaf:name "John X. Foobar";
     foaf:mbox_sha1sum "cef817456278b70cee8e5a1611539ef9d928810e";
     .</textarea>
-      </p>
+      
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Convert</button>
+      <button type="reset" class="btn">Cancel</button>
+    </div>
 
     </form>
     <hr />
@@ -262,10 +310,10 @@ Content-Length: 174
     <p><b>Apache Any23 v.${project.version}</b></p>
     <p><a href="http://incubator.apache.org/projects/any23.html" target="_blank">Any23 project homepage</a> | Hosted at <a href="http://apache.org/" target="_blank">Apache Software Foundation</a></p>
     <div id="sPopup-fix">
-	    <p> 
+        <p> 
             The <b>Any23</b> service tries to fix some <a href="http://rdfa.info/wiki/Common-publishing-mistakes" target="_blank">common issues</a>
             before performing a metadata extraction. The fixing is performed according a set of fully customizable rules. 
-	        <br/>
+            <br/>
             The following <i>Validation</i> options are available.
             <b>none</b>: no validation will be performed. 
             <b>validate</b>: common errors within the document will be detected and reported. When selected this option the
@@ -278,7 +326,7 @@ Content-Length: 174
         </p>
     </div>
     <div id="sPopup-report">
-	    <p>
+        <p>
         If the <i>Report</i> checkbox is selected, the <b>Any23</b> service returns an <b>XML</b> output containing,
         other then the <b>extracted RDF statements</b>, other information as the list of the <b>activated extractors</b>
         and the <b>detected errors</b>.
@@ -288,11 +336,17 @@ Content-Length: 174
         </p>
     </div>
     <div id="sPopup-annotate">
-	    <p>
+        <p>
         If the <i>Annotate</i> checkbox is selected, the <b>Any23</b> service returns an output expressed in the
         selected <b>RDF</b> format containing also specific format <b>comments</b> describing the activated extractor
         scopes for every produced statement.
         </p>
     </div>
+  </div>
+  <footer class="footer">
+  <div class="container-fluid">
+  Copyright &copy; ${project.inceptionYear}-2012 The <a href="http://www.apache.org/">Apache Software Foundation</a>. All Rights Reserved.<br/> Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation. All other marks mentioned may be trademarks or registered trademarks of their respective owners.
+  </div>
+  </footer>
   </body>
 </html>
