@@ -58,8 +58,6 @@
       <useProjectArtifact>true</useProjectArtifact>
       <outputDirectory>/lib</outputDirectory>
       <excludes>
-        <!-- dsiutils is LGPLed -->
-        <exclude>it.unimi.dsi:dsiutils</exclude>
         <!-- already provided from Any23 -->
         <exclude>org.slf4j:*</exclude>
       </excludes>
