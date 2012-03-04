@@ -63,6 +63,9 @@
         <configuration>
           <projectsDirectory>..</projectsDirectory>
           <cloneProjectsTo>${project.build.directory}/plugins-build</cloneProjectsTo>
+          <profiles>
+            <profile>apache.any23</profile>
+          </profiles>
           <pomIncludes>
             <pomInclude>*/pom.xml</pomInclude>
           </pomIncludes>
