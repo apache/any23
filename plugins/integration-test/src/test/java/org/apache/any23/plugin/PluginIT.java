@@ -17,6 +17,8 @@
 
 package org.apache.any23.plugin;
 
+import org.apache.any23.cli.Crawler;
+import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorGroup;
 import org.junit.After;
 import org.junit.Assert;
@@ -25,6 +27,9 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Integration test for plugins.
@@ -54,8 +59,15 @@ public class PluginIT {
         manager = null;
     }
 
+    /**
+     * <i>Extractor</i> plugins detection testing.
+     *
+     * @throws IOException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
     @Test
-    public void testGetApplicableExtractors() throws IOException, InstantiationException, IllegalAccessException {
+    public void testDetectExtractorPlugins() throws IOException, InstantiationException, IllegalAccessException {
         final ExtractorGroup extractorGroup = manager.getApplicableExtractors(
                 HTML_SCRAPER_TARGET_DIR,
                 HTML_SCRAPER_DEPENDENCY_DIR,  // Required to satisfy class dependencies.
@@ -66,6 +78,24 @@ public class PluginIT {
                 NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
                 extractorGroup.getNumOfExtractors()
         );
+    }
+
+    /**
+     * <i>CLI</i> plugins detection testing.
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testDetectCLIPlugins() throws IOException {
+        final Iterator<Tool> tools = manager.getTools();
+        final Set<String> toolClasses = new HashSet<String>(); 
+        Tool tool;
+        while(tools.hasNext()) {
+            tool = tools.next();
+            Assert.assertTrue("Found duplicate tool.", toolClasses.add(tool.getClass().getName()));
+        }
+        Assert.assertTrue( toolClasses.contains( Crawler.class.getName() ) );
+        Assert.assertEquals(7 + 1, toolClasses.size());
     }
 
 }
