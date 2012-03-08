@@ -431,7 +431,7 @@
   <repositories>
     <repository>
       <id>any23-repository-external</id>
-      <url>http://any23.googlecode.com/svn/repo-ext</url>
+      <url>http://svn.apache.org/repos/asf/incubator/any23/repo-ext/</url>
     </repository>
     <!-- Specific repository for Aduna / Sesame related dependencies. -->
     <repository>
