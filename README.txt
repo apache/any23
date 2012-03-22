@@ -18,8 +18,8 @@ structured data in RDF format from a variety of Web documents.
 Distribution Content
 --------------------
 
-any23-core           The library core codebase.
-any23-service        The library HTTP service codebase.
+core           	     The library core codebase.
+service        	     The library HTTP service codebase.
 lib                  Contains the the external deps (read lib/README.txt for further details).
 plugins              Library plugins codebase (read plugins/README.txt for further details).
 RELEASE-NOTES.txt    File reporting main release notes for every version.
@@ -70,9 +70,9 @@ Any23 comes with some command line tools:
 The complete documentation about these tools can be found here: 
 http://incubator.apache.org/any23/getting-started.html
 
-To run such tools, go to the any23-core bin folder:
+To run such tools, go to the core bin folder:
 
-  trunk$ cd any23-core/bin
+  trunk$ cd core/target/any23-${version}/bin
 
 and then invoke them:
   
@@ -90,7 +90,7 @@ Run the Any23 Web Service
 Any23 can be run as a service. 
 To run the Any23 service go to the any23-service bin folder:
 
-  trunk$ cd any23-service/bin
+  trunk$ cd service/target/any23-${version}/bin
 
 and then invoke:
 
@@ -251,4 +251,17 @@ External Deps are libraries used by some Any23 modules which are
 not available in public Maven repositories. Such libraries are
 managed within the 'lib' dir.
 
+----------------------------
+Munging of Any23 code to ASF
+----------------------------
+When it was decided[0] that the Any23 code be brought into the Apache Incubator, the existing code
+was migrated over to the ASF infrastructure and documented/managed via a number of Jira tickets [1-3].
+
+The commentary provided within the below references spans the entire history of the code migration.    
+
+
+[0] http://wiki.apache.org/incubator/Any23Proposal
+[1] https://issues.apache.org/jira/browse/INFRA-3978
+[2] https://issues.apache.org/jira/browse/INFRA-4146
+[2] https://issues.apache.org/jira/browse/ANY23-29
 EOF
