@@ -2,7 +2,7 @@
 Any23 Plugins
 =============
 
-This is the root dir of the Any23 plugins.
+This is the root dir of the Any23 Plugins module.
 
 A plugin is an extension of the Any23 core and can be plugged using
 the Plugin Manager capabilities.
@@ -52,9 +52,9 @@ From the basic-crawler directory this generates
 |   |   `-- java
 |   `-- test
 `-- target
-    |-- any23-basic-crawler-1.0.0-incubating-SNAPSHOT.jar
-    |-- apache-any23-basic-crawler-1.0.0-incubating-SNAPSHOT-bin.tar.gz <<<
-    |-- apache-any23-basic-crawler-1.0.0-incubating-SNAPSHOT-bin.zip <<<
+    |-- any23-basic-crawler-${version}.jar
+    |-- apache-any23-basic-crawler-${version}-bin.tar.gz <<<
+    |-- apache-any23-basic-crawler-${version}-bin.zip <<<
     |-- archive-tmp
     |-- classes
     |   |-- META-INF
@@ -66,7 +66,6 @@ From the basic-crawler directory this generates
     |-- surefire-reports
     `-- test-classes
 ...
-45 directories, 56 files
 
-Plugin specific README's can be found in either ./target/*.tar.gz || ./target/*.zip (annotated above with '<<<')
+Plugin specific README's can be found in either ./target/*.tar.gz || ./target/*.zip (annotated above with '<<<'), where much more detailed information sources can be located.
   
