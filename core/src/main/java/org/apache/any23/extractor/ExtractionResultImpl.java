@@ -81,6 +81,15 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             Extractor<?> extractor,
             TripleHandler tripleHandler
     ) {
+        this(context, extractor, tripleHandler, new ArrayList<Issue>());
+    }
+
+    private ExtractionResultImpl(
+            ExtractionContext context,
+            Extractor<?> extractor,
+            TripleHandler tripleHandler,
+            List<Issue> issues
+    ) {
         if(context == null) {
             throw new NullPointerException("context cannot be null.");
         }
@@ -94,24 +103,24 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         this.extractor       = extractor;
         this.tripleHandler   = tripleHandler;
         this.context         = context;
+        this.issues          = issues;
+
         knownContextIDs.add( context.getUniqueID() );
     }
 
     public boolean hasIssues() {
-        return issues != null;
+        return ! issues.isEmpty();
     }
 
     public int getIssuesCount() {
-        return issues == null ? 0 : issues.size();
+        return issues.size();
     }
 
     public void printReport(PrintStream ps) {
         ps.print(String.format("Context: %s [errors: %d] {\n", context, getIssuesCount()));
-        if (issues != null) {
-            for (Issue issue : issues) {
-                ps.print(issue.toString());
-                ps.print("\n");
-            }
+        for (Issue issue : issues) {
+            ps.print(issue.toString());
+            ps.print("\n");
         }
         // Printing sub results.
         for (ExtractionResult er : subResults) {
@@ -121,7 +130,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
     }
 
     public Collection<Issue> getIssues() {
-        return issues == null ? Collections.<Issue>emptyList() : Collections.unmodifiableList(issues);
+        return issues.isEmpty() ? Collections.<Issue>emptyList() : Collections.unmodifiableList(issues);
     }
 
     public ExtractionResult openSubResult(ExtractionContext context) {
@@ -132,8 +141,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         knownContextIDs.add(contextID);
 
         checkOpen();
-        ExtractionResult result =
-                new ExtractionResultImpl(context, extractor, tripleHandler);
+        ExtractionResult result = new ExtractionResultImpl(context, extractor, tripleHandler, this.issues);
         subResults.add(result);
         return result;
     }
@@ -176,9 +184,6 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
     }
 
     public void notifyIssue(IssueLevel level, String msg, int row, int col) {
-        if(issues == null) {
-            issues = new ArrayList<Issue>();
-        }
         issues.add(new Issue(level, msg, row, col));
     }
 

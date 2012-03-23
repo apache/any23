@@ -68,14 +68,15 @@ public class ExtractionResultImplTest {
 
     @Test
     public void testNotifyErrors() throws IOException {
+        notifyErrors(extractionResult);
+        assertContent(extractionResult, 3);
+
         final ExtractionResult subExtractionResult = extractionResult.openSubResult(
                 new ExtractionContext("sub-id", RDFUtils.uri("http://sub/uri") )
         );
-        notifyErrors(extractionResult);
-        notifyErrors(subExtractionResult);
 
-        assertContent(extractionResult);
-        assertContent(subExtractionResult);
+        notifyErrors(subExtractionResult);
+        assertContent(subExtractionResult, 6);
     }
 
     private void notifyErrors(ExtractionResult er) {
@@ -84,12 +85,12 @@ public class ExtractionResultImplTest {
         er.notifyIssue(IssueReport.IssueLevel.Fatal  , "Fatal message"  , 5, 6);
     }
 
-    private void assertContent(ExtractionResult er) {
-        Assert.assertEquals("Unexpected errors list size." , 3, er.getIssues().size() );
+    private void assertContent(ExtractionResult er, int errorCount) {
+        Assert.assertEquals("Unexpected errors list size." , errorCount, er.getIssues().size() );
         assertOutputString(er, IssueReport.IssueLevel.Error.toString());
         assertOutputString(er, IssueReport.IssueLevel.Warning.toString());
         assertOutputString(er, IssueReport.IssueLevel.Fatal.toString());
-        assertOutputString(er, "errors: 3");
+        assertOutputString(er, "errors: " + errorCount);
     }
 
     private void assertOutputString(ExtractionResult er, String s) {

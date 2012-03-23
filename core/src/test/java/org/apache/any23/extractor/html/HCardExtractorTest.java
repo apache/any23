@@ -20,8 +20,8 @@ package org.apache.any23.extractor.html;
 import junit.framework.Assert;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.SINDICE;
 import org.apache.any23.vocab.VCARD;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -40,7 +40,6 @@ import java.util.List;
  */
 public class HCardExtractorTest extends AbstractExtractorTestCase {
 
-    private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final VCARD   vVCARD   = VCARD.getInstance();
 
     protected ExtractorFactory<?> getExtractorFactory() {
@@ -952,6 +951,19 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(vVCARD.given_name, "Michele"  , 7);
         assertStatementsSize(vVCARD.family_name, "Mostarda", 7);
+    }
+
+    /**
+     * Tests the detection and prevention of the inclusion of an ancestor by a sibling node.
+         * This test is related to issue <a href="https://issues.apache.org/jira/browse/ANY23-58">ANY23-58</a>.
+     *
+     * @throws IOException
+     * @throws ExtractionException
+     */
+    @Test
+    public void testInfiniteLoop() throws IOException, ExtractionException {
+        assertExtract("microformats/hcard/infinite-loop.html", false);
+        assertIssue(IssueReport.IssueLevel.Warning, ".*Current node tries to include an ancestor node.*");
     }
 
     private void assertDefaultVCard() throws RepositoryException {

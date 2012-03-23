@@ -20,6 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.annotations.Includes;
@@ -80,7 +81,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         name.reset(); // Cleanup of the HCardName content.
     }
 
-    private void fixIncludes(HTMLDocument document, Node node) {
+    private void fixIncludes(HTMLDocument document, Node node, IssueReport report) {
         NamedNodeMap attributes = node.getAttributes();
         // header case test 32
         if ("TD".equals(node.getNodeName()) && (null != attributes.getNamedItem("headers"))) {
@@ -91,8 +92,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 attributes.removeNamedItem("headers");
             }
         }
-        // include pattern, test 31
 
+        // include pattern, test 31
         for (Node current : document.findAll("//*[@class]")) {
             if (!DomUtils.hasClassName(current, "include")) continue;
             // we have to remove the field soon to avoid infinite loops
@@ -103,10 +104,19 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             TextField id = res.get(0);
             if (null == id)
                 continue;
-            id = new TextField( StringUtils.substringAfter(id.value(), "#"), id.source() );
-            Node included = document.findNodeById(id.value());
+            TextField refId = new TextField( StringUtils.substringAfter(id.value(), "#"), id.source() );
+            Node included = document.findNodeById(refId.value());
             if (null == included)
                 continue;
+            if( DomUtils.isAncestorOf(included, current) )  {
+                final int[] nodeLocation = DomUtils.getNodeLocation(current);
+                report.notifyIssue(
+                        IssueReport.IssueLevel.Warning,
+                        "Current node tries to include an ancestor node.",
+                        nodeLocation[0], nodeLocation[1]
+                );
+                continue;
+            }
             current.appendChild(included.cloneNode(true));
         }
     }
@@ -114,7 +124,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     @Override
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         this.fragment = new HTMLDocument(node);
-        fixIncludes(getHTMLDocument(), node);
+        fixIncludes(getHTMLDocument(), node, out);
         final BNode card = getBlankNodeFor(node);
         boolean foundSomething = false;
 
