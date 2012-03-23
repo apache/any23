@@ -377,14 +377,17 @@ public class ServletTest {
                 new File("src/test/resources/org/apache/any23/servlet/missing-og-namespace.html")
         ).readStream();
         acceptHeader = "text/plain";
-        HttpTester response = doGetRequest("/best/http://foo.com?fix=on&report=on");
+        HttpTester response = doGetRequest("/best/http://foo.com?validation-mode=validate-fix&report=on");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
         assertContainsTag("response"        , content);
         assertContainsTag("extractors"      , content);
         assertContainsTag("report"          , content);
-        assertContainsTag("message"         , content);
-        assertContainsTag("error"           , content);
+        assertContainsTag("message", true, 1 , content);
+        assertContainsTag("error"  , true, 1 , content);
+        assertContainsTag("error"  , true, 1 , content);
+        assertContainsTag("extractorIssues" , content);
+        assertContains("<issue level=", content);
         assertContainsTag("validationReport", content);
         assertContainsTag("errors"          , content);
         assertContainsTag("issues"          , content);
@@ -413,9 +416,9 @@ public class ServletTest {
         HttpTester response = doPostRequest("/trix", body, "text/n-quads");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
-        assertContainsTag("graph", content, 1);
-        assertContainsTag("uri", content, 3);
-        assertContainsTag("triple", content, 1);
+        assertContainsTag("graph" , false, 1, content);
+        assertContainsTag("uri"   , false, 3, content);
+        assertContainsTag("triple", false, 1, content);
     }
 
     private HttpTester doGetRequest(String path) throws Exception {
@@ -461,21 +464,30 @@ public class ServletTest {
         Assert.fail("expected '" + expected + "' to be contained in '" + container + "'");
     }
 
-    private void assertContainsTag(String tag, String container, int occurrences) {
-        Assert.assertEquals(
-                String.format("Cannot find open tag %s %d times", tag, occurrences),
-                occurrences,
-                StringUtils.countOccurrences(container, "<" + tag + ">")
-        );
-        Assert.assertEquals(
-                String.format("Cannot find close tag %s %d times", tag, occurrences),
-                occurrences,
-                StringUtils.countOccurrences(container, "</" + tag + ">")
-        );
+    private void assertContainsTag(String tag, boolean inline, int occurrences, String container) {
+        if (inline) {
+            Assert.assertEquals(
+                    String.format("Cannot find inline tag %s %d times", tag, occurrences),
+                    occurrences,
+                    StringUtils.countOccurrences(container, "<" + tag + "/>")
+            );
+        } else {
+            Assert.assertEquals(
+                    String.format("Cannot find open tag %s %d times", tag, occurrences),
+                    occurrences,
+                    StringUtils.countOccurrences(container, "<" + tag + ">") +
+                    StringUtils.countOccurrences(container, "<" + tag + " ")
+            );
+            Assert.assertEquals(
+                    String.format("Cannot find close tag %s %d times", tag, occurrences),
+                    occurrences,
+                    StringUtils.countOccurrences(container, "</" + tag + ">")
+            );
+        }
     }
 
     private void assertContainsTag(String tag, String container) {
-        assertContainsTag(tag, container, 1);
+        assertContainsTag(tag, false, 1, container);
     }
 
     /**

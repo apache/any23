@@ -21,10 +21,11 @@ import org.apache.any23.Any23;
 import org.apache.any23.ExtractionReport;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
+import org.apache.any23.extractor.Extractor;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.validator.SerializationException;
-import org.apache.any23.validator.ValidationReport;
 import org.apache.any23.validator.XMLValidationReportSerializer;
 import org.apache.any23.writer.CompositeTripleHandler;
 import org.apache.any23.writer.CountingTripleHandler;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -114,7 +116,7 @@ class WebResponder {
                         415,
                         "No suitable extractor found for this media type",
                         null,
-                        er.getValidationReport(),
+                        er,
                         report
                 );
                 return;
@@ -148,7 +150,7 @@ class WebResponder {
                     501,
                     "Extraction completed. No triples have been found.",
                     null,
-                    er.getValidationReport(), report
+                    er, report
             );
             return;
         }
@@ -170,7 +172,7 @@ class WebResponder {
             final PrintStream ps = new PrintStream(sos);
             try {
                 printHeader(ps);
-                printResponse(reporter, er.getValidationReport(), data, ps);
+                printResponse(reporter, er, data, ps);
             } catch (Exception e) {
                 throw new RuntimeException("An error occurred while serializing the output response.", e);
             } finally {
@@ -189,10 +191,10 @@ class WebResponder {
         ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
     }
 
-    private void printResponse(ReportingTripleHandler rth, ValidationReport vr, byte[] data, PrintStream ps) {
+    private void printResponse(ReportingTripleHandler rth, ExtractionReport er, byte[] data, PrintStream ps) {
         ps.println("<response>");
         printExtractors(rth, ps);
-        printReport(null, null, vr, ps);
+        printReport(null, null, er, ps);
         printData(data, ps);
         ps.println("</response>");
     }
@@ -206,26 +208,63 @@ class WebResponder {
         }
         ps.println("</extractors>");
     }
+    
+    private void printIssueReport(ExtractionReport er, PrintStream ps) {
+        ps.println("<issueReport>");
+        for(Extractor extractor : er.getMatchingExtractors()) {
+            final String name = extractor.getDescription().getExtractorName();
+            final Collection<IssueReport.Issue> extractorIssues = er.getExtractorIssues(name);
+            if(extractorIssues.isEmpty()) continue;
+            ps.println( String.format("<extractorIssues extractor=\"%s\">", name));
+            for(IssueReport.Issue issue : er.getExtractorIssues(name)) {
+                ps.println(
+                        String.format(
+                                "<issue level=\"%s\" row=\"%d\" col=\"%d\">%s</issue>",
+                                issue.getLevel().toString(),
+                                issue.getRow(),
+                                issue.getCol(),
+                                issue.getMessage()
+                        )
+                );
+            }
+            ps.println("</extractorIssues>");
+        }
+        ps.println("</issueReport>");
 
-    private void printReport(String msg, Throwable e, ValidationReport vr, PrintStream ps) {
+    }
+
+    private void printReport(String msg, Throwable e, ExtractionReport er, PrintStream ps) {
         XMLValidationReportSerializer reportSerializer = new XMLValidationReportSerializer();
         ps.println("<report>");
-        ps.printf("<message>%s</message>\n", msg == null ? "" : msg);
-        ps.println("<error>");
+
+        // Human readable error message.
+        if(msg != null) {
+            ps.printf("<message>%s</message>\n", msg);
+        } else {
+            ps.print("<message/>\n");
+        }
+
+        // Error stack trace.
         if(e != null) {
+            ps.println("<error>");
             ps.println("<![CDATA[");
             e.printStackTrace(ps);
             ps.println("]]>");
+            ps.println("</error>");
+        } else {
+            ps.println("<error/>");
         }
-        ps.println("</error>");
-        // ps.println("<![CDATA[");
+
+        // Issue Report.
+        printIssueReport(er, ps);
+
+        // Validation report.
         try {
-            reportSerializer.serialize(vr, ps);
+            reportSerializer.serialize(er.getValidationReport(), ps);
         } catch (SerializationException se) {
             ps.println("An error occurred while serializing error.");
             se.printStackTrace(ps);
         }
-        // ps.println("]]>");
         ps.println("</report>");
     }
 
@@ -242,7 +281,7 @@ class WebResponder {
         ps.println("</data>");
     }
 
-    private void sendError(int code, String msg, Exception e, ValidationReport vr, boolean report)
+    private void sendError(int code, String msg, Exception e, ExtractionReport er, boolean report)
     throws IOException {
         response.setStatus(code);
         response.setContentType("text/plain");
@@ -250,7 +289,7 @@ class WebResponder {
         if (report) {
             try {
                 printHeader(ps);
-                printReport(msg, e, vr, ps);
+                printReport(msg, e, er, ps);
             } finally {
                 ps.close();
             }
