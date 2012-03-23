@@ -17,11 +17,12 @@
 
 package org.apache.any23.plugin;
 
+import static org.junit.Assert.*;
+
 import org.apache.any23.cli.Crawler;
 import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorGroup;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -74,9 +75,8 @@ public class PluginIT {
                 OFFICE_SCRAPER_TARGET_DIR,
                 OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
         );
-        Assert.assertEquals(
-                NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
-                extractorGroup.getNumOfExtractors()
+        assertEquals( NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
+                      extractorGroup.getNumOfExtractors()
         );
     }
 
@@ -92,11 +92,11 @@ public class PluginIT {
         Tool tool;
         while(tools.hasNext()) {
             tool = tools.next();
-            Assert.assertTrue("Found duplicate tool.", toolClasses.add(tool.getClass().getName()));
+            assertTrue("Found duplicate tool.", toolClasses.add(tool.getClass().getName()));
         }
-        Assert.assertTrue( "Expected " + Crawler.class.getName() + " plugin be detected, but not found int the built classpath",
-                           toolClasses.contains( Crawler.class.getName() ) );
-        Assert.assertEquals(7 + 1, toolClasses.size());
+        assertTrue( "Expected " + Crawler.class.getName() + " plugin be detected, but not found int the built classpath",
+                    toolClasses.contains( Crawler.class.getName() ) );
+        assertEquals(7 + 1, toolClasses.size());
     }
 
 }
