@@ -17,10 +17,11 @@
 
 package org.apache.any23.cli;
 
+import static org.junit.Assert.*;
+
 import org.apache.any23.Any23OnlineTestBase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.FileUtils;
-import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFHandlerException;
@@ -75,7 +76,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
                 e.printStackTrace();
             }
         }
-        Assert.assertTrue("The output file has not been created.", outFile.exists());
+        assertTrue("The output file has not been created.", outFile.exists());
 
         final String[] lines = FileUtils.readFileLines(outFile);
         final StringBuilder allLinesExceptLast = new StringBuilder();
@@ -84,7 +85,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
         }
 
         final Statement[] statements = RDFUtils.parseRDF(RDFUtils.Parser.NQuads, allLinesExceptLast.toString());
-        Assert.assertTrue(statements.length > 0);
+        assertTrue(statements.length > 0);
     }
 
 }
