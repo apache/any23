@@ -53,7 +53,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
         outFile.delete();
         logger.debug( "Outfile: " + outFile.getAbsolutePath() );
 
-        final Future future = Executors.newSingleThreadExecutor().submit(
+        final Future<?> future = Executors.newSingleThreadExecutor().submit(
             new Runnable() {
                 @Override
                 public void run() {
