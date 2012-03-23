@@ -88,13 +88,14 @@ public class PluginIT {
     @Test
     public void testDetectCLIPlugins() throws IOException {
         final Iterator<Tool> tools = manager.getTools();
-        final Set<String> toolClasses = new HashSet<String>(); 
+        final Set<String> toolClasses = new HashSet<String>();
         Tool tool;
         while(tools.hasNext()) {
             tool = tools.next();
             Assert.assertTrue("Found duplicate tool.", toolClasses.add(tool.getClass().getName()));
         }
-        Assert.assertTrue( toolClasses.contains( Crawler.class.getName() ) );
+        Assert.assertTrue( "Expected " + Crawler.class.getName() + " plugin be detected, but not found int the built classpath",
+                           toolClasses.contains( Crawler.class.getName() ) );
         Assert.assertEquals(7 + 1, toolClasses.size());
     }
 
