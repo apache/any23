@@ -43,7 +43,7 @@ Javadocs is available here:
 Build Any23 from Source Code
 ----------------------------
 
-Be sure to have the Apache Maven v.2.2.x+ installed and included in $PATH.
+Be sure to have the Apache Maven v.3.x+ installed and included in $PATH.
 
 For specific information about Maven see: http://maven.apache.org/
 
@@ -56,7 +56,7 @@ and execute the following command:
     trunk$ mvn clean install
 
 This will install the Any23 artifacts and its dependencies in your 
-local Maven2 repository.
+local Maven3 repository.
 
 -------------------------------
 Run the Any23 Commandline Tools
@@ -64,17 +64,23 @@ Run the Any23 Commandline Tools
 
 Any23 comes with some command line tools:
 
-   any23       allows to perform a metadata extraction on a file or URL source.
-   any23tools  provides access to some auxiliary tools.
+   ./any23       # Provides the main Any23 use case: metadata extraction on a file or URL source.
+   ./any23tools  # Provides access to all the Any23 tools.
 
 The complete documentation about these tools can be found here: 
-http://incubator.apache.org/any23/getting-started.html
 
-To run such tools, go to the core bin folder:
+  http://incubator.apache.org/any23/getting-started.html
 
-  trunk$ cd core/target/any23-${version}/bin
+The bin scripts are generated dynamically during the package phase.
+To ensure the package generation run:
 
-and then invoke them:
+  trunk$ mvn package
+
+then go to the core generated bin folder
+
+  trunk$ cd core/target/appassembler/bin/
+
+and finally invoke the script for your OS (UNIX or Windows):
   
   bin$ ./any23
   [usage instructions will be printed out]
@@ -88,13 +94,10 @@ Run the Any23 Web Service
 -------------------------
 
 Any23 can be run as a service. 
-To run the Any23 service go to the any23-service bin folder:
+To run the Any23 service go to the service dir
+and then invoke the embedded Jetty server
 
-  trunk$ cd service/target/any23-${version}/bin
-
-and then invoke:
-
-  bin$ ./any23server   
+  service$ mvn jetty:run
 
 You can check the service is running by accessing
 http://localhost:8080/ with your browser.
@@ -109,25 +112,30 @@ Build the Any23 Web Service WAR
 The Any23 Service WAR by default will be generated as self-contained,
 all the dependencies will be included as JAR within the WEB-INF/lib archive dir.
 
-To generate the self contained WAR invoke:
+To generate the self contained WAR invoke from the service dir:
 
-  any23-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
+  service$ mvn [-o] [-Dmaven.test.skip=true] clean package
 
 Where -o will build the process offline, and -Dmaven.test.skip=true
 will force the test skipping.
 
 The WAR will be generated in
 
-  target/any23-service-X.Y.Z-VERSION.war
+  target/any23-service-x.y.z-incubating-SNAPSHOT.war
 
 To produce a instead a WAR WITHOUT the included JAR dependencies it is possible to use
 the war-without-deps profile:
 
-  any23-service$ mvn [-o] [-Dmaven.test.skip=true] -Pwar-without-deps clean package
+  any23-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
 
-Again the WAR will be generated in
+The option [-o] will speed up the module build if you have already
+collected all the required dependencies.
 
-  target/any23-service-X.Y.Z-VERSION.war
+The option [-Dmaven.test.skip=true] will disable tests.
+
+Again the various versions of the WAR will be generated into
+
+  target/apache-any23-service-x.y.z-*
 
 --------------------------
 Generate the Documentation
@@ -135,13 +143,11 @@ Generate the Documentation
 
 To generate the project site locally execute the following command from the trunk dir:
 
-    trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site:site
+    trunk$ MAVEN_OPTS='-Xmx1024m' mvn [-o] clean site:site
 
-You can speed up the site generation process specifying the offline option ( -o ),
+You can speed up the site generation process specifying the offline option [-o],
 but it works only if all the involved plugin dependencies has been already downloaded
-in the local M2 repository:
-
-    trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site:site
+in the local M2 repository.
 
 If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
 the umlgraphdoc profile. This profile relies on graphviz ( http://www.graphviz.org/) that must be 
@@ -196,11 +202,13 @@ within pom.xml:
 
     <distributionManagement>
         ...
-        <repository>
-            <id>rdf-commons-googlecode</id>
-            <name>RDF Commons Google Code Snapshot Repository</name>
-            <url>svn:https://rdf-commons.googlecode.com/svn/repo/</url>
-        </repository>
+        <distributionManagement>
+            <site>
+                <id>any23.website</id>
+                <name>Apache Any23 website</name>
+                <url>${site.deploymentBaseUrl}</url>
+            </site>
+        </distributionManagement>
         ...
     <distributionManagement>
 
@@ -239,7 +247,7 @@ Package all modules for direct download:
 
 Upload the produced packages in download section:
 
-   http://code.google.com/p/any23/downloads/list
+   http://www.apache.org/dist/incubator/any23
 
 --------------------
 Manage External Deps
@@ -263,5 +271,6 @@ The commentary provided within the below references spans the entire history of 
 [0] http://wiki.apache.org/incubator/Any23Proposal
 [1] https://issues.apache.org/jira/browse/INFRA-3978
 [2] https://issues.apache.org/jira/browse/INFRA-4146
-[2] https://issues.apache.org/jira/browse/ANY23-29
+[3] https://issues.apache.org/jira/browse/ANY23-29
+
 EOF
