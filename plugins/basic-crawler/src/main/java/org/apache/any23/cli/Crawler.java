@@ -41,7 +41,7 @@ import java.util.regex.PatternSyntaxException;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices
+@MetaInfServices( value = Tool.class )
 @ToolRunner.Description("Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
 
