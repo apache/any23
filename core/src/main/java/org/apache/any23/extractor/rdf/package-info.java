@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * This package contains the concrete implementations (and utilities classes)
+ * to perform the extraction from various RDF serialization formats.
  */
-package org.apache.any23.vocab;
+package org.apache.any23.extractor.rdf;

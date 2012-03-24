@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This package provides support for <code>MIME Type</code> data detection.
  */
 package org.apache.any23.mime;

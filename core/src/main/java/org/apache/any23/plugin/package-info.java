@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This package provides <i>Plugin Management</i> support for <i>Any23</i>.
  */
 package org.apache.any23.plugin;

@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * The {@link HTMLScraperExtractor} is a special extractor
+ * to scrape textual content from a generic <i>HTML</i> pages.
  */
 package org.apache.any23.plugin.htmlscraper;

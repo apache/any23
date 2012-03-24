@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * This package provides some utility classes to manage
+ * <i>RDF</i> models and prefixes.
  */
 package org.apache.any23.rdf;

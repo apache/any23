@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * This package defines a set of {@link org.apache.any23.extractor.Extractor}s
+ * able to extract metadata from various <i>Microsoft Office</i> documents.
  */
 package org.apache.any23.plugin.officescraper;

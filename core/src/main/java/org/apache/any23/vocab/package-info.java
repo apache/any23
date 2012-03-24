@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This package defines the main ontologies used by <i>Any23</i>.
  */
 package org.apache.any23.vocab;

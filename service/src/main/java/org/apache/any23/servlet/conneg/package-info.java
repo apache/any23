@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This package provides the <i>Any23</i> content type negotiator.
  */
 package org.apache.any23.servlet.conneg;

@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * This package contains some command-line utilities which allow users
+ * to use the main <i>Any23</i> features via <i>commandline</i> shell.
  */
 package org.apache.any23.cli;

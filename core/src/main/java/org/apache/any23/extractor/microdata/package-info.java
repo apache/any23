@@ -16,7 +16,7 @@
  */
 
 /**
- * This package contains an <i>NQuads</i>
- * parser and writer based on the <i><a href="http://www.openrdf.org/">Sesame</a> API</i>.
+ * This package provides classes for dealing with
+ * <a href="http://www.w3.org/TR/microdata/">Microdata</a> extraction.
  */
-package org.apache.any23.io.nquads;
+package org.apache.any23.extractor.microdata;

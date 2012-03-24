@@ -16,7 +16,9 @@
  */
 
 /**
- * This package contains an <i>NQuads</i>
- * parser and writer based on the <i><a href="http://www.openrdf.org/">Sesame</a> API</i>.
+ *
+ * All the various {@link org.apache.any23.extractor.Extractor} needed to distill <i>RDF</i>
+ * from <a href="http://microformats.org/">Microformats</a> in HTML pages are contained in this package.
+ *
  */
-package org.apache.any23.io.nquads;
+package org.apache.any23.extractor.html;

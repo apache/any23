@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * The package defines a servlet exposing <i>Any23</i>
+ * as a <i>REST</i> Service.
  */
 package org.apache.any23.servlet;

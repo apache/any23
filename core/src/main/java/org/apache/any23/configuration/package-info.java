@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This packages contains the <i>Any23</i> <i>Configuration</i> definition.
  */
 package org.apache.any23.configuration;

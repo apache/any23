@@ -16,7 +16,9 @@
  */
 
 /**
- * This package contains an <i>NQuads</i>
- * parser and writer based on the <i><a href="http://www.openrdf.org/">Sesame</a> API</i>.
+ *  This package contains the annotations needed to describe the
+ *  single nesting relations among different <a href="http://microformats.org/">Microformats</a>.
+ *
+ *  @see {@link org.apache.any23.extractor.html.MicroformatExtractor}
  */
-package org.apache.any23.io.nquads;
+package org.apache.any23.extractor.html.annotations;

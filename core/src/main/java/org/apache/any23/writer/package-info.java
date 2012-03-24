@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ * This package collects a set of {@link org.apache.any23.writer.TripleHandler}
+ * decorators and specific <i>RDF</i> format writers.
  */
 package org.apache.any23.writer;

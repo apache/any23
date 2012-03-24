@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This package defines utility classes for the <i>Encoding Detection</i>.
  */
 package org.apache.any23.encoding;

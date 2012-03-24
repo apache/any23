@@ -16,6 +16,7 @@
  */
 
 /**
- * TODO fillme
+ *  <i>Commandline</i> extension of {@link org.apache.any23.cli.Rover} able
+ *  to extract semantic content from an entire <i>site</i>.
  */
 package org.apache.any23.plugin.crawler;

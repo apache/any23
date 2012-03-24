@@ -16,6 +16,6 @@
  */
 
 /**
- * TODO fillme
+ * This package collects a set of internal library utility classes.
  */
 package org.apache.any23.util;

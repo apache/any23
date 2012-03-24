@@ -16,7 +16,7 @@
  */
 
 /**
- * This package contains an <i>NQuads</i>
- * parser and writer based on the <i><a href="http://www.openrdf.org/">Sesame</a> API</i>.
+ * A set of predefined validation {@link org.apache.any23.validator.Rule}s
+ * and associated {@link org.apache.any23.validator.Fix}es. 
  */
-package org.apache.any23.io.nquads;
+package org.apache.any23.validator.rule;

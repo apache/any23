@@ -16,7 +16,8 @@
  */
 
 /**
- * This package contains an <i>NQuads</i>
- * parser and writer based on the <i><a href="http://www.openrdf.org/">Sesame</a> API</i>.
+ * This package provides an <i>XPath</i> extractor able to generate <i>RDF</i> statements
+ * from any <i>HTML</i> page on the basis of a set of specified rules and a list of statement
+ * templates.
  */
-package org.apache.any23.io.nquads;
+package org.apache.any23.extractor.xpath;
