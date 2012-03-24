@@ -17,7 +17,13 @@
 
 package org.apache.any23.plugin;
 
-import static java.util.ServiceLoader.load;
+import org.apache.any23.cli.Tool;
+import org.apache.any23.configuration.DefaultConfiguration;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.ExtractorGroup;
+import org.apache.any23.extractor.ExtractorRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -31,13 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.any23.cli.Tool;
-import org.apache.any23.configuration.DefaultConfiguration;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.ExtractorGroup;
-import org.apache.any23.extractor.ExtractorRegistry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.ServiceLoader.load;
 
 /**
  * The <i>Any23PluginManager</i> is responsible for inspecting
@@ -240,8 +240,6 @@ public class Any23PluginManager {
      * started with) and the dynamic classpath (the one specified using the load methods).
      *
      * @param <T> type of filtered class.
-     * @param packageName package name to look at classes, if <code>null</code> all packages will be found.
-     * @param filter class filter to select classes, if <code>null</code> all classes will be returned.
      * @return list of matching classes.
      * @throws IOException
      */
@@ -271,45 +269,57 @@ public class Any23PluginManager {
     }
 
     /**
-     * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code>
-     * and also the extractors detected in classpath specified by <code>pluginLocations</code>.
+     * Loads plugins from a list of specified locations.
      *
-     * @param initialExtractorGroup initial list of extractors.
-     * @param pluginLocations
-     * @return full list of extractors.
-     * @throws java.io.IOException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
+     * @param pluginLocations list of locations.
+     * @return a report about the loaded plugins.
      */
+    public synchronized String loadPlugins(File... pluginLocations) {
+        final StringBuilder report = new StringBuilder();
+        report.append("\nLoading plugins from locations {\n");
+        for (File pluginLocation : pluginLocations) {
+            report.append(pluginLocation.getAbsolutePath()).append('\n');
+        }
+        report.append("}\n");
+
+        final Throwable[] errors = loadFiles(pluginLocations);
+        if (errors.length > 0) {
+            report.append("The following errors occurred while loading plugins {\n");
+            for (Throwable error : errors) {
+                report.append(error);
+                report.append("\n\n\n");
+            }
+            report.append("}\n");
+        }
+        return report.toString();
+    }
+
+    /**
+        * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code>
+        * and also the extractors detected in classpath specified by <code>pluginLocations</code>.
+        *
+        * @param initialExtractorGroup initial list of extractors.
+        * @param pluginLocations
+        * @return full list of extractors.
+        * @throws java.io.IOException
+        * @throws IllegalAccessException
+        * @throws InstantiationException
+        */
     public synchronized ExtractorGroup configureExtractors(
             final ExtractorGroup initialExtractorGroup,
             final File... pluginLocations
     ) throws IOException, IllegalAccessException, InstantiationException {
-        if(initialExtractorGroup == null) throw new NullPointerException("inExtractorGroup cannot be null");
+        if (initialExtractorGroup == null) throw new NullPointerException("inExtractorGroup cannot be null");
+
+        final String pluginsReport = loadPlugins(pluginLocations);
+        logger.info(pluginsReport);
 
         final StringBuilder report = new StringBuilder();
         try {
-            report.append("\nLoading plugins from locations {\n");
-            for (File pluginLocation : pluginLocations) {
-                report.append(pluginLocation.getAbsolutePath()).append('\n');
-            }
-            report.append("}\n");
-
-            final Throwable[] errors = loadFiles(pluginLocations);
-            if (errors.length > 0) {
-                report.append("The following errors occurred while loading plugins {\n");
-                for (Throwable error : errors) {
-                    report.append(error);
-                    report.append("\n\n\n");
-                }
-                report.append("}\n");
-            }
-
             final List<ExtractorFactory<?>> newFactoryList = new ArrayList<ExtractorFactory<?>>();
-
-            Iterator<ExtractorPlugin> extarctors = getExtractors();
-            while (extarctors.hasNext()) {
-                ExtractorFactory<?> factory = extarctors.next().getExtractorFactory();
+            Iterator<ExtractorPlugin> extractors = getExtractors();
+            while (extractors.hasNext()) {
+                ExtractorFactory<?> factory = extractors.next().getExtractorFactory();
 
                 report.append("\n - found plugin: ").append(factory.getExtractorName()).append("\n");
 
@@ -361,6 +371,19 @@ public class Any23PluginManager {
     throws IOException, IllegalAccessException, InstantiationException {
         final ExtractorGroup defaultExtractors = ExtractorRegistry.getInstance().getExtractorGroup();
         return configureExtractors(defaultExtractors, pluginLocations);
+    }
+
+    /**
+     * Returns an {@link Iterator} of tools that have been detected within the given list of locations.
+     *
+     * @param pluginLocations list of plugin locations.
+     * @return set of detected tools.
+     * @throws IOException
+     */
+    public synchronized Iterator<Tool> getApplicableTools(File... pluginLocations) throws IOException {
+        final String report = loadPlugins(pluginLocations);
+        logger.info(report);
+        return getTools();
     }
 
     /**

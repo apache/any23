@@ -17,8 +17,6 @@
 
 package org.apache.any23.plugin;
 
-import static org.junit.Assert.*;
-
 import org.apache.any23.cli.Crawler;
 import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorGroup;
@@ -32,6 +30,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Integration test for plugins.
  *
@@ -41,12 +42,16 @@ public class PluginIT {
 
     private static final int NUM_OF_EXTRACTORS = 23;
 
-    private static final String PLUGIN_LOCATION = "target/plugins-build/";
+    private static final String PLUGIN_DIR = "target/plugins-build/";
 
-    private static final File HTML_SCRAPER_TARGET_DIR     = new File(PLUGIN_LOCATION + "html-scraper/target/classes");
-    private static final File HTML_SCRAPER_DEPENDENCY_DIR = new File(PLUGIN_LOCATION + "html-scraper/target/dependency");
-    private static final File OFFICE_SCRAPER_TARGET_DIR     = new File(PLUGIN_LOCATION + "office-scraper/target/classes");
-    private static final File OFFICE_SCRAPER_DEPENDENCY_DIR = new File(PLUGIN_LOCATION + "office-scraper/target/dependency");
+    private static final File HTML_SCRAPER_TARGET_DIR       = new File(PLUGIN_DIR + "html-scraper/target/classes");
+    private static final File HTML_SCRAPER_DEPENDENCY_DIR   = new File(PLUGIN_DIR + "html-scraper/target/dependency");
+
+    private static final File OFFICE_SCRAPER_TARGET_DIR     = new File(PLUGIN_DIR + "office-scraper/target/classes");
+    private static final File OFFICE_SCRAPER_DEPENDENCY_DIR = new File(PLUGIN_DIR + "office-scraper/target/dependency");
+
+    private static final File CRAWLER_TARGET_DIR     = new File(PLUGIN_DIR + "basic-crawler/target/classes");
+    private static final File CRAWLER_DEPENDENCY_DIR = new File(PLUGIN_DIR + "basic-crawler/target/dependency");
 
     private Any23PluginManager manager;
 
@@ -61,7 +66,7 @@ public class PluginIT {
     }
 
     /**
-     * <i>Extractor</i> plugins detection testing.
+     * {@link org.apache.any23.extractor.Extractor} plugins detection testing.
      *
      * @throws IOException
      * @throws InstantiationException
@@ -75,27 +80,32 @@ public class PluginIT {
                 OFFICE_SCRAPER_TARGET_DIR,
                 OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
         );
-        assertEquals( NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
-                      extractorGroup.getNumOfExtractors()
+        assertEquals(NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
+                extractorGroup.getNumOfExtractors()
         );
     }
 
     /**
-     * <i>CLI</i> plugins detection testing.
+     * {@link Tool} plugins detection testing.
      *
      * @throws IOException
      */
     @Test
     public void testDetectCLIPlugins() throws IOException {
-        final Iterator<Tool> tools = manager.getTools();
+        final Iterator<Tool> tools = manager.getApplicableTools(CRAWLER_TARGET_DIR, CRAWLER_DEPENDENCY_DIR);
         final Set<String> toolClasses = new HashSet<String>();
         Tool tool;
         while(tools.hasNext()) {
             tool = tools.next();
             assertTrue("Found duplicate tool.", toolClasses.add(tool.getClass().getName()));
         }
-        assertTrue( "Expected " + Crawler.class.getName() + " plugin be detected, but not found int the built classpath",
-                    toolClasses.contains( Crawler.class.getName() ) );
+        assertTrue(
+                String.format(
+                        "Expected [%s] plugin be detected, but not found int the built classpath",
+                        Crawler.class.getName()
+                ),
+                toolClasses.contains(Crawler.class.getName())
+        );
         assertEquals(7 + 1, toolClasses.size());
     }
 
