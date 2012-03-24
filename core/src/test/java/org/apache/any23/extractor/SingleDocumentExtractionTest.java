@@ -149,7 +149,7 @@ public class SingleDocumentExtractionTest {
      * since {@link org.apache.any23.extractor.html.HCardExtractor} declared a native nesting
      * with the {@link org.apache.any23.extractor.html.AdrExtractor}.
      *
-     * @see {@link org.apache.any23.extractor.html.annotations.Includes}
+     * @see org.apache.any23.extractor.html.annotations.Includes
      * @throws IOException
      * @throws ExtractionException
      * @throws RepositoryException

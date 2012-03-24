@@ -27,7 +27,7 @@ import org.openrdf.rio.helpers.RDFParserBase;
 import java.util.Arrays;
 
 /**
- * Concrete implementation of {@link ContentExtractor}
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
  * to perform extraction on <a href="http://www.w3.org/2004/03/trix/">TriX</a> documents.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)

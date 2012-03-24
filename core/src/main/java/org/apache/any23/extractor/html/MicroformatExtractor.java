@@ -243,7 +243,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * This method checks if there is a native nesting relationship between two
      * {@link MicroformatExtractor}.
      *
-     * @see {@link org.apache.any23.extractor.html.annotations.Includes}
+     * @see org.apache.any23.extractor.html.annotations.Includes
      * @param including the including {@link MicroformatExtractor}
      * @param included the included {@link MicroformatExtractor}
      * @return <code>true</code> if there is a declared nesting relationship

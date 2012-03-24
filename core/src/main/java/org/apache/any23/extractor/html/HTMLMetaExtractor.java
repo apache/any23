@@ -61,9 +61,6 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private String documentLang;
 
-    /**
-     * {@inheritDoc}
-     */
     public final static ExtractorFactory<HTMLMetaExtractor> factory =
             SimpleExtractorFactory.create(
                     NAME,

@@ -119,7 +119,7 @@ public class RDFa11Parser {
      * normalizing blanks where present.
      *
      * @param prefixesDeclaration
-     * @return
+     * @return list of extracted prefixes.
      */
     protected static String[] extractPrefixSections(String prefixesDeclaration) {
         final String[] parts = prefixesDeclaration.split("\\s");
@@ -317,7 +317,7 @@ public class RDFa11Parser {
      *
      * @param n current node.
      * @param curieOrURIList list of CURIE/URI.
-     * @return
+     * @return list of resolved URIs.
      * @throws URISyntaxException
      */
     protected URI[] resolveCurieOrURIList(Node n, String curieOrURIList, boolean termAllowed)
@@ -341,8 +341,8 @@ public class RDFa11Parser {
     /**
      * Resolves a URI string as URI.
      *
-     * @param uriStr
-     * @return
+     * @param uriStr (partial) URI string to be resolved.
+     * @return the resolved URI.
      */
     protected URI resolveURI(String uriStr) {
         return

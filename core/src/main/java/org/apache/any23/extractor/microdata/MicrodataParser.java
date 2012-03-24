@@ -168,8 +168,9 @@ public class MicrodataParser {
      * @param document document to be processed.
      * @param errorMode error management policy.
      * @return list of <b>itemscope</b> items.
-     * @throws MicrodataParserException if <code>errorMode == {@link ErrorMode#StopAtFirstError}</code>
-     *                                  and an error occurs.
+     * @throws MicrodataParserException if
+     *         <code>errorMode == {@link org.apache.any23.extractor.microdata.MicrodataParser.ErrorMode#StopAtFirstError}</code>
+     *         and an error occurs.
      */
     public static MicrodataParserReport getMicrodata(Document document, ErrorMode errorMode)
     throws MicrodataParserException {

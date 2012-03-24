@@ -45,7 +45,7 @@ import java.util.Arrays;
  * It automatically detects fields <i>delimiter</i>. If not able uses
  * the one provided in the <i>Any23</i> configuration.
  *
- * @see {@link CSVReaderBuilder}
+ * @see CSVReaderBuilder
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */
 public class CSVExtractor implements Extractor.ContentExtractor {

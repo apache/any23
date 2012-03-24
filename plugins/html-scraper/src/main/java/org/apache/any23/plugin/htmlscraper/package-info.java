@@ -16,7 +16,7 @@
  */
 
 /**
- * The {@link HTMLScraperExtractor} is a special extractor
+ * The {@link org.apache.any23.plugin.htmlscraper.HTMLScraperExtractor} is a special extractor
  * to scrape textual content from a generic <i>HTML</i> pages.
  */
 package org.apache.any23.plugin.htmlscraper;

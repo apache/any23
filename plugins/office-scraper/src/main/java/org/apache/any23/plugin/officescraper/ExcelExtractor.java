@@ -42,7 +42,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 /**
- * Implementation of {@link ContentExtractor} able to process
+ * Implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} able to process
  * a <i>MS Excel 97-2007+</i> file format <i>.xls/.xlsx</i> and
  * convert the detected content to triples.
  * This extractor is based on

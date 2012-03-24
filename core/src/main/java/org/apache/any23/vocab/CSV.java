@@ -91,7 +91,7 @@ public class CSV extends Vocabulary {
     /**
      *
      * @param localName
-     * @return
+     * @return the new URI instance.
      */
     public URI createProperty(String localName) {
         return createProperty(NS, localName);

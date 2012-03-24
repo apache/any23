@@ -16,6 +16,6 @@
  */
 
 /**
- * This package contains classes and interfaces modeling the {@link Extractor} <i>API</i>.
+ * This package contains classes and interfaces modeling the {@link org.apache.any23.extractor.Extractor} <i>API</i>.
  */
 package org.apache.any23.extractor;

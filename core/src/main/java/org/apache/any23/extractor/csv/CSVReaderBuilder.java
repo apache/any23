@@ -74,7 +74,8 @@ public class CSVReaderBuilder {
      * Checks whether the given input stream is a CSV or not.
      *
      * @param is input stream to be verified.
-     * @return
+     * @return <code>true</code> if the given <code>is</code> input stream contains a <i>CSV</i> content.
+     *         <code>false</code> otherwise.
      * @throws IOException
      */
     public static boolean isCSV(InputStream is) throws IOException {

@@ -54,7 +54,7 @@ import java.util.Set;
 
 /**
  * Default implementation of <a href="http://www.w3.org/TR/microdata/">Microdata</a> extractor,
- * based on {@link TagSoupDOMExtractor}.
+ * based on {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano ( dpalmisano@gmail.com )

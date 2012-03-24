@@ -81,7 +81,8 @@ public class StringUtils {
      *
      * @param candidatePrefix
      * @param container
-     * @return
+     * @return <code>true</code> if <code>candidatePrefix</code> is prefix of <code>container</code>,
+     *         <code>false</code> otherwise.
      */
     public static boolean isPrefix(String candidatePrefix, String container) {
         if(candidatePrefix == null || container == null) {
@@ -103,7 +104,8 @@ public class StringUtils {
      *
      * @param candidateSuffix
      * @param container
-     * @return
+     * @return <code>true</code> if <code>candidateSuffix</code> is prefix of <code>container</code>,
+     *         <code>false</code> otherwise.
      */
     public static boolean isSuffix(String candidateSuffix, String container) {
         if(candidateSuffix == null || container == null) {
