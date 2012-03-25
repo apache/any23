@@ -217,7 +217,13 @@ function init() {
     <table rules="all">
       <tr><th>uri</th><td>URI of an input document.</td></tr>
       <tr><th>format</th><td>Desired output format, defaults to <code>best</code>.</td></tr>
-      <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.</td></tr>
+      <tr><th>validation-mode</th><td>The validation level to be applied on the input. Possible values:<br/>
+          <code>none</code> (no validation applied);<br/>
+          <code>validate</code>(apply validation and produce validation report if <code>annotate</code> flag is enabled);<br/>
+          <code>validate+fix</code>(apply validation, try to fix detection issues and produce validation report if <code>annotate</code> flag is enabled).</td>
+      </tr>
+      <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
+      <tr><th>report</th><td>If specified will produce a full XML report containing extraction and validation issues other than produced metadata.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
     </table>
     Such URL will return an HTTP <i>302</i> redirect to <code><span class="app-base-uri">http://...</span>any23/<em>format</em></code>.<br/>
     <p>The response is the input document converted to the desired output format.</p>
@@ -265,7 +271,13 @@ Content-Length: 174
       <tr><th>type</th><td>Media type of the input, see the table above. If not present, auto-detection will be attempted.</td></tr>
       <tr><th>body</th><td>Document body to be converted.</td></tr>
       <tr><th>format</th><td>Desired output format; defaults to <code>best</code>.</td></tr>
-       <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.</td></tr>
+      <tr><th>validation-mode</th><td>The validation level to be applied on the input. Possible values:<br/>
+        <code>none</code> (no validation applied);<br/>
+        <code>validate</code>(apply validation and produce validation report if <code>annotate</code> flag is enabled);<br/>
+        <code>validate+fix</code>(apply validation, try to fix detection issues and produce validation report if <code>annotate</code> flag is enabled).</td>
+      </tr>
+      <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
+      <tr><th>report</th><td>If specified will produce a full XML report containing extraction and validation issues other than produced metadata.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
     </table>
 
     <h3>Output formats</h3>
