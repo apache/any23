@@ -37,15 +37,21 @@ Apache Any23 Plugins
 
 * How to Register a Plugin
 
-   A plugin can be added to <Apache Any23> by:
+   A plugin can be added to the <Apache Any23 CLI> interface by:
 
    * adding its <JAR> to the <Apache Any23> <JVM classpath>;
 
+   * adding its <JAR> to the CLASSPATH_PREFIX environment variable as:
+
++-----------------------------------------------------------------------------------------------------------
+export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawler-VERSION.jar bin/any23tools
++-----------------------------------------------------------------------------------------------------------
+
    * adding its <JAR> to the <$HOME/.any23/plugins> directory.
 
-   TODO: plugin support in CLI
-
-   TODO: plugin support in library
+   A plugin can be added to the <Apache Any23 library API> by using the
+   {{{./xref/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#createInstance(Configuration configuration, File... pluginLocations)
+   method.
 
    TODO: plugin support in Apache Any23 Service
 
