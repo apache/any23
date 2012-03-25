@@ -208,6 +208,23 @@ public class NQuadsParser extends RDFParserBase {
     }
 
     /**
+     * Consumes the reader until the next carriage return.
+     *
+     * @param br
+     * @throws IOException
+     */
+    private void consumeBrokenLine(BufferedReader br) throws IOException {
+        char c;
+        while (true) {
+            mark(br);
+            c = readChar(br);
+            if (c == '\n') {
+                return;
+            }
+        }
+    }
+
+    /**
      * Parsers an <i>NQuads</i> line.
      *
      * @param br input stream reader containing NQuads.
@@ -248,6 +265,14 @@ public class NQuadsParser extends RDFParserBase {
         } catch (EOS eos) {
             reportFatalError("Unexpected end of line.", row, col);
             throw new IllegalStateException();
+        } catch (IllegalArgumentException iae) {
+            if(super.stopAtFirstError()) {
+                throw new RDFParseException(iae);
+            } else { // Remove rest of broken line and report error.
+                consumeBrokenLine(br);
+                reportError(iae.getMessage(), row, col);
+                return true;
+            }
         }
 
         notifyStatement(sub, pred, obj, graph);

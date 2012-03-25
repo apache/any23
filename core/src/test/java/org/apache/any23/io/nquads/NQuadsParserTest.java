@@ -468,6 +468,43 @@ public class NQuadsParserTest {
         verifyStatementWithInvalidDatatype(RDFParser.DatatypeHandling.VERIFY);
     }
 
+    @Test (expected = RDFParseException.class)
+    public void testStopAtFirstErrorStrictParsing() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                (
+                    "<http://s0> <http://p0> <http://o0> <http://g0> .\n" +
+                    "<http://sX>                                     .\n" + // Line with error.
+                    "<http://s1> <http://p1> <http://o1> <http://g1> .\n"
+                ).getBytes()
+        );
+        parser.setStopAtFirstError(true);
+        parser.parse(bais, "http://base-uri");
+    }
+
+    @Test
+    public void testStopAtFirstErrorTolerantParsing() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                (
+                    "<http://s0> <http://p0> <http://o0> <http://g0> .\n" +
+                    "<http://sX>                                     .\n" + // Line with error.
+                    "<http://s1> <http://p1> <http://o1> <http://g1> .\n"
+                ).getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.setStopAtFirstError(false);
+        parser.parse(bais, "http://base-uri");
+        rdfHandler.assertHandler(2);
+        final List<Statement> statements = rdfHandler.getStatements();
+        final int size = statements.size();
+        for(int i = 0; i < size; i++) {
+            Assert.assertEquals("http://s" + i, statements.get(i).getSubject().stringValue()  );
+            Assert.assertEquals("http://p" + i, statements.get(i).getPredicate().stringValue());
+            Assert.assertEquals("http://o" + i, statements.get(i).getObject().stringValue()   );
+            Assert.assertEquals("http://g" + i, statements.get(i).getContext().stringValue()  );
+        }
+    }
+
     private void verifyStatementWithInvalidLiteralContent(RDFParser.DatatypeHandling datatypeHandling)
     throws RDFHandlerException, IOException, RDFParseException {
        final ByteArrayInputStream bais = new ByteArrayInputStream(
