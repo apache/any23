@@ -81,9 +81,9 @@ function init() {
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="url-validation">Validation</label>
+        <label class="control-label" for="url-validation-get">Validation</label>
         <div class="controls">
-          <select id="url-validation" name="validation-mode" onclick="if(document.getElementById('url-validation').value == 'validate') { document.getElementById('url-report').checked = true; }">
+          <select id="url-validation-get" name="validation-mode" onclick="if(document.getElementById('url-validation-get').value.indexOf('validate') == 0) { document.getElementById('url-report-get').checked = true; }">
           <option value="none">none</option>
           <option value="validate">validate</option>
           <option value="validate-fix">validate+fix</option>
@@ -95,16 +95,16 @@ function init() {
         <label class="control-label" for="url-report">Report</label>
           <div class="controls">
            <label class="checkbox">
-             <input id="url-report" type="checkbox" name="report">
+             <input id="url-report-get" type="checkbox" name="report">
              <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a>
           </label>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="url-annotate">Annotate</label>
+        <label class="control-label" for="url-annotate-get">Annotate</label>
           <div class="controls">
            <label class="checkbox">
-             <input id="url-annotate" type="checkbox" type="checkbox" name="annotate">
+             <input id="url-annotate-get" type="checkbox" type="checkbox" name="annotate">
              <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a>
           </label>
         </div>
@@ -149,9 +149,9 @@ function init() {
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="url-validation">Validation</label>
+        <label class="control-label" for="url-validation-post">Validation</label>
         <div class="controls">
-          <select id="url-validation" name="validation-mode" onclick="if(document.getElementById('url-validation').value == 'validate') { document.getElementById('url-report').checked = true; }">
+          <select id="url-validation-post" name="validation-mode" onclick="if(document.getElementById('url-validation-post').value.indexOf('validate') == 0) { document.getElementById('url-report-post').checked = true; }">
           <option value="none">none</option>
           <option value="validate">validate</option>
           <option value="validate-fix">validate+fix</option>
@@ -163,16 +163,16 @@ function init() {
         <label class="control-label" for="url-report">Report</label>
           <div class="controls">
            <label class="checkbox">
-             <input id="url-report" type="checkbox" name="report">
+             <input id="url-report-post" type="checkbox" name="report">
              <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a>
           </label>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="url-annotate">Annotate</label>
+        <label class="control-label" for="url-annotate-post">Annotate</label>
           <div class="controls">
            <label class="checkbox">
-             <input id="url-annotate" type="checkbox" type="checkbox" name="annotate">
+             <input id="url-annotate-post" type="checkbox" type="checkbox" name="annotate">
              <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a>
           </label>
         </div>
