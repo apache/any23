@@ -34,30 +34,152 @@ The <action> type attribute can be add,update,fix,remove.
 -->
 
 <document xmlns="http://maven.apache.org/changes/1.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
-  <properties>
-    <title>Apache Any23 - Release Notes</title>
-  </properties>
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/changes/1.0.0 http://maven.apache.org/plugins/maven-changes-plugin/xsd/changes-1.0.0.xsd">
+    <properties>
+        <title>Apache Any23 - Release Notes</title>
+    </properties>
 
-  <body>
-    <release version="0.6.2" description="First Apache release">
-      <action dev="simonetripodi" type="add" issue="ANY23-32">
-        replace hardcoded bash script with generated via appassembler
-      </action>
-      <action dev="simonetripodi" type="update" issue="ANY23-29">
-        Update all Maven POM's in trunk
-      </action>
-      <action dev="mostarda" type="add" issue="ANY23-27">
-        Import revisions r1547 to r1607 from Google Code SVN to ASF SVN
-      </action>
-      <action dev="lewismc" type="fix" issue="ANY23-22">
-        Edit trunk/lib/install-deps.sh to point to correct repos for dependencies.
-      </action>
-      <action dev="simonetripodi" type="update" issue="ANY23-9">
-        Move any23 site documentation out of trunk and into its own SVN directory
-      </action>
-    </release>
-  </body>
+    <body>
+        <release version="0.7.0" description="First Apache release">
+            <!--  BEGIN: Google Code maintained issues. -->
+            <action dev="mostarda" type="add" issue="GCODE-119">
+                Implemented a native Java RDFa support.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-174">
+                Added support in Rover for URL list extraction.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-180">
+                Written Excel to RDF converter.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-181">
+                Added auto discovery for CLI Tools.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-158">
+                Added support for Extractor sub results.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-189">
+                Improved Any23 Project homepage visibility.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-197">
+                Added flag for specifying the default namespace in any23 command line tool.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-200">
+                Disabled size and date default meta triple generation.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-201">
+                Propagated Extraction errors to ExtractionReport.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-209">
+                Improved support for validation in Any23 service frontend.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-211">
+                Extended Rover CLI to add general site crawling support.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-215">
+                Added support fro TriX format.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-216">
+                Main Code refactoring (mostly package refactoring).
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-218">
+                Removed obsolete Eval CLI Tool.
+            </action>
+            <action dev="mostarda" type="add" issue="GCODE-219">
+                Created MimeDetector CLI tool.
+            </action>
+
+            <action dev="mostarda" type="fix" issue="GCODE-170">
+                Fixed support for multi plugin selection in Any23PluginManager.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-171">
+                Fixed support of plugins/integration-test module.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-177">
+                Prevented Any23 facade object to close the passed TripleHandler.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-179">
+                Improved support for CLI tool implementation and testing.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-182">
+                Fixed RDFa conversion of outputs literals when URIs are expected.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-183">
+                Added flag to disable date and size triples.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-184">
+                Fixed printing of default 'Configuration Properties' when custom ones are provided.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-190">
+                Fixed dependency management from scratch build.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-192">
+                Fixed Any23 Service page broken links.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-193">
+                Fixed maven-project-info-reports-plugin which didn't work with Maven3.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-195">
+                Added multi output format support for VocabPrinter CLI tool.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-196">
+                Fixed Explicit namespace declaration resolution in HTML/RDFa.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-198">
+                Fixed vocabulary export tool (VocabPrinter).
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-202">
+                Improved AbstractExtractorTestCase interface.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-203">
+                Changed SINDICE vocabulary namespace.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-204">
+                NQuads parser is now handling correctly non Latin and encoded UTF-8 chars.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-206">
+                Fixed support for Open Graph Protocol structured properties (http://ogp.me/#structured).
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-205,GCODE-207">
+                Fixed PluginManager management of classpaths contain spaces.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-208">
+                Fixed CSV exctractor wrong datatype assignment to numeric for non integer cells.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-210">
+                Fixed behavior of NQuads Parser with unknown literals datatypes when DatatypeHandling.VERIFY is set.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-212">
+                Fixed Any23 Plugin Manager CLI Tools detection in class path.
+            </action>
+            <action dev="mostarda" type="fix" issue="GCODE-214">
+                Added JSON output format to Rover CLI.
+            </action>
+
+            <action dev="mostarda" type="update" issue="GCODE-198,GCODE-194,GCODE-213">
+                Improved general documentation.
+            </action>
+            <action dev="mostarda" type="update" issue="GCODE-217">
+                Upgraded to Sesame 2.6.1 .
+            </action>
+            <!--  END  : Google Code maintained issues. -->
+
+            <action dev="simonetripodi" type="add" issue="ANY23-32">
+                replace hardcoded bash script with generated via appassembler
+            </action>
+            <action dev="simonetripodi" type="update" issue="ANY23-29">
+                Update all Maven POM's in trunk
+            </action>
+            <action dev="mostarda" type="add" issue="ANY23-27">
+                Import revisions r1547 to r1607 from Google Code SVN to ASF SVN
+            </action>
+            <action dev="lewismc" type="fix" issue="ANY23-22">
+                Edit trunk/lib/install-deps.sh to point to correct repos for dependencies.
+            </action>
+            <action dev="simonetripodi" type="update" issue="ANY23-9">
+                Move any23 site documentation out of trunk and into its own SVN directory
+            </action>
+        </release>
+    </body>
 
 </document>
