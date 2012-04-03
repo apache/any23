@@ -27,9 +27,8 @@ public interface Tool {
     /**
      * Runs the tool and retrieves the exit code.
      *
-     * @param args command line arguments.
      * @return exit code.
      */
-    int run(String[] args);
+    void run() throws Exception;
 
 }

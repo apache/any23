@@ -17,122 +17,63 @@
 
 package org.apache.any23.cli;
 
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import org.apache.any23.extractor.ExampleInputOutput;
 import org.apache.any23.extractor.ExtractionException;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.ExtractorRegistry;
-import org.apache.any23.util.LogUtils;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.ExtractorRegistry;
 import org.kohsuke.MetaInfServices;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class provides some command-line documentation
  * about available extractors and their usage.
  */
 @MetaInfServices
-@ToolRunner.Description("Utility for obtaining documentation about metadata extractors.")
+@Parameters( commandNames = { "extractor" }, commandDescription= "Utility for obtaining documentation about metadata extractors.")
 public class ExtractorDocumentation implements Tool {
 
-    /**
-     * Main method to access the class functionality.
-     *
-     * Usage:
-     *     ExtractorDocumentation -list
-     *       shows the names of all available extractors
-     *
-     *     ExtractorDocumentation -i extractor-name
-     *       shows example input for the given extractor
-     *
-     *     ExtractorDocumentation -o extractor-name
-     *       shows example output for the given extractor
-     *
-     *     ExtractorDocumentation -all
-     *       shows a report about all available extractors
-     *
-     * @param args allowed arguments
-     * @throws ExtractionException
-     * @throws IOException
-     */
-    public static void main(String[] args) throws ExtractionException, IOException {
-        System.exit( new ExtractorDocumentation().run(args) );
-    }
+    @Parameter( names = { "-l", "--list" }, description = "shows the names of all available extractors" )
+    private boolean showList;
 
-    public int run(String[] args) {
-        LogUtils.setDefaultLogging();
-        try {
-            if (args.length == 0) {
-                printUsage();
-                return 1;
+    @Parameter( names = { "-i", "--input" }, description = "shows example input for the given extractor" )
+    private boolean showInput;
+
+    @Parameter( names = { "-o", "--outut" }, description = "shows example output for the given extractor" )
+    private boolean showOutput;
+
+    @Parameter( names = { "-a", "--all" }, description = "shows a report about all available extractors" )
+    private boolean showAll;
+
+    @Parameter( arity = 1, description = "Extractor name" )
+    private List<String> extractor = new LinkedList<String>();
+
+    public void run() throws Exception {
+        if (showList) {
+            printExtractorList();
+        } else if (showInput) {
+            if (extractor.isEmpty()) {
+                throw new IllegalArgumentException("Required argument for -i: extractor name");
             }
 
-            final String option = args[0];
-            if ("-list".equals(option)) {
-                if (args.length > 1) {
-                    printUsage();
-                    return 2;
-                }
-                printExtractorList();
+            printExampleInput(extractor.get(0));
+        } else if (showOutput) {
+            if (extractor.isEmpty()) {
+                throw new IllegalArgumentException("Required argument for -o: extractor name");
             }
-            else if ("-i".equals(option)) {
-                if (args.length > 2) {
-                    printUsage();
-                    return 3;
-                }
-                if (args.length < 2) {
-                    printError("Required argument for -i: extractor name");
-                    return 4;
-                }
-                printExampleInput(args[1]);
-            }
-            else if ("-o".equals(option)) {
-                if (args.length > 2) {
-                    printUsage();
-                    return 5;
-                }
-                if (args.length < 2) {
-                    printError("Required argument for -o: extractor name");
-                    return 6;
-                }
-                printExampleOutput(args[1]);
-            }
-            else if ("-all".equals(option)) {
-                if (args.length > 1) {
-                    printUsage();
-                    return 7;
-                }
-                printReport();
-            } else {
-                printUsage();
-            }
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            return 8;
+
+            printExampleOutput(extractor.get(0));
+        } else if (showAll) {
+            printReport();
         }
-        return 0;
-    }
-
-    /**
-     * Prints the command line usage help.
-     */
-    public void printUsage() {
-        System.out.println("Usage:");
-        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -list");
-        System.out.println("      shows the names of all available extractors");
-        System.out.println();
-        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -i extractor-name");
-        System.out.println("      shows example input for the given extractor");
-        System.out.println();
-        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -o extractor-name");
-        System.out.println("      shows example output for the given extractor");
-        System.out.println();
-        System.out.println("  " + ExtractorDocumentation.class.getSimpleName() + " -all");
-        System.out.println("      shows a report about all available extractors");
-        System.out.println();
     }
 
     /**
@@ -148,7 +89,7 @@ public class ExtractorDocumentation implements Tool {
      * Prints the list of all the available extractors.
      */
     public void printExtractorList() {
-        for(ExtractorFactory factory : ExtractorRegistry.getInstance().getExtractorGroup()) {
+        for (ExtractorFactory factory : ExtractorRegistry.getInstance().getExtractorGroup()) {
             System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorType()));
         }
     }

@@ -17,6 +17,9 @@
 
 package org.apache.any23.cli;
 
+import com.beust.jcommander.IStringConverter;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.http.DefaultHTTPClient;
 import org.apache.any23.http.HTTPClient;
@@ -32,6 +35,8 @@ import org.kohsuke.MetaInfServices;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Commandline tool to detect <b>MIME Type</b>s from
@@ -41,76 +46,73 @@ import java.net.URISyntaxException;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @MetaInfServices
-@ToolRunner.Description("MIME Type Detector Tool.")
+@Parameters(commandNames = { "mimes" }, commandDescription = "MIME Type Detector Tool.")
 public class MimeDetector implements Tool{
 
     public static final String FILE_DOCUMENT_PREFIX   = "file://";
+
     public static final String INLINE_DOCUMENT_PREFIX = "inline://";
+
     public static final String URL_DOCUMENT_RE        = "^https?://.*";
 
-    public static void main(String[] args) {
-        System.exit( new MimeDetector().run(args) );
+    @Parameter(
+       arity = 1,
+       description = "Input document URL, {http://path/to/resource.html|file:///path/to/local.file|inline:// some inline content}",
+       converter = MimeDetectorDocumentSourceConverter.class
+    )
+    private List<DocumentSource> document = new LinkedList<DocumentSource>();
+
+    public void run() throws Exception {
+        if (document.isEmpty()) {
+            throw new IllegalArgumentException("No input document URL specified");
+        }
+
+        final DocumentSource documentSource = document.get(0);
+        final MIMETypeDetector detector = new TikaMIMETypeDetector();
+        final MIMEType mimeType = detector.guessMIMEType(
+                documentSource.getDocumentURI(),
+                documentSource.openInputStream(),
+                MIMEType.parse(documentSource.getContentType())
+        );
+        System.out.println(mimeType);
     }
 
-    @Override
-    public int run(String[] args) {
-          if(args.length != 1) {
-            System.err.println("USAGE: {http://path/to/resource.html|file:///path/to/local.file|inline:// some inline content}");
-            return 1;
+    public static final class MimeDetectorDocumentSourceConverter implements IStringConverter<DocumentSource> {
+
+        @Override
+        public DocumentSource convert( String document ) {
+            if (document.startsWith(FILE_DOCUMENT_PREFIX)) {
+                return new FileDocumentSource( new File( document.substring(FILE_DOCUMENT_PREFIX.length()) ) );
+            }
+            if (document.startsWith(INLINE_DOCUMENT_PREFIX)) {
+                return new StringDocumentSource( document.substring(INLINE_DOCUMENT_PREFIX.length()), "" );
+            }
+            if (document.matches(URL_DOCUMENT_RE)) {
+                final HTTPClient client = new DefaultHTTPClient();
+                // TODO: anonymous config class also used in Any23. centralize.
+                client.init(new HTTPClientConfiguration() {
+                    public String getUserAgent() {
+                        return DefaultConfiguration.singleton().getPropertyOrFail("any23.http.user.agent.default");
+                    }
+                    public String getAcceptHeader() {
+                        return "";
+                    }
+                    public int getDefaultTimeout() {
+                        return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.timeout");
+                    }
+                    public int getMaxConnections() {
+                        return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.max.connections");
+                    }
+                });
+                try {
+                    return new HTTPDocumentSource(client, document);
+                } catch ( URISyntaxException e ) {
+                    throw new IllegalArgumentException("Invalid source URI: '" + document + "'");
+                }
+            }
+            throw new IllegalArgumentException("Unsupported protocol for document " + document);
         }
 
-        final String document = args[0];
-        try {
-            final DocumentSource documentSource = createDocumentSource(document);
-            final MIMETypeDetector detector = new TikaMIMETypeDetector();
-            final MIMEType mimeType = detector.guessMIMEType(
-                    documentSource.getDocumentURI(),
-                    documentSource.openInputStream(),
-                    MIMEType.parse(documentSource.getContentType())
-            );
-            System.out.println(mimeType);
-            return 0;
-        } catch (Exception e) {
-            System.err.print("Error while detecting MIME Type.");
-            e.printStackTrace(System.err);
-            return 1;
-        }
-    }
-
-    private DocumentSource createDocumentSource(String document) throws URISyntaxException {
-        if(document.startsWith(FILE_DOCUMENT_PREFIX)) {
-            return new FileDocumentSource(
-                    new File(
-                            document.substring(FILE_DOCUMENT_PREFIX.length())
-                    )
-            );
-        }
-        if(document.startsWith(INLINE_DOCUMENT_PREFIX)) {
-            return new StringDocumentSource(
-                    document.substring(INLINE_DOCUMENT_PREFIX.length()),
-                    ""
-            );
-        }
-        if(document.matches(URL_DOCUMENT_RE)) {
-            final HTTPClient client = new DefaultHTTPClient();
-            // TODO: anonymous config class also used in Any23. centralize.
-            client.init(new HTTPClientConfiguration() {
-                public String getUserAgent() {
-                    return DefaultConfiguration.singleton().getPropertyOrFail("any23.http.user.agent.default");
-                }
-                public String getAcceptHeader() {
-                    return "";
-                }
-                public int getDefaultTimeout() {
-                    return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.timeout");
-                }
-                public int getMaxConnections() {
-                    return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.max.connections");
-                }
-            });
-            return new HTTPDocumentSource(client, document);
-        }
-        throw new IllegalArgumentException("Unsupported protocol for document " + document);
     }
 
 }

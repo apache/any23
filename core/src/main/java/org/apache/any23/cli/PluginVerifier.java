@@ -17,18 +17,22 @@
 
 package org.apache.any23.cli;
 
-import java.io.File;
-import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.Iterator;
-
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
+import com.beust.jcommander.converters.FileConverter;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.plugin.Any23PluginManager;
 import org.apache.any23.plugin.Author;
 import org.apache.any23.plugin.ExtractorPlugin;
 import org.kohsuke.MetaInfServices;
+
+import java.io.File;
+import java.io.PrintStream;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Commandline utility to verify the <b>Any23</b> plugins
@@ -37,66 +41,49 @@ import org.kohsuke.MetaInfServices;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @MetaInfServices
-@ToolRunner.Description("Utility for plugin management verification.")
+@Parameters(commandNames = { "verify" }, commandDescription = "Utility for plugin management verification.")
 public class PluginVerifier implements Tool {
 
     private Any23PluginManager pluginManager = Any23PluginManager.getInstance();
 
-    public static void main(String[] args) throws MalformedURLException {
-        System.exit( new PluginVerifier().run(args) );
-    }
+    @Parameter(
+        description = "plugins-dir",
+        converter = FileConverter.class
+    )
+    private List<File> pluginsDirs = new LinkedList<File>();
 
-    public int run(String[] args) {
-        if(args.length != 1) {
-            printHelp("Invalid argument.");
-            return 1;
+    public void run() throws Exception {
+        if (pluginsDirs.isEmpty()) {
+            throw new IllegalArgumentException("No plugin directory specified.");
         }
 
-        final File pluginsDir = new File(args[0]);
-        if(!pluginsDir.isDirectory()) {
-            printHelp("<plugins-dir> must be a valid dir.");
-            return 2;
+        final File pluginsDir = pluginsDirs.get(0);
+        if (!pluginsDir.isDirectory()) {
+            throw new IllegalArgumentException("<plugins-dir> must be a valid dir.");
         }
 
-        final Iterator<ExtractorPlugin> plugins;
-        try{
-            pluginManager.loadJARDir(pluginsDir);
-            plugins = pluginManager.getExtractors();
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            return 3;
-        }
+        pluginManager.loadJARDir(pluginsDir);
+
+        final Iterator<ExtractorPlugin> plugins = pluginManager.getExtractors();
+
         while (plugins.hasNext()) {
-            System.out.println("-----------------------------");
-            printPluginData(plugins.next().getClass(), System.out);
-            System.out.println("-----------------------------");
+            printPluginData(plugins.next(), System.out);
+            System.out.println("------------------------------------------------------------------------");
         }
-        return 0;
-    }
-
-    private void printHelp(String msg) {
-        System.err.println("***ERROR: " + msg);
-        System.err.println("Usage: " + this.getClass().getSimpleName() + " <plugins-dir>");
     }
 
     private String getMimeTypesStr(Collection<MIMEType> mimeTypes) {
         final StringBuilder sb = new StringBuilder();
-        for(MIMEType mt : mimeTypes) {
+        for (MIMEType mt : mimeTypes) {
             sb.append(mt).append(' ');
         }
         return sb.toString();
     }
 
-    private void printPluginData(Class<? extends ExtractorPlugin> extractorPlugin, PrintStream ps) {
-        final Author authorAnnotation = extractorPlugin.getAnnotation(Author.class);
-        final ExtractorPlugin instance;
-        try {
-            instance = extractorPlugin.newInstance();
-        } catch (Exception e) {
-            throw new IllegalStateException("Error while instantiating plugin.", e);
-        }
+    private void printPluginData(ExtractorPlugin instance, PrintStream ps) {
+        final Author authorAnnotation = instance.getClass().getAnnotation(Author.class);
         final ExtractorFactory<?> extractorFactory = instance.getExtractorFactory();
-        ps.printf("Plugin class     : %s\n", extractorPlugin.getClass());
+        ps.printf("Plugin class     : %s\n", instance.getClass());
         ps.printf("Plugin author    : %s\n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
         ps.printf("Plugin factory   : %s\n", extractorFactory.getClass());
         ps.printf("Plugin mime-types: %s\n", getMimeTypesStr( extractorFactory.getSupportedMIMETypes() ));

@@ -17,8 +17,6 @@
 
 package org.apache.any23.cli;
 
-import static org.junit.Assert.*;
-
 import org.apache.any23.Any23OnlineTestBase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.FileUtils;
@@ -35,6 +33,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test case for {@link Crawler} CLI.
@@ -57,13 +57,17 @@ public class CrawlerTest extends Any23OnlineTestBase {
             new Runnable() {
                 @Override
                 public void run() {
-                    Crawler.main(
-                            String.format(
-                                    "-f nquads -maxpages 50 -maxdepth 1 -politenessdelay 500 -o %s " +
-                                    "http://eventiesagre.it/",
-                                    outFile.getAbsolutePath()
-                            ).split(" ")
-                    );
+                    try {
+                        ToolRunner.main(
+                                String.format(
+                                        "crawler -f nquads --maxpages 50 --maxdepth 1 --politenessdelay 500 -o %s " +
+                                        "http://eventiesagre.it/",
+                                        outFile.getAbsolutePath()
+                                ).split(" ")
+                        );
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         );
@@ -80,7 +84,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
 
         final String[] lines = FileUtils.readFileLines(outFile);
         final StringBuilder allLinesExceptLast = new StringBuilder();
-        for(int i = 0; i < lines.length - 1; i++) {
+        for (int i = 0; i < lines.length - 1; i++) {
             allLinesExceptLast.append(lines[i]);
         }
 

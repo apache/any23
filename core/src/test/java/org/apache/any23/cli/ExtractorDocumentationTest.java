@@ -34,12 +34,12 @@ public class ExtractorDocumentationTest extends ToolTestBase {
 
     @Test
     public void tesList() throws Exception {
-        runToolCheckExit0("-list");
+        runToolCheckExit0("--list");
     }
 
     @Test
     public void testAll() throws Exception {
-        runToolCheckExit0("-all");
+        runToolCheckExit0("--all");
     }
 
     //@Ignore("no available example")

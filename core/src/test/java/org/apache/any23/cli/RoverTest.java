@@ -60,7 +60,7 @@ public class RoverTest extends ToolTestBase {
         final File outFile = File.createTempFile("rover-test", "out");
         final int exitCode = runTool(
                 String.format(
-                        "-v -o %s -f nquads -p -n %s -d %s",
+                        "-o %s -f nquads -p -n %s -d %s",
                         outFile.getAbsolutePath(),
                         "src/test/resources/cli/rover-test1.nq",
                         DEFAULT_GRAPH
@@ -101,7 +101,7 @@ public class RoverTest extends ToolTestBase {
 
         final int exitCode = runTool(
                 String.format(
-                        "-v -o %s -f nquads -l %s -p -n %s",
+                        "-o %s -f nquads -l %s -p -n %s",
                         outFile.getAbsolutePath(),
                         logFile.getAbsolutePath(),
                         StringUtils.join(" ", targets)

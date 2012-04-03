@@ -17,23 +17,26 @@
 
 package org.apache.any23.cli;
 
+import com.beust.jcommander.IStringConverter;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
+import com.beust.jcommander.Parameters;
+import com.beust.jcommander.converters.FileConverter;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.parser.ParseData;
 import org.apache.any23.plugin.crawler.CrawlerListener;
 import org.apache.any23.plugin.crawler.SiteCrawler;
 import org.apache.any23.source.StringDocumentSource;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
 import org.kohsuke.MetaInfServices;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import static java.lang.String.format;
 
 /**
  * Implementation of a <b>CLI crawler</b> based on
@@ -42,156 +45,118 @@ import java.util.regex.PatternSyntaxException;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @MetaInfServices( value = Tool.class )
-@ToolRunner.Description("Any23 Crawler Command Line Tool.")
+@Parameters(commandNames = "crawler", commandDescription = "Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
 
     private final Object roverLock = new Object();
 
-    public static void main(String[] args) {
-        try {
-            System.exit( new Crawler().run(args) );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    @Parameter(
+       names = { "-pf", "--pagefilter" },
+       description = "Regex used to filter out page URLs during crawling.",
+       converter = PatterConverter.class
+    )
+    private Pattern pageFilter = Pattern.compile( SiteCrawler.DEFAULT_PAGE_FILTER_RE );
+
+    @Parameter(
+       names = { "-sf", "--storagefolder" },
+       description = "Folder used to store crawler temporary data.",
+       converter = FileConverter.class
+    )
+    private File storageFolder = new File(System.getProperty("java.io.tmpdir"), "crawler-metadata-" + UUID.randomUUID().toString());
+
+    @Parameter(names = { "-nc", "--numcrawlers" }, description = "Sets the number of crawlers.")
+    private int numCrawlers = SiteCrawler.DEFAULT_NUM_OF_CRAWLERS;
+
+    @Parameter(names = { "-mp", "--maxpages" }, description = "Max number of pages before interrupting crawl.")
+    private int maxPages = Integer.MAX_VALUE;
+
+    @Parameter(names = { "-md", "--maxdepth" }, description = "Max allowed crawler depth.")
+    private int maxDepth = Integer.MAX_VALUE;
+
+    @Parameter(names = { "-pd", "--politenessdelay" }, description = "Politeness delay in milliseconds.")
+    private int politenessDelay = Integer.MAX_VALUE;
 
     @Override
-    public int run(String[] args) {
-        try {
-            final String[] seeds = super.configure(args);
-            if(seeds.length != 1) throw new IllegalArgumentException("Expected just one seed.");
-            final URL seed = new URL(seeds[0]);
+    public void run() throws Exception {
+        super.configure();
 
-            final CommandLine commandLine = super.getCommandLine();
+        if (inputURIs.size() != 1) {
+            throw new IllegalArgumentException("Expected just one seed.");
+        }
+        final URL seed = new URL(inputURIs.get( 0 ));
 
-            final SiteCrawler siteCrawler = new SiteCrawler( getStorageFolder(commandLine) );
+        if ( storageFolder.isFile() ) {
+            throw new IllegalStateException( format( "Storage folder %s can not be a file, must be a directory",
+                                                     storageFolder ) );
+        }
 
-            final Pattern specifiedPageFilter = getPageFilter(commandLine);
-            final Pattern pageFilter = specifiedPageFilter == null ? siteCrawler.defaultFilters : specifiedPageFilter;
-
-            if(commandLine.hasOption("numcrawlers")) {
-                siteCrawler.setNumOfCrawlers( parseInt(commandLine, "numcrawlers") );
+        if ( !storageFolder.exists() ) {
+            if ( !storageFolder.mkdirs() ) {
+                throw new IllegalStateException(
+                        format( "Storage folder %s can not be created, please verify you have enough permissions",
+                                                         storageFolder ) );
             }
-            if(commandLine.hasOption("maxpages")) {
-                siteCrawler.setMaxPages(parseInt(commandLine, "maxpages"));
-            }
-            if(commandLine.hasOption("maxdepth")) {
-                siteCrawler.setMaxDepth(parseInt(commandLine, "maxdepth"));
-            }
-            if (commandLine.hasOption("politenessdelay")) {
-                final int politenessDelay = parseInt(commandLine, "politenessdelay");
-                if(politenessDelay >= 0) siteCrawler.setPolitenessDelay(politenessDelay);
-            }
+        }
 
-            siteCrawler.addListener(new CrawlerListener() {
-                @Override
-                public void visitedPage(Page page) {
-                    final String pageURL = page.getWebURL().getURL();
-                    System.err.println( String.format("Processing page: [%s]", pageURL) );
+        final SiteCrawler siteCrawler = new SiteCrawler( storageFolder );
+        siteCrawler.setNumOfCrawlers( numCrawlers );
+        siteCrawler.setMaxPages( maxPages );
+        siteCrawler.setMaxDepth( maxDepth );
+        siteCrawler.setPolitenessDelay(politenessDelay);
 
-                    final ParseData parseData = page.getParseData();
-                    if (parseData instanceof HtmlParseData) {
-                        final HtmlParseData htmlParseData = (HtmlParseData) parseData;
-                        try {
-                            synchronized (roverLock) {
-                                Crawler.super.performExtraction(
-                                        new StringDocumentSource(
-                                                htmlParseData.getHtml(),
-                                                pageURL
+        siteCrawler.addListener(new CrawlerListener() {
+            @Override
+            public void visitedPage(Page page) {
+                final String pageURL = page.getWebURL().getURL();
+                System.err.println( format("Processing page: [%s]", pageURL) );
 
-                                        )
-                                );
-                            }
-                        } catch (Exception e) {
-                            System.err.println(
-                                    String.format("Error while processing page [%s], error: %s .", pageURL, e.getMessage())
+                final ParseData parseData = page.getParseData();
+                if (parseData instanceof HtmlParseData) {
+                    final HtmlParseData htmlParseData = (HtmlParseData) parseData;
+                    try {
+                        synchronized (roverLock) {
+                            Crawler.super.performExtraction(
+                                    new StringDocumentSource(
+                                            htmlParseData.getHtml(),
+                                            pageURL
+
+                                    )
                             );
                         }
-                    }
-                }
-            });
-
-            Runtime.getRuntime().addShutdownHook( new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        System.err.println( Crawler.super.printReports() );
-                        // siteCrawler.stop(); // TODO: cause shutdown hanging.
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        System.err.println(format("Error while processing page [%s], error: %s .",
+                                                  pageURL, e.getMessage())
+                        );
                     }
                 }
-            });
-            siteCrawler.start(seed, pageFilter, true);
-            return 0;
-        } catch (Exception e) {
-            if(super.isVerbose()) e.printStackTrace();
-            if(e instanceof ExitCodeException) {
-                return ((ExitCodeException) e).getExitCode();
             }
-            return 1;
-        }
+        });
+
+        Runtime.getRuntime().addShutdownHook( new Thread() {
+            @Override
+            public void run() {
+                try {
+                    System.err.println( Crawler.super.printReports() );
+                    // siteCrawler.stop(); // TODO: cause shutdown hanging.
+                } catch (Exception e) {
+                    e.printStackTrace(System.err);
+                }
+            }
+        });
+        siteCrawler.start(seed, pageFilter, true);
     }
 
-    @Override
-    protected Options createOptions() {
-        final Options roverOptions = super.createOptions();
-        addCrawlerOptions(roverOptions);
-        return roverOptions;
-    }
+    public static final class PatterConverter implements IStringConverter<Pattern> {
 
-    private void addCrawlerOptions(Options options) {
-        options.addOption(
-                new Option("pagefilter"     , true, "Regex used to filter out page URLs during crawling. Default: '" + SiteCrawler.DEFAULT_PAGE_FILTER_RE + "'")
-        );
-        options.addOption(
-                new Option("storagefolder"  , true, "Folder used to store crawler temporary data. Default: [" + System.getProperty("java.io.tmpdir")  + "]")
-        );
-        options.addOption(
-                new Option("numcrawlers"    , true, "Sets the number of crawlers. Default: " + SiteCrawler.DEFAULT_NUM_OF_CRAWLERS)
-        );
-        options.addOption(
-                new Option("maxpages"       , true, "Max number of pages before interrupting crawl. Default: no limit.")
-        );
-        options.addOption(
-                new Option("maxdepth"       , true, "Max allowed crawler depth. Default: no limit.")
-        );
-        options.addOption(
-                new Option("politenessdelay", true, "Politeness delay in milliseconds. Default: no limit.")
-        );
-    }
-
-    private Pattern getPageFilter(CommandLine commandLine) {
-        if(commandLine.hasOption("pagefilter")) {
+        @Override
+        public Pattern convert( String value ) {
             try {
-                return Pattern.compile( commandLine.getOptionValue("pagefilter") );
+                return Pattern.compile( value );
             } catch (PatternSyntaxException pse) {
-                throw new ExitCodeException("Invalid page filter, must be a regular expression.", 6);
+                throw new ParameterException( format("Invalid page filter, '%s' must be a regular expression.", value) );
             }
         }
-        return null;
-    }
 
-    private File getStorageFolder(CommandLine commandLine) throws IOException {
-        if(commandLine.hasOption("storagefolder")) {
-           final File candidate = new  File( commandLine.getOptionValue("storagefolder") );
-           if(candidate.exists() && candidate.isFile())
-               throw new IllegalArgumentException("The storage folder must be a directory.");
-            return candidate;
-        } else {
-            final File tmpDir = File.createTempFile("crawler-metadata-" + UUID.randomUUID().toString(), "db");
-            tmpDir.delete();
-            return tmpDir;
-        }
-    }
-
-    private int parseInt(CommandLine cl, String option) {
-        final String value = cl.getOptionValue(option);
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException nfe) {
-            throw new IllegalArgumentException(String.format("Expected integer for %s found '%s' .", option, value));
-        }
     }
 
 }

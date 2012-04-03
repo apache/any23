@@ -17,15 +17,24 @@
 
 package org.apache.any23.cli;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.converters.FileConverter;
+import org.apache.any23.Any23;
+import org.apache.any23.plugin.Any23PluginManager;
+import org.apache.any23.util.LogUtils;
+
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
 
-import org.apache.any23.plugin.Any23PluginManager;
+import static java.lang.System.currentTimeMillis;
+import static java.lang.System.exit;
 
 /**
  * This class is the main class responsible to provide a uniform command-line
@@ -34,95 +43,181 @@ import org.apache.any23.plugin.Any23PluginManager;
  * @see ExtractorDocumentation
  * @see Rover
  */
-public class ToolRunner {
+public final class ToolRunner {
 
-    public static final File HOME_PLUGIN_DIR = new File(
-            new File(System.getProperty("user.home")),
-            ".any23/plugins"
-    );
+    private static final PrintStream infoStream = System.err;
 
-    private static final String USAGE = String.format(
-            "Usage: %s <utility> [options...]",
-            ToolRunner.class.getSimpleName()
-    );
+    @Parameter( names = { "-h", "--help" }, description = "Display help information." )
+    private boolean printHelp;
 
-    public static void main(String[] args) throws IOException {
-        //Generate automatically the cli.
-        final Iterator<Tool> tools = getToolsInClasspath();
-        try {
-            if (args.length < 1) {
-                usage(null, tools);
-            }
+    @Parameter( names = { "-v", "--version" }, description = "Display version information." )
+    private boolean showVersion;
 
-            final String toolName = args[0];
+    @Parameter( names = { "-X", "--verbose" }, description = "Produce execution verbose output." )
+    private boolean verbose;
 
-            while (tools.hasNext()) {
-                Tool tool = tools.next();
-                if (tool.getClass().getSimpleName().equals(toolName)) {
-                    String[] mainArgs = new String[args.length - 1];
-                    System.arraycopy(args, 1, mainArgs, 0, mainArgs.length);
+    @Parameter( names = { "-p", "--plugins-dir" }, description = "The Any23 plugins directory.", converter = FileConverter.class )
+    private File pluginsDir = new File(new File(System.getProperty("user.home")), ".any23/plugins");
 
-                    System.exit(tool.run(mainArgs));
-                }
-            }
-
-            usage( String.format("[%s] is not a valid tool name.", toolName), tools);
-            throw new IllegalStateException();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Throwable cause = e.getCause();
-            if(cause != null) cause.printStackTrace();
-            usage(e.toString(), null);
-        }
+    public static void main( String[] args ) throws Exception {
+        exit( new ToolRunner().execute( args ) );
     }
 
-    public static Iterator<Tool> getToolsInClasspath() throws IOException {
+    public int execute(String...args) throws Exception {
+        JCommander commander = new JCommander(this);
+        commander.setProgramName(System.getProperty("app.name"));
+
+        // add all plugins first
+        final Iterator<Tool> tools = getToolsInClasspath();
+        while (tools.hasNext()) {
+            Tool tool = tools.next();
+            commander.addCommand(tool);
+        }
+
+        commander.parse(args);
+
+        Map<String, JCommander> commands = commander.getCommands();
+        String parsedCommand = commander.getParsedCommand();
+        if(parsedCommand == null) {
+            infoStream.println("A command must be specified.");
+            printHelp = true;
+        }
+
+        if (printHelp) {
+            commander.usage();
+            return 1;
+        }
+
+        if (showVersion) {
+            printVersionInfo();
+            return 0;
+        }
+
+        if (verbose) {
+            LogUtils.setVerboseLogging();
+        } else {
+            LogUtils.setDefaultLogging();
+        }
+
+        long start = currentTimeMillis();
+        int exit = 0;
+
+        Throwable error = null;
+
+        // execute the parsed command
+        infoStream.println();
+        infoStream.println( "------------------------------------------------------------------------" );
+        infoStream.printf( "Apache Any23 :: %s%n", parsedCommand );
+        infoStream.println( "------------------------------------------------------------------------" );
+        infoStream.println();
+
+        try {
+            Tool.class.cast( commands.get( parsedCommand ).getObjects().get( 0 ) ).run();
+        } catch (Throwable t) {
+            exit = 1;
+            error = t;
+        } finally {
+            infoStream.println();
+            infoStream.println( "------------------------------------------------------------------------" );
+            infoStream.printf( "Apache Any23 %s%n", ( exit != 0 ) ? "FAILURE" : "SUCCESS" );
+
+            if (exit != 0) {
+                infoStream.println();
+
+                if (verbose) {
+                    System.err.println( "Execution terminated with errors:" );
+                    error.printStackTrace(infoStream);
+                } else {
+                    infoStream.printf( "Execution terminated with errors: %s%n", error.getMessage() );
+                }
+
+                infoStream.println();
+            }
+
+            infoStream.printf( "Total time: %ss%n", ( ( currentTimeMillis() - start ) / 1000 ) );
+            infoStream.printf( "Finished at: %s%n", new Date() );
+
+            final Runtime runtime = Runtime.getRuntime();
+            final int megaUnit = 1024 * 1024;
+            infoStream.printf( "Final Memory: %sM/%sM%n", ( runtime.totalMemory() - runtime.freeMemory() ) / megaUnit,
+                         runtime.totalMemory() / megaUnit );
+
+            infoStream.println( "------------------------------------------------------------------------" );
+        }
+
+        return exit;
+    }
+
+    Iterator<Tool> getToolsInClasspath() throws IOException {
         final Any23PluginManager pluginManager =  Any23PluginManager.getInstance();
-        if(HOME_PLUGIN_DIR.exists()) {
-            pluginManager.loadJARDir(HOME_PLUGIN_DIR);
+        if (pluginsDir.exists() && pluginsDir.isDirectory()) {
+            pluginManager.loadJARDir(pluginsDir);
         }
         return pluginManager.getTools();
     }
 
-    private static String padLeft(String s, int n) {
-        return String.format("%1$#" + n + "s", s);
-    }
+    private static void printVersionInfo() {
+        Properties properties = new Properties();
+        InputStream input = ToolRunner.class.getClassLoader().getResourceAsStream( "META-INF/maven/org.apache.any23/any23-core/pom.properties" );
 
-    private static String getUtilitiesMessage(Iterator<Tool> toolClasses) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(" where <utility> is one of:\n");
-        Description description;
-        String utilityName;
-        int padding;
-        while (toolClasses.hasNext()) {
-            Class<?> toolClass = toolClasses.next().getClass();
-            utilityName = toolClass.getSimpleName();
-            sb.append("\t").append(utilityName);
-            description = toolClass.getAnnotation(Description.class);
-            padding = 100 - utilityName.length();
-            if (description != null) {
-                sb.append( padLeft( description.value(), padding >= 0 ? padding : 0) );
+        if ( input != null ) {
+            try {
+                properties.load( input );
+            } catch ( IOException e ) {
+                // ignore, just don't load the properties
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    // close quietly
+                }
             }
-            sb.append('\n');
         }
-        return sb.toString();
+
+        infoStream.printf( "Apache Any23 %s%n", Any23.VERSION );
+        infoStream.printf( "Java version: %s, vendor: %s%n",
+                           System.getProperty( "java.version" ),
+                           System.getProperty( "java.vendor" ) );
+        infoStream.printf( "Java home: %s%n", System.getProperty( "java.home" ) );
+        infoStream.printf( "Default locale: %s_%s, platform encoding: %s%n",
+                           System.getProperty( "user.language" ),
+                           System.getProperty( "user.country" ),
+                           System.getProperty( "sun.jnu.encoding" ) );
+        infoStream.printf( "OS name: \"%s\", version: \"%s\", arch: \"%s\", family: \"%s\"%n",
+                           System.getProperty( "os.name" ),
+                           System.getProperty( "os.version" ),
+                           System.getProperty( "os.arch" ),
+                           getOsFamily() );
     }
 
-    private static void usage(String msg, Iterator<Tool> utilities) {
-        if (msg != null) {
-            System.err.println("*** ERROR: " + msg);
-            System.err.println();
-        }
-        System.err.println(USAGE);
-        if (utilities != null) {
-            System.err.println(getUtilitiesMessage(utilities));
-        }
-        System.exit(1);
-    }
+    private static final String getOsFamily() {
+        String osName = System.getProperty( "os.name" ).toLowerCase();
+        String pathSep = System.getProperty( "path.separator" );
 
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    public @interface Description { String value();  }
+        if (osName.contains("windows")) {
+            return "windows";
+        } else if (osName.contains("os/2")) {
+            return "os/2";
+        } else if (osName.contains("z/os") || osName.contains("os/390")) {
+            return "z/os";
+        } else if (osName.contains("os/400")) {
+            return "os/400";
+        } else if (pathSep.equals( ";" )) {
+            return "dos";
+        } else if (osName.contains("mac")) {
+            if (osName.endsWith("x")) {
+                return "mac"; // MACOSX
+            }
+            return "unix";
+        } else if (osName.contains("nonstop_kernel")) {
+            return "tandem";
+        } else if (osName.contains("openvms")) {
+            return "openvms";
+        } else if (pathSep.equals(":")) {
+            return "unix";
+        }
+
+        return "undefined";
+    }
 
 }
-

@@ -229,7 +229,7 @@ public class WriterRegistry {
         try {
             return clazz.getConstructor(OutputStream.class).newInstance(os);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Error while initializing format writer " + clazz + " .");
+            throw new IllegalArgumentException("Error while initializing format writer " + clazz + " .", e);
         }
     }
 
