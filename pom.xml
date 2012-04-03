@@ -743,6 +743,23 @@
                 <goals>
                   <goal>check</goal>
                 </goals>
+                <configuration>
+                  <excludes>
+                    <exclude>**/any23-gcode-CHANGES.txt</exclude>
+                    <exclude>DISCLAIMER.txt</exclude>
+                    <exclude>LICENSE.txt</exclude>
+                    <exclude>NOTICE.txt</exclude>
+                    <exclude>**/README.txt</exclude>
+                    <exclude>RELEASE-NOTES.txt</exclude>
+                    <exclude>*.bat</exclude>
+                    <exclude>*.sh</exclude>
+                    <exclude>.idea/**</exclude>
+                    <exclude>.classpath</exclude>
+                    <exclude>.project</exclude>
+                    <exclude>.settings</exclude>
+                    <exclude>.git/**</exclude>
+                  </excludes>
+                </configuration>
               </execution>
             </executions>
           </plugin>
