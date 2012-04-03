@@ -488,7 +488,6 @@
             </execution>
           </executions>
           <configuration>
-            <attach>false</attach>
             <tarLongFileMode>gnu</tarLongFileMode>
             <finalName>${assembly.finalName}</finalName>
           </configuration>
