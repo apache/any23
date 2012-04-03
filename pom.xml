@@ -227,6 +227,7 @@
     <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
     <downloads.url>http://www.apache.org/dist/incubator/any23</downloads.url>
     <assembly.finalName>apache-${project.build.finalName}</assembly.finalName>
+    <rc.version>RC1</rc.version>
   </properties>
 
   <dependencyManagement>
@@ -831,7 +832,7 @@
                   <fromDir>${project.build.directory}</fromDir>
                   <includes>${assembly.finalName}.*</includes>
                   <url>scp://people.apache.org/</url>
-                  <toDir>/x1/www/www.apache.org/content/dist/incubator/any23</toDir>
+                  <toDir>/builds/any23/${project.version}/${rc.version}</toDir>
                 </configuration>
               </execution>
             </executions>
