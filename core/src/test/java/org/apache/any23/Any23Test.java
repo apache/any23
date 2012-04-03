@@ -224,7 +224,7 @@ public class Any23Test extends Any23OnlineTestBase {
         /*3*/ HTTPClient httpClient = runner.getHTTPClient();
         /*4*/ DocumentSource source = new HTTPDocumentSource(
                  httpClient,
-                 "http://www.rentalinrome.com/semanticloft/semanticloft.htm"
+                 "http://dbpedia.org/resource/Trento"
               );
         /*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
         /*6*/ TripleHandler handler = new NTriplesWriter(out);
@@ -236,12 +236,12 @@ public class Any23Test extends Any23OnlineTestBase {
         /*9*/ String n3 = out.toString("UTF-8");
 
         /*
-            <http://www.rentalinrome.com/semanticloft/semanticloft.htm>
-            <http://purl.org/dc/terms/title>
-            "Semantic Loft (beta) - Trastevere apartments | Rental in Rome - rentalinrome.com" .
+            <http://dbpedia.org/resource/Trent> <http://dbpedia.org/ontology/wikiPageDisambiguates> <http://dbpedia.org/resource/Trento> .
+            <http://dbpedia.org/resource/Andrea_Pozzo> <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Trento> .
+            <http://dbpedia.org/resource/Union_for_Trentino> <http://dbpedia.org/ontology/headquarter> <http://dbpedia.org/resource/Trento> .
             [...]
          */
-        logger.debug("N3 "+ n3);
+        logger.debug("n3: " + n3);
         Assert.assertTrue(n3.length() > 0);
     }
 
