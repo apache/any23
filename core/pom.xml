@@ -30,6 +30,10 @@
 
   <name>Apache Any23 :: Core</name>
 
+  <properties>
+    <assembly.finalName>apache-any23-${project.version}</assembly.finalName>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>commons-lang</groupId>
@@ -185,7 +189,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <finalName>apache-any23-${project.version}</finalName>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/bin.xml</descriptor>
           </descriptors>

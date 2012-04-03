@@ -226,6 +226,7 @@
     -->
     <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
     <downloads.url>http://www.apache.org/dist/incubator/any23</downloads.url>
+    <assembly.finalName>apache-${project.build.finalName}</assembly.finalName>
   </properties>
 
   <dependencyManagement>
@@ -488,7 +489,7 @@
           <configuration>
             <attach>false</attach>
             <tarLongFileMode>gnu</tarLongFileMode>
-            <finalName>apache-${project.build.finalName}</finalName>
+            <finalName>${assembly.finalName}</finalName>
           </configuration>
         </plugin>
 
@@ -812,6 +813,26 @@
                 <goals>
                   <goal>sign</goal>
                 </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>2.2</version>
+            <executions>
+              <execution>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>upload</goal>
+                </goals>
+                <configuration>
+                  <fromDir>${project.build.directory}</fromDir>
+                  <includes>${assembly.finalName}.*</includes>
+                  <url>scp://people.apache.org/</url>
+                  <toDir>/x1/www/www.apache.org/content/dist/incubator/any23</toDir>
+                </configuration>
               </execution>
             </executions>
           </plugin>
