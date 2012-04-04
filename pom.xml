@@ -151,6 +151,9 @@
       <subscribe>any23-dev-subscribe[at]incubator[dot]apache[dot]org</subscribe>
       <unsubscribe>any23-dev-unsubscribe[at]incubator[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/incubator-any23-dev/</archive>
+      <otherArchives>
+        <otherArchive>http://incubator-any23-dev.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
 
     <mailingList>
@@ -159,6 +162,9 @@
       <subscribe>any23-user-subscribe[at]incubator[dot]apache[dot]org</subscribe>
       <unsubscribe>any23-user-unsubscribe[at]incubator[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/incubator-any23-user/</archive>
+      <otherArchives>
+        <otherArchive>http://incubator-any23-user.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
 
     <mailingList>
@@ -167,6 +173,9 @@
       <subscribe>any23-commits-subscribe[at]incubator[dot]apache[dot]org</subscribe>
       <unsubscribe>any23-commits-unsubscribe[at]incubator[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/incubator-any23-commits/</archive>
+      <otherArchives>
+        <otherArchive>http://incubator-any23-commits.markmail.org/</otherArchive>
+      </otherArchives>
     </mailingList>
   </mailingLists>
 
