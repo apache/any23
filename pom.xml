@@ -651,14 +651,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.6</version>
         <configuration>
-          <issueLinkTemplate>%URL%/%ISSUE%</issueLinkTemplate>
+          <fixVersionIds>12319884</fixVersionIds>
         </configuration>
         <reportSets>
           <reportSet>
             <reports>
-              <report>changes-report</report>
+              <report>jira-report</report>
             </reports>
           </reportSet>
         </reportSets>
