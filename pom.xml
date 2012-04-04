@@ -689,7 +689,7 @@
           <docletArtifact>
             <groupId>com.google.doclava</groupId>
             <artifactId>doclava</artifactId>
-            <version>${doclava.version}</version>
+            <version>1.0.3</version>
           </docletArtifact>
           <doclet>com.google.doclava.Doclava</doclet>
           <!--
