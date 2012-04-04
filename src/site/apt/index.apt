@@ -79,3 +79,15 @@ Introduction to Apache Any23
     {{{http://wed.fbk.eu/en/home}Web of Data - FBK}} and the {{{http://www.okkam.org/}OKKAM project (ICT-215032)}}.
     Individual developers who have contributed to <<any23>> include:
     Michele Catasta, Richard Cyganiak, Michele Mostarda, Davide Palmisano, Gabriele Renzi, Juergen Umbrich.
+
+* Disclaimer
+
+    Apache DirectMemory is an effort undergoing {{{http://incubator.apache.org}incubation}} at
+    The Apache Software Foundation (ASF), sponsored by the Apache Incubator PMC. Incubation is required of all newly
+    accepted projects until a further review indicates that the infrastructure, communications, and decision making
+    process have stabilized in a manner consistent with other successful ASF projects.
+    While incubation status is not necessarily a reflection of the completeness or stability of the code,
+    it does indicate that the project has yet to be fully endorsed by the ASF.
+
+    You can view our current {{{http://incubator.apache.org/projects/directmemory.html}incubation status}}
+    for more details.
