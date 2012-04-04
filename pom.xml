@@ -30,7 +30,7 @@
   <version>0.7.0-incubating-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Apache Any23 :: Parent</name>
+  <name>Apache Any23</name>
   <description>Anything To Triples (any23) is a library, a web service and a command line tool that 
   extracts structured data in RDF format from a variety of Web documents.</description>
   <url>http://incubator.apache.org/any23</url>
