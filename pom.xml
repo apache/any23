@@ -248,7 +248,7 @@
     <wagon-maven-plugin.version>1.0-beta-3</wagon-maven-plugin.version>
     <wagon-ssh.version>2.2</wagon-ssh.version>
     <UmlGraph.version>5.1</UmlGraph.version>
-        
+
     <!--
      | Any23 website has to be stored in SVN
      |
