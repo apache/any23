@@ -42,21 +42,9 @@
 
   <poweredBy>
     <logo
-          name="Sindice"
-          href="http://sindice.com/"
-          img="./images/logo-sindice-90x30.png"/>
-    <logo
-          name="Fondazione Bruno Kessler"
-          href="http://www.fbk.eu/"
-          img="./images/logo-fbk-90x30.png"/>
-    <logo
-          name="Digital Enterprise Research Institute"
-          href="http://www.deri.ie/"
-          img="./images/logo-deri-90x30.png"/>
-    <logo
-          name="OKKAM"
-          href="http://www.okkam.org/"
-          img="./images/logo-okkam-90x30.png"/>
+          name="Apache Tika"
+          href="http://tika.apache.org/"
+          img="./images/apache-tika-90x30.png"/>
   </poweredBy>
 
   <body>
@@ -94,17 +82,17 @@
 
     <menu ref="reports"/>
 
+    <menu name="Misc">
+      <item name="Acknowledgements" href="./acknowledgements.html"/>
+      <item name="PoweredBy"        href="./poweredby.html"/>
+    </menu>
+
     <menu name="ASF">
       <item name="How Apache Works" href="http://www.apache.org/foundation/how-it-works.html"/>
       <item name="Foundation" href="http://www.apache.org/foundation/"/>
       <item name="Sponsoring Apache" href="http://www.apache.org/foundation/sponsorship.html"/>
       <item name="Thanks" href="http://www.apache.org/foundation/thanks.html"/>
       <item name="Apache Incubator" href="http://incubator.apache.org/"/>
-    </menu>
-
-    <menu name="External links">
-      <item name="Any23.org"         href="http://any23.org"/>
-      <item name="Sindice"           href="http://sindice.com"/>
     </menu>
 
     <footer>

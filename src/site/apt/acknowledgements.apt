@@ -1,5 +1,5 @@
                                     ------
-                              Apache Any23 - History
+                              Apache Any23 - Acknowledgments
                                     ------
                               The Apache Software Foundation
                                     ------
@@ -20,9 +20,9 @@
 ~~  See the License for the specific language governing permissions and
 ~~  limitations under the License.
 
-Initial Sponsors
+Acknowledgments
 
-  This page enlists the initial sponsors of the Any23 project.
+  This page enlists the initial sponsors of the <Any23> project.
 
 [./images/logo-sindice-90x30.png]  
 
@@ -36,7 +36,7 @@ Initial Sponsors
 
   {{{http://www.deri.ie/}Digital Enterprise Research Institute}}
 
-  The vision of the Digital Enterprise Research Institute is to be recognised as one of the 
+  The vision of the Digital Enterprise Research Institute (DERI) is to be recognised as one of the 
   leading international Web Science research institutes interlinking technologies, information 
   and people to advance business and benefit society.
 
@@ -49,11 +49,20 @@ Initial Sponsors
   and collaborations, FBK also conducts research in theoretical nuclear physics, networking, 
   telecommunications, and social sciences.
 
+[./images/logo-okkam-90x30.png]
+
+  {{{http://www.okkam.org/}OKKAM}}
+
+  The OKKAM project aims at enabling the Web of Entities, namely a virtual space where any collection
+  of data and information about any type of entities (e.g. people, locations, organizations, events, 
+  products, ...) published on the Web can be integrated into a single virtual, decentralized, open 
+  knowledge base.  
+
 [./images/logo-lod2-90x30.png]
 
   {{{http://lod2.eu/}LOD2}}
    
-  The consortium comprises expertise in Semantic Web technologies, ontological engineering, machine learning,
+  The LOD2 consortium comprises expertise in Semantic Web technologies, ontological engineering, machine learning,
   Web search, information retrieval, databases and knowledge stores. With CWI's reputation in the database world,
   LOD2 aims to substantially contribute to cross-fertilization between database and semantic web research.
 
