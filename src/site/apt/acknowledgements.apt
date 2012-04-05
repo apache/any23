@@ -22,7 +22,15 @@
 
 Acknowledgments
 
-  This page enlists the initial sponsors of the <Any23> project.
+  The original code base comes from open-sourcing the <"RDFizer"> component of the
+  {{{http://www.sindice.com}Sindice}} search engine. The project is supported by
+  {{{http://www.apache.ie/}DERI, NUI Galway}}, {{{http://wed.fbk.eu/en/home}Web of Data - FBK}}
+  and the {{{http://www.okkam.org/}OKKAM project (ICT-215032)}}.
+
+  Individual developers who have contributed to <<any23>> include (in alphabetic order):
+  Michele Catasta, Richard Cyganiak, Michele Mostarda, Davide Palmisano, Gabriele Renzi, Juergen Umbrich.
+
+  Below the initial sponsors of the <Any23> project.
 
 [./images/logo-sindice-90x30.png]  
 
