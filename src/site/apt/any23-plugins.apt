@@ -44,7 +44,7 @@ Apache Any23 Plugins
    * adding its <JAR> to the CLASSPATH_PREFIX environment variable as:
 
 +-----------------------------------------------------------------------------------------------------------
-export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawler-VERSION.jar bin/any23tools
+export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawler-VERSION.jar
 +-----------------------------------------------------------------------------------------------------------
 
    * adding its <JAR> to the <$HOME/.any23/plugins> directory.
@@ -59,7 +59,7 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
     {{{./xref/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
 
     Any detected implementation of <Tool> will be listed by the <ToolRunner>
-    command-line tool in <any23-root/><<bin/any23tools>> .
+    command-line tool in <any23-root/><<bin/any23>> .
 
 * How to Build a Plugin
 
@@ -105,35 +105,33 @@ public class HTMLScraperPlugin implements ExtractorPlugin {
 
 * How to Write a Tool Plugin
 
-   An <Tool Plugin> is a class:
+   A <Tool Plugin> is a Java class that:
 
    * implementing the {{{./xref/org/apache/any23/cli/Tool.html}Tool}} interface;
 
-   * packaged under <<org.apache.any23.cli>> .
+   * CLI parameters are extracted by annotating the class members with {{{http://jcommander.org/}JCommander}} annotations.
+
+   * have to be found using the {{{http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html}ServiceLoader}}
+     (we usually plug the Kohsuke's {{{http://weblogs.java.net/blog/kohsuke/archive/2009/03/my_project_of_t.html}generator}})
 
    An example of plugin is defined below.
 
 +--------------------------------------
-@ToolRunner.Description("Prints out the current library version and configuration information.")
-public class Version implements Tool {
+@MetaInfServices
+@Parameters(commandNames = { "myexec" }, commandDescription = "Prints out XXX used by Any23.")
+public class MyExecutableTool implements Tool {
 
-    public static void main(String[] args) {
-        System.exit( new Version().run(args) );
-    }
+    @Parameter(names = { "-u", "--urls" }, description = "URLs to process")
+    private List<URL> pairs;
 
-    public int run(String[] args) {
-        final String version = Apache Any23.VERSION;
-        if(version == null) {
-            System.err.println("Error while retrieving configuration info.");
-            return 1;
-        }
-        System.out.println(String.format("Apache Any23 Core v. %s", version));
-        System.out.println();
-        return 0;
+    public void run() throws Exception;
+        
     }
 
 }
 +--------------------------------------
+
+  So when executing <<<any23>>, the <<<myexec>>> will be available in the commands list.
 
 * Available Extractor Plugins
 
