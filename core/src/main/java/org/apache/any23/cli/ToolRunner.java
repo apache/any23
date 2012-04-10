@@ -45,6 +45,8 @@ import static java.lang.System.exit;
  */
 public final class ToolRunner {
 
+    public static final File DEFAULT_PLUGIN_DIR = new File(new File(System.getProperty("user.home")), ".any23/plugins");
+
     private static final PrintStream infoStream = System.err;
 
     @Parameter( names = { "-h", "--help" }, description = "Display help information." )
@@ -57,7 +59,7 @@ public final class ToolRunner {
     private boolean verbose;
 
     @Parameter( names = { "-p", "--plugins-dir" }, description = "The Any23 plugins directory.", converter = FileConverter.class )
-    private File pluginsDir = new File(new File(System.getProperty("user.home")), ".any23/plugins");
+    private File pluginsDir = DEFAULT_PLUGIN_DIR;
 
     public static void main( String[] args ) throws Exception {
         exit( new ToolRunner().execute( args ) );
@@ -66,6 +68,13 @@ public final class ToolRunner {
     public int execute(String...args) throws Exception {
         JCommander commander = new JCommander(this);
         commander.setProgramName(System.getProperty("app.name"));
+
+        // TODO (low) : this dirty solution has been introduced because it is not possible to
+        //              parse arguments ( commander.parse() ) twice.
+        final File pluginsDirOption = parsePluginDirOption(args);
+        if(pluginsDirOption != null) {
+            pluginsDir = pluginsDirOption;
+        }
 
         // add all plugins first
         final Iterator<Tool> tools = getToolsInClasspath();
@@ -218,6 +227,27 @@ public final class ToolRunner {
         }
 
         return "undefined";
+    }
+
+    private static File parsePluginDirOption(String[] args) {
+        int optionIndex = -1;
+        for(int i = 0; i < args.length; i++) {
+            if("-p".equals(args[i]) || "--plugins-dir".equals(args[i])) {
+                optionIndex = i;
+            }
+        }
+        if(optionIndex == -1) return null;
+
+        if(optionIndex == args.length - 1) {
+            System.err.println("Missing argument for --plugins-dir option.");
+            System.exit(1);
+        }
+        final File pluginsDir = new File( args[optionIndex + 1] );
+        if( ! pluginsDir.isDirectory() ) {
+            System.err.println("Expected a directory for --plugins-dir option value.");
+            System.exit(1);
+        }
+        return pluginsDir;
     }
 
 }
