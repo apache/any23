@@ -894,33 +894,6 @@
               </execution>
             </executions>
           </plugin>
-
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>wagon-maven-plugin</artifactId>
-            <version>${wagon-maven-plugin.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
-                <version>${wagon-ssh.version}</version>
-              </dependency>
-            </dependencies>
-            <executions>
-              <execution>
-                <phase>deploy</phase>
-                <goals>
-                  <goal>upload</goal>
-                </goals>
-                <configuration>
-                  <fromDir>${project.build.directory}</fromDir>
-                  <includes>${assembly.finalName}.*</includes>
-                  <url>scp://people.apache.org/</url>
-                  <toDir>/builds/any23/${project.version}/${rc.version}</toDir>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
