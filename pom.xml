@@ -669,7 +669,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <stagingSiteURL>svn:https://svn.apache.org/repos/asf/incubator/any23/site/${project.version}</stagingSiteURL>
+          <stagingSiteURL>${site.deploymentBaseUrl}/${project.version}-${rc.version}</stagingSiteURL>
         </configuration>
       </plugin>
     </plugins>
