@@ -186,6 +186,7 @@
     <module>plugins/office-scraper</module>
     <module>plugins/integration-test</module>
     <module>service</module>
+    <module>sources-dist</module>
   </modules>
 
   <scm>
