@@ -20,6 +20,9 @@ package org.apache.any23.extractor.html;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.traversal.DocumentTraversal;
+import org.w3c.dom.traversal.NodeFilter;
+import org.w3c.dom.traversal.NodeIterator;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -35,6 +38,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * This class provides utility methods for DOM manipulation.
@@ -188,7 +192,7 @@ public class DomUtils {
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByClassName(Node root, String className) {
-        return findAllByTagAndClassName(root, "*", className.toLowerCase());
+        return findAllBy(root, null, "class", className.toLowerCase());
     }
 
     /**
@@ -200,35 +204,19 @@ public class DomUtils {
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByAttributeName(Node root, String attrName) {
-        List<Node> result = new ArrayList<Node>();
-        for (Node node : findAll(root, String.format("./descendant-or-self::*[@%s]", attrName) ) ) {
-                result.add(node);
-        }
-        return result;
+        return findAllBy(root, null, attrName, null);
     }
+    
+   public static List<Node> findAllByAttributeContains(Node node, String attrName, String attrContains) {
+       return findAllBy(node, null, attrName, attrContains);
+   }
 
     public static List<Node> findAllByTag(Node root, String tagName) {
-        List<Node> result = new ArrayList<Node>();
-        for (Node node : findAll(root, "./descendant-or-self::" + tagName)) {
-            result.add(node);
-        }
-        return result;
+           return findAllBy(root, tagName, null, null);
     }
-
-    public static List<Node> findAllByTagAndClassName(Node root, String tagName, String className) {
-        List<Node> result = new ArrayList<Node>();
-        for (Node node : findAll(
-                root,
-                "./descendant-or-self::" +
-                tagName +
-                "[contains(translate(@class,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'" +
-                className + "')]")
-        ) {
-            if (DomUtils.hasClassName(node, className)) {
-                result.add(node);
-            }
-        }
-        return result;
+    
+    public static List<Node> findAllByTagAndClassName(Node root, final String tagName, final String className) {
+       return findAllBy(root, tagName, "class", className);
     }
 
     /**
@@ -404,6 +392,72 @@ public class DomUtils {
         transformer.transform(domSource, sr);
         sw.close();
         return sw.toString();
+    }
+
+    /**
+     * High performance implementation of {@link #findAll(org.w3c.dom.Node, String)}.
+     *
+     * @param root root node to start search.
+     * @param tagName name of target tag.
+     * @param attrName name of attribute filter.
+     * @param attrContains expected content for attribute.
+     * @return
+     */
+    private static List<Node> findAllBy(Node root, final String tagName, final String attrName, String attrContains) {
+        DocumentTraversal documentTraversal = (DocumentTraversal) root.getOwnerDocument();
+        if (documentTraversal == null) {
+            documentTraversal = (DocumentTraversal) root;
+        }
+
+        final Pattern attrContainsPattern;
+        if (attrContains != null && !attrContains.equals("*")) {
+            attrContainsPattern = Pattern.compile("(^|\\s)" + attrContains + "(\\s|$)", Pattern.CASE_INSENSITIVE);
+        } else {
+            attrContainsPattern = null;
+        }
+
+        final List<Node> result = new ArrayList<Node>();
+        NodeIterator nodeIterator = documentTraversal.createNodeIterator(
+                root,
+                NodeFilter.SHOW_ELEMENT,
+                new NodeFilter() {
+                    @Override
+                    public short acceptNode(Node node) {
+                        if (node.getNodeType() == Node.ELEMENT_NODE) {
+                            if (tagName != null && !tagName.equals("*") && !tagName.equals(node.getNodeName())) {
+                                // tagName given but doesn't match.
+                                return FILTER_ACCEPT;
+                            }
+
+                            if (attrName != null) {
+                                Node attrNameNode = node.getAttributes().getNamedItem(attrName);
+                                if (attrNameNode == null) {
+                                    // attrName given but doesn't match
+                                    return FILTER_ACCEPT;
+                                }
+
+                                if (
+                                        attrContainsPattern != null
+                                                &&
+                                                !attrContainsPattern.matcher(attrNameNode.getNodeValue()).find()
+                                        ) {
+                                    // attrContains given but doesn't match
+                                    return FILTER_ACCEPT;
+                                }
+                            }
+                            result.add(node);
+                        }
+                        return FILTER_ACCEPT;
+                    }
+                }, false);
+
+        // To populate result we only need to iterate...
+        while (nodeIterator.nextNode() != null) ;
+
+        // We have to explicitly declare we are done with this nodeIterator to free it's resources.
+        nodeIterator.detach();
+
+        return result;
     }
 
 }

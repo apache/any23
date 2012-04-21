@@ -94,7 +94,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         }
 
         // include pattern, test 31
-        for (Node current : document.findAll("//*[@class]")) {
+        for (Node current : DomUtils.findAllByAttributeName(document.getDocument(), "class")) {
             if (!DomUtils.hasClassName(current, "include")) continue;
             // we have to remove the field soon to avoid infinite loops
             // no null check, we know it's there or we won't be in the loop
@@ -164,7 +164,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private boolean addTelephones(Resource card) {
         boolean found = false;
-        for (Node node : fragment.findAll(".//*[contains(@class,'tel')]")) {
+        for (Node node : DomUtils.findAllByAttributeContains(fragment.getDocument(), "class", "tel")) {
             HTMLDocument telFragment = new HTMLDocument(node);
             TextField[] values = telFragment.getPluralUrlField("value");
             if (values.length == 0) {
@@ -237,7 +237,6 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     private boolean addStringMultiProperty(String className, Resource resource, URI property) {
         HTMLDocument.TextField[] fields = fragment.getPluralTextField(className);
         boolean found = false;
-        final String extractorName = getDescription().getExtractorName();
         for(HTMLDocument.TextField field : fields) {
             found |= conditionallyAddStringProperty(
                     field.source(),
@@ -394,7 +393,6 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
     private boolean addOrganizationName(Resource card) {
         if (name.getOrganization() == null) return false;
         BNode org = valueFactory.createBNode();
-        final String extractorName =  getDescription().getExtractorName();
         addBNodeProperty(
                 this.fragment.getDocument(),
                 card, vCARD.org, org

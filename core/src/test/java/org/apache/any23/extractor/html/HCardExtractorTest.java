@@ -23,6 +23,7 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.VCARD;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Resource;
 import org.openrdf.model.Statement;
@@ -955,7 +956,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
     /**
      * Tests the detection and prevention of the inclusion of an ancestor by a sibling node.
-         * This test is related to issue <a href="https://issues.apache.org/jira/browse/ANY23-58">ANY23-58</a>.
+     * This test is related to issue <a href="https://issues.apache.org/jira/browse/ANY23-58">ANY23-58</a>.
      *
      * @throws IOException
      * @throws ExtractionException
@@ -964,6 +965,16 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     public void testInfiniteLoop() throws IOException, ExtractionException {
         assertExtract("microformats/hcard/infinite-loop.html", false);
         assertIssue(IssueReport.IssueLevel.Warning, ".*Current node tries to include an ancestor node.*");
+    }
+
+    /**
+     * Tests extractor performances.
+     * This test is related to issue <a href="https://issues.apache.org/jira/browse/ANY23-76">ANY23-76</a>.
+     */
+    @Ignore
+    @Test(timeout = 30 * 1000)
+    public void testExtractionPerformance() {
+        assertExtract("microformats/hcard/performance.html");
     }
 
     private void assertDefaultVCard() throws RepositoryException {
