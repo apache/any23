@@ -17,7 +17,6 @@
 package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.extractor.html.DomUtils;
-import org.apache.any23.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -254,12 +253,7 @@ public class MicrodataParser {
             boolean skip = false;
             for(int j = 0; j < candidates.size(); j++) {
                 if(i == j) continue;
-                if(
-                        StringUtils.isPrefix(
-                                DomUtils.getXPathForNode(candidates.get(j)),
-                                DomUtils.getXPathForNode(candidates.get(i))
-                        )
-                ) {
+                if( DomUtils.isAncestorOf(candidates.get(j), candidates.get(i), true) ) {
                     skip = true;
                     break;
                 }
@@ -360,19 +354,10 @@ public class MicrodataParser {
         final List<Node> subItemScopes = getItemScopeNodes(node);
         subItemScopes.remove(node);
         final List<Node> accepted = new ArrayList<Node>();
-        String subItemScopeXpath;
-        String subItemPropXPath;
         for(Node itemPropNode : itemPropNodes) {
             boolean skip = false;
             for(Node subItemScope : subItemScopes) {
-                subItemScopeXpath = DomUtils.getXPathForNode(subItemScope);
-                subItemPropXPath  = DomUtils.getXPathForNode(itemPropNode);
-                if(
-                    StringUtils.isPrefix(subItemScopeXpath, subItemPropXPath)
-                            &&
-                    // This prevent removal of itemprop that is also itemscope
-                    subItemScopeXpath.length() < subItemPropXPath.length()
-                ) {
+                if( DomUtils.isAncestorOf(subItemScope, itemPropNode, true) ) {
                     skip = true;
                     break;
                 }

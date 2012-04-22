@@ -82,7 +82,7 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
 
     @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        handleComment( String.format("BEGIN: " + context) );
+        handleComment( "BEGIN: " + context );
     }
 
     @Override
@@ -114,7 +114,7 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
 
     @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        handleComment( String.format("END: " + context) );
+        handleComment( "END: " + context );
     }
 
     @Override

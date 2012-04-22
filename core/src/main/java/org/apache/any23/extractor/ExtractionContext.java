@@ -101,7 +101,7 @@ public class ExtractionContext {
     }
 
     public String toString() {
-        return String.format("ExtractionContext(%s)", uniqueID);
+        return "ExtractionContext(" + uniqueID + ")";
     }
 
     private void checkNotNull(Object data, String desc) {
