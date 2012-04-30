@@ -65,7 +65,6 @@ Run the Any23 Commandline Tools
 Any23 comes with some command line tools:
 
    ./any23       # Provides the main Any23 use case: metadata extraction on a file or URL source.
-   ./any23tools  # Provides access to all the Any23 tools.
 
 The complete documentation about these tools can be found here: 
 
@@ -81,11 +80,8 @@ then go to the core generated bin folder
   trunk$ cd core/target/appassembler/bin/
 
 and finally invoke the script for your OS (UNIX or Windows):
-  
-  bin$ ./any23
-  [usage instructions will be printed out]
 
-  bin$ ./any23tools
+  bin$ ./any23
   [usage instructions will be printed out]
 
 
