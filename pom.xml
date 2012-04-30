@@ -264,7 +264,6 @@
     <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
     <downloads.url>http://www.apache.org/dist/incubator/any23</downloads.url>
     <assembly.finalName>apache-${project.build.finalName}</assembly.finalName>
-    <rc.version>RC1</rc.version>
   </properties>
 
   <dependencyManagement>
@@ -670,7 +669,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <stagingSiteURL>${site.deploymentBaseUrl}/${project.version}-${rc.version}</stagingSiteURL>
+          <stagingSiteURL>${site.deploymentBaseUrl}/${project.version}</stagingSiteURL>
         </configuration>
       </plugin>
     </plugins>
