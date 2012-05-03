@@ -723,6 +723,7 @@
           <reportSet>
             <reports>
               <report>cim</report>
+              <report>dependencies</report>
               <report>distribution-management</report>
               <report>issue-tracking</report>
               <report>license</report>
