@@ -372,7 +372,7 @@ public class Any23Test extends Any23OnlineTestBase {
     @Test
     public void testExtractionParametersWithNestingDisabled()
     throws IOException, ExtractionException, TripleHandlerException {
-        final int EXPECTED_TRIPLES = 21;
+        final int EXPECTED_TRIPLES = 19;
         Any23 runner = new Any23();
         DocumentSource source = new FileDocumentSource(
                 new File("src/test/resources/microformats/nested-microformats-a1.html"),
