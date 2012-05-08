@@ -17,6 +17,8 @@
 
 package org.apache.any23.extractor.csv;
 
+import static java.lang.Character.toUpperCase;
+
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -39,6 +41,7 @@ import org.openrdf.model.vocabulary.XMLSchema;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 /**
  * This extractor produces <i>RDF</i> from a <i>CSV file</i> .
@@ -206,15 +209,18 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     private URI normalize(String toBeNormalized, URI documentURI) {
-        String candidate = toBeNormalized;
-        candidate = candidate.trim().toLowerCase().replace("?", "").replace("&", "");
-        String[] tokens = candidate.split(" ");
-        candidate = tokens[0];
-        for (int i = 1; i < tokens.length; i++) {
-            String firstChar = ("" + tokens[i].charAt(0)).toUpperCase();
-            candidate += firstChar + tokens[i].substring(1);
+        toBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "");
+
+        StringBuilder result = new StringBuilder(documentURI.toString());
+
+        StringTokenizer tokenizer = new StringTokenizer(toBeNormalized, " ");
+        while (tokenizer.hasMoreTokens()) {
+            String current = tokenizer.nextToken();
+
+            result.append(toUpperCase(current.charAt(0))).append(current.substring(1));
         }
-        return new URIImpl(documentURI.toString() + candidate);
+
+        return new URIImpl(result.toString());
     }
 
     /**
