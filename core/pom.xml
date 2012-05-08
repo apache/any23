@@ -197,4 +197,23 @@
     </plugins>
   </build>
 
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <resources>
+          <resource>
+            <directory>${basedir}/../</directory>
+            <targetPath>${project.build.directory}/apidocs/META-INF</targetPath>
+            <includes>
+              <include>DISCLAIMER.txt</include>
+              <include>LICENSE.txt</include>
+              <include>NOTICE.txt</include>
+            </includes>
+          </resource>
+        </resources>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
