@@ -834,6 +834,7 @@
                 <configuration>
                   <excludes>
                     <exclude>**/any23-gcode-CHANGES.txt</exclude>
+                    <exclude>**/NOTICE-with-deps.txt</exclude>
                     <exclude>DISCLAIMER.txt</exclude>
                     <exclude>LICENSE.txt</exclude>
                     <exclude>NOTICE.txt</exclude>
@@ -845,6 +846,8 @@
                     <exclude>.classpath</exclude>
                     <exclude>.project</exclude>
                     <exclude>.settings</exclude>
+                    <exclude>maven-eclipse.xml</exclude>
+                    <exclude>.externalToolBuilders/**</exclude>
                     <exclude>.git/**</exclude>
                   </excludes>
                 </configuration>
