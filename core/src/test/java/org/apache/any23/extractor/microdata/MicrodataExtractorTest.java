@@ -22,7 +22,8 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.io.nquads.NQuadsParser;
 import org.apache.any23.vocab.SINDICE;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.BNode;
@@ -45,7 +46,7 @@ import java.util.List;
  */
 public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
-    private static final Logger logger = Logger.getLogger(MicrodataExtractorTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(MicrodataExtractorTest.class);
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
