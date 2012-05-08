@@ -845,6 +845,7 @@
                     <exclude>**/*.csv</exclude>
                     <exclude>**/*.json</exclude>
                     <exclude>**/*zip/*</exclude>
+                    <exclude>**/error.wsdl</exclude>
                     <exclude>.idea/**</exclude>
                     <exclude>.classpath</exclude>
                     <exclude>.project</exclude>
