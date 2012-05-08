@@ -844,6 +844,7 @@
                     <exclude>*.sh</exclude>
                     <exclude>**/*.csv</exclude>
                     <exclude>**/*.json</exclude>
+                    <exclude>**/*.xls*</exclude>
                     <exclude>**/*zip/*</exclude>
                     <exclude>**/error.wsdl</exclude>
                     <exclude>.idea/**</exclude>
