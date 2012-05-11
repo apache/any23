@@ -28,6 +28,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Test case for {@link SiteCrawler}.
@@ -52,13 +53,19 @@ public class SiteCrawlerTest extends Any23OnlineTestBase {
 
         final SiteCrawler controller = new SiteCrawler(tmpFile);
         controller.setMaxPages(100);
+        logger.info("Crawler4j: Setting max num of pages to: " + controller.getMaxPages());
         controller.setPolitenessDelay(500);
+        logger.info("Crawler4j: Setting Politeness delay to: " + controller.getPolitenessDelay() + "ms");
 
         final Set<String> distinctPages = new HashSet<String>();
         controller.addListener(new CrawlerListener() {
             @Override
             public void visitedPage(Page page) {
                 distinctPages.add( page.getWebURL().getURL() );
+                Iterator it = distinctPages.iterator();
+                while (it.hasNext()) {
+                    logger.info("Crawler4j: Fetching page - " + it.next());
+                }
             }
         });
 
@@ -69,7 +76,7 @@ public class SiteCrawlerTest extends Any23OnlineTestBase {
         }
         controller.stop();
 
-        logger.debug("Crawled pages: " + distinctPages.size());
+        logger.info("Distinct pages: " + distinctPages.size());
         Assert.assertTrue("Expected some page crawled.", distinctPages.size() > 0);
     }
 

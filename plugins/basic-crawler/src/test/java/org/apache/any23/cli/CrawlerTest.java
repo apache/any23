@@ -51,7 +51,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
 
         final File outFile = File.createTempFile("crawler-test", ".nq");
         outFile.delete();
-        logger.debug( "Outfile: " + outFile.getAbsolutePath() );
+        logger.info( "Outfile: " + outFile.getAbsolutePath() );
 
         final Future<?> future = Executors.newSingleThreadExecutor().submit(
             new Runnable() {
