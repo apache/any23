@@ -53,7 +53,7 @@ public class DefaultValidator implements Validator {
     throws ValidatorException {
         final ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
         for(Class<? extends Rule> cRule : rulesOrder) {
-            Rule rule = newInstance(cRule);
+            Rule rule = newRuleInstance(cRule);
             final RuleContext ruleContext = new DefaultRuleContext();            
             boolean applyOn;
             try {
@@ -66,7 +66,7 @@ public class DefaultValidator implements Validator {
                 validationReportBuilder.traceRuleActivation(rule);
                 List<Class<? extends Fix>> cFixes = getFixes(cRule);
                 for(Class<? extends Fix> cFix : cFixes) {
-                    Fix fix = newInstance(cFix);
+                    Fix fix = newFixInstance(cFix);
                     try {
                         fix.execute(rule, ruleContext, document);
                     } catch (Exception e) {
@@ -123,7 +123,7 @@ public class DefaultValidator implements Validator {
         addRule(AboutNotURIRule.class);
     }
 
-    private Fix newInstance(Class<? extends Fix> cFix) throws ValidatorException {
+    private Fix newFixInstance(Class<? extends Fix> cFix) throws ValidatorException {
         try {
             return cFix.newInstance();
         } catch (Exception e) {
@@ -131,7 +131,7 @@ public class DefaultValidator implements Validator {
         }
     }
 
-    private Rule newInstance(Class<? extends Rule> cRule) throws ValidatorException {
+    private Rule newRuleInstance(Class<? extends Rule> cRule) throws ValidatorException {
         try {
             return cRule.newInstance();
         } catch (Exception e) {
