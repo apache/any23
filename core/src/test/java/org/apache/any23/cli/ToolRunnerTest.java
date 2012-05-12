@@ -17,6 +17,7 @@
 
 package org.apache.any23.cli;
 
+import junit.framework.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -48,6 +49,16 @@ public class ToolRunnerTest {
         while (tools.hasNext()) {
             assertTrue("Some core tools have not been detected.", coreTools.contains(tools.next().getClass()));
         }
+    }
+
+    @Test
+    public void testGetVersion() throws Exception {
+        Assert.assertEquals(0, new ToolRunner().execute("-v") );
+    }
+
+    @Test
+    public void testGetHelp() throws Exception {
+        Assert.assertEquals(0, new ToolRunner().execute("-h") );
     }
 
 }

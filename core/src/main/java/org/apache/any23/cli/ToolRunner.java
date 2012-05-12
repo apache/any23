@@ -87,19 +87,21 @@ public final class ToolRunner {
 
         Map<String, JCommander> commands = commander.getCommands();
         String parsedCommand = commander.getParsedCommand();
-        if(parsedCommand == null) {
-            infoStream.println("A command must be specified.");
-            printHelp = true;
-        }
 
         if (printHelp) {
             commander.usage();
-            return 1;
+            return 0;
         }
 
         if (showVersion) {
             printVersionInfo();
             return 0;
+        }
+
+        if(parsedCommand == null) {
+            infoStream.println("A command must be specified.");
+            commander.usage();
+            return 1;
         }
 
         if (verbose) {
