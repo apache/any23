@@ -77,12 +77,12 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
 
     @Override
     public void startDocument(URI documentURI) throws TripleHandlerException {
-        // Empty.
+        handleComment("OUTPUT FORMAT: " + writer.getRDFFormat());
     }
 
     @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        handleComment( "BEGIN: " + context );
+        handleComment("BEGIN: " + context );
     }
 
     @Override
