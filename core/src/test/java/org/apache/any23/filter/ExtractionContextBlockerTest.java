@@ -32,9 +32,9 @@ import org.openrdf.model.URI;
 public class ExtractionContextBlockerTest {
 
     private final static URI docURI = RDFUtils.uri("http://example.com/doc");
-    private final static URI s = (URI) RDFUtils.toRDF("ex:s");
-    private final static URI p = (URI) RDFUtils.toRDF("ex:p");
-    private final static URI o = (URI) RDFUtils.toRDF("ex:o");
+    private final static URI s = (URI) RDFUtils.toValue("ex:s");
+    private final static URI p = (URI) RDFUtils.toValue("ex:p");
+    private final static URI o = (URI) RDFUtils.toValue("ex:o");
     private ExtractionContextBlocker blocker;
     private MockTripleHandler handler;
 
