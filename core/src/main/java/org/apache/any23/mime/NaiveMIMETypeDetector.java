@@ -17,6 +17,9 @@
 
 package org.apache.any23.mime;
 
+import org.openrdf.rio.RDFFormat;
+import org.openrdf.rio.Rio;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,14 +39,10 @@ public class NaiveMIMETypeDetector implements MIMETypeDetector {
             put("htm"  , "text/html"            );
             put("xhtml", "application/xhtml+xml");
             put("xht"  , "application/xhtml+xml");
-            put("rdf"  , "application/rdf+xml"  );
             put("xrdf" , "application/rdf+xml"  );
             put("rdfx" , "application/rdf+xml"  );
             put("owl"  , "application/rdf+xml"  );
-            put("nt"   , "text/plain"           );
             put("txt"  , "text/plain"           );
-            put("ttl"  , "application/x-turtle" );
-            put("n3"   , "text/rdf+n3"          );
         }
     };
 
@@ -58,6 +57,12 @@ public class NaiveMIMETypeDetector implements MIMETypeDetector {
         if (mimeTypeFromMetadata != null) {
             return mimeTypeFromMetadata;
         }
+
+        final RDFFormat parserFormatForFileName = Rio.getParserFormatForFileName(fileName);
+        if (parserFormatForFileName != null) {
+            return MIMEType.parse(parserFormatForFileName.getDefaultMIMEType());
+        }
+
         String extension = getExtension(fileName);
         if (extension == null) {
             // Assume index file on web server.
@@ -74,5 +79,5 @@ public class NaiveMIMETypeDetector implements MIMETypeDetector {
         if (!m.matches()) return null;
         return m.group(1);
     }
-    
+
 }
