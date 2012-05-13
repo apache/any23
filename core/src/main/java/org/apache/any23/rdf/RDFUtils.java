@@ -17,7 +17,6 @@
 
 package org.apache.any23.rdf;
 
-import org.apache.any23.io.nquads.NQuadsParser;
 import org.apache.any23.util.MathUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -29,13 +28,13 @@ import org.openrdf.model.ValueFactory;
 import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.ntriples.NTriplesParser;
-import org.openrdf.rio.rdfxml.RDFXMLParser;
-import org.openrdf.rio.turtle.TurtleParser;
+import org.openrdf.rio.RDFWriter;
+import org.openrdf.rio.Rio;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -43,10 +42,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -54,20 +56,10 @@ import java.util.List;
 /**
  * Basic class providing a set of utility methods when dealing with <i>RDF</i>.
  *
- * @author Davide Palmisano (dpalmisano@gmail.com)
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class RDFUtils {
-
-    /**
-     * List of supported <i>RDF</i> parsers.
-     */
-    public enum Parser {
-        RDFXML,
-        Turtle,
-        NTriples,
-        NQuads
-    }
 
     private static final ValueFactory valueFactory = ValueFactoryImpl.getInstance();
 
@@ -336,25 +328,49 @@ public class RDFUtils {
     }
 
     /**
+     *
+     * Returns all the available {@link RDFFormat}s.
+     *
+     * @return an unmodifiable collection of formats.
+     * @see org.openrdf.rio.RDFFormat#values()
+     */
+    public static Collection<RDFFormat> getFormats() {
+        return RDFFormat.values();
+    }
+
+    /**
      * Creates a new {@link RDFParser} instance.
      *
-     * @param p parser type.
+     * @param format parser format.
      * @return parser instance.
-     * @throws IllegalArgumentException if parser is unsupported.
+     * @throws IllegalArgumentException if format is not supported.
      */
-    public static RDFParser getRDFParser(Parser p) {
-        switch (p) {
-            case RDFXML:
-                return new RDFXMLParser();
-            case Turtle:
-                return new TurtleParser();
-            case NTriples:
-                return new NTriplesParser();
-            case NQuads:
-                return new NQuadsParser();
-            default:
-                throw new IllegalArgumentException();
-        }
+    public static RDFParser getParser(RDFFormat format) {
+        return Rio.createParser(format);
+    }
+
+    /**
+     * Creates a new {@link RDFWriter} instance.
+     *
+     * @param format output format.
+     * @param writer data output writer.
+     * @return writer instance.
+     * @throws IllegalArgumentException if format is not supported.
+     */
+    public static RDFWriter getWriter(RDFFormat format, Writer writer) {
+        return Rio.createWriter(format, writer);
+    }
+
+    /**
+     * Creates a new {@link RDFWriter} instance.
+     *
+     * @param format output format.
+     * @param os output stream.
+     * @return writer instance.
+     * @throws IllegalArgumentException if format is not supported.
+     */
+    public static RDFWriter getWriter(RDFFormat format, OutputStream os) {
+        return Rio.createWriter(format, os);
     }
 
     /**
@@ -364,27 +380,16 @@ public class RDFUtils {
      * @return parser matching the extension.
      * @throws IllegalArgumentException if no extension matches.
      */
-    public static Parser getParserByExtension(String ext) {
-        if("rdf".equals(ext)) {
-            return Parser.RDFXML;
-        }
-        if("ttl".equals(ext)) {
-            return Parser.Turtle;
-        }
-        if("nt".equals(ext)) {
-            return Parser.NTriples;
-        }
-        if("nq".equals(ext)) {
-            return Parser.NQuads;
-        }
-        throw new IllegalArgumentException("Unknown extension : " + ext);
+    public static RDFFormat getFormatByExtension(String ext) {
+        if( ! ext.startsWith(".") ) ext = "." + ext;
+        return Rio.getParserFormatForFileName(ext);
     }
 
     /**
      * Parses the content of <code>is</code> input stream with the
      * specified parser <code>p</code> using <code>baseURI</code>.
      *
-     * @param parser parser instance.
+     * @param format input format type.
      * @param is input stream containing <code>RDF</data>.
      * @param baseURI base uri.
      * @return list of statements detected within the input stream.
@@ -392,9 +397,10 @@ public class RDFUtils {
      * @throws IOException
      * @throws RDFParseException
      */
-    public static Statement[] parseRDF(RDFParser parser, InputStream is, String baseURI)
+    public static Statement[] parseRDF(RDFFormat format, InputStream is, String baseURI)
     throws RDFHandlerException, IOException, RDFParseException {
         final BufferRDFHandler handler = new BufferRDFHandler();
+        final RDFParser parser = getParser(format);
         parser.setVerifyData(true);
         parser.setStopAtFirstError(true);
         parser.setPreserveBNodeIDs(true);
@@ -405,52 +411,34 @@ public class RDFUtils {
 
     /**
      * Parses the content of <code>is</code> input stream with the
-     * specified parser instance <code>p</code> using <code>baseURI</code>.
-     *
-     * @param p parser type.
-     * @param is input stream containing <code>RDF</data>.
-     * @param baseURI base uri.
-     * @return list of statements detected within the input stream.
-     * @throws RDFHandlerException
-     * @throws IOException
-     * @throws RDFParseException
-     */
-    public static Statement[] parseRDF(Parser p, InputStream is, String baseURI)
-    throws RDFHandlerException, IOException, RDFParseException {
-        final RDFParser parser = getRDFParser(p);
-        return parseRDF(parser, is, baseURI);
-    }
-
-    /**
-     * Parses the content of <code>is</code> input stream with the
      * specified parser <code>p</code> using <code>''</code> as base URI.
      *
-     * @param p parser type.
+     * @param format input format type.
      * @param is input stream containing <code>RDF</data>.
      * @return list of statements detected within the input stream.
      * @throws RDFHandlerException
      * @throws IOException
      * @throws RDFParseException
      */
-    public static Statement[] parseRDF(Parser p, InputStream is)
+    public static Statement[] parseRDF(RDFFormat format, InputStream is)
     throws RDFHandlerException, IOException, RDFParseException {
-        return parseRDF(p, is, "");
+        return parseRDF(format, is, "");
     }
 
     /**
      * Parses the content of <code>in</code> string with the
      * specified parser <code>p</code> using <code>''</code> as base URI.
      *
-     * @param p parser type.
+     * @param format input format type.
      * @param in input string containing <code>RDF</data>.
      * @return list of statements detected within the input string.
      * @throws RDFHandlerException
      * @throws IOException
      * @throws RDFParseException
      */
-    public static Statement[] parseRDF(Parser p, String in)
+    public static Statement[] parseRDF(RDFFormat format, String in)
     throws RDFHandlerException, IOException, RDFParseException {
-        return parseRDF(p, new ByteArrayInputStream(in.getBytes()));
+        return parseRDF(format, new ByteArrayInputStream(in.getBytes()));
     }
 
     /**
@@ -468,7 +456,7 @@ public class RDFUtils {
         if(extIndex == -1)
             throw new IllegalArgumentException("Error while detecting the extension in resource name " + resource);
         final String extension = resource.substring(extIndex + 1);
-        return parseRDF( getParserByExtension(extension), RDFUtils.class.getResourceAsStream(resource) );
+        return parseRDF( getFormatByExtension(extension), RDFUtils.class.getResourceAsStream(resource) );
     }
 
     /**

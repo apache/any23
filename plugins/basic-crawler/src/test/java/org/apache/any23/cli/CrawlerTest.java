@@ -18,6 +18,7 @@
 package org.apache.any23.cli;
 
 import org.apache.any23.Any23OnlineTestBase;
+import org.apache.any23.io.nquads.NQuads;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.FileUtils;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
             allLinesExceptLast.append(lines[i]);
         }
 
-        final Statement[] statements = RDFUtils.parseRDF(RDFUtils.Parser.NQuads, allLinesExceptLast.toString());
+        final Statement[] statements = RDFUtils.parseRDF(NQuads.FORMAT, allLinesExceptLast.toString());
         assertTrue(statements.length > 0);
     }
 

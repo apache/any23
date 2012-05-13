@@ -17,10 +17,14 @@
 
 package org.apache.any23.rdf;
 
+import org.apache.any23.io.nquads.NQuads;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openrdf.rio.RDFFormat;
 
 import javax.xml.datatype.DatatypeConfigurationException;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -28,6 +32,7 @@ import java.text.ParseException;
 /**
  * Reference test class for {@link RDFUtils}.
  *
+ * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@gmail.com)
  */
 public class RDFUtilsTest {
@@ -54,6 +59,43 @@ public class RDFUtilsTest {
                         "19970901T1300Z",
                         "yyyyMMdd'T'HHmm'Z'"
                 )
+        );
+    }
+
+    /**
+     * Tests the extension support.
+     */
+    @Test
+    public void testGetRDFFormatByExtension() {
+        Assert.assertEquals(RDFFormat.NTRIPLES, RDFUtils.getFormatByExtension("nt"));
+        Assert.assertEquals(RDFFormat.TURTLE  , RDFUtils.getFormatByExtension("ttl"));
+        Assert.assertEquals(NQuads.FORMAT, RDFUtils.getFormatByExtension("nq"));
+        Assert.assertEquals(NQuads.FORMAT, RDFUtils.getFormatByExtension(".nq"));
+    }
+
+    /**
+     * Tests the <code>NQuads</code> format support.
+     */
+    @Test
+    public void testGetNQuadsFormat() {
+        RDFUtils.getFormats().contains(NQuads.FORMAT);
+    }
+
+    /**
+     * Tests the <code>NQuads</code> parsing support.
+     */
+    @Test
+    public void testGetNQuadsParser() {
+        Assert.assertNotNull( RDFUtils.getParser(NQuads.FORMAT) );
+    }
+
+    /**
+     * Tests the <code>NQuads</code> writing support.
+     */
+    @Test
+    public void testGetNQuadsWriter() {
+        Assert.assertNotNull(
+                RDFUtils.getWriter(NQuads.FORMAT, new OutputStreamWriter(new ByteArrayOutputStream() ) )
         );
     }
 
