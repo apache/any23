@@ -106,7 +106,7 @@ public class PluginIT {
                 ),
                 toolClasses.contains(Crawler.class.getName())
         );
-        assertEquals(7 + 1, toolClasses.size());
+        assertEquals(6 + 1, toolClasses.size()); // core CLIs + crawler CLI
     }
 
 }
