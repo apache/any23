@@ -294,10 +294,29 @@ public class RDFUtils {
     }
 
     /**
+     * Creates a statement of type: <code>toValue(s), toValue(p), toValue(o)</code>
+     *
+     * @param s subject.
+     * @param p predicate.
+     * @param o object.
+     * @return a statement instance.
+     */
+    public static Statement triple(String s, String p, String o) {
+        return valueFactory.createStatement((Resource) toValue(s), (URI) toValue(p), toValue(o));
+    }
+
+    /**
      * Creates a {@link Statement}.
      */
     public static Statement quad(Resource s, URI p, Value o, Resource g) {
         return valueFactory.createStatement(s, p, o, g);
+    }
+
+    /**
+     * Creates a statement of type: <code>toValue(s), toValue(p), toValue(o), toValue(g)</code>
+     */
+    public static Statement quad(String s, String p, String o, String g) {
+        return valueFactory.createStatement((Resource) toValue(s), (URI) toValue(p), toValue(o), (Resource) toValue(g));
     }
 
     /**
@@ -308,24 +327,12 @@ public class RDFUtils {
      * @param s
      * @return a value instance.
      */
-    public static Value toRDF(String s) {
+    public static Value toValue(String s) {
         if ("a".equals(s)) return RDF.TYPE;
         if (s.matches("[a-z0-9]+:.*")) {
             return PopularPrefixes.get().expand(s);
         }
         return valueFactory.createLiteral(s);
-    }
-
-    /**
-     * Creates a statement of type: <code>toRDF(s), toRDF(p), toRDF(o)</code>
-     *
-     * @param s subject.
-     * @param p predicate.
-     * @param o object.
-     * @return a statement instance.
-     */
-    public static Statement toTriple(String s, String p, String o) {
-        return valueFactory.createStatement((Resource) toRDF(s), (URI) toRDF(p), toRDF(o));
     }
 
     /**
@@ -357,7 +364,7 @@ public class RDFUtils {
      * @return parser matching the extension.
      * @throws IllegalArgumentException if no extension matches.
      */
-    public static Parser getParserFromExtension(String ext) {
+    public static Parser getParserByExtension(String ext) {
         if("rdf".equals(ext)) {
             return Parser.RDFXML;
         }
@@ -377,6 +384,29 @@ public class RDFUtils {
      * Parses the content of <code>is</code> input stream with the
      * specified parser <code>p</code> using <code>baseURI</code>.
      *
+     * @param parser parser instance.
+     * @param is input stream containing <code>RDF</data>.
+     * @param baseURI base uri.
+     * @return list of statements detected within the input stream.
+     * @throws RDFHandlerException
+     * @throws IOException
+     * @throws RDFParseException
+     */
+    public static Statement[] parseRDF(RDFParser parser, InputStream is, String baseURI)
+    throws RDFHandlerException, IOException, RDFParseException {
+        final BufferRDFHandler handler = new BufferRDFHandler();
+        parser.setVerifyData(true);
+        parser.setStopAtFirstError(true);
+        parser.setPreserveBNodeIDs(true);
+        parser.setRDFHandler(handler);
+        parser.parse(is, baseURI);
+        return handler.statements.toArray( new Statement[handler.statements.size()] );
+    }
+
+    /**
+     * Parses the content of <code>is</code> input stream with the
+     * specified parser instance <code>p</code> using <code>baseURI</code>.
+     *
      * @param p parser type.
      * @param is input stream containing <code>RDF</data>.
      * @param baseURI base uri.
@@ -387,14 +417,8 @@ public class RDFUtils {
      */
     public static Statement[] parseRDF(Parser p, InputStream is, String baseURI)
     throws RDFHandlerException, IOException, RDFParseException {
-        final BufferRDFHandler handler = new BufferRDFHandler();
         final RDFParser parser = getRDFParser(p);
-        parser.setVerifyData(true);
-        parser.setStopAtFirstError(true);
-        parser.setPreserveBNodeIDs(true);
-        parser.setRDFHandler(handler);
-        parser.parse(is, baseURI);
-        return handler.statements.toArray( new Statement[handler.statements.size()] );
+        return parseRDF(parser, is, baseURI);
     }
 
     /**
@@ -444,7 +468,7 @@ public class RDFUtils {
         if(extIndex == -1)
             throw new IllegalArgumentException("Error while detecting the extension in resource name " + resource);
         final String extension = resource.substring(extIndex + 1);
-        return parseRDF( getParserFromExtension(extension), RDFUtils.class.getResourceAsStream(resource) );
+        return parseRDF( getParserByExtension(extension), RDFUtils.class.getResourceAsStream(resource) );
     }
 
     /**
@@ -472,18 +496,14 @@ public class RDFUtils {
 
         private final List<Statement> statements = new ArrayList<Statement>();
 
-        private int documents = 0;
-        private boolean open = false;
-
         @Override
         public void startRDF() throws RDFHandlerException {
-            documents++;
-            open = true;
+            // Empty.
         }
 
         @Override
         public void endRDF() throws RDFHandlerException {
-            open = false;
+            // Empty.
         }
 
         @Override
