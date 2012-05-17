@@ -31,8 +31,13 @@ public class MicrodataParserTest extends ToolTestBase {
     }
 
     @Test
-    public void testRun() throws Exception {
+    public void testRunOnFile() throws Exception {
         runToolCheckExit0("file:src/test/resources/microdata/microdata-nested.html");
+    }
+
+    @Test
+    public void testRunOnHTTPResource() throws Exception {
+        runToolCheckExit0("http://www.imdb.com/title/tt1375666/");
     }
 
 }

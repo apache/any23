@@ -17,6 +17,7 @@
 
 package org.apache.any23.http;
 
+import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
@@ -55,6 +56,42 @@ public class DefaultHTTPClient implements HTTPClient {
 
     private String contentType = null;
 
+    /**
+     * Creates a default {@link HTTPClientConfiguration} instance.
+     *
+     * @return a deault configuration.
+     */
+    public static HTTPClientConfiguration createDefaultConfiguration() {
+        return new HTTPClientConfiguration() {
+            public String getUserAgent() {
+                return DefaultConfiguration.singleton().getPropertyOrFail("any23.http.user.agent.default");
+            }
+
+            public String getAcceptHeader() {
+                return null;
+            }
+
+            public int getDefaultTimeout() {
+                return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.timeout");
+            }
+
+            public int getMaxConnections() {
+                return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.max.connections");
+            }
+        };
+    }
+
+    /**
+     * Creates a {@link DefaultHTTPClient} instance already initialized
+     *
+     * @return
+     */
+    public static DefaultHTTPClient createInitializedHTTPClient() {
+        final DefaultHTTPClient defaultHTTPClient = new DefaultHTTPClient();
+        defaultHTTPClient.init( createDefaultConfiguration() );
+        return defaultHTTPClient;
+    }
+
     public void init(HTTPClientConfiguration configuration) {
         if(configuration == null) throw new NullPointerException("Illegal configuration, cannot be null.");
         this.configuration = configuration;
@@ -73,7 +110,7 @@ public class DefaultHTTPClient implements HTTPClient {
         GetMethod method = null;
         try {
             ensureClientInitialized();
-            String uriStr = null;
+            String uriStr;
             try {
                 URI uriObj = new URI(uri);
                 // [scheme:][//authority][path][?query][#fragment]
@@ -162,7 +199,7 @@ public class DefaultHTTPClient implements HTTPClient {
         if (configuration.getAcceptHeader() != null) {
             headers.add(new Header("Accept", configuration.getAcceptHeader()));
         }
-        headers.add(new Header("Accept-Language", "en-us,en-gb,en,*;q=0.3"));
+        headers.add(new Header("Accept-Language", "en-us,en-gb,en,*;q=0.3")); //TODO: this must become parametric.
         headers.add(new Header("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));
         // headers.add(new Header("Accept-Encoding", "x-gzip, gzip"));
         hostConf.getParams().setParameter("http.default-headers", headers);

@@ -84,7 +84,7 @@ public class MicrodataParser implements Tool {
             final Matcher httpMatcher = HTTP_DOCUMENT_PATTERN.matcher(value);
             if (httpMatcher.find()) {
                 try {
-                    return new HTTPDocumentSource(new DefaultHTTPClient(), value);
+                    return new HTTPDocumentSource(DefaultHTTPClient.createInitializedHTTPClient(), value);
                 } catch ( URISyntaxException e ) {
                     throw new ParameterException("Invalid source URI: '" + value + "'");
                 }
