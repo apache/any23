@@ -62,7 +62,7 @@ public class SiteCrawlerTest extends Any23OnlineTestBase {
             @Override
             public void visitedPage(Page page) {
                 distinctPages.add( page.getWebURL().getURL() );
-                Iterator it = distinctPages.iterator();
+                Iterator<String> it = distinctPages.iterator();
                 while (it.hasNext()) {
                     logger.info("Crawler4j: Fetching page - " + it.next());
                 }

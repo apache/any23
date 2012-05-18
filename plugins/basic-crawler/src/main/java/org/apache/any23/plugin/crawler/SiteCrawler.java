@@ -107,6 +107,7 @@ public class SiteCrawler {
         try {
             crawlConfig = new CrawlConfig();
             crawlConfig.setCrawlStorageFolder( storageFolder.getAbsolutePath() );
+            crawlConfig.setUserAgentString("Apache Any23 Web Crawler");
             
             final PageFetcher pageFetcher = new PageFetcher(crawlConfig);
 
