@@ -17,7 +17,6 @@
 
 package org.apache.any23.http;
 
-import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
@@ -57,38 +56,13 @@ public class DefaultHTTPClient implements HTTPClient {
     private String contentType = null;
 
     /**
-     * Creates a default {@link HTTPClientConfiguration} instance.
-     *
-     * @return a deault configuration.
-     */
-    public static HTTPClientConfiguration createDefaultConfiguration() {
-        return new HTTPClientConfiguration() {
-            public String getUserAgent() {
-                return DefaultConfiguration.singleton().getPropertyOrFail("any23.http.user.agent.default");
-            }
-
-            public String getAcceptHeader() {
-                return null;
-            }
-
-            public int getDefaultTimeout() {
-                return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.timeout");
-            }
-
-            public int getMaxConnections() {
-                return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.max.connections");
-            }
-        };
-    }
-
-    /**
      * Creates a {@link DefaultHTTPClient} instance already initialized
      *
      * @return
      */
     public static DefaultHTTPClient createInitializedHTTPClient() {
         final DefaultHTTPClient defaultHTTPClient = new DefaultHTTPClient();
-        defaultHTTPClient.init( createDefaultConfiguration() );
+        defaultHTTPClient.init( DefaultHTTPClientConfiguration.singleton() );
         return defaultHTTPClient;
     }
 

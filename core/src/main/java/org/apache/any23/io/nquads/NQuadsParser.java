@@ -470,7 +470,7 @@ public class NQuadsParser extends RDFParserBase {
      * @return the literal attribute.
      * @throws IOException
      */
-    private LiteralAttribute parseLiteralAttribute(BufferedReader br) throws IOException {
+    private LiteralAttribute parseLiteralAttribute(BufferedReader br) throws IOException, RDFParseException {
         char c = readChar(br);
         if(c != '^' && c != '@') {
             reset(br);
@@ -483,29 +483,47 @@ public class NQuadsParser extends RDFParserBase {
             assertChar(br, '^');
         }
 
-        // Consuming eventual open URI.
-        mark(br);
-        c = readChar(br);
-        if(c != '<') {
+        final String attribute;
+        if (isLang) {
+            StringBuilder sb = new StringBuilder();
+            while (true) {
+                c = readChar(br);
+                if (c != ' ' && c != '<') {
+                    mark(br);
+                    sb.append(c);
+                } else {
+                    break;
+                }
+            }
             reset(br);
+            attribute = sb.toString();
+        } else {
+            attribute = parseURI(br).toString();
         }
 
-        StringBuilder sb = new StringBuilder();
-        while(true) {
-            c = readChar(br);
-            if(c == '>') {
-                mark(br);
-                continue;
-            }
-            if(c != ' ' && c != '<') {
-                mark(br);
-                sb.append(c);
-            } else {
-                break;
-            }
-        }
-        reset(br);
-        return new LiteralAttribute( isLang, sb.toString() );
+//        // Consuming eventual open URI.
+//        mark(br);
+//        c = readChar(br);
+//        if(c != '<') {
+//            reset(br);
+//        }
+//
+//        StringBuilder sb = new StringBuilder();
+//        while(true) {
+//            c = readChar(br);
+//            if(c == '>') {
+//                mark(br);
+//                continue;
+//            }
+//            if(c != ' ' && c != '<') {
+//                mark(br);
+//                sb.append(c);
+//            } else {
+//                break;
+//            }
+//        }
+//        reset(br);
+        return new LiteralAttribute( isLang, attribute);
     }
 
     /**

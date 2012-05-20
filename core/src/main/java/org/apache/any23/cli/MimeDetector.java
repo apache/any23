@@ -20,10 +20,9 @@ package org.apache.any23.cli;
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.http.DefaultHTTPClient;
+import org.apache.any23.http.DefaultHTTPClientConfiguration;
 import org.apache.any23.http.HTTPClient;
-import org.apache.any23.http.HTTPClientConfiguration;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.mime.MIMETypeDetector;
 import org.apache.any23.mime.TikaMIMETypeDetector;
@@ -89,21 +88,7 @@ public class MimeDetector implements Tool{
             }
             if (document.matches(URL_DOCUMENT_RE)) {
                 final HTTPClient client = new DefaultHTTPClient();
-                // TODO: anonymous config class also used in Any23. centralize.
-                client.init(new HTTPClientConfiguration() {
-                    public String getUserAgent() {
-                        return DefaultConfiguration.singleton().getPropertyOrFail("any23.http.user.agent.default");
-                    }
-                    public String getAcceptHeader() {
-                        return "";
-                    }
-                    public int getDefaultTimeout() {
-                        return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.timeout");
-                    }
-                    public int getMaxConnections() {
-                        return DefaultConfiguration.singleton().getPropertyIntOrFail("any23.http.client.max.connections");
-                    }
-                });
+                client.init( DefaultHTTPClientConfiguration.singleton() );
                 try {
                     return new HTTPDocumentSource(client, document);
                 } catch ( URISyntaxException e ) {

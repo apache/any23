@@ -28,8 +28,8 @@ import org.apache.any23.extractor.SingleDocumentExtraction;
 import org.apache.any23.extractor.SingleDocumentExtractionReport;
 import org.apache.any23.http.AcceptHeaderBuilder;
 import org.apache.any23.http.DefaultHTTPClient;
+import org.apache.any23.http.DefaultHTTPClientConfiguration;
 import org.apache.any23.http.HTTPClient;
-import org.apache.any23.http.HTTPClientConfiguration;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.mime.MIMETypeDetector;
 import org.apache.any23.mime.TikaMIMETypeDetector;
@@ -217,20 +217,7 @@ public class Any23 {
                 throw new IOException("Must call " + Any23.class.getSimpleName() +
                         ".setHTTPUserAgent(String) before extracting from HTTP URI");
             }
-            httpClient.init( new HTTPClientConfiguration() {
-                public String getUserAgent() {
-                    return userAgent;
-                }
-                public String getAcceptHeader() {
-                    return Any23.this.getAcceptHeader();
-                }
-                public int getDefaultTimeout() {
-                    return configuration.getPropertyIntOrFail("any23.http.client.timeout");
-                }
-                public int getMaxConnections() {
-                    return configuration.getPropertyIntOrFail("any23.http.client.max.connections");
-                }
-            } );
+            httpClient.init( new DefaultHTTPClientConfiguration(this.getAcceptHeader()) );
             httpClientInitialized = true;
         }
         return httpClient;
