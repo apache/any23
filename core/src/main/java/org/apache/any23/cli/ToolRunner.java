@@ -58,7 +58,11 @@ public final class ToolRunner {
     @Parameter( names = { "-X", "--verbose" }, description = "Produce execution verbose output." )
     private boolean verbose;
 
-    @Parameter( names = { "-p", "--plugins-dir" }, description = "The Any23 plugins directory.", converter = FileConverter.class )
+    @Parameter(
+            names = { "--plugins-dir" },
+            description = "The Any23 plugins directory.",
+            converter = FileConverter.class
+    )
     private File pluginsDir = DEFAULT_PLUGIN_DIR;
 
     public static void main( String[] args ) throws Exception {
@@ -71,7 +75,13 @@ public final class ToolRunner {
 
         // TODO (low) : this dirty solution has been introduced because it is not possible to
         //              parse arguments ( commander.parse() ) twice.
-        final File pluginsDirOption = parsePluginDirOption(args);
+        final File pluginsDirOption;
+        try {
+            pluginsDirOption = parsePluginDirOption(args);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return 1;
+        }
         if(pluginsDirOption != null) {
             pluginsDir = pluginsDirOption;
         }
@@ -234,20 +244,18 @@ public final class ToolRunner {
     private static File parsePluginDirOption(String[] args) {
         int optionIndex = -1;
         for(int i = 0; i < args.length; i++) {
-            if("-p".equals(args[i]) || "--plugins-dir".equals(args[i])) {
+            if("--plugins-dir".equals(args[i])) {
                 optionIndex = i;
             }
         }
         if(optionIndex == -1) return null;
 
         if(optionIndex == args.length - 1) {
-            System.err.println("Missing argument for --plugins-dir option.");
-            System.exit(1);
+            throw new IllegalArgumentException("Missing argument for --plugins-dir option.");
         }
         final File pluginsDir = new File( args[optionIndex + 1] );
         if( ! pluginsDir.isDirectory() ) {
-            System.err.println("Expected a directory for --plugins-dir option value.");
-            System.exit(1);
+            throw  new IllegalArgumentException("Expected a directory for --plugins-dir option value.");
         }
         return pluginsDir;
     }
