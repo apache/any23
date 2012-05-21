@@ -253,7 +253,7 @@ public class NQuadsParser extends RDFParserBase {
         final Resource sub;
         final URI      pred;
         final Value    obj;
-        final URI      graph;
+        final URI      context;
         try {
             sub = parseSubject(br);
             consumeSpaces(br);
@@ -261,11 +261,9 @@ public class NQuadsParser extends RDFParserBase {
             consumeSpaces(br);
             obj = parseObject(br);
             consumeSpaces(br);
-            graph = parseGraph(br);
-            consumeSpaces(br);
-            parseDot(br);
+            context = parseContextAndOrDot(br);
         } catch (EOS eos) {
-            reportFatalError("Unexpected end of line.", row, col);
+            reportFatalError("Unexpected end of stream.", row, col);
             throw new IllegalStateException();
         } catch (Exception e) {
             if(super.stopAtFirstError()) {
@@ -280,7 +278,10 @@ public class NQuadsParser extends RDFParserBase {
             }
         }
 
-        notifyStatement(sub, pred, obj, graph);
+        assert sub  != null : "Subject cannot be null.";
+        assert pred != null : "Predicate cannot be null.";
+        assert obj  != null : "Object cannot be null.";
+        notifyStatement(sub, pred, obj, context);
 
         if(!consumeSpacesAndNotEOS(br)) {
             return false;
@@ -350,13 +351,13 @@ public class NQuadsParser extends RDFParserBase {
      * @param sub
      * @param pred
      * @param obj
-     * @param graph
+     * @param context
      * @throws RDFParseException
      * @throws RDFHandlerException
      */
-    private void notifyStatement(Resource sub, URI pred, Value obj, URI graph)
+    private void notifyStatement(Resource sub, URI pred, Value obj, URI context)
     throws RDFParseException, RDFHandlerException {
-        Statement statement = createStatement(sub, pred, obj, graph);
+        Statement statement = super.createStatement(sub, pred, obj, context);
         if (rdfHandler != null) {
             try {
                 rdfHandler.handleStatement(statement);
@@ -424,9 +425,9 @@ public class NQuadsParser extends RDFParserBase {
             String uriStr = NTriplesUtil.unescapeString( sb.toString() );
             URI uri;
             if(uriStr.charAt(0) == '#') {
-                uri = resolveURI(uriStr);
+                uri = super.resolveURI(uriStr);
             } else {
-                uri = createURI(uriStr);
+                uri = super.createURI(uriStr);
             }
             return uri;
         } catch (RDFParseException rdfpe) {
@@ -704,15 +705,26 @@ public class NQuadsParser extends RDFParserBase {
     }
 
     /**
-     * Parses the graph URI.
+     * Parses the context if any.
      *
      * @param br
-     * @return the corresponding URI object.
+     * @return the context URI or null if not found.
      * @throws IOException
      * @throws RDFParseException
      */
-    private URI parseGraph(BufferedReader br) throws IOException, RDFParseException {
-        return parseURI(br);
+    private URI parseContextAndOrDot(BufferedReader br) throws IOException, RDFParseException {
+        mark(br);
+        final char c = readChar(br);
+        reset(br);
+        if(c == '<') {
+            final URI context = parseURI(br);
+            consumeSpaces(br);
+            parseDot(br);
+            return context;
+        } else {
+            parseDot(br);
+            return null;
+        }
     }
 
     /**

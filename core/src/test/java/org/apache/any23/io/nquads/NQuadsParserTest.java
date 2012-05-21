@@ -399,10 +399,10 @@ public class NQuadsParserTest {
      * @throws RDFHandlerException
      */
     @Test
-    public void testParserWithAllCases()
+    public void testFullParseScenario()
     throws IOException, RDFParseException, RDFHandlerException {
         TestParseLocationListener parseLocationListerner = new TestParseLocationListener();
-        SpecificTestRDFHandler rdfHandler = new SpecificTestRDFHandler();
+        FullParseScenarioRDFHandler rdfHandler = new FullParseScenarioRDFHandler();
         parser.setParseLocationListener(parseLocationListerner);
         parser.setRDFHandler(rdfHandler);
 
@@ -416,8 +416,8 @@ public class NQuadsParserTest {
             "http://test.base.uri"
         );
 
-        rdfHandler.assertHandler(5);
-        parseLocationListerner.assertListener(7, 108);
+        rdfHandler.assertHandler(6);
+        parseLocationListerner.assertListener(8, 71);
     }
 
     /**
@@ -428,7 +428,7 @@ public class NQuadsParserTest {
      * @throws RDFHandlerException
      */
     @Test
-    public void testParserWithRealData()
+    public void testParseRealData()
     throws IOException, RDFParseException, RDFHandlerException {
         TestParseLocationListener parseLocationListener = new TestParseLocationListener();
         TestRDFHandler rdfHandler = new TestRDFHandler();
@@ -520,6 +520,28 @@ public class NQuadsParserTest {
         }
     }
 
+    @Test
+    public void testParseWithNoContext() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+            ("<http://www.v/dat/4b2-21>" +
+             "<http://www.w3.org/20/ica#dtend>" +
+             "\"2010\"^^<http://www.w3.org/2001/XMLSchema#integer> ."
+            ).getBytes()
+        );
+        final TestRDFHandler rdfHandler = new TestRDFHandler();
+        parser.setRDFHandler(rdfHandler);
+        parser.parse(bais, "http://test.base.uri");
+        final Statement statement = rdfHandler.getStatements().get(0);
+        Assert.assertEquals("http://www.v/dat/4b2-21", statement.getSubject().stringValue());
+        Assert.assertEquals("http://www.w3.org/20/ica#dtend", statement.getPredicate().stringValue());
+        Assert.assertTrue(statement.getObject() instanceof Literal);
+        Literal object = (Literal) statement.getObject();
+        Assert.assertEquals("2010", object.stringValue());
+        Assert.assertNull(object.getLanguage());
+        Assert.assertEquals("http://www.w3.org/2001/XMLSchema#integer", object.getDatatype().toString());
+        Assert.assertNull(statement.getContext());
+    }
+
     private void verifyStatementWithInvalidLiteralContent(RDFParser.DatatypeHandling datatypeHandling)
     throws RDFHandlerException, IOException, RDFParseException {
        final ByteArrayInputStream bais = new ByteArrayInputStream(
@@ -606,23 +628,28 @@ public class NQuadsParserTest {
         }
     }
 
-    private class SpecificTestRDFHandler extends TestRDFHandler {
+    private class FullParseScenarioRDFHandler extends TestRDFHandler {
 
         public void handleStatement(Statement statement) throws RDFHandlerException {
-            int statements = getStatements().size();
-            if(statements == 0){
+            int statementIndex = getStatements().size();
+            if(statementIndex == 0){
                 Assert.assertEquals(new URIImpl("http://example.org/alice/foaf.rdf#me"), statement.getSubject() );
-
             } else {
                 Assert.assertTrue(statement.getSubject() instanceof BNode);
             }
-            if( statements == 5 ) {
+
+            if( statementIndex == 4) {
                 Assert.assertEquals(new URIImpl("http://test.base.uri#like"), statement.getPredicate() );
             }
-            Assert.assertEquals(
-                    new URIImpl( String.format("http://example.org/alice/foaf%s.rdf", statements + 1) ),
-                    statement.getContext()
-            );
+
+            if(statementIndex == 5) {
+                Assert.assertNull(statement.getContext());
+            } else {
+                Assert.assertEquals(
+                        new URIImpl(String.format("http://example.org/alice/foaf%s.rdf", statementIndex + 1)),
+                        statement.getContext()
+                );
+            }
 
             super.handleStatement(statement);
         }
