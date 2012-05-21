@@ -59,8 +59,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
     public void testListingWithouthContent() throws RepositoryException {
         assertExtract("microformats/hlisting/empty.html");
         assertModelNotEmpty();
-        logger.debug(dumpModelToRDFXML());
-        assertStatementsSize(null, null, null, 4);
+        assertStatementsSize(null, null, null, 3);
     }
 
     @Test

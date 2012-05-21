@@ -18,6 +18,7 @@
 package org.apache.any23.extractor;
 
 import org.apache.any23.configuration.DefaultConfiguration;
+import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.html.HTMLFixture;
 import org.apache.any23.mime.TikaMIMETypeDetector;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
@@ -234,8 +235,10 @@ public class SingleDocumentExtractionTest {
         cth.addChild(rdfxmlWriter);
         cth.addChild(repositoryWriter);
 
+        final ModifiableConfiguration configuration = DefaultConfiguration.copy();
+        configuration.setProperty("any23.extraction.metadata.domain.per.entity", "on");
         SingleDocumentExtraction instance =  new SingleDocumentExtraction(
-                DefaultConfiguration.singleton(),
+                configuration,
                 new HTMLFixture(file).getOpener("http://nested.test.com"),
                 extractorGroup,
                 cth

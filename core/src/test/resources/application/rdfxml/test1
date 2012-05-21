@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      xmlns:owl="http://www.w3.org/2002/07/owl#"
+      xmlns:doap="http://usefulinc.com/ns/doap#"
+      xmlns:dp="http://sw.deri.ie/2004/08/pubs/swpubs#"
+      xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/">
+
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,15 +25,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<rdf:RDF
-      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-      xmlns:foaf="http://xmlns.com/foaf/0.1/"
-      xmlns:owl="http://www.w3.org/2002/07/owl#"
-      xmlns:doap="http://usefulinc.com/ns/doap#"
-      xmlns:dp="http://sw.deri.ie/2004/08/pubs/swpubs#"
-      xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-      xmlns:dc="http://purl.org/dc/elements/1.1/">
 
   <!-- $Id -->
 

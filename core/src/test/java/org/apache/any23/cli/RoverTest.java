@@ -24,6 +24,7 @@ import org.apache.any23.util.StringUtils;
 import org.apache.any23.util.URLUtils;
 import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 
@@ -34,6 +35,7 @@ import java.io.File;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@Ignore
 public class RoverTest extends ToolTestBase {
 
     private static final String[] TARGET_FILES = {

@@ -46,11 +46,13 @@ public class AdrExtractorTest extends AbstractExtractorTestCase {
         assertExtract("microformats/hcard/lastfm-adr-multi-address.html");
         assertModelNotEmpty();
         List<Resource> addresses = findSubjects(RDF.TYPE, vVCARD.Address);
+        int[] expectedStatementsPerAddress = new int[]{5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+        int index = 0;
         for (Resource address : addresses) {
             int size = getStatementsSize(address, null, null);
             Assert.assertTrue(
-                    String.format("Unexpected statement size: %s", size),
-                    size == 2 || size == 4 || size == 6
+                    String.format("Unexpected statements count %d for address index %d", size, index),
+                    size == expectedStatementsPerAddress[index++]
             );
         }
     }

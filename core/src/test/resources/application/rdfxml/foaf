@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+      xmlns="http://renaud.delbru.fr/rdf/foaf#"
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      xmlns:owl="http://www.w3.org/2002/07/owl#"
+      xmlns:cyc="http://sw.opencyc.org/2008/06/10/concept/en/"
+      xmlns:admin="http://webns.net/mvcb/">
+
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,14 +24,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<rdf:RDF
-      xmlns="http://renaud.delbru.fr/rdf/foaf#"
-      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-      xmlns:foaf="http://xmlns.com/foaf/0.1/"
-      xmlns:owl="http://www.w3.org/2002/07/owl#"
-      xmlns:cyc="http://sw.opencyc.org/2008/06/10/concept/en/"
-      xmlns:admin="http://webns.net/mvcb/">
 
 <foaf:PersonalProfileDocument rdf:about="">
   <rdfs:label>FOAF file of Renaud Delbru</rdfs:label>
@@ -104,7 +105,7 @@
 	</foaf:knows>
 	<foaf:knows>
 		<foaf:Person rdf:about="http://identi.ca/user/3546">
-		<foaf:name>JÌ?rgen Umbrich</foaf:name>
+		<foaf:name>Jï¿½?rgen Umbrich</foaf:name>
 		<foaf:mbox_sha1sum>b9514eba2ed2ae41a072765fe3ed3544de10974f</foaf:mbox_sha1sum>
 		</foaf:Person>
 	</foaf:knows>

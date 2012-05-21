@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns="http://www.xfront.com/owl/ontologies/camera/#"
+         xmlns:camera="http://www.xfront.com/owl/ontologies/camera/#"
+         xml:base="http://www.xfront.com/owl/ontologies/camera/">
+
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,12 +22,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-         xmlns:owl="http://www.w3.org/2002/07/owl#"
-         xmlns="http://www.xfront.com/owl/ontologies/camera/#"
-         xmlns:camera="http://www.xfront.com/owl/ontologies/camera/#"
-         xml:base="http://www.xfront.com/owl/ontologies/camera/">
 
     <owl:Ontology rdf:about="">
         <rdfs:comment>
