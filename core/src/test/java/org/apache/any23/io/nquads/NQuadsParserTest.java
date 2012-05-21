@@ -417,7 +417,7 @@ public class NQuadsParserTest {
         );
 
         rdfHandler.assertHandler(5);
-        parseLocationListerner.assertListener(7, 107);
+        parseLocationListerner.assertListener(7, 108);
     }
 
     /**
@@ -441,7 +441,7 @@ public class NQuadsParserTest {
         );
 
         rdfHandler.assertHandler(400);
-        parseLocationListener.assertListener(400, 348);
+        parseLocationListener.assertListener(400, 349);
     }
 
     @Test

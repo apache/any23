@@ -113,7 +113,7 @@ public class NQuadsParser extends RDFParserBase {
      * Moves to the next row, resets the column.
      */
     private void nextRow() {
-        col = 0;
+        col = 1;
         row++;
         if(locationListener != null) {
             locationListener.parseLocationUpdate(row, col);
