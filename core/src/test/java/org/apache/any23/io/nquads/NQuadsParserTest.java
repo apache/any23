@@ -505,6 +505,21 @@ public class NQuadsParserTest {
         }
     }
 
+    @Test
+    public void testReportInvalidLiteralAttribute() throws RDFHandlerException, IOException, RDFParseException {
+        final ByteArrayInputStream bais = new ByteArrayInputStream(
+                "<http://a> <http://b> \"literal\"^^xsd:datetime <http://c> .".getBytes()
+        );
+        try {
+            parser.parse(bais, "http://base-uri");
+            Assert.fail("Expected failure here.");
+        } catch (RDFParseException e) {
+            Assert.assertTrue(e.getMessage().contains("expected '<'"));
+            Assert.assertEquals(1 , e.getLineNumber());
+            Assert.assertEquals(35, e.getColumnNumber());
+        }
+    }
+
     private void verifyStatementWithInvalidLiteralContent(RDFParser.DatatypeHandling datatypeHandling)
     throws RDFHandlerException, IOException, RDFParseException {
        final ByteArrayInputStream bais = new ByteArrayInputStream(

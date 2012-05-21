@@ -199,10 +199,12 @@ public class NQuadsParser extends RDFParserBase {
      * @param c
      * @throws IOException
      */
-    private void assertChar(BufferedReader br, char c) throws IOException {
-        if( readChar(br) != c) {
-            throw new IllegalArgumentException(
-                    String.format("Unexpected char at location %s %s, expected '%s'", row, col, c)
+    private void assertChar(BufferedReader br, char c) throws IOException, RDFParseException {
+        final char read = readChar(br);
+        if(read != c) {
+            throw new RDFParseException(
+                    String.format("Unexpected char '%s', expected '%s'", read, c),
+                    row, col
             );
         }
     }
@@ -265,12 +267,15 @@ public class NQuadsParser extends RDFParserBase {
         } catch (EOS eos) {
             reportFatalError("Unexpected end of line.", row, col);
             throw new IllegalStateException();
-        } catch (IllegalArgumentException iae) {
+        } catch (Exception e) {
             if(super.stopAtFirstError()) {
-                throw new RDFParseException(iae);
+                if(e instanceof RDFParseException)
+                    throw (RDFParseException) e;
+                else
+                    throw new RDFParseException(e, row, col);
             } else { // Remove rest of broken line and report error.
                 consumeBrokenLine(br);
-                reportError(iae.getMessage(), row, col);
+                reportError(e.getMessage(), row, col);
                 return true;
             }
         }
@@ -388,7 +393,7 @@ public class NQuadsParser extends RDFParserBase {
      * @param br
      * @throws IOException
      */
-    private void parseDot(BufferedReader br) throws IOException {
+    private void parseDot(BufferedReader br) throws IOException, RDFParseException {
         assertChar(br, '.');
     }
 
@@ -470,7 +475,7 @@ public class NQuadsParser extends RDFParserBase {
      * @return the literal attribute.
      * @throws IOException
      */
-    private LiteralAttribute parseLiteralAttribute(BufferedReader br) throws IOException {
+    private LiteralAttribute parseLiteralAttribute(BufferedReader br) throws IOException, RDFParseException {
         char c = readChar(br);
         if(c != '^' && c != '@') {
             reset(br);
@@ -483,29 +488,25 @@ public class NQuadsParser extends RDFParserBase {
             assertChar(br, '^');
         }
 
-        // Consuming eventual open URI.
-        mark(br);
-        c = readChar(br);
-        if(c != '<') {
-            reset(br);
+        final String attribute;
+        if (isLang) { // Read until space or context begin.
+            final StringBuilder sb = new StringBuilder();
+            while (true) {
+                c = readChar(br);
+                if (c != ' ' && c != '<') {
+                    mark(br);
+                    sb.append(c);
+                } else {
+                    reset(br);
+                    break;
+                }
+            }
+            attribute = sb.toString();
+        }  else {
+            attribute = parseURI(br).stringValue();
         }
 
-        StringBuilder sb = new StringBuilder();
-        while(true) {
-            c = readChar(br);
-            if(c == '>') {
-                mark(br);
-                continue;
-            }
-            if(c != ' ' && c != '<') {
-                mark(br);
-                sb.append(c);
-            } else {
-                break;
-            }
-        }
-        reset(br);
-        return new LiteralAttribute( isLang, sb.toString() );
+        return new LiteralAttribute(isLang, attribute);
     }
 
     /**
