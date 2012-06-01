@@ -19,7 +19,11 @@ package org.apache.any23.extractor.microdata;
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.traversal.DocumentTraversal;
+import org.w3c.dom.traversal.NodeFilter;
+import org.w3c.dom.traversal.TreeWalker;
 
 import java.io.PrintStream;
 import java.text.ParseException;
@@ -29,6 +33,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -341,35 +346,46 @@ public class MicrodataParser {
     /**
      * Returns all the <b>itemprop</b>s for the given <b>itemscope</b> node.
      *
-     * @param node node representing the <b>itemscope</>
+     * @param scopeNode node representing the <b>itemscope</>
      * @param skipRoot if <code>true</code> the given root <code>node</node>
      *        will be not read as a property, even if it contains the <b>itemprop</b> attribute.
      * @return the list of <b>itemprop<b>s detected within the given <b>itemscope</b>.
      * @throws MicrodataParserException if an error occurs while retrieving an property value.
      */
-    public List<ItemProp> getItemProps(Node node, boolean skipRoot) throws MicrodataParserException {
-        final List<Node> itemPropNodes = getItemPropNodes(node);
+    public List<ItemProp> getItemProps(final Node scopeNode, boolean skipRoot) throws MicrodataParserException {
+        final Set<Node> accepted = new LinkedHashSet<Node>();
 
-        // Skipping itemScopes nested to this item prop.
-        final List<Node> subItemScopes = getItemScopeNodes(node);
-        subItemScopes.remove(node);
-        final List<Node> accepted = new ArrayList<Node>();
-        for(Node itemPropNode : itemPropNodes) {
-            boolean skip = false;
-            for(Node subItemScope : subItemScopes) {
-                if( DomUtils.isAncestorOf(subItemScope, itemPropNode, true) ) {
-                    skip = true;
-                    break;
-                }
+        if (!skipRoot) {
+            NamedNodeMap attributes = scopeNode.getAttributes();
+            if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null) {
+                accepted.add(scopeNode);
             }
-            if(!skip) accepted.add(itemPropNode);
         }
+
+        // TreeWalker to walk DOM tree starting with the scopeNode. Nodes maybe visited multiple times.
+        TreeWalker treeWalker = ((DocumentTraversal) scopeNode.getOwnerDocument())
+            .createTreeWalker(scopeNode, NodeFilter.SHOW_ELEMENT, new NodeFilter() {
+            @Override
+            public short acceptNode(Node node) {
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    NamedNodeMap attributes = node.getAttributes();
+                    if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null && !scopeNode.equals(node)) {
+                        accepted.add(node);
+                    }
+                    if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
+                        // Don't visit descendants of nodes that define a new scope
+                        return FILTER_REJECT;
+                    }
+                }
+                return FILTER_ACCEPT;
+            }
+        }, false);
+
+        // To populate accepted we only need to walk the tree.
+    	while (treeWalker.nextNode() != null);
 
         final List<ItemProp> result = new ArrayList<ItemProp>();
         for(Node itemPropNode :  accepted) {
-            if(itemPropNode.equals(node) && skipRoot) {
-                continue;
-            }
             final String itemProp = DomUtils.readAttribute(itemPropNode, ITEMPROP_ATTRIBUTE, null);
             final String[] propertyNames = itemProp.split(" ");
             ItemPropValue itemPropValue;
