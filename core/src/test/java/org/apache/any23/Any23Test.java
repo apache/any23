@@ -287,7 +287,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
         final String bufferContent = byteArrayOutputStream.toString();
         logger.debug(bufferContent);
-        Assert.assertSame("Unexpected number of triples.", 65, StringUtils.countNL(bufferContent));
+        Assert.assertSame("Unexpected number of triples.", 60, StringUtils.countNL(bufferContent));
         
     }
 

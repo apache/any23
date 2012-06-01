@@ -24,6 +24,7 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
+import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.validator.SerializationException;
 import org.apache.any23.validator.XMLValidationReportSerializer;
@@ -321,7 +322,10 @@ class WebResponder {
         tripleHandlers.add(new CountingTripleHandler());
         rdfWriter = new CompositeTripleHandler(tripleHandlers);
         reporter = new ReportingTripleHandler(rdfWriter);
-        rdfWriter = reporter;
+        rdfWriter = new IgnoreAccidentalRDFa(
+            new IgnoreTitlesOfEmptyDocuments(reporter),
+            true    // suppress stylesheet triples.
+        );
         return true;
     }
 

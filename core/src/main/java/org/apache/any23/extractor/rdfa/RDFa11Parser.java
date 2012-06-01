@@ -73,6 +73,9 @@ public class RDFa11Parser {
     public static final String SRC_ATTRIBUTE      = "src";
     public static final String HREF_ATTRIBUTE     = "href";
 
+    public static final String TYPE_ATTRIBUTE     = "type";
+    public static final String ATTRIBUTE_CSS      = "text/css";
+
     public static final String[] SUBJECT_ATTRIBUTES = {
             ABOUT_ATTRIBUTE,
             SRC_ATTRIBUTE,
@@ -165,6 +168,7 @@ public class RDFa11Parser {
     }
 
     protected static boolean isRelativeNode(Node node) {
+        if( ATTRIBUTE_CSS.equals( DomUtils.readAttribute(node, TYPE_ATTRIBUTE) ) ) return false;
         return DomUtils.hasAttribute(node, REL_ATTRIBUTE) || DomUtils.hasAttribute(node, REV_ATTRIBUTE);
     }
 
