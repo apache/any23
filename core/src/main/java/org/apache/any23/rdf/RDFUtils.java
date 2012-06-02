@@ -29,12 +29,12 @@ import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.Rio;
+import org.openrdf.rio.helpers.StatementCollector;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -47,11 +47,9 @@ import java.io.Writer;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * Basic class providing a set of utility methods when dealing with <i>RDF</i>.
@@ -399,14 +397,14 @@ public class RDFUtils {
      */
     public static Statement[] parseRDF(RDFFormat format, InputStream is, String baseURI)
     throws RDFHandlerException, IOException, RDFParseException {
-        final BufferRDFHandler handler = new BufferRDFHandler();
+        final StatementCollector handler = new StatementCollector();
         final RDFParser parser = getParser(format);
         parser.setVerifyData(true);
         parser.setStopAtFirstError(true);
         parser.setPreserveBNodeIDs(true);
         parser.setRDFHandler(handler);
         parser.parse(is, baseURI);
-        return handler.statements.toArray( new Statement[handler.statements.size()] );
+        return handler.getStatements().toArray( new Statement[handler.getStatements().size()] );
     }
 
     /**
@@ -479,36 +477,5 @@ public class RDFUtils {
     }
 
     private RDFUtils() {}
-
-    private static class BufferRDFHandler implements RDFHandler {
-
-        private final List<Statement> statements = new ArrayList<Statement>();
-
-        @Override
-        public void startRDF() throws RDFHandlerException {
-            // Empty.
-        }
-
-        @Override
-        public void endRDF() throws RDFHandlerException {
-            // Empty.
-        }
-
-        @Override
-        public void handleNamespace(String s, String s1) throws RDFHandlerException {
-            // Empty.
-        }
-
-        @Override
-        public void handleStatement(Statement statement) throws RDFHandlerException {
-            statements.add(statement);
-        }
-
-        @Override
-        public void handleComment(String s) throws RDFHandlerException {
-            // Empty.
-        }
-
-    }
 
 }
