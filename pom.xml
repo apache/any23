@@ -526,9 +526,9 @@
           <configuration>
             <tarLongFileMode>gnu</tarLongFileMode>
             <finalName>${assembly.finalName}</finalName>
-            <descriptiors>
-              <descriptior>sources-dist/src/main/assembly/src.xml</descriptior>
-            </descriptiors>
+            <descriptors>
+              <descriptor>sources-dist/src/main/assembly/src.xml</descriptor>
+            </descriptors>
           </configuration>
         </plugin>
 
