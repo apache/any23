@@ -526,6 +526,9 @@
           <configuration>
             <tarLongFileMode>gnu</tarLongFileMode>
             <finalName>${assembly.finalName}</finalName>
+            <descriptiors>
+              <descriptior>src/main/assembly/bin.xml</descriptior>
+            </descriptiors>
           </configuration>
         </plugin>
 
