@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 /**
  * Implementation of {@link MIMETypeDetector} based on
- * <a href="http://lucene.apache.org/tika/">Apache Tika</a>.
+ * <a href="http://tika.apache.org/">Apache Tika</a>.
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  * @author Davide Palmisano (dpalmisano@gmail.com)
