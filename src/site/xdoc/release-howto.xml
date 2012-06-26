@@ -175,17 +175,6 @@ gpg: Signature made ...</source>
       <subsection name="Perform the release">
         <ol>
           <li>
-            This step will create the staging site
-            <source>svn checkout https://svn.apache.org/repos/asf/incubator/any23/site/ site
-svn checkout https://svn.apache.org/repos/asf/incubator/syncope/tags/any23-&lt;version&gt; any23-&lt;version&gt;
-cd any23-&lt;version&gt;
-mvn clean install
-mvn -P site site-deploy -Dsite.deploymentBaseUrl=file:///&lt;absolute path to ../site/&lt;version&gt;&gt;
-cd ../site/&lt;version&gt;
-svn add &lt;version&gt;
-svn commit -m "staging site for release"</source>
-          </li>
-          <li>
             From the directory where you have launched <tt>release:prepare</tt> execute (this step will create a maven staging repository):
             <source>mvn release:perform [-Duser.name=&lt;your_apache_uid&gt;]</source>
 
@@ -226,6 +215,16 @@ svn commit -m "staging site for release"</source>
                 </ol>
               </li>
             </ol>
+          </li>
+
+          <li>
+            This step will create the staging site: From the directory where you have launched <tt>release:perform</tt> execute:
+            <source>cd target/checkout
+svn checkout https://svn.apache.org/repos/asf/incubator/any23/site/ staging-site
+mvn -P site site-deploy -Dsite.deploymentBaseUrl=file:///&lt;absolute path to/&lt;staging-site/version&gt;&gt;
+cd staging-site
+svn add &lt;version&gt;
+svn commit -m "staging site for release"</source>
           </li>
         </ol>
       </subsection>
