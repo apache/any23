@@ -307,9 +307,13 @@ I will promote the artifacts to the central repo.]]></pre>
           </li>
 
           <li>Add the distribution artifacts to the distribution area
-            <p>
-              <strong>TO BE COMPLETED</strong>
-            </p>
+            <source>ssh people.apache.org
+cd /x1/www/www.apache.org/dist/incubator/syncope/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/&lt;version&gt;/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/&lt;version&gt;/
+</source>
           </li>
 
           <li>Update the <em>Downloads</em> site page to point to the new release artifacts
