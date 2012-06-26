@@ -672,23 +672,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- Maven site plugin. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>${maven-site-plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.jvnet.wagon-svn</groupId>
-            <artifactId>wagon-svn</artifactId>
-            <version>${wagon-svn.version}</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <stagingSiteURL>${site.deploymentBaseUrl}/${project.version}</stagingSiteURL>
-        </configuration>
-      </plugin>
     </plugins>
 
     <resources>
@@ -970,6 +953,61 @@
                 <phase>site</phase>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>site</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>${maven-site-plugin.version}</version>
+            <configuration>
+              <locales>en</locales>
+              <reportPlugins>
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-project-info-reports-plugin</artifactId>
+                  <version>2.4</version>
+                  <configuration>
+                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                    <anonymousConnection>scm:svn:http://svn.apache.org/repos/asf/incubator/any23/trunk</anonymousConnection>
+                    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/trunk</developerConnection>
+                    <webAccessUrl>http://svn.apache.org/viewvc/incubator/any23/trunk</webAccessUrl>
+                  </configuration>
+                  <reportSets>
+                    <reportSet>
+                      <reports>
+                        <report>index</report>
+                        <report>mailing-list</report>
+                        <report>project-team</report>
+                        <report>scm</report>
+                        <report>cim</report>
+                        <report>issue-tracking</report>
+                        <report>license</report>
+                      </reports>
+                    </reportSet>
+                  </reportSets>
+                </plugin>
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-javadoc-plugin</artifactId>
+                  <version>${maven-javadoc-plugin.version}</version>
+                  <reportSets>
+                    <reportSet>
+                      <reports>
+                        <report>aggregate</report>
+                      </reports>
+                    </reportSet>
+                  </reportSets>
+                </plugin>
+              </reportPlugins>
+            </configuration>
           </plugin>
         </plugins>
       </build>

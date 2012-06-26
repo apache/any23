@@ -180,7 +180,7 @@ gpg: Signature made ...</source>
 svn checkout https://svn.apache.org/repos/asf/incubator/syncope/tags/any23-&lt;version&gt; any23-&lt;version&gt;
 cd any23-&lt;version&gt;
 mvn clean install
-mvn site -Dsite.deploymentBaseUrl=file:///&lt;absolute path to ../site/&lt;version&gt;&gt;
+mvn -P site site-deploy -Dsite.deploymentBaseUrl=file:///&lt;absolute path to ../site/&lt;version&gt;&gt;
 cd ../site/&lt;version&gt;
 svn add &lt;version&gt;
 svn commit -m "staging site for release"</source>
