@@ -173,37 +173,58 @@ gpg: Signature made ...</source>
       </subsection>
 
       <subsection name="Perform the release">
-        <p>This step will create a maven staging repository</p>
-
-        <pre>mvn release:perform</pre>
-
         <ol>
-          <li>Verify the staged artifacts in the Nexus repository:
-            <ol>
-              <li><a href="https://repository.apache.org/index.html">https://repository.apache.org/</a></li>
-              <li><strong>Enterprise --&gt; Staging</strong></li>
-              <li><strong>Staging tab --&gt; Name column --&gt; org.apache.any23</strong></li>
-              <li>Navigate through the artifact tree and make sure that all binary,
-                <code>javadoc</code>,
-                <code>sources</code>, and
-                <code>tests</code> jars, as well as
-                <code>pom</code>s, ... have
-                <code>.asc</code> (GPG signature) and checksum files (see
-                <a href="http://people.apache.org/~henkp/repo/faq.html">Repository FAQ</a> and
-                <a href="http://www.apache.org/dev/release-signing.html#openpgp-ascii-detach-sig">Detached Signatures</a>).
-                The <code>any23-sources-dist-X.Y.tar.gz</code> and
-                <code>any23-sources-dist-X.Y.zip</code> files shall likewise have signature and checksum files.
-              </li>
-            </ol>
+          <li>
+            This step will create the staging site
+            <source>svn checkout https://svn.apache.org/repos/asf/incubator/any23/site/ site
+svn checkout https://svn.apache.org/repos/asf/incubator/syncope/tags/any23-&lt;version&gt; any23-&lt;version&gt;
+cd any23-&lt;version&gt;
+mvn clean install
+mvn site -Dsite.deploymentBaseUrl=file:///&lt;absolute path to ../site/&lt;version&gt;&gt;
+cd ../site/&lt;version&gt;
+svn add &lt;version&gt;
+svn commit -m "staging site for release"</source>
           </li>
+          <li>
+            From the directory where you have launched <tt>release:prepare</tt> execute (this step will create a maven staging repository):
+            <source>mvn release:perform [-Duser.name=&lt;your_apache_uid&gt;]</source>
 
-          <li>Close the Nexus staging repo:
+            <p>
+              <em>If your local OS userid doesn't match your Apache userid, then you'll have to also override the value 
+                provided by the OS to Maven for the site-deploy step to work. This is known to work for Linux, 
+                but not for Mac and unknown for Windows.
+              </em>
+            </p>
+
             <ol>
-              <li><a href="https://repository.apache.org/index.html">https://repository.apache.org/</a></li>
-              <li><strong>Enterprise --&gt; Staging</strong></li>
-              <li><strong>Staging tab --&gt; Name column --&gt; org.apache.any23</strong></li>
-              <li>Right click on the open <code>org.apache.any23-XXX</code> staging repo and select
-              <strong>Close</strong>.</li>
+              <li>Verify the staged artifacts in the Nexus repository:
+                <ol>
+                  <li><a href="https://repository.apache.org/index.html">https://repository.apache.org/</a></li>
+                  <li><strong>Enterprise --&gt; Staging</strong></li>
+                  <li><strong>Staging tab --&gt; Name column --&gt; org.apache.any23</strong></li>
+                  <li>Navigate through the artifact tree and make sure that all binary,
+                    <code>javadoc</code>,
+                    <code>sources</code>, and
+                    <code>tests</code> jars, as well as
+                    <code>pom</code>s, ... have
+                    <code>.asc</code> (GPG signature) and checksum files (see
+                    <a href="http://people.apache.org/~henkp/repo/faq.html">Repository FAQ</a> and
+                    <a href="http://www.apache.org/dev/release-signing.html#openpgp-ascii-detach-sig">Detached Signatures</a>).
+                    The <code>any23-sources-dist-X.Y.tar.gz</code> and
+                    <code>any23-sources-dist-X.Y.zip</code> files shall likewise have signature and checksum files.
+                  </li>
+                </ol>
+              </li>
+    
+              <li>Close the Nexus staging repo:
+                <ol>
+                  <li><a href="https://repository.apache.org/index.html">https://repository.apache.org/</a></li>
+                  <li><strong>Enterprise --&gt; Staging</strong></li>
+                  <li><strong>Staging tab --&gt; Name column --&gt; org.apache.any23</strong></li>
+                  <li>Right click on the open <code>org.apache.any23-XXX</code> staging repo and select
+                  <strong>Close</strong>.</li>
+                </ol>
+              </li>
             </ol>
           </li>
         </ol>
