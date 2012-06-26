@@ -100,7 +100,7 @@
               <li>Commit any changes back to svn: <pre>svn commit -m "updating files for release"</pre>.</li>
             </ol>
           </li>
-          <li>Perform a full build and deploy the SNAPSHOT artifacts: <pre>mvn -P apache-release clean deploy</pre></li>
+          <li>Perform a full build and deploy the SNAPSHOT artifacts: <pre>mvn clean deploy</pre></li>
         </ol>
       </subsection>
 
@@ -124,7 +124,7 @@
       <subsection name="Prepare the release">
         <ol>
           <li>Do a dry run of the <tt>release:prepare</tt> step.
-          <pre>mvn -Papache-release release:prepare -DdryRun=true</pre>
+          <pre>mvn release:prepare -DdryRun=true</pre>
 
           The dry run will not commit any changes back to SVN and gives you the opportunity to verify that the 
           release process will complete as expected.
@@ -162,12 +162,12 @@ gpg: Signature made ...</source>
               </li>
 
               <li>Once any failures or required updates have been committed to svn, rollback the release prepare files:
-              <source>mvn -P apache-release release:rollback</source></li>
+              <source>mvn release:rollback</source></li>
             </ol>
           </li>
 
           <li>Run the <tt>release:prepare</tt> step for real this time. You'll be prompted for the same version
-          information and optionally your GPG passphrase again. <pre>mvn -P apache-release release:prepare</pre>
+          information and optionally your GPG passphrase again. <pre>mvn release:prepare</pre>
           </li>
         </ol>
       </subsection>
@@ -175,7 +175,7 @@ gpg: Signature made ...</source>
       <subsection name="Perform the release">
         <p>This step will create a maven staging repository</p>
 
-        <pre>mvn -P apache-release release:perform</pre>
+        <pre>mvn release:perform</pre>
 
         <ol>
           <li>Verify the staged artifacts in the Nexus repository:
@@ -357,7 +357,7 @@ Have Fun,
         <li>Reply to the initial vote email prepending <code>[CANCELED]</code> to the original subject.</li>
         <li>Rollback the version upgrades in trunk by <em>either</em>:
           <ol>
-            <li>Restore the 0.1-rc1.tar.gz and run <source>mvn -P apache-release release:rollback</source> <em>or</em>
+            <li>Restore the 0.1-rc1.tar.gz and run <source>mvn release:rollback</source> <em>or</em>
             manually revert the versions in trunk to the prior version and commit</li>
           </ol>
         </li>
