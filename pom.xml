@@ -202,13 +202,6 @@
     <system>Jenkins</system>
     <url>https://builds.apache.org/job/Any23-trunk/</url>
   </ciManagement>
-  <distributionManagement>
-    <site>
-      <id>any23.website</id>
-      <name>Apache Any23 website</name>
-      <url>${site.deploymentBaseUrl}</url>
-    </site>
-  </distributionManagement>
 
   <!-- General properties. -->
   <properties>
@@ -921,6 +914,15 @@
 
     <profile>
       <id>site</id>
+
+      <distributionManagement>
+        <site>
+          <id>any23.website</id>
+          <name>Apache Any23 website</name>
+          <url>${site.deploymentBaseUrl}</url>
+        </site>
+      </distributionManagement>
+
       <build>
         <plugins>
           <plugin>
