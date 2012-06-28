@@ -524,6 +524,7 @@
             </execution>
           </executions>
           <configuration>
+            <attach>true</attach>
             <tarLongFileMode>gnu</tarLongFileMode>
             <finalName>${assembly.finalName}</finalName>
           </configuration>
