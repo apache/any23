@@ -26,7 +26,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <groupId>org.apache.any23.plugin</groupId>
+  <groupId>org.apache.any23.plugins</groupId>
   <artifactId>any23-integration-test</artifactId>
 
   <name>Apache Any23 :: Plugins :: Integration Test</name>
@@ -39,17 +39,17 @@
       <version>${project.parent.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.any23.plugin</groupId>
+      <groupId>org.apache.any23.plugins</groupId>
       <artifactId>any23-html-scraper</artifactId>
       <version>1.0.1-incubating-SNAPSHOT</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.any23.plugin</groupId>
+      <groupId>org.apache.any23.plugins</groupId>
       <artifactId>any23-office-scraper</artifactId>
       <version>1.0.0-incubating-SNAPSHOT</version>
     </dependency>
       <dependency>
-      <groupId>org.apache.any23.plugin</groupId>
+      <groupId>org.apache.any23.plugins</groupId>
       <artifactId>any23-basic-crawler</artifactId>
       <version>1.0.0-incubating-SNAPSHOT</version>
     </dependency>
