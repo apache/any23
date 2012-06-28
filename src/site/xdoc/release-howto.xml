@@ -331,6 +331,11 @@ I will promote the artifacts to the central repo.]]></pre>
 cd /x1/www/www.apache.org/dist/incubator/any23/
 
 wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-sources-dist/&lt;version&gt;/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-sources-dist/&lt;version&gt;/
+
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
 https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-core/&lt;version&gt;/
 wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
 https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-core/&lt;version&gt;/
