@@ -357,12 +357,6 @@ https://repository.apache.org/content/repositories/releases/org/apache/any23/plu
 </source>
           </li>
 
-          <li>Update the <em>Downloads</em> site page to point to the new release artifacts
-            <p>
-              <strong>TO BE COMPLETED</strong>
-            </p>
-          </li>
-
           <li>Update the
           <a href="https://issues.apache.org/jira/plugins/servlet/project-config/ANY23/versions">JIRA versions</a>
           page to mark the version as <strong>Released</strong>, and set the date to the date that
