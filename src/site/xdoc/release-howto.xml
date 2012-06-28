@@ -328,11 +328,32 @@ I will promote the artifacts to the central repo.]]></pre>
 
           <li>Add the distribution artifacts to the distribution area
             <source>ssh people.apache.org
-cd /x1/www/www.apache.org/dist/incubator/syncope/
+cd /x1/www/www.apache.org/dist/incubator/any23/
+
 wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/releases/org/apache/any23/&lt;version&gt;/
+https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-core/&lt;version&gt;/
 wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/releases/org/apache/any23/&lt;version&gt;/
+https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-core/&lt;version&gt;/
+
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-service/&lt;version&gt;/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/any23-service/&lt;version&gt;/
+
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/plugins/any23-basic-crawler/&lt;version&gt;/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/plugins/any23-basic-crawler/&lt;version&gt;/
+
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/plugins/any23-html-scraper/&lt;version&gt;/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/plugins/any23-html-scraper/&lt;version&gt;/
+
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/plugins/any23-office-scraper/&lt;version&gt;/
+wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
+https://repository.apache.org/content/repositories/releases/org/apache/any23/plugins/any23-office-scraper/&lt;version&gt;/
 </source>
           </li>
 
