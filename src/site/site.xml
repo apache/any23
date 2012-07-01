@@ -68,6 +68,7 @@
       <item name="Configuration"     href="./configuration.html"/>
       <item name="REST Service"      href="./service.html"/>
       <item name="Any23 Plugins"     href="./any23-plugins.html"/>
+      <item name="APIs Doc"          href="./apidocs/index.html"/>
       <item name="Developers Guide"  href="./developers.html" collapse="true">
         <item href="./build-src.html"                  name="Build from sources"/>
         <item href="./dev-data-extraction.html"        name="Data Extraction"/>
