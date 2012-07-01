@@ -234,19 +234,27 @@ any23-core/core$ ./bin/any23 vocab
 +--------------------------------------
 any23-core$ ./bin/any23 mimes http://www.michelemostarda.com/foaf.rdf
 application/rdf+xml
++--------------------------------------
 
++--------------------------------------
 any23-core$ ./bin/any23 mimes file://../src/test/resources/application/trix/test1.trx
 application/trix
++--------------------------------------
 
++--------------------------------------
 any23-core$ ./bin/any23 mimes 'inline://<http://s> <http://p> <http://o> .'
 text/n3
 +--------------------------------------
 
 ** The PluginVerifier tool
 
-  The PluginVerifier tool allows checking installed plugin in the specified input directory
+  The PluginVerifier tool allows checking installed plugin in the specified input directory (<<<~/.any23/plugins>>> by default)
 
-   TODO: missing.
+  Just launch the command below to sanity-check the input plugins directory
+
++--------------------------------------
+any23-core$ ./bin/any23 verify [/path/to/plugins/dir]
++--------------------------------------
 
 * <<Apache Any23>> CLI <Plugins>
 
