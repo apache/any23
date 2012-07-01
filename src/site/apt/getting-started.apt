@@ -46,93 +46,114 @@ Getting started with <<Apache Any23>>
    use the shell script within the <<<any23-core/bin>>> directory.
    These are provided both for Unix (Linux/OSX) and Windows.
 
-   The main script is <<"any23tools">> which provides analysis, documentation, testing and debugging utilities.
+   The <<<any23>>> script provides analysis, documentation, testing and debugging utilities.
 
-   Simply running <./any23tools> without options will show the <default configuration properties>
-   and the <usage> options. The resource (URL or local file) is the only mandatory argument.
-   It is possible also to specify input format, output format and other advanced options.
+   Simply running <./any23> without options will show the <usage> options.
 
 +-------------------------------------------
-any23-core/bin$ ./any23tools
-Usage: ToolRunner <utility> [options...]
- where <utility> is one of:
-    ExtractorDocumentation                Utility for obtaining documentation about metadata extractors.
-    MicrodataParser                     Commandline Tool for extracting Microdata from file/HTTP source.
-    MimeDetector                                                                MIME Type Detector Tool.
-    PluginVerifier                                           Utility for plugin management verification.
-    Rover                                                                       Apache Any23 Command Line Tool.
-    Version                        Prints out the current library version and configuration information.
-    VocabPrinter                            Prints out the RDF Schema of the vocabularies used by Apache Any23.
+any23-core$ ./bin/any23
+A command must be specified.
+Usage: any23 [options] [command] [command options]
+  Options:
+    -h, --help          Display help information.
+                        Default: false
+        --plugins-dir   The Any23 plugins directory.
+                        Default: ~/.any23/plugins
+    -X, --verbose       Produce execution verbose output.
+                        Default: false
+    -v, --version       Display version information.
+                        Default: false
+  Commands:
+    extractor      Utility for obtaining documentation about metadata extractors.
+      Usage: extractor [options] Extractor name      
+  Options:
+          -a, --all     shows a report about all available extractors
+                        Default: false
+          -i, --input   shows example input for the given extractor
+                        Default: false
+          -l, --list    shows the names of all available extractors
+                        Default: false
+          -o, --outut   shows example output for the given extractor
+                        Default: false
+
+    microdata      Commandline Tool for extracting Microdata from file/HTTP source.
+      Usage: microdata [options] Input document URL, {http://path/to/resource.html|file:/path/to/local.file}
+    mimes      MIME Type Detector Tool.
+      Usage: mimes [options] Input document URL, {http://path/to/resource.html|file:///path/to/local.file|inline:// some inline content}
+    verify      Utility for plugin management verification.
+      Usage: verify [options] plugins-dir
+    rover      Any23 Command Line Tool.
+      Usage: rover [options] input URIs {<url>|<file>}+
+  Options:
+          -d, --defaultns    Override the default namespace used to produce
+                             statements.
+          -e, --extractors   a comma-separated list of extractors, e.g.
+                             rdf-xml,rdf-turtle
+                             Default: []
+          -f, --format       the output format
+                             Default: turtle
+          -l, --log          Produce log within a file.
+          -n, --nesting      Disable production of nesting triples.
+                             Default: false
+          -t, --notrivial    Filter trivial statements (e.g. CSS related ones).
+                             Default: false
+          -o, --output       Specify Output file (defaults to standard output)
+                             Default: java.io.PrintStream@79dfc547
+          -p, --pedantic     Validate and fixes HTML content detecting commons
+                             issues.
+                             Default: false
+          -s, --stats        Print out extraction statistics.
+                             Default: false
+
+    vocab      Prints out the RDF Schema of the vocabularies used by Any23.
+      Usage: vocab [options]      
+  Options:
+          -f, --format   Vocabulary output format
+                         Default: NQuads
 +-------------------------------------------
 
-   The <any23tools> script detects a list of available utilities within the <<any23-core>> and <<plugins>>
+   The <<<any23>>> script detects a list of available utilities within the <<any23-core>> and <<plugins>>
    classpath and allows to activate them.
 
    The <any23-core> CLI tools are:
 
-       * <<<ExtractorDocumentation>>>: a utility for obtaining useful information about extractors.
+       * <<<extractor>>>: a utility for obtaining useful information about extractors.
 
-       * <<<MicrodataParser>>>:  commandline parser to extract specific Microdata content from a web page
+       * <<<microdata>>>:  commandline parser to extract specific Microdata content from a web page
          (local or remote) and produce a JSON output compliant with the Microdata
          specification ({{{http://www.w3.org/TR/microdata/}http://www.w3.org/TR/microdata/}}).
 
-       * <<<MimeDetector>>>: detects the MIME Type for any HTTP / file / direct input resource.
+       * <<<mimes>>>: detects the MIME Type for any HTTP / file / direct input resource.
 
-       * <<<PluginVerifier>>>: a utility for verifying <Apache Any23> plugins.
+       * <<<verify>>>: a utility for verifying <Apache Any23> plugins.
 
-       * <<<Rover>>>: the RDF extraction tool.
+       * <<<rover>>>: the RDF extraction tool.
 
-       * <<<Version>>>: prints out useful information about the library version and configuration.
+       * <<<vocab>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Apache Any23.
 
-       * <<<VocabPrinter>>>: allows to dump all the <<RDFSchema>> vocabularies declared within Apache Any23.
-
-** Rover
+** The Rover tool
 
    Rover is the main extraction tool. It allows to extract metadata from local and remote (HTTP)
    resources, specify a custom list of extractors, specify the desired output format and other flags
    to suppress noise and generate advanced reports.
 
-+-------------------------------------------
-any23-core/bin$ any23tools Rover
-usage: [{<url>|<file>}]+ [-d <arg>] [-e <arg>] [-f <arg>] [-h] [-l <arg>]
-       [-n] [-o <arg>] [-p] [-s] [-t] [-v]
- -d,--defaultns <arg>       Override the default namespace used to produce
-                            statements.
- -e <arg>                   Specify a comma-separated list of extractors,
-                            e.g. rdf-xml,rdf-turtle.
- -f,--Output format <arg>   [turtle (default), rdfxml, ntriples, nquads,
-                            trix, json, uri]
- -h,--help                  Print this help.
- -l,--log <arg>             Produce log within a file.
- -n,--nesting               Disable production of nesting triples.
- -o,--output <arg>          Specify Output file (defaults to standard
-                            output).
- -p,--pedantic              Validate and fixes HTML content detecting
-                            commons issues.
- -s,--stats                 Print out extraction statistics.
- -t,--notrivial             Filter trivial statements (e.g. CSS related
-                            ones).
- -v,--verbose               Show debug and progress information.
-Expected at least 1 argument.
-+-------------------------------------------
-
   Extract metadata from an <<HTML>> page:
 
 +-----------------------------------------
-any23-core/bin$ ./any23tools Rover http://yourdomain/yourfile
+any23-core$ ./bin/any23 rover http://yourdomain/yourfile
 +-----------------------------------------
 
   Extract metadata from a <<local>> resource:
 
 +--------------------------------------
-any23-core/bin$ ./any23tools Rover myfoaf.rdf
+any23-core$ ./bin/any23 rover myfoaf.rdf
 +--------------------------------------
 
   Specify the output format, use the option <<"-f">> or <<"--format">>:
   (Default output format is <<TURTLE>>).
 
 +--------------------------------------
-any23-core/bin$ ./any23tools Rover -f quad myfoaf.rdf
+any23-core$ ./bin/any23 rover -f quad myfoaf.rdf
 +--------------------------------------
 
   Filtering trivial statements
@@ -143,34 +164,18 @@ any23-core/bin$ ./any23tools Rover -f quad myfoaf.rdf
     command line argument.
 
 +-------------------------
-any23-core/bin$ ./any23tools Rover -t -f quad myfoaf.rdf
+any23-core$ ./bin/any23 rover -t -f quad myfoaf.rdf
 +-------------------------
 
-** ExtractorDocumentation
+** The ExtractorDocumentation tool
 
    The ExtractorDocumentation returns human readable information
    about the registered extractors.
 
-+-------------------------------------------
-any23-core/bin$ ./any23tools ExtractorDocumentation
-Usage:
-  ExtractorDocumentation -list
-      shows the names of all available extractors
-
-  ExtractorDocumentation -i extractor-name
-      shows example input for the given extractor
-
-  ExtractorDocumentation -o extractor-name
-      shows example output for the given extractor
-
-  ExtractorDocumentation -all
-      shows a report about all available extractors
-+-------------------------------------------
-
    List all the available extractors:
 
 +--------------------------------------
-any23-core/bin$ ./any23tools ExtractorDocumentation -list
+any23-core/core$ ./bin/any23 extractor --list
                       csv [class org.apache.any23.extractor.csv.CSVExtractor]
            html-head-icbm [class org.apache.any23.extractor.html.ICBMExtractor]
           html-head-links [class org.apache.any23.extractor.html.HeadLinkExtractor]
@@ -196,43 +201,50 @@ any23-core/bin$ ./any23tools ExtractorDocumentation -list
                   rdf-xml [class org.apache.any23.extractor.rdf.RDFXMLExtractor]
 +--------------------------------------
 
-** MicrodataParser
+** The MicrodataParser tool
 
    The <MicrodataParser> tool allows to apply the only MicrodataExtractor 
    on a specific input source and returns the extracted data in the JSON format
    declared in the Microdata specification section {{{http://www.w3.org/TR/microdata/#json}JSON}}.
 
 +--------------------------------------
-any23-core/bin$ ./any23tools MicrodataParser
-Usage: {http://path/to/resource.html|file:/path/to/local.file}
+any23-core/core$ ./bin/any23 microdata http://path/to/resource.html
 +--------------------------------------
 
 
-** VocabPrinter
+** The VocabPrinter tool
 
    The VocabPrinter Tool prints out the RDFSchema declared by all the <<Apache Any23>>
    declared vocabularies.
 
-   <<This tool is still in beta version.>>
+  Just launch the command below to see all the managed vocabularies.
 
-** MimeDetector
++--------------------------------------
+any23-core/core$ ./bin/any23 vocab
++--------------------------------------
+
+   <NOTE>: <<This tool is still in beta version.>>
+
+** The MimeDetector tool
 
    The MimeDetector Tool extracts the <<MIME Type>> for a given source (http:// file:// inline://).
 
    Examples:
 
 +--------------------------------------
-any23-core/bin$ ./any23tools MimeDetector http://www.michelemostarda.com/foaf.rdf
+any23-core$ ./bin/any23 mimes http://www.michelemostarda.com/foaf.rdf
 application/rdf+xml
 
-any23-core/bin$ ./any23tools MimeDetector file://../src/test/resources/application/trix/test1.trx
+any23-core$ ./bin/any23 mimes file://../src/test/resources/application/trix/test1.trx
 application/trix
 
-any23-core/bin$ ./any23tools MimeDetector 'inline://<http://s> <http://p> <http://o> .'
+any23-core$ ./bin/any23 mimes 'inline://<http://s> <http://p> <http://o> .'
 text/n3
 +--------------------------------------
 
-** PluginVerifier
+** The PluginVerifier tool
+
+  The PluginVerifier tool allows checking installed plugin in the specified input directory
 
    TODO: missing.
 
