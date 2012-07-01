@@ -42,7 +42,7 @@ Getting started with <<Apache Any23>>
 
    The command-line tools support is provided by the <<any23-core>> module.
 
-   Once <<Apache Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a commandline tool,
+   Once <<Apache Any23>> has been correctly {{{./install.html}installed}}, if you want to use it as a command line tool,
    use the shell scripts within the <<"any23-core/bin">> directory.
    These are provided both for Unix (Linux/OSX).
 
