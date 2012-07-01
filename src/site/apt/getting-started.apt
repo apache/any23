@@ -248,7 +248,7 @@ text/n3
 
 ** The PluginVerifier tool
 
-  The PluginVerifier tool allows checking installed plugin in the specified input directory (<<<~/.any23/plugins>>> by default)
+  The PluginVerifier tool allows checking installed plugin in the specified input directory
 
   Just launch the command below to sanity-check the input plugins directory
 
