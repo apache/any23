@@ -17,7 +17,6 @@
 
 package org.apache.any23.plugin.officescraper;
 
-import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.plugin.Author;
 import org.apache.any23.plugin.ExtractorPlugin;
@@ -29,7 +28,7 @@ import org.kohsuke.MetaInfServices;
  * @see ExcelExtractor
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices( value = Tool.class )
+@MetaInfServices
 @Author(name="Michele Mostarda (mostarda@fbk.eu)")
 public class ExcelPlugin implements ExtractorPlugin {
 

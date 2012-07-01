@@ -17,7 +17,6 @@
 
 package org.apache.any23.plugin.htmlscraper;
 
-import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.plugin.Author;
 import org.apache.any23.plugin.ExtractorPlugin;
@@ -30,7 +29,7 @@ import org.kohsuke.MetaInfServices;
  * @see HTMLScraperExtractor
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices( value = Tool.class )
+@MetaInfServices
 @Author(name="Michele Mostarda (mostarda@fbk.eu)")
 public class HTMLScraperPlugin implements ExtractorPlugin {
 
