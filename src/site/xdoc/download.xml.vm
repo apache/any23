@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+  <properties>
+    <title>Apache Any23 - Release HowTo</title>
+    <author email="any23-dev@incubator.apache.org">Apache Any23 Team</author>
+  </properties>
+
+  <body>
+    <section name="Download Apache Any23">
+      <p>Apache Any23 is distributed in several formats for your convenience. Use a source archive if you intend to build
+   Apache Any23 yourself. Otherwise, simply pick a ready-made binary distribution and follow the installation
+   instructions given inside the archives.</p>
+
+      <p>You will be prompted for a mirror - if the file is not found on yours, please be patient, as it may take 24
+   hours to reach all mirrors.</p>
+
+      <p>In order to guard against corrupted downloads/installations, it is highly recommended to
+   <a href="http://www.apache.org/dev/release-signing#verifying-signature">verify the signature</a>
+   of the release bundles against the public <a href="${downloads.url}/KEYS">KEYS</a> used by the Apache Any23
+   developers.</p>
+
+      <p>Apache Any23 is distributed under the <a href="http://any23.apache.org/license.html"> Apache License, version 2.0</a>.</p>
+
+      <subsection name="Apache Any23 Sources">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 ${project.version} (Source tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-src.tar.gz"> apache-any23-${project.version}-src.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-src.tar.gz.md5"> apache-any23-${project.version}-src.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-src.tar.gz.asc"> apache-any23-${project.version}-src.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 ${project.version} (Source zip)</td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-src.zip"> apache-any23-${project.version}-src.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-src.zip.md5"> apache-any23-${project.version}-src.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-src.zip.asc"> apache-any23-${project.version}-src.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+
+      <subsection name="Apache Any23 Core">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 ${project.version} (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-bin.tar.gz"> apache-any23-${project.version}-bin.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-bin.tar.gz.md5"> apache-any23-${project.version}-bin.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-bin.tar.gz.asc"> apache-any23-${project.version}-bin.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 ${project.version} (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-bin.zip"> apache-any23-${project.version}-bin.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-bin.zip.md5"> apache-any23-${project.version}-bin.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-${project.version}-bin.zip.asc"> apache-any23-${project.version}-bin.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+    </section>
+
+    <section name="Apache Any23 Plugins">
+      <subsection name="Apache Any23 Basic Crawler">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 Basic Crawler 1.0.0-incubating (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz"> apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz.md5"> apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz.asc"> apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 Basic Crawler 1.0.0-incubating (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-basic-crawler-1.0.0-incubating-bin.zip"> apache-any23-basic-crawler-1.0.0-incubating-bin.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-basic-crawler-1.0.0-incubating-bin.zip.md5"> apache-any23-basic-crawler-1.0.0-incubating-bin.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-basic-crawler-1.0.0-incubating-bin.zip.asc"> apache-any23-basic-crawler-1.0.0-incubating-bin.tar.gz.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+
+      <subsection name="Apache Any23 HTML Scarper">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 HTML Scraper 1.0.1-incubating (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-html-scraper-1.0.1-incubating-bin.tar.gz"> apache-any23-html-scraper-1.0.1-incubating-bin.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-html-scraper-1.0.1-incubating-bin.tar.gz.md5"> apache-any23-html-scraper-1.0.1-incubating-bin.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-html-scraper-1.0.1-incubating-bin.tar.gz.asc"> apache-any23-html-scraper-1.0.1-incubating-bin.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 HTML Scraper 1.0.1-incubating (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-html-scraper-1.0.1-incubating-bin.zip"> apache-any23-html-scraper-1.0.1-incubating-bin.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-html-scraper-1.0.1-incubating-bin.zip.md5"> apache-any23-html-scraper-1.0.1-incubating-bin.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-html-scraper-1.0.1-incubating-bin.zip.asc"> apache-any23-html-scraper-1.0.1-incubating-bin.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+
+      <subsection name="Apache Any23 Office Scraper">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 Office Scraper 1.0.0-incubating (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-office-scraper-1.0.0-incubating-bin.tar.gz"> apache-any23-office-scraper-1.0.0-incubating-bin.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-office-scraper-1.0.0-incubating-bin.tar.gz.md5"> apache-any23-office-scraper-1.0.0-incubating-bin.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-office-scraper-1.0.0-incubating-bin.tar.gz.asc"> apache-any23-office-scraper-1.0.0-incubating-bin.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 Office Scraper 1.0.0-incubating (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-office-scraper-1.0.0-incubating-bin.zip"> apache-any23-office-scraper-1.0.0-incubating-bin.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-office-scraper-1.0.0-incubating-bin.zip.md5"> apache-any23-office-scraper-1.0.0-incubating-bin.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-office-scraper-1.0.0-incubating-bin.zip.asc"> apache-any23-office-scraper-1.0.0-incubating-bin.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+    </section>
+
+    <section name="Apache Any23 Service">
+      <subsection name="WAR package with dependencies">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 Service ${project.version} (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin.tar.gz"> apache-any23-service-${project.version}-bin.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin.tar.gz.md5"> apache-any23-service-${project.version}-bin.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin.tar.gz.asc"> apache-any23-service-${project.version}-bin.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 Service ${project.version} (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin.zip"> apache-any23-service-${project.version}-bin.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin.zip.md5"> apache-any23-service-${project.version}-bin.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin.zip.asc"> apache-any23-service-${project.version}-bin.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+
+      <subsection name="WAR package without dependencies">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 Service (No deps) ${project.version} (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-without-deps.tar.gz"> apache-any23-service-${project.version}-bin-without-deps.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-without-deps.tar.gz.md5"> apache-any23-service-${project.version}-bin-without-deps.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-without-deps.tar.gz.asc"> apache-any23-service-${project.version}-bin-without-deps.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 Service (No deps) ${project.version} (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-without-deps.zip"> apache-any23-service-${project.version}-bin-without-deps.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-without-deps.zip.md5"> apache-any23-service-${project.version}-bin-without-deps.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-without-deps.zip.asc"> apache-any23-service-${project.version}-bin-without-deps.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+
+      <subsection name="Standalone package with embedded Jetty">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Mirrors</th>
+              <th>Checksum</th>
+              <th>Signature</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Apache Any23 Service (Standalone server embedded) ${project.version} (Binary tar.gz)</td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-server-embedded.tar.gz"> apache-any23-service-${project.version}-bin-server-embedded.tar.gz</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-server-embedded.tar.gz.md5"> apache-any23-service-${project.version}-bin-server-embedded.tar.gz.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-server-embedded.tar.gz.asc"> apache-any23-service-${project.version}-bin-server-embedded.tar.gz.asc</a></td>
+            </tr>
+            <tr>
+              <td>Apache Any23 Service (Standalone server embedded) ${project.version} (Binary zip)</td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-server-embedded.zip"> apache-any23-service-${project.version}-bin-server-embedded.zip</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-server-embedded.zip.md5"> apache-any23-service-${project.version}-bin-server-embedded.zip.md5</a></td>
+              <td><a href="${downloads.url}/apache-any23-service-${project.version}-bin-server-embedded.zip.asc"> apache-any23-service-${project.version}-bin-server-embedded.zip.asc</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </subsection>
+    </section>
+  </body>
+</document>
