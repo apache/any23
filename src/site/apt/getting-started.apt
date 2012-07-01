@@ -269,49 +269,52 @@ any23-core$ ./bin/any23 verify [/path/to/plugins/dir]
    The <Crawler Plugin> provides basic site crawling and metadata extraction capabilities.
 
 +----------------------------------------------------------------------------
-any23-core/bin$ ./any23tools Crawler
-usage: [{<url>|<file>}]+ [-d <arg>] [-e <arg>] [-f <arg>] [-h] [-l <arg>]
-       [-maxdepth <arg>] [-maxpages <arg>] [-n] [-numcrawlers <arg>] [-o
-       <arg>] [-p] [-pagefilter <arg>] [-politenessdelay <arg>] [-s]
-       [-storagefolder <arg>] [-t] [-v]
- -d,--defaultns <arg>       Override the default namespace used to produce
-                            statements.
- -e <arg>                   Specify a comma-separated list of extractors,
-                            e.g. rdf-xml,rdf-turtle.
- -f,--Output format <arg>   [turtle (default), rdfxml, ntriples, nquads,
-                            trix, json, uri]
- -h,--help                  Print this help.
- -l,--log <arg>             Produce log within a file.
- -maxdepth <arg>            Max allowed crawler depth. Default: no limit.
- -maxpages <arg>            Max number of pages before interrupting crawl.
-                            Default: no limit.
- -n,--nesting               Disable production of nesting triples.
- -numcrawlers <arg>         Sets the number of crawlers. Default: 10
- -o,--output <arg>          Specify Output file (defaults to standard
-                            output).
- -p,--pedantic              Validate and fixes HTML content detecting
-                            commons issues.
- -pagefilter <arg>          Regex used to filter out page URLs during
-                            crawling. Default:
-                            '.*(\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|
-                            mp3|mp4|wav|wma|avi|mov|mpeg|ram|m4v|wmv|rm|sm
-                            il|pdf|swf|zip|rar|gz|xml|txt))$'
- -politenessdelay <arg>     Politeness delay in milliseconds. Default: no
-                            limit.
- -s,--stats                 Print out extraction statistics.
- -storagefolder <arg>       Folder used to store crawler temporary data.
-                            Default:
-                            [/var/folders/d5/c_0b4h1d7t1gx6tzz_dn5cj40000g
-                            q/T/]
- -t,--notrivial             Filter trivial statements (e.g. CSS related
-                            ones).
- -v,--verbose               Show debug and progress information.
+any23-core$ ./bin/any23 -h
+[...]
+    crawler      Any23 Crawler Command Line Tool.
+      Usage: crawler [options] input URIs {<url>|<file>}+
+  Options:
+          -d, --defaultns          Override the default namespace used to
+                                   produce statements.
+          -e, --extractors         a comma-separated list of extractors, e.g.
+                                   rdf-xml,rdf-turtle
+                                   Default: []
+          -f, --format             the output format
+                                   Default: turtle
+          -l, --log                Produce log within a file.
+          -md, --maxdepth          Max allowed crawler depth.
+                                   Default: 2147483647
+          -mp, --maxpages          Max number of pages before interrupting
+                                   crawl.
+                                   Default: 2147483647
+          -n, --nesting            Disable production of nesting triples.
+                                   Default: false
+          -t, --notrivial          Filter trivial statements (e.g. CSS related
+                                   ones).
+                                   Default: false
+          -nc, --numcrawlers       Sets the number of crawlers.
+                                   Default: 10
+          -o, --output             Specify Output file (defaults to standard
+                                   output)
+                                   Default: java.io.PrintStream@2911a3a4
+          -pf, --pagefilter        Regex used to filter out page URLs during
+                                   crawling.
+                                   Default: .*(\.(css|js|bmp|gif|jpe?g|png|tiff?|mid|mp2|mp3|mp4|wav|wma|avi|mov|mpeg|ram|m4v|wmv|rm|smil|pdf|swf|zip|rar|gz|xml|txt))$
+          -p, --pedantic           Validate and fixes HTML content detecting
+                                   commons issues.
+                                   Default: false
+          -pd, --politenessdelay   Politeness delay in milliseconds.
+                                   Default: 2147483647
+          -s, --stats              Print out extraction statistics.
+                                   Default: false
+          -sf, --storagefolder     Folder used to store crawler temporary data.
+                                   Default: /var/folders/zz/9vvv_lbn1cs8dpwz859nmq080000gn/T/crawler-metadata-9ff4c650-10c2-41a1-9d99-ebeb3e7d21ce
 +----------------------------------------------------------------------------
 
     A usage example:
 
 +----------------------------------------------------------------------------
-any23-core/bin$ ./any23tools Crawler -s -f ntriples http://www.repubblica.it 1> out.nt 2> repubblica.log
+any23-core$ ./bin/any23 crawler -s -f ntriples http://www.repubblica.it 1> out.nt 2> repubblica.log
 +----------------------------------------------------------------------------
 
 * Use <<Apache Any23>> as a RESTful Web Service
