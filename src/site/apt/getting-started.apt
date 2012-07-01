@@ -325,10 +325,10 @@ any23-core$ ./bin/any23 crawler -s -f ntriples http://www.repubblica.it 1> out.n
    Running the server
 
     The server command line tool is defined within the <<any23-service>> module.
-    Run the <"any23server"> script
+    Run the <<<any23server>>> script
 
 +--------------------------
-any23-service/bin$ ./any23server
+any23-service$ ./bin/any23server
 +--------------------------
 
     from the command line in order to start up the server, then go to {{{http://localhost:8080/}}}
