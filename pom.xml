@@ -252,7 +252,7 @@
      | then committing in one shot, i.e.
      |
      | svn co https://svn.apache.org/repos/asf/incubator/any23/site
-     | mvn site-deploy -Dsite.deploymentBaseUrl=file://path/to/checked/out/site
+     | mvn site-deploy -Dsite.deploymentBaseUrl=file://path/to/checked/out/site -P site
     -->
     <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
     <downloads.url>http://www.apache.org/dist/incubator/any23</downloads.url>
