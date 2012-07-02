@@ -238,9 +238,6 @@
     <apache-rat-plugin.version>0.7</apache-rat-plugin.version>
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
     <maven-gpg-plugin.version>1.4</maven-gpg-plugin.version>
-    <wagon-svn.version>1.12</wagon-svn.version>
-    <wagon-maven-plugin.version>1.0-beta-3</wagon-maven-plugin.version>
-    <wagon-ssh.version>2.2</wagon-ssh.version>
 
     <!--
      | Any23 website has to be stored in SVN
