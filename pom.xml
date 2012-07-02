@@ -787,6 +787,7 @@
                     <exclude>**/application/rdfn3/test1</exclude>
                     <exclude>**/application/rdfn3/test2</exclude>
                     <exclude>**/application/rdfn3/test3</exclude>
+                    <exclude>**/application/rss1/test1</exclude>
                     <exclude>**/cli/rover-test1.nq</exclude>
                   </excludes>
                 </configuration>
