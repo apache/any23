@@ -252,6 +252,7 @@
     -->
     <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
     <assembly.finalName>apache-${project.build.finalName}</assembly.finalName>
+    <assembly.skip>false</assembly.skip>
   </properties>
 
   <dependencyManagement>
@@ -513,6 +514,7 @@
           </executions>
           <configuration>
             <attach>true</attach>
+            <skipAssembly>${assembly.skip}</skipAssembly>
             <tarLongFileMode>gnu</tarLongFileMode>
             <finalName>${assembly.finalName}</finalName>
           </configuration>

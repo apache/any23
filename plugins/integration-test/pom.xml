@@ -86,6 +86,9 @@
           <pomExcludes>
             <pomExclude>integration-test/*</pomExclude>
           </pomExcludes>
+          <properties>
+            <assembly.skip>true</assembly.skip>
+          </properties>
           <goals>
             <goal>clean</goal>
             <goal>dependency:copy-dependencies</goal>
