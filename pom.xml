@@ -544,6 +544,7 @@
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
             <autoVersionSubmodules>false</autoVersionSubmodules>
+            <tagNameFormat>any23-@{project.version}</tagNameFormat>
             <arguments>-Prelease,apache</arguments>
           </configuration>
         </plugin>
