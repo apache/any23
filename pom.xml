@@ -477,6 +477,8 @@
   </repositories>
 
   <build>
+    <defaultGoal>install</defaultGoal>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -746,8 +748,6 @@
     <profile>
       <id>release</id>
       <build>
-        <defaultGoal>install</defaultGoal>
-
         <plugins>
           <plugin>
             <groupId>org.apache.rat</groupId>
