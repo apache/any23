@@ -794,6 +794,7 @@
                     <exclude>**/simplePopup/jquery-1.4.2.js</exclude>
                     <exclude>**/simplePopup/simplePopup.css</exclude>
                     <exclude>**/simplePopup/simplePopup.js</exclude>
+                    <exclude>**/missing-og-namespace.html</exclude>
                   </excludes>
                 </configuration>
               </execution>
