@@ -222,7 +222,7 @@
     <maven-deploy-plugin.version>2.5</maven-deploy-plugin.version>
     <maven-install-plugin.version>2.3.1</maven-install-plugin.version>
     <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
-    <maven-assembly-plugin.version>2.2.2</maven-assembly-plugin.version>
+    <maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
     <appassembler-maven-plugin.version>1.1.1</appassembler-maven-plugin.version>
     <maven-release-plugin.version>2.2.1</maven-release-plugin.version>
     <buildnumber-maven-plugin.version>1.0</buildnumber-maven-plugin.version>
