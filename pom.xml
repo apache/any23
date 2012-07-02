@@ -789,6 +789,11 @@
                     <exclude>**/application/rdfn3/test3</exclude>
                     <exclude>**/application/rss1/test1</exclude>
                     <exclude>**/cli/rover-test1.nq</exclude>
+                    <!-- resources ALv2 compatible resources -->
+                    <exclude>**/css/bootstrap.min.css</exclude>
+                    <exclude>**/simplePopup/jquery-1.4.2.js</exclude>
+                    <exclude>**/simplePopup/simplePopup.css</exclude>
+                    <exclude>**/simplePopup/simplePopup.js</exclude>
                   </excludes>
                 </configuration>
               </execution>
