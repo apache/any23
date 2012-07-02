@@ -746,6 +746,8 @@
     <profile>
       <id>release</id>
       <build>
+        <defaultGoal>install</defaultGoal>
+
         <plugins>
           <plugin>
             <groupId>org.apache.rat</groupId>
