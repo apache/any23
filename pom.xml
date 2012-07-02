@@ -781,6 +781,13 @@
                     <exclude>maven-eclipse.xml</exclude>
                     <exclude>.externalToolBuilders/**</exclude>
                     <exclude>.git/**</exclude>
+                    <!-- TODO restore them once ANY23-98 is fixed -->
+                    <exclude>**/application/nquads/test1.nq</exclude>
+                    <exclude>**/application/nquads/test2.nq</exclude>
+                    <exclude>**/application/rdfn3/test1</exclude>
+                    <exclude>**/application/rdfn3/test2</exclude>
+                    <exclude>**/application/rdfn3/test3</exclude>
+                    <exclude>**/cli/rover-test1.nq</exclude>
                   </excludes>
                 </configuration>
               </execution>
