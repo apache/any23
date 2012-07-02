@@ -248,7 +248,7 @@ SVN source tag (r9999999):
 https://svn.apache.org/repos/asf/incubator/any23/tags/X.Y/
 
 Staging repo:
-https://repository.apache.org/content/repositories/org.apache.any23-[YOUR REPOSITORY ID]/
+https://repository.apache.org/content/repositories/orgapacheany23-[YOUR REPOSITORY ID]/
 
 Staging site:
 http://incubator.apache.org/any23/X.Y/
