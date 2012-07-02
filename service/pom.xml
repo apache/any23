@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.any23</groupId>
     <artifactId>any23-parent</artifactId>
-    <version>0.7.0-incubating</version>
+    <version>0.7.1-incubating-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
