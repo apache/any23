@@ -543,7 +543,7 @@
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
             <autoVersionSubmodules>false</autoVersionSubmodules>
-            <arguments>-Papache-release,release,apache</arguments>
+            <arguments>-Prelease,apache</arguments>
           </configuration>
         </plugin>
       </plugins>
