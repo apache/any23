@@ -68,18 +68,6 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/../</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>DISCLAIMER.txt</include>
-          <include>LICENSE.txt</include>
-          <include>NOTICE.txt</include>
-        </includes>
-      </resource>
-    </resources>
-
     <plugins>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
@@ -103,6 +91,13 @@
               <targetPath>/resources</targetPath>
               <filtering>true</filtering>
             </resource>
+            <resource>
+              <directory>${basedir}/../</directory>
+              <targetPath>/META-INF</targetPath>
+              <includes>
+                <include>DISCLAIMER.txt</include>
+              </includes>
+            </resource>
           </webResources>
         </configuration>
         <executions>
@@ -112,6 +107,14 @@
             <goals>
               <goal>war</goal>
             </goals>
+            <configuration>
+              <webResources>
+                <resource>
+                  <directory>${project.build.directory}/${assembly.finalName}-prepare-war-legals/with-deps/</directory>
+                  <targetPath>/META-INF</targetPath>
+                </resource>
+              </webResources>
+            </configuration>
           </execution>
           <execution>
             <id>war-without-deps</id>
@@ -128,6 +131,19 @@
                   <classpathPrefix>lib/</classpathPrefix>
                 </manifest>
               </archive>
+              <webResources>
+                <resource>
+                  <directory>${basedir}/../</directory>
+                  <targetPath>/META-INF</targetPath>
+                  <includes>
+                    <include>NOTICE.txt</include>
+                  </includes>
+                </resource>
+                <resource>
+                  <directory>${project.build.directory}/${assembly.finalName}-prepare-war-legals/without-deps/</directory>
+                  <targetPath>/META-INF</targetPath>
+                </resource>
+              </webResources>
             </configuration>
           </execution>
         </executions>
@@ -137,6 +153,21 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>prepare-package</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>${basedir}/src/main/assembly/prepare-war-legals.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
         <configuration>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/with-deps.xml</descriptor>
