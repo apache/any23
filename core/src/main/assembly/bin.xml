@@ -24,7 +24,7 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
-  <baseDirectory>apache-any23-${project.version}</baseDirectory>
+  <baseDirectory>${assembly.finalName}</baseDirectory>
 
   <files>
     <file>

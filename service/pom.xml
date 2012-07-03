@@ -139,9 +139,9 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-            <descriptor>${basedir}/src/main/assembly/bin-with-deps.xml</descriptor>
-            <descriptor>${basedir}/src/main/assembly/bin-without-deps.xml</descriptor>
-            <descriptor>${basedir}/src/main/assembly/bin-server-embedded.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/with-deps.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/without-deps.xml</descriptor>
+            <descriptor>${basedir}/src/main/assembly/server-embedded.xml</descriptor>
           </descriptors>
         </configuration>
       </plugin>
