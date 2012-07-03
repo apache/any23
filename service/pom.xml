@@ -110,7 +110,7 @@
             <configuration>
               <webResources>
                 <resource>
-                  <directory>${project.build.directory}/${assembly.finalName}-prepare-war-legals/with-deps/</directory>
+                  <directory>${project.build.directory}/war-legals/with-deps/</directory>
                   <targetPath>/META-INF</targetPath>
                 </resource>
               </webResources>
@@ -133,7 +133,7 @@
               </archive>
               <webResources>
                 <resource>
-                  <directory>${project.build.directory}/${assembly.finalName}-prepare-war-legals/without-deps/</directory>
+                  <directory>${project.build.directory}/war-legals/without-deps/</directory>
                   <targetPath>/META-INF</targetPath>
                 </resource>
               </webResources>
@@ -155,6 +155,8 @@
             </goals>
             <configuration>
               <attach>false</attach>
+              <finalName>war-legals</finalName>
+              <appendAssemblyId>false</appendAssemblyId>
               <descriptors>
                 <descriptor>${basedir}/src/main/assembly/prepare-war-legals.xml</descriptor>
               </descriptors>
