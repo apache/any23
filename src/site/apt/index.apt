@@ -45,7 +45,9 @@ Introduction to Apache Any23
      * As a command-line tool for extracting and converting between the supported formats.
      * As online service API available at {{{http://any23.org/}any23.org}}.
 
-    You can <<download>> the latest release from the {{{http://code.google.com/p/any23/downloads/list}download site at Google Code}}.
+    You can <<download>> the latest release from {{{./download.html}Apache Mirrors}}.
+
+    Previous versions are available from the {{{http://code.google.com/p/any23/downloads/list}download site at Google Code}}.
 
 * Documentation Content
 
