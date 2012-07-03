@@ -204,9 +204,8 @@
 APACHE ANY23 DEPENDENCIES:
 
 The Apache Any23 distribution packages include a number of dependencies with
-separate copyright notices and license terms. Your use of the source
-code for the these dependencies is subject to the terms and
-conditions of the following licenses.
+separate copyright notices and license terms. Your use of the binaries for these
+dependencies is subject to the terms and conditions of the following licenses.
 
 For the OpenRDF Sesame components (http://www.openrdf.org/)
 Copyright Aduna (http://www.aduna-software.com/) © 2001-2011
