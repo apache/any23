@@ -89,7 +89,7 @@ Apache Any23 (${implementation.build}; ${maven.build.timestamp})
         export EXTRA_JVM_ARGUMENTS="-Xms256m -Xmx512m".
         This environment variable can be used to supply extra options.
 
-  5) Add M2 environment variable to your path, e.g. export PATH=$ANY23:$PATH.
+  5) Add ANY23 environment variable to your path, e.g. export PATH=$ANY23:$PATH.
 
   6) Make sure that JAVA_HOME is set to the location of your JDK, e.g.
         export JAVA_HOME=/usr/java/jdk1.5.0_02 and that $JAVA_HOME/bin is in your PATH environment variable.
