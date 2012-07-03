@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 
-Apache Any23 Service (${implementation.build}; ${maven.build.timestamp})
+Apache Any23 Service ${project.version} (${implementation.build.tstamp})
 
   What is it?
   -----------
