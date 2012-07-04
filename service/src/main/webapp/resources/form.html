@@ -22,28 +22,27 @@
   <head>
     <title>Apache Any23: Anything To Triples - Service ${project.version} (${implementation.build.tstamp})</title>
     <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="resources/simplePopup/simplePopup.css" />
-    <script type="text/javascript" src="resources/simplePopup/jquery-1.4.2.js"></script>
+    <script type="text/javascript" src="resources/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="resources/js/bootstrap-modal.js"></script>
     <script type="application/javascript">
-function init() {
-    var elements = document.getElementsByClassName('app-base-uri');
-    for (var i = 0; i < elements.length; i++) {
-        elements.item(i).childNodes(0).nodeValue = document.location;
-    }
-    document.getElementById('app-path').childNodes(0).nodeValue = document.location.pathname;
-    document.getElementById('app-host').childNodes(0).nodeValue = document.location.hostname;
+jQuery( document ).ready( function($)
+{
+    $.each( $( '.app-base-uri' ), function()
+    {
+        $( this ).text( document.location );
+    });
+
+    $( '#app-path' ).text( document.location.pathname );
+    $( '#app-host' ).text( document.location.host );
+} );
+
+function showModal( id )
+{
+    $( id ).modal( 'show' );
 }
     </script>
-    <script type="text/javascript" src="resources/simplePopup/simplePopup.js"></script>
-    <script type="text/javascript">
-        sPopup({
-            width : 400, // width of the popup
-            closeTexte : 'Close', // text of the exit button
-            fadeSpeed : 'fast' // speed of the fading effect
-        });
-    </script>
   </head>
-  <body onLoad="init();">
+  <body>
   <div class="container">
     <a href="http://incubator.apache.org/projects/any23.html" title="Apache Any23 Dev Site" target="_blank">
         <img
@@ -88,7 +87,7 @@ function init() {
           <option value="validate">validate</option>
           <option value="validate-fix">validate+fix</option>
         </select>
-          <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a>
+          <a href="javascript:showModal( '#sPopup-fix' );">[?]</a>
         </div>
       </div>
       <div class="control-group">
@@ -96,7 +95,7 @@ function init() {
           <div class="controls">
            <label class="checkbox">
              <input id="url-report-get" type="checkbox" name="report">
-             <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a>
+             <a href="javascript:showModal( '#sPopup-report' );">[?]</a>
           </label>
         </div>
       </div>
@@ -105,7 +104,7 @@ function init() {
           <div class="controls">
            <label class="checkbox">
              <input id="url-annotate-get" type="checkbox" type="checkbox" name="annotate">
-             <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a>
+             <a href="javascript:showModal( '#sPopup-annotate' );">[?]</a>
           </label>
         </div>
       </div>
@@ -156,7 +155,7 @@ function init() {
           <option value="validate">validate</option>
           <option value="validate-fix">validate+fix</option>
         </select>
-          <a class="sPopup" href="javascript:" rel="sPopup-fix">[?]</a>
+          <a href="javascript:showModal( '#sPopup-fix' );">[?]</a>
         </div>
       </div>
       <div class="control-group">
@@ -164,7 +163,7 @@ function init() {
           <div class="controls">
            <label class="checkbox">
              <input id="url-report-post" type="checkbox" name="report">
-             <a class="sPopup" href="javascript:" rel="sPopup-report">[?]</a>
+             <a href="javascript:showModal( '#sPopup-report' );">[?]</a>
           </label>
         </div>
       </div>
@@ -173,7 +172,7 @@ function init() {
           <div class="controls">
            <label class="checkbox">
              <input id="url-annotate-post" type="checkbox" type="checkbox" name="annotate">
-             <a class="sPopup" href="javascript:" rel="sPopup-annotate">[?]</a>
+             <a href="javascript:showModal( '#sPopup-annotate' );">[?]</a>
           </label>
         </div>
       </div>
@@ -214,7 +213,7 @@ function init() {
       <code class="app-base-uri">http://.../</code> with the following
       query parameters:
     </p>
-    <table class="table" rules="all">
+    <table class="table">
       <tr><th>uri</th><td>URI of an input document.</td></tr>
       <tr><th>format</th><td>Desired output format, defaults to <code>best</code>.</td></tr>
       <tr><th>validation-mode</th><td>The validation level to be applied on the input. Possible values:<br/>
@@ -238,7 +237,7 @@ function init() {
       the length of the input document in bytes might also be required.<br/>
       Typical media types for supported input formats are:
     </p>
-    <table class="table" rules="all">
+    <table class="table">
       <tr><th>Input format</th><th>Media type</th></tr>
       <tr><th>HTML</th><td><code>text/html</code></td></tr>
       <tr><th>RDF/XML</th><td><code>application/rdf+xml</code></td></tr>
@@ -267,7 +266,7 @@ Content-Length: 174
       <code>application/x-www-form-urlencoded</code>. The following
       parameters are supported:
     </p>
-    <table class="table" rules="all">
+    <table class="table">
       <tr><th>type</th><td>Media type of the input, see the table above. If not present, auto-detection will be attempted.</td></tr>
       <tr><th>body</th><td>Document body to be converted.</td></tr>
       <tr><th>format</th><td>Desired output format; defaults to <code>best</code>.</td></tr>
@@ -301,7 +300,7 @@ Content-Length: 174
     <p>Processing errors are indicated via
       HTTP status codes and brief <code>text/plain</code> error messages.
       The following status codes can be returned:</p>
-    <table class="table" rules="all">
+    <table class="table">
       <thead>
         <tr><th>Code</th><th>Reason</th></tr>
       </thead>
@@ -322,23 +321,39 @@ Content-Length: 174
     <hr />
     <p><b>Apache Any23 v.${project.version}</b></p>
     <p><a href="http://incubator.apache.org/projects/any23.html" target="_blank">Any23 project homepage</a> | Hosted at <a href="http://apache.org/" target="_blank">Apache Software Foundation</a></p>
-    <div id="sPopup-fix">
+
+    <div id="sPopup-fix" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Validation</h3>
+      </div>
+      <div class="modal-body">
         <p> 
-            The <b>Any23</b> service tries to fix some <a href="http://rdfa.info/wiki/Common-publishing-mistakes" target="_blank">common issues</a>
-            before performing a metadata extraction. The fixing is performed according a set of fully customizable rules. 
-            <br/>
-            The following <i>Validation</i> options are available.
-            <b>none</b>: no validation will be performed. 
-            <b>validate</b>: common errors within the document will be detected and reported. When selected this option the
-                <b>Report</b> flag will be activated to visualize the validation outcome.
-            <br/>
-            <b>validate+fix</b>: the common issues will be detected and a fix will be applied when available.
-            <br/>
-            Please refer to the <a href="http://incubator.apache.org/any23/dev-validation-fix.html" target="_blank">Developer Guide</a>
-            for any further detail.
+          The <b>Any23</b> service tries to fix some <a href="http://rdfa.info/wiki/Common-publishing-mistakes" target="_blank">common issues</a>
+          before performing a metadata extraction. The fixing is performed according a set of fully customizable rules. 
+          <br/>
+          The following <i>Validation</i> options are available.
+          <b>none</b>: no validation will be performed. 
+          <b>validate</b>: common errors within the document will be detected and reported. When selected this option the
+              <b>Report</b> flag will be activated to visualize the validation outcome.
+          <br/>
+          <b>validate+fix</b>: the common issues will be detected and a fix will be applied when available.
+          <br/>
+          Please refer to the <a href="http://incubator.apache.org/any23/dev-validation-fix.html" target="_blank">Developer Guide</a>
+          for any further detail.
         </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
     </div>
-    <div id="sPopup-report">
+
+    <div id="sPopup-report" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Report</h3>
+      </div>
+      <div class="modal-body">
         <p>
         If the <i>Report</i> checkbox is selected, the <b>Any23</b> service returns an <b>XML</b> output containing,
         other then the <b>extracted RDF statements</b>, other information as the list of the <b>activated extractors</b>
@@ -347,15 +362,31 @@ Content-Length: 174
         If the <b>validation</b> or <b> validation and fix</b> has been activated then the report contains also a list
         of the applied fixes</a>.
         </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
     </div>
-    <div id="sPopup-annotate">
+
+    <div id="sPopup-annotate" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Annotate</h3>
+      </div>
+      <div class="modal-body">
         <p>
         If the <i>Annotate</i> checkbox is selected, the <b>Any23</b> service returns an output expressed in the
         selected <b>RDF</b> format containing also specific format <b>comments</b> describing the activated extractor
         scopes for every produced statement.
         </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
     </div>
+
   </div>
+
   <footer class="footer">
   <div class="container-fluid">
   Copyright &copy; ${project.inceptionYear}-2012 The <a href="http://www.apache.org/">Apache Software Foundation</a>. All Rights Reserved.<br/> Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation. All other marks mentioned may be trademarks or registered trademarks of their respective owners.
