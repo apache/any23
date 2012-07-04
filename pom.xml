@@ -762,7 +762,7 @@
                 <configuration>
                   <excludes>
                     <exclude>**/any23-gcode-CHANGES.txt</exclude>
-                    <exclude>**/NOTICE-with-deps.txt</exclude>
+                    <exclude>**/NOTICE-*.txt</exclude>
                     <exclude>DISCLAIMER.txt</exclude>
                     <exclude>LICENSE.txt</exclude>
                     <exclude>NOTICE.txt</exclude>
@@ -792,9 +792,8 @@
                     <exclude>**/cli/rover-test1.nq</exclude>
                     <!-- resources ALv2 compatible resources -->
                     <exclude>**/css/bootstrap.min.css</exclude>
-                    <exclude>**/simplePopup/jquery-1.4.2.js</exclude>
-                    <exclude>**/simplePopup/simplePopup.css</exclude>
-                    <exclude>**/simplePopup/simplePopup.js</exclude>
+                    <exclude>**/js/bootstrap-modal.js</exclude>
+                    <exclude>**/js/jquery-1.7.2.min.js</exclude>
                     <exclude>**/missing-og-namespace.html</exclude>
                   </excludes>
                 </configuration>
