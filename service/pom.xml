@@ -90,6 +90,17 @@
               <directory>${basedir}/src/main/webapp/resources</directory>
               <targetPath>/resources</targetPath>
               <filtering>true</filtering>
+              <includes>
+                <include>form.html</include>
+              </includes>
+            </resource>
+            <resource>
+              <directory>${basedir}/src/main/webapp/resources</directory>
+              <targetPath>/resources</targetPath>
+              <filtering>false</filtering>
+              <excludes>
+                <exclude>form.html</exclude>
+              </excludes>
             </resource>
             <resource>
               <directory>${basedir}/../</directory>
