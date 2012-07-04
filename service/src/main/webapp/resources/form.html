@@ -214,7 +214,7 @@ function init() {
       <code class="app-base-uri">http://.../</code> with the following
       query parameters:
     </p>
-    <table rules="all">
+    <table class="table" rules="all">
       <tr><th>uri</th><td>URI of an input document.</td></tr>
       <tr><th>format</th><td>Desired output format, defaults to <code>best</code>.</td></tr>
       <tr><th>validation-mode</th><td>The validation level to be applied on the input. Possible values:<br/>
@@ -238,7 +238,7 @@ function init() {
       the length of the input document in bytes might also be required.<br/>
       Typical media types for supported input formats are:
     </p>
-    <table rules="all">
+    <table class="table" rules="all">
       <tr><th>Input format</th><th>Media type</th></tr>
       <tr><th>HTML</th><td><code>text/html</code></td></tr>
       <tr><th>RDF/XML</th><td><code>application/rdf+xml</code></td></tr>
@@ -267,7 +267,7 @@ Content-Length: 174
       <code>application/x-www-form-urlencoded</code>. The following
       parameters are supported:
     </p>
-    <table rules="all">
+    <table class="table" rules="all">
       <tr><th>type</th><td>Media type of the input, see the table above. If not present, auto-detection will be attempted.</td></tr>
       <tr><th>body</th><td>Document body to be converted.</td></tr>
       <tr><th>format</th><td>Desired output format; defaults to <code>best</code>.</td></tr>
@@ -301,7 +301,7 @@ Content-Length: 174
     <p>Processing errors are indicated via
       HTTP status codes and brief <code>text/plain</code> error messages.
       The following status codes can be returned:</p>
-    <table rules="all">
+    <table class="table" rules="all">
       <thead>
         <tr><th>Code</th><th>Reason</th></tr>
       </thead>
