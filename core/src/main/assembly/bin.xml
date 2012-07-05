@@ -24,7 +24,7 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
-  <baseDirectory>${assembly.finalName}</baseDirectory>
+  <baseDirectory>${project.build.finalName}</baseDirectory>
 
   <files>
     <file>

@@ -24,7 +24,7 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
-  <baseDirectory>${assembly.finalName}-without-deps</baseDirectory>
+  <baseDirectory>${project.build.finalName}-without-deps</baseDirectory>
 
   <files>
     <!-- without-deps -->

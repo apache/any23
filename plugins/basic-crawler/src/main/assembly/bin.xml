@@ -24,7 +24,7 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
-  <baseDirectory>${assembly.finalName}</baseDirectory>
+  <baseDirectory>${project.build.finalName}</baseDirectory>
 
   <!-- Use the N&L files which apply to the included dependencies -->
   <files>

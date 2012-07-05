@@ -24,7 +24,7 @@
     <format>zip</format>
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
-  <baseDirectory>${assembly.finalName}-server-embedded</baseDirectory>
+  <baseDirectory>${project.build.finalName}-server-embedded</baseDirectory>
 
   <files>
     <file>
