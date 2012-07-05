@@ -225,7 +225,7 @@
     <appassembler-maven-plugin.version>1.1.1</appassembler-maven-plugin.version>
     <maven-release-plugin.version>2.2.1</maven-release-plugin.version>
     <buildnumber-maven-plugin.version>1.0</buildnumber-maven-plugin.version>
-    <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
     <maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
     <cobertura-maven-plugin.version>2.5.1</cobertura-maven-plugin.version>
