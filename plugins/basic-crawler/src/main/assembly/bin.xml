@@ -65,6 +65,8 @@
       <includes>
         <include>org.apache.any23.plugins:any23-basic-crawler</include>
         <include>edu.uci.ics:crawler4j</include>
+        <include>org.apache.httpcomponents:*</include>
+        <include>com.sleepycat:*</include>
       </includes>
     </dependencySet>
   </dependencySets>
