@@ -21,13 +21,13 @@
   <parent>
     <groupId>org.apache.any23</groupId>
     <artifactId>any23-parent</artifactId>
-    <version>0.7.0-incubating-SNAPSHOT</version>
+    <version>0.7.0-incubating</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <groupId>org.apache.any23.plugins</groupId>
   <artifactId>any23-html-scraper</artifactId>
-  <version>1.0.1-incubating-SNAPSHOT</version>
+  <version>1.0.1-incubating</version>
 
   <name>Apache Any23 :: Plugins :: HTML Scraper</name>
   <description>Any23 plugin for scraping HTML code.</description>
@@ -44,7 +44,7 @@
     <dependency>
       <groupId>org.apache.any23</groupId>
       <artifactId>any23-core</artifactId>
-      <version>0.7.0-incubating-SNAPSHOT</version>
+      <version>0.7.0-incubating</version>
       <scope>provided</scope>
     </dependency>
 
