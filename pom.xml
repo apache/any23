@@ -619,7 +619,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
           </descriptors>

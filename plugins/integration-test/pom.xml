@@ -68,6 +68,15 @@
     </resources>
 
     <plugins>
+      <!-- skip assembly generation for ITs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <skipAssembly>true</skipAssembly>
+        </configuration>
+      </plugin>
+
       <!--
         Detect any plugin declared within the ./plugin classes,
         for each one performs a compilation and a dependency distribution.
