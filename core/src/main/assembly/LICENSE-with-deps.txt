@@ -240,9 +240,6 @@ This is licensed under the Aduna BSD license, see above
 For the TagSoup component (http://home.ccil.org/~cowan/XML/tagsoup/)
 This is licensed under the The Apache Software License, Version 2.0, see above
 
-For the TagSoup component (http://home.ccil.org/~cowan/XML/tagsoup/)
-This is licensed under the The Apache Software License, Version 2.0, see above
-
 For the Apache Commons HttpClient component (http://hc.apache.org/httpclient-3.x/)
 This is licensed under the The Apache Software License, Version 2.0, see above
 
