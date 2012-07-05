@@ -25,7 +25,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>any23-service</artifactId>
+  <artifactId>apache-any23-service</artifactId>
   <packaging>war</packaging>
 
   <name>Apache Any23 :: Service</name>
@@ -39,7 +39,7 @@
     <!-- Core Module -->
     <dependency>
       <groupId>org.apache.any23</groupId>
-      <artifactId>any23-core</artifactId>
+      <artifactId>apache-any23-core</artifactId>
       <version>${project.version}</version>
     </dependency>
 

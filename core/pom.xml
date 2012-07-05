@@ -25,7 +25,7 @@
     <relativePath>../</relativePath>
   </parent>
 
-  <artifactId>any23-core</artifactId>
+  <artifactId>apache-any23-core</artifactId>
 
   <name>Apache Any23 :: Core</name>
 
