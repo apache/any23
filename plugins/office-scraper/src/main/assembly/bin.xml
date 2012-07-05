@@ -62,10 +62,10 @@
     <dependencySet>
       <useProjectArtifact>true</useProjectArtifact>
       <outputDirectory>/lib</outputDirectory>
-      <excludes>
-        <!-- already provided from Any23 -->
-        <exclude>org.slf4j:*</exclude>
-      </excludes>
+      <includes>
+        <include>org.apache.any23.plugins:any23-office-scraper</include>
+        <include>org.apache.poi:poi</include>
+      </includes>
     </dependencySet>
   </dependencySets>
 
