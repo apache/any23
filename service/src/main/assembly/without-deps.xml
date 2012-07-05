@@ -51,7 +51,7 @@
     </file>
     <file>
       <source>${project.build.directory}/${project.build.finalName}-without-deps.${project.packaging}</source>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>/lib</outputDirectory>
     </file>
   </files>
 
