@@ -63,7 +63,7 @@
       <useProjectArtifact>true</useProjectArtifact>
       <outputDirectory>/lib</outputDirectory>
       <includes>
-        <include>org.apache.any23.plugins:any23-office-scraper</include>
+        <include>org.apache.any23.plugins:apache-any23-office-scraper</include>
         <include>org.apache.poi:poi</include>
       </includes>
     </dependencySet>

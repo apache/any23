@@ -63,7 +63,7 @@
       <useProjectArtifact>true</useProjectArtifact>
       <outputDirectory>/lib</outputDirectory>
       <includes>
-        <include>org.apache.any23.plugins:any23-html-scraper</include>
+        <include>org.apache.any23.plugins:apache-any23-html-scraper</include>
         <include>de.l3s.boilerpipe:boilerpipe</include>
       </includes>
     </dependencySet>
