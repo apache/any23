@@ -218,44 +218,12 @@ gpg: Signature made ...</source>
                 </ol>
               </li>
 
-              <li>Add the distribution artifacts to the build area
-                <source>ssh people.apache.org
+              <li>Add the distribution artifacts to the build area (the <a href="https://svn.apache.org/repos/asf/incubator/any23/committers/scripts/grab-binaries.sh">grab-binaries.sh</a>
+              script is versioned under the committer space of Any23 SVN).
+                <source>ssh asf-id@people.apache.org
 cd /x1/builds/incubator/any23
 
-cd sources
-
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/any23-sources-dist/&lt;version&gt;/
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/any23-sources-dist/&lt;version&gt;/
-
-cd ../binaries
-
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/any23-core/&lt;version&gt;/
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/any23-core/&lt;version&gt;/
-
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/any23-service/&lt;version&gt;/
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/any23-service/&lt;version&gt;/
-
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/plugins/any23-basic-crawler/&lt;version&gt;/
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/plugins/any23-basic-crawler/&lt;version&gt;/
-
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/plugins/any23-html-scraper/&lt;version&gt;/
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/plugins/any23-html-scraper/&lt;version&gt;/
-
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.tar.gz*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/plugins/any23-office-scraper/&lt;version&gt;/
-wget -e robots=off -nH --cut-dirs=7 -np --no-check-certificate -m -A *.zip*  -R .asc.sha1,.asc.md5 \
-https://repository.apache.org/content/repositories/orgapacheany23-[REPO-ID]/org/apache/any23/plugins/any23-office-scraper/&lt;version&gt;/
-</source>
+sh grab-binaries.sh REPO_ID ANY23_VERSION CRAWLER_VERSION HTML_SCRAPER_VERSION OFFICE_SCRAPER_VERSION</source>
               </li>
             </ol>
           </li>
@@ -373,7 +341,7 @@ I will promote the artifacts to the central repo.]]></pre>
           </li>
 
           <li>Add the distribution artifacts to the distribution area
-            <source>ssh people.apache.org
+            <source>ssh asf-id@people.apache.org
 cd /x1/www/www.apache.org/dist/incubator/any23/
 
 mv /x1/builds/incubator/any23/sources/* sources/
