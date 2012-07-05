@@ -31,7 +31,7 @@
      | include all modules
     -->
     <fileSet>
-      <directory>${basedir}/../</directory>
+      <directory>${basedir}</directory>
       <excludes>
         <!-- exclude target dirs -->
         <exclude>**/target/</exclude>
