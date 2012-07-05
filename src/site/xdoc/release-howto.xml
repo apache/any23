@@ -84,6 +84,9 @@
   </profiles>
   ...
 </settings>]]></source>
+
+        <p>You can find a <a href="https://svn.apache.org/repos/asf/incubator/any23/committers/maven/settings.xml"><code>settings.xml</code></a>
+        template in our SVN committers space</p>
       </subsection>
     </section>
 
