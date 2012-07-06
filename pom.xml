@@ -26,7 +26,7 @@
 
   <groupId>org.apache.any23</groupId>
   <artifactId>apache-any23</artifactId>
-  <version>0.7.0-incubating</version>
+  <version>0.7.1-incubating-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Any23</name>
@@ -188,9 +188,9 @@
   </modules>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/tags/any23-0.7.0-incubating</developerConnection>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/tags/any23-0.7.0-incubating</connection>
-    <url>https://svn.apache.org/viewvc/incubator/any23/tags/any23-0.7.0-incubating</url>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/</connection>
+    <url>https://svn.apache.org/viewvc/incubator/any23/</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
