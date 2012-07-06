@@ -541,7 +541,7 @@
             <useReleaseProfile>false</useReleaseProfile>
             <autoVersionSubmodules>false</autoVersionSubmodules>
             <tagNameFormat>any23-@{project.version}</tagNameFormat>
-            <arguments>-Prelease,apache</arguments>
+            <arguments>-Dany23.online.test.disabled=true -Prelease,apache</arguments>
           </configuration>
         </plugin>
       </plugins>
