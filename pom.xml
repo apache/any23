@@ -37,6 +37,15 @@
 
   <developers>
     <developer>
+      <id>ansell</id>
+      <name>Peter Ansell</name>
+      <email>ansell[at]apache[dot]org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PPMC Member</role>
+      </roles>
+    </developer>
+    <developer>
       <id>dpalmisano</id>
       <name>Davide Palmisano</name>
       <email>dpalmisano[at]apache[dot]org</email>
