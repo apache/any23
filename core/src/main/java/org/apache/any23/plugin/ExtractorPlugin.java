@@ -17,6 +17,7 @@
 
 package org.apache.any23.plugin;
 
+import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorFactory;
 
 /**
@@ -25,11 +26,11 @@ import org.apache.any23.extractor.ExtractorFactory;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public interface ExtractorPlugin {
+public interface ExtractorPlugin<T extends Extractor<?>> {
 
     /**
      * @return the {@link org.apache.any23.extractor.ExtractorFactory} for the plugin.
      */
-    ExtractorFactory getExtractorFactory();
+    ExtractorFactory<T> getExtractorFactory();
 
 }
