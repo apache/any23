@@ -627,6 +627,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
+        <inherited>false</inherited>
         <configuration>
           <descriptors>
             <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
