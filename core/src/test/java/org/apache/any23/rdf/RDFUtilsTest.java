@@ -17,7 +17,6 @@
 
 package org.apache.any23.rdf;
 
-import org.apache.any23.io.nquads.NQuads;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.rio.RDFFormat;
@@ -69,8 +68,8 @@ public class RDFUtilsTest {
     public void testGetRDFFormatByExtension() {
         Assert.assertEquals(RDFFormat.NTRIPLES, RDFUtils.getFormatByExtension("nt"));
         Assert.assertEquals(RDFFormat.TURTLE  , RDFUtils.getFormatByExtension("ttl"));
-        Assert.assertEquals(NQuads.FORMAT, RDFUtils.getFormatByExtension("nq"));
-        Assert.assertEquals(NQuads.FORMAT, RDFUtils.getFormatByExtension(".nq"));
+        Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension("nq"));
+        Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension(".nq"));
     }
 
     /**
@@ -78,7 +77,7 @@ public class RDFUtilsTest {
      */
     @Test
     public void testGetNQuadsFormat() {
-        RDFUtils.getFormats().contains(NQuads.FORMAT);
+        RDFUtils.getFormats().contains(RDFFormat.NQUADS);
     }
 
     /**
@@ -86,7 +85,7 @@ public class RDFUtilsTest {
      */
     @Test
     public void testGetNQuadsParser() {
-        Assert.assertNotNull( RDFUtils.getParser(NQuads.FORMAT) );
+        Assert.assertNotNull( RDFUtils.getParser(RDFFormat.NQUADS) );
     }
 
     /**
@@ -95,7 +94,7 @@ public class RDFUtilsTest {
     @Test
     public void testGetNQuadsWriter() {
         Assert.assertNotNull(
-                RDFUtils.getWriter(NQuads.FORMAT, new OutputStreamWriter(new ByteArrayOutputStream() ) )
+                RDFUtils.getWriter(RDFFormat.NQUADS, new OutputStreamWriter(new ByteArrayOutputStream() ) )
         );
     }
 

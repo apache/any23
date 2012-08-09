@@ -70,7 +70,7 @@ public class NQuadsWriter implements RDFWriter {
     }
 
     public RDFFormat getRDFFormat() {
-        return NQuads.FORMAT;
+        return RDFFormat.NQUADS;
     }
 
     public void startRDF() throws RDFHandlerException {

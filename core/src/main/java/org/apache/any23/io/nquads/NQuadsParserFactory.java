@@ -34,7 +34,7 @@ public class NQuadsParserFactory implements RDFParserFactory {
 
     @Override
     public RDFFormat getRDFFormat() {
-        return NQuads.FORMAT;
+        return RDFFormat.NQUADS;
     }
 
     @Override

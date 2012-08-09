@@ -16,7 +16,7 @@
  */
 
 /**
- * This package contains an <i>NQuads</i>
+ * This package contains an <i><a href="http://sw.deri.org/2008/07/n-quads/">NQuads</a></i>
  * parser and writer based on the <i><a href="http://www.openrdf.org/">Sesame</a> API</i>.
  */
 package org.apache.any23.io.nquads;

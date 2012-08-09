@@ -35,7 +35,7 @@ public class NQuadsWriterFactory implements RDFWriterFactory {
 
     @Override
     public RDFFormat getRDFFormat() {
-        return NQuads.FORMAT;
+        return RDFFormat.NQUADS;
     }
 
     @Override

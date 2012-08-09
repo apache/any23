@@ -17,7 +17,6 @@
 
 package org.apache.any23.cli;
 
-import org.apache.any23.io.nquads.NQuads;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.FileUtils;
 import org.apache.any23.util.StringUtils;
@@ -26,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
 import org.openrdf.model.Statement;
+import org.openrdf.rio.RDFFormat;
 
 import java.io.File;
 
@@ -121,7 +121,7 @@ public class RoverTest extends ToolTestBase {
         );
 
         final String outNQuads = FileUtils.readFileContent(outFile);
-        final Statement[] statements = RDFUtils.parseRDF(NQuads.FORMAT, outNQuads);
+        final Statement[] statements = RDFUtils.parseRDF(RDFFormat.NQUADS, outNQuads);
         Assert.assertTrue("Unexpected number of statements.", statements.length > 10);
     }
 

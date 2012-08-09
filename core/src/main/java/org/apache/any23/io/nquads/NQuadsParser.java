@@ -67,7 +67,7 @@ public class NQuadsParser extends RDFParserBase {
     public NQuadsParser() {}
 
     public RDFFormat getRDFFormat() {
-        return NQuads.FORMAT;
+        return RDFFormat.NQUADS;
     }
 
     public void parse(Reader reader, String s)
