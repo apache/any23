@@ -25,6 +25,7 @@ import org.openrdf.model.Value;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -69,9 +70,9 @@ public class BenchmarkTripleHandler implements TripleHandler {
         sb.append("\n   -total triples: ").append(sum.triples);
         sb.append("\n   -total runtime: ").append(sum.runtime).append(" ms!");
         if (sum.runtime != 0)
-            sb.append("\n   -tripls/ms: ").append(sum.triples / sum.runtime);
-        if (sum.methodCalls != 0)
-            sb.append("\n   -ms/calls: ").append(sum.runtime / sum.methodCalls);
+            sb.append("\n   -tripls/ms: ").append(sum.triples.get() / sum.runtime);
+        if (sum.methodCalls.get() != 0)
+            sb.append("\n   -ms/calls: ").append(sum.runtime / sum.methodCalls.get());
 
         stats.remove("SUM");
 
@@ -81,9 +82,9 @@ public class BenchmarkTripleHandler implements TripleHandler {
             sb.append("\n   -total triples: ").append(ent.getValue().triples);
             sb.append("\n   -total runtime: ").append(ent.getValue().runtime).append(" ms!");
             if (ent.getValue().runtime != 0)
-                sb.append("\n   -tripls/ms: "  ).append(ent.getValue().triples / ent.getValue().runtime);
-            if (ent.getValue().methodCalls != 0)
-                sb.append("\n   -ms/calls: "   ).append(ent.getValue().runtime / ent.getValue().methodCalls);
+                sb.append("\n   -tripls/ms: "  ).append(ent.getValue().triples.get() / ent.getValue().runtime);
+            if (ent.getValue().methodCalls.get() != 0)
+                sb.append("\n   -ms/calls: "   ).append(ent.getValue().runtime / ent.getValue().methodCalls.get());
 
         }
 
@@ -110,9 +111,9 @@ public class BenchmarkTripleHandler implements TripleHandler {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
         }
-        stats.get(context.getExtractorName()).methodCalls++;
+        stats.get(context.getExtractorName()).methodCalls.incrementAndGet();
         stats.get(context.getExtractorName()).interimStart();
-        stats.get("SUM").methodCalls++;
+        stats.get("SUM").methodCalls.incrementAndGet();
         stats.get("SUM").interimStart();
         underlyingHandler.openContext(context);
     }
@@ -122,8 +123,8 @@ public class BenchmarkTripleHandler implements TripleHandler {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
         }
-        stats.get(context.getExtractorName()).triples++;
-        stats.get("SUM").triples++;
+        stats.get(context.getExtractorName()).triples.incrementAndGet();
+        stats.get("SUM").triples.incrementAndGet();
         underlyingHandler.receiveTriple(s, p, o, g, context);
     }
 
@@ -144,8 +145,8 @@ public class BenchmarkTripleHandler implements TripleHandler {
      */
     private class StatObject {
 
-        int methodCalls = 0;
-        int triples     = 0;
+        AtomicInteger methodCalls = new AtomicInteger(0);
+        AtomicInteger triples     = new AtomicInteger(0);
         long runtime    = 0;
         long intStart   = 0;
 

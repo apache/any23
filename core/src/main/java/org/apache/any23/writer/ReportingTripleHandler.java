@@ -24,6 +24,7 @@ import org.openrdf.model.Value;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A {@link TripleHandler} that collects
@@ -37,8 +38,8 @@ public class ReportingTripleHandler implements TripleHandler {
     private final TripleHandler wrapped;
 
     private final Collection<String> extractorNames = new HashSet<String>();
-    private int totalTriples   = 0;
-    private int totalDocuments = 0;
+    private AtomicInteger totalTriples   = new AtomicInteger(0);
+    private AtomicInteger totalDocuments = new AtomicInteger(0);
 
     public ReportingTripleHandler(TripleHandler wrapped) {
         if(wrapped == null) {
@@ -52,11 +53,11 @@ public class ReportingTripleHandler implements TripleHandler {
     }
 
     public int getTotalTriples() {
-        return totalTriples;
+        return totalTriples.get();
     }
 
     public int getTotalDocuments() {
-        return totalDocuments;
+        return totalDocuments.get();
     }
 
     /**
@@ -67,7 +68,7 @@ public class ReportingTripleHandler implements TripleHandler {
     }
 
     public void startDocument(URI documentURI) throws TripleHandlerException {
-        totalDocuments++;
+        totalDocuments.incrementAndGet();
         wrapped.startDocument(documentURI);
     }
 
@@ -91,7 +92,7 @@ public class ReportingTripleHandler implements TripleHandler {
             ExtractionContext context
     ) throws TripleHandlerException {
         extractorNames.add(context.getExtractorName());
-        totalTriples++;
+        totalTriples.incrementAndGet();
         wrapped.receiveTriple(s, p, o, g, context);
     }
 
