@@ -41,13 +41,13 @@ public class HRecipeExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException {
-        assertExtract("html/html-without-uf.html");
+        assertExtract("/html/html-without-uf.html");
         assertModelEmpty();
     }
 
     @Test
     public void testExtraction() throws RepositoryException {
-        assertExtract("microformats/hrecipe/01-spec.html");
+        assertExtract("/microformats/hrecipe/01-spec.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vHRECIPE.Recipe    , 1);
         assertStatementsSize(RDF.TYPE, vHRECIPE.Ingredient, 3);

@@ -17,6 +17,7 @@
 
 package org.apache.any23.extractor.html;
 
+import org.apache.any23.AbstractAny23TestBase;
 import org.junit.Assert;
 import org.junit.Test;
 import org.w3c.dom.DOMImplementation;
@@ -32,6 +33,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -39,42 +42,42 @@ import java.util.List;
  * Reference test class for the {@link DomUtils} class.
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
-public class DomUtilsTest {
+public class DomUtilsTest extends AbstractAny23TestBase {
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
 
     @Test
-    public void testGetXPathForNode() {
+    public void testGetXPathForNode() throws Exception {
         check(
-                "microformats/hcard/01-tantek-basic.html",
+                "/microformats/hcard/01-tantek-basic.html",
                 "//DIV[@class='vcard']",
                 "/HTML[1]/BODY[1]/DIV[1]"
         );
         check(
-                "microformats/hcard/02-multiple-class-names-on-vcard.html",
+                "/microformats/hcard/02-multiple-class-names-on-vcard.html",
                 "//SPAN[@class='fn n']",
                 "/HTML[1]/BODY[1]/DIV[1]/SPAN[1]"
         );
         check(
-                "microformats/hcard/02-multiple-class-names-on-vcard.html",
+                "/microformats/hcard/02-multiple-class-names-on-vcard.html",
                 "//SPAN/SPAN[@class='fn n']",
                 "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]"
         );
         check(
-                "microformats/hcard/02-multiple-class-names-on-vcard.html",
+                "/microformats/hcard/02-multiple-class-names-on-vcard.html",
                 "//SPAN/SPAN/*[@class='given-name']",
                 "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]/SPAN[1]"
         );
         check(
-                "microformats/hcard/02-multiple-class-names-on-vcard.html",
+                "/microformats/hcard/02-multiple-class-names-on-vcard.html",
                 "//SPAN/SPAN/*[@class='family-name']",
                 "/HTML[1]/BODY[1]/P[1]/SPAN[1]/SPAN[1]/SPAN[2]"
         );
     }
 
     @Test
-    public void testFindAllByClassName() {
-        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+    public void testFindAllByClassName() throws Exception {
+        Node dom = new HTMLFixture(copyResourceToTempFile("/microformats/hcard/02-multiple-class-names-on-vcard.html")).getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");
         NodeList nodeList = null;
@@ -95,8 +98,8 @@ public class DomUtilsTest {
     }
 
     @Test
-    public void testFindAllByTag() {
-        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+    public void testFindAllByTag() throws Exception {
+        Node dom = new HTMLFixture(copyResourceToTempFile("/microformats/hcard/02-multiple-class-names-on-vcard.html")).getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByTag(dom, "SPAN");
         NodeList nodeList = null;
@@ -118,8 +121,8 @@ public class DomUtilsTest {
     }
 
     @Test
-    public void testFindAllByTagAndClassName() {
-        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+    public void testFindAllByTagAndClassName() throws Exception {
+        Node dom = new HTMLFixture(copyResourceToTempFile("/microformats/hcard/02-multiple-class-names-on-vcard.html")).getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByTagAndClassName(dom, "SPAN", "family-name");
         NodeList nodeList = null;
@@ -142,8 +145,8 @@ public class DomUtilsTest {
     }
 
     @Test
-    public void testHasClassName() {
-        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+    public void testHasClassName() throws Exception {
+        Node dom = new HTMLFixture(copyResourceToTempFile("/microformats/hcard/02-multiple-class-names-on-vcard.html")).getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");
         for(Node node : nodes) {
@@ -152,8 +155,8 @@ public class DomUtilsTest {
     }
 
     @Test
-    public void testReadAttribute() {
-        Node dom = new HTMLFixture("microformats/hcard/02-multiple-class-names-on-vcard.html").getDOM();
+    public void testReadAttribute() throws Exception {
+        Node dom = new HTMLFixture(copyResourceToTempFile("/microformats/hcard/02-multiple-class-names-on-vcard.html")).getDOM();
         Assert.assertNotNull(dom);
         List<Node> nodes = DomUtils.findAllByClassName(dom, "vcard");
         for(Node node : nodes) {
@@ -185,8 +188,8 @@ public class DomUtilsTest {
         );
     }
 
-    private void check(String file, String xpath, String reverseXPath) {
-        Node dom = new HTMLFixture(file).getDOM();
+    private void check(String file, String xpath, String reverseXPath) throws FileNotFoundException, IOException {
+        Node dom = new HTMLFixture(copyResourceToTempFile(file)).getDOM();
         Assert.assertNotNull(dom);
         Node node;
         try {

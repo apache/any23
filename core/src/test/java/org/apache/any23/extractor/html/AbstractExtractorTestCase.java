@@ -17,6 +17,7 @@
 
 package org.apache.any23.extractor.html;
 
+import org.apache.any23.AbstractAny23TestBase;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
@@ -58,7 +59,7 @@ import java.util.Map;
  * Abstract class used to write {@link org.apache.any23.extractor.Extractor}
  * specific test cases.
  */
-public abstract class AbstractExtractorTestCase {
+public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 
     /**
      * Base test document.
@@ -93,6 +94,7 @@ public abstract class AbstractExtractorTestCase {
      */
     @Before
     public void setUp() throws Exception {
+        super.setUp();
         Sail store = new MemoryStore();
         store.initialize();
         conn = new SailRepository(store).getConnection();
@@ -163,7 +165,7 @@ public abstract class AbstractExtractorTestCase {
     //       tests should be based on mimetype detection.
     protected void extract(String resource) throws ExtractionException, IOException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(
-            new HTMLFixture(resource).getOpener(baseURI.toString()),
+            new HTMLFixture(copyResourceToTempFile(resource)).getOpener(baseURI.toString()),
             getExtractorFactory(), new RepositoryWriter(conn)
         );
         ex.setMIMETypeDetector(null);
@@ -277,7 +279,7 @@ public abstract class AbstractExtractorTestCase {
      */
     protected void assertModelNotEmpty() throws RepositoryException {
         Assert.assertFalse(
-                "The model is expected to be empty." + getFailedExtractionMessage(),
+                "The model is expected to not be empty." + getFailedExtractionMessage(),
                 conn.isEmpty()
         );
     }

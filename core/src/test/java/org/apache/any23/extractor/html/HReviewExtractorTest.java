@@ -53,13 +53,13 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException {
-        assertExtract("html/html-without-uf.html");
+        assertExtract("/html/html-without-uf.html");
         assertModelEmpty();
     }
 
     @Test
     public void test01Basic() throws RepositoryException {
-        assertExtract("microformats/hreview/01-spec.html");
+        assertExtract("/microformats/hreview/01-spec.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
@@ -110,7 +110,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void test02RatedTags() throws RepositoryException {
         
-        assertExtract("microformats/hreview/02-spec-2.html");
+        assertExtract("/microformats/hreview/02-spec-2.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
@@ -166,7 +166,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void test03NoHcardForItem() throws RepositoryException {
 
-        assertExtract("microformats/hreview/03-spec-3.html");
+        assertExtract("/microformats/hreview/03-spec-3.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
@@ -219,7 +219,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void test04NoHcardForItem() throws RepositoryException {
         
-        assertExtract("microformats/hreview/04-spec-4.html");
+        assertExtract("/microformats/hreview/04-spec-4.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
@@ -278,7 +278,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
      */
     @Test
     public void testCaseSensitiveness() throws RepositoryException {
-        assertExtract("microformats/hreview/05-spec.html");
+        assertExtract("/microformats/hreview/05-spec.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vREVIEW.Review, 1);
         // reviewer, no item

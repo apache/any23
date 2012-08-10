@@ -19,6 +19,7 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.FileDocumentSource;
+import org.junit.Assert;
 import org.w3c.dom.Node;
 
 import java.io.File;
@@ -30,17 +31,15 @@ import java.io.IOException;
  */
 public class HTMLFixture {
 
-    private final String filename;
+    private final File file;
 
-    public HTMLFixture(String filename) {
-        this.filename = filename;
+    public HTMLFixture(File file) {
+        Assert.assertNotNull("Test resource file was null", file);
+        Assert.assertTrue("Test resource file does not exist", file.exists());
+        this.file = file;
     }
 
     private File getFile() {
-        File file = new File(
-                System.getProperty("test.data", "src/test/resources/") + filename);
-        if (!file.exists())
-            throw new AssertionError("the file " + file.getPath() + " does not exist");
         return file;
     }
 

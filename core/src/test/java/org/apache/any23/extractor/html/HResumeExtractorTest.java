@@ -56,13 +56,13 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException {
-        assertExtract("html/html-without-uf.html");
+        assertExtract("/html/html-without-uf.html");
         assertModelEmpty();
     }
 
     @Test
     public void testLinkedIn() throws RepositoryException {
-        assertExtract("microformats/hresume/steveganz.html");
+        assertExtract("/microformats/hresume/steveganz.html");
         assertModelNotEmpty();
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
@@ -92,7 +92,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testLinkedInComplete() throws RepositoryException {
 
-        assertExtract("microformats/hresume/steveganz.html");
+        assertExtract("/microformats/hresume/steveganz.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
@@ -139,7 +139,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testAnt() throws RepositoryException {
-        assertExtract("microformats/hresume/ant.html");
+        assertExtract("/microformats/hresume/ant.html");
         assertModelNotEmpty();
 
         assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);

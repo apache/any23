@@ -52,30 +52,30 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testNoMicroformats() throws RepositoryException {
-        assertExtract("html/html-without-uf.html");
+        assertExtract("/html/html-without-uf.html");
         assertModelEmpty();
     }
 
     @Test
     public void testLinkWithoutRel() throws RepositoryException {
-        assertExtract("microformats/xfn/no-rel.html");
+        assertExtract("/microformats/xfn/no-rel.html");
         assertModelEmpty();
     }
 
     @Test
     public void testNoXFNRel() throws RepositoryException {
-        assertExtract("microformats/xfn/no-valid-rel.html");
+        assertExtract("/microformats/xfn/no-valid-rel.html");
         assertModelEmpty();
     }
 
     @Test
     public void testDetectPresenceOfXFN() throws RepositoryException {
-        assertExtract("microformats/xfn/simple-me.html");
+        assertExtract("/microformats/xfn/simple-me.html");
     }
 
     @Test
     public void testSimpleMeLink() throws RepositoryException {
-        assertExtract("microformats/xfn/simple-me.html");
+        assertExtract("/microformats/xfn/simple-me.html");
         Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
         assertContains(person, vXFN.mePage, baseURI);
         assertContains(person, vXFN.mePage, bobsHomepage);
@@ -83,20 +83,20 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testRelativeURIisResolvedAgainstBase() throws RepositoryException {
-        assertExtract("microformats/xfn/with-relative-uri.html");
+        assertExtract("/microformats/xfn/with-relative-uri.html");
         assertContains(null, vXFN.mePage, RDFUtils.uri("http://bob.example.com/foo"));
     }
 
     @Test
     public void testParseTagSoup() throws RepositoryException {
-        assertExtract("microformats/xfn/tagsoup.html");
+        assertExtract("/microformats/xfn/tagsoup.html");
         Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
         assertContains(person, vXFN.mePage, baseURI);
     }
 
     @Test
     public void testSimpleFriend() throws RepositoryException {
-        assertExtract("microformats/xfn/simple-friend.html");
+        assertExtract("/microformats/xfn/simple-friend.html");
         Resource bob = findExactlyOneBlankSubject(vXFN.mePage, baseURI);
         Resource alice = findExactlyOneBlankSubject(vXFN.mePage, alicesHomepage);
         assertContains(bob, RDF.TYPE, vFOAF.Person);
@@ -108,7 +108,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testFriendAndSweetheart() throws RepositoryException {
-        assertExtract("microformats/xfn/multiple-rel.html");
+        assertExtract("/microformats/xfn/multiple-rel.html");
         Resource bob = findExactlyOneBlankSubject(vXFN.mePage, baseURI);
         Resource alice = findExactlyOneBlankSubject(vXFN.mePage, alicesHomepage);
         assertContains(bob, vXFN.friend, alice);
@@ -120,7 +120,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testMultipleFriends() throws RepositoryException {
-        assertExtract("microformats/xfn/multiple-friends.html");
+        assertExtract("/microformats/xfn/multiple-friends.html");
         Resource bob = findExactlyOneBlankSubject(vXFN.mePage, baseURI);
         Resource alice = findExactlyOneBlankSubject(vXFN.mePage, alicesHomepage);
         Resource charlie = findExactlyOneBlankSubject(vXFN.mePage, charliesHomepage);
@@ -133,31 +133,31 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testSomeLinksWithoutRel() throws RepositoryException {
-        assertExtract("microformats/xfn/some-links-without-rel.html");
+        assertExtract("/microformats/xfn/some-links-without-rel.html");
         assertNotContains(null, null, alicesHomepage);
         assertContains   (null, null, charliesHomepage);
     }
 
     @Test
     public void testForSomeReasonICantBeMyOwnSweetheart() throws RepositoryException {
-        assertExtract("microformats/xfn/me-and-sweetheart.html");
+        assertExtract("/microformats/xfn/me-and-sweetheart.html");
         assertModelEmpty();
     }
 
     @Test
     public void testIgnoreExtraSpacesInRel() throws RepositoryException {
-        assertExtract("microformats/xfn/strip-spaces.html");
+        assertExtract("/microformats/xfn/strip-spaces.html");
         assertContains(null, vXFN.mePage, baseURI);
     }
 
     @Test
     public void testMixedCaseATag() throws RepositoryException {
-        assertExtract("microformats/xfn/mixed-case.html");
+        assertExtract("/microformats/xfn/mixed-case.html");
         assertContains(null, vXFN.mePage, baseURI);
     }
     @Test
     public void testUpcaseHREF() throws RepositoryException {
-        assertExtract("microformats/xfn/upcase-href.html");
+        assertExtract("/microformats/xfn/upcase-href.html");
         assertContains(null, vXFN.mePage, baseURI);
     }
 }

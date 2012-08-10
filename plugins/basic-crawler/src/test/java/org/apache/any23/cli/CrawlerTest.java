@@ -50,7 +50,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
     public void testCLI() throws IOException, RDFHandlerException, RDFParseException {
         assumeOnlineAllowed();
 
-        final File outFile = File.createTempFile("crawler-test", ".nq");
+        final File outFile = File.createTempFile("crawler-test", ".nq", tempDirectory);
         outFile.delete();
         logger.info( "Outfile: " + outFile.getAbsolutePath() );
 

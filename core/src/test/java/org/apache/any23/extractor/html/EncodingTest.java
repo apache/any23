@@ -17,6 +17,10 @@
 
 package org.apache.any23.extractor.html;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.apache.any23.AbstractAny23TestBase;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,19 +28,19 @@ import org.junit.Test;
  * Test class to ensure behaviors of {@link HTMLDocument} parser with encoding
  * corner cases. 
  */
-public class EncodingTest {
+public class EncodingTest extends AbstractAny23TestBase {
 
     private final static String HELLO_WORLD = "Hell\u00F6 W\u00F6rld!";
 
     @Test
-    public void testEncodingHTML_ISO_8859_1() {
-        HTMLDocument document = parseHTML("microformats/xfn/encoding-iso-8859-1.html");
+    public void testEncodingHTML_ISO_8859_1() throws Exception {
+        HTMLDocument document = parseHTML("/microformats/xfn/encoding-iso-8859-1.html");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
-    public void testEncodingHTML_UTF_8() {
-        HTMLDocument document = parseHTML("microformats/xfn/encoding-utf-8.html");
+    public void testEncodingHTML_UTF_8() throws Exception {
+        HTMLDocument document = parseHTML("/microformats/xfn/encoding-utf-8.html");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
@@ -50,24 +54,24 @@ public class EncodingTest {
      * For this test we expect to not recognize the title.
      */
     @Test
-    public void testEncodingHTML_UTF_8_DeclarationAfterTitle() {
-        HTMLDocument document = parseHTML("microformats/xfn/encoding-utf-8-after-title.html");
+    public void testEncodingHTML_UTF_8_DeclarationAfterTitle() throws Exception {
+        HTMLDocument document = parseHTML("/microformats/xfn/encoding-utf-8-after-title.html");
         Assert.assertNotSame(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
-    public void testEncodingXHTML_ISO_8859_1() {
-        HTMLDocument document = parseHTML("microformats/xfn/encoding-iso-8859-1.xhtml");
+    public void testEncodingXHTML_ISO_8859_1() throws Exception {
+        HTMLDocument document = parseHTML("/microformats/xfn/encoding-iso-8859-1.xhtml");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
     @Test
-    public void testEncodingXHTML_UTF_8() {
-        HTMLDocument document = parseHTML("microformats/xfn/encoding-utf-8.xhtml");
+    public void testEncodingXHTML_UTF_8() throws Exception {
+        HTMLDocument document = parseHTML("/microformats/xfn/encoding-utf-8.xhtml");
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
-    private HTMLDocument parseHTML(String filename) {
-        return new HTMLFixture(filename).getHTMLDocument();
+    private HTMLDocument parseHTML(String filename) throws FileNotFoundException, IOException {
+        return new HTMLFixture(copyResourceToTempFile(filename)).getHTMLDocument();
     }
 }

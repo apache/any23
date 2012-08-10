@@ -17,6 +17,7 @@
 
 package org.apache.any23.extractor;
 
+import org.apache.any23.AbstractAny23TestBase;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.html.HTMLFixture;
@@ -50,6 +51,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -59,7 +61,7 @@ import java.io.IOException;
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
 // TODO #20 - Solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
-public class SingleDocumentExtractionTest {
+public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final ICAL vICAL    = ICAL.getInstance();
@@ -83,7 +85,8 @@ public class SingleDocumentExtractionTest {
     RDFXMLWriter rdfxmlWriter;
 
     @Before
-    public void setUp() throws RepositoryException, SailException {
+    public void setUp() throws Exception {
+        super.setUp();
         extractorGroup = ExtractorRegistry.getInstance().getExtractorGroup();
         store = new MemoryStore();
         store.initialize();
@@ -113,7 +116,7 @@ public class SingleDocumentExtractionTest {
      */
     @Test
     public void testMicroformatDomains() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("microformats/microformat-domains.html");
+        singleDocumentExtraction = getInstance("/microformats/microformat-domains.html");
         singleDocumentExtraction.run();
         logStorageContent();
         assertTripleCount(vSINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 1);
@@ -134,7 +137,7 @@ public class SingleDocumentExtractionTest {
      */
     @Test
     public void testNestedMicroformats() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("microformats/nested-microformats-a1.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a1.html");
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -157,7 +160,7 @@ public class SingleDocumentExtractionTest {
      */
     @Test
     public void testNestedVCardAdr() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("microformats/nested-microformats-a3.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a3.html");
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -184,7 +187,7 @@ public class SingleDocumentExtractionTest {
      */
     @Test
     public void testNestedMicroformatsInduced() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("microformats/nested-microformats-a2.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a2.html");
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -211,7 +214,7 @@ public class SingleDocumentExtractionTest {
      *       show the triple property as double. Despite this the model contains it just once.
      */
     public void testNestedMicroformatsManaged() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("microformats/nested-microformats-managed.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-managed.html");
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -226,7 +229,7 @@ public class SingleDocumentExtractionTest {
         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL)  , vREVIEW.hasReview, 1);
     }
 
-    private SingleDocumentExtraction getInstance(String file) {
+    private SingleDocumentExtraction getInstance(String file) throws FileNotFoundException, IOException {
         baos = new ByteArrayOutputStream();
         rdfxmlWriter = new RDFXMLWriter(baos);
         repositoryWriter = new RepositoryWriter(conn);
@@ -239,7 +242,7 @@ public class SingleDocumentExtractionTest {
         configuration.setProperty("any23.extraction.metadata.domain.per.entity", "on");
         SingleDocumentExtraction instance =  new SingleDocumentExtraction(
                 configuration,
-                new HTMLFixture(file).getOpener("http://nested.test.com"),
+                new HTMLFixture(copyResourceToTempFile(file)).getOpener("http://nested.test.com"),
                 extractorGroup,
                 cth
         );

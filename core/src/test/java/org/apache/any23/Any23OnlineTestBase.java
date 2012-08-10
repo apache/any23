@@ -26,7 +26,7 @@ import org.junit.Assume;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public abstract class Any23OnlineTestBase {
+public abstract class Any23OnlineTestBase extends AbstractAny23TestBase {
 
     public static final String ONLINE_TEST_DISABLED_FLAG = "any23.online.test.disabled";
 
@@ -36,5 +36,4 @@ public abstract class Any23OnlineTestBase {
     public static void assumeOnlineAllowed() {
         Assume.assumeTrue(System.getProperty(ONLINE_TEST_DISABLED_FLAG, null) == null);
     }
-
 }

@@ -45,7 +45,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtractionCommaSeparated() throws RepositoryException {
         CSV csv = CSV.getInstance();
-        assertExtract("org/apache/any23/extractor/csv/test-comma.csv");
+        assertExtract("/org/apache/any23/extractor/csv/test-comma.csv");
         logger.debug(dumpModelToRDFXML());
 
         assertModelNotEmpty();
@@ -58,7 +58,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtractionSemicolonSeparated() throws RepositoryException {
         CSV csv = CSV.getInstance();
-        assertExtract("org/apache/any23/extractor/csv/test-semicolon.csv");
+        assertExtract("/org/apache/any23/extractor/csv/test-semicolon.csv");
         logger.debug(dumpModelToRDFXML());
 
         assertModelNotEmpty();
@@ -71,7 +71,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtractionTabSeparated() throws RepositoryException {
         CSV csv = CSV.getInstance();
-        assertExtract("org/apache/any23/extractor/csv/test-tab.csv");
+        assertExtract("/org/apache/any23/extractor/csv/test-tab.csv");
         logger.debug(dumpModelToRDFXML());
 
         assertModelNotEmpty();
@@ -84,7 +84,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testTypeManagement() throws RepositoryException {
         CSV csv = CSV.getInstance();
-        assertExtract("org/apache/any23/extractor/csv/test-type.csv");
+        assertExtract("/org/apache/any23/extractor/csv/test-type.csv");
         logger.debug(dumpModelToRDFXML());
 
         assertModelNotEmpty();

@@ -29,7 +29,6 @@ import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.http.DefaultHTTPClient;
 import org.apache.any23.http.HTTPClient;
 import org.apache.any23.source.DocumentSource;
-import org.apache.any23.source.FileDocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
 import org.apache.any23.util.FileUtils;
@@ -58,7 +57,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -116,7 +114,7 @@ public class Any23Test extends Any23OnlineTestBase {
     throws Exception {
         assertEncodingDetection(
                 "UTF-8",
-                new File("src/test/resources/html/encoding-test.html"),
+                "/html/encoding-test.html",
                 "Knud M\u00F6ller"
         );
     }
@@ -136,7 +134,7 @@ public class Any23Test extends Any23OnlineTestBase {
     throws Exception {
         assertEncodingDetection(
                 null, // The encoding will be auto detected.
-                new File("src/test/resources/html/encoding-test.html"),
+                "/html/encoding-test.html",
                 "Knud M\u00F6ller"
         );
     }
@@ -274,8 +272,8 @@ public class Any23Test extends Any23OnlineTestBase {
         TripleHandler rdfWriter = new IgnoreAccidentalRDFa(handler);
         ReportingTripleHandler reporting = new ReportingTripleHandler(rdfWriter);
 
-        DocumentSource source = new FileDocumentSource(
-                new File("src/test/resources/html/rdfa/ansa_2010-02-26_12645863.html"),
+        DocumentSource source = getDocumentSourceFromResource(
+                    "/html/rdfa/ansa_2010-02-26_12645863.html",
                     "http://host.com/service");
 
         Assert.assertTrue( any23.extract(source, reporting).hasMatchingExtractors() );
@@ -324,8 +322,8 @@ public class Any23Test extends Any23OnlineTestBase {
     public void testExtractionParameters() throws IOException, ExtractionException, TripleHandlerException {
         final int EXPECTED_TRIPLES  = 6;
         Any23 runner = new Any23();
-        DocumentSource source = new FileDocumentSource(
-                new File("src/test/resources/org/apache/any23/validator/missing-og-namespace.html"),
+        DocumentSource source = getDocumentSourceFromResource(
+                "/org/apache/any23/validator/missing-og-namespace.html",
                 "http://www.test.com"
         );
 
@@ -374,8 +372,8 @@ public class Any23Test extends Any23OnlineTestBase {
     throws IOException, ExtractionException, TripleHandlerException {
         final int EXPECTED_TRIPLES = 19;
         Any23 runner = new Any23();
-        DocumentSource source = new FileDocumentSource(
-                new File("src/test/resources/microformats/nested-microformats-a1.html"),
+        DocumentSource source = getDocumentSourceFromResource(
+                "/microformats/nested-microformats-a1.html",
                 "http://www.test.com"
         );
 
@@ -419,8 +417,8 @@ public class Any23Test extends Any23OnlineTestBase {
     @Test
     public void testExceptionPropagation() throws IOException {
         Any23 any23 = new Any23();
-        DocumentSource source = new FileDocumentSource(
-                new File("src/test/resources/application/turtle/geolinkeddata.ttl"),
+        DocumentSource source = getDocumentSourceFromResource(
+                "/application/turtle/geolinkeddata.ttl",
                 "http://www.test.com"
         );
         CountingTripleHandler cth1 = new CountingTripleHandler();
@@ -605,14 +603,13 @@ public class Any23Test extends Any23OnlineTestBase {
      * @param expectedContent
      * @throws Exception
      */
-    private void assertEncodingDetection(String encoding, File input, String expectedContent)
+    private void assertEncodingDetection(String encoding, String input, String expectedContent)
     throws Exception {
-        FileDocumentSource fileDocumentSource;
+        DocumentSource fileDocumentSource = getDocumentSourceFromResource(input);
         Any23 any23;
         RepositoryConnection conn;
         RepositoryWriter repositoryWriter;
-
-        fileDocumentSource = new FileDocumentSource(input);
+        
         any23 = new Any23();
         Sail store = new MemoryStore();
         store.initialize();
@@ -674,5 +671,5 @@ public class Any23Test extends Any23OnlineTestBase {
         }
         return false;
     }
-
+    
 }

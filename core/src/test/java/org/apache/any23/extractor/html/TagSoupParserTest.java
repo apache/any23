@@ -27,6 +27,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -67,9 +68,7 @@ public class TagSoupParserTest {
     public void testExplicitEncodingBehavior()
     throws IOException, ExtractionException, RepositoryException {
         this.tagSoupParser = new TagSoupParser(
-                new FileInputStream(
-                    new File("src/test/resources/html/encoding-test.html")
-                ),
+                new BufferedInputStream(this.getClass().getResourceAsStream("/html/encoding-test.html")),
                 page,
                 "UTF-8"
         );
@@ -92,9 +91,7 @@ public class TagSoupParserTest {
     @Test
     public void testImplicitEncodingBehavior() throws IOException, ExtractionException, RepositoryException {
         this.tagSoupParser = new TagSoupParser(
-                new FileInputStream(
-                    new File("src/test/resources/html/encoding-test.html")
-                ),
+                new BufferedInputStream(this.getClass().getResourceAsStream("/html/encoding-test.html")),
                 page
         );
         Assert.assertNotSame(
@@ -113,12 +110,12 @@ public class TagSoupParserTest {
     @Test
     public void testEmptySpanElements() throws IOException {
         final String page = "http://example.com/test-page";
-        InputStream brokenEmptySpanHtml = new FileInputStream(
-                new File("src/test/resources/html/empty-span-broken.html")
-        );
-        InputStream worksEmptySpanHtml = new FileInputStream(
-                new File("src/test/resources/html/empty-span-works.html")
-        );
+        InputStream brokenEmptySpanHtml = 
+                new BufferedInputStream(this.getClass().getResourceAsStream("/html/empty-span-broken.html"))
+        ;
+        InputStream worksEmptySpanHtml = 
+                new BufferedInputStream(this.getClass().getResourceAsStream("/html/empty-span-works.html"))
+        ;
         this.tagSoupParser = new TagSoupParser(brokenEmptySpanHtml, page);
         Document brokenElementDom = this.tagSoupParser.getDOM();
         this.tagSoupParser = null; // useless but force GC

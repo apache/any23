@@ -37,8 +37,8 @@ import java.io.File;
 public class RoverTest extends ToolTestBase {
 
     private static final String[] TARGET_FILES = {
-        "src/test/resources/microdata/microdata-nested.html",
-        "src/test/resources/org/apache/any23/extractor/csv/test-semicolon.csv"
+        "/microdata/microdata-nested.html",
+        "/org/apache/any23/extractor/csv/test-semicolon.csv"
     };
 
     private static final String[] TARGET_URLS = {
@@ -52,18 +52,27 @@ public class RoverTest extends ToolTestBase {
 
     @Test
     public void testRunMultiFiles() throws Exception {
-        runWithMultiSourcesAndVerify(TARGET_FILES, 0);
+        
+        String[] copiedTargets = new String[TARGET_FILES.length];
+        for(int i = 0; i < TARGET_FILES.length; i++)
+        {
+            File tempFile = copyResourceToTempFile(TARGET_FILES[i]);
+            
+            copiedTargets[i] = tempFile.getAbsolutePath();
+        }
+        
+        runWithMultiSourcesAndVerify(copiedTargets, 0);
     }
 
     @Test
     public void testRunWithDefaultNS() throws Exception {
         final String DEFAULT_GRAPH = "http://test/default/ns";
-        final File outFile = File.createTempFile("rover-test", "out");
+        final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
         final int exitCode = runTool(
                 String.format(
                         "-o %s -f nquads -p -n %s -d %s",
                         outFile.getAbsolutePath(),
-                        "src/test/resources/cli/rover-test1.nq",
+                        copyResourceToTempFile("/cli/rover-test1.nq").getAbsolutePath(),
                         DEFAULT_GRAPH
                 )
         );
@@ -95,10 +104,8 @@ public class RoverTest extends ToolTestBase {
     }
 
     private void runWithMultiSourcesAndVerify(String[] targets, int expectedExit) throws Exception {
-        final File outFile = File.createTempFile("rover-test", "out");
-        final File logFile = File.createTempFile("rover-test", "log");
-        outFile.delete();
-        outFile.delete();
+        final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
+        final File logFile = File.createTempFile("rover-test", "log", tempDirectory);
 
         final int exitCode = runTool(
                 String.format(
