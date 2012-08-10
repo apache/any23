@@ -65,6 +65,15 @@
       <optional>true</optional>
     </dependency>
     <!-- END:   Jetty Deps. -->
+
+    <!-- BEGIN: Test Dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- END: Test Dependencies -->
+
   </dependencies>
 
   <build>

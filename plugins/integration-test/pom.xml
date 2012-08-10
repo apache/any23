@@ -52,6 +52,15 @@
       <artifactId>apache-any23-basic-crawler</artifactId>
       <version>1.0.1-incubating-SNAPSHOT</version>
     </dependency>
+
+    <!-- BEGIN: Test Dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- END: Test Dependencies -->
+
   </dependencies>
 
   <build>

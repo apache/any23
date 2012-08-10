@@ -71,6 +71,23 @@
       <artifactId>jcommander</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <!-- BEGIN: plugins -->
+    <dependency>
+      <groupId>org.kohsuke.metainf-services</groupId>
+      <artifactId>metainf-services</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <!-- END: plugins -->
+
+    <!-- BEGIN: Test Dependencies -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- END: Test Dependencies -->
+
   </dependencies>
 
   <build>
