@@ -17,8 +17,8 @@
 
 package org.apache.any23.vocab;
 
-import org.apache.any23.rdf.RDFUtils;
 import org.openrdf.model.URI;
+import org.openrdf.model.impl.ValueFactoryImpl;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -76,7 +76,7 @@ public abstract class Vocabulary {
      */
     public Vocabulary(String namespace) {
         try {
-        this.namespace =  RDFUtils.uri(namespace);
+        this.namespace =  ValueFactoryImpl.getInstance().createURI(namespace);
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid namespace '" + namespace + "'", e);
         }
@@ -202,7 +202,7 @@ public abstract class Vocabulary {
      * @return the URI instance.
      */
     protected URI createURI(String uriStr) {
-        return RDFUtils.uri(uriStr);
+        return ValueFactoryImpl.getInstance().createURI(uriStr);
     }
 
     /**
@@ -245,7 +245,7 @@ public abstract class Vocabulary {
      * @return
      */
     private URI createURI(String namespace, String localName) {
-        return RDFUtils.uri(namespace, localName);
+        return ValueFactoryImpl.getInstance().createURI(namespace, localName);
     }
 
     private void fillResourceToCommentMap() {

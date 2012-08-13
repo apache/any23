@@ -35,9 +35,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
-
-import static java.util.ServiceLoader.load;
 
 /**
  * The <i>Any23PluginManager</i> is responsible for inspecting
@@ -245,7 +244,7 @@ public class Any23PluginManager {
      */
     public synchronized <T> Iterator<T> getPlugins(final Class<T> type)
     throws IOException {
-        return load(type, dynamicClassLoader).iterator();
+        return ServiceLoader.load(type, dynamicClassLoader).iterator();
     }
 
     /**
@@ -360,16 +359,17 @@ public class Any23PluginManager {
     /**
      * Returns an extractor group containing both the default extractors declared by the
      * {@link org.apache.any23.extractor.ExtractorRegistry} and the {@link ExtractorPlugin}s.
-     *
+     * @param registry TODO
      * @param pluginLocations optional list of plugin locations.
+     *
      * @return a not <code>null</code> and not empty extractor group.
      * @throws java.io.IOException
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public synchronized ExtractorGroup getApplicableExtractors(File... pluginLocations)
+    public synchronized ExtractorGroup getApplicableExtractors(ExtractorRegistry registry, File... pluginLocations)
     throws IOException, IllegalAccessException, InstantiationException {
-        final ExtractorGroup defaultExtractors = ExtractorRegistry.getInstance().getExtractorGroup();
+        final ExtractorGroup defaultExtractors = registry.getExtractorGroup();
         return configureExtractors(defaultExtractors, pluginLocations);
     }
 

@@ -27,7 +27,6 @@ import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionParameters.ValidationMode;
-import org.apache.any23.extractor.SingleDocumentExtraction;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.source.DocumentSource;
@@ -36,7 +35,7 @@ import org.apache.any23.writer.LoggingTripleHandler;
 import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
-import org.apache.any23.writer.WriterRegistry;
+import org.apache.any23.writer.WriterFactoryRegistry;
 import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,6 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -65,7 +63,7 @@ import static java.lang.String.format;
 @Parameters(commandNames = { "rover" }, commandDescription = "Any23 Command Line Tool.")
 public class Rover implements Tool {
 
-    private static final String[] FORMATS = WriterRegistry.getInstance().getIdentifiers();
+    private static final List<String> FORMATS = WriterFactoryRegistry.getInstance().getIdentifiers();
 
     private static final int DEFAULT_FORMAT_INDEX = 0;
 
@@ -85,7 +83,7 @@ public class Rover implements Tool {
     private List<String> extractors = new LinkedList<String>();
 
     @Parameter(names = { "-f", "--format" }, description = "the output format")
-    private String format = FORMATS[DEFAULT_FORMAT_INDEX];
+    private String format = FORMATS.get(DEFAULT_FORMAT_INDEX);
 
     @Parameter(
        names = { "-l", "--log" },
@@ -123,12 +121,12 @@ public class Rover implements Tool {
 
     protected void configure() {
         try {
-            tripleHandler = WriterRegistry.getInstance().getWriterInstanceByIdentifier(format, outputStream);
+            tripleHandler = WriterFactoryRegistry.getInstance().getWriterInstanceByIdentifier(format, outputStream);
         } catch (Exception e) {
             throw new NullPointerException(
                     format("Invalid output format '%s', admitted values: %s",
                         format,
-                        Arrays.toString(FORMATS)
+                        FORMATS
                     )
             );
         }
@@ -162,7 +160,7 @@ public class Rover implements Tool {
                         :
                 new ExtractionParameters(configuration, ValidationMode.None          , nestingDisabled);
         if (defaultns != null) {
-            extractionParameters.setProperty(SingleDocumentExtraction.EXTRACTION_CONTEXT_URI_PROPERTY,
+            extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_URI_PROPERTY,
                                              defaultns);
         }
 

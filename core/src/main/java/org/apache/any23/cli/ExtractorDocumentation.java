@@ -22,6 +22,7 @@ import com.beust.jcommander.Parameters;
 import org.apache.any23.extractor.ExampleInputOutput;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.Extractor;
+import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
@@ -58,21 +59,21 @@ public class ExtractorDocumentation implements Tool {
 
     public void run() throws Exception {
         if (showList) {
-            printExtractorList();
+            printExtractorList(ExtractorRegistryImpl.getInstance());
         } else if (showInput) {
             if (extractor.isEmpty()) {
                 throw new IllegalArgumentException("Required argument for -i: extractor name");
             }
 
-            printExampleInput(extractor.get(0));
+            printExampleInput(extractor.get(0), ExtractorRegistryImpl.getInstance());
         } else if (showOutput) {
             if (extractor.isEmpty()) {
                 throw new IllegalArgumentException("Required argument for -o: extractor name");
             }
 
-            printExampleOutput(extractor.get(0));
+            printExampleOutput(extractor.get(0), ExtractorRegistryImpl.getInstance());
         } else if (showAll) {
-            printReport();
+            printReport(ExtractorRegistryImpl.getInstance());
         }
     }
 
@@ -88,8 +89,8 @@ public class ExtractorDocumentation implements Tool {
     /**
      * Prints the list of all the available extractors.
      */
-    public void printExtractorList() {
-        for (ExtractorFactory factory : ExtractorRegistry.getInstance().getExtractorGroup()) {
+    public void printExtractorList(ExtractorRegistry registry) {
+        for (ExtractorFactory factory : registry.getExtractorGroup()) {
             System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorType()));
         }
     }
@@ -98,10 +99,11 @@ public class ExtractorDocumentation implements Tool {
      * Prints an example of input for the provided extractor.
      *
      * @param extractorName the name of the extractor
+     * @param registry 
      * @throws IOException raised if no extractor is found with that name
      */
-    public void printExampleInput(String extractorName) throws IOException {
-        ExtractorFactory<?> factory = getFactory(extractorName);
+    public void printExampleInput(String extractorName, ExtractorRegistry registry) throws IOException {
+        ExtractorFactory<?> factory = getFactory(registry, extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
         String input = example.getExampleInput();
         if (input == null) {
@@ -114,11 +116,12 @@ public class ExtractorDocumentation implements Tool {
      * Prints an output example for the given extractor.
      *
      * @param extractorName the extractor name
+     * @param registry 
      * @throws IOException raised if no extractor is found with that name
      * @throws ExtractionException
      */
-    public void printExampleOutput(String extractorName) throws IOException, ExtractionException {
-        ExtractorFactory<?> factory = getFactory(extractorName);
+    public void printExampleOutput(String extractorName, ExtractorRegistry registry) throws IOException, ExtractionException {
+        ExtractorFactory<?> factory = getFactory(registry, extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
         String output = example.getExampleOutput();
         if (output == null) {
@@ -133,9 +136,9 @@ public class ExtractorDocumentation implements Tool {
      * @throws IOException
      * @throws ExtractionException
      */
-    public void printReport() throws IOException, ExtractionException {
-        for (String extractorName : ExtractorRegistry.getInstance().getAllNames()) {
-            ExtractorFactory<?> factory = ExtractorRegistry.getInstance().getFactory(extractorName);
+    public void printReport(ExtractorRegistry registry) throws IOException, ExtractionException {
+        for (String extractorName : registry.getAllNames()) {
+            ExtractorFactory<?> factory = registry.getFactory(extractorName);
             ExampleInputOutput example = new ExampleInputOutput(factory);
             System.out.println("Extractor: " + extractorName);
             System.out.println("\ttype: " + getType(factory));
@@ -155,11 +158,11 @@ public class ExtractorDocumentation implements Tool {
         }
     }
 
-    private ExtractorFactory<?> getFactory(String name) {
-        if (!ExtractorRegistry.getInstance().isRegisteredName(name)) {
+    private ExtractorFactory<?> getFactory(ExtractorRegistry registry, String name) {
+        if (!registry.isRegisteredName(name)) {
             throw new IllegalArgumentException("Unknown extractor name: " + name);
         }
-        return ExtractorRegistry.getInstance().getFactory(name);
+        return registry.getFactory(name);
     }
 
     private String getType(ExtractorFactory<?> factory) {

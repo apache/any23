@@ -19,13 +19,18 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
+import org.openrdf.rio.RDFFormat;
+
 /**
- * <i>N3</i> triples writer.
+ * @author Peter Ansell p_ansell@yahoo.com
+ * 
  */
-public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
+public interface WriterFactory {
+    RDFFormat getRdfFormat();
 
-    public NTriplesWriter(OutputStream out) {
-        super(new org.openrdf.rio.ntriples.NTriplesWriter(out));
-    }
+    String getIdentifier();
 
+    String getMimeType();
+
+    FormatWriter getRdfWriter(OutputStream os);
 }

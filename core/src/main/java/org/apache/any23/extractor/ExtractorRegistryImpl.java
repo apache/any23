@@ -54,7 +54,7 @@ import java.util.Map;
  *  Singleton class acting as a register for all the various
  *  {@link Extractor}.
  */
-public class ExtractorRegistry {
+public class ExtractorRegistryImpl implements ExtractorRegistry {
 
     /**
      * The instance.
@@ -75,7 +75,8 @@ public class ExtractorRegistry {
         synchronized (ExtractorRegistry.class) {
             final DefaultConfiguration conf = DefaultConfiguration.singleton();
             if (instance == null) {
-                instance = new ExtractorRegistry();
+                instance = new ExtractorRegistryImpl();
+                // FIXME: Remove these hardcoded links to the extractor factories by turning them into SPI interfaces
                 instance.register(RDFXMLExtractor.factory);
                 instance.register(TurtleExtractor.factory);
                 instance.register(NTriplesExtractor.factory);

@@ -22,7 +22,6 @@ import java.io.OutputStream;
 /**
  * <i>RDF/XML</i> writer implementation.
  */
-@Writer(identifier = "rdfxml", mimeType = "application/rdf+xml")
 public class RDFXMLWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public RDFXMLWriter(OutputStream out) {

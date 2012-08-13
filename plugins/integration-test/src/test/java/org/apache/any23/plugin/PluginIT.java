@@ -20,6 +20,7 @@ package org.apache.any23.plugin;
 import org.apache.any23.cli.Crawler;
 import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorGroup;
+import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -75,10 +76,11 @@ public class PluginIT {
     @Test
     public void testDetectExtractorPlugins() throws IOException, InstantiationException, IllegalAccessException {
         final ExtractorGroup extractorGroup = manager.getApplicableExtractors(
-                HTML_SCRAPER_TARGET_DIR,
-                HTML_SCRAPER_DEPENDENCY_DIR,  // Required to satisfy class dependencies.
-                OFFICE_SCRAPER_TARGET_DIR,
-                OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
+                ExtractorRegistryImpl.getInstance(),
+                HTML_SCRAPER_TARGET_DIR,  // Required to satisfy class dependencies.
+                HTML_SCRAPER_DEPENDENCY_DIR,
+                OFFICE_SCRAPER_TARGET_DIR
+, OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
         );
         assertEquals(NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
                 extractorGroup.getNumOfExtractors()

@@ -15,22 +15,47 @@
  * limitations under the License.
  */
 
-package org.apache.any23.plugin;
+package org.apache.any23.writer;
 
-import org.apache.any23.extractor.Extractor;
-import org.apache.any23.extractor.ExtractorFactory;
+import java.io.OutputStream;
+
+import org.kohsuke.MetaInfServices;
+import org.openrdf.rio.RDFFormat;
 
 /**
- * This interface defines an {@link org.apache.any23.Any23}
- * extractor plugin that can be detected and registered from the library classpath.
- *
- * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Peter Ansell p_ansell@yahoo.com
+ * 
  */
-public interface ExtractorPlugin<T extends Extractor<?>> {
+@MetaInfServices
+public class TriXWriterFactory implements WriterFactory {
+
+    public static final String MIME_TYPE = "application/trix";
+    public static final String IDENTIFIER = "trix";
 
     /**
-     * @return the {@link org.apache.any23.extractor.ExtractorFactory} for the plugin.
+     * 
      */
-    ExtractorFactory<T> getExtractorFactory();
+    public TriXWriterFactory() {
+    }
+
+    @Override
+    public RDFFormat getRdfFormat() {
+        return RDFFormat.TRIX;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return TriXWriterFactory.IDENTIFIER;
+    }
+
+    @Override
+    public String getMimeType() {
+        return TriXWriterFactory.MIME_TYPE;
+    }
+
+    @Override
+    public FormatWriter getRdfWriter(OutputStream os) {
+        return new TriXWriter(os);
+    }
 
 }

@@ -22,7 +22,6 @@ import java.io.OutputStream;
 /**
  * <i>N3</i> notation writer.
  */
-@Writer(identifier = "turtle", mimeType = "text/turtle")
 public class TurtleWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     /**

@@ -87,7 +87,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        extractorGroup = ExtractorRegistry.getInstance().getExtractorGroup();
+        extractorGroup = ExtractorRegistryImpl.getInstance().getExtractorGroup();
         store = new MemoryStore();
         store.initialize();
         conn = new SailRepository(store).getConnection();

@@ -24,7 +24,6 @@ import java.io.OutputStream;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@Writer(identifier = "trix", mimeType = "application/trix")
 public class TriXWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public TriXWriter(OutputStream out) {

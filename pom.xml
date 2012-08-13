@@ -188,6 +188,7 @@
   </mailingLists>
 
   <modules>
+    <module>api</module>
     <module>test-resources</module>
     <module>core</module>
     <module>plugins/basic-crawler</module>

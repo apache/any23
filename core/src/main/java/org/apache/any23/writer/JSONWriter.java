@@ -33,7 +33,6 @@ import java.io.PrintStream;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@Writer(identifier = "json", mimeType = "text/json" )
 public class JSONWriter implements FormatWriter {
 
     private final PrintStream ps;

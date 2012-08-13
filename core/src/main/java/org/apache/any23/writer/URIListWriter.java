@@ -33,7 +33,6 @@ import java.util.List;
  * 
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-@Writer(identifier = "uri", mimeType = "text/plain")
 public class URIListWriter implements FormatWriter {
 
     private List<Resource> resources;

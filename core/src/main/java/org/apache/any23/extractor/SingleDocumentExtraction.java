@@ -72,12 +72,6 @@ import static org.apache.any23.extractor.TagSoupExtractionResult.ResourceRoot;
  */
 public class SingleDocumentExtraction {
 
-    public static final String EXTRACTION_CONTEXT_URI_PROPERTY = "any23.extraction.context.uri";
-
-    public static final String METADATA_TIMESIZE_FLAG           = "any23.extraction.metadata.timesize";
-    public static final String METADATA_NESTING_FLAG            = "any23.extraction.metadata.nesting";
-    public static final String METADATA_DOMAIN_PER_ENTITY_FLAG  = "any23.extraction.metadata.domain.per.entity";
-
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
     private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
@@ -214,7 +208,7 @@ public class SingleDocumentExtraction {
             extractionParameters = ExtractionParameters.newDefault(configuration);
         }
 
-        final String contextURI = extractionParameters.getProperty(EXTRACTION_CONTEXT_URI_PROPERTY);
+        final String contextURI = extractionParameters.getProperty(ExtractionParameters.EXTRACTION_CONTEXT_URI_PROPERTY);
         ensureHasLocalCopy();
         try {
             this.documentURI = new Any23ValueFactoryWrapper(
@@ -271,9 +265,9 @@ public class SingleDocumentExtraction {
         }
 
         // Resource consolidation.
-        final boolean addDomainTriples = extractionParameters.getFlag(METADATA_DOMAIN_PER_ENTITY_FLAG);
+        final boolean addDomainTriples = extractionParameters.getFlag(ExtractionParameters.METADATA_DOMAIN_PER_ENTITY_FLAG);
         final ExtractionContext consolidationContext;
-        if(extractionParameters.getFlag(METADATA_NESTING_FLAG)) {
+        if(extractionParameters.getFlag(ExtractionParameters.METADATA_NESTING_FLAG)) {
             // Consolidation with nesting.
             consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
         } else {
@@ -281,7 +275,7 @@ public class SingleDocumentExtraction {
         }
 
         // Adding time/size meta triples.
-        if (extractionParameters.getFlag(METADATA_TIMESIZE_FLAG)) {
+        if (extractionParameters.getFlag(ExtractionParameters.METADATA_TIMESIZE_FLAG)) {
             try {
                 addExtractionTimeSizeMetaTriples(consolidationContext);
             } catch (TripleHandlerException e) {

@@ -19,13 +19,43 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-/**
- * <i>N3</i> triples writer.
- */
-public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
+import org.kohsuke.MetaInfServices;
+import org.openrdf.rio.RDFFormat;
 
-    public NTriplesWriter(OutputStream out) {
-        super(new org.openrdf.rio.ntriples.NTriplesWriter(out));
+/**
+ * @author Peter Ansell p_ansell@yahoo.com
+ * 
+ */
+@MetaInfServices
+public class URIListWriterFactory implements WriterFactory {
+
+    public static final String MIME_TYPE = "text/plain";
+    public static final String IDENTIFIER = "uri";
+
+    /**
+     * 
+     */
+    public URIListWriterFactory() {
+    }
+
+    @Override
+    public RDFFormat getRdfFormat() {
+        throw new RuntimeException("This writer does not print RDF triples");
+    }
+
+    @Override
+    public String getIdentifier() {
+        return URIListWriterFactory.IDENTIFIER;
+    }
+
+    @Override
+    public String getMimeType() {
+        return URIListWriterFactory.MIME_TYPE;
+    }
+
+    @Override
+    public FormatWriter getRdfWriter(OutputStream os) {
+        return new URIListWriter(os);
     }
 
 }

@@ -24,7 +24,6 @@ import java.io.OutputStream;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@Writer(identifier = "nquads", mimeType = "text/plain")
 public class NQuadsWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public NQuadsWriter(OutputStream os) {

@@ -33,7 +33,8 @@ import org.apache.any23.writer.CountingTripleHandler;
 import org.apache.any23.writer.FormatWriter;
 import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
-import org.apache.any23.writer.WriterRegistry;
+import org.apache.any23.writer.WriterFactory;
+import org.apache.any23.writer.WriterFactoryRegistry;
 import sun.security.validator.ValidatorException;
 
 import javax.servlet.ServletOutputStream;
@@ -52,7 +53,7 @@ import java.util.List;
  */
 class WebResponder {
 
-    private static final WriterRegistry writerRegistry = WriterRegistry.getInstance();
+    private static final WriterFactoryRegistry writerRegistry = WriterFactoryRegistry.getInstance();
 
     /**
      * Library facade.
@@ -305,8 +306,8 @@ class WebResponder {
     }
 
     private boolean initRdfWriter(String format, boolean report, boolean annotate) throws IOException {
-        final FormatWriter fw = getFormatWriter(format, annotate);
-        if (fw == null) {
+        final WriterFactory factory = getFormatWriter(format);
+        if (factory == null) {
             sendError(
                     400,
                     "Invalid format '" + format + "', try one of: [rdfxml, turtle, ntriples, nquads, trix, json]",
@@ -316,7 +317,9 @@ class WebResponder {
             );
             return false;
         }
-        outputMediaType = WriterRegistry.getMimeType( fw.getClass() );
+        FormatWriter fw = factory.getRdfWriter(byteOutStream);
+        fw.setAnnotated(annotate);
+        outputMediaType = factory.getMimeType();
         List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
         tripleHandlers.add(new IgnoreAccidentalRDFa(fw));
         tripleHandlers.add(new CountingTripleHandler());
@@ -329,8 +332,9 @@ class WebResponder {
         return true;
     }
 
-    private FormatWriter getFormatWriter(String format, boolean annotate) throws IOException {
+    private WriterFactory getFormatWriter(String format) throws IOException {
         final String finalFormat;
+        // FIXME: Remove this hardcoded set
         if ("rdf".equals(format) || "xml".equals(format) || "rdfxml".equals(format)) {
             finalFormat = "rdfxml";
         } else if ("turtle".equals(format) || "ttl".equals(format)) {
@@ -348,8 +352,7 @@ class WebResponder {
         } else {
             return null;
         }
-        final FormatWriter writer = writerRegistry.getWriterInstanceByIdentifier(finalFormat, byteOutStream);
-        writer.setAnnotated(annotate);
+        final WriterFactory writer = writerRegistry.getWriterByIdentifier(finalFormat);
         return writer;
     }
 

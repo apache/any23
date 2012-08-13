@@ -65,6 +65,14 @@ public class ExtractionParameters {
 
     private final Map<String,String> extractionProperties;
 
+    public static final String METADATA_DOMAIN_PER_ENTITY_FLAG  = "any23.extraction.metadata.domain.per.entity";
+
+    public static final String METADATA_NESTING_FLAG            = "any23.extraction.metadata.nesting";
+
+    public static final String METADATA_TIMESIZE_FLAG           = "any23.extraction.metadata.timesize";
+
+    public static final String EXTRACTION_CONTEXT_URI_PROPERTY = "any23.extraction.context.uri";
+
     /**
      * Constructor.
      *
@@ -126,7 +134,7 @@ public class ExtractionParameters {
                 configuration,
                 extractionMode,
                 new HashMap<String, Boolean>(){{
-                    put(SingleDocumentExtraction.METADATA_NESTING_FLAG, nesting);
+                    put(ExtractionParameters.METADATA_NESTING_FLAG, nesting);
                 }},
                 null
         );

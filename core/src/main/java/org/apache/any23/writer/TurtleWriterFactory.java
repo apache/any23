@@ -17,27 +17,45 @@
 
 package org.apache.any23.writer;
 
+import java.io.OutputStream;
+
+import org.kohsuke.MetaInfServices;
+import org.openrdf.rio.RDFFormat;
+
 /**
- * This annotation describes {@link FormatWriter} metadata.
- *
- * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Peter Ansell p_ansell@yahoo.com
+ * 
  */
-@java.lang.annotation.Retention(java.lang.annotation.RetentionPolicy.RUNTIME)
-@java.lang.annotation.Target({java.lang.annotation.ElementType.TYPE})
-public @interface Writer {
+@MetaInfServices
+public class TurtleWriterFactory implements WriterFactory {
+
+    public static final String MIME_TYPE = "text/turtle";
+    public static final String IDENTIFIER = "turtle";
 
     /**
-     * The mnemonic identifier for the format.
-     *
-     * @return a not <code>null</code> identifier.
+     * 
      */
-    String identifier();
+    public TurtleWriterFactory() {
+    }
 
-    /**
-     * The MIME type used by the writer.
-     *
-     * @return a not <code>null</code> MIME type.
-     */
-    String mimeType();
+    @Override
+    public RDFFormat getRdfFormat() {
+        return RDFFormat.TURTLE;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return TurtleWriterFactory.IDENTIFIER;
+    }
+
+    @Override
+    public String getMimeType() {
+        return TurtleWriterFactory.MIME_TYPE;
+    }
+
+    @Override
+    public FormatWriter getRdfWriter(OutputStream os) {
+        return new TurtleWriter(os);
+    }
 
 }

@@ -30,67 +30,70 @@ import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
 /**
- * This file encapsulates access to test resource files using temporary files that are automatically
- * cleaned up by JUnit after each test.
+ * This file encapsulates access to test resource files using temporary files
+ * that are automatically cleaned up by JUnit after each test.
  * 
  * @author Peter Ansell p_ansell@yahoo.com
  */
-public class AbstractAny23TestBase
-{
-    
+public class AbstractAny23TestBase {
+
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
     protected File tempDirectory;
-    
-    public AbstractAny23TestBase()
-    {
+
+    public AbstractAny23TestBase() {
         super();
     }
-    
+
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         tempDirectory = testFolder.newFolder();
     }
-    
-    protected DocumentSource getDocumentSourceFromResource(String resourceLocation) throws IOException
-    {
+
+    protected DocumentSource getDocumentSourceFromResource(
+            String resourceLocation) throws IOException {
         return new FileDocumentSource(copyResourceToTempFile(resourceLocation));
     }
-    
-    protected DocumentSource getDocumentSourceFromResource(String resourceLocation, String baseUri) throws IOException
-    {
-        return new FileDocumentSource(copyResourceToTempFile(resourceLocation), baseUri);
+
+    protected DocumentSource getDocumentSourceFromResource(
+            String resourceLocation, String baseUri) throws IOException {
+        return new FileDocumentSource(copyResourceToTempFile(resourceLocation),
+                baseUri);
     }
-    
+
     /**
-     * Copies a resource to a temporary directory and returns a file handle that can be used to
-     * access the resource as a file from the temp directory.
+     * Copies a resource to a temporary directory and returns a file handle that
+     * can be used to access the resource as a file from the temp directory.
      * 
      * @param resourceLocation
-     *            The absolute location of the resource in the classpath, which can be used with
-     *            this.getClass().getResourceAsStream.
+     *            The absolute location of the resource in the classpath, which
+     *            can be used with this.getClass().getResourceAsStream.
      * @return
      * @throws FileNotFoundException
      * @throws IOException
      */
-    protected File copyResourceToTempFile(String resourceLocation) throws FileNotFoundException, IOException
-    {
-        Assert.assertNotNull("Temporary directory was null. Did you forget to call super.setUp() to initialise it?",
+    protected File copyResourceToTempFile(String resourceLocation)
+            throws FileNotFoundException, IOException {
+        Assert.assertNotNull(
+                "Temporary directory was null. Did you forget to call super.setUp() to initialise it?",
                 tempDirectory);
-        String fileEnding = resourceLocation.substring(resourceLocation.lastIndexOf("/") + 1);
-        
-        File tempFile = File.createTempFile("any23test-", "-" + fileEnding, tempDirectory);
-        
+        String fileEnding = resourceLocation.substring(resourceLocation
+                .lastIndexOf("/") + 1);
+
+        File tempFile = File.createTempFile("any23test-", "-" + fileEnding,
+                tempDirectory);
+
         FileOutputStream output = new FileOutputStream(tempFile);
-        
-        InputStream input = this.getClass().getResourceAsStream(resourceLocation);
-        
-        Assert.assertNotNull("Test resource was not found: " + resourceLocation, input);
-        
+
+        InputStream input = this.getClass().getResourceAsStream(
+                resourceLocation);
+
+        Assert.assertNotNull(
+                "Test resource was not found: " + resourceLocation, input);
+
         IOUtils.copy(input, output);
-        
+
         return tempFile;
     }
-    
+
 }

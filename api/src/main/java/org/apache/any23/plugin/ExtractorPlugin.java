@@ -15,17 +15,22 @@
  * limitations under the License.
  */
 
-package org.apache.any23.writer;
+package org.apache.any23.plugin;
 
-import java.io.OutputStream;
+import org.apache.any23.extractor.Extractor;
+import org.apache.any23.extractor.ExtractorFactory;
 
 /**
- * <i>N3</i> triples writer.
+ * This interface defines an {@link org.apache.any23.cli.Any23}
+ * extractor plugin that can be detected and registered from the library classpath.
+ *
+ * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
+public interface ExtractorPlugin<T extends Extractor<?>> {
 
-    public NTriplesWriter(OutputStream out) {
-        super(new org.openrdf.rio.ntriples.NTriplesWriter(out));
-    }
+    /**
+     * @return the {@link org.apache.any23.extractor.ExtractorFactory} for the plugin.
+     */
+    ExtractorFactory<T> getExtractorFactory();
 
 }

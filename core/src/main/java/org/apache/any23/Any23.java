@@ -24,6 +24,7 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.ExtractorGroup;
 import org.apache.any23.extractor.ExtractorRegistry;
+import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.apache.any23.extractor.SingleDocumentExtraction;
 import org.apache.any23.extractor.SingleDocumentExtractionReport;
 import org.apache.any23.http.AcceptHeaderBuilder;
@@ -105,7 +106,7 @@ public class Any23 {
         this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
 
         this.factories = (extractorGroup == null)
-                ? ExtractorRegistry.getInstance().getExtractorGroup()
+                ? ExtractorRegistryImpl.getInstance().getExtractorGroup()
                 : extractorGroup;
         setCacheFactory(new MemCopyFactory());
     }
@@ -132,7 +133,7 @@ public class Any23 {
                         ?
                 null
                         :
-                ExtractorRegistry.getInstance().getExtractorGroup( Arrays.asList(extractorNames))
+                ExtractorRegistryImpl.getInstance().getExtractorGroup( Arrays.asList(extractorNames))
         );
     }
 
