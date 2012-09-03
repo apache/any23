@@ -22,12 +22,10 @@ import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.openrdf.rio.RDFFormat;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -45,13 +43,15 @@ public class TikaMIMETypeDetectorTest {
     private static final String PLAIN  = "text/plain";
     private static final String HTML   = "text/html";
     private static final String XML    = "application/xml";
-    private static final String TRIX   = "application/trix";
-    private final static String XHTML  = "application/xhtml+xml";
-    private final static String RDFXML = "application/rdf+xml";
-    private final static String TURTLE = "application/x-turtle";
-    private final static String N3     = "text/rdf+n3";
-    private final static String NQuads = "text/rdf+nq";
-    private final static String CSV    = "text/csv";
+    private static final String TRIX   = RDFFormat.TRIX.getDefaultMIMEType();
+    private static final String XHTML  = "application/xhtml+xml";
+    private static final String RDFXML = RDFFormat.RDFXML.getDefaultMIMEType();
+    private static final String TURTLE = RDFFormat.TURTLE.getDefaultMIMEType();
+    private static final String N3     = RDFFormat.N3.getDefaultMIMEType();
+    private static final String NQUADS = RDFFormat.NQUADS.getDefaultMIMEType();
+    private static final String CSV    = "text/csv";
+    private static final String RSS    = "application/rss+xml";
+    private static final String ATOM   = "application/atom+xml";
 
     private TikaMIMETypeDetector detector;
 
@@ -119,7 +119,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRSS1ByContent() throws Exception {
-        detectMIMEtypeByContent("application/rdf+xml", manifestRss1());
+        detectMIMEtypeByContent(RDFXML, manifestRss1());
     }
 
     private List<String> manifestRss1() {
@@ -128,7 +128,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRSS2ByContent() throws Exception {
-        detectMIMEtypeByContent("application/rss+xml", manifestRss2());
+        detectMIMEtypeByContent(RSS, manifestRss2());
     }
 
     private List<String> manifestRss2() {
@@ -137,7 +137,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRDFN3ByContent() throws Exception {
-        detectMIMEtypeByContent("text/n3", manifestN3());
+        detectMIMEtypeByContent(N3, manifestN3());
     }
 
     private List<String> manifestN3() {
@@ -146,7 +146,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRDFNQuadsByContent() throws Exception {
-        detectMIMEtypeByContent("text/nq", manifestNQuads());
+        detectMIMEtypeByContent(NQUADS, manifestNQuads());
     }
 
     private List<String> manifestNQuads() {
@@ -155,7 +155,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRDFXMLByContent() throws Exception {
-        detectMIMEtypeByContent("application/rdf+xml", manifestRdfXml());
+        detectMIMEtypeByContent(RDFXML, manifestRdfXml());
     }
 
     private List<String> manifestRdfXml() {
@@ -164,7 +164,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectTriXByContent() throws Exception {
-        detectMIMEtypeByContent("application/trix", manifestTrix());
+        detectMIMEtypeByContent(TRIX, manifestTrix());
     }
 
     private List<String> manifestTrix() {
@@ -173,7 +173,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectAtomByContent() throws Exception {
-        detectMIMEtypeByContent("application/atom+xml", manifestAtom());
+        detectMIMEtypeByContent(ATOM, manifestAtom());
     }
 
     private List<String> manifestAtom() {
@@ -182,7 +182,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectHTMLByContent() throws Exception {
-        detectMIMEtypeByContent("text/html", manifestHtml());
+        detectMIMEtypeByContent(HTML, manifestHtml());
     }
 
     private List<String> manifestHtml() {
@@ -191,7 +191,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectRDFaByContent() throws Exception {
-        detectMIMEtypeByContent("application/xhtml+xml", manifestRdfa());
+        detectMIMEtypeByContent(XHTML, manifestRdfa());
     }
 
     private List<String> manifestRdfa() {
@@ -200,7 +200,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectXHTMLByContent() throws Exception {
-        detectMIMEtypeByContent("application/xhtml+xml", manifestXHtml());
+        detectMIMEtypeByContent(XHTML, manifestXHtml());
     }
 
     private List<String> manifestXHtml() {
@@ -227,7 +227,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectCSVByContent() throws Exception {
-        detectMIMEtypeByContent("text/csv", manifestCsv());
+        detectMIMEtypeByContent(CSV, manifestCsv());
     }
 
     private List<String> manifestCsv() {
@@ -240,12 +240,12 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectContentPlainByMeta() throws IOException {
-        detectMIMETypeByMimeTypeHint("text/plain", "text/plain");
+        detectMIMETypeByMimeTypeHint(PLAIN, "text/plain");
     }
 
     @Test
     public void testDetectTextRDFByMeta() throws IOException {
-        detectMIMETypeByMimeTypeHint("application/rdf+xml", "text/rdf");
+        detectMIMETypeByMimeTypeHint(RDFXML, "text/rdf");
     }
 
     @Test
@@ -255,7 +255,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectTextNQuadsByMeta() throws IOException {
-        detectMIMETypeByMimeTypeHint(NQuads, "text/rdf+nq");
+        detectMIMETypeByMimeTypeHint(NQUADS, "text/x-nquads");
     }
 
     @Test
@@ -314,47 +314,47 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testRDFXMLByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/rdf+xml", manifestRdfXml());
+        detectMIMETypeByContentAndName(RDFXML, manifestRdfXml());
     }
 
     @Test
     public void testTriXByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/trix", manifestTrix());
+        detectMIMETypeByContentAndName(TRIX, manifestTrix());
     }
 
     @Test
     public void testRSS1ByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/rdf+xml", manifestRss1());
+        detectMIMETypeByContentAndName(RDFXML, manifestRss1());
     }
 
     @Test
     public void testRSS2ByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/rss+xml", manifestRss2());
+        detectMIMETypeByContentAndName(RSS, manifestRss2());
     }
 
     @Test
     public void testDetectRDFN3ByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("text/n3", manifestN3());
+        detectMIMETypeByContentAndName(N3, manifestN3());
     }
 
     @Test
     public void testDetectRDFNQuadsByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("text/rdf+nq", manifestNQuads());
+        detectMIMETypeByContentAndName(NQUADS, manifestNQuads());
     }
 
     @Test
     public void testAtomByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/atom+xml", manifestAtom());
+        detectMIMETypeByContentAndName(ATOM, manifestAtom());
     }
 
     @Test
     public void testHTMLByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("text/html", manifestHtml());
+        detectMIMETypeByContentAndName(HTML, manifestHtml());
     }
 
     @Test
     public void testXHTMLByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/xhtml+xml", manifestXHtml());
+        detectMIMETypeByContentAndName(XHTML, manifestXHtml());
     }
 
      @Test
@@ -369,12 +369,12 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testRDFaByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("application/xhtml+xml", manifestRdfa());
+        detectMIMETypeByContentAndName(XHTML, manifestRdfa());
     }
 
     @Test
     public void testCSVByContentAndName() throws Exception {
-        detectMIMETypeByContentAndName("text/csv", manifestCsv());
+        detectMIMETypeByContentAndName(CSV, manifestCsv());
     }
 
     /* END: by content and name. */

@@ -26,8 +26,9 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
+import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.turtle.TurtleParser;
+import org.openrdf.rio.Rio;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -46,14 +47,6 @@ import java.util.regex.Pattern;
 public class TikaMIMETypeDetector implements MIMETypeDetector {
 
     private Purifier purifier;
-
-    // TODO: centralize mimetype strings somewhere.
-
-    public static final String N3_MIMETYPE = "text/n3";
-
-    public static final String NQUADS_MIMETYPE = "text/nq";
-
-    public static final String TURTLE_MIMETYPE = "application/turtle";
 
     public static final String CSV_MIMETYPE = "text/csv";
 
@@ -116,7 +109,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      */
     public static boolean checkTurtleFormat(InputStream is) throws IOException {
         String sample = extractDataSample(is, '.');
-        TurtleParser turtleParser = new TurtleParser();
+        RDFParser turtleParser = Rio.createParser(RDFFormat.TURTLE);
         turtleParser.setDatatypeHandling(RDFParser.DatatypeHandling.VERIFY);
         turtleParser.setStopAtFirstError(true);
         turtleParser.setVerifyData(true);
@@ -262,11 +255,11 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                 type = mt;
             } else {
                 if( checkN3Format(input) ) {
-                    type = N3_MIMETYPE;
+                    type = RDFFormat.N3.getDefaultMIMEType();
                 } else if( checkNQuadsFormat(input) ) {
-                    type = NQUADS_MIMETYPE;
+                    type = RDFFormat.NQUADS.getDefaultMIMEType();
                 } else if( checkTurtleFormat(input) ) {
-                    type = TURTLE_MIMETYPE;
+                    type = RDFFormat.TURTLE.getDefaultMIMEType();
                 } else if( checkCSVFormat(input) ) {
                     type = CSV_MIMETYPE;
                 }

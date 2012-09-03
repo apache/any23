@@ -84,15 +84,16 @@
     </mime-type>
 
     <!-- NQuads -->
-    <mime-type type="text/rdf+nq">
+    <mime-type type="text/x-nquads">
+        <alias type="text/rdf+nq"/>
         <alias type="text/nq"/>
         <alias type="application/nq"/>
         <glob pattern="*.nq"/>
     </mime-type>
 
     <!-- Turtle -->
-    <mime-type type="application/x-turtle">
-        <alias type="text/turtle"/>
+    <mime-type type="text/turtle"> 
+        <alias type="application/x-turtle"/>
         <alias type="application/turtle"/>
         <glob pattern="*.ttl"/>
     </mime-type>
