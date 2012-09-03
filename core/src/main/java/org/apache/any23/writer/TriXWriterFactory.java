@@ -29,7 +29,7 @@ import org.openrdf.rio.RDFFormat;
 @MetaInfServices
 public class TriXWriterFactory implements WriterFactory {
 
-    public static final String MIME_TYPE = "application/trix";
+    public static final String MIME_TYPE = RDFFormat.TRIX.getDefaultMIMEType();
     public static final String IDENTIFIER = "trix";
 
     /**

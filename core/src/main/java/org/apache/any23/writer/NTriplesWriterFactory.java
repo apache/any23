@@ -29,7 +29,7 @@ import org.openrdf.rio.RDFFormat;
 @MetaInfServices
 public class NTriplesWriterFactory implements WriterFactory {
 
-    public static final String MIME_TYPE = "text/plain";
+    public static final String MIME_TYPE = RDFFormat.NTRIPLES.getDefaultMIMEType();
     public static final String IDENTIFIER = "ntriples";
 
     /**

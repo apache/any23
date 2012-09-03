@@ -57,7 +57,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
 
     public abstract ExtractorDescription getDescription();
 
-    protected abstract RDFParserBase getParser(
+    protected abstract RDFParser getParser(
             ExtractionContext extractionContext,
             ExtractionResult extractionResult
     );

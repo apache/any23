@@ -398,7 +398,7 @@ public class ServletTest {
     @Test
     public void testJSONResponseFormat() throws Exception {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
-        HttpTester response = doPostRequest("/json", body, "text/n-quads");
+        HttpTester response = doPostRequest("/json", body, "text/x-nquads");
         Assert.assertEquals(200, response.getStatus());
         final String EXPECTED_JSON =
                 "[" +
@@ -413,7 +413,7 @@ public class ServletTest {
     @Test
     public void testTriXResponseFormat() throws Exception {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
-        HttpTester response = doPostRequest("/trix", body, "text/n-quads");
+        HttpTester response = doPostRequest("/trix", body, "text/x-nquads");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
         assertContainsTag("graph" , false, 1, content);

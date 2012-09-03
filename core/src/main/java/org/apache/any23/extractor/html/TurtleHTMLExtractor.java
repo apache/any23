@@ -30,6 +30,7 @@ import org.apache.any23.extractor.rdf.RDFParserFactory;
 import org.apache.any23.rdf.PopularPrefixes;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.turtle.TurtleParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -60,7 +61,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
                     TurtleHTMLExtractor.class
             );
 
-    private TurtleParser turtleParser;
+    private RDFParser turtleParser;
 
     public void run(
             ExtractionParameters extractionParameters,
@@ -110,7 +111,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
      * @param n the script node.
      * @param er the extraction result used to store triples.
      */
-    private void processScriptNode(TurtleParser turtleParser, URI documentURI, Node n, ExtractionResult er) {
+    private void processScriptNode(RDFParser turtleParser, URI documentURI, Node n, ExtractionResult er) {
         final Node idAttribute = n.getAttributes().getNamedItem("id");
         final String graphName =
                 documentURI.stringValue() +

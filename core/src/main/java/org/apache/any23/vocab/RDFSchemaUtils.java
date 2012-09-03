@@ -17,17 +17,16 @@
 
 package org.apache.any23.vocab;
 
-import org.apache.any23.io.nquads.NQuadsWriter;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.DiscoveryUtils;
 import org.apache.any23.util.StringUtils;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
+import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
-import org.openrdf.rio.ntriples.NTriplesWriter;
-import org.openrdf.rio.rdfxml.RDFXMLWriter;
+import org.openrdf.rio.Rio;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -124,16 +123,17 @@ public class RDFSchemaUtils {
             PrintStream ps
     ) throws RDFHandlerException {
         final RDFWriter rdfWriter;
+        // FIXME: Remove hardcoding for format translation
         if(format == VocabularyFormat.RDFXML) {
-            rdfWriter = new RDFXMLWriter(ps);
+            rdfWriter = Rio.createWriter(RDFFormat.RDFXML, ps);
             if(willFollowAnother)
                 ps.print("\n");
                 ps.print(RDF_XML_SEPARATOR);
                 ps.print("\n");
         } else if(format == VocabularyFormat.NTriples) {
-            rdfWriter = new NTriplesWriter(ps);
+            rdfWriter = Rio.createWriter(RDFFormat.NTRIPLES, ps);
         } else if(format == VocabularyFormat.NQuads) {
-            rdfWriter = new NQuadsWriter(ps);
+            rdfWriter = Rio.createWriter(RDFFormat.NQUADS, ps);
         }
         else {
             throw new IllegalArgumentException("Unsupported format " + format);

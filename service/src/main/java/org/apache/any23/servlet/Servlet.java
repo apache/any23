@@ -26,6 +26,7 @@ import org.apache.any23.source.ByteArrayDocumentSource;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
+import org.openrdf.rio.RDFFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -135,22 +136,24 @@ public class Servlet extends HttpServlet {
         if (result == null) {
             return null;
         }
-        if ("text/turtle".equals(result.getMediaType())) {
+        else if (RDFFormat.TURTLE.hasMIMEType(result.getMediaType())) {
             return "turtle";
         }
-        if ("text/rdf+n3".equals(result.getMediaType())) {
+        else if (RDFFormat.N3.hasMIMEType(result.getMediaType())) {
             return "n3";
         }
-        if ("text/rdf+nq".equals(result.getMediaType())) {
+        else if (RDFFormat.NQUADS.hasMIMEType(result.getMediaType())) {
             return "nq";
         }
-        if ("application/rdf+xml".equals(result.getMediaType())) {
+        else if (RDFFormat.RDFXML.hasMIMEType(result.getMediaType())) {
             return "rdf";
         }
-        if ("text/plain".equals(result.getMediaType())) {
+        else if (RDFFormat.NTRIPLES.hasMIMEType(result.getMediaType())) {
             return "nt";
         }
-        return "turtle";    // shouldn't happen
+        else {
+            return "turtle";    // shouldn't happen
+        }
     }
 
     private String getFormatFromRequest(HttpServletRequest request) {

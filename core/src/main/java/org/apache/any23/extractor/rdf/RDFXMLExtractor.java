@@ -22,6 +22,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
+import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.helpers.RDFParserBase;
 
 import java.util.Arrays;
@@ -73,7 +74,7 @@ public class RDFXMLExtractor extends BaseRDFExtractor {
     }
 
     @Override
-    protected RDFParserBase getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
+    protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
         return RDFParserFactory.getInstance().getRDFXMLParser(
                 isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
         );

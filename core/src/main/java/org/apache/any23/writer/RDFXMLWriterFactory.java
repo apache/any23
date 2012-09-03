@@ -29,7 +29,7 @@ import org.openrdf.rio.RDFFormat;
 @MetaInfServices
 public class RDFXMLWriterFactory implements WriterFactory {
 
-    public static final String MIME_TYPE = "application/rdf+xml";
+    public static final String MIME_TYPE = RDFFormat.RDFXML.getDefaultMIMEType();
     public static final String IDENTIFIER = "rdfxml";
 
     /**

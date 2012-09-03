@@ -20,16 +20,14 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
-import org.apache.any23.io.nquads.NQuadsParser;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.openrdf.rio.ParseErrorListener;
+import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.ntriples.NTriplesParser;
-import org.openrdf.rio.rdfxml.RDFXMLParser;
-import org.openrdf.rio.trix.TriXParser;
+import org.openrdf.rio.Rio;
 import org.openrdf.rio.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +64,7 @@ public class RDFParserFactory {
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured Turtle parser.
      */
-    public TurtleParser getTurtleParserInstance(
+    public RDFParser getTurtleParserInstance(
             final boolean verifyDataType,
             final boolean stopAtFirstError,
             final ExtractionContext extractionContext,
@@ -89,13 +87,13 @@ public class RDFParserFactory {
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured RDFXML parser.
      */
-    public RDFXMLParser getRDFXMLParser(
+    public RDFParser getRDFXMLParser(
             final boolean verifyDataType,
             final boolean stopAtFirstError,
             final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
-        final RDFXMLParser parser = new RDFXMLParser();
+        final RDFParser parser = Rio.createParser(RDFFormat.RDFXML);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
@@ -109,13 +107,13 @@ public class RDFParserFactory {
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured NTriples parser.
      */
-    public NTriplesParser getNTriplesParser(
+    public RDFParser getNTriplesParser(
             final boolean verifyDataType,
             final boolean stopAtFirstError,
             final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
-        final NTriplesParser parser = new NTriplesParser();
+        final RDFParser parser = Rio.createParser(RDFFormat.NTRIPLES);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
@@ -129,13 +127,13 @@ public class RDFParserFactory {
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured NQuads parser.
      */
-    public NQuadsParser getNQuadsParser(
+    public RDFParser getNQuadsParser(
             final boolean verifyDataType,
             final boolean stopAtFirstError,
             final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
-        final NQuadsParser parser = new NQuadsParser();
+        final RDFParser parser = Rio.createParser(RDFFormat.NQUADS);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
@@ -149,13 +147,13 @@ public class RDFParserFactory {
      * @param extractionResult the output extraction result.
      * @return a new instance of a configured TriX parser.
      */
-    public TriXParser getTriXParser(
+    public RDFParser getTriXParser(
             final boolean verifyDataType,
             final boolean stopAtFirstError,
             final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
-        final TriXParser parser = new TriXParser();
+        final RDFParser parser = Rio.createParser(RDFFormat.TRIX);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }

@@ -29,7 +29,7 @@ import org.openrdf.rio.RDFFormat;
 @MetaInfServices
 public class TurtleWriterFactory implements WriterFactory {
 
-    public static final String MIME_TYPE = "text/turtle";
+    public static final String MIME_TYPE = RDFFormat.TURTLE.getDefaultMIMEType();
     public static final String IDENTIFIER = "turtle";
 
     /**
