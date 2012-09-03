@@ -193,6 +193,7 @@
     <module>nquads</module>
     <module>csvutils</module>
     <module>mime</module>
+    <module>encoding</module>
     <module>core</module>
     <module>plugins/basic-crawler</module>
     <module>plugins/html-scraper</module>

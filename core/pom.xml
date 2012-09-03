@@ -47,6 +47,11 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
+      <artifactId>apache-any23-encoding</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
       <artifactId>apache-any23-nquads</artifactId>
       <version>${project.version}</version>
       <scope>test</scope>
