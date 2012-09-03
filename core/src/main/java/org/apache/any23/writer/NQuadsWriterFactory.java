@@ -29,7 +29,7 @@ import org.openrdf.rio.RDFFormat;
 @MetaInfServices
 public class NQuadsWriterFactory implements WriterFactory {
 
-    public static final String MIME_TYPE = "text/plain";
+    public static final String MIME_TYPE = RDFFormat.NQUADS.getDefaultMIMEType();
     public static final String IDENTIFIER = "nquads";
 
     /**

@@ -190,6 +190,9 @@
   <modules>
     <module>api</module>
     <module>test-resources</module>
+    <module>nquads</module>
+    <module>csvutils</module>
+    <module>mime</module>
     <module>core</module>
     <module>plugins/basic-crawler</module>
     <module>plugins/html-scraper</module>
@@ -332,6 +335,11 @@
       </dependency>
       <dependency>
         <groupId>org.openrdf.sesame</groupId>
+        <artifactId>sesame-rio-n3</artifactId>
+        <version>${sesame.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openrdf.sesame</groupId>
         <artifactId>sesame-rio-trix</artifactId>
         <version>${sesame.version}</version>
       </dependency>
@@ -387,13 +395,18 @@
       </dependency>
       <!-- END: Sesame -->
 
-      <!-- BEGIN:  Apache Commons  CSV-->
+      <!-- BEGIN:  Apache Commons -->
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-csv</artifactId>
         <version>1.0-SNAPSHOT-rev1148315</version>
       </dependency>
-      <!-- END:  Apache Commons CSV -->
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.4</version>
+      </dependency>
+      <!-- END:  Apache Commons -->
 
       <!-- BEGIN: Servlet Deps. -->
       <dependency>
@@ -437,6 +450,11 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>jcl-over-slf4j</artifactId>
+        <version>${slf4j.logger.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
         <version>${slf4j.logger.version}</version>
       </dependency>
       <!-- END: logger -->
