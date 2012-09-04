@@ -61,7 +61,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>any23-nquads</artifactId>
+      <artifactId>apache-any23-nquads</artifactId>
       <version>${project.version}</version>
       <scope>runtime</scope>
     </dependency>
