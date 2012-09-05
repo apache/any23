@@ -42,6 +42,11 @@
       <artifactId>apache-any23-core</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.any23</groupId>
+      <artifactId>apache-any23-nquads</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <!-- BEGIN: Servlet Deps. -->
     <dependency>
