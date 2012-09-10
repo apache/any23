@@ -18,14 +18,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>apache-any23</artifactId>
     <groupId>org.apache.any23</groupId>
     <version>0.7.1-incubating-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
+
   <artifactId>apache-any23-test-resources</artifactId>
+
   <name>Apache Any23 :: Test Resources</name>
+
   <build>
     <plugins>
       <plugin>
@@ -41,4 +45,5 @@
       </plugin>
     </plugins>
   </build>
+
 </project>
