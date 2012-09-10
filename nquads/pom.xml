@@ -19,14 +19,18 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <artifactId>apache-any23</artifactId>
     <groupId>org.apache.any23</groupId>
     <version>0.7.1-incubating-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
+
   <artifactId>apache-any23-nquads</artifactId>
+
   <name>Apache Any23 :: NQuads Parser and Writer</name>
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -59,5 +63,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-</project>
 
+</project>
