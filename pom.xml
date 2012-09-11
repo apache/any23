@@ -465,7 +465,6 @@
         <groupId>org.kohsuke.metainf-services</groupId>
         <artifactId>metainf-services</artifactId>
         <version>1.4</version>
-        <scope>provided</scope>
       </dependency>
       <!-- END: plugins -->
 
