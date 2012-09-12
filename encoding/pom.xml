@@ -65,7 +65,6 @@
         <directory>${basedir}/../</directory>
         <targetPath>META-INF</targetPath>
         <includes>
-          <include>DISCLAIMER.txt</include>
           <include>LICENSE.txt</include>
           <include>NOTICE.txt</include>
         </includes>
@@ -82,7 +81,6 @@
             <directory>${basedir}/../</directory>
             <targetPath>${project.build.directory}/apidocs/META-INF</targetPath>
             <includes>
-              <include>DISCLAIMER.txt</include>
               <include>LICENSE.txt</include>
               <include>NOTICE.txt</include>
             </includes>
