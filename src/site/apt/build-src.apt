@@ -30,7 +30,7 @@ Build Apache Any23 from sources
     Checkout the code from SVN:
 
 +---------------------------------------------------------------------------
-$ svn checkout http://svn.apache.org/repos/asf/incubator/any23/trunk apache-any23-trunk-readonly
+$ svn checkout http://svn.apache.org/repos/asf/any23/trunk apache-any23-trunk-readonly
 +---------------------------------------------------------------------------
 
 * Build <<Apache Any23>>

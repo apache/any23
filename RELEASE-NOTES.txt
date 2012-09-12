@@ -1,6 +1,6 @@
                              Apache Any23 0.7.0-incubating
                               Release Notes
-                              25/06/2012 - ddmmyyyy
+                              25/06/2012
 
 Sub-task
 

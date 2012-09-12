@@ -20,7 +20,7 @@
 
   <properties>
     <title>Apache Any23 - Release HowTo</title>
-    <author email="any23-dev@incubator.apache.org">Apache Any23 Team</author>
+    <author email="any23-dev@apache.org">Apache Any23 Team</author>
   </properties>
 
   <body>
@@ -85,7 +85,7 @@
   ...
 </settings>]]></source>
 
-        <p>You can find a <a href="https://svn.apache.org/repos/asf/incubator/any23/committers/maven/settings.xml"><code>settings.xml</code></a>
+        <p>You can find a <a href="https://svn.apache.org/repos/asf/any23/committers/maven/settings.xml"><code>settings.xml</code></a>
         template in our SVN committers space</p>
       </subsection>
     </section>
@@ -120,7 +120,7 @@
           A branch can be made by running:
           <pre>mvn release:branch -DbranchName=1.0.x</pre></li>
           <li>Checkout a clean copy of the trunk/branch to release using command line svn:
-          <pre>svn checkout https://svn.apache.org/repos/asf/incubator/any23/trunk/ release</pre></li>
+          <pre>svn checkout https://svn.apache.org/repos/asf/any23/trunk/ release</pre></li>
         </ol>
       </subsection>
 
@@ -218,10 +218,10 @@ gpg: Signature made ...</source>
                 </ol>
               </li>
 
-              <li>Add the distribution artifacts to the build area (the <a href="https://svn.apache.org/repos/asf/incubator/any23/committers/scripts/grab-binaries.sh">grab-binaries.sh</a>
+              <li>Add the distribution artifacts to the build area (the <a href="https://svn.apache.org/repos/asf/any23/committers/scripts/grab-binaries.sh">grab-binaries.sh</a>
               script is versioned under the committer space of Any23 SVN).
                 <source>ssh asf-id@people.apache.org
-cd /x1/builds/incubator/any23
+cd /x1/builds/any23
 
 sh grab-binaries.sh REPO_ID ANY23_VERSION CRAWLER_VERSION HTML_SCRAPER_VERSION OFFICE_SCRAPER_VERSION</source>
               </li>
@@ -231,7 +231,7 @@ sh grab-binaries.sh REPO_ID ANY23_VERSION CRAWLER_VERSION HTML_SCRAPER_VERSION O
           <li>
             This step will create the staging site: From the directory where you have launched <tt>release:perform</tt> execute:
             <source>cd target/checkout
-svn checkout https://svn.apache.org/repos/asf/incubator/any23/site/ staging-site
+svn checkout https://svn.apache.org/repos/asf/any23/site/ staging-site
 mvn -P site site-deploy -Dsite.deploymentBaseUrl=file:///&lt;absolute path to/&lt;staging-site/version&gt;&gt;
 cd staging-site
 svn add &lt;version&gt;
@@ -242,9 +242,9 @@ svn commit -m "staging site for release"</source>
 
       <subsection name="Vote the Release">
         <ol>
-          <li>Create a <code>VOTE</code> email thread on <a href="mailto:any23-dev@incubator.apache.org">any23-dev</a>
+          <li>Create a <code>VOTE</code> email thread on <a href="mailto:any23-dev@apache.org">any23-dev</a>
           to record votes as replies, e.g.:
-            <pre><![CDATA[To: "Apache Any23 Developers List" <any23-dev@incubator.apache.org>
+            <pre><![CDATA[To: "Apache Any23 Developers List" <any23-dev@apache.org>
 Subject: [VOTE] Release Apache Any23 X.Y
 
 Hi,
@@ -256,19 +256,19 @@ There are still a couple of issues left in JIRA:
 http://issues.apache.org/jira/secure/IssueNavigator.jspa?reset=true&pid=12312323&status=1
 
 SVN source tag (r9999999):
-https://svn.apache.org/repos/asf/incubator/any23/tags/X.Y/
+https://svn.apache.org/repos/asf/any23/tags/X.Y/
 
 Staging repo:
 https://repository.apache.org/content/repositories/orgapacheany23-[YOUR REPOSITORY ID]/
 
 Staging binaries:
-http://people.apache.org/builds/incubator/any23/
+http://people.apache.org/builds/any23/
 
 Staging site:
-http://incubator.apache.org/any23/X.Y/
+http://any23.apache.org/X.Y/
 
 PGP release keys (signed using ABCDEFG):
-http://www.apache.org/dist/incubator/any23/KEYS
+http://any23.apache.org/dist/KEYS
 
 Vote will be open for 72 hours.
 
@@ -278,7 +278,7 @@ Vote will be open for 72 hours.
           </li>
 
           <li>Create a <code>DISCUSS</code> email thread on <code>any23-dev@</code> for any vote questions, e.g.:
-            <pre><![CDATA[To: "Apache Any23 Developers List" <any23-dev@incubator.apache.org>
+            <pre><![CDATA[To: "Apache Any23 Developers List" <any23-dev@apache.org>
 Subject: [DISCUSS] Apache Any23 X.Y
 
 Discussion thread for vote on &lt;version&gt; release candidate, with SVN source tag (r9999999).
@@ -290,7 +290,7 @@ Some of the things to check before voting are:
  - can you build the contents of source-release.zip and svn tag
  - do all of the staged jars/zips contain the required LICENSE and NOTICE files
  - are all of the staged jars signed and the signature verifiable
- - is the signing key in the project's KEYS file and on a public server (i.e. http://www.apache.org/dist/incubator/any23/)]]>
+ - is the signing key in the project's KEYS file and on a public server (i.e. http://www.apache.org/dist/any23/)]]>
             </pre>
           </li>
 
@@ -304,8 +304,8 @@ Some of the things to check before voting are:
           <li>After the vote has been open for at least 72 hours, has at least three +1 PMC votes and no -1 votes, then
           post the results to the vote thread, replying to the initial email prepending <code>[RESULT]</code> to the
           original subject and include a list of every binding <code>+1</code>, <code>0</code> and <code>-1</code> vote.
-          <pre><![CDATA[To: "Apache Any23 Developers List" <any23-dev@incubator.apache.org>
-CC: "Apache Any23 PMC List" <any23-private@incubator.apache.org>
+          <pre><![CDATA[To: "Apache Any23 Developers List" <any23-dev@apache.org>
+CC: "Apache Any23 PMC List" <any23-private@apache.org>
 Subject: [RESULT] [VOTE] Release Apache Any23 X.Y
 
 Hi,
@@ -342,10 +342,10 @@ I will promote the artifacts to the central repo.]]></pre>
 
           <li>Add the distribution artifacts to the distribution area
             <source>ssh asf-id@people.apache.org
-cd /x1/www/www.apache.org/dist/incubator/any23/
+cd /x1/www/www.apache.org/dist/any23/
 
-mv /x1/builds/incubator/any23/sources/* sources/
-mv /x1/builds/incubator/any23/binaries/* binaries/</source>
+mv /x1/builds/any23/sources/* sources/
+mv /x1/builds/any23/binaries/* binaries/</source>
           </li>
 
           <li>Update the
@@ -357,15 +357,15 @@ mv /x1/builds/incubator/any23/binaries/* binaries/</source>
 
       <subsection name="Announce the Release">
         <p>Make an announcement about the release on the
-        <a href="mailto:any23-user@incubator.apache.org">any23-user</a>,
-        <a href="mailto:any23-dev@incubator.apache.org">any23-dev</a>, and
+        <a href="mailto:any23-user@apache.org">any23-user</a>,
+        <a href="mailto:any23-dev@apache.org">any23-dev</a>, and
         <a href="mailto:announce@apache.org">announce@apache.org</a> lists as per
         <a href="http://www.apache.org/foundation/mailinglists.html#foundation-announce]">the Apache Announcement Mailing Lists page</a>
         </p>
 
         <pre><![CDATA[From: YOUR_APACHE_USERNAME@apache.org
-To: "ASF Announcements" <announce@apache.org>, "Apache Any23 Users List" <any23-user@incubator.apache.org>
-CC: "Apache Any23 Developers List" <any23-dev@incubator.apache.org>
+To: "ASF Announcements" <announce@apache.org>, "Apache Any23 Users List" <any23-user@apache.org>
+CC: "Apache Any23 Developers List" <any23-dev@apache.org>
 Subject: [ANNOUNCE] Apache Any23 X.Y
 
 The Apache Any23 Team is pleased to announce the release of Apache Any23 X.Y.
@@ -393,7 +393,7 @@ Have Fun,
         </li>
 
         <li>Delete the svn tag created by the <code>release:perform</code> step:
-        <pre>svn rm https://svn.apache.org/repos/asf/incubator/any23/tags/X.Y -m "deleting tag from rolled back release"</pre></li>
+        <pre>svn rm https://svn.apache.org/repos/asf/any23/tags/X.Y -m "deleting tag from rolled back release"</pre></li>
 
         <li>Drop the Nexus staging repo:
           <ol>

@@ -31,13 +31,13 @@ Online Documentation
 --------------------
 
 For details on the command line tool and web interface, see:
-  http://incubator.apache.org/any23/getting-started.html
+  http://any23.apache.org/getting-started.html
 
 For a guide to using any23 as a library in your Java applications, see:
-  http://incubator.apache.org/any23/developers.html
+  http://any23.apache.org/developers.html
 
 Javadocs is available here:
-  http://incubator.apache.org/any23/apidocs/
+  http://any23.apache.org/apidocs/
 
 ----------------------------
 Build Any23 from Source Code
@@ -68,7 +68,7 @@ Any23 comes with some command line tools:
 
 The complete documentation about these tools can be found here: 
 
-  http://incubator.apache.org/any23/getting-started.html
+  http://any23.apache.org/getting-started.html
 
 The bin scripts are generated dynamically during the package phase.
 To ensure the package generation run:
@@ -99,7 +99,7 @@ You can check the service is running by accessing
 http://localhost:8080/ with your browser.
 
 The complete documentation about this service can be found here: 
-http://incubator.apache.org/any23/getting-started.html
+http://any23.apache.org/getting-started.html
 
 -------------------------------
 Build the Any23 Web Service WAR
@@ -117,7 +117,7 @@ will force the test skipping.
 
 The WAR will be generated in
 
-  target/any23-service-x.y.z-incubating-SNAPSHOT.war
+  target/any23-service-x.y.z-SNAPSHOT.war
 
 To produce a instead a WAR WITHOUT the included JAR dependencies it is possible to use
 the war-without-deps profile:
@@ -243,7 +243,7 @@ Package all modules for direct download:
 
 Upload the produced packages in download section:
 
-   http://www.apache.org/dist/incubator/any23
+   http://any23.apache.org/dist
 
 --------------------
 Manage External Deps
