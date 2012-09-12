@@ -70,6 +70,6 @@ Introduction to Apache Any23
 
 * Community
 
-    Questions, comments? Get in touch on the {{{http://groups.google.com/group/any23-dev}mailing list}}!
-    Bugs, feature requests, patches? Please submit to the {{{http://code.google.com/p/any23/issues}issue tracker}}.
+    Questions, comments? Get in touch on the {{{http://any23-dev@apache.org}mailing list}}!
+    Bugs, feature requests, patches? Please submit to the {{{https://issues.apache.org/jira/browse/ANY23}issue tracker}}.
     You can access the source through Subversion, see the {{{./install.html}Installation Guide}} for details.
