@@ -29,6 +29,7 @@
   <artifactId>apache-any23-api</artifactId>
  
   <name>Apache Any23 :: Base API</name>
+  <description>Any23 library external API.</description>
 
   <dependencies>
     <dependency>

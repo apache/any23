@@ -29,6 +29,7 @@
   <artifactId>apache-any23-nquads</artifactId>
 
   <name>Apache Any23 :: NQuads Parser and Writer</name>
+  <description>NQuads parsing and serialization library.</description>
 
   <dependencies>
     <dependency>

@@ -29,6 +29,7 @@
   <artifactId>apache-any23-csvutils</artifactId>
 
   <name>Apache Any23 :: CSV Utilities</name>
+  <description>CSV specific library.</description>
 
   <dependencies>
     <dependency>

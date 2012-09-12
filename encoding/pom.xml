@@ -29,6 +29,7 @@
   <artifactId>apache-any23-encoding</artifactId>
 
   <name>Apache Any23 :: Encoding Detection</name>
+  <description>Encoding detection library.</description>
 
   <dependencies>
     <dependency>

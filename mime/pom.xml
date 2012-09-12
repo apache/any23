@@ -29,6 +29,7 @@
   <artifactId>apache-any23-mime</artifactId>
 
   <name>Apache Any23 :: Mime Type Detection</name>
+  <description>MIME Type detection library.</description>
 
   <dependencies>
     <dependency>

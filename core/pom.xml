@@ -28,6 +28,7 @@
   <artifactId>apache-any23-core</artifactId>
 
   <name>Apache Any23 :: Core</name>
+  <description>Core Any23 library implementation.</description>
 
   <dependencies>
     <dependency>

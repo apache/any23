@@ -29,6 +29,7 @@
   <packaging>war</packaging>
 
   <name>Apache Any23 :: Service</name>
+  <description>Any23 Frontend and REST Service implementation.</description>
 
   <properties>
     <!-- the following property is used in the bash script as well, don't remove it! -->
