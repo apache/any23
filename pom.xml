@@ -26,13 +26,13 @@
 
   <groupId>org.apache.any23</groupId>
   <artifactId>apache-any23</artifactId>
-  <version>0.7.1-incubating-SNAPSHOT</version>
+  <version>0.7.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Apache Any23</name>
   <description>Anything To Triples (any23) is a library, a web service and a command line tool that 
   extracts structured data in RDF format from a variety of Web documents.</description>
-  <url>http://incubator.apache.org/any23</url>
+  <url>http://any23.apache.org</url>
   <inceptionYear>2010</inceptionYear>
 
   <developers>
@@ -155,34 +155,34 @@
   <mailingLists>
     <mailingList>
       <name>Dev Mailing List</name>
-      <post>any23-dev[at]incubator[dot]apache[dot]org</post>
-      <subscribe>any23-dev-subscribe[at]incubator[dot]apache[dot]org</subscribe>
-      <unsubscribe>any23-dev-unsubscribe[at]incubator[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-any23-dev/</archive>
+      <post>any23-dev[at]apache[dot]org</post>
+      <subscribe>any23-dev-subscribe[at]apache[dot]org</subscribe>
+      <unsubscribe>any23-dev-unsubscribe[at]apache[dot]org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/any23-dev/</archive>
       <otherArchives>
-        <otherArchive>http://incubator-any23-dev.markmail.org/</otherArchive>
+        <otherArchive>http://any23-dev.markmail.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
     <mailingList>
       <name>User Mailing List</name>
-      <post>any23-user[at]incubator[dot]apache[dot]org</post>
-      <subscribe>any23-user-subscribe[at]incubator[dot]apache[dot]org</subscribe>
-      <unsubscribe>any23-user-unsubscribe[at]incubator[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-any23-user/</archive>
+      <post>any23-user[at]apache[dot]org</post>
+      <subscribe>any23-user-subscribe[at]apache[dot]org</subscribe>
+      <unsubscribe>any23-user-unsubscribe[at]apache[dot]org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/any23-user/</archive>
       <otherArchives>
-        <otherArchive>http://incubator-any23-user.markmail.org/</otherArchive>
+        <otherArchive>http://any23-user.markmail.org/</otherArchive>
       </otherArchives>
     </mailingList>
 
     <mailingList>
       <name>Commits Mailing List</name>
-      <post>any23-commits[at]incubator[dot]apache[dot]org</post>
-      <subscribe>any23-commits-subscribe[at]incubator[dot]apache[dot]org</subscribe>
-      <unsubscribe>any23-commits-unsubscribe[at]incubator[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/incubator-any23-commits/</archive>
+      <post>any23-commits[at]apache[dot]org</post>
+      <subscribe>any23-commits-subscribe[at]apache[dot]org</subscribe>
+      <unsubscribe>any23-commits-unsubscribe[at]apache[dot]org</unsubscribe>
+      <archive>http://mail-archives.apache.org/mod_mbox/any23-commits/</archive>
       <otherArchives>
-        <otherArchive>http://incubator-any23-commits.markmail.org/</otherArchive>
+        <otherArchive>http://any23-commits.markmail.org/</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
@@ -203,9 +203,9 @@
   </modules>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/trunk/</developerConnection>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/</connection>
-    <url>https://svn.apache.org/viewvc/incubator/any23/</url>
+    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/any23/trunk/</developerConnection>
+    <connection>scm:svn:https://svn.apache.org/repos/asf/any23/</connection>
+    <url>https://svn.apache.org/viewvc/any23/</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
@@ -260,10 +260,10 @@
      | deploying the site in a local dir (where you checked out the site dir)
      | then committing in one shot, i.e.
      |
-     | svn co https://svn.apache.org/repos/asf/incubator/any23/site
+     | svn co https://svn.apache.org/repos/asf/any23/site
      | mvn site-deploy -Dsite.deploymentBaseUrl=file://path/to/checked/out/site -P site
     -->
-    <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/incubator/any23/site</site.deploymentBaseUrl>
+    <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/any23/site</site.deploymentBaseUrl>
     <assembly.skip>false</assembly.skip>
   </properties>
 
@@ -488,7 +488,7 @@
   <repositories>
     <repository>
       <id>any23-repository-external</id>
-      <url>http://svn.apache.org/repos/asf/incubator/any23/repo-ext/</url>
+      <url>http://svn.apache.org/repos/asf/any23/repo-ext/</url>
     </repository>
     <!-- Specific repository for Aduna / Sesame related dependencies. -->
     <repository>
@@ -933,9 +933,9 @@
                   <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                    <anonymousConnection>scm:svn:http://svn.apache.org/repos/asf/incubator/any23/trunk</anonymousConnection>
-                    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/any23/trunk</developerConnection>
-                    <webAccessUrl>http://svn.apache.org/viewvc/incubator/any23/trunk</webAccessUrl>
+                    <anonymousConnection>scm:svn:http://svn.apache.org/repos/asf/any23/trunk</anonymousConnection>
+                    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/any23/trunk</developerConnection>
+                    <webAccessUrl>http://svn.apache.org/viewvc/any23/trunk</webAccessUrl>
                   </configuration>
                   <reportSets>
                     <reportSet>

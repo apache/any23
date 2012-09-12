@@ -21,13 +21,13 @@
   <parent>
     <groupId>org.apache.any23</groupId>
     <artifactId>apache-any23</artifactId>
-    <version>0.7.1-incubating-SNAPSHOT</version>
+    <version>0.7.1-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <groupId>org.apache.any23.plugins</groupId>
   <artifactId>apache-any23-basic-crawler</artifactId>
-  <version>1.0.1-incubating-SNAPSHOT</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <name>Apache Any23 :: Plugins :: Basic Crawler</name>
   <description>Any23 plugin for crawling sites.</description>
