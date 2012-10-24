@@ -89,6 +89,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
         final StringBuilder allLinesExceptLast = new StringBuilder();
         for (int i = 0; i < lines.length - 1; i++) {
             allLinesExceptLast.append(lines[i]);
+            allLinesExceptLast.append("\n");
         }
 
         final Statement[] statements = RDFUtils.parseRDF(RDFFormat.NQUADS, allLinesExceptLast.toString());
