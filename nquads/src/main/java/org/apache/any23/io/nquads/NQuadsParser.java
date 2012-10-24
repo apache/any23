@@ -273,7 +273,7 @@ public class NQuadsParser extends RDFParserBase {
         } catch (EOS eos) {
             reportFatalError("Unexpected end of stream.", row, col);
             throw new IllegalStateException();
-        } catch (Exception e) {
+        } catch (Exception e) { // FIXME: We should not be catching IOException here as that is used to indicate a failure of the stream/writer
             if(super.stopAtFirstError()) {
                 if(e instanceof RDFParseException)
                     throw (RDFParseException) e;
