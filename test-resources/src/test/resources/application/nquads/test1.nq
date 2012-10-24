@@ -4,5 +4,5 @@ _:bnode2 <http://xmlns.com/foaf/0.1/Friend> _:bnode3 <http://example.org/alice/f
 
 
 _:bnode3 <http://xmlns.com/foaf/0.1/Friend> "This literal is \"really\" useful"@it <http://example.org/alice/foaf4.rdf> .
-_:bnode1 <#like> "12345"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/alice/foaf5.rdf> .
-_:bnode4 <#type> "triple"^^<http://www.w3.org/2001/XMLSchema#String> .
+_:bnode1 <http://example.org/#like> "12345"^^<http://www.w3.org/2001/XMLSchema#integer> <http://example.org/alice/foaf5.rdf> .
+_:bnode4 <http://example.org/#type> "triple"^^<http://www.w3.org/2001/XMLSchema#String> .
