@@ -244,6 +244,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
                 break;
             }
             if (cell.equals("")) {
+                index++;
                 continue;
             }
             URI predicate = headerURIs[index];

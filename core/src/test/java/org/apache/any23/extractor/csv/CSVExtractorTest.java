@@ -96,5 +96,20 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertContains(null, null, new LiteralImpl("7.9", XMLSchema.FLOAT));
         assertContains(null, null, new LiteralImpl("10" , XMLSchema.INTEGER));
     }
+    
+    @Test
+    public void testExtractionEmptyValue() throws RepositoryException {
+        CSV csv = CSV.getInstance();
+        assertExtract("/org/apache/any23/extractor/csv/test-missing.csv");
+        logger.debug(dumpModelToRDFXML());
+
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 25);
+        assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+        assertContains(null, csv.numberOfColumns, new LiteralImpl("4", XMLSchema.INTEGER));
+        assertContains(null, csv.numberOfRows, new LiteralImpl("3", XMLSchema.INTEGER));
+        assertContains(null, null, new LiteralImpl("Michele", XMLSchema.STRING));
+        assertContains(null, null, new LiteralImpl("Giovanni", XMLSchema.STRING));
+    }
 
 }
