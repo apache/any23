@@ -511,6 +511,12 @@
       <id>any23-repository-external</id>
       <url>http://svn.apache.org/repos/asf/any23/repo-ext/</url>
     </repository>
+    <repository>
+      <id>sonatype-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </repository>
   </repositories>
 
   <build>
