@@ -511,13 +511,6 @@
       <id>any23-repository-external</id>
       <url>http://svn.apache.org/repos/asf/any23/repo-ext/</url>
     </repository>
-    <!-- Specific repository for Aduna / Sesame related dependencies. -->
-    <repository>
-      <id>aduna-software-release-repo</id>
-      <name>Aduna SW Release Repository</name>
-      <url>http://repo.aduna-software.org/maven2/releases</url>
-      <layout>default</layout>
-    </repository>
   </repositories>
 
   <build>
