@@ -380,41 +380,6 @@
         <artifactId>sesame-repository-api</artifactId>
         <version>${sesame.version}</version>
       </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-xml</artifactId>
-        <version>2.7.0</version>
-      </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-text</artifactId>
-        <version>2.7.0</version>
-      </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-net</artifactId>
-        <version>2.7.0</version>
-      </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-lang</artifactId>
-        <version>2.9.0</version>
-      </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-iteration</artifactId>
-        <version>2.10.0</version>
-      </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-io</artifactId>
-        <version>2.10.0</version>
-      </dependency>
-      <dependency>
-        <groupId>info.aduna.commons</groupId>
-        <artifactId>aduna-commons-concurrent</artifactId>
-        <version>2.7.0</version>
-      </dependency>
       <!-- END: Sesame -->
 
       <!-- BEGIN:  Apache Commons -->

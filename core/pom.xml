@@ -134,34 +134,6 @@
       <groupId>org.openrdf.sesame</groupId>
       <artifactId>sesame-repository-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-xml</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-text</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-net</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-lang</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-iteration</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-io</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>info.aduna.commons</groupId>
-      <artifactId>aduna-commons-concurrent</artifactId>
-    </dependency>
     <!-- END: Sesame -->
 
     <!-- BEGIN:  Apache Commons, this version is hosted in the 
