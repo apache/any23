@@ -226,8 +226,8 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${implementation.build}; ${maven.build.timestamp}</implementation.build.tstamp>
-    <slf4j.logger.version>1.6.6</slf4j.logger.version>
-    <sesame.version>2.6.9</sesame.version>
+    <slf4j.logger.version>1.7.2</slf4j.logger.version>
+    <sesame.version>2.7-SNAPSHOT</sesame.version>
     <latest.stable.released>0.7.0-incubating</latest.stable.released>
 
     <!-- Maven Plugin Versions -->
