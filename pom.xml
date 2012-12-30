@@ -255,16 +255,11 @@
 
     <!--
      | Any23 website has to be stored in SVN
-     |
-     | using the appropriate wagon, site deploy is slow, because deploy works file-by-file
-     | So consider the alternative of
-     | deploying the site in a local dir (where you checked out the site dir)
-     | then committing in one shot, i.e.
-     |
-     | svn co https://svn.apache.org/repos/asf/any23/site
-     | mvn site-deploy -Dsite.deploymentBaseUrl=file://path/to/checked/out/site -P site
     -->
-    <site.deploymentBaseUrl>svn:https://svn.apache.org/repos/asf/any23/site</site.deploymentBaseUrl>
+    <site.deploymentBaseUrl>scm:svn:https://svn.apache.org/repos/asf/any23/site</site.deploymentBaseUrl>
+    <site.filePath>${user.home}/any23-site/</site.filePath>
+    <site.urlDeployment>file://${site.filePath}</site.urlDeployment>
+    <site.scmPubCheckoutDirectory>${site.filePath}</site.scmPubCheckoutDirectory>
     <assembly.skip>false</assembly.skip>
   </properties>
 
@@ -914,7 +909,7 @@
         <site>
           <id>any23.website</id>
           <name>Apache Any23 website</name>
-          <url>${site.deploymentBaseUrl}</url>
+          <url>${site.urlDeployment}</url>
         </site>
       </distributionManagement>
 
@@ -966,6 +961,19 @@
                   </reportSets>
                 </plugin>
               </reportPlugins>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-scm-publish-plugin</artifactId>
+            <version>1.0-beta-2</version>
+            <configuration>
+              <tryUpdate>true</tryUpdate>
+              <checkinComment>Apache Any23 site deployment</checkinComment>
+              <checkoutDirectory>${site.scmPubCheckoutDirectory}</checkoutDirectory>
+              <pubScmUrl>${site.deploymentBaseUrl}</pubScmUrl>
+              <content>${site.filePath}</content>
             </configuration>
           </plugin>
         </plugins>
