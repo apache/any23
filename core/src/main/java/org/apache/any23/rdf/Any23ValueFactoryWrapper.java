@@ -17,6 +17,8 @@
 
 package org.apache.any23.rdf;
 
+import java.util.Date;
+
 import org.apache.any23.extractor.IssueReport;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Literal;
@@ -25,6 +27,7 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
+import org.openrdf.model.impl.ValueFactoryBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,6 +142,16 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     public Literal createLiteral(String pref, URI value) {
         if (pref == null) return null;
         return wrappedFactory.createLiteral(pref, value);
+    }
+
+    @Override
+    public Literal createLiteral(Date date) {
+        return wrappedFactory.createLiteral(date);
+    }
+
+    @Override
+    public Literal createLiteral(Object object) {
+        return wrappedFactory.createLiteral(object);
     }
 
     public Statement createStatement(Resource sub, URI pre, Value obj) {
