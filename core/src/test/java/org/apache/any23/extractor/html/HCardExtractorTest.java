@@ -741,6 +741,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
         assertJohn();
     }
 
+    @Ignore
     @Test
     public void testObjectDataDataUri() throws RepositoryException {
         assertExtract("/microformats/hcard/19-object-data-data-uri.html");

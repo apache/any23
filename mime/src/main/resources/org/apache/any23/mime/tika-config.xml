@@ -16,5 +16,5 @@
   limitations under the License.
 -->
 <properties>
-    <mimeTypeRepository resource="/org/apache/any23/mime/mimetypes.xml" magic="false"/>
+    <mimeTypeRepository resource="/org/apache/any23/mime/any23-tika-1.2-mimetypes.xml" magic="false"/>
 </properties>
