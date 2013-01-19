@@ -23,8 +23,6 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.rdf.RDFParserFactory;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.openrdf.rio.RDFHandlerException;
@@ -36,7 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.Arrays;
 
 /**
  * Extractor for RDFa in HTML, based on Fabien Gadon's XSLT transform, found
@@ -55,15 +52,6 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
             DefaultConfiguration.singleton().getPropertyOrFail("any23.rdfa.extractor.xslt");
 
     private static XSLTStylesheet xslt = null;
-
-    public final static ExtractorFactory<RDFaExtractor> factory =
-        SimpleExtractorFactory.create(
-                NAME,
-                null,
-                Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
-                null,
-                RDFaExtractor.class
-        );
 
     /**
      * Returns a {@link XSLTStylesheet} able to distill RDFa from
@@ -125,6 +113,7 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
         this.stopAtFirstError = stopAtFirstError;
     }
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -166,8 +155,9 @@ public class RDFaExtractor implements TagSoupDOMExtractor {
     /**
      * @return the {@link org.apache.any23.extractor.ExtractorDescription} of this extractor
      */
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return RDFaExtractorFactory.getDescriptionInstance();
     }
 
 }

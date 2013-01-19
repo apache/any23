@@ -57,7 +57,7 @@ public class ExcelExtractorTest {
 
     @Before
     public void setUp() {
-        extractor = new ExcelExtractor();
+        extractor = new ExcelExtractorFactory().createExtractor();
     }
 
     @Test

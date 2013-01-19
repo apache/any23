@@ -33,7 +33,7 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HTMLMetaExtractor.factory;
+        return new HTMLMetaExtractorFactory();
     }
 
     @Test

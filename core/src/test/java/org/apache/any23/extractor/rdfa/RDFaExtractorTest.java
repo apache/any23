@@ -74,7 +74,7 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return RDFaExtractor.factory;
+        return new RDFaExtractorFactory();
     }
 
 }

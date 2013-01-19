@@ -38,7 +38,7 @@ public class AdrExtractorTest extends AbstractExtractorTestCase {
     private static final VCARD vVCARD = VCARD.getInstance();
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return AdrExtractor.factory;
+        return new AdrExtractorFactory();
     }
 
     @Test

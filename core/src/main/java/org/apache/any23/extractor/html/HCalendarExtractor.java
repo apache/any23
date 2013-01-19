@@ -19,10 +19,7 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.ICAL;
 import org.openrdf.model.BNode;
@@ -33,7 +30,6 @@ import org.w3c.dom.Node;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
@@ -48,14 +44,6 @@ import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 public class HCalendarExtractor extends MicroformatExtractor {
 
     private static final ICAL vICAL = ICAL.getInstance();
-
-    public final static ExtractorFactory<HCalendarExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hcalendar",
-                    PopularPrefixes.createSubset("rdf", "ical"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-hcalendar.html",
-                    HCalendarExtractor.class);
 
     private static final String[] Components = {"Vevent", "Vtodo", "Vjournal", "Vfreebusy"};
 
@@ -75,8 +63,9 @@ public class HCalendarExtractor extends MicroformatExtractor {
             "dtend",
     };
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HCalendarExtractorFactory.getDescriptionInstance();
     }
 
     @Override

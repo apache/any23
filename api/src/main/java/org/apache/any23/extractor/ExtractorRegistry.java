@@ -81,4 +81,6 @@ public interface ExtractorRegistry {
      */
     List<String> getAllNames();
 
+    void unregister(String name);
+
 }

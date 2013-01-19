@@ -22,10 +22,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
@@ -34,7 +31,6 @@ import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Extractor for "ICBM coordinates" provided as META headers in the head
@@ -45,15 +41,7 @@ import java.util.Arrays;
  */
 public class ICBMExtractor implements TagSoupDOMExtractor {
 
-    public final static ExtractorFactory<ICBMExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-head-icbm",
-                    PopularPrefixes.createSubset("geo", "rdf"),
-                    Arrays.asList("text/html;q=0.01", "application/xhtml+xml;q=0.01"),
-                    "example-icbm.html",
-                    ICBMExtractor.class
-            );
-
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -83,11 +71,12 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
     }
 
     private URI expand(String curie) {
-        return factory.getPrefixes().expand(curie);
+        return getDescription().getPrefixes().expand(curie);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return ICBMExtractorFactory.getDescriptionInstance();
     }
 
 }

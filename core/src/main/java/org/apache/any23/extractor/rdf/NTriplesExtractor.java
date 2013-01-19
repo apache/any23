@@ -20,31 +20,13 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.helpers.RDFParserBase;
-
-import java.util.Arrays;
 
 /**
  * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
  * handling NTriples <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format.
  */
 public class NTriplesExtractor extends BaseRDFExtractor {
-
-    public final static ExtractorFactory<NTriplesExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-nt",
-                    null,
-                    Arrays.asList(
-                            "text/nt;q=0.1",
-                            "text/ntriples;q=0.1",
-                            "text/plain;q=0.1"
-                    ),
-                    "example-ntriples.nt",
-                    NTriplesExtractor.class
-            );
 
     public NTriplesExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
@@ -57,8 +39,9 @@ public class NTriplesExtractor extends BaseRDFExtractor {
         this(false, false);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return NTriplesExtractorFactory.getDescriptionInstance();
     }
 
     @Override

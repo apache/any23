@@ -52,11 +52,6 @@ public class Any23PluginManager {
     public static final String CLI_PACKAGE = Tool.class.getPackage().getName();
 
     /**
-     * Any23 Plugins package.
-     */
-    public static final String PLUGINS_PACKAGE = ExtractorPlugin.class.getPackage().getName();
-
-    /**
      * Property where look for plugins.
      */
     public static final String PLUGIN_DIRS_PROPERTY = "any23.plugin.dirs";
@@ -263,8 +258,8 @@ public class Any23PluginManager {
      * @return not <code>null</code> list of plugin classes.
      * @throws IOException
      */
-    public synchronized Iterator<ExtractorPlugin> getExtractors() throws IOException {
-        return getPlugins(ExtractorPlugin.class);
+    public synchronized Iterator<ExtractorFactory> getExtractors() throws IOException {
+        return getPlugins(ExtractorFactory.class);
     }
 
     /**
@@ -297,7 +292,6 @@ public class Any23PluginManager {
         * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code>
         * and also the extractors detected in classpath specified by <code>pluginLocations</code>.
         *
-        * @param initialExtractorGroup initial list of extractors.
         * @param pluginLocations
         * @return full list of extractors.
         * @throws java.io.IOException
@@ -305,10 +299,10 @@ public class Any23PluginManager {
         * @throws InstantiationException
         */
     public synchronized ExtractorGroup configureExtractors(
-            final ExtractorGroup initialExtractorGroup,
+            //final ExtractorGroup initialExtractorGroup,
             final File... pluginLocations
     ) throws IOException, IllegalAccessException, InstantiationException {
-        if (initialExtractorGroup == null) throw new NullPointerException("inExtractorGroup cannot be null");
+        //if (initialExtractorGroup == null) throw new NullPointerException("inExtractorGroup cannot be null");
 
         final String pluginsReport = loadPlugins(pluginLocations);
         logger.info(pluginsReport);
@@ -316,9 +310,9 @@ public class Any23PluginManager {
         final StringBuilder report = new StringBuilder();
         try {
             final List<ExtractorFactory<?>> newFactoryList = new ArrayList<ExtractorFactory<?>>();
-            Iterator<ExtractorPlugin> extractors = getExtractors();
+            Iterator<ExtractorFactory> extractors = getExtractors();
             while (extractors.hasNext()) {
-                ExtractorFactory<?> factory = extractors.next().getExtractorFactory();
+                ExtractorFactory<?> factory = extractors.next();
 
                 report.append("\n - found plugin: ").append(factory.getExtractorName()).append("\n");
 
@@ -329,9 +323,9 @@ public class Any23PluginManager {
                 report.append("\n=== No plugins have been found.===\n");
             }
 
-            for (ExtractorFactory<?> extractorFactory : initialExtractorGroup) {
-                newFactoryList.add(extractorFactory);
-            }
+            //for (ExtractorFactory<?> extractorFactory : initialExtractorGroup) {
+            //    newFactoryList.add(extractorFactory);
+            //}
 
             return new ExtractorGroup(newFactoryList);
         } finally {
@@ -353,7 +347,7 @@ public class Any23PluginManager {
     throws IOException, InstantiationException, IllegalAccessException {
         final String pluginDirs = DefaultConfiguration.singleton().getPropertyOrFail(PLUGIN_DIRS_PROPERTY);
         final File[] pluginLocations = getPluginLocations(pluginDirs);
-        return configureExtractors(initialExtractorGroup, pluginLocations);
+        return configureExtractors(pluginLocations);
     }
 
     /**
@@ -369,8 +363,7 @@ public class Any23PluginManager {
      */
     public synchronized ExtractorGroup getApplicableExtractors(ExtractorRegistry registry, File... pluginLocations)
     throws IOException, IllegalAccessException, InstantiationException {
-        final ExtractorGroup defaultExtractors = registry.getExtractorGroup();
-        return configureExtractors(defaultExtractors, pluginLocations);
+        return configureExtractors(pluginLocations);
     }
 
     /**

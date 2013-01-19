@@ -20,10 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.HLISTING;
 import org.openrdf.model.BNode;
@@ -77,17 +74,9 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
     private HTMLDocument fragment;
 
-    public final static ExtractorFactory<HListingExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hlisting",
-                    PopularPrefixes.createSubset("rdf", "hlisting"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-hlisting.html",
-                    HListingExtractor.class
-            );
-
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HListingExtractorFactory.getDescriptionInstance();
     }
 
     protected String getBaseClassName() {

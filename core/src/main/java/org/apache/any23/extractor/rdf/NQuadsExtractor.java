@@ -20,12 +20,7 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.helpers.RDFParserBase;
-
-import java.util.Arrays;
 
 /**
  * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
@@ -35,21 +30,6 @@ import java.util.Arrays;
  */
 public class NQuadsExtractor extends BaseRDFExtractor {
 
-    public final static ExtractorFactory<NQuadsExtractor> factory =
-        SimpleExtractorFactory.create(
-                "rdf-nq",
-                null,
-                Arrays.asList(
-                        "text/x-nquads;q=0.1",
-                        "text/rdf+nq;q=0.1",
-                        "text/nq;q=0.1",
-                        "text/nquads;q=0.1",
-                        "text/n-quads;q=0.1"
-                ),
-                "example-nquads.nq",
-                NQuadsExtractor.class
-        );
-
     public NQuadsExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
     }
@@ -58,8 +38,9 @@ public class NQuadsExtractor extends BaseRDFExtractor {
         this(false, false);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return NQuadsExtractorFactory.getDescriptionInstance();
     }
 
     @Override

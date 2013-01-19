@@ -36,8 +36,9 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
 
     private static final Logger logger = LoggerFactory.getLogger(SpeciesExtractorTest.class);
 
+    @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return SpeciesExtractor.factory;
+        return new SpeciesExtractorFactory();
     }
 
     /**

@@ -22,9 +22,6 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.XHTML;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.openrdf.model.URI;
@@ -34,7 +31,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -75,7 +71,7 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
             if (title != null && !"".equals(title)) {
                 out.writeTriple(
                         href,
-                        factory.getPrefixes().expand("dcterms:title"),
+                        getDescription().getPrefixes().expand("dcterms:title"),
                         vf.createLiteral(title)
                 );
             }
@@ -83,22 +79,16 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
             if (type != null && !"".equals(type)) {
                 out.writeTriple(
                         href,
-                        factory.getPrefixes().expand("dcterms:format"),
+                        getDescription().getPrefixes().expand("dcterms:format"),
                         vf.createLiteral(type)
                 );
             }
         }
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HeadLinkExtractorFactory.getDescriptionInstance();
     }
 
-    public final static ExtractorFactory<HeadLinkExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-head-links",
-                    PopularPrefixes.createSubset("xhtml", "dcterms"),
-                    Arrays.asList("text/html;q=0.05", "application/xhtml+xml;q=0.05"),
-                    "example-head-link.html",
-                    HeadLinkExtractor.class);
 }

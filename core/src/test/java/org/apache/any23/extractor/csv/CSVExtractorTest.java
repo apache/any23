@@ -39,7 +39,7 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return CSVExtractor.factory;
+        return new CSVExtractorFactory();
     }
 
     @Test

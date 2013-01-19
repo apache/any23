@@ -47,7 +47,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     private final static URI charliesHomepage = RDFUtils.uri("http://charlie.example.com/");
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return XFNExtractor.factory;
+        return new XFNExtractorFactory();
     }
 
     @Test

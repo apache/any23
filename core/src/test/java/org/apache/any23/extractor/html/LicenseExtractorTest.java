@@ -44,7 +44,7 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     private URI apache = RDFUtils.uri("http://www.apache.org/licenses/LICENSE-2.0");
 
     public ExtractorFactory<?> getExtractorFactory() {
-        return LicenseExtractor.factory;
+        return new LicenseExtractorFactory();
     }
 
     @Test

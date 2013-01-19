@@ -23,9 +23,6 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.openrdf.model.URI;
@@ -36,7 +33,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,8 +47,6 @@ import java.util.Set;
  */
 public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
-    public static final String NAME = "html-head-meta";
-
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
     private URI profile;
@@ -61,18 +55,10 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private String documentLang;
 
-    public final static ExtractorFactory<HTMLMetaExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    PopularPrefixes.createSubset("sindice"),
-                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    "example-meta.html",
-                    HTMLMetaExtractor.class
-            );
-
     /**
      * {@inheritDoc}
      */
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -173,8 +159,9 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
         return null;
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HTMLMetaExtractorFactory.getDescriptionInstance();
     }
 
     private class Meta {

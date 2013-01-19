@@ -46,7 +46,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
     private static final Logger logger = LoggerFactory.getLogger(HListingExtractorTest.class);
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HListingExtractor.factory;
+        return new HListingExtractorFactory();
     }
 
     @Test

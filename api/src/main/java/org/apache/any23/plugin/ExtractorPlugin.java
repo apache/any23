@@ -25,7 +25,9 @@ import org.apache.any23.extractor.ExtractorFactory;
  * extractor plugin that can be detected and registered from the library classpath.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @deprecated ExtractorFactory now supports META-INF/services discovery, deprecating this class.
  */
+@Deprecated
 public interface ExtractorPlugin<T extends Extractor<?>> {
 
     /**

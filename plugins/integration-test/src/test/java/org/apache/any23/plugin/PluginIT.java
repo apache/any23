@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PluginIT {
 
-    private static final int NUM_OF_EXTRACTORS = 23;
+    private static final int NUM_OF_EXTRACTORS = 28;
 
     private static final String PLUGIN_DIR = "target/plugins-build/";
 
@@ -76,13 +76,13 @@ public class PluginIT {
     @Test
     public void testDetectExtractorPlugins() throws IOException, InstantiationException, IllegalAccessException {
         final ExtractorGroup extractorGroup = manager.getApplicableExtractors(
-                ExtractorRegistryImpl.getInstance(),
+                new ExtractorRegistryImpl(),
                 HTML_SCRAPER_TARGET_DIR,  // Required to satisfy class dependencies.
                 HTML_SCRAPER_DEPENDENCY_DIR,
                 OFFICE_SCRAPER_TARGET_DIR
 , OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
         );
-        assertEquals(NUM_OF_EXTRACTORS + 2,        // HTMLScraper Plugin, OfficeScraper Plugin.
+        assertEquals(NUM_OF_EXTRACTORS ,        // HTMLScraper Plugin, OfficeScraper Plugin.
                 extractorGroup.getNumOfExtractors()
         );
     }

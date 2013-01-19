@@ -23,14 +23,11 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.model.URI;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,19 +39,11 @@ import java.util.List;
  */
 public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
 
-    public final static String NAME = "html-xpath";
-
-    public final static ExtractorFactory<XPathExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    null,
-                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    null,
-                    XPathExtractor.class
-            );
-
     private final List<XPathExtractionRule> xPathExtractionRules = new ArrayList<XPathExtractionRule>();
 
+    public XPathExtractor() {
+    }
+    
     public XPathExtractor(List<XPathExtractionRule> rules) {
         xPathExtractionRules.addAll(rules);
     }
@@ -71,6 +60,7 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
         return xPathExtractionRules.contains(rule);
     }
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -86,8 +76,9 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
         }
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return XPathExtractorFactory.getDescriptionInstance();
     }
 
 }

@@ -20,12 +20,7 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.helpers.RDFParserBase;
-
-import java.util.Arrays;
 
 /**
  *
@@ -34,22 +29,6 @@ import java.util.Arrays;
  *
  */
 public class TurtleExtractor extends BaseRDFExtractor {
-
-    public static final ExtractorFactory<TurtleExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-turtle",
-                    null,
-                    Arrays.asList(
-                            "text/rdf+n3",
-                            "text/n3",
-                            "application/n3",
-                            "application/x-turtle",
-                            "application/turtle",
-                            "text/turtle"
-                    ),
-                    "example-turtle.ttl",
-                    TurtleExtractor.class
-            );
 
     /**
      * Constructor, allows to specify the validation and error handling policies.
@@ -70,8 +49,9 @@ public class TurtleExtractor extends BaseRDFExtractor {
         this(false, false);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return TurtleExtractorFactory.getDescriptionInstance();
     }
 
     @Override

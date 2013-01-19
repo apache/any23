@@ -19,6 +19,7 @@ package org.apache.any23.filter;
 
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.html.TitleExtractor;
+import org.apache.any23.extractor.html.TitleExtractorFactory;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.openrdf.model.Resource;
@@ -75,7 +76,7 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
     }
 
     private boolean isTitleContext(ExtractionContext context) {
-        return context.getExtractorName().equals(TitleExtractor.NAME);
+        return context.getExtractorName().equals(TitleExtractorFactory.NAME);
     }
 
     public void endDocument(URI documentURI) throws TripleHandlerException {

@@ -20,12 +20,7 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.helpers.RDFParserBase;
-
-import java.util.Arrays;
 
 /**
  * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
@@ -33,22 +28,6 @@ import java.util.Arrays;
  * documents.
  */
 public class RDFXMLExtractor extends BaseRDFExtractor {
-
-    public final static ExtractorFactory<RDFXMLExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-xml",
-                    null,
-                    Arrays.asList(
-                            "application/rdf+xml",
-                            "text/rdf",
-                            "text/rdf+xml",
-                            "application/rdf"
-                            // "application/xml;q=0.2",
-                            // "text/xml;q=0.2"
-                    ),
-                    "example-rdfxml.rdf",
-                    RDFXMLExtractor.class
-            );
 
     /**
      * Constructor, allows to specify the validation and error handling policies.
@@ -69,8 +48,9 @@ public class RDFXMLExtractor extends BaseRDFExtractor {
         this(true, true);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return RDFXMLExtractorFactory.getDescriptionInstance();
     }
 
     @Override

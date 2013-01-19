@@ -20,18 +20,13 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.WO;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
-
-import java.util.Arrays;
 
 /**
  * Extractor able to extract the <a href="http://microformats.org/wiki/species">Species Microformat</a>.
@@ -56,15 +51,6 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
             "class",
     };
 
-    public final static ExtractorFactory<SpeciesExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-species",
-                    PopularPrefixes.createSubset("rdf", "wo"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-species.html",
-                    SpeciesExtractor.class
-            );
-
     /**
      * Returns the description of this extractor.
      *
@@ -72,7 +58,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
      */
     @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return SpeciesExtractorFactory.getDescriptionInstance();
     }
 
     /**

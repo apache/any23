@@ -28,8 +28,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
+import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.vocab.SINDICE;
 import org.kohsuke.MetaInfServices;
 import org.openrdf.model.URI;
@@ -39,7 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,8 +49,6 @@ import java.util.List;
 @MetaInfServices( value = Extractor.class )
 public class HTMLScraperExtractor implements Extractor.ContentExtractor {
 
-    public final static String NAME = "html-scraper";
-
     public final static URI PAGE_CONTENT_DE_PROPERTY  =
             ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/de");
     public final static URI PAGE_CONTENT_AE_PROPERTY  =
@@ -61,15 +57,6 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
             ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/lce");
     public final static URI PAGE_CONTENT_CE_PROPERTY  =
             ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/ce");
-
-    protected final static ExtractorFactory<HTMLScraperExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    null,
-                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    null,
-                    HTMLScraperExtractor.class
-            );
 
     private final List<ExtractionRule> extractionRules = new ArrayList<ExtractionRule>();
 
@@ -89,6 +76,7 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         return extractors.toArray( new String[extractors.size()] );
     }
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -110,10 +98,12 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         }
     }
 
-    public ExtractorFactory getDescription() {
-        return factory;
+    @Override
+    public ExtractorDescription getDescription() {
+        return HTMLScraperExtractorFactory.getDescriptionInstance();
     }
 
+    @Override
     public void setStopAtFirstError(boolean b) {
         // Ignored.
     }

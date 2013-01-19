@@ -64,7 +64,7 @@ public class PluginVerifier implements Tool {
 
         pluginManager.loadJARDir(pluginsDir);
 
-        final Iterator<ExtractorPlugin> plugins = pluginManager.getExtractors();
+        final Iterator<ExtractorFactory> plugins = pluginManager.getExtractors();
 
         while (plugins.hasNext()) {
             printPluginData(plugins.next(), System.out);
@@ -80,10 +80,8 @@ public class PluginVerifier implements Tool {
         return sb.toString();
     }
 
-    private void printPluginData(ExtractorPlugin instance, PrintStream ps) {
-        final Author authorAnnotation = instance.getClass().getAnnotation(Author.class);
-        final ExtractorFactory<?> extractorFactory = instance.getExtractorFactory();
-        ps.printf("Plugin class     : %s\n", instance.getClass());
+    private void printPluginData(ExtractorFactory extractorFactory, PrintStream ps) {
+        final Author authorAnnotation = extractorFactory.getClass().getAnnotation(Author.class);
         ps.printf("Plugin author    : %s\n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
         ps.printf("Plugin factory   : %s\n", extractorFactory.getClass());
         ps.printf("Plugin mime-types: %s\n", getMimeTypesStr( extractorFactory.getSupportedMIMETypes() ));

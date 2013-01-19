@@ -19,16 +19,11 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
-
-import java.util.Arrays;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/adr">adr</a>
@@ -89,16 +84,9 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         return true;
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return AdrExtractorFactory.getDescriptionInstance();
     }
 
-    public final static ExtractorFactory<AdrExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-adr",
-                    PopularPrefixes.createSubset("rdf", "vcard"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-adr.html",
-                    AdrExtractor.class
-            );
 }

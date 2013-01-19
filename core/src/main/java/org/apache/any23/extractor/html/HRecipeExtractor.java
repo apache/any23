@@ -20,16 +20,11 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.HRECIPE;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
-
-import java.util.Arrays;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hrecipe">hRecipe</a>
@@ -41,19 +36,9 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
 
     private static final HRECIPE vHRECIPE = HRECIPE.getInstance();
 
-    public final static ExtractorFactory<HRecipeExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hrecipe",
-                    PopularPrefixes.createSubset("rdf", "hrecipe"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-hrecipe.html",
-                    HRecipeExtractor.class
-            );
-
-
     @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HRecipeExtractorFactory.getDescriptionInstance();
     }
 
     @Override

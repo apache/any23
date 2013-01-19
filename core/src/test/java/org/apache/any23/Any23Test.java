@@ -43,6 +43,7 @@ import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.RepositoryWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -481,7 +482,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testMicrodataSupport() throws Exception {
-        final String htmlWithMicrodata = StreamUtils.asString(
+        final String htmlWithMicrodata = IOUtils.toString(
                 this.getClass().getResourceAsStream("/microdata/microdata-basic.html")
         );
         assertExtractorActivation(htmlWithMicrodata, MicrodataExtractor.class);

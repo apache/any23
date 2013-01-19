@@ -28,45 +28,28 @@ import java.util.Collection;
  *
  * @param <T> the type of the {@link Extractor} served by this factory.
  */
-public class SimpleExtractorFactory<T extends Extractor<?>> implements ExtractorFactory<T> {
+public abstract class SimpleExtractorFactory<T extends Extractor<?>> implements ExtractorFactory<T> {
 
     private final String name;
 
     private final Prefixes prefixes;
 
-    private final Collection<MIMEType> supportedMIMETypes = new ArrayList<MIMEType>();
+    private Collection<MIMEType> supportedMIMETypes = new ArrayList<MIMEType>();
 
-    private final String exampleInput;
+    private String exampleInput;
     
-    private final Class<T> extractorClass;
-
-    /**
-     * Creates an instance of a {@link ExtractorFactory} serving concrete implementation
-     * instances of {@link Extractor}.
-     *
-     * @param name of the {@link Extractor}.
-     * @param prefixes handled {@link org.apache.any23.rdf.Prefixes}.
-     * @param supportedMIMETypes collection of supported MIME Types.
-     * @param exampleInput a string acting as a input example.
-     * @param extractorClass concrete implementation class of the {@link Extractor}.
-     * @param <S> the concrete type of the {@link Extractor}.
-     * @return an {@link ExtractorFactory}.
-     */
-    public static <S extends Extractor<?>> ExtractorFactory<S> create(
-            String name,
-            Prefixes prefixes,
-            Collection<String> supportedMIMETypes,
-            String exampleInput,
-            Class<S> extractorClass
-    ) {
-        return new SimpleExtractorFactory<S>(name, prefixes, supportedMIMETypes, exampleInput, extractorClass);
-    }
-
     /**
      * @return the name of the {@link Extractor}
      */
     public String getExtractorName() {
         return name;
+    }
+
+    /**
+     * @return the label of the {@link Extractor}
+     */
+    public String getExtractorLabel() {
+        return this.getClass().getName();
     }
 
     /**
@@ -83,25 +66,6 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
         return supportedMIMETypes;
     }
 
-    @Override
-    public Class<T> getExtractorType() {
-        return extractorClass;
-    }
-
-    /**
-     * @return an instance of type T concrete implementation of {@link Extractor}
-     */
-    @Override
-    public T createExtractor() {
-        try {
-            return extractorClass.newInstance();
-        } catch (IllegalAccessException ex) {
-            throw new RuntimeException("Zero-argument constructor not public?", ex);
-        } catch (InstantiationException ex) {
-            throw new RuntimeException("Non-instantiable type?", ex);
-        }
-    }
-
     /**
      * @return an input example
      */
@@ -110,12 +74,18 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
         return exampleInput;
     }
 
-    private SimpleExtractorFactory(
+    protected SimpleExtractorFactory(
+            String name,
+            Prefixes prefixes) {
+        this.name = name;
+        this.prefixes = prefixes;
+    }
+    
+    protected SimpleExtractorFactory(
             String name,
             Prefixes prefixes,
             Collection<String> supportedMIMETypes,
-            String exampleInput,
-            Class<T> extractorClass
+            String exampleInput
     ) {
         this.name = name;
         this.prefixes = (prefixes == null) ? Prefixes.EMPTY : prefixes;
@@ -123,7 +93,6 @@ public class SimpleExtractorFactory<T extends Extractor<?>> implements Extractor
             this.supportedMIMETypes.add(MIMEType.parse(type));
         }
         this.exampleInput = exampleInput;
-        this.extractorClass = extractorClass;
     }
 
 }

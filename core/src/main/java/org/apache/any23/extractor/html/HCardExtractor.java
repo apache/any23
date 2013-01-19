@@ -21,13 +21,10 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.IssueReport;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.annotations.Includes;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.VCARD;
 import org.apache.commons.lang.StringUtils;
-import org.apache.any23.extractor.ExtractorFactory;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
@@ -36,7 +33,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -58,17 +54,9 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
     private HTMLDocument fragment;
 
-    public final static ExtractorFactory<HCardExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hcard",
-                    PopularPrefixes.createSubset("rdf", "vcard"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-hcard.html",
-                    HCardExtractor.class
-            );
-
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HCardExtractorFactory.getDescriptionInstance();
     }
 
     @Override

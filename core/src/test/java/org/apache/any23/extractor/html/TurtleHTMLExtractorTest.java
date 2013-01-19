@@ -38,7 +38,7 @@ public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return TurtleHTMLExtractor.factory;
+        return new TurtleHTMLExtractorFactory();
     }
 
     /**

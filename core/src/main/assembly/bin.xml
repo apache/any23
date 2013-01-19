@@ -25,7 +25,11 @@
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
   <baseDirectory>${project.build.finalName}</baseDirectory>
-
+  <containerDescriptorHandlers>
+    <containerDescriptorHandler>
+      <handlerName>metaInf-services</handlerName>
+    </containerDescriptorHandler>
+  </containerDescriptorHandlers>
   <files>
     <file>
       <source>${basedir}/src/main/assembly/README.txt</source>

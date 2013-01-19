@@ -51,7 +51,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     private static final Logger logger = LoggerFactory.getLogger(HReviewExtractorTest.class);
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HResumeExtractor.factory;
+        return new HResumeExtractorFactory();
     }
 
     @Test

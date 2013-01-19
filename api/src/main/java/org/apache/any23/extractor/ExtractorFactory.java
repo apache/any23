@@ -29,13 +29,6 @@ import java.util.Collection;
 public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescription {
 
     /**
-     * Returns the extractor type.
-     *
-     * @return the not <code>null</code> extractor class.
-     */
-    Class<T> getExtractorType();
-
-    /**
      * Creates an extractor instance.
      *
      * @return an instance of the extractor associated to this factory.

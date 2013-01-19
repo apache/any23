@@ -35,6 +35,13 @@ public interface ExtractorDescription {
     String getExtractorName();
 
     /**
+     * Returns the label for extractors created from this factory.
+     * 
+     * @return A string label describing the type of extractors created from this factory.
+     */
+    String getExtractorLabel();
+    
+    /**
      * An instance defining the prefixes supported by this extractor.
      *
      * @return prefixes instance.

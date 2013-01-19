@@ -22,16 +22,12 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 
 import java.io.IOException;
-import java.util.Collections;
 
 /**
  * Example concrete implementation of {@link org.apache.any23.extractor.Extractor.BlindExtractor}.
@@ -40,6 +36,7 @@ public class ExampleExtractor implements BlindExtractor {
 
     private static final FOAF vFOAF = FOAF.getInstance();
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -50,16 +47,8 @@ public class ExampleExtractor implements BlindExtractor {
         out.writeTriple(documentURI, RDF.TYPE, vFOAF.Document);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return ExampleExtractorFactory.getDescriptionInstance();
     }
-
-    public static final ExtractorFactory<ExampleExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "example",
-                    PopularPrefixes.createSubset("rdf", "foaf"),
-                    Collections.singleton("*/*;q=0.01"),
-                    "http://example.com/",
-                    ExampleExtractor.class
-            );
 }

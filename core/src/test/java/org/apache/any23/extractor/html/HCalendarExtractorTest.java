@@ -52,7 +52,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
     private final static URI vtodo     = vICAL.Vtodo;
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HCalendarExtractor.factory;
+        return new HCalendarExtractorFactory();
     }
 
     @Test

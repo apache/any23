@@ -36,8 +36,9 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
 
     private Literal helloLiteral = RDFUtils.literal("Hello World!");
 
+    @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return TitleExtractor.factory;
+        return new TitleExtractorFactory();
     }
 
     @Test

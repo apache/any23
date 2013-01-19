@@ -19,17 +19,11 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.VCARD;
 import org.openrdf.model.BNode;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
-
-import java.util.Arrays;
-
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/geo">Geo</a>
@@ -41,17 +35,9 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
 
     private static final VCARD vVCARD = VCARD.getInstance();
 
-    public static final ExtractorFactory<GeoExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-geo",
-                    PopularPrefixes.createSubset("rdf", "vcard"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-geo.html",
-                    GeoExtractor.class
-            );
-
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return GeoExtractorFactory.getDescriptionInstance();
     }
 
     protected String getBaseClassName() {

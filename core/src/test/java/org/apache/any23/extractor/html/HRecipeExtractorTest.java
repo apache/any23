@@ -36,7 +36,7 @@ public class HRecipeExtractorTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HRecipeExtractor.factory;
+        return new HRecipeExtractorFactory();
     }
 
     @Test

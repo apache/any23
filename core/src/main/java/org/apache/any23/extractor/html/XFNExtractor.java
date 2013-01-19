@@ -22,10 +22,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.XFN;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
@@ -37,7 +34,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/xfn">XFN</a>
@@ -56,19 +52,12 @@ public class XFNExtractor implements TagSoupDOMExtractor {
     private HTMLDocument     document;
     private ExtractionResult out;
 
-    public final static ExtractorFactory<XFNExtractor> factory =
-            SimpleExtractorFactory.create(
-                "html-mf-xfn",
-                PopularPrefixes.createSubset("rdf", "foaf", "xfn"),
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf-xfn.html",
-                XFNExtractor.class
-            );
-
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return XFNExtractorFactory.getDescriptionInstance();
     }
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,

@@ -24,14 +24,10 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.rdf.RDFParserFactory;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.openrdf.model.URI;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.turtle.TurtleParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -50,19 +46,9 @@ import java.util.List;
  */
 public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
 
-    public final static String NAME = "html-script-turtle";
-
-    public final static ExtractorFactory<TurtleHTMLExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    PopularPrefixes.get(),
-                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    "example-script-turtle.html",
-                    TurtleHTMLExtractor.class
-            );
-
     private RDFParser turtleParser;
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -83,8 +69,9 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
         processScriptNodes(documentURI, extractionContext,out, scriptNodes);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return TurtleHTMLExtractorFactory.getDescriptionInstance();
     }
 
     /**

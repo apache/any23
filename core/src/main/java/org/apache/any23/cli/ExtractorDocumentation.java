@@ -91,7 +91,7 @@ public class ExtractorDocumentation implements Tool {
      */
     public void printExtractorList(ExtractorRegistry registry) {
         for (ExtractorFactory factory : registry.getExtractorGroup()) {
-            System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorType()));
+            System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
         }
     }
 

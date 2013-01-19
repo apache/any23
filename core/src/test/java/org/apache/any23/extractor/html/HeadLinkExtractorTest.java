@@ -33,7 +33,7 @@ public class HeadLinkExtractorTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HeadLinkExtractor.factory;
+        return new HeadLinkExtractorFactory();
     }
 
     @Test

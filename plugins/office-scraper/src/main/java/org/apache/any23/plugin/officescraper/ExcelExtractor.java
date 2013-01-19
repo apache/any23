@@ -57,20 +57,6 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
 
     private boolean stopAtFirstError = false;
 
-    public final static ExtractorFactory<ExcelExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "excel",
-                    null,
-                    Arrays.asList(
-                            "application/vnd.ms-excel;q=0.1",
-                            "application/msexcel;q=0.1",
-                            "application/x-msexcel;q=0.1",
-                            "application/x-ms-excel;q=0.1"
-                    ),
-                    null,
-                    ExcelExtractor.class
-            );
-
     public ExcelExtractor() {}
 
     public boolean isStopAtFirstError() {
@@ -84,7 +70,7 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
 
     @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return ExcelExtractorFactory.getDescriptionInstance();
     }
 
     @Override

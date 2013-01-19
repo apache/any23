@@ -20,10 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.DCTERMS;
 import org.apache.any23.vocab.REVIEW;
 import org.apache.any23.vocab.VCARD;
@@ -32,7 +29,6 @@ import org.openrdf.model.Resource;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
@@ -49,19 +45,12 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
     private static final VCARD   vVCARD   = VCARD.getInstance();
     private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
 
-    public final static ExtractorFactory<HReviewExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-mf-hreview",
-                    PopularPrefixes.createSubset("rdf", "vcard", "rev"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-mf-hreview.html",
-                    HReviewExtractor.class
-            );
-
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return HReviewExtractorFactory.getDescriptionInstance();
     }
 
+    @Override
     protected String getBaseClassName() {
         return "hreview";
     }
@@ -71,6 +60,7 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         // Empty.
     }
 
+    @Override
     protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         BNode rev = getBlankNodeFor(node);
         out.writeTriple(rev, RDF.TYPE, vREVIEW.Review);

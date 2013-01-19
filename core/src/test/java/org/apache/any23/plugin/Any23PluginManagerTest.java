@@ -31,6 +31,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.any23.cli.Tool;
+import org.apache.any23.extractor.ExtractorFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,8 +63,8 @@ public class Any23PluginManagerTest {
 
     @Test
     public void testGetPlugins() throws IOException {
-        Iterator<ExtractorPlugin> extractorPlugins = manager.getExtractors();
-        assertFalse(extractorPlugins.hasNext());
+        Iterator<ExtractorFactory> extractorPlugins = manager.getExtractors();
+        assertTrue(extractorPlugins.hasNext());
     }
 
     // TODO: move in FileUtils

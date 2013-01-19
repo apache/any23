@@ -24,10 +24,7 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.extractor.html.DomUtils;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.DCTERMS;
 import org.apache.any23.vocab.XHTML;
@@ -44,7 +41,6 @@ import org.w3c.dom.NodeList;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,23 +60,15 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     private static final URI MICRODATA_ITEM
             = RDFUtils.uri("http://www.w3.org/1999/xhtml/microdata#item");
 
-    public final static ExtractorFactory<MicrodataExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "html-microdata",
-                    PopularPrefixes.createSubset("rdf", "doac", "foaf"),
-                    Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                    "example-microdata.html",
-                    MicrodataExtractor.class
-            );
-
     private String documentLanguage;
 
     private boolean isStrict;
 
     private String defaultNamespace;
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return MicrodataExtractorFactory.getDescriptionInstance();
     }
 
     /**
@@ -90,6 +78,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * to avoid performing actions 5.2.1, 5.2.2, 5.2.3, 5.2.4 if step 5.2.6 doesn't detect any
      * Microdata.
      */
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,

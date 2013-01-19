@@ -59,17 +59,6 @@ public class CSVExtractor implements Extractor.ContentExtractor {
 
     private CSV csv = CSV.getInstance();
 
-    public final static ExtractorFactory<CSVExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "csv",
-                    null,
-                    Arrays.asList(
-                            "text/csv;q=0.1"
-                    ),
-                    "example-csv.csv",
-                    CSVExtractor.class
-            );
-
     /**
      * {@inheritDoc}
      */
@@ -300,7 +289,8 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return CSVExtractorFactory.getDescriptionInstance();
     }
 }

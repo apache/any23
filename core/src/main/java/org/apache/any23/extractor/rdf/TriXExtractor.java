@@ -20,12 +20,7 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.helpers.RDFParserBase;
-
-import java.util.Arrays;
 
 /**
  * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
@@ -34,17 +29,6 @@ import java.util.Arrays;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class TriXExtractor extends BaseRDFExtractor {
-
-    public final static ExtractorFactory<TriXExtractor> factory =
-            SimpleExtractorFactory.create(
-                    "rdf-trix",
-                    null,
-                    Arrays.asList(
-                            "application/trix"
-                    ),
-                    "example-trix.trx",
-                    TriXExtractor.class
-            );
 
     /**
      * Constructor, allows to specify the validation and error handling policies.
@@ -65,8 +49,9 @@ public class TriXExtractor extends BaseRDFExtractor {
         this(true, true);
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return TriXExtractorFactory.getDescriptionInstance();
     }
 
     @Override

@@ -52,7 +52,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
-        return MicrodataExtractor.factory;
+        return new MicrodataExtractorFactory();
     }
 
     /**

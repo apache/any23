@@ -44,7 +44,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     private static final VCARD   vVCARD   = VCARD.getInstance();
 
     protected ExtractorFactory<?> getExtractorFactory() {
-        return HCardExtractor.factory;
+        return new HCardExtractorFactory();
     }
 
     @Test

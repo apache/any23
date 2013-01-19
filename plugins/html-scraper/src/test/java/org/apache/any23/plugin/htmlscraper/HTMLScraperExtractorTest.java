@@ -50,7 +50,7 @@ public class HTMLScraperExtractorTest {
 
     @Before
     public void setUp() {
-        extractor = (HTMLScraperExtractor) new HTMLScraperPlugin().getExtractorFactory().createExtractor();
+        extractor = new HTMLScraperExtractorFactory().createExtractor();
     }
 
     @After

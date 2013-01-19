@@ -22,17 +22,13 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.vocab.DCTERMS;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Extracts the value of the &lt;title&gt; element of an
@@ -42,19 +38,9 @@ import java.util.Arrays;
  */
 public class TitleExtractor implements TagSoupDOMExtractor {
 
-    public static final String NAME = "html-head-title";
-
     private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
 
-    public final static ExtractorFactory<TitleExtractor> factory =
-            SimpleExtractorFactory.create(
-                    NAME,
-                    PopularPrefixes.createSubset("dcterms"),
-                    Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                    "example-title.html",
-                    TitleExtractor.class
-            );
-
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -75,8 +61,9 @@ public class TitleExtractor implements TagSoupDOMExtractor {
         }
     }
 
+    @Override
     public ExtractorDescription getDescription() {
-        return factory;
+        return TitleExtractorFactory.getDescriptionInstance();
     }
     
 }
