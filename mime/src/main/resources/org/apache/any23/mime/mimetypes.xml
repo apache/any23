@@ -25,8 +25,8 @@
 	<!-- BEGIN: Any23 Semantic Web document mime types. -->
 
 	<!-- N3 -->
-	<mime-type type="text/rdf+n3">
-		<alias type="text/n3" />
+	<mime-type type="text/n3">
+		<alias type="text/rdf+n3" />
 		<alias type="application/n3" />
 		<glob pattern="*.n3" />
 		<magic priority="50">
