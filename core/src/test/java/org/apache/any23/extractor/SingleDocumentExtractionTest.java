@@ -24,9 +24,9 @@ import org.apache.any23.extractor.html.HTMLFixture;
 import org.apache.any23.mime.TikaMIMETypeDetector;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.apache.any23.vocab.ICAL;
-import org.apache.any23.vocab.REVIEW;
+import org.apache.any23.vocab.Review;
 import org.apache.any23.vocab.SINDICE;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.VCard;
 import org.apache.any23.writer.CompositeTripleHandler;
 import org.apache.any23.writer.RDFXMLWriter;
 import org.apache.any23.writer.RepositoryWriter;
@@ -65,8 +65,8 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final ICAL vICAL    = ICAL.getInstance();
-    private static final REVIEW  vREVIEW  = REVIEW.getInstance();
-    private static final VCARD vVCARD   = VCARD.getInstance();
+    private static final Review  vREVIEW  = Review.getInstance();
+    private static final VCard vVCARD   = VCard.getInstance();
 
     private static final Logger logger = LoggerFactory.getLogger(SingleDocumentExtractionTest.class);
 

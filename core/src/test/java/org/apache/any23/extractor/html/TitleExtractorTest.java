@@ -19,7 +19,7 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
 import org.openrdf.model.Literal;
@@ -31,7 +31,7 @@ import org.openrdf.repository.RepositoryException;
  */
 public class TitleExtractorTest extends AbstractExtractorTestCase {
 
-    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final DCTerms vDCTERMS = DCTerms.getInstance();
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
     private Literal helloLiteral = RDFUtils.literal("Hello World!");

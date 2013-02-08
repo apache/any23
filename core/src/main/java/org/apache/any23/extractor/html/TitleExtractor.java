@@ -23,7 +23,7 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.openrdf.model.impl.ValueFactoryImpl;
 import org.w3c.dom.Document;
@@ -38,7 +38,7 @@ import java.io.IOException;
  */
 public class TitleExtractor implements TagSoupDOMExtractor {
 
-    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final DCTerms vDCTERMS = DCTerms.getInstance();
 
     @Override
     public void run(

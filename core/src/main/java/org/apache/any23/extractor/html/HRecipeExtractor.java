@@ -20,7 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.vocab.HRECIPE;
+import org.apache.any23.vocab.HRecipe;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
  */
 public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
 
-    private static final HRECIPE vHRECIPE = HRECIPE.getInstance();
+    private static final HRecipe vHRECIPE = HRecipe.getInstance();
 
     @Override
     public ExtractorDescription getDescription() {

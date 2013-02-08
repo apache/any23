@@ -24,15 +24,15 @@ import org.openrdf.model.URI;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class HRECIPE extends Vocabulary {
+public class HRecipe extends Vocabulary {
 
     public static final String NS = SINDICE.NS + "hrecipe/";
 
-    private static HRECIPE instance;
+    private static HRecipe instance;
 
-    public static HRECIPE getInstance() {
+    public static HRecipe getInstance() {
         if(instance == null) {
-            instance = new HRECIPE();
+            instance = new HRecipe();
         }
         return instance;
     }
@@ -63,7 +63,7 @@ public class HRECIPE extends Vocabulary {
     public URI instructions           = createProperty(NS, "instructions");
     public URI yield                  = createProperty(NS, "yield");
 
-    private HRECIPE() {
+    private HRecipe() {
         super(NS);
     }
 }

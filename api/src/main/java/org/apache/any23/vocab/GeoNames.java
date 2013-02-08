@@ -17,28 +17,32 @@
 
 package org.apache.any23.vocab;
 
+import org.openrdf.model.URI;
+
 /**
- * Vocabulary definition for <a href="http://schema.org/">schema.org</a>.
- *
- * @author Michele Mostarda (mostarda@fbk.eu)
+ * The <a href="http://www.geonames.org/ontology/">GEO Names</a> vocabulary.
  */
-public class SCHEMAORG extends Vocabulary {
+public class GeoNames extends Vocabulary {
 
-    /**
-     * The namespace of the vocabulary as a string.
-     */
-    public static final String NS = "http://schema.org/";
+    public static final String NS = "http://www.w3.org/2003/01/geo/wgs84_pos#";
 
-    private static SCHEMAORG instance;
+    private static Vocabulary instance;
 
-    public static SCHEMAORG getInstance() {
+    public static Vocabulary getInstance() {
         if(instance == null) {
-            instance = new SCHEMAORG();
+            instance = new GeoNames();
         }
         return instance;
     }
 
-    private SCHEMAORG(){
+    // Resources.
+    public final URI Point = createClass(NS, "Point");
+
+    // Properties
+    public final URI lat = createProperty(NS, "lat" );
+    public final URI lon = createProperty(NS, "long");
+
+    private GeoNames(){
         super(NS);
     }
 

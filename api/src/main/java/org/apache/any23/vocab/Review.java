@@ -22,13 +22,13 @@ import org.openrdf.model.URI;
 /**
  * Vocabulary definitions from vocabularies/review.rdf
  */
-public class REVIEW extends Vocabulary {
+public class Review extends Vocabulary {
 
-    private static REVIEW instance;
+    private static Review instance;
 
-    public static REVIEW getInstance() {
+    public static Review getInstance() {
         if(instance == null) {
-            instance = new REVIEW();
+            instance = new Review();
         }
         return instance;
     }
@@ -127,7 +127,7 @@ public class REVIEW extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    private REVIEW(){
+    private Review(){
         super(NS);
     }
 

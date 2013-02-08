@@ -21,7 +21,7 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.vocab.DOAC;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.SINDICE;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.VCard;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -46,7 +46,7 @@ public class HResumeExtractorTest extends AbstractExtractorTestCase {
     private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final FOAF    vFOAF    = FOAF.getInstance();
     private static final DOAC    vDOAC    = DOAC.getInstance();
-    private static final VCARD   vVCARD   = VCARD.getInstance();
+    private static final VCard   vVCARD   = VCard.getInstance();
 
     private static final Logger logger = LoggerFactory.getLogger(HReviewExtractorTest.class);
 

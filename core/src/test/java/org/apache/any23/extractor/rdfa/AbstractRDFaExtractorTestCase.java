@@ -19,7 +19,7 @@ package org.apache.any23.extractor.rdfa;
 
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.FOAF;
 import org.junit.Test;
 import org.openrdf.repository.RepositoryException;
@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTestCase {
 
-    protected static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    protected static final DCTerms vDCTERMS = DCTerms.getInstance();
     protected static final FOAF vFOAF       = FOAF.getInstance();
 
     Logger logger = LoggerFactory.getLogger(RDFaExtractorTest.class);

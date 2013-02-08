@@ -23,10 +23,10 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResultImpl;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.FOAF;
-import org.apache.any23.vocab.REVIEW;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.Review;
+import org.apache.any23.vocab.VCard;
 import org.apache.any23.writer.RepositoryWriter;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -58,10 +58,10 @@ import java.util.Map;
  */
 public class RDFMergerTest extends AbstractExtractorTestCase {
 
-    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final DCTerms vDCTERMS = DCTerms.getInstance();
     private static final FOAF    vFOAF    = FOAF.getInstance();
-    private static final REVIEW  vREVIEW  = REVIEW.getInstance();
-    private static final VCARD   vVCARD   = VCARD.getInstance();
+    private static final Review  vREVIEW  = Review.getInstance();
+    private static final VCard   vVCARD   = VCard.getInstance();
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {

@@ -26,18 +26,18 @@ import org.openrdf.model.URI;
  * related concepts from both legal and commonsense domains.
  *
  */
-public class LKIF_CORE_MEREOLOGY extends Vocabulary {
+public class LKIFCoreMereology extends Vocabulary {
 	
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.estrellaproject.org/lkif-core/mereology.owl#";
     
-    private static LKIF_CORE_MEREOLOGY instance;
+    private static LKIFCoreMereology instance;
     
-    public static LKIF_CORE_MEREOLOGY getInstance() {
+    public static LKIFCoreMereology getInstance() {
       if(instance == null) {
-          instance = new LKIF_CORE_MEREOLOGY();
+          instance = new LKIFCoreMereology();
       }
       return instance;
   }
@@ -69,7 +69,7 @@ public class LKIF_CORE_MEREOLOGY extends Vocabulary {
     public final URI strict_part                 = createProperty(NS, "strict_part");
     public final URI strict_part_of              = createProperty(NS, "strict_part_of");
     
-    private LKIF_CORE_MEREOLOGY() {
+    private LKIFCoreMereology() {
       super(NS);
     }
 

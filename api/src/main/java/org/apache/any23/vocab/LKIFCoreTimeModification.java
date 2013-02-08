@@ -26,18 +26,18 @@ import org.openrdf.model.URI;
  * related concepts from both legal and commonsense domains.
  *
  */
-public class LKIF_CORE_TIME_MODIFICATION extends Vocabulary {
+public class LKIFCoreTimeModification extends Vocabulary {
 	
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.estrellaproject.org/lkif-core/time-modification.owl#";
     
-    private static LKIF_CORE_TIME_MODIFICATION instance;
+    private static LKIFCoreTimeModification instance;
     
-    public static LKIF_CORE_TIME_MODIFICATION getInstance() {
+    public static LKIFCoreTimeModification getInstance() {
       if(instance == null) {
-          instance = new LKIF_CORE_TIME_MODIFICATION();
+          instance = new LKIFCoreTimeModification();
       }
       return instance;
   }
@@ -106,7 +106,7 @@ public class LKIF_CORE_TIME_MODIFICATION extends Vocabulary {
     public final URI produce_textual_modification      = createProperty(NS, "produce_textual_modification");
     public final URI produce_inforce_modification      = createProperty(NS, "produce_inforce_modification");
     
-    private LKIF_CORE_TIME_MODIFICATION() {
+    private LKIFCoreTimeModification() {
       super(NS);
     }
 

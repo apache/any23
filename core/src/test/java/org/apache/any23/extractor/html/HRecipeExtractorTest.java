@@ -18,7 +18,7 @@
 package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.vocab.HRECIPE;
+import org.apache.any23.vocab.HRecipe;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
 import org.openrdf.model.vocabulary.RDF;
@@ -32,7 +32,7 @@ import org.openrdf.repository.RepositoryException;
 public class HRecipeExtractorTest extends AbstractExtractorTestCase {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
-    private static final HRECIPE vHRECIPE = HRECIPE.getInstance();
+    private static final HRecipe vHRECIPE = HRecipe.getInstance();
 
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {

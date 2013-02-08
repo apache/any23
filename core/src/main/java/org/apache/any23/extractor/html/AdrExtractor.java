@@ -20,7 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.VCard;
 import org.openrdf.model.BNode;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
@@ -33,7 +33,7 @@ import org.w3c.dom.Node;
  */
 public class AdrExtractor extends EntityBasedMicroformatExtractor {
 
-    private static final VCARD vVCARD = VCARD.getInstance();
+    private static final VCard vVCARD = VCard.getInstance();
 
     private static final String[] addressFields = {
             "post-office-box",

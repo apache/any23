@@ -26,34 +26,38 @@ import org.openrdf.model.URI;
  * related concepts from both legal and commonsense domains.
  *
  */
-public class LKIF_CORE_LEGAL_ROLE extends Vocabulary {
+public class LKIFCoreRules extends Vocabulary {
 	
     /**
      * The namespace of the vocabulary as a string.
      */
-    public static final String NS = "http://www.estrellaproject.org/lkif-core/legal-role.owl#";
+    public static final String NS = "http://www.estrellaproject.org/lkif-core/lkif-rules.owl#";
     
-    private static LKIF_CORE_LEGAL_ROLE instance;
+    private static LKIFCoreRules instance;
     
-    public static LKIF_CORE_LEGAL_ROLE getInstance() {
+    public static LKIFCoreRules getInstance() {
       if(instance == null) {
-          instance = new LKIF_CORE_LEGAL_ROLE();
+          instance = new LKIFCoreRules();
       }
       return instance;
   }
-    //////////////////////////////////////////////////////////////
-    /* http://www.estrellaproject.org/lkif-core/legal-role.owl# */
-    //////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////
+    /* http://www.estrellaproject.org/lkif-core/lkif-rules.owl */
+    /////////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Social_Legal_Role                  = createClass(NS, "Social_Legal_Role");
-    public final URI Legal_Role                         = createClass(NS, "Legal_Role");
-    public final URI Professional_Legal_Role            = createClass(NS, "Professional_Legal_Role");
+    public final URI Valid_Rule                  = createClass(NS, "Valid_Rule");
+    public final URI Rule                        = createClass(NS, "Rule");
     
     // RESOURCES
     
     // PROPERTIES
+    public final URI rule_predicate              = createProperty(NS, "rule_predicate");
+    public final URI prior                       = createProperty(NS, "prior");
+    public final URI excluded                    = createProperty(NS, "excluded");
+    public final URI applies                     = createProperty(NS, "applies");
+    public final URI rebuts                      = createProperty(NS, "rebuts");
     
-    private LKIF_CORE_LEGAL_ROLE() {
+    private LKIFCoreRules() {
       super(NS);
     }
 

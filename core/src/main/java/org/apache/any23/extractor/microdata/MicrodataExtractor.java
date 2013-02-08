@@ -26,7 +26,7 @@ import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.XHTML;
 import org.openrdf.model.Literal;
 import org.openrdf.model.Resource;
@@ -189,7 +189,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             }
             out.writeTriple(
                     documentURI,
-                    DCTERMS.getInstance().title,
+                    DCTerms.getInstance().title,
                     object
             );
         }
@@ -407,7 +407,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if (item.getAttributes().getNamedItem("cite") != null) {
             out.writeTriple(
                     documentURI,
-                    DCTERMS.getInstance().source,
+                    DCTerms.getInstance().source,
                     RDFUtils.uri(item.getAttributes().getNamedItem("cite").getTextContent())
             );
         }

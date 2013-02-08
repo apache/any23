@@ -23,7 +23,7 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.annotations.Includes;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.VCard;
 import org.apache.commons.lang.StringUtils;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
@@ -48,7 +48,7 @@ import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 @Includes( extractors = AdrExtractor.class )
 public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
-    private static final VCARD vCARD = VCARD.getInstance();
+    private static final VCard vCARD = VCard.getInstance();
 
     private HCardName name = new HCardName();
 

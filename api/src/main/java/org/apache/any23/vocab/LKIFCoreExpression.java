@@ -26,18 +26,18 @@ import org.openrdf.model.URI;
  * related concepts from both legal and commonsense domains.
  *
  */
-public class LKIF_CORE_EXPRESSION extends Vocabulary {
+public class LKIFCoreExpression extends Vocabulary {
 	
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.estrellaproject.org/lkif-core/expression.owl#";
     
-    private static LKIF_CORE_EXPRESSION instance;
+    private static LKIFCoreExpression instance;
     
-    public static LKIF_CORE_EXPRESSION getInstance() {
+    public static LKIFCoreExpression getInstance() {
       if(instance == null) {
-          instance = new LKIF_CORE_EXPRESSION();
+          instance = new LKIFCoreExpression();
       }
       return instance;
   }
@@ -115,7 +115,7 @@ public class LKIF_CORE_EXPRESSION extends Vocabulary {
     public final URI played_by                         = createProperty(NS, "played_by");
     public final URI plays                             = createProperty(NS, "plays");
     
-    private LKIF_CORE_EXPRESSION() {
+    private LKIFCoreExpression() {
       super(NS);
     }
 

@@ -20,7 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.FOAF;
-import org.apache.any23.vocab.HLISTING;
+import org.apache.any23.vocab.HListing;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 public class HListingExtractorTest extends AbstractExtractorTestCase {
 
     private static final SINDICE  vSINDICE  = SINDICE.getInstance();
-    private static final HLISTING vHLISTING = HLISTING.getInstance();
+    private static final HListing vHLISTING = HListing.getInstance();
     private static final FOAF     vFOAF     = FOAF.getInstance();
 
     private static final Logger logger = LoggerFactory.getLogger(HListingExtractorTest.class);

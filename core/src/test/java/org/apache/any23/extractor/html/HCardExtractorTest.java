@@ -22,7 +22,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.VCard;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class HCardExtractorTest extends AbstractExtractorTestCase {
 
-    private static final VCARD   vVCARD   = VCARD.getInstance();
+    private static final VCard   vVCARD   = VCard.getInstance();
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return new HCardExtractorFactory();

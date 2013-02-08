@@ -25,15 +25,15 @@ import org.openrdf.model.URI;
  * @author Davide Palmisano (dpalmisano@gmail.com)
  * 
  */
-public class HLISTING extends Vocabulary {
+public class HListing extends Vocabulary {
 
     public static final String NS = "http://sindice.com/hlisting/0.1/";
 
-    private static HLISTING instance;
+    private static HListing instance;
 
-    public static HLISTING getInstance() {
+    public static HListing getInstance() {
         if(instance == null) {
-            instance = new HLISTING();
+            instance = new HListing();
         }
         return instance;
     }
@@ -58,7 +58,7 @@ public class HLISTING extends Vocabulary {
     public final URI event    = createClass("event"   );
     public final URI service  = createClass("service" );
 
-    public final URI tel       = VCARD.getInstance().tel;
+    public final URI tel       = VCard.getInstance().tel;
     public final URI dtlisted  = createProperty("dtlisted" );
     public final URI dtexpired = createProperty("dtexpired");
     public final URI price     = createProperty("price"    );
@@ -67,13 +67,13 @@ public class HLISTING extends Vocabulary {
     public final URI summary     = createProperty("summary"    );
     public final URI permalink   = createProperty("permalink"  );
 
-    public final URI region          = VCARD.getInstance().region;
-    public final URI postOfficeBox   = VCARD.getInstance().post_office_box;
-    public final URI locality        = VCARD.getInstance().locality;
-    public final URI extendedAddress = VCARD.getInstance().extended_address;
-    public final URI streetAddress   = VCARD.getInstance().street_address;
-    public final URI postalCode      = VCARD.getInstance().postal_code;
-    public final URI countryName     = VCARD.getInstance().country_name;
+    public final URI region          = VCard.getInstance().region;
+    public final URI postOfficeBox   = VCard.getInstance().post_office_box;
+    public final URI locality        = VCard.getInstance().locality;
+    public final URI extendedAddress = VCard.getInstance().extended_address;
+    public final URI streetAddress   = VCard.getInstance().street_address;
+    public final URI postalCode      = VCard.getInstance().postal_code;
+    public final URI countryName     = VCard.getInstance().country_name;
 
     public final URI listerUrl  = createProperty("listerUrl" );
     public final URI listerName = createProperty("listerName");
@@ -91,7 +91,7 @@ public class HLISTING extends Vocabulary {
         return createClass(NS, localName);
     }
 
-    private HLISTING(){
+    private HListing(){
         super(NS);
     }
 

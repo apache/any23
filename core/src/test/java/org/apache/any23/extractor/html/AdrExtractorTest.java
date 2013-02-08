@@ -18,7 +18,7 @@
 package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.vocab.VCARD;
+import org.apache.any23.vocab.VCard;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Resource;
@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class AdrExtractorTest extends AbstractExtractorTestCase {
 
-    private static final VCARD vVCARD = VCARD.getInstance();
+    private static final VCard vVCARD = VCard.getInstance();
 
     protected ExtractorFactory<?> getExtractorFactory() {
         return new AdrExtractorFactory();

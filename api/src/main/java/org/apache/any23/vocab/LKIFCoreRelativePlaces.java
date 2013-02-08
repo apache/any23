@@ -26,18 +26,18 @@ import org.openrdf.model.URI;
  * related concepts from both legal and commonsense domains.
  *
  */
-public class LKIF_CORE_RELATIVE_PLACES extends Vocabulary {
+public class LKIFCoreRelativePlaces extends Vocabulary {
 	
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.estrellaproject.org/lkif-core/relative-places.owl#";
     
-    private static LKIF_CORE_RELATIVE_PLACES instance;
+    private static LKIFCoreRelativePlaces instance;
     
-    public static LKIF_CORE_RELATIVE_PLACES getInstance() {
+    public static LKIFCoreRelativePlaces getInstance() {
       if(instance == null) {
-          instance = new LKIF_CORE_RELATIVE_PLACES();
+          instance = new LKIFCoreRelativePlaces();
       }
       return instance;
   }
@@ -70,7 +70,7 @@ public class LKIF_CORE_RELATIVE_PLACES extends Vocabulary {
     public final URI spatial_reference                = createProperty(NS, "spatial_reference");
     public final URI spatial_relation                 = createProperty(NS, "spatial_relation");
     
-    private LKIF_CORE_RELATIVE_PLACES() {
+    private LKIFCoreRelativePlaces() {
       super(NS);
     }
 

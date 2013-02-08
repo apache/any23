@@ -22,18 +22,18 @@ import org.openrdf.model.URI;
 /**
  * Vocabulary definitions from vcard.owl
  */
-public class VCARD extends Vocabulary {
+public class VCard extends Vocabulary {
 
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.w3.org/2006/vcard/ns#";
 
-    private static VCARD instance;
+    private static VCard instance;
 
-    public static VCARD getInstance() {
+    public static VCard getInstance() {
         if(instance == null) {
-            instance = new VCARD();
+            instance = new VCard();
         }
         return instance;
     }
@@ -352,7 +352,7 @@ public class VCARD extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    public VCARD(){
+    public VCard(){
         super(NS);
     }
 }

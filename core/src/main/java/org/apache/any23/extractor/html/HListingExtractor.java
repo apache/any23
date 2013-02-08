@@ -22,7 +22,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.vocab.FOAF;
-import org.apache.any23.vocab.HLISTING;
+import org.apache.any23.vocab.HListing;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
@@ -45,7 +45,7 @@ import static org.apache.any23.extractor.html.HTMLDocument.TextField;
  */
 public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
-    private static final HLISTING hLISTING = HLISTING.getInstance();
+    private static final HListing hLISTING = HListing.getInstance();
     private static final FOAF foaf     = FOAF.getInstance();
 
     private static final Set<String> ActionClasses = new HashSet<String>() {

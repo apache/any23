@@ -34,7 +34,7 @@ import org.apache.any23.source.StringDocumentSource;
 import org.apache.any23.util.FileUtils;
 import org.apache.any23.util.StreamUtils;
 import org.apache.any23.util.StringUtils;
-import org.apache.any23.vocab.DCTERMS;
+import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.writer.CompositeTripleHandler;
 import org.apache.any23.writer.CountingTripleHandler;
 import org.apache.any23.writer.NTriplesWriter;
@@ -72,7 +72,7 @@ import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 @SuppressWarnings("unchecked")
 public class Any23Test extends Any23OnlineTestBase {
 
-    private static final DCTERMS vDCTERMS = DCTERMS.getInstance();
+    private static final DCTerms vDCTERMS = DCTerms.getInstance();
 
     private static final String PAGE_URL = "http://bob.com";
 
