@@ -298,7 +298,9 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws URISyntaxException
      * @throws ExtractionException
      */
-    @Test
+    /*
+     * Temporarily disabled due to unavailable HTTP resource. @see ANY23-140
+     * @Test
     public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
         assumeOnlineAllowed();
 
@@ -318,6 +320,7 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertTrue(n3.length() > 0);
 
     }
+    */
 
     @Test
     public void testExtractionParameters() throws IOException, ExtractionException, TripleHandlerException {

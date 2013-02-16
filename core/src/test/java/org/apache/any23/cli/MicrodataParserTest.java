@@ -34,10 +34,12 @@ public class MicrodataParserTest extends ToolTestBase {
     public void testRunOnFile() throws Exception {
         runToolCheckExit0("file:"+copyResourceToTempFile("/microdata/microdata-nested.html").getAbsolutePath());
     }
-
+    
+    /* Temporarily disabled due to unavailable HTTP resource. @see ANY23-140
     @Test
     public void testRunOnHTTPResource() throws Exception {
         runToolCheckExit0("http://www.imdb.com/title/tt1375666/");
     }
+    */
 
 }
