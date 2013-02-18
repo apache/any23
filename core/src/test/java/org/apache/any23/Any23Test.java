@@ -44,6 +44,7 @@ import org.apache.any23.writer.RepositoryWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.repository.RepositoryConnection;
@@ -298,9 +299,8 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws URISyntaxException
      * @throws ExtractionException
      */
-    /*
-     * Temporarily disabled due to unavailable HTTP resource. @see ANY23-140
-     * @Test
+    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
+    @Test
     public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
         assumeOnlineAllowed();
 
@@ -320,7 +320,6 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertTrue(n3.length() > 0);
 
     }
-    */
 
     @Test
     public void testExtractionParameters() throws IOException, ExtractionException, TripleHandlerException {

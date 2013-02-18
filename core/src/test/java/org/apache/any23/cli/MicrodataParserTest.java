@@ -17,6 +17,7 @@
 
 package org.apache.any23.cli;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -35,11 +36,11 @@ public class MicrodataParserTest extends ToolTestBase {
         runToolCheckExit0("file:"+copyResourceToTempFile("/microdata/microdata-nested.html").getAbsolutePath());
     }
     
-    /* Temporarily disabled due to unavailable HTTP resource. @see ANY23-140
+    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testRunOnHTTPResource() throws Exception {
         runToolCheckExit0("http://www.imdb.com/title/tt1375666/");
     }
-    */
+    
 
 }
