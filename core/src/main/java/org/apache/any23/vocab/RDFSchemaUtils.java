@@ -45,15 +45,6 @@ public class RDFSchemaUtils {
     private static final String RDF_XML_SEPARATOR = StringUtils.multiply('=', 100);
     
     /**
-     * Supported formats for vocabulary serialization.
-     */
-    public enum VocabularyFormat {
-        NQuads,
-        NTriples,
-        RDFXML
-    }
-
-    /**
      * Serializes a vocabulary composed of the given <code>namespace</code>,
      * <code>resources</code> and <code>properties</code>.
      *
@@ -118,25 +109,20 @@ public class RDFSchemaUtils {
      */
     public static void serializeVocabulary(
             Vocabulary vocabulary,
-            VocabularyFormat format,
+            RDFFormat format,
             boolean willFollowAnother,
             PrintStream ps
     ) throws RDFHandlerException {
         final RDFWriter rdfWriter;
         // FIXME: Remove hardcoding for format translation
-        if(format == VocabularyFormat.RDFXML) {
+        if(format == RDFFormat.RDFXML) {
             rdfWriter = Rio.createWriter(RDFFormat.RDFXML, ps);
             if(willFollowAnother)
                 ps.print("\n");
                 ps.print(RDF_XML_SEPARATOR);
                 ps.print("\n");
-        } else if(format == VocabularyFormat.NTriples) {
-            rdfWriter = Rio.createWriter(RDFFormat.NTRIPLES, ps);
-        } else if(format == VocabularyFormat.NQuads) {
-            rdfWriter = Rio.createWriter(RDFFormat.NQUADS, ps);
-        }
-        else {
-            throw new IllegalArgumentException("Unsupported format " + format);
+        } else {
+            rdfWriter = Rio.createWriter(format, ps);
         }
         serializeVocabulary(vocabulary, rdfWriter);
     }
@@ -149,7 +135,7 @@ public class RDFSchemaUtils {
      * @return string contained serialization.
      * @throws RDFHandlerException
      */
-    public static String serializeVocabulary(Vocabulary vocabulary, VocabularyFormat format)
+    public static String serializeVocabulary(Vocabulary vocabulary, RDFFormat format)
     throws RDFHandlerException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final PrintStream ps = new PrintStream(baos);
@@ -164,7 +150,7 @@ public class RDFSchemaUtils {
      * @param format output format for vocabularies.
      * @param ps output print stream.
      */
-    public static void serializeVocabularies(VocabularyFormat format, PrintStream ps) {
+    public static void serializeVocabularies(RDFFormat format, PrintStream ps) {
         final Class vocabularyClass = Vocabulary.class;
         final List<Class> vocabularies = DiscoveryUtils.getClassesInPackage(
                 vocabularyClass.getPackage().getName(),

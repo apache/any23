@@ -20,6 +20,7 @@ package org.apache.any23.vocab;
 import org.apache.any23.util.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openrdf.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class RDFSchemaUtilsTest {
      */
     @Test
     public void testSerializeVocabulariesNTriples() {
-        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.NTriples, 1622);
+        serializeVocabularies(RDFFormat.NTRIPLES, 1622);
     }
 
     /**
@@ -52,10 +53,10 @@ public class RDFSchemaUtilsTest {
      */
     @Test
     public void testSerializeVocabulariesRDFXML() {
-        serializeVocabularies(RDFSchemaUtils.VocabularyFormat.RDFXML, 4241); // Effective lines + separators.
+        serializeVocabularies(RDFFormat.RDFXML, 4241); // Effective lines + separators.
     }
 
-    private void serializeVocabularies(RDFSchemaUtils.VocabularyFormat format, int expectedLines) {
+    private void serializeVocabularies(RDFFormat format, int expectedLines) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final PrintStream ps = new PrintStream(baos);
         RDFSchemaUtils.serializeVocabularies(format, ps);
