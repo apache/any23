@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PluginIT {
 
-    private static final int NUM_OF_EXTRACTORS = 28;
+    private static final int NUM_OF_EXTRACTORS = 29;
 
     private static final String PLUGIN_DIR = "target/plugins-build/";
 
@@ -82,7 +82,7 @@ public class PluginIT {
                 OFFICE_SCRAPER_TARGET_DIR
 , OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
         );
-        assertEquals(NUM_OF_EXTRACTORS ,        // HTMLScraper Plugin, OfficeScraper Plugin.
+        assertEquals("Did not find the number of expected extractors", NUM_OF_EXTRACTORS ,        // HTMLScraper Plugin, OfficeScraper Plugin.
                 extractorGroup.getNumOfExtractors()
         );
     }

@@ -33,7 +33,7 @@ public class ExtractorDocumentationTest extends ToolTestBase {
     }
 
     @Test
-    public void tesList() throws Exception {
+    public void testList() throws Exception {
         runToolCheckExit0("--list");
     }
 
