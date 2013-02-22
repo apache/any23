@@ -114,7 +114,6 @@ public class RDFSchemaUtils {
             PrintStream ps
     ) throws RDFHandlerException {
         final RDFWriter rdfWriter;
-        // FIXME: Remove hardcoding for format translation
         if(format == RDFFormat.RDFXML) {
             rdfWriter = Rio.createWriter(RDFFormat.RDFXML, ps);
             if(willFollowAnother)
