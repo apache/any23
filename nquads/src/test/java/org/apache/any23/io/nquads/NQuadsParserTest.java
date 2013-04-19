@@ -35,6 +35,7 @@ import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RioSetting;
 import org.openrdf.rio.helpers.BasicParserSettings;
+import org.openrdf.rio.helpers.NTriplesParserSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -481,7 +482,8 @@ public class NQuadsParserTest {
                     "<http://s1> <http://p1> <http://o1> <http://g1> .\n"
                 ).getBytes()
         );
-        parser.setStopAtFirstError(false);
+        //parser.setStopAtFirstError(false);
+        parser.getParserConfig().addNonFatalError(NTriplesParserSettings.FAIL_ON_NTRIPLES_INVALID_LINES);
         parser.parse(bais, "http://base-uri");
         rdfHandler.assertHandler(2);
         final List<Statement> statements = rdfHandler.getStatements();
@@ -555,7 +557,7 @@ public class NQuadsParserTest {
                 (
                         "<http://dbpedia.org/resource/Camillo_Benso,_conte_di_Cavour> " +
                         "<http://dbpedia.org/property/mandatofine> " +
-                        "\"1380.0\"^^<http://dbpedia.org/datatype/second> " +
+                        "\"1380.0\"^^<http://dbpedia.org/invalid/datatype/second> " +
                         "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
                 ).getBytes()
         );
