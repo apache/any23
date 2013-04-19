@@ -33,6 +33,8 @@ import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.RioSetting;
+import org.openrdf.rio.helpers.BasicParserSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +43,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 
@@ -63,9 +67,15 @@ public class NQuadsParserTest {
         parser = new NQuadsParser();
         rdfHandler = new TestRDFHandler();
         parser.setRDFHandler(rdfHandler);
-        parser.setVerifyData(true);
-        parser.setDatatypeHandling(RDFParser.DatatypeHandling.VERIFY);
-        parser.setStopAtFirstError(true);
+        Set<RioSetting<?>> nonFatalErrors = new HashSet<RioSetting<?>>();
+        parser.getParserConfig().setNonFatalErrors(nonFatalErrors);
+        parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, false);
+        parser.getParserConfig().addNonFatalError(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES);
+        parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, false);
+        parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_DATATYPE_VALUES);
+        parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);
+        parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
+        
     }
 
     @After
@@ -443,7 +453,7 @@ public class NQuadsParserTest {
         verifyStatementWithInvalidDatatype(RDFParser.DatatypeHandling.IGNORE);
     }
 
-    @Test
+    @Test(expected = RDFParseException.class)
     public void testStatementWithInvalidDatatypeAndVerifyValidation()
     throws RDFHandlerException, IOException, RDFParseException {
         verifyStatementWithInvalidDatatype(RDFParser.DatatypeHandling.VERIFY);
@@ -529,7 +539,12 @@ public class NQuadsParserTest {
                 "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
                 ).getBytes()
         );
-        parser.setDatatypeHandling(datatypeHandling);
+        if(datatypeHandling == RDFParser.DatatypeHandling.VERIFY) {
+            parser.getParserConfig().setNonFatalErrors(new HashSet<RioSetting<?>>());
+            parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, true);
+            parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
+        }
+        //parser.setDatatypeHandling(datatypeHandling);
         parser.parse(bais, "http://base-uri");
     }
 
@@ -544,6 +559,11 @@ public class NQuadsParserTest {
                         "<http://it.wikipedia.org/wiki/Camillo_Benso,_conte_di_Cavour#absolute-line=20> ."
                 ).getBytes()
         );
+        if(datatypeHandling == RDFParser.DatatypeHandling.VERIFY) {
+            parser.getParserConfig().setNonFatalErrors(new HashSet<RioSetting<?>>());
+            parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, true);
+            parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
+        }
         parser.parse(bais, "http://base-uri");
         rdfHandler.assertHandler(1);
     }
