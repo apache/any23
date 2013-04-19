@@ -149,11 +149,6 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return wrappedFactory.createLiteral(date);
     }
 
-    @Override
-    public Literal createLiteral(Object object) {
-        return wrappedFactory.createLiteral(object);
-    }
-
     public Statement createStatement(Resource sub, URI pre, Value obj) {
         if (sub == null || pre == null || obj == null) {
             return null;

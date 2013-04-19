@@ -26,14 +26,21 @@ import org.openrdf.model.Value;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFWriter;
+import org.openrdf.rio.RioSetting;
+import org.openrdf.rio.WriterConfig;
+import org.openrdf.rio.helpers.NTriplesParserSettings;
+import org.openrdf.rio.helpers.RDFWriterBase;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <i>N-Quads</i> implementation of an {@link org.openrdf.rio.RDFWriter}.
@@ -41,7 +48,7 @@ import java.util.Map;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class NQuadsWriter implements RDFWriter {
+public class NQuadsWriter extends RDFWriterBase implements RDFWriter {
 
     /**
      * The table maintaining namespaces.
@@ -57,6 +64,8 @@ public class NQuadsWriter implements RDFWriter {
      * Maintain the started status.
      */
     private boolean started = false;
+
+    private WriterConfig writerConfig;
 
     public NQuadsWriter(OutputStream os) {
         this( new OutputStreamWriter(os) );
@@ -268,6 +277,15 @@ public class NQuadsWriter implements RDFWriter {
         if(graph != null) {
             printResource( s.getContext() );
         }
+    }
+
+    @Override
+    public Collection<RioSetting<?>> getSupportedSettings() {
+        Set<RioSetting<?>> results = new HashSet<RioSetting<?>>(super.getSupportedSettings());
+        
+        results.add(NTriplesParserSettings.IGNORE_NTRIPLES_INVALID_LINES);
+        
+        return results;
     }
 
 }

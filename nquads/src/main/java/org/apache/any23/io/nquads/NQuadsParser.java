@@ -29,6 +29,7 @@ import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFHandler;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
+import org.openrdf.rio.helpers.NTriplesParserSettings;
 import org.openrdf.rio.helpers.RDFParserBase;
 import org.openrdf.rio.ntriples.NTriplesUtil;
 
@@ -170,7 +171,7 @@ public class NQuadsParser extends RDFParserBase {
         try {
             return (char) Integer.parseInt(unicodeCharStr, 16);
         } catch (NumberFormatException nfe) {
-            reportError("Error while converting unicode char '\\u" + unicodeCharStr + "'", row, col);
+            reportError("Error while converting unicode char '\\u" + unicodeCharStr + "'", row, col, NTriplesParserSettings.IGNORE_NTRIPLES_INVALID_LINES);
             throw new IllegalStateException();
         }
     }
@@ -280,7 +281,7 @@ public class NQuadsParser extends RDFParserBase {
                     throw new RDFParseException(e, row, col);
             } else { // Remove rest of broken line and report error.
                 consumeBrokenLine(br);
-                reportError(e.getMessage(), row, col);
+                reportError(e.getMessage(), row, col, NTriplesParserSettings.IGNORE_NTRIPLES_INVALID_LINES);
                 return true;
             }
         }
@@ -636,7 +637,7 @@ public class NQuadsParser extends RDFParserBase {
             try {
                 literalType = new URIImpl(lt.value);
             } catch (Exception e) {
-                reportError( String.format("Error while parsing literal type '%s'", lt.value), row, col );
+                reportError( String.format("Error while parsing literal type '%s'", lt.value), row, col , NTriplesParserSettings.IGNORE_NTRIPLES_INVALID_LINES);
             }
             return createLiteral(
                     validateAndNormalizeLiteral(value, literalType),
