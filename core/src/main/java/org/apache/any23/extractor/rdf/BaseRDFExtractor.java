@@ -26,10 +26,13 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
+import org.openrdf.rio.RioSetting;
+import org.openrdf.rio.helpers.BasicParserSettings;
 import org.openrdf.rio.helpers.RDFParserBase;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 
 /**
  * Base class for a generic <i>RDF</i>
@@ -90,6 +93,16 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     ) throws IOException, ExtractionException {
         try {
             final RDFParser parser = getParser(extractionContext, extractionResult);
+            parser.getParserConfig().setNonFatalErrors(new HashSet<RioSetting<?>>());
+
+            // Disable verification to ensure that DBPedia is accessible, given it uses so many custom datatypes
+            parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, false);                
+            parser.getParserConfig().addNonFatalError(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES);
+            parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, false);                
+            parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_DATATYPE_VALUES);
+            parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);                
+            parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
+            
             parser.parse(in, extractionContext.getDocumentURI().stringValue());
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
