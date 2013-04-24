@@ -459,6 +459,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws ExtractionException
      */
+    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testXMLMimeTypeManagementViaURL() throws IOException, ExtractionException {
         assumeOnlineAllowed();
@@ -471,6 +472,7 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertEquals(0, cth.getCount());
     }
 
+    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testBlankNodesViaURL() throws IOException, ExtractionException {
         assumeOnlineAllowed();
