@@ -1,3 +1,46 @@
+                           Apache Any23 0.7.0
+                             Release Notes
+                         01/05/2013 (dd/mm/yyyy)
+                         
+Sub-task
+
+    [ANY23-109] - Missing tika-config.xml in o.a.a.mime
+    [ANY23-110] - DOAP Vocabulary
+
+Bug
+
+    [ANY23-44] - error when parsing a document from http://www.afdsi.org/docs/test/html/RDFa/_food-stream_.htm
+    [ANY23-78] - Download page links are broken
+    [ANY23-108] - Broken schema.org microdata extraction
+    [ANY23-112] - Fix incubation disclaimer
+    [ANY23-113] - Remove dependencies from parent pom.xml file
+    [ANY23-116] - Empty values are skipped when reading tab separated CSV.
+    [ANY23-156] - Add logging dependencies to plugins and service
+
+Improvement
+
+    [ANY23-2] - Add support for hreview-aggregate microformat.
+    [ANY23-26] - Upgrade dependency to Apache Tika 1.2
+    [ANY23-46] - Update Any23 web service
+    [ANY23-83] - Remove hardcoded formats throughout Any23 to make it useful as a library
+    [ANY23-101] - Use RDFFormat.NQUADS in nquads module
+    [ANY23-139] - Simplify site deploy plugging the maven-scm-publish-plugin
+    [ANY23-144] - Implement comprehensive naming of o.a.a.api.vocab classes
+
+New Feature
+
+    [ANY23-4] - Integrate W3C's RDFa test suite and pass all tests
+    [ANY23-85] - Split NQuads out into its own module
+    [ANY23-96] - Add user agent string to basic-crawler
+    [ANY23-117] - Split Mime type detection out into its own module
+    [ANY23-118] - Split Encoding detection out into its own module
+
+Task
+
+    [ANY23-41] - Write basic-crawler plugin documentation
+    [ANY23-125] - Drop the Incubating DISCLAIMER
+                         
+
                              Apache Any23 0.7.0-incubating
                               Release Notes
                               25/06/2012
