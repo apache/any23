@@ -20,6 +20,7 @@ package org.apache.any23.cli;
 import org.apache.any23.Any23OnlineTestBase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.rio.RDFFormat;
@@ -46,6 +47,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
 
     public static final Logger logger = LoggerFactory.getLogger(CrawlerTest.class);
 
+    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testCLI() throws IOException, RDFHandlerException, RDFParseException {
         assumeOnlineAllowed();
