@@ -53,6 +53,13 @@
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
     </dependency>
+    
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.logger.version}</version>
+    </dependency>
 
     <!-- BEGIN: plugins -->
     <dependency>
