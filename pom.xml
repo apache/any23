@@ -155,9 +155,9 @@
   <mailingLists>
     <mailingList>
       <name>Dev Mailing List</name>
-      <post>any23-dev[at]apache[dot]org</post>
-      <subscribe>any23-dev-subscribe[at]apache[dot]org</subscribe>
-      <unsubscribe>any23-dev-unsubscribe[at]apache[dot]org</unsubscribe>
+      <post>dev[at]any23[dot]apache[dot]org</post>
+      <subscribe>dev-subscribe[at]any23[dot]apache[dot]org</subscribe>
+      <unsubscribe>dev-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/any23-dev/</archive>
       <otherArchives>
         <otherArchive>http://any23-dev.markmail.org/</otherArchive>
@@ -166,9 +166,9 @@
 
     <mailingList>
       <name>User Mailing List</name>
-      <post>any23-user[at]apache[dot]org</post>
-      <subscribe>any23-user-subscribe[at]apache[dot]org</subscribe>
-      <unsubscribe>any23-user-unsubscribe[at]apache[dot]org</unsubscribe>
+      <post>user[at]any23[dot]apache[dot]org</post>
+      <subscribe>user-subscribe[at]any23[dot]apache[dot]org</subscribe>
+      <unsubscribe>user-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/any23-user/</archive>
       <otherArchives>
         <otherArchive>http://any23-user.markmail.org/</otherArchive>
@@ -177,9 +177,9 @@
 
     <mailingList>
       <name>Commits Mailing List</name>
-      <post>any23-commits[at]apache[dot]org</post>
-      <subscribe>any23-commits-subscribe[at]apache[dot]org</subscribe>
-      <unsubscribe>any23-commits-unsubscribe[at]apache[dot]org</unsubscribe>
+      <post>commits[at]any23[dot]apache[dot]org</post>
+      <subscribe>commits-subscribe[at]any23[dot]apache[dot]org</subscribe>
+      <unsubscribe>commits-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/any23-commits/</archive>
       <otherArchives>
         <otherArchive>http://any23-commits.markmail.org/</otherArchive>
@@ -203,9 +203,9 @@
   </modules>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/any23/trunk/</developerConnection>
-    <connection>scm:svn:https://svn.apache.org/repos/asf/any23/</connection>
-    <url>https://svn.apache.org/viewvc/any23/</url>
+    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
+    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/any23.git</connection>
+    <url>https://git-wip-us.apache.org/repos/asf/any23.git</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
