@@ -249,7 +249,7 @@
     <maven-project-info-reports-plugin.version>2.4</maven-project-info-reports-plugin.version>
     <maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
     <maven-checkstyle-plugin.version>2.8</maven-checkstyle-plugin.version>
-    <apache-rat-plugin.version>0.7</apache-rat-plugin.version>
+    <apache-rat-plugin.version>0.9</apache-rat-plugin.version>
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
     <maven-gpg-plugin.version>1.4</maven-gpg-plugin.version>
 
@@ -798,7 +798,7 @@
       <id>release</id>
       <build>
         <plugins>
-          <plugin>
+          <!--plugin>
             <groupId>org.apache.rat</groupId>
             <artifactId>apache-rat-plugin</artifactId>
             <version>${apache-rat-plugin.version}</version>
@@ -833,7 +833,7 @@
                     <exclude>maven-eclipse.xml</exclude>
                     <exclude>.externalToolBuilders/**</exclude>
                     <exclude>.git/**</exclude>
-                    <!-- TODO restore them once ANY23-98 is fixed -->
+                    < TODO restore them once ANY23-98 is fixed >
                     <exclude>**/application/nquads/test1.nq</exclude>
                     <exclude>**/application/nquads/test2.nq</exclude>
                     <exclude>**/application/rdfn3/test1</exclude>
@@ -841,7 +841,7 @@
                     <exclude>**/application/rdfn3/test3</exclude>
                     <exclude>**/application/rss1/test1</exclude>
                     <exclude>**/cli/rover-test1.nq</exclude>
-                    <!-- resources ALv2 compatible resources -->
+                    < resources ALv2 compatible resources >
                     <exclude>**/css/bootstrap.min.css</exclude>
                     <exclude>**/js/bootstrap-modal.js</exclude>
                     <exclude>**/js/jquery-1.7.2.min.js</exclude>
@@ -850,7 +850,7 @@
                 </configuration>
               </execution>
             </executions>
-          </plugin>
+          </plugin-->
 
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
