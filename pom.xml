@@ -814,7 +814,6 @@
                     <exclude>**/.gitignore</exclude>
                     <exclude>**/any23-gcode-CHANGES.txt</exclude>
                     <exclude>**/NOTICE-*.txt</exclude>
-                    <exclude>DISCLAIMER.txt</exclude>
                     <exclude>LICENSE.txt</exclude>
                     <exclude>NOTICE.txt</exclude>
                     <exclude>**/README.txt</exclude>

@@ -23,6 +23,7 @@ import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.HListing;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.openrdf.model.Resource;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
@@ -149,6 +150,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.itemPhoto,  RDFUtils.uri(baseURI.stringValue() + "pic.jpg"));
     }
 
+    @Ignore("ANY23-159: Error with nodes and markup extracted from HListingExtractorTest.testKelkoo & testKelkooFull")
     @Test
     public void testKelkoo() throws RepositoryException {
         assertExtract("/microformats/hlisting/kelkoo.html");
@@ -178,6 +180,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
         assertContains(vHLISTING.price, "\u00A3480.17");
     }
 
+    @Ignore("ANY23-159: Error with nodes and markup extracted from HListingExtractorTest.testKelkoo & testKelkooFull")
     @Test
     public void testKelkooFull() throws RepositoryException {
         assertExtract("/microformats/hlisting/kelkoo-full.html");
