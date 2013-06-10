@@ -1,4 +1,4 @@
-                           Apache Any23 0.7.0
+                          Apache Any23 0.8.0
                              Release Notes
                          01/05/2013 (dd/mm/yyyy)
                          
