@@ -607,7 +607,6 @@ public class NQuadsParserTest {
         }
 
         public void handleNamespace(String s, String s1) throws RDFHandlerException {
-            throw new UnsupportedOperationException();
         }
 
         public void handleStatement(Statement statement) throws RDFHandlerException {
@@ -616,7 +615,6 @@ public class NQuadsParserTest {
         }
 
         public void handleComment(String s) throws RDFHandlerException {
-            throw new UnsupportedOperationException();
         }
 
         public void assertHandler(int expected) {

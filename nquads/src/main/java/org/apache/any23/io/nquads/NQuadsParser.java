@@ -35,6 +35,7 @@ import java.nio.charset.Charset;
  */
 public class NQuadsParser extends org.openrdf.rio.nquads.NQuadsParser {
 
+    @Override
     public synchronized void parse(InputStream is, String baseURI)
     throws IOException, RDFParseException, RDFHandlerException {
         if(is == null) {
