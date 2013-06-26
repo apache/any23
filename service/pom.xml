@@ -114,10 +114,6 @@
               <targetPath>/resources</targetPath>
               <filtering>true</filtering>
             </resource>
-            <resource>
-              <directory>${basedir}/../</directory>
-              <targetPath>/META-INF</targetPath>
-            </resource>
           </webResources>
         </configuration>
         <executions>
