@@ -5,3 +5,4 @@ target
 .settings
 .project
 pom.xml.versionsBackup
+*~
