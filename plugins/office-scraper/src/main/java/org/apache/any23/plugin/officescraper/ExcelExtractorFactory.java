@@ -49,7 +49,8 @@ public class ExcelExtractorFactory extends SimpleExtractorFactory<ExcelExtractor
                         "application/x-msexcel;q=0.1",
                         "application/x-ms-excel;q=0.1",
                         "application/x-tika-ooxml;q=0.1",
-                        "application/x-tika-msoffice;q=0.1"
+                        "application/x-tika-msoffice;q=0.1",
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;q=0.1"
                 ),
                 null);
     }
