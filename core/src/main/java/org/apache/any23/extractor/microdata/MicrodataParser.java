@@ -60,7 +60,8 @@ public class MicrodataParser {
      * List of tags providing the <code>src</code> property.
      */
     public static final Set<String> SRC_TAGS =  Collections.unmodifiableSet(
-            new HashSet<String>( Arrays.asList("audio", "embed", "iframe", "img", "source", "track", "video") )
+            new HashSet<String>( Arrays.asList("audio", "embed", "frame", "iframe", "img", 
+              "source", "track", "video", "input", "layer", "script", "textarea") )
     );
 
     /**
@@ -215,7 +216,7 @@ public class MicrodataParser {
      */
     public static void getMicrodataAsJSON(Document document, PrintStream ps) {
         final MicrodataParserReport report = getMicrodata(document);
-        final ItemScope[] itemScopes            = report.getDetectedItemScopes();
+        final ItemScope[] itemScopes = report.getDetectedItemScopes();
         final MicrodataParserException[] errors = report.getErrors();
 
         ps.append("{ ");
@@ -338,7 +339,7 @@ public class MicrodataParser {
             return new ItemPropValue( getItemScope(node), ItemPropValue.Type.Nested );
         }
 
-        final ItemPropValue newItemPropValue = new ItemPropValue( node.getTextContent(), ItemPropValue.Type.Plain);
+        final ItemPropValue newItemPropValue = new ItemPropValue( node.getTextContent().replaceAll("\\s",""), ItemPropValue.Type.Plain);
         itemPropValues.put(node, newItemPropValue);
         return newItemPropValue;
     }
