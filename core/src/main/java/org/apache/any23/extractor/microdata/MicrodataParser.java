@@ -339,7 +339,7 @@ public class MicrodataParser {
             return new ItemPropValue( getItemScope(node), ItemPropValue.Type.Nested );
         }
 
-        final ItemPropValue newItemPropValue = new ItemPropValue( node.getTextContent().replaceAll("\\s",""), ItemPropValue.Type.Plain);
+        final ItemPropValue newItemPropValue = new ItemPropValue( node.getTextContent(), ItemPropValue.Type.Plain);
         itemPropValues.put(node, newItemPropValue);
         return newItemPropValue;
     }
