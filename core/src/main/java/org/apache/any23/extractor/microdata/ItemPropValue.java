@@ -86,7 +86,12 @@ public class ItemPropValue {
             );
         }
         if(content instanceof String && ((String) content).trim().length() == 0) {
-            throw new IllegalArgumentException("Invalid content '" + content + "'");
+            content = "Null";
+            // ANY23-115 Empty spans seem to break ANY23
+            // instead of throwing the exception and in effect failing the entire 
+            // parse job we wish to be lenient on web content publishers and add
+            // Null (String) as content.
+            //throw new IllegalArgumentException("Invalid content '" + content + "'");
         }
         this.content = content;
         this.type = type;
