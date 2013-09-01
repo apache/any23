@@ -18,91 +18,37 @@
 package org.apache.any23.extractor.rdfa;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.apache.any23.extractor.ExtractionException;
-import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
-import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.w3c.dom.Document;
-
-import java.io.IOException;
-import java.net.URL;
+import org.apache.any23.extractor.rdf.BaseRDFExtractor;
+import org.apache.any23.extractor.rdf.RDFParserFactory;
+import org.openrdf.rio.RDFParser;
 
 /**
  * {@link org.apache.any23.extractor.Extractor} implementation for
- * <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa 1.1</a> specification.
+ * <a href="http://www.w3.org/TR/rdfa-core/">RDFa 1.1</a> specification.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class RDFa11Extractor implements Extractor.TagSoupDOMExtractor {
+public class RDFa11Extractor extends BaseRDFExtractor {
 
-    private final RDFa11Parser parser;
-
-    private boolean verifyDataType;
-
-    private boolean stopAtFirstError;
-
-    /**
-     * Constructor, allows to specify the validation and error handling
-     * policies.
-     * 
-     * @param verifyDataType
-     *            if <code>true</code> the data types will be verified, if
-     *            <code>false</code> will be ignored.
-     * @param stopAtFirstError
-     *            if <code>true</code> the parser will stop at first parsing
-     *            error, if <code>false</code> will ignore non blocking errors.
-     */
     public RDFa11Extractor(boolean verifyDataType, boolean stopAtFirstError) {
-        this.parser = new RDFa11Parser();
-        this.verifyDataType = verifyDataType;
-        this.stopAtFirstError = stopAtFirstError;
+        super(verifyDataType, stopAtFirstError);
     }
 
-    /**
-     * Default constructor, with no verification of data types and not stop at
-     * first error.
-     */
     public RDFa11Extractor() {
         this(false, false);
     }
 
-    public boolean isVerifyDataType() {
-        return verifyDataType;
-    }
-
-    public void setVerifyDataType(boolean verifyDataType) {
-        this.verifyDataType = verifyDataType;
-    }
-
-    public boolean isStopAtFirstError() {
-        return stopAtFirstError;
-    }
-
-    public void setStopAtFirstError(boolean stopAtFirstError) {
-        this.stopAtFirstError = stopAtFirstError;
-    }
-
-    @Override
-    public void run(ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext, Document in,
-            ExtractionResult out) throws IOException, ExtractionException {
-        try {
-            parser.processDocument(new URL(extractionContext.getDocumentURI()
-                    .toString()), in, out);
-        } catch (RDFa11ParserException rpe) {
-            throw new ExtractionException("Error while performing extraction.",
-                    rpe);
-        }
-    }
-
-    /**
-     * @return the {@link org.apache.any23.extractor.ExtractorDescription} of
-     *         this extractor
-     */
     @Override
     public ExtractorDescription getDescription() {
         return RDFa11ExtractorFactory.getDescriptionInstance();
     }
 
+    @Override
+    protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
+        return RDFParserFactory.getInstance().getRDFa11Parser(
+                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+        );
+    }
 }

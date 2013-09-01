@@ -17,7 +17,7 @@
 
 package org.apache.any23;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.ExtractionException;
@@ -47,6 +47,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openrdf.model.Statement;
+import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
@@ -67,6 +68,7 @@ import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 
 /**
  * Test case for {@link Any23} facade.
+ * 
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  */
@@ -77,7 +79,8 @@ public class Any23Test extends Any23OnlineTestBase {
 
     private static final String PAGE_URL = "http://bob.com";
 
-    private static final Logger logger = LoggerFactory.getLogger(Any23Test.class);
+    private static final Logger logger = LoggerFactory
+            .getLogger(Any23Test.class);
 
     @Test
     public void testTTLDetection() throws Exception {
@@ -93,8 +96,7 @@ public class Any23Test extends Any23OnlineTestBase {
     public void testN3Detection2() throws Exception {
         assertDetection(
                 "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .",
-                "rdf-nt"
-        );
+                "rdf-nt");
     }
 
     @Test
@@ -103,28 +105,25 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     /**
-     * This tests the behavior of <i>Any23</i> to execute the extraction explicitly specifying the charset
-     * encoding of the input.
-     *
+     * This tests the behavior of <i>Any23</i> to execute the extraction
+     * explicitly specifying the charset encoding of the input.
+     * 
      * @throws org.apache.any23.extractor.ExtractionException
      * @throws IOException
      * @throws SailException
      * @throws RepositoryException
      */
     @Test
-    public void testExplicitEncoding()
-    throws Exception {
-        assertEncodingDetection(
-                "UTF-8",
-                "/html/encoding-test.html",
-                "Knud M\u00F6ller"
-        );
+    public void testExplicitEncoding() throws Exception {
+        assertEncodingDetection("UTF-8", "/html/encoding-test.html",
+                "Knud M\u00F6ller");
     }
 
     /**
-     * This tests the behavior of <i>Any23</i> to perform the extraction without passing it any charset encoding.
-     * The encoding is therefore guessed using {@link org.apache.any23.encoding.TikaEncodingDetector} class.
-     *
+     * This tests the behavior of <i>Any23</i> to perform the extraction without
+     * passing it any charset encoding. The encoding is therefore guessed using
+     * {@link org.apache.any23.encoding.TikaEncodingDetector} class.
+     * 
      * @throws org.apache.any23.extractor.ExtractionException
      * @throws IOException
      * @throws SailException
@@ -132,26 +131,19 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws org.apache.any23.writer.TripleHandlerException
      */
     @Test
-    public void testImplicitEncoding()
-    throws Exception {
-        assertEncodingDetection(
-                null, // The encoding will be auto detected.
-                "/html/encoding-test.html",
-                "Knud M\u00F6ller"
-        );
+    public void testImplicitEncoding() throws Exception {
+        assertEncodingDetection(null, // The encoding will be auto detected.
+                "/html/encoding-test.html", "Knud M\u00F6ller");
     }
 
     @Test
-    public void testRDFXMLDetectionAndExtraction()
-    throws Exception {
-        String rdfXML =
-                "<?xml version='1.0'?> " +
-                "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' " +
-                        "xmlns:dc='http://purl.org/dc/elements/1.1/'>" +
-                "<rdf:Description rdf:about='http://www.example.com'>" +
-                "<dc:title>x</dc:title>" +
-                "</rdf:Description>" +
-                "</rdf:RDF>";
+    public void testRDFXMLDetectionAndExtraction() throws Exception {
+        String rdfXML = "<?xml version='1.0'?> "
+                + "<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' "
+                + "xmlns:dc='http://purl.org/dc/elements/1.1/'>"
+                + "<rdf:Description rdf:about='http://www.example.com'>"
+                + "<dc:title>x</dc:title>" + "</rdf:Description>"
+                + "</rdf:RDF>";
         assertDetectionAndExtraction(rdfXML);
     }
 
@@ -163,47 +155,47 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testNturtleDetectionAndExtraction() throws Exception {
-        String nTurtle =
-                "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n" +
-                "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n" +
-                "@prefix ex: <http://example.org/stuff/1.0/> .\n" +
-                "\n" +
-                "<http://www.w3.org/TR/rdf-syntax-grammar>\n" +
-                "  dc:title \"RDF/XML Syntax Specification (Revised)\" ;\n" +
-                "  ex:editor [\n" +
-                "    ex:fullname \"Dave Beckett\";\n" +
-                "    ex:homePage <http://purl.org/net/dajobe/>\n" +
-                "  ] .";
+        String nTurtle = "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n"
+                + "@prefix dc: <http://purl.org/dc/elements/1.1/> .\n"
+                + "@prefix ex: <http://example.org/stuff/1.0/> .\n"
+                + "\n"
+                + "<http://www.w3.org/TR/rdf-syntax-grammar>\n"
+                + "  dc:title \"RDF/XML Syntax Specification (Revised)\" ;\n"
+                + "  ex:editor [\n"
+                + "    ex:fullname \"Dave Beckett\";\n"
+                + "    ex:homePage <http://purl.org/net/dajobe/>\n" + "  ] .";
         assertDetectionAndExtraction(nTurtle);
     }
 
     /**
      * Tests out the first code snipped used in <i>Developer Manual</i>.
-     *
+     * 
      * @throws IOException
      * @throws org.apache.any23.extractor.ExtractionException
      */
     @Test
     public void testDemoCodeSnippet1() throws Exception {
-        /*1*/ Any23 runner = new Any23();
-        /*2*/ final String content = "@prefix foo: <http://example.org/ns#> .   " +
-                                     "@prefix : <http://other.example.org/ns#> ." +
-                                     "foo:bar foo: : .                          " +
-                                     ":bar : foo:bar .                           ";
-        //    The second argument of StringDocumentSource() must be a valid URI.
-        /*3*/ DocumentSource source = new StringDocumentSource(content, "http://host.com/service");
-        /*4*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
-        /*5*/ TripleHandler handler = new NTriplesWriter(out);
-              try {
-        /*6*/     runner.extract(source, handler);
-              } finally {
-        /*7*/     handler.close();
-              }
-        /*8*/ String nt = out.toString("UTF-8");
+        /* 1 */Any23 runner = new Any23();
+        /* 2 */final String content = "@prefix foo: <http://example.org/ns#> .   "
+                + "@prefix : <http://other.example.org/ns#> ."
+                + "foo:bar foo: : .                          "
+                + ":bar : foo:bar .                           ";
+        // The second argument of StringDocumentSource() must be a valid URI.
+        /* 3 */DocumentSource source = new StringDocumentSource(content,
+                "http://host.com/service");
+        /* 4 */ByteArrayOutputStream out = new ByteArrayOutputStream();
+        /* 5 */TripleHandler handler = new NTriplesWriter(out);
+        try {
+            /* 6 */runner.extract(source, handler);
+        } finally {
+            /* 7 */handler.close();
+        }
+        /* 8 */String nt = out.toString("UTF-8");
 
         /*
-            <http://example.org/ns#bar> <http://example.org/ns#> <http://other.example.org/ns#> .
-            <http://other.example.org/ns#bar> <http://other.example.org/ns#> <http://example.org/ns#bar> .
+         * <http://example.org/ns#bar> <http://example.org/ns#>
+         * <http://other.example.org/ns#> . <http://other.example.org/ns#bar>
+         * <http://other.example.org/ns#> <http://example.org/ns#bar> .
          */
         logger.debug("nt: " + nt);
         Assert.assertTrue(nt.length() > 0);
@@ -211,52 +203,57 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Tests out the second code snipped used in <i>Developer Manual</i>.
-     *
+     * 
      * @throws IOException
      * @throws org.apache.any23.extractor.ExtractionException
      */
     @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
-    public void testDemoCodeSnippet2() throws Exception{
+    public void testDemoCodeSnippet2() throws Exception {
         assumeOnlineAllowed();
 
-        /*1*/ Any23 runner = new Any23();
-        /*2*/ runner.setHTTPUserAgent("test-user-agent");
-        /*3*/ HTTPClient httpClient = runner.getHTTPClient();
-        /*4*/ DocumentSource source = new HTTPDocumentSource(
-                 httpClient,
-                 "http://dbpedia.org/resource/Trento"
-              );
-        /*5*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
-        /*6*/ TripleHandler handler = new NTriplesWriter(out);
-              try {
-        /*7*/     runner.extract(source, handler);
-              } finally {
-        /*8*/     handler.close();
-              }
-        /*9*/ String n3 = out.toString("UTF-8");
+        /* 1 */Any23 runner = new Any23();
+        /* 2 */runner.setHTTPUserAgent("test-user-agent");
+        /* 3 */HTTPClient httpClient = runner.getHTTPClient();
+        /* 4 */DocumentSource source = new HTTPDocumentSource(httpClient,
+                "http://dbpedia.org/resource/Trento");
+        /* 5 */ByteArrayOutputStream out = new ByteArrayOutputStream();
+        /* 6 */TripleHandler handler = new NTriplesWriter(out);
+        try {
+            /* 7 */runner.extract(source, handler);
+        } finally {
+            /* 8 */handler.close();
+        }
+        /* 9 */String n3 = out.toString("UTF-8");
 
         /*
-            <http://dbpedia.org/resource/Trent> <http://dbpedia.org/ontology/wikiPageDisambiguates> <http://dbpedia.org/resource/Trento> .
-            <http://dbpedia.org/resource/Andrea_Pozzo> <http://dbpedia.org/ontology/birthPlace> <http://dbpedia.org/resource/Trento> .
-            <http://dbpedia.org/resource/Union_for_Trentino> <http://dbpedia.org/ontology/headquarter> <http://dbpedia.org/resource/Trento> .
-            [...]
+         * <http://dbpedia.org/resource/Trent>
+         * <http://dbpedia.org/ontology/wikiPageDisambiguates>
+         * <http://dbpedia.org/resource/Trento> .
+         * <http://dbpedia.org/resource/Andrea_Pozzo>
+         * <http://dbpedia.org/ontology/birthPlace>
+         * <http://dbpedia.org/resource/Trento> .
+         * <http://dbpedia.org/resource/Union_for_Trentino>
+         * <http://dbpedia.org/ontology/headquarter>
+         * <http://dbpedia.org/resource/Trento> . [...]
          */
         logger.debug("n3: " + n3);
         Assert.assertTrue(n3.length() > 0);
     }
 
     /**
-     * This test checks the extraction behavior when the library is used programatically.
-     * This test is related to the issue #45, to verify the different behaviors between Maven and Ant.
-     * The behavior was related to a 2nd-level dependency introduced by Maven.
-     *
+     * This test checks the extraction behavior when the library is used
+     * programatically. This test is related to the issue #45, to verify the
+     * different behaviors between Maven and Ant. The behavior was related to a
+     * 2nd-level dependency introduced by Maven.
+     * 
      * @throws org.apache.any23.extractor.ExtractionException
      * @throws IOException
      * @throws URISyntaxException
      */
     @Test
-    public void testProgrammaticExtraction() throws ExtractionException, IOException, URISyntaxException {
+    public void testProgrammaticExtraction() throws ExtractionException,
+            IOException, URISyntaxException {
         Any23 any23 = new Any23();
         any23.setHTTPUserAgent("Any23-Servlet");
         any23.setHTTPClient(new DefaultHTTPClient() {
@@ -276,10 +273,11 @@ public class Any23Test extends Any23OnlineTestBase {
         ReportingTripleHandler reporting = new ReportingTripleHandler(rdfWriter);
 
         DocumentSource source = getDocumentSourceFromResource(
-                    "/html/rdfa/ansa_2010-02-26_12645863.html",
-                    "http://host.com/service");
+                "/html/rdfa/ansa_2010-02-26_12645863.html",
+                "http://host.com/service");
 
-        Assert.assertTrue( any23.extract(source, reporting).hasMatchingExtractors() );
+        Assert.assertTrue(any23.extract(source, reporting)
+                .hasMatchingExtractors());
         try {
             handler.close();
         } catch (TripleHandlerException e) {
@@ -288,30 +286,30 @@ public class Any23Test extends Any23OnlineTestBase {
 
         final String bufferContent = byteArrayOutputStream.toString();
         logger.debug(bufferContent);
-        Assert.assertSame("Unexpected number of triples.", 60, StringUtils.countNL(bufferContent));
-        
+        Assert.assertSame("Unexpected number of triples.", 60,
+                StringUtils.countNL(bufferContent));
+
     }
 
     /**
-     * This test checks if a URL that is supposed to be GZIPPED is correctly opened and parsed with
-     * the {@link Any23} facade.
-     *
+     * This test checks if a URL that is supposed to be GZIPPED is correctly
+     * opened and parsed with the {@link Any23} facade.
+     * 
      * @throws IOException
      * @throws URISyntaxException
      * @throws ExtractionException
      */
     @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
-    public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
+    public void testGZippedContent() throws IOException, URISyntaxException,
+            ExtractionException {
         assumeOnlineAllowed();
 
         Any23 runner = new Any23();
         runner.setHTTPUserAgent("test-user-agent");
         HTTPClient httpClient = runner.getHTTPClient();
-        DocumentSource source = new HTTPDocumentSource(
-                httpClient,
-                "http://products.semweb.bestbuy.com/y/products/7590289/"
-        );
+        DocumentSource source = new HTTPDocumentSource(httpClient,
+                "http://products.semweb.bestbuy.com/y/products/7590289/");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TripleHandler handler = new NTriplesWriter(out);
         runner.extract(source, handler);
@@ -323,13 +321,13 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testExtractionParameters() throws IOException, ExtractionException, TripleHandlerException {
-        final int EXPECTED_TRIPLES  = 6;
+    public void testExtractionParameters() throws IOException,
+            ExtractionException, TripleHandlerException {
+        final int EXPECTED_TRIPLES = 6;
         Any23 runner = new Any23();
         DocumentSource source = getDocumentSourceFromResource(
                 "/org/apache/any23/validator/missing-og-namespace.html",
-                "http://www.test.com"
-        );
+                "http://www.test.com");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -340,18 +338,14 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH1.addChild(ctw1);
         try {
             runner.extract(
-                    new ExtractionParameters(
-                            DefaultConfiguration.singleton(),
-                            ValidationMode.None
-                    ),
-                    source,
-                    compositeTH1
-            );
+                    new ExtractionParameters(DefaultConfiguration.singleton(),
+                            ValidationMode.None), source, compositeTH1);
         } finally {
             compositeTH1.close();
         }
         logger.info(baos.toString());
-        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth1.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES,
+                cth1.getCount());
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -360,26 +354,21 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
         runner.extract(
-                new ExtractionParameters(
-                        DefaultConfiguration.singleton(),
-                        ValidationMode.ValidateAndFix
-                ),
-                source,
-                compositeTH2
-        );
-        logger.debug( baos.toString() );
-        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES + 5, cth2.getCount() );
+                new ExtractionParameters(DefaultConfiguration.singleton(),
+                        ValidationMode.ValidateAndFix), source, compositeTH2);
+        logger.debug(baos.toString());
+        Assert.assertEquals("Unexpected number of triples.",
+                EXPECTED_TRIPLES + 5, cth2.getCount());
     }
 
     @Test
     public void testExtractionParametersWithNestingDisabled()
-    throws IOException, ExtractionException, TripleHandlerException {
+            throws IOException, ExtractionException, TripleHandlerException {
         final int EXPECTED_TRIPLES = 19;
         Any23 runner = new Any23();
         DocumentSource source = getDocumentSourceFromResource(
                 "/microformats/nested-microformats-a1.html",
-                "http://www.test.com"
-        );
+                "http://www.test.com");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -389,16 +378,12 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH1.addChild(cth1);
         compositeTH1.addChild(ctw1);
         runner.extract(
-                new ExtractionParameters(
-                        DefaultConfiguration.singleton(),
-                        ValidationMode.None, true
-                ),
-                source,
-                compositeTH1
-        );
+                new ExtractionParameters(DefaultConfiguration.singleton(),
+                        ValidationMode.None, true), source, compositeTH1);
         compositeTH1.close();
         logger.debug("Out1: " + baos.toString());
-        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES + 3, cth1.getCount() );
+        Assert.assertEquals("Unexpected number of triples.",
+                EXPECTED_TRIPLES + 3, cth1.getCount());
 
         baos.reset();
         CountingTripleHandler cth2 = new CountingTripleHandler();
@@ -407,24 +392,20 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH2.addChild(cth2);
         compositeTH2.addChild(ctw2);
         runner.extract(
-                new ExtractionParameters(
-                        DefaultConfiguration.singleton(),
-                        ValidationMode.ValidateAndFix, false),
-                source,
-                compositeTH2
-        );
+                new ExtractionParameters(DefaultConfiguration.singleton(),
+                        ValidationMode.ValidateAndFix, false), source,
+                compositeTH2);
         compositeTH2.close();
         logger.debug("Out2: " + baos.toString());
-        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth2.getCount() );
+        Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES,
+                cth2.getCount());
     }
 
     @Test
     public void testExceptionPropagation() throws IOException {
         Any23 any23 = new Any23();
         DocumentSource source = getDocumentSourceFromResource(
-                "/application/turtle/geolinkeddata.ttl",
-                "http://www.test.com"
-        );
+                "/application/turtle/geolinkeddata.ttl", "http://www.test.com");
         CountingTripleHandler cth1 = new CountingTripleHandler();
         try {
             any23.extract(source, cth1);
@@ -436,16 +417,19 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Test correct management of general <i>XML</i> content.
-     *
+     * 
      * @throws IOException
      * @throws ExtractionException
      */
     @Test
-    public void testXMLMimeTypeManagement() throws IOException, ExtractionException {
+    public void testXMLMimeTypeManagement() throws IOException,
+            ExtractionException {
         final String documentURI = "http://www.test.com/resource.xml";
         final String contentType = "application/xml";
-        final String in = StreamUtils.asString( this.getClass().getResourceAsStream("any23-xml-mimetype.xml") );
-        final DocumentSource doc = new StringDocumentSource(in, documentURI, contentType);
+        final String in = StreamUtils.asString(this.getClass()
+                .getResourceAsStream("any23-xml-mimetype.xml"));
+        final DocumentSource doc = new StringDocumentSource(in, documentURI,
+                contentType);
         final Any23 any23 = new Any23();
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
@@ -455,20 +439,23 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     /**
-     * Test correct management of general <i>XML</i> content from <i>URL</i> source.
-     *
+     * Test correct management of general <i>XML</i> content from <i>URL</i>
+     * source.
+     * 
      * @throws IOException
      * @throws ExtractionException
      */
     @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
-    public void testXMLMimeTypeManagementViaURL() throws IOException, ExtractionException {
+    public void testXMLMimeTypeManagementViaURL() throws IOException,
+            ExtractionException {
         assumeOnlineAllowed();
         final Any23 any23 = new Any23();
         any23.setHTTPUserAgent("test-user-agent");
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
-        final ExtractionReport report = any23.extract("http://www.nativeremedies.com/XML/combos.xml", rth);
+        final ExtractionReport report = any23.extract(
+                "http://www.nativeremedies.com/XML/combos.xml", rth);
         Assert.assertFalse(report.hasMatchingExtractors());
         Assert.assertEquals(0, cth.getCount());
     }
@@ -481,23 +468,26 @@ public class Any23Test extends Any23OnlineTestBase {
         any23.setHTTPUserAgent("test-user-agent");
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
-        final ExtractionReport report = any23.extract("http://www.usarab.org/news/?tag=england", rth);
-        Assert.assertTrue( report.hasMatchingExtractors() );
+        final ExtractionReport report = any23.extract(
+                "http://www.usarab.org/news/?tag=england", rth);
+        Assert.assertTrue(report.hasMatchingExtractors());
     }
 
     @Test
     public void testMicrodataSupport() throws Exception {
-        final String htmlWithMicrodata = IOUtils.toString(
-                this.getClass().getResourceAsStream("/microdata/microdata-basic.html")
-        );
+        final String htmlWithMicrodata = IOUtils.toString(this.getClass()
+                .getResourceAsStream("/microdata/microdata-basic.html"));
         assertExtractorActivation(htmlWithMicrodata, MicrodataExtractor.class);
     }
 
     @Test
-    public void testAbstractMethodErrorIssue186_1() throws IOException, ExtractionException{
+    public void testAbstractMethodErrorIssue186_1() throws IOException,
+            ExtractionException {
         final Any23 runner = new Any23();
-        final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-1.xhtml");
-        final DocumentSource source = new StringDocumentSource(content, "http://base.com");
+        final String content = FileUtils
+                .readResourceContent("/html/rdfa/rdfa-issue186-1.xhtml");
+        final DocumentSource source = new StringDocumentSource(content,
+                "http://base.com");
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final TripleHandler handler = new NTriplesWriter(out);
         runner.extract(source, handler);
@@ -506,10 +496,13 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testAbstractMethodErrorIssue186_2() throws IOException, ExtractionException{
+    public void testAbstractMethodErrorIssue186_2() throws IOException,
+            ExtractionException {
         final Any23 runner = new Any23();
-        final String content = FileUtils.readResourceContent("/html/rdfa/rdfa-issue186-2.xhtml");
-        final DocumentSource source = new StringDocumentSource(content, "http://richard.cyganiak.de/");
+        final String content = FileUtils
+                .readResourceContent("/html/rdfa/rdfa-issue186-2.xhtml");
+        final DocumentSource source = new StringDocumentSource(content,
+                "http://richard.cyganiak.de/");
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final TripleHandler handler = new NTriplesWriter(out);
         runner.extract(source, handler);
@@ -519,12 +512,15 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testModifiableConfiguration_issue183() throws Exception {
-        final ModifiableConfiguration modifiableConf = DefaultConfiguration.copy();
+        final ModifiableConfiguration modifiableConf = DefaultConfiguration
+                .copy();
         modifiableConf.setProperty("any23.extraction.metadata.timesize", "off");
         final Any23 any23 = new Any23(modifiableConf);
 
-        final String content = FileUtils.readResourceContent("/rdf/rdf-issue183.ttl");
-        final DocumentSource source = new StringDocumentSource(content, "http://base.com");
+        final String content = FileUtils
+                .readResourceContent("/rdf/rdf-issue183.ttl");
+        final DocumentSource source = new StringDocumentSource(content,
+                "http://base.com");
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         final TripleHandler handler = new NTriplesWriter(out);
         any23.extract(source, handler);
@@ -534,19 +530,18 @@ public class Any23Test extends Any23OnlineTestBase {
         logger.debug(n3);
         Assert.assertFalse(
                 "Should not contain triple with http://vocab.sindice.net/date",
-                n3.contains("http://vocab.sindice.net/date")
-        );
+                n3.contains("http://vocab.sindice.net/date"));
         Assert.assertFalse(
                 "Should not contain triple with http://vocab.sindice.net/size",
-                n3.contains("http://vocab.sindice.net/size")
-        );
+                n3.contains("http://vocab.sindice.net/size"));
     }
 
     /**
-     * Performs detection and extraction on the given input string
-     * and return the {@link ExtractionReport}.
-     *
-     * @param in input string.
+     * Performs detection and extraction on the given input string and return
+     * the {@link ExtractionReport}.
+     * 
+     * @param in
+     *            input string.
      * @return
      * @throws IOException
      * @throws ExtractionException
@@ -555,19 +550,17 @@ public class Any23Test extends Any23OnlineTestBase {
         Any23 any23 = new Any23();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportingTripleHandler outputHandler = new ReportingTripleHandler(
-                new IgnoreAccidentalRDFa(
-                        new IgnoreTitlesOfEmptyDocuments(
-                                new NTriplesWriter(out)
-                        )
-                )
-        );
+                new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(
+                        new NTriplesWriter(out))));
         return any23.extract(in, "http://host.com/path", outputHandler);
     }
 
     /**
-     * Asserts that a list an {@link Extractor} has been activated for the given input data.
-     *
-     * @param in input data as string.
+     * Asserts that a list an {@link Extractor} has been activated for the given
+     * input data.
+     * 
+     * @param in
+     *            input data as string.
      * @throws IOException
      * @throws ExtractionException
      */
@@ -575,36 +568,38 @@ public class Any23Test extends Any23OnlineTestBase {
         final ExtractionReport extractionReport = detectAndExtract(in);
         Assert.assertTrue(
                 "Detection and extraction failed, no matching extractors.",
-                extractionReport.hasMatchingExtractors()
-        );
+                extractionReport.hasMatchingExtractors());
     }
 
     /**
-     * Assert the correct activation of the given list of {@link Extractor}s for the given input string.
-     *
-     * @param in input data as string.
+     * Assert the correct activation of the given list of {@link Extractor}s for
+     * the given input string.
+     * 
+     * @param in
+     *            input data as string.
      * @param expectedExtractors
      * @throws IOException
      * @throws ExtractionException
      */
-    private void assertExtractorActivation(String in, Class<? extends Extractor>... expectedExtractors)
-    throws Exception {
+    private void assertExtractorActivation(String in,
+            Class<? extends Extractor>... expectedExtractors) throws Exception {
         final ExtractionReport extractionReport = detectAndExtract(in);
         for (Class<? extends Extractor> expectedExtractorClass : expectedExtractors) {
             Assert.assertTrue(
                     String.format(
                             "Detection and extraction failed, expected extractor [%s] not found.",
-                            expectedExtractorClass
-                    ),
-                    containsClass( extractionReport.getMatchingExtractors(), expectedExtractorClass )
-            );
+                            expectedExtractorClass),
+                    containsClass(extractionReport.getMatchingExtractors(),
+                            expectedExtractorClass));
         }
     }
 
     /**
      * Asserts the correct encoding detection for a specified data.
-     *
-     * @param encoding the expected specified encoding, if <code>null</code> will be auto detected.
+     * 
+     * @param encoding
+     *            the expected specified encoding, if <code>null</code> will be
+     *            auto detected.
      * @param input
      * @param expectedContent
      * @throws Exception
@@ -613,49 +608,60 @@ public class Any23Test extends Any23OnlineTestBase {
     throws Exception {
         DocumentSource fileDocumentSource = getDocumentSourceFromResource(input);
         Any23 any23;
-        RepositoryConnection conn;
-        RepositoryWriter repositoryWriter;
+        RepositoryConnection conn = null;
+        RepositoryWriter repositoryWriter = null;
         
         any23 = new Any23();
-        Sail store = new MemoryStore();
+        Repository store = new SailRepository(new MemoryStore());
         store.initialize();
-        conn = new SailRepository(store).getConnection();
-        repositoryWriter = new RepositoryWriter(conn);
-        Assert.assertTrue( any23.extract(fileDocumentSource, repositoryWriter, encoding).hasMatchingExtractors() );
-
-        RepositoryResult<Statement> statements = conn.getStatements(null, vDCTERMS.title, null, false);
-        try {
-            while (statements.hasNext()) {
-                Statement statement = statements.next();
-                printStatement(statement);
-                org.junit.Assert.assertTrue(statement.getObject().stringValue().contains(expectedContent));
+        try
+        {
+            conn = store.getConnection();
+            repositoryWriter = new RepositoryWriter(conn);
+            Assert.assertTrue( any23.extract(fileDocumentSource, repositoryWriter, encoding).hasMatchingExtractors() );
+    
+            RepositoryResult<Statement> statements = conn.getStatements(null, vDCTERMS.title, null, false);
+            try {
+                while (statements.hasNext()) {
+                    Statement statement = statements.next();
+                    printStatement(statement);
+                    Assert.assertTrue(statement.getObject().stringValue().contains(expectedContent));
+                }
+            } finally {
+                statements.close();
             }
-        } finally {
-            statements.close();
         }
-
+        finally {
+            if(conn != null) {
+                conn.close();
+            }
+            if(repositoryWriter != null) {
+                repositoryWriter.close();
+            }
+        }
         fileDocumentSource = null;
         any23 = null;
-        conn.close();
-        repositoryWriter.close();
     }
 
     /**
      * Will try to detect the <i>content</i> trying sequentially with all
      * specified parser.
-     *
+     * 
      * @param content
      * @param parsers
      * @throws Exception
      */
-    private void assertDetection(String content, String... parsers) throws Exception {
+    private void assertDetection(String content, String... parsers)
+            throws Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Any23 runner = new Any23(parsers.length == 0 ? null : parsers);
         if (parsers.length != 0) {
-            runner.setMIMETypeDetector(null);   // Use all the provided extractors.
+            runner.setMIMETypeDetector(null); // Use all the provided
+                                              // extractors.
         }
         final NTriplesWriter tripleHandler = new NTriplesWriter(out);
-        runner.extract(new StringDocumentSource(content, PAGE_URL), tripleHandler);
+        runner.extract(new StringDocumentSource(content, PAGE_URL),
+                tripleHandler);
         tripleHandler.close();
         String result = out.toString("us-ascii");
         Assert.assertNotNull(result);
@@ -663,19 +669,17 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     private void printStatement(Statement statement) {
-        logger.debug(String.format("%s\t%s\t%s",
-                statement.getSubject(),
-                statement.getPredicate(),
-                statement.getObject()));
+        logger.debug(String.format("%s\t%s\t%s", statement.getSubject(),
+                statement.getPredicate(), statement.getObject()));
     }
 
     private boolean containsClass(List<?> list, Class clazz) {
-        for(Object o : list) {
-            if(o.getClass().equals(clazz)) {
+        for (Object o : list) {
+            if (o.getClass().equals(clazz)) {
                 return true;
             }
         }
         return false;
     }
-    
+
 }
