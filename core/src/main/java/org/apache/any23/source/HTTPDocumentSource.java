@@ -18,16 +18,21 @@
 package org.apache.any23.source;
 
 import org.apache.any23.http.HTTPClient;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
  * Http implementation of {@link DocumentSource}.
  */
 public class HTTPDocumentSource implements DocumentSource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HTTPDocumentSource.class);
 
     private final HTTPClient client;
 
@@ -43,7 +48,15 @@ public class HTTPDocumentSource implements DocumentSource {
     }
 
     private String normalize(String uri) throws URISyntaxException {
-        return new URI(uri).normalize().toString();
+        try {
+            URI normalized = new URI(uri, false);
+            normalized.normalize();
+            return normalized.toString();
+        } catch (URIException e) {
+            LOG.warn("Invalid uri: {}", uri);
+            LOG.error("Can not convert URL", e);
+            throw new URISyntaxException(uri, e.getMessage());
+        }
     }
 
     private void ensureOpen() throws IOException {
@@ -80,5 +93,5 @@ public class HTTPDocumentSource implements DocumentSource {
     public boolean isLocal() {
         return false;
     }
-    
+
 }
