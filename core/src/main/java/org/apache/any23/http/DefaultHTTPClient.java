@@ -17,22 +17,16 @@
 
 package org.apache.any23.http;
 
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpConnectionManager;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Opens an {@link InputStream} on an HTTP URI. Is configured
@@ -42,6 +36,8 @@ import java.util.List;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class DefaultHTTPClient implements HTTPClient {
+
+    private static final Pattern ESCAPED_PATTERN = Pattern.compile("%[0-9a-f]{2}",Pattern.CASE_INSENSITIVE);
 
     private final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
 
@@ -54,6 +50,10 @@ public class DefaultHTTPClient implements HTTPClient {
     private String actualDocumentURI = null;
 
     private String contentType = null;
+
+    public static final boolean isUrlEncoded(String url) {
+        return ESCAPED_PATTERN.matcher(url).find();
+    }
 
     /**
      * Creates a {@link DefaultHTTPClient} instance already initialized
@@ -86,22 +86,10 @@ public class DefaultHTTPClient implements HTTPClient {
             ensureClientInitialized();
             String uriStr;
             try {
-                URI uriObj = new URI(uri);
+                URI uriObj = new URI(uri, isUrlEncoded(uri));
                 // [scheme:][//authority][path][?query][#fragment]
-                final String path = uriObj.getPath();
-                final String query = uriObj.getQuery();
-                final String fragment = uriObj.getFragment();
-                uriStr = String.format(
-                        "%s://%s%s%s%s%s%s",
-                        uriObj.getScheme(),
-                        uriObj.getAuthority(),
-                        path,
-                        query == null ? "" : "?",
-                        query,
-                        fragment == null ? "" : "#",
-                        fragment != null ? URLEncoder.encode(fragment, "UTF-8") : ""
-                );
-            } catch (URISyntaxException e) {
+                uriStr = uriObj.toString();
+            } catch (URIException e) {
                 throw new IllegalArgumentException("Invalid URI string.", e);
             }
             method = new GetMethod(uriStr);
