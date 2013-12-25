@@ -95,13 +95,9 @@ public class DefaultHTTPClient implements HTTPClient {
                         "%s://%s%s%s%s%s%s",
                         uriObj.getScheme(),
                         uriObj.getAuthority(),
-                        path != null ? URLEncoder.encode(path, "UTF-8").replaceAll("%2F", "/") : "",
+                        path,
                         query == null ? "" : "?",
-                        query != null ? URLEncoder.encode(query, "UTF-8")
-                                .replaceAll("%3D", "=")
-                                .replaceAll("%26", "&") 
-                            :
-                            "",
+                        query,
                         fragment == null ? "" : "#",
                         fragment != null ? URLEncoder.encode(fragment, "UTF-8") : ""
                 );
