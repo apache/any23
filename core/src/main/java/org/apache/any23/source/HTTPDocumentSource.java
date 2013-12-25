@@ -17,6 +17,7 @@
 
 package org.apache.any23.source;
 
+import org.apache.any23.http.DefaultHTTPClient;
 import org.apache.any23.http.HTTPClient;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
@@ -49,7 +50,7 @@ public class HTTPDocumentSource implements DocumentSource {
 
     private String normalize(String uri) throws URISyntaxException {
         try {
-            URI normalized = new URI(uri, false);
+            URI normalized = new URI(uri, DefaultHTTPClient.isUrlEncoded(uri));
             normalized.normalize();
             return normalized.toString();
         } catch (URIException e) {
