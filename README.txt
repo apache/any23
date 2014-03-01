@@ -18,10 +18,16 @@ structured data in RDF format from a variety of Web documents.
 Distribution Content
 --------------------
 
+api                  Any23 library external API.
 core           	     The library core codebase.
-service        	     The library HTTP service codebase.
-lib                  Contains the the external deps (read lib/README.txt for further details).
+csvutils             A CSV specific package
+encoding             Encoding detection library.
+mime                 MIME Type detection library.
+nquads               NQuads parsing and serialization library.
 plugins              Library plugins codebase (read plugins/README.txt for further details).
+service        	     The library HTTP service codebase.
+src                  Packing of Any23 artifacts.
+test-resources       Material relating to Any23 JUnit test cases.
 RELEASE-NOTES.txt    File reporting main release notes for every version.
 LICENSE.txt          Applicable project license.
 README.txt           This file.

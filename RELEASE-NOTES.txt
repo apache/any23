@@ -1,4 +1,34 @@
-                          Apache Any23 0.8.0
+                           Apache Any23 0.9.0
+                             Release Notes
+                         28/10/2013 (dd/mm/yyyy)
+
+Sub-task
+
+    [ANY23-142] - LKIF-Core Vocabulary
+    [ANY23-143] - LRICore Vocabulary
+
+Bug
+
+    [ANY23-111] - Any23 raises an unmanaged exception from the Microdata parser
+    [ANY23-115] - Empty spans seem to break ANY23
+    [ANY23-161] - Fix service file generation
+    [ANY23-165] - "Invalid content" error if TITLE precedes encoding declaration in the document
+    [ANY23-171] - form.html not in correct location in service.
+
+Improvement
+
+    [ANY23-47] - Migrate basic-crawler classes to org.apache.nutch
+    [ANY23-164] - office-scraper ExcelExtractorFactory.java to accept application/x-tika-ooxml and application/x-tika-msoffice formats
+
+New Feature
+
+    [ANY23-120] - Split CLI tools out into a new module
+
+Task
+
+    [ANY23-122] - Cleanup Distribution Mirrors
+
+                           Apache Any23 0.8.0
                              Release Notes
                          01/05/2013 (dd/mm/yyyy)
                          
