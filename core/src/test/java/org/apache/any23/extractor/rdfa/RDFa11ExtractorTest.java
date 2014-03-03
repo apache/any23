@@ -157,7 +157,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      * Tests that the default parser settings enable tolerance in data type parsing.
      */
     @Test
-    public void testTolerantParsing() throws RepositoryException {
+    public void testTolerantParsing() {
         assertExtract("/html/rdfa/oreilly-invalid-datatype.html", false);
     }
 
