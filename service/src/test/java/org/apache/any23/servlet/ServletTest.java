@@ -386,13 +386,11 @@ public class ServletTest {
         assertContainsTag("message", true, 1 , content);
         assertContainsTag("error"  , true, 1 , content);
         assertContainsTag("error"  , true, 1 , content);
-        assertContainsTag("extractorIssues" , content);
-        assertContains("<issue level=", content);
         assertContainsTag("validationReport", content);
         assertContainsTag("errors"          , content);
         assertContainsTag("issues"          , content);
         assertContainsTag("ruleActivations" , content);
-        assertContainsTag("data"            , content);
+        assertContainsTag("data", content);
     }
 
     @Test
