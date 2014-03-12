@@ -19,11 +19,17 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * @author lewismc
- * An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
+ * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
  * vocabulary which is a library of ontologies relevant for the legal domain. 
  * The library consists of 15 modules, each of which describes a set of closely 
- * related concepts from both legal and commonsense domains.
+ * related concepts from both legal and commonsense domains.</p>
+ * 
+ * <p>The action module describes the vocabulary for representing actions in general. 
+ * Actions are processes which are performed by some agent (the actor of the action). 
+ * This module does not commit itself to a particular theory on thematic roles.</p>
+ * 
+ * @author lewismc
+ * 
  *
  */
 public class LKIFCoreAction extends Vocabulary {

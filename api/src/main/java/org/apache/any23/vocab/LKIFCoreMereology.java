@@ -19,11 +19,16 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * @author lewismc
- * An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
+ * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
  * vocabulary which is a library of ontologies relevant for the legal domain. 
  * The library consists of 15 modules, each of which describes a set of closely 
- * related concepts from both legal and commonsense domains.
+ * related concepts from both legal and commonsense domains.</p>
+ * 
+ * <p>The mereology module defines mereological concepts such as parts 
+ * and wholes, and typical mereological relations such as part of, 
+ * component of, containment, membership etc.</p>
+ *
+ * @author lewismc 
  *
  */
 public class LKIFCoreMereology extends Vocabulary {

@@ -19,11 +19,19 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * @author lewismc
- * An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
+ * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
  * vocabulary which is a library of ontologies relevant for the legal domain. 
  * The library consists of 15 modules, each of which describes a set of closely 
- * related concepts from both legal and commonsense domains.
+ * related concepts from both legal and commonsense domains.</p>
+ * 
+ * <p>The norm module is an extension primarily on the expression 
+ * module where norms are defined as qualifications. Please 
+ * refer to Deliverable 1.1 for a more in-depth description 
+ * of the underlying theory. It furthermore defines a number of 
+ * legal sources, e.g. legal documents, customary law etc., and a 
+ * typology of rights and powers, cf. Sartor (2006), Rubino et al. (2006)</p>
+ *
+ * @author lewismc 
  *
  */
 public class LKIFCoreNorm extends Vocabulary {

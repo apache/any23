@@ -19,12 +19,17 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * @author lewismc
- * An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
+ * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
  * vocabulary which is a library of ontologies relevant for the legal domain. 
  * The library consists of 15 modules, each of which describes a set of closely 
- * related concepts from both legal and commonsense domains.
+ * related concepts from both legal and commonsense domains.</p>
+ * 
+ * <p>The expression module describes a vocabulary for describing, 
+ * propositions and propositional attitudes (belief, intention), qualifications, 
+ * statements and media. It furthermore extends the role module with a number 
+ * or epistemic roles, and is the basis for the definition of norms.</p>
  *
+ * @author lewismc 
  */
 public class LKIFCoreExpression extends Vocabulary {
 	
