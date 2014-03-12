@@ -23,7 +23,6 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.ExtractorGroup;
-import org.apache.any23.extractor.ExtractorRegistry;
 import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.apache.any23.extractor.SingleDocumentExtraction;
 import org.apache.any23.extractor.SingleDocumentExtractionReport;
@@ -247,7 +246,10 @@ public class Any23 {
     }
 
     /**
-     * Returns the most appropriate {@link DocumentSource} for the given<code>documentURI</code>.
+     * <p>Returns the most appropriate {@link DocumentSource} for the given<code>documentURI</code>.</p>
+     * <p><b>N.B.</b> <code>documentURI's</code> <i>should</i> contain a protocol.
+     * E.g. <b>http:</b>, <b>https:</b>, <b>file:</b>
+     * </p>
      *
      * @param documentURI the document <i>URI</i>.
      * @return a new instance of DocumentSource.
@@ -263,7 +265,8 @@ public class Any23 {
             return new HTTPDocumentSource(getHTTPClient(), documentURI);
         }
         throw new IllegalArgumentException(
-                String.format("Unsupported protocol for document URI: '%s' .", documentURI)
+                String.format("Unsupported protocol for document URI: '%s' . "
+                    + "Check that document URI contains a protocol.", documentURI)
         );
     }
 
