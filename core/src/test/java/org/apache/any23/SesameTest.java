@@ -43,21 +43,9 @@ public class SesameTest {
             // espected when assertions are enabled.
         } catch (NullPointerException ex) {
             // expected without assertions.
+        } catch (IllegalArgumentException ex) {
+            // expected without assertions.
         }
-    }
-
-    @Test
-    public void testCreateLiteralWithNullArgumentWorks() {
-        Literal l;
-        try {
-            l = ValueFactoryImpl.getInstance().createLiteral((String) null);
-        } catch (AssertionError ae) {
-            // Expected when assertions are enabled.
-            return;
-        }
-        assertNotNull(l);
-        assertNull(l.stringValue());
-        assertEquals(l, l);
     }
 
     @Test
