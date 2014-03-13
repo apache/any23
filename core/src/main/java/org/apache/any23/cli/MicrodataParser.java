@@ -38,7 +38,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Command line <b>Microdata</i> parser, accepting both files and URLs and
+ * Command line <i>Microdata</i> parser, accepting both files and URLs and
  * returing a <i>JSON</i> representation of the extracted metadata as described at
  * <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
  *
@@ -54,7 +54,7 @@ public class MicrodataParser implements Tool {
 
     @Parameter(
        arity = 1,
-       description = "Input document URL, {http://path/to/resource.html|file:/path/to/local.file}",
+       description = "Input document URL, {http://path/to/resource.html|file:/path/to/localFile.html}",
        converter = MicrodataParserDocumentSourceConverter.class
     )
     private List<DocumentSource> document = new LinkedList<DocumentSource>();
