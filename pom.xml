@@ -227,7 +227,7 @@
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${implementation.build}; ${maven.build.timestamp}</implementation.build.tstamp>
     <slf4j.logger.version>1.7.5</slf4j.logger.version>
-    <sesame.version>2.7.5</sesame.version>
+    <sesame.version>2.7.10</sesame.version>
     <latest.stable.released>0.8.0</latest.stable.released>
 
     <!-- Maven Plugin Versions -->
@@ -293,7 +293,7 @@
       <dependency>
         <groupId>net.sourceforge.nekohtml</groupId>
         <artifactId>nekohtml</artifactId>
-        <version>1.9.18</version>
+        <version>1.9.20</version>
       </dependency>
 
       <!-- BEGIN: Tika -->
@@ -372,6 +372,11 @@
       </dependency>
       <dependency>
         <groupId>org.openrdf.sesame</groupId>
+        <artifactId>sesame-rio-rdfjson</artifactId>
+        <version>${sesame.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openrdf.sesame</groupId>
         <artifactId>sesame-repository-sail</artifactId>
         <version>${sesame.version}</version>
       </dependency>
@@ -384,6 +389,11 @@
         <groupId>org.openrdf.sesame</groupId>
         <artifactId>sesame-repository-api</artifactId>
         <version>${sesame.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.jsonld-java</groupId>
+        <artifactId>jsonld-java-sesame</artifactId>
+        <version>0.3</version>
       </dependency>
       <!-- END: Sesame -->
 
