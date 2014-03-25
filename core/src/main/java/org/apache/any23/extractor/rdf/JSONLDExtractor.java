@@ -14,37 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.extractor.akn;
 
-import java.io.IOException;
+package org.apache.any23.extractor.rdf;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.apache.any23.extractor.ExtractionException;
-import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
-import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.w3c.dom.Document;
+import org.openrdf.rio.RDFParser;
 
 /**
- * Extractor for the <a href="http://www.akomtantoso.org">Akoma Ntoso</a>
- * XML Format.
- * @author lewismc
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
+ * handling <a href="http://www.w3.org/TR/json-ld/">JSON-LD</a> format.
  *
  */
-public class AKNExtractor implements Extractor.TagSoupDOMExtractor {
+public class JSONLDExtractor extends BaseRDFExtractor {
 
-  @Override
-  public void run(ExtractionParameters extractionParameters, ExtractionContext context, Document in,
-      ExtractionResult out) throws IOException, ExtractionException {
-    // TODO Auto-generated method stub
-    
-  }
+    public JSONLDExtractor(boolean verifyDataType, boolean stopAtFirstError) {
+        super(verifyDataType, stopAtFirstError);
+    }
 
-  @Override
-  public ExtractorDescription getDescription() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+    public JSONLDExtractor() {
+        this(false, false);
+    }
 
+    @Override
+    public ExtractorDescription getDescription() {
+        return JSONLDExtractorFactory.getDescriptionInstance();
+    }
+
+    @Override
+    protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
+        return RDFParserFactory.getInstance().getJSONLDParser(
+                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+        );
+    }
 }

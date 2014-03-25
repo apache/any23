@@ -134,6 +134,13 @@
       <artifactId>sesame-repository-api</artifactId>
     </dependency>
     <!-- END: Sesame -->
+    
+    <!-- BEGIN: Misc -->
+    <dependency>
+      <groupId>com.github.jsonld-java</groupId>
+      <artifactId>jsonld-java-sesame</artifactId>
+    </dependency>
+    <!-- END: Misc -->
 
     <!-- BEGIN:  Apache Commons, this version is hosted in the 
            any23-repository-external repository -->

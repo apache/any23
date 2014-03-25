@@ -15,37 +15,42 @@
  * limitations under the License.
  */
 
-package org.apache.any23.extractor.akn;
+package org.apache.any23.extractor.rdf;
 
 import java.util.Arrays;
 
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
-import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.Prefixes;
 import org.kohsuke.MetaInfServices;
 
 /**
- * @author lewismc
  *
  */
 @MetaInfServices(ExtractorFactory.class)
-public class AKNExtractorFactory extends SimpleExtractorFactory<AKNExtractor> implements
-        ExtractorFactory<AKNExtractor> {
+public class JSONLDExtractorFactory extends SimpleExtractorFactory<JSONLDExtractor> implements
+        ExtractorFactory<JSONLDExtractor> {
 
-    private static final ExtractorDescription descriptionInstance = new AKNExtractorFactory();
-    private static final String NAME = "akomaNtoso";
-    private static final Prefixes PREFIXES = PopularPrefixes.createSubset("akn", "AKN", "AKOMA");
+    public static final String NAME = "rdf-jsonld";
     
-    public AKNExtractorFactory() {
-        super(AKNExtractorFactory.NAME, 
-                AKNExtractorFactory.PREFIXES);
+    public static final Prefixes PREFIXES = null;
+
+    private static final ExtractorDescription descriptionInstance = new JSONLDExtractorFactory();
+    
+    public JSONLDExtractorFactory() {
+        super(
+                JSONLDExtractorFactory.NAME, 
+                JSONLDExtractorFactory.PREFIXES,
+                Arrays.asList(
+                        "application/ld+json;q=0.1"
+                ),
+                "example-jsonld.jsonld");
     }
     
     @Override
-    public AKNExtractor createExtractor() {
-        return new AKNExtractor();
+    public JSONLDExtractor createExtractor() {
+        return new JSONLDExtractor();
     }
 
     public static ExtractorDescription getDescriptionInstance() {

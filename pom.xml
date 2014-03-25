@@ -396,6 +396,14 @@
         <version>0.3</version>
       </dependency>
       <!-- END: Sesame -->
+      
+      <!-- BEGIN: Misc -->
+      <dependency>
+        <groupId>com.github.jsonld-java</groupId>
+        <artifactId>jsonld-java-sesame</artifactId>
+        <version>0.3</version>
+      </dependency>
+      <!-- END: Misc -->
 
       <!-- BEGIN:  Apache Commons -->
       <dependency>

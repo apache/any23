@@ -28,8 +28,6 @@ import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RioSetting;
 import org.openrdf.rio.helpers.BasicParserSettings;
-import org.openrdf.rio.helpers.RDFParserBase;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
