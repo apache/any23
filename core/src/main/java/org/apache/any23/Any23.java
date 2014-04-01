@@ -100,7 +100,7 @@ public class Any23 {
     public Any23(Configuration configuration, ExtractorGroup extractorGroup) {
         if(configuration == null) throw new NullPointerException("configuration must be not null.");
         this.configuration = configuration;
-        logger.info( configuration.getConfigurationDump() );
+        logger.debug( configuration.getConfigurationDump() );
 
         this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
 
