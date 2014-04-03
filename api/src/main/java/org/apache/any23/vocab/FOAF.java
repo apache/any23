@@ -20,7 +20,7 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * The <a href="http://xmlns.com/foaf/spec/">Fried Of A Friend</a> vocabulary.
+ * The <a href="http://xmlns.com/foaf/spec/">Friend Of A Friend</a> vocabulary.
  */
 public class FOAF extends Vocabulary {
 
