@@ -157,6 +157,25 @@ public class RDFParserFactory {
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
+    
+    /**
+     * Returns a new instance of a configured {@link SesameJSONLDParser}.
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured JSONLDParser parser.
+     */
+    public RDFParser getJSONLDParser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final RDFParser parser = Rio.createParser(RDFFormat.JSONLD);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
 
     /**
      * Configures the given parser on the specified extraction result

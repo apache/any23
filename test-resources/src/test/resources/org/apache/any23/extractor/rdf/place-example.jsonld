@@ -1,0 +1,27 @@
+{
+  "@context": {
+    "name": "http://schema.org/name",
+    "description": "http://schema.org/description",
+    "image": {
+      "@id": "http://schema.org/image",
+      "@type": "@id"
+    },
+    "geo": "http://schema.org/geo",
+    "latitude": {
+      "@id": "http://schema.org/latitude",
+      "@type": "xsd:float"
+    },
+    "longitude": {
+      "@id": "http://schema.org/longitude",
+      "@type": "xsd:float"
+    },
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "name": "The Forth Road Bridge",
+  "description": "The Forth Road Bridge is a suspension bridge in east central Scotland. The bridge, opened in 1964, spans the Firth of Forth, connecting the capital city Edinburgh, at South Queensferry, to Fife, at North Queensferry.",
+  "image": "http://en.wikipedia.org/wiki/File:Forth_Road_Bridge01_2002-04-07.jpg",
+  "geo": {
+    "latitude": "56.000925",
+    "longitude": "-3.404131"
+  }
+}
