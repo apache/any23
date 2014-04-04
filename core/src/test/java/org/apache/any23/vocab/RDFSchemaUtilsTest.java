@@ -43,7 +43,7 @@ public class RDFSchemaUtilsTest {
      */
     @Test
     public void testSerializeVocabulariesNTriples() {
-        serializeVocabularies(RDFFormat.NTRIPLES, 1622);
+        serializeVocabularies(RDFFormat.NTRIPLES, 1918);
     }
 
     /**
@@ -53,7 +53,7 @@ public class RDFSchemaUtilsTest {
      */
     @Test
     public void testSerializeVocabulariesRDFXML() {
-        serializeVocabularies(RDFFormat.RDFXML, 4241); // Effective lines + separators.
+        serializeVocabularies(RDFFormat.RDFXML, 4987); // Effective lines + separators.
     }
 
     private void serializeVocabularies(RDFFormat format, int expectedLines) {

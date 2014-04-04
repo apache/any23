@@ -25,12 +25,10 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractionResultImpl;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.writer.JSONWriter;
 import org.apache.any23.writer.RDFXMLWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -59,7 +57,7 @@ public class JSONLDExtractorTest {
   }
 
   @Test
-  public void testExtractFromJSONLDDocuement() 
+  public void testExtractFromJSONLDDocument() 
     throws IOException, ExtractionException, TripleHandlerException {
       final URI uri = RDFUtils.uri("http://host.com/place-example.jsonld");
       extract(uri, "/org/apache/any23/extractor/rdf/place-example.jsonld");
@@ -76,8 +74,8 @@ public class JSONLDExtractorTest {
   public void extract(URI uri, String filePath) 
     throws IOException, ExtractionException, TripleHandlerException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    final TripleHandler tHandler = new JSONWriter(baos);
-    final ExtractionContext extractionContext = new ExtractionContext("json-ld-extractor", uri);
+    final TripleHandler tHandler = new RDFXMLWriter(baos);
+    final ExtractionContext extractionContext = new ExtractionContext("rdf-jsonld", uri);
     final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, tHandler);
     extractor.setStopAtFirstError(false);
     try {
