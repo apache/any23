@@ -704,8 +704,6 @@
 <http://purl.org/ontology/wo/genus> <http://www.w3.org/2000/01/rdf-schema#member> <http://purl.org/ontology/wo/> <http://purl.org/ontology/wo/> .
 <http://purl.org/ontology/wo/phylum> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> <http://purl.org/ontology/wo/> .
 <http://purl.org/ontology/wo/phylum> <http://www.w3.org/2000/01/rdf-schema#member> <http://purl.org/ontology/wo/> <http://purl.org/ontology/wo/> .
-<http://purl.org/ontology/wo/division> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> <http://purl.org/ontology/wo/> .
-<http://purl.org/ontology/wo/division> <http://www.w3.org/2000/01/rdf-schema#member> <http://purl.org/ontology/wo/> <http://purl.org/ontology/wo/> .
 <http://purl.org/ontology/wo/kingdom> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> <http://purl.org/ontology/wo/> .
 <http://purl.org/ontology/wo/kingdom> <http://www.w3.org/2000/01/rdf-schema#member> <http://purl.org/ontology/wo/> <http://purl.org/ontology/wo/> .
 <http://purl.org/ontology/wo/order> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> <http://purl.org/ontology/wo/> .
