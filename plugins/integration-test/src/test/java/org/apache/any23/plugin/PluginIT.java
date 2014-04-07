@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PluginIT {
 
-    private static final int NUM_OF_EXTRACTORS = 29;
+    private static final int NUM_OF_EXTRACTORS = 30;
 
     private static final String PLUGIN_DIR = "target/plugins-build/";
 
