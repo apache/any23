@@ -42,7 +42,6 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
     private static final String[] classes = {
             "kingdom",
-            "division",
             "phylum",
             "order",
             "family",
