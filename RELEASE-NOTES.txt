@@ -1,3 +1,42 @@
+                           Apache Any23 1.0
+                             Release Notes
+                         09/05/2014 (dd/mm/yyyy)
+
+Sub-task
+
+    [ANY23-148] - Programmes Ontology
+
+Bug
+
+    [ANY23-100] - Issue with RDFa extractor while processing nested properties
+    [ANY23-135] - Any23 RDFa Extractor ignores multiple prefix and property statements
+    [ANY23-136] - Some RDFa tests have incorrect expected results
+    [ANY23-168] - RDFa properties in <meta> elements not picked up
+    [ANY23-170] - Dependency error org.apache.commons:commons-csv:1.0-SNAPSHOT-rev1148315
+    [ANY23-172] - Fix minor issues with Any23 0.9.0 RC
+    [ANY23-173] - Please delete old releases from mirroring system
+    [ANY23-174] - Incorrect RDFa extractions
+    [ANY23-203] - Update version revisions from 0.9.1 to 1.0
+
+Improvement
+
+    [ANY23-65] - Update to RDFa extraction stylesheet
+    [ANY23-128] - html-rdfa11 extractor fails on mailto: anchors
+    [ANY23-130] - Improve aesthetics of the output format when straying from default java.io.PrintStream
+    [ANY23-137] - RDFa parser implementation proposal
+    [ANY23-179] - Improve Javadoc and throwing of IllegalArgumentException in Any23#createDocumentSource
+    [ANY23-180] - Create an Apache hosted jail running an Any23 service instance
+    [ANY23-181] - Upgrade NekoHTML to 1.9.20
+
+New Feature
+
+    [ANY23-134] - Create o.a.a.extractor.tika Parser and Extractor implementations
+    [ANY23-177] - Add support for JSON-LD
+
+Task
+
+    [ANY23-162] - Add package.java for all LKIFCore classes
+
                            Apache Any23 0.9.0
                              Release Notes
                          28/10/2013 (dd/mm/yyyy)
