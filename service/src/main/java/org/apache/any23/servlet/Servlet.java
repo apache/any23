@@ -26,14 +26,16 @@ import org.apache.any23.source.ByteArrayDocumentSource;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
+import org.apache.commons.httpclient.URI;
 import org.openrdf.rio.RDFFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
@@ -47,6 +49,8 @@ import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class Servlet extends HttpServlet {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Servlet.class);
 
     public static final String DEFAULT_BASE_URI = "http://any23.org/tmp/";
 
@@ -135,23 +139,17 @@ public class Servlet extends HttpServlet {
         MediaRangeSpec result = Any23Negotiator.getNegotiator().getBestMatch(request.getHeader("Accept"));
         if (result == null) {
             return null;
-        }
-        else if (RDFFormat.TURTLE.hasMIMEType(result.getMediaType())) {
+        } else if (RDFFormat.TURTLE.hasMIMEType(result.getMediaType())) {
             return "turtle";
-        }
-        else if (RDFFormat.N3.hasMIMEType(result.getMediaType())) {
+        } else if (RDFFormat.N3.hasMIMEType(result.getMediaType())) {
             return "n3";
-        }
-        else if (RDFFormat.NQUADS.hasMIMEType(result.getMediaType())) {
+        } else if (RDFFormat.NQUADS.hasMIMEType(result.getMediaType())) {
             return "nq";
-        }
-        else if (RDFFormat.RDFXML.hasMIMEType(result.getMediaType())) {
+        } else if (RDFFormat.RDFXML.hasMIMEType(result.getMediaType())) {
             return "rdf";
-        }
-        else if (RDFFormat.NTRIPLES.hasMIMEType(result.getMediaType())) {
+        } else if (RDFFormat.NTRIPLES.hasMIMEType(result.getMediaType())) {
             return "nt";
-        }
-        else {
+        } else {
             return "turtle";    // shouldn't happen
         }
     }
@@ -220,13 +218,14 @@ public class Servlet extends HttpServlet {
     }
 
     private DocumentSource createHTTPDocumentSource(WebResponder responder, String uri, boolean report)
-    throws IOException {
+            throws IOException {
         try {
             if (!isValidURI(uri)) {
                 throw new URISyntaxException(uri, "@@@");
             }
             return createHTTPDocumentSource(responder.getRunner().getHTTPClient(), uri);
         } catch (URISyntaxException ex) {
+            LOG.error("Invalid URI detected", ex);
             responder.sendError(400, "Invalid input URI " + uri, report);
             return null;
         }
@@ -239,11 +238,11 @@ public class Servlet extends HttpServlet {
 
     private boolean isValidURI(String s) {
         try {
-            URI uri = new URI(s);
+            URI uri = new URI(s, false);
             if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {
                 return false;
             }
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -252,15 +251,15 @@ public class Servlet extends HttpServlet {
     private ValidationMode getValidationMode(HttpServletRequest request) {
         final String PARAMETER = "validation-mode";
         final String validationMode = request.getParameter(PARAMETER);
-        if(validationMode == null) return ValidationMode.None;
-        if("none".equalsIgnoreCase(validationMode)) return ValidationMode.None;
-        if("validate".equalsIgnoreCase(validationMode)) return ValidationMode.Validate;
-        if("validate-fix".equalsIgnoreCase(validationMode)) return ValidationMode.ValidateAndFix;
+        if (validationMode == null) return ValidationMode.None;
+        if ("none".equalsIgnoreCase(validationMode)) return ValidationMode.None;
+        if ("validate".equalsIgnoreCase(validationMode)) return ValidationMode.Validate;
+        if ("validate-fix".equalsIgnoreCase(validationMode)) return ValidationMode.ValidateAndFix;
         throw new IllegalArgumentException(
                 String.format("Invalid value '%s' for '%s' parameter.", validationMode, PARAMETER)
         );
     }
-    
+
     private ExtractionParameters getExtractionParameters(HttpServletRequest request) {
         final ValidationMode mode = getValidationMode(request);
         return new ExtractionParameters(DefaultConfiguration.singleton(), mode);
