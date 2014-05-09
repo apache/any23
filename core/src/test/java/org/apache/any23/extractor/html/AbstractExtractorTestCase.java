@@ -68,7 +68,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
     /**
      * Internal connection used to collect extraction results.
      */
-    private RepositoryConnection conn;
+    protected RepositoryConnection conn;
 
     /**
      * The latest generated report.

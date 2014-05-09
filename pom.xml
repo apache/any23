@@ -228,6 +228,7 @@
     <implementation.build.tstamp>${implementation.build}; ${maven.build.timestamp}</implementation.build.tstamp>
     <slf4j.logger.version>1.7.5</slf4j.logger.version>
     <sesame.version>2.7.10</sesame.version>
+    <semargl.version>0.6.1</semargl.version>
     <latest.stable.released>0.8.0</latest.stable.released>
 
     <!-- Maven Plugin Versions -->
@@ -391,9 +392,9 @@
         <version>${sesame.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.github.jsonld-java</groupId>
-        <artifactId>jsonld-java-sesame</artifactId>
-        <version>0.3</version>
+        <groupId>org.semarglproject</groupId>
+        <artifactId>semargl-sesame</artifactId>
+        <version>${semargl.version}</version>
       </dependency>
       <!-- END: Sesame -->
       

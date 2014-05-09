@@ -17,7 +17,6 @@
 
 package org.apache.any23.extractor.rdfa;
 
-import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
@@ -26,8 +25,11 @@ import org.apache.any23.vocab.OGP;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Literal;
+import org.openrdf.model.Statement;
+import org.openrdf.model.Value;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.repository.RepositoryException;
+import org.openrdf.repository.RepositoryResult;
 import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 
@@ -70,15 +72,19 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         assertExtract("/html/rdfa/xmlliteral-datatype-test.html");
         logger.debug(dumpModelToTurtle());
 
-        Literal literal = RDFUtils.literal(
-                "<SPAN datatype=\"rdf:XMLLiteral\" property=\"foaf:name\">Albert <STRONG>Einstein</STRONG></SPAN>",
-                RDF.XMLLITERAL
-        );
-        assertContains(
-                RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
-                vFOAF.name,
-                literal
-        );
+        RepositoryResult<Statement> stmts =
+                conn.getStatements(RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
+                        vFOAF.name, null, false);
+        Assert.assertTrue(stmts.hasNext());
+        Value obj = stmts.next().getObject();
+        Assert.assertTrue(obj instanceof Literal);
+        Literal lit = (Literal) obj;
+        Assert.assertEquals(lit.getDatatype(), RDF.XMLLITERAL);
+        Assert.assertEquals(lit.getLabel(), "Albert <strong xmlns=\"http://www.w3.org/1999/xhtml\" " +
+                        "xmlns:foaf=\"http://xmlns.com/foaf/0.1/\" " +
+                        "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
+                        "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +
+                        "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</strong>");
     }
 
     /**
@@ -153,7 +159,6 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testTolerantParsing() {
         assertExtract("/html/rdfa/oreilly-invalid-datatype.html", false);
-        assertIssue(IssueReport.IssueLevel.Warning, ".*Cannot map prefix \'mailto\'.*");
     }
 
     /**
@@ -168,7 +173,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testRDFa10Extraction()
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        final int EXPECTED_STATEMENTS = 33;
+        final int EXPECTED_STATEMENTS = 31;
 
         assertExtract("/html/rdfa/goodrelations-rdfa10.html");
         logger.debug(dumpModelToNQuads());
@@ -189,7 +194,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testRDFa11Extraction()
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        final int EXPECTED_STATEMENTS = 33;
+        final int EXPECTED_STATEMENTS = 31;
 
         assertExtract("/html/rdfa/goodrelations-rdfa11.html");
         logger.debug(dumpHumanReadableTriples());

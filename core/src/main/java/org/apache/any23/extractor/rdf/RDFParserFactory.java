@@ -28,6 +28,8 @@ import org.openrdf.rio.RDFHandlerException;
 import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.Rio;
+import org.openrdf.rio.helpers.RDFaParserSettings;
+import org.openrdf.rio.helpers.RDFaVersion;
 import org.openrdf.rio.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +58,7 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.openrdf.rio.turtle.TurtleParser}.
+     * Returns a new instance of a configured TurtleParser.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
@@ -79,7 +81,49 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.openrdf.rio.rdfxml.RDFXMLParser}.
+     * Returns a new instance of a configured RDFaParser, set to RDFa-1.0 compatibility mode.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured RDFXML parser.
+     */
+    public RDFParser getRDFa10Parser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final RDFParser parser = Rio.createParser(RDFFormat.RDFA);
+        parser.getParserConfig().set(RDFaParserSettings.RDFA_COMPATIBILITY, RDFaVersion.RDFA_1_0);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
+
+    /**
+     * Returns a new instance of a configured RDFaParser, set to RDFa-1.1 compatibility mode.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured RDFXML parser.
+     */
+    public RDFParser getRDFa11Parser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final RDFParser parser = Rio.createParser(RDFFormat.RDFA);
+        parser.getParserConfig().set(RDFaParserSettings.RDFA_COMPATIBILITY, RDFaVersion.RDFA_1_1);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
+
+    /**
+     * Returns a new instance of a configured RDFXMLParser.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
@@ -99,7 +143,7 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.openrdf.rio.ntriples.NTriplesParser}.
+     * Returns a new instance of a configured NTriplesParser.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
@@ -119,7 +163,7 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link org.apache.any23.io.nquads.NQuadsParser}.
+     * Returns a new instance of a configured NQuadsParser.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
@@ -139,7 +183,7 @@ public class RDFParserFactory {
     }
 
     /**
-     * Returns a new instance of a configured {@link TriXParser}.
+     * Returns a new instance of a configured TriXParser.
      *
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.

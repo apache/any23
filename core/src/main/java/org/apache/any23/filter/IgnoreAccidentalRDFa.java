@@ -19,6 +19,7 @@ package org.apache.any23.filter;
 
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.rdfa.RDFaExtractor;
+import org.apache.any23.extractor.rdfa.RDFaExtractorFactory;
 import org.apache.any23.vocab.XHTML;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
@@ -95,7 +96,7 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     }
 
     private boolean isRDFaContext(ExtractionContext context) {
-        return context.getExtractorName().equals(RDFaExtractor.NAME);
+        return context.getExtractorName().equals(RDFaExtractorFactory.NAME);
     }
 
     public void endDocument(URI documentURI) throws TripleHandlerException {
