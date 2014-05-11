@@ -86,7 +86,7 @@ public abstract class AbstractRDFaExtractorTestCase extends AbstractExtractorTes
         );
         assertContains(
                 RDFUtils.uri("http://database.org/table/Departments"),
-                RDFUtils.uri("http://xmlns.org/foaf/01/author"),
+                RDFUtils.uri("http://xmlns.com/foaf/0.1/author"),
                 RDFUtils.uri("http://database.org/people/Davide_Palmisano")
         );
         assertContains(

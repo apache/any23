@@ -59,7 +59,7 @@ CSV Extractor Algorithm
   For example, given this trivial CSV with an header and just two rows:
 
 +---------------------------------------------------------------
-first name; last name; http://xmlns.org/foaf/01/knows; age
+first name; last name; http://xmlns.com/foaf/0.1/knows; age
 Davide; Palmisano; http://michelemostarda.com; 30; value should not appear
 Michele; Mostarda; http://g1o.net;
 +---------------------------------------------------------------
@@ -81,7 +81,7 @@ Michele; Mostarda; http://g1o.net;
     rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</columnPosition>
   </rdf:Description>
 
-  <rdf:Description rdf:about="http://xmlns.org/foaf/01/knows">
+  <rdf:Description rdf:about="http://xmlns.com/foaf/0.1/knows">
     <columnPosition xmlns="http://vocab.sindice.net/csv/"
     rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</columnPosition>
   </rdf:Description>
@@ -98,7 +98,7 @@ Michele; Mostarda; http://g1o.net;
     rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Davide</firstName>
     <lastName xmlns="http://bob.example.com/"
     rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Palmisano</lastName>
-    <knows xmlns="http://xmlns.org/foaf/01/"
+    <knows xmlns="http://xmlns.com/foaf/0.1/"
     rdf:resource="http://michelemostarda.com"/
     <age xmlns="http://bob.example.com/"
     rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</age>
@@ -118,7 +118,7 @@ Michele; Mostarda; http://g1o.net;
     rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michele</firstName>
     <lastName xmlns="http://bob.example.com/"
     rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mostarda</lastName>
-    <knows xmlns="http://xmlns.org/foaf/01/" rdf:resource="http://g1o.net" />
+    <knows xmlns="http://xmlns.com/foaf/0.1/" rdf:resource="http://g1o.net" />
   </rdf:Description>
 
   <rdf:Description rdf:about="http://bob.example.com/">
