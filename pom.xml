@@ -259,7 +259,7 @@
      | Any23 website has to be stored in SVN
     -->
     <site.deploymentBaseUrl>scm:svn:https://svn.apache.org/repos/asf/any23/site</site.deploymentBaseUrl>
-    <site.filePath>${user.home}/any23-site/</site.filePath>
+    <site.filePath>${project.basedir}/any23-site/</site.filePath>
     <site.urlDeployment>file://${site.filePath}</site.urlDeployment>
     <site.scmPubCheckoutDirectory>${site.filePath}</site.scmPubCheckoutDirectory>
     <assembly.skip>false</assembly.skip>
@@ -949,9 +949,9 @@
                   <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                    <anonymousConnection>scm:svn:http://svn.apache.org/repos/asf/any23/trunk</anonymousConnection>
-                    <developerConnection>scm:svn:https://svn.apache.org/repos/asf/any23/trunk</developerConnection>
-                    <webAccessUrl>http://svn.apache.org/viewvc/any23/trunk</webAccessUrl>
+                    <anonymousConnection>scm:git:http://git.apache.org/any23.git</anonymousConnection>
+                    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
+                    <webAccessUrl>https://git-wip-us.apache.org/repos/asf/any23.git</webAccessUrl>
                   </configuration>
                   <reportSets>
                     <reportSet>
