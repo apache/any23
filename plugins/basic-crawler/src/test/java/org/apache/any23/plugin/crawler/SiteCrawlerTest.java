@@ -69,7 +69,7 @@ public class SiteCrawlerTest extends Any23OnlineTestBase {
             }
         });
 
-        controller.start( new URL("http://schema.org/"), false);
+        controller.start( new URL("http://any23.apache.org/"), false);
 
         synchronized (this) {
             this.wait(15 * 1000);
