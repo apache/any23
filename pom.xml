@@ -403,7 +403,7 @@
       <dependency>
         <groupId>com.github.jsonld-java</groupId>
         <artifactId>jsonld-java-sesame</artifactId>
-        <version>0.3</version>
+        <version>0.5.0</version>
       </dependency>
       <!-- END: Misc -->
 

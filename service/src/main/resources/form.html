@@ -16,8 +16,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<html xml:lang="en"
-    xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns:lang="en"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:dc="http://purl.org/dc/elements/1.1/">
   <head>
     <title>Apache Any23: Anything To Triples - Service ${project.version} (${implementation.build.tstamp})</title>
@@ -58,7 +58,7 @@ function showModal( id )
         /></a>
 
     <h1>Apache Any23 - Anything To Triples - Live Service Demo</h1>
-    <p>Parses Microformats, RDFa, Microdata, RDF/XML, Turtle, N-Triples and NQuads.</p>
+    <p>Parses Microformats, RDFa, Microdata, RDF/XML, Turtle, N-Triples, JSON-LD and NQuads.</p>
     <p>Download and install Any23: visit the <a href="http://any23.apache.org/" target="_blank">Developers Site</a> and the <a href="http://any23.apache.org/getting-started.html" target="_blank">Documentation</a>.
     <hr />
     <h2>Convert document at URI</h2>
@@ -130,6 +130,7 @@ function showModal( id )
             <option value="application/trix">TriX (application/trix)</option>
             <option value="application/rdf+xml">RDF/XML (application/rdf+xml)</option>
             <option value="text/csv">CSV (text/csv)</option>
+            <option value="application/ld+json">JSON-LD (application/ld+json)</option>
           </select>
         </div>
       </div>
@@ -151,10 +152,10 @@ function showModal( id )
         <label class="control-label" for="url-validation-post">Validation</label>
         <div class="controls">
           <select id="url-validation-post" name="validation-mode" onclick="if(document.getElementById('url-validation-post').value.indexOf('validate') == 0) { document.getElementById('url-report-post').checked = true; }">
-          <option value="none">none</option>
-          <option value="validate">validate</option>
-          <option value="validate-fix">validate+fix</option>
-        </select>
+            <option value="none">none</option>
+            <option value="validate">validate</option>
+            <option value="validate-fix">validate+fix</option>
+          </select>
           <a href="javascript:showModal( '#sPopup-fix' );">[?]</a>
         </div>
       </div>
@@ -324,12 +325,12 @@ Content-Length: 174
 
     <div id="sPopup-fix" class="modal hide fade">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
+        <button type="button" class="close" >×</button>
         <h3>Validation</h3>
       </div>
       <div class="modal-body">
         <p> 
-          The <b>Any23</b> service tries to fix some <a href="http://rdfa.info/wiki/Common-publishing-mistakes" target="_blank">common issues</a>
+          The <b>Any23</b> service tries to fix some <a href="http://www.deri.ie/fileadmin/documents/DERI-TR-2009-07-28.pdf" target="_blank">common issues</a>
           before performing a metadata extraction. The fixing is performed according a set of fully customizable rules. 
         </p>
         <p>
@@ -347,13 +348,13 @@ Content-Length: 174
         </p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" class="btn" >Close</a>
       </div>
     </div>
 
     <div id="sPopup-report" class="modal hide fade">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
+        <button type="button" class="close">×</button>
         <h3>Report</h3>
       </div>
       <div class="modal-body">
@@ -368,13 +369,13 @@ Content-Length: 174
         </p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" class="btn">Close</a>
       </div>
     </div>
 
     <div id="sPopup-annotate" class="modal hide fade">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
+        <button type="button" class="close">×</button>
         <h3>Annotate</h3>
       </div>
       <div class="modal-body">
@@ -385,7 +386,7 @@ Content-Length: 174
         </p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" class="btn">Close</a>
       </div>
     </div>
 
@@ -393,7 +394,7 @@ Content-Length: 174
 
   <footer class="footer">
   <div class="container-fluid">
-  Copyright &copy; ${project.inceptionYear}-2012 The <a href="http://www.apache.org/">Apache Software Foundation</a>. All Rights Reserved.<br/> Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation. All other marks mentioned may be trademarks or registered trademarks of their respective owners.
+  Copyright &copy; ${project.inceptionYear}-2014 The <a href="http://www.apache.org/">Apache Software Foundation</a>. All Rights Reserved.<br/> Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation. All other marks mentioned may be trademarks or registered trademarks of their respective owners.
   </div>
   </footer>
   </body>

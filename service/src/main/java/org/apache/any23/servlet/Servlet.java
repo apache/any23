@@ -149,6 +149,8 @@ public class Servlet extends HttpServlet {
             return "rdf";
         } else if (RDFFormat.NTRIPLES.hasMIMEType(result.getMediaType())) {
             return "nt";
+        } else if (RDFFormat.JSONLD.hasMIMEType(result.getMediaType())) {
+            return "ld+json";
         } else {
             return "turtle";    // shouldn't happen
         }

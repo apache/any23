@@ -213,7 +213,7 @@ class WebResponder {
     
     private void printIssueReport(ExtractionReport er, PrintStream ps) {
         ps.println("<issueReport>");
-        for(Extractor extractor : er.getMatchingExtractors()) {
+        for(Extractor<?> extractor : er.getMatchingExtractors()) {
             final String name = extractor.getDescription().getExtractorName();
             final Collection<IssueReport.Issue> extractorIssues = er.getExtractorIssues(name);
             if(extractorIssues.isEmpty()) continue;
