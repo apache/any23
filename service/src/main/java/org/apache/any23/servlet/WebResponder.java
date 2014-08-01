@@ -147,15 +147,6 @@ class WebResponder {
 
         /* *** No triples found. *** */
         any23servlet.log("Extraction complete, " + reporter.getTotalTriples() + " triples");
-        if (reporter.getTotalTriples() == 0) {
-            sendError(
-                    501,
-                    "Extraction completed. No triples have been found.",
-                    null,
-                    er, report
-            );
-            return;
-        }
 
         // Regular response.
         response.setContentType(outputMediaType);
