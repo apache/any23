@@ -184,13 +184,12 @@ public class ItemScope extends Item {
 
     @Override
     public int hashCode() {
-            return
-                (properties == null ? 1 : properties.hashCode()) *
-                (id == null         ? 1 : id.hashCode()) * 2 *
-                (refs == null       ? 1 : refs.hashCode()) * 3 *
-                (type == null       ? 1 : type.hashCode()) * 5 *
-                (itemId == null     ? 1 : itemId.hashCode());
-
+	int i = properties == null ? 0 : properties.hashCode();
+	i += id == null         ? 0 : id.hashCode();
+	i += refs == null       ? 0 : refs.hashCode();
+	i += type == null       ? 0 : type.hashCode();
+	i += itemId == null     ? 0 : itemId.hashCode();
+	return i;
     }
 
     @Override

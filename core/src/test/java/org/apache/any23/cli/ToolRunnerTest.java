@@ -46,6 +46,7 @@ public class ToolRunnerTest {
     @Test
     public void testGetToolsInClasspath() throws IOException {
         Iterator<Tool> tools = new ToolRunner().getToolsInClasspath();
+        assertTrue("No core tools have been detected", tools.hasNext());
         while (tools.hasNext()) {
             assertTrue("Some core tools have not been detected.", coreTools.contains(tools.next().getClass()));
         }
