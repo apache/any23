@@ -1,3 +1,31 @@
+                         Apache Any23 1.1
+                          Release Notes
+                      15/10/2014 (dd/mm/yyyy)
+Bug
+
+    [ANY23-205] - Remove xrefs from Any23 site and replave with Git(hub) links
+    [ANY23-220] - Run crawler plugin on Apache Any23 site
+    [ANY23-234] - No writer factory available for RDF format N-Quads (mimeTypes=text/x-nquads; ext=nq)
+
+Improvement
+
+    [ANY23-157] - Update Any23 site to accommodate move to Git.
+    [ANY23-197] - Extract embedded json-ld from html documents
+    [ANY23-204] - fix url encoding problem : PR#3
+    [ANY23-209] - Bug in site generation
+    [ANY23-221] - Enable JSON-LD as an input format for the WebService at any23.org
+    [ANY23-238] - Fix generation of BNode name for microdata when 'itemid' is given without a value.
+
+New Feature
+
+    [ANY23-7] - Performance test suite
+    [ANY23-160] - [SECURITY] Frame injection vulnerability in published Javadoc
+
+Task
+
+    [ANY23-222] - Push 1.1-SNAPSHOT artifacts to the Any23 website
+                           
+
                            Apache Any23 1.0
                              Release Notes
                          09/05/2014 (dd/mm/yyyy)
