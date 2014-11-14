@@ -7,16 +7,11 @@
  #+#     #+# #+#   #+#+#    #+#     #+#       #+#    #+#
 ###     ### ###    ####    ###    ##########  ########
 
-============
-Apache Any23 README
-============
-
 Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
+Any23 documentation can be found on the [website](http://any23.apache.org)
 
---------------------
-Distribution Content
---------------------
+# Distribution Content
 
 api                  Any23 library external API.
 core           	     The library core codebase.
@@ -30,249 +25,135 @@ src                  Packing of Any23 artifacts.
 test-resources       Material relating to Any23 JUnit test cases.
 RELEASE-NOTES.txt    File reporting main release notes for every version.
 LICENSE.txt          Applicable project license.
-README.txt           This file.
+README.md            This file.
 
---------------------
-Online Documentation
---------------------
+# Online Documentation
 
 For details on the command line tool and web interface, see:
   http://any23.apache.org/getting-started.html
 
-For a guide to using any23 as a library in your Java applications, see:
+For a guide to using Any23 as a library in your Java applications, see:
   http://any23.apache.org/developers.html
 
 Javadocs is available here:
   http://any23.apache.org/apidocs/
 
-----------------------------
-Build Any23 from Source Code
-----------------------------
+# Community
 
-Be sure to have the Apache Maven v.3.x+ installed and included in $PATH.
+You can reach our and connect with our community on our [mailing lists](http://any23.apache.org/mail-lists.html)
 
-For specific information about Maven see: http://maven.apache.org/
+# Build Any23 from Source Code
 
-Go to the trunk folder:
+The canonical Any23 source code lives at the [Apache Software Foundation Git repository](https://git-wip-us.apache.org/repos/asf/any23.git).
 
-    $ cd trunk/
+Be sure to have the [Apache Maven v.3.x+](http://maven.apache.org/) installed and included in $PATH.
 
-and execute the following command:
-
-    trunk$ mvn clean install
-
+## Clone the source:
+```
+git clone https://git-wip-us.apache.org/repos/asf/any23.git
+```
+## Navigate and build:
+```
+cd any23
+mvn clean install
+``
+From now on any23 is refered to as $ANY23_HOME`
 This will install the Any23 artifacts and its dependencies in your 
 local Maven3 repository.
+You can then extract the compiled code and use the command line interface
+Please note you will need to change the version to the tar or zip you are extracting.
+```
+tar -zxvf $ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}.tar.gz
+```
+# Run the Any23 Commandline Tools
 
--------------------------------
-Run the Any23 Commandline Tools
--------------------------------
-
-Any23 comes with some command line tools:
-
-   ./any23       # Provides the main Any23 use case: metadata extraction on a file or URL source.
-
-The complete documentation about these tools can be found here: 
-
-  http://any23.apache.org/getting-started.html
+Any23 comes with some command line tools. Within the directory you just extracted, you can invoke:
+Linux
+```  
+$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23       # Provides the main Any23 use case: metadata extraction on a file or URL source.
+```
+Windows
+```
+$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23.bat      # Provides the main Any23 use case: metadata extraction on a file or URL source.
+```
+The complete documentation about these tools can be found [here](http://any23.apache.org/getting-started.html)
 
 The bin scripts are generated dynamically during the package phase.
-To ensure the package generation run:
-
-  trunk$ mvn package
-
-then go to the core generated bin folder
-
-  trunk$ cd core/target/appassembler/bin/
-
+To ensure the package generation, from the top level directory run:
+```
+mvn package
+```
+You can void extracting the archive files by going to the core generated bin folder
+```
+cd  $ANY23_HOME/core/target/appassembler/bin/
+```
 and finally invoke the script for your OS (UNIX or Windows):
 
   bin$ ./any23
   [usage instructions will be printed out]
 
-
--------------------------
-Run the Any23 Web Service
--------------------------
+# Run the Any23 Web Service
 
 Any23 can be run as a service. 
 To run the Any23 service go to the service dir
 and then invoke the embedded Jetty server
+```
+cd $ANY23_HOME/service
+mvn jetty:run
+```
+You can check the service is running by accessing [http://localhost:8080/](http://localhost:8080/) with your browser.
 
-  service$ mvn jetty:run
+The complete documentation about this service can be found [here](http://any23.apache.org/getting-started.html)
 
-You can check the service is running by accessing
-http://localhost:8080/ with your browser.
+# Build the Any23 Web Service WAR
 
-The complete documentation about this service can be found here: 
-http://any23.apache.org/getting-started.html
-
--------------------------------
-Build the Any23 Web Service WAR
--------------------------------
-
-The Any23 Service WAR by default will be generated as self-contained,
-all the dependencies will be included as JAR within the WEB-INF/lib archive dir.
+The Any23 Service WAR by default will be generated as self-contained, all the dependencies will be included as JAR within the WEB-INF/lib archive dir.
 
 To generate the self contained WAR invoke from the service dir:
-
-  service$ mvn [-o] [-Dmaven.test.skip=true] clean package
-
+```
+service$ mvn [-o] [-Dmaven.test.skip=true] clean package
+```
 Where -o will build the process offline, and -Dmaven.test.skip=true
 will force the test skipping.
 
 The WAR will be generated in
-
-  target/any23-service-x.y.z-SNAPSHOT.war
-
+```
+$ANY23_HOME/service/target/any23-service-x.y.z-SNAPSHOT.war
+```
 To produce a instead a WAR WITHOUT the included JAR dependencies it is possible to use
 the war-without-deps profile:
-
-  any23-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
-
+```
+any23-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
+```
 The option [-o] will speed up the module build if you have already
 collected all the required dependencies.
 
 The option [-Dmaven.test.skip=true] will disable tests.
 
 Again the various versions of the WAR will be generated into
+```
+$ANY23_HOME/service/target/apache-any23-service-x.y.z-*
+```
 
-  target/apache-any23-service-x.y.z-*
+# Generate the Documentation
 
---------------------------
-Generate the Documentation
---------------------------
-
-To generate the project site locally execute the following command from the trunk dir:
-
-    trunk$ MAVEN_OPTS='-Xmx1024m' mvn [-o] clean site:site
-
+To generate the project site locally execute the following command from $ANY23_HOME:
+```
+cd $ANY23_HOME
+MAVEN_OPTS='-Xmx1024m' mvn [-o] clean site:site
+```
 You can speed up the site generation process specifying the offline option [-o],
 but it works only if all the involved plugin dependencies has been already downloaded
 in the local M2 repository.
 
 If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
-the umlgraphdoc profile. This profile relies on graphviz ( http://www.graphviz.org/) that must be 
+the umlgraphdoc profile. This profile relies on [graphviz](http://www.graphviz.org/) that must be 
 installed in your system.
+```
+cd $ANY23_HOME
+MAVEN_OPTS='-Xmx1024m' mvn -P umlgraphdoc clean site:site
+```
 
-    trunk$ MAVEN_OPTS='-Xmx1024m' mvn -P umlgraphdoc clean site:site
+# Munging of Any23 code to ASF
 
-------------------------
-Deploy the Documentation
-------------------------
-
-::Developers interest only.::
-
-In order to correctly deploy the site to a remote FTP host you just need to properly set up
-the following lines in your <distributionManagement> section of the root pom.xml:
-
-    <site>
-        <id>any23.developers</id>
-        <name>Any23 Developer Web Site</name>
-        <url>ftp://FTP-HOSTNAME</url>
-    </site>
-
-Remember that you need to set up your username and password to access to that FTP in your
-settings.xml in this way:
-
-    <server>
-        <id>any23.developers</id>
-        <username>FTP-USERNAME</username>
-        <password>FTP-PASSWORD</password>
-    </server>
-
-To perform the deployment simply run:
-
-    mvn clean site:site site:deploy
-
-Optionally you may require to fix the mimetype for *.html files:
-
-  cd site
-  svn up
-  find . -name "*.html" | xargs svn ps svn:mime-type text/html
-  find . -name "*.css"  | xargs svn ps svn:mime-type text/css
-  svn ci
-
-----------------------------------------------
-Deploy a Snapshot Release on Remote Repository
-----------------------------------------------
-
-::Developers interest only.::
-
-Check the configuration in section distributionManagement
-within pom.xml:
-
-    <distributionManagement>
-        ...
-        <distributionManagement>
-            <site>
-                <id>any23.website</id>
-                <name>Apache Any23 website</name>
-                <url>${site.deploymentBaseUrl}</url>
-            </site>
-        </distributionManagement>
-        ...
-    <distributionManagement>
-
-Then to deploy a snapshot release perform:
-
-    mvn clean deploy
-
-------------------
-Make a New Release
-------------------
-
-::Developers interest only.::
-
-To prepare a new release, just verify that the are no local changes and then invoke:
-
-	mvn release:prepare [-Dusername=<svn.username> -Dpassword=<svn.pass>]
-	
-if everything goes right, perform the release simply typing:
-
-	trunk$ MAVEN_OPTS='-Xmx2048m' mvn release:perform
-
-Export the just created tag:
-
-    tmp-dir$ svn export <path/to/curr-tag>
-
-Package all modules for direct download:
-
-    $ cd <curr-tag-export>/
-    <curr-tag-export>$ mvn clean package
-    cd any23-core
-    mvn assembly:assembly
-    cd ..
-    cd ..
-    tar cvzf any23-<curr-tag>.tar.gz tags/<curr-tag>
-    zip   -r any23-<curr-tag>.zip    tags/<curr-tag>
-
-Upload the produced packages in download section:
-
-   http://any23.apache.org/dist
-
---------------------
-Manage External Deps
---------------------
-
-::Developers interest only.::
-
-External Deps are libraries used by some Any23 modules which are
-not available in public Maven repositories. Such libraries are
-managed within the 'lib' dir.
-
-----------------------------
-Munging of Any23 code to ASF
-----------------------------
-When it was decided[0] that the Any23 code be brought into the Apache Incubator, the existing code
-was migrated over to the ASF infrastructure and documented/managed via a number of Jira tickets [1-3].
-
-The commentary provided within the below references spans the entire history of the code migration.    
-
-
-[0] http://wiki.apache.org/incubator/Any23Proposal
-[1] https://issues.apache.org/jira/browse/INFRA-3978
-[2] https://issues.apache.org/jira/browse/INFRA-4146
-[3] https://issues.apache.org/jira/browse/ANY23-29
-
-EOF
+When it was [decided](http://wiki.apache.org/incubator/Any23Proposal) that the Any23 code be brought into the Apache Incubator, the existing code was migrated over to the ASF infrastructure and documented/managed via a number of Jira tickets e.g, [INFRA-3978](https://issues.apache.org/jira/browse/INFRA-3978) [INFRA-4146](https://issues.apache.org/jira/browse/INFRA-4146) and [ANY23-29](https://issues.apache.org/jira/browse/ANY23-29).
