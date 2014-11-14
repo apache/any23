@@ -85,9 +85,10 @@ You can void extracting the archive files by going to the core generated bin fol
 cd  $ANY23_HOME/core/target/appassembler/bin/
 ```
 and finally invoke the script for your OS (UNIX or Windows):
-
+```
   bin$ ./any23
-  [usage instructions will be printed out]
+```
+usage instructions will be printed out.
 
 # Run the Any23 Web Service
 
