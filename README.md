@@ -1,4 +1,4 @@
-
+```
           :::     ::::    ::: :::   :::  ::::::::   ::::::::
        :+: :+:   :+:+:   :+: :+:   :+: :+:    :+: :+:    :+:
      +:+   +:+  :+:+:+  +:+  +:+ +:+        +:+         +:+
@@ -6,37 +6,34 @@
   +#+     +#+ +#+  +#+#+#    +#+      +#+             +#+
  #+#     #+# #+#   #+#+#    #+#     #+#       #+#    #+#
 ###     ### ###    ####    ###    ##########  ########
-
+```
 Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
 Any23 documentation can be found on the [website](http://any23.apache.org)
 
 # Distribution Content
 
-api                  Any23 library external API.
-core           	     The library core codebase.
-csvutils             A CSV specific package
-encoding             Encoding detection library.
-mime                 MIME Type detection library.
-nquads               NQuads parsing and serialization library.
-plugins              Library plugins codebase (read plugins/README.txt for further details).
-service        	     The library HTTP service codebase.
-src                  Packing of Any23 artifacts.
-test-resources       Material relating to Any23 JUnit test cases.
-RELEASE-NOTES.txt    File reporting main release notes for every version.
-LICENSE.txt          Applicable project license.
-README.md            This file.
+ * api                  Any23 library external API.
+ * core           	     The library core codebase.
+ * csvutils             A CSV specific package
+ * encoding             Encoding detection library.
+ * mime                 MIME Type detection library.
+ * nquads               NQuads parsing and serialization library.
+ * plugins              Library plugins codebase (read [plugins/README.txt](https://github.com/lewismc/any23/blob/master/plugins/README.md) for further details).
+ * service        	     The library HTTP service codebase.
+ * src                  Packing of Any23 artifacts.
+ * test-resources       Material relating to Any23 JUnit test cases.
+ * RELEASE-NOTES.txt    File reporting main release notes for every version.
+ * LICENSE.txt          Applicable project license.
+ * README.md            This file.
 
 # Online Documentation
 
-For details on the command line tool and web interface, see:
-  http://any23.apache.org/getting-started.html
+For details on the command line tool and web interface, see [here](http://any23.apache.org/getting-started.html)
 
-For a guide to using Any23 as a library in your Java applications, see:
-  http://any23.apache.org/developers.html
+For a guide to using Any23 as a library in your Java applications, see [here](http://any23.apache.org/developers.html)
 
-Javadocs is available here:
-  http://any23.apache.org/apidocs/
+Javadocs is available [here](http://any23.apache.org/apidocs/)
 
 # Community
 
@@ -56,8 +53,8 @@ git clone https://git-wip-us.apache.org/repos/asf/any23.git
 ```
 cd any23
 mvn clean install
-``
-From now on any23 is refered to as $ANY23_HOME`
+```
+From now on the above directory **any23** is refered to as **$ANY23_HOME**
 This will install the Any23 artifacts and its dependencies in your 
 local Maven3 repository.
 You can then extract the compiled code and use the command line interface
