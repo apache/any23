@@ -164,7 +164,9 @@ public class MicrodataParser {
                 topLevelItemScopes.add(itemScope);
             }
         }
-        return getUnnestedNodes( topLevelItemScopes );
+        // ANY23-131 Nested Microdata are not extracted
+        //return getUnnestedNodes( topLevelItemScopes );
+        return topLevelItemScopes;
     }
 
     /**
