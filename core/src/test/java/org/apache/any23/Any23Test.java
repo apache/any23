@@ -327,7 +327,7 @@ public class Any23Test extends Any23OnlineTestBase {
         // ?doc <http://www.w3.org/1999/xhtml/vocab#icon> <https://any23.googlecode.com/favicon.ico> .
         // ?doc <http://www.w3.org/1999/xhtml/vocab#stylesheet> <https://any23.googlecode.com/design/style.css>  .
 
-        final int EXPECTED_TRIPLES = 9;
+        final int EXPECTED_TRIPLES = 12;
         Any23 runner = new Any23();
         DocumentSource source = getDocumentSourceFromResource(
                 "/org/apache/any23/validator/missing-og-namespace.html",
