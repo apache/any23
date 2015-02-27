@@ -33,6 +33,11 @@ import java.util.regex.Pattern;
 public class NaiveMIMETypeDetector implements MIMETypeDetector {
 
     private final static Map<String, String> extensions = new HashMap<String, String>() {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
+
         {
             // extension -> mime type
             put("html" , "text/html"            );

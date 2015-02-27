@@ -23,8 +23,6 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.Excel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -39,7 +37,6 @@ import org.openrdf.model.vocabulary.RDF;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * Implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} able to process
