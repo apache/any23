@@ -135,6 +135,12 @@ Again the various versions of the WAR will be generated into
 $ANY23_HOME/service/target/apache-any23-service-x.y.z-*
 ```
 
+## Any23 Web Service Tracker Disclaimer
+
+The Any23 Web Service form (service/src/main/resources/form.html) contains a Google Analytics Tracker which is
+by default configured to report to the Any23 Community. It is possible to change the user ID modifying the
+```form.tracker.id``` property in parent POM.
+
 # Generate the Documentation
 
 To generate the project site locally execute the following command from $ANY23_HOME:

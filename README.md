@@ -133,6 +133,12 @@ Again the various versions of the WAR will be generated into
 $ANY23_HOME/service/target/apache-any23-service-x.y.z-*
 ```
 
+## Any23 Web Service Tracker Disclaimer
+
+The Any23 Web Service form (service/src/main/resources/form.html) contains a Google Analytics Tracker which is
+by default configured to report to the Any23 Community. It is possible to change the user ID modifying the
+```form.tracker.id``` property in parent POM.
+
 # Generate the Documentation
 
 To generate the project site locally execute the following command from $ANY23_HOME:
@@ -155,3 +161,4 @@ MAVEN_OPTS='-Xmx1024m' mvn -P umlgraphdoc clean site:site
 # Munging of Any23 code to ASF
 
 When it was [decided](http://wiki.apache.org/incubator/Any23Proposal) that the Any23 code be brought into the Apache Incubator, the existing code was migrated over to the ASF infrastructure and documented/managed via a number of Jira tickets e.g, [INFRA-3978](https://issues.apache.org/jira/browse/INFRA-3978) [INFRA-4146](https://issues.apache.org/jira/browse/INFRA-4146) and [ANY23-29](https://issues.apache.org/jira/browse/ANY23-29).
+
