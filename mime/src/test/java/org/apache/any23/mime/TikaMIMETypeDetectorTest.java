@@ -17,7 +17,7 @@
 
 package org.apache.any23.mime;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.junit.After;
 import org.junit.Before;
