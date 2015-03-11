@@ -79,6 +79,11 @@
 		<glob pattern="*.trx" />
 		<glob pattern="*.trix" />
 	</mime-type>
+  
+    <!-- JSONLD -->
+    <mime-type type="application/ld+json">
+        <glob pattern="*.jsonld" />
+    </mime-type>
 
 	<!-- END: Any23 Semantic Web document mime types. -->
 
