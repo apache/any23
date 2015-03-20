@@ -17,6 +17,7 @@
 
 package org.apache.any23.extractor.html;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -25,17 +26,25 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
 
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -459,5 +468,66 @@ public class DomUtils {
 
         return result;
     }
+    
+    /**
+     * Given a {@link org.w3c.dom.Document} this method will return an
+     * input stream representing that document.
+     * @param doc the input {@link org.w3c.dom.Document}
+     * @return an {@link java.io.InputStream}
+     */
+    public static InputStream documentToInputStream(Document doc) {
+      DOMSource source = new DOMSource(doc);
+      StringWriter xmlAsWriter = new StringWriter();
+      StreamResult result = new StreamResult(xmlAsWriter);
+      try {
+        TransformerFactory.newInstance().newTransformer().transform(source, result);
+      } catch (TransformerConfigurationException e) {
+        throw new RuntimeException("Error within Document to InputStream transformation configuration!");
+      } catch (TransformerException e) {
+        throw new RuntimeException("Error whilst transforming the Document to InputStream!");
+      } catch (TransformerFactoryConfigurationError e) {
+        throw new RuntimeException("Error within Document to InputStream transformation configuration!");
+      }
+       
+      InputStream is = null;
+      try {
+        is = new ByteArrayInputStream(xmlAsWriter.toString().getBytes("UTF-8"));
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }
+      return is;
+    }
+    
+
+    /**
+     * Convert a w3c dom node to a InputStream
+     * @param node
+     * @return
+     * @throws TransformerException
+     */
+    public static InputStream nodeToInputStream(Node node) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Result outputTarget = new StreamResult(outputStream);
+        Transformer t = null;
+        try {
+          t = TransformerFactory.newInstance().newTransformer();
+        } catch (TransformerConfigurationException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (TransformerFactoryConfigurationError e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        try {
+          t.transform(new DOMSource(node), outputTarget);
+        } catch (TransformerException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+        return new ByteArrayInputStream(outputStream.toByteArray());
+    }
+
+
 
 }
