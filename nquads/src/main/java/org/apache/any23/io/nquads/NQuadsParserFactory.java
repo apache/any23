@@ -17,7 +17,6 @@
 
 package org.apache.any23.io.nquads;
 
-import org.kohsuke.MetaInfServices;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFParser;
 import org.openrdf.rio.RDFParserFactory;
@@ -27,7 +26,6 @@ import org.openrdf.rio.RDFParserFactory;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices
 public class NQuadsParserFactory implements RDFParserFactory {
 
     public NQuadsParserFactory() {}

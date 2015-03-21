@@ -28,7 +28,6 @@ import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.ExtractorRegistry;
-import org.kohsuke.MetaInfServices;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -38,7 +37,6 @@ import java.util.List;
  * This class provides some command-line documentation
  * about available extractors and their usage.
  */
-@MetaInfServices
 @Parameters( commandNames = { "extractor" }, commandDescription= "Utility for obtaining documentation about metadata extractors.")
 public class ExtractorDocumentation implements Tool {
 

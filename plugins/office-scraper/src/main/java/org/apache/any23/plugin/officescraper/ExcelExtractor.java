@@ -31,7 +31,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.kohsuke.MetaInfServices;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 
@@ -47,7 +46,6 @@ import java.io.InputStream;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices( value = Extractor.class )
 public class ExcelExtractor implements Extractor.ContentExtractor {
 
     private static final Excel excel = Excel.getInstance();

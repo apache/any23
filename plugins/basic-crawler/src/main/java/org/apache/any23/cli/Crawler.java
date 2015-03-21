@@ -28,7 +28,6 @@ import edu.uci.ics.crawler4j.parser.ParseData;
 import org.apache.any23.plugin.crawler.CrawlerListener;
 import org.apache.any23.plugin.crawler.SiteCrawler;
 import org.apache.any23.source.StringDocumentSource;
-import org.kohsuke.MetaInfServices;
 
 import java.io.File;
 import java.net.URL;
@@ -44,7 +43,6 @@ import static java.lang.String.format;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices( value = Tool.class )
 @Parameters(commandNames = "crawler", commandDescription = "Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
 

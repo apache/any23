@@ -30,65 +30,44 @@ import org.openrdf.repository.RepositoryException;
  */
 public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
 
-    private static final SINDICE vSINDICE = SINDICE.getInstance();
+	private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-    protected ExtractorFactory<?> getExtractorFactory() {
-        return new HTMLMetaExtractorFactory();
-    }
+	protected ExtractorFactory<?> getExtractorFactory() {
+		return new HTMLMetaExtractorFactory();
+	}
 
-    @Test
-    public void testExtractPageMeta() throws RepositoryException {
-        assertExtract("/html/html-head-meta-extractor.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 7);
-        assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://purl.org/dc/elements/1.1/title"),
-                "XHTML+RDFa example",
-                "en"
-        );
-         assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://purl.org/dc/elements/1.1/language"),
-                "en",
-                "en"
-        );
-        assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://purl.org/dc/elements/1.1/subject"),
-                "XHTML+RDFa, semantic web",
-                "en"
-        );
-        assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://purl.org/dc/elements/1.1/format"),
-                "application/xhtml+xml",
-                "en"
-        );
-        assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl("http://purl.org/dc/elements/1.1/description"),
-                "Example for Extensible Hypertext Markup Language + Resource Description Framework – in – attributes.",
-                "en"
-        );
-        assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl(vSINDICE.NAMESPACE.toString() + "robots"),
-                "index, follow",
-                "en"
-        );
-        assertContains(
-                new URIImpl("http://bob.example.com/"),
-                new URIImpl(vSINDICE.NAMESPACE.toString() + "content-language"),
-                "en",
-                "en"
-        );
-    }
+	@Test
+	public void testExtractPageMeta() throws Exception {
+		assertExtract("/html/html-head-meta-extractor.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 7);
+		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+				"http://purl.org/dc/elements/1.1/title"), "XHTML+RDFa example",
+				"en");
+		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+				"http://purl.org/dc/elements/1.1/language"), "en", "en");
+		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+				"http://purl.org/dc/elements/1.1/subject"),
+				"XHTML+RDFa, semantic web", "en");
+		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+				"http://purl.org/dc/elements/1.1/format"),
+				"application/xhtml+xml", "en");
+		assertContains(
+				new URIImpl("http://bob.example.com/"),
+				new URIImpl("http://purl.org/dc/elements/1.1/description"),
+				"Example for Extensible Hypertext Markup Language + Resource Description Framework – in – attributes.",
+				"en");
+		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+				vSINDICE.NAMESPACE.toString() + "robots"), "index, follow",
+				"en");
+		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+				vSINDICE.NAMESPACE.toString() + "content-language"), "en", "en");
+	}
 
-    @Test
-    public void testNoMeta() throws RepositoryException {
-        assertExtract("/html/html-head-link-extractor.html");
-        assertModelEmpty();
-    }
-    
+	@Test
+	public void testNoMeta() throws Exception {
+		assertExtract("/html/html-head-link-extractor.html");
+		assertModelEmpty();
+	}
+
 }

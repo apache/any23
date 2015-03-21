@@ -19,14 +19,12 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.kohsuke.MetaInfServices;
 import org.openrdf.rio.RDFFormat;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
  * 
  */
-@MetaInfServices
 public class TurtleWriterFactory implements WriterFactory {
 
     public static final String MIME_TYPE = RDFFormat.TURTLE.getDefaultMIMEType();

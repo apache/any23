@@ -100,12 +100,13 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_DATATYPE_VALUES);
             parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);                
             parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
-            
+            //ByteBuffer seems to represent incorrect content. Need to make sure it is the content
+            //of the <script> node and not anything else!
             parser.parse(in, extractionContext.getDocumentURI().stringValue());
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
-//            throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
+            throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
         }
     }
 

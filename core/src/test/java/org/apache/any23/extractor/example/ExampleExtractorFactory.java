@@ -24,14 +24,12 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.Prefixes;
-import org.kohsuke.MetaInfServices;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
 // NOTE: Not enabling this in META-INF/services
-//@MetaInfServices(ExtractorFactory.class)
 public class ExampleExtractorFactory extends SimpleExtractorFactory<ExampleExtractor> implements
         ExtractorFactory<ExampleExtractor> {
 
