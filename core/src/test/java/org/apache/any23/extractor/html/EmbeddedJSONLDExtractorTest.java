@@ -28,23 +28,23 @@ import org.openrdf.repository.RepositoryException;
  */
 public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 
-  @Test
-  public void testEmbeddedJSONLDInHead() throws RepositoryException {
-    assertExtract("/html/html-embedded-jsonld-extractor.html");
-    assertModelNotEmpty();
-    assertStatementsSize(null, null, null, 7);
-  }
-  
-  @Test
-  public void testSeveralEmbeddedJSONLDInHead() throws RepositoryException {
-    assertExtract("/html/html-embedded-jsonld-extractor.html");
-    assertModelNotEmpty();
-    assertStatementsSize(null, null, null, 7);
-  }
+	@Test
+	public void testEmbeddedJSONLDInHead() throws Exception {
+		assertExtract("/html/html-embedded-jsonld-extractor.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 3);
+	}
 
-  @Override
-  protected ExtractorFactory<?> getExtractorFactory() {
-    return new EmbeddedJSONLDExtractorFactory();
-  }
+	@Test
+	public void testSeveralEmbeddedJSONLDInHead() throws Exception {
+		assertExtract("/html/html-embedded-jsonld-extractor-multiple.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 7);
+	}
+
+	@Override
+	protected ExtractorFactory<?> getExtractorFactory() {
+		return new EmbeddedJSONLDExtractorFactory();
+	}
 
 }

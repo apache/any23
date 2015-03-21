@@ -9,13 +9,11 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Prefixes;
-import org.kohsuke.MetaInfServices;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-@MetaInfServices(ExtractorFactory.class)
 public class HTMLScraperExtractorFactory extends SimpleExtractorFactory<HTMLScraperExtractor> implements
         ExtractorFactory<HTMLScraperExtractor> {
 

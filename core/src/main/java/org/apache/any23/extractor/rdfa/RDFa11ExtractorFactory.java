@@ -23,13 +23,11 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Prefixes;
-import org.kohsuke.MetaInfServices;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-@MetaInfServices(ExtractorFactory.class)
 public class RDFa11ExtractorFactory extends SimpleExtractorFactory<RDFa11Extractor> implements
         ExtractorFactory<RDFa11Extractor> {
 

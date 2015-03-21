@@ -30,7 +30,6 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.vocab.SINDICE;
-import org.kohsuke.MetaInfServices;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
 
@@ -46,7 +45,6 @@ import java.util.List;
  * @see HTMLScraperPlugin
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices( value = Extractor.class )
 public class HTMLScraperExtractor implements Extractor.ContentExtractor {
 
     public final static URI PAGE_CONTENT_DE_PROPERTY  =

@@ -24,12 +24,10 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.Prefixes;
-import org.kohsuke.MetaInfServices;
 
 /**
  *
  */
-@MetaInfServices(ExtractorFactory.class)
 public class EmbeddedJSONLDExtractorFactory extends SimpleExtractorFactory<EmbeddedJSONLDExtractor> implements
         ExtractorFactory<EmbeddedJSONLDExtractor> {
 

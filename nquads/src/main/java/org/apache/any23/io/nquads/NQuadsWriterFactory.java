@@ -17,7 +17,6 @@
 
 package org.apache.any23.io.nquads;
 
-import org.kohsuke.MetaInfServices;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.rio.RDFWriter;
 import org.openrdf.rio.RDFWriterFactory;
@@ -30,7 +29,6 @@ import java.io.Writer;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices
 public class NQuadsWriterFactory implements RDFWriterFactory {
 
     @Override

@@ -49,7 +49,7 @@ public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
      * @throws RepositoryException
      */
     @Test
-    public void testExtraction() throws IOException, ExtractionException, RepositoryException {
+    public void testExtraction() throws Exception {
         assertExtract("/html/html-turtle.html");
         logger.debug( dumpModelToRDFXML() );
         assertStatementsSize( null, (Value) null, 10);

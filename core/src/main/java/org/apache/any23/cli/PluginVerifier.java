@@ -25,7 +25,6 @@ import org.apache.any23.mime.MIMEType;
 import org.apache.any23.plugin.Any23PluginManager;
 import org.apache.any23.plugin.Author;
 import org.apache.any23.plugin.ExtractorPlugin;
-import org.kohsuke.MetaInfServices;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -40,7 +39,6 @@ import java.util.List;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices
 @Parameters(commandNames = { "verify" }, commandDescription = "Utility for plugin management verification.")
 public class PluginVerifier implements Tool {
 

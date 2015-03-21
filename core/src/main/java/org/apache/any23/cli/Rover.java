@@ -36,7 +36,6 @@ import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.writer.WriterFactoryRegistry;
-import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +58,6 @@ import static java.lang.String.format;
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Gabriele Renzi
  */
-@MetaInfServices
 @Parameters(commandNames = { "rover" }, commandDescription = "Any23 Command Line Tool.")
 public class Rover implements Tool {
 

@@ -27,7 +27,6 @@ import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.FileDocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.util.StreamUtils;
-import org.kohsuke.MetaInfServices;
 
 import java.io.File;
 import java.io.InputStream;
@@ -44,7 +43,6 @@ import java.util.regex.Pattern;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices
 @Parameters( commandNames = { "microdata" },  commandDescription = "Commandline Tool for extracting Microdata from file/HTTP source.")
 public class MicrodataParser implements Tool {
 

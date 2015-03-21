@@ -153,15 +153,6 @@
     </dependency>
     <!-- END: Apache Commons CSV -->
 
-    <!-- BEGIN: plugins -->
-    <dependency>
-      <groupId>org.kohsuke.metainf-services</groupId>
-      <artifactId>metainf-services</artifactId>
-      <scope>compile</scope>
-      <optional>true</optional>
-    </dependency>
-    <!-- END: plugins -->
-
     <!-- BEGIN: Test Dependencies -->
     <dependency>
       <groupId>junit</groupId>

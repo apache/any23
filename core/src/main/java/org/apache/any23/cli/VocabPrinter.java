@@ -18,7 +18,6 @@
 package org.apache.any23.cli;
 
 import org.apache.any23.vocab.RDFSchemaUtils;
-import org.kohsuke.MetaInfServices;
 import org.openrdf.rio.RDFFormat;
 
 import com.beust.jcommander.IStringConverter;
@@ -30,7 +29,6 @@ import com.beust.jcommander.Parameters;
  * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@MetaInfServices
 @Parameters(commandNames = { "vocab" }, commandDescription = "Prints out the RDF Schema of the vocabularies used by Any23.")
 public class VocabPrinter implements Tool {
 

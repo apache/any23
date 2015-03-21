@@ -63,14 +63,6 @@ public class JSONLDExtractorTest {
       extract(uri, "/org/apache/any23/extractor/rdf/place-example.jsonld");
   }
   
-  @Ignore("Need to verify if jsonld-java-sesame can extract from HTML")
-  @Test
-  public void testExtractFromHTMLDocument() 
-    throws IOException, ExtractionException, TripleHandlerException {
-      final URI uri = RDFUtils.uri("http://host.com/embedded_json-ld.html");
-      extract(uri, "/org/apache/any23/extractor/rdf/embedded_json-ld.html");
-  }
-  
   public void extract(URI uri, String filePath) 
     throws IOException, ExtractionException, TripleHandlerException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
