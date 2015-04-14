@@ -133,7 +133,13 @@ public class ExtractionParameters {
         this(
                 configuration,
                 extractionMode,
-                new HashMap<String, Boolean>(){{
+                new HashMap<String, Boolean>(){
+                  /**
+                   * 
+                   */
+                  private static final long serialVersionUID = 1L;
+
+                {
                     put(ExtractionParameters.METADATA_NESTING_FLAG, nesting);
                 }},
                 null

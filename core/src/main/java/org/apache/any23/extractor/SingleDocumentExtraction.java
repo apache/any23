@@ -17,6 +17,7 @@
 
 package org.apache.any23.extractor;
 
+import org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.encoding.EncodingDetector;

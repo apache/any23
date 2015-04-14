@@ -38,6 +38,6 @@ public interface Fix {
      * @param context the rule context for this fix.
      * @param document the document to apply this fix.
      */
-    void execute(Rule rule, RuleContext context, DOMDocument document);
+    void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document);
 
 }
