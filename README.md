@@ -67,11 +67,13 @@ tar -zxvf $ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}.tar.gz
 Any23 comes with some command line tools. Within the directory you just extracted, you can invoke:
 Linux
 ```  
-$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23       # Provides the main Any23 use case: metadata extraction on a file or URL source.
+$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23       
+# Provides the main Any23 use case: metadata extraction on a file or URL source.
 ```
 Windows
 ```
-$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23.bat      # Provides the main Any23 use case: metadata extraction on a file or URL source.
+$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23.bat      
+# Provides the main Any23 use case: metadata extraction on a file or URL source.
 ```
 The complete documentation about these tools can be found [here](http://any23.apache.org/getting-started.html)
 
