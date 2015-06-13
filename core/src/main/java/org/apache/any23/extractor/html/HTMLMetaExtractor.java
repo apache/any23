@@ -81,11 +81,19 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             if(meta.getLang() != null) {
                 lang = meta.getLang();
             }
-            out.writeTriple(
-                    documentURI,
-                    meta.getName(),
-                    new LiteralImpl(meta.getContent(), lang)
-            );
+            if(meta.isPragmaDirective){
+                out.writeTriple(
+                        documentURI,
+                        meta.getHttpEquiv(),
+                        new LiteralImpl(meta.getContent(), lang)
+                );
+            }else {
+                out.writeTriple(
+                        documentURI,
+                        meta.getName(),
+                        new LiteralImpl(meta.getContent(), lang)
+                );
+            }
         }
     }
 
@@ -134,19 +142,37 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
         for (Node metaNode : metaNodes) {
             NamedNodeMap attributes = metaNode.getAttributes();
             Node nameAttribute = attributes.getNamedItem("name");
+            Node httpEquivAttribute = attributes.getNamedItem("http-equiv");
             Node contentAttribute = attributes.getNamedItem("content");
-            if (nameAttribute == null || contentAttribute == null) {
-                continue;
+            if (nameAttribute == null && httpEquivAttribute == null)
+                continue; //support HTML5 meta element nodes that do not have both name and http-equiv
+            if (nameAttribute != null || httpEquivAttribute != null){
+                if ( contentAttribute == null ){
+                    continue;
+                }
             }
-            String name = nameAttribute.getTextContent();
-            String content = contentAttribute.getTextContent();
-            String xpath = DomUtils.getXPathForNode(metaNode);
-            URI nameAsURI = getPrefixIfExists(name);
-            if (nameAsURI == null) {
-                nameAsURI = new URIImpl(baseProfile + name);
+            boolean isPragmaDirective = (httpEquivAttribute != null) ? true : false;
+            if (isPragmaDirective){
+                String httpEquiv = httpEquivAttribute.getTextContent();
+                String content = contentAttribute.getTextContent();
+                String xpath = DomUtils.getXPathForNode(metaNode);
+                URI httpEquivAsURI = getPrefixIfExists(httpEquiv);
+                if (httpEquivAsURI == null) {
+                    httpEquivAsURI = new URIImpl(baseProfile + httpEquiv);
+                }
+                Meta meta = new Meta(xpath, content, httpEquivAsURI);
+                result.add(meta);
+            } else {
+                String name = nameAttribute.getTextContent();
+                String content = contentAttribute.getTextContent();
+                String xpath = DomUtils.getXPathForNode(metaNode);
+                URI nameAsURI = getPrefixIfExists(name);
+                if (nameAsURI == null) {
+                    nameAsURI = new URIImpl(baseProfile + name);
+                }
+                Meta meta = new Meta(xpath, nameAsURI, content);
+                result.add(meta);
             }
-            Meta meta = new Meta(xpath, nameAsURI, content);
-            result.add(meta);
         }
         return result;
     }
@@ -170,9 +196,25 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
         private URI name;
 
+        private URI httpEquiv;
+
         private String lang;
 
         private String content;
+
+        private boolean isPragmaDirective;
+
+        public Meta(String xpath, String content, URI httpEquiv) {
+            this.xpath = xpath;
+            this.content = content;
+            this.httpEquiv = httpEquiv;
+            this.setPragmaDirective(true);
+        }
+
+        public Meta(String xpath, String content, URI httpEquiv, String lang) {
+            this(xpath,content,httpEquiv);
+            this.lang = lang;
+        }
 
         public Meta(String xpath, URI name, String content) {
             this.xpath = xpath;
@@ -183,6 +225,22 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
         public Meta(String xpath, URI name, String content, String lang) {
             this(xpath, name, content);
             this.lang = lang;
+        }
+
+        public boolean isPragmaDirective(){
+            return isPragmaDirective;
+        }
+
+        private void setPragmaDirective(boolean value){
+            this.isPragmaDirective=value;
+        }
+
+        public URI getHttpEquiv(){
+            return httpEquiv;
+        }
+
+        public void setHttpEquiv(URI httpEquiv){
+            this.httpEquiv=httpEquiv;
         }
 
         public URI getName() {

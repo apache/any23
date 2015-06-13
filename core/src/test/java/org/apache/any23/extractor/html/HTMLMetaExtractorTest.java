@@ -40,7 +40,7 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
 	public void testExtractPageMeta() throws Exception {
 		assertExtract("/html/html-head-meta-extractor.html");
 		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 7);
+		assertStatementsSize(null, null, null, 10);
 		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
 				"http://purl.org/dc/elements/1.1/title"), "XHTML+RDFa example",
 				"en");
@@ -68,6 +68,13 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
 	public void testNoMeta() throws Exception {
 		assertExtract("/html/html-head-link-extractor.html");
 		assertModelEmpty();
+	}
+
+	@Test
+	public void testExtractPageMetaWithExtensionsPerMozillaSpecification() throws Exception {
+		assertExtract("/html/html-head-meta-extractor-with-mozilla-extensions.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 2);
 	}
 
 }
