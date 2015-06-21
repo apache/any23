@@ -59,6 +59,11 @@ public class VCard extends Vocabulary {
     public final URI agent = createProperty("agent");
 
     /**
+     * The altitude of a geographic location.
+     */
+    public final URI altitude = createProperty("altitude");
+
+    /**
      * The birthday of a person.
      */
     public final URI bday = createProperty("bday");
