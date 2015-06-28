@@ -26,6 +26,9 @@ import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
+
+import java.util.ArrayList;
+
 /**
  * Extractor for the <a href="http://microformats.org/wiki/h-geo">h-geo</a>
  * microformat.
@@ -36,13 +39,19 @@ public class HGeoExtractor extends EntityBasedMicroformatExtractor {
 
     private static final VCard vVCARD = VCard.getInstance();
 
+    private static final String[] geoFields = {
+            "latitude",
+            "longitude",
+            "altitude"
+    };
+
     @Override
     public ExtractorDescription getDescription() {
         return HGeoExtractorFactory.getDescriptionInstance();
     }
 
     protected String getBaseClassName() {
-        return "h-geo";
+        return Microformats2Prefixes.CLASS_PREFIX+"geo";
     }
 
     @Override
@@ -53,31 +62,32 @@ public class HGeoExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node) return false;
         final HTMLDocument document = new HTMLDocument(node);
-        HTMLDocument.TextField latNode = document.getSingularTextField("p-latitude");
-        HTMLDocument.TextField lonNode = document.getSingularTextField("p-longitude");
-        HTMLDocument.TextField altNode = document.getSingularTextField("p-altitude");
-        String lat = latNode.value();
-        String lon = lonNode.value();
-        String alt = altNode.value();
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, vVCARD.Location);
         final String extractorName = getDescription().getExtractorName();
-        conditionallyAddStringProperty(
-                latNode.source(),
-                geo, vVCARD.latitude , lat
-        );
-        conditionallyAddStringProperty(
-                lonNode.source(),
-                geo, vVCARD.longitude, lon
-        );
-        conditionallyAddStringProperty(
-                altNode.source(),
-                geo, vVCARD.altitude, alt
-        );
-
+        ArrayList<HTMLDocument.TextField> geoNodes = new ArrayList<HTMLDocument.TextField>();
+        for(String field : geoFields){
+            geoNodes.add(document.getSingularTextField(Microformats2Prefixes.PROPERTY_PREFIX+field));
+        }
+        if(geoNodes.get(0).source()==null){
+            String[] composed = document.getSingularUrlField(Microformats2Prefixes.CLASS_PREFIX +"geo")
+                                        .value().split(";");
+            for(int counter=0;counter<composed.length;counter++){
+                conditionallyAddStringProperty(
+                        document.getSingularUrlField(Microformats2Prefixes.CLASS_PREFIX+"geo").source(),
+                        geo, vVCARD.getProperty(geoFields[counter]), composed[counter]
+                );
+            }
+        }else{
+            for(int counter=0;counter<geoNodes.size();counter++){
+                conditionallyAddStringProperty(
+                        geoNodes.get(counter).source(),
+                        geo, vVCARD.getProperty(geoFields[counter]) , geoNodes.get(counter).value()
+                );
+            }
+        }
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
         tser.addResourceRoot( document.getPathToLocalRoot(), geo, this.getClass() );
-
         return true;
     }
     

@@ -41,7 +41,7 @@ public class HGeoExtractorTest extends AbstractExtractorTestCase {
     public void testModelNotEmpty() throws RepositoryException , RDFHandlerException {
         assertExtract("/microformats2/h-geo/h-geo-test.html");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 4);
+        assertStatementsSize(null, null, null, 8);
     }
 
 }

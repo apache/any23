@@ -17,12 +17,14 @@
 
 package org.apache.any23.extractor.html.microformats2;
 
+import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.microformats2.annotations.Includes;
 import org.apache.any23.vocab.VCard;
 import org.openrdf.model.BNode;
+import org.openrdf.model.Resource;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
@@ -40,17 +42,23 @@ public class HAdrExtractor extends EntityBasedMicroformatExtractor {
     private static final VCard vVCARD = VCard.getInstance();
 
     private static final String[] addressFields = {
-            "p-street-address",
-            "p-extended-address",
-            "p-locality",
-            "p-region",
-            "p-postal-code",
-            "p-country-name",
-            "p-geo"
+            "street-address",
+            "extended-address",
+            "locality",
+            "region",
+            "postal-code",
+            "country-name",
+            "geo"
+    };
+
+    private static final String[] geoFields = {
+            "latitude",
+            "longitude",
+            "altitude"
     };
 
     protected String getBaseClassName() {
-        return "h-adr";
+        return Microformats2Prefixes.CLASS_PREFIX+"adr";
     }
 
     @Override
@@ -58,58 +66,43 @@ public class HAdrExtractor extends EntityBasedMicroformatExtractor {
         // Empty.
     }
 
-    protected boolean extractEntity(Node node, ExtractionResult out) {
+    protected boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException {
         if (null == node) return false;
         final HTMLDocument document = new HTMLDocument(node);
         BNode adr = getBlankNodeFor(node);
         out.writeTriple(adr, RDF.TYPE, vVCARD.Address);
         final String extractorName = getDescription().getExtractorName();
         for (String field : addressFields) {
-            HTMLDocument.TextField[] values = document.getPluralTextField(field);
+            HTMLDocument.TextField[] values = document.getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX+field);
             for (HTMLDocument.TextField val : values) {
-               if(!field.equals("p-geo")) {
+               if(!field.equals("geo")) {
                         conditionallyAddStringProperty(
                                 val.source(),
-                                adr, vVCARD.getProperty(field.replaceFirst("p-", "")), val.value()
+                                adr, vVCARD.getProperty(field), val.value()
                         );
                }else {
                    String[] composed = val.value().split(";");
-                   if (composed.length == 3){
+                   for(int counter=0;counter<composed.length;counter++){
                        conditionallyAddStringProperty(
                                val.source(),
-                               adr, vVCARD.latitude, composed[0]
-                       );
-                       conditionallyAddStringProperty(
-                               val.source(),
-                               adr, vVCARD.longitude, composed[1]
-                       );
-                       conditionallyAddStringProperty(
-                               val.source(),
-                               adr, vVCARD.altitude, composed[2]
+                               adr, vVCARD.getProperty(geoFields[counter]), composed[counter]
                        );
 
-                   }else if (composed.length == 2){
-                       conditionallyAddStringProperty(
-                               val.source(),
-                               adr, vVCARD.latitude, composed[0]
-                       );
-                       conditionallyAddStringProperty(
-                               val.source(),
-                               adr, vVCARD.longitude, composed[1]
-                       );
-                   }else {
-                       //we discard if only length is 1
                    }
-
                }
-
             }
         }
-
+        addGeoAsUrlResource(adr,document);
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), adr, this.getClass() );
-
+        tser.addResourceRoot( document.getPathToLocalRoot(), adr, this.getClass());
         return true;
+    }
+
+    private void addGeoAsUrlResource(Resource card,HTMLDocument document) throws ExtractionException {
+        HTMLDocument.TextField[] links = document.getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX+"geo");
+        for (HTMLDocument.TextField link : links) {
+            conditionallyAddResourceProperty(card, vVCARD.geo, getHTMLDocument().resolveURI(link.value()));
+        }
     }
 
     @Override

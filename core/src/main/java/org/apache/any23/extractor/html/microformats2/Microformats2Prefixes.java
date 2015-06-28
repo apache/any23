@@ -17,21 +17,10 @@
 
 package org.apache.any23.extractor.html.microformats2;
 
-import org.apache.any23.extractor.ExtractorFactory;
-import org.apache.any23.extractor.html.AbstractExtractorTestCase;
-import org.junit.Test;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.rio.RDFHandlerException;
-
-public class HAdrExtractorTest extends AbstractExtractorTestCase {
-    protected ExtractorFactory<?> getExtractorFactory() {
-        return new HAdrExtractorFactory();
-    }
-
-    @Test
-    public void testModelNotEmpty() throws RepositoryException , RDFHandlerException {
-        assertExtract("/microformats2/h-adr/h-adr-test.html");
-        assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 11);
-    }
+public class Microformats2Prefixes {
+    public static final String CLASS_PREFIX = "h-";
+    public static final String PROPERTY_PREFIX = "p-";
+    public static final String URL_PROPERTY_PREFIX = "u-";
+    public static final String EMBEDDED_PROPERTY_PREFIX = "e-";
+    public static final String TIME_PROPERTY_PREFIX = "dt-";
 }
