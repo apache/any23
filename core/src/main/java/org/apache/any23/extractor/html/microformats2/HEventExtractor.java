@@ -33,7 +33,7 @@ import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/hcalendar">hCalendar</a>
+ * Extractor for the <a href="http://microformats.org/wiki/h-event">h-event</a>
  * microformat.
  *
  * @author Nisala Nirmana

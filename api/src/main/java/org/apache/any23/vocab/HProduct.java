@@ -20,7 +20,7 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * Vocabulary to map the <a href="http://microformats.org/wiki/hitem">h-item</a> microformat.
+ * Vocabulary to map the <a href="http://microformats.org/wiki/h-product">h-product</a> microformat.
  *
  * @author Nisala Nirmana
  */
