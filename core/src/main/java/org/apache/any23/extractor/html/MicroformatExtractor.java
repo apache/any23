@@ -113,6 +113,10 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return out;
     }
 
+    protected void setCurrentExtractionResult(ExtractionResult out) {
+        this.out = out;
+    }
+
     protected ExtractionResult openSubResult(ExtractionContext context) {
         return out.openSubResult(context);
     }
@@ -264,5 +268,6 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         }
         return false;
     }
+
 
 }

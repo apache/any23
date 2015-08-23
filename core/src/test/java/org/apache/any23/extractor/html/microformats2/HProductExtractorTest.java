@@ -32,6 +32,6 @@ public class HProductExtractorTest extends AbstractExtractorTestCase {
     public void testModelNotEmpty() throws RepositoryException, RDFHandlerException {
         assertExtract("/microformats2/h-product/h-product-test.html");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 11);
+        assertStatementsSize(null, null, null, 6);
     }
 }

@@ -24,6 +24,7 @@ import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.vocab.HEvent;
 import org.openrdf.model.BNode;
+import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
@@ -87,6 +88,22 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         addLocation(fragment, event);
         
         return true;
+    }
+
+    public Resource extractEntityAsEmbeddedProperty(HTMLDocument fragment, BNode event,
+                                                    ExtractionResult out)
+            throws ExtractionException {
+        this.setCurrentExtractionResult(out);
+        addName(fragment, event);
+        addSummary(fragment, event);
+        addStart(fragment, event);
+        addEnd(fragment, event);
+        addDuration(fragment, event);
+        addDescription(fragment, event);
+        addURLs(fragment, event);
+        addCategories(fragment, event);
+        addLocation(fragment, event);
+        return event;
     }
 
     private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass,

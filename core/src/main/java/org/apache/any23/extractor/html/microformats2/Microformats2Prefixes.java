@@ -23,4 +23,5 @@ public class Microformats2Prefixes {
     public static final String URL_PROPERTY_PREFIX = "u-";
     public static final String EMBEDDED_PROPERTY_PREFIX = "e-";
     public static final String TIME_PROPERTY_PREFIX = "dt-";
+    public static final String SPACE_SEPARATOR = " ";
 }

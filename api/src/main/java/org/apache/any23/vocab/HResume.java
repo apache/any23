@@ -20,28 +20,35 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * Vocabulary to map the <a href="http://microformats.org/wiki/hitem">h-item</a> microformat.
- *
  * @author Nisala Nirmana
+ *
  */
-public class HItem extends Vocabulary {
+public class HResume extends Vocabulary {
 
-    public static final String NS = SINDICE.NS + "hitem/";
+    public static final String NS = SINDICE.NS + "hresume/";
 
-    private static HItem instance;
+    private static HResume instance;
 
-    public static HItem getInstance() {
+    public static HResume getInstance() {
         if(instance == null) {
-            instance = new HItem();
+            instance = new HResume();
         }
         return instance;
     }
 
-    public URI Item  = createClass(NS, "Item");
+    public URI Resume  = createClass(NS, "Resume");
+    public URI education   = createClass(NS, "education");
+    public URI experience = createClass(NS, "experience");
+    public URI contact = createClass(NS, "contact");
+    public URI affiliation = createClass(NS, "affiliation");
+
+
     public URI name  = createProperty(NS, "name");
-    public URI url   = createProperty(NS, "url");
-    public URI photo = createProperty(NS, "photo");
-    private HItem() {
+    public URI summary   = createProperty(NS, "summary");
+    public URI skill   = createProperty(NS, "skill");
+
+
+    private HResume() {
         super(NS);
     }
 }

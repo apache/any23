@@ -15,33 +15,23 @@
  * limitations under the License.
  */
 
-package org.apache.any23.vocab;
+package org.apache.any23.extractor.html.microformats2;
 
-import org.openrdf.model.URI;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.html.AbstractExtractorTestCase;
+import org.junit.Test;
+import org.openrdf.repository.RepositoryException;
+import org.openrdf.rio.RDFHandlerException;
 
-/**
- * Vocabulary to map the <a href="http://microformats.org/wiki/hitem">h-item</a> microformat.
- *
- * @author Nisala Nirmana
- */
-public class HItem extends Vocabulary {
-
-    public static final String NS = SINDICE.NS + "hitem/";
-
-    private static HItem instance;
-
-    public static HItem getInstance() {
-        if(instance == null) {
-            instance = new HItem();
-        }
-        return instance;
+public class HEntryExtractorTest extends AbstractExtractorTestCase {
+    protected ExtractorFactory<?> getExtractorFactory() {
+        return new HEntryExtractorFactory();
     }
 
-    public URI Item  = createClass(NS, "Item");
-    public URI name  = createProperty(NS, "name");
-    public URI url   = createProperty(NS, "url");
-    public URI photo = createProperty(NS, "photo");
-    private HItem() {
-        super(NS);
+    @Test
+    public void testModelNotEmpty() throws RepositoryException, RDFHandlerException {
+        assertExtract("/microformats2/h-entry/h-entry-test.html");
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 10);
     }
 }

@@ -17,7 +17,7 @@ public class HItemExtractorFactory extends SimpleExtractorFactory<HItemExtractor
 
     public static final String NAME = "html-mf2-h-item";
 
-    public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "vcard");
+    public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "hitem");
 
     private static final ExtractorDescription descriptionInstance = new HItemExtractorFactory();
 

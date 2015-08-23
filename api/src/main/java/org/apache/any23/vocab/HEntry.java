@@ -20,28 +20,41 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * Vocabulary to map the <a href="http://microformats.org/wiki/hitem">h-item</a> microformat.
+ * Vocabulary to map the <a href="http://microformats.org/wiki/hentry">h-entry</a> microformat.
  *
  * @author Nisala Nirmana
  */
-public class HItem extends Vocabulary {
+public class HEntry extends Vocabulary {
 
-    public static final String NS = SINDICE.NS + "hitem/";
+    public static final String NS = SINDICE.NS + "hentry/";
 
-    private static HItem instance;
+    private static HEntry instance;
 
-    public static HItem getInstance() {
+    public static HEntry getInstance() {
         if(instance == null) {
-            instance = new HItem();
+            instance = new HEntry();
         }
         return instance;
     }
 
-    public URI Item  = createClass(NS, "Item");
+    public URI Entry  = createClass(NS, "Entry");
+    public URI author   = createClass(NS, "author");
+    public URI location = createClass(NS, "location");
+
+
     public URI name  = createProperty(NS, "name");
+    public URI summary   = createProperty(NS, "summary");
+    public URI content   = createProperty(NS, "content");
+    public URI published   = createProperty(NS, "published");
+    public URI updated   = createProperty(NS, "updated");
+    public URI category   = createProperty(NS, "category");
     public URI url   = createProperty(NS, "url");
-    public URI photo = createProperty(NS, "photo");
-    private HItem() {
+    public URI uid  = createProperty(NS, "uid");
+    public URI syndication   = createProperty(NS, "syndication");
+    public URI in_reply_to   = createProperty(NS, "in-reply-to");
+
+    private HEntry() {
         super(NS);
     }
+
 }
