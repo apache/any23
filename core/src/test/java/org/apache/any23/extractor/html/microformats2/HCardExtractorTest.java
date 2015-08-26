@@ -23,15 +23,15 @@ import org.junit.Test;
 import org.openrdf.repository.RepositoryException;
 import org.openrdf.rio.RDFHandlerException;
 
-public class HEventExtractorTest extends AbstractExtractorTestCase {
+public class HCardExtractorTest extends AbstractExtractorTestCase {
     protected ExtractorFactory<?> getExtractorFactory() {
-        return new HEventExtractorFactory();
+        return new HCardExtractorFactory();
     }
 
     @Test
-    public void testModelNotEmpty() throws RepositoryException, RDFHandlerException {
-        assertExtract("/microformats2/h-event/h-event-test.html");
+    public void testModelNotEmpty() throws RepositoryException , RDFHandlerException {
+        assertExtract("/microformats2/h-card/h-card-test.html");
         assertModelNotEmpty();
-        assertStatementsSize(null, null, null, 8);
+        assertStatementsSize(null, null, null, 9);
     }
 }

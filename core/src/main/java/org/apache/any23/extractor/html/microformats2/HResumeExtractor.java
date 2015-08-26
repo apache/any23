@@ -21,10 +21,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
-import org.apache.any23.vocab.DOAC;
-import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.HResume;
-import org.apache.commons.lang.UnhandledException;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.vocabulary.RDF;
@@ -47,11 +44,11 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
     private static final String[] resumeFields = {
             "name",
             "summary",
-            "contact",//toDo Hcard
+            "contact",
             "education",
             "experience",
             "skill",
-            "affiliation"//toDo Hcard
+            "affiliation"
     };
 
     @Override
@@ -92,6 +89,36 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         );
 
         return true;
+    }
+
+    private void addContacts(HTMLDocument doc, Resource entry) throws ExtractionException {
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + resumeFields[2] +
+                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        if (nodes.isEmpty())
+            return;
+        HCardExtractorFactory factory = new HCardExtractorFactory();
+        HCardExtractor extractor = factory.createExtractor();
+        for (Node node : nodes) {
+            BNode contact = valueFactory.createBNode();
+            addURIProperty(contact, RDF.TYPE, vResume.contact);
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), contact,
+                    getCurrentExtractionResult());
+        }
+    }
+
+    private void addAffiliations(HTMLDocument doc, Resource entry) throws ExtractionException {
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + resumeFields[6] +
+                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        if (nodes.isEmpty())
+            return;
+        HCardExtractorFactory factory = new HCardExtractorFactory();
+        HCardExtractor extractor = factory.createExtractor();
+        for (Node node : nodes) {
+            BNode affiliation = valueFactory.createBNode();
+            addURIProperty(affiliation, RDF.TYPE, vResume.affiliation);
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), affiliation,
+                    getCurrentExtractionResult());
+        }
     }
 
     private void addName(HTMLDocument doc, Resource person) {

@@ -24,9 +24,12 @@ import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
 import org.apache.any23.vocab.HProduct;
 import org.openrdf.model.BNode;
+import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
+
+import java.util.List;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/h-product">h-product</a>
@@ -41,7 +44,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
     private static final String[] productFields = {
             "name",
             "photo",
-            "brand", //toDo
+            "brand",
             "category",
             "description",
             "url",
@@ -77,6 +80,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         addURLs(fragment, product);
         addIdentifiers(fragment, product);
         addPrice(fragment, product);
+        addBrand(fragment,product);
         return true;
     }
 
@@ -148,6 +152,21 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
                     price.source(),
                     product, vProduct.price, attribute.getNodeValue()
             );
+        }
+    }
+
+    private void addBrand(HTMLDocument doc, Resource product) throws ExtractionException {
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + productFields[2] +
+                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        if (nodes.isEmpty())
+            return;
+        HCardExtractorFactory factory = new HCardExtractorFactory();
+        HCardExtractor extractor = factory.createExtractor();
+        for (Node node : nodes) {
+            BNode brand = valueFactory.createBNode();
+            addURIProperty(brand, RDF.TYPE, vProduct.brand);
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), brand,
+                    getCurrentExtractionResult());
         }
     }
 }

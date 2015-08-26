@@ -23,12 +23,15 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.vocab.HEvent;
+import org.apache.any23.vocab.VCard;
 import org.openrdf.model.BNode;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.HTMLDocument;
+
+import java.util.List;
 
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 
@@ -42,6 +45,7 @@ import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 public class HEventExtractor extends EntityBasedMicroformatExtractor {
 
     private static final HEvent vEvent = HEvent.getInstance();
+    private static final VCard vVCARD = VCard.getInstance();
 
     private String[] eventFields = {
             "name",
@@ -52,8 +56,14 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
             "description",
             "url",
             "category",
-            "location", //toDO
-            "attendee" //toDO
+            "location",
+            "attendee"
+    };
+
+    private static final String[] geoFields = {
+            "latitude",
+            "longitude",
+            "altitude"
     };
 
 
@@ -85,7 +95,7 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         addDescription(fragment, event);
         addURLs(fragment, event);
         addCategories(fragment, event);
-        addLocation(fragment, event);
+        addLocations(fragment, event);
         
         return true;
     }
@@ -102,8 +112,24 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         addDescription(fragment, event);
         addURLs(fragment, event);
         addCategories(fragment, event);
-        addLocation(fragment, event);
+        addLocations(fragment, event);
+        addAttendees(fragment,event);
         return event;
+    }
+
+    private void addAttendees(HTMLDocument doc, Resource entry) throws ExtractionException {
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[9] +
+                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        if (nodes.isEmpty())
+            return;
+        HCardExtractorFactory factory = new HCardExtractorFactory();
+        HCardExtractor extractor = factory.createExtractor();
+        for (Node node : nodes) {
+            BNode attendee = valueFactory.createBNode();
+            addURIProperty(attendee, RDF.TYPE, vEvent.attendee);
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), attendee,
+                    getCurrentExtractionResult());
+        }
     }
 
     private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass,
@@ -204,9 +230,33 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         }
     }
 
-    private void addLocation(HTMLDocument fragment, BNode event) {
-        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX +
-                eventFields[8], vEvent.location);
+    private void addLocations(HTMLDocument doc, Resource entry) throws ExtractionException {
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[8] +
+                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "geo");
+        if (nodes.isEmpty())
+            return;
+        for (Node node : nodes) {
+            BNode location = valueFactory.createBNode();
+            addURIProperty(location, RDF.TYPE, vEvent.location);
+            HTMLDocument fragment = new HTMLDocument(node);
+            for (String field : geoFields) {
+                HTMLDocument.TextField[] values = fragment.getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX+field);
+                for (HTMLDocument.TextField val : values) {
+                    Node attribute=val.source().getAttributes().getNamedItem("title");
+                    if (attribute==null){
+                        conditionallyAddStringProperty(
+                                val.source(),
+                                location, vVCARD.getProperty(field), val.value()
+                        );
+                    }else{
+                        conditionallyAddStringProperty(
+                                val.source(),
+                                location, vVCARD.getProperty(field), attribute.getNodeValue()
+                        );
+                    }
+                }
+            }
+        }
     }
 
 }

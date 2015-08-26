@@ -55,7 +55,7 @@ public class HEntryExtractor extends EntityBasedMicroformatExtractor {
             "uid",
             "syndication",
             "in-reply-to",
-            "author", //toDo HCard
+            "author",
             "location",
 
     };
@@ -96,8 +96,24 @@ public class HEntryExtractor extends EntityBasedMicroformatExtractor {
         addUID(fragment, entry);
         addSyndications(fragment, entry);
         addInReplyTo(fragment, entry);
-        addLocations(fragment,entry);
+        addLocations(fragment, entry);
+        addAuthors(fragment, entry);
         return true;
+    }
+
+    private void addAuthors(HTMLDocument doc, Resource entry) throws ExtractionException {
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + entryFields[10] +
+                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        if (nodes.isEmpty())
+            return;
+        HCardExtractorFactory factory = new HCardExtractorFactory();
+        HCardExtractor extractor = factory.createExtractor();
+        for (Node node : nodes) {
+            BNode author = valueFactory.createBNode();
+            addURIProperty(author, RDF.TYPE, vEntry.author);
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), author,
+                    getCurrentExtractionResult());
+        }
     }
 
     private void mapFieldWithProperty(HTMLDocument fragment, BNode entry, String fieldClass,
