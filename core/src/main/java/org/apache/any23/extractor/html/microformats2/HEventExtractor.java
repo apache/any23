@@ -96,7 +96,7 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         addURLs(fragment, event);
         addCategories(fragment, event);
         addLocations(fragment, event);
-        
+        addAttendees(fragment,event);
         return true;
     }
 
