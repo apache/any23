@@ -286,7 +286,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
         final String bufferContent = byteArrayOutputStream.toString();
         logger.debug(bufferContent);
-        Assert.assertSame("Unexpected number of triples.", 16,
+        Assert.assertSame("Unexpected number of triples.", 18,
                 StringUtils.countNL(bufferContent));
 
     }
@@ -368,7 +368,7 @@ public class Any23Test extends Any23OnlineTestBase {
     @Test
     public void testExtractionParametersWithNestingDisabled()
             throws IOException, ExtractionException, TripleHandlerException {
-        final int EXPECTED_TRIPLES = 19;
+        final int EXPECTED_TRIPLES = 20;
         Any23 runner = new Any23();
         DocumentSource source = getDocumentSourceFromResource(
                 "/microformats/nested-microformats-a1.html",
