@@ -23,7 +23,7 @@
 Data Extraction
 
 +----------------------------------------------------------------------------------------------
-/*1*/ Apache Any23 runner = new Apache Any23();
+/*1*/ Any23 runner = new Any23();
 /*2*/ runner.setHTTPUserAgent("test-user-agent");
 /*3*/ HTTPClient httpClient = runner.getHTTPClient();
 /*4*/ DocumentSource source = new HTTPDocumentSource(
