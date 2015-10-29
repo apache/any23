@@ -21,4 +21,4 @@
  *
  *  @see org.apache.any23.extractor.html.MicroformatExtractor
  */
-package org.apache.any23.extractor.microformats2.annotations;
+package org.apache.any23.extractor.html.microformats2.annotations;

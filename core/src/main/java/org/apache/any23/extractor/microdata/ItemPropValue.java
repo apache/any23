@@ -17,13 +17,12 @@
 
 package org.apache.any23.extractor.microdata;
 
-import org.apache.any23.util.StringUtils;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.any23.util.StringUtils;
 
 /**
  * Describes a possible value for a <b>Microdata item property</b>.
@@ -32,7 +31,7 @@ import java.util.Date;
  */
 public class ItemPropValue {
 
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static final ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>();
 
     /**
      * Supported types.
@@ -45,11 +44,20 @@ public class ItemPropValue {
     }
 
     public static Date parseDateTime(String dateStr) throws ParseException {
-        return sdf.parse(dateStr);
+        return getSdf().parse(dateStr);
     }
 
     public static String formatDateTime(Date in) {
-        return sdf.format(in);
+        return getSdf().format(in);
+    }
+    
+    private static SimpleDateFormat getSdf() {
+        SimpleDateFormat simpleDateFormat = sdf.get();
+        if (simpleDateFormat == null) {
+            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            sdf.set(simpleDateFormat);
+        }
+        return simpleDateFormat;
     }
 
     /**
@@ -88,7 +96,7 @@ public class ItemPropValue {
         if(content instanceof String && ((String) content).trim().length() == 0) {
             content = "Null";
             // ANY23-115 Empty spans seem to break ANY23
-            // instead of throwing the exception and in effect failing the entire 
+            // instead of throwing the exception and in effect failing the entire
             // parse job we wish to be lenient on web content publishers and add
             // Null (String) as content.
             //throw new IllegalArgumentException("Invalid content '" + content + "'");
@@ -143,7 +151,9 @@ public class ItemPropValue {
      * @return <code>true</code> if type is an integer.
      */
     public boolean isInteger() {
-        if(type != Type.Plain) return false;
+        if(type != Type.Plain) {
+            return false;
+        }
          try {
              Integer.parseInt((String) content);
              return true;
@@ -156,7 +166,9 @@ public class ItemPropValue {
      * @return <code>true</code> if type is a float.
      */
      public boolean isFloat() {
-         if(type != Type.Plain) return false;
+         if(type != Type.Plain) {
+            return false;
+        }
          try {
              Float.parseFloat((String) content);
              return true;
@@ -226,7 +238,7 @@ public class ItemPropValue {
         if(content instanceof String) {
             contentStr = "\"" + StringUtils.escapeAsJSONString((String) content) + "\"";
         } else if(content instanceof Date) {
-            contentStr = "\"" + sdf.format((Date) content) + "\"";
+            contentStr = "\"" + getSdf().format((Date) content) + "\"";
         } else {
             contentStr = content.toString();
         }
@@ -258,5 +270,4 @@ public class ItemPropValue {
         }
         return false;
     }
-
 }
