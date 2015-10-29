@@ -17,21 +17,34 @@
 
 package org.apache.any23.extractor.microdata;
 
-import org.apache.any23.extractor.html.TagSoupParser;
-import org.apache.any23.util.StreamUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import org.apache.any23.extractor.html.TagSoupParser;
+import org.apache.any23.util.StreamUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.Timeout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+
+import static org.junit.Assert.assertFalse;
 
 /**
  * Test case for {@link MicrodataParser}.
@@ -40,6 +53,9 @@ import java.util.Properties;
  */
 public class MicrodataParserTest {
 
+	@Rule
+	public final Timeout timeout = new Timeout(100000);
+	
     private static final Logger logger = LoggerFactory.getLogger(MicrodataParserTest.class);
 
     @Test
@@ -87,6 +103,53 @@ public class MicrodataParserTest {
                 gregorianCalendar.getTime(),
                 target.getProperties().get("birthday").get(0).getValue().getAsDate()
         );
+    }
+    
+    @Test
+    public void testGetDateConcurrent() throws Exception {
+        final Date expectedDate = new GregorianCalendar(2009, Calendar.MAY, 10).getTime(); // 2009-05-10
+        final byte[] content = IOUtils.toByteArray(getClass().getResourceAsStream("/microdata/microdata-basic.html"));
+        final int threadCount = 10;
+        final int attemptCount = 100;
+        final List<Thread> threads = new ArrayList<Thread>();
+        final CountDownLatch beforeLatch = new CountDownLatch(1);
+        final CountDownLatch afterLatch = new CountDownLatch(threadCount);
+        final AtomicBoolean foundFailure = new AtomicBoolean(false);
+        for (int i = 0; i < threadCount; i++) {
+            threads.add(new Thread("Test-thread-" + i) {
+					@Override
+					public void run() {
+						try {
+							beforeLatch.await();
+							int counter = 0;
+							while (counter++ < attemptCount && !foundFailure.get()) {
+								final Document document = getDom(content);
+								final MicrodataParserReport report = MicrodataParser.getMicrodata(document);
+								final ItemScope target = report.getDetectedItemScopes()[4];
+								Date actualDate = target.getProperties().get("birthday").get(0).getValue().getAsDate();
+								if (!expectedDate.equals(actualDate)) {
+									foundFailure.set(true);
+								}
+							}
+						}
+						catch (Exception ex) {
+							ex.printStackTrace();
+							foundFailure.set(true);
+						}
+						finally {
+							afterLatch.countDown();
+						}
+					}
+            });
+        }
+        for (Thread thread : threads) {
+            thread.start();
+        }
+        // Let threads start computation
+        beforeLatch.countDown();
+        // Wait for all threads to complete
+        afterLatch.await();
+        assertFalse(foundFailure.get());
     }
 
     /**
@@ -149,6 +212,16 @@ public class MicrodataParserTest {
 
     private Document getDom(String document) throws IOException {
         final InputStream is = this.getClass().getResourceAsStream(document);
+        try {
+            final TagSoupParser tagSoupParser = new TagSoupParser(is, "http://test-document");
+            return tagSoupParser.getDOM();
+        } finally {
+            is.close();
+        }
+    }
+    
+    private Document getDom(byte [] document) throws IOException {
+        final InputStream is = new ByteArrayInputStream(document);
         try {
             final TagSoupParser tagSoupParser = new TagSoupParser(is, "http://test-document");
             return tagSoupParser.getDOM();
