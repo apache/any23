@@ -151,9 +151,7 @@ public class ItemPropValue {
      * @return <code>true</code> if type is an integer.
      */
     public boolean isInteger() {
-        if(type != Type.Plain) {
-            return false;
-        }
+        if(type != Type.Plain) return false;
          try {
              Integer.parseInt((String) content);
              return true;
@@ -166,9 +164,7 @@ public class ItemPropValue {
      * @return <code>true</code> if type is a float.
      */
      public boolean isFloat() {
-         if(type != Type.Plain) {
-            return false;
-        }
+         if(type != Type.Plain) return false;
          try {
              Float.parseFloat((String) content);
              return true;
