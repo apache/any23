@@ -16,10 +16,10 @@
 #
 
 <http://bob.example.com/#offer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/goodrelations/v1#Offering> <http://bob.example.com/> .
-_:node16dssb0gtx1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.data-vocabulary.org/#Review-aggregate> <http://bob.example.com/> .
-<http://bob.example.com/#offer> <http://rdf.data-vocabulary.org/#hasReview> _:node16dssb0gtx1 <http://bob.example.com/> .
-_:node16dssb0gtx1 <http://rdf.data-vocabulary.org/#rating> "4.4"@en <http://bob.example.com/> .
-_:node16dssb0gtx1 <http://rdf.data-vocabulary.org/#count> "89"@en <http://bob.example.com/> .
+_:node16dssb0gtx1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/#Review-aggregate> <http://bob.example.com/> .
+<http://bob.example.com/#offer> <http://schema.org/#hasReview> _:node16dssb0gtx1 <http://bob.example.com/> .
+_:node16dssb0gtx1 <http://schema.org/#rating> "4.4"@en <http://bob.example.com/> .
+_:node16dssb0gtx1 <http://schema.org/#count> "89"@en <http://bob.example.com/> .
 <http://www.heppnetz.de/rdfa4google/company.html#business> <http://purl.org/goodrelations/v1#offers> <http://bob.example.com/#offer> <http://bob.example.com/> .
 <http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#name> "Canon Rebel T2i (EOS 550D)"@en <http://bob.example.com/> .
 <http://bob.example.com/#offer> <http://purl.org/goodrelations/v1#description> "The Rebel T2i EOS 550D is Canon's top-of-the-line digital SLR camera."@en <http://bob.example.com/> .
