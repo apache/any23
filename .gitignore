@@ -6,3 +6,6 @@ target
 .project
 pom.xml.versionsBackup
 *~
+**/.externalToolBuilders/
+**/maven-eclipse.xml
+**/any23-site/
