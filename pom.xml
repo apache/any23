@@ -234,27 +234,27 @@
     <form.tracker.id>UA-59636188-1</form.tracker.id>
 
     <!-- Maven Plugin Versions -->
-    <maven-javadoc-plugin.version>2.8</maven-javadoc-plugin.version>
-    <maven-clean-plugin.version>2.4.1</maven-clean-plugin.version>
-    <maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
-    <maven-install-plugin.version>2.3.1</maven-install-plugin.version>
-    <maven-resources-plugin.version>2.5</maven-resources-plugin.version>
-    <maven-assembly-plugin.version>2.3</maven-assembly-plugin.version>
-    <appassembler-maven-plugin.version>1.3</appassembler-maven-plugin.version>
-    <maven-release-plugin.version>2.5</maven-release-plugin.version>
-    <buildnumber-maven-plugin.version>1.0</buildnumber-maven-plugin.version>
-    <maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
-    <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
-    <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
-    <cobertura-maven-plugin.version>2.5.1</cobertura-maven-plugin.version>
-    <maven-site-plugin.version>3.3</maven-site-plugin.version>
-    <maven-changes-plugin.version>2.6</maven-changes-plugin.version>
-    <maven-project-info-reports-plugin.version>2.4</maven-project-info-reports-plugin.version>
-    <maven-jxr-plugin.version>2.3</maven-jxr-plugin.version>
-    <maven-checkstyle-plugin.version>2.8</maven-checkstyle-plugin.version>
-    <apache-rat-plugin.version>0.9</apache-rat-plugin.version>
-    <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
-    <maven-gpg-plugin.version>1.4</maven-gpg-plugin.version>
+    <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+    <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
+    <maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+    <maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
+    <appassembler-maven-plugin.version>1.10</appassembler-maven-plugin.version>
+    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+    <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+    <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+    <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+    <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
+    <maven-site-plugin.version>3.4</maven-site-plugin.version>
+    <maven-changes-plugin.version>2.11</maven-changes-plugin.version>
+    <maven-project-info-reports-plugin.version>2.8.1</maven-project-info-reports-plugin.version>
+    <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
+    <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
+    <apache-rat-plugin.version>0.11</apache-rat-plugin.version>
+    <maven-source-plugin.version>2.4</maven-source-plugin.version>
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
     <!--
      | Any23 website has to be stored in SVN
