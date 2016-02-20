@@ -76,7 +76,7 @@ goto endInit
 @REM Reaching here means variables are defined and arguments have been captured
 :endInit
 
-%JAVACMD% %JAVA_OPTS% %EXTRA_JVM_ARGUMENTS% -jar "$REPO"/jetty-runner-${jetty.runner.version}.jar --path /${project.artifactId} "$REPO"/${project.build.finalName}.${project.packaging}
+%JAVACMD% %JAVA_OPTS% %EXTRA_JVM_ARGUMENTS% -jar "%REPO%"/jetty-runner-${jetty.runner.version}.jar --path /${project.artifactId} "%REPO%"/${project.build.finalName}.${project.packaging}
 if ERRORLEVEL 1 goto error
 goto end
 
