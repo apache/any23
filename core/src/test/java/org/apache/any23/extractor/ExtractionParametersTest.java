@@ -33,7 +33,7 @@ public class ExtractionParametersTest {
                 extractionParameters.getFlag("any23.microdata.strict")
         );
         Assert.assertEquals(
-                "http://rdf.data-vocabulary.org/",
+                "http://schema.org/",
                 extractionParameters.getProperty("any23.microdata.ns.default")
         );
     }

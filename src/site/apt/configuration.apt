@@ -119,7 +119,7 @@ any23.extract(extractionParameters, "http://path/to/doc", tripleHandler);
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.microdata.strict                     |on (possible values: on/off)   |Activates/deactivates the microdata strict validation.                              |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
-|any23.microdata.ns.default                 |http://rdf.data-vocabulary.org/|Microdata default namespace.                                                        |
+|any23.microdata.ns.default                 |http://schema.org/|Microdata default namespace.                                                        |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
 |any23.extraction.head.meta                 |on (possible values: on/off)   |Activates/deactivates the HTMLMetaExtractor.                                        |
 *-------------------------------------------+-------------------------------+------------------------------------------------------------------------------------+
