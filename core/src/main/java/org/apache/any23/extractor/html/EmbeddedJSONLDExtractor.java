@@ -178,7 +178,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 
 	@Override
 	public ExtractorDescription getDescription() {
-		return HTMLMetaExtractorFactory.getDescriptionInstance();
+		return EmbeddedJSONLDExtractorFactory.getDescriptionInstance();
 	}
 
 	private class JSONLDScript {
