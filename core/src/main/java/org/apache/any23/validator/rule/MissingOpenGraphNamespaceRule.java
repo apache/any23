@@ -41,7 +41,7 @@ public class MissingOpenGraphNamespaceRule implements Rule {
 
     public boolean applyOn(
             DOMDocument document,
-            RuleContext context,
+            @SuppressWarnings("rawtypes") RuleContext context,
             ValidationReportBuilder validationReportBuilder
     ) {
         List<Node> metas = document.getNodes("/HTML/HEAD/META");

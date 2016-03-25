@@ -44,7 +44,7 @@ public class MetaNameMisuseRule implements Rule {
 
     public boolean applyOn(
             DOMDocument document,
-            RuleContext context,
+            @SuppressWarnings("rawtypes") RuleContext context,
             ValidationReportBuilder validationReportBuilder
     ) {
         List<Node> metaNodes = document.getNodes("/HTML/HEAD/META");

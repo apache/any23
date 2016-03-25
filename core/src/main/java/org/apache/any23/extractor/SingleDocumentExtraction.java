@@ -17,7 +17,6 @@
 
 package org.apache.any23.extractor;
 
-import org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.encoding.EncodingDetector;
@@ -251,6 +250,7 @@ public class SingleDocumentExtraction {
         try {
             final String documentLanguage = extractDocumentLanguage(extractionParameters);
             for (ExtractorFactory<?> factory : matchingExtractors) {
+                @SuppressWarnings("rawtypes")
                 final Extractor extractor = factory.createExtractor();
                 final SingleExtractionReport er = runExtractor(
                         extractionParameters,
@@ -343,6 +343,7 @@ public class SingleDocumentExtraction {
     /**
      * @return the list of all the activated extractors for the given {@link org.apache.any23.source.DocumentSource}.
      */
+    @SuppressWarnings("rawtypes")
     public List<Extractor> getMatchingExtractors() {
         final List<Extractor> extractorsList = new ArrayList<Extractor>();
         for(ExtractorFactory extractorFactory : matchingExtractors) {
@@ -444,7 +445,7 @@ public class SingleDocumentExtraction {
             final Extractor<?> extractor
     ) throws ExtractionException, IOException, ValidatorException {
         if(log.isDebugEnabled()) {
-            log.debug("Running " + extractor.getDescription().getExtractorName() + " on " + documentURI);
+            log.debug("Running {} on {}", extractor.getDescription().getExtractorName(), documentURI);
         }
         long startTime = System.currentTimeMillis();
         final ExtractionContext extractionContext = new ExtractionContext(

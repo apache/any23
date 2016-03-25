@@ -37,7 +37,7 @@ public class OpenGraphNamespaceFix implements Fix {
         return "opengraph-namespace-fix";
     }
 
-    public void execute(Rule rule, RuleContext context, DOMDocument document) {
+    public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
         document.addAttribute("/HTML", "xmlns:og", OPENGRAPH_PROTOCOL_NS);
     }
 

@@ -76,6 +76,27 @@ public class DefaultValidatorTest {
             logger.debug( validationReport.toString() );
         }
     }
+    
+    @Test
+    public void testMissingItemscopeAttributeValue() throws IOException, URISyntaxException, ValidatorException {
+      DOMDocument document = loadDocument("microdata-basic.html");
+      List<Node> brokenItemScopeNodes = document.getNodesWithAttribute("itemscope");
+      for (Node node : brokenItemScopeNodes) {
+        // all nodes with itemscope have an empty string value
+        Assert.assertEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
+      }
+      ValidationReport validationReport = validator.validate(document, true);
+      List<Node> fixedItemScopeNodes = document.getNodesWithAttribute("itemscope");
+      for (Node node : fixedItemScopeNodes) {
+        // all nodes with itemscope now have a default value of "itemscope"
+        Assert.assertNotNull(node.getAttributes().getNamedItem("itemscope").getNodeValue() );
+        Assert.assertNotEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
+        Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue());
+      }
+      if(logger.isDebugEnabled()) {
+          logger.debug( validationReport.toString() );
+      }
+  }
 
     @Test
     public void testMetaNameMisuse() throws Exception {
@@ -133,7 +154,7 @@ public class DefaultValidatorTest {
 
         public boolean applyOn(
                 DOMDocument document,
-                RuleContext context,
+                @SuppressWarnings("rawtypes") RuleContext context,
                 ValidationReportBuilder validationReportBuilder
         ) {
             throw new UnsupportedOperationException();
@@ -145,7 +166,7 @@ public class DefaultValidatorTest {
             return "fake-fix";
         }
 
-        public void execute(Rule rule, RuleContext context, DOMDocument document) {
+        public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
               throw new UnsupportedOperationException();
         }
     }
