@@ -20,6 +20,8 @@ package org.apache.any23.validator;
 import org.apache.any23.validator.rule.AboutNotURIRule;
 import org.apache.any23.validator.rule.MetaNameMisuseFix;
 import org.apache.any23.validator.rule.MetaNameMisuseRule;
+import org.apache.any23.validator.rule.MissingItemscopeAttributeValueFix;
+import org.apache.any23.validator.rule.MissingItemscopeAttributeValueRule;
 import org.apache.any23.validator.rule.MissingOpenGraphNamespaceRule;
 import org.apache.any23.validator.rule.OpenGraphNamespaceFix;
 import org.w3c.dom.Document;
@@ -54,7 +56,8 @@ public class DefaultValidator implements Validator {
         final ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
         for(Class<? extends Rule> cRule : rulesOrder) {
             Rule rule = newRuleInstance(cRule);
-            final RuleContext ruleContext = new DefaultRuleContext();            
+            @SuppressWarnings("rawtypes")
+            final RuleContext ruleContext = new DefaultRuleContext();
             boolean applyOn;
             try {
                 applyOn = rule.applyOn(document, ruleContext, validationReportBuilder);
@@ -121,6 +124,7 @@ public class DefaultValidator implements Validator {
         addRule(MetaNameMisuseRule.class, MetaNameMisuseFix.class);
         addRule(MissingOpenGraphNamespaceRule.class, OpenGraphNamespaceFix.class);
         addRule(AboutNotURIRule.class);
+        addRule(MissingItemscopeAttributeValueRule.class, MissingItemscopeAttributeValueFix.class);
     }
 
     private Fix newFixInstance(Class<? extends Fix> cFix) throws ValidatorException {

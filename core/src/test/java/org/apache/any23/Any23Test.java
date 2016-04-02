@@ -18,6 +18,7 @@
 package org.apache.any23;
 
 import org.junit.Assert;
+import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.ExtractionException;
@@ -53,7 +54,6 @@ import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.RepositoryResult;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.rio.RDFParseException;
-import org.openrdf.sail.Sail;
 import org.openrdf.sail.SailException;
 import org.openrdf.sail.memory.MemoryStore;
 import org.slf4j.Logger;
@@ -552,11 +552,13 @@ public class Any23Test extends Any23OnlineTestBase {
      */
     private ExtractionReport detectAndExtract(String in) throws Exception {
         Any23 any23 = new Any23();
+        Configuration conf = DefaultConfiguration.copy();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportingTripleHandler outputHandler = new ReportingTripleHandler(
                 new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(
                         new NTriplesWriter(out))));
-        return any23.extract(in, "http://host.com/path", outputHandler);
+        return any23.extract(new ExtractionParameters(conf, ValidationMode.ValidateAndFix, null, null), 
+            new StringDocumentSource(in, "http://host.com/path"), outputHandler, "UTF-8");
     }
 
     /**
@@ -586,9 +588,9 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws ExtractionException
      */
     private void assertExtractorActivation(String in,
-            Class<? extends Extractor>... expectedExtractors) throws Exception {
+            @SuppressWarnings("rawtypes") Class<? extends Extractor>... expectedExtractors) throws Exception {
         final ExtractionReport extractionReport = detectAndExtract(in);
-        for (Class<? extends Extractor> expectedExtractorClass : expectedExtractors) {
+        for (@SuppressWarnings("rawtypes") Class<? extends Extractor> expectedExtractorClass : expectedExtractors) {
             Assert.assertTrue(
                     String.format(
                             "Detection and extraction failed, expected extractor [%s] not found.",

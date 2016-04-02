@@ -14,8 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.any23.validator.rule;
+
+import java.util.List;
 
 import org.apache.any23.validator.DOMDocument;
 import org.apache.any23.validator.Fix;
@@ -23,32 +24,33 @@ import org.apache.any23.validator.Rule;
 import org.apache.any23.validator.RuleContext;
 import org.w3c.dom.Node;
 
-import java.util.List;
-
 /**
- * Fixes the misuse of the meta name attribute.
- *
- * @see MetaNameMisuseRule
- * @author Michele Mostarda (mostarda@fbk.eu)
- * @author Davide Palmisano (palmisano@fbk.eu)
+ * Fix for the issue described within 
+ * {@link org.apache.any23.validator.rule.MissingItemscopeAttributeValueRule}
  */
-public class MetaNameMisuseFix implements Fix {
+public class MissingItemscopeAttributeValueFix implements Fix {
 
-    public String getHRName() {
-        return "meta-name-misuse-fix";
+  /**
+   * Default constructor
+   */
+  public MissingItemscopeAttributeValueFix() {
+  }
+
+  public static final String EMPTY_ITEMSCOPE_VALUE = "=\"itemscope\"";
+
+  public String getHRName() {
+    return "missing-itemscope-value-fix";
+  }
+
+  public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
+
+    List<Node> itemNodes = document.getNodesWithAttribute("itemscope");
+    for(Node itemNode : itemNodes) {
+      Node itemScopeNode = itemNode.getAttributes().getNamedItem("itemscope");
+      if(itemScopeNode.getNodeValue().contentEquals("")) {
+        itemNode.getAttributes().getNamedItem("itemscope").setNodeValue(EMPTY_ITEMSCOPE_VALUE);
+      }
     }
-
-    @SuppressWarnings("unchecked")
-    public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
-        List<Node> nodes = (List<Node>) context.getData(MetaNameMisuseRule.ERRORED_META_NODES);
-        for(Node node : nodes) {
-            final String nameValue = node.getAttributes().getNamedItem("name").getTextContent();
-            node.getAttributes().removeNamedItem("name");
-            Node propertyNode = document.getOriginalDocument().createAttribute("property");
-            propertyNode.setNodeValue(nameValue);
-            node.getAttributes().setNamedItem(propertyNode);
-
-        }
-    }
+  }
 
 }

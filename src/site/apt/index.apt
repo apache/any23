@@ -3,7 +3,6 @@
                                     ------
                               The Apache Software Foundation
                                     ------
-                                     2011-2012
 
 ~~  Licensed to the Apache Software Foundation (ASF) under one or more
 ~~  contributor license agreements.  See the NOTICE file distributed with
@@ -31,11 +30,17 @@ Introduction to Apache Any23
 
      * {{{http://www.w3.org/TR/xhtml-rdfa-primer/}RDFa}} with {{{http://www.w3.org/TR/2010/WD-rdfa-core-20100422/#scoping-of-prefix-mappings}RDFa1.1 prefix mechanism}}
 
-     * {{{http://microformats.org/}Microformats}}: Adr, Geo, hCalendar, hCard, hListing, hResume, hReview, License, XFN and Species
+     * {{{http://microformats.org/}Microformats1}} and {{{http://microformats.org/wiki/microformats-2}Microformats2}}: hAdr, hCard, hCalendar, hEntry, hEvent, hGeo, hItem, hListing, hProduct, hProduct, hRecipie, hResume, hReview, License, Species, XFN, etc
+
+      * {{http://json-ld.org/}JSON-LD}: JSON for Linking Data. a lightweight Linked Data format based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
 
      * {{{http://dev.w3.org/html5/md/}HTML5 Microdata}}: (such as {{{http://schema.org}Schema.org}})
 
      * {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}}: Comma Separated Values with separator autodetection.
+
+     * Vocabularies: Extraction support for {{{http://dublincore.org/}Dublin Core Terms}}, {{{http://www.w3.org/wiki/DescriptionOfACareerVocabulary}Description of a Career}}, {{{https://github.com/edumbill/doap/wiki}Description Of A Project}}, {{{http://xmlns.com/foaf/spec/}Friend Of A Friend}}, {{{http://www.geonames.org/ontology/}GEO Names}}, {{{http://www.w3.org/2002/12/cal/icaltzd#}ICAL}}, {{{https://github.com/RinkeHoekstra/lkif-core}lkif-core}}, {{{http://ogp.me/}Open Graph Protocol}}, {{{http://purl.org/ontology/po/}BBC Programmes Ontology}}, {{{http://vocab.org/review/terms.html}RDF Review Vocabulary}}, {{{http://schema.org/}schema.org}}, {{{http://www.w3.org/2006/vcard/ns}VCard}}, {{{http://purl.org/ontology/wo/}BBC Wildlife Ontology}} and {{{http://www.w3.org/1999/xhtml/vocab/}XHTML}}... and more!
+
+
 
     A detailed description of available extractors is {{{./extractors.html}here}}.
 
@@ -45,9 +50,9 @@ Introduction to Apache Any23
      * As a command-line tool for extracting and converting between the supported formats.
      * As online service API available at {{{http://any23.org/}any23.org}}.
 
-    You can <<download>> the latest release from {{{./download.html}Apache Mirrors}}.
+    You can <<download>> the latest release from our {{{./download.html}Apache Mirrors}}.
 
-    Previous versions are available from the {{{http://code.google.com/p/any23/downloads/list}download site at Google Code}}.
+    Previous versions are available from the {{http://archive.apache.org/dist/any23/}Apache Archives site}.
 
 * Documentation Content
 

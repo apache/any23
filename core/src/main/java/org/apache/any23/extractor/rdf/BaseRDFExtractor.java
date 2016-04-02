@@ -94,11 +94,11 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             parser.getParserConfig().setNonFatalErrors(new HashSet<RioSetting<?>>());
 
             // Disable verification to ensure that DBPedia is accessible, given it uses so many custom datatypes
-            parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, true);                
+            parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, true);
             parser.getParserConfig().addNonFatalError(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES);
-            parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);                
+            parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
             parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_DATATYPE_VALUES);
-            parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);                
+            parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);
             parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
             //ByteBuffer seems to represent incorrect content. Need to make sure it is the content
             //of the <script> node and not anything else!
