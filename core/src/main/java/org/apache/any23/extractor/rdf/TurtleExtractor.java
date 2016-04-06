@@ -17,10 +17,22 @@
 
 package org.apache.any23.extractor.rdf;
 
+import java.io.IOException;
+
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import org.apache.any23.extractor.ExtractionContext;
+import org.apache.any23.extractor.ExtractionException;
+import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.util.StreamUtils;
+import org.openrdf.rio.RDFHandlerException;
+import org.openrdf.rio.RDFParseException;
 import org.openrdf.rio.RDFParser;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -30,35 +42,43 @@ import org.openrdf.rio.RDFParser;
  */
 public class TurtleExtractor extends BaseRDFExtractor {
 
-    /**
-     * Constructor, allows to specify the validation and error handling policies.
-     *
-     * @param verifyDataType   if <code>true</code> the data types will be verified,
-     *                         if <code>false</code> will be ignored.
-     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
-     *                         if <code>false</code> will ignore non blocking errors.
-     */
-    public TurtleExtractor(boolean verifyDataType, boolean stopAtFirstError) {
-        super(verifyDataType, stopAtFirstError);
+  @Override
+  public void run(ExtractionParameters extractionParameters,
+      ExtractionContext context, Document in, ExtractionResult out)
+          throws IOException, ExtractionException {
+    RDFParser parser = RDFParserFactory.getInstance().getTurtleParserInstance(
+        isVerifyDataType(), isStopAtFirstError(), context, out);
+    try { 
+      parser.parse(StreamUtils.documentToInputStream(in), in.getDocumentURI());
+    } catch (RDFParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (RDFHandlerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (TransformerConfigurationException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (TransformerException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (TransformerFactoryConfigurationError e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
+  }
 
-    /**
-     * Default constructor, with no verification of data types and no stop at first error.
-     */
-    public TurtleExtractor() {
-        this(false, false);
-    }
+  @Override
+  public ExtractorDescription getDescription() {
+    return TurtleExtractorFactory.getDescriptionInstance();
+  }
 
-    @Override
-    public ExtractorDescription getDescription() {
-        return TurtleExtractorFactory.getDescriptionInstance();
-    }
-
-    @Override
-    protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getTurtleParserInstance(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+  @Override
+  protected RDFParser getParser(ExtractionContext extractionContext,
+      ExtractionResult extractionResult) {
+    return RDFParserFactory.getInstance().getTurtleParserInstance(
+        isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
         );
-    }
+  }
 
 }

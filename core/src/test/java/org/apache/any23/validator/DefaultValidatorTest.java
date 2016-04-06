@@ -91,7 +91,7 @@ public class DefaultValidatorTest {
         // all nodes with itemscope now have a default value of "itemscope"
         Assert.assertNotNull(node.getAttributes().getNamedItem("itemscope").getNodeValue() );
         Assert.assertNotEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-        Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue());
+        Assert.assertEquals("=\"itemscope\"", node.getAttributes().getNamedItem("itemscope").getNodeValue());
       }
       if(logger.isDebugEnabled()) {
           logger.debug( validationReport.toString() );

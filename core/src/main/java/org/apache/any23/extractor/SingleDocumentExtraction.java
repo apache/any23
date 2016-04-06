@@ -40,7 +40,6 @@ import org.apache.any23.writer.CountingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
-import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.openrdf.model.BNode;
 import org.openrdf.model.URI;
@@ -458,15 +457,6 @@ public class SingleDocumentExtraction {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
                 blindExtractor.run(extractionParameters, extractionContext, documentURI, extractionResult);
-            } else if (extractor instanceof ContentExtractor) {
-                ensureHasLocalCopy();
-                final ContentExtractor contentExtractor = (ContentExtractor) extractor;
-                contentExtractor.run(
-                        extractionParameters,
-                        extractionContext,
-                        localDocumentSource.openInputStream(),
-                        extractionResult
-                );
             } else if (extractor instanceof TagSoupDOMExtractor) {
                 final TagSoupDOMExtractor tagSoupDOMExtractor = (TagSoupDOMExtractor) extractor;
                 final DocumentReport documentReport = getTagSoupDOM(extractionParameters);
@@ -501,7 +491,7 @@ public class SingleDocumentExtraction {
 
             long elapsed = System.currentTimeMillis() - startTime;
             if(log.isDebugEnabled()) {
-                log.debug("Completed " + extractor.getDescription().getExtractorName() + ", " + elapsed + "ms");
+                log.debug("Completed {}, {} ms", extractor.getDescription().getExtractorName(), elapsed); //TODO Add number of triples extracted 
             }
         }
     }

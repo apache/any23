@@ -17,16 +17,35 @@
 
 package org.apache.any23.util;
 
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
+import org.apache.xerces.impl.io.MalformedByteSequenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * Contains general utility functions for handling streams.
@@ -107,9 +126,54 @@ public class StreamUtils {
             try {
                 closable.close();
             } catch (Exception e) {
-                logger.error("Error while closing object " + closable, e);
+                logger.error("Error while closing object {} {}", closable, e);
             }
         }
+    }
+    
+    /**
+     * Converts a {@link org.w3c.dom.Document} to an
+     * {@link java.io.InputStream}
+     * @throws TransformerFactoryConfigurationError 
+     * @throws TransformerException 
+     * @throws TransformerConfigurationException 
+     */
+    public static InputStream documentToInputStream(Document doc) 
+          throws TransformerConfigurationException, TransformerException, TransformerFactoryConfigurationError {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Source xmlSource = new DOMSource(doc);
+        Result outputTarget = new StreamResult(outputStream);
+        TransformerFactory.newInstance().newTransformer().transform(xmlSource, outputTarget);
+        InputStream is = new ByteArrayInputStream(outputStream.toByteArray());
+        return is;
+    }
+    
+    public static Document inputStreamToDocument(InputStream is) throws MalformedByteSequenceException {
+      DocumentBuilderFactory factory = null;
+      DocumentBuilder builder = null;
+      Document doc = null;
+
+      try {
+        factory = DocumentBuilderFactory.newInstance();
+        builder = factory.newDocumentBuilder();
+      } catch (ParserConfigurationException e) {
+        e.printStackTrace();
+      }
+
+      try {
+        BOMInputStream bomIn = new BOMInputStream(is, ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE,
+            ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+        if (bomIn.hasBOM()) {
+          @SuppressWarnings("unused")
+          int firstNonBOMByte = bomIn.read(); // Skips BOM
+        }
+        doc = builder.parse(bomIn);
+      } catch (SAXException e) {
+        e.printStackTrace();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      return doc;
     }
 
 }

@@ -38,7 +38,7 @@ import java.util.HashSet;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
+public abstract class BaseRDFExtractor implements Extractor.TagSoupDOMExtractor {
 
     private boolean verifyDataType;
     private boolean stopAtFirstError;

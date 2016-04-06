@@ -24,7 +24,6 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
-import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.ExtractorRegistry;
@@ -88,7 +87,7 @@ public class ExtractorDocumentation implements Tool {
      * Prints the list of all the available extractors.
      */
     public void printExtractorList(ExtractorRegistry registry) {
-        for (ExtractorFactory factory : registry.getExtractorGroup()) {
+        for (@SuppressWarnings("rawtypes") ExtractorFactory factory : registry.getExtractorGroup()) {
             System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
         }
     }
@@ -170,9 +169,6 @@ public class ExtractorDocumentation implements Tool {
         }
         if (extractor instanceof TagSoupDOMExtractor) {
             return TagSoupDOMExtractor.class.getSimpleName();
-        }
-        if (extractor instanceof ContentExtractor) {
-            return ContentExtractor.class.getSimpleName();
         }
         return "?";
     }

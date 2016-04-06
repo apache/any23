@@ -21,6 +21,8 @@ import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
+import org.apache.any23.util.StreamUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -73,7 +75,7 @@ public class HTMLScraperExtractorTest {
                 extractor.getDescription().getExtractorName(),
                 pageURI
         );
-        extractor.run(ExtractionParameters.newDefault(), extractionContext, is, extractionResult);
+        extractor.run(ExtractionParameters.newDefault(), extractionContext, StreamUtils.inputStreamToDocument(is), extractionResult);
 
         verify(extractionResult).writeTriple(
                 eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY) , (Value) Matchers.anyObject())
