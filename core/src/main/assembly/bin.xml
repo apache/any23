@@ -76,6 +76,14 @@
         <exclude>*.xml</exclude>
       </excludes>
     </fileSet>
+
+    <!--
+     | Configuration and Resources
+    -->
+    <fileSet>
+      <directory>${project.build.directory}/appassembler/conf/</directory>
+      <outputDirectory>/conf</outputDirectory>
+    </fileSet>
   </fileSets>
 
 </assembly>
