@@ -38,7 +38,7 @@ Supported Formats in Apache Any23
 
    * <<N-Triples>> <<Apache Any23>> fully supports the {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}} specification.
 
-   * <<N-Quads>> <<Apache Any23>> fully supports the {{{http://sw.apache.org/2008/07/n-quads/}N-Quads}} specification.
+   * <<N-Quads>> <<Apache Any23>> Version 1.1 supports the 2012 {{{https://web.archive.org/web/20150322024714/http://sw.deri.org/2008/07/n-quads/}N-Quads}} specification (last accessed: 2016-06-17). <<Apache Any23>> Version 1.2 will support the current {{{https://www.w3.org/TR/n-quads/}N-Quads}} specification.
 
    * <<RDF/XML>> <<Apache Any23>> fully supports the {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}} specification.
 
@@ -52,7 +52,7 @@ Supported Formats in Apache Any23
 
    * <<N-Triples>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-testcases/#ntriples}N-Triples}}.
 
-   * <<N-Quads>> <<Apache Any23>> is able to produce output in {{{http://sw.apache.org/2008/07/n-quads/}N-Quads}}.
+   * <<N-Quads>> <<Apache Any23>> is able to produce output in the 2012 {{{https://web.archive.org/web/20150322024714/http://sw.deri.org/2008/07/n-quads/}N-Quads}} format (last accessed: 2016-06-17). <<Apache Any23>> Version 1.2 will support the current {{{https://www.w3.org/TR/n-quads/}N-Quads}} specification.
 
    * <<RDF/XML>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
 

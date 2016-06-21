@@ -32,7 +32,7 @@ Introduction to Apache Any23
 
      * {{{http://microformats.org/}Microformats1}} and {{{http://microformats.org/wiki/microformats-2}Microformats2}}: hAdr, hCard, hCalendar, hEntry, hEvent, hGeo, hItem, hListing, hProduct, hProduct, hRecipie, hResume, hReview, License, Species, XFN, etc
 
-      * {{http://json-ld.org/}JSON-LD}: JSON for Linking Data. a lightweight Linked Data format based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
+      * {{{http://json-ld.org/}JSON-LD}}: JSON for Linking Data. a lightweight Linked Data format based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
 
      * {{{http://dev.w3.org/html5/md/}HTML5 Microdata}}: (such as {{{http://schema.org}Schema.org}})
 
@@ -52,7 +52,7 @@ Introduction to Apache Any23
 
     You can <<download>> the latest release from our {{{./download.html}Apache Mirrors}}.
 
-    Previous versions are available from the {{http://archive.apache.org/dist/any23/}Apache Archives site}.
+    Previous versions are available from the {{{http://archive.apache.org/dist/any23/}Apache Archives site}}.
 
 * Documentation Content
 
