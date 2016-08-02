@@ -20,14 +20,13 @@ package org.apache.any23.extractor.html.microformats2;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.vocab.HEvent;
 import org.apache.any23.vocab.VCard;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.HTMLDocument;
 
@@ -126,14 +125,14 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         HCardExtractor extractor = factory.createExtractor();
         for (Node node : nodes) {
             BNode attendee = valueFactory.createBNode();
-            addURIProperty(attendee, RDF.TYPE, vEvent.attendee);
+            addIRIProperty(attendee, RDF.TYPE, vEvent.attendee);
             extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), attendee,
                     getCurrentExtractionResult());
         }
     }
 
     private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass,
-                                      URI property) {
+                                      IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
         conditionallyAddStringProperty(
                 title.source(), recipe, property, title.value()
@@ -216,7 +215,7 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] urls = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + eventFields[6]);
         for(HTMLDocument.TextField url : urls) {
-            addURIProperty(event, vEvent.url, fragment.resolveURI(url.value()));
+            addIRIProperty(event, vEvent.url, fragment.resolveIRI(url.value()));
         }
     }
 
@@ -237,7 +236,7 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
             return;
         for (Node node : nodes) {
             BNode location = valueFactory.createBNode();
-            addURIProperty(location, RDF.TYPE, vEvent.location);
+            addIRIProperty(location, RDF.TYPE, vEvent.location);
             HTMLDocument fragment = new HTMLDocument(node);
             for (String field : geoFields) {
                 HTMLDocument.TextField[] values = fragment.getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX+field);

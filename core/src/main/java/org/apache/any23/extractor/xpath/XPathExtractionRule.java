@@ -18,7 +18,7 @@
 package org.apache.any23.extractor.xpath;
 
 import org.apache.any23.extractor.ExtractionResult;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
 
@@ -35,12 +35,12 @@ public interface XPathExtractionRule {
     String getName();
 
     /**
-     * Checks if the rule can be applied on the given document <i>URI</i>.
+     * Checks if the rule can be applied on the given document <i>IRI</i>.
      *
-     * @param uri input document URI.
+     * @param uri input document IRI.
      * @return <code>true</code> if applied, <code>false</code> otherwise.
      */
-    boolean acceptURI(URI uri);
+    boolean acceptIRI(IRI uri);
 
     /**
      * Processes this extraction rule on the given document.

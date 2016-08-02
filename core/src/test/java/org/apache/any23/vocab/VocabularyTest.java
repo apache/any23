@@ -23,7 +23,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,30 +52,30 @@ public class VocabularyTest {
 
     @Test
     public void testGetProperties() {
-        final URI[] props = target.getProperties();
+        final IRI[] props = target.getProperties();
         Assert.assertEquals(3, props.length);
-        final List<URI> propsList = new ArrayList<URI>(Arrays.asList(props));
-        Assert.assertTrue(propsList.contains( RDFUtils.uri("http://test/vocab#prop1")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.uri("http://test/vocab#prop2")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.uri("http://test/vocab#prop3")) );
+        final List<IRI> propsList = new ArrayList<IRI>(Arrays.asList(props));
+        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#prop1")) );
+        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#prop2")) );
+        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#prop3")) );
     }
 
     @Test
     public void testGetClasses() {
-        final URI[] classes = target.getClasses();
+        final IRI[] classes = target.getClasses();
         Assert.assertEquals(3, classes.length);
-        final List<URI> propsList = new ArrayList<URI>(Arrays.asList(classes));
-        Assert.assertTrue(propsList.contains( RDFUtils.uri("http://test/vocab#Class1")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.uri("http://test/vocab#Class2")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.uri("http://test/vocab#Class3")) );
+        final List<IRI> propsList = new ArrayList<IRI>(Arrays.asList(classes));
+        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#Class1")) );
+        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#Class2")) );
+        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#Class3")) );
     }
     
     @Test
     public void testGetComments() {
-        Assert.assertEquals( "Comment class 1.", target.getCommentFor(RDFUtils.uri("http://test/vocab#Class1")) );
-        Assert.assertEquals( "Comment class 2.", target.getCommentFor(RDFUtils.uri("http://test/vocab#Class2")) );
-        Assert.assertEquals( "Comment prop 1." , target.getCommentFor(RDFUtils.uri("http://test/vocab#prop1")) );
-        Assert.assertEquals( "Comment prop 2." , target.getCommentFor(RDFUtils.uri("http://test/vocab#prop2")) );
+        Assert.assertEquals( "Comment class 1.", target.getCommentFor(RDFUtils.iri("http://test/vocab#Class1")) );
+        Assert.assertEquals( "Comment class 2.", target.getCommentFor(RDFUtils.iri("http://test/vocab#Class2")) );
+        Assert.assertEquals( "Comment prop 1." , target.getCommentFor(RDFUtils.iri("http://test/vocab#prop1")) );
+        Assert.assertEquals( "Comment prop 2." , target.getCommentFor(RDFUtils.iri("http://test/vocab#prop2")) );
         Assert.assertEquals(4, target.getComments().size());
     }
 
@@ -85,18 +85,18 @@ public class VocabularyTest {
     class TargetVocabulary extends Vocabulary {
 
         @Comment("Comment prop 1.")
-        public final URI property1 = createProperty(namespace, "prop1");
+        public final IRI property1 = createProperty(namespace, "prop1");
         @Comment("Comment prop 2.")
-        public final URI property2 = createProperty(namespace, "prop2");
+        public final IRI property2 = createProperty(namespace, "prop2");
 
-        public final URI property3 = createProperty(namespace, "prop3");
+        public final IRI property3 = createProperty(namespace, "prop3");
 
         @Comment("Comment class 1.")
-        public final URI class1 = createClass(namespace, "Class1");
+        public final IRI class1 = createClass(namespace, "Class1");
         @Comment("Comment class 2.")
-        public final URI class2 = createClass(namespace, "Class2");
+        public final IRI class2 = createClass(namespace, "Class2");
 
-        public final URI class3 = createClass(namespace, "Class3");
+        public final IRI class3 = createClass(namespace, "Class3");
 
         /**
          * Constructor.

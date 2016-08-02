@@ -20,7 +20,7 @@ package org.apache.any23.util;
 import org.apache.any23.vocab.Vocabulary;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.Resource;
+import org.eclipse.rdf4j.model.Resource;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,7 +52,7 @@ public class DiscoveryUtilsTest {
      */
     @Test
     public void testGetClassesInJAR() throws ClassNotFoundException, IOException {
-        final List<Class> classes = DiscoveryUtils.getClassesInPackage("org.openrdf.model", Resource.class);
+        final List<Class> classes = DiscoveryUtils.getClassesInPackage("org.eclipse.rdf4j", Resource.class);
         Assert.assertTrue( classes.size() >= 2 );
     }
 

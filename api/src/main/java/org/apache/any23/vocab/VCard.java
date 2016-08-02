@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary definitions from vcard.owl
@@ -39,321 +39,321 @@ public class VCard extends Vocabulary {
     }
 
     /**
-     * The namespace of the vocabulary as a URI.
+     * The namespace of the vocabulary as a IRI.
      */
-    public final URI NAMESPACE = createURI(NS);
+    public final IRI NAMESPACE = createIRI(NS);
 
     /**
      * An additional part of a person's name.
      */
-    public final URI additional_name = createProperty("additional-name");
+    public final IRI additional_name = createProperty("additional-name");
 
     /**
      * A postal or street address of a person.
      */
-    public final URI adr = createProperty("adr");
+    public final IRI adr = createProperty("adr");
 
     /**
      * A person that acts as one's agent.
      */
-    public final URI agent = createProperty("agent");
+    public final IRI agent = createProperty("agent");
 
     /**
      * The altitude of a geographic location.
      */
-    public final URI altitude = createProperty("altitude");
+    public final IRI altitude = createProperty("altitude");
 
     /**
      * The birthday of a person.
      */
-    public final URI bday = createProperty("bday");
+    public final IRI bday = createProperty("bday");
 
     /**
      * A category of a vCard.
      */
-    public final URI category = createProperty("category");
+    public final IRI category = createProperty("category");
 
     /**
      * A class (e.g., public, private, etc.) of a vCard.
      */
-    public final URI class_ = createProperty("class");
+    public final IRI class_ = createProperty("class");
 
     /**
      * The country of a postal address.
      */
-    public final URI country_name = createProperty("country-name");
+    public final IRI country_name = createProperty("country-name");
 
     /**
      * An email address.
      */
-    public final URI email = createProperty("email");
+    public final IRI email = createProperty("email");
 
     /**
      * The extended address of a postal address.
      */
-    public final URI extended_address = createProperty("extended-address");
+    public final IRI extended_address = createProperty("extended-address");
 
     /**
      * A family name part of a person's name.
      */
-    public final URI family_name = createProperty("family-name");
+    public final IRI family_name = createProperty("family-name");
 
     /**
      * A fax number of a person.
      */
-    public final URI fax = createProperty("fax");
+    public final IRI fax = createProperty("fax");
 
     /**
      * A formatted name of a person.
      */
-    public final URI fn = createProperty("fn");
+    public final IRI fn = createProperty("fn");
 
     /**
      * A geographic location associated with a person.
      */
-    public final URI geo = createProperty("geo");
+    public final IRI geo = createProperty("geo");
 
     /**
      * A given name part of a person's name.
      */
-    public final URI given_name = createProperty("given-name");
+    public final IRI given_name = createProperty("given-name");
 
     /**
      * A home address of a person.
      */
-    public final URI homeAdr = createProperty("homeAdr");
+    public final IRI homeAdr = createProperty("homeAdr");
 
     /**
      * A home phone number of a person.
      */
-    public final URI homeTel = createProperty("homeTel");
+    public final IRI homeTel = createProperty("homeTel");
 
     /**
      * An honorific prefix part of a person's name.
      */
-    public final URI honorific_prefix = createProperty("honorific-prefix");
+    public final IRI honorific_prefix = createProperty("honorific-prefix");
 
     /**
      * An honorific suffix part of a person's name.
      */
-    public final URI honorific_suffix = createProperty("honorific-suffix");
+    public final IRI honorific_suffix = createProperty("honorific-suffix");
 
     /**
      * A key (e.g, PKI key) of a person.
      */
-    public final URI key = createProperty("key");
+    public final IRI key = createProperty("key");
 
     /**
      * The formatted version of a postal address (a string with embedded line breaks,
      * punctuation, etc.).
      */
-    public final URI label = createProperty("label");
+    public final IRI label = createProperty("label");
 
     /**
      * The latitude of a geographic location.
      */
-    public final URI latitude = createProperty("latitude");
+    public final IRI latitude = createProperty("latitude");
 
     /**
      * The locality (e.g., city) of a postal address.
      */
-    public final URI locality = createProperty("locality");
+    public final IRI locality = createProperty("locality");
 
     /**
      * A logo associated with a person or their organization.
      */
-    public final URI logo = createProperty("logo");
+    public final IRI logo = createProperty("logo");
 
     /**
      * The longitude of a geographic location.
      */
-    public final URI longitude = createProperty("longitude");
+    public final IRI longitude = createProperty("longitude");
 
     /**
      * A mailer associated with a vCard.
      */
-    public final URI mailer = createProperty("mailer");
+    public final IRI mailer = createProperty("mailer");
 
     /**
      * A mobile email address of a person.
      */
-    public final URI mobileEmail = createProperty("mobileEmail");
+    public final IRI mobileEmail = createProperty("mobileEmail");
 
     /**
      * A mobile phone number of a person.
      */
-    public final URI mobileTel = createProperty("mobileTel");
+    public final IRI mobileTel = createProperty("mobileTel");
 
     /**
      * The components of the name of a person.
      */
-    public final URI n = createProperty("n");
+    public final IRI n = createProperty("n");
 
     /**
      * The nickname of a person.
      */
-    public final URI nickname = createProperty("nickname");
+    public final IRI nickname = createProperty("nickname");
 
     /**
      * Notes about a person on a vCard.
      */
-    public final URI note = createProperty("note");
+    public final IRI note = createProperty("note");
 
     /**
      * An organization associated with a person.
      */
-    public final URI org = createProperty("org");
+    public final IRI org = createProperty("org");
 
     /**
      * The name of an organization.
      */
-    public final URI organization_name = createProperty("organization-name");
+    public final IRI organization_name = createProperty("organization-name");
 
     /**
      * The name of a unit within an organization.
      */
-    public final URI organization_unit = createProperty("organization-unit");
+    public final IRI organization_unit = createProperty("organization-unit");
 
     /**
      * An email address unaffiliated with any particular organization or employer;
      * a personal email address.
      */
-    public final URI personalEmail = createProperty("personalEmail");
+    public final IRI personalEmail = createProperty("personalEmail");
 
     /**
      * A photograph of a person.
      */
-    public final URI photo = createProperty("photo");
+    public final IRI photo = createProperty("photo");
 
     /**
      * The post office box of a postal address.
      */
-    public final URI post_office_box = createProperty("post-office-box");
+    public final IRI post_office_box = createProperty("post-office-box");
 
     /**
      * The postal code (e.g., U.S. ZIP code) of a postal address.
      */
-    public final URI postal_code = createProperty("postal-code");
+    public final IRI postal_code = createProperty("postal-code");
 
     /**
      * The region (e.g., state or province) of a postal address.
      */
-    public final URI region = createProperty("region");
+    public final IRI region = createProperty("region");
 
     /**
      * The timestamp of a revision of a vCard.
      */
-    public final URI rev = createProperty("rev");
+    public final IRI rev = createProperty("rev");
 
     /**
      * A role a person plays within an organization.
      */
-    public final URI role = createProperty("role");
+    public final IRI role = createProperty("role");
 
     /**
      * A version of a person's name suitable for collation.
      */
-    public final URI sort_string = createProperty("sort-string");
+    public final IRI sort_string = createProperty("sort-string");
 
     /**
      * A sound (e.g., a greeting or pronounciation) of a person.
      */
-    public final URI sound = createProperty("sound");
+    public final IRI sound = createProperty("sound");
 
     /**
      * The street address of a postal address.
      */
-    public final URI street_address = createProperty("street-address");
+    public final IRI street_address = createProperty("street-address");
 
     /**
      * A telephone number of a person.
      */
-    public final URI tel = createProperty("tel");
+    public final IRI tel = createProperty("tel");
 
     /**
      * A person's title.
      */
-    public final URI title = createProperty("title");
+    public final IRI title = createProperty("title");
 
     /**
      * A timezone associated with a person.
      */
-    public final URI tz = createProperty("tz");
+    public final IRI tz = createProperty("tz");
 
     /**
      * A UID of a person's vCard.
      */
-    public final URI uid = createProperty("uid");
+    public final IRI uid = createProperty("uid");
 
     /**
      * An (explicitly) unlabeled address of a person.
      */
-    public final URI unlabeledAdr = createProperty("unlabeledAdr");
+    public final IRI unlabeledAdr = createProperty("unlabeledAdr");
 
     /**
      * An (explicitly) unlabeled email address of a person.
      */
-    public final URI unlabeledEmail = createProperty("unlabeledEmail");
+    public final IRI unlabeledEmail = createProperty("unlabeledEmail");
 
     /**
      * An (explicitly) unlabeled phone number of a person.
      */
-    public final URI unlabeledTel = createProperty("unlabeledTel");
+    public final IRI unlabeledTel = createProperty("unlabeledTel");
 
     /**
      * A URL associated with a person.
      */
-    public final URI url = createProperty("url");
+    public final IRI url = createProperty("url");
 
     /**
      * A work address of a person.
      */
-    public final URI workAdr = createProperty("workAdr");
+    public final IRI workAdr = createProperty("workAdr");
 
     /**
      * A work email address of a person.
      */
-    public final URI workEmail = createProperty("workEmail");
+    public final IRI workEmail = createProperty("workEmail");
 
     /**
      * A work phone number of a person.
      */
-    public final URI workTel = createProperty("workTel");
+    public final IRI workTel = createProperty("workTel");
 
     /**
      * Resources that are vCard (postal) addresses.
      */
-    public final URI Address = createURI("http://www.w3.org/2006/vcard/ns#Address");
+    public final IRI Address = createIRI("http://www.w3.org/2006/vcard/ns#Address");
 
-    public final URI addressType = createProperty("addressType");
+    public final IRI addressType = createProperty("addressType");
 
     /**
      * Resources that are vCard Telephones.
      */
-    public final URI Telephone = createURI("http://www.w3.org/2006/vcard/ns#Address");
+    public final IRI Telephone = createIRI("http://www.w3.org/2006/vcard/ns#Address");
 
     /**
      * Resources that are vCard geographic locations.
      */
-    public final URI Location = createURI("http://www.w3.org/2006/vcard/ns#Location");
+    public final IRI Location = createIRI("http://www.w3.org/2006/vcard/ns#Location");
 
     /**
      * Resources that are vCard personal names.
      */
-    public final URI Name = createURI("http://www.w3.org/2006/vcard/ns#Name");
+    public final IRI Name = createIRI("http://www.w3.org/2006/vcard/ns#Name");
 
     /**
      * Resources that are vCard organizations.
      */
-    public final URI Organization = createURI("http://www.w3.org/2006/vcard/ns#Organization");
+    public final IRI Organization = createIRI("http://www.w3.org/2006/vcard/ns#Organization");
 
     /**
      * Resources that are vCards
      */
-    public final URI VCard = createURI("http://www.w3.org/2006/vcard/ns#VCard");
+    public final IRI VCard = createIRI("http://www.w3.org/2006/vcard/ns#VCard");
 
 
-    private URI createProperty(String localName) {
+    private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 

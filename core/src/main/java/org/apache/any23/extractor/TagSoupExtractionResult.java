@@ -18,8 +18,8 @@
 package org.apache.any23.extractor;
 
 import org.apache.any23.extractor.html.MicroformatExtractor;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +56,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
      *
      * @param extractor the identifier of the extractor responsible for retrieving such property.
      * @param propertySubject the subject of the property.
-     * @param property the property URI.
+     * @param property the property IRI.
      * @param object the property object if any, <code>null</code> otherwise.
      * @param path the path of the <i>HTML</i> node from which the property literal has been extracted.
      */

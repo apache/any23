@@ -24,10 +24,10 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.openrdf.model.BNode;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -62,15 +62,15 @@ public class ICBMExtractor implements TagSoupDOMExtractor {
             return;
         }
 
-        final ValueFactory factory = new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance(), out);
+        final ValueFactory factory = new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance(), out);
         BNode point = factory.createBNode();
-        out.writeTriple(extractionContext.getDocumentURI(), expand("dcterms:related"), point);
+        out.writeTriple(extractionContext.getDocumentIRI(), expand("dcterms:related"), point);
         out.writeTriple(point, expand("rdf:type"), expand("geo:Point"));
         out.writeTriple(point, expand("geo:lat"), factory.createLiteral(Float.toString(lat)));
         out.writeTriple(point, expand("geo:long"), factory.createLiteral(Float.toString(lon)));
     }
 
-    private URI expand(String curie) {
+    private IRI expand(String curie) {
         return getDescription().getPrefixes().expand(curie);
     }
 

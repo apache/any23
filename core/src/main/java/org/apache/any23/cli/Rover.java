@@ -74,8 +74,8 @@ public class Rover implements Tool {
     )
     private PrintStream outputStream = System.out;
 
-    @Parameter(description = "input URIs {<url>|<file>}+", converter = ArgumentToURIConverter.class)
-    protected List<String> inputURIs = new LinkedList<String>();
+    @Parameter(description = "input IRIs {<url>|<file>}+", converter = ArgumentToIRIConverter.class)
+    protected List<String> inputIRIs = new LinkedList<String>();
 
     @Parameter(names = { "-e", "--extractors" }, description = "a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
     private List<String> extractors = new LinkedList<String>();
@@ -158,7 +158,7 @@ public class Rover implements Tool {
                         :
                 new ExtractionParameters(configuration, ValidationMode.None          , nestingDisabled);
         if (defaultns != null) {
-            extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_URI_PROPERTY,
+            extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_IRI_PROPERTY,
                                              defaultns);
         }
 
@@ -195,7 +195,7 @@ public class Rover implements Tool {
     }
 
     public void run() throws Exception {
-        if (inputURIs.isEmpty()) {
+        if (inputIRIs.isEmpty()) {
             throw new IllegalArgumentException("Expected at least 1 argument.");
         }
 
@@ -205,8 +205,8 @@ public class Rover implements Tool {
 
         try {
             final long start = System.currentTimeMillis();
-            for (String inputURI : inputURIs) {
-                DocumentSource source = any23.createDocumentSource(inputURI);
+            for (String inputIRI : inputIRIs) {
+                DocumentSource source = any23.createDocumentSource(inputIRI);
 
                 performExtraction( source );
             }
@@ -223,7 +223,7 @@ public class Rover implements Tool {
         }
     }
 
-    public static final class ArgumentToURIConverter implements IStringConverter<String> {
+    public static final class ArgumentToIRIConverter implements IStringConverter<String> {
 
         @Override
         public String convert(String uri) {
@@ -232,7 +232,7 @@ public class Rover implements Tool {
                 try {
                     return new URL(uri).toString();
                 } catch (MalformedURLException murle) {
-                    throw new ParameterException(format("Invalid URI: '%s': %s", uri, murle.getMessage()));
+                    throw new ParameterException(format("Invalid IRI: '%s': %s", uri, murle.getMessage()));
                 }
             }
 

@@ -29,19 +29,19 @@ public class ByteArrayDocumentSource implements DocumentSource {
 
     private final byte[] bytes;
 
-    private final String documentURI;
+    private final String documentIRI;
 
     private final String contentType;
 
-    public ByteArrayDocumentSource(byte[] bytes, String documentURI, String contentType) {
+    public ByteArrayDocumentSource(byte[] bytes, String documentIRI, String contentType) {
         this.bytes = bytes;
-        this.documentURI = documentURI;
+        this.documentIRI = documentIRI;
         this.contentType = contentType;
     }
 
-    public ByteArrayDocumentSource(InputStream inputStream, String documentURI, String contentType)
+    public ByteArrayDocumentSource(InputStream inputStream, String documentIRI, String contentType)
     throws IOException {
-        this(MemCopyFactory.toByteArray(inputStream), documentURI, contentType);
+        this(MemCopyFactory.toByteArray(inputStream), documentIRI, contentType);
     }
 
     public InputStream openInputStream() throws IOException {
@@ -52,8 +52,8 @@ public class ByteArrayDocumentSource implements DocumentSource {
         return bytes.length;
     }
 
-    public String getDocumentURI() {
-        return documentURI;
+    public String getDocumentIRI() {
+        return documentIRI;
     }
 
     public String getContentType() {

@@ -24,13 +24,12 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.ICAL;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.repository.RepositoryResult;
 
 import java.io.IOException;
 
@@ -46,10 +45,10 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	private static final ICAL vICAL = ICAL.getInstance();
 	private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-	private final static URI vcal = vICAL.Vcalendar;
-	private final static URI vevent = vICAL.Vevent;
-	private final static URI vjournal = vICAL.Vjournal;
-	private final static URI vtodo = vICAL.Vtodo;
+	private final static IRI vcal = vICAL.Vcalendar;
+	private final static IRI vevent = vICAL.Vevent;
+	private final static IRI vjournal = vICAL.Vjournal;
+	private final static IRI vtodo = vICAL.Vtodo;
 
 	protected ExtractorFactory<?> getExtractorFactory() {
 		return new HCalendarExtractorFactory();
@@ -59,7 +58,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testOneVEvent() throws Exception {
 		assertExtract("/microformats/hcalendar/example1.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vevent);
 		RepositoryResult<Statement> result = getStatements(null, RDF.TYPE,
 				vevent);
@@ -90,7 +89,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testTransparentEvent() throws Exception {
 		assertExtract("/microformats/hcalendar/example2.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vevent);
 		RepositoryResult<Statement> result = getStatements(null, RDF.TYPE,
 				vevent);
@@ -123,7 +122,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testRepetitiveEvent() throws Exception {
 		assertExtract("/microformats/hcalendar/example3.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vevent);
 		RepositoryResult<Statement> result = getStatements(null, RDF.TYPE,
 				vevent);
@@ -155,7 +154,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testThreeDayEvent() throws Exception {
 		assertExtract("/microformats/hcalendar/example5.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vevent);
 		RepositoryResult<Statement> result = getStatements(null, RDF.TYPE,
 				vevent);
@@ -189,7 +188,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testHCalendarWithBudyInfo() throws Exception {
 		assertExtract("/microformats/hcalendar/example5.5.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vjournal);
 	}
 
@@ -231,7 +230,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(event, vICAL.dtend, "2005-10-08");
 		assertContains(event, vICAL.summary, "Web 2.0 Conference");
 		assertContains(event, vICAL.url,
-				RDFUtils.uri("http://www.web2con.com/"));
+				RDFUtils.iri("http://www.web2con.com/"));
 		assertContains(event, vICAL.location, "Argent Hotel, San Francisco, CA");
 	}
 
@@ -243,7 +242,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(event, vICAL.summary,
 				"Bad Movie Night - Gigli (blame mike spiegelman)");
 		assertContains(event, vICAL.url,
-				RDFUtils.uri(baseURI + "squidlist/calendar/12279/2006/1/15"));
+				RDFUtils.iri(baseIRI + "squidlist/calendar/12279/2006/1/15"));
 	}
 
 	@Test
@@ -263,7 +262,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(event, vICAL.dtend, "2005-10-08");
 		assertContains(event, vICAL.summary, "Web 2.0 Conference");
 		assertContains(event, vICAL.url,
-				RDFUtils.uri("http://www.web2con.com/"));
+				RDFUtils.iri("http://www.web2con.com/"));
 		assertContains(event, vICAL.location, "Argent Hotel, San Francisco, CA");
 	}
 
@@ -276,7 +275,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(event, vICAL.summary,
 				"O'Reilly Emerging Technology Conference");
 		assertContains(event, vICAL.url,
-				RDFUtils.uri("http://conferences.oreillynet.com/et2006/"));
+				RDFUtils.iri("http://conferences.oreillynet.com/et2006/"));
 		assertContains(event, vICAL.location,
 				"Manchester Grand Hyatt in San Diego, CA");
 	}
@@ -309,7 +308,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(
 				event,
 				vICAL.url,
-				RDFUtils.uri("http://www.laughingsquid.com/squidlist/calendar/12377/2006/1/25"));
+				RDFUtils.iri("http://www.laughingsquid.com/squidlist/calendar/12377/2006/1/25"));
 		assertContains(event, vICAL.summary,
 				"Art Reception for Tom Schultz and Felix Macnee");
 	}
@@ -321,8 +320,8 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(
 				event,
 				vICAL.url,
-				RDFUtils.uri("http://dps1.travelocity.com/dparcobrand.ctl?smls=Y&Service=YHOE&.intl=us&aln_name=AA&flt_num="
-						+ "1655&dep_arp_name=&arr_arp_name=&dep_dt_dy_1=23&dep_dt_mn_1=Jan&dep_dt_yr_1=2006&dep_tm_1=9:00am"));
+				RDFUtils.iri("http://dps1.travelocity.com/dparcobrand.ctl?smls=Y&Service=YHOE&.intl=us&aln_name=AA&flt_num="
+				+ "1655&dep_arp_name=&arr_arp_name=&dep_dt_dy_1=23&dep_dt_mn_1=Jan&dep_dt_yr_1=2006&dep_tm_1=9:00am"));
 		assertContains(event, vICAL.summary, "ORD-SFO/AA 1655");
 	}
 
@@ -334,7 +333,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 		assertContains(event, vICAL.dtend, "2005-10-08");
 		assertContains(event, vICAL.summary, "Web 2.0 Conference");
 		assertContains(event, vICAL.url,
-				RDFUtils.uri("http://www.web2con.com/"));
+				RDFUtils.iri("http://www.web2con.com/"));
 		assertContains(event, vICAL.location, "Argent Hotel, San Francisco, CA");
 	}
 
@@ -389,7 +388,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testFullHCalendarClass() throws Exception {
 		assertExtract("/microformats/hcalendar/example5.3.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vevent);
 	}
 
@@ -397,7 +396,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testHCalendarClassWithTodo() throws Exception {
 		assertExtract("/microformats/hcalendar/example5.4.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vtodo);
 	}
 
@@ -405,7 +404,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	public void testHCalendarClassWithJournal() throws Exception {
 		assertExtract("/microformats/hcalendar/example5.5.html");
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertContains(null, RDF.TYPE, vjournal);
 	}
 
@@ -424,7 +423,7 @@ public class HCalendarExtractorTest extends AbstractExtractorTestCase {
 	private void assertDefault(String name) throws Exception {
 		assertExtract(name);
 		assertModelNotEmpty();
-		assertContains(baseURI, RDF.TYPE, vcal);
+		assertContains(baseIRI, RDF.TYPE, vcal);
 		assertStatementsSize(RDF.TYPE, vcal, 1);
 	}
 

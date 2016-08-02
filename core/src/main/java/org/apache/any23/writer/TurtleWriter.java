@@ -30,7 +30,7 @@ public class TurtleWriter extends RDFWriterTripleHandler implements FormatWriter
      * @param out stream to write on.
      */
     public TurtleWriter(OutputStream out) {
-        super(new org.openrdf.rio.turtle.TurtleWriter(out));
+        super(new org.eclipse.rdf4j.rio.turtle.TurtleWriter(out));
     }
 
 }

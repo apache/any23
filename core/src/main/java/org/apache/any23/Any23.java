@@ -217,7 +217,7 @@ public class Any23 {
         if (!httpClientInitialized) {
             if (userAgent == null) {
                 throw new IOException("Must call " + Any23.class.getSimpleName() +
-                        ".setHTTPUserAgent(String) before extracting from HTTP URI");
+                        ".setHTTPUserAgent(String) before extracting from HTTP IRI");
             }
             httpClient.init( new DefaultHTTPClientConfiguration(this.getAcceptHeader()) );
             httpClientInitialized = true;
@@ -248,27 +248,27 @@ public class Any23 {
     }
 
     /**
-     * <p>Returns the most appropriate {@link DocumentSource} for the given<code>documentURI</code>.</p>
-     * <p><b>N.B.</b> <code>documentURI's</code> <i>should</i> contain a protocol.
+     * <p>Returns the most appropriate {@link DocumentSource} for the given<code>documentIRI</code>.</p>
+     * <p><b>N.B.</b> <code>documentIRI's</code> <i>should</i> contain a protocol.
      * E.g. <b>http:</b>, <b>https:</b>, <b>file:</b>
      * </p>
      *
-     * @param documentURI the document <i>URI</i>.
+     * @param documentIRI the document <i>IRI</i>.
      * @return a new instance of DocumentSource.
-     * @throws URISyntaxException if an error occurs while parsing the <code>documentURI</code> as a <i>URI</i>.
+     * @throws URISyntaxException if an error occurs while parsing the <code>documentIRI</code> as a <i>IRI</i>.
      * @throws IOException if an error occurs while initializing the internal {@link org.apache.any23.http.HTTPClient}.
      */
-    public DocumentSource createDocumentSource(String documentURI) throws URISyntaxException, IOException {
-        if(documentURI == null) throw new NullPointerException("documentURI cannot be null.");
-        if (documentURI.toLowerCase().startsWith("file:")) {
-            return new FileDocumentSource( new File(new URI(documentURI)) );
+    public DocumentSource createDocumentSource(String documentIRI) throws URISyntaxException, IOException {
+        if(documentIRI == null) throw new NullPointerException("documentIRI cannot be null.");
+        if (documentIRI.toLowerCase().startsWith("file:")) {
+            return new FileDocumentSource( new File(new URI(documentIRI)) );
         }
-        if (documentURI.toLowerCase().startsWith("http:") || documentURI.toLowerCase().startsWith("https:")) {
-            return new HTTPDocumentSource(getHTTPClient(), documentURI);
+        if (documentIRI.toLowerCase().startsWith("http:") || documentIRI.toLowerCase().startsWith("https:")) {
+            return new HTTPDocumentSource(getHTTPClient(), documentIRI);
         }
         throw new IllegalArgumentException(
-                String.format("Unsupported protocol for document URI: '%s' . "
-                    + "Check that document URI contains a protocol.", documentURI)
+                String.format("Unsupported protocol for document IRI: '%s' . "
+                    + "Check that document IRI contains a protocol.", documentIRI)
         );
     }
 
@@ -309,12 +309,12 @@ public class Any23 {
 
     /**
      * Performs metadata extraction on the <code>in</code> string
-     * associated to the <code>documentURI</code> URI, declaring
+     * associated to the <code>documentIRI</code> IRI, declaring
      * <code>contentType</code> and <code>encoding</code>.
      * The generated events are sent to the specified <code>outputHandler</code>.
      *
      * @param in raw data to be analyzed.
-     * @param documentURI URI from which the raw data has been extracted.
+     * @param documentIRI IRI from which the raw data has been extracted.
      * @param contentType declared data content type.
      * @param encoding declared data encoding.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
@@ -324,29 +324,29 @@ public class Any23 {
      */
     public ExtractionReport extract(
             String in,
-            String documentURI,
+            String documentIRI,
             String contentType,
             String encoding,
             TripleHandler outputHandler
     ) throws IOException, ExtractionException {
-        return extract(new StringDocumentSource(in, documentURI, contentType, encoding), outputHandler);
+        return extract(new StringDocumentSource(in, documentIRI, contentType, encoding), outputHandler);
     }
 
     /**
      * Performs metadata extraction on the <code>in</code> string
-     * associated to the <code>documentURI</code> URI, sending the generated
+     * associated to the <code>documentIRI</code> IRI, sending the generated
      * events to the specified <code>outputHandler</code>.
      *
      * @param in raw data to be analyzed.
-     * @param documentURI URI from which the raw data has been extracted.
+     * @param documentIRI IRI from which the raw data has been extracted.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
      * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
-    public ExtractionReport extract(String in, String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(String in, String documentIRI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
-        return extract(new StringDocumentSource(in, documentURI), outputHandler);
+        return extract(new StringDocumentSource(in, documentIRI), outputHandler);
     }
 
     /**
@@ -365,40 +365,40 @@ public class Any23 {
     }
 
     /**
-     * Performs metadata extraction from the content of the given <code>documentURI</code>
+     * Performs metadata extraction from the content of the given <code>documentIRI</code>
      * sending the generated events to the specified <code>outputHandler</code>.
-     * If the <i>URI</i> is replied with a redirect, the last will be followed.
+     * If the <i>IRI</i> is replied with a redirect, the last will be followed.
      *
      * @param eps the parameters to be applied to the extraction.
-     * @param documentURI the URI from which retrieve document.
+     * @param documentIRI the IRI from which retrieve document.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
      * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
-    public ExtractionReport extract(ExtractionParameters eps, String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(ExtractionParameters eps, String documentIRI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
         try {
-            return extract(eps, createDocumentSource(documentURI), outputHandler);
+            return extract(eps, createDocumentSource(documentIRI), outputHandler);
         } catch (URISyntaxException ex) {
-            throw new ExtractionException("Error while extracting data from document URI.", ex);
+            throw new ExtractionException("Error while extracting data from document IRI.", ex);
         }
     }
 
     /**
-     * Performs metadata extraction from the content of the given <code>documentURI</code>
+     * Performs metadata extraction from the content of the given <code>documentIRI</code>
      * sending the generated events to the specified <code>outputHandler</code>.
-     * If the <i>URI</i> is replied with a redirect, the last will be followed.
+     * If the <i>IRI</i> is replied with a redirect, the last will be followed.
      *
-     * @param documentURI the URI from which retrieve document.
+     * @param documentIRI the IRI from which retrieve document.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
      * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
-    public ExtractionReport extract(String documentURI, TripleHandler outputHandler)
+    public ExtractionReport extract(String documentIRI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
-        return extract((ExtractionParameters) null, documentURI, outputHandler);
+        return extract((ExtractionParameters) null, documentIRI, outputHandler);
     }
 
     /**

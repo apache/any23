@@ -165,7 +165,7 @@ _:genid2 <http://www.w3.org/2003/01/geo/wgs84_pos#lat> "53.272226" .
 <http://www.deri.ie/about/team/member/Karl_Aberer#me> <http://www.w3.org/2002/07/owl#sameAs> <http://data.semanticweb.org/person/karl-aberer> .
 <http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.deri.ie/about/team/member/Karl_Aberer#me> .
 <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://blog.semantic-web.at/author/pascal-hitzler/#foaf> .
-<http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://korrekt.org/page/Special:URIResolver/Pascal_Hitzler> .
+<http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://korrekt.org/page/Special:IRIResolver/Pascal_Hitzler> .
 <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> <http://www.w3.org/2002/07/owl#sameAs> <http://semanticweb.org/id/Pascal_Hitzler> .
 <http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance> .
 <http://harth.org/andreas/foaf#ah> <http://xmlns.com/foaf/0.1/knows> <http://140.203.154.209/~vit/foaf.rdf#me> .

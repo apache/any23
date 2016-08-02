@@ -21,9 +21,9 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.vocab.HRecipe;
-import org.openrdf.model.BNode;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
@@ -84,7 +84,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
         return true;
     }
 
-    private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass, URI property) {
+    private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass, IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
         conditionallyAddStringProperty(
                 title.source(), recipe, property, title.value()
@@ -139,7 +139,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] photos = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX+recipeFields[5]);
         for(HTMLDocument.TextField photo : photos) {
-            addURIProperty(recipe, vHRECIPE.photo, fragment.resolveURI(photo.value()));
+            addIRIProperty(recipe, vHRECIPE.photo, fragment.resolveIRI(photo.value()));
         }
     }
 

@@ -18,9 +18,9 @@
 package org.apache.any23.writer;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,7 @@ public class CountingTripleHandler implements TripleHandler {
         count = 0;
     }
 
-    public void startDocument(URI documentURI) throws TripleHandlerException {
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
         // ignore
     }
 
@@ -67,7 +67,7 @@ public class CountingTripleHandler implements TripleHandler {
         // ignore
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         count++;
         if(logTriples) logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
@@ -82,7 +82,7 @@ public class CountingTripleHandler implements TripleHandler {
         // ignore
     }
 
-    public void endDocument(URI documentURI) throws TripleHandlerException {
+    public void endDocument(IRI documentIRI) throws TripleHandlerException {
         //ignore
     }
 

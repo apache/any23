@@ -27,9 +27,9 @@ import org.apache.any23.extractor.rdf.JSONLDExtractor;
 import org.apache.any23.extractor.rdf.JSONLDExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.LiteralImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -54,9 +54,9 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 
 	private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-	private URI profile;
+	private IRI profile;
 
-	private Map<String, URI> prefixes = new HashMap<String, URI>();
+	private Map<String, IRI> prefixes = new HashMap<String, IRI>();
 
 	private String documentLang;
 
@@ -78,7 +78,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 			baseProfile = profile.toString();
 		}
 
-		final URI documentURI = extractionContext.getDocumentURI();
+		final IRI documentIRI = extractionContext.getDocumentIRI();
 		Set<JSONLDScript> jsonldScripts = extractJSONLDScript(in, baseProfile,
 				extractionParameters, extractionContext, out);
 		for (JSONLDScript jsonldScript : jsonldScripts) {
@@ -86,8 +86,8 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 			//if (jsonldScript.getLang() != null) {
 			//	lang = jsonldScript.getLang();
 			//}
-			//out.writeTriple(documentURI, jsonldScript.getName(),
-			//		new LiteralImpl(jsonldScript.getContent(), lang));
+			//out.writeTriple(documentIRI, jsonldScript.getName(),
+			//		SimpleValueFactory.getInstance().createLiteral(jsonldScript.getContent(), lang));
 		}
 	}
 
@@ -107,12 +107,12 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 		return lang;
 	}
 
-	private URI extractProfile(Document in) {
+	private IRI extractProfile(Document in) {
 		String profile = DomUtils.find(in, "string(/HTML/@profile)");
 		if (profile.equals("")) {
 			return null;
 		}
-		return new URIImpl(profile);
+		return SimpleValueFactory.getInstance().createIRI(profile);
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 			NamedNodeMap attributes = linkNode.getAttributes();
 			String rel = attributes.getNamedItem("rel").getTextContent();
 			String href = attributes.getNamedItem("href").getTextContent();
-			if (rel != null && href != null && RDFUtils.isAbsoluteURI(href)) {
-				prefixes.put(rel, new URIImpl(href));
+			if (rel != null && href != null && RDFUtils.isAbsoluteIRI(href)) {
+				prefixes.put(rel, SimpleValueFactory.getInstance().createIRI(href));
 			}
 		}
 	}
@@ -157,21 +157,21 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 			String name = nameAttribute.getTextContent();
 			String content = contentAttribute.getTextContent();
 			String xpath = DomUtils.getXPathForNode(jsonldNode);
-			URI nameAsURI = getPrefixIfExists(name);
-			if (nameAsURI == null) {
-				nameAsURI = new URIImpl(baseProfile + name);
+			IRI nameAsIRI = getPrefixIfExists(name);
+			if (nameAsIRI == null) {
+				nameAsIRI = SimpleValueFactory.getInstance().createIRI(baseProfile + name);
 			}
-			JSONLDScript jsonldScript = new JSONLDScript(xpath, nameAsURI,
+			JSONLDScript jsonldScript = new JSONLDScript(xpath, nameAsIRI,
 					content);
 			result.add(jsonldScript);
 		}
 		return result;
 	}
 
-	private URI getPrefixIfExists(String name) {
+	private IRI getPrefixIfExists(String name) {
 		String[] split = name.split("\\.");
 		if (split.length == 2 && prefixes.containsKey(split[0])) {
-			return new URIImpl(prefixes.get(split[0]) + split[1]);
+			return SimpleValueFactory.getInstance().createIRI(prefixes.get(split[0]) + split[1]);
 		}
 		return null;
 	}
@@ -185,28 +185,28 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 
 		private String xpath;
 
-		private URI name;
+		private IRI name;
 
 		private String lang;
 
 		private String content;
 
-		public JSONLDScript(String xpath, URI name, String content) {
+		public JSONLDScript(String xpath, IRI name, String content) {
 			this.xpath = xpath;
 			this.name = name;
 			this.content = content;
 		}
 
-		public JSONLDScript(String xpath, URI name, String content, String lang) {
+		public JSONLDScript(String xpath, IRI name, String content, String lang) {
 			this(xpath, name, content);
 			this.lang = lang;
 		}
 
-		public URI getName() {
+		public IRI getName() {
 			return name;
 		}
 
-		public void setName(URI name) {
+		public void setName(IRI name) {
 			this.name = name;
 		}
 

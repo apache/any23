@@ -25,7 +25,7 @@ import java.io.OutputStream;
 public class RDFXMLWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public RDFXMLWriter(OutputStream out) {
-        super( new org.openrdf.rio.rdfxml.RDFXMLWriter(out) );
+        super( new org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriter(out) );
     }
 
 }

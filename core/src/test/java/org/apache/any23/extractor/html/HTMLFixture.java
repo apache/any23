@@ -43,8 +43,8 @@ public class HTMLFixture {
         return file;
     }
 
-    public DocumentSource getOpener(String baseURI) {
-        return new FileDocumentSource(getFile(), baseURI);
+    public DocumentSource getOpener(String baseIRI) {
+        return new FileDocumentSource(getFile(), baseIRI);
     }
 
     /**

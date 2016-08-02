@@ -24,9 +24,8 @@ import org.apache.any23.vocab.HListing;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.openrdf.model.Resource;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,7 +126,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/microformats/hlisting/item-fn-url.html");
 		assertModelNotEmpty();
 		assertContains(RDF.TYPE, vHLISTING.Item);
-		assertContains(vHLISTING.itemUrl, RDFUtils.uri("http://item.com/"));
+		assertContains(vHLISTING.itemUrl, RDFUtils.iri("http://item.com/"));
 		assertContains(vHLISTING.itemName, "Parking space");
 	}
 
@@ -136,10 +135,10 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/microformats/hlisting/item-fn-url-photo-img.html");
 		assertModelNotEmpty();
 		assertContains(RDF.TYPE, vHLISTING.Item);
-		assertContains(vHLISTING.itemUrl, RDFUtils.uri("http://item.com/"));
+		assertContains(vHLISTING.itemUrl, RDFUtils.iri("http://item.com/"));
 		assertContains(vHLISTING.itemName, "Parking space");
 		assertContains(vHLISTING.itemPhoto,
-				RDFUtils.uri(baseURI.stringValue() + "photo.jpg"));
+				RDFUtils.iri(baseIRI.stringValue() + "photo.jpg"));
 	}
 
 	@Test
@@ -149,7 +148,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertContains(RDF.TYPE, vHLISTING.Item);
 		assertContains(vHLISTING.itemName, "Parking space");
 		assertContains(vHLISTING.itemPhoto,
-				RDFUtils.uri(baseURI.stringValue() + "pic.jpg"));
+				RDFUtils.iri(baseIRI.stringValue() + "pic.jpg"));
 	}
 
 	@Ignore("ANY23-159: Error with nodes and markup extracted from HListingExtractorTest.testKelkoo & testKelkooFull")
@@ -170,20 +169,20 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
 		assertContains(
 				vHLISTING.listerUrl,
-				RDFUtils.uri(baseURI.stringValue()
-						+ "m-4621623-pc-world-business.html"));
+				RDFUtils.iri(baseIRI.stringValue()
+				+ "m-4621623-pc-world-business.html"));
 		assertContains(vHLISTING.listerOrg, "PC World Business");
 
 		assertContains(
 				vHLISTING.listerLogo,
-				RDFUtils.uri(baseURI.stringValue()
-						+ "data/merchantlogos/4621623/pcworld.gif"));
+				RDFUtils.iri(baseIRI.stringValue()
+				+ "data/merchantlogos/4621623/pcworld.gif"));
 
 		assertContains(vHLISTING.listerName, "PC World Business");
 
 		assertContains(
 				vHLISTING.itemPhoto,
-				RDFUtils.uri("http://img.kelkoo.com/uk/medium/675/496/00117250662929509422269096808645163496675.jpg"));
+				RDFUtils.iri("http://img.kelkoo.com/uk/medium/675/496/00117250662929509422269096808645163496675.jpg"));
 
 		assertContains(vHLISTING.price, "\u00A3480.17");
 	}
@@ -197,7 +196,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertContains(RDF.TYPE, vHLISTING.Item);
 		assertContains(vHLISTING.action, vHLISTING.offer);
 		assertContains(vHLISTING.itemUrl,
-				RDFUtils.uri("http://bob.example.com/"));
+				RDFUtils.iri("http://bob.example.com/"));
 		assertContains(RDF.TYPE, vHLISTING.Lister);
 
 		assertContains(vHLISTING.itemName,
@@ -209,23 +208,23 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 
 		assertContains(
 				vHLISTING.itemPhoto,
-				RDFUtils.uri("http://img.kelkoo.com/uk/medium/657/449/00162475823966154731749844283942320449657.jpg"));
+				RDFUtils.iri("http://img.kelkoo.com/uk/medium/657/449/00162475823966154731749844283942320449657.jpg"));
 		assertContains(
 				vHLISTING.itemPhoto,
-				RDFUtils.uri("http://img.kelkoo.com/uk/medium/545/091/00154244199719224091151116421737036091545.jpg"));
+				RDFUtils.iri("http://img.kelkoo.com/uk/medium/545/091/00154244199719224091151116421737036091545.jpg"));
 		assertContains(
 				vHLISTING.itemPhoto,
-				RDFUtils.uri("http://img.kelkoo.com/uk/medium/018/426/00156227992563192632349212375692442426018.jpg"));
+				RDFUtils.iri("http://img.kelkoo.com/uk/medium/018/426/00156227992563192632349212375692442426018.jpg"));
 
 		assertContains(
 				vHLISTING.listerLogo,
-				RDFUtils.uri("http://bob.example.com/data/merchantlogos/6957423/socksfox.gif"));
+				RDFUtils.iri("http://bob.example.com/data/merchantlogos/6957423/socksfox.gif"));
 		assertContains(
 				vHLISTING.listerLogo,
-				RDFUtils.uri("http://bob.example.com/data/merchantlogos/3590723/mytightsnew.gif"));
+				RDFUtils.iri("http://bob.example.com/data/merchantlogos/3590723/mytightsnew.gif"));
 		assertContains(
 				vHLISTING.listerLogo,
-				RDFUtils.uri("http://bob.example.com/data/merchantlogos/2977501/pleaseonlinelogo88x311.gif"));
+				RDFUtils.iri("http://bob.example.com/data/merchantlogos/2977501/pleaseonlinelogo88x311.gif"));
 
 		assertContains(vHLISTING.listerName, "Socks Fox");
 		assertContains(vHLISTING.listerName, "My Tights");
@@ -236,12 +235,12 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vHLISTING.listerName, "Tightsplease");
 
 		assertContains(vHLISTING.listerUrl,
-				RDFUtils.uri("http://bob.example.com/m-6957423-socks-fox.html"));
+				RDFUtils.iri("http://bob.example.com/m-6957423-socks-fox.html"));
 		assertContains(vHLISTING.listerUrl,
-				RDFUtils.uri("http://bob.example.com/m-3590723-my-tights.html"));
+				RDFUtils.iri("http://bob.example.com/m-3590723-my-tights.html"));
 		assertContains(
 				vHLISTING.listerUrl,
-				RDFUtils.uri("http://bob.example.com/m-2977501-tightsplease.html"));
+				RDFUtils.iri("http://bob.example.com/m-2977501-tightsplease.html"));
 
 		assertContains(vHLISTING.price, "\u00A380");
 		assertContains(vHLISTING.price, "\u00A347.95");
@@ -255,7 +254,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vHLISTING.action, vHLISTING.offer);
 		assertContains(vHLISTING.listerName, "John Broker");
 		assertContains(RDF.TYPE, vHLISTING.Lister);
-		assertContains(vHLISTING.listerUrl, RDFUtils.uri("http://homepage.com"));
+		assertContains(vHLISTING.listerUrl, RDFUtils.iri("http://homepage.com"));
 	}
 
 	@Test
@@ -265,7 +264,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vHLISTING.action, vHLISTING.offer);
 		assertContains(vHLISTING.listerName, "John Broker");
 		assertContains(RDF.TYPE, vHLISTING.Lister);
-		assertContains(vFOAF.mbox, RDFUtils.uri("mailto:info@commerce.net"));
+		assertContains(vFOAF.mbox, RDFUtils.iri("mailto:info@commerce.net"));
 	}
 
 	@Test
@@ -275,7 +274,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vHLISTING.action, vHLISTING.offer);
 		assertContains(RDF.TYPE, vHLISTING.Lister);
 		assertContains(vHLISTING.listerName, "John Broker");
-		assertContains(vFOAF.mbox, RDFUtils.uri("mailto:info@commerce.net"));
+		assertContains(vFOAF.mbox, RDFUtils.iri("mailto:info@commerce.net"));
 	}
 
 	@Test
@@ -332,7 +331,7 @@ public class HListingExtractorTest extends AbstractExtractorTestCase {
 		assertModelNotEmpty();
 		assertContains(vHLISTING.permalink, "http://livre.com/book");
 		assertContains(vHLISTING.listerUrl,
-				RDFUtils.uri("http://livre.com/author"));
+				RDFUtils.iri("http://livre.com/author"));
 	}
 
 	@Test

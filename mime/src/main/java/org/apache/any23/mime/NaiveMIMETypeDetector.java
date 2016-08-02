@@ -17,12 +17,13 @@
 
 package org.apache.any23.mime;
 
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.Rio;
 
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,9 +64,9 @@ public class NaiveMIMETypeDetector implements MIMETypeDetector {
             return mimeTypeFromMetadata;
         }
 
-        final RDFFormat parserFormatForFileName = Rio.getParserFormatForFileName(fileName);
-        if (parserFormatForFileName != null) {
-            return MIMEType.parse(parserFormatForFileName.getDefaultMIMEType());
+        final Optional<RDFFormat> parserFormatForFileName = Rio.getParserFormatForFileName(fileName);
+        if (parserFormatForFileName.isPresent()) {
+            return MIMEType.parse(parserFormatForFileName.get().getDefaultMIMEType());
         }
 
         String extension = getExtension(fileName);

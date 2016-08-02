@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -50,29 +50,29 @@ public class LKIFCoreMereology extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/mereology.owl */
     /////////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Atom                        = createClass(NS, "Atom");
-    public final URI Composition                 = createClass(NS, "Composition");
-    public final URI Pair                        = createClass(NS, "Pair");
-    public final URI Part                        = createClass(NS, "Part");
-    public final URI Whole                       = createClass(NS, "Whole");
+    public final IRI Atom                        = createClass(NS, "Atom");
+    public final IRI Composition                 = createClass(NS, "Composition");
+    public final IRI Pair                        = createClass(NS, "Pair");
+    public final IRI Part                        = createClass(NS, "Part");
+    public final IRI Whole                       = createClass(NS, "Whole");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI component                   = createProperty(NS, "component");
-    public final URI component_of                = createProperty(NS, "component_of");
-    public final URI composed_of                 = createProperty(NS, "composed_of");
-    public final URI composes                    = createProperty(NS, "composes");
-    public final URI contained_in                = createProperty(NS, "contained_in");
-    public final URI contains                    = createProperty(NS, "contains");
-    public final URI direct_part                 = createProperty(NS, "direct_part");
-    public final URI direct_part_of              = createProperty(NS, "direct_part_of");
-    public final URI member                      = createProperty(NS, "member");
-    public final URI member_of                   = createProperty(NS, "member_of");
-    public final URI part                        = createProperty(NS, "part");
-    public final URI part_of                     = createProperty(NS, "part_of");
-    public final URI strict_part                 = createProperty(NS, "strict_part");
-    public final URI strict_part_of              = createProperty(NS, "strict_part_of");
+    public final IRI component                   = createProperty(NS, "component");
+    public final IRI component_of                = createProperty(NS, "component_of");
+    public final IRI composed_of                 = createProperty(NS, "composed_of");
+    public final IRI composes                    = createProperty(NS, "composes");
+    public final IRI contained_in                = createProperty(NS, "contained_in");
+    public final IRI contains                    = createProperty(NS, "contains");
+    public final IRI direct_part                 = createProperty(NS, "direct_part");
+    public final IRI direct_part_of              = createProperty(NS, "direct_part_of");
+    public final IRI member                      = createProperty(NS, "member");
+    public final IRI member_of                   = createProperty(NS, "member_of");
+    public final IRI part                        = createProperty(NS, "part");
+    public final IRI part_of                     = createProperty(NS, "part_of");
+    public final IRI strict_part                 = createProperty(NS, "strict_part");
+    public final IRI strict_part_of              = createProperty(NS, "strict_part_of");
     
     private LKIFCoreMereology() {
       super(NS);

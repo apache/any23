@@ -17,9 +17,9 @@
 
 package org.apache.any23.extractor.xpath;
 
-import org.openrdf.model.Resource;
-import org.openrdf.model.impl.BNodeImpl;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.impl.BNodeImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
  * Represents a <i>Quad</i> subject <i>template</i>.
@@ -61,9 +61,9 @@ public class TemplateSubject extends Term<Resource> {
     protected Resource getValueInternal(String value) {
         switch (type) {
             case uri:
-                return new URIImpl(value);
+                return SimpleValueFactory.getInstance().createIRI(value);
             case bnode:
-                return new BNodeImpl(value);
+                return SimpleValueFactory.getInstance().createBNode(value);
             default:
                 throw new IllegalStateException();
         }

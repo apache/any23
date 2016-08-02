@@ -192,7 +192,7 @@
 
 
 
-<!-- named templates to process URIs and token lists - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+<!-- named templates to process IRIs and token lists - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
   <xsl:template name="tokenize2">
     <xsl:param name="src"/>
@@ -323,7 +323,7 @@
     </if>
   </template>
 
-  <!-- determines the CURIE / URI of a node -->
+  <!-- determines the CURIE / IRI of a node -->
   <template name="self-curie-or-uri" >
     <param name="node" />
     <choose>
@@ -347,7 +347,7 @@
     </choose>
   </template>  
 			
-  <!-- expand CURIE / URI according RDFa 1.1 -->
+  <!-- expand CURIE / IRI according RDFa 1.1 -->
   <template name="expand-curie-or-uri" >
     <param name="curie_or_uri" />
     <choose>
@@ -368,20 +368,20 @@
       <when test="string-length($curie_or_uri)=0"> <!-- empty anchor means the document itself -->
         <value-of select="$this" />
       </when>
-      <when test="not(starts-with($curie_or_uri,'[')) and contains($curie_or_uri,':')"> <!-- it is a URI -->
+      <when test="not(starts-with($curie_or_uri,'[')) and contains($curie_or_uri,':')"> <!-- it is a IRI -->
         <value-of select="$curie_or_uri" />
       </when>     
       <when test="not(contains($curie_or_uri,'://')) and not(starts-with($curie_or_uri,'/'))"> <!-- relative URL -->
         <value-of select="concat($this_location,$curie_or_uri)" />
       </when>
       <when test="not(contains($curie_or_uri,'://')) and (starts-with($curie_or_uri,'/'))"> <!-- URL from root domain -->
-        <!-- RC: Resolution of relative URIs like '/something' didn't work for me,
+        <!-- RC: Resolution of relative IRIs like '/something' didn't work for me,
           so I return them verbatim and let the subsequent RDF/XML parser deal
           with resolving them. --> 
         <!--      <value-of select="concat($this_root,substring-after($curie_or_uri,'/'))" />-->
         <value-of select="$curie_or_uri" />
       </when>
-      <otherwise>UNKNOWN CURIE URI</otherwise>
+      <otherwise>UNKNOWN CURIE IRI</otherwise>
     </choose>
   </template>
   

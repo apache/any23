@@ -25,6 +25,8 @@ import org.apache.xerces.xni.QName;
 import org.apache.xerces.xni.XMLAttributes;
 import org.apache.xerces.xni.XNIException;
 import org.cyberneko.html.parsers.DOMParser;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -66,29 +68,29 @@ public class TagSoupParser {
 
     private final InputStream input;
 
-    private final String documentURI;
+    private final String documentIRI;
 
     private final String encoding;
     
     private Document result = null;
 
-    public TagSoupParser(InputStream input, String documentURI) {
+    public TagSoupParser(InputStream input, String documentIRI) {
         this.input = input;
-        this.documentURI = documentURI;
+        this.documentIRI = documentIRI;
         this.encoding = null;
     }
 
-    public TagSoupParser(InputStream input, String documentURI, String encoding) {
+    public TagSoupParser(InputStream input, String documentIRI, String encoding) {
         if(encoding != null && !Charset.isSupported(encoding))
             throw new UnsupportedCharsetException(String.format("Charset %s is not supported", encoding));
 
         this.input = input;
-        this.documentURI = documentURI;
+        this.documentIRI = documentIRI;
         this.encoding = encoding;
     }
 
     /**
-     * Returns the DOM of the given document URI. 
+     * Returns the DOM of the given document IRI. 
      *
      * @return the <i>HTML</i> DOM.
      * @throws IOException if there is an error whilst accessing the DOM
@@ -112,10 +114,10 @@ public class TagSoupParser {
                 }
             } finally {
                 long elapsed = System.currentTimeMillis() - startTime;
-                logger.debug("Parsed " + documentURI + " with NekoHTML, " + elapsed + "ms");
+                logger.debug("Parsed " + documentIRI + " with NekoHTML, " + elapsed + "ms");
             }
         }
-        result.setDocumentURI(documentURI);
+        result.setDocumentURI(documentIRI);
         return result;
     }
 
@@ -131,15 +133,15 @@ public class TagSoupParser {
      * @throws org.apache.any23.validator.ValidatorException if there is an error validating the DOM
      */
     public DocumentReport getValidatedDOM(boolean applyFix) throws IOException, ValidatorException {
-        final URI dURI;
+        final URI dIRI;
         try {
-            dURI = new URI(documentURI);
-        } catch (URISyntaxException urise) {
-            throw new ValidatorException("Error while performing validation, invalid document URI.", urise);
+            dIRI = new URI(documentIRI);
+        } catch (IllegalArgumentException | URISyntaxException urise) {
+            throw new ValidatorException("Error while performing validation, invalid document IRI.", urise);
         }
         Validator validator = new DefaultValidator();
         Document document = getDOM();
-        return new DocumentReport( validator.validate(dURI, document, applyFix), document );
+        return new DocumentReport( validator.validate(dIRI, document, applyFix), document );
     }
 
     private Document parse() throws IOException, SAXException, TransformerException {

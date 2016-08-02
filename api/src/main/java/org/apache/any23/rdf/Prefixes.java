@@ -17,8 +17,8 @@
 
 package org.apache.any23.rdf;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * A mapping from prefixes to namespace URIs. Supports "volatile mappings",
+ * A mapping from prefixes to namespace IRIs. Supports "volatile mappings",
  * which will be overwritten without notice when mappings are merged,
  * while for normal mappings this causes an exception. This allows
  * combining "hard" mappings (which must be retained or something breaks)
@@ -39,15 +39,15 @@ import java.util.Set;
  */
 public class Prefixes {
 
-    public static Prefixes create1(String prefix, String namespaceURI) {
+    public static Prefixes create1(String prefix, String namespaceIRI) {
         Prefixes result = new Prefixes();
-        result.add(prefix, namespaceURI);
+        result.add(prefix, namespaceIRI);
         return result;
     }
 
-    public static Prefixes createFromMap(Map<String, String> prefixesToNamespaceURIs, boolean areVolatile) {
+    public static Prefixes createFromMap(Map<String, String> prefixesToNamespaceIRIs, boolean areVolatile) {
         Prefixes result = new Prefixes();
-        for (Entry<String, String> entry : prefixesToNamespaceURIs.entrySet()) {
+        for (Entry<String, String> entry : prefixesToNamespaceIRIs.entrySet()) {
             if (areVolatile) {
                 result.addVolatile(entry.getKey(), entry.getValue());
             } else {
@@ -75,13 +75,13 @@ public class Prefixes {
         this.mappings = mappings;
     }
 
-    public URI expand(String curie) {
+    public IRI expand(String curie) {
         String prefix = parsePrefix(curie);
         if (prefix == null || !hasPrefix(prefix)) {
             return null;
         }
-        return ValueFactoryImpl.getInstance().createURI(
-                getNamespaceURIFor(prefix) + parseLocalName(curie));
+        return SimpleValueFactory.getInstance().createIRI(
+                getNamespaceIRIFor(prefix) + parseLocalName(curie));
     }
 
     public String abbreviate(String uri) {
@@ -108,11 +108,11 @@ public class Prefixes {
         return false;
     }
 
-    public String getNamespaceURIFor(String prefix) {
+    public String getNamespaceIRIFor(String prefix) {
         return mappings.get(prefix);
     }
 
-    public boolean hasNamespaceURI(String uri) {
+    public boolean hasNamespaceIRI(String uri) {
         return mappings.containsValue(uri);
     }
 
@@ -128,28 +128,28 @@ public class Prefixes {
         return mappings.isEmpty();
     }
 
-    public void add(String prefix, String namespaceURI) {
+    public void add(String prefix, String namespaceIRI) {
         if (isVolatile(prefix)) {
             volatilePrefixes.remove(prefix);
         } else {
             if (hasPrefix(prefix)) {
-                if (getNamespaceURIFor(prefix).equals(namespaceURI)) {
-                    return;    // re-assigned same prefix to same URI, let's just ignore it
+                if (getNamespaceIRIFor(prefix).equals(namespaceIRI)) {
+                    return;    // re-assigned same prefix to same IRI, let's just ignore it
                 }
                 throw new IllegalStateException("Attempted to re-assign prefix '" + prefix +
-                        "'; clashing values '" + getNamespaceURIFor(prefix) + "' and '" +
-                        namespaceURI);
+                        "'; clashing values '" + getNamespaceIRIFor(prefix) + "' and '" +
+                        namespaceIRI);
             }
         }
-        mappings.put(prefix, namespaceURI);
+        mappings.put(prefix, namespaceIRI);
     }
 
     public void add(Prefixes other) {
         for (String otherPrefix : other.allPrefixes()) {
             if (other.isVolatile(otherPrefix)) {
-                addVolatile(otherPrefix, other.getNamespaceURIFor(otherPrefix));
+                addVolatile(otherPrefix, other.getNamespaceIRIFor(otherPrefix));
             } else {
-                add(otherPrefix, other.getNamespaceURIFor(otherPrefix));
+                add(otherPrefix, other.getNamespaceIRIFor(otherPrefix));
             }
         }
     }
@@ -163,24 +163,24 @@ public class Prefixes {
         Prefixes result = new Prefixes();
         for (String prefix : prefixes) {
             if (!hasPrefix(prefix)) {
-                throw new IllegalArgumentException("No namespace URI declared for prefix " + prefix);
+                throw new IllegalArgumentException("No namespace IRI declared for prefix " + prefix);
             }
-            result.add(prefix, getNamespaceURIFor(prefix));
+            result.add(prefix, getNamespaceIRIFor(prefix));
         }
         return result;
     }
 
-    public void addVolatile(String prefix, String namespaceURI) {
+    public void addVolatile(String prefix, String namespaceIRI) {
         if (hasPrefix(prefix)) {
             return;    // new prefix is volatile, so we don't overwrite the old one
         }
-        mappings.put(prefix, namespaceURI);
+        mappings.put(prefix, namespaceIRI);
         volatilePrefixes.add(prefix);
     }
 
     public void addVolatile(Prefixes other) {
         for (String otherPrefix : other.allPrefixes()) {
-            addVolatile(otherPrefix, other.getNamespaceURIFor(otherPrefix));
+            addVolatile(otherPrefix, other.getNamespaceIRIFor(otherPrefix));
         }
     }
 

@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="http://ogp.me/">Open Graph Protocol</a> vocabulary.
@@ -104,41 +104,41 @@ public class OGP extends Vocabulary {
         return instance;
     }
 
-    public final URI NAMESPACE = createURI(NS);
+    public final IRI NAMESPACE = createIRI(NS);
     
 
-    public final URI title           = createProperty(TITLE);
-    public final URI type            = createProperty(TYPE);
-    public final URI url             = createProperty(URL);
-    public final URI image           = createProperty(IMAGE);
-    public final URI description     = createProperty(DESCRIPTION);
-    public final URI determiner      = createProperty(DETERMINER);
-    public final URI locale          = createProperty(LOCALE);
-    public final URI localeAlternate = createProperty(LOCALE__ALTERNATE);
-    public final URI siteName        = createProperty(SITE_NAME);
-    public final URI video           = createProperty(VIDEO);
+    public final IRI title           = createProperty(TITLE);
+    public final IRI type            = createProperty(TYPE);
+    public final IRI url             = createProperty(URL);
+    public final IRI image           = createProperty(IMAGE);
+    public final IRI description     = createProperty(DESCRIPTION);
+    public final IRI determiner      = createProperty(DETERMINER);
+    public final IRI locale          = createProperty(LOCALE);
+    public final IRI localeAlternate = createProperty(LOCALE__ALTERNATE);
+    public final IRI siteName        = createProperty(SITE_NAME);
+    public final IRI video           = createProperty(VIDEO);
 
-    public final URI imageURL       = createProperty(IMAGE__URL);
-    public final URI imageSecureURL = createProperty(IMAGE__SECURE_URL);
-    public final URI imageType      = createProperty(IMAGE__TYPE);
-    public final URI imageWidth     = createProperty(IMAGE__WIDTH);
-    public final URI imageHeight    = createProperty(IMAGE__HEIGHT);
+    public final IRI imageURL       = createProperty(IMAGE__URL);
+    public final IRI imageSecureURL = createProperty(IMAGE__SECURE_URL);
+    public final IRI imageType      = createProperty(IMAGE__TYPE);
+    public final IRI imageWidth     = createProperty(IMAGE__WIDTH);
+    public final IRI imageHeight    = createProperty(IMAGE__HEIGHT);
 
-    public final URI videoURL       = createProperty(VIDEO__URL);
-    public final URI videoSecureURL = createProperty(VIDEO__SECURE_URL);
-    public final URI videoType      = createProperty(VIDEO__TYPE);
-    public final URI videoWidth     = createProperty(VIDEO__WIDTH);
-    public final URI videoHeight    = createProperty(VIDEO__HEIGHT);
+    public final IRI videoURL       = createProperty(VIDEO__URL);
+    public final IRI videoSecureURL = createProperty(VIDEO__SECURE_URL);
+    public final IRI videoType      = createProperty(VIDEO__TYPE);
+    public final IRI videoWidth     = createProperty(VIDEO__WIDTH);
+    public final IRI videoHeight    = createProperty(VIDEO__HEIGHT);
 
-    public final URI audio          = createProperty(AUDIO);
-    public final URI audioSecureURL = createProperty(AUDIO__SECURE_URL);
-    public final URI audioType      = createProperty(AUDIO__TYPE);
+    public final IRI audio          = createProperty(AUDIO);
+    public final IRI audioSecureURL = createProperty(AUDIO__SECURE_URL);
+    public final IRI audioType      = createProperty(AUDIO__TYPE);
 
-    private URI createClass(String localName) {
+    private IRI createClass(String localName) {
         return createClass(NS, localName);
     }
 
-    private URI createProperty(String localName) {
+    private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 

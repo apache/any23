@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="https://github.com/edumbill/doap/wiki">Description Of A Project</a> vocabulary.
@@ -37,57 +37,57 @@ public class DOAP extends Vocabulary {
     }
 	
     //Resources
-    public final URI Project                = createClass(NS, "Project");
-    public final URI Version                = createClass(NS, "Version");
-    public final URI Specification          = createClass(NS, "Specification");
-    public final URI Repository             = createClass(NS, "Repository");
-    public final URI SVNRepository          = createClass(NS, "SVNRepository");
-    public final URI BKRepository           = createClass(NS, "BKRepository");
-    public final URI CVSRepository          = createClass(NS, "CVSRepository");
-    public final URI ArchRepository         = createClass(NS, "ArchRepository");
-    public final URI BazaarBranch           = createClass(NS, "BazaarBranch");
-    public final URI GitRepository          = createClass(NS, "GitRepository");
-    public final URI HgRepository           = createClass(NS, "HgRepository");
-    public final URI DarcsRepository        = createClass(NS, "DarcsRepository");
+    public final IRI Project                = createClass(NS, "Project");
+    public final IRI Version                = createClass(NS, "Version");
+    public final IRI Specification          = createClass(NS, "Specification");
+    public final IRI Repository             = createClass(NS, "Repository");
+    public final IRI SVNRepository          = createClass(NS, "SVNRepository");
+    public final IRI BKRepository           = createClass(NS, "BKRepository");
+    public final IRI CVSRepository          = createClass(NS, "CVSRepository");
+    public final IRI ArchRepository         = createClass(NS, "ArchRepository");
+    public final IRI BazaarBranch           = createClass(NS, "BazaarBranch");
+    public final IRI GitRepository          = createClass(NS, "GitRepository");
+    public final IRI HgRepository           = createClass(NS, "HgRepository");
+    public final IRI DarcsRepository        = createClass(NS, "DarcsRepository");
 	
     //Properties
-    public final URI name                   = createProperty(NS, "name");
-    public final URI homepage               = createProperty(NS, "homepage");
-    public final URI old_homepage           = createProperty(NS, "old-homepage"); 
-    public final URI created                = createProperty(NS, "created");
-    public final URI shortdesc              = createProperty(NS, "shortdesc");
-    public final URI description            = createProperty(NS, "description");
-    public final URI release                = createProperty(NS, "release");
-    public final URI mailing_list           = createProperty(NS, "mailing-list"); 
-    public final URI category               = createProperty(NS, "category");
-    public final URI license                = createProperty(NS, "license");
-    public final URI repository             = createProperty(NS, "repository");
-    public final URI anon_root              = createProperty(NS, "anon-root");
-    public final URI browse                 = createProperty(NS, "browse");
-    public final URI module                 = createProperty(NS, "module");
-    public final URI location               = createProperty(NS, "location");
-    public final URI download_page          = createProperty(NS, "download-page");
-    public final URI download_mirror        = createProperty(NS, "download-mirror"); 
-    public final URI revision               = createProperty(NS, "revision");
-    public final URI file_release           = createProperty(NS, "file-release"); 
-    public final URI wiki                   = createProperty(NS, "wiki");
-    public final URI bug_database           = createProperty(NS, "bug-database"); 
-    public final URI screenshots            = createProperty(NS, "screenshots");
-    public final URI maintainer             = createProperty(NS, "maintainer");
-    public final URI developer              = createProperty(NS, "developer");
-    public final URI documenter             = createProperty(NS, "documenter");
-    public final URI translator             = createProperty(NS, "translator");
-    public final URI tester                 = createProperty(NS, "tester");
-    public final URI helper                 = createProperty(NS, "helper");
-    public final URI programming_language   = createProperty(NS, "programming-language"); 
-    public final URI os                     = createProperty(NS, "os");
-    public final URI implement              = createProperty(NS, "implement");
-    public final URI service_endpoint       = createProperty(NS, "service-endpoint"); 
-    public final URI language               = createProperty(NS, "language");
-    public final URI vendor                 = createProperty(NS, "vendor");
-    public final URI platform               = createProperty(NS, "platform");
-    public final URI audience               = createProperty(NS, "audience");
-    public final URI blog                   = createProperty(NS, "blog");
+    public final IRI name                   = createProperty(NS, "name");
+    public final IRI homepage               = createProperty(NS, "homepage");
+    public final IRI old_homepage           = createProperty(NS, "old-homepage"); 
+    public final IRI created                = createProperty(NS, "created");
+    public final IRI shortdesc              = createProperty(NS, "shortdesc");
+    public final IRI description            = createProperty(NS, "description");
+    public final IRI release                = createProperty(NS, "release");
+    public final IRI mailing_list           = createProperty(NS, "mailing-list"); 
+    public final IRI category               = createProperty(NS, "category");
+    public final IRI license                = createProperty(NS, "license");
+    public final IRI repository             = createProperty(NS, "repository");
+    public final IRI anon_root              = createProperty(NS, "anon-root");
+    public final IRI browse                 = createProperty(NS, "browse");
+    public final IRI module                 = createProperty(NS, "module");
+    public final IRI location               = createProperty(NS, "location");
+    public final IRI download_page          = createProperty(NS, "download-page");
+    public final IRI download_mirror        = createProperty(NS, "download-mirror"); 
+    public final IRI revision               = createProperty(NS, "revision");
+    public final IRI file_release           = createProperty(NS, "file-release"); 
+    public final IRI wiki                   = createProperty(NS, "wiki");
+    public final IRI bug_database           = createProperty(NS, "bug-database"); 
+    public final IRI screenshots            = createProperty(NS, "screenshots");
+    public final IRI maintainer             = createProperty(NS, "maintainer");
+    public final IRI developer              = createProperty(NS, "developer");
+    public final IRI documenter             = createProperty(NS, "documenter");
+    public final IRI translator             = createProperty(NS, "translator");
+    public final IRI tester                 = createProperty(NS, "tester");
+    public final IRI helper                 = createProperty(NS, "helper");
+    public final IRI programming_language   = createProperty(NS, "programming-language"); 
+    public final IRI os                     = createProperty(NS, "os");
+    public final IRI implement              = createProperty(NS, "implement");
+    public final IRI service_endpoint       = createProperty(NS, "service-endpoint"); 
+    public final IRI language               = createProperty(NS, "language");
+    public final IRI vendor                 = createProperty(NS, "vendor");
+    public final IRI platform               = createProperty(NS, "platform");
+    public final IRI audience               = createProperty(NS, "audience");
+    public final IRI blog                   = createProperty(NS, "blog");
 
     private DOAP(){
         super(NS);

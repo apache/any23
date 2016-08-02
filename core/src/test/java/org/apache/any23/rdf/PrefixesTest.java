@@ -48,8 +48,8 @@ public class PrefixesTest {
     @Test
     public void testUndefinedPrefix() {
         Assert.assertFalse(p.hasPrefix("ex"));
-        Assert.assertFalse(p.hasNamespaceURI("ex"));
-        Assert.assertNull(p.getNamespaceURIFor("ex"));
+        Assert.assertFalse(p.hasNamespaceIRI("ex"));
+        Assert.assertNull(p.getNamespaceIRIFor("ex"));
     }
 
     @Test
@@ -73,8 +73,8 @@ public class PrefixesTest {
     public void testCheckForDeclaredPrefix() {
         p.add("ex", "http://example.com/");
         Assert.assertTrue(p.hasPrefix("ex"));
-        Assert.assertTrue(p.hasNamespaceURI("http://example.com/"));
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertTrue(p.hasNamespaceIRI("http://example.com/"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
     }
 
     @Test
@@ -82,8 +82,8 @@ public class PrefixesTest {
         p.add("ex", "http://example.com/");
         Assert.assertTrue(p.canExpand("ex:foo"));
         Assert.assertTrue(p.canExpand("ex:"));
-        Assert.assertEquals(RDFUtils.uri("http://example.com/foo"), p.expand("ex:foo"));
-        Assert.assertEquals(RDFUtils.uri("http://example.com/"), p.expand("ex:"));
+        Assert.assertEquals(RDFUtils.iri("http://example.com/foo"), p.expand("ex:foo"));
+        Assert.assertEquals(RDFUtils.iri("http://example.com/"), p.expand("ex:"));
     }
 
     @Test
@@ -122,9 +122,9 @@ public class PrefixesTest {
         Assert.assertEquals(Collections.singleton(""), p.allPrefixes());
         Assert.assertTrue(p.hasPrefix(""));
         Assert.assertEquals(":foo", p.abbreviate("http://example.com/foo"));
-        Assert.assertEquals(RDFUtils.uri("http://example.com/foo"), p.expand(":foo"));
+        Assert.assertEquals(RDFUtils.iri("http://example.com/foo"), p.expand(":foo"));
         Assert.assertEquals(":", p.abbreviate("http://example.com/"));
-        Assert.assertEquals(RDFUtils.uri("http://example.com/"), p.expand(":"));
+        Assert.assertEquals(RDFUtils.iri("http://example.com/"), p.expand(":"));
     }
 
     @Test
@@ -139,7 +139,7 @@ public class PrefixesTest {
     }
 
     @Test
-    public void testCanReAssignToSameURI() {
+    public void testCanReAssignToSameIRI() {
         p.add("ex", "http://example.com/");
         p.add("ex", "http://example.com/");
         // should NOT throw IllegalStateException
@@ -151,7 +151,7 @@ public class PrefixesTest {
         p.removePrefix("ex");
         Assert.assertTrue(p.isEmpty());
         Assert.assertFalse(p.hasPrefix("ex"));
-        Assert.assertFalse(p.hasNamespaceURI("http://example.com/"));
+        Assert.assertFalse(p.hasNamespaceIRI("http://example.com/"));
     }
 
     @Test
@@ -159,7 +159,7 @@ public class PrefixesTest {
         p.add("ex", "http://example.com/");
         p.removePrefix("ex");
         p.add("ex", "http://other.example.com/");
-        Assert.assertEquals("http://other.example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://other.example.com/", p.getNamespaceIRIFor("ex"));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class PrefixesTest {
     public void testCreate1() {
         p = Prefixes.create1("ex", "http://example.com/");
         Assert.assertEquals(1, p.allPrefixes().size());
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
     }
 
     @Test
@@ -244,7 +244,7 @@ public class PrefixesTest {
     public void testAddVolatile() {
         p.addVolatile("ex", "http://example.com/");
         Assert.assertTrue(p.allPrefixes().contains("ex"));
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
     }
 
 
@@ -284,7 +284,7 @@ public class PrefixesTest {
     public void testAddVolatileDoesNotOverwriteHardMapping() {
         p.add("ex", "http://example.com/");
         p.addVolatile("ex", "http://other.example.com/");
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
         Assert.assertFalse(p.isVolatile("ex"));
     }
 
@@ -292,7 +292,7 @@ public class PrefixesTest {
     public void testAddVolatileDoesNotOverwriteVolatileMapping() {
         p.addVolatile("ex", "http://example.com/");
         p.addVolatile("ex", "http://other.example.com/");
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
         Assert.assertTrue(p.isVolatile("ex"));
     }
 
@@ -300,7 +300,7 @@ public class PrefixesTest {
     public void testAddHardOverwritesVolatileMapping() {
         p.addVolatile("ex", "http://other.example.com/");
         p.add("ex", "http://example.com/");
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
         Assert.assertFalse(p.isVolatile("ex"));
     }
 
@@ -317,11 +317,11 @@ public class PrefixesTest {
         p.addVolatile("e", "http://q5.example.com/");
         p.add(q);
         Assert.assertEquals(new HashSet<String>(Arrays.asList("a", "b", "c", "d", "e")), p.allPrefixes());
-        Assert.assertEquals("http://p1.example.com/", p.getNamespaceURIFor("a"));
-        Assert.assertEquals("http://q2.example.com/", p.getNamespaceURIFor("b"));
-        Assert.assertEquals("http://p3.example.com/", p.getNamespaceURIFor("c"));
-        Assert.assertEquals("http://p4.example.com/", p.getNamespaceURIFor("d"));
-        Assert.assertEquals("http://q5.example.com/", p.getNamespaceURIFor("e"));
+        Assert.assertEquals("http://p1.example.com/", p.getNamespaceIRIFor("a"));
+        Assert.assertEquals("http://q2.example.com/", p.getNamespaceIRIFor("b"));
+        Assert.assertEquals("http://p3.example.com/", p.getNamespaceIRIFor("c"));
+        Assert.assertEquals("http://p4.example.com/", p.getNamespaceIRIFor("d"));
+        Assert.assertEquals("http://q5.example.com/", p.getNamespaceIRIFor("e"));
     }
 
     @Test
@@ -330,7 +330,7 @@ public class PrefixesTest {
         Prefixes q = new Prefixes();
         q.add("ex", "http://other.example.com/");
         p.addVolatile(q);
-        Assert.assertEquals("http://example.com/", p.getNamespaceURIFor("ex"));
+        Assert.assertEquals("http://example.com/", p.getNamespaceIRIFor("ex"));
     }
 
     @Test

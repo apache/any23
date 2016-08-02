@@ -23,11 +23,10 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.HTMLDocument;
 import org.apache.any23.vocab.HCard;
-import org.apache.any23.vocab.VCard;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.DomUtils;
@@ -182,7 +181,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
 
 
     private void mapFieldWithProperty(HTMLDocument fragment, BNode card, String fieldClass,
-                                      URI property) {
+                                      IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
         conditionallyAddStringProperty(
                 title.source(), card, property, title.value()
@@ -233,7 +232,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] emails = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[8]);
         for(HTMLDocument.TextField email : emails) {
-            addURIProperty(card, vCARD.email, fragment.resolveURI(email.value()));
+            addIRIProperty(card, vCARD.email, fragment.resolveIRI(email.value()));
 
         }
     }
@@ -243,7 +242,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[9]);
         if(logo.source()==null)
             return;
-        addURIProperty(card, vCARD.logo, fragment.resolveURI(logo.value()));
+        addIRIProperty(card, vCARD.logo, fragment.resolveIRI(logo.value()));
     }
 
     private void addPhoto(HTMLDocument fragment, BNode card) throws ExtractionException {
@@ -251,14 +250,14 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[10]);
         if(photo.source()==null)
             return;
-        addURIProperty(card, vCARD.photo, fragment.resolveURI(photo.value()));
+        addIRIProperty(card, vCARD.photo, fragment.resolveIRI(photo.value()));
     }
 
     private void addURLs(HTMLDocument fragment, BNode card) throws ExtractionException {
         final HTMLDocument.TextField[] urls = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[11]);
         for(HTMLDocument.TextField url : urls) {
-            addURIProperty(card, vCARD.url, fragment.resolveURI(url.value()));
+            addIRIProperty(card, vCARD.url, fragment.resolveIRI(url.value()));
 
         }
     }
@@ -268,7 +267,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[12]);
         if(uid.source()==null)
             return;
-        addURIProperty(card, vCARD.uid, fragment.resolveURI(uid.value()));
+        addIRIProperty(card, vCARD.uid, fragment.resolveIRI(uid.value()));
     }
 
 
@@ -335,7 +334,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[17]);
         if(uid.source()==null)
             return;
-        addURIProperty(card, vCARD.key, fragment.resolveURI(uid.value()));
+        addIRIProperty(card, vCARD.key, fragment.resolveIRI(uid.value()));
     }
 
     private void addOrg(HTMLDocument fragment, BNode card) {
@@ -358,7 +357,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + cardFields[21]);
         if(impp.source()==null)
             return;
-        addURIProperty(card, vCARD.impp, fragment.resolveURI(impp.value()));
+        addIRIProperty(card, vCARD.impp, fragment.resolveIRI(impp.value()));
     }
 
     private void addSex(HTMLDocument fragment, BNode card) {
@@ -400,7 +399,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             return;
         for (Node node : nodes) {
             BNode location = valueFactory.createBNode();
-            addURIProperty(location, RDF.TYPE, vCARD.Address);
+            addIRIProperty(location, RDF.TYPE, vCARD.Address);
             HTMLDocument fragment = new HTMLDocument(node);
             for (String field : addressFields) {
                 HTMLDocument.TextField[] values = fragment.getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX+field);
@@ -425,7 +424,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             return;
         for (Node node : nodes) {
             BNode location = valueFactory.createBNode();
-            addURIProperty(location, RDF.TYPE, vCARD.Geo);
+            addIRIProperty(location, RDF.TYPE, vCARD.Geo);
             HTMLDocument fragment = new HTMLDocument(node);
             for (String field : geoFields) {
                 HTMLDocument.TextField[] values = fragment.getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX+field);

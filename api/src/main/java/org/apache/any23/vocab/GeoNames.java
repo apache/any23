@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="http://www.geonames.org/ontology/">GEO Names</a> vocabulary.
@@ -36,11 +36,11 @@ public class GeoNames extends Vocabulary {
     }
 
     // Resources.
-    public final URI Point = createClass(NS, "Point");
+    public final IRI Point = createClass(NS, "Point");
 
     // Properties
-    public final URI lat = createProperty(NS, "lat" );
-    public final URI lon = createProperty(NS, "long");
+    public final IRI lat = createProperty(NS, "lat" );
+    public final IRI lon = createProperty(NS, "long");
 
     private GeoNames(){
         super(NS);

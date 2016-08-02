@@ -26,7 +26,7 @@ Apache Any23 REST Service
 
 * Compact API
 
-    HTTP GET requests can be made to URIs of the shape:
+    HTTP GET requests can be made to IRIs of the shape:
 
 +---------------------------------------------------
 http://<any23-service-host>/<output-format>/<input-uri>
@@ -48,10 +48,10 @@ http://any23.org/?format=nt&uri=http://dbpedia.org/resource/Berlin
 
  Form-style GET API
 
-   HTTP GET requests can be made to the URI http://any23.org/ with the following query parameters:
+   HTTP GET requests can be made to the IRI http://any23.org/ with the following query parameters:
 
 +---------------------------------------------------
-uri         URI of an input document
+uri         IRI of an input document
 format      Desired output format; defaults to best
 +---------------------------------------------------
 
@@ -114,7 +114,7 @@ Code	                    Reason
 -------------------------------------------------------------------------------------------------------------
 200 OK                      Success.
 400 Bad                     Request	Missing or malformed input parameter.
-404 Not                     Found	Malformed request URI.
+404 Not                     Found	Malformed request IRI.
 406 Not                     Acceptable	None of the media types specified in the Accept header are supported.
 415 Unsupported Media Type	Document body with unsupported media type was POSTed.
 501 Not Implemented	        Extraction from input was successful, but yielded zero triples.

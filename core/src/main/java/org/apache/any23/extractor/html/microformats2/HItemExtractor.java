@@ -22,9 +22,9 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.vocab.HItem;
-import org.openrdf.model.BNode;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
@@ -73,7 +73,7 @@ public class HItemExtractor extends EntityBasedMicroformatExtractor {
         return true;
     }
 
-    private void mapFieldWithProperty(HTMLDocument fragment, BNode item, String fieldClass, URI property) {
+    private void mapFieldWithProperty(HTMLDocument fragment, BNode item, String fieldClass, IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
         conditionallyAddStringProperty(
                 title.source(),item, property, title.value()
@@ -88,7 +88,7 @@ public class HItemExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] photos = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX+itemFields[2]);
         for(HTMLDocument.TextField photo : photos) {
-            addURIProperty(item, vHITEM.photo, fragment.resolveURI(photo.value()));
+            addIRIProperty(item, vHITEM.photo, fragment.resolveIRI(photo.value()));
         }
     }
 
@@ -96,7 +96,7 @@ public class HItemExtractor extends EntityBasedMicroformatExtractor {
         HTMLDocument.TextField[] links = fragment.getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX+
                 itemFields[1]);
         for (HTMLDocument.TextField link : links) {
-            conditionallyAddResourceProperty(item, vHITEM.url, getHTMLDocument().resolveURI(link.value()));
+            conditionallyAddResourceProperty(item, vHITEM.url, getHTMLDocument().resolveIRI(link.value()));
         }
     }
 }

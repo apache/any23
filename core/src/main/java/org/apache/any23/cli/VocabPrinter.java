@@ -18,7 +18,9 @@
 package org.apache.any23.cli;
 
 import org.apache.any23.vocab.RDFSchemaUtils;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFWriterRegistry;
+import org.eclipse.rdf4j.rio.Rio;
 
 import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.Parameter;
@@ -44,12 +46,7 @@ public class VocabPrinter implements Tool {
 
         @Override
         public RDFFormat convert(String value) {
-            try {
-                return RDFFormat.valueOf(value);
-            } catch (Throwable t) {
-                throw new IllegalArgumentException("Unknown format [" + value
-                        + "'");
-            }
+        	return RDFWriterRegistry.getInstance().getFileFormatForMIMEType(value).orElseThrow(Rio.unsupportedFormat(value));
         }
 
     }

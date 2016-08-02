@@ -88,7 +88,7 @@ public class XSLTStylesheet {
             log.error("------ BEGIN XSLT Transformer Exception ------");
             log.error("Exception in XSLT Stylesheet transformation.", te);
             log.error("Input DOM node:", document);
-            log.error("Input DOM node getBaseURI:", document.getBaseURI());
+            log.error("Input DOM node getBaseIRI:", document.getBaseURI());
             log.error("Output writer:", output);
             log.error("------ END XSLT Transformer Exception ------");
             throw new XSLTStylesheetException(" An error occurred during the XSLT transformation", te);

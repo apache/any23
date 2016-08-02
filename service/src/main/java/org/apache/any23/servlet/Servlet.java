@@ -27,7 +27,7 @@ import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
 import org.apache.commons.httpclient.URI;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 
 /**
- * A <i>Servlet</i> that fetches a client-specified <i>URI</i>,
+ * A <i>Servlet</i> that fetches a client-specified <i>IRI</i>,
  * RDFizes the content, and returns it in a format chosen by the client.
  *
  * @author Gabriele Renzi
@@ -52,7 +52,7 @@ public class Servlet extends HttpServlet {
 
     private static final Logger LOG = LoggerFactory.getLogger(Servlet.class);
 
-    public static final String DEFAULT_BASE_URI = "http://any23.org/tmp/";
+    public static final String DEFAULT_BASE_IRI = "http://any23.org/tmp/";
 
     private static final long serialVersionUID = 8207685628715421336L;
 
@@ -70,9 +70,9 @@ public class Servlet extends HttpServlet {
             responder.sendError(406, "Client accept header does not include a supported output format", report);
             return;
         }
-        final String uri = getInputURIFromRequest(req);
+        final String uri = getInputIRIFromRequest(req);
         if (uri == null) {
-            responder.sendError(404, "Missing URI in GET request. Try /format/http://example.com/myfile", report);
+            responder.sendError(404, "Missing IRI in GET request. Try /format/http://example.com/myfile", report);
             return;
         }
         final ExtractionParameters eps = getExtractionParameters(req);
@@ -88,7 +88,7 @@ public class Servlet extends HttpServlet {
             responder.sendError(400, "Invalid POST request, no Content-Type for the message body specified", report);
             return;
         }
-        final String uri = getInputURIFromRequest(req);
+        final String uri = getInputIRIFromRequest(req);
         final String format = getFormatFromRequestOrNegotiation(req);
         if (format == null) {
             responder.sendError(406, "Client accept header does not include a supported output format", report);
@@ -97,7 +97,7 @@ public class Servlet extends HttpServlet {
         final ExtractionParameters eps = getExtractionParameters(req);
         if ("application/x-www-form-urlencoded".equals(getContentTypeHeader(req))) {
             if (uri != null) {
-                log("Attempting conversion to '" + format + "' from URI <" + uri + ">");
+                log("Attempting conversion to '" + format + "' from IRI <" + uri + ">");
                 responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report, annotate);
                 return;
             }
@@ -111,7 +111,7 @@ public class Servlet extends HttpServlet {
             }
             log("Attempting conversion to '" + format + "' from body parameter");
             responder.runExtraction(
-                    new StringDocumentSource(req.getParameter("body"), Servlet.DEFAULT_BASE_URI, type),
+                    new StringDocumentSource(req.getParameter("body"), Servlet.DEFAULT_BASE_IRI, type),
                     eps,
                     format,
                     report, annotate
@@ -122,7 +122,7 @@ public class Servlet extends HttpServlet {
         responder.runExtraction(
                 new ByteArrayDocumentSource(
                         req.getInputStream(),
-                        Servlet.DEFAULT_BASE_URI,
+                        Servlet.DEFAULT_BASE_IRI,
                         getContentTypeHeader(req)
                 ),
                 eps,
@@ -169,7 +169,7 @@ public class Servlet extends HttpServlet {
         return args[1];
     }
 
-    private String getInputURIFromRequest(HttpServletRequest request) {
+    private String getInputIRIFromRequest(HttpServletRequest request) {
         if (request.getPathInfo() == null) return null;
         String[] args = request.getPathInfo().split("/", 3);
         if (args.length < 3) {
@@ -222,13 +222,13 @@ public class Servlet extends HttpServlet {
     private DocumentSource createHTTPDocumentSource(WebResponder responder, String uri, boolean report)
             throws IOException {
         try {
-            if (!isValidURI(uri)) {
+            if (!isValidIRI(uri)) {
                 throw new URISyntaxException(uri, "@@@");
             }
             return createHTTPDocumentSource(responder.getRunner().getHTTPClient(), uri);
         } catch (URISyntaxException ex) {
-            LOG.error("Invalid URI detected", ex);
-            responder.sendError(400, "Invalid input URI " + uri, report);
+            LOG.error("Invalid IRI detected", ex);
+            responder.sendError(400, "Invalid input IRI " + uri, report);
             return null;
         }
     }
@@ -238,7 +238,7 @@ public class Servlet extends HttpServlet {
         return new HTTPDocumentSource(httpClient, uri);
     }
 
-    private boolean isValidURI(String s) {
+    private boolean isValidIRI(String s) {
         try {
             URI uri = new URI(s, false);
             if (!"http".equals(uri.getScheme()) && !"https".equals(uri.getScheme())) {

@@ -24,12 +24,12 @@ import org.apache.any23.vocab.Review;
 import org.apache.any23.vocab.SINDICE;
 import org.apache.any23.vocab.VCard;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -207,11 +207,11 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 						assertContains(
 								reviewSubject,
 								vVCARD.url,
-								RDFUtils.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
+								RDFUtils.iri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
 						assertContains(
 								reviewSubject,
 								vVCARD.photo,
-								RDFUtils.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
+								RDFUtils.iri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
 					}
 				} finally {
 					reviewSubjects.close();
@@ -267,7 +267,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 						assertContains(
 								reviewSubject,
 								vVCARD.url,
-								RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
+								RDFUtils.iri("http://www.imdb.com/title/tt0299977/"));
 					}
 
 				} finally {
@@ -330,7 +330,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 						assertContains(
 								reviewSubject,
 								vVCARD.url,
-								RDFUtils.uri("http://www.imdb.com/title/tt0299977/"));
+								RDFUtils.iri("http://www.imdb.com/title/tt0299977/"));
 					}
 
 				} finally {

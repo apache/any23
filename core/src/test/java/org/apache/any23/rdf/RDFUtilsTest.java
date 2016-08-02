@@ -19,7 +19,7 @@ package org.apache.any23.rdf;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.ByteArrayOutputStream;
@@ -37,17 +37,17 @@ import java.text.ParseException;
 public class RDFUtilsTest {
 
     @Test
-    public void testFixAbsoluteURI() throws UnsupportedEncodingException, URISyntaxException {
+    public void testFixAbsoluteIRI() throws UnsupportedEncodingException, URISyntaxException {
         Assert.assertEquals(
-                "Error: passed URIs are not the same.",
+                "Error: passed IRIs are not the same.",
                 "http://example.com/resource/the%20godfather",
-                RDFUtils.fixAbsoluteURI("http://example.com/resource/the godfather")
+                RDFUtils.fixAbsoluteIRI("http://example.com/resource/the godfather")
         );
 
         Assert.assertEquals(
-                "Error: passed URIs are not the same.",
+                "Error: passed IRIs are not the same.",
                 "http://dbpedia.org/",
-                RDFUtils.fixAbsoluteURI("http://dbpedia.org")
+                RDFUtils.fixAbsoluteIRI("http://dbpedia.org")
         );
     }
 
@@ -66,10 +66,10 @@ public class RDFUtilsTest {
      */
     @Test
     public void testGetRDFFormatByExtension() {
-        Assert.assertEquals(RDFFormat.NTRIPLES, RDFUtils.getFormatByExtension("nt"));
-        Assert.assertEquals(RDFFormat.TURTLE  , RDFUtils.getFormatByExtension("ttl"));
-        Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension("nq"));
-        Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension(".nq"));
+        Assert.assertEquals(RDFFormat.NTRIPLES, RDFUtils.getFormatByExtension("nt").get());
+        Assert.assertEquals(RDFFormat.TURTLE  , RDFUtils.getFormatByExtension("ttl").get());
+        Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension("nq").get());
+        Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension(".nq").get());
     }
 
     /**

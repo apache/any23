@@ -22,10 +22,10 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.ICAL;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -86,8 +86,8 @@ public class HCalendarExtractor extends MicroformatExtractor {
     }
 
     private boolean extractCalendar(Node node) throws ExtractionException {
-        URI cal = getDocumentURI();
-        addURIProperty(cal, RDF.TYPE, vICAL.Vcalendar);
+        IRI cal = getDocumentIRI();
+        addIRIProperty(cal, RDF.TYPE, vICAL.Vcalendar);
         return addComponents(node, cal);
     }
 
@@ -106,7 +106,7 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private boolean extractComponent(Node node, Resource cal, String component) throws ExtractionException {
         HTMLDocument compoNode = new HTMLDocument(node);
         BNode evt = valueFactory.createBNode();
-        addURIProperty(evt, RDF.TYPE, vICAL.getClass(component));
+        addIRIProperty(evt, RDF.TYPE, vICAL.getClass(component));
         addTextProps(compoNode, evt);
         addUrl(compoNode, evt);
         addRRule(compoNode, evt);
@@ -131,13 +131,13 @@ public class HCalendarExtractor extends MicroformatExtractor {
     private void addUrl(HTMLDocument compoNode, Resource evt) throws ExtractionException {
         TextField url = compoNode.getSingularUrlField("url");
         if ("".equals(url.value())) return;
-        addURIProperty(evt, vICAL.url, getHTMLDocument().resolveURI(url.value()));
+        addIRIProperty(evt, vICAL.url, getHTMLDocument().resolveIRI(url.value()));
     }
 
     private void addRRule(HTMLDocument compoNode, Resource evt) {
         for (Node rule : compoNode.findAllByClassName("rrule")) {
             BNode rrule = valueFactory.createBNode();
-            addURIProperty(rrule, RDF.TYPE, vICAL.DomainOf_rrule);
+            addIRIProperty(rrule, RDF.TYPE, vICAL.DomainOf_rrule);
             TextField freq = new HTMLDocument(rule).getSingularTextField("freq");
             conditionallyAddStringProperty(
                     freq.source(),

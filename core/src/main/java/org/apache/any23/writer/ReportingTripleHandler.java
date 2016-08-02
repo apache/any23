@@ -18,9 +18,9 @@
 package org.apache.any23.writer;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -67,9 +67,9 @@ public class ReportingTripleHandler implements TripleHandler {
         return String.format("Total Documents: %d, Total Triples: %d", getTotalDocuments(), getTotalTriples());
     }
 
-    public void startDocument(URI documentURI) throws TripleHandlerException {
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
         totalDocuments.incrementAndGet();
-        wrapped.startDocument(documentURI);
+        wrapped.startDocument(documentIRI);
     }
 
     public void openContext(ExtractionContext context) throws TripleHandlerException {
@@ -86,9 +86,9 @@ public class ReportingTripleHandler implements TripleHandler {
 
     public void receiveTriple(
             Resource s,
-            URI p,
+            IRI p,
             Value o,
-            URI g,
+            IRI g,
             ExtractionContext context
     ) throws TripleHandlerException {
         extractorNames.add(context.getExtractorName());
@@ -104,8 +104,8 @@ public class ReportingTripleHandler implements TripleHandler {
         wrapped.closeContext(context);
     }
 
-    public void endDocument(URI documentURI) throws TripleHandlerException {
-        wrapped.endDocument(documentURI);
+    public void endDocument(IRI documentIRI) throws TripleHandlerException {
+        wrapped.endDocument(documentIRI);
     }
 
     public void close() throws TripleHandlerException {

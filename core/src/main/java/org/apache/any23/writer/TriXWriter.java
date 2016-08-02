@@ -27,7 +27,7 @@ import java.io.OutputStream;
 public class TriXWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public TriXWriter(OutputStream out) {
-        super( new org.openrdf.rio.trix.TriXWriter(out) );
+        super( new org.eclipse.rdf4j.rio.trix.TriXWriter(out) );
     }
 
 }

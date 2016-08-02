@@ -28,7 +28,7 @@ Data Conversion
                              "@prefix : <http://other.example.org/ns#> ." +
                              "foo:bar foo: : .                          " +
                              ":bar : foo:bar .                           ";
-//    The second argument of StringDocumentSource() must be a valid URI.
+//    The second argument of StringDocumentSource() must be a valid IRI.
 /*3*/ DocumentSource source = new StringDocumentSource(content, "http://host.com/service");
 /*4*/ ByteArrayOutputStream out = new ByteArrayOutputStream();
 /*5*/ TripleHandler handler = new NTriplesWriter(out);
@@ -52,8 +52,8 @@ Data Conversion
  The <<line 2>> defines the input string containing some {{{http://www.w3.org/TeamSubmission/turtle/}Turtle}} data.
 
  At <<line 3>> we instantiate a {{{./xref/org/apache/any23/source/StringDocumentSource.html}StringDocumentSource}},
-  specifying a content and a the source <URI>.
- The <URI> should be the source of the content data, and must be valid.
+  specifying a content and a the source <IRI>.
+ The <IRI> should be the source of the content data, and must be valid.
  Besides the {{{./xref/org/apache/any23/source/StringDocumentSource.html}StringDocumentSource}},
  you can also provide input from other sources, such as <HTTP> requests
  and local files. See the classes in the sources {{{./xref/org/apache/any23/source/package-summary.html}package}}.

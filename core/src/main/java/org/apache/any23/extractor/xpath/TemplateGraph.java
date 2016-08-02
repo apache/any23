@@ -17,15 +17,15 @@
 
 package org.apache.any23.extractor.xpath;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
- * Represents an <i>Quad</i> graph <i>URI template</i>.
+ * Represents an <i>Quad</i> graph <i>IRI template</i>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class TemplateGraph extends Term<URI> {
+public class TemplateGraph extends Term<IRI> {
 
     /**
      * Constructor.
@@ -39,8 +39,8 @@ public class TemplateGraph extends Term<URI> {
     }
 
     @Override
-    protected URI getValueInternal(String value) {
-        return new URIImpl(value);
+    protected IRI getValueInternal(String value) {
+        return SimpleValueFactory.getInstance().createIRI(value);
     }
 
     @Override

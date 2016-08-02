@@ -28,12 +28,12 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.XHTML;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -57,8 +57,8 @@ import java.util.Set;
  */
 public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
-    private static final URI MICRODATA_ITEM
-            = RDFUtils.uri("http://www.w3.org/1999/xhtml/microdata#item");
+    private static final IRI MICRODATA_ITEM
+            = RDFUtils.iri("http://www.w3.org/1999/xhtml/microdata#item");
 
     private String documentLanguage;
 
@@ -105,12 +105,12 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         /**
          * 5.2.6
          */
-        final URI documentURI = extractionContext.getDocumentURI();
+        final IRI documentIRI = extractionContext.getDocumentIRI();
         final Map<ItemScope, Resource> mappings = new HashMap<ItemScope, Resource>();
         for (ItemScope itemScope : itemScopes) {
-            Resource subject = processType(itemScope, documentURI, out, mappings);
+            Resource subject = processType(itemScope, documentIRI, out, mappings);
             out.writeTriple(
-                    documentURI,
+                    documentIRI,
                     MICRODATA_ITEM,
                     subject
             );
@@ -119,20 +119,20 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         /**
          * 5.2.1
          */
-        processTitle(in, documentURI, out);
+        processTitle(in, documentIRI, out);
         /**
          * 5.2.2
          */
-        processHREFElements(in, documentURI, out);
+        processHREFElements(in, documentIRI, out);
         /**
          * 5.2.3
          */
-        processMetaElements(in, documentURI, out);
+        processMetaElements(in, documentIRI, out);
 
         /**
          * 5.2.4
          */
-        processCiteElements(in, documentURI, out);
+        processCiteElements(in, documentIRI, out);
     }
 
     /**
@@ -170,10 +170,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * extraction algorithm.
      *
      * @param in          {@link Document} to be processed.
-     * @param documentURI Document current {@link URI}.
+     * @param documentIRI Document current {@link IRI}.
      * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
-    private void processTitle(Document in, URI documentURI, ExtractionResult out) {
+    private void processTitle(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList titles = in.getElementsByTagName("title");
         // just one title is allowed.
         if (titles.getLength() == 1) {
@@ -188,7 +188,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                 object = RDFUtils.literal(titleValue, lang);
             }
             out.writeTriple(
-                    documentURI,
+                    documentIRI,
                     DCTerms.getInstance().title,
                     object
             );
@@ -200,21 +200,21 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * extraction algorithm.
      *
      * @param in          {@link Document} to be processed.
-     * @param documentURI Document current {@link URI}.
+     * @param documentIRI Document current {@link IRI}.
      * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
-    private void processHREFElements(Document in, URI documentURI, ExtractionResult out) {
+    private void processHREFElements(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList anchors = in.getElementsByTagName("a");
         for (int i = 0; i < anchors.getLength(); i++) {
-            processHREFElement(anchors.item(i), documentURI, out);
+            processHREFElement(anchors.item(i), documentIRI, out);
         }
         NodeList areas = in.getElementsByTagName("area");
         for (int i = 0; i < areas.getLength(); i++) {
-            processHREFElement(areas.item(i), documentURI, out);
+            processHREFElement(areas.item(i), documentIRI, out);
         }
         NodeList links = in.getElementsByTagName("link");
         for (int i = 0; i < links.getLength(); i++) {
-            processHREFElement(links.item(i), documentURI, out);
+            processHREFElement(links.item(i), documentIRI, out);
         }
     }
 
@@ -223,10 +223,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * extraction algorithm.
      *
      * @param item        {@link Node} to be processed.
-     * @param documentURI Document current {@link URI}.
+     * @param documentIRI Document current {@link IRI}.
      * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
-    private void processHREFElement(Node item, URI documentURI, ExtractionResult out) {
+    private void processHREFElement(Node item, IRI documentIRI, ExtractionResult out) {
         Node rel = item.getAttributes().getNamedItem("rel");
         if (rel == null) {
             return;
@@ -239,7 +239,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if (!isAbsoluteURL(href.getTextContent())) {
             try {
                 absoluteURL = toAbsoluteURL(
-                        documentURI.toString(),
+                        documentIRI.toString(),
                         href.getTextContent(),
                         '/'
                 );
@@ -269,16 +269,16 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             tokensWithNoDuplicates.add(relToken.toLowerCase());
         }
         for (String token : tokensWithNoDuplicates) {
-            URI predicate;
+            IRI predicate;
             if (isAbsoluteURL(token)) {
-                predicate = RDFUtils.uri(token);
+                predicate = RDFUtils.iri(token);
             } else {
-                predicate = RDFUtils.uri(XHTML.NS + token);
+                predicate = RDFUtils.iri(XHTML.NS + token);
             }
             out.writeTriple(
-                    documentURI,
+                    documentIRI,
                     predicate,
-                    RDFUtils.uri(absoluteURL.toString())
+                    RDFUtils.iri(absoluteURL.toString())
             );
         }
     }
@@ -288,10 +288,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * extraction algorithm.
      *
      * @param in          {@link Document} to be processed.
-     * @param documentURI Document current {@link URI}.
+     * @param documentIRI Document current {@link IRI}.
      * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
-    private void processMetaElements(Document in, URI documentURI, ExtractionResult out) {
+    private void processMetaElements(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList metas = in.getElementsByTagName("meta");
         for (int i = 0; i < metas.getLength(); i++) {
             Node meta = metas.item(i);
@@ -300,10 +300,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             if (name != null && content != null) {
                 if (isAbsoluteURL(name)) {
                     processMetaElement(
-                            RDFUtils.uri(name),
+                            RDFUtils.iri(name),
                             content,
                             getLanguage(meta),
-                            documentURI,
+                            documentIRI,
                             out
                     );
                 } else {
@@ -311,7 +311,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                             name,
                             content,
                             getLanguage(meta),
-                            documentURI,
+                            documentIRI,
                             out
                     );
                 }
@@ -326,14 +326,14 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * @param uri
      * @param content
      * @param language
-     * @param documentURI
+     * @param documentIRI
      * @param out
      */
     private void processMetaElement(
-            URI uri,
+            IRI uri,
             String content,
             String language,
-            URI documentURI,
+            IRI documentIRI,
             ExtractionResult out
     ) {
         if (content.contains(":")) {
@@ -348,7 +348,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             subject = RDFUtils.literal(content, language);
         }
         out.writeTriple(
-                documentURI,
+                documentIRI,
                 uri,
                 subject
         );
@@ -361,14 +361,14 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * @param name
      * @param content
      * @param language
-     * @param documentURI
+     * @param documentIRI
      * @param out
      */
     private void processMetaElement(
             String name,
             String content,
             String language,
-            URI documentURI,
+            IRI documentIRI,
             ExtractionResult out) {
         Literal subject;
         if (language == null) {
@@ -378,8 +378,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             subject = RDFUtils.literal(content, language);
         }
         out.writeTriple(
-                documentURI,
-                RDFUtils.uri(XHTML.NS + name.toLowerCase()),
+                documentIRI,
+                RDFUtils.iri(XHTML.NS + name.toLowerCase()),
                 subject
         );
     }
@@ -389,26 +389,26 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * extraction algorithm.
      *
      * @param in
-     * @param documentURI
+     * @param documentIRI
      * @param out
      */
-    private void processCiteElements(Document in, URI documentURI, ExtractionResult out) {
+    private void processCiteElements(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList blockQuotes = in.getElementsByTagName("blockquote");
         for (int i = 0; i < blockQuotes.getLength(); i++) {
-            processCiteElement(blockQuotes.item(i), documentURI, out);
+            processCiteElement(blockQuotes.item(i), documentIRI, out);
         }
         NodeList quotes = in.getElementsByTagName("q");
         for (int i = 0; i < quotes.getLength(); i++) {
-            processCiteElement(quotes.item(i), documentURI, out);
+            processCiteElement(quotes.item(i), documentIRI, out);
         }
     }
 
-    private void processCiteElement(Node item, URI documentURI, ExtractionResult out) {
+    private void processCiteElement(Node item, IRI documentIRI, ExtractionResult out) {
         if (item.getAttributes().getNamedItem("cite") != null) {
             out.writeTriple(
-                    documentURI,
+                    documentIRI,
                     DCTerms.getInstance().source,
-                    RDFUtils.uri(item.getAttributes().getNamedItem("cite").getTextContent())
+                    RDFUtils.iri(item.getAttributes().getNamedItem("cite").getTextContent())
             );
         }
     }
@@ -419,7 +419,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * extraction algorithm.
      *
      * @param itemScope
-     * @param documentURI
+     * @param documentIRI
      * @param out
      * @param mappings
      * @return
@@ -427,14 +427,14 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      */
     private Resource processType(
             ItemScope itemScope,
-            URI documentURI, ExtractionResult out,
+            IRI documentIRI, ExtractionResult out,
             Map<ItemScope, Resource> mappings
     ) throws ExtractionException {
         Resource subject;
         if (mappings.containsKey(itemScope)) {
             subject = mappings.get(itemScope);
         } else if (isAbsoluteURL(itemScope.getItemId())) {
-            subject = RDFUtils.uri(itemScope.getItemId());
+            subject = RDFUtils.iri(itemScope.getItemId());
         } else {
             subject = RDFUtils.getBNode(Integer.toString(itemScope.hashCode()));
         }
@@ -445,7 +445,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if (itemScope.getType() != null) {
             String itemType;
             itemType = itemScope.getType().toString();
-            out.writeTriple(subject, RDF.TYPE, RDFUtils.uri(itemType));
+            out.writeTriple(subject, RDF.TYPE, RDFUtils.iri(itemType));
             itemScopeType = itemScope.getType().toString();
         }
         for (String propName : itemScope.getProperties().keySet()) {
@@ -457,7 +457,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                             propName,
                             itemProp,
                             itemScopeType,
-                            documentURI,
+                            documentIRI,
                             mappings,
                             out
                     );
@@ -477,44 +477,39 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             String propName,
             ItemProp itemProp,
             String itemScopeType,
-            URI documentURI,
+            IRI documentIRI,
             Map<ItemScope, Resource> mappings,
             ExtractionResult out
     ) throws MalformedURLException, ExtractionException {
-        URI predicate;
+        IRI predicate;
         if (!isAbsoluteURL(propName) && itemScopeType.equals("") && isStrict) {
             return;
         } else if (!isAbsoluteURL(propName) && itemScopeType.equals("") && !isStrict) {
-            predicate = RDFUtils.uri(
-                    toAbsoluteURL(
-                            defaultNamespace,
-                            propName,
-                            '/'
-                    ).toString()
-            );
+            predicate = RDFUtils.iri(toAbsoluteURL(
+			        defaultNamespace,
+			        propName,
+			        '/'
+			).toString());
         } else {
-            predicate = RDFUtils.uri(
-                    toAbsoluteURL(
-                            itemScopeType,
-                            propName,
-                            '/'
-                    ).toString());
+            predicate = RDFUtils.iri(toAbsoluteURL(
+			        itemScopeType,
+			        propName,
+			        '/'
+			).toString());
         }
         Value value;
         Object propValue = itemProp.getValue().getContent();
         ItemPropValue.Type propType = itemProp.getValue().getType();
         if (propType.equals(ItemPropValue.Type.Nested)) {
-            value = processType((ItemScope) propValue, documentURI, out, mappings);
+            value = processType((ItemScope) propValue, documentIRI, out, mappings);
         } else if (propType.equals(ItemPropValue.Type.Plain)) {
             value = RDFUtils.literal((String) propValue, documentLanguage);
         } else if (propType.equals(ItemPropValue.Type.Link)) {
-            value = RDFUtils.uri(
-                    toAbsoluteURL(
-                            documentURI.toString(),
-                            (String) propValue,
-                            '/'
-                    ).toString()
-            );
+            value = RDFUtils.iri(toAbsoluteURL(
+			        documentIRI.toString(),
+			        (String) propValue,
+			        '/'
+			).toString());
         } else if (propType.equals(ItemPropValue.Type.Date)) {
             value = RDFUtils.literal(ItemPropValue.formatDateTime((Date) propValue), XMLSchema.DATE);
         } else {
@@ -551,7 +546,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
         for(MicrodataParserException mpe : errors) {
             out.notifyIssue(
-                    IssueReport.IssueLevel.Error,
+                    IssueReport.IssueLevel.ERROR,
                     mpe.toJSON(),
                     mpe.getErrorLocationBeginRow(),
                     mpe.getErrorLocationBeginCol()

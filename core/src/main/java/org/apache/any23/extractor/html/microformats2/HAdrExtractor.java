@@ -23,9 +23,9 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.microformats2.annotations.Includes;
 import org.apache.any23.vocab.VCard;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
@@ -101,7 +101,7 @@ public class HAdrExtractor extends EntityBasedMicroformatExtractor {
     private void addGeoAsUrlResource(Resource card,HTMLDocument document) throws ExtractionException {
         HTMLDocument.TextField[] links = document.getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX+"geo");
         for (HTMLDocument.TextField link : links) {
-            conditionallyAddResourceProperty(card, vVCARD.geo, getHTMLDocument().resolveURI(link.value()));
+            conditionallyAddResourceProperty(card, vVCARD.geo, getHTMLDocument().resolveIRI(link.value()));
         }
     }
 

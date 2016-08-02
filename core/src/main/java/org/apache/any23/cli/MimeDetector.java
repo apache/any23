@@ -67,7 +67,7 @@ public class MimeDetector implements Tool{
         final DocumentSource documentSource = document.get(0);
         final MIMETypeDetector detector = new TikaMIMETypeDetector();
         final MIMEType mimeType = detector.guessMIMEType(
-                documentSource.getDocumentURI(),
+                documentSource.getDocumentIRI(),
                 documentSource.openInputStream(),
                 MIMEType.parse(documentSource.getContentType())
         );
@@ -90,7 +90,7 @@ public class MimeDetector implements Tool{
                 try {
                     return new HTTPDocumentSource(client, document);
                 } catch ( URISyntaxException e ) {
-                    throw new IllegalArgumentException("Invalid source URI: '" + document + "'");
+                    throw new IllegalArgumentException("Invalid source IRI: '" + document + "'");
                 }
             }
             throw new IllegalArgumentException("Unsupported protocol for document " + document);

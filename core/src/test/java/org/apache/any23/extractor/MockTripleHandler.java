@@ -20,9 +20,9 @@ package org.apache.any23.extractor;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.writer.TripleHandler;
 import org.junit.Assert;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -38,12 +38,12 @@ public class MockTripleHandler implements TripleHandler {
 
     private final List<String> expectations = new LinkedList<String>();
 
-    public void expectStartDocument(URI documentURI) {
-        expectations.add("startDocument(" + documentURI + ")");
+    public void expectStartDocument(IRI documentIRI) {
+        expectations.add("startDocument(" + documentIRI + ")");
     }
 
-    public void expectEndDocument(URI documentURI) {
-        expectations.add("endDocument(" + documentURI + ")");
+    public void expectEndDocument(IRI documentIRI) {
+        expectations.add("endDocument(" + documentIRI + ")");
     }
 
     public void expectSetContentLength(long contentLength) {
@@ -54,22 +54,22 @@ public class MockTripleHandler implements TripleHandler {
         expectations.add("close()");
     }
 
-    public void expectOpenContext(String extractorName, URI documentURI, String localID) {
-        expectations.add("openContext(" + new ExtractionContext(extractorName, documentURI, localID) + ")");
+    public void expectOpenContext(String extractorName, IRI documentIRI, String localID) {
+        expectations.add("openContext(" + new ExtractionContext(extractorName, documentIRI, localID) + ")");
     }
 
-    public void expectCloseContext(String extractorName, URI documentURI, String localID) {
-        expectations.add("closeContext(" + new ExtractionContext(extractorName, documentURI, localID) + ")");
+    public void expectCloseContext(String extractorName, IRI documentIRI, String localID) {
+        expectations.add("closeContext(" + new ExtractionContext(extractorName, documentIRI, localID) + ")");
     }
 
-    public void expectTriple(Resource s, URI p, Value o, URI g, String extractorName, URI documentURI, String localID) {
+    public void expectTriple(Resource s, IRI p, Value o, IRI g, String extractorName, IRI documentIRI, String localID) {
         expectations.add("triple(" + RDFUtils.quad(s, p, o, g) + ", " +
-                new ExtractionContext(extractorName, documentURI, localID) + ")");
+                new ExtractionContext(extractorName, documentIRI, localID) + ")");
     }
 
-    public void expectNamespace(String prefix, String uri, String extractorName, URI documentURI, String localID) {
+    public void expectNamespace(String prefix, String uri, String extractorName, IRI documentIRI, String localID) {
         expectations.add("namespace(" + prefix + ", " + uri + ", " +
-                new ExtractionContext(extractorName, documentURI, localID) + ")");
+                new ExtractionContext(extractorName, documentIRI, localID) + ")");
     }
 
     public void verify() {
@@ -79,12 +79,12 @@ public class MockTripleHandler implements TripleHandler {
         }
     }
 
-    public void startDocument(URI documentURI) {
-        assertNextExpectation("startDocument(" + documentURI + ")");
+    public void startDocument(IRI documentIRI) {
+        assertNextExpectation("startDocument(" + documentIRI + ")");
     }
 
-    public void endDocument(URI documentURI) {
-        assertNextExpectation("endDocument(" + documentURI + ")");
+    public void endDocument(IRI documentIRI) {
+        assertNextExpectation("endDocument(" + documentIRI + ")");
     }
 
     public void openContext(ExtractionContext context) {
@@ -95,7 +95,7 @@ public class MockTripleHandler implements TripleHandler {
         assertNextExpectation("closeContext(" + context + ")");
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context) {
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
         assertNextExpectation("triple(" + RDFUtils.quad(s, p, o, g) + ", " + context + ")");
     }
 

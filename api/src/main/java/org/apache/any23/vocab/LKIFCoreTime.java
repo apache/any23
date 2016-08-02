@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -49,25 +49,25 @@ public class LKIFCoreTime extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/time.owl */
     ///////////////////////////////////////////////////////
     // CLASSES
-    public final URI Interval                    = createClass(NS, "Interval");
-    public final URI Moment                      = createClass(NS, "Moment");
-    public final URI Pair_Of_Periods             = createClass(NS, "Pair_Of_Periods");
-    public final URI Temporal_Occurrence         = createClass(NS, "Temporal_Occurrence");
+    public final IRI Interval                    = createClass(NS, "Interval");
+    public final IRI Moment                      = createClass(NS, "Moment");
+    public final IRI Pair_Of_Periods             = createClass(NS, "Pair_Of_Periods");
+    public final IRI Temporal_Occurrence         = createClass(NS, "Temporal_Occurrence");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI after                       = createProperty(NS, "after");
-    public final URI before                      = createProperty(NS, "before");
-    public final URI between                     = createProperty(NS, "between");
-    public final URI during                      = createProperty(NS, "during");
-    public final URI finishes                    = createProperty(NS, "finishes");
-    public final URI immediately_after           = createProperty(NS, "immediately_after");
-    public final URI immediately_before          = createProperty(NS, "immediately_before");
-    public final URI overlap                     = createProperty(NS, "overlap");
-    public final URI preceeds                    = createProperty(NS, "preceeds");
-    public final URI starts                      = createProperty(NS, "starts");
-    public final URI temporal_relation           = createProperty(NS, "temporal_relation");
+    public final IRI after                       = createProperty(NS, "after");
+    public final IRI before                      = createProperty(NS, "before");
+    public final IRI between                     = createProperty(NS, "between");
+    public final IRI during                      = createProperty(NS, "during");
+    public final IRI finishes                    = createProperty(NS, "finishes");
+    public final IRI immediately_after           = createProperty(NS, "immediately_after");
+    public final IRI immediately_before          = createProperty(NS, "immediately_before");
+    public final IRI overlap                     = createProperty(NS, "overlap");
+    public final IRI preceeds                    = createProperty(NS, "preceeds");
+    public final IRI starts                      = createProperty(NS, "starts");
+    public final IRI temporal_relation           = createProperty(NS, "temporal_relation");
     
     private LKIFCoreTime() {
       super(NS);

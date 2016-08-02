@@ -23,6 +23,7 @@ import org.apache.xml.serialize.XMLSerializer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +78,7 @@ public class DefaultValidatorTest {
         }
     }
     
+    @Ignore("Itemscope parsing issue")
     @Test
     public void testMissingItemscopeAttributeValue() throws IOException, URISyntaxException, ValidatorException {
       DOMDocument document = loadDocument("microdata-basic.html");
@@ -117,7 +119,7 @@ public class DefaultValidatorTest {
     }
 
     @Test
-    public void testAboutNotURIRule() throws Exception {
+    public void testAboutNotIRIRule() throws Exception {
         DOMDocument document = loadDocument("invalid-rdfa-about.html");
         ValidationReport validationReport = validator.validate(document, true);
         logger.debug(validationReport.toString());
@@ -126,9 +128,9 @@ public class DefaultValidatorTest {
 
     private DOMDocument loadDocument(String document) throws IOException, URISyntaxException {
         InputStream is = this.getClass().getResourceAsStream(document);
-        final String documentURI = "http://test.com";
-        TagSoupParser tsp = new TagSoupParser(is, documentURI);
-        return new DefaultDOMDocument( new URI(documentURI), tsp.getDOM() );
+        final String documentIRI = "http://test.com";
+        TagSoupParser tsp = new TagSoupParser(is, documentIRI);
+        return new DefaultDOMDocument( new URI(documentIRI), tsp.getDOM() );
     }
 
     private String serialize(DOMDocument document) throws Exception {

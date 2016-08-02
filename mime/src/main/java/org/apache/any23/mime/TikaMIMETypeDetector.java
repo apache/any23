@@ -26,9 +26,9 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFParser;
+import org.eclipse.rdf4j.rio.Rio;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -56,20 +56,20 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * N3 patterns.
      */
     private static final Pattern[] N3_PATTERNS = {
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*<\\S+>\\s*\\."             ), // * URI URI .
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*_:\\S+\\s*\\."             ), // * URI BNODE .
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(@\\S+)?\\s*\\."     ), // * URI LLITERAL .
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\.")  // * URI TLITERAL .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*<\\S+>\\s*\\."             ), // * IRI IRI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*_:\\S+\\s*\\."             ), // * IRI BNODE .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(@\\S+)?\\s*\\."     ), // * IRI LLITERAL .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\.")  // * IRI TLITERAL .
     };
 
     /**
      * N-Quads patterns.
      */
     private static final Pattern[] NQUADS_PATTERNS = {
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*<\\S+>\\s*\\<\\S+>\\s*\\."             ), // * URI URI      URI .
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*_:\\S+\\s*\\<\\S+>\\s*\\."             ), // * URI BNODE    URI .
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(@\\S+)?\\s*\\<\\S+>\\s*\\."     ), // * URI LLITERAL URI .
-            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\<\\S+>\\s*\\.")  // * URI TLITERAL URI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*<\\S+>\\s*\\<\\S+>\\s*\\."             ), // * IRI IRI      IRI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*_:\\S+\\s*\\<\\S+>\\s*\\."             ), // * IRI BNODE    IRI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(@\\S+)?\\s*\\<\\S+>\\s*\\."     ), // * IRI LLITERAL IRI .
+            Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\<\\S+>\\s*\\.")  // * IRI TLITERAL IRI .
     };
 
     private static TikaConfig config = null;

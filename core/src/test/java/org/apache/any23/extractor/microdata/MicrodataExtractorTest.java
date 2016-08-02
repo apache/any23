@@ -25,15 +25,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Statement;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandler;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.Rio;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFHandler;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.RDFParser;
+import org.eclipse.rdf4j.rio.Rio;
 
 import java.io.File;
 import java.io.FileReader;
@@ -190,7 +190,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         File file = copyResourceToTempFile(resultFilePath);
         nQuadsParser.parse(
                 new FileReader(file),
-                baseURI.toString()
+                baseIRI.toString()
         );
         return rdfHandler.getStatements();
     }

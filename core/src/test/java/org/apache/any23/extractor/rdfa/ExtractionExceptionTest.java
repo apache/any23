@@ -25,10 +25,9 @@ import org.apache.any23.extractor.ExtractionResultImpl;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.writer.TripleHandler;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.impl.URIImpl;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -55,12 +54,12 @@ public class ExtractionExceptionTest {
         final TripleHandler th = mock(TripleHandler.class);
         final ExtractionContext extractionContext = new ExtractionContext(
                 extractor.getDescription().getExtractorName(),
-                new URIImpl("http://fake.document.uri")
+                SimpleValueFactory.getInstance().createIRI("http://fake.document.uri")
         );
         final ExtractionResult er = new ExtractionResultImpl(extractionContext, extractor, th);
-        er.notifyIssue(IssueReport.IssueLevel.Fatal  , "Fake fatal error.", 1, 2);
-        er.notifyIssue(IssueReport.IssueLevel.Error  , "Fake error."      , 3, 4);
-        er.notifyIssue(IssueReport.IssueLevel.Warning, "Fake warning."    , 5, 6);
+        er.notifyIssue(IssueReport.IssueLevel.FATAL  , "Fake fatal error.", 1, 2);
+        er.notifyIssue(IssueReport.IssueLevel.ERROR  , "Fake error."      , 3, 4);
+        er.notifyIssue(IssueReport.IssueLevel.WARNING, "Fake warning."    , 5, 6);
 
         ExtractionException ee = new ExtractionException("Fake message.", new RuntimeException("Fake cause"), er);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

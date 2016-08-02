@@ -21,11 +21,11 @@ import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -55,9 +55,9 @@ public class RDFa11Parser {
     private static final Logger logger = LoggerFactory.getLogger(RDFa11Parser.class);
 
     public static final String CURIE_SEPARATOR      = ":";
-    public static final char   URI_PREFIX_SEPARATOR = ':';
-    public static final String URI_SCHEMA_SEPARATOR = "://";
-    public static final String URI_PATH_SEPARATOR   = "/";
+    public static final char   IRI_PREFIX_SEPARATOR = ':';
+    public static final String IRI_SCHEMA_SEPARATOR = "://";
+    public static final String IRI_PATH_SEPARATOR   = "/";
 
     public static final String HEAD_TAG = "HEAD";
     public static final String BODY_TAG = "BODY";
@@ -100,7 +100,7 @@ public class RDFa11Parser {
 
     private URL documentBase;
 
-    private final Stack<URIMapping> uriMappingStack = new Stack<URIMapping>();
+    private final Stack<IRIMapping> IRIMappingStack = new Stack<IRIMapping>();
 
     private final Stack<Vocabulary> vocabularyStack = new Stack<Vocabulary>();
 
@@ -134,7 +134,7 @@ public class RDFa11Parser {
                 i++;
                 continue;
             }
-            if(part.charAt( part.length() -1 ) == URI_PREFIX_SEPARATOR) {
+            if(part.charAt( part.length() -1 ) == IRI_PREFIX_SEPARATOR) {
                 i++;
                 while(i < parts.length && parts[i].length() == 0) i++;
                 out.add( part + (i < parts.length ? parts[i] : "") );
@@ -147,8 +147,8 @@ public class RDFa11Parser {
         return out.toArray( new String[out.size()] );
     }
 
-    protected static boolean isAbsoluteURI(String uri) {
-        return uri.contains(URI_SCHEMA_SEPARATOR);
+    protected static boolean isAbsoluteIRI(String IRI) {
+        return IRI.contains(IRI_SCHEMA_SEPARATOR);
     }
 
     protected static boolean isCURIE(String curie) {
@@ -248,7 +248,7 @@ public class RDFa11Parser {
     public void reset() {
         issueReport = null;
         documentBase  = null;
-        uriMappingStack.clear();
+        IRIMappingStack.clear();
         listOfIncompleteTriples.clear();
         evaluationContextStack.clear();
     }
@@ -262,31 +262,31 @@ public class RDFa11Parser {
         final String vocabularyStr = DomUtils.readAttribute(currentNode, VOCAB_ATTRIBUTE, null);
         if(vocabularyStr == null) return;
         try {
-            pushVocabulary(currentNode, RDFUtils.uri(vocabularyStr));
+            pushVocabulary(currentNode, RDFUtils.iri(vocabularyStr));
         } catch (Exception e) {
-            reportError(currentNode, String.format("Invalid vocabulary [%s], must be a URI.", vocabularyStr));
+            reportError(currentNode, String.format("Invalid vocabulary [%s], must be a IRI.", vocabularyStr));
         }
     }
 
     /**
-     * Updates the URI mapping with the XMLNS attributes declared in the current node.
+     * Updates the IRI mapping with the XMLNS attributes declared in the current node.
      *
      * @param node input node.
      */
-    protected void updateURIMapping(Node node) {
+    protected void updateIRIMapping(Node node) {
         final NamedNodeMap attributes = node.getAttributes();
         if (null == attributes) return;
 
         Node attribute;
         final List<PrefixMap> prefixMapList = new ArrayList<PrefixMap>();
-        final String namespacePrefix = XMLNS_ATTRIBUTE + URI_PREFIX_SEPARATOR;
+        final String namespacePrefix = XMLNS_ATTRIBUTE + IRI_PREFIX_SEPARATOR;
         for (int a = 0; a < attributes.getLength(); a++) {
             attribute = attributes.item(a);
             if (attribute.getNodeName().startsWith(namespacePrefix)) {
                 prefixMapList.add(
                         new PrefixMap(
                             attribute.getNodeName().substring(namespacePrefix.length()),
-                            resolveURI(attribute.getNodeValue())
+                            resolveIRI(attribute.getNodeValue())
                         )
                 );
             }
@@ -302,14 +302,14 @@ public class RDFa11Parser {
     }
 
     /**
-     * Returns a URI mapping for a given prefix.
+     * Returns a IRI mapping for a given prefix.
      *
      * @param prefix input prefix.
-     * @return URI mapping.
+     * @return IRI mapping.
      */
-    protected URI getMapping(String prefix) {
-        for (URIMapping uriMapping : uriMappingStack) {
-            final URI mapping = uriMapping.map.get(prefix);
+    protected IRI getMapping(String prefix) {
+        for (IRIMapping IRIMapping : IRIMappingStack) {
+            final IRI mapping = IRIMapping.map.get(prefix);
             if (mapping != null) {
                 return mapping;
             }
@@ -325,53 +325,53 @@ public class RDFa11Parser {
      * @return list of resolved URIs.
      * @throws URISyntaxException if there is an error processing CURIE or URL
      */
-    protected URI[] resolveCurieOrURIList(Node n, String curieOrURIList, boolean termAllowed)
+    protected IRI[] resolveCIRIeOrIRIList(Node n, String curieOrIRIList, boolean termAllowed)
     throws URISyntaxException {
-        if(curieOrURIList == null || curieOrURIList.trim().length() == 0) return new URI[0];
+        if(curieOrIRIList == null || curieOrIRIList.trim().length() == 0) return new IRI[0];
 
-        final String[] curieOrURIListParts = curieOrURIList.split("\\s");
-        final List<URI> result = new ArrayList<URI>();
-        Resource curieOrURI;
-        for(String curieORURIListPart : curieOrURIListParts) {
-            curieOrURI = resolveCURIEOrURI(curieORURIListPart, termAllowed);
-            if(curieOrURI != null && curieOrURI instanceof URI) {
-                result.add((URI) curieOrURI);
+        final String[] curieOrIRIListParts = curieOrIRIList.split("\\s");
+        final List<IRI> result = new ArrayList<IRI>();
+        Resource curieOrIRI;
+        for(String curieORIRIListPart : curieOrIRIListParts) {
+            curieOrIRI = resolveCURIEOrIRI(curieORIRIListPart, termAllowed);
+            if(curieOrIRI != null && curieOrIRI instanceof IRI) {
+                result.add((IRI) curieOrIRI);
             } else {
-                reportError(n, String.format("Invalid CURIE '%s' : expected URI, found BNode.", curieORURIListPart));
+                reportError(n, String.format("Invalid CURIE '%s' : expected IRI, found BNode.", curieORIRIListPart));
             }
         }
-        return result.toArray(new URI[result.size()]);
+        return result.toArray(new IRI[result.size()]);
     }
 
     /**
-     * Resolves a URI string as URI.
+     * Resolves a IRI string as IRI.
      *
-     * @param uriStr (partial) URI string to be resolved.
-     * @return the resolved URI.
+     * @param IRIStr (partial) IRI string to be resolved.
+     * @return the resolved IRI.
      */
-    protected URI resolveURI(String uriStr) {
+    protected IRI resolveIRI(String IRIStr) {
         return
-                isAbsoluteURI(uriStr)
+                isAbsoluteIRI(IRIStr)
                         ?
-                RDFUtils.uri(uriStr)
+                RDFUtils.iri(IRIStr)
                         :
-                RDFUtils.uri( this.documentBase.toExternalForm(), uriStr );
+                RDFUtils.iri( this.documentBase.toExternalForm(), IRIStr );
     }
 
     /**
-     * Resolves a <i>CURIE</i> or <i>URI</i> string.
+     * Resolves a <i>CURIE</i> or <i>IRI</i> string.
      *
-     * @param curieOrURI
+     * @param curieOrIRI
      * @param termAllowed if <code>true</code> the resolution can be a term.
      * @return the resolved resource.
      */
-    protected Resource resolveCURIEOrURI(String curieOrURI, boolean termAllowed) {
-        if( isCURIE(curieOrURI) ) {
-            return resolveNamespacedURI(curieOrURI.substring(1, curieOrURI.length() - 1), ResolutionPolicy.NSRequired);
+    protected Resource resolveCURIEOrIRI(String curieOrIRI, boolean termAllowed) {
+        if( isCURIE(curieOrIRI) ) {
+            return resolveNamespacedIRI(curieOrIRI.substring(1, curieOrIRI.length() - 1), ResolutionPolicy.NSRequired);
         }
-        if(isAbsoluteURI(curieOrURI)) return resolveURI(curieOrURI);
-        return resolveNamespacedURI(
-                curieOrURI,
+        if(isAbsoluteIRI(curieOrIRI)) return resolveIRI(curieOrIRI);
+        return resolveNamespacedIRI(
+                curieOrIRI,
                 termAllowed ? ResolutionPolicy.TermAllowed : ResolutionPolicy.NSNotRequired
         );
     }
@@ -410,16 +410,16 @@ public class RDFa11Parser {
      * Pushes a new vocabulary definition.
      *
      * @param currentNode node proving the vocabulary.
-     * @param vocab the vocabulary URI.
+     * @param vocab the vocabulary IRI.
      */
-    private void pushVocabulary(Node currentNode, URI vocab) {
+    private void pushVocabulary(Node currentNode, IRI vocab) {
         vocabularyStack.push( new Vocabulary(currentNode, vocab) );
     }
 
     /**
      * @return the current peek vocabulary.
      */
-    private URI getVocabulary() {
+    private IRI getVocabulary() {
         if(vocabularyStack.isEmpty()) return null;
         return vocabularyStack.peek().prefix;
     }
@@ -465,7 +465,7 @@ public class RDFa11Parser {
         );
         final int[] errorLocation = DomUtils.getNodeLocation(n);
         this.issueReport.notifyIssue(
-                IssueReport.IssueLevel.Warning,
+                IssueReport.IssueLevel.WARNING,
                 errorMsg,
                 errorLocation == null ? -1 : errorLocation[0],
                 errorLocation == null ? -1 : errorLocation[1]
@@ -514,7 +514,7 @@ public class RDFa11Parser {
      * @param o
      * @param extractionResult
      */
-    private void writeTriple(Resource s, URI p, Value o, ExtractionResult extractionResult) {
+    private void writeTriple(Resource s, IRI p, Value o, ExtractionResult extractionResult) {
         // if(logger.isTraceEnabled()) logger.trace(String.format("writeTriple(%s %s %s)" , s, p, o));
         assert s != null : "subject   is null.";
         assert p != null : "predicate is null.";
@@ -548,7 +548,7 @@ public class RDFa11Parser {
 
             // RDFa1.0[5.5.2] / RDFa1.1[7.5.4]
             //Node currentElement = node;
-            updateURIMapping(currentElement);
+            updateIRIMapping(currentElement);
 
             // RDFa1.0[5.5.3] / RDFa1.1[7.5.5]
             updateLanguage(currentElement, currentEvaluationContext);
@@ -566,7 +566,7 @@ public class RDFa11Parser {
 
             /*
             if(currentEvaluationContext.newSubject == null) {
-                currentEvaluationContext.newSubject = resolveURI(documentBase.toExternalForm());
+                currentEvaluationContext.newSubject = resolveIRI(documentBase.toExternalForm());
             }
             assert currentEvaluationContext.newSubject != null : "newSubject must be not null.";
             */
@@ -574,16 +574,16 @@ public class RDFa11Parser {
             if(logger.isDebugEnabled()) logger.debug("newSubject: " + currentEvaluationContext.newSubject);
 
             // RDFa1.0[5.5.6] / RDFa1.1[7.5.8]
-            final URI[] types = getTypes(currentElement);
-            for(URI type : types) {
+            final IRI[] types = getTypes(currentElement);
+            for(IRI type : types) {
                 writeTriple(currentEvaluationContext.newSubject, RDF.TYPE, type, extractionResult);
             }
 
             // RDFa1.0[5.5.7] / RDFa1.1[7.5.9]
-            final URI[] rels = getRels(currentElement);
-            final URI[] revs = getRevs(currentElement);
+            final IRI[] rels = getRels(currentElement);
+            final IRI[] revs = getRevs(currentElement);
             if(currentEvaluationContext.currentObjectResource != null) {
-                for (URI rel : rels) {
+                for (IRI rel : rels) {
                     writeTriple(
                             currentEvaluationContext.newSubject,
                             rel,
@@ -591,7 +591,7 @@ public class RDFa11Parser {
                             extractionResult
                     );
                 }
-                for (URI rev : revs) {
+                for (IRI rev : revs) {
                     writeTriple(
                             currentEvaluationContext.currentObjectResource,
                             rev,
@@ -599,7 +599,7 @@ public class RDFa11Parser {
                     );
                 }
             } else { // RDFa1.0[5.5.8] / RDFa1.1[7.5.10]
-                for(URI rel : rels) {
+                for(IRI rel : rels) {
                     listOfIncompleteTriples.add(
                             new IncompleteTriple(
                                     currentElement,
@@ -609,7 +609,7 @@ public class RDFa11Parser {
                             )
                     );
                 }
-                for(URI rev : revs) {
+                for(IRI rev : revs) {
                     listOfIncompleteTriples.add(
                             new IncompleteTriple(
                                     currentElement,
@@ -623,9 +623,9 @@ public class RDFa11Parser {
 
             // RDFa1.0[5.5.9] / RDFa1.1[7.5.11]
             final Value currentObject = getCurrentObject(currentElement);
-            final URI[] predicates = getPredicate(currentElement);
+            final IRI[] predicates = getPredicate(currentElement);
             if (currentObject != null && predicates != null) {
-                for (URI predicate : predicates) {
+                for (IRI predicate : predicates) {
                     writeTriple(currentEvaluationContext.newSubject, predicate, currentObject, extractionResult);
                 }
             }
@@ -673,7 +673,7 @@ public class RDFa11Parser {
     }
 
     /**
-     * Extract URI namespaces (prefixes) from the current node.
+     * Extract IRI namespaces (prefixes) from the current node.
      *
      * @param node
      * @param prefixMapList
@@ -683,27 +683,27 @@ public class RDFa11Parser {
         if(prefixAttribute == null) return;
         final String[] prefixParts = extractPrefixSections(prefixAttribute);
         for(String prefixPart : prefixParts) {
-            int splitPoint = prefixPart.indexOf(URI_PREFIX_SEPARATOR);
+            int splitPoint = prefixPart.indexOf(IRI_PREFIX_SEPARATOR);
             final String prefix = prefixPart.substring(0, splitPoint);
             if(prefix.length() == 0) {
                 reportError(node, String.format("Invalid prefix length in prefix attribute '%s'", prefixAttribute));
                 continue;
             }
-            final URI uri;
-            final String uriStr = prefixPart.substring(splitPoint + 1);
+            final IRI IRI;
+            final String IRIStr = prefixPart.substring(splitPoint + 1);
             try {
-                uri = resolveURI(uriStr);
+                IRI = resolveIRI(IRIStr);
             } catch (Exception e) {
                 reportError(
                         node,
                         String.format(
-                                "Resolution of prefix '%s' defines an invalid URI: '%s'",
-                                prefixAttribute, uriStr
+                                "Resolution of prefix '%s' defines an invalid IRI: '%s'",
+                                prefixAttribute, IRIStr
                         )
                 );
                 continue;
             }
-            prefixMapList.add( new PrefixMap(prefix, uri) );
+            prefixMapList.add( new PrefixMap(prefix, IRI) );
         }
     }
 
@@ -728,17 +728,17 @@ public class RDFa11Parser {
      */
     private void establishNewSubject(Node node, EvaluationContext currentEvaluationContext)
     throws URISyntaxException {
-        String candidateURIOrCURIE;
+        String candidateIRIOrCURIE;
         for(String subjectAttribute : SUBJECT_ATTRIBUTES) {
-            candidateURIOrCURIE = DomUtils.readAttribute(node, subjectAttribute, null);
-            if(candidateURIOrCURIE != null) {
-                currentEvaluationContext.newSubject = resolveCURIEOrURI(candidateURIOrCURIE, false);
+            candidateIRIOrCURIE = DomUtils.readAttribute(node, subjectAttribute, null);
+            if(candidateIRIOrCURIE != null) {
+                currentEvaluationContext.newSubject = resolveCURIEOrIRI(candidateIRIOrCURIE, false);
                 return;
             }
         }
 
         if(node.getNodeName().equalsIgnoreCase(HEAD_TAG) || node.getNodeName().equalsIgnoreCase(BODY_TAG)) {
-            currentEvaluationContext.newSubject = resolveURI(currentEvaluationContext.base.toString());
+            currentEvaluationContext.newSubject = resolveIRI(currentEvaluationContext.base.toString());
             return;
         }
 
@@ -770,17 +770,17 @@ public class RDFa11Parser {
     private void establishNewSubjectCurrentObjectResource(Node node, EvaluationContext currentEvaluationContext)
     throws URISyntaxException {
         // Subject.
-        String candidateURIOrCURIE;
-        candidateURIOrCURIE = DomUtils.readAttribute(node, ABOUT_ATTRIBUTE, null);
-        if(candidateURIOrCURIE != null) {
-            currentEvaluationContext.newSubject = resolveCURIEOrURI(candidateURIOrCURIE, false);
+        String candidateIRIOrCURIE;
+        candidateIRIOrCURIE = DomUtils.readAttribute(node, ABOUT_ATTRIBUTE, null);
+        if(candidateIRIOrCURIE != null) {
+            currentEvaluationContext.newSubject = resolveCURIEOrIRI(candidateIRIOrCURIE, false);
         } else {
-            candidateURIOrCURIE = DomUtils.readAttribute(node, SRC_ATTRIBUTE, null);
-            if (candidateURIOrCURIE != null) {
-                currentEvaluationContext.newSubject = resolveURI(candidateURIOrCURIE);
+            candidateIRIOrCURIE = DomUtils.readAttribute(node, SRC_ATTRIBUTE, null);
+            if (candidateIRIOrCURIE != null) {
+                currentEvaluationContext.newSubject = resolveIRI(candidateIRIOrCURIE);
             } else {
                 if (node.getNodeName().equalsIgnoreCase(HEAD_TAG) || node.getNodeName().equalsIgnoreCase(BODY_TAG)) {
-                    currentEvaluationContext.newSubject = resolveURI(currentEvaluationContext.base.toString());
+                    currentEvaluationContext.newSubject = resolveIRI(currentEvaluationContext.base.toString());
                 } else {
                     if (DomUtils.hasAttribute(node, TYPEOF_ATTRIBUTE)) {
                         currentEvaluationContext.newSubject = RDFUtils.bnode();
@@ -794,39 +794,39 @@ public class RDFa11Parser {
         }
 
         // Object.
-        candidateURIOrCURIE = DomUtils.readAttribute(node, RESOURCE_ATTRIBUTE, null);
-        if(candidateURIOrCURIE != null) {
-            currentEvaluationContext.currentObjectResource = resolveCURIEOrURI(candidateURIOrCURIE, false);
+        candidateIRIOrCURIE = DomUtils.readAttribute(node, RESOURCE_ATTRIBUTE, null);
+        if(candidateIRIOrCURIE != null) {
+            currentEvaluationContext.currentObjectResource = resolveCURIEOrIRI(candidateIRIOrCURIE, false);
             return;
         }
 
-        candidateURIOrCURIE = DomUtils.readAttribute(node, HREF_ATTRIBUTE, null);
-        if(candidateURIOrCURIE != null) {
-            currentEvaluationContext.currentObjectResource = resolveURI(candidateURIOrCURIE);
+        candidateIRIOrCURIE = DomUtils.readAttribute(node, HREF_ATTRIBUTE, null);
+        if(candidateIRIOrCURIE != null) {
+            currentEvaluationContext.currentObjectResource = resolveIRI(candidateIRIOrCURIE);
             return;
         }
         currentEvaluationContext.currentObjectResource = null;
     }
 
-    private URI[] getTypes(Node node) throws URISyntaxException {
+    private IRI[] getTypes(Node node) throws URISyntaxException {
         final String typeOf = DomUtils.readAttribute(node, TYPEOF_ATTRIBUTE, null);
-        return resolveCurieOrURIList(node, typeOf, true);
+        return resolveCIRIeOrIRIList(node, typeOf, true);
     }
 
-    private URI[] getRels(Node node) throws URISyntaxException {
+    private IRI[] getRels(Node node) throws URISyntaxException {
         final String rel = DomUtils.readAttribute(node, REL_ATTRIBUTE, null);
-        return resolveCurieOrURIList(node, rel, true);
+        return resolveCIRIeOrIRIList(node, rel, true);
     }
 
-    private URI[] getRevs(Node node) throws URISyntaxException {
+    private IRI[] getRevs(Node node) throws URISyntaxException {
         final String rev = DomUtils.readAttribute(node, REV_ATTRIBUTE, null);
-        return resolveCurieOrURIList(node, rev, true);
+        return resolveCIRIeOrIRIList(node, rev, true);
     }
 
-    private URI[] getPredicate(Node node) throws URISyntaxException {
-        final String candidateURI = DomUtils.readAttribute(node, PROPERTY_ATTRIBUTE, null);
-        if(candidateURI == null) return null;
-        return resolveCurieOrURIList(node, candidateURI, true);
+    private IRI[] getPredicate(Node node) throws URISyntaxException {
+        final String candidateIRI = DomUtils.readAttribute(node, PROPERTY_ATTRIBUTE, null);
+        if(candidateIRI == null) return null;
+        return resolveCIRIeOrIRIList(node, candidateIRI, true);
     }
 
     /**
@@ -843,7 +843,7 @@ public class RDFa11Parser {
     throws URISyntaxException, IOException, TransformerException {
         final String candidateObject = DomUtils.readAttribute(node, HREF_ATTRIBUTE, null);
         if(candidateObject != null) {
-            return resolveURI(candidateObject);
+            return resolveIRI(candidateObject);
         } else {
             return gerCurrentObjectLiteral(node);
         }
@@ -888,39 +888,39 @@ public class RDFa11Parser {
         if (datatype == null || datatype.trim().length() == 0 || XML_LITERAL_DATATYPE.equals(datatype.trim()) ) {
             return null;
         }
-        final Resource curieOrURI = resolveCURIEOrURI(datatype, true);
-        return RDFUtils.literal(getNodeContent(node), curieOrURI instanceof URI ? (URI) curieOrURI : null);
+        final Resource curieOrIRI = resolveCURIEOrIRI(datatype, true);
+        return RDFUtils.literal(getNodeContent(node), curieOrIRI instanceof IRI ? (IRI) curieOrIRI : null);
     }
 
     private void pushMappings(Node sourceNode, List<PrefixMap> prefixMapList) {
         // logger.trace("pushMappings()");
 
-        final Map<String, URI> mapping = new HashMap<String, URI>();
+        final Map<String, IRI> mapping = new HashMap<String, IRI>();
         for (PrefixMap prefixMap : prefixMapList) {
-            mapping.put(prefixMap.prefix, prefixMap.uri);
+            mapping.put(prefixMap.prefix, prefixMap.IRI);
         }
-        uriMappingStack.push( new URIMapping(sourceNode, mapping) );
+        IRIMappingStack.push( new IRIMapping(sourceNode, mapping) );
     }
 
     private void popMappings(Node node) {
-        if(uriMappingStack.isEmpty()) return;
-        final URIMapping peek = uriMappingStack.peek();
+        if(IRIMappingStack.isEmpty()) return;
+        final IRIMapping peek = IRIMappingStack.peek();
         if( ! DomUtils.isAncestorOf(peek.sourceNode, node) ) {
             // logger.trace("popMappings()");
-            uriMappingStack.pop();
+            IRIMappingStack.pop();
         }
     }
 
     /**
-     * Resolve a namespaced URI, if <code>safe</code> is <code>true</code>
+     * Resolve a namespaced IRI, if <code>safe</code> is <code>true</code>
      * then the mapping must define a prefix, otherwise it is considered relative.
      *
      * @param mapping
      * @param resolutionPolicy
      * @return
      */
-    private Resource resolveNamespacedURI(String mapping, ResolutionPolicy resolutionPolicy) {
-        if(mapping.indexOf(URI_PATH_SEPARATOR) == 0) { // Begins with '/'
+    private Resource resolveNamespacedIRI(String mapping, ResolutionPolicy resolutionPolicy) {
+        if(mapping.indexOf(IRI_PATH_SEPARATOR) == 0) { // Begins with '/'
             mapping = mapping.substring(1);
         }
 
@@ -932,17 +932,17 @@ public class RDFa11Parser {
                 );
             }
             if (resolutionPolicy == ResolutionPolicy.TermAllowed) {
-                final URI currentVocabulary = getVocabulary();
+                final IRI currentVocabulary = getVocabulary();
                 // Mapping is a TERM.
                 if (currentVocabulary != null) {
-                    return resolveURI(currentVocabulary.toString() + mapping);
+                    return resolveIRI(currentVocabulary.toString() + mapping);
                 }
             }
-            return resolveURI(documentBase.toString() + mapping);
+            return resolveIRI(documentBase.toString() + mapping);
         }
 
         final String prefix = mapping.substring(0, prefixSeparatorIndex);
-        final URI curieMapping = getMapping(prefix);
+        final IRI curieMapping = getMapping(prefix);
         if(curieMapping == null) {
             throw new IllegalArgumentException( String.format("Cannot map prefix '%s'", prefix) );
         }
@@ -950,10 +950,10 @@ public class RDFa11Parser {
         final java.net.URI candidateCURIE;
         try {
             candidateCURIE = new java.net.URI(candidateCURIEStr);
-        } catch (URISyntaxException urise) {
+        } catch (URISyntaxException IRIse) {
             throw new IllegalArgumentException(String.format("Invalid CURIE '%s'", candidateCURIEStr) );
         }
-        return resolveURI(
+        return resolveIRI(
                 candidateCURIE.isAbsolute()
                         ?
                         candidateCURIE.toString()
@@ -963,7 +963,7 @@ public class RDFa11Parser {
     }
 
     /**
-     * The resolution policy provided to the method {@link #resolveNamespacedURI(String, ResolutionPolicy)}.
+     * The resolution policy provided to the method {@link #resolveNamespacedIRI(String, ResolutionPolicy)}.
      */
     enum ResolutionPolicy {
         NSNotRequired,
@@ -992,7 +992,7 @@ public class RDFa11Parser {
          */
         EvaluationContext(URL base) {
             this.base             = base;
-            this.parentSubject    = resolveURI( base.toExternalForm() );
+            this.parentSubject    = resolveIRI( base.toExternalForm() );
             this.parentObject     = null;
             this.language         = null;
             this.recourse         = true;
@@ -1007,21 +1007,21 @@ public class RDFa11Parser {
      */
     private class PrefixMap {
         final String prefix;
-        final URI    uri;
-        public PrefixMap(String prefix, URI uri) {
+        final IRI    IRI;
+        public PrefixMap(String prefix, IRI IRI) {
             this.prefix = prefix;
-            this.uri = uri;
+            this.IRI = IRI;
         }
     }
 
     /**
-     * Defines a URI mapping.
+     * Defines a IRI mapping.
      */
-    private class URIMapping {
+    private class IRIMapping {
         final Node sourceNode;
-        final Map<String, URI> map;
+        final Map<String, IRI> map;
 
-        public URIMapping(Node sourceNode, Map<String, URI> map) {
+        public IRIMapping(Node sourceNode, Map<String, IRI> map) {
             this.sourceNode = sourceNode;
             this.map        = map;
         }
@@ -1041,13 +1041,13 @@ public class RDFa11Parser {
     private class IncompleteTriple {
         final Node     originatingNode;
         final Resource subject;
-        final URI      predicate;
+        final IRI      predicate;
         final IncompleteTripleDirection direction;
 
         public IncompleteTriple(
                 Node originatingNode,
                 Resource subject,
-                URI predicate,
+                IRI predicate,
                 IncompleteTripleDirection direction
         ) {
             if(originatingNode == null || subject == null || predicate == null || direction == null)
@@ -1082,9 +1082,9 @@ public class RDFa11Parser {
      */
     private class Vocabulary {
         final Node originatingNode;
-        final URI prefix;
+        final IRI prefix;
 
-        public Vocabulary(Node originatingNode, URI prefix) {
+        public Vocabulary(Node originatingNode, IRI prefix) {
             this.originatingNode = originatingNode;
             this.prefix = prefix;
         }

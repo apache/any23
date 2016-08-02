@@ -49,12 +49,12 @@ public interface DocumentSource {
     public long getContentLength();
 
     /**
-     * @return the actual, final, canonical URI if redirects occur.
+     * @return the actual, final, canonical IRI if redirects occur.
      */
-    public String getDocumentURI();
+    public String getDocumentIRI();
 
     /**
-     * A value of <tt>false</tt> indicates that the document
+     * A value of <i>false</i> indicates that the document
      * resides remotely, and that multiple successive accesses
      * to it should be avoided by copying it to local storage.
      * This can also be used for sources that do not support
