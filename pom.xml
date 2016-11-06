@@ -37,6 +37,15 @@
 
   <developers>
     <developer>
+      <id>band</id>
+      <name>Bill Anderson</name>
+      <email>band[at]apache[dot]org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+    <developer>
       <id>ansell</id>
       <name>Peter Ansell</name>
       <email>ansell[at]apache[dot]org</email>
