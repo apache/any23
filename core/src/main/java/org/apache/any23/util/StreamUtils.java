@@ -44,7 +44,7 @@ public class StreamUtils {
      *
      * @param is input stream.
      * @return list of not <code>null</code> lines.
-     * @throws IOException
+     * @throws IOException if an error occurs while consuming the <code>is</code> stream.
      */
     public static String[] asLines(InputStream is) throws IOException {
         final BufferedReader br = new BufferedReader(new InputStreamReader(is));

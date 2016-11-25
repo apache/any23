@@ -85,8 +85,9 @@ public class RDFUtils {
      * @param dateToBeParsed the String containing the date.
      * @param format the pattern as descibed in {@link java.text.SimpleDateFormat}
      * @return a {@link String} representing the date
-     * @throws java.text.ParseException
-     * @throws javax.xml.datatype.DatatypeConfigurationException
+     * @throws java.text.ParseException if there is an error parsing the given date.
+     * @throws javax.xml.datatype.DatatypeConfigurationException if there is a serious
+     * configuration error.
      */
     public static String getXSDDate(String dateToBeParsed, String format)
     throws ParseException, DatatypeConfigurationException {
@@ -114,17 +115,14 @@ public class RDFUtils {
     }
 
     /**
-     * Tries to fix a potentially broken relative or absolute URI.
-     *
-     * <p/>
+     * <p>Tries to fix a potentially broken relative or absolute URI.</p>
      * These appear to be good rules:
      * Remove whitespace or '\' or '"' in beginning and end
      * Replace space with %20
      * Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:(//)?$
      * Drop the triple if it matches this regex: ^javascript:
-     * Truncate ">.*$ from end of lines (Neko didn't quite manage to fix broken markup)
-     * Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
-     * <p/>
+     * Truncate "&gt;.*$ from end of lines (Neko didn't quite manage to fix broken markup)
+     * Drop the triple if any of these appear in the URL: &lt;&gt;[]|*{}"&lt;&gt;\
      *
      * @param unescapedURI uri string to be unescaped.
      * @return the unescaped string.
@@ -170,6 +168,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link URI}.
+     * @param uri string representation of the {@link URI}
+     * @return a valid {@link URI}
      */
     public static URI uri(String uri) {
         return valueFactory.createURI(uri);
@@ -177,6 +177,9 @@ public class RDFUtils {
 
     /**
      * Creates a {@link URI}.
+     * @param namespace a base namespace for the {@link URI}
+     * @param localName a local name to associate with the namespace
+     * @return a valid {@link URI}
      */
     public static URI uri(String namespace, String localName) {
         return valueFactory.createURI(namespace, localName);
@@ -184,6 +187,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param s string representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(String s) {
         return valueFactory.createLiteral(s);
@@ -191,6 +196,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param b boolean representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(boolean b) {
         return valueFactory.createLiteral(b);
@@ -198,6 +205,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param b byte representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(byte b) {
         return valueFactory.createLiteral(b);
@@ -205,6 +214,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param s short representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(short s) {
         return valueFactory.createLiteral(s);
@@ -212,6 +223,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param i int representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(int i) {
         return valueFactory.createLiteral(i);
@@ -219,6 +232,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param l long representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(long l) {
         return valueFactory.createLiteral(l);
@@ -226,6 +241,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param f float representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(float f) {
         return valueFactory.createLiteral(f);
@@ -233,6 +250,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param d double representation of the {@link org.openrdf.model.Literal}
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(double d) {
         return valueFactory.createLiteral(d);
@@ -240,6 +259,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param s string representation of the base namespace for the
+     * {@link org.openrdf.model.Literal}
+     * @param l the local name to associate with the namespace.
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(String s, String l) {
         return valueFactory.createLiteral(s, l);
@@ -247,6 +270,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param s string representation of the base namespace for the
+     * {@link org.openrdf.model.Literal}
+     * @param datatype the datatype to associate with the namespace.
+     * @return valid {@link org.openrdf.model.Literal}
      */
     public static Literal literal(String s, URI datatype) {
         return valueFactory.createLiteral(s, datatype);
@@ -254,6 +281,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link BNode}.
+     * @param id string representation of the {@link org.openrdf.model.BNode}
+     * @return the valid {@link org.openrdf.model.BNode}
      */
     // TODO: replace this with all occurrences of #getBNode()
     public static BNode bnode(String id) {
@@ -269,6 +298,9 @@ public class RDFUtils {
 
     /**
      * Creates a {@link BNode}.
+     * @param id string representation of the {@link org.openrdf.model.BNode}
+     * name for which we will create a md5 hash.
+     * @return the valid {@link org.openrdf.model.BNode} 
      */
     public static BNode getBNode(String id) {
         return valueFactory.createBNode(
@@ -278,6 +310,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Statement}.
+     * @param s subject {@link org.openrdf.model.Resource}
+     * @param p predicate {@link org.openrdf.model.URI}
+     * @param o object {@link org.openrdf.model.Value}
+     * @return valid {@link org.openrdf.model.Statement}
      */
     public static Statement triple(Resource s, URI p, Value o) {
         return valueFactory.createStatement(s, p, o);
@@ -297,6 +333,11 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Statement}.
+     * @param s subject.
+     * @param p predicate.
+     * @param o object.
+     * @param g quad resource
+     * @return a statement instance.
      */
     public static Statement quad(Resource s, URI p, Value o, Resource g) {
         return valueFactory.createStatement(s, p, o, g);
@@ -304,6 +345,11 @@ public class RDFUtils {
 
     /**
      * Creates a statement of type: <code>toValue(s), toValue(p), toValue(o), toValue(g)</code>
+     * @param s subject.
+     * @param p predicate.
+     * @param o object.
+     * @param g quad resource
+     * @return a statement instance.
      */
     public static Statement quad(String s, String p, String o, String g) {
         return valueFactory.createStatement((Resource) toValue(s), (URI) toValue(p), toValue(o), (Resource) toValue(g));
@@ -314,7 +360,7 @@ public class RDFUtils {
      * an {@link RDF#TYPE}. If <code> s.matches('[a-z0-9]+:.*')</code>
      * expands the corresponding prefix using {@link PopularPrefixes}.
      *
-     * @param s
+     * @param s string representation of value.
      * @return a value instance.
      */
     public static Value toValue(String s) {
@@ -388,12 +434,12 @@ public class RDFUtils {
      * specified parser <code>p</code> using <code>baseURI</code>.
      *
      * @param format input format type.
-     * @param is input stream containing <code>RDF</data>.
+     * @param is input stream containing <code>RDF</code>.
      * @param baseURI base uri.
      * @return list of statements detected within the input stream.
-     * @throws RDFHandlerException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RDFHandlerException if there is an error handling the RDF
+     * @throws IOException if there is an error reading the {@link java.io.InputStream}
+     * @throws RDFParseException if there is an error handling the RDF
      */
     public static Statement[] parseRDF(RDFFormat format, InputStream is, String baseURI)
     throws RDFHandlerException, IOException, RDFParseException {
@@ -412,11 +458,11 @@ public class RDFUtils {
      * specified parser <code>p</code> using <code>''</code> as base URI.
      *
      * @param format input format type.
-     * @param is input stream containing <code>RDF</data>.
+     * @param is input stream containing <code>RDF</code>.
      * @return list of statements detected within the input stream.
-     * @throws RDFHandlerException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RDFHandlerException if there is an error handling the RDF
+     * @throws IOException if there is an error reading the {@link java.io.InputStream}
+     * @throws RDFParseException if there is an error handling the RDF
      */
     public static Statement[] parseRDF(RDFFormat format, InputStream is)
     throws RDFHandlerException, IOException, RDFParseException {
@@ -428,11 +474,11 @@ public class RDFUtils {
      * specified parser <code>p</code> using <code>''</code> as base URI.
      *
      * @param format input format type.
-     * @param in input string containing <code>RDF</data>.
+     * @param in input string containing <code>RDF</code>.
      * @return list of statements detected within the input string.
-     * @throws RDFHandlerException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RDFHandlerException if there is an error handling the RDF
+     * @throws IOException if there is an error reading the {@link java.io.InputStream}
+     * @throws RDFParseException if there is an error handling the RDF
      */
     public static Statement[] parseRDF(RDFFormat format, String in)
     throws RDFHandlerException, IOException, RDFParseException {

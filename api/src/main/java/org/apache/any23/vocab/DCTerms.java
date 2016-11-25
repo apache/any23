@@ -20,21 +20,12 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * The <i>DCTERMS</code> vocabulary.
+ * The <i>DCTERMS</i> vocabulary.
  * See <a href="http://dublincore.org/">Dublin Core</a>.
  */
 public class DCTerms extends Vocabulary {
 
     public static final String NS = "http://purl.org/dc/terms/";
-
-    private static DCTerms instance;
-
-    public static DCTerms getInstance() {
-        if(instance == null) {
-            instance = new DCTerms();
-        }
-        return instance;
-    }
 
     // Properties
     public final URI license = createProperty(NS, "license");
@@ -43,8 +34,17 @@ public class DCTerms extends Vocabulary {
     public final URI related = createProperty(NS, "related");
     public final URI date    = createProperty(NS, "date"   );
     public final URI source  = createProperty(NS, "source" );
+    
+    private static DCTerms instance;
 
     private DCTerms(){
-        super(NS);
+      super(NS);
+    }
+
+    public static DCTerms getInstance() {
+        if(instance == null) {
+            instance = new DCTerms();
+        }
+        return instance;
     }
 }

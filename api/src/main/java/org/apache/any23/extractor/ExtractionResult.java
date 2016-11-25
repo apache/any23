@@ -56,8 +56,7 @@ public interface ExtractionResult extends IssueReport {
     void writeNamespace(String prefix, String uri);
 
     /**
-     * Close the result.
-     * <p/>
+     * <p>Close the result.</p>
      * Extractors should close their results as soon as possible, but
      * don't have to, the environment will close any remaining ones.
      * Implementations should be robust against multiple close()

@@ -33,6 +33,9 @@ public interface TripleHandler {
      * Informs the handler that a new context has been established.
      * Contexts are not guaranteed to receive any triples, so they
      * might be closed without any triple.
+     * @param context an instantiated {@link org.apache.any23.extractor.ExtractionContext}
+     * @throws TripleHandlerException if there is an errr opening the 
+     * {@link org.apache.any23.extractor.ExtractionContext}
      */
     void openContext(ExtractionContext context) throws TripleHandlerException;
 
@@ -45,7 +48,7 @@ public interface TripleHandler {
      * @param o triple object, cannot be <code>null</code>.
      * @param g triple graph, can be <code>null</code>.
      * @param context extraction context.
-     * @throws TripleHandlerException
+     * @throws TripleHandlerException if there is an error receiving the triple.
      */
     void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context) throws TripleHandlerException;
 
@@ -56,7 +59,7 @@ public interface TripleHandler {
      * @param prefix namespace prefix.
      * @param uri namespace <i>URI</i>.
      * @param context namespace context.
-     * @throws TripleHandlerException
+     * @throws TripleHandlerException if there is an error receiving the namespace.
      */
     void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException;
 
@@ -68,7 +71,8 @@ public interface TripleHandler {
      * local contexts of that document.
      *
      * @param context the context to be closed.
-     * @throws TripleHandlerException
+     * @throws TripleHandlerException if there is an error closing the 
+     * {@link org.apache.any23.extractor.ExtractionContext}.
      */
     void closeContext(ExtractionContext context) throws TripleHandlerException;
 
@@ -77,21 +81,21 @@ public interface TripleHandler {
      * has been reached.
      *
      * @param documentURI document URI.
-     * @throws TripleHandlerException
+     * @throws TripleHandlerException if there is an error ending the document.
      */
     void endDocument(URI documentURI) throws TripleHandlerException;
 
     /**
      * Sets the length of the content to be processed.
      *
-     * @param contentLength
-     * @throws TripleHandlerException
+     * @param contentLength length of the content being processed.
      */
     void setContentLength(long contentLength);
 
     /**
      * Will be called last and exactly once.
-     * @throws TripleHandlerException
+     * @throws TripleHandlerException if there is an error closing the
+     * {@link org.apache.any23.writer.TripleHandler} implementation.
      */
     void close() throws TripleHandlerException;
 

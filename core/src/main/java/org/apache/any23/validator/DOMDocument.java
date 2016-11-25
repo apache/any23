@@ -74,7 +74,7 @@ public interface DOMDocument {
      * Returns all the nodes declaring an attribute with the specified name.
      *
      * @param attrName name of attribute to use for filtering.
-     * @return a list of nodes. <code>null</node> if no matches found.
+     * @return a list of nodes. <i>null</i> if no matches found.
      */
     List<Node> getNodesWithAttribute(String attrName);
 }

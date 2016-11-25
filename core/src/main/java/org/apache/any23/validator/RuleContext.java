@@ -30,15 +30,15 @@ public interface RuleContext <T> {
     /**
      * Puts a data within the context.
      *
-     * @param name
-     * @param value
+     * @param name rule key
+     * @param value rule value
      */
     void putData(String name, T value);
 
     /**
      * Retrieves a registered object.
      * 
-     * @param name
+     * @param name rule key
      * @return a registered object, <code>null</code> if not found.
      */
     T getData(String name);
@@ -46,7 +46,7 @@ public interface RuleContext <T> {
     /**
      * Removes a data from the context.
      * 
-     * @param name
+     * @param name remove entry with this name
      */
     void removeData(String name);
 

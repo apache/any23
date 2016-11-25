@@ -35,19 +35,21 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <p/>
+ * <p>
  * A default implementation of {@link ExtractionResult}; it receives
  * extraction output from one {@link Extractor} working on one document,
  * and passes the output on to a {@link TripleHandler}. It deals with
  * details such as creation of {@link ExtractionContext} objects
  * and closing any open contexts at the end of extraction.
- * <p/>
+ * </p>
+ * <p>
  * The {@link #close()} method must be invoked after the extractor has
  * finished processing.
- * <p/>
+ * </p>
+ * <p>
  * There is usually no need to provide additional implementations
  * of the ExtractionWriter interface.
- * <p/>
+ *</p>
  *
  * @see org.apache.any23.writer.TripleHandler
  * @see ExtractionContext

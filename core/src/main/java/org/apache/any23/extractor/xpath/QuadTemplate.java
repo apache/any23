@@ -71,9 +71,9 @@ public class QuadTemplate {
     /**
      * Constructor for template with no graph.
      *
-     * @param subject
-     * @param predicate
-     * @param object
+     * @param subject a populated {@link org.apache.any23.extractor.xpath.TemplateSubject}
+     * @param predicate a populated {@link org.apache.any23.extractor.xpath.TemplatePredicate}
+     * @param object a populated {@link org.apache.any23.extractor.xpath.TemplateObject}
      */
     public QuadTemplate(TemplateSubject subject, TemplatePredicate predicate, TemplateObject object) {
         this(subject, predicate, object, null);

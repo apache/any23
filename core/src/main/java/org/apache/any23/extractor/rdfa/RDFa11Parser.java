@@ -121,7 +121,7 @@ public class RDFa11Parser {
      * Given a prefix declaration returns a list of <code>prefixID:prefixURL</code> strings
      * normalizing blanks where present.
      *
-     * @param prefixesDeclaration
+     * @param prefixesDeclaration input prefix
      * @return list of extracted prefixes.
      */
     protected static String[] extractPrefixSections(String prefixesDeclaration) {
@@ -202,9 +202,10 @@ public class RDFa11Parser {
     /**
      * <a href="http://www.w3.org/TR/rdfa-syntax/#s_model">RDFa Syntax - Processing Model</a>.
      *
-     * @param documentURL
-     * @param extractionResult
-     * @param document
+     * @param documentURL {@link java.net.URL} of the document to process
+     * @param extractionResult a {@link org.apache.any23.extractor.ExtractionResult} to populate
+     * @param document the {@link org.w3c.dom.Document} to populate with parse content
+     * @throws RDFa11ParserException if there is an error parsing the document
      */
     public void processDocument(URL documentURL, Document document, ExtractionResult extractionResult)
     throws RDFa11ParserException {
@@ -317,12 +318,12 @@ public class RDFa11Parser {
     }
 
     /**
-     * Resolves a <rm>whitelist</em> separated list of <i>CURIE</i> or <i>URI</i>.
+     * Resolves a <em>whitelist</em> separated list of <i>CURIE</i> or <i>URI</i>.
      *
      * @param n current node.
      * @param curieOrURIList list of CURIE/URI.
      * @return list of resolved URIs.
-     * @throws URISyntaxException
+     * @throws URISyntaxException if there is an error processing CURIE or URL
      */
     protected URI[] resolveCurieOrURIList(Node n, String curieOrURIList, boolean termAllowed)
     throws URISyntaxException {

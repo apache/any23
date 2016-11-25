@@ -47,7 +47,6 @@ public class DiscoveryUtils {
      *
      * @param packageName the root package.
      * @return list of matching classes.
-     * @throws IOException
      */
     public static List<Class> getClassesInPackage(String packageName) {
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

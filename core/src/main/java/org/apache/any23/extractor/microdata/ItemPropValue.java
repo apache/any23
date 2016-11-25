@@ -210,8 +210,6 @@ public class ItemPropValue {
 
     /**
      * @return the content value as URL, or raises an exception.
-     * @throws MalformedURLException if the content is not a valid URL.
-     * @throws ClassCastException if content is not a link.
      */
     public URL getAsLink() {
         try {
@@ -223,7 +221,6 @@ public class ItemPropValue {
 
     /**
      * @return the content value as {@link ItemScope}.
-     * @throws ClassCastException if the content is not a valid nested item.
      */
     public ItemScope getAsNested() {
         return (ItemScope) content;

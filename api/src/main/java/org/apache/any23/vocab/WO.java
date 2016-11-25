@@ -20,7 +20,7 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * The <a href="http://purl.org/ontology/wo/">Wildlife Ontology</a> vocabulary.</p>
+ * <p>The <a href="http://purl.org/ontology/wo/">Wildlife Ontology</a> vocabulary.</p>
  * A simple vocabulary for describing biological species and related taxa. 
  * The vocabulary defines terms for describing the names and ranking of taxa, 
  * as well as providing support for describing their habitats, conservation status, 

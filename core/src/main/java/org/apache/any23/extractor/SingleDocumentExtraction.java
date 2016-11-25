@@ -310,8 +310,8 @@ public class SingleDocumentExtraction {
      * Triggers the execution of all the {@link Extractor}
      * registered to this class using the <i>default</i> extraction parameters.
      *
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading input from the document source
+     * @throws ExtractionException if there is an error duing distraction
      * @return the extraction report.
      */
     public SingleDocumentExtractionReport run() throws IOException, ExtractionException {
@@ -333,7 +333,7 @@ public class SingleDocumentExtraction {
      * Check whether the given {@link org.apache.any23.source.DocumentSource} content activates of not at least an extractor.
      *
      * @return <code>true</code> if at least an extractor is activated, <code>false</code> otherwise.
-     * @throws IOException
+     * @throws IOException if there is an error locating matching extractors
      */
     public boolean hasMatchingExtractors() throws IOException {
         filterExtractorsByMIMEType();

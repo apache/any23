@@ -19,9 +19,9 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * The <a href="http://purl.org/ontology/po/ ">Programmes Ontology</a> is aimed
+ * <p>The <a href="http://purl.org/ontology/po/">Programmes Ontology</a> is aimed
  * at providing a simple vocabulary for describing programmes.</p> 
- * It covers brands, series (seasons), episodes, broadcast events, broadcast 
+ * <p>It covers brands, series (seasons), episodes, broadcast events, broadcast 
  * services, etc. Its development was funded by the BBC, and is heavily grounded 
  * on previous programmes data modeling work done there.</p>
  * 

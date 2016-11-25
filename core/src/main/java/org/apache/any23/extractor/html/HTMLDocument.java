@@ -96,8 +96,9 @@ public class HTMLDocument {
     /**
      * Reads an URL field from the given node adding the content to the given <i>res</i> list.
      *
-     * @param res
-     * @param node
+     * @param res {@link java.util.List} of 
+     * {@link org.apache.any23.extractor.html.HTMLDocument.TextField}
+     * @param node the node to read
      */
     public static void readUrlField(List<TextField> res, Node node) {
         String name = node.getNodeName();
@@ -169,7 +170,7 @@ public class HTMLDocument {
     /**
      * Constructor accepting the root node.
      * 
-     * @param document
+     * @param document a {@link org.w3c.dom.Node}
      */
     public HTMLDocument(Node document) {
         if (null == document)
@@ -178,6 +179,7 @@ public class HTMLDocument {
     }
 
     /**
+     * @param uri string to resolve to {@link org.openrdf.model.URI}
      * @return An absolute URI, or null if the URI is not fixable
      * @throws org.apache.any23.extractor.ExtractionException If the base URI is invalid
      */

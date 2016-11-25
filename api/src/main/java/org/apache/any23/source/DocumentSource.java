@@ -33,7 +33,8 @@ public interface DocumentSource {
      * Returns the input stream for accessing the content of the document.
      *
      * @return not <code>null</code> input stream for accessing document data.
-     * @throws IOException
+     * @throws IOException if there is an error opening the
+     * {@link org.apache.any23.source.DocumentSource} {@link java.io.InputStream}
      */
     InputStream openInputStream() throws IOException;
 
@@ -58,6 +59,8 @@ public interface DocumentSource {
      * to it should be avoided by copying it to local storage.
      * This can also be used for sources that do not support
      * multiple calls to {@link #openInputStream()}.
+     * @return true if the {@link org.apache.any23.source.DocumentSource} is
+     * cached locally.
      */
     public boolean isLocal();
 }

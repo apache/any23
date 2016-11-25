@@ -79,8 +79,8 @@ public class StringUtils {
     /**
      * Check whether string <code>candidatePrefix</code> is prefix of string <code>container</code>.
      *
-     * @param candidatePrefix
-     * @param container
+     * @param candidatePrefix prefix to check
+     * @param container container to check against
      * @return <code>true</code> if <code>candidatePrefix</code> is prefix of <code>container</code>,
      *         <code>false</code> otherwise.
      */
@@ -102,8 +102,8 @@ public class StringUtils {
     /**
      * Check whether string <code>candidateSuffix</code> is suffix of string <code>container</code>.
      *
-     * @param candidateSuffix
-     * @param container
+     * @param candidateSuffix suffix to check
+     * @param container container to check against
      * @return <code>true</code> if <code>candidateSuffix</code> is prefix of <code>container</code>,
      *         <code>false</code> otherwise.
      */
@@ -157,7 +157,7 @@ public class StringUtils {
     }
 
     /**
-     * Builds a string composed of the given char <code>c<code/> <code>n</code> times.
+     * Builds a string composed of the given char <code>c</code> <code>n</code> times.
      *
      * @param c char to be multiplied.
      * @param times number of times.

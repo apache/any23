@@ -42,7 +42,7 @@ public interface TemplateXPathExtractionRule extends XPathExtractionRule {
      * Removes a variable from the template.
      *
      * @param variable variable to be removed.
-     * @return <code>true</i> if the <code>variable</code> argument was found.
+     * @return <i>true</i> if the <code>variable</code> argument was found.
      */
     public boolean remove(Variable variable);
 

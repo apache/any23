@@ -203,7 +203,7 @@ public class RDFParserFactory {
     }
     
     /**
-     * Returns a new instance of a configured {@link SesameJSONLDParser}.
+     * Returns a new instance of a configured <i>SesameJSONLDParser</i>.
      * @param verifyDataType data verification enable if <code>true</code>.
      * @param stopAtFirstError the parser stops at first error if <code>true</code>.
      * @param extractionContext the extraction context where the parser is used.

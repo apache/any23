@@ -53,7 +53,7 @@ public class RDFSchemaUtils {
      * @param properties list of properties.
      * @param comments map of resource comments.
      * @param writer writer to print out the RDF Schema triples.
-     * @throws RDFHandlerException
+     * @throws RDFHandlerException if there is an error handling the RDF
      */
     public static void serializeVocabulary(
             URI namespace,
@@ -85,7 +85,7 @@ public class RDFSchemaUtils {
      *
      * @param vocabulary vocabulary to be serialized.
      * @param writer output writer.
-     * @throws RDFHandlerException
+     * @throws RDFHandlerException if there is an error handling the RDF
      */
     public static void serializeVocabulary(Vocabulary vocabulary, RDFWriter writer)
     throws RDFHandlerException {
@@ -105,7 +105,7 @@ public class RDFSchemaUtils {
      * @param format output format for vocabulary.
      * @param willFollowAnother if <code>true</code> another vocab will be printed in the same stream.
      * @param ps output stream.
-     * @throws RDFHandlerException
+     * @throws RDFHandlerException if there is an error handling the RDF
      */
     public static void serializeVocabulary(
             Vocabulary vocabulary,
@@ -132,7 +132,7 @@ public class RDFSchemaUtils {
      * @param vocabulary vocabulary to be serialized.
      * @param format output format for vocabulary.
      * @return string contained serialization.
-     * @throws RDFHandlerException
+     * @throws RDFHandlerException if there is an error handling the RDF
      */
     public static String serializeVocabulary(Vocabulary vocabulary, RDFFormat format)
     throws RDFHandlerException {

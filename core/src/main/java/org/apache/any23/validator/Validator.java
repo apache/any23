@@ -57,22 +57,22 @@ public interface Validator {
     /**
      * Allows to register a new rule to this validator
      *
-     * @param rule
+     * @param rule add a configured {@link org.apache.any23.validator.Rule}
      */
     void addRule(Class<? extends Rule> rule);
 
     /**
      * Allows to register a new rule to this validator and associating it to a fix.
      *
-     * @param rule
-     * @param fix
+     * @param rule add a configured {@link org.apache.any23.validator.Rule}
+     * @param fix add a configured {@link org.apache.any23.validator.Fix} for the rule
      */
     void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix);
 
     /**
      * Allows to remove a rule from the validator and all the related {@link Fix}es.
      *
-     * @param rule
+     * @param rule {@link org.apache.any23.validator.Rule} to remove
      */
     void removeRule(Class<? extends Rule> rule);
 
@@ -86,7 +86,7 @@ public interface Validator {
     /**
      * Returns all fixes registered for the give rule.
      *
-     * @param rule
+     * @param rule {@link org.apache.any23.validator.Rule} to obtain fixes for.
      * @return a not null list of fixes.
      */
     List<Class<? extends Fix>> getFixes(Class<? extends Rule> rule);

@@ -63,10 +63,10 @@ public class ItemScope extends Item {
      *
      * @param xpath     location of this <i>itemscope</i> within the container document.
      * @param itemProps list of properties bound to this <i>itemscope</i>.
-     * @param id        DOM identifier for this <i>itemscope</i>. Can be <code>null<code>.
-     * @param refs      list of item prop references connected to this <i>itemscope</i>. Can be <code>null<code>.
-     * @param type      <i>itemscope</i> type. Can be <code>null<code>.
-     * @param itemId    <i>itemscope</i> id. Can be <code>null<code>.
+     * @param id        DOM identifier for this <i>itemscope</i>. Can be <code>null</code>.
+     * @param refs      list of item prop references connected to this <i>itemscope</i>. Can be <code>null</code>.
+     * @param type      <i>itemscope</i> type. Can be <code>null</code>.
+     * @param itemId    <i>itemscope</i> id. Can be <code>null</code>.
      */
     public ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, String type, String itemId) {
         super(xpath);

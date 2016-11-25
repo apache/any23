@@ -20,7 +20,7 @@ package org.apache.any23.vocab;
 import org.openrdf.model.URI;
 
 /**
- * The <a href="http://ogp.me/">Open Graph Protocol</> vocabulary.
+ * The <a href="http://ogp.me/">Open Graph Protocol</a> vocabulary.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */

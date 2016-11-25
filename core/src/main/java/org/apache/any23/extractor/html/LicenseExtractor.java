@@ -34,7 +34,6 @@ import java.io.IOException;
 /**
  * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a>
  * microformat.
- * <p/>
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak

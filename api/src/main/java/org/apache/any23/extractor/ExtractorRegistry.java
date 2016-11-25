@@ -30,7 +30,7 @@ public interface ExtractorRegistry {
     /**
      * Registers an {@link ExtractorFactory}.
      * 
-     * @param factory
+     * @param factory an {@link ExtractorFactory} to register.
      * @throws IllegalArgumentException
      *             if trying to register a {@link ExtractorFactory} that already
      *             exists in the registry.
@@ -78,6 +78,7 @@ public interface ExtractorRegistry {
 
     /**
      * Returns the names of all registered extractors, sorted alphabetically.
+     * @return an alphabetically sorted {@link java.util.List}
      */
     List<String> getAllNames();
 

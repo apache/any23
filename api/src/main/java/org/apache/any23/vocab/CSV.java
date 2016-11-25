@@ -68,7 +68,7 @@ public class CSV extends Vocabulary {
     /**
      * This property expresses the index of a column in a <i>CSV</i> file.
      */
-    public URI columnPosition = createProperty(COLUMN_POSITION);
+    public final URI columnPosition = createProperty(COLUMN_POSITION);
 
     /**
      * The namespace of the vocabulary as a string.
@@ -76,6 +76,10 @@ public class CSV extends Vocabulary {
     public static final String NS = "http://vocab.sindice.net/csv/";
 
     private static CSV instance;
+
+    private CSV() {
+      super(NS);
+    }
 
     public static CSV getInstance() {
         if (instance == null) {
@@ -90,15 +94,11 @@ public class CSV extends Vocabulary {
 
     /**
      *
-     * @param localName
+     * @param localName name to assign to namespace.
      * @return the new URI instance.
      */
     public URI createProperty(String localName) {
         return createProperty(NS, localName);
-    }
-
-    private CSV() {
-        super(NS);
     }
 
 }

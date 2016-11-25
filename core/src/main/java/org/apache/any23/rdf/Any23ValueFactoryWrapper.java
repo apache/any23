@@ -27,7 +27,6 @@ import org.openrdf.model.Statement;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
 import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,7 +161,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @param uriStr
+     * @param uriStr input string to create URI from.
      * @return a valid sesame URI or null if any exception occurred
      */
     public URI createURI(String uriStr) {
@@ -200,7 +199,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @param uri
+     * @param uri input string to attempt fix on.
      * @return a valid sesame URI or null if any exception occurred
      */
     public URI fixURI(String uri) {
@@ -214,6 +213,9 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     /**
      * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
+     * @param link string representation of the URI
+     * @param defaultSchema schema to add the URI
+     * @return a valid {@link org.openrdf.model.URI}
      */
     public URI fixLink(String link, String defaultSchema) {
         if (link == null) return null;

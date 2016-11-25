@@ -50,7 +50,7 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
      * @param node the DOM node.
      * @param out the extraction result collector.
      * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
-     * @throws ExtractionException
+     * @throws ExtractionException if there is an error during extraction
      */
     protected abstract boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException;
 

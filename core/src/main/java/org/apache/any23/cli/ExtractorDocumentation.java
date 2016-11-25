@@ -86,6 +86,8 @@ public class ExtractorDocumentation implements Tool {
 
     /**
      * Prints the list of all the available extractors.
+     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
+     * containing all extractors
      */
     public void printExtractorList(ExtractorRegistry registry) {
         for (ExtractorFactory factory : registry.getExtractorGroup()) {
@@ -97,7 +99,8 @@ public class ExtractorDocumentation implements Tool {
      * Prints an example of input for the provided extractor.
      *
      * @param extractorName the name of the extractor
-     * @param registry 
+     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
+     * containing all extractors
      * @throws IOException raised if no extractor is found with that name
      */
     public void printExampleInput(String extractorName, ExtractorRegistry registry) throws IOException {
@@ -114,9 +117,10 @@ public class ExtractorDocumentation implements Tool {
      * Prints an output example for the given extractor.
      *
      * @param extractorName the extractor name
-     * @param registry 
+     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
+     * containing all extractors
      * @throws IOException raised if no extractor is found with that name
-     * @throws ExtractionException
+     * @throws ExtractionException if there is an error duing extraction
      */
     public void printExampleOutput(String extractorName, ExtractorRegistry registry) throws IOException, ExtractionException {
         ExtractorFactory<?> factory = getFactory(registry, extractorName);
@@ -131,8 +135,10 @@ public class ExtractorDocumentation implements Tool {
     /**
      * Prints a complete report on all the available extractors.
      *
-     * @throws IOException
-     * @throws ExtractionException
+     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
+     * containing all extractors
+     * @throws IOException raised if no extractor is found with that name
+     * @throws ExtractionException if there is an error duing extraction
      */
     public void printReport(ExtractorRegistry registry) throws IOException, ExtractionException {
         for (String extractorName : registry.getAllNames()) {

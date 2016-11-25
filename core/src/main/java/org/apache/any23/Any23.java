@@ -123,6 +123,7 @@ public class Any23 {
      * Constructor that allows the specification of a
      * custom configuration and of list of extractor names.
      *
+     * @param configuration a {@link Configuration} object
      * @param extractorNames list of extractor's names.
      */
     public Any23(Configuration configuration, String... extractorNames) {
@@ -147,6 +148,7 @@ public class Any23 {
 
     /**
      * Constructor accepting {@link Configuration}.
+     * @param configuration a {@link Configuration} object
      */
     public Any23(Configuration configuration) {
         this(configuration, (String[]) null);
@@ -282,8 +284,8 @@ public class Any23 {
      * @param encoding explicit encoding see
      *        <a href="http://www.iana.org/assignments/character-sets">available encodings</a>.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws org.apache.any23.extractor.ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(
             ExtractionParameters eps,
@@ -317,8 +319,8 @@ public class Any23 {
      * @param encoding declared data encoding.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(
             String in,
@@ -339,8 +341,8 @@ public class Any23 {
      * @param documentURI URI from which the raw data has been extracted.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(String in, String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
@@ -354,8 +356,8 @@ public class Any23 {
      * @param file file containing raw data.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(File file, TripleHandler outputHandler)
     throws IOException, ExtractionException {
@@ -371,8 +373,8 @@ public class Any23 {
      * @param documentURI the URI from which retrieve document.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(ExtractionParameters eps, String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
@@ -391,8 +393,8 @@ public class Any23 {
      * @param documentURI the URI from which retrieve document.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(String documentURI, TripleHandler outputHandler)
     throws IOException, ExtractionException {
@@ -409,8 +411,8 @@ public class Any23 {
      * @param encoding explicit encoding see
      *        <a href="http://www.iana.org/assignments/character-sets">available encodings</a>.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler, String encoding)
     throws IOException, ExtractionException {
@@ -425,8 +427,8 @@ public class Any23 {
      * @param in the input document source.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {
@@ -442,8 +444,8 @@ public class Any23 {
      * @param in the input document source.
      * @param outputHandler handler responsible for collecting of the extracted metadata.
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
      */
     public ExtractionReport extract(ExtractionParameters eps, DocumentSource in, TripleHandler outputHandler)
     throws IOException, ExtractionException {

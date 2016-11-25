@@ -22,9 +22,8 @@ import java.io.InputStream;
 
 /**
  * This interface defines a minimum set of methods that
- * a {@link org.apache.any23.mime.TikaMIMETypeDetector} could
- * call in order to clean the input before performing the <i>MIME type</i>
- * detection.
+ * a TikaMIMETypeDetector could call in order to clean the input 
+ * before performing the <i>MIME type</i> detection.
  * 
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */
@@ -34,6 +33,7 @@ public interface Purifier {
      * Performs the purification of the provided resettable {@link java.io.InputStream}.
      * 
      * @param inputStream a resettable {@link java.io.InputStream} to be cleaned.
+     * @throws IOException if there is an error accessing the {@link java.io.InputStream}
      */
     void purify(InputStream inputStream) throws IOException;
 

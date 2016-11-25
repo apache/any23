@@ -44,8 +44,8 @@ public class DefaultHTTPClientConfiguration implements HTTPClientConfiguration {
      * Constructor.
      *
      * @param userAgent the user agent descriptor string.
-     * @param defaultTimeout the default timeout, cannot be <code>&lt&eq to 0</code>
-     * @param maxConnections the default max connections, cannot be <code>&lt&eq to 0</code>
+     * @param defaultTimeout the default timeout, cannot be <code>&lt;&#61; to 0</code>
+     * @param maxConnections the default max connections, cannot be <code>&lt;&#61; to 0</code>
      * @param acceptHeader the accept header string, can be <code>null</code>.
      */
     public DefaultHTTPClientConfiguration(
@@ -77,7 +77,7 @@ public class DefaultHTTPClientConfiguration implements HTTPClientConfiguration {
 
     /**
      * Constructor.
-     * initialized with default {@link DefaultConfiguration} parameters and <code>acceptHeader=null</>.
+     * initialized with default {@link DefaultConfiguration} parameters and <code>acceptHeader=null</code>.
      */
     public DefaultHTTPClientConfiguration() {
         this(null);

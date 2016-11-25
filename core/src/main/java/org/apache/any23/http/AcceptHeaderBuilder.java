@@ -60,8 +60,7 @@ public class AcceptHeaderBuilder {
 
     /**
      * Builds and returns an accept header.
-     *
-     * @throws IllegalArgumentException if an input MIME type cannot be parsed.
+     * @return the accept header.
      */
     public String getAcceptHeader() {
         if (mimeTypes.isEmpty()) return null;

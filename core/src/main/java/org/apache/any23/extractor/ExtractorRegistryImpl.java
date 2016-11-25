@@ -99,7 +99,7 @@ public class ExtractorRegistryImpl extends info.aduna.lang.service.ServiceRegist
     /**
      * Registers an {@link ExtractorFactory}.
      *
-     * @param factory
+     * @param factory the {@link org.apache.any23.extractor.ExtractorFactory} to register
      * @throws IllegalArgumentException if trying to register a {@link ExtractorFactory}
      *         with a that already exists in the registry.
      */

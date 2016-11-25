@@ -40,9 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of content extractor for performing <i>HTML<i/> scraping.
+ * Implementation of content extractor for performing <i>HTML</i> scraping.
  *
- * @see HTMLScraperPlugin
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class HTMLScraperExtractor implements Extractor.ContentExtractor {

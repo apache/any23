@@ -18,7 +18,7 @@
 package org.apache.any23.configuration;
 
 /**
- * Defines the main <i>Any23</code> configuration.
+ * Defines the main <i>Any23</i> configuration.
  */
 public interface Configuration {
 
@@ -33,7 +33,7 @@ public interface Configuration {
      * Checks whether a property is defined or not in configuration.
      *
      * @param propertyName name of property to check.
-     * @return <code>true</code> if defined, </code>false</code> otherwise.
+     * @return <i>true</i> if defined, <i>false</i> otherwise.
      */
     boolean defineProperty(String propertyName);
 

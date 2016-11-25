@@ -41,7 +41,7 @@ public class ContentTypeNegotiator {
      * Returns the {@link MediaRangeSpec}
      * associated to the given <i>accept</i> type.
      * 
-     * @param accept
+     * @param accept a provided <i>accept</i> type
      * @return a {@link MediaRangeSpec} associated to the accept parameter
      */
     public MediaRangeSpec getBestMatch(String accept) {
@@ -52,8 +52,8 @@ public class ContentTypeNegotiator {
      * Returns the {@link MediaRangeSpec}
      * associated to the given <i>accept</i> type and <i>userAgent</i>.
      *
-     * @param accept
-     * @param userAgent
+     * @param accept a provided <i>accept</i> type
+     * @param userAgent use agent associated with the request
      * @return the {@link MediaRangeSpec}
      * associated to the given <i>accept</i> type and <i>userAgent</i>.
      */
@@ -82,6 +82,7 @@ public class ContentTypeNegotiator {
      * Sets an Accept header to be used as the default if a client does
      * not send an Accept header, or if the Accept header cannot be parsed.
      * Defaults to "* / *".
+     * @param accept a default <i>accept</i> type
      */
     protected void setDefaultAccept(String accept) {
         this.defaultAcceptRanges = MediaRangeSpec.parseAccept(accept);

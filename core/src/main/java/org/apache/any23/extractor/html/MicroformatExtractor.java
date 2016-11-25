@@ -67,9 +67,11 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Performs the extraction of the data and writes them to the model.
      * The nodes generated in the model can have any name or implicit label
-     * but if possible they </i>SHOULD</i> have names (either URIs or AnonId) that
+     * but if possible they <i>SHOULD</i> have names (either URIs or AnonId) that
      * are uniquely derivable from their position in the DOM tree, so that
      * multiple extractors can merge information.
+     * @return true if extraction is successful
+     * @throws ExtractionException if there is an error during extraction
      */
     protected abstract boolean extract() throws ExtractionException;
 
@@ -218,9 +220,9 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Helper method that adds a URI property to a node.
      *
-     * @param subject
-     * @param property
-     * @param object
+     * @param subject subject to add
+     * @param property predicate to add
+     * @param object object to add
      */
     protected void addURIProperty(Resource subject, URI property, URI object) {
         out.writeTriple(subject, property, object);    

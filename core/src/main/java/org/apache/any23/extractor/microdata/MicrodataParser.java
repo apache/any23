@@ -151,7 +151,7 @@ public class MicrodataParser {
     }
 
     /**
-     * Returns only the <i>itemScope<i>s that are top level items.
+     * Returns only the <i>itemScope</i>s that are top level items.
      *
      * @param node root node to search in.
      * @return list of detected top item scopes.
@@ -214,7 +214,7 @@ public class MicrodataParser {
      * as described at <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
      *
      * @param document document to be processed.
-     * @param ps
+     * @param ps the {@link java.io.PrintStream} to write JSON to
      */
     public static void getMicrodataAsJSON(Document document, PrintStream ps) {
         final MicrodataParserReport report = getMicrodata(document);
@@ -298,7 +298,7 @@ public class MicrodataParser {
     }
 
     /**
-     * Reads the value of a <b>itemprop</code> node.
+     * Reads the value of a <b>itemprop</b> node.
      *
      * @param node itemprop node.
      * @return value detected within the given <code>node</code>.
@@ -349,10 +349,10 @@ public class MicrodataParser {
     /**
      * Returns all the <b>itemprop</b>s for the given <b>itemscope</b> node.
      *
-     * @param scopeNode node representing the <b>itemscope</>
-     * @param skipRoot if <code>true</code> the given root <code>node</node>
+     * @param scopeNode node representing the <b>itemscope</b>
+     * @param skipRoot if <code>true</code> the given root <code>node</code>
      *        will be not read as a property, even if it contains the <b>itemprop</b> attribute.
-     * @return the list of <b>itemprop<b>s detected within the given <b>itemscope</b>.
+     * @return the list of <b>itemprop</b>s detected within the given <b>itemscope</b>.
      * @throws MicrodataParserException if an error occurs while retrieving an property value.
      */
     public List<ItemProp> getItemProps(final Node scopeNode, boolean skipRoot) throws MicrodataParserException {

@@ -21,8 +21,8 @@ import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorFactory;
 
 /**
- * This interface defines an {@link org.apache.any23.cli.Any23}
- * extractor plugin that can be detected and registered from the library classpath.
+ * This interface defines an Any23 extractor plugin that can be 
+ * detected and registered from the library classpath.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @deprecated ExtractorFactory now supports META-INF/services discovery, deprecating this class.

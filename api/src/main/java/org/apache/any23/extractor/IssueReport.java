@@ -40,7 +40,7 @@ public interface IssueReport {
     /**
      * Prints out the content of the report.
      *
-     * @param ps
+     * @param ps a {@link java.io.PrintStream} to use for generating the report.
      */
     void printReport(PrintStream ps);
 

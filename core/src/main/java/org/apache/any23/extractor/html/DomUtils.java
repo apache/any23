@@ -54,11 +54,11 @@ import java.util.regex.Pattern;
  * It is separated from {@link HTMLDocument} so that its methods
  * can be run on single DOM nodes without having to wrap them
  * into an HTMLDocument.
+ * <p>
  * We use a mix of XPath and DOM manipulation.
- * <p/>
+ * </p>
  * This is likely to be a performance bottleneck but at least
  * everything is localized here.
- * <p/>
  */
 public class DomUtils {
 
@@ -230,6 +230,9 @@ public class DomUtils {
 
     /**
      * Mimics the JS DOM API, or prototype's $()
+     * @param root the node to locate
+     * @param id the id of the node to locate
+     * @return the {@link org.w3c.dom.Node} if one exists
      */
     public static Node findNodeById(Node root, String id) {
         Node node;
@@ -245,6 +248,9 @@ public class DomUtils {
     /**
      * Returns a NodeList composed of all the nodes that match an XPath
      * expression, which must be valid.
+     * @param node the node object to locate
+     * @param xpath an xpath expression
+     * @return a list of {@link org.w3c.dom.Node}'s if they exists
      */
     public static List<Node> findAll(Node node, String xpath) {
         if(node == null) {
@@ -264,6 +270,9 @@ public class DomUtils {
 
     /**
      * Gets the string value of an XPath expression.
+     * @param node the node object to locate
+     * @param xpath an xpath expression
+     * @return a string xpath value
      */
     public static String find(Node node, String xpath) {
         try {
@@ -279,6 +288,9 @@ public class DomUtils {
     /**
      * Tells if an element has a class name <b>not checking the parents
      * in the hierarchy</b> mimicking the <i>CSS</i> .foo match.
+     * @param node the node object to locate
+     * @param className the CSS class name
+     * @return true if the class name exists
      */
     public static boolean hasClassName(Node node, String className) {
         return hasAttribute(node, "class", className);
@@ -288,6 +300,10 @@ public class DomUtils {
      * Checks the presence of an attribute value in attributes that
      * contain whitespace-separated lists of values. The semantic is the
      * CSS classes' ones: "foo" matches "bar foo", "foo" but not "foob"
+     * @param node the node object to locate
+     * @param attributeName attribute value
+     * @param className the CSS class name
+     * @return true if the class has the attribute name
      */
     public static boolean hasAttribute(Node node, String attributeName, String className) {
         // regex love, maybe faster but less easy to understand
@@ -304,6 +320,7 @@ public class DomUtils {
       *
       * @param node the node container.
       * @param attributeName the name of the attribute.
+      * @return true if the attribute is present
       */
     public static boolean hasAttribute(Node node, String attributeName) {
         return readAttribute(node, attributeName, null) != null;
@@ -312,7 +329,7 @@ public class DomUtils {
     /**
      * Verifies if the given target node is an element.
      *
-     * @param target
+     * @param target target node to check
      * @return <code>true</code> if the element the node is an element,
      *         <code>false</code> otherwise.
      */
@@ -384,7 +401,7 @@ public class DomUtils {
      * @return the XML serialization.
      * @throws TransformerException if an error occurs during the
      *         serializator initialization and activation.
-     * @throws java.io.IOException
+     * @throws java.io.IOException if there is an error locating the node
      */
     public static String serializeToXML(Node node, boolean indent) throws TransformerException, IOException {
         final DOMSource domSource = new DOMSource(node);
@@ -410,7 +427,7 @@ public class DomUtils {
      * @param tagName name of target tag.
      * @param attrName name of attribute filter.
      * @param attrContains expected content for attribute.
-     * @return
+     * @return a {@link java.util.List} of {@link org.w3c.dom.Node}'s
      */
     private static List<Node> findAllBy(Node root, final String tagName, final String attrName, String attrContains) {
         DocumentTraversal documentTraversal = (DocumentTraversal) root.getOwnerDocument();
@@ -501,9 +518,8 @@ public class DomUtils {
 
     /**
      * Convert a w3c dom node to a InputStream
-     * @param node
-     * @return
-     * @throws TransformerException
+     * @param node {@link org.w3c.dom.Node} to convert
+     * @return the converted {@link java.io.InputStream}
      */
     public static InputStream nodeToInputStream(Node node) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -512,17 +528,14 @@ public class DomUtils {
         try {
           t = TransformerFactory.newInstance().newTransformer();
         } catch (TransformerConfigurationException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         } catch (TransformerFactoryConfigurationError e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
         t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         try {
           t.transform(new DOMSource(node), outputTarget);
         } catch (TransformerException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
         return new ByteArrayInputStream(outputStream.toByteArray());

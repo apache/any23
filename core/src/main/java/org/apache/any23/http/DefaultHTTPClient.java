@@ -58,7 +58,7 @@ public class DefaultHTTPClient implements HTTPClient {
     /**
      * Creates a {@link DefaultHTTPClient} instance already initialized
      *
-     * @return
+     * @return populated {@link org.apache.any23.http.DefaultHTTPClient}
      */
     public static DefaultHTTPClient createInitializedHTTPClient() {
         final DefaultHTTPClient defaultHTTPClient = new DefaultHTTPClient();
@@ -78,7 +78,8 @@ public class DefaultHTTPClient implements HTTPClient {
      *
      * @param uri to be opened
      * @return {@link java.io.InputStream}
-     * @throws IOException
+     * @throws IOException if there is an error opening the {@link java.io.InputStream}
+     * located at the URI.
      */
     public InputStream openInputStream(String uri) throws IOException {
         GetMethod method = null;

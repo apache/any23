@@ -41,16 +41,16 @@ import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
 /**
- * Parses an {@link java.io.InputStream}
- * into an <io>HTML DOM</i> tree using a <i>TagSoup</i> parser.
- * <p/>
- * <strong>Note:</strong> The resulting <i>DOM</i> tree will not be namespace
+ * <p>Parses an {@link java.io.InputStream}
+ * into an <i>HTML DOM</i> tree using a <i>TagSoup</i> parser.
+ * </p>
+ * <p><strong>Note:</strong> The resulting <i>DOM</i> tree will not be namespace
  * aware, and all element names will be upper case, while attributes
  * will be lower case. This is because the
  * <a href="http://nekohtml.sourceforge.net/">NekoHTML</a> based <i>TagSoup</i> parser
  * by default uses the <a href="http://xerces.apache.org/xerces2-j/dom.html">Xerces HTML DOM</a>
  * implementation, which doesn't support namespaces and forces uppercase element names. This works
- * with the <i>RDFa XSLT Converter</i> and with </i>XPath</i>, so we left it this way.
+ * with the <i>RDFa XSLT Converter</i> and with <i>XPath</i>, so we left it this way.</p>
  *
  * @author Richard Cyganiak (richard at cyganiak dot de)
  * @author Michele Mostarda (mostarda@fbk.eu)
@@ -91,7 +91,7 @@ public class TagSoupParser {
      * Returns the DOM of the given document URI. 
      *
      * @return the <i>HTML</i> DOM.
-     * @throws IOException
+     * @throws IOException if there is an error whilst accessing the DOM
      */
     public Document getDOM() throws IOException {
         if (result == null) {
@@ -123,12 +123,12 @@ public class TagSoupParser {
      * Returns the validated DOM and applies fixes on it if <i>applyFix</i>
      * is set to <code>true</code>.
      *
-     * @param applyFix
+     * @param applyFix whether to apply fixes to the DOM
      * @return a report containing the <i>HTML</i> DOM that has been validated and fixed if <i>applyFix</i>
      *         if <code>true</code>. The reports contains also information about the activated rules and the
      *         the detected issues.
-     * @throws IOException
-     * @throws org.apache.any23.validator.ValidatorException
+     * @throws IOException if there is an error accessing the DOM
+     * @throws org.apache.any23.validator.ValidatorException if there is an error validating the DOM
      */
     public DocumentReport getValidatedDOM(boolean applyFix) throws IOException, ValidatorException {
         final URI dURI;

@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 
 /**
  * This class implements the <i>HTTP header media-range specification</i>.
- * <br/>
  * See <a href="http://www.ietf.org/rfc/rfc2616.txt">RFC 2616 section 14.1</a>. 
  */
 public class MediaRangeSpec {
@@ -81,6 +80,8 @@ public class MediaRangeSpec {
 
     /**
      * Parses a media type from a string such as <tt>text/html;charset=utf-8;q=0.9</tt>.
+     * @param mediaType input string from which to extract mediaType
+     * @return {@link org.apache.any23.servlet.conneg.MediaRangeSpec}
      */
     public static MediaRangeSpec parseType(String mediaType) {
         MediaRangeSpec m = parseRange(mediaType);
@@ -93,6 +94,8 @@ public class MediaRangeSpec {
     /**
      * Parses a media range from a string such as <tt>text/*;charset=utf-8;q=0.9</tt>.
      * Unlike simple media types, media ranges may include wildcards.
+     * @param mediaRange input string from which to extract media range
+     * @return {@link org.apache.any23.servlet.conneg.MediaRangeSpec}
      */
     public static MediaRangeSpec parseRange(String mediaRange) {
         Matcher m = mediaRangePattern.matcher(mediaRange);
@@ -129,6 +132,7 @@ public class MediaRangeSpec {
     /**
      * Parses an HTTP Accept header into a List of MediaRangeSpecs
      *
+     * @param s an HTTP accept header.
      * @return A List of MediaRangeSpecs
      */
     public static List<MediaRangeSpec> parseAccept(String s) {

@@ -31,6 +31,7 @@ public interface ValidationReportSerializer {
      *
      * @param vr the validation report to be serialized.
      * @param os the output stream used to produce the serialization.
+     * @throws SerializationException if there is an error serializing data
      */
     void serialize(ValidationReport vr, OutputStream os) throws SerializationException;
 

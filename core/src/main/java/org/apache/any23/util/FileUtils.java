@@ -65,8 +65,8 @@ public class FileUtils {
      * Copies the content of the input stream within the given dest file.
      * The dest file must not exist.
      *
-     * @param is
-     * @param dest
+     * @param is {@link java.io.InputStream} to copy
+     * @param dest detination to copy it to.
      */
     public static void cp(InputStream is, File dest) {
         if (dest.exists()) {
@@ -117,7 +117,7 @@ public class FileUtils {
      *
      * @param f       file target.
      * @param content content to be dumped.
-     * @throws IOException
+     * @throws IOException if there is an error dumping the content
      */
     public static void dumpContent(File f, String content) throws IOException {
         FileWriter fw = new FileWriter(f);
@@ -133,7 +133,7 @@ public class FileUtils {
      *
      * @param f file to generate dump.
      * @param t exception to be dumped.
-     * @throws IOException
+     * @throws IOException if there is an error dumping the content
      */
     public static void dumpContent(File f, Throwable t) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -149,7 +149,7 @@ public class FileUtils {
      * @param clazz    the class to use load the resource.
      * @param resource the resource to be load.
      * @return the string representing the file content.
-     * @throws java.io.IOException
+     * @throws java.io.IOException if there is an error loading the resource
      */
     public static String readResourceContent(Class clazz, String resource) throws IOException {
         return StreamUtils.asString( clazz.getResourceAsStream(resource) );
@@ -160,7 +160,7 @@ public class FileUtils {
      *
      * @param resource the resource to be load.
      * @return the string representing the file content.
-     * @throws java.io.IOException
+     * @throws java.io.IOException if there is an error loading the resource
      */
     public static String readResourceContent(String resource) throws IOException {
         return readResourceContent(FileUtils.class, resource);

@@ -24,13 +24,19 @@ package org.apache.any23.mime;
  */
 public class MIMEType implements Comparable<MIMEType> {
 
-    private final static String MSG = "Cannot parse MIME type (expected type/subtype[;q=x.y] format): ";
+    private static final String MSG = "Cannot parse MIME type (expected type/subtype[;q=x.y] format): ";
 
     private final String type;
 
     private final String subtype;
     
     private final double q;
+
+    private MIMEType(String type, String subtype, double q) {
+        this.type = type;
+        this.subtype = subtype;
+        this.q = q;
+    }
 
     /**
      * Parses the given MIME type string returning an instance of
@@ -39,20 +45,26 @@ public class MIMEType implements Comparable<MIMEType> {
      * <code>type/subtype[;q=x.y]</code> .
      * An example of valid mime type is: <code>application/rdf+xml;q=0.9</code> 
      *
-     * @param mimeType
+     * @param mimeType a provided mimetype string.
      * @return the mime type instance.
      * @throws IllegalArgumentException if the <code>mimeType</code> is not well formatted.
      */
     public static MIMEType parse(String mimeType) {
-        if (mimeType == null) return null;
+        if (mimeType == null) {
+          return null;
+        }
         int i = mimeType.indexOf(';');
         double q = 1.0;
         if (i > -1) {
             String[] params = mimeType.substring(i + 1).split(";");
             for (String param : params) {
                 int i2 = param.indexOf('=');
-                if (i2 == -1) continue;
-                if (!"q".equals(param.substring(0, i2).trim().toLowerCase())) continue;
+                if (i2 == -1) {
+                  continue;
+                }
+                if (!"q".equals(param.substring(0, i2).trim().toLowerCase())){
+                  continue;
+                }
                 String value = param.substring(i2 + 1);
                 try {
                     q = Double.parseDouble(value);
@@ -85,18 +97,12 @@ public class MIMEType implements Comparable<MIMEType> {
         return new MIMEType(p1, p2, q);
     }
 
-    private MIMEType(String type, String subtype, double q) {
-        this.type = type;
-        this.subtype = subtype;
-        this.q = q;
-    }
-
     public String getMajorType() {
-        return (type == null ? "*" : type);
+        return type == null ? "*" : type;
     }
 
     public String getSubtype() {
-        return (subtype == null ? "*" : subtype);
+        return subtype == null ? "*" : subtype;
     }
 
     public String getFullType() {
@@ -115,6 +121,7 @@ public class MIMEType implements Comparable<MIMEType> {
         return subtype == null;
     }
 
+    @Override
     public String toString() {
         if (q == 1.0) {
             return getFullType();
@@ -122,8 +129,9 @@ public class MIMEType implements Comparable<MIMEType> {
         return getFullType() + ";q=" + q;
     }
 
+    @Override
     public int compareTo(MIMEType other) {
         return getFullType().compareTo(other.getFullType());
     }
-    
+
 }

@@ -25,37 +25,10 @@ import java.util.Map;
 
 /**
  * This class models the parameters to be used to perform an extraction.
- *
- * @see org.apache.any23.Any23
+ * See org.apache.any23.Any23 for more details.
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class ExtractionParameters {
-
-    /**
-     * @param c the underlying configuration.
-     * @return the default extraction parameters.
-     */
-    public static final ExtractionParameters newDefault(Configuration c) {
-        return new ExtractionParameters(c, ValidationMode.None);
-    }
-
-    /**
-     * Creates the default extraction parameters with {@link org.apache.any23.configuration.DefaultConfiguration}.
-     *
-     * @return the default extraction parameters.
-     */
-    public static final ExtractionParameters newDefault() {
-        return new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.None);
-    }
-
-    /**
-     * Declares the supported validation actions.
-     */
-    public enum ValidationMode {
-        None,
-        Validate,
-        ValidateAndFix
-    }
 
     private final Configuration configuration;
 
@@ -123,7 +96,7 @@ public class ExtractionParameters {
 
     /**
      * Constructor, allows to set explicitly the value for flag
-     * {@link SingleDocumentExtraction#METADATA_NESTING_FLAG}.
+     * SingleDocumentExtraction#METADATA_NESTING_FLAG.
      *
      * @param configuration the underlying configuration.
      * @param extractionMode specifies the required extraction mode.
@@ -137,13 +110,37 @@ public class ExtractionParameters {
                   /**
                    * 
                    */
-                  private static final long serialVersionUID = 1L;
-
-                {
+                  private static final long serialVersionUID = 1L; {
                     put(ExtractionParameters.METADATA_NESTING_FLAG, nesting);
                 }},
                 null
         );
+    }
+
+    /**
+     * @param c the underlying configuration.
+     * @return the default extraction parameters.
+     */
+    public static final ExtractionParameters newDefault(Configuration c) {
+        return new ExtractionParameters(c, ValidationMode.None);
+    }
+
+    /**
+     * Creates the default extraction parameters with {@link org.apache.any23.configuration.DefaultConfiguration}.
+     *
+     * @return the default extraction parameters.
+     */
+    public static final ExtractionParameters newDefault() {
+        return new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.None);
+    }
+
+    /**
+     * Declares the supported validation actions.
+     */
+    public enum ValidationMode {
+        None,
+        Validate,
+        ValidateAndFix
     }
 
     /**

@@ -46,6 +46,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
 
     /**
      * Constructor.
+     * @param tripleHandler a configured {@link org.apache.any23.writer.TripleHandler}
      */
     public BenchmarkTripleHandler(TripleHandler tripleHandler) {
         if(tripleHandler == null) {
