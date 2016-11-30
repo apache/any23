@@ -168,7 +168,7 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     /**
-     * Tests out the first code snipped used in <i>Developer Manual</i>.
+     * Tests out extraction from a small {@link org.apache.any23.source.StringDocumentSource}.
      * 
      * @throws IOException
      * @throws org.apache.any23.extractor.ExtractionException
@@ -243,9 +243,9 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * This test checks the extraction behavior when the library is used
-     * programatically. This test is related to the issue #45, to verify the
-     * different behaviors between Maven and Ant. The behavior was related to a
-     * 2nd-level dependency introduced by Maven.
+     * programatically. It verifies the different behaviors between Maven 
+     * and Ant. The behavior was related to a 2nd-level dependency 
+     * introduced by Maven.
      * 
      * @throws org.apache.any23.extractor.ExtractionException
      * @throws IOException
@@ -350,19 +350,6 @@ public class Any23Test extends Any23OnlineTestBase {
         logger.info(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES,
                 cth1.getCount());
-
-//        baos.reset();
-//        CountingTripleHandler cth2 = new CountingTripleHandler();
-//        NTriplesWriter ctw2 = new NTriplesWriter(baos);
-//        CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
-//        compositeTH2.addChild(cth2);
-//        compositeTH2.addChild(ctw2);
-//        runner.extract(
-//                new ExtractionParameters(DefaultConfiguration.singleton(),
-//                        ValidationMode.ValidateAndFix), source, compositeTH2);
-//        logger.debug(baos.toString());
-//        Assert.assertEquals("Unexpected number of triples.",
-//                EXPECTED_TRIPLES + 5, cth2.getCount());
     }
 
     @Test

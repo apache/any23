@@ -26,6 +26,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
+import org.apache.any23.util.StreamUtils;
 import org.apache.any23.vocab.CSV;
 import org.apache.commons.csv.CSVParser;
 import org.openrdf.model.URI;
@@ -35,10 +36,14 @@ import org.openrdf.model.impl.URIImpl;
 import org.openrdf.model.vocabulary.RDF;
 import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.model.vocabulary.XMLSchema;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.StringTokenizer;
+
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 
 /**
  * This extractor produces <i>RDF</i> from a <i>CSV file</i> .
@@ -48,7 +53,7 @@ import java.util.StringTokenizer;
  * @see CSVReaderBuilder
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */
-public class CSVExtractor implements Extractor.ContentExtractor {
+public class CSVExtractor implements Extractor.TagSoupDOMExtractor {
 
     private CSVParser csvParser;
 
@@ -62,19 +67,28 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     public void setStopAtFirstError(boolean f) {
     }
 
+    
     /**
      * {@inheritDoc}
      */
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
-            InputStream in
+            Document doc
             , ExtractionResult out
     ) throws IOException, ExtractionException {
         final URI documentURI = extractionContext.getDocumentURI();
 
         // build the parser
-        csvParser = CSVReaderBuilder.build(in);
+        try {
+          csvParser = CSVReaderBuilder.build(StreamUtils.documentToInputStream(doc));
+        } catch (TransformerConfigurationException e) {
+          e.printStackTrace();
+        } catch (TransformerException e) {
+          e.printStackTrace();
+        } catch (TransformerFactoryConfigurationError e) {
+          e.printStackTrace();
+        }
 
         // get the header and generate the URIs for column names
         String[] header = csvParser.getLine();
@@ -195,7 +209,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     private URI normalize(String toBeNormalized, URI documentURI) {
-        toBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "");
+        toBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "").replace("<", "&lt;").replace(">", "&gt;");
 
         StringBuilder result = new StringBuilder(documentURI.toString());
 
@@ -290,4 +304,5 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     public ExtractorDescription getDescription() {
         return CSVExtractorFactory.getDescriptionInstance();
     }
+
 }

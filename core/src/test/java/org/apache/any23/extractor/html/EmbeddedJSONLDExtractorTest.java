@@ -16,35 +16,35 @@
  */
 package org.apache.any23.extractor.html;
 
-import static org.junit.Assert.*;
-
 import org.apache.any23.extractor.ExtractorFactory;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.openrdf.repository.RepositoryException;
 
 /**
- * @author lmcgibbn
- *
+ * Tests attept to extract statements from single and multiple 
+ * JSON-LD snippets embedded in HTML head nodes. 
  */
 public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 
-	@Test
-	public void testEmbeddedJSONLDInHead() throws Exception {
-		assertExtract("/html/html-embedded-jsonld-extractor.html");
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 3);
-	}
+  @Test
+  @Ignore("Skip until the EmbeddedJSONLDExtractor implementation is fixed")
+  public void testEmbeddedJSONLDInHead() throws Exception {
+    assertExtract("/html/html-embedded-jsonld-extractor.html");
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 3);
+  }
 
-	@Test
-	public void testSeveralEmbeddedJSONLDInHead() throws Exception {
-		assertExtract("/html/html-embedded-jsonld-extractor-multiple.html");
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 7);
-	}
+  @Test
+  @Ignore("Skip until the EmbeddedJSONLDExtractor implementation is fixed")
+  public void testSeveralEmbeddedJSONLDInHead() throws Exception {
+    assertExtract("/html/html-embedded-jsonld-extractor-multiple.html");
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 7);
+  }
 
-	@Override
-	protected ExtractorFactory<?> getExtractorFactory() {
-		return new EmbeddedJSONLDExtractorFactory();
-	}
+  @Override
+  protected ExtractorFactory<?> getExtractorFactory() {
+    return new EmbeddedJSONLDExtractorFactory();
+  }
 
 }

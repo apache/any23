@@ -24,6 +24,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
+import org.apache.any23.util.StreamUtils;
 import org.apache.any23.vocab.Excel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -33,6 +34,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openrdf.model.URI;
 import org.openrdf.model.vocabulary.RDF;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +48,7 @@ import java.io.InputStream;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class ExcelExtractor implements Extractor.ContentExtractor {
+public class ExcelExtractor implements Extractor.TagSoupDOMExtractor {
 
     private static final Excel excel = Excel.getInstance();
 
@@ -58,7 +60,6 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
         return stopAtFirstError;
     }
 
-    @Override
     public void setStopAtFirstError(boolean f) {
         stopAtFirstError = f;
     }
@@ -72,12 +73,12 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext context,
-            InputStream in,
+            Document in,
             ExtractionResult er
     ) throws IOException, ExtractionException {
         try {
             final URI documentURI = context.getDocumentURI();
-            final Workbook workbook = createWorkbook(documentURI, in);
+            final Workbook workbook = createWorkbook(documentURI, StreamUtils.documentToInputStream(in));
             processWorkbook(documentURI, workbook, er);
         } catch (Exception e) {
             throw new ExtractionException("An error occurred while extracting MS Excel content.", e);
