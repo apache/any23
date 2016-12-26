@@ -29,7 +29,7 @@ import org.w3c.dom.Node;
  * This fixes missing attribute values for the 'itemscope' attribute 
  * Typically when such a snippet of XHTML is fed through the 
  * {@link org.apache.any23.extractor.rdfa.RDFa11Extractor}, and
- * subsequently to Sesame's {@link org.semarglproject.sesame.rdf.rdfa.SesameRDFaParser},
+ * subsequently to Sesame's SesameRDFaParser,
  * it will result in the following behavior. 
  * <pre>
  * {@code

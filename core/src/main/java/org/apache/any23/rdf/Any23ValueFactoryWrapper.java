@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
+ * Any23 specialization of the {@link org.eclipse.rdf4j.model.ValueFactory}.
  * It provides a wrapper to instantiate RDF objects.
  */
 // TODO: Merge with RDFUtils.java
@@ -216,12 +216,12 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @param uri
+     * @param iri IRI to fix
      * @return a valid sesame IRI or null if any exception occurred
      */
-    public IRI fixIRI(String uri) {
+    public IRI fixIRI(String iri) {
         try {
-            return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(uri));
+            return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(iri));
         } catch (Exception e) {
             reportError(e);
             return null;
@@ -232,7 +232,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
      * @param link string representation of the URI
      * @param defaultSchema schema to add the URI
-     * @return a valid {@link org.openrdf.model.URI}
+     * @return a valid sesame IRI or null if any exception occurred
      */
     public IRI fixLink(String link, String defaultSchema) {
         if (link == null) return null;

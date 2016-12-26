@@ -23,10 +23,8 @@ import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.URI;
-import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.SimpleIRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -65,16 +63,16 @@ public class RDFUtils {
     private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
     /**
-     * Fixes typical errors in an absolute IRI, such as unescaped spaces.
+     * Fixes typical errors in an absolute org.eclipse.rdf4j.model.IRI, such as unescaped spaces.
      *
-     * @param uri An absolute IRI, can have typical syntax errors
-     * @return An absolute IRI that is valid against the IRI syntax
-     * @throws IllegalArgumentException if IRI is not fixable
+     * @param uri An absolute org.eclipse.rdf4j.model.IRI, can have typical syntax errors
+     * @return An absolute org.eclipse.rdf4j.model.IRI that is valid against the org.eclipse.rdf4j.model.IRI syntax
+     * @throws IllegalArgumentException if org.eclipse.rdf4j.model.IRI is not fixable
      */
     public static String fixAbsoluteIRI(String uri) {
         String fixed = fixIRIWithException(uri);
-        if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute IRI: " + uri);
-        // Add trailing slash if IRI has only authority but no path.
+        if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute org.eclipse.rdf4j.model.IRI: " + uri);
+        // Add trailing slash if org.eclipse.rdf4j.model.IRI has only authority but no path.
         if (fixed.matches("https?://[a-zA-Z0-9.-]+(:[0-9+])?")) {
             fixed = fixed + "/";
         }
@@ -131,7 +129,7 @@ public class RDFUtils {
      * @return the unescaped string.
      */
     public static String fixIRIWithException(String unescapedIRI) {
-        if (unescapedIRI == null) throw new IllegalArgumentException("IRI was null");
+        if (unescapedIRI == null) throw new IllegalArgumentException("org.eclipse.rdf4j.model.IRI was null");
 
         //    Remove starting and ending whitespace
         String escapedIRI = unescapedIRI.trim();
@@ -150,11 +148,11 @@ public class RDFUtils {
 
         //Drop the triple if it matches this regex (only protocol): ^[a-zA-Z0-9]+:/?/?$
         if (escapedIRI.matches("^[a-zA-Z0-9]+:/?/?$"))
-            throw new IllegalArgumentException("no authority in IRI: " + unescapedIRI);
+            throw new IllegalArgumentException("no authority in org.eclipse.rdf4j.model.IRI: " + unescapedIRI);
 
         //Drop the triple if it matches this regex: ^javascript:
         if (escapedIRI.matches("^javascript:"))
-            throw new IllegalArgumentException("IRI starts with javascript: " + unescapedIRI);
+            throw new IllegalArgumentException("org.eclipse.rdf4j.model.IRI starts with javascript: " + unescapedIRI);
 
         // stripHTML
         // escapedIRI = escapedIRI.replaceAll("\\<.*?\\>", "");
@@ -164,45 +162,50 @@ public class RDFUtils {
 
         //Drop the triple if any of these appear in the URL: <>[]|*{}"<>\
         if (escapedIRI.matches("[<>\\[\\]|\\*\\{\\}\"\\\\]"))
-            throw new IllegalArgumentException("Invalid character in IRI: " + unescapedIRI);
+            throw new IllegalArgumentException("Invalid character in org.eclipse.rdf4j.model.IRI: " + unescapedIRI);
 
         return escapedIRI;
     }
 
     /**
-     * Creates a {@link IRI}.
-     * @param uri string representation of the {@link IRI}
-     * @return a valid {@link IRI}
+     * Creates a {@link org.eclipse.rdf4j.model.IRI}.
+     * @param uri string representation of the {@link org.eclipse.rdf4j.model.IRI}
+     * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      * @deprecated Use {@link #iri(String)} instead.
      */
     @Deprecated
-    public static IRI uri(String uri) {
+    public static org.eclipse.rdf4j.model.IRI uri(String uri) {
         return iri(uri);
     }
 
     /**
-     * Creates a {@link IRI}.
-     * @param namespace a base namespace for the {@link IRI}
-     * @param localName a local name to associate with the namespace
-     * @return a valid {@link IRI}
+     * Creates a {@link org.eclipse.rdf4j.model.IRI}.
+     * @param iri a base string for the {@link org.eclipse.rdf4j.model.IRI}
+     * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      */
-    public static IRI iri(String uri) {
-        return valueFactory.createIRI(uri);
+    public static org.eclipse.rdf4j.model.IRI iri(String iri) {
+        return valueFactory.createIRI(iri);
     }
 
     /**
-     * Creates a {@link IRI}.
+     * Creates a {@link org.eclipse.rdf4j.model.IRI}.
      * @deprecated Use {@link #iri(String, String)} instead.
+     * @param namespace a base namespace for the {@link org.eclipse.rdf4j.model.IRI}
+     * @param localName a local name to associate with the namespace
+     * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      */
     @Deprecated
-    public static IRI uri(String namespace, String localName) {
+    public static org.eclipse.rdf4j.model.IRI uri(String namespace, String localName) {
         return valueFactory.createIRI(namespace, localName);
     }
 
     /**
-     * Creates a {@link IRI}.
+     * Creates a {@link org.eclipse.rdf4j.model.IRI}.
+     * @param namespace a base namespace for the {@link org.eclipse.rdf4j.model.IRI}
+     * @param localName a local name to associate with the namespace
+     * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      */
-    public static IRI iri(String namespace, String localName) {
+    public static org.eclipse.rdf4j.model.IRI iri(String namespace, String localName) {
         return valueFactory.createIRI(namespace, localName);
     }
 
@@ -300,7 +303,7 @@ public class RDFUtils {
      * {@link org.eclipse.rdf4j.model.Literal}
      * @param datatype the datatype to associate with the namespace.
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
-     * @deprecated Use {@link #literal(String, IRI)} instead.
+     * @deprecated Use {@link #literal(String, org.eclipse.rdf4j.model.IRI)} instead.
      */
     @Deprecated
     public static Literal literal(String s, URI datatype) {
@@ -309,8 +312,12 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
+     * @param s string representation of the base namespace for the
+     * {@link org.eclipse.rdf4j.model.Literal}
+     * @param datatype the datatype to associate with the namespace.
+     * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
-    public static Literal literal(String s, IRI datatype) {
+    public static Literal literal(String s, org.eclipse.rdf4j.model.IRI datatype) {
         return valueFactory.createLiteral(s, datatype);
     }
 
@@ -350,7 +357,7 @@ public class RDFUtils {
      * @param o object {@link org.eclipse.rdf4j.model.Value}
      * @return valid {@link org.eclipse.rdf4j.model.Statement}
      */
-    public static Statement triple(Resource s, IRI p, Value o) {
+    public static Statement triple(Resource s, org.eclipse.rdf4j.model.IRI p, Value o) {
         return valueFactory.createStatement(s, p, o);
     }
 
@@ -363,7 +370,7 @@ public class RDFUtils {
      * @return a statement instance.
      */
     public static Statement triple(String s, String p, String o) {
-        return valueFactory.createStatement((Resource) toValue(s), (IRI) toValue(p), toValue(o));
+        return valueFactory.createStatement((Resource) toValue(s), (org.eclipse.rdf4j.model.IRI) toValue(p), toValue(o));
     }
 
     /**
@@ -374,7 +381,7 @@ public class RDFUtils {
      * @param g quad resource
      * @return a statement instance.
      */
-    public static Statement quad(Resource s, IRI p, Value o, Resource g) {
+    public static Statement quad(Resource s, org.eclipse.rdf4j.model.IRI p, Value o, Resource g) {
         return valueFactory.createStatement(s, p, o, g);
     }
 
@@ -387,7 +394,7 @@ public class RDFUtils {
      * @return a statement instance.
      */
     public static Statement quad(String s, String p, String o, String g) {
-        return valueFactory.createStatement((Resource) toValue(s), (IRI) toValue(p), toValue(o), (Resource) toValue(g));
+        return valueFactory.createStatement((Resource) toValue(s), (org.eclipse.rdf4j.model.IRI) toValue(p), toValue(o), (Resource) toValue(g));
     }
 
     /**
@@ -411,7 +418,6 @@ public class RDFUtils {
      * Returns all the available {@link RDFFormat}s.
      *
      * @return an unmodifiable collection of formats.
-     * @see org.openrdf.rio.RDFFormat#values()
      */
     public static Collection<RDFFormat> getFormats() {
         return RDFParserRegistry.getInstance().getKeys();
@@ -469,7 +475,7 @@ public class RDFUtils {
      * specified parser <code>p</code> using <code>baseIRI</code>.
      *
      * @param format input format type.
-     * @param is input stream containing <code>RDF</data>.
+     * @param is input stream containing <code>RDF</code>.
      * @param baseIRI base uri.
      * @return list of statements detected within the input stream.
      * @throws RDFHandlerException if there is an error handling the RDF
@@ -490,7 +496,7 @@ public class RDFUtils {
 
     /**
      * Parses the content of <code>is</code> input stream with the
-     * specified parser <code>p</code> using <code>''</code> as base IRI.
+     * specified parser <code>p</code> using <code>''</code> as base org.eclipse.rdf4j.model.IRI.
      *
      * @param format input format type.
      * @param is input stream containing <code>RDF</code>.
@@ -506,7 +512,7 @@ public class RDFUtils {
 
     /**
      * Parses the content of <code>in</code> string with the
-     * specified parser <code>p</code> using <code>''</code> as base IRI.
+     * specified parser <code>p</code> using <code>''</code> as base org.eclipse.rdf4j.model.IRI.
      *
      * @param format input format type.
      * @param in input string containing <code>RDF</code>.
@@ -527,8 +533,8 @@ public class RDFUtils {
      * @param resource resource name.
      * @return the statements declared within the resource file.
      * @throws java.io.IOException if an error occurs while reading file.
-     * @throws org.openrdf.rio.RDFHandlerException if an error occurs while parsing file.
-     * @throws org.openrdf.rio.RDFParseException if an error occurs while parsing file.
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException if an error occurs while parsing file.
+     * @throws org.eclipse.rdf4j.rio.RDFParseException if an error occurs while parsing file.
      */
     public static Statement[] parseRDF(String resource) throws RDFHandlerException, IOException, RDFParseException {
         final int extIndex = resource.lastIndexOf(".");
@@ -542,7 +548,7 @@ public class RDFUtils {
     /**
      * Checks if <code>href</code> is absolute or not.
      *
-     * @param href candidate IRI.
+     * @param href candidate org.eclipse.rdf4j.model.IRI.
      * @return <code>true</code> if <code>href</code> is absolute,
      *         <code>false</code> otherwise.
      */
