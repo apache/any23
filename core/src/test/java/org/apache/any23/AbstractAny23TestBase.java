@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.FileDocumentSource;
-import org.apache.tika.io.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;

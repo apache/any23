@@ -93,6 +93,10 @@
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-parsers</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+    </dependency>
     <!-- END: Tika -->
 
     <!-- BEGIN: Sesame -->
@@ -167,6 +171,11 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <scope>test</scope>
     </dependency>
     <!-- END: Test Dependencies -->
   </dependencies>
