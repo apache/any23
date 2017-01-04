@@ -18,13 +18,16 @@ package org.apache.any23.extractor.yaml;
 
 import java.util.Arrays;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Prefixes;
 
 /**
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
  */
-public class YAMLExtractorFactory extends SimpleExtractorFactory<YAMLExtractor> {
+public class YAMLExtractorFactory extends SimpleExtractorFactory<YAMLExtractor>
+		implements ExtractorFactory<YAMLExtractor>
+{
 
 	public static final String NAME = "yaml";
 
