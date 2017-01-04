@@ -16,12 +16,16 @@
  */
 package org.apache.any23.extractor.yaml;
 
+import info.aduna.iteration.Iterations;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.YAML;
+import org.junit.Assert;
 import org.junit.Test;
+import org.openrdf.model.Statement;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.repository.RepositoryResult;
 import org.semarglproject.vocab.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,6 +85,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/org/apache/any23/extractor/yaml/multi-test.yml");
 		log.debug(dumpModelToTurtle());
 		assertModelNotEmpty();
-		assertContains(null, RDF.TYPE, vocab.document.toString());
+		RepositoryResult<Statement> docs = getStatements(null, RDF.TYPE, vocab.document);
+                Assert.assertTrue(Iterations.asList(docs).size() > 1);
 	}
 }

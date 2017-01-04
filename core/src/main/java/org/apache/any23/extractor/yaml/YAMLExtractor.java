@@ -35,7 +35,6 @@ import org.openrdf.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.composer.ComposerException;
 
 /**
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
@@ -47,8 +46,6 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 	private static final Yaml yml = new Yaml();
 
 	private static final YAML vocab = new YAML();
-
-	private byte[] byteRepresentation;
 
 	private int nodeId = 0;
 
@@ -63,7 +60,6 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 			ExtractionResult out)
 		throws IOException, ExtractionException
 	{
-		byteRepresentation = YamlUtils.toBytes(in);
 		URI documentURI = context.getDocumentURI();
 		documentRoot = RDFUtils.uri(documentURI.toString() + "root");
 
@@ -72,19 +68,15 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 		out.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
 
 		out.writeTriple(documentRoot, RDF.TYPE, vocab.root);
-		Object docTree;
-		int docs = YamlUtils.countDocuments(YamlUtils.toInputStream(byteRepresentation));
-		InputStream bufferedStream = YamlUtils.toInputStream(byteRepresentation);
-		if (docs == 1) {
-			docTree = yml.load(bufferedStream);
+		Iterable<Object> docIterate = yml.loadAll(in);
+
+		// Iterate over page(s)
+		for (Object p : docIterate) {
+			Resource pageNode = makeNodeUri("document", documentURI);
+			out.writeTriple(documentRoot, vocab.contains, pageNode);
+			out.writeTriple(pageNode, RDF.TYPE, vocab.document);
+			out.writeTriple(pageNode, vocab.contains, buildNode(documentURI, p, out));
 		}
-		else if (docs > 1) {
-			docTree = yml.loadAll(bufferedStream);
-		}
-		else {
-			throw new ExtractionException("No documnets found in Yaml file");
-		}
-		out.writeTriple(documentRoot, vocab.contains, buildNode(documentURI, docTree, out));
 
 	}
 
@@ -101,11 +93,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 			return processMap(fileURI, (Map)treeData, out);
 		}
 		else if (treeData instanceof List) {
-			return processIterable(fileURI, (List)treeData, out);
-		}
-		else if (treeData instanceof Iterable) {
-			// process other Iterable as instances of yaml:Document
-			return processIterable(vocab.document, fileURI, (Iterable)treeData, out);
+			return processList(fileURI, (List)treeData, out);
 		}
 		else if (treeData instanceof Long) {
 			return RDFUtils.literal(((Long)treeData));
@@ -142,7 +130,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 		return nodeURI;
 	}
 
-	private Value processIterable(URI rootType, URI fileURI, Iterable iter, ExtractionResult out) {
+	private Value processList(URI fileURI, Iterable iter, ExtractionResult out) {
 		Resource node = makeNodeUri();
 		out.writeTriple(node, RDF.TYPE, RDF.LIST);
 
@@ -157,9 +145,6 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 			// adds value to the current iter
 			Value val = buildNode(fileURI, listIter.next(), out);
 			out.writeTriple(cList, RDF.FIRST, val);
-			if (rootType != vocab.node) {
-				out.writeTriple(cList, RDF.TYPE, rootType);
-			}
 			// makes current node the previuos one and generate new current node
 			pList = cList;
 			cList = makeNodeUri();
@@ -167,10 +152,6 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 		out.writeTriple(pList, RDF.REST, RDF.NIL);
 
 		return node;
-	}
-
-	private Value processIterable(URI fileURI, Iterable iter, ExtractionResult out) {
-		return processIterable(vocab.node, fileURI, iter, out);
 	}
 
 	private Resource makeNodeUri() {
@@ -184,7 +165,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 	}
 
 	private Resource makeNodeUri(String type, URI docUri) {
-		Resource node = RDFUtils.uri(docUri.toString() + "#" + type + Integer.toString(nodeId));
+		Resource node = RDFUtils.uri(docUri.toString() + type + Integer.toString(nodeId));
 		nodeId++;
 		return node;
 	}
