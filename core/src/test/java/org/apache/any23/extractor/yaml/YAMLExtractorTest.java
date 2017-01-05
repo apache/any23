@@ -25,6 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openrdf.model.Statement;
 import org.openrdf.model.vocabulary.RDF;
+import org.openrdf.model.vocabulary.RDFS;
 import org.openrdf.repository.RepositoryResult;
 import org.semarglproject.vocab.XSD;
 import org.slf4j.Logger;
@@ -32,60 +33,54 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Test {@link YAMLExtractor}.
- * 
+ *
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
  */
 public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
-	public static final Logger log = LoggerFactory.getLogger(YAMLExtractorTest.class);
+    public static final Logger log = LoggerFactory.getLogger(YAMLExtractorTest.class);
 
-	private static final YAML vocab = YAML.getInstance();
+    private static final YAML vocab = YAML.getInstance();
 
-	@Override
-	protected ExtractorFactory<?> getExtractorFactory() {
-		return new YAMLExtractorFactory();
-	}
+    @Override
+    protected ExtractorFactory<?> getExtractorFactory() {
+        return new YAMLExtractorFactory();
+    }
 
-	@Test
-	public void simpleFileLoading()
-		throws Exception
-	{
-		assertExtract("/org/apache/any23/extractor/yaml/simple-load.yml");
-		log.debug(dumpModelToTurtle());
-		assertModelNotEmpty();
+    @Test
+    public void simpleFileLoading()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/simple-load.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
 
-	}
+    }
 
-	@Test
-	public void integersTest()
-		throws Exception
-	{
-		assertExtract("/org/apache/any23/extractor/yaml/different-integers.yml");
-		log.debug(dumpModelToTurtle());
-		assertModelNotEmpty();
-		assertContains(null, RDFUtils.uri("http://bob.example.com/hexadecimal"),
-				RDFUtils.literal("12", RDFUtils.uri(XSD.INT)));
-		assertContains(null, RDFUtils.uri("http://bob.example.com/octal"),
-				RDFUtils.literal("33", RDFUtils.uri(XSD.INT)));
-	}
+    @Test
+    public void integersTest()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/different-integers.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+        assertContains(null, RDFS.LABEL, RDFUtils.literal("hexadecimal"));
+        assertContains(null, RDFS.LABEL, RDFUtils.literal("octal"));
+    }
 
-	@Test
-	public void floatsTest()
-		throws Exception
-	{
-		assertExtract("/org/apache/any23/extractor/yaml/different-float.yml");
-		log.debug(dumpModelToTurtle());
-		assertModelNotEmpty();
-	}
+    @Test
+    public void floatsTest()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/different-float.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+    }
 
-	@Test
-	public void multiTest()
-		throws Exception
-	{
-		assertExtract("/org/apache/any23/extractor/yaml/multi-test.yml");
-		log.debug(dumpModelToTurtle());
-		assertModelNotEmpty();
-		RepositoryResult<Statement> docs = getStatements(null, RDF.TYPE, vocab.document);
-                Assert.assertTrue(Iterations.asList(docs).size() > 1);
-	}
+    @Test
+    public void multiTest()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/multi-test.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+        RepositoryResult<Statement> docs = getStatements(null, RDF.TYPE, vocab.document);
+        Assert.assertTrue(Iterations.asList(docs).size() > 1);
+    }
 }
