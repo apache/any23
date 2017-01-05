@@ -114,7 +114,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
     private Value processMap(URI file, Map<String, Object> node, ExtractionResult out) {
         Resource nodeURI = YAMLExtractor.this.makeUri(file);
         for (String k : node.keySet()) {
-            Resource predicate = makeUri(k, file);
+            Resource predicate = makeUri(k, file, false);
             Value value = buildNode(file, node.get(k), out);
             out.writeTriple(nodeURI, RDF.TYPE, vocab.node);
             out.writeTriple(nodeURI, (URI) predicate, value);
