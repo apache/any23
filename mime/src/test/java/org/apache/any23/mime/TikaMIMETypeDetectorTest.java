@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.any23.mime;
 
 import org.junit.Assert;
@@ -31,6 +30,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import org.junit.Ignore;
 
 /**
  * Test case for {@link TikaMIMETypeDetector} class.
@@ -40,18 +40,19 @@ import java.util.List;
  */
 public class TikaMIMETypeDetectorTest {
 
-    private static final String PLAIN  = "text/plain";
-    private static final String HTML   = "text/html";
-    private static final String XML    = "application/xml";
-    private static final String TRIX   = RDFFormat.TRIX.getDefaultMIMEType();
-    private static final String XHTML  = "application/xhtml+xml";
+    private static final String PLAIN = "text/plain";
+    private static final String HTML = "text/html";
+    private static final String XML = "application/xml";
+    private static final String TRIX = RDFFormat.TRIX.getDefaultMIMEType();
+    private static final String XHTML = "application/xhtml+xml";
     private static final String RDFXML = RDFFormat.RDFXML.getDefaultMIMEType();
     private static final String TURTLE = RDFFormat.TURTLE.getDefaultMIMEType();
-    private static final String N3     = RDFFormat.N3.getDefaultMIMEType();
+    private static final String N3 = RDFFormat.N3.getDefaultMIMEType();
     private static final String NQUADS = RDFFormat.NQUADS.getDefaultMIMEType();
-    private static final String CSV    = "text/csv";
-    private static final String RSS    = "application/rss+xml";
-    private static final String ATOM   = "application/atom+xml";
+    private static final String CSV = "text/csv";
+    private static final String RSS = "application/rss+xml";
+    private static final String ATOM = "application/atom+xml";
+    private static final String YAML = "text/x-yaml";
 
     private TikaMIMETypeDetector detector;
 
@@ -75,12 +76,12 @@ public class TikaMIMETypeDetectorTest {
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^xsd:integer .");
 
         // Wrong N3 line '.'
-        assertN3DetectionFail("" +
-                "<http://wrong.example.org/path> <http://wrong.foo.com> . <http://wrong.org/Document/foo#>"
+        assertN3DetectionFail(""
+                + "<http://wrong.example.org/path> <http://wrong.foo.com> . <http://wrong.org/Document/foo#>"
         );
         // NQuads is not mislead with N3.
         assertN3DetectionFail(
-            "<http://example.org/path> <http://foo.com> <http://dom.org/Document/foo#> <http://path/to/graph> ."
+                "<http://example.org/path> <http://foo.com> <http://dom.org/Document/foo#> <http://path/to/graph> ."
         );
     }
 
@@ -116,7 +117,6 @@ public class TikaMIMETypeDetectorTest {
     }
 
     /* BEGIN: by content. */
-
     @Test
     public void testDetectRSS1ByContent() throws Exception {
         detectMIMEtypeByContent(RDFXML, manifestRss1());
@@ -236,8 +236,7 @@ public class TikaMIMETypeDetectorTest {
 
     /* END: by content. */
 
-    /* BEGIN: by content metadata. */
-
+ /* BEGIN: by content metadata. */
     @Test
     public void testDetectContentPlainByMeta() throws IOException {
         detectMIMETypeByMimeTypeHint(PLAIN, "text/plain");
@@ -308,10 +307,14 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByMimeTypeHint(CSV, "text/csv");
     }
 
+    @Test
+    public void testDetectApplicationYAMLByMeta() throws IOException {
+        detectMIMETypeByMimeTypeHint(YAML, "text/x-yaml");
+    }
+
     /* END: by content metadata. */
 
-    /* BEGIN: by content and name. */
-
+ /* BEGIN: by content and name. */
     @Test
     public void testRDFXMLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName(RDFXML, manifestRdfXml());
@@ -357,7 +360,7 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName(XHTML, manifestXHtml());
     }
 
-     @Test
+    @Test
     public void testWSDLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName("application/x-wsdl", manifestWsdl());
     }
@@ -377,26 +380,43 @@ public class TikaMIMETypeDetectorTest {
         detectMIMETypeByContentAndName(CSV, manifestCsv());
     }
 
-    /* END: by content and name. */
+    /**
+     * Test done only based on content is failed because the standard does not
+     * require to have "%YAML" header.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testYAMLByContentAndName() throws Exception {
+        detectMIMETypeByContentAndName(YAML, manifestYAML());
+    }
 
+    private List<String> manifestYAML() {
+        return Arrays.asList("/org/apache/any23/extractor/yaml/simple-load.yml",
+                "/org/apache/any23/extractor/yaml/simple-load_no_head.yml",
+                "/org/apache/any23/extractor/yaml/simple-load_yaml.yaml"
+        );
+    }
+
+    /* END: by content and name. */
     private void assertN3Detection(String n3Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
-        Assert.assertTrue( TikaMIMETypeDetector.checkN3Format(bais) );
+        ByteArrayInputStream bais = new ByteArrayInputStream(n3Exp.getBytes());
+        Assert.assertTrue(TikaMIMETypeDetector.checkN3Format(bais));
     }
 
     private void assertN3DetectionFail(String n3Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream( n3Exp.getBytes() );
-        Assert.assertFalse( TikaMIMETypeDetector.checkN3Format(bais) );
+        ByteArrayInputStream bais = new ByteArrayInputStream(n3Exp.getBytes());
+        Assert.assertFalse(TikaMIMETypeDetector.checkN3Format(bais));
     }
 
     private void assertNQuadsDetection(String n4Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
-        Assert.assertTrue( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
+        ByteArrayInputStream bais = new ByteArrayInputStream(n4Exp.getBytes());
+        Assert.assertTrue(TikaMIMETypeDetector.checkNQuadsFormat(bais));
     }
 
     private void assertNQuadsDetectionFail(String n4Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream( n4Exp.getBytes() );
-        Assert.assertFalse( TikaMIMETypeDetector.checkNQuadsFormat(bais) );
+        ByteArrayInputStream bais = new ByteArrayInputStream(n4Exp.getBytes());
+        Assert.assertFalse(TikaMIMETypeDetector.checkNQuadsFormat(bais));
     }
 
     /**
@@ -407,7 +427,7 @@ public class TikaMIMETypeDetectorTest {
      * @throws IOException
      */
     private void detectMIMEtypeByContent(String expectedMimeType, Collection<String> manifest)
-    throws IOException {
+            throws IOException {
         String detectedMimeType;
         for (String test : manifest) {
             InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream(test));
@@ -416,9 +436,9 @@ public class TikaMIMETypeDetectorTest {
                     is,
                     null
             ).toString();
-            if (test.contains("error"))
+            if (test.contains("error")) {
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
-            else {
+            } else {
                 Assert.assertEquals(
                         String.format("Error in mimetype detection for file %s", test),
                         expectedMimeType,
@@ -430,14 +450,15 @@ public class TikaMIMETypeDetectorTest {
     }
 
     /**
-     * Verifies the detection of a specific MIME based on content, filename and metadata MIME type.
+     * Verifies the detection of a specific MIME based on content, filename and
+     * metadata MIME type.
      *
      * @param expectedMimeType
      * @param contentTypeHeader
      * @throws IOException
      */
     private void detectMIMETypeByMimeTypeHint(String expectedMimeType, String contentTypeHeader)
-    throws IOException {
+            throws IOException {
         String detectedMimeType = detector.guessMIMEType(
                 null,
                 null,
@@ -458,9 +479,9 @@ public class TikaMIMETypeDetectorTest {
         for (String test : manifest) {
             InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream(test));
             detectedMimeType = detector.guessMIMEType(test, is, null).toString();
-            if (test.contains("error"))
+            if (test.contains("error")) {
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
-            else {
+            } else {
                 Assert.assertEquals(
                         String.format("Error while detecting mimetype in file %s", test),
                         expectedMimeType,
