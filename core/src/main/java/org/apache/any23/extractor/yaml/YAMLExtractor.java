@@ -17,6 +17,8 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +29,9 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
+import org.apache.any23.util.StringUtils;
 import org.apache.any23.vocab.YAML;
+import org.apache.commons.lang.WordUtils;
 import org.openrdf.model.Resource;
 import org.openrdf.model.URI;
 import org.openrdf.model.Value;
@@ -168,11 +172,15 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     private Resource makeUri(String type, URI docUri, boolean addId) {
 
+        // preprocess string: converts - -> _
+        //                    converts <space>: word1 word2 -> word1Word2
+        String newType = StringUtils.implementJavaNaming(type);
+
         String uriString;
         if (docUri.toString().endsWith("/")) {
-            uriString = docUri.toString() + type;
+            uriString = docUri.toString() + newType;
         } else {
-            uriString = docUri.toString() + "#" + type;
+            uriString = docUri.toString() + "#" + newType;
         }
 
         if (addId) {
