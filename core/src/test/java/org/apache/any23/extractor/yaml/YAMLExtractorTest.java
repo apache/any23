@@ -83,4 +83,14 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         RepositoryResult<Statement> docs = getStatements(null, RDF.TYPE, vocab.document);
         Assert.assertTrue(Iterations.asList(docs).size() > 1);
     }
+
+    @Test
+    public void nullTest()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/test-null.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+        RepositoryResult<Statement> docs = getStatements(null, null, RDF.NIL);
+        Assert.assertTrue(Iterations.asList(docs).size() == 2);
+    }
 }

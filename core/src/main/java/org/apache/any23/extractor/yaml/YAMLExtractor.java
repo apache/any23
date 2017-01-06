@@ -88,9 +88,13 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     private Value buildNode(URI fileURI, Object treeData, ExtractionResult out) {
 
-        log.debug("object type: {}", treeData.getClass());
+        if (treeData != null) {
+            log.debug("object type: {}", treeData.getClass());
+        }
 
-        if (treeData instanceof Map) {
+        if (treeData == null) {
+            return RDF.NIL;
+        } else if (treeData instanceof Map) {
             return processMap(fileURI, (Map) treeData, out);
         } else if (treeData instanceof List) {
             return processList(fileURI, (List) treeData, out);
