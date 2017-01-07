@@ -27,7 +27,7 @@ import org.eclipse.rdf4j.rio.RDFWriter;
 
 /**
  * A {@link TripleHandler} that writes
- * triples to a Sesame {@link org.openrdf.rio.RDFWriter},
+ * triples to a Sesame {@link org.eclipse.rdf4j.rio.RDFWriter},
  * eg for serialization using one of Sesame's writers.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
