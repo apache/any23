@@ -29,9 +29,11 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.util.StreamUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.openrdf.model.URI;
 import org.openrdf.model.impl.ValueFactoryImpl;
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,12 +41,16 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 /**
  * Implementation of content extractor for performing <i>HTML</i> scraping.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class HTMLScraperExtractor implements Extractor.ContentExtractor {
+public class HTMLScraperExtractor implements Extractor.TagSoupDOMExtractor {
 
     public final static URI PAGE_CONTENT_DE_PROPERTY  =
             ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/de");
@@ -72,19 +78,31 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         }
         return extractors.toArray( new String[extractors.size()] );
     }
-
+    
     @Override
     public void run(
             ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            InputStream inputStream,
-            ExtractionResult extractionResult
+            ExtractionContext context,
+            Document in,
+            ExtractionResult out
     ) throws IOException, ExtractionException {
         try {
-            final URI documentURI = extractionContext.getDocumentURI();
+            final URI documentURI = context.getDocumentURI();
             for (ExtractionRule extractionRule : extractionRules) {
-                final String content = extractionRule.boilerpipeExtractor.getText(new InputStreamReader(inputStream));
-                extractionResult.writeTriple(
+                String content = null;
+                try {
+                  content = extractionRule.boilerpipeExtractor.getText(new InputStreamReader(StreamUtils.documentToInputStream(in)));
+                } catch (TransformerConfigurationException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                } catch (TransformerException e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                } catch (TransformerFactoryConfigurationError e) {
+                  // TODO Auto-generated catch block
+                  e.printStackTrace();
+                }
+                out.writeTriple(
                         documentURI,
                         extractionRule.property,
                         ValueFactoryImpl.getInstance().createLiteral(content)
@@ -100,7 +118,6 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         return HTMLScraperExtractorFactory.getDescriptionInstance();
     }
 
-    @Override
     public void setStopAtFirstError(boolean b) {
         // Ignored.
     }

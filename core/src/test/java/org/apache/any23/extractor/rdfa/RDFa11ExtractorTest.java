@@ -80,11 +80,11 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         Assert.assertTrue(obj instanceof Literal);
         Literal lit = (Literal) obj;
         Assert.assertEquals(lit.getDatatype(), RDF.XMLLITERAL);
-        Assert.assertEquals(lit.getLabel(), "Albert <strong xmlns=\"http://www.w3.org/1999/xhtml\" " +
+        Assert.assertEquals(lit.getLabel(), "Albert <STRONG xmlns=\"http://www.w3.org/1999/xhtml\" " +
                         "xmlns:foaf=\"http://xmlns.com/foaf/0.1/\" " +
                         "xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
                         "xmlns:rdfs=\"http://www.w3.org/2000/01/rdf-schema#\" " +
-                        "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</strong>");
+                        "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema#\">Einstein</STRONG>");
     }
 
     /**

@@ -21,7 +21,6 @@ import org.openrdf.model.URI;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * It defines the signature of a generic Extractor.
@@ -35,22 +34,6 @@ public interface Extractor<Input> {
      * {@link java.net.URI} as input format. Use it if you need to fetch a document before the extraction
      */
     public interface BlindExtractor extends Extractor<URI> {
-    }
-
-    /**
-     * This interface specializes an {@link Extractor} able to handle
-     * {@link java.io.InputStream} as input format.
-     */
-    public interface ContentExtractor extends Extractor<InputStream> {
-        
-        /**
-         * If <code>true</code>, the extractor will stop at first parsing error,
-         * if<code>false</code> the extractor will attempt to ignore all parsing errors.
-         *
-         * @param f tolerance flag.
-         */
-        void setStopAtFirstError(boolean f);
-
     }
 
     /**
