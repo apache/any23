@@ -34,37 +34,35 @@ import java.io.ByteArrayOutputStream;
  */
 public class JSONWriterTest {
 
-    private JSONWriter jsonWriter;
-
     @Test
     public void testWriting() throws TripleHandlerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        jsonWriter = new JSONWriter(baos);
-        final IRI documentIRI = SimpleValueFactory.getInstance().createIRI("http://fake/uri");
-        jsonWriter.startDocument(documentIRI);
-        jsonWriter.receiveTriple(
-                SimpleValueFactory.getInstance().createBNode("bn1"),
-                SimpleValueFactory.getInstance().createIRI("http://pred/1"),
-                SimpleValueFactory.getInstance().createIRI("http://value/1"),
-                SimpleValueFactory.getInstance().createIRI("http://graph/1"),
-                null
-        );
-        jsonWriter.receiveTriple(
-                SimpleValueFactory.getInstance().createIRI("http://sub/2"),
-                SimpleValueFactory.getInstance().createIRI("http://pred/2"),
-                SimpleValueFactory.getInstance().createLiteral("language literal", "en"),
-                SimpleValueFactory.getInstance().createIRI("http://graph/2"),
-                null
-        );
-        jsonWriter.receiveTriple(
-                SimpleValueFactory.getInstance().createIRI("http://sub/3"),
-                SimpleValueFactory.getInstance().createIRI("http://pred/3"),
-                SimpleValueFactory.getInstance().createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
-                null,
-                null
-        );
-        jsonWriter.endDocument(documentIRI);
-        jsonWriter.close();
+        try(JSONWriter jsonWriter = new JSONWriter(baos);) {
+	        final IRI documentIRI = SimpleValueFactory.getInstance().createIRI("http://fake/uri");
+	        jsonWriter.startDocument(documentIRI);
+	        jsonWriter.receiveTriple(
+	                SimpleValueFactory.getInstance().createBNode("bn1"),
+	                SimpleValueFactory.getInstance().createIRI("http://pred/1"),
+	                SimpleValueFactory.getInstance().createIRI("http://value/1"),
+	                SimpleValueFactory.getInstance().createIRI("http://graph/1"),
+	                null
+	        );
+	        jsonWriter.receiveTriple(
+	                SimpleValueFactory.getInstance().createIRI("http://sub/2"),
+	                SimpleValueFactory.getInstance().createIRI("http://pred/2"),
+	                SimpleValueFactory.getInstance().createLiteral("language literal", "en"),
+	                SimpleValueFactory.getInstance().createIRI("http://graph/2"),
+	                null
+	        );
+	        jsonWriter.receiveTriple(
+	                SimpleValueFactory.getInstance().createIRI("http://sub/3"),
+	                SimpleValueFactory.getInstance().createIRI("http://pred/3"),
+	                SimpleValueFactory.getInstance().createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
+	                null,
+	                null
+	        );
+	        jsonWriter.endDocument(documentIRI);
+        }
 
         final String expected =
             "{ " +

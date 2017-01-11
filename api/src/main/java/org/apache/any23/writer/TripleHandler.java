@@ -25,7 +25,7 @@ import org.eclipse.rdf4j.model.Value;
 /**
  * Defines a document based triple handler.
  */
-public interface TripleHandler {
+public interface TripleHandler extends AutoCloseable {
 
     void startDocument(IRI documentIRI) throws TripleHandlerException;
 

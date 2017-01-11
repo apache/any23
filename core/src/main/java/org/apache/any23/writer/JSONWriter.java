@@ -50,6 +50,7 @@ public class JSONWriter implements FormatWriter {
         this.ps = new PrintStream(new BufferedOutputStream(os));
     }
 
+    @Override
     public void startDocument(IRI documentIRI) throws TripleHandlerException {
         if(documentStarted) {
             throw new IllegalStateException("Document already started.");
@@ -60,10 +61,12 @@ public class JSONWriter implements FormatWriter {
         ps.print("{ \"quads\" : [");
     }
 
+    @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
+    @Override
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         validateDocumentStarted();
@@ -98,26 +101,34 @@ public class JSONWriter implements FormatWriter {
         ps.print(']');
     }
 
+    @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context)
     throws TripleHandlerException {
         // Empty.
     }
 
+    @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
+    @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
         validateDocumentStarted();
         ps.print("]}");
         documentStarted = false;
     }
 
+    @Override
     public void setContentLength(long contentLength) {
         // Empty.
     }
 
+    @Override
     public void close() throws TripleHandlerException {
+    	if(documentStarted) {
+    		endDocument(null);
+    	}
         ps.close();
     }
 
