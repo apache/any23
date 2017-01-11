@@ -185,18 +185,24 @@ public class StringUtils {
      * <li>remove space characters and make first letter word uppercase: 'some
      * string' -> 'someString'
      * </ul>
+     * If input string does not contains a whitespace than return unchanged.
      *
      * @param in
      * @return
      */
     public static String implementJavaNaming(String in) {
-        in = in.trim()
-                .replaceAll("-", "_")
-                .toLowerCase();
 
+        in = in.trim().replaceAll("-", "_");
+
+		// If no white chars found inside a string return uncapitalized
+        if (in.trim().matches("\\S+")) {
+			return WordUtils.uncapitalize(in);
+        }
+
+        in = in.toLowerCase();
         if (Pattern.matches("\\S+(\\s+\\S+)+", in)) {
             String[] words = in.split("\\s", 2);
-            in = words[0] + WordUtils.capitalize(words[1]);
+            in = words[0] + WordUtils.capitalize(words[1]).replaceAll("\\s", "");
         }
 
         return in;

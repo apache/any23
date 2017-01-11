@@ -16,9 +16,7 @@
  */
 package org.apache.any23.util;
 
-import java.util.regex.Pattern;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,12 +48,14 @@ public class StringUtilsTest {
     @Test
     public void testNamingConvention() {
         Assert.assertEquals("pre", StringUtils.implementJavaNaming("pre"));
-        Assert.assertEquals("preMid", StringUtils.implementJavaNaming("pre mid"));
+        Assert.assertEquals("preMidEnd", StringUtils.implementJavaNaming("pre mid end"));
         Assert.assertEquals("pre_mid", StringUtils.implementJavaNaming("pre-mid"));
-        Assert.assertEquals("premid", StringUtils.implementJavaNaming("PreMid"));
+        Assert.assertEquals("preMid", StringUtils.implementJavaNaming("PreMid"));
         Assert.assertEquals("preMid", StringUtils.implementJavaNaming("Pre mId"));
         Assert.assertEquals("preMid", StringUtils.implementJavaNaming("Pre\tMId"));
         Assert.assertEquals("preMid", StringUtils.implementJavaNaming("pRe\tmId"));
+        Assert.assertEquals("preMidEnd", StringUtils.implementJavaNaming("Pre Mid end"));
+        Assert.assertEquals("preMidEnd", StringUtils.implementJavaNaming("pre mid end"));
     }
 
 }
