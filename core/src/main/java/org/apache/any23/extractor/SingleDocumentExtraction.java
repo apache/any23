@@ -231,6 +231,11 @@ public class SingleDocumentExtraction {
             log.debug(sb.toString());
         }
 
+        final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
+        final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
+        final Map<String,Collection<IssueReport.Issue>> extractorToIssues =
+            new HashMap<String,Collection<IssueReport.Issue>>();
+        
         // Invoke all extractors.
         try {
             output.startDocument(documentIRI);
@@ -240,61 +245,59 @@ public class SingleDocumentExtraction {
                     e
             );
         }
-        output.setContentLength(in.getContentLength());
-        // Create the document context.
-        final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
-        final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
-        final Map<String,Collection<IssueReport.Issue>> extractorToIssues =
-            new HashMap<String,Collection<IssueReport.Issue>>();
         try {
-            final String documentLanguage = extractDocumentLanguage(extractionParameters);
-            for (ExtractorFactory<?> factory : matchingExtractors) {
-                @SuppressWarnings("rawtypes")
-                final Extractor extractor = factory.createExtractor();
-                final SingleExtractionReport er = runExtractor(
-                        extractionParameters,
-                        documentLanguage,
-                        extractor
-                );
-                resourceRoots.addAll( er.resourceRoots );
-                propertyPaths.addAll( er.propertyPaths );
-                extractorToIssues.put(factory.getExtractorName(), er.issues);
-            }
-        } catch(ValidatorException ve) {
-            throw new ExtractionException("An error occurred during the validation phase.", ve);
-        }
-
-        // Resource consolidation.
-        final boolean addDomainTriples = extractionParameters.getFlag(ExtractionParameters.METADATA_DOMAIN_PER_ENTITY_FLAG);
-        final ExtractionContext consolidationContext;
-        if(extractionParameters.getFlag(ExtractionParameters.METADATA_NESTING_FLAG)) {
-            // Consolidation with nesting.
-            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
-        } else {
-            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output);
-        }
-
-        // Adding time/size meta triples.
-        if (extractionParameters.getFlag(ExtractionParameters.METADATA_TIMESIZE_FLAG)) {
-            try {
-                addExtractionTimeSizeMetaTriples(consolidationContext);
-            } catch (TripleHandlerException e) {
-                throw new ExtractionException(
-                        String.format(
-                                "Error while adding extraction metadata triples document with IRI %s", documentIRI
-                        ),
-                        e
-                );
-            }
-        }
-
-        try {
-            output.endDocument(documentIRI);
-        } catch (TripleHandlerException e) {
-            log.error(String.format("Error ending document with IRI %s", documentIRI));
-            throw new ExtractionException(String.format("Error ending document with IRI %s", documentIRI),
-                    e
-            );
+	        output.setContentLength(in.getContentLength());
+	        // Create the document context.
+	        try {
+	            final String documentLanguage = extractDocumentLanguage(extractionParameters);
+	            for (ExtractorFactory<?> factory : matchingExtractors) {
+	                @SuppressWarnings("rawtypes")
+	                final Extractor extractor = factory.createExtractor();
+	                final SingleExtractionReport er = runExtractor(
+	                        extractionParameters,
+	                        documentLanguage,
+	                        extractor
+	                );
+	                resourceRoots.addAll( er.resourceRoots );
+	                propertyPaths.addAll( er.propertyPaths );
+	                extractorToIssues.put(factory.getExtractorName(), er.issues);
+	            }
+	        } catch(ValidatorException ve) {
+	            throw new ExtractionException("An error occurred during the validation phase.", ve);
+	        }
+	
+	        // Resource consolidation.
+	        final boolean addDomainTriples = extractionParameters.getFlag(ExtractionParameters.METADATA_DOMAIN_PER_ENTITY_FLAG);
+	        final ExtractionContext consolidationContext;
+	        if(extractionParameters.getFlag(ExtractionParameters.METADATA_NESTING_FLAG)) {
+	            // Consolidation with nesting.
+	            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
+	        } else {
+	            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output);
+	        }
+	
+	        // Adding time/size meta triples.
+	        if (extractionParameters.getFlag(ExtractionParameters.METADATA_TIMESIZE_FLAG)) {
+	            try {
+	                addExtractionTimeSizeMetaTriples(consolidationContext);
+	            } catch (TripleHandlerException e) {
+	                throw new ExtractionException(
+	                        String.format(
+	                                "Error while adding extraction metadata triples document with IRI %s", documentIRI
+	                        ),
+	                        e
+	                );
+	            }
+	        }
+        } finally {
+	        try {
+	            output.endDocument(documentIRI);
+	        } catch (TripleHandlerException e) {
+	            log.error(String.format("Error ending document with IRI %s", documentIRI));
+	            throw new ExtractionException(String.format("Error ending document with IRI %s", documentIRI),
+	                    e
+	            );
+	        }
         }
 
         return new SingleDocumentExtractionReport(
