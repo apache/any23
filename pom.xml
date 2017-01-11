@@ -203,6 +203,7 @@
     <module>mime</module>
     <module>encoding</module>
     <module>core</module>
+    <module>cli</module>
     <module>plugins/basic-crawler</module>
     <module>plugins/html-scraper</module>
     <module>plugins/office-scraper</module>
