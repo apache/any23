@@ -1,5 +1,5 @@
 Apache Any23
-Copyright 2011-2014 The Apache Software Foundation
+Copyright 2011-2017 The Apache Software Foundation
 Copyright 2008-2011 Digital Enterprise Research Institute (DERI)
 
 This product includes software developed by
@@ -8,5 +8,5 @@ The Apache Software Foundation (http://www.apache.org/).
 This product includes software developed by the jQuery 
 Foundation (http://jquery.org/) under an MIT license.
 
-This product includes source developed by OpenRDF Sesame
-(http://www.openrdf.org/) under a BSD-style license.
+This product includes software developed by Eclipse RDF4J
+(http://rdf4j.org/) under the Eclipse Distribution License v1.0.
