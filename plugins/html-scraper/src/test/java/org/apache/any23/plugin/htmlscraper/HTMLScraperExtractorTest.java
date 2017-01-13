@@ -26,9 +26,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Matchers;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,24 +68,24 @@ public class HTMLScraperExtractorTest {
     public void testRun() throws IOException, ExtractionException {
         final InputStream is = this.getClass().getResourceAsStream("html-scraper-extractor-test.html");
         final ExtractionResult extractionResult = mock(ExtractionResult.class);
-        final URI pageURI = ValueFactoryImpl.getInstance().createURI("http://fake/test/page/testrun");
+        final IRI pageIRI = SimpleValueFactory.getInstance().createIRI("http://fake/test/page/testrun");
         final ExtractionContext extractionContext = new ExtractionContext(
                 extractor.getDescription().getExtractorName(),
-                pageURI
+                pageIRI
         );
         extractor.run(ExtractionParameters.newDefault(), extractionContext, is, extractionResult);
 
         verify(extractionResult).writeTriple(
-                eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY) , (Value) Matchers.anyObject())
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY) , (Value) Matchers.anyObject())
         ;
         verify(extractionResult).writeTriple(
-                eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_AE_PROPERTY) , (Value) Matchers.anyObject())
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_AE_PROPERTY) , (Value) Matchers.anyObject())
         ;
         verify(extractionResult).writeTriple(
-                eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_LCE_PROPERTY) , (Value) Matchers.anyObject())
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_LCE_PROPERTY) , (Value) Matchers.anyObject())
         ;
         verify(extractionResult).writeTriple(
-                eq(pageURI), eq(HTMLScraperExtractor.PAGE_CONTENT_CE_PROPERTY) , (Value) Matchers.anyObject())
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_CE_PROPERTY) , (Value) Matchers.anyObject())
         ;
     }
 

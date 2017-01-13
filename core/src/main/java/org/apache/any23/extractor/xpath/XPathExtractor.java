@@ -23,7 +23,7 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -68,9 +68,9 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
             ExtractionResult out
     )
     throws IOException, ExtractionException {
-        final URI documentURI = extractionContext.getDocumentURI();
+        final IRI documentIRI = extractionContext.getDocumentIRI();
         for(XPathExtractionRule rule : xPathExtractionRules) {
-            if(rule.acceptURI(documentURI)) {
+            if(rule.acceptIRI(documentIRI)) {
                 rule.process(in, out);
             }
         }

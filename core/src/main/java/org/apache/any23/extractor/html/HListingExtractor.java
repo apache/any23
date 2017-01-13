@@ -23,10 +23,10 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.HListing;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -123,7 +123,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                 node,
                 listing, hLISTING.item, blankItem
         );
-        addURIProperty(blankItem, RDF.TYPE, hLISTING.Item);
+        addIRIProperty(blankItem, RDF.TYPE, hLISTING.Item);
 
         HTMLDocument item = new HTMLDocument(node);
 
@@ -143,7 +143,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
                     String value = node.getNodeValue();
                     // do not use conditionallyAdd, it won't work cause of evaluation rules
                     if (!(null == value || "".equals(value))) {
-                        URI property = hLISTING.getPropertyCamelCase(klass);
+                        IRI property = hLISTING.getPropertyCamelCase(klass);
                         conditionallyAddLiteralProperty(
                                 node,
                                 blankItem, property, valueFactory.createLiteral(value)
@@ -200,7 +200,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
     private Resource addLister() throws ExtractionException {
         Resource blankLister = valueFactory.createBNode();
-        addURIProperty(blankLister, RDF.TYPE, hLISTING.Lister);
+        addIRIProperty(blankLister, RDF.TYPE, hLISTING.Lister);
         Node node = fragment.findMicroformattedObjectNode("*", "lister");
         if (null == node)
             return blankLister;
@@ -224,7 +224,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
     private void addListerUrl(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         TextField url = doc.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blankLister, hLISTING.listerUrl, getHTMLDocument().resolveURI(url.value()));
+        conditionallyAddResourceProperty(blankLister, hLISTING.listerUrl, getHTMLDocument().resolveIRI(url.value()));
     }
 
     private void addListerEmail(HTMLDocument doc, Resource blankLister) {
@@ -242,7 +242,7 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
     private void addListerLogo(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         TextField logo = doc.getSingularUrlField("logo");
-        conditionallyAddResourceProperty(blankLister, hLISTING.listerLogo, getHTMLDocument().resolveURI(logo.value()));
+        conditionallyAddResourceProperty(blankLister, hLISTING.listerLogo, getHTMLDocument().resolveIRI(logo.value()));
     }
 
     private void addListerOrg(HTMLDocument doc, Resource blankLister) {
@@ -263,18 +263,18 @@ public class HListingExtractor extends EntityBasedMicroformatExtractor {
 
     private void addItemUrl(HTMLDocument item, Resource blankItem) throws ExtractionException {
         TextField url = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blankItem, hLISTING.itemUrl, getHTMLDocument().resolveURI(url.value()));
+        conditionallyAddResourceProperty(blankItem, hLISTING.itemUrl, getHTMLDocument().resolveIRI(url.value()));
     }
 
     private void addItemPhoto(HTMLDocument doc, Resource blankLister) throws ExtractionException {
         // as per spec
         String url = doc.findMicroformattedValue("*", "item", "A", "photo", "@href");
-        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
+        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveIRI(url));
         url = doc.findMicroformattedValue("*", "item", "IMG", "photo", "@src");
-        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
+        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveIRI(url));
         // as per kelkoo. Remember that contains(foo,'') is true in xpath
         url = doc.findMicroformattedValue("*", "photo", "IMG", "", "@src");
-        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveURI(url));
+        conditionallyAddResourceProperty(blankLister, hLISTING.itemPhoto, getHTMLDocument().resolveIRI(url));
     }
 
     private List<String> findActions(HTMLDocument doc) {

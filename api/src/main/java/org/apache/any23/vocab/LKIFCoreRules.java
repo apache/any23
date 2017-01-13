@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -52,17 +52,17 @@ public class LKIFCoreRules extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/lkif-rules.owl */
     /////////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Valid_Rule                  = createClass(NS, "Valid_Rule");
-    public final URI Rule                        = createClass(NS, "Rule");
+    public final IRI Valid_Rule                  = createClass(NS, "Valid_Rule");
+    public final IRI Rule                        = createClass(NS, "Rule");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI rule_predicate              = createProperty(NS, "rule_predicate");
-    public final URI prior                       = createProperty(NS, "prior");
-    public final URI excluded                    = createProperty(NS, "excluded");
-    public final URI applies                     = createProperty(NS, "applies");
-    public final URI rebuts                      = createProperty(NS, "rebuts");
+    public final IRI rule_predicate              = createProperty(NS, "rule_predicate");
+    public final IRI prior                       = createProperty(NS, "prior");
+    public final IRI excluded                    = createProperty(NS, "excluded");
+    public final IRI applies                     = createProperty(NS, "applies");
+    public final IRI rebuts                      = createProperty(NS, "rebuts");
     
     private LKIFCoreRules() {
       super(NS);

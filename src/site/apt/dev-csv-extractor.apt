@@ -34,9 +34,9 @@ CSV Extractor Algorithm
 
    * for each field <name>:
 
-    * if <name> is a valid URI keep it as an URI since could be derefenceable.
+    * if <name> is a valid IRI keep it as an IRI since could be derefenceable.
 
-    * if <name> is not a valid URI, the associated RDF Property URI <propUri>
+    * if <name> is not a valid IRI, the associated RDF Property IRI <propUri>
       will be in the form of: <url> concatenated <name>
 
     * add label statement: <propUri> rdfs:label <name>
@@ -51,7 +51,7 @@ CSV Extractor Algorithm
     * for each <cell> value:
 
       * write statement, \<url/row/\<index\>\> <propUri> <cell> where:
-         <cell> could be an URI if the cell value is an URI, or a typed literal
+         <cell> could be an IRI if the cell value is an IRI, or a typed literal
          according the value of the CSV actual value <cell>.
 
    * add RDF statements claiming number of rows and columns.

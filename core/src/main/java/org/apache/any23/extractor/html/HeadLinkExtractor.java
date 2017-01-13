@@ -24,9 +24,9 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.vocab.XHTML;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -46,7 +46,7 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
             ExtractionResult out
     ) throws IOException, ExtractionException {
         HTMLDocument html = new HTMLDocument(in);
-        ValueFactory vf = ValueFactoryImpl.getInstance();
+        ValueFactory vf = SimpleValueFactory.getInstance();
 
         final List<Node> headLinkNodes = DomUtils.findAll(
                 in,
@@ -60,11 +60,11 @@ public class HeadLinkExtractor implements TagSoupDOMExtractor {
                         ") and @href and @rel]"
         );
         for (Node node : headLinkNodes) {
-            final URI href = html.resolveURI(DomUtils.find(node, "@href"));
+            final IRI href = html.resolveIRI(DomUtils.find(node, "@href"));
             final String rel = DomUtils.find(node, "@rel");
             out.writeTriple(
-                    extractionContext.getDocumentURI(),
-                    vf.createURI(XHTML.NS + rel),
+                    extractionContext.getDocumentIRI(),
+                    vf.createIRI(XHTML.NS + rel),
                     href
             );
             final String title = DomUtils.find(node, "@title");

@@ -35,18 +35,18 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
-import org.openrdf.repository.sail.SailRepository;
-import org.openrdf.sail.Sail;
-import org.openrdf.sail.SailException;
-import org.openrdf.sail.memory.MemoryStore;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.repository.RepositoryResult;
+import org.eclipse.rdf4j.repository.sail.SailRepository;
+import org.eclipse.rdf4j.sail.Sail;
+import org.eclipse.rdf4j.sail.SailException;
+import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -271,7 +271,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param occurrences
      * @throws RepositoryException
      */
-    private void assertTripleCount(URI predicate, Value value, int occurrences) throws RepositoryException {
+    private void assertTripleCount(IRI predicate, Value value, int occurrences) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(
                 null, predicate, value, false
         );
@@ -295,8 +295,8 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param occurrences
      * @throws RepositoryException
      */
-    private void assertTripleCount(URI predicate, String value, int occurrences) throws RepositoryException {
-        assertTripleCount(predicate, ValueFactoryImpl.getInstance().createLiteral(value), occurrences);
+    private void assertTripleCount(IRI predicate, String value, int occurrences) throws RepositoryException {
+        assertTripleCount(predicate, SimpleValueFactory.getInstance().createLiteral(value), occurrences);
     }
 
     /**
@@ -306,7 +306,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param value
      * @throws RepositoryException
      */
-    private void assertTriple(URI predicate, Value value) throws RepositoryException {
+    private void assertTriple(IRI predicate, Value value) throws RepositoryException {
         assertTripleCount(predicate, value, 1);
     }
 
@@ -317,8 +317,8 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param value
      * @throws RepositoryException
      */
-    private void assertTriple(URI predicate, String value) throws RepositoryException {
-        assertTriple(predicate, ValueFactoryImpl.getInstance().createLiteral(value) );
+    private void assertTriple(IRI predicate, String value) throws RepositoryException {
+        assertTriple(predicate, SimpleValueFactory.getInstance().createLiteral(value) );
     }
 
     /**
@@ -329,7 +329,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @return the object of the unique triple matching the given pattern.
      * @throws RepositoryException if an error occurred during the search.
      */
-    private Value getTripleObject(Resource sub, URI prop) throws RepositoryException {
+    private Value getTripleObject(Resource sub, IRI prop) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, false);
         Assert.assertTrue(statements.hasNext());
         Statement statement = statements.next();

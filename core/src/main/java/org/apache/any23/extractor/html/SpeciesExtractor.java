@@ -22,10 +22,10 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.vocab.WO;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 /**
@@ -138,7 +138,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
         }
     }
 
-    private URI resolvePropertyName(String clazz) {
+    private IRI resolvePropertyName(String clazz) {
         return vWO.getProperty(
                 String.format(
                         "%sName",
@@ -147,7 +147,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
         );
     }
 
-    private URI resolveClassName(String clazz) {
+    private IRI resolveClassName(String clazz) {
         String upperCaseClass = clazz.substring(0, 1);
         return vWO.getClass(
                 String.format("%s%s",

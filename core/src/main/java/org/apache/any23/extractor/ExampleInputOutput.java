@@ -65,12 +65,12 @@ public class ExampleInputOutput {
         return new String(MemCopyFactory.toByteArray(in), "utf-8");
     }
 
-    public String getExampleURI() {
+    public String getExampleIRI() {
         if (factory.getExampleInput() == null) {
             return null;
         }
         if (isBlindExtractor()) {
-            return factory.getExampleInput();    // Should be a URI.
+            return factory.getExampleInput();    // Should be a IRI.
         }
         return "http://example.com/";
     }
@@ -82,7 +82,7 @@ public class ExampleInputOutput {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TripleHandler writer = new TurtleWriter(out);
         new SingleDocumentExtraction(
-                new StringDocumentSource(getExampleInput(), getExampleURI()),
+                new StringDocumentSource(getExampleInput(), getExampleIRI()),
                 factory,
                 writer).run();
         try {

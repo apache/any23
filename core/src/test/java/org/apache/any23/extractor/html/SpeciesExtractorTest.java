@@ -20,8 +20,8 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.vocab.WO;
 import org.junit.Test;
-import org.openrdf.model.Value;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

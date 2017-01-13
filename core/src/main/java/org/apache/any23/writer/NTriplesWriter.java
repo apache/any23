@@ -25,7 +25,7 @@ import java.io.OutputStream;
 public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
 
     public NTriplesWriter(OutputStream out) {
-        super(new org.openrdf.rio.ntriples.NTriplesWriter(out));
+        super(new org.eclipse.rdf4j.rio.ntriples.NTriplesWriter(out));
     }
 
 }

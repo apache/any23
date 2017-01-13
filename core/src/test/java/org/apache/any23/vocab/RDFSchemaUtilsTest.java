@@ -20,7 +20,7 @@ package org.apache.any23.vocab;
 import org.apache.any23.util.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

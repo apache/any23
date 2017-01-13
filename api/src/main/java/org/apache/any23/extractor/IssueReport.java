@@ -35,7 +35,7 @@ public interface IssueReport {
      * @param row   issue row.
      * @param col   issue column.
      */
-    void notifyIssue(IssueLevel level, String msg, int row, int col);
+    void notifyIssue(IssueLevel level, String msg, long row, long col);
 
     /**
      * Prints out the content of the report.
@@ -55,9 +55,9 @@ public interface IssueReport {
      * Possible issue levels.
      */
     enum IssueLevel {
-        Warning,
-        Error,
-        Fatal
+        WARNING,
+        ERROR,
+        FATAL
     }
 
     /**
@@ -67,9 +67,9 @@ public interface IssueReport {
 
         private IssueLevel level;
         private String     message;
-        private int        row, col;
+        private long       row, col;
 
-        Issue(IssueLevel l, String msg, int r, int c) {
+        Issue(IssueLevel l, String msg, long r, long c) {
             level = l;
             message = msg;
             row = r;
@@ -84,11 +84,11 @@ public interface IssueReport {
             return message;
         }
 
-        public int getRow() {
+        public long getRow() {
             return row;
         }
 
-        public int getCol() {
+        public long getCol() {
             return col;
         }
 

@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Opens an {@link InputStream} on an HTTP URI. Is configured
+ * Opens an {@link InputStream} on an HTTP IRI. Is configured
  * with sane values for timeouts, default headers and so on.
  *
  * @author Paolo Capriotti
@@ -47,7 +47,7 @@ public class DefaultHTTPClient implements HTTPClient {
 
     private long _contentLength = -1;
 
-    private String actualDocumentURI = null;
+    private String actualDocumentIRI = null;
 
     private String contentType = null;
 
@@ -73,7 +73,7 @@ public class DefaultHTTPClient implements HTTPClient {
 
     /**
      *
-     * Opens an {@link java.io.InputStream} from a given URI.
+     * Opens an {@link java.io.InputStream} from a given IRI.
      * It follows redirects.
      *
      * @param uri to be opened
@@ -91,7 +91,7 @@ public class DefaultHTTPClient implements HTTPClient {
                 // [scheme:][//authority][path][?query][#fragment]
                 uriStr = uriObj.toString();
             } catch (URIException e) {
-                throw new IllegalArgumentException("Invalid URI string.", e);
+                throw new IllegalArgumentException("Invalid IRI string.", e);
             }
             method = new GetMethod(uriStr);
             method.setFollowRedirects(true);
@@ -104,7 +104,7 @@ public class DefaultHTTPClient implements HTTPClient {
                         "Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText()
                 );
             }
-            actualDocumentURI = method.getURI().toString();
+            actualDocumentIRI = method.getURI().toString();
             byte[] response = method.getResponseBody();
 
             return new ByteArrayInputStream(response);
@@ -126,8 +126,8 @@ public class DefaultHTTPClient implements HTTPClient {
         return _contentLength;
     }
 
-    public String getActualDocumentURI() {
-        return actualDocumentURI;
+    public String getActualDocumentIRI() {
+        return actualDocumentIRI;
     }
 
     public String getContentType() {

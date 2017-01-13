@@ -20,8 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
  * Reference Test class for the {@link HTMLMetaExtractor} extractor.
@@ -41,26 +40,26 @@ public class HTMLMetaExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/html/html-head-meta-extractor.html");
 		assertModelNotEmpty();
 		assertStatementsSize(null, null, null, 10);
-		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+		assertContains(SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"), SimpleValueFactory.getInstance().createIRI(
 				"http://purl.org/dc/elements/1.1/title"), "XHTML+RDFa example",
 				"en");
-		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+		assertContains(SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"), SimpleValueFactory.getInstance().createIRI(
 				"http://purl.org/dc/elements/1.1/language"), "en", "en");
-		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+		assertContains(SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"), SimpleValueFactory.getInstance().createIRI(
 				"http://purl.org/dc/elements/1.1/subject"),
 				"XHTML+RDFa, semantic web", "en");
-		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+		assertContains(SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"), SimpleValueFactory.getInstance().createIRI(
 				"http://purl.org/dc/elements/1.1/format"),
 				"application/xhtml+xml", "en");
 		assertContains(
-				new URIImpl("http://bob.example.com/"),
-				new URIImpl("http://purl.org/dc/elements/1.1/description"),
+				SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"),
+				SimpleValueFactory.getInstance().createIRI("http://purl.org/dc/elements/1.1/description"),
 				"Example for Extensible Hypertext Markup Language + Resource Description Framework – in – attributes.",
 				"en");
-		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+		assertContains(SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"), SimpleValueFactory.getInstance().createIRI(
 				vSINDICE.NAMESPACE.toString() + "robots"), "index, follow",
 				"en");
-		assertContains(new URIImpl("http://bob.example.com/"), new URIImpl(
+		assertContains(SimpleValueFactory.getInstance().createIRI("http://bob.example.com/"), SimpleValueFactory.getInstance().createIRI(
 				vSINDICE.NAMESPACE.toString() + "content-language"), "en", "en");
 	}
 

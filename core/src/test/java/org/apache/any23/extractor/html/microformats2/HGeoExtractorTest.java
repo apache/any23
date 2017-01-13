@@ -20,15 +20,9 @@ package org.apache.any23.extractor.html.microformats2;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.extractor.html.microformats2.HGeoExtractorFactory;
-import org.apache.any23.vocab.VCard;
-import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.rio.RDFHandlerException;
-
-import java.util.List;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 
 
 public class HGeoExtractorTest extends AbstractExtractorTestCase {

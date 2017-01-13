@@ -18,9 +18,9 @@
 package org.apache.any23.writer;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -55,8 +55,8 @@ public class LoggingTripleHandler implements TripleHandler {
         printHeader(destination);
     }
 
-    public void startDocument(URI documentURI) throws TripleHandlerException {
-        underlyingHandler.startDocument(documentURI);
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
+        underlyingHandler.startDocument(documentIRI);
         startTime = System.currentTimeMillis();
     }
 
@@ -74,7 +74,7 @@ public class LoggingTripleHandler implements TripleHandler {
         underlyingHandler.openContext(context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         underlyingHandler.receiveTriple(s, p, o, g, context);
         Integer i = contextTripleMap.get(context.getExtractorName());
@@ -87,8 +87,8 @@ public class LoggingTripleHandler implements TripleHandler {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 
-    public void endDocument(URI documentURI) throws TripleHandlerException {
-        underlyingHandler.endDocument(documentURI);
+    public void endDocument(IRI documentIRI) throws TripleHandlerException {
+        underlyingHandler.endDocument(documentIRI);
         long elapsedTime = System.currentTimeMillis() - startTime;
         boolean success = true;
         StringBuffer sb = new StringBuffer("[");
@@ -100,7 +100,7 @@ public class LoggingTripleHandler implements TripleHandler {
         }
         sb.append("]");
         destination.println(
-                documentURI + "\t" + contentLength + "\t" + elapsedTime + "\t" + success + "\t" + sb.toString()
+                documentIRI + "\t" + contentLength + "\t" + elapsedTime + "\t" + success + "\t" + sb.toString()
         );
         contextTripleMap.clear();
     }
@@ -111,6 +111,6 @@ public class LoggingTripleHandler implements TripleHandler {
     }
 
     private void printHeader(PrintWriter writer) {
-        writer.println("# Document-URI\tContent-Length\tElapsed-Time\tSuccess\tExtractors");
+        writer.println("# Document-IRI\tContent-Length\tElapsed-Time\tSuccess\tExtractors");
     }
 }

@@ -23,6 +23,7 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Prefixes;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
@@ -42,6 +43,7 @@ public class NQuadsExtractorFactory extends SimpleExtractorFactory<NQuadsExtract
                 NQuadsExtractorFactory.NAME, 
                 NQuadsExtractorFactory.PREFIXES,
                 Arrays.asList(
+                		RDFFormat.NQUADS.getDefaultMIMEType(),
                         "text/x-nquads;q=0.1",
                         "text/rdf+nq;q=0.1",
                         "text/nq;q=0.1",

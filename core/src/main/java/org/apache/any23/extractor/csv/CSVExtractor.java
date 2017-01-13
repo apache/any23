@@ -28,13 +28,12 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.CSV;
 import org.apache.commons.csv.CSVParser;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +51,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
 
     private CSVParser csvParser;
 
-    private URI[] headerURIs;
+    private IRI[] headerIRIs;
 
     private CSV csv = CSV.getInstance();
 
@@ -71,14 +70,14 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             InputStream in
             , ExtractionResult out
     ) throws IOException, ExtractionException {
-        final URI documentURI = extractionContext.getDocumentURI();
+        final IRI documentIRI = extractionContext.getDocumentIRI();
 
         // build the parser
         csvParser = CSVReaderBuilder.build(in);
 
-        // get the header and generate the URIs for column names
+        // get the header and generate the IRIs for column names
         String[] header = csvParser.getLine();
-        headerURIs = processHeader(header, documentURI);
+        headerIRIs = processHeader(header, documentIRI);
 
         // write triples to describe properties
         writeHeaderPropertiesMetadata(header, out);
@@ -86,8 +85,8 @@ public class CSVExtractor implements Extractor.ContentExtractor {
         String[] nextLine;
         int index = 0;
         while ((nextLine = csvParser.getLine()) != null) {
-            URI rowSubject = RDFUtils.uri(
-                    documentURI.toString(),
+            IRI rowSubject = RDFUtils.uri(
+                    documentIRI.toString(),
                     "row/" + index
             );
             // add a row type
@@ -95,21 +94,21 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             // for each row produce its statements
             produceRowStatements(rowSubject, nextLine, out);
             // link the row to the document
-            out.writeTriple(documentURI, csv.row, rowSubject);
+            out.writeTriple(documentIRI, csv.row, rowSubject);
             // the progressive row number
             out.writeTriple(
                     rowSubject,
                     csv.rowPosition,
-                    new LiteralImpl(String.valueOf(index))
+                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index))
             );
             index++;
         }
         // add some CSV metadata such as the number of rows and columns
         addTableMetadataStatements(
-                documentURI,
+                documentIRI,
                 out,
                 index,
-                headerURIs.length
+                headerIRIs.length
         );
     }
 
@@ -151,53 +150,53 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      */
     private void writeHeaderPropertiesMetadata(String[] header, ExtractionResult out) {
         int index = 0;
-        for (URI singleHeader : headerURIs) {
-            if (index > headerURIs.length) {
+        for (IRI singleHeader : headerIRIs) {
+            if (index > headerIRIs.length) {
                 break;
             }
-            if (!RDFUtils.isAbsoluteURI(header[index])) {
+            if (!RDFUtils.isAbsoluteIRI(header[index])) {
                 out.writeTriple(
                         singleHeader,
                         RDFS.LABEL,
-                        new LiteralImpl(header[index])
+                        SimpleValueFactory.getInstance().createLiteral(header[index])
                 );
             }
             out.writeTriple(
                     singleHeader,
                     csv.columnPosition,
-                    new LiteralImpl(String.valueOf(index), XMLSchema.INTEGER)
+                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index), XMLSchema.INTEGER)
             );
             index++;
         }
     }
 
     /**
-     * It process the first row of the file, returning a list of {@link URI}s representing
-     * the properties for each column. If a value of the header is an absolute <i>URI</i>
+     * It process the first row of the file, returning a list of {@link IRI}s representing
+     * the properties for each column. If a value of the header is an absolute <i>IRI</i>
      * then it leave it as is. Otherwise the {@link org.apache.any23.vocab.CSV} vocabulary is used.
      *
      * @param header
-     * @return an array of {@link URI}s identifying the column names.
+     * @return an array of {@link IRI}s identifying the column names.
      */
-    private URI[] processHeader(String[] header, URI documentURI) {
-        URI[] result = new URI[header.length];
+    private IRI[] processHeader(String[] header, IRI documentIRI) {
+        IRI[] result = new IRI[header.length];
         int index = 0;
         for (String h : header) {
             String candidate = h.trim();
-            if (RDFUtils.isAbsoluteURI(candidate)) {
-                result[index] = new URIImpl(candidate);
+            if (RDFUtils.isAbsoluteIRI(candidate)) {
+                result[index] = SimpleValueFactory.getInstance().createIRI(candidate);
             } else {
-                result[index] = normalize(candidate, documentURI);
+                result[index] = normalize(candidate, documentIRI);
             }
             index++;
         }
         return result;
     }
 
-    private URI normalize(String toBeNormalized, URI documentURI) {
+    private IRI normalize(String toBeNormalized, IRI documentIRI) {
         toBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "");
 
-        StringBuilder result = new StringBuilder(documentURI.toString());
+        StringBuilder result = new StringBuilder(documentIRI.toString());
 
         StringTokenizer tokenizer = new StringTokenizer(toBeNormalized, " ");
         while (tokenizer.hasMoreTokens()) {
@@ -206,12 +205,12 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             result.append(toUpperCase(current.charAt(0))).append(current.substring(1));
         }
 
-        return new URIImpl(result.toString());
+        return SimpleValueFactory.getInstance().createIRI(result.toString());
     }
 
     /**
      * It writes on the provided {@link ExtractionResult}, the </>RDF statements</>
-     * representing the row <i>cell</i>. If a  row <i>cell</i> is an absolute <i>URI</i>
+     * representing the row <i>cell</i>. If a  row <i>cell</i> is an absolute <i>IRI</i>
      * then an object property is written, literal otherwise.
      *
      * @param rowSubject
@@ -219,13 +218,13 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * @param out
      */
     private void produceRowStatements(
-            URI rowSubject,
+            IRI rowSubject,
             String[] values,
             ExtractionResult out
     ) {
         int index = 0;
         for (String cell : values) {
-            if (index >= headerURIs.length) {
+            if (index >= headerIRIs.length) {
                 // there are some row cells that don't have an associated column name
                 break;
             }
@@ -233,7 +232,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
                 index++;
                 continue;
             }
-            URI predicate = headerURIs[index];
+            IRI predicate = headerIRIs[index];
             Value object = getObjectFromCell(cell);
             out.writeTriple(rowSubject, predicate, object);
             index++;
@@ -243,16 +242,16 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     private Value getObjectFromCell(String cell) {
         Value object;
         cell = cell.trim();
-        if (RDFUtils.isAbsoluteURI(cell)) {
-            object = new URIImpl(cell);
+        if (RDFUtils.isAbsoluteIRI(cell)) {
+            object = SimpleValueFactory.getInstance().createIRI(cell);
         } else {
-            URI datatype = XMLSchema.STRING;
+            IRI datatype = XMLSchema.STRING;
             if (isInteger(cell)) {
                 datatype = XMLSchema.INTEGER;
             } else if(isFloat(cell)) {
                 datatype = XMLSchema.FLOAT;
             }
-            object = new LiteralImpl(cell, datatype);
+            object = SimpleValueFactory.getInstance().createLiteral(cell, datatype);
         }
         return object;
     }
@@ -261,25 +260,25 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * It writes on the provided {@link ExtractionResult} some <i>RDF Statements</i>
      * on generic properties of the <i>CSV</i> file, such as number of rows and columns.
      *
-     * @param documentURI
+     * @param documentIRI
      * @param out
      * @param numberOfRows
      * @param numberOfColumns
      */
     private void addTableMetadataStatements(
-            URI documentURI,
+            IRI documentIRI,
             ExtractionResult out,
             int numberOfRows,
             int numberOfColumns) {
         out.writeTriple(
-                documentURI,
+                documentIRI,
                 csv.numberOfRows,
-                new LiteralImpl(String.valueOf(numberOfRows), XMLSchema.INTEGER)
+                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfRows), XMLSchema.INTEGER)
         );
         out.writeTriple(
-                documentURI,
+                documentIRI,
                 csv.numberOfColumns,
-                new LiteralImpl(String.valueOf(numberOfColumns), XMLSchema.INTEGER)
+                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfColumns), XMLSchema.INTEGER)
         );
     }
 

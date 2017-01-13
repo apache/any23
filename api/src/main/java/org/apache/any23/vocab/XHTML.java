@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="http://www.w3.org/1999/xhtml/vocab/">XHTML</a> vocabulary.
@@ -35,10 +35,10 @@ public class XHTML extends Vocabulary {
         return instance;
     }
 
-    public final URI license    = createProperty(NS, "license"   );
-    public final URI meta       = createProperty(NS, "meta"      );
-    public final URI alternate  = createProperty(NS, "alternate" );
-    public final URI stylesheet = createProperty(NS, "stylesheet");
+    public final IRI license    = createProperty(NS, "license"   );
+    public final IRI meta       = createProperty(NS, "meta"      );
+    public final IRI alternate  = createProperty(NS, "alternate" );
+    public final IRI stylesheet = createProperty(NS, "stylesheet");
 
     private XHTML(){
         super(NS);

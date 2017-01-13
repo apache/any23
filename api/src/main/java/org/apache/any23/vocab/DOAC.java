@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="http://ramonantonio.net/doac/0.1/">Description Of A Career</a> vocabulary.
@@ -36,41 +36,41 @@ public class DOAC extends Vocabulary {
     }
 
     // Properties.
-    public final URI summary             = createProperty(NS, "summary");
-    public final URI end_date            = createProperty(NS, "end-date");
-    public final URI publication         = createProperty(NS, "publication");
-    public final URI title               = createProperty(NS, "title");
-    public final URI reference           = createProperty(NS, "reference");
-    public final URI language            = createProperty(NS, "language");
-    public final URI experience          = createProperty(NS, "experience");
-    public final URI organization        = createProperty(NS, "organization");
-    public final URI affiliation         = createProperty(NS, "affiliation");
-    public final URI writes              = createProperty(NS, "writes");
-    public final URI start_date          = createProperty(NS, "start-date");
-    public final URI education           = createProperty(NS, "education");
-    public final URI skill               = createProperty(NS, "skill");
-    public final URI referer             = createProperty(NS, "referer");
-    public final URI isco88_code         = createProperty(NS, "isco88-code");
-    public final URI speaks              = createProperty(NS, "speaks");
-    public final URI reads               = createProperty(NS, "reads");
-    public final URI reference_type      = createProperty(NS, "reference-type");
+    public final IRI summary             = createProperty(NS, "summary");
+    public final IRI end_date            = createProperty(NS, "end-date");
+    public final IRI publication         = createProperty(NS, "publication");
+    public final IRI title               = createProperty(NS, "title");
+    public final IRI reference           = createProperty(NS, "reference");
+    public final IRI language            = createProperty(NS, "language");
+    public final IRI experience          = createProperty(NS, "experience");
+    public final IRI organization        = createProperty(NS, "organization");
+    public final IRI affiliation         = createProperty(NS, "affiliation");
+    public final IRI writes              = createProperty(NS, "writes");
+    public final IRI start_date          = createProperty(NS, "start-date");
+    public final IRI education           = createProperty(NS, "education");
+    public final IRI skill               = createProperty(NS, "skill");
+    public final IRI referer             = createProperty(NS, "referer");
+    public final IRI isco88_code         = createProperty(NS, "isco88-code");
+    public final IRI speaks              = createProperty(NS, "speaks");
+    public final IRI reads               = createProperty(NS, "reads");
+    public final IRI reference_type      = createProperty(NS, "reference-type");
 
     // Resources.
-    public final URI Publication         = createClass(NS, "Publication");
-    public final URI Education           = createClass(NS, "Education");
-    public final URI OrganisationalSkill = createClass(NS, "OrganisationalSkill");
-    public final URI PrimarySchool       = createClass(NS, "PrimarySchool");
-    public final URI Reference           = createClass(NS, "Reference");
-    public final URI DrivingSkill        = createClass(NS, "DrivingSkill");
-    public final URI Degree              = createClass(NS, "Degree");
-    public final URI LanguageSkill       = createClass(NS, "LanguageSkill");
-    public final URI Skill               = createClass(NS, "Skill");
-    public final URI SecondarySchool     = createClass(NS, "SecondarySchool");
-    public final URI Course              = createClass(NS, "Course");
-    public final URI Experience          = createClass(NS, "Experience");
-    public final URI SocialSkill         = createClass(NS, "SocialSkill");
-    public final URI ComputerSkill       = createClass(NS, "ComputerSkill");
-    public final URI LanguageLevel       = createClass(NS, "LanguageLevel");
+    public final IRI Publication         = createClass(NS, "Publication");
+    public final IRI Education           = createClass(NS, "Education");
+    public final IRI OrganisationalSkill = createClass(NS, "OrganisationalSkill");
+    public final IRI PrimarySchool       = createClass(NS, "PrimarySchool");
+    public final IRI Reference           = createClass(NS, "Reference");
+    public final IRI DrivingSkill        = createClass(NS, "DrivingSkill");
+    public final IRI Degree              = createClass(NS, "Degree");
+    public final IRI LanguageSkill       = createClass(NS, "LanguageSkill");
+    public final IRI Skill               = createClass(NS, "Skill");
+    public final IRI SecondarySchool     = createClass(NS, "SecondarySchool");
+    public final IRI Course              = createClass(NS, "Course");
+    public final IRI Experience          = createClass(NS, "Experience");
+    public final IRI SocialSkill         = createClass(NS, "SocialSkill");
+    public final IRI ComputerSkill       = createClass(NS, "ComputerSkill");
+    public final IRI LanguageLevel       = createClass(NS, "LanguageLevel");
 
     private DOAC(){
         super(NS);

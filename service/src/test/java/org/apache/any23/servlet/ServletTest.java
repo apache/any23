@@ -17,12 +17,12 @@
 
 package org.apache.any23.servlet;
 
-import junit.framework.Assert;
 import org.apache.any23.http.HTTPClient;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.FileDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
 import org.apache.any23.util.StringUtils;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -44,7 +44,7 @@ public class ServletTest {
 
     private static String content;
     private static String acceptHeader;
-    private static String requestedURI;
+    private static String requestedIRI;
 
     private ServletTester tester;
 
@@ -56,7 +56,7 @@ public class ServletTest {
         tester.start();
         content = "test";
         acceptHeader = null;
-        requestedURI = null;
+        requestedIRI = null;
     }
 
     @After
@@ -69,7 +69,7 @@ public class ServletTest {
     public void testGETOnlyFormat() throws Exception {
         HttpTester response = doGetRequest("/xml");
         Assert.assertEquals(404, response.getStatus());
-        assertContains("Missing URI", response.getContent());
+        assertContains("Missing IRI", response.getContent());
     }
 
     @Test
@@ -80,10 +80,10 @@ public class ServletTest {
     }
 
     @Test
-    public void testGETInvalidURI() throws Exception {
+    public void testGETInvalidIRI() throws Exception {
         HttpTester response = doGetRequest("/xml/mailto:richard@cyganiak.de");
         Assert.assertEquals(400, response.getStatus());
-        assertContains("Invalid input URI", response.getContent());
+        assertContains("Invalid input IRI", response.getContent());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/foo.com/bar.html");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com/bar.html", requestedURI);
+        Assert.assertEquals("http://foo.com/bar.html", requestedIRI);
         String res = response.getContent();
         assertContains(
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
@@ -104,7 +104,7 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
     }
 
     @Test
@@ -112,23 +112,23 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/http://foo.com?id=1");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com?id=1", requestedURI);
+        Assert.assertEquals("http://foo.com?id=1", requestedIRI);
     }
 
     @Test
-    public void testGETwithURIinParam() throws Exception {
+    public void testGETwithIRIinParam() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt?uri=http://foo.com?id=1");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com?id=1", requestedURI);
+        Assert.assertEquals("http://foo.com?id=1", requestedIRI);
     }
 
     @Test
-    public void testGETwithFormatAndURIinParam() throws Exception {
+    public void testGETwithFormatAndIRIinParam() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/?format=nt&uri=http://foo.com?id=1");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com?id=1", requestedURI);
+        Assert.assertEquals("http://foo.com?id=1", requestedIRI);
     }
 
     @Test
@@ -136,7 +136,7 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt/http%3A%2F%2Ffoo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/nt?uri=http%3A%2F%2Ffoo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
     }
 
     @Test
@@ -159,7 +159,7 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doPostRequest("/", "format=nt&uri=http://foo.com", "application/x-www-form-urlencoded");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         String res = response.getContent();
         assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>", res);
     }
@@ -173,7 +173,7 @@ public class ServletTest {
                 "application/x-www-form-urlencoded;charset=UTF-8"
         );
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         String res = response.getContent();
         assertContains(
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
@@ -191,7 +191,7 @@ public class ServletTest {
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
                 res
         );
-        Assert.assertNull(requestedURI);
+        Assert.assertNull(requestedIRI);
     }
 
     @Test
@@ -205,11 +205,11 @@ public class ServletTest {
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2006/vcard/ns#VCard>",
                 res
         );
-        Assert.assertNull(requestedURI);
+        Assert.assertNull(requestedIRI);
     }
 
     @Test
-    public void testPOSTonlyURI() throws Exception {
+    public void testPOSTonlyIRI() throws Exception {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doPostRequest("/", "uri=http://foo.com", "application/x-www-form-urlencoded");
         Assert.assertEquals(200, response.getStatus());
@@ -261,7 +261,7 @@ public class ServletTest {
     }
 
     @Test
-    public void testCorrectBaseURI() throws Exception {
+    public void testCorrectBaseIRI() throws Exception {
         content = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <> a foaf:Document .";
         HttpTester response = doGetRequest("/nt/foo.com/test.n3");
         Assert.assertEquals(200, response.getStatus());
@@ -269,11 +269,11 @@ public class ServletTest {
     }
 
     @Test
-    public void testDefaultBaseURIinPOST() throws Exception {
+    public void testDefaultBaseIRIinPOST() throws Exception {
         String body = "@prefix foaf: <http://xmlns.com/foaf/0.1/> . <> a foaf:Document .";
         HttpTester response = doPostRequest("/nt", body, "text/rdf+n3;charset=utf-8");
         Assert.assertEquals(200, response.getStatus());
-        assertContains("<" + Servlet.DEFAULT_BASE_URI + ">", response.getContent());
+        assertContains("<" + Servlet.DEFAULT_BASE_IRI + ">", response.getContent());
     }
 
     @Test
@@ -308,7 +308,7 @@ public class ServletTest {
         content = "<html><body><div class=\"vcard fn\">Joe</div></body></html>";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
@@ -318,7 +318,7 @@ public class ServletTest {
         acceptHeader = "*/*";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
@@ -328,7 +328,7 @@ public class ServletTest {
         acceptHeader = "image/jpeg";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(406, response.getStatus());
-        Assert.assertNull(requestedURI);
+        Assert.assertNull(requestedIRI);
     }
 
     @Test
@@ -337,7 +337,7 @@ public class ServletTest {
         acceptHeader = "text/turtle";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
@@ -347,7 +347,7 @@ public class ServletTest {
         acceptHeader = "application/x-turtle";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         assertContains("a vcard:VCard", response.getContent());
     }
 
@@ -357,7 +357,7 @@ public class ServletTest {
         acceptHeader = "application/rdf+xml";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         assertContains("<rdf:RDF", response.getContent());
     }
 
@@ -367,7 +367,7 @@ public class ServletTest {
         acceptHeader = "text/plain";
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
-        Assert.assertEquals("http://foo.com", requestedURI);
+        Assert.assertEquals("http://foo.com", requestedIRI);
         assertContains("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>", response.getContent());
     }
 
@@ -396,7 +396,7 @@ public class ServletTest {
     @Test
     public void testJSONResponseFormat() throws Exception {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
-        HttpTester response = doPostRequest("/json", body, "text/x-nquads");
+        HttpTester response = doPostRequest("/json", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
         final String EXPECTED_JSON =
                 "[" +
@@ -411,7 +411,7 @@ public class ServletTest {
     @Test
     public void testTriXResponseFormat() throws Exception {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
-        HttpTester response = doPostRequest("/trix", body, "text/x-nquads");
+        HttpTester response = doPostRequest("/trix", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
         assertContainsTag("graph" , false, 1, content);
@@ -496,7 +496,7 @@ public class ServletTest {
         @Override
         protected DocumentSource createHTTPDocumentSource(HTTPClient httpClient, String uri)
                 throws IOException, URISyntaxException {
-            requestedURI = uri;
+            requestedIRI = uri;
             if(content != null) {
                 return new StringDocumentSource(content, uri);
             } else {

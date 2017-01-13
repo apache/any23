@@ -295,7 +295,7 @@
     <foaf:knows>
       <rdf:Description rdf:about="http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance">
 	<owl:sameAs rdf:resource="http://blog.semantic-web.at/author/pascal-hitzler/#foaf"/>
-	<owl:sameAs rdf:resource="http://korrekt.org/page/Special:URIResolver/Pascal_Hitzler"/>
+	<owl:sameAs rdf:resource="http://korrekt.org/page/Special:IRIResolver/Pascal_Hitzler"/>
 	<owl:sameAs rdf:resource="http://semanticweb.org/id/Pascal_Hitzler"/>
       </rdf:Description>
     </foaf:knows>

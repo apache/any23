@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * This vocabulary models the structure of a <i>CSV</i> file
@@ -43,32 +43,32 @@ public class CSV extends Vocabulary {
      * This property links the identifier of a <i>CSV</i> to an entity representing
      * a row.
      */
-    public final URI row = createProperty(ROW);
+    public final IRI row = createProperty(ROW);
 
     /**
      * This property expresses the index of a row in a <i>CSV</i> file.
      */
-    public final URI rowPosition = createProperty(ROW_POSITION);
+    public final IRI rowPosition = createProperty(ROW_POSITION);
 
     /**
      * This property expresses the number of rows in a <i>CSV</i> file.
      */
-    public final URI numberOfRows = createProperty(NUMBER_OF_ROWS);
+    public final IRI numberOfRows = createProperty(NUMBER_OF_ROWS);
 
     /**
      * This property expresses the number of columns in a <i>CSV</i> file.
      */
-    public final URI numberOfColumns = createProperty(NUMBER_OF_COLUMNS);
+    public final IRI numberOfColumns = createProperty(NUMBER_OF_COLUMNS);
 
     /**
      * This resource identifies a <i>Row</i>.
      */
-    public final URI rowType = createResource(ROW_TYPE);
+    public final IRI rowType = createResource(ROW_TYPE);
 
     /**
      * This property expresses the index of a column in a <i>CSV</i> file.
      */
-    public final URI columnPosition = createProperty(COLUMN_POSITION);
+    public final IRI columnPosition = createProperty(COLUMN_POSITION);
 
     /**
      * The namespace of the vocabulary as a string.
@@ -88,7 +88,7 @@ public class CSV extends Vocabulary {
         return instance;
     }
 
-    public URI createResource(String localName) {
+    public IRI createResource(String localName) {
         return createProperty(NS, localName);
     }
 
@@ -97,7 +97,7 @@ public class CSV extends Vocabulary {
      * @param localName name to assign to namespace.
      * @return the new URI instance.
      */
-    public URI createProperty(String localName) {
+    public IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 

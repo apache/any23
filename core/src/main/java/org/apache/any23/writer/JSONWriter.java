@@ -18,15 +18,16 @@
 package org.apache.any23.writer;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Optional;
 
 /**
  * Implementation of <i>JSON</i> format writer.
@@ -49,7 +50,8 @@ public class JSONWriter implements FormatWriter {
         this.ps = new PrintStream(new BufferedOutputStream(os));
     }
 
-    public void startDocument(URI documentURI) throws TripleHandlerException {
+    @Override
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
         if(documentStarted) {
             throw new IllegalStateException("Document already started.");
         }
@@ -59,11 +61,13 @@ public class JSONWriter implements FormatWriter {
         ps.print("{ \"quads\" : [");
     }
 
+    @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    @Override
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         validateDocumentStarted();
 
@@ -76,47 +80,55 @@ public class JSONWriter implements FormatWriter {
         
         ps.print('[');
 
-        if(s instanceof URI) {
-            printExplicitURI(s.stringValue(), ps);
+        if(s instanceof IRI) {
+            printExplicitIRI(s.stringValue(), ps);
         } else {
             printBNode(s.stringValue(), ps);
         }
 
-        printURI(p.stringValue(), ps);
+        printIRI(p.stringValue(), ps);
 
-         if(o instanceof URI) {
-            printExplicitURI(o.stringValue(), ps);
+         if(o instanceof IRI) {
+            printExplicitIRI(o.stringValue(), ps);
         } else if(o instanceof BNode) {
             printBNode(o.stringValue(), ps);
         } else {
             printLiteral((Literal) o, ps);
         }
 
-        printURI(g == null ? null : g.stringValue(), ps);
+        printIRI(g == null ? null : g.stringValue(), ps);
 
         ps.print(']');
     }
 
+    @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context)
     throws TripleHandlerException {
         // Empty.
     }
 
+    @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
-    public void endDocument(URI documentURI) throws TripleHandlerException {
+    @Override
+    public void endDocument(IRI documentIRI) throws TripleHandlerException {
         validateDocumentStarted();
         ps.print("]}");
         documentStarted = false;
     }
 
+    @Override
     public void setContentLength(long contentLength) {
         // Empty.
     }
 
+    @Override
     public void close() throws TripleHandlerException {
+    	if(documentStarted) {
+    		endDocument(null);
+    	}
         ps.close();
     }
 
@@ -126,11 +138,11 @@ public class JSONWriter implements FormatWriter {
         }
     }
 
-    private void printURI(String uri, PrintStream ps) {
+    private void printIRI(String uri, PrintStream ps) {
         printValue(uri, ps);
     }
 
-    private void printExplicitURI(String uri, PrintStream ps) {
+    private void printExplicitIRI(String uri, PrintStream ps) {
         printValue("uri", uri, ps);
     }
 
@@ -163,10 +175,10 @@ public class JSONWriter implements FormatWriter {
         ps.print(", ");
 
         ps.print("\"lang\" : ");
-        final String language = literal.getLanguage();
-        if (language != null) {
+        final Optional<String> language = literal.getLanguage();
+        if (language.isPresent()) {
             ps.print('"');
-            ps.print(literal.getLanguage());
+            ps.print(literal.getLanguage().get());
             ps.print('"');
         } else {
             ps.print("null");
@@ -175,7 +187,7 @@ public class JSONWriter implements FormatWriter {
         ps.print(", ");
 
         ps.print("\"datatype\" : ");
-        final URI datatype = literal.getDatatype();
+        final IRI datatype = literal.getDatatype();
         if(datatype != null) {
         ps.print('"');
         ps.print(datatype.stringValue());

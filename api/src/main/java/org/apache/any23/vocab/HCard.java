@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary to map the <a href="http://microformats.org/wiki/hcard">h-card</a> microformat.
@@ -36,49 +36,49 @@ public class HCard extends Vocabulary {
         return instance;
     }
 
-    public URI Card  = createClass(NS, "Card");
-    public URI Address   = createClass(NS, "Address");
-    public URI Geo = createClass(NS, "Geo");
+    public IRI Card  = createClass(NS, "Card");
+    public IRI Address   = createClass(NS, "Address");
+    public IRI Geo = createClass(NS, "Geo");
 
 
-    public URI name  = createProperty(NS, "name");
-    public URI honorific_prefix   = createProperty(NS, "honorific-prefix");
-    public URI given_name   = createProperty(NS, "given-name");
-    public URI additional_name   = createProperty(NS, "additional-name");
-    public URI family_name   = createProperty(NS, "family-name");
-    public URI sort_string   = createProperty(NS, "sort-string");
-    public URI honorific_suffix   = createProperty(NS, "honorific-suffix");
-    public URI nickname  = createProperty(NS, "nickname");
-    public URI email   = createProperty(NS, "email");
-    public URI logo   = createProperty(NS, "logo");
-    public URI photo  = createProperty(NS, "photo");
-    public URI url   = createProperty(NS, "url");
-    public URI uid   = createProperty(NS, "uid");
-    public URI category   = createProperty(NS, "category");
-    public URI tel  = createProperty(NS, "tel");
-    public URI note   = createProperty(NS, "note");
-    public URI bday   = createProperty(NS, "bday");
-    public URI key  = createProperty(NS, "key");
-    public URI org   = createProperty(NS, "org");
-    public URI job_title   = createProperty(NS, "job-title");
-    public URI role   = createProperty(NS, "role");
-    public URI impp   = createProperty(NS, "impp");
-    public URI sex  = createProperty(NS, "sex");
-    public URI gender_identity   = createProperty(NS, "gender-identity");
-    public URI anniversary   = createProperty(NS, "anniversary");
-    public URI geo   = createProperty(NS, "geo");
-    public URI adr   = createProperty(NS, "adr");
+    public IRI name  = createProperty(NS, "name");
+    public IRI honorific_prefix   = createProperty(NS, "honorific-prefix");
+    public IRI given_name   = createProperty(NS, "given-name");
+    public IRI additional_name   = createProperty(NS, "additional-name");
+    public IRI family_name   = createProperty(NS, "family-name");
+    public IRI sort_string   = createProperty(NS, "sort-string");
+    public IRI honorific_suffix   = createProperty(NS, "honorific-suffix");
+    public IRI nickname  = createProperty(NS, "nickname");
+    public IRI email   = createProperty(NS, "email");
+    public IRI logo   = createProperty(NS, "logo");
+    public IRI photo  = createProperty(NS, "photo");
+    public IRI url   = createProperty(NS, "url");
+    public IRI uid   = createProperty(NS, "uid");
+    public IRI category   = createProperty(NS, "category");
+    public IRI tel  = createProperty(NS, "tel");
+    public IRI note   = createProperty(NS, "note");
+    public IRI bday   = createProperty(NS, "bday");
+    public IRI key  = createProperty(NS, "key");
+    public IRI org   = createProperty(NS, "org");
+    public IRI job_title   = createProperty(NS, "job-title");
+    public IRI role   = createProperty(NS, "role");
+    public IRI impp   = createProperty(NS, "impp");
+    public IRI sex  = createProperty(NS, "sex");
+    public IRI gender_identity   = createProperty(NS, "gender-identity");
+    public IRI anniversary   = createProperty(NS, "anniversary");
+    public IRI geo   = createProperty(NS, "geo");
+    public IRI adr   = createProperty(NS, "adr");
 
-    public URI street_address  = createProperty(NS, "street-address");
-    public URI extended_address   = createProperty(NS, "extended-address");
-    public URI locality   = createProperty(NS, "locality");
-    public URI region   = createProperty(NS, "region");
-    public URI postal_code   = createProperty(NS, "postal-code");
-    public URI country_name   = createProperty(NS, "country-name");
+    public IRI street_address  = createProperty(NS, "street-address");
+    public IRI extended_address   = createProperty(NS, "extended-address");
+    public IRI locality   = createProperty(NS, "locality");
+    public IRI region   = createProperty(NS, "region");
+    public IRI postal_code   = createProperty(NS, "postal-code");
+    public IRI country_name   = createProperty(NS, "country-name");
 
-    public URI latitude   = createProperty(NS, "latitude");
-    public URI longitude   = createProperty(NS, "longitude");
-    public URI altitude   = createProperty(NS, "altitude");
+    public IRI latitude   = createProperty(NS, "latitude");
+    public IRI longitude   = createProperty(NS, "longitude");
+    public IRI altitude   = createProperty(NS, "altitude");
 
     private HCard() {
         super(NS);

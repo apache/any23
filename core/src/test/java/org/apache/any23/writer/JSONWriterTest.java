@@ -19,10 +19,11 @@ package org.apache.any23.writer;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.BNodeImpl;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.BNodeImpl;
+import org.eclipse.rdf4j.model.impl.LiteralImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import java.io.ByteArrayOutputStream;
 
@@ -33,37 +34,35 @@ import java.io.ByteArrayOutputStream;
  */
 public class JSONWriterTest {
 
-    private JSONWriter jsonWriter;
-
     @Test
     public void testWriting() throws TripleHandlerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        jsonWriter = new JSONWriter(baos);
-        final URI documentURI = new URIImpl("http://fake/uri");
-        jsonWriter.startDocument(documentURI);
-        jsonWriter.receiveTriple(
-                new BNodeImpl("bn1"),
-                new URIImpl("http://pred/1"),
-                new URIImpl("http://value/1"),
-                new URIImpl("http://graph/1"),
-                null
-        );
-        jsonWriter.receiveTriple(
-                new URIImpl("http://sub/2"),
-                new URIImpl("http://pred/2"),
-                new LiteralImpl("language literal", "en"),
-                new URIImpl("http://graph/2"),
-                null
-        );
-        jsonWriter.receiveTriple(
-                new URIImpl("http://sub/3"),
-                new URIImpl("http://pred/3"),
-                new LiteralImpl("123", new URIImpl("http://datatype")),
-                null,
-                null
-        );
-        jsonWriter.endDocument(documentURI);
-        jsonWriter.close();
+        try(JSONWriter jsonWriter = new JSONWriter(baos);) {
+	        final IRI documentIRI = SimpleValueFactory.getInstance().createIRI("http://fake/uri");
+	        jsonWriter.startDocument(documentIRI);
+	        jsonWriter.receiveTriple(
+	                SimpleValueFactory.getInstance().createBNode("bn1"),
+	                SimpleValueFactory.getInstance().createIRI("http://pred/1"),
+	                SimpleValueFactory.getInstance().createIRI("http://value/1"),
+	                SimpleValueFactory.getInstance().createIRI("http://graph/1"),
+	                null
+	        );
+	        jsonWriter.receiveTriple(
+	                SimpleValueFactory.getInstance().createIRI("http://sub/2"),
+	                SimpleValueFactory.getInstance().createIRI("http://pred/2"),
+	                SimpleValueFactory.getInstance().createLiteral("language literal", "en"),
+	                SimpleValueFactory.getInstance().createIRI("http://graph/2"),
+	                null
+	        );
+	        jsonWriter.receiveTriple(
+	                SimpleValueFactory.getInstance().createIRI("http://sub/3"),
+	                SimpleValueFactory.getInstance().createIRI("http://pred/3"),
+	                SimpleValueFactory.getInstance().createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
+	                null,
+	                null
+	        );
+	        jsonWriter.endDocument(documentIRI);
+        }
 
         final String expected =
             "{ " +
@@ -78,7 +77,7 @@ public class JSONWriterTest {
             "[" +
             "{ \"type\" : \"uri\", \"value\" : \"http://sub/2\"}, " +
             "\"http://pred/2\", " +
-            "{\"type\" : \"literal\", \"value\" : \"language literal\", \"lang\" : \"en\", \"datatype\" : null}, " +
+            "{\"type\" : \"literal\", \"value\" : \"language literal\", \"lang\" : \"en\", \"datatype\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\"}, " +
             "\"http://graph/2\"" +
             "], " +
             "[" +

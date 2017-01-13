@@ -18,16 +18,16 @@
 package org.apache.any23.writer;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 /**
  * Defines a document based triple handler.
  */
-public interface TripleHandler {
+public interface TripleHandler extends AutoCloseable {
 
-    void startDocument(URI documentURI) throws TripleHandlerException;
+    void startDocument(IRI documentIRI) throws TripleHandlerException;
 
     /**
      * Informs the handler that a new context has been established.
@@ -50,14 +50,14 @@ public interface TripleHandler {
      * @param context extraction context.
      * @throws TripleHandlerException if there is an error receiving the triple.
      */
-    void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context) throws TripleHandlerException;
+    void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) throws TripleHandlerException;
 
     /**
      * Invoked with a currently open context, notifies the detection of a
      * namespace.
      *
      * @param prefix namespace prefix.
-     * @param uri namespace <i>URI</i>.
+     * @param uri namespace <i>IRI</i>.
      * @param context namespace context.
      * @throws TripleHandlerException if there is an error receiving the namespace.
      */
@@ -80,10 +80,10 @@ public interface TripleHandler {
      * Informs the handler that the end of the document
      * has been reached.
      *
-     * @param documentURI document URI.
+     * @param documentIRI document IRI.
      * @throws TripleHandlerException if there is an error ending the document.
      */
-    void endDocument(URI documentURI) throws TripleHandlerException;
+    void endDocument(IRI documentIRI) throws TripleHandlerException;
 
     /**
      * Sets the length of the content to be processed.

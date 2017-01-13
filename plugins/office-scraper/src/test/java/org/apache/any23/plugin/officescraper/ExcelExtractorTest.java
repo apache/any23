@@ -33,10 +33,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,7 +81,7 @@ public class ExcelExtractorTest {
         final ExtractionParameters extractionParameters = ExtractionParameters.newDefault();
         final ExtractionContext extractionContext = new ExtractionContext(
                 extractor.getDescription().getExtractorName(),
-                RDFUtils.uri("file://" + resource)
+                RDFUtils.iri("file://" + resource)
         );
         final InputStream is = this.getClass().getResourceAsStream(resource);
         final CompositeTripleHandler compositeTripleHandler = new CompositeTripleHandler();
@@ -107,24 +107,24 @@ public class ExcelExtractorTest {
         verifyTypeOccurrence(verifierTripleHandler, Excel.getInstance().cell , 18);
     }
 
-    private void verifyPredicateOccurrence(TripleHandler mock, URI predicate, int occurrence)
+    private void verifyPredicateOccurrence(TripleHandler mock, IRI predicate, int occurrence)
     throws TripleHandlerException {
         Mockito.verify( mock, Mockito.times(occurrence)).receiveTriple(
                 Mockito.<Resource>anyObject(),
                 Mockito.eq(predicate),
                 Mockito.<Value>anyObject(),
-                Mockito.<URI>any(),
+                Mockito.<IRI>any(),
                 Mockito.<ExtractionContext>anyObject()
         );
     }
 
-    private void verifyTypeOccurrence(TripleHandler mock, URI type, int occurrence)
+    private void verifyTypeOccurrence(TripleHandler mock, IRI type, int occurrence)
     throws TripleHandlerException {
         Mockito.verify( mock, Mockito.times(occurrence)).receiveTriple(
                 Mockito.<Resource>anyObject(),
                 Mockito.eq(RDF.TYPE),
                 Mockito.eq(type),
-                Mockito.<URI>any(),
+                Mockito.<IRI>any(),
                 Mockito.<ExtractionContext>anyObject()
         );
     }

@@ -203,7 +203,7 @@
     owl:sameAs <http://data.semanticweb.org/person/karl-aberer> .
 
 <http://www.aifb.uni-karlsruhe.de/Personen/viewPersonOWL/id2084instance>
-    owl:sameAs <http://blog.semantic-web.at/author/pascal-hitzler/#foaf>, <http://korrekt.org/page/Special:URIResolver/Pascal_Hitzler>, <http://semanticweb.org/id/Pascal_Hitzler> .
+    owl:sameAs <http://blog.semantic-web.at/author/pascal-hitzler/#foaf>, <http://korrekt.org/page/Special:IRIResolver/Pascal_Hitzler>, <http://semanticweb.org/id/Pascal_Hitzler> .
 
 <http://identi.ca/user/226>
     owl:sameAs <http://danbri.org/foaf#danbri>, <http://danbri.org/foaf.rdf#danbri> .

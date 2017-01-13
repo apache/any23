@@ -23,10 +23,10 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
 import org.apache.any23.vocab.HProduct;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 import java.util.List;
@@ -85,7 +85,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private void mapFieldWithProperty(HTMLDocument fragment, BNode product, String fieldClass,
-                                      URI property) {
+                                      IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
         conditionallyAddStringProperty(
                 title.source(), product, property, title.value()
@@ -101,7 +101,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] photos = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[1]);
         for(HTMLDocument.TextField photo : photos) {
-            addURIProperty(product, vProduct.photo, fragment.resolveURI(photo.value()));
+            addIRIProperty(product, vProduct.photo, fragment.resolveIRI(photo.value()));
         }
     }
 
@@ -124,7 +124,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] urls = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[5]);
         for(HTMLDocument.TextField url : urls) {
-            addURIProperty(product, vProduct.url, fragment.resolveURI(url.value()));
+            addIRIProperty(product, vProduct.url, fragment.resolveIRI(url.value()));
         }
     }
 
@@ -132,7 +132,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         final HTMLDocument.TextField[] identifiers = fragment.getPluralUrlField
                 (Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[6]);
         for(HTMLDocument.TextField identifier :identifiers) {
-            addURIProperty(product, vProduct.identifier, fragment.resolveURI(identifier.value()));
+            addIRIProperty(product, vProduct.identifier, fragment.resolveIRI(identifier.value()));
         }
     }
 
@@ -164,7 +164,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         HCardExtractor extractor = factory.createExtractor();
         for (Node node : nodes) {
             BNode brand = valueFactory.createBNode();
-            addURIProperty(brand, RDF.TYPE, vProduct.brand);
+            addIRIProperty(brand, RDF.TYPE, vProduct.brand);
             extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), brand,
                     getCurrentExtractionResult());
         }

@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary definitions from vocabularies/review.rdf
@@ -39,91 +39,91 @@ public class Review extends Vocabulary {
     public static final String NS = "http://purl.org/stuff/rev#";
 
     /**
-     * The namespace of the vocabulary as a URI.
+     * The namespace of the vocabulary as a IRI.
      */
-    public final URI NAMESPACE = createURI(NS);
+    public final IRI NAMESPACE = createIRI(NS);
 
     /**
      * The commenter on the review.
      */
-    public final URI commenter =  createProperty("commenter");
+    public final IRI commenter =  createProperty("commenter");
 
     /**
      * Used to associate a review with a comment on the review.
      */
-    public final URI hasComment = createProperty("hasComment");
+    public final IRI hasComment = createProperty("hasComment");
 
     /**
      * Associates a review with a feedback on the review.
      */
-    public final URI hasFeedback = createProperty("hasFeedback");
+    public final IRI hasFeedback = createProperty("hasFeedback");
 
     /**
      * Associates a work with a a review.
      */
-    public final URI hasReview = createProperty("hasReview");
+    public final IRI hasReview = createProperty("hasReview");
 
     /**
      * A numeric value.
      */
-    public final URI maxRating = createProperty("maxRating");
+    public final IRI maxRating = createProperty("maxRating");
 
     /**
      * A numeric value.
      */
-    public final URI minRating = createProperty("minRating");
+    public final IRI minRating = createProperty("minRating");
 
     /**
      * Number of positive usefulness votes (integer).
      */
-    public final URI positiveVotes = createProperty("positiveVotes");
+    public final IRI positiveVotes = createProperty("positiveVotes");
 
     /**
      * A numeric value.
      */
-    public final URI rating = createProperty("rating");
+    public final IRI rating = createProperty("rating");
 
     /**
      * The person that has written the review.
      */
-    public final URI reviewer = createProperty("reviewer");
+    public final IRI reviewer = createProperty("reviewer");
 
     /**
      * The text of the review.
      */
-    public final URI text = createProperty("text");
+    public final IRI text = createProperty("text");
 
     /**
      * The title of the review.
      */
-    public final URI title = createProperty("title");
+    public final IRI title = createProperty("title");
 
     /**
      * Number of usefulness votes (integer).
      */
-    public final URI totalVotes = createProperty("totalVotes");
+    public final IRI totalVotes = createProperty("totalVotes");
 
     /**
      * The type of media of a work under review.
      */
-    public final URI type = createProperty("type");
+    public final IRI type = createProperty("type");
 
     /**
      * A comment on a review.
      */
-    public final URI Comment = createProperty("Comment");
+    public final IRI Comment = createProperty("Comment");
 
     /**
      * Feedback on the review. Expresses whether the review was useful or not.
      */
-    public final URI Feedback = createProperty("Feedback");
+    public final IRI Feedback = createProperty("Feedback");
 
     /**
      * A review of an work.
      */
-    public final URI Review = createProperty("Review");
+    public final IRI Review = createProperty("Review");
 
-    private URI createProperty(String localName) {
+    private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 

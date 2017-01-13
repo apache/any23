@@ -21,8 +21,8 @@ import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.FOAF;
+import org.junit.Ignore;
 import org.junit.Test;
-import org.openrdf.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +51,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 		assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en"));
 		assertContains(null, vDCTERMS.title,
 				RDFUtils.literal("The trouble with Bob", "en"));
-		assertContains(null, RDFUtils.uri("http://fake.org/prop"),
+		assertContains(null, RDFUtils.iri("http://fake.org/prop"),
 				RDFUtils.literal("Mary", "en"));
 	}
 
@@ -69,24 +69,24 @@ public abstract class AbstractRDFaExtractorTestCase extends
 		assertExtract("/html/rdfa/rdfa-11-curies.html");
 		assertModelNotEmpty();
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
-				RDFUtils.uri("http://dbpedia.org/name"),
+				RDFUtils.iri("http://dbpedia.org/resource/Albert_Einstein"),
+				RDFUtils.iri("http://dbpedia.org/name"),
 				RDFUtils.literal("Albert Einstein"));
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
-				RDFUtils.uri("http://dbpedia.org/knows"),
-				RDFUtils.uri("http://dbpedia.org/resource/Franklin_Roosevlet"));
-		assertContains(RDFUtils.uri("http://database.org/table/Departments"),
-				RDFUtils.uri("http://database.org/description"),
+				RDFUtils.iri("http://dbpedia.org/resource/Albert_Einstein"),
+				RDFUtils.iri("http://dbpedia.org/knows"),
+				RDFUtils.iri("http://dbpedia.org/resource/Franklin_Roosevlet"));
+		assertContains(RDFUtils.iri("http://database.org/table/Departments"),
+				RDFUtils.iri("http://database.org/description"),
 				RDFUtils.literal("Tables listing departments"));
-		assertContains(RDFUtils.uri("http://database.org/table/Departments"),
-				RDFUtils.uri("http://database.org/owner"),
-				RDFUtils.uri("http://database.org/people/Davide_Palmisano"));
-		assertContains(RDFUtils.uri("http://database.org/table/Departments"),
-				RDFUtils.uri("http://xmlns.com/foaf/0.1/author"),
-				RDFUtils.uri("http://database.org/people/Davide_Palmisano"));
-		assertContains(RDFUtils.uri("http://database.org/table/Departments"),
-				RDFUtils.uri("http://purl.org/dc/01/name"),
+		assertContains(RDFUtils.iri("http://database.org/table/Departments"),
+				RDFUtils.iri("http://database.org/owner"),
+				RDFUtils.iri("http://database.org/people/Davide_Palmisano"));
+		assertContains(RDFUtils.iri("http://database.org/table/Departments"),
+				RDFUtils.iri("http://xmlns.com/foaf/0.1/author"),
+				RDFUtils.iri("http://database.org/people/Davide_Palmisano"));
+		assertContains(RDFUtils.iri("http://database.org/table/Departments"),
+				RDFUtils.iri("http://purl.org/dc/01/name"),
 				RDFUtils.literal("Departments"));
 		assertStatementsSize(null, null, null, 6);
 		logger.debug(dumpHumanReadableTriples());
@@ -107,7 +107,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 		logger.debug(dumpModelToRDFXML());
 
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
+				RDFUtils.iri("http://dbpedia.org/resource/Albert_Einstein"),
 				vFOAF.name, RDFUtils.literal("Albert Einstein", "en"));
 
 	}
@@ -125,7 +125,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	public void testDrupalTestPage() throws Exception {
 		assertExtract("/html/rdfa/drupal-test-frontpage.html");
 		logger.debug(dumpModelToTurtle());
-		assertContains(RDFUtils.uri("http://bob.example.com/node/3"),
+		assertContains(RDFUtils.iri("http://bob.example.com/node/3"),
 				vDCTERMS.title, RDFUtils.literal("A blog post...", "en"));
 	}
 
@@ -140,21 +140,21 @@ public abstract class AbstractRDFaExtractorTestCase extends
 		logger.debug(dumpModelToTurtle());
 
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
-				RDFUtils.uri("http://dbpedia.org/property/birthPlace"),
-				RDFUtils.uri("http://dbpedia.org/resource/Germany"));
+				RDFUtils.iri("http://dbpedia.org/resource/Albert_Einstein"),
+				RDFUtils.iri("http://dbpedia.org/property/birthPlace"),
+				RDFUtils.iri("http://dbpedia.org/resource/Germany"));
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Germany"),
-				RDFUtils.uri("http://dbpedia.org/property/conventionalLongName"),
+				RDFUtils.iri("http://dbpedia.org/resource/Germany"),
+				RDFUtils.iri("http://dbpedia.org/property/conventionalLongName"),
 				RDFUtils.literal("Federal Republic of Germany"));
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
-				RDFUtils.uri("http://dbpedia.org/property/citizenship"),
-				RDFUtils.uri("http://dbpedia.org/resource/Germany"));
+				RDFUtils.iri("http://dbpedia.org/resource/Albert_Einstein"),
+				RDFUtils.iri("http://dbpedia.org/property/citizenship"),
+				RDFUtils.iri("http://dbpedia.org/resource/Germany"));
 		assertContains(
-				RDFUtils.uri("http://dbpedia.org/resource/Albert_Einstein"),
-				RDFUtils.uri("http://dbpedia.org/property/citizenship"),
-				RDFUtils.uri("http://dbpedia.org/resource/United_States"));
+				RDFUtils.iri("http://dbpedia.org/resource/Albert_Einstein"),
+				RDFUtils.iri("http://dbpedia.org/property/citizenship"),
+				RDFUtils.iri("http://dbpedia.org/resource/United_States"));
 	}
 
 }

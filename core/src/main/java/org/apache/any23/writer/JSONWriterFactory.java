@@ -19,7 +19,7 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com

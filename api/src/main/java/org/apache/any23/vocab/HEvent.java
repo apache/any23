@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary to map the <a href="http://microformats.org/wiki/h-event">h-event</a> microformat.
@@ -36,19 +36,19 @@ public class HEvent extends Vocabulary {
         return instance;
     }
 
-    public URI event  = createClass(NS, "Event");
+    public IRI event  = createClass(NS, "Event");
 
 
-    public URI name  = createProperty(NS, "name");
-    public URI summary   = createProperty(NS, "summary");
-    public URI start = createProperty(NS, "start");
-    public URI end   = createProperty(NS, "end");
-    public URI duration = createProperty(NS, "duration");
-    public URI description  = createProperty(NS, "description");
-    public URI url = createProperty(NS, "url");
-    public URI category  = createProperty(NS, "category");
-    public URI location = createProperty(NS, "location");
-    public URI attendee  = createProperty(NS, "attendee");
+    public IRI name  = createProperty(NS, "name");
+    public IRI summary   = createProperty(NS, "summary");
+    public IRI start = createProperty(NS, "start");
+    public IRI end   = createProperty(NS, "end");
+    public IRI duration = createProperty(NS, "duration");
+    public IRI description  = createProperty(NS, "description");
+    public IRI url = createProperty(NS, "url");
+    public IRI category  = createProperty(NS, "category");
+    public IRI location = createProperty(NS, "location");
+    public IRI attendee  = createProperty(NS, "attendee");
 
 
     private HEvent() {

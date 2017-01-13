@@ -17,10 +17,9 @@
 
 package org.apache.any23.extractor.xpath;
 
-import org.openrdf.model.Value;
-import org.openrdf.model.impl.BNodeImpl;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.impl.BNodeImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
  * Represents a <i>Quad</i> object <i>template</i>.
@@ -64,17 +63,17 @@ public class TemplateObject extends Term {
         switch (type) {
             case uri:
                 try {
-                    return ValueFactoryImpl.getInstance().createURI(value);
+                    return SimpleValueFactory.getInstance().createIRI(value);
                 } catch (IllegalArgumentException iae) {
                     throw new IllegalArgumentException(
-                            String.format("Expected a valid URI for object template, found '%s'", value),
+                            String.format("Expected a valid IRI for object template, found '%s'", value),
                             iae
                     );
                 }
             case bnode:
-                return new BNodeImpl(value);
+                return SimpleValueFactory.getInstance().createBNode(value);
             case literal:
-                return new LiteralImpl(value);
+                return SimpleValueFactory.getInstance().createLiteral(value);
             default:
                 throw new IllegalStateException();
         }

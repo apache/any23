@@ -44,7 +44,7 @@ public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescr
     /**
      * An example input file for the extractor, to be used in auto-generated
      * documentation. For the {@link Extractor.BlindExtractor},
-     * this is an arbitrary URI.
+     * this is an arbitrary IRI.
      * For extractors that require content, it is the name of a file, relative
      * to the factory's class file's location, it will be opened using
      * factory.getClass().getResourceAsStream(filename). The example should be

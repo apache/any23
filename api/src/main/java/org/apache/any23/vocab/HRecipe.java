@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary to map the <a href="http://microformats.org/wiki/hrecipe">hRecipe</a> microformat.
@@ -38,30 +38,30 @@ public class HRecipe extends Vocabulary {
     }
 
     // Resources.
-    public URI Recipe     = createClass(NS, "Recipe");
-    public URI Duration   = createClass(NS, "Duration");
-    public URI Ingredient = createClass(NS, "Ingredient");
-    public URI Nutrition  = createClass(NS, "Nutrition");
+    public IRI Recipe     = createClass(NS, "Recipe");
+    public IRI Duration   = createClass(NS, "Duration");
+    public IRI Ingredient = createClass(NS, "Ingredient");
+    public IRI Nutrition  = createClass(NS, "Nutrition");
 
     // Properties.
-    public URI fn                     = createProperty(NS, "fn");
-    public URI duration               = createProperty(NS, "duration");
-    public URI durationTitle          = createProperty(NS, "durationTitle");
-    public URI durationTime           = createProperty(NS, "durationTime");
-    public URI photo                  = createProperty(NS, "photo");
-    public URI summary                = createProperty(NS, "summary");
-    public URI author                 = createProperty(NS, "author");
-    public URI published              = createProperty(NS, "published");
-    public URI nutrition              = createProperty(NS, "nutrition");
-    public URI nutritionValue         = createProperty(NS, "nutritionValue");
-    public URI nutritionValueType     = createProperty(NS, "nutritionValueType");
-    public URI tag                    = createProperty(NS, "tag");
-    public URI ingredient             = createProperty(NS, "ingredient");
-    public URI ingredientName         = createProperty(NS, "ingredientName");
-    public URI ingredientQuantity     = createProperty(NS, "ingredientQuantity");
-    public URI ingredientQuantityType = createProperty(NS, "ingredientQuantityType");
-    public URI instructions           = createProperty(NS, "instructions");
-    public URI yield                  = createProperty(NS, "yield");
+    public IRI fn                     = createProperty(NS, "fn");
+    public IRI duration               = createProperty(NS, "duration");
+    public IRI durationTitle          = createProperty(NS, "durationTitle");
+    public IRI durationTime           = createProperty(NS, "durationTime");
+    public IRI photo                  = createProperty(NS, "photo");
+    public IRI summary                = createProperty(NS, "summary");
+    public IRI author                 = createProperty(NS, "author");
+    public IRI published              = createProperty(NS, "published");
+    public IRI nutrition              = createProperty(NS, "nutrition");
+    public IRI nutritionValue         = createProperty(NS, "nutritionValue");
+    public IRI nutritionValueType     = createProperty(NS, "nutritionValueType");
+    public IRI tag                    = createProperty(NS, "tag");
+    public IRI ingredient             = createProperty(NS, "ingredient");
+    public IRI ingredientName         = createProperty(NS, "ingredientName");
+    public IRI ingredientQuantity     = createProperty(NS, "ingredientQuantity");
+    public IRI ingredientQuantityType = createProperty(NS, "ingredientQuantityType");
+    public IRI instructions           = createProperty(NS, "instructions");
+    public IRI yield                  = createProperty(NS, "yield");
 
     private HRecipe() {
         super(NS);

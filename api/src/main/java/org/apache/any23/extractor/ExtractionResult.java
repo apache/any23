@@ -17,9 +17,9 @@
 
 package org.apache.any23.extractor;
 
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 /**
  * Interface defining the methods that a representation of an extraction result must have.
@@ -35,7 +35,7 @@ public interface ExtractionResult extends IssueReport {
      * @param o object
      * @param g graph
      */
-    void writeTriple(Resource s, URI p, Value o, URI g);
+    void writeTriple(Resource s, IRI p, Value o, IRI g);
 
     /**
      * Write a triple.
@@ -45,15 +45,15 @@ public interface ExtractionResult extends IssueReport {
      * @param p predicate
      * @param o object
      */
-    void writeTriple(Resource s, URI p, Value o);
+    void writeTriple(Resource s, IRI p, Value o);
 
     /**
      * Write a namespace.
      *
      * @param prefix the prefix of the namespace
-     * @param uri    the long URI identifying the namespace
+     * @param IRI    the long IRI identifying the namespace
      */
-    void writeNamespace(String prefix, String uri);
+    void writeNamespace(String prefix, String IRI);
 
     /**
      * <p>Close the result.</p>

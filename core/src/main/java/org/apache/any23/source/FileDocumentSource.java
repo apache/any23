@@ -38,9 +38,9 @@ public class FileDocumentSource implements DocumentSource {
         this.uri = file.toURI().toString();
     }
 
-    public FileDocumentSource(File file, String baseURI) {
+    public FileDocumentSource(File file, String baseIRI) {
         this.file = file;
-        this.uri = baseURI;
+        this.uri = baseIRI;
     }
 
     public InputStream openInputStream() throws IOException {
@@ -51,7 +51,7 @@ public class FileDocumentSource implements DocumentSource {
         return file.length();
     }
 
-    public String getDocumentURI() {
+    public String getDocumentIRI() {
         return uri;
     }
 

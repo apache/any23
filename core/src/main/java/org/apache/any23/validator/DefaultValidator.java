@@ -81,9 +81,9 @@ public class DefaultValidator implements Validator {
         return validationReportBuilder.getReport();
     }
 
-    public ValidationReport validate(URI documentURI, Document document, boolean applyFix)
+    public ValidationReport validate(URI documentIRI, Document document, boolean applyFix)
     throws ValidatorException {
-        return validate( new DefaultDOMDocument(documentURI, document), applyFix );
+        return validate( new DefaultDOMDocument(documentIRI, document), applyFix );
     }
 
     public synchronized void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix) {

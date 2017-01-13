@@ -50,13 +50,13 @@ public class PopularPrefixes {
         }
         popularPrefixes = new Prefixes();
         for (Map.Entry entry : properties.entrySet()) {
-            if (testURICompliance((String) entry.getValue())) {
+            if (testIRICompliance((String) entry.getValue())) {
                 prefixes.add(
                         (String) entry.getKey(),
                         (String) entry.getValue()
                 );
             } else {
-                logger.warn(String.format("Prefixes entry '%s' is not a well-formad URI. Skipped.", entry.getValue()));
+                logger.warn(String.format("Prefixes entry '%s' is not a well-formad IRI. Skipped.", entry.getValue()));
             }
         }
         return prefixes;
@@ -81,13 +81,13 @@ public class PopularPrefixes {
     }
 
     /**
-     * Checks the compliance of the <i>URI</i>.
+     * Checks the compliance of the <i>IRI</i>.
      *
-     * @param stringUri the string of the URI to be checked
-     * @return <code>true</code> if <i> stringUri</i> is a valid URI,
+     * @param stringUri the string of the IRI to be checked
+     * @return <code>true</code> if <i> stringUri</i> is a valid IRI,
      *         <code>false</code> otherwise.
      */
-    private static boolean testURICompliance(String stringUri) {
+    private static boolean testIRICompliance(String stringUri) {
         try {
             new URI(stringUri);
         } catch (URISyntaxException e) {

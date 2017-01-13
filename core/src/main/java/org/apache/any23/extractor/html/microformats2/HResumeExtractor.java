@@ -22,9 +22,9 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.vocab.HResume;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 import org.apache.any23.extractor.html.EntityBasedMicroformatExtractor;
 import org.apache.any23.extractor.html.HTMLDocument;
@@ -102,7 +102,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         HCardExtractor extractor = factory.createExtractor();
         for (Node node : nodes) {
             BNode contact = valueFactory.createBNode();
-            addURIProperty(contact, RDF.TYPE, vResume.contact);
+            addIRIProperty(contact, RDF.TYPE, vResume.contact);
             extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), contact,
                     getCurrentExtractionResult());
         }
@@ -117,7 +117,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         HCardExtractor extractor = factory.createExtractor();
         for (Node node : nodes) {
             BNode affiliation = valueFactory.createBNode();
-            addURIProperty(affiliation, RDF.TYPE, vResume.affiliation);
+            addIRIProperty(affiliation, RDF.TYPE, vResume.affiliation);
             extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), affiliation,
                     getCurrentExtractionResult());
         }
@@ -168,7 +168,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         HEventExtractor extractor = factory.createExtractor();
         for (Node node : nodes) {
             BNode event = valueFactory.createBNode();
-            addURIProperty(event, RDF.TYPE, vResume.experience);
+            addIRIProperty(event, RDF.TYPE, vResume.experience);
             extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), event,
                     getCurrentExtractionResult());
         }
@@ -183,7 +183,7 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         HEventExtractor extractor = factory.createExtractor();
         for (Node node : nodes) {
             BNode event = valueFactory.createBNode();
-            addURIProperty(event, RDF.TYPE, vResume.education);
+            addIRIProperty(event, RDF.TYPE, vResume.education);
             extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), event,
                     getCurrentExtractionResult());
         }

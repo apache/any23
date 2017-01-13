@@ -21,8 +21,7 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.vocab.HRecipe;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 /**
  * Test case for {@link HRecipeExtractor}.

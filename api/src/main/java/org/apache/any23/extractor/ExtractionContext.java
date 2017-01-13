@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * This class provides the context for the processing of
@@ -33,9 +33,9 @@ public class ExtractionContext {
     private final String extractorName;
 
     /**
-     * URI of the document.
+     * IRI of the document.
      */
-    private final URI documentURI;
+    private final IRI documentIRI;
 
     /**
      * The document default language.
@@ -47,29 +47,29 @@ public class ExtractionContext {
      */
     private final String uniqueID;
 
-    public ExtractionContext(String extractorName, URI documentURI, String defaultLanguage, String localID) {
+    public ExtractionContext(String extractorName, IRI documentIRI, String defaultLanguage, String localID) {
         checkNotNull(extractorName  , "extractor name");
-        checkNotNull(documentURI    , "document URI");
+        checkNotNull(documentIRI    , "document IRI");
         this.extractorName   = extractorName;
-        this.documentURI     = documentURI;
+        this.documentIRI     = documentIRI;
         this.defaultLanguage = defaultLanguage;
         this.uniqueID      =
                 "urn:x-any23:" + extractorName + ":" +
-                (localID == null ? "" : localID) + ":" + documentURI;
+                (localID == null ? "" : localID) + ":" + documentIRI;
     }
 
-    public ExtractionContext(String extractorName, URI documentURI, String defaultLanguage) {
-        this(extractorName, documentURI, defaultLanguage, ROOT_EXTRACTION_RESULT_ID);
+    public ExtractionContext(String extractorName, IRI documentIRI, String defaultLanguage) {
+        this(extractorName, documentIRI, defaultLanguage, ROOT_EXTRACTION_RESULT_ID);
     }
 
-    public ExtractionContext(String extractorName, URI documentURI) {
-        this(extractorName, documentURI, null);
+    public ExtractionContext(String extractorName, IRI documentIRI) {
+        this(extractorName, documentIRI, null);
     }
 
     public ExtractionContext copy(String localID) {
         return new ExtractionContext(
                 getExtractorName(),
-                getDocumentURI(),
+                getDocumentIRI(),
                 getDefaultLanguage(),
                 localID
         );
@@ -79,8 +79,8 @@ public class ExtractionContext {
         return extractorName;
     }
 
-    public URI getDocumentURI() {
-        return documentURI;
+    public IRI getDocumentIRI() {
+        return documentIRI;
     }
 
     public String getDefaultLanguage() {

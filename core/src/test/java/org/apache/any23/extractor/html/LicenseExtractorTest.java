@@ -24,8 +24,8 @@ import org.apache.any23.vocab.SINDICE;
 import org.apache.any23.vocab.XHTML;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.URI;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.repository.RepositoryException;
 
 import java.util.Collection;
 
@@ -39,9 +39,9 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     private static final SINDICE vSINDICE = SINDICE.getInstance();
     private static final XHTML   vXHTML   = XHTML.getInstance();
 
-    private URI ccBy = RDFUtils.uri("http://creativecommons.org/licenses/by/2.0/");
+    private IRI ccBy = RDFUtils.iri("http://creativecommons.org/licenses/by/2.0/");
     
-    private URI apache = RDFUtils.uri("http://www.apache.org/licenses/LICENSE-2.0");
+    private IRI apache = RDFUtils.iri("http://www.apache.org/licenses/LICENSE-2.0");
 
     public ExtractorFactory<?> getExtractorFactory() {
         return new LicenseExtractorFactory();
@@ -50,35 +50,35 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testOnlyCc() throws RepositoryException {
         assertExtract("/microformats/license/ccBy.html");
-        assertContains(baseURI, vXHTML.license, ccBy);
-        assertNotContains(baseURI, vXHTML.license, apache);
+        assertContains(baseIRI, vXHTML.license, ccBy);
+        assertNotContains(baseIRI, vXHTML.license, apache);
     }
 
     @Test
     public void testOnlyApache() throws RepositoryException {
         assertExtract("/microformats/license/apache.html");
-        assertNotContains(baseURI, vXHTML.license, ccBy);
-        assertContains(baseURI, vXHTML.license, apache);
+        assertNotContains(baseIRI, vXHTML.license, ccBy);
+        assertContains(baseIRI, vXHTML.license, apache);
     }
 
     @Test
     public void testMultipleLicenses() throws RepositoryException {
         assertExtract("/microformats/license/multiple.html");
-        assertContains(baseURI, vXHTML.license, ccBy);
-        assertContains(baseURI, vXHTML.license, apache);
+        assertContains(baseIRI, vXHTML.license, ccBy);
+        assertContains(baseIRI, vXHTML.license, apache);
     }
 
     @Test
     public void testMultipleEmptyHref() throws RepositoryException {
         assertExtract("/microformats/license/multiple-empty-href.html", false);
-        assertNotContains(baseURI, vXHTML.license, "");
-        assertContains(baseURI, vXHTML.license, apache);
+        assertNotContains(baseIRI, vXHTML.license, "");
+        assertContains(baseIRI, vXHTML.license, apache);
         
         final Collection<IssueReport.Issue> errors = getIssues();
         Assert.assertEquals(1, errors.size());
         IssueReport.Issue error = errors.iterator().next();
         Assert.assertTrue(error.getMessage().contains("Invalid license link detected"));
-        Assert.assertEquals(IssueReport.IssueLevel.Warning, error.getLevel());
+        Assert.assertEquals(IssueReport.IssueLevel.WARNING, error.getLevel());
     }
 
     @Test
@@ -90,8 +90,8 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
         assertExtract("/microformats/license/multiple-mixed-case.html");
-        assertContains(baseURI, vXHTML.license, ccBy);
-        assertContains(baseURI, vXHTML.license, apache);
+        assertContains(baseIRI, vXHTML.license, ccBy);
+        assertContains(baseIRI, vXHTML.license, apache);
     }
 
 }

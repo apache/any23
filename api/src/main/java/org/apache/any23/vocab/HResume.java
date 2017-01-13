@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * @author Nisala Nirmana
@@ -36,16 +36,16 @@ public class HResume extends Vocabulary {
         return instance;
     }
 
-    public URI Resume  = createClass(NS, "Resume");
-    public URI education   = createClass(NS, "education");
-    public URI experience = createClass(NS, "experience");
-    public URI contact = createClass(NS, "contact");
-    public URI affiliation = createClass(NS, "affiliation");
+    public IRI Resume  = createClass(NS, "Resume");
+    public IRI education   = createClass(NS, "education");
+    public IRI experience = createClass(NS, "experience");
+    public IRI contact = createClass(NS, "contact");
+    public IRI affiliation = createClass(NS, "affiliation");
 
 
-    public URI name  = createProperty(NS, "name");
-    public URI summary   = createProperty(NS, "summary");
-    public URI skill   = createProperty(NS, "skill");
+    public IRI name  = createProperty(NS, "name");
+    public IRI summary   = createProperty(NS, "summary");
+    public IRI skill   = createProperty(NS, "skill");
 
 
     private HResume() {

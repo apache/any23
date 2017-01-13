@@ -61,9 +61,9 @@ function showModal( id )
     <p>Parses Microformats, RDFa, Microdata, RDF/XML, Turtle, N-Triples, JSON-LD and NQuads.</p>
     <p>Download and install Any23: visit the <a href="http://any23.apache.org/" target="_blank">Developers Site</a> and the <a href="http://any23.apache.org/getting-started.html" target="_blank">Documentation</a>.
     <hr />
-    <h2>Convert document at URI</h2>
+    <h2>Convert document at IRI</h2>
     <form class="well form-horizontal" method="get" action="any23/">
-      <label>Pick an output format and enter the URI of a web document:</label>
+      <label>Pick an output format and enter the IRI of a web document:</label>
 
       <div class="control-group">
         <label class="control-label app-base-uri" for="format">http://.../</label>
@@ -204,18 +204,18 @@ function showModal( id )
     </ul>
     <h3>Compact API</h3>
     <p>HTTP GET requests can be made
-      to URIs of the shape</p>
+      to IRIs of the shape</p>
     <pre><span class="app-base-uri">http://.../</span><em>format</em>/<em>input-uri</em></pre>
     <p>The response is the input document converted to the desired output format.</p>
 
     <h3>Form-style GET API</h3>
     <p>HTTP GET requests can be made to
-      the URI
+      the IRI
       <code class="app-base-uri">http://.../</code> with the following
       query parameters:
     </p>
     <table class="table">
-      <tr><th>uri</th><td>URI of an input document.</td></tr>
+      <tr><th>uri</th><td>IRI of an input document.</td></tr>
       <tr><th>format</th><td>Desired output format, defaults to <code>best</code>.</td></tr>
       <tr><th>validation-mode</th><td>The validation level to be applied on the input. Possible values:<br/>
           <code>none</code> (no validation applied);<br/>
@@ -308,7 +308,7 @@ Content-Length: 174
       <tbody>
         <tr><th>200 OK</th><td>Success</td></tr>
         <tr><th>400 Bad Request</th><td>Missing or malformed input parameter</td></tr>
-        <tr><th>404 Not Found</th><td>Malformed request URI</td></tr>
+        <tr><th>404 Not Found</th><td>Malformed request IRI</td></tr>
         <tr><th>406 Not Acceptable</th><td>None of the media types specified in the <code>Accept</code> header are supported</td></tr>
         <tr><th>415 Unsupported Media Type</th><td>Document body with unsupported media type was POSTed</td></tr>
         <tr><th>501 Not Implemented</th><td>Extraction from input was successful, but yielded zero triples</td></tr>

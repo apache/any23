@@ -18,9 +18,9 @@
 package org.apache.any23.writer;
 
 import org.apache.any23.extractor.ExtractionContext;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,8 +92,8 @@ public class BenchmarkTripleHandler implements TripleHandler {
         return sb.toString();
     }
 
-    public void startDocument(URI documentURI) throws TripleHandlerException {
-        underlyingHandler.startDocument(documentURI);
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
+        underlyingHandler.startDocument(documentIRI);
     }
 
     public void close() throws TripleHandlerException {
@@ -119,7 +119,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
         underlyingHandler.openContext(context);
     }
 
-    public void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
@@ -133,8 +133,8 @@ public class BenchmarkTripleHandler implements TripleHandler {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 
-    public void endDocument(URI documentURI) throws TripleHandlerException {
-        underlyingHandler.endDocument(documentURI);
+    public void endDocument(IRI documentIRI) throws TripleHandlerException {
+        underlyingHandler.endDocument(documentIRI);
     }
 
     public void setContentLength(long contentLength) {

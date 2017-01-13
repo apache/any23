@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -49,30 +49,30 @@ public class LKIFCoreRelativePlaces extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/relative-places.owl */
     //////////////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Absolute_Place                   = createClass(NS, "Absolute_Place");
-    public final URI Comprehensive_Place              = createClass(NS, "Comprehensive_Place");
-    public final URI Location_Complex                 = createClass(NS, "Location_Complex");
-    public final URI Place                            = createClass(NS, "Place");
-    public final URI Relative_Place                   = createClass(NS, "Relative_Place");
+    public final IRI Absolute_Place                   = createClass(NS, "Absolute_Place");
+    public final IRI Comprehensive_Place              = createClass(NS, "Comprehensive_Place");
+    public final IRI Location_Complex                 = createClass(NS, "Location_Complex");
+    public final IRI Place                            = createClass(NS, "Place");
+    public final IRI Relative_Place                   = createClass(NS, "Relative_Place");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI abut                             = createProperty(NS, "abut");
-    public final URI connect                          = createProperty(NS, "connect");
-    public final URI cover                            = createProperty(NS, "cover");
-    public final URI covered_by                       = createProperty(NS, "covered_by");
-    public final URI exactly_coincide                 = createProperty(NS, "exactly_coincide");
-    public final URI externally_connect               = createProperty(NS, "externally_connect");
-    public final URI in                               = createProperty(NS, "in");
-    public final URI location_complex                 = createProperty(NS, "location_complex");
-    public final URI location_complex_for             = createProperty(NS, "location_complex_for");
-    public final URI meet                             = createProperty(NS, "meet");
-    public final URI overlap                          = createProperty(NS, "overlap");
-    public final URI partially_coincide               = createProperty(NS, "partially_coincide");
-    public final URI relatively_fixed                 = createProperty(NS, "relatively_fixed");
-    public final URI spatial_reference                = createProperty(NS, "spatial_reference");
-    public final URI spatial_relation                 = createProperty(NS, "spatial_relation");
+    public final IRI abut                             = createProperty(NS, "abut");
+    public final IRI connect                          = createProperty(NS, "connect");
+    public final IRI cover                            = createProperty(NS, "cover");
+    public final IRI covered_by                       = createProperty(NS, "covered_by");
+    public final IRI exactly_coincide                 = createProperty(NS, "exactly_coincide");
+    public final IRI externally_connect               = createProperty(NS, "externally_connect");
+    public final IRI in                               = createProperty(NS, "in");
+    public final IRI location_complex                 = createProperty(NS, "location_complex");
+    public final IRI location_complex_for             = createProperty(NS, "location_complex_for");
+    public final IRI meet                             = createProperty(NS, "meet");
+    public final IRI overlap                          = createProperty(NS, "overlap");
+    public final IRI partially_coincide               = createProperty(NS, "partially_coincide");
+    public final IRI relatively_fixed                 = createProperty(NS, "relatively_fixed");
+    public final IRI spatial_reference                = createProperty(NS, "spatial_reference");
+    public final IRI spatial_relation                 = createProperty(NS, "spatial_relation");
     
     private LKIFCoreRelativePlaces() {
       super(NS);

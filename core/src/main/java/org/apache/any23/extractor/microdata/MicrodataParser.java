@@ -226,10 +226,10 @@ public class MicrodataParser {
         // Results.
         ps.append("\"result\" : [");
         for(int i = 0; i < itemScopes.length; i++) {
-            ps.print( itemScopes[i].toJSON() );
-            if( i < itemScopes.length - 1 ) {
+            if (i > 0) {
                 ps.print(", ");
             }
+            ps.print( itemScopes[i].toJSON() );
         }
         ps.append("] ");
 
@@ -238,10 +238,10 @@ public class MicrodataParser {
             ps.append(", ");
             ps.append("\"errors\" : [");
             for (int i = 0; i < errors.length; i++) {
-                ps.print( errors[i].toJSON() );
-                if (i < itemScopes.length - 1) {
+                if (i > 0) {
                     ps.print(", ");
                 }
+                ps.print( errors[i].toJSON() );
             }
             ps.append("] ");
         }

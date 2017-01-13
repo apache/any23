@@ -23,11 +23,11 @@ import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.RioSetting;
-import org.openrdf.rio.helpers.BasicParserSettings;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.RDFParser;
+import org.eclipse.rdf4j.rio.RioSetting;
+import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -102,7 +102,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
             //ByteBuffer seems to represent incorrect content. Need to make sure it is the content
             //of the <script> node and not anything else!
-            parser.parse(in, extractionContext.getDocumentURI().stringValue());
+            parser.parse(in, extractionContext.getDocumentIRI().stringValue());
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
