@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="http://xmlns.com/foaf/spec/">Friend Of A Friend</a> vocabulary.
@@ -36,73 +36,73 @@ public class FOAF extends Vocabulary {
     }
 
     // Properties.
-    public final URI topic_interest          = createProperty(NS, "topic_interest");
-    public final URI phone                   = createProperty(NS, "phone");
-    public final URI icqChatID               = createProperty(NS, "icqChatID");
-    public final URI yahooChatID             = createProperty(NS, "yahooChatID");
-    public final URI member                  = createProperty(NS, "member");
-    public final URI givenname               = createProperty(NS, "givenname");
-    public final URI birthday                = createProperty(NS, "birthday");
-    public final URI img                     = createProperty(NS, "img");
-    public final URI name                    = createProperty(NS, "name");
-    public final URI maker                   = createProperty(NS, "maker");
-    public final URI tipjar                  = createProperty(NS, "tipjar");
-    public final URI membershipClass         = createProperty(NS, "membershipClass");
-    public final URI accountName             = createProperty(NS, "accountName");
-    public final URI mbox_sha1sum            = createProperty(NS, "mbox_sha1sum");
-    public final URI geekcode                = createProperty(NS, "geekcode");
-    public final URI interest                = createProperty(NS, "interest");
-    public final URI depicts                 = createProperty(NS, "depicts");
-    public final URI knows                   = createProperty(NS, "knows");
-    public final URI homepage                = createProperty(NS, "homepage");
-    public final URI firstName               = createProperty(NS, "firstName");
-    public final URI surname                 = createProperty(NS, "surname");
-    public final URI isPrimaryTopicOf        = createProperty(NS, "isPrimaryTopicOf");
-    public final URI page                    = createProperty(NS, "page");
-    public final URI accountServiceHomepage  = createProperty(NS, "accountServiceHomepage");
-    public final URI depiction               = createProperty(NS, "depiction");
-    public final URI fundedBy                = createProperty(NS, "fundedBy");
-    public final URI title                   = createProperty(NS, "title");
-    public final URI weblog                  = createProperty(NS, "weblog");
-    public final URI logo                    = createProperty(NS, "logo");
-    public final URI workplaceHomepage       = createProperty(NS, "workplaceHomepage");
-    public final URI based_near              = createProperty(NS, "based_near");
-    public final URI thumbnail               = createProperty(NS, "thumbnail");
-    public final URI primaryTopic            = createProperty(NS, "primaryTopic");
-    public final URI aimChatID               = createProperty(NS, "aimChatID");
-    public final URI made                    = createProperty(NS, "made");
-    public final URI workInfoHomepage        = createProperty(NS, "workInfoHomepage");
-    public final URI currentProject          = createProperty(NS, "currentProject");
-    public final URI holdsAccount            = createProperty(NS, "holdsAccount");
-    public final URI publications            = createProperty(NS, "publications");
-    public final URI sha1                    = createProperty(NS, "sha1");
-    public final URI gender                  = createProperty(NS, "gender");
-    public final URI mbox                    = createProperty(NS, "mbox");
-    public final URI myersBriggs             = createProperty(NS, "myersBriggs");
-    public final URI plan                    = createProperty(NS, "plan");
-    public final URI pastProject             = createProperty(NS, "pastProject");
-    public final URI schoolHomepage          = createProperty(NS, "schoolHomepage");
-    public final URI family_name             = createProperty(NS, "family_name");
-    public final URI msnChatID               = createProperty(NS, "msnChatID");
-    public final URI theme                   = createProperty(NS, "theme");
-    public final URI topic                   = createProperty(NS, "topic");
-    public final URI dnaChecksum             = createProperty(NS, "dnaChecksum");
-    public final URI nick                    = createProperty(NS, "nick");
-    public final URI jabberID                = createProperty(NS, "jabberID");
+    public final IRI topic_interest          = createProperty(NS, "topic_interest");
+    public final IRI phone                   = createProperty(NS, "phone");
+    public final IRI icqChatID               = createProperty(NS, "icqChatID");
+    public final IRI yahooChatID             = createProperty(NS, "yahooChatID");
+    public final IRI member                  = createProperty(NS, "member");
+    public final IRI givenname               = createProperty(NS, "givenname");
+    public final IRI birthday                = createProperty(NS, "birthday");
+    public final IRI img                     = createProperty(NS, "img");
+    public final IRI name                    = createProperty(NS, "name");
+    public final IRI maker                   = createProperty(NS, "maker");
+    public final IRI tipjar                  = createProperty(NS, "tipjar");
+    public final IRI membershipClass         = createProperty(NS, "membershipClass");
+    public final IRI accountName             = createProperty(NS, "accountName");
+    public final IRI mbox_sha1sum            = createProperty(NS, "mbox_sha1sum");
+    public final IRI geekcode                = createProperty(NS, "geekcode");
+    public final IRI interest                = createProperty(NS, "interest");
+    public final IRI depicts                 = createProperty(NS, "depicts");
+    public final IRI knows                   = createProperty(NS, "knows");
+    public final IRI homepage                = createProperty(NS, "homepage");
+    public final IRI firstName               = createProperty(NS, "firstName");
+    public final IRI surname                 = createProperty(NS, "surname");
+    public final IRI isPrimaryTopicOf        = createProperty(NS, "isPrimaryTopicOf");
+    public final IRI page                    = createProperty(NS, "page");
+    public final IRI accountServiceHomepage  = createProperty(NS, "accountServiceHomepage");
+    public final IRI depiction               = createProperty(NS, "depiction");
+    public final IRI fundedBy                = createProperty(NS, "fundedBy");
+    public final IRI title                   = createProperty(NS, "title");
+    public final IRI weblog                  = createProperty(NS, "weblog");
+    public final IRI logo                    = createProperty(NS, "logo");
+    public final IRI workplaceHomepage       = createProperty(NS, "workplaceHomepage");
+    public final IRI based_near              = createProperty(NS, "based_near");
+    public final IRI thumbnail               = createProperty(NS, "thumbnail");
+    public final IRI primaryTopic            = createProperty(NS, "primaryTopic");
+    public final IRI aimChatID               = createProperty(NS, "aimChatID");
+    public final IRI made                    = createProperty(NS, "made");
+    public final IRI workInfoHomepage        = createProperty(NS, "workInfoHomepage");
+    public final IRI currentProject          = createProperty(NS, "currentProject");
+    public final IRI holdsAccount            = createProperty(NS, "holdsAccount");
+    public final IRI publications            = createProperty(NS, "publications");
+    public final IRI sha1                    = createProperty(NS, "sha1");
+    public final IRI gender                  = createProperty(NS, "gender");
+    public final IRI mbox                    = createProperty(NS, "mbox");
+    public final IRI myersBriggs             = createProperty(NS, "myersBriggs");
+    public final IRI plan                    = createProperty(NS, "plan");
+    public final IRI pastProject             = createProperty(NS, "pastProject");
+    public final IRI schoolHomepage          = createProperty(NS, "schoolHomepage");
+    public final IRI family_name             = createProperty(NS, "family_name");
+    public final IRI msnChatID               = createProperty(NS, "msnChatID");
+    public final IRI theme                   = createProperty(NS, "theme");
+    public final IRI topic                   = createProperty(NS, "topic");
+    public final IRI dnaChecksum             = createProperty(NS, "dnaChecksum");
+    public final IRI nick                    = createProperty(NS, "nick");
+    public final IRI jabberID                = createProperty(NS, "jabberID");
 
     // Resources.
-    public final URI Person                  = createClass(NS, "Person");
-    public final URI PersonalProfileDocument = createClass(NS, "PersonalProfileDocument");
-    public final URI Project                 = createClass(NS, "Project");
-    public final URI OnlineChatAccount       = createClass(NS, "OnlineChatAccount");
-    public final URI OnlineAccount           = createClass(NS, "OnlineAccount");
-    public final URI Agent                   = createClass(NS, "Agent");
-    public final URI Group                   = createClass(NS, "Group");
-    public final URI OnlineGamingAccount     = createClass(NS, "OnlineGamingAccount");
-    public final URI OnlineEcommerceAccount  = createClass(NS, "OnlineEcommerceAccount");
-    public final URI Document                = createClass(NS, "Document");
-    public final URI Organization            = createClass(NS, "Organization");
-    public final URI Image                   = createClass(NS, "Image");
+    public final IRI Person                  = createClass(NS, "Person");
+    public final IRI PersonalProfileDocument = createClass(NS, "PersonalProfileDocument");
+    public final IRI Project                 = createClass(NS, "Project");
+    public final IRI OnlineChatAccount       = createClass(NS, "OnlineChatAccount");
+    public final IRI OnlineAccount           = createClass(NS, "OnlineAccount");
+    public final IRI Agent                   = createClass(NS, "Agent");
+    public final IRI Group                   = createClass(NS, "Group");
+    public final IRI OnlineGamingAccount     = createClass(NS, "OnlineGamingAccount");
+    public final IRI OnlineEcommerceAccount  = createClass(NS, "OnlineEcommerceAccount");
+    public final IRI Document                = createClass(NS, "Document");
+    public final IRI Organization            = createClass(NS, "Organization");
+    public final IRI Image                   = createClass(NS, "Image");
 
     private FOAF(){
         super(NS);

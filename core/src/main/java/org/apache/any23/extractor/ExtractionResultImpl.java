@@ -21,10 +21,10 @@ import org.apache.any23.extractor.html.MicroformatExtractor;
 import org.apache.any23.rdf.Prefixes;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -118,6 +118,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return issues.size();
     }
 
+    @Override
     public void printReport(PrintStream ps) {
         ps.print(String.format("Context: %s [errors: %d] {\n", context, getIssuesCount()));
         for (Issue issue : issues) {
@@ -131,10 +132,12 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         ps.print("}\n");
     }
 
+    @Override
     public Collection<Issue> getIssues() {
         return issues.isEmpty() ? Collections.<Issue>emptyList() : Collections.unmodifiableList(issues);
     }
 
+    @Override
     public ExtractionResult openSubResult(ExtractionContext context) {
         final String contextID = context.getUniqueID();
         if (knownContextIDs.contains(contextID)) {
@@ -152,7 +155,8 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return context;
     }
 
-    public void writeTriple(Resource s, URI p, Value o, URI g) {
+    @Override
+    public void writeTriple(Resource s, IRI p, Value o, IRI g) {
         if (s == null || p == null || o == null) return;
         // Check for misconstructed literals or BNodes, Sesame does not catch this.
         if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) {
@@ -169,10 +173,12 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         }
     }
 
-    public void writeTriple(Resource s, URI p, Value o) {
+    @Override
+    public void writeTriple(Resource s, IRI p, Value o) {
         writeTriple(s, p, o, null);
     }
 
+    @Override
     public void writeNamespace(String prefix, String uri) {
         checkOpen();
         try {
@@ -185,10 +191,12 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         }
     }
 
-    public void notifyIssue(IssueLevel level, String msg, int row, int col) {
+    @Override
+    public void notifyIssue(IssueLevel level, String msg, long row, long col) {
         issues.add(new Issue(level, msg, row, col));
     }
 
+    @Override
     public void close() {
         if (isClosed) return;
         isClosed = true;
@@ -215,7 +223,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             Prefixes prefixes = extractor.getDescription().getPrefixes();
             for (String prefix : prefixes.allPrefixes()) {
                 try {
-                    tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceURIFor(prefix), context);
+                    tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceIRIFor(prefix), context);
                 } catch (TripleHandlerException e) {
                     throw new RuntimeException(String.format("Error while writing namespace %s", prefix),
                             e
@@ -228,6 +236,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         }
     }
 
+    @Override
     public void addResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
         if(resourceRoots == null) {
             resourceRoots = new ArrayList<ResourceRoot>();
@@ -235,6 +244,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         resourceRoots.add( new ResourceRoot(path, root, extractor) );
     }
 
+    @Override
     public List<ResourceRoot> getResourceRoots() {
         List<ResourceRoot> allRoots = new ArrayList<ResourceRoot>();
         if(resourceRoots != null) {
@@ -249,6 +259,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         return allRoots;
     }
 
+    @Override
     public void addPropertyPath(
             Class<? extends MicroformatExtractor> extractor,
             Resource propertySubject,
@@ -262,6 +273,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         propertyPaths.add( new PropertyPath(path, propertySubject, property, object, extractor) );
     }
 
+    @Override
     public List<PropertyPath> getPropertyPaths() {
         List<PropertyPath> allPaths = new ArrayList<PropertyPath>();
         if(propertyPaths != null) {

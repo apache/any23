@@ -20,7 +20,7 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.rdf.RDFUtils;
-import org.openrdf.model.BNode;
+import org.eclipse.rdf4j.model.BNode;
 import org.w3c.dom.Node;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
      *         blank node ID like "MD5 of http://doc-uri/#xpath/to/node"
      */
     protected BNode getBlankNodeFor(Node node) {
-        return RDFUtils.getBNode(getDocumentURI() + "#" + DomUtils.getXPathForNode(node));
+        return RDFUtils.getBNode(getDocumentIRI() + "#" + DomUtils.getXPathForNode(node));
     }
     
 }

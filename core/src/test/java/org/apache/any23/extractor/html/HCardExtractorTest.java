@@ -25,12 +25,11 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.VCard;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.repository.RepositoryResult;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -52,7 +51,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains(vVCARD.email, RDFUtils.uri("mailto:john@example.com"));
+		assertContains(vVCARD.email, RDFUtils.iri("mailto:john@example.com"));
 	}
 
 	@Test
@@ -64,9 +63,9 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 				"+1.415.555.1239", "+1.415.555.1240", "+1.415.555.1241",
 				"+1.415.555.1242", "+1.415.555.1243" };
 		for (String tel : tels) {
-			assertContains(vVCARD.tel, RDFUtils.uri("tel:" + tel));
+			assertContains(vVCARD.tel, RDFUtils.iri("tel:" + tel));
 		}
-		Resource telResource = RDFUtils.uri("tel:+14155551233");
+		Resource telResource = RDFUtils.iri("tel:+14155551233");
 		assertContains(vVCARD.fax, telResource);
 		assertContains(vVCARD.workTel, telResource);
 		assertContains(vVCARD.homeTel, telResource);
@@ -90,7 +89,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.role, "Chief");
 		assertContains(vVCARD.tz, "-0700");
 		assertContains(vVCARD.bday, "2006-04-04");
-		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.iri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.class_, "public");
 		assertContains(vVCARD.note, "this is a note");
@@ -148,7 +147,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.organization_name, "Intellicorp");
 		assertContains(vVCARD.organization_unit, "Intelligence");
 
-		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.iri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.note, "this is a note");
 		assertContains(vVCARD.class_, "public");
@@ -250,7 +249,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		RepositoryResult<Statement> statements = getStatements(null, RDF.TYPE,
 				vVCARD.VCard);
 		try {
-			Resource example = RDFUtils.uri("http://example.org/");
+			Resource example = RDFUtils.iri("http://example.org/");
 			while (statements.hasNext()) {
 				Resource card = statements.next().getSubject();
 				Assert.assertNotNull(findObject(card, vVCARD.fn));
@@ -460,7 +459,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		Resource org = findExactlyOneBlankSubject(vVCARD.organization_name,
 				RDFUtils.literal("Technorati"));
 		Assert.assertNotNull(org);
-		assertContains(person, vVCARD.url, RDFUtils.uri("http://tantek.com/"));
+		assertContains(person, vVCARD.url, RDFUtils.iri("http://tantek.com/"));
 		assertContains(person, vVCARD.n, (Resource) null);
 		assertContains(person, vVCARD.org, (Resource) null);
 	}
@@ -551,7 +550,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.fn, "Ryan King");
 		assertContains(RDF.TYPE, vVCARD.Name);
 
-		assertContains(vVCARD.email, RDFUtils.uri("mailto:ryan@technorati.com"));
+		assertContains(vVCARD.email, RDFUtils.iri("mailto:ryan@technorati.com"));
 
 		assertContains(vVCARD.given_name, "Ryan");
 		assertContains(vVCARD.family_name, "King");
@@ -563,7 +562,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertDefaultVCard();
 		assertContains(vVCARD.fn, "Brian Suda");
 
-		assertContains(vVCARD.email, RDFUtils.uri("mailto:brian@example.com"));
+		assertContains(vVCARD.email, RDFUtils.iri("mailto:brian@example.com"));
 		assertContains(vVCARD.given_name, "Brian");
 		assertContains(vVCARD.family_name, "Suda");
 	}
@@ -573,14 +572,14 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/microformats/hcard/07-relative-url.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains(vVCARD.url, RDFUtils.uri(baseURI + "home/blah"));
+		assertContains(vVCARD.url, RDFUtils.iri(baseIRI + "home/blah"));
 	}
 
 	@Test
 	public void testRelativeUrlBase() throws Exception {
 		assertExtract("/microformats/hcard/08-relative-url-base.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFUtils.uri(baseURI + "home/blah"));
+		assertContains(vVCARD.url, RDFUtils.iri(baseIRI + "home/blah"));
 		assertJohn();
 	}
 
@@ -588,7 +587,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testRelativeUrlXmlBase1() throws Exception {
 		assertExtract("/microformats/hcard/09-relative-url-xmlbase-1.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFUtils.uri((baseURI + "home/blah")));
+		assertContains(vVCARD.url, RDFUtils.iri((baseIRI + "home/blah")));
 		assertJohn();
 	}
 
@@ -596,7 +595,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testRelativeUrlXmlBase2() throws Exception {
 		assertExtract("/microformats/hcard/10-relative-url-xmlbase-2.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFUtils.uri((baseURI + "home/blah")));
+		assertContains(vVCARD.url, RDFUtils.iri((baseIRI + "home/blah")));
 		assertJohn();
 	}
 
@@ -604,8 +603,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testMultipleUrls() throws Exception {
 		assertExtract("/microformats/hcard/11-multiple-urls.html");
 		assertDefaultVCard();
-		assertContains(vVCARD.url, RDFUtils.uri(("http://example.com/foo")));
-		assertContains(vVCARD.url, RDFUtils.uri(("http://example.com/bar")));
+		assertContains(vVCARD.url, RDFUtils.iri(("http://example.com/foo")));
+		assertContains(vVCARD.url, RDFUtils.iri(("http://example.com/bar")));
 
 		assertJohn();
 	}
@@ -622,13 +621,13 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/microformats/hcard/13-photo-logo.html");
 		assertDefaultVCard();
 		assertContains(vVCARD.photo,
-				RDFUtils.uri(("http://example.org/picture1.png")));
+				RDFUtils.iri(("http://example.org/picture1.png")));
 		assertContains(vVCARD.photo,
-				RDFUtils.uri(("http://example.org/picture2.png")));
+				RDFUtils.iri(("http://example.org/picture2.png")));
 		assertContains(vVCARD.logo,
-				RDFUtils.uri(("http://example.org/picture1.png")));
+				RDFUtils.iri(("http://example.org/picture1.png")));
 		assertContains(vVCARD.logo,
-				RDFUtils.uri(("http://example.org/picture2.png")));
+				RDFUtils.iri(("http://example.org/picture2.png")));
 		assertJohn();
 	}
 
@@ -636,23 +635,22 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testImgSrcDataUrl() throws Exception {
 		assertExtract("/microformats/hcard/14-img-src-data-url.html");
 		assertDefaultVCard();
-		Resource data = RDFUtils
-				.uri("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAAK/"
-						+ "INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAASUExURf///8zMzJmZmWZmZ"
-						+ "jMzMwAAAPOPemkAAAM1SURBVHjaYmBgYGBkYQUBFkYWFiCPCchixQAMCCZAACF0MAMVM4K4TFh0IGsBCC"
-						+ "AkOxhYmBnAAKaHhZkZmxaAAGJgYIbpYGBihGgBWsTMzMwE4jIhaWGAYoAAYmCECDExYAcwGxkg5oNIgAB"
-						+ "igDqLARdgZmGB2wICrKwAAcSA3xKgIxlZ0PwCEEAMBCxhgHoWSQtAADFAAxgfYEJ1GEAAQbQw4tUCsocB"
-						+ "YQVAADEgu4uRkREeUCwszEwwLhOKLQABhNDCBA4aSDgwwhIAJKqYUPwCEEAMUK/AUwnc9aywJMCI7DAgA"
-						+ "AggBohZ8JTBhGIJzCoWZL8ABBCYidAB8RUjWppkYUG2BSCAGMDqEMZiswUtXgACiAHsFYixTMywGGLGpgU"
-						+ "WYgABxAA2mQkWCMyMqFoYmdD8ACQAAogBHJHMrCxg1cyIiICmCkYWDFsAAgiihYmZCewFFpR0BfI3LLch+"
-						+ "QUggBiQ0iQjEyMDmh54qCBlUIAAYsCRJsElADQvgWKTlRGeKwECiAF3XgGmMEYQYADZzcoA9z5AAMG9RQC"
-						+ "AtEC9DxBADFiyFyMjVi0wABBAWLQwQdIiuhYGWJIACCBg+KKUJ9BoBRdS2LQALQMIIGDQIEmwAO1kYcVWH"
-						+ "CDZAhBAqFqYmOAxj2YNtAwDAYAAYmDEiBYWzHKKkRERYiwAAYSphZEZwxZGZiZQVEJTJkAAMTCyokc7M5o"
-						+ "ORlC5wcoEjxeAAAJqQXU0UB6W5WFmABMtEzMi1wEEEFAbE0YyAUuzMMEsYQalMkQSBQggUDmNPU3C9IA4L"
-						+ "CxI+QUggEBiKOU8yExgqccCL3chnkPKlQABhGo6ejHBDKmdUHMlQAAhhQvQaGZGkBIkjcAMywLmI+VKgAB"
-						+ "CSowsTJhZkhlWXiBpAQggYBqBZl9GVOdBcz0LZqEEEEAMqLULMBLg1THWog9IAwQQA0qiZcRW5aPbAhBAD"
-						+ "Cg1El4tMAAQQAxoiZYZXnTh1AIQQAzo2QlYpDDjcBgrxGEAAcSAJTthswmiBUwDBBC2GpkZJTaRvQ+mAQK"
-						+ "IAUuuxdZWQvILQABBmSxMjBj5EpcWgACCMoFOYYSpZyHQHgMIMACt2hmoVEikCQAAAABJRU5ErkJggg==");
+		Resource data = RDFUtils.iri("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAAK/"
+		+ "INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAASUExURf///8zMzJmZmWZmZ"
+		+ "jMzMwAAAPOPemkAAAM1SURBVHjaYmBgYGBkYQUBFkYWFiCPCchixQAMCCZAACF0MAMVM4K4TFh0IGsBCC"
+		+ "AkOxhYmBnAAKaHhZkZmxaAAGJgYIbpYGBihGgBWsTMzMwE4jIhaWGAYoAAYmCECDExYAcwGxkg5oNIgAB"
+		+ "igDqLARdgZmGB2wICrKwAAcSA3xKgIxlZ0PwCEEAMBCxhgHoWSQtAADFAAxgfYEJ1GEAAQbQw4tUCsocB"
+		+ "YQVAADEgu4uRkREeUCwszEwwLhOKLQABhNDCBA4aSDgwwhIAJKqYUPwCEEAMUK/AUwnc9aywJMCI7DAgA"
+		+ "AggBohZ8JTBhGIJzCoWZL8ABBCYidAB8RUjWppkYUG2BSCAGMDqEMZiswUtXgACiAHsFYixTMywGGLGpgU"
+		+ "WYgABxAA2mQkWCMyMqFoYmdD8ACQAAogBHJHMrCxg1cyIiICmCkYWDFsAAgiihYmZCewFFpR0BfI3LLch+"
+		+ "QUggBiQ0iQjEyMDmh54qCBlUIAAYsCRJsElADQvgWKTlRGeKwECiAF3XgGmMEYQYADZzcoA9z5AAMG9RQC"
+		+ "AtEC9DxBADFiyFyMjVi0wABBAWLQwQdIiuhYGWJIACCBg+KKUJ9BoBRdS2LQALQMIIGDQIEmwAO1kYcVWH"
+		+ "CDZAhBAqFqYmOAxj2YNtAwDAYAAYmDEiBYWzHKKkRERYiwAAYSphZEZwxZGZiZQVEJTJkAAMTCyokc7M5o"
+		+ "ORlC5wcoEjxeAAAJqQXU0UB6W5WFmABMtEzMi1wEEEFAbE0YyAUuzMMEsYQalMkQSBQggUDmNPU3C9IA4L"
+		+ "CxI+QUggEBiKOU8yExgqccCL3chnkPKlQABhGo6ejHBDKmdUHMlQAAhhQvQaGZGkBIkjcAMywLmI+VKgAB"
+		+ "CSowsTJhZkhlWXiBpAQggYBqBZl9GVOdBcz0LZqEEEEAMqLULMBLg1THWog9IAwQQA0qiZcRW5aPbAhBAD"
+		+ "Cg1El4tMAAQQAxoiZYZXnTh1AIQQAzo2QlYpDDjcBgrxGEAAcSAJTthswmiBUwDBBC2GpkZJTaRvQ+mAQK"
+		+ "IAUuuxdZWQvILQABBmSxMjBj5EpcWgACCMoFOYYSpZyHQHgMIMACt2hmoVEikCQAAAABJRU5ErkJggg==");
 
 		assertContains(vVCARD.photo, data);
 		assertContains(vVCARD.logo, data);
@@ -697,7 +695,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/microformats/hcard/17-email-not-uri.html");
 		assertDefaultVCard();
 		assertJohn();
-		assertContains(vVCARD.email, RDFUtils.uri("mailto:john@example.com"));
+		assertContains(vVCARD.email, RDFUtils.iri("mailto:john@example.com"));
 	}
 
 	@Test
@@ -722,7 +720,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	public void testImgAlt() throws Exception {
 		assertExtract("/microformats/hcard/20-image-alt.html");
 		assertDefaultVCard();
-		Resource uri = RDFUtils.uri("http://example.com/foo.png");
+		Resource uri = RDFUtils.iri("http://example.com/foo.png");
 		assertContains(vVCARD.photo, uri);
 		assertContains(vVCARD.logo, uri);
 		assertJohn();
@@ -909,7 +907,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 		assertModelNotEmpty();
 		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 1);
 		assertContains(vVCARD.fn, "Melanie Kl\u00f6\u00df");
-		assertContains(vVCARD.email, RDFUtils.uri("mailto:mkloes@gmail.com"));
+		assertContains(vVCARD.email, RDFUtils.iri("mailto:mkloes@gmail.com"));
 		assertContains(vVCARD.adr, (Resource) null);
 		assertNotContains(null, vVCARD.postal_code, "53127");
 		assertNotContains(null, vVCARD.locality, "Bonn");
@@ -942,7 +940,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 	@Test
 	public void testInfiniteLoop() throws IOException, ExtractionException {
 		assertExtract("/microformats/hcard/infinite-loop.html", false);
-		assertIssue(IssueReport.IssueLevel.Warning,
+		assertIssue(IssueReport.IssueLevel.WARNING,
 				".*Current node tries to include an ancestor node.*");
 	}
 

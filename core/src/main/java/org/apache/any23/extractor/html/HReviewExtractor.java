@@ -24,9 +24,9 @@ import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.Review;
 import org.apache.any23.vocab.VCard;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Resource;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 import java.util.List;
@@ -121,10 +121,10 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
                 blank, vVCARD.fn, val.value()
         );
         final TextField url = item.getSingularUrlField("url");
-        conditionallyAddResourceProperty(blank, vVCARD.url, getHTMLDocument().resolveURI(url.value()));
+        conditionallyAddResourceProperty(blank, vVCARD.url, getHTMLDocument().resolveIRI(url.value()));
         TextField pics[] = item.getPluralUrlField("photo");
         for (TextField pic : pics) {
-            addURIProperty(blank, vVCARD.photo, getHTMLDocument().resolveURI(pic.value()));
+            addIRIProperty(blank, vVCARD.photo, getHTMLDocument().resolveIRI(pic.value()));
         }
         return blank;
     }

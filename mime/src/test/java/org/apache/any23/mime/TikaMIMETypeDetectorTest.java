@@ -21,7 +21,7 @@ import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFFormat;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -254,7 +254,7 @@ public class TikaMIMETypeDetectorTest {
 
     @Test
     public void testDetectTextNQuadsByMeta() throws IOException {
-        detectMIMETypeByMimeTypeHint(NQUADS, "text/x-nquads");
+        detectMIMETypeByMimeTypeHint(NQUADS, "application/n-quads");
     }
 
     @Test

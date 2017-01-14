@@ -33,9 +33,9 @@ import java.util.List;
 public interface DOMDocument {
 
     /**
-     * @return the original document URI.
+     * @return the original document IRI.
      */
-    URI getDocumentURI();
+    URI getDocumentIRI();
 
     /**
      * Returns the original document.

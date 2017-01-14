@@ -35,7 +35,8 @@
 	</mime-type>
 
 	<!-- NQuads -->
-	<mime-type type="text/x-nquads">
+	<mime-type type="application/n-quads">
+		<alias type="text/x-nquads"/>
 		<alias type="text/rdf+nq"/>
 		<alias type="text/nq"/>
 		<alias type="application/nq"/>

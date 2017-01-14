@@ -20,7 +20,7 @@ package org.apache.any23.extractor.rdf;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.openrdf.rio.RDFParser;
+import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
  *

@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Class modeling the <a href="http://microformats.org/wiki/hlisting-proposal">hListing</a> vocabulary.
@@ -39,55 +39,55 @@ public class HListing extends Vocabulary {
     }
 
     // Resources.
-    public final URI Listing = createClass("Listing");
-    public final URI Lister  = createClass("Lister" ); // isa FOAF.Person
-    public final URI Item    = createClass("Item"   ); // isa ?
+    public final IRI Listing = createClass("Listing");
+    public final IRI Lister  = createClass("Lister" ); // isa FOAF.Person
+    public final IRI Item    = createClass("Item"   ); // isa ?
 
     // Properties.
-    public final URI action = createProperty("action");
-    public final URI lister = createProperty("lister"); // ranges over Lister
-    public final URI item   = createProperty("item"  );
+    public final IRI action = createProperty("action");
+    public final IRI lister = createProperty("lister"); // ranges over Lister
+    public final IRI item   = createProperty("item"  );
 
-    public final URI sell     = createClass("sell"    );
-    public final URI rent     = createClass("rent"    );
-    public final URI trade    = createClass("trade"   );
-    public final URI meet     = createClass("meet"    );
-    public final URI announce = createClass("announce");
-    public final URI offer    = createClass("offer"   );
-    public final URI wanted   = createClass("wanted"  );
-    public final URI event    = createClass("event"   );
-    public final URI service  = createClass("service" );
+    public final IRI sell     = createClass("sell"    );
+    public final IRI rent     = createClass("rent"    );
+    public final IRI trade    = createClass("trade"   );
+    public final IRI meet     = createClass("meet"    );
+    public final IRI announce = createClass("announce");
+    public final IRI offer    = createClass("offer"   );
+    public final IRI wanted   = createClass("wanted"  );
+    public final IRI event    = createClass("event"   );
+    public final IRI service  = createClass("service" );
 
-    public final URI tel       = VCard.getInstance().tel;
-    public final URI dtlisted  = createProperty("dtlisted" );
-    public final URI dtexpired = createProperty("dtexpired");
-    public final URI price     = createProperty("price"    );
+    public final IRI tel       = VCard.getInstance().tel;
+    public final IRI dtlisted  = createProperty("dtlisted" );
+    public final IRI dtexpired = createProperty("dtexpired");
+    public final IRI price     = createProperty("price"    );
 
-    public final URI description = createProperty("description");
-    public final URI summary     = createProperty("summary"    );
-    public final URI permalink   = createProperty("permalink"  );
+    public final IRI description = createProperty("description");
+    public final IRI summary     = createProperty("summary"    );
+    public final IRI permalink   = createProperty("permalink"  );
 
-    public final URI region          = VCard.getInstance().region;
-    public final URI postOfficeBox   = VCard.getInstance().post_office_box;
-    public final URI locality        = VCard.getInstance().locality;
-    public final URI extendedAddress = VCard.getInstance().extended_address;
-    public final URI streetAddress   = VCard.getInstance().street_address;
-    public final URI postalCode      = VCard.getInstance().postal_code;
-    public final URI countryName     = VCard.getInstance().country_name;
+    public final IRI region          = VCard.getInstance().region;
+    public final IRI postOfficeBox   = VCard.getInstance().post_office_box;
+    public final IRI locality        = VCard.getInstance().locality;
+    public final IRI extendedAddress = VCard.getInstance().extended_address;
+    public final IRI streetAddress   = VCard.getInstance().street_address;
+    public final IRI postalCode      = VCard.getInstance().postal_code;
+    public final IRI countryName     = VCard.getInstance().country_name;
 
-    public final URI listerUrl  = createProperty("listerUrl" );
-    public final URI listerName = createProperty("listerName");
-    public final URI itemName   = createProperty("itemName"  );
-    public final URI itemUrl    = createProperty("itemUrl"   );
-    public final URI itemPhoto  = createProperty("itemPhoto" );
-    public final URI listerOrg  = createProperty("listerOrg" );
-    public final URI listerLogo = createProperty("listerLogo");
+    public final IRI listerUrl  = createProperty("listerUrl" );
+    public final IRI listerName = createProperty("listerName");
+    public final IRI itemName   = createProperty("itemName"  );
+    public final IRI itemUrl    = createProperty("itemUrl"   );
+    public final IRI itemPhoto  = createProperty("itemPhoto" );
+    public final IRI listerOrg  = createProperty("listerOrg" );
+    public final IRI listerLogo = createProperty("listerLogo");
 
-    private URI createProperty(String localName) {
+    private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 
-    private URI createClass(String localName) {
+    private IRI createClass(String localName) {
         return createClass(NS, localName);
     }
 

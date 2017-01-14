@@ -27,11 +27,11 @@ import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.annotations.Includes;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -50,12 +50,12 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
     private ExtractionContext context;
 
-    private URI documentURI;
+    private IRI documentIRI;
 
     private ExtractionResult out;
 
     protected final Any23ValueFactoryWrapper valueFactory =
-            new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+            new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance());
 
     /**
      * Returns the description of this extractor.
@@ -83,8 +83,8 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return context;
     }
 
-    public URI getDocumentURI() {
-        return documentURI;
+    public IRI getDocumentIRI() {
+        return documentIRI;
     }
 
     public final void run(
@@ -95,7 +95,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     ) throws IOException, ExtractionException {
         this.htmlDocument = new HTMLDocument(in);
         this.context      = extractionContext;
-        this.documentURI  = extractionContext.getDocumentURI();
+        this.documentIRI  = extractionContext.getDocumentIRI();
         this.out          = out;
         valueFactory.setIssueReport(out);
         try {
@@ -129,13 +129,13 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      *
      * @param n the <i>HTML</i> node from which the property value has been extracted.
      * @param subject the property subject.
-     * @param p the property URI.
+     * @param p the property IRI.
      * @param value the property value.
      * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddStringProperty(
             Node n,
-            Resource subject, URI p, String value
+            Resource subject, IRI p, String value
     ) {
         if (value == null) return false;
         value = value.trim();
@@ -153,20 +153,20 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      *
      * @param n the <i>HTML</i> node from which the property value has been extracted.
      * @param subject subject the property subject.
-     * @param property the property URI.
+     * @param property the property IRI.
      * @param literal value the property value.
      * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddLiteralProperty(
             Node n,
             Resource subject,
-            URI property,
+            IRI property,
             Literal literal
     ) {
         final String literalStr = literal.stringValue();
         if( containsScriptBlock(literalStr) ) {
             out.notifyIssue(
-                    IssueReport.IssueLevel.Warning,
+                    IssueReport.IssueLevel.WARNING,
                     String.format("Detected script in literal: [%s]", literalStr)
                     , -1
                     , -1
@@ -180,13 +180,13 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     }
 
     /**
-     * Helper method that adds a URI property to a node.
+     * Helper method that adds a IRI property to a node.
      * @param subject the property subject.
-     * @param property the property URI.
+     * @param property the property IRI.
      * @param uri the property object.
      * @return <code>true</code> if the the resource has been added, <code>false</code> otherwise. 
      */
-    protected boolean conditionallyAddResourceProperty(Resource subject, URI property, URI uri) {
+    protected boolean conditionallyAddResourceProperty(Resource subject, IRI property, IRI uri) {
         if (uri == null) return false;
         out.writeTriple(subject, property, uri);
         return true;
@@ -197,10 +197,10 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      *
      * @param n the <i>HTML</i> node used for extracting such property.
      * @param subject the property subject.
-     * @param property the property URI.
+     * @param property the property IRI.
      * @param bnode the property value.
      */
-    protected void addBNodeProperty(Node n, Resource subject, URI property, BNode bnode) {
+    protected void addBNodeProperty(Node n, Resource subject, IRI property, BNode bnode) {
         out.writeTriple(subject, property, bnode);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
         tser.addPropertyPath(this.getClass(), subject, property, bnode, DomUtils.getXPathListForNode(n) );
@@ -210,29 +210,29 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * Helper method that adds a BNode property to a node.
      *
      * @param subject the property subject.
-     * @param property the property URI.
+     * @param property the property IRI.
      * @param bnode the property value.
      */
-    protected void addBNodeProperty( Resource subject, URI property, BNode bnode) {
+    protected void addBNodeProperty( Resource subject, IRI property, BNode bnode) {
         out.writeTriple(subject, property, bnode);
     }
 
     /**
-     * Helper method that adds a URI property to a node.
+     * Helper method that adds a IRI property to a node.
      *
      * @param subject subject to add
      * @param property predicate to add
      * @param object object to add
      */
-    protected void addURIProperty(Resource subject, URI property, URI object) {
+    protected void addIRIProperty(Resource subject, IRI property, IRI object) {
         out.writeTriple(subject, property, object);    
     }
 
-    protected URI fixLink(String link) {
+    protected IRI fixLink(String link) {
         return valueFactory.fixLink(link, null);
     }
 
-    protected URI fixLink(String link, String defaultSchema) {
+    protected IRI fixLink(String link, String defaultSchema) {
         return valueFactory.fixLink(link, defaultSchema);
     }
 

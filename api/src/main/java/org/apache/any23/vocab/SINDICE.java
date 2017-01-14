@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * This class models an internal <i>Sindice</i> Vocabulary to describe
@@ -56,50 +56,50 @@ public class SINDICE extends Vocabulary {
     }
 
     /**
-     * The namespace of the vocabulary as a URI.
+     * The namespace of the vocabulary as a IRI.
      */
-    public final URI NAMESPACE = createURI(NS);
+    public final IRI NAMESPACE = createIRI(NS);
 
     /**
      * This property expresses the DNS domain of the resource on which
      * it is applied. It is intended to be used to keep track of the domain provenance
      * of each resource.
      */
-    public final URI domain = createProperty(DOMAIN);
+    public final IRI domain = createProperty(DOMAIN);
 
     /**
      * This property links a resource with a <i>blank node</i> that represents
      * a nested <i>Microformat</i> node.
      */
-    public final URI nesting = createProperty(NESTING);
+    public final IRI nesting = createProperty(NESTING);
 
     /**
      * This property is used to keep track of the original nested <i>RDF property</i>.
      */
-    public final URI nesting_original = createProperty(NESTING_ORIGINAL);
+    public final IRI nesting_original = createProperty(NESTING_ORIGINAL);
 
     /**
      * This property links the resource with a <i>node</i> representing the nested <i>Microformat</i>
      * 
      */
-    public final URI nesting_structured = createProperty(NESTING_STRUCTURED);
+    public final IRI nesting_structured = createProperty(NESTING_STRUCTURED);
 
     /**
      * Size meta property indicating the number of triples within the returned dataset.
      */
-    public final URI size = createProperty(SIZE);
+    public final IRI size = createProperty(SIZE);
 
     /**
      * Date meta property indicating the data generation time.
      */
-    public final URI date = createProperty(DATE);
+    public final IRI date = createProperty(DATE);
 
 
-    private URI createClass(String localName) {
+    private IRI createClass(String localName) {
         return createClass(NS, localName);
     }
 
-    private URI createProperty(String localName) {
+    private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 

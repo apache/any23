@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public interface Extractor<Input> {
      * This interface specializes an {@link Extractor} able to handle
      * {@link java.net.URI} as input format. Use it if you need to fetch a document before the extraction
      */
-    public interface BlindExtractor extends Extractor<URI> {
+    public interface BlindExtractor extends Extractor<IRI> {
     }
 
     /**

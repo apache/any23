@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -51,28 +51,28 @@ public class LKIFCoreProcess extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/process.owl */
     //////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Change                                 = createClass(NS, "Change");
-    public final URI Continuation                           = createClass(NS, "Continuation");
-    public final URI Initiation                             = createClass(NS, "Initiation");
-    public final URI Mental_Process                         = createClass(NS, "Mental_Process");
-    public final URI Physical_Object                        = createClass(NS, "Physical_Object");
-    public final URI Physical_Process                       = createClass(NS, "Physical_Process");
-    public final URI Process                                = createClass(NS, "Process");
-    public final URI Termination                            = createClass(NS, "Termination");
+    public final IRI Change                                 = createClass(NS, "Change");
+    public final IRI Continuation                           = createClass(NS, "Continuation");
+    public final IRI Initiation                             = createClass(NS, "Initiation");
+    public final IRI Mental_Process                         = createClass(NS, "Mental_Process");
+    public final IRI Physical_Object                        = createClass(NS, "Physical_Object");
+    public final IRI Physical_Process                       = createClass(NS, "Physical_Process");
+    public final IRI Process                                = createClass(NS, "Process");
+    public final IRI Termination                            = createClass(NS, "Termination");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI created_by                              = createProperty(NS, "created_by");
-    public final URI creation                                = createProperty(NS, "creation");
-    public final URI participant                             = createProperty(NS, "participant");
-    public final URI participant_in                          = createProperty(NS, "participant_in");
-    public final URI requirement                             = createProperty(NS, "requirement");
-    public final URI requirement_of                          = createProperty(NS, "requirement_of");
-    public final URI resource                                = createProperty(NS, "resource");
-    public final URI resource_for                            = createProperty(NS, "resource_for ");
-    public final URI result                                  = createProperty(NS, "result");
-    public final URI result_of                               = createProperty(NS, "result_of");
+    public final IRI created_by                              = createProperty(NS, "created_by");
+    public final IRI creation                                = createProperty(NS, "creation");
+    public final IRI participant                             = createProperty(NS, "participant");
+    public final IRI participant_in                          = createProperty(NS, "participant_in");
+    public final IRI requirement                             = createProperty(NS, "requirement");
+    public final IRI requirement_of                          = createProperty(NS, "requirement_of");
+    public final IRI resource                                = createProperty(NS, "resource");
+    public final IRI resource_for                            = createProperty(NS, "resource_for ");
+    public final IRI result                                  = createProperty(NS, "result");
+    public final IRI result_of                               = createProperty(NS, "result_of");
     
     private LKIFCoreProcess() {
       super(NS);

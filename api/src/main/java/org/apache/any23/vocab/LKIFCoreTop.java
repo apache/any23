@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -50,12 +50,12 @@ public class LKIFCoreTop extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/lkif-top.owl */
     /////////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Abstract_Entity                  = createClass(NS, "Abstract_Entity");
-    public final URI Mental_Entity                    = createClass(NS, "Mental_Entity");
-    public final URI Mental_Object                    = createClass(NS, "Mental_Object");
-    public final URI Occurrence                       = createClass(NS, "Occurrence");
-    public final URI Physical_Entity                  = createClass(NS, "Physical_Entity");
-    public final URI Spatio_Temporal_Occurrence       = createClass(NS, "Spatio_Temporal_Occurrence");
+    public final IRI Abstract_Entity                  = createClass(NS, "Abstract_Entity");
+    public final IRI Mental_Entity                    = createClass(NS, "Mental_Entity");
+    public final IRI Mental_Object                    = createClass(NS, "Mental_Object");
+    public final IRI Occurrence                       = createClass(NS, "Occurrence");
+    public final IRI Physical_Entity                  = createClass(NS, "Physical_Entity");
+    public final IRI Spatio_Temporal_Occurrence       = createClass(NS, "Spatio_Temporal_Occurrence");
 
     // RESOURCES
     

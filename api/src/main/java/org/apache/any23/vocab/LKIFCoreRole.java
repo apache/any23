@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -50,22 +50,22 @@ public class LKIFCoreRole extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/role.owl */
     ///////////////////////////////////////////////////////
     // CLASSES
-    public final URI Epistemic_Role                      = createClass(NS, "Epistemic_Role");
-    public final URI Function                            = createClass(NS, "Function");
-    public final URI Organisation_Role                   = createClass(NS, "Organisation_Role");
-    public final URI Person_Role                         = createClass(NS, "Person_Role");
-    public final URI Role                                = createClass(NS, "Role");
-    public final URI Social_Role                         = createClass(NS, "Social_Role");
-    public final URI Subjective_Entity                   = createClass(NS, "Subjective_Entity ");
+    public final IRI Epistemic_Role                      = createClass(NS, "Epistemic_Role");
+    public final IRI Function                            = createClass(NS, "Function");
+    public final IRI Organisation_Role                   = createClass(NS, "Organisation_Role");
+    public final IRI Person_Role                         = createClass(NS, "Person_Role");
+    public final IRI Role                                = createClass(NS, "Role");
+    public final IRI Social_Role                         = createClass(NS, "Social_Role");
+    public final IRI Subjective_Entity                   = createClass(NS, "Subjective_Entity ");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI context                             = createProperty(NS, "context");
-    public final URI counts_as                           = createProperty(NS, "counts_as");
-    public final URI imposed_on                          = createProperty(NS, "imposed_on");
-    public final URI played_by                           = createProperty(NS, "played_by");
-    public final URI plays                               = createProperty(NS, "plays");
+    public final IRI context                             = createProperty(NS, "context");
+    public final IRI counts_as                           = createProperty(NS, "counts_as");
+    public final IRI imposed_on                          = createProperty(NS, "imposed_on");
+    public final IRI played_by                           = createProperty(NS, "played_by");
+    public final IRI plays                               = createProperty(NS, "plays");
     
     private LKIFCoreRole() {
       super(NS);

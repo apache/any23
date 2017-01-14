@@ -44,7 +44,7 @@ public class ExtractionParameters {
 
     public static final String METADATA_TIMESIZE_FLAG           = "any23.extraction.metadata.timesize";
 
-    public static final String EXTRACTION_CONTEXT_URI_PROPERTY = "any23.extraction.context.uri";
+    public static final String EXTRACTION_CONTEXT_IRI_PROPERTY = "any23.extraction.context.iri";
 
     /**
      * Constructor.

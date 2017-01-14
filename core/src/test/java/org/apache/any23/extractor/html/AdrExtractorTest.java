@@ -21,9 +21,9 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.vocab.VCard;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.repository.RepositoryException;
 
 import java.util.List;
 

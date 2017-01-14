@@ -16,18 +16,17 @@
  */
 package org.apache.any23.extractor.yaml;
 
-import info.aduna.iteration.Iterations;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.YAML;
+import org.eclipse.rdf4j.common.iteration.Iterations;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.Statement;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.repository.RepositoryResult;
-import org.semarglproject.vocab.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

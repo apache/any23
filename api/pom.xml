@@ -21,7 +21,7 @@
   <parent>
     <artifactId>apache-any23</artifactId>
     <groupId>org.apache.any23</groupId>
-    <version>1.2-SNAPSHOT</version>
+    <version>2.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
@@ -36,12 +36,12 @@
       <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.openrdf.sesame</groupId>
-      <artifactId>sesame-model</artifactId>
+      <groupId>org.eclipse.rdf4j</groupId>
+      <artifactId>rdf4j-model</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.openrdf.sesame</groupId>
-      <artifactId>sesame-rio-api</artifactId>
+      <groupId>org.eclipse.rdf4j</groupId>
+      <artifactId>rdf4j-rio-api</artifactId>
     </dependency>
   </dependencies>
 

@@ -78,10 +78,10 @@ public class Crawler extends Rover {
     public void run() throws Exception {
         super.configure();
 
-        if (inputURIs.size() != 1) {
+        if (inputIRIs.size() != 1) {
             throw new IllegalArgumentException("Expected just one seed.");
         }
-        final URL seed = new URL(inputURIs.get( 0 ));
+        final URL seed = new URL(inputIRIs.get( 0 ));
 
         if ( storageFolder.isFile() ) {
             throw new IllegalStateException( format( "Storage folder %s can not be a file, must be a directory",

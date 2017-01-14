@@ -17,23 +17,26 @@
 
 package org.apache.any23.rdf;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 import org.apache.any23.extractor.IssueReport;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.ValueFactory;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.ValueFactoryBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- * Any23 specialization of the {@link org.openrdf.model.ValueFactory}.
+ * Any23 specialization of the {@link org.eclipse.rdf4j.model.ValueFactory}.
  * It provides a wrapper to instantiate RDF objects.
  */
 // TODO: Merge with RDFUtils.java
@@ -98,7 +101,11 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     public Literal createLiteral(String content) {
         if (content == null) return null;
-        return wrappedFactory.createLiteral(content, defaultLiteralLanguage);
+        if (defaultLiteralLanguage == null) {
+        	return wrappedFactory.createLiteral(content);
+        } else {
+        	return wrappedFactory.createLiteral(content, defaultLiteralLanguage);
+        }
     }
 
     public Literal createLiteral(boolean b) {
@@ -129,6 +136,16 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return wrappedFactory.createLiteral(v);
     }
 
+	@Override
+	public Literal createLiteral(BigDecimal v) {
+        return wrappedFactory.createLiteral(v);
+	}
+
+	@Override
+	public Literal createLiteral(BigInteger v) {
+        return wrappedFactory.createLiteral(v);
+	}
+
     public Literal createLiteral(XMLGregorianCalendar calendar) {
         return wrappedFactory.createLiteral(calendar);
     }
@@ -138,7 +155,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return wrappedFactory.createLiteral(label, language);
     }
 
-    public Literal createLiteral(String pref, URI value) {
+    public Literal createLiteral(String pref, IRI value) {
         if (pref == null) return null;
         return wrappedFactory.createLiteral(pref, value);
     }
@@ -148,26 +165,26 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return wrappedFactory.createLiteral(date);
     }
 
-    public Statement createStatement(Resource sub, URI pre, Value obj) {
+    public Statement createStatement(Resource sub, IRI pre, Value obj) {
         if (sub == null || pre == null || obj == null) {
             return null;
         }
         return wrappedFactory.createStatement(sub, pre, obj);
     }
 
-    public Statement createStatement(Resource sub, URI pre, Value obj, Resource context) {
+    public Statement createStatement(Resource sub, IRI pre, Value obj, Resource context) {
         if (sub == null || pre == null || obj == null) return null;
         return wrappedFactory.createStatement(sub, pre, obj, context);
     }
 
     /**
      * @param uriStr input string to create URI from.
-     * @return a valid sesame URI or null if any exception occurred
+     * @return a valid sesame IRI or null if any exception occurred
      */
-    public URI createURI(String uriStr) {
+    public IRI createIRI(String uriStr) {
         if (uriStr == null) return null;
         try {
-            return wrappedFactory.createURI(RDFUtils.fixURIWithException(uriStr));
+            return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(uriStr));
         } catch (Exception e) {
             reportError(e);
             return null;
@@ -175,23 +192,23 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @return a valid sesame URI or null if any exception occurred
+     * @return a valid sesame IRI or null if any exception occurred
      */
-    public URI createURI(String namespace, String localName) {
+    public IRI createIRI(String namespace, String localName) {
         if (namespace == null || localName == null) return null;
-        return wrappedFactory.createURI(RDFUtils.fixURIWithException(namespace), localName);
+        return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(namespace), localName);
     }
 
     /**
-     * Fixes typical errors in URIs, and resolves relative URIs against a base URI.
+     * Fixes typical errors in IRIs, and resolves relative IRIs against a base IRI.
      *
-     * @param uri     A URI, relative or absolute, can have typical syntax errors
-     * @param baseURI A base URI to use for resolving relative URIs
-     * @return An absolute URI, sytnactically valid, or null if not fixable
+     * @param uri     A IRI, relative or absolute, can have typical syntax errors
+     * @param baseIRI A base IRI to use for resolving relative IRIs
+     * @return An absolute IRI, sytnactically valid, or null if not fixable
      */
-    public URI resolveURI(String uri, java.net.URI baseURI) {
+    public IRI resolveIRI(String uri, java.net.URI baseIRI) {
         try {
-            return wrappedFactory.createURI(baseURI.resolve(RDFUtils.fixURIWithException(uri)).toString());
+            return wrappedFactory.createIRI(baseIRI.resolve(RDFUtils.fixIRIWithException(uri)).toString());
         } catch (IllegalArgumentException iae) {
             reportError(iae);
             return null;
@@ -199,12 +216,12 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @param uri input string to attempt fix on.
-     * @return a valid sesame URI or null if any exception occurred
+     * @param iri IRI to fix
+     * @return a valid sesame IRI or null if any exception occurred
      */
-    public URI fixURI(String uri) {
+    public IRI fixIRI(String iri) {
         try {
-            return wrappedFactory.createURI(RDFUtils.fixURIWithException(uri));
+            return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(iri));
         } catch (Exception e) {
             reportError(e);
             return null;
@@ -215,16 +232,16 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
      * @param link string representation of the URI
      * @param defaultSchema schema to add the URI
-     * @return a valid {@link org.openrdf.model.URI}
+     * @return a valid sesame IRI or null if any exception occurred
      */
-    public URI fixLink(String link, String defaultSchema) {
+    public IRI fixLink(String link, String defaultSchema) {
         if (link == null) return null;
         link = fixWhiteSpace(link);
         if ("".equals(link)) return null;
         if (defaultSchema != null && !link.startsWith(defaultSchema + ":")) {
             link = defaultSchema + ":" + link;
         }
-        return fixURI(link);
+        return fixIRI(link);
     }
 
     public String fixWhiteSpace(String name) {
@@ -240,7 +257,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         if(issueReport == null) {
             logger.warn(e.getMessage());
         } else {
-            issueReport.notifyIssue(IssueReport.IssueLevel.Warning, e.getMessage(), -1, -1);
+            issueReport.notifyIssue(IssueReport.IssueLevel.WARNING, e.getMessage(), -1, -1);
         }
     }
 

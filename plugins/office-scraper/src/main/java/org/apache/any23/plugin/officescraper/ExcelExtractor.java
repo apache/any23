@@ -31,8 +31,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,90 +76,88 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
             ExtractionResult er
     ) throws IOException, ExtractionException {
         try {
-            final URI documentURI = context.getDocumentURI();
-            final Workbook workbook = createWorkbook(documentURI, in);
-            processWorkbook(documentURI, workbook, er);
+            final IRI documentIRI = context.getDocumentIRI();
+            final Workbook workbook = createWorkbook(documentIRI, in);
+            processWorkbook(documentIRI, workbook, er);
         } catch (Exception e) {
             throw new ExtractionException("An error occurred while extracting MS Excel content.", e);
         }
     }
 
     // TODO: this should be done by Tika, the extractors should be split.
-    private Workbook createWorkbook(URI document, InputStream is) throws IOException {
-        final String documentURI = document.toString();
-        if(documentURI.endsWith(".xlsx")) {
+    private Workbook createWorkbook(IRI document, InputStream is) throws IOException {
+        final String documentIRI = document.toString();
+        if(documentIRI.endsWith(".xlsx")) {
             return new XSSFWorkbook(is);
-        } else if(documentURI.endsWith("xls")) {
+        } else if(documentIRI.endsWith("xls")) {
             return new HSSFWorkbook(is);
         } else {
-            throw new IllegalArgumentException("Unsupported extension for resource [" + documentURI + "]");
+            throw new IllegalArgumentException("Unsupported extension for resource [" + documentIRI + "]");
         }
     }
 
-    private void processWorkbook(URI documentURI, Workbook wb, ExtractionResult er) {
+    private void processWorkbook(IRI documentIRI, Workbook wb, ExtractionResult er) {
         for (int sheetIndex = 0; sheetIndex < wb.getNumberOfSheets(); sheetIndex++) {
             final Sheet sheet = wb.getSheetAt(sheetIndex);
-            final URI sheetURI = getSheetURI(documentURI, sheet);
-            er.writeTriple(documentURI, excel.containsSheet, sheetURI);
-            er.writeTriple(sheetURI, RDF.TYPE, excel.sheet);
-            writeSheetMetadata(sheetURI, sheet, er);
+            final IRI sheetIRI = getSheetIRI(documentIRI, sheet);
+            er.writeTriple(documentIRI, excel.containsSheet, sheetIRI);
+            er.writeTriple(sheetIRI, RDF.TYPE, excel.sheet);
+            writeSheetMetadata(sheetIRI, sheet, er);
             for (Row row : sheet) {
-                final URI rowURI = getRowURI(sheetURI, row);
-                er.writeTriple(sheetURI, excel.containsRow, rowURI);
-                er.writeTriple(rowURI, RDF.TYPE, excel.row);
-                writeRowMetadata(rowURI, row, er);
+                final IRI rowIRI = getRowIRI(sheetIRI, row);
+                er.writeTriple(sheetIRI, excel.containsRow, rowIRI);
+                er.writeTriple(rowIRI, RDF.TYPE, excel.row);
+                writeRowMetadata(rowIRI, row, er);
                 for (Cell cell : row) {
-                    writeCell(rowURI, cell, er);
+                    writeCell(rowIRI, cell, er);
                 }
             }
         }
     }
 
-    private void writeSheetMetadata(URI sheetURI, Sheet sheet, ExtractionResult er) {
+    private void writeSheetMetadata(IRI sheetIRI, Sheet sheet, ExtractionResult er) {
         final String sheetName   = sheet.getSheetName();
         final int    firstRowNum = sheet.getFirstRowNum();
         final int    lastRowNum  = sheet.getLastRowNum();
-        er.writeTriple(sheetURI, excel.sheetName, RDFUtils.literal(sheetName));
-        er.writeTriple(sheetURI, excel.firstRow, RDFUtils.literal(firstRowNum));
-        er.writeTriple(sheetURI, excel.lastRow  , RDFUtils.literal(lastRowNum ));
+        er.writeTriple(sheetIRI, excel.sheetName, RDFUtils.literal(sheetName));
+        er.writeTriple(sheetIRI, excel.firstRow, RDFUtils.literal(firstRowNum));
+        er.writeTriple(sheetIRI, excel.lastRow  , RDFUtils.literal(lastRowNum ));
     }
 
-    private void writeRowMetadata(URI rowURI, Row row, ExtractionResult er) {
+    private void writeRowMetadata(IRI rowIRI, Row row, ExtractionResult er) {
         final int    firstCellNum = row.getFirstCellNum();
         final int    lastCellNum  = row.getLastCellNum();
-        er.writeTriple(rowURI, excel.firstCell , RDFUtils.literal(firstCellNum));
-        er.writeTriple(rowURI, excel.lastCell  , RDFUtils.literal(lastCellNum ));
+        er.writeTriple(rowIRI, excel.firstCell , RDFUtils.literal(firstCellNum));
+        er.writeTriple(rowIRI, excel.lastCell  , RDFUtils.literal(lastCellNum ));
     }
 
-    private void writeCell(URI rowURI, Cell cell, ExtractionResult er) {
-        final URI cellType = cellTypeToType(cell.getCellType());
+    private void writeCell(IRI rowIRI, Cell cell, ExtractionResult er) {
+        final IRI cellType = cellTypeToType(cell.getCellType());
         if(cellType == null) return; // Skip unsupported cells.
-        final URI cellURI = getCellURI(rowURI, cell);
-        er.writeTriple(rowURI, excel.containsCell, cellURI);
-        er.writeTriple(cellURI, RDF.TYPE, excel.cell);
+        final IRI cellIRI = getCellIRI(rowIRI, cell);
+        er.writeTriple(rowIRI, excel.containsCell, cellIRI);
+        er.writeTriple(cellIRI, RDF.TYPE, excel.cell);
         er.writeTriple(
-                cellURI,
+                cellIRI,
                 excel.cellValue,
                 RDFUtils.literal(cell.getStringCellValue(), cellType)
         );
     }
 
-    private URI getSheetURI(URI documentURI, Sheet sheet) {
-        return RDFUtils.uri( documentURI.toString() + "/sheet/" + sheet.getSheetName() );
+    private IRI getSheetIRI(IRI documentIRI, Sheet sheet) {
+        return RDFUtils.iri(documentIRI.toString() + "/sheet/" + sheet.getSheetName());
     }
 
-    private URI getRowURI(URI sheetURI, Row row) {
-        return  RDFUtils.uri( sheetURI.toString() + "/" + row.getRowNum() );
+    private IRI getRowIRI(IRI sheetIRI, Row row) {
+        return RDFUtils.iri(sheetIRI.toString() + "/" + row.getRowNum());
     }
 
-    private URI getCellURI(URI rowURI, Cell cell) {
-        return RDFUtils.uri(
-            rowURI +
-            String.format("/%d/", cell.getColumnIndex())
-        );
+    private IRI getCellIRI(IRI rowIRI, Cell cell) {
+        return RDFUtils.iri(rowIRI +
+		String.format("/%d/", cell.getColumnIndex()));
     }
 
-    private URI cellTypeToType(int cellType) {
+    private IRI cellTypeToType(int cellType) {
         final String postfix;
         switch (cellType) {
             case Cell.CELL_TYPE_STRING:
@@ -174,7 +172,7 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
             default:
                 postfix = null;
         }
-        return postfix == null ? null : RDFUtils.uri(excel.getNamespace().toString() + postfix);
+        return postfix == null ? null : RDFUtils.iri(excel.getNamespace().toString() + postfix);
     }
 
 

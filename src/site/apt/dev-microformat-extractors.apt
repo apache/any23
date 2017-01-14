@@ -69,7 +69,7 @@ foundSomething |= addSubMicroformat("adr", card, VCARD.adr);
 
 ...
 
-private boolean addSubMicroformat(String className, Resource resource, URI property) {
+private boolean addSubMicroformat(String className, Resource resource, IRI property) {
     List<Node> nodes = fragment.findAllByClassName(className);
     if (nodes.isEmpty()) return false;
     for (Node node : nodes) {

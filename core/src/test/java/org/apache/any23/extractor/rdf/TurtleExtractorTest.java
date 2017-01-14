@@ -29,7 +29,7 @@ import org.apache.any23.writer.TripleHandlerException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +68,7 @@ public class TurtleExtractorTest {
     @Test
     public void testTypedLiteralIncompatibleValueSupport()
     throws IOException, ExtractionException, TripleHandlerException {
-        final URI uri = RDFUtils.uri("http://host.com/test-malformed-literal.turtle");
+        final IRI uri = RDFUtils.iri("http://host.com/test-malformed-literal.turtle");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final TripleHandler th = new RDFXMLWriter(baos);
         final ExtractionContext extractionContext = new ExtractionContext("turtle-extractor", uri);

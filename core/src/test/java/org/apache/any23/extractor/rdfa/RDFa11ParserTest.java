@@ -20,8 +20,8 @@ package org.apache.any23.extractor.rdfa;
 import org.apache.any23.rdf.RDFUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openrdf.model.Literal;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -99,12 +99,12 @@ public class RDFa11ParserTest {
     }
 
     @Test
-    public void testUpdateURIMapping() throws ParserConfigurationException {
+    public void testUpdateIRIMapping() throws ParserConfigurationException {
         Element div = getRootDocument().createElement("DIV");
         div.setAttribute("xmlns:dc"  , "http://purl.org/dc/terms/");
         div.setAttribute("xmlns:fake", "http://fake.org/");
         final RDFa11Parser parser = new RDFa11Parser();
-        parser.updateURIMapping(div);
+        parser.updateIRIMapping(div);
         Assert.assertEquals("http://purl.org/dc/terms/", parser.getMapping("dc").toString());
         Assert.assertEquals("http://fake.org/", parser.getMapping("fake").toString());
     }

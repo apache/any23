@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary to map the <a href="http://microformats.org/wiki/h-product">h-product</a> microformat.
@@ -37,18 +37,18 @@ public class HProduct extends Vocabulary {
         return instance;
     }
 
-    public URI product  = createClass(NS, "Product");
+    public IRI product  = createClass(NS, "Product");
 
 
-    public URI name  = createProperty(NS, "name");
-    public URI photo  = createProperty(NS, "photo");
-    public URI brand = createProperty(NS, "brand");
-    public URI category  = createProperty(NS, "category");
-    public URI description  = createProperty(NS, "description");
-    public URI url = createProperty(NS, "url");
-    public URI identifier = createProperty(NS, "identifier");
-    public URI price = createProperty(NS, "price");
-    public URI review  = createProperty(NS, "review");
+    public IRI name  = createProperty(NS, "name");
+    public IRI photo  = createProperty(NS, "photo");
+    public IRI brand = createProperty(NS, "brand");
+    public IRI category  = createProperty(NS, "category");
+    public IRI description  = createProperty(NS, "description");
+    public IRI url = createProperty(NS, "url");
+    public IRI identifier = createProperty(NS, "identifier");
+    public IRI price = createProperty(NS, "price");
+    public IRI review  = createProperty(NS, "review");
 
 
     private HProduct() {

@@ -44,6 +44,6 @@ public class MemCopyFactory implements LocalCopyFactory {
     }
 
     public DocumentSource createLocalCopy(final DocumentSource in) throws IOException {
-        return new ByteArrayDocumentSource(in.openInputStream(), in.getDocumentURI(), in.getContentType());
+        return new ByteArrayDocumentSource(in.openInputStream(), in.getDocumentIRI(), in.getContentType());
     }
 }

@@ -30,8 +30,8 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.vocab.SINDICE;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,14 +46,14 @@ import java.util.List;
  */
 public class HTMLScraperExtractor implements Extractor.ContentExtractor {
 
-    public final static URI PAGE_CONTENT_DE_PROPERTY  =
-            ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/de");
-    public final static URI PAGE_CONTENT_AE_PROPERTY  =
-            ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/ae");
-    public final static URI PAGE_CONTENT_LCE_PROPERTY =
-            ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/lce");
-    public final static URI PAGE_CONTENT_CE_PROPERTY  =
-            ValueFactoryImpl.getInstance().createURI(SINDICE.NS + "pagecontent/ce");
+    public final static IRI PAGE_CONTENT_DE_PROPERTY  =
+            SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/de");
+    public final static IRI PAGE_CONTENT_AE_PROPERTY  =
+            SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/ae");
+    public final static IRI PAGE_CONTENT_LCE_PROPERTY =
+            SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/lce");
+    public final static IRI PAGE_CONTENT_CE_PROPERTY  =
+            SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/ce");
 
     private final List<ExtractionRule> extractionRules = new ArrayList<ExtractionRule>();
 
@@ -61,7 +61,7 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         loadDefaultRules();
     }
 
-    public void addTextExtractor(String name, URI property, BoilerpipeExtractor extractor) {
+    public void addTextExtractor(String name, IRI property, BoilerpipeExtractor extractor) {
         extractionRules.add( new ExtractionRule(name, property, extractor) );
     }
 
@@ -81,13 +81,13 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
             ExtractionResult extractionResult
     ) throws IOException, ExtractionException {
         try {
-            final URI documentURI = extractionContext.getDocumentURI();
+            final IRI documentIRI = extractionContext.getDocumentIRI();
             for (ExtractionRule extractionRule : extractionRules) {
                 final String content = extractionRule.boilerpipeExtractor.getText(new InputStreamReader(inputStream));
                 extractionResult.writeTriple(
-                        documentURI,
+                        documentIRI,
                         extractionRule.property,
-                        ValueFactoryImpl.getInstance().createLiteral(content)
+                        SimpleValueFactory.getInstance().createLiteral(content)
                 );
             }
         } catch (BoilerpipeProcessingException bpe) {
@@ -118,10 +118,10 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
     class ExtractionRule {
 
         public final String name;
-        public final URI property;
+        public final IRI property;
         public final BoilerpipeExtractor boilerpipeExtractor;
 
-        ExtractionRule(String name, URI property, BoilerpipeExtractor boilerpipeExtractor) {
+        ExtractionRule(String name, IRI property, BoilerpipeExtractor boilerpipeExtractor) {
             if(name == null) {
                 throw new NullPointerException("name cannot be null.");
             }

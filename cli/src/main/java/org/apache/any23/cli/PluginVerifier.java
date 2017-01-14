@@ -24,8 +24,6 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.plugin.Any23PluginManager;
 import org.apache.any23.plugin.Author;
-import org.apache.any23.plugin.ExtractorPlugin;
-
 import java.io.File;
 import java.io.PrintStream;
 import java.util.Collection;

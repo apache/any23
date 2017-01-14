@@ -24,8 +24,8 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
-import org.openrdf.model.URI;
-import org.openrdf.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import java.io.IOException;
 
@@ -40,11 +40,11 @@ public class ExampleExtractor implements BlindExtractor {
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
-            URI documentURI,
+            IRI documentIRI,
             ExtractionResult out
     )
     throws IOException, ExtractionException {
-        out.writeTriple(documentURI, RDF.TYPE, vFOAF.Document);
+        out.writeTriple(documentIRI, RDF.TYPE, vFOAF.Document);
     }
 
     @Override

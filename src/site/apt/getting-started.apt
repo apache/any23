@@ -83,7 +83,7 @@ Usage: any23 [options] [command] [command options]
     verify      Utility for plugin management verification.
       Usage: verify [options] plugins-dir
     rover      Any23 Command Line Tool.
-      Usage: rover [options] input URIs {<url>|<file>}+
+      Usage: rover [options] input IRIs {<url>|<file>}+
   Options:
           -d, --defaultns    Override the default namespace used to produce
                              statements.
@@ -272,7 +272,7 @@ any23-core$ ./bin/any23 verify [/path/to/plugins/dir]
 any23-core$ ./bin/any23 -h
 [...]
     crawler      Any23 Crawler Command Line Tool.
-      Usage: crawler [options] input URIs {<url>|<file>}+
+      Usage: crawler [options] input IRIs {<url>|<file>}+
   Options:
           -d, --defaultns          Override the default namespace used to
                                    produce statements.

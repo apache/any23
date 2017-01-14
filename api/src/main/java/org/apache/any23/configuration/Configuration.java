@@ -33,7 +33,7 @@ public interface Configuration {
      * Checks whether a property is defined or not in configuration.
      *
      * @param propertyName name of property to check.
-     * @return <i>true</i> if defined, <i>false</i> otherwise.
+     * @return <code>true</code> if defined, <code>false</code> otherwise.
      */
     boolean defineProperty(String propertyName);
 

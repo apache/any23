@@ -17,8 +17,6 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +29,11 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.StringUtils;
 import org.apache.any23.vocab.YAML;
-import org.apache.commons.lang.WordUtils;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -54,7 +51,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     private int nodeId = 0;
 
-    private URI documentRoot;
+    private IRI documentRoot;
 
     @Override
     public void setStopAtFirstError(boolean f) {
@@ -64,10 +61,10 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
     public void run(ExtractionParameters extractionParameters, ExtractionContext context, InputStream in,
             ExtractionResult out)
             throws IOException, ExtractionException {
-        URI documentURI = context.getDocumentURI();
-        documentRoot = RDFUtils.uri(documentURI.toString() + "root");
+        IRI documentIRI = context.getDocumentIRI();
+        documentRoot = RDFUtils.iri(documentIRI.toString() + "root");
 
-        log.debug("process: {}", documentURI.toString());
+        log.debug("process: {}", documentIRI.toString());
         out.writeNamespace(vocab.PREFIX, vocab.NS);
         out.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
         out.writeNamespace(RDFS.PREFIX, RDFS.NAMESPACE);
@@ -77,10 +74,10 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
         // Iterate over page(s)
         for (Object p : docIterate) {
-            Resource pageNode = YAMLExtractor.this.makeUri("document", documentURI);
+            Resource pageNode = YAMLExtractor.this.makeUri("document", documentIRI);
             out.writeTriple(documentRoot, vocab.contains, pageNode);
             out.writeTriple(pageNode, RDF.TYPE, vocab.document);
-            out.writeTriple(pageNode, vocab.contains, buildNode(documentURI, p, out));
+            out.writeTriple(pageNode, vocab.contains, buildNode(documentIRI, p, out));
         }
 
     }
@@ -90,7 +87,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return YAMLExtractorFactory.getDescriptionInstance();
     }
 
-    private Value buildNode(URI fileURI, Object treeData, ExtractionResult out) {
+    private Value buildNode(IRI fileURI, Object treeData, ExtractionResult out) {
 
         if (treeData != null) {
             log.debug("object type: {}", treeData.getClass());
@@ -119,20 +116,20 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         }
     }
 
-    private Value processMap(URI file, Map<String, Object> node, ExtractionResult out) {
+    private Value processMap(IRI file, Map<String, Object> node, ExtractionResult out) {
         Resource nodeURI = YAMLExtractor.this.makeUri(file);
         for (String k : node.keySet()) {
             Resource predicate = makeUri(k, file, false);
             Value value = buildNode(file, node.get(k), out);
             out.writeTriple(nodeURI, RDF.TYPE, vocab.node);
-            out.writeTriple(nodeURI, (URI) predicate, value);
+            out.writeTriple(nodeURI, (IRI) predicate, value);
             out.writeTriple(predicate, RDF.TYPE, RDF.PREDICATE);
             out.writeTriple(predicate, RDFS.LABEL, RDFUtils.literal(k));
         }
         return nodeURI;
     }
 
-    private Value processList(URI fileURI, Iterable iter, ExtractionResult out) {
+    private Value processList(IRI fileURI, Iterable iter, ExtractionResult out) {
         Resource node = YAMLExtractor.this.makeUri();
         out.writeTriple(node, RDF.TYPE, RDF.LIST);
 
@@ -162,15 +159,15 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return bnode;
     }
 
-    private Resource makeUri(URI docUri) {
-        return makeUri("node", docUri);
+    private Resource makeUri(IRI docIri) {
+        return makeUri("node", docIri);
     }
 
-    private Resource makeUri(String type, URI docUri) {
-        return makeUri(type, docUri, true);
+    private Resource makeUri(String type, IRI docIri) {
+        return makeUri(type, docIri, true);
     }
 
-    private Resource makeUri(String type, URI docUri, boolean addId) {
+    private Resource makeUri(String type, IRI docUri, boolean addId) {
 
         // preprocess string: converts - -> _
         //                    converts <space>: word1 word2 -> word1Word2
@@ -187,7 +184,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             uriString = uriString + "_" + Integer.toString(nodeId);
         }
 
-        Resource node = RDFUtils.uri(uriString);
+        Resource node = RDFUtils.iri(uriString);
         if (addId) {
             nodeId++;
         }

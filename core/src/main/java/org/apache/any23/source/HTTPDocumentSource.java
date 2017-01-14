@@ -64,8 +64,8 @@ public class HTTPDocumentSource implements DocumentSource {
         if (loaded) return;
         loaded = true;
         unusedInputStream = client.openInputStream(uri);
-        if (client.getActualDocumentURI() != null) {
-            uri = client.getActualDocumentURI();
+        if (client.getActualDocumentIRI() != null) {
+            uri = client.getActualDocumentIRI();
         }
     }
 
@@ -83,7 +83,7 @@ public class HTTPDocumentSource implements DocumentSource {
         return client.getContentLength();
     }
 
-    public String getDocumentURI() {
+    public String getDocumentIRI() {
         return uri;
     }
 

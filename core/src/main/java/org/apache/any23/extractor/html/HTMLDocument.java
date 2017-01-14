@@ -20,8 +20,8 @@ package org.apache.any23.extractor.html;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
 import org.apache.any23.rdf.RDFUtils;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
@@ -50,10 +50,10 @@ public class HTMLDocument {
     private final static Logger log        = LoggerFactory.getLogger(HTMLDocument.class);
 
     private Node         document;
-    private java.net.URI baseURI;
+    private java.net.URI baseIRI;
 
     private final Any23ValueFactoryWrapper valueFactory =
-            new Any23ValueFactoryWrapper(ValueFactoryImpl.getInstance());
+            new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance());
 
     /**
      * Reads a text field from the given node adding the content to the given <i>res</i> list.
@@ -179,12 +179,12 @@ public class HTMLDocument {
     }
 
     /**
-     * @param uri string to resolve to {@link org.openrdf.model.URI}
-     * @return An absolute URI, or null if the URI is not fixable
-     * @throws org.apache.any23.extractor.ExtractionException If the base URI is invalid
+     * @param uri string to resolve to {@link org.eclipse.rdf4j.model.IRI}
+     * @return An absolute IRI, or null if the IRI is not fixable
+     * @throws org.apache.any23.extractor.ExtractionException If the base IRI is invalid
      */
-    public URI resolveURI(String uri) throws ExtractionException {
-        return valueFactory.resolveURI(uri, getBaseURI());
+    public IRI resolveIRI(String uri) throws ExtractionException {
+        return valueFactory.resolveIRI(uri, getBaseIRI());
     }
 
     public String find(String xpath) {
@@ -373,20 +373,20 @@ public class HTMLDocument {
         return result.toArray( new TextField[result.size()] );
     }
 
-    private java.net.URI getBaseURI() throws ExtractionException {
-        if (baseURI == null) {
+    private java.net.URI getBaseIRI() throws ExtractionException {
+        if (baseIRI == null) {
             try {
                 if (document.getBaseURI() == null) {
                     log.warn("document.getBaseURI() is null, this should not happen");
                 }
-                baseURI = new java.net.URI(RDFUtils.fixAbsoluteURI(document.getBaseURI()));
+                baseIRI = new java.net.URI(RDFUtils.fixAbsoluteIRI(document.getBaseURI()));
             } catch (IllegalArgumentException ex) {
-                throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
+                throw new ExtractionException("Error in base IRI: " + document.getBaseURI(), ex);
             } catch (URISyntaxException ex) {
-                throw new ExtractionException("Error in base URI: " + document.getBaseURI(), ex);
+                throw new ExtractionException("Error in base IRI: " + document.getBaseURI(), ex);
             }
         }
-        return baseURI;
+        return baseIRI;
     }
 
     /**

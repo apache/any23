@@ -15,7 +15,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * This vocabulary describes model of the yaml file.
@@ -63,15 +63,15 @@ public class YAML extends Vocabulary {
 	 * </code> <br/>
 	 * Contains two documents.
 	 */
-	public final URI root = createResource(ROOT);
+	public final IRI root = createResource(ROOT);
 
-	public final URI document = createResource(DOCUMENT);
+	public final IRI document = createResource(DOCUMENT);
 
-	public final URI node = createResource(NODE);
+	public final IRI node = createResource(NODE);
 
-	public final URI contains = createProperty(CONTAINS);
+	public final IRI contains = createProperty(CONTAINS);
 
-	public URI createResource(String localName) {
+	public IRI createResource(String localName) {
 		return createProperty(NS, localName);
 	}
 
@@ -80,7 +80,7 @@ public class YAML extends Vocabulary {
 	 *        name to assign to namespace.
 	 * @return the new URI _instance.
 	 */
-	public URI createProperty(String localName) {
+	public IRI createProperty(String localName) {
 		return createProperty(NS, localName);
 	}
 

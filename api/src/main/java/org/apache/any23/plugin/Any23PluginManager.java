@@ -352,7 +352,7 @@ public class Any23PluginManager {
     /**
      * Returns an extractor group containing both the default extractors declared by the
      * {@link org.apache.any23.extractor.ExtractorRegistry} and the {@link ExtractorPlugin}s.
-     * @param registry TODO
+     * @param registry an {@link org.apache.any23.extractor.ExtractorRegistry}
      * @param pluginLocations optional list of plugin locations.
      *
      * @return a not <code>null</code> and not empty extractor group.

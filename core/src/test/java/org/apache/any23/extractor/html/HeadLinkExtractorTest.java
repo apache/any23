@@ -19,10 +19,10 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractorFactory;
 import org.junit.Test;
-import org.openrdf.model.URI;
-import org.openrdf.model.ValueFactory;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.repository.RepositoryException;
 
 /**
  * Test case for {@link HeadLinkExtractor}
@@ -40,23 +40,23 @@ public class HeadLinkExtractorTest extends AbstractExtractorTestCase {
     public void testLinkExtraction() throws RepositoryException {
         assertExtract("/html/html-head-link-extractor.html");
         assertModelNotEmpty();
-        final ValueFactory valueFactory = new ValueFactoryImpl();
-        final URI externalLinkURI = valueFactory.createURI("http://www.myexperiment.org/workflows/16.rdf");
+        final ValueFactory valueFactory = SimpleValueFactory.getInstance();
+        final IRI externalLinkIRI = valueFactory.createIRI("http://www.myexperiment.org/workflows/16.rdf");
         assertContains(
-                AbstractExtractorTestCase.baseURI,
-                valueFactory.createURI("http://www.w3.org/1999/xhtml/vocab#alternate"),
-                externalLinkURI
+                AbstractExtractorTestCase.baseIRI,
+                valueFactory.createIRI("http://www.w3.org/1999/xhtml/vocab#alternate"),
+                externalLinkIRI
 
         );
         assertContains(
-                externalLinkURI,
-                valueFactory.createURI("http://purl.org/dc/terms/title"),
+                externalLinkIRI,
+                valueFactory.createIRI("http://purl.org/dc/terms/title"),
                 valueFactory.createLiteral("RDF+XML")
 
         );
         assertContains(
-                externalLinkURI,
-                valueFactory.createURI("http://purl.org/dc/terms/format"),
+                externalLinkIRI,
+                valueFactory.createIRI("http://purl.org/dc/terms/format"),
                 valueFactory.createLiteral("application/rdf+xml")
 
         );

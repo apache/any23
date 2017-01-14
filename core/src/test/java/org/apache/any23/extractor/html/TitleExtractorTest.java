@@ -22,8 +22,8 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.SINDICE;
 import org.junit.Test;
-import org.openrdf.model.Literal;
-import org.openrdf.repository.RepositoryException;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.repository.RepositoryException;
 
 /**
  * Reference Test class for the {@link TitleExtractor} extractor.
@@ -44,13 +44,13 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testExtractPageTitle() throws RepositoryException {
         assertExtract("/microformats/xfn/simple-me.html");
-        assertContains(baseURI, vDCTERMS.title, helloLiteral);
+        assertContains(baseIRI, vDCTERMS.title, helloLiteral);
     }
 
     @Test
     public void testStripSpacesFromTitle() throws RepositoryException {
         assertExtract("/microformats/xfn/strip-spaces.html");
-        assertContains(baseURI, vDCTERMS.title, helloLiteral);
+        assertContains(baseIRI, vDCTERMS.title, helloLiteral);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testMixedCaseTitleTag() throws RepositoryException {
         assertExtract("/microformats/xfn/mixed-case.html");
-        assertContains(baseURI, vDCTERMS.title, helloLiteral);
+        assertContains(baseIRI, vDCTERMS.title, helloLiteral);
     }
 
     /**
@@ -73,8 +73,8 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void testTitleWithDefaultLanguage() throws RepositoryException {
         assertExtract("/html/default-language.html");
-        assertContains   (baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"));
-        assertNotContains(baseURI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net",(String) null));
+        assertContains   (baseIRI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"));
+        assertNotContains(baseIRI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net",(String) null));
     }
     
 }

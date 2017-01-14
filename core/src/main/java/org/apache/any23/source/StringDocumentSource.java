@@ -60,7 +60,7 @@ public class StringDocumentSource implements DocumentSource {
         return in.length();
     }
 
-    public String getDocumentURI() {
+    public String getDocumentIRI() {
         return uri;
     }
 

@@ -24,17 +24,17 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.writer.TripleHandlerException;
 import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Test case for {@link ExtractionContextBlocker}.
  */
 public class ExtractionContextBlockerTest {
 
-    private final static URI docURI = RDFUtils.uri("http://example.com/doc");
-    private final static URI s = (URI) RDFUtils.toValue("ex:s");
-    private final static URI p = (URI) RDFUtils.toValue("ex:p");
-    private final static URI o = (URI) RDFUtils.toValue("ex:o");
+    private final static IRI docIRI = RDFUtils.iri("http://example.com/doc");
+    private final static IRI s = (IRI) RDFUtils.toValue("ex:s");
+    private final static IRI p = (IRI) RDFUtils.toValue("ex:p");
+    private final static IRI o = (IRI) RDFUtils.toValue("ex:o");
     private ExtractionContextBlocker blocker;
     private MockTripleHandler handler;
 
@@ -46,20 +46,20 @@ public class ExtractionContextBlockerTest {
 
     @Test
     public void testSendsNamespaceAfterUnblock() throws TripleHandlerException {
-        handler.expectOpenContext("test", docURI, null);
-        handler.expectNamespace("ex", "http://example.com/", "test", docURI, null);
-        handler.expectTriple(s, p, o, null, "test", docURI, null);
-        handler.expectCloseContext("test", docURI, null);
-        handler.expectEndDocument(docURI);
+        handler.expectOpenContext("test", docIRI, null);
+        handler.expectNamespace("ex", "http://example.com/", "test", docIRI, null);
+        handler.expectTriple(s, p, o, null, "test", docIRI, null);
+        handler.expectCloseContext("test", docIRI, null);
+        handler.expectEndDocument(docIRI);
 
-        ExtractionContext context = new ExtractionContext("test", docURI);
+        ExtractionContext context = new ExtractionContext("test", docIRI);
         blocker.openContext(context);
         blocker.blockContext(context);
         blocker.receiveNamespace("ex", "http://example.com/", context);
         blocker.receiveTriple(s, p, o, null, context);
         blocker.closeContext(context);
         blocker.unblockContext(context);
-        blocker.endDocument(docURI);
+        blocker.endDocument(docIRI);
         handler.verify();
     }
 

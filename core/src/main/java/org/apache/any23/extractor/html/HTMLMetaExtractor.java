@@ -25,9 +25,9 @@ import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.LiteralImpl;
-import org.openrdf.model.impl.URIImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.LiteralImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -49,9 +49,9 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-    private URI profile;
+    private IRI profile;
 
-    private Map<String, URI> prefixes = new HashMap<String, URI>();
+    private Map<String, IRI> prefixes = new HashMap<String, IRI>();
 
     private String documentLang;
 
@@ -74,7 +74,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             baseProfile = profile.toString();
         }
 
-        final URI documentURI = extractionContext.getDocumentURI();
+        final IRI documentIRI = extractionContext.getDocumentIRI();
         Set<Meta> metas = extractMetaElement(in, baseProfile);
         for(Meta meta : metas) {
             String lang = documentLang;
@@ -82,17 +82,29 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
                 lang = meta.getLang();
             }
             if(meta.isPragmaDirective){
-                out.writeTriple(
-                        documentURI,
+            	if(lang != null) {
+            		out.writeTriple(
+                        documentIRI,
                         meta.getHttpEquiv(),
-                        new LiteralImpl(meta.getContent(), lang)
-                );
+                        SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
+            	} else {
+                        out.writeTriple(
+                                documentIRI,
+                                meta.getHttpEquiv(),
+                                SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
+            	}
             }else {
-                out.writeTriple(
-                        documentURI,
+            	if(lang != null) {
+            		out.writeTriple(
+                        documentIRI,
                         meta.getName(),
-                        new LiteralImpl(meta.getContent(), lang)
-                );
+                        SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
+            	} else {
+            		out.writeTriple(
+                            documentIRI,
+                            meta.getName(),
+                            SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
+            	}
             }
         }
     }
@@ -111,12 +123,12 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
         return lang;
     }
 
-    private URI extractProfile(Document in) {
+    private IRI extractProfile(Document in) {
         String profile = DomUtils.find(in, "string(/HTML/@profile)");
         if (profile.equals("")) {
             return null;
         }
-        return new URIImpl(profile);
+        return SimpleValueFactory.getInstance().createIRI(profile);
     }
 
     /**
@@ -130,8 +142,8 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             NamedNodeMap attributes = linkNode.getAttributes();
             String rel = attributes.getNamedItem("rel").getTextContent();
             String href = attributes.getNamedItem("href").getTextContent();
-            if(rel != null && href !=null && RDFUtils.isAbsoluteURI(href)) {
-                prefixes.put(rel, new URIImpl(href));
+            if(rel != null && href !=null && RDFUtils.isAbsoluteIRI(href)) {
+                prefixes.put(rel, SimpleValueFactory.getInstance().createIRI(href));
             }
         }
     }
@@ -156,31 +168,31 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
                 String httpEquiv = httpEquivAttribute.getTextContent();
                 String content = contentAttribute.getTextContent();
                 String xpath = DomUtils.getXPathForNode(metaNode);
-                URI httpEquivAsURI = getPrefixIfExists(httpEquiv);
-                if (httpEquivAsURI == null) {
-                    httpEquivAsURI = new URIImpl(baseProfile + httpEquiv);
+                IRI httpEquivAsIRI = getPrefixIfExists(httpEquiv);
+                if (httpEquivAsIRI == null) {
+                    httpEquivAsIRI = SimpleValueFactory.getInstance().createIRI(baseProfile + httpEquiv);
                 }
-                Meta meta = new Meta(xpath, content, httpEquivAsURI);
+                Meta meta = new Meta(xpath, content, httpEquivAsIRI);
                 result.add(meta);
             } else {
                 String name = nameAttribute.getTextContent();
                 String content = contentAttribute.getTextContent();
                 String xpath = DomUtils.getXPathForNode(metaNode);
-                URI nameAsURI = getPrefixIfExists(name);
-                if (nameAsURI == null) {
-                    nameAsURI = new URIImpl(baseProfile + name);
+                IRI nameAsIRI = getPrefixIfExists(name);
+                if (nameAsIRI == null) {
+                    nameAsIRI = SimpleValueFactory.getInstance().createIRI(baseProfile + name);
                 }
-                Meta meta = new Meta(xpath, nameAsURI, content);
+                Meta meta = new Meta(xpath, nameAsIRI, content);
                 result.add(meta);
             }
         }
         return result;
     }
 
-    private URI getPrefixIfExists(String name) {
+    private IRI getPrefixIfExists(String name) {
         String[] split = name.split("\\.");
         if(split.length == 2 && prefixes.containsKey(split[0])) {
-            return new URIImpl(prefixes.get(split[0]) + split[1]);
+            return SimpleValueFactory.getInstance().createIRI(prefixes.get(split[0]) + split[1]);
         }
         return null;
     }
@@ -194,9 +206,9 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
         private String xpath;
 
-        private URI name;
+        private IRI name;
 
-        private URI httpEquiv;
+        private IRI httpEquiv;
 
         private String lang;
 
@@ -204,25 +216,25 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
         private boolean isPragmaDirective;
 
-        public Meta(String xpath, String content, URI httpEquiv) {
+        public Meta(String xpath, String content, IRI httpEquiv) {
             this.xpath = xpath;
             this.content = content;
             this.httpEquiv = httpEquiv;
             this.setPragmaDirective(true);
         }
 
-        public Meta(String xpath, String content, URI httpEquiv, String lang) {
+        public Meta(String xpath, String content, IRI httpEquiv, String lang) {
             this(xpath,content,httpEquiv);
             this.lang = lang;
         }
 
-        public Meta(String xpath, URI name, String content) {
+        public Meta(String xpath, IRI name, String content) {
             this.xpath = xpath;
             this.name = name;
             this.content = content;
         }
 
-        public Meta(String xpath, URI name, String content, String lang) {
+        public Meta(String xpath, IRI name, String content, String lang) {
             this(xpath, name, content);
             this.lang = lang;
         }
@@ -235,19 +247,19 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             this.isPragmaDirective=value;
         }
 
-        public URI getHttpEquiv(){
+        public IRI getHttpEquiv(){
             return httpEquiv;
         }
 
-        public void setHttpEquiv(URI httpEquiv){
+        public void setHttpEquiv(IRI httpEquiv){
             this.httpEquiv=httpEquiv;
         }
 
-        public URI getName() {
+        public IRI getName() {
             return name;
         }
 
-        public void setName(URI name) {
+        public void setName(IRI name) {
             this.name = name;
         }
 

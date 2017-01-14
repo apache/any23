@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <i>MS Excel</i> extractor vocabulary.
@@ -46,63 +46,63 @@ public class Excel extends Vocabulary {
     /**
      * This property links the identifier of a <i>document</i> to the identifier of a <i>sheet</i>.
      */
-    public final URI containsSheet = createProperty(CONTAINS_SHEET);
+    public final IRI containsSheet = createProperty(CONTAINS_SHEET);
 
     /**
      * This property links the identifier of a <i>sheet</i> to the identifier of a <i>row</i>.
      */
-    public final URI containsRow = createProperty(CONTAINS_ROW);
+    public final IRI containsRow = createProperty(CONTAINS_ROW);
 
     /**
      * This property links the identifier of a <i>row</i> to the identifier of a <i>cell</i>.
      */
-    public final URI containsCell = createProperty(CONTAINS_CELL);
+    public final IRI containsCell = createProperty(CONTAINS_CELL);
 
     /**
      * This property links the identifier of a <i>Sheet</i> to the name of the sheet.
      */
-    public final URI sheetName = createProperty(SHEET_NAME);
+    public final IRI sheetName = createProperty(SHEET_NAME);
 
     /**
      * This property links the identifier of a <i>Sheet</i> to the index of the first declared row.
      */
-    public final URI firstRow = createProperty(FIRST_ROW);
+    public final IRI firstRow = createProperty(FIRST_ROW);
 
     /**
      * This property links the identifier of a <i>Sheet</i> to the index of the last declared row.
      */
-    public final URI lastRow = createProperty(LAST_ROW);
+    public final IRI lastRow = createProperty(LAST_ROW);
 
     /**
      * This property links the identifier of a <i>Row</i> to the index of the first declared cell.
      */
-    public final URI firstCell = createProperty(FIRST_CELL);
+    public final IRI firstCell = createProperty(FIRST_CELL);
 
     /**
      * This property links the identifier of a <i>Row</i> to the index of the last declared cell.
      */
-    public final URI lastCell = createProperty(LAST_CELL);
+    public final IRI lastCell = createProperty(LAST_CELL);
 
     /**
      * This property links the identifier of a <i>cell</i> to the content of the cell.
      */
-    public final URI cellValue = createProperty(CELL_VALUE);
+    public final IRI cellValue = createProperty(CELL_VALUE);
 
 
     /**
      * This resource identifies a <i>Sheet</i>.
      */
-    public final URI sheet = createResource(SHEET);
+    public final IRI sheet = createResource(SHEET);
 
     /**
      * This resource identifies a <i>row</i>.
      */
-    public final URI row = createResource(ROW);
+    public final IRI row = createResource(ROW);
 
     /**
      * This resource identifies a <i>cell</i>.
      */
-    public final URI cell = createResource(CELL);
+    public final IRI cell = createResource(CELL);
 
     /**
      * The namespace of the vocabulary as a string.
@@ -118,16 +118,16 @@ public class Excel extends Vocabulary {
         return instance;
     }
 
-    public URI createResource(String localName) {
+    public IRI createResource(String localName) {
         return createProperty(NS, localName);
     }
 
     /**
      *
      * @param localName
-     * @return the new URI instance.
+     * @return the new IRI instance.
      */
-    public URI createProperty(String localName) {
+    public IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 

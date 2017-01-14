@@ -17,6 +17,7 @@
 
 package org.apache.any23.validator;
 
+import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
 import java.net.URI;
@@ -45,13 +46,13 @@ public interface Validator {
     /**
      * Performs a validation - fixing of the provided document.
      *
-     * @param documentURI the document source URI.
+     * @param documentIRI the document source IRI.
      * @param document the original <i>HTML</i> document.
      * @param applyFix if <code>true</code> tries to fix the document.
      * @return a report of the detected issues.
      * @throws ValidatorException if an error occurs during the validation process.
      */
-    ValidationReport validate(URI documentURI, Document document, boolean applyFix)
+    ValidationReport validate(URI documentIRI, Document document, boolean applyFix)
     throws ValidatorException;
 
     /**

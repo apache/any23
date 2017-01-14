@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * Vocabulary to map the <a href="http://microformats.org/wiki/hitem">h-item</a> microformat.
@@ -37,10 +37,10 @@ public class HItem extends Vocabulary {
         return instance;
     }
 
-    public URI Item  = createClass(NS, "Item");
-    public URI name  = createProperty(NS, "name");
-    public URI url   = createProperty(NS, "url");
-    public URI photo = createProperty(NS, "photo");
+    public IRI Item  = createClass(NS, "Item");
+    public IRI name  = createProperty(NS, "name");
+    public IRI url   = createProperty(NS, "url");
+    public IRI photo = createProperty(NS, "photo");
     private HItem() {
         super(NS);
     }

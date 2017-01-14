@@ -67,7 +67,7 @@ public class MicrodataParser implements Tool {
             documentInputInputStream = documentSource.openInputStream();
             final TagSoupParser tagSoupParser = new TagSoupParser(
                     documentInputInputStream,
-                    documentSource.getDocumentURI()
+                    documentSource.getDocumentIRI()
             );
             org.apache.any23.extractor.microdata.MicrodataParser.getMicrodataAsJSON(tagSoupParser.getDOM(), System.out);
         } finally {
@@ -84,7 +84,7 @@ public class MicrodataParser implements Tool {
                 try {
                     return new HTTPDocumentSource(DefaultHTTPClient.createInitializedHTTPClient(), value);
                 } catch ( URISyntaxException e ) {
-                    throw new ParameterException("Invalid source URI: '" + value + "'");
+                    throw new ParameterException("Invalid source IRI: '" + value + "'");
                 }
             }
             final Matcher fileMatcher = FILE_DOCUMENT_PATTERN.matcher(value);

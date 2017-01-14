@@ -18,12 +18,10 @@
 package org.apache.any23;
 
 import org.junit.Test;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
@@ -35,9 +33,9 @@ import static org.junit.Assert.fail;
 public class SesameTest {
 
     @Test
-    public void testCreateURIWithNullArgumentThrowsNPE() {
+    public void testCreateIRIWithNullArgumentThrowsNPE() {
         try {
-            ValueFactoryImpl.getInstance().createURI(null);
+            SimpleValueFactory.getInstance().createIRI(null);
             fail("should have thrown NPE or assertion error.");
         } catch (AssertionError ae) {
             // espected when assertions are enabled.
@@ -50,7 +48,7 @@ public class SesameTest {
 
     @Test
     public void testCreateBNodeWithNullArgumentWorks() {
-        BNode b = ValueFactoryImpl.getInstance().createBNode(null);
+        BNode b = SimpleValueFactory.getInstance().createBNode(null);
         assertNull(b.stringValue());
         assertEquals(b, b);
     }

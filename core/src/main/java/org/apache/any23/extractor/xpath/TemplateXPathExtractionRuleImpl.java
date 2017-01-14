@@ -19,7 +19,7 @@ package org.apache.any23.extractor.xpath;
 
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.html.DomUtils;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
         return name;
     }
 
-    public boolean acceptURI(URI uri) {
+    public boolean acceptIRI(IRI uri) {
         if(uriRegexPattern == null) {
             return true;
         }

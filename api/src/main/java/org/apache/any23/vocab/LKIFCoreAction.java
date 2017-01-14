@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -51,35 +51,35 @@ public class LKIFCoreAction extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/action.owl */
     /////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Action                 = createClass(NS, "Action");
-    public final URI Agent                  = createClass(NS, "Agent");
-    public final URI Artifact               = createClass(NS, "Artifact");
-    public final URI Collaborative_Plan     = createClass(NS, "Collaborative_Plan");
-    public final URI Creation_C             = createClass(NS, "Creation");
-    public final URI Natural_Object         = createClass(NS, "Natural_Object");
-    public final URI Organisation           = createClass(NS, "Organisation");
-    public final URI Person                 = createClass(NS, "Person");
-    public final URI Personal_Plan          = createClass(NS, "Personal_Plan");
-    public final URI Plan                   = createClass(NS, "Plan");
-    public final URI Reaction               = createClass(NS, "Reaction");
-    public final URI Transaction            = createClass(NS, "Transaction");
-    public final URI Mental_Object          = createClass(NS, "Mental_Object");
-    public final URI Change                 = createClass(NS, "Change");
-    public final URI Physical_Object        = createClass(NS, "Physical_Object");
-    public final URI Process                = createClass(NS, "Process");
+    public final IRI Action                 = createClass(NS, "Action");
+    public final IRI Agent                  = createClass(NS, "Agent");
+    public final IRI Artifact               = createClass(NS, "Artifact");
+    public final IRI Collaborative_Plan     = createClass(NS, "Collaborative_Plan");
+    public final IRI Creation_C             = createClass(NS, "Creation");
+    public final IRI Natural_Object         = createClass(NS, "Natural_Object");
+    public final IRI Organisation           = createClass(NS, "Organisation");
+    public final IRI Person                 = createClass(NS, "Person");
+    public final IRI Personal_Plan          = createClass(NS, "Personal_Plan");
+    public final IRI Plan                   = createClass(NS, "Plan");
+    public final IRI Reaction               = createClass(NS, "Reaction");
+    public final IRI Transaction            = createClass(NS, "Transaction");
+    public final IRI Mental_Object          = createClass(NS, "Mental_Object");
+    public final IRI Change                 = createClass(NS, "Change");
+    public final IRI Physical_Object        = createClass(NS, "Physical_Object");
+    public final IRI Process                = createClass(NS, "Process");
     
     // RESOURCES
     
     // PROPERTIES
-    public final URI actor                   = createProperty(NS, "actor");
-    public final URI actor_in                = createProperty(NS, "actor_in");
-    public final URI direct_part             = createProperty(NS, "direct_part");
-    public final URI member                  = createProperty(NS, "member");
-    public final URI part                    = createProperty(NS, "part");
-    public final URI creation_P              = createProperty(NS, "creation");
-    public final URI participant             = createProperty(NS, "participant");
-    public final URI participant_in          = createProperty(NS, "participant_in");
-    public final URI result_of               = createProperty(NS, "result_of");
+    public final IRI actor                   = createProperty(NS, "actor");
+    public final IRI actor_in                = createProperty(NS, "actor_in");
+    public final IRI direct_part             = createProperty(NS, "direct_part");
+    public final IRI member                  = createProperty(NS, "member");
+    public final IRI part                    = createProperty(NS, "part");
+    public final IRI creation_P              = createProperty(NS, "creation");
+    public final IRI participant             = createProperty(NS, "participant");
+    public final IRI participant_in          = createProperty(NS, "participant_in");
+    public final IRI result_of               = createProperty(NS, "result_of");
     
     private LKIFCoreAction() {
       super(NS);

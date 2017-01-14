@@ -29,18 +29,16 @@ import org.apache.any23.vocab.Review;
 import org.apache.any23.vocab.VCard;
 import org.apache.any23.writer.RepositoryWriter;
 import org.junit.Test;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.w3c.dom.Document;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -114,7 +112,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.role, "Chief");
 		assertContains(vVCARD.tz, "-0700");
 		assertContains(vVCARD.bday, "2006-04-04");
-		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.iri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.class_, "public");
 		assertContains(vVCARD.note, "this is a note");
@@ -221,7 +219,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		assertContains(vVCARD.organization_name, "Intellicorp");
 		assertContains(vVCARD.organization_unit, "Intelligence");
 
-		assertContains(vVCARD.tel, RDFUtils.uri("tel:415.555.1234"));
+		assertContains(vVCARD.tel, RDFUtils.iri("tel:415.555.1234"));
 		assertContains(vVCARD.uid, "abcdefghijklmnopqrstuvwxyz");
 		assertContains(vVCARD.note, "this is a note");
 		assertContains(vVCARD.class_, "public");
@@ -400,11 +398,11 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 						assertContains(
 								subject,
 								vVCARD.url,
-								RDFUtils.uri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
+								RDFUtils.iri("http://www.amazon.com/exec/obidos/ASIN/B000089CJI/"));
 						assertContains(
 								subject,
 								vVCARD.photo,
-								RDFUtils.uri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
+								RDFUtils.iri("http://images.amazon.com/images/P/B000089CJI.01._SCTHUMBZZZ_.jpg"));
 					}
 
 				} finally {
@@ -418,7 +416,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		}
 
 		assertContains(vVCARD.fn, "Adam Rifkin");
-		assertContains(vVCARD.url, RDFUtils.uri("http://ifindkarma.com/blog/"));
+		assertContains(vVCARD.url, RDFUtils.iri("http://ifindkarma.com/blog/"));
 	}
 
 	@Override
@@ -428,19 +426,19 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		InputStream input = new BufferedInputStream(this.getClass()
 				.getResourceAsStream(filename));
 
-		Document document = new TagSoupParser(input, baseURI.stringValue())
+		Document document = new TagSoupParser(input, baseIRI.stringValue())
 				.getDOM();
 		HCardExtractor hCardExtractor = new HCardExtractorFactory()
 				.createExtractor();
 		ExtractionContext hcExtractionContext = new ExtractionContext(
-				hCardExtractor.getDescription().getExtractorName(), baseURI);
+				hCardExtractor.getDescription().getExtractorName(), baseIRI);
 		hCardExtractor.run(ExtractionParameters.newDefault(),
 				hcExtractionContext, document, new ExtractionResultImpl(
 						hcExtractionContext, hCardExtractor,
 						new RepositoryWriter(getConnection())));
 		XFNExtractor xfnExtractor = new XFNExtractorFactory().createExtractor();
 		ExtractionContext xfnExtractionContext = new ExtractionContext(
-				xfnExtractor.getDescription().getExtractorName(), baseURI);
+				xfnExtractor.getDescription().getExtractorName(), baseIRI);
 		xfnExtractor.run(ExtractionParameters.newDefault(),
 				xfnExtractionContext, document, new ExtractionResultImpl(
 						xfnExtractionContext, hCardExtractor,
@@ -453,12 +451,12 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		InputStream input = new BufferedInputStream(this.getClass()
 				.getResourceAsStream(filename));
 
-		Document document = new TagSoupParser(input, baseURI.stringValue())
+		Document document = new TagSoupParser(input, baseIRI.stringValue())
 				.getDOM();
 		HCardExtractor hCardExtractor = new HCardExtractorFactory()
 				.createExtractor();
 		ExtractionContext hCardExtractionContext = new ExtractionContext(
-				hCardExtractor.getDescription().getExtractorName(), baseURI);
+				hCardExtractor.getDescription().getExtractorName(), baseIRI);
 		hCardExtractor.run(ExtractionParameters.newDefault(),
 				hCardExtractionContext, document, new ExtractionResultImpl(
 						hCardExtractionContext, hCardExtractor,
@@ -466,7 +464,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
 		GeoExtractor geoExtractor = new GeoExtractorFactory().createExtractor();
 		ExtractionContext geoExtractionContext = new ExtractionContext(
-				geoExtractor.getDescription().getExtractorName(), baseURI);
+				geoExtractor.getDescription().getExtractorName(), baseIRI);
 		geoExtractor.run(ExtractionParameters.newDefault(),
 				geoExtractionContext, document, new ExtractionResultImpl(
 						geoExtractionContext, geoExtractor,
@@ -474,7 +472,7 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 
 		AdrExtractor adrExtractor = new AdrExtractorFactory().createExtractor();
 		ExtractionContext adrExtractionContext = new ExtractionContext(
-				adrExtractor.getDescription().getExtractorName(), baseURI);
+				adrExtractor.getDescription().getExtractorName(), baseIRI);
 		adrExtractor.run(ExtractionParameters.newDefault(),
 				adrExtractionContext, document, new ExtractionResultImpl(
 						adrExtractionContext, adrExtractor,
@@ -487,12 +485,12 @@ public class RDFMergerTest extends AbstractExtractorTestCase {
 		extractHCardAndRelated(filename);
 		InputStream input = new BufferedInputStream(this.getClass()
 				.getResourceAsStream(filename));
-		Document document = new TagSoupParser(input, baseURI.stringValue())
+		Document document = new TagSoupParser(input, baseIRI.stringValue())
 				.getDOM();
 		HReviewExtractor hReviewExtractor = new HReviewExtractorFactory()
 				.createExtractor();
 		ExtractionContext hreviewExtractionContext = new ExtractionContext(
-				hReviewExtractor.getDescription().getExtractorName(), baseURI);
+				hReviewExtractor.getDescription().getExtractorName(), baseIRI);
 		hReviewExtractor.run(ExtractionParameters.newDefault(),
 				hreviewExtractionContext, document, new ExtractionResultImpl(
 						hreviewExtractionContext, hReviewExtractor,

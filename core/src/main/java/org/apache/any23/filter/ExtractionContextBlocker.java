@@ -20,9 +20,9 @@ package org.apache.any23.filter;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
-import org.openrdf.model.Resource;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,8 +73,8 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public synchronized void startDocument(URI documentURI) throws TripleHandlerException {
-        wrapped.startDocument(documentURI);
+    public synchronized void startDocument(IRI documentIRI) throws TripleHandlerException {
+        wrapped.startDocument(documentIRI);
         documentBlocked = true;
     }
 
@@ -98,7 +98,7 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
     }
 
-    public synchronized void receiveTriple(Resource s, URI p, Value o, URI g, ExtractionContext context)
+    public synchronized void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         try {
             contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o, g);
@@ -127,9 +127,9 @@ public class ExtractionContextBlocker implements TripleHandler {
         wrapped.close();
     }
 
-    public synchronized void endDocument(URI documentURI) throws TripleHandlerException {
+    public synchronized void endDocument(IRI documentIRI) throws TripleHandlerException {
         closeDocument();
-        wrapped.endDocument(documentURI);
+        wrapped.endDocument(documentIRI);
     }
 
     public void setContentLength(long contentLength) {
@@ -169,11 +169,11 @@ public class ExtractionContextBlocker implements TripleHandler {
 
         private final List<Resource> subjects = new ArrayList<Resource>();
 
-        private final List<URI> predicates = new ArrayList<URI>();
+        private final List<IRI> predicates = new ArrayList<IRI>();
 
         private final List<Value> objects = new ArrayList<Value>();
 
-        private final List<URI> graphs = new ArrayList<URI>();
+        private final List<IRI> graphs = new ArrayList<IRI>();
 
         private final List<String> prefixes = new ArrayList<String>();
 
@@ -187,7 +187,7 @@ public class ExtractionContextBlocker implements TripleHandler {
             this.context = context;
         }
 
-        void receiveTriple(Resource s, URI p, Value o, URI g) throws ValvedTriplePipeException {
+        void receiveTriple(Resource s, IRI p, Value o, IRI g) throws ValvedTriplePipeException {
             if (blocked) {
                 subjects.add(s);
                 predicates.add(p);
@@ -233,7 +233,7 @@ public class ExtractionContextBlocker implements TripleHandler {
             }
         }
 
-        private void sendTriple(Resource s, URI p, Value o, URI g) throws ValvedTriplePipeException {
+        private void sendTriple(Resource s, IRI p, Value o, IRI g) throws ValvedTriplePipeException {
             if (!hasReceivedTriples) {
                 try {
                 wrapped.openContext(context);

@@ -42,10 +42,9 @@ import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.openrdf.model.BNode;
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.URIImpl;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +79,7 @@ public class SingleDocumentExtraction {
 
     private final DocumentSource in;
 
-    private URI documentURI;
+    private IRI documentIRI;
     
     private final ExtractorGroup extractors;
 
@@ -208,17 +207,17 @@ public class SingleDocumentExtraction {
             extractionParameters = ExtractionParameters.newDefault(configuration);
         }
 
-        final String contextURI = extractionParameters.getProperty(ExtractionParameters.EXTRACTION_CONTEXT_URI_PROPERTY);
+        final String contextIRI = extractionParameters.getProperty(ExtractionParameters.EXTRACTION_CONTEXT_IRI_PROPERTY);
         ensureHasLocalCopy();
         try {
-            this.documentURI = new Any23ValueFactoryWrapper(
-                    ValueFactoryImpl.getInstance()
-            ).createURI( "?".equals(contextURI) ? in.getDocumentURI() : contextURI);
+            this.documentIRI = new Any23ValueFactoryWrapper(
+                    SimpleValueFactory.getInstance()
+            ).createIRI( "?".equals(contextIRI) ? in.getDocumentIRI() : contextIRI);
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Invalid URI: " + in.getDocumentURI(), ex);
+            throw new IllegalArgumentException("Invalid IRI: " + in.getDocumentIRI(), ex);
         }
         if(log.isInfoEnabled()) {
-            log.info("Processing " + this.documentURI);
+            log.info("Processing " + this.documentIRI);
         }
         filterExtractorsByMIMEType();
 
@@ -228,74 +227,77 @@ public class SingleDocumentExtraction {
                 sb.append(factory.getExtractorName());
                 sb.append(' ');
             }
-            sb.append("match ").append(documentURI);
+            sb.append("match ").append(documentIRI);
             log.debug(sb.toString());
         }
 
-        // Invoke all extractors.
-        try {
-            output.startDocument(documentURI);
-        } catch (TripleHandlerException e) {
-            log.error(String.format("Error starting document with URI %s", documentURI));
-            throw new ExtractionException(String.format("Error starting document with URI %s", documentURI),
-                    e
-            );
-        }
-        output.setContentLength(in.getContentLength());
-        // Create the document context.
         final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
         final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
         final Map<String,Collection<IssueReport.Issue>> extractorToIssues =
             new HashMap<String,Collection<IssueReport.Issue>>();
+        
+        // Invoke all extractors.
         try {
-            final String documentLanguage = extractDocumentLanguage(extractionParameters);
-            for (ExtractorFactory<?> factory : matchingExtractors) {
-                @SuppressWarnings("rawtypes")
-                final Extractor extractor = factory.createExtractor();
-                final SingleExtractionReport er = runExtractor(
-                        extractionParameters,
-                        documentLanguage,
-                        extractor
-                );
-                resourceRoots.addAll( er.resourceRoots );
-                propertyPaths.addAll( er.propertyPaths );
-                extractorToIssues.put(factory.getExtractorName(), er.issues);
-            }
-        } catch(ValidatorException ve) {
-            throw new ExtractionException("An error occurred during the validation phase.", ve);
-        }
-
-        // Resource consolidation.
-        final boolean addDomainTriples = extractionParameters.getFlag(ExtractionParameters.METADATA_DOMAIN_PER_ENTITY_FLAG);
-        final ExtractionContext consolidationContext;
-        if(extractionParameters.getFlag(ExtractionParameters.METADATA_NESTING_FLAG)) {
-            // Consolidation with nesting.
-            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
-        } else {
-            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output);
-        }
-
-        // Adding time/size meta triples.
-        if (extractionParameters.getFlag(ExtractionParameters.METADATA_TIMESIZE_FLAG)) {
-            try {
-                addExtractionTimeSizeMetaTriples(consolidationContext);
-            } catch (TripleHandlerException e) {
-                throw new ExtractionException(
-                        String.format(
-                                "Error while adding extraction metadata triples document with URI %s", documentURI
-                        ),
-                        e
-                );
-            }
-        }
-
-        try {
-            output.endDocument(documentURI);
+            output.startDocument(documentIRI);
         } catch (TripleHandlerException e) {
-            log.error(String.format("Error ending document with URI %s", documentURI));
-            throw new ExtractionException(String.format("Error ending document with URI %s", documentURI),
+            log.error(String.format("Error starting document with IRI %s", documentIRI));
+            throw new ExtractionException(String.format("Error starting document with IRI %s", documentIRI),
                     e
             );
+        }
+        try {
+	        output.setContentLength(in.getContentLength());
+	        // Create the document context.
+	        try {
+	            final String documentLanguage = extractDocumentLanguage(extractionParameters);
+	            for (ExtractorFactory<?> factory : matchingExtractors) {
+	                @SuppressWarnings("rawtypes")
+	                final Extractor extractor = factory.createExtractor();
+	                final SingleExtractionReport er = runExtractor(
+	                        extractionParameters,
+	                        documentLanguage,
+	                        extractor
+	                );
+	                resourceRoots.addAll( er.resourceRoots );
+	                propertyPaths.addAll( er.propertyPaths );
+	                extractorToIssues.put(factory.getExtractorName(), er.issues);
+	            }
+	        } catch(ValidatorException ve) {
+	            throw new ExtractionException("An error occurred during the validation phase.", ve);
+	        }
+	
+	        // Resource consolidation.
+	        final boolean addDomainTriples = extractionParameters.getFlag(ExtractionParameters.METADATA_DOMAIN_PER_ENTITY_FLAG);
+	        final ExtractionContext consolidationContext;
+	        if(extractionParameters.getFlag(ExtractionParameters.METADATA_NESTING_FLAG)) {
+	            // Consolidation with nesting.
+	            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
+	        } else {
+	            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output);
+	        }
+	
+	        // Adding time/size meta triples.
+	        if (extractionParameters.getFlag(ExtractionParameters.METADATA_TIMESIZE_FLAG)) {
+	            try {
+	                addExtractionTimeSizeMetaTriples(consolidationContext);
+	            } catch (TripleHandlerException e) {
+	                throw new ExtractionException(
+	                        String.format(
+	                                "Error while adding extraction metadata triples document with IRI %s", documentIRI
+	                        ),
+	                        e
+	                );
+	            }
+	        }
+        } finally {
+	        try {
+	            output.endDocument(documentIRI);
+	        } catch (TripleHandlerException e) {
+	            log.error(String.format("Error ending document with IRI %s", documentIRI));
+	            throw new ExtractionException(String.format("Error ending document with IRI %s", documentIRI),
+	                    e
+	            );
+	        }
         }
 
         return new SingleDocumentExtractionReport(
@@ -421,7 +423,7 @@ public class SingleDocumentExtraction {
         }
         ensureHasLocalCopy();
         detectedMIMEType = detector.guessMIMEType(
-                java.net.URI.create(documentURI.stringValue()).getPath(),
+                java.net.URI.create(documentIRI.stringValue()).getPath(),
                 localDocumentSource.openInputStream(),
                 MIMEType.parse(localDocumentSource.getContentType())
         );
@@ -445,19 +447,19 @@ public class SingleDocumentExtraction {
             final Extractor<?> extractor
     ) throws ExtractionException, IOException, ValidatorException {
         if(log.isDebugEnabled()) {
-            log.debug("Running {} on {}", extractor.getDescription().getExtractorName(), documentURI);
+            log.debug("Running {} on {}", extractor.getDescription().getExtractorName(), documentIRI);
         }
         long startTime = System.currentTimeMillis();
         final ExtractionContext extractionContext = new ExtractionContext(
                 extractor.getDescription().getExtractorName(),
-                documentURI,
+                documentIRI,
                 documentLanguage
         );
         final ExtractionResultImpl extractionResult = new ExtractionResultImpl(extractionContext, extractor, output);
         try {
             if (extractor instanceof BlindExtractor) {
                 final BlindExtractor blindExtractor = (BlindExtractor) extractor;
-                blindExtractor.run(extractionParameters, extractionContext, documentURI, extractionResult);
+                blindExtractor.run(extractionParameters, extractionContext, documentIRI, extractionResult);
             } else if (extractor instanceof ContentExtractor) {
                 ensureHasLocalCopy();
                 final ContentExtractor contentExtractor = (ContentExtractor) extractor;
@@ -542,7 +544,7 @@ public class SingleDocumentExtraction {
             is.reset();
             final TagSoupParser tagSoupParser = new TagSoupParser(
                     is,
-                    documentURI.stringValue(),
+                    documentIRI.stringValue(),
                     candidateEncoding
             );
             if(extractionParameters.isValidate()) {
@@ -606,10 +608,10 @@ public class SingleDocumentExtraction {
             // Add source Web domains to every resource root.
             String domain;
             try {
-                domain = new java.net.URI(in.getDocumentURI()).getHost();
+                domain = new java.net.URI(in.getDocumentIRI()).getHost();
             } catch (URISyntaxException urise) {
                 throw new IllegalArgumentException(
-                        "An error occurred while extracting the host from the document URI.",
+                        "An error occurred while extracting the host from the document IRI.",
                         urise
                 );
             }
@@ -618,7 +620,7 @@ public class SingleDocumentExtraction {
                     output.receiveTriple(
                             resourceRoot.getRoot(),
                             vSINDICE.getProperty(SINDICE.DOMAIN),
-                            ValueFactoryImpl.getInstance().createLiteral(domain),
+                            SimpleValueFactory.getInstance().createLiteral(domain),
                             null,
                             context
                     );
@@ -641,7 +643,7 @@ public class SingleDocumentExtraction {
     private ExtractionContext createExtractionContext() {
         return new ExtractionContext(
                 "consolidation-extractor",
-                documentURI,
+                documentIRI,
                 UUID.randomUUID().toString()
         );
     }
@@ -694,7 +696,7 @@ public class SingleDocumentExtraction {
      * </ul>
      * @param resourceRoots list of RDF nodes representing roots of
      *        extracted microformat graphs and the corresponding HTML paths.
-     * @param propertyPaths list of RDF nodes representing property subjects, property URIs and the HTML paths
+     * @param propertyPaths list of RDF nodes representing property subjects, property IRIs and the HTML paths
      *        from which such properties have been extracted. 
      * @param addDomainTriples
      * @param output a triple handler event collector.
@@ -713,7 +715,7 @@ public class SingleDocumentExtraction {
             output.openContext(context);
         } catch (TripleHandlerException e) {
             throw new ExtractionException(
-                    String.format("Error starting document with URI %s", documentURI),
+                    String.format("Error starting document with IRI %s", documentIRI),
                     e
             );
         }
@@ -761,7 +763,7 @@ public class SingleDocumentExtraction {
             output.openContext(context);
         } catch (TripleHandlerException e) {
             throw new ExtractionException(
-                    String.format("Error starting document with URI %s", documentURI),
+                    String.format("Error starting document with IRI %s", documentIRI),
                     e
             );
         }
@@ -793,9 +795,9 @@ public class SingleDocumentExtraction {
         // adding extraction date
         String xsdDateTimeNow = RDFUtils.toXSDDateTime(new Date());
         output.receiveTriple(
-                new URIImpl(documentURI.toString()),
+                SimpleValueFactory.getInstance().createIRI(documentIRI.toString()),
                 vSINDICE.getProperty(SINDICE.DATE),
-                ValueFactoryImpl.getInstance().createLiteral(xsdDateTimeNow),
+                SimpleValueFactory.getInstance().createLiteral(xsdDateTimeNow),
                 null,
                 context
         );
@@ -809,9 +811,9 @@ public class SingleDocumentExtraction {
             }
         }
         output.receiveTriple(
-                new URIImpl(documentURI.toString()),
+                SimpleValueFactory.getInstance().createIRI(documentIRI.toString()),
                 vSINDICE.getProperty(SINDICE.SIZE),
-                ValueFactoryImpl.getInstance().createLiteral(numberOfTriples + 1), // the number of triples plus itself
+                SimpleValueFactory.getInstance().createLiteral(numberOfTriples + 1), // the number of triples plus itself
                 null,
                 context
         );

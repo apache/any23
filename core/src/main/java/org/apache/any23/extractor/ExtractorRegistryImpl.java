@@ -30,7 +30,7 @@ import java.util.List;
  *  Singleton class acting as a register for all the various
  *  {@link Extractor}.
  */
-public class ExtractorRegistryImpl extends info.aduna.lang.service.ServiceRegistry<String, ExtractorFactory> implements ExtractorRegistry {
+public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service.ServiceRegistry<String, ExtractorFactory> implements ExtractorRegistry {
 
     /**
      * Public constructor for ExtractorRegistryImpl. Should normally call getInstance.
@@ -116,7 +116,7 @@ public class ExtractorRegistryImpl extends info.aduna.lang.service.ServiceRegist
     @Override
     public void unregister(String name) {
         if(this.has(name)) {
-            this.remove(this.get(name));
+            this.remove(this.get(name).get());
         }
     }
     
@@ -130,11 +130,8 @@ public class ExtractorRegistryImpl extends info.aduna.lang.service.ServiceRegist
      * {@link ExtractorFactory} associated to the provided name.
      */
     @Override
-    public ExtractorFactory<?> getFactory(String name) {
-        ExtractorFactory<?> result = this.get(name);
-        if (result == null) {
-            throw new IllegalArgumentException("Unregistered extractor name: " + name);
-        }
+    public ExtractorFactory<?> getFactory(final String name) {
+        ExtractorFactory<?> result = this.get(name).orElseThrow(() -> new IllegalArgumentException("Unregistered extractor name: " + name));
         return result;
     }
 

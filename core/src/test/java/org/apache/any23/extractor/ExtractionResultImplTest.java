@@ -26,7 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,7 +40,7 @@ import java.io.PrintStream;
  */
 public class ExtractionResultImplTest {
 
-    private static final URI TEST_URI = RDFUtils.uri("http://host/test/service");
+    private static final IRI TEST_IRI = RDFUtils.iri("http://host/test/service");
 
     private ExtractionResultImpl extractionResult;
     private Extractor extractor;
@@ -51,7 +51,7 @@ public class ExtractionResultImplTest {
         extractor = new TitleExtractor();
         mockTripleHandler = Mockito.mock(TripleHandler.class);
         extractionResult  = new ExtractionResultImpl(
-                new ExtractionContext("test-extractor-name", TEST_URI),
+                new ExtractionContext("test-extractor-name", TEST_IRI),
                 extractor,
                 mockTripleHandler
         );
@@ -72,7 +72,7 @@ public class ExtractionResultImplTest {
         assertContent(extractionResult, 3);
 
         final ExtractionResult subExtractionResult = extractionResult.openSubResult(
-                new ExtractionContext("sub-id", RDFUtils.uri("http://sub/uri") )
+                new ExtractionContext("sub-id", RDFUtils.iri("http://sub/uri") )
         );
 
         notifyErrors(subExtractionResult);
@@ -80,16 +80,16 @@ public class ExtractionResultImplTest {
     }
 
     private void notifyErrors(ExtractionResult er) {
-        er.notifyIssue(IssueReport.IssueLevel.Error  , "Error message"  , 1, 2);
-        er.notifyIssue(IssueReport.IssueLevel.Warning, "Warning message", 3, 4);
-        er.notifyIssue(IssueReport.IssueLevel.Fatal  , "Fatal message"  , 5, 6);
+        er.notifyIssue(IssueReport.IssueLevel.ERROR  , "Error message"  , 1, 2);
+        er.notifyIssue(IssueReport.IssueLevel.WARNING, "Warning message", 3, 4);
+        er.notifyIssue(IssueReport.IssueLevel.FATAL  , "Fatal message"  , 5, 6);
     }
 
     private void assertContent(ExtractionResult er, int errorCount) {
         Assert.assertEquals("Unexpected errors list size." , errorCount, er.getIssues().size() );
-        assertOutputString(er, IssueReport.IssueLevel.Error.toString());
-        assertOutputString(er, IssueReport.IssueLevel.Warning.toString());
-        assertOutputString(er, IssueReport.IssueLevel.Fatal.toString());
+        assertOutputString(er, IssueReport.IssueLevel.ERROR.toString());
+        assertOutputString(er, IssueReport.IssueLevel.WARNING.toString());
+        assertOutputString(er, IssueReport.IssueLevel.FATAL.toString());
         assertOutputString(er, "errors: " + errorCount);
     }
 

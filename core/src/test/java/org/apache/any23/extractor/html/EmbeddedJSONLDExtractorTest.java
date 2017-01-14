@@ -16,11 +16,8 @@
  */
 package org.apache.any23.extractor.html;
 
-import static org.junit.Assert.*;
-
 import org.apache.any23.extractor.ExtractorFactory;
 import org.junit.Test;
-import org.openrdf.repository.RepositoryException;
 
 /**
  * @author lmcgibbn

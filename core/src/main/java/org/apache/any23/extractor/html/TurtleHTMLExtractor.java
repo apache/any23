@@ -25,9 +25,9 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.rdf.RDFParserFactory;
-import org.openrdf.model.URI;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.RDFParser;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.RDFParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -57,16 +57,16 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
     ) throws IOException, ExtractionException {
         List<Node> scriptNodes;
         HTMLDocument htmlDocument = new HTMLDocument(in);
-        final URI documentURI = extractionContext.getDocumentURI();
+        final IRI documentIRI = extractionContext.getDocumentIRI();
 
         scriptNodes = htmlDocument.findAll(".//SCRIPT[contains(@type,'text/turtle')]");
-        processScriptNodes(documentURI, extractionContext, out, scriptNodes);
+        processScriptNodes(documentIRI, extractionContext, out, scriptNodes);
 
         scriptNodes = htmlDocument.findAll(".//SCRIPT[contains(@type,'text/n3')]");
-        processScriptNodes(documentURI, extractionContext, out, scriptNodes);
+        processScriptNodes(documentIRI, extractionContext, out, scriptNodes);
 
         scriptNodes = htmlDocument.findAll(".//SCRIPT[contains(@type,'text/plain')]");
-        processScriptNodes(documentURI, extractionContext,out, scriptNodes);
+        processScriptNodes(documentIRI, extractionContext,out, scriptNodes);
     }
 
     @Override
@@ -77,16 +77,16 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Processes a list of <i>html script</i> nodes retrieving the N3 / Turtle content.
      *
-     * @param documentURI the URI of the original HTML document.
+     * @param documentIRI the IRI of the original HTML document.
      * @param er the extraction result used to store triples.
      * @param ns the list of script nodes.
      */
-    private void processScriptNodes(URI documentURI, ExtractionContext ec, ExtractionResult er, List<Node> ns) {
+    private void processScriptNodes(IRI documentIRI, ExtractionContext ec, ExtractionResult er, List<Node> ns) {
         if(ns.size() > 0 && turtleParser == null) {
             turtleParser = RDFParserFactory.getInstance().getTurtleParserInstance(true, false, ec, er);
         }
         for(Node n : ns) {
-            processScriptNode(turtleParser, documentURI, n, er);
+            processScriptNode(turtleParser, documentIRI, n, er);
         }
     }
 
@@ -94,20 +94,20 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
      * Processes a single <i>html script</i> node.
      *
      * @param turtleParser the parser used to digest node content.
-     * @param documentURI the URI of the original HTML document.
+     * @param documentIRI the IRI of the original HTML document.
      * @param n the script node.
      * @param er the extraction result used to store triples.
      */
-    private void processScriptNode(RDFParser turtleParser, URI documentURI, Node n, ExtractionResult er) {
+    private void processScriptNode(RDFParser turtleParser, IRI documentIRI, Node n, ExtractionResult er) {
         final Node idAttribute = n.getAttributes().getNamedItem("id");
         final String graphName =
-                documentURI.stringValue() +
+                documentIRI.stringValue() +
                 ( idAttribute == null ? "" : "#" +   idAttribute.getTextContent() ); 
         try {
             turtleParser.parse( new StringReader(n.getTextContent()), graphName );
         } catch (RDFParseException rdfpe) {
             er.notifyIssue(
-                    IssueReport.IssueLevel.Error,
+                    IssueReport.IssueLevel.ERROR,
                     String.format(
                             "An error occurred while parsing turtle content within script node: %s",
                             Arrays.toString(DomUtils.getXPathListForNode(n))
@@ -115,7 +115,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
                     rdfpe.getLineNumber(), rdfpe.getColumnNumber()
             );
         } catch (Exception e) {
-            er.notifyIssue(IssueReport.IssueLevel.Error, "An error occurred while processing RDF data.", -1, -1);
+            er.notifyIssue(IssueReport.IssueLevel.ERROR, "An error occurred while processing RDF data.", -1, -1);
         }
     }
 

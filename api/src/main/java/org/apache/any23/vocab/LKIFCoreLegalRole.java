@@ -16,7 +16,7 @@
  */
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
@@ -49,9 +49,9 @@ public class LKIFCoreLegalRole extends Vocabulary {
     /* http://www.estrellaproject.org/lkif-core/legal-role.owl# */
     //////////////////////////////////////////////////////////////
     // CLASSES
-    public final URI Social_Legal_Role                  = createClass(NS, "Social_Legal_Role");
-    public final URI Legal_Role                         = createClass(NS, "Legal_Role");
-    public final URI Professional_Legal_Role            = createClass(NS, "Professional_Legal_Role");
+    public final IRI Social_Legal_Role                  = createClass(NS, "Social_Legal_Role");
+    public final IRI Legal_Role                         = createClass(NS, "Legal_Role");
+    public final IRI Professional_Legal_Role            = createClass(NS, "Professional_Legal_Role");
     
     // RESOURCES
     

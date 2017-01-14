@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor.xpath;
 
-import org.openrdf.model.Value;
+import org.eclipse.rdf4j.model.Value;
 
 import java.util.Map;
 

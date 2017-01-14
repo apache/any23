@@ -77,9 +77,9 @@ public class AboutNotURIRule implements Rule {
         return firstChar == '#' || firstChar == '/';
     }
 
-    private boolean isURL(String candidateURIStr) {
+    private boolean isURL(String candidateIRIStr) {
         try {
-            new URL(candidateURIStr);
+            new URL(candidateIRIStr);
         } catch (MalformedURLException murle) {
             return false;
         }

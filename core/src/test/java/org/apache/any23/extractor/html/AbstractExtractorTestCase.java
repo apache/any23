@@ -19,6 +19,8 @@ package org.apache.any23.extractor.html;
 
 import org.apache.any23.AbstractAny23TestBase;
 import org.apache.any23.extractor.IssueReport;
+import org.apache.any23.extractor.IssueReport.Issue;
+import org.apache.any23.extractor.IssueReport.IssueLevel;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SingleDocumentExtraction;
@@ -29,22 +31,22 @@ import org.apache.any23.writer.RepositoryWriter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.openrdf.model.BNode;
-import org.openrdf.model.Literal;
-import org.openrdf.model.Resource;
-import org.openrdf.model.Statement;
-import org.openrdf.model.URI;
-import org.openrdf.model.Value;
-import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.RepositoryResult;
-import org.openrdf.repository.sail.SailRepository;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.Rio;
-import org.openrdf.sail.Sail;
-import org.openrdf.sail.memory.MemoryStore;
+import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Statement;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
+import org.eclipse.rdf4j.repository.RepositoryException;
+import org.eclipse.rdf4j.repository.RepositoryResult;
+import org.eclipse.rdf4j.repository.sail.SailRepository;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.sail.Sail;
+import org.eclipse.rdf4j.sail.memory.MemoryStore;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -63,10 +65,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	/**
 	 * Base test document.
 	 */
-	protected static URI baseURI = RDFUtils.uri("http://bob.example.com/"); // TODO:
+	protected static IRI baseIRI = RDFUtils.iri("http://bob.example.com/"); // TODO:
 																			// change
 																			// base
-																			// URI
+																			// IRI
 																			// string.
 
 	/**
@@ -182,7 +184,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	protected void extract(String resource) throws ExtractionException,
 			IOException {
 		SingleDocumentExtraction ex = new SingleDocumentExtraction(
-				new HTMLFixture(copyResourceToTempFile(resource)).getOpener(baseURI
+				new HTMLFixture(copyResourceToTempFile(resource)).getOpener(baseIRI
 						.toString()), getExtractorFactory(),
 				new RepositoryWriter(conn));
 		ex.setMIMETypeDetector(null);
@@ -231,7 +233,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertContains(URI p, Resource o) throws RepositoryException {
+	protected void assertContains(IRI p, Resource o) throws RepositoryException {
 		assertContains(null, p, o);
 	}
 
@@ -245,7 +247,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertContains(URI p, String o) throws RepositoryException {
+	protected void assertContains(IRI p, String o) throws RepositoryException {
 		assertContains(null, p, RDFUtils.literal(o));
 	}
 
@@ -259,7 +261,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertNotContains(URI p, Resource o)
+	protected void assertNotContains(IRI p, Resource o)
 			throws RepositoryException {
 		assertNotContains(null, p, o);
 	}
@@ -276,7 +278,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertContains(Resource s, URI p, Value o)
+	protected void assertContains(Resource s, IRI p, Value o)
 			throws RepositoryException {
 		Assert.assertTrue(
 				getFailedExtractionMessage()
@@ -296,7 +298,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertNotContains(Resource s, URI p, String o)
+	protected void assertNotContains(Resource s, IRI p, String o)
 			throws RepositoryException {
 		Assert.assertFalse(getFailedExtractionMessage(),
 				conn.hasStatement(s, p, RDFUtils.literal(o), false));
@@ -314,7 +316,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertNotContains(Resource s, URI p, Resource o)
+	protected void assertNotContains(Resource s, IRI p, Resource o)
 			throws RepositoryException {
 		Assert.assertFalse(getFailedExtractionMessage(),
 				conn.hasStatement(s, p, o, false));
@@ -341,7 +343,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            object.
 	 * @throws RepositoryException
 	 */
-	protected void assertNotContains(Resource s, URI p, Literal o)
+	protected void assertNotContains(Resource s, IRI p, Literal o)
 			throws RepositoryException {
 		Assert.assertFalse(getFailedExtractionMessage(),
 				conn.hasStatement(s, p, o, false));
@@ -363,8 +365,14 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 		for (Map.Entry<String, Collection<IssueReport.Issue>> entry : report
 				.getExtractorToIssues().entrySet()) {
 			if (entry.getValue().size() > 0) {
-				Assert.fail("Unexpected issue for extractor " + entry.getKey()
+				System.out.println("Unexpected issue for extractor " + entry.getKey()
 						+ " : " + entry.getValue());
+			}
+			for(Issue nextIssue : entry.getValue()) {
+				if(nextIssue.getLevel() == IssueLevel.ERROR || nextIssue.getLevel() == IssueLevel.FATAL) {
+					Assert.fail("Unexpected issue for extractor " + entry.getKey()
+						+ " : " + entry.getValue());
+				}
 			}
 		}
 	}
@@ -443,7 +451,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            expected matches.
 	 * @throws RepositoryException
 	 */
-	protected void assertStatementsSize(Resource s, URI p, Value o, int expected)
+	protected void assertStatementsSize(Resource s, IRI p, Value o, int expected)
 			throws RDFHandlerException, RepositoryException {
 		int statementsSize = getStatementsSize(s, p, o);
 		if (statementsSize != expected) {
@@ -466,7 +474,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            expected matches.
 	 * @throws RepositoryException
 	 */
-	protected void assertStatementsSize(URI p, Value o, int expected)
+	protected void assertStatementsSize(IRI p, Value o, int expected)
 			throws RDFHandlerException, RepositoryException {
 		assertStatementsSize(null, p, o, expected);
 	}
@@ -483,7 +491,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            expected matches.
 	 * @throws RepositoryException
 	 */
-	protected void assertStatementsSize(URI p, String o, int expected)
+	protected void assertStatementsSize(IRI p, String o, int expected)
 			throws RDFHandlerException, RepositoryException {
 		assertStatementsSize(p, o == null ? null : RDFUtils.literal(o),
 				expected);
@@ -498,7 +506,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            predicate.
 	 * @throws RepositoryException
 	 */
-	protected void assertNotFound(Resource s, URI p) throws RepositoryException {
+	protected void assertNotFound(Resource s, IRI p) throws RepositoryException {
 		RepositoryResult<Statement> statements = conn.getStatements(s, p, null,
 				true);
 		try {
@@ -519,7 +527,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return the matching blank subject.
 	 * @throws RepositoryException
 	 */
-	protected Resource findExactlyOneBlankSubject(URI p, Value o)
+	protected Resource findExactlyOneBlankSubject(IRI p, Value o)
 			throws RepositoryException {
 		RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
 		try {
@@ -546,7 +554,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return the matching object.
 	 * @throws RepositoryException
 	 */
-	protected Value findExactlyOneObject(Resource s, URI p)
+	protected Value findExactlyOneObject(Resource s, IRI p)
 			throws RepositoryException {
 		RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
 		try {
@@ -567,7 +575,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return list of matching subjects.
 	 * @throws RepositoryException
 	 */
-	protected List<Resource> findSubjects(URI p, Value o)
+	protected List<Resource> findSubjects(IRI p, Value o)
 			throws RepositoryException {
 		RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
 		List<Resource> subjects = new ArrayList<Resource>();
@@ -593,7 +601,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return list of matching objects.
 	 * @throws RepositoryException
 	 */
-	protected List<Value> findObjects(Resource s, URI p)
+	protected List<Value> findObjects(Resource s, IRI p)
 			throws RepositoryException {
 		RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
 		List<Value> objects = new ArrayList<Value>();
@@ -620,7 +628,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return matching object.
 	 * @throws org.openrdf.repository.RepositoryException
 	 */
-	protected Value findObject(Resource s, URI p) throws RepositoryException {
+	protected Value findObject(Resource s, IRI p) throws RepositoryException {
 		RepositoryResult<Statement> statements = conn.getStatements(s, p, null,
 				true);
 		try {
@@ -643,7 +651,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return matching object.
 	 * @throws RepositoryException
 	 */
-	protected Resource findObjectAsResource(Resource s, URI p)
+	protected Resource findObjectAsResource(Resource s, IRI p)
 			throws RepositoryException {
 		final Value v = findObject(s, p);
 		try {
@@ -666,7 +674,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return matching object.
 	 * @throws RepositoryException
 	 */
-	protected String findObjectAsLiteral(Resource s, URI p)
+	protected String findObjectAsLiteral(Resource s, IRI p)
 			throws RepositoryException {
 		return findObject(s, p).stringValue();
 	}
@@ -780,7 +788,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            literal content.
 	 * @throws RepositoryException
 	 */
-	protected void assertContains(Resource s, URI p, String l)
+	protected void assertContains(Resource s, IRI p, String l)
 			throws RepositoryException {
 		assertContains(s, p, RDFUtils.literal(l));
 	}
@@ -799,7 +807,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 *            literal language.
 	 * @throws RepositoryException
 	 */
-	protected void assertContains(Resource s, URI p, String l, String lang)
+	protected void assertContains(Resource s, IRI p, String l, String lang)
 			throws RepositoryException {
 		assertContains(s, p, RDFUtils.literal(l, lang));
 	}
@@ -816,7 +824,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return list of statements.
 	 * @throws RepositoryException
 	 */
-	protected RepositoryResult<Statement> getStatements(Resource s, URI p,
+	protected RepositoryResult<Statement> getStatements(Resource s, IRI p,
 			Value o) throws RepositoryException {
 		return conn.getStatements(s, p, o, false);
 	}
@@ -833,7 +841,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	 * @return number of matches.
 	 * @throws RepositoryException
 	 */
-	protected int getStatementsSize(Resource s, URI p, Value o)
+	protected int getStatementsSize(Resource s, IRI p, Value o)
 			throws RepositoryException {
 		RepositoryResult<Statement> result = getStatements(s, p, o);
 		int count = 0;
@@ -849,7 +857,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 	}
 
 	private String getFailedExtractionMessage() throws RepositoryException {
-		return "Assertion failed! Extracted triples:\n" + dumpModelToTurtle();
+		return "Assertion failed! Extracted triples:\n" + dumpModelToNQuads();
 	}
 
 }

@@ -17,7 +17,7 @@
 
 package org.apache.any23.vocab;
 
-import org.openrdf.model.URI;
+import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <i>DCTERMS</i> vocabulary.
@@ -28,18 +28,18 @@ public class DCTerms extends Vocabulary {
     public static final String NS = "http://purl.org/dc/terms/";
 
     // Properties
-    public final URI license = createProperty(NS, "license");
-    public final URI title   = createProperty(NS, "title"  );
-    public final URI creator = createProperty(NS, "creator");
-    public final URI related = createProperty(NS, "related");
-    public final URI date    = createProperty(NS, "date"   );
-    public final URI source  = createProperty(NS, "source" );
-    
-    private static DCTerms instance;
+    public final IRI license = createProperty(NS, "license");
+    public final IRI title   = createProperty(NS, "title"  );
+    public final IRI creator = createProperty(NS, "creator");
+    public final IRI related = createProperty(NS, "related");
+    public final IRI date    = createProperty(NS, "date"   );
+    public final IRI source  = createProperty(NS, "source" );
 
     private DCTerms(){
       super(NS);
     }
+
+	private static DCTerms instance;
 
     public static DCTerms getInstance() {
         if(instance == null) {

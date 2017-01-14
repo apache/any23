@@ -17,15 +17,15 @@
 
 package org.apache.any23.extractor.xpath;
 
-import org.openrdf.model.URI;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
  * Represents a <i>Quad</i> predicate <i>template</i>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class TemplatePredicate extends Term<URI> {
+public class TemplatePredicate extends Term<IRI> {
 
     /**
      * Constructor.
@@ -39,12 +39,12 @@ public class TemplatePredicate extends Term<URI> {
     }
 
     @Override
-    protected URI getValueInternal(String value) {
+    protected IRI getValueInternal(String value) {
         try {
-            return ValueFactoryImpl.getInstance().createURI(value);
+            return SimpleValueFactory.getInstance().createIRI(value);
         } catch (IllegalArgumentException iae) {
             throw new IllegalArgumentException(
-                    String.format("Expected a valid URI for predicate template, found '%s'", value),
+                    String.format("Expected a valid IRI for predicate template, found '%s'", value),
                     iae
             );
         }

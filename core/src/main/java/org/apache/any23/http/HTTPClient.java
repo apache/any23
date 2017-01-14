@@ -22,7 +22,7 @@ import java.io.InputStream;
 
 /**
  * Abstraction for opening an {@link InputStream} on an
- * HTTP URI.
+ * HTTP IRI.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -36,11 +36,11 @@ public interface HTTPClient {
     public abstract void init(HTTPClientConfiguration configuration);
 
     /**
-     * Opens the input stream for the given target URI.
+     * Opens the input stream for the given target IRI.
      *
-     * @param uri target URI.
-     * @return input stream to access URI content.
-     * @throws IOException if any error occurs while reading the URI content.
+     * @param uri target IRI.
+     * @return input stream to access IRI content.
+     * @throws IOException if any error occurs while reading the IRI content.
      */
     public abstract InputStream openInputStream(String uri) throws IOException;
 
@@ -66,13 +66,13 @@ public interface HTTPClient {
     public abstract long getContentLength();
 
     /**
-     * Returns the actual URI from which the document was fetched.
-     * This might differ from the URI passed to openInputStream()
+     * Returns the actual IRI from which the document was fetched.
+     * This might differ from the IRI passed to openInputStream()
      * if a redirect was performed. A return value of <tt>null</tt>
-     * means that the URI is unchanged and the original URI was used.
+     * means that the IRI is unchanged and the original IRI was used.
      *
-     * @return actual document URI.
+     * @return actual document IRI.
      */
-    public abstract String getActualDocumentURI();
+    public abstract String getActualDocumentIRI();
     
 }

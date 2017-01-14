@@ -215,7 +215,7 @@ public class ItemPropValue {
         try {
             return new URL((String) content);
         } catch (MalformedURLException murle) {
-            throw new IllegalStateException("Error while parsing URI.", murle);
+            throw new IllegalStateException("Error while parsing IRI.", murle);
         }
     }
 

@@ -25,7 +25,7 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -48,13 +48,13 @@ public class TitleExtractor implements TagSoupDOMExtractor {
             ExtractionResult out
     ) throws IOException, ExtractionException {
         final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(
-            ValueFactoryImpl.getInstance(), out, extractionContext.getDefaultLanguage()
+            SimpleValueFactory.getInstance(), out, extractionContext.getDefaultLanguage()
         );
         
         try {
             String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
             if (title != null && (title.length() != 0)) {
-                out.writeTriple(extractionContext.getDocumentURI(), vDCTERMS.title, valueFactory.createLiteral(title));
+                out.writeTriple(extractionContext.getDocumentIRI(), vDCTERMS.title, valueFactory.createLiteral(title));
             }
         } finally {
             valueFactory.setIssueReport(null);

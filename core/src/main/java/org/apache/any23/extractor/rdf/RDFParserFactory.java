@@ -21,16 +21,16 @@ import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
-import org.openrdf.model.impl.ValueFactoryImpl;
-import org.openrdf.rio.ParseErrorListener;
-import org.openrdf.rio.RDFFormat;
-import org.openrdf.rio.RDFHandlerException;
-import org.openrdf.rio.RDFParseException;
-import org.openrdf.rio.RDFParser;
-import org.openrdf.rio.Rio;
-import org.openrdf.rio.helpers.RDFaParserSettings;
-import org.openrdf.rio.helpers.RDFaVersion;
-import org.openrdf.rio.turtle.TurtleParser;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
+import org.eclipse.rdf4j.rio.ParseErrorListener;
+import org.eclipse.rdf4j.rio.RDFFormat;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.eclipse.rdf4j.rio.RDFParseException;
+import org.eclipse.rdf4j.rio.RDFParser;
+import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.helpers.RDFaParserSettings;
+import org.eclipse.rdf4j.rio.helpers.RDFaVersion;
+import org.eclipse.rdf4j.rio.turtle.TurtleParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -246,7 +246,7 @@ public class RDFParserFactory {
         parser.setParseErrorListener( new InternalParseErrorListener(extractionResult) );
         parser.setValueFactory(
                 new Any23ValueFactoryWrapper(
-                        ValueFactoryImpl.getInstance(),
+                        SimpleValueFactory.getInstance(),
                         extractionResult,
                         extractionContext.getDefaultLanguage()
                 )
@@ -265,25 +265,28 @@ public class RDFParserFactory {
             extractionResult = er;
         }
 
-        public void warning(String msg, int lineNo, int colNo) {
+        @Override
+        public void warning(String msg, long lineNo, long colNo) {
             try {
-                extractionResult.notifyIssue(IssueReport.IssueLevel.Warning, msg, lineNo, colNo);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.WARNING, msg, lineNo, colNo);
             } catch (Exception e) {
                 notifyExceptionInNotification(e);
             }
         }
 
-        public void error(String msg, int lineNo, int colNo) {
+        @Override
+        public void error(String msg, long lineNo, long colNo) {
             try {
-                extractionResult.notifyIssue(IssueReport.IssueLevel.Error, msg, lineNo, colNo);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.ERROR, msg, lineNo, colNo);
             } catch (Exception e) {
                 notifyExceptionInNotification(e);
             }
         }
 
-        public void fatalError(String msg, int lineNo, int colNo) {
+        @Override
+        public void fatalError(String msg, long lineNo, long colNo) {
             try {
-                extractionResult.notifyIssue(IssueReport.IssueLevel.Fatal, msg, lineNo, colNo);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, msg, lineNo, colNo);
             } catch (Exception e) {
                 notifyExceptionInNotification(e);
             }
@@ -297,22 +300,22 @@ public class RDFParserFactory {
     }
 
     /**
-     * This extended Turtle parser sets the default namespace to the base URI
+     * This extended Turtle parser sets the default namespace to the base IRI
      * before the parsing.
      */
     private class ExtendedTurtleParser extends TurtleParser {
         @Override
-        public void parse(Reader reader, String baseURI)
+        public void parse(Reader reader, String baseIRI)
         throws IOException, RDFParseException, RDFHandlerException {
-            setNamespace("", baseURI);
-            super.parse(reader, baseURI);
+            setNamespace("", baseIRI);
+            super.parse(reader, baseIRI);
         }
 
         @Override
-        public void parse(InputStream in, String baseURI)
+        public void parse(InputStream in, String baseIRI)
         throws IOException, RDFParseException, RDFHandlerException {
-            setNamespace("", baseURI);
-            super.parse(in, baseURI);
+            setNamespace("", baseIRI);
+            super.parse(in, baseIRI);
         }
     }
 }

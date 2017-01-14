@@ -23,7 +23,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openrdf.model.impl.ValueFactoryImpl;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -115,12 +115,12 @@ public class TemplateXPathExtractorRuleImplTest {
     }
 
     @Test
-    public void testAcceptURI() {
-        Assert.assertTrue( xPathExtractionRule.acceptURI(
-                ValueFactoryImpl.getInstance().createURI("http://test/pattern/page"))
+    public void testAcceptIRI() {
+        Assert.assertTrue( xPathExtractionRule.acceptIRI(
+                SimpleValueFactory.getInstance().createIRI("http://test/pattern/page"))
         );
-        Assert.assertFalse( xPathExtractionRule.acceptURI(
-                ValueFactoryImpl.getInstance().createURI("http://test/wrong/page"))
+        Assert.assertFalse( xPathExtractionRule.acceptIRI(
+                SimpleValueFactory.getInstance().createIRI("http://test/wrong/page"))
         );
     }
 
@@ -144,24 +144,24 @@ public class TemplateXPathExtractorRuleImplTest {
         xPathExtractionRule.add(template1);
         xPathExtractionRule.add(template2);
 
-        final String documentURI = "http://www.page.com/test-uri";
+        final String documentIRI = "http://www.page.com/test-uri";
         final InputStream testData = this.getClass().getResourceAsStream("xpathextractor-test.html");
-        final TagSoupParser tagSoupParser = new TagSoupParser(testData, documentURI);
+        final TagSoupParser tagSoupParser = new TagSoupParser(testData, documentIRI);
         final ExtractionResult extractionResult = mock(ExtractionResult.class);
         xPathExtractionRule.process(tagSoupParser.getDOM(), extractionResult);
 
         verify(extractionResult).writeTriple(
-                ValueFactoryImpl.getInstance().createURI("http://sub1"),
-                ValueFactoryImpl.getInstance().createURI("http://pred1"),
-                ValueFactoryImpl.getInstance().createLiteral("value1"),
-                ValueFactoryImpl.getInstance().createURI("http://graph1")
+                SimpleValueFactory.getInstance().createIRI("http://sub1"),
+                SimpleValueFactory.getInstance().createIRI("http://pred1"),
+                SimpleValueFactory.getInstance().createLiteral("value1"),
+                SimpleValueFactory.getInstance().createIRI("http://graph1")
         );
 
         verify(extractionResult).writeTriple(
-                ValueFactoryImpl.getInstance().createURI("http://sub2"),
-                ValueFactoryImpl.getInstance().createURI("http://test.dom/uri"),
-                ValueFactoryImpl.getInstance().createURI("http://obj2"),
-                ValueFactoryImpl.getInstance().createURI("http://graph2")
+                SimpleValueFactory.getInstance().createIRI("http://sub2"),
+                SimpleValueFactory.getInstance().createIRI("http://test.dom/uri"),
+                SimpleValueFactory.getInstance().createIRI("http://obj2"),
+                SimpleValueFactory.getInstance().createIRI("http://graph2")
         );
     }
 
