@@ -64,7 +64,7 @@ Data Conversion
  A writer stores the extracted triples in some destination.
  We use an {{{./xref/org/apache/any23/writer/NTriplesWriter.html}NTriplesWriter}} here that writes
  into a <<ByteArrayOutputStream>>. The main <<RDF>> formats writers are available and it is possible also to store
- the triples directly into a <<Sesame>> repository to query them via <<SPARQL>>.
+ the triples directly into an <<RDF4J>> repository to query them via <<SPARQL>>.
  See {{{./xref/org/apache/any23/writer/RepositoryWriter.html}RepositoryWriter}} and the writer
  {{{./xref/org/apache/any23/writer/package-summary.html}package}}.
 

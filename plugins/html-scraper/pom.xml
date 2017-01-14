@@ -32,7 +32,7 @@
   <description>Any23 plugin for scraping HTML code.</description>
 
   <dependencies>
-    <!-- Sesame. -->
+    <!-- RDF4J -->
     <dependency>
       <groupId>org.eclipse.rdf4j</groupId>
       <artifactId>rdf4j-model</artifactId>

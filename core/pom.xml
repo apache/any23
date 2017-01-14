@@ -99,7 +99,7 @@
     </dependency>
     <!-- END: Tika -->
 
-    <!-- BEGIN: Sesame -->
+    <!-- BEGIN: RDF4J -->
     <dependency>
       <groupId>org.eclipse.rdf4j</groupId>
       <artifactId>rdf4j-model</artifactId>
@@ -144,7 +144,7 @@
       <groupId>org.semarglproject</groupId>
       <artifactId>semargl-rdf4j</artifactId>
     </dependency>
-    <!-- END: Sesame -->
+    <!-- END: RDF4J -->
     
     <!-- BEGIN:  Apache Commons, this version is hosted in the 
            any23-repository-external repository -->
