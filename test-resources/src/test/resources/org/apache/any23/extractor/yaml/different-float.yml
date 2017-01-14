@@ -1,0 +1,6 @@
+## YAML Template.
+---
+canonical: 1.85930e+2
+exponential: 18.5930e+2
+fixed: 1.856
+not a number: .NaN

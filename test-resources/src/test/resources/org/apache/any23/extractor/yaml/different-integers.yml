@@ -1,0 +1,6 @@
+%YAML 1.2
+---
+- canonical: 12345
+- decimal: +12345
+- octal: 041
+- hexadecimal: 0xC

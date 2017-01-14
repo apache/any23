@@ -26,3 +26,4 @@ org.apache.any23.extractor.rdf.TurtleExtractorFactory
 org.apache.any23.extractor.rdfa.RDFa11ExtractorFactory
 org.apache.any23.extractor.rdfa.RDFaExtractorFactory
 org.apache.any23.extractor.xpath.XPathExtractorFactory
+org.apache.any23.extractor.yaml.YAMLExtractorFactory

@@ -17,7 +17,6 @@
 
 package org.apache.any23.plugin;
 
-import org.apache.any23.cli.Crawler;
 import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorGroup;
 import org.apache.any23.extractor.ExtractorRegistryImpl;
@@ -42,7 +41,7 @@ import static org.junit.Assert.assertTrue;
 public class PluginIT {
 
     //TODO reduced from 31 to 28 within ANY23-276
-    private static final int NUM_OF_EXTRACTORS = 28;
+    private static final int NUM_OF_EXTRACTORS = 29;
 
     private static final String PLUGIN_DIR = "target/plugins-build/";
 

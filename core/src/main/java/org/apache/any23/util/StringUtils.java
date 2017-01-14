@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.any23.util;
+
+import java.util.regex.Pattern;
+import org.apache.commons.lang.WordUtils;
 
 /**
  * This class provides a set of string utility methods.
@@ -25,8 +27,8 @@ package org.apache.any23.util;
 public class StringUtils {
 
     /**
-     * Joins the given input sting <code>data</code> list
-     * using the specified <code>delimiter</code>.
+     * Joins the given input sting <code>data</code> list using the specified
+     * <code>delimiter</code>.
      *
      * @param delimiter string delimiter.
      * @param data list of data to be joined.
@@ -45,8 +47,8 @@ public class StringUtils {
     }
 
     /**
-     * Counts how many times <code>content</code> appears within <code>container</code>
-     * without string overlapping.
+     * Counts how many times <code>content</code> appears within
+     * <code>container</code> without string overlapping.
      *
      * @param container container string.
      * @param content content string.
@@ -54,9 +56,9 @@ public class StringUtils {
      */
     public static int countOccurrences(String container, String content) {
         int lastIndex, currIndex = 0, occurrences = 0;
-        while(true) {
+        while (true) {
             lastIndex = container.indexOf(content, currIndex);
-            if(lastIndex == -1) {
+            if (lastIndex == -1) {
                 break;
             }
             currIndex = lastIndex + content.length();
@@ -75,24 +77,24 @@ public class StringUtils {
         return countOccurrences(in, "\n");
     }
 
-
     /**
-     * Check whether string <code>candidatePrefix</code> is prefix of string <code>container</code>.
+     * Check whether string <code>candidatePrefix</code> is prefix of string
+     * <code>container</code>.
      *
      * @param candidatePrefix prefix to check
      * @param container container to check against
-     * @return <code>true</code> if <code>candidatePrefix</code> is prefix of <code>container</code>,
-     *         <code>false</code> otherwise.
+     * @return <code>true</code> if <code>candidatePrefix</code> is prefix of
+     * <code>container</code>, <code>false</code> otherwise.
      */
     public static boolean isPrefix(String candidatePrefix, String container) {
-        if(candidatePrefix == null || container == null) {
+        if (candidatePrefix == null || container == null) {
             throw new NullPointerException("Arguments must be not null.");
         }
-        if(candidatePrefix.length() > container.length()) {
+        if (candidatePrefix.length() > container.length()) {
             return false;
         }
-        for(int i = 0; i < candidatePrefix.length(); i++) {
-            if(candidatePrefix.charAt(i) != container.charAt(i)) {
+        for (int i = 0; i < candidatePrefix.length(); i++) {
+            if (candidatePrefix.charAt(i) != container.charAt(i)) {
                 return false;
             }
         }
@@ -100,23 +102,24 @@ public class StringUtils {
     }
 
     /**
-     * Check whether string <code>candidateSuffix</code> is suffix of string <code>container</code>.
+     * Check whether string <code>candidateSuffix</code> is suffix of string
+     * <code>container</code>.
      *
      * @param candidateSuffix suffix to check
      * @param container container to check against
-     * @return <code>true</code> if <code>candidateSuffix</code> is prefix of <code>container</code>,
-     *         <code>false</code> otherwise.
+     * @return <code>true</code> if <code>candidateSuffix</code> is prefix of
+     * <code>container</code>, <code>false</code> otherwise.
      */
     public static boolean isSuffix(String candidateSuffix, String container) {
-        if(candidateSuffix == null || container == null) {
+        if (candidateSuffix == null || container == null) {
             throw new NullPointerException("Arguments must be not null.");
         }
-        if(candidateSuffix.length() > container.length()) {
+        if (candidateSuffix.length() > container.length()) {
             return false;
         }
         final int lenDiff = container.length() - candidateSuffix.length();
-        for(int i = candidateSuffix.length() - 1; i >= 0; i--) {
-            if(candidateSuffix.charAt(i) != container.charAt(i + lenDiff)) {
+        for (int i = candidateSuffix.length() - 1; i >= 0; i--) {
+            if (candidateSuffix.charAt(i) != container.charAt(i + lenDiff)) {
                 return false;
             }
         }
@@ -133,11 +136,11 @@ public class StringUtils {
         final StringBuilder out = new StringBuilder();
         boolean escaped = false;
         char current;
-        for(int i = 0; i < in.length(); i++) {
+        for (int i = 0; i < in.length(); i++) {
             current = in.charAt(i);
-            if(current == '\\') {
+            if (current == '\\') {
                 escaped = !escaped;
-            } else if(current == '"' && !escaped) {
+            } else if (current == '"' && !escaped) {
                 out.append('\\');
             }
             out.append(current);
@@ -146,31 +149,65 @@ public class StringUtils {
     }
 
     /**
-     * Escapes the <code>in</code> string as <b>JSON</b> string
-     * to let it being embeddable within a string field.
+     * Escapes the <code>in</code> string as <b>JSON</b> string to let it being
+     * embeddable within a string field.
      *
      * @param in string to be escaped.
      * @return escaped string.
      */
     public static String escapeAsJSONString(String in) {
-        return escapeDoubleQuotes( in.replaceAll("\n", "\\\\n") );
+        return escapeDoubleQuotes(in.replaceAll("\n", "\\\\n"));
     }
 
     /**
-     * Builds a string composed of the given char <code>c</code> <code>n</code> times.
+     * Builds a string composed of the given char <code>c</code> <code>n</code>
+     * times.
      *
      * @param c char to be multiplied.
      * @param times number of times.
      * @return the string containing the multiplied char.
      */
     public static String multiply(char c, int times) {
-        if(times <= 0) throw new IllegalArgumentException("Invalid number of times, must be > 0 .");
+        if (times <= 0) {
+            throw new IllegalArgumentException("Invalid number of times, must be > 0 .");
+        }
         final char[] buffer = new char[times];
-        for(int i = 0; i < times; i++) {
+        for (int i = 0; i < times; i++) {
             buffer[i] = c;
         }
         return new String(buffer);
     }
 
-    private StringUtils() {}
+    /**
+     * Changes string with following convention:
+     * <ul>
+     * <li>Changes '-' -> '_'
+     * <li>remove space characters and make first letter word uppercase: 'some
+     * string' -> 'someString'
+     * </ul>
+     * If input string does not contains a whitespace than return unchanged.
+     *
+     * @param in
+     * @return
+     */
+    public static String implementJavaNaming(String in) {
+
+        in = in.trim().replaceAll("-", "_");
+
+		// If no white chars found inside a string return uncapitalized
+        if (in.trim().matches("\\S+")) {
+			return WordUtils.uncapitalize(in);
+        }
+
+        in = in.toLowerCase();
+        if (Pattern.matches("\\S+(\\s+\\S+)+", in)) {
+            String[] words = in.split("\\s", 2);
+            in = words[0] + WordUtils.capitalize(words[1]).replaceAll("\\s", "");
+        }
+
+        return in;
+    }
+
+    private StringUtils() {
+    }
 }
