@@ -131,7 +131,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <!-- Solve concurrency issues in Crawler4j internal status. -->
-          <forkMode>always</forkMode>
+          <forkCount>1</forkCount>
+          <reuseForks>false</reuseForks>
         </configuration>
       </plugin>
 
