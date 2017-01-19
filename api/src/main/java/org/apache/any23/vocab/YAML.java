@@ -50,9 +50,9 @@ public class YAML extends Vocabulary {
 	}
 
 	/**
-	 * The root node. Representation of the YAML file. NB: one file may contain more than one documents
-	 * represented by nodes; e.g. <br/>
-	 * <br/>
+	 * <p>The root node. Representation of the YAML file. NB: one file may contain more than one documents
+	 * represented by nodes; e.g. </p>
+	 * <p>
 	 * <code>
 	 * %YAML 1.2 
 	 * --- 
@@ -60,7 +60,8 @@ public class YAML extends Vocabulary {
 	 * - data2 
 	 * --- 
 	 * - data3 
-	 * </code> <br/>
+	 * </code>
+	 * </p>
 	 * Contains two documents.
 	 */
 	public final IRI root = createProperty(NS, ROOT);

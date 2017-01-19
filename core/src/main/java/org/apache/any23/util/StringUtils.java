@@ -181,14 +181,14 @@ public class StringUtils {
     /**
      * Changes string with following convention:
      * <ul>
-     * <li>Changes '-' -> '_'
+     * <li>Changes '-' -&gt; '_'
      * <li>remove space characters and make first letter word uppercase: 'some
-     * string' -> 'someString'
+     * string' -&gt; 'someString'
      * </ul>
      * If input string does not contains a whitespace than return unchanged.
      *
-     * @param in
-     * @return
+     * @param in an input string to convert to Java code convention
+     * @return the correctly formatter string as per Java spec.
      */
     public static String implementJavaNaming(String in) {
 
