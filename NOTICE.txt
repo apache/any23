@@ -10,3 +10,7 @@ Foundation (http://jquery.org/) under an MIT license.
 
 This product includes software developed by Eclipse RDF4J
 (http://rdf4j.org/) under the Eclipse Distribution License v1.0.
+
+This product includes software developed by Andrey Somov
+(https://bitbucket.org/asomov/snakeyaml) under the Apache License
+v2.0

@@ -1,3 +1,61 @@
+			 Apache Any23 2.0
+			  Release Notes
+		      03/02/2017 (dd/mm/yyy)
+Sub-task
+
+    [ANY23-243] - Overhaul and update README.txt
+
+Bug
+
+    [ANY23-79] - No execute permissions in command line tool
+    [ANY23-92] - NQuadsParser does not require whitespace between elements
+    [ANY23-99] - NQuadsWriter should force ASCII in OutputStream constructor
+    [ANY23-153] - Automatically Generate EARL reports for Any23 RDF Parsers
+    [ANY23-176] - DOC: Apache Any23 Installation Guide
+    [ANY23-200] - Build revision is not correctly defined
+    [ANY23-219] - rover is does not work with -f nquads option
+    [ANY23-235] - NQuads links broken on Supported Formats Page
+    [ANY23-236] - Port Any23 site to Apache CMS
+    [ANY23-248] - NTriplesWriter on hadoop : issue with MIME type/Upgrade sesame dependencies to 2.7.14
+    [ANY23-252] - JSON-LD format MIME type is not detected
+    [ANY23-253] - JSON-LD cannot be processed by Rover
+    [ANY23-255] - apache-any23-quads dependency should not be <scope> test in core pom.xml
+    [ANY23-265] - ThreadSafety issue in ItemPropValue
+    [ANY23-272] - Service fails to start with any23server.bat
+    [ANY23-277] - Any23 master branch will not build to to build due to lacking maven-assembly-plugin
+    [ANY23-279] - Fix EmbeddedJSONLDExtractor ExtractorDescription getDescription() implementation
+    [ANY23-296] - Tar complains about groupid value being too big
+    [ANY23-302] - rover JSON output is not valid
+
+Improvement
+
+    [ANY23-80] - Split out command line tools into a separate module
+    [ANY23-163] - VocabPrinter tool broken with No writer factory available for RDF format N-Quads (mimeTypes=text/x-nquads; ext=nq)
+    [ANY23-185] - Add missing <meta> element attributes to HTMLMetaExtractor
+    [ANY23-207] - Implement Microformats2
+    [ANY23-246] - Add Open Graph Protocol and Facebook prefixes to popular.prefixes
+    [ANY23-247] - FIX Attribute name "itemscope" associated with an element type "html" must be followed by the ' = ' character.
+    [ANY23-250] - Upgrade to Tika 1.7
+    [ANY23-261] - Tiny typo in Data Extraction documentation source example
+    [ANY23-263] - Upgrade to Tika 1.14
+    [ANY23-274] - Change any23.microdata.ns.default configuration value to http://schema.org
+    [ANY23-276] - Upgrade sesame dependencies to RDF4J
+    [ANY23-278] - Upgrade all Maven plugin versions in parent pom.xml
+    [ANY23-293] - Package log4j configuration with core appassembler
+    [ANY23-297] - Any23 doesn't build under JDK1.8
+    [ANY23-299] - Missing YAML to RDF parser
+    [ANY23-300] - Ignore NetBeans configuration files
+
+Task
+
+    [ANY23-141] - Upgrade OpenRDF Sesame to 2.7.0
+    [ANY23-242] - Address issues with 1.1 #1 RC
+
+Wish
+
+    [ANY23-19] - Abstract away any specific RDF APIs
+    [ANY23-226] - Extract JSON-LD embedded in HTML
+
                          Apache Any23 1.1
                           Release Notes
                       15/10/2014 (dd/mm/yyyy)
