@@ -14,37 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.extractor.yaml;
+package org.apache.any23.extractor.openie;
 
 import java.util.Arrays;
+
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.SimpleExtractorFactory;
 import org.apache.any23.rdf.Prefixes;
 
 /**
- * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
+ * @author lewismc
+ *
  */
-public class YAMLExtractorFactory extends SimpleExtractorFactory<YAMLExtractor> implements ExtractorFactory<YAMLExtractor>
-{
+public class OpenIEExtractorFactory extends SimpleExtractorFactory<OpenIEExtractor>
+    implements ExtractorFactory<OpenIEExtractor> {
 
-  public static final String NAME = "yaml";
+  public static final String NAME = "openie";
 
   public static final Prefixes prefixes = null;
 
-  private static final ExtractorDescription descriptionInstance = new YAMLExtractorFactory();
+  private static final ExtractorDescription descriptionInstance = new OpenIEExtractorFactory();
 
-  public YAMLExtractorFactory() {
-    super(NAME, prefixes, Arrays.asList("text/x-yaml;q=0.5"), "example.yaml");
+  public OpenIEExtractorFactory() {
+    super(NAME, prefixes, Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-openie.html");
   }
 
   @Override
-  public YAMLExtractor createExtractor() {
-    return new YAMLExtractor();
+  public OpenIEExtractor createExtractor() {
+    return new OpenIEExtractor();
   }
 
   public static ExtractorDescription getDescriptionInstance() {
     return descriptionInstance;
   }
+
 
 }

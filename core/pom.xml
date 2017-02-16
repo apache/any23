@@ -83,7 +83,10 @@
       <artifactId>snakeyaml</artifactId>
       <version>1.17</version>
     </dependency>
-
+    <dependency>
+      <groupId>edu.washington.cs.knowitall.openie</groupId>
+      <artifactId>openie_2.10</artifactId>
+    </dependency>
     <!-- BEGIN: Tika -->
     <dependency>
       <groupId>org.apache.tika</groupId>

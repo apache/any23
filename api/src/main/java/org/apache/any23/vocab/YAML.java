@@ -24,52 +24,52 @@ import org.eclipse.rdf4j.model.IRI;
  */
 public class YAML extends Vocabulary {
 
-	/*
-	 * Namespace of YAML vocabulary
-	 */
-	public static final String NS = "http://yaml.org/spec/1.2/spec.html#";
+    /*
+     * Namespace of YAML vocabulary
+     */
+    public static final String NS = "http://yaml.org/spec/1.2/spec.html#";
 
-	public static final String PREFIX = "yaml";
+    public static final String PREFIX = "yaml";
 
-	public static final String ROOT = "Root";
+    public static final String ROOT = "Root";
 
-	public static final String DOCUMENT = "Document";
+    public static final String DOCUMENT = "Document";
 
-	public static final String NODE = "Node";
+    public static final String NODE = "Node";
 
-	public static final String CONTAINS = "contains";
+    public static final String CONTAINS = "contains";
 
-	private static final YAML _instance = new YAML();
+    private static final YAML _instance = new YAML();
 
-	private YAML() {
-		super(NS);
-	}
+    private YAML() {
+        super(NS);
+    }
 
-	public static YAML getInstance() {
-		return _instance;
-	}
+    public static YAML getInstance() {
+        return _instance;
+    }
 
-	/**
-	 * <p>The root node. Representation of the YAML file. NB: one file may contain more than one documents
-	 * represented by nodes; e.g. </p>
-	 * <p>
-	 * <code>
-	 * %YAML 1.2 
-	 * --- 
-	 * - data1 
-	 * - data2 
-	 * --- 
-	 * - data3 
-	 * </code>
-	 * </p>
-	 * Contains two documents.
-	 */
-	public final IRI root = createProperty(NS, ROOT);
+    /**
+     * <p>The root node. Representation of the YAML file. NB: one file may contain more than one documents
+     * represented by nodes; e.g. </p>
+     * <p>
+     * <code>
+     * %YAML 1.2 
+     * --- 
+     * - data1 
+     * - data2 
+     * --- 
+     * - data3 
+     * </code>
+     * </p>
+     * Contains two documents.
+     */
+    public final IRI root = createProperty(NS, ROOT);
 
-	public final IRI document = createProperty(NS, DOCUMENT);
+    public final IRI document = createProperty(NS, DOCUMENT);
 
-	public final IRI node = createProperty(NS, NODE);
+    public final IRI node = createProperty(NS, NODE);
 
-	public final IRI contains = createProperty(NS, CONTAINS);
+    public final IRI contains = createProperty(NS, CONTAINS);
 
 }

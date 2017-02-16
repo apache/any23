@@ -71,7 +71,8 @@ public class RDFUtils {
      */
     public static String fixAbsoluteIRI(String uri) {
         String fixed = fixIRIWithException(uri);
-        if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute org.eclipse.rdf4j.model.IRI: " + uri);
+        if (!fixed.matches("[a-zA-Z0-9]+:/.*"))
+          throw new IllegalArgumentException("not a absolute org.eclipse.rdf4j.model.IRI: " + uri);
         // Add trailing slash if org.eclipse.rdf4j.model.IRI has only authority but no path.
         if (fixed.matches("https?://[a-zA-Z0-9.-]+(:[0-9+])?")) {
             fixed = fixed + "/";
@@ -129,7 +130,8 @@ public class RDFUtils {
      * @return the unescaped string.
      */
     public static String fixIRIWithException(String unescapedIRI) {
-        if (unescapedIRI == null) throw new IllegalArgumentException("org.eclipse.rdf4j.model.IRI was null");
+        if (unescapedIRI == null)
+          throw new IllegalArgumentException("org.eclipse.rdf4j.model.IRI was null");
 
         //    Remove starting and ending whitespace
         String escapedIRI = unescapedIRI.trim();
@@ -141,7 +143,8 @@ public class RDFUtils {
         escapedIRI = escapedIRI.replaceAll("\n", "");
 
         //'Remove starting  "\" or '"'
-        if (escapedIRI.startsWith("\\") || escapedIRI.startsWith("\"")) escapedIRI = escapedIRI.substring(1);
+        if (escapedIRI.startsWith("\\") || escapedIRI.startsWith("\""))
+          escapedIRI = escapedIRI.substring(1);
         //Remove  ending   "\" or '"'
         if (escapedIRI.endsWith("\\") || escapedIRI.endsWith("\""))
             escapedIRI = escapedIRI.substring(0, escapedIRI.length() - 1);
@@ -406,7 +409,8 @@ public class RDFUtils {
      * @return a value instance.
      */
     public static Value toValue(String s) {
-        if ("a".equals(s)) return RDF.TYPE;
+        if ("a".equals(s))
+          return RDF.TYPE;
         if (s.matches("[a-z0-9]+:.*")) {
             return PopularPrefixes.get().expand(s);
         }
@@ -466,7 +470,8 @@ public class RDFUtils {
      * @throws IllegalArgumentException if no extension matches.
      */
     public static Optional<RDFFormat> getFormatByExtension(String ext) {
-        if( ! ext.startsWith(".") ) ext = "." + ext;
+        if( ! ext.startsWith(".") )
+          ext = "." + ext;
         return Rio.getParserFormatForFileName(ext);
     }
 
@@ -537,12 +542,12 @@ public class RDFUtils {
      * @throws org.eclipse.rdf4j.rio.RDFParseException if an error occurs while parsing file.
      */
     public static Statement[] parseRDF(String resource) throws RDFHandlerException, IOException, RDFParseException {
-        final int extIndex = resource.lastIndexOf(".");
+        final int extIndex = resource.lastIndexOf('.');
         if(extIndex == -1)
             throw new IllegalArgumentException("Error while detecting the extension in resource name " + resource);
         final String extension = resource.substring(extIndex + 1);
         return parseRDF( getFormatByExtension(extension).orElseThrow(Rio.unsupportedFormat(extension))
-        		        , RDFUtils.class.getResourceAsStream(resource) );
+                , RDFUtils.class.getResourceAsStream(resource) );
     }
 
     /**
@@ -563,7 +568,5 @@ public class RDFUtils {
             return false;
         }
     }
-
-    private RDFUtils() {}
 
 }

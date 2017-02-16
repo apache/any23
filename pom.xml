@@ -455,6 +455,11 @@
         <artifactId>rdf4j-rio-jsonld</artifactId>
         <version>${rdf4j.version}</version>
       </dependency>
+      <dependency>
+        <groupId>edu.washington.cs.knowitall.openie</groupId>
+        <artifactId>openie_2.10</artifactId>
+        <version>4.2.1</version>
+      </dependency>
       <!-- END: Misc -->
 
       <!-- BEGIN:  Apache Commons -->
