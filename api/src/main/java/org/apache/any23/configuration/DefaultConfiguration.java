@@ -48,6 +48,14 @@ public class DefaultConfiguration implements Configuration {
 
     protected final Properties properties;
 
+    protected DefaultConfiguration(Properties properties) {
+        this.properties = properties;
+    }
+
+    private DefaultConfiguration() {
+        this( loadDefaultProperties() );
+    }
+
     /**
      * @return the singleton configuration instance.
      *         Such instance is unmodifiable.
@@ -74,22 +82,17 @@ public class DefaultConfiguration implements Configuration {
         return properties;
     }
 
-    protected DefaultConfiguration(Properties properties) {
-        this.properties = properties;
-    }
-
-    private DefaultConfiguration() {
-        this( loadDefaultProperties() );
-    }
-
+    @Override
     public synchronized String[] getProperties() {
         return properties.keySet().toArray( new String[properties.size()] );
     }
 
+    @Override
     public synchronized boolean defineProperty(String propertyName) {
         return properties.containsKey(propertyName);
     }
 
+    @Override
     public synchronized String getProperty(String propertyName, String defaultValue) {
         final String value = getPropertyValue(propertyName);
         if(value == null) {
@@ -98,6 +101,7 @@ public class DefaultConfiguration implements Configuration {
         return value;
     }
 
+    @Override
     public synchronized String getPropertyOrFail(String propertyName) {
         final String propertyValue = getPropertyValue(propertyName);
         if(propertyValue == null) {
@@ -111,6 +115,7 @@ public class DefaultConfiguration implements Configuration {
         return propertyValue;
     }
 
+    @Override
     public synchronized int getPropertyIntOrFail(String propertyName) {
         final String value = getPropertyOrFail(propertyName);
         final String trimValue = value.trim();
@@ -121,6 +126,7 @@ public class DefaultConfiguration implements Configuration {
         }
     }
 
+    @Override
     public synchronized boolean getFlagProperty(final String propertyName) {
         final String value = getPropertyOrFail(propertyName);
         if(value == null) {
@@ -140,6 +146,7 @@ public class DefaultConfiguration implements Configuration {
         );
     }
 
+    @Override
     public synchronized String getConfigurationDump() {
         final String[] defaultProperties = getProperties();
         final StringBuilder sb = new StringBuilder();

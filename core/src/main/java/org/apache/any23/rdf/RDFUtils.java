@@ -18,7 +18,9 @@
 package org.apache.any23.rdf;
 
 import org.apache.any23.util.MathUtils;
+import org.apache.any23.util.StringUtils;
 import org.eclipse.rdf4j.model.BNode;
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
@@ -60,6 +62,8 @@ import java.util.Optional;
  */
 public class RDFUtils {
 
+    private static int nodeId = 0;
+
     private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
 
     /**
@@ -71,7 +75,8 @@ public class RDFUtils {
      */
     public static String fixAbsoluteIRI(String uri) {
         String fixed = fixIRIWithException(uri);
-        if (!fixed.matches("[a-zA-Z0-9]+:/.*")) throw new IllegalArgumentException("not a absolute org.eclipse.rdf4j.model.IRI: " + uri);
+        if (!fixed.matches("[a-zA-Z0-9]+:/.*"))
+            throw new IllegalArgumentException("not a absolute org.eclipse.rdf4j.model.IRI: " + uri);
         // Add trailing slash if org.eclipse.rdf4j.model.IRI has only authority but no path.
         if (fixed.matches("https?://[a-zA-Z0-9.-]+(:[0-9+])?")) {
             fixed = fixed + "/";
@@ -129,7 +134,8 @@ public class RDFUtils {
      * @return the unescaped string.
      */
     public static String fixIRIWithException(String unescapedIRI) {
-        if (unescapedIRI == null) throw new IllegalArgumentException("org.eclipse.rdf4j.model.IRI was null");
+        if (unescapedIRI == null)
+            throw new IllegalArgumentException("org.eclipse.rdf4j.model.IRI was null");
 
         //    Remove starting and ending whitespace
         String escapedIRI = unescapedIRI.trim();
@@ -141,7 +147,8 @@ public class RDFUtils {
         escapedIRI = escapedIRI.replaceAll("\n", "");
 
         //'Remove starting  "\" or '"'
-        if (escapedIRI.startsWith("\\") || escapedIRI.startsWith("\"")) escapedIRI = escapedIRI.substring(1);
+        if (escapedIRI.startsWith("\\") || escapedIRI.startsWith("\""))
+            escapedIRI = escapedIRI.substring(1);
         //Remove  ending   "\" or '"'
         if (escapedIRI.endsWith("\\") || escapedIRI.endsWith("\""))
             escapedIRI = escapedIRI.substring(0, escapedIRI.length() - 1);
@@ -406,7 +413,8 @@ public class RDFUtils {
      * @return a value instance.
      */
     public static Value toValue(String s) {
-        if ("a".equals(s)) return RDF.TYPE;
+        if ("a".equals(s))
+            return RDF.TYPE;
         if (s.matches("[a-z0-9]+:.*")) {
             return PopularPrefixes.get().expand(s);
         }
@@ -466,7 +474,8 @@ public class RDFUtils {
      * @throws IllegalArgumentException if no extension matches.
      */
     public static Optional<RDFFormat> getFormatByExtension(String ext) {
-        if( ! ext.startsWith(".") ) ext = "." + ext;
+        if( ! ext.startsWith(".") )
+            ext = "." + ext;
         return Rio.getParserFormatForFileName(ext);
     }
 
@@ -564,6 +573,37 @@ public class RDFUtils {
         }
     }
 
+    public static Resource makeIRI(IRI docUri) {
+        return makeIRI("node", docUri);
+    }
+
+    public static Resource makeIRI(String type, IRI docIRI) {
+        return makeIRI(type, docIRI, false);
+    }
+
+    public static Resource makeIRI(String type, IRI docIRI, boolean addId) {
+
+        // preprocess string: converts - -> _
+        //                    converts <space>: word1 word2 -> word1Word2
+        String newType = StringUtils.implementJavaNaming(type);
+
+        String iriString;
+        if (docIRI.toString().endsWith("/")) {
+            iriString = docIRI.toString() + newType;
+        } else {
+            iriString = docIRI.toString() + "#" + newType;
+        }
+
+        if (addId) {
+            iriString = iriString + "_" + Integer.toString(nodeId);
+        }
+
+        Resource node = RDFUtils.iri(iriString);
+        if (addId) {
+            nodeId++;
+        }
+        return node;
+    }
     private RDFUtils() {}
 
 }

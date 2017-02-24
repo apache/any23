@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7"  lang="en" dir="ltr" class="no-js"><![endif]-->
+<!--[if lte IE 6]><html class="lt-ie9 lt-ie8 lt-ie7"  lang="en" dir="ltr" class="no-js"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="lt-ie9 lt-ie8"  lang="en" dir="ltr" class="no-js"><![endif]-->
+<!--[if IE 8]><html class="lt-ie9"  lang="en" dir="ltr" class="no-js"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html  lang="en" dir="ltr" class="no-js"><!--<![endif]-->
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+	<meta charset="utf-8"></meta>
+<!--[if lt IE 9]><script src="sites/all/themes/podaac/js/html5shiv.js" />
+</script><![endif]--><link rel="shortcut icon" href="http://podaac.jpl.nasa.gov/sites/default/files/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="canonical" href="/aquarius" />
+<meta name="Generator" content="Drupal 7 (http://drupal.org)"></meta>
+<link rel="shortlink" href="/node/406" />
+	<title>AQUARIUS | PO.DAAC</title>
+
+	<meta name="MobileOptimized" content="width"></meta>
+	<meta name="HandheldFriendly" content="true"></meta>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"></meta>
+	<meta http-equiv="cleartype" content="on"></meta>
+
+	<style>
+@import url("http://podaac.jpl.nasa.gov/modules/system/system.base.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/system/system.messages.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/system/system.theme.css?ohzcdw");
+</style>
+<style>
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.core.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.theme.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.menu.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.autocomplete.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.button.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.resizable.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.dialog.min.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/themes/base/minified/jquery.ui.tabs.min.css?ohzcdw");
+</style>
+<style>
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/simplenews/simplenews.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/aggregator/aggregator.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/date/date_api/date.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/date/date_popup/themes/datepicker.1.7.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/field/theme/field.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/menu_attach_block/menu_attach_block.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/node/node.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/custom/podaac_helper/css/podaac.sortable.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/search/search.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/modules/user/user.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/youtube/css/youtube.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/views/css/views.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/ckeditor/css/ckeditor.css?ohzcdw");
+</style>
+<style>
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/contrib/ctools/css/ctools.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/custom/faceted_browse/resources/css/faceted-browse-table-dialog.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/custom/faceted_browse/resources/css/faceted-browse-menu.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/custom/podaac_helper/css/podaac.jpl-banner.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/modules/custom/podaac_helper/css/podaac.search.css?ohzcdw");
+</style>
+<style>
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/normalize.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/tabs.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/pages.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/blocks.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/navigation.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/views-styles.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/nodes.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/comments.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/forms.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/fields.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/content.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/print.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/front.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/layouts/fixed-width.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/layouts/responsive-header.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/layouts/responsive-sidebars.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/layouts/responsive-footer.css?ohzcdw");
+@import url("http://podaac.jpl.nasa.gov/sites/all/themes/podaac/css/tophat.css?ohzcdw");
+</style>
+	<script src="http://podaac.jpl.nasa.gov/sites/all/libraries/modernizr/modernizr.min.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/jquery/1.10/jquery.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/misc/jquery.once.js?v=1.2"></script>
+<script src="http://podaac.jpl.nasa.gov/misc/drupal.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.core.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.widget.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.effect.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.position.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.menu.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.autocomplete.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.effect-slide.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.button.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.mouse.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.draggable.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.resizable.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.dialog.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/contrib/jquery_update/replace/ui/ui/minified/jquery.ui.tabs.min.js?v=1.10.2"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/podaac_helper/js/podaac.sortable.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/captcha/captcha.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/faceted_browse/resources/js/jquery/jquery.tablesorter.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/faceted_browse/resources/js/faceted-browse-autocomplete.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/faceted_browse/resources/js/faceted-browse-menu.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/faceted_browse/resources/js/faceted-browse-table-dialog.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/podaac_helper/js/podaac.search.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/themes/podaac/js/navigation.js?ohzcdw"></script>
+<script src="http://podaac.jpl.nasa.gov/sites/all/themes/podaac/js/podaac.js?ohzcdw"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"podaac","theme_token":"zS22V5NLa5jHbmp7exru4sNS9tcLbNcEcmJG9wOmIVU","css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.menu.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"misc\/ui\/jquery.ui.button.css":1,"misc\/ui\/jquery.ui.resizable.css":1,"misc\/ui\/jquery.ui.dialog.css":1,"misc\/ui\/jquery.ui.tabs.css":1,"sites\/all\/modules\/contrib\/simplenews\/simplenews.css":1,"modules\/aggregator\/aggregator.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/contrib\/menu_attach_block\/menu_attach_block.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/custom\/podaac_helper\/css\/podaac.sortable.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/all\/modules\/contrib\/youtube\/css\/youtube.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/custom\/faceted_browse\/resources\/css\/faceted-browse-table-dialog.css":1,"sites\/all\/modules\/custom\/faceted_browse\/resources\/css\/faceted-browse-menu.css":1,"sites\/all\/modules\/custom\/podaac_helper\/css\/podaac.jpl-banner.css":1,"sites\/all\/modules\/custom\/podaac_helper\/css\/podaac.search.css":1,"sites\/all\/themes\/podaac\/system.menus.css":1,"sites\/all\/themes\/podaac\/css\/normalize.css":1,"sites\/all\/themes\/podaac\/css\/wireframes.css":1,"sites\/all\/themes\/podaac\/css\/page-backgrounds.css":1,"sites\/all\/themes\/podaac\/css\/tabs.css":1,"sites\/all\/themes\/podaac\/css\/pages.css":1,"sites\/all\/themes\/podaac\/css\/blocks.css":1,"sites\/all\/themes\/podaac\/css\/navigation.css":1,"sites\/all\/themes\/podaac\/css\/views-styles.css":1,"sites\/all\/themes\/podaac\/css\/nodes.css":1,"sites\/all\/themes\/podaac\/css\/comments.css":1,"sites\/all\/themes\/podaac\/css\/forms.css":1,"sites\/all\/themes\/podaac\/css\/fields.css":1,"sites\/all\/themes\/podaac\/css\/content.css":1,"sites\/all\/themes\/podaac\/css\/print.css":1,"sites\/all\/themes\/podaac\/css\/front.css":1,"sites\/all\/themes\/podaac\/css\/layouts\/fixed-width.css":1,"sites\/all\/themes\/podaac\/css\/layouts\/responsive-header.css":1,"sites\/all\/themes\/podaac\/css\/layouts\/responsive-sidebars.css":1,"sites\/all\/themes\/podaac\/css\/layouts\/responsive-footer.css":1,"sites\/all\/themes\/podaac\/css\/tophat.css":1},"js":{"sites\/all\/libraries\/modernizr\/modernizr.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/1.10\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.core.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.widget.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.effect.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.position.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.menu.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.autocomplete.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.effect-slide.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.button.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.mouse.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.draggable.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.resizable.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.dialog.min.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/ui\/ui\/minified\/jquery.ui.tabs.min.js":1,"sites\/all\/modules\/custom\/podaac_helper\/js\/podaac.sortable.js":1,"sites\/all\/modules\/custom\/captcha\/captcha.js":1,"sites\/all\/modules\/custom\/faceted_browse\/resources\/js\/jquery\/jquery.tablesorter.js":1,"sites\/all\/modules\/custom\/faceted_browse\/resources\/js\/faceted-browse-autocomplete.js":1,"0":1,"sites\/all\/modules\/custom\/faceted_browse\/resources\/js\/faceted-browse-menu.js":1,"sites\/all\/modules\/custom\/faceted_browse\/resources\/js\/faceted-browse-table-dialog.js":1,"sites\/all\/modules\/custom\/podaac_helper\/js\/podaac.search.js":1,"sites\/all\/themes\/podaac\/js\/navigation.js":1,"sites\/all\/themes\/podaac\/js\/podaac.js":1}},"urlIsAjaxTrusted":{"\/aquarius":true},"PODAAC":{"autocompleteuri":"\/api\/autocomplete"},"podaac_search":{"default_text":"Search"}});</script>
+</head>
+<body class="html not-front not-logged-in one-sidebar sidebar-second page-node page-node- page-node-406 node-type-mission section-aquarius" >
+		
+<div id="eosdis-tophat-container"></div>
+<div id="page">
+  <div id="header-container">
+    <header id="header" role="banner">
+  
+        <div class="region region-header">
+    <div id="block-podaac-helper-podaac-jpl-banner" class="block block-podaac-helper first odd">
+
+  <div class="block-content">
+              
+    <div id="JPL-banner">
+  
+  <div id="JPL-home">
+    <a href="http://www.nasa.gov" id="JPL-NASA-link"></a>    
+    <a href="http://www.jpl.nasa.gov" id="JPL-home-link">Jet Propulsion Laboratory</a>    
+    <a href="http://www.caltech.edu/" id="JPL-caltech-link">California Institute of Technology</a>  </div>
+  
+  <div id="JPL-link-container">
+    <ul id="JPL-links"><li class="jpl-home first"><a href="http://www.jpl.nasa.gov/index.cfm">JPL Home</a></li>
+<li class="jpl-earth"><a href="http://www.jpl.nasa.gov/earth/index.cfm">Earth</a></li>
+<li class="jpl-solar-system"><a href="http://www.jpl.nasa.gov/solar-system/index.cfm">Solar System</a></li>
+<li class="jpl-stars-galaxy"><a href="http://www.jpl.nasa.gov/stars-galaxies/index.cfm">Stars &amp; Galaxies</a></li>
+<li class="jpl-science-tech last"><a href="http://scienceandtechnology.jpl.nasa.gov/">Science &amp; Technology</a></li>
+</ul>    
+    <div id="JPL-icon-container">
+      <span id="JPL-icon-slogan">Bring the Universe to You</span>
+      
+      <ul id="JPL-icons"><li class="jpl-mail first"><a href="http://jpl.kintera.org/signup/" class="jpl-icon jpl-email-news-icon"></a></li>
+<li class="jpl-facebook"><a href="http://www.facebook.com/NASAJPL" class="jpl-icon jpl-facebook-icon"></a></li>
+<li class="jpl-twitter"><a href="http://twitter.com/NASAJPL" class="jpl-icon jpl-twitter-icon"></a></li>
+<li class="jpl-gplus"><a href="http://plus.google.com/113315419190905475766/posts" class="jpl-icon jpl-gplus-icon"></a></li>
+<li class="jpl-youtube"><a href="http://www.youtube.com/user/JPLnews" class="jpl-icon jpl-youtube-icon"></a></li>
+<li class="jpl-itunes"><a href="http://itunes.apple.com/podcast/hd-nasas-jet-propulsion-laboratory/id262254981" class="jpl-icon jpl-itunes-icon"></a></li>
+<li class="jpl-ustream"><a href="http://www.ustream.tv/nasajpl2" class="jpl-icon jpl-ustream-icon"></a></li>
+<li class="jpl-rss"><a href="http://www.jpl.nasa.gov/rss/" class="jpl-icon jpl-rss-icon"></a></li>
+<li class="jpl-blog"><a href="http://blogs.jpl.nasa.gov/" class="jpl-icon jpl-blog-icon"></a></li>
+<li class="jpl-mobile last"><a href="http://www.jpl.nasa.gov/onthego/" class="jpl-icon jpl-mobile-icon"></a></li>
+</ul>    </div>
+  </div>
+  <div class="clearfix podaac-clear"></div>
+  
+</div><!-- /.JPL-banner -->
+
+  </div>
+
+</div><!-- /.block -->
+<div id="block-podaac-helper-podaac-search" class="block block-podaac-helper even">
+
+  <div class="block-content">
+              
+    <form action="http://podaac.jpl.nasa.gov/helper/search" method="GET" id="podaac-search-form" accept-charset="UTF-8"><div><div class="form-item form-type-select form-item-type">
+  <label class="element-invisible" for="edit-type">Search Type </label>
+ <select class="not-chosen form-select" id="edit-type" name="type"><option value="website">Website</option><option value="dataset" selected="selected">Data</option></select>
+</div>
+<div class="form-item form-type-textfield form-item-search">
+  <label class="element-invisible" for="edit-search">Search </label>
+ <input title="Enter the terms you wish to search for." type="text" id="edit-search" name="search" value="Search" size="15" maxlength="128" class="form-text" /> <span class="field-suffix"><a href="/DatasetSearchHelp" id="podaac-search-help"><img src="http://podaac.jpl.nasa.gov/sites/all/modules/custom/podaac_helper/images/search-help.png" width="15" height="15" alt="" /></a></span>
+</div>
+</div></form>  </div>
+
+</div><!-- /.block -->
+<div id="block-block-14" class="block block-block last odd">
+
+  <div class="block-content">
+              
+    
+<!-- <div class="messages error" style="background: #fef5f1; color: #8c2e0b; border: 1px solid #ed541d; border-radius: 7px;">
+<h3 class="rtecenter">PO.DAAC Scheduled Hardware Maintenance on Thursday, February 16, 2017, from 2pm to 4pm (PST).</h3>
+
+<p class="rtecenter">PO.DAAC HiTIDE, LAS and MCC Tools will be temporarily unavailable during the scheduled maintenance window. We apologize for the inconvenience.</p>
+</div>
+-->
+
+<!-- OLD EXAMPLE <div class="messages error" style="background: #fef5f1; color: #8c2e0b; border: 1px solid #ed541d; border-radius: 7px;">
+<h3 class="rtecenter">JPL Scheduled Network Maintenance</h3>
+
+<p class="rtecenter"><font><span style="font-size:8pt">Please be informed that PO.DAAC public services may experienced intermittent downtime during the JPL Scheduled Network Maintenance window this Wednesday, June 15, 2016 ( 4am to 7am).</span></font></p>
+<p>All PO.DAAC public services (FTP, SecureFTP, OPeNDAP, THREDDS, Web Services, SOTO, HiTIDE, ...) will be unavailable and all data stream processing will be disrupted during the Scheduled Hardware Maintenance window.&nbsp;&nbsp; PO.DAAC Web Portal will be available for informational content access only (no data access).&nbsp;&nbsp; Users are encouraged to halt any automated processing software for data access on that day.&nbsp;&nbsp; We apologize for the inconvenience.</p>
+</div>
+#fefff1
+<div class="messages error" style="background: #fef5f1; color: #8c2e0b; border: 1px solid #ed541d; border-radius: 7px;">
+<h3 class="rtecenter">PO.DAAC Dataset Discovery is temporarily unavailable due to maintenance. We apologize for the inconvenience.</h3>
+</div>
+-->  </div>
+
+</div><!-- /.block -->
+  </div><!-- /.region -->
+  
+              <hgroup id="name-and-slogan">
+                      <a href="/" title="Home" rel="home" id="logo"><img src="http://podaac.jpl.nasa.gov/sites/all/themes/podaac/logo.png" alt="Home" /></a>
+                    
+                      <h1 id="site-name">
+              <a href="/" title="Home" rel="home"><span>PO.DAAC</span></a>
+            </h1>
+            
+                  </hgroup><!-- /#name-and-slogan -->
+        
+            
+      <div id="header-satellite"></div>
+      
+      <div id="podaac-follow-us">
+        <span id="podaac-follow-us-trigger">Follow Us</span>
+        <ul id="podaac-follow-us-links">
+          <li><a href="https://www.facebook.com/podaac" class="podaac-follow-us-icon" id="podaac-facebook" target="_blank" title="PODAAC Facebook"></a></li>
+          <li><a href="http://www.youtube.com/user/NASAJPLPODAAC" class="podaac-follow-us-icon" id="podaac-youtube" target="_blank" title="PODAAC YouTube"></a></li>
+          <li><a href="https://twitter.com/podaac" class="podaac-follow-us-icon" id="podaac-twitter" target="_blank" title="PODAAC Twitter"></a></li>
+        </ul>
+      </div>
+    </header>
+    
+    <div id="header-banner"></div>
+  </div>
+
+  <div id="main-container">
+    <div id="content-backdrop">
+      <div id="backdrop">
+        <div id="backdrop-gradient"></div>
+      </div>
+    </div>
+    
+    <div id="main">
+    <!--[if lt IE 8]>
+      <div id="browser-compatibility">
+        You are viewing PODAAC in an incompatible browser and may not have full usability of the site; 
+        to view the list of compatible browsers please visit our <a href="/browser-compatibility">FAQ</a>      </div>
+    <![endif]-->
+  
+      <div id="navigation">
+  
+          
+          <div class="region region-navigation">
+    <div id="block-menu-block-1" class="block block-menu-block first last odd" role="navigation">
+
+  <div class="block-content">
+              <h2 class="block-title">Navigation</h2>
+          
+    <div class="menu-block-wrapper menu-block-1 menu-name-menu-podaac-nav parent-mlid-0 menu-level-1">
+  <ul class="menu"><li class="first leaf menu-mlid-298"><a href="http://podaac.jpl.nasa.gov/" title="">Home</a></li>
+<li class="leaf menu-mlid-299"><a href="http://podaac.jpl.nasa.gov/datasetlist" title="Dataset Discovery">Dataset Discovery</a></li>
+<li class="expanded menu-mlid-349"><a href="http://podaac.jpl.nasa.gov/dataaccess" title="Data Access">Data Access</a><ul class="menu"><li class="first leaf menu-mlid-497"><a href="ftp://podaac-ftp.jpl.nasa.gov/" title="File Transfer Protocol (FTP)
+">FTP</a></li>
+<li class="leaf menu-mlid-380"><a href="http://opendap.jpl.nasa.gov/opendap/" title="Open-source Project for a Network Data Access Protocol (OPeNDAP)">OPeNDAP</a></li>
+<li class="leaf menu-mlid-729"><a href="http://thredds.jpl.nasa.gov" title="Thematic Real-time Environmental Distributed Data Services (THREDDS) Data Server">THREDDS</a></li>
+<li class="leaf menu-mlid-3212"><a href="http://podaac.jpl.nasa.gov/ws" title="PO.DAAC Web Services">Web Services</a></li>
+<li class="leaf menu-mlid-718"><a href="http://podaac-tools.jpl.nasa.gov/soto-2d/soto.html" title="SOTO (State of the Ocean)">SOTO (State of the Ocean)</a></li>
+<li class="leaf menu-mlid-987"><a href="http://podaac-tools.jpl.nasa.gov/hitide" title="High-level Tool for Interactive Data Extraction/L2 Subsetting Services (HiTIDE/L2SS)">HiTIDE (L2 Subsetting)</a></li>
+<li class="leaf menu-mlid-379"><a href="http://podaac-tools.jpl.nasa.gov/las" title="Live Access Server (LAS) ">LAS (L3 Subsetting)</a></li>
+<li class="leaf menu-mlid-721"><a href="http://podaac.jpl.nasa.gov/podaac_labs" title="New Ideas, Prototypes and Tools">PO.DAAC Labs</a></li>
+<li class="expanded menu-mlid-3213"><a href="http://podaac.jpl.nasa.gov/podaac_uat" title="PO.DAAC User Acceptance Tools">PO.DAAC UAT</a><ul class="menu"><li class="first leaf menu-mlid-3813"><a href="http://podaac-uat.jpl.nasa.gov/soto" title="">UAT SOTO (State of the Ocean)</a></li>
+<li class="leaf menu-mlid-3731"><a href="http://podaac-uat.jpl.nasa.gov/mcc" title="Online tool and web service designed to check and validate the contents of netCDF and HDF granules for the Climate and Forecast (CF) and Attribute Convention for Dataset Discovery (ACDD) metadata conventions. ">UAT Metadata Compliance Checker (MCC)</a></li>
+<li class="last leaf menu-mlid-3732"><a href="http://podaac-uat.jpl.nasa.gov/drive" title="FTP alternative way of browsing data at PO.DAAC">UAT PO.DAAC Drive</a></li>
+</ul></li>
+<li class="last expanded menu-mlid-3274"><span title="Earth Observing System Data and Information System (EOSDIS) Tools" class="nolink">EOSDIS Tools</span><ul class="menu"><li class="first leaf menu-mlid-498"><a href="http://reverb.echo.nasa.gov/reverb/" title="NASA Metadata and Service Discovery Tool">Reverb</a></li>
+<li class="last leaf menu-mlid-499"><a href="http://gcmd.nasa.gov/" title="Global Change Master Directory (GCMD)">GCMD</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded menu-mlid-546"><a href="http://podaac.jpl.nasa.gov/CoreMeasurements" title="Core Measurements Description">Measurements</a><ul class="menu"><li class="first expanded menu-mlid-862"><a href="http://podaac.jpl.nasa.gov/gravity" title="Gravity">Gravity</a><ul class="menu"><li class="first last leaf menu-mlid-2023"><a href="http://podaac.jpl.nasa.gov/GRACE" title="GRACE">GRACE</a></li>
+</ul></li>
+<li class="expanded menu-mlid-378"><a href="http://podaac.jpl.nasa.gov/SeaSurfaceSalinity" title="Sea Surface Salinity">Sea Surface Salinity</a><ul class="menu"><li class="first leaf active menu-mlid-2027"><a href="http://podaac.jpl.nasa.gov/aquarius" title="Aquarius" class="active">AQUARIUS</a></li>
+<li class="leaf menu-mlid-3806"><a href="http://podaac.jpl.nasa.gov/SMAP" title="Soil Moisture Active Passive (SMAP)">SMAP</a></li>
+<li class="last leaf menu-mlid-3277"><a href="http://podaac.jpl.nasa.gov/SPURS" title="">SPURS</a></li>
+</ul></li>
+<li class="expanded menu-mlid-373"><a href="http://podaac.jpl.nasa.gov/SeaSurfaceTemperature" title="Sea Surface Temperature (SST)">Sea Surface Temperature (SST)</a><ul class="menu"><li class="first leaf menu-mlid-2026"><a href="http://podaac.jpl.nasa.gov/AQUA" title="">AQUA</a></li>
+<li class="leaf menu-mlid-700"><a href="http://podaac.jpl.nasa.gov/AVHRR-Pathfinder" title="AVHRR-Pathfinder  (Sea Surface Temperature)">AVHRR-Pathfinder</a></li>
+<li class="leaf menu-mlid-701"><a href="http://podaac.jpl.nasa.gov/GHRSST" title="GHRSST  (Sea Surface Temperature)">GHRSST</a></li>
+<li class="leaf menu-mlid-2031"><a href="http://podaac.jpl.nasa.gov/MODIS" title="MODIS">MODIS</a></li>
+<li class="last leaf menu-mlid-2019"><a href="http://podaac.jpl.nasa.gov/Terra" title="Terra">TERRA</a></li>
+</ul></li>
+<li class="leaf menu-mlid-375"><a href="http://podaac.jpl.nasa.gov/OceanCurrentsCirculation" title="Ocean Currents &amp; Circulation">Ocean Currents &amp; Circulation</a></li>
+<li class="expanded menu-mlid-863"><a href="http://podaac.jpl.nasa.gov/OceanSurfaceTopography" title="Ocean Surface Topography">Ocean Surface Topography</a><ul class="menu"><li class="first leaf menu-mlid-934"><a href="http://podaac.jpl.nasa.gov/JASON1">JASON 1</a></li>
+<li class="leaf menu-mlid-500"><a href="http://podaac.jpl.nasa.gov/OSTM-JASON2" title="OSTM - JASON 2">OSTM - JASON 2</a></li>
+<li class="leaf menu-mlid-3729"><a href="http://podaac.jpl.nasa.gov/JASON3" title="">JASON 3</a></li>
+<li class="leaf menu-mlid-2035"><a href="http://podaac.jpl.nasa.gov/SeaSAT" title="Seasat">Seasat</a></li>
+<li class="leaf menu-mlid-2039"><a href="http://podaac.jpl.nasa.gov/TOPEX-POSEIDON" title="TOPEX-POSEIDON">TOPEX-POSEIDON</a></li>
+<li class="last leaf menu-mlid-2042"><a href="http://podaac.jpl.nasa.gov/GEOS-3" title="">GEOS-3</a></li>
+</ul></li>
+<li class="expanded menu-mlid-377"><a href="http://podaac.jpl.nasa.gov/OceanWind" title="Ocean Wind">Ocean Wind</a><ul class="menu"><li class="first leaf menu-mlid-2379"><a href="http://podaac.jpl.nasa.gov/ADEOS-II" title="">ADEOS-II</a></li>
+<li class="leaf menu-mlid-2025"><a href="http://podaac.jpl.nasa.gov/AQUA">AQUA</a></li>
+<li class="leaf menu-mlid-3799"><a href="http://podaac.jpl.nasa.gov/CYGNSS" title="CYGNSS">CYGNSS</a></li>
+<li class="leaf menu-mlid-3795"><a href="http://podaac.jpl.nasa.gov/ISS-RapidScat">ISS-RapidScat</a></li>
+<li class="leaf menu-mlid-2029"><a href="http://podaac.jpl.nasa.gov/MEaSUREs" title="MEaSUREs">MEaSUREs</a></li>
+<li class="leaf menu-mlid-668"><a href="http://podaac.jpl.nasa.gov/MetOp" title="MetOp">MetOp</a></li>
+<li class="leaf menu-mlid-669"><a href="http://podaac.jpl.nasa.gov/NSCAT" title="NSCAT">NSCAT</a></li>
+<li class="leaf menu-mlid-2034"><a href="http://podaac.jpl.nasa.gov/QuikSCAT" title="QuikSCAT">QuikSCAT</a></li>
+<li class="leaf menu-mlid-2036"><a href="http://podaac.jpl.nasa.gov/SeaSAT" title="">Seasat</a></li>
+<li class="last leaf menu-mlid-2038"><a href="http://podaac.jpl.nasa.gov/SSMI" title="SSM/I (Ocean Wind)">SSM/I</a></li>
+</ul></li>
+<li class="last expanded menu-mlid-873"><a href="http://podaac.jpl.nasa.gov/SeaIce" title="Sea Ice">Sea Ice</a><ul class="menu"><li class="first leaf menu-mlid-2024"><a href="http://podaac.jpl.nasa.gov/ADEOS-II">ADEOS-II</a></li>
+<li class="leaf menu-mlid-1675"><a href="http://podaac.jpl.nasa.gov/NSCAT" title="">NSCAT</a></li>
+<li class="leaf menu-mlid-2018"><a href="http://podaac.jpl.nasa.gov/QuikSCAT" title="QuikSCAT">QuikSCAT</a></li>
+<li class="last leaf menu-mlid-2381"><a href="http://podaac.jpl.nasa.gov/SeaSAT" title="">Seasat</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded active-trail menu-mlid-699"><a href="http://podaac.jpl.nasa.gov/missions" title="PO.DAAC Related Missions" class="active-trail">Missions</a><ul class="menu"><li class="first expanded active-trail menu-mlid-2393"><span title="" class="active-trail nolink">NASA Missions</span><ul class="menu"><li class="first leaf menu-mlid-2382"><a href="http://podaac.jpl.nasa.gov/ADEOS-II" title="">ADEOS-II</a></li>
+<li class="leaf menu-mlid-2383"><a href="http://podaac.jpl.nasa.gov/AQUA" title="">AQUA</a></li>
+<li class="leaf active-trail active menu-mlid-2384"><a href="http://podaac.jpl.nasa.gov/aquarius" title="" class="active-trail active">AQUARIUS</a></li>
+<li class="leaf menu-mlid-3800"><a href="http://podaac.jpl.nasa.gov/CYGNSS" title="CYGNSS">CYGNSS</a></li>
+<li class="leaf menu-mlid-2021"><a href="http://podaac.jpl.nasa.gov/GEOS-3" title="GEOS-3">GEOS-3</a></li>
+<li class="leaf menu-mlid-2022"><a href="http://podaac.jpl.nasa.gov/GHRSST" title="GHRSST">GHRSST</a></li>
+<li class="leaf menu-mlid-2385"><a href="http://podaac.jpl.nasa.gov/GRACE" title="">GRACE</a></li>
+<li class="leaf menu-mlid-3797"><a href="http://podaac.jpl.nasa.gov/ISS-RapidScat" title="">ISS-RapidScat</a></li>
+<li class="leaf menu-mlid-2028"><a href="http://podaac.jpl.nasa.gov/JASON1" title="JASON 1">JASON 1</a></li>
+<li class="leaf menu-mlid-3730"><a href="http://podaac.jpl.nasa.gov/JASON3" title="">JASON 3</a></li>
+<li class="leaf menu-mlid-2386"><a href="http://podaac.jpl.nasa.gov/MEaSUREs" title="">MEaSUREs</a></li>
+<li class="leaf menu-mlid-2387"><a href="http://podaac.jpl.nasa.gov/MODIS" title="">MODIS</a></li>
+<li class="leaf menu-mlid-2032"><a href="http://podaac.jpl.nasa.gov/NSCAT" title="NSCAT (Ocean Wind)">NSCAT</a></li>
+<li class="leaf menu-mlid-2033"><a href="http://podaac.jpl.nasa.gov/OSTM-JASON2" title="OSTM-JASON 2 (Ocean Surface Topography)">OSTM - JASON 2</a></li>
+<li class="leaf menu-mlid-2380"><a href="http://podaac.jpl.nasa.gov/QuikSCAT" title="">QuikSCAT</a></li>
+<li class="leaf menu-mlid-2389"><a href="http://podaac.jpl.nasa.gov/SeaSAT" title="">Seasat</a></li>
+<li class="leaf menu-mlid-3807"><a href="http://podaac.jpl.nasa.gov/SMAP" title="">SMAP</a></li>
+<li class="leaf menu-mlid-3276"><a href="http://podaac.jpl.nasa.gov/SPURS">SPURS</a></li>
+<li class="leaf menu-mlid-2390"><a href="http://podaac.jpl.nasa.gov/Terra" title="">TERRA</a></li>
+<li class="last leaf menu-mlid-2040"><a href="http://podaac.jpl.nasa.gov/TOPEX-POSEIDON" title="">TOPEX-POSEIDON</a></li>
+</ul></li>
+<li class="last expanded menu-mlid-2394"><span title="" class="nolink">Non-NASA Missions</span><ul class="menu"><li class="first leaf menu-mlid-2020"><a href="http://podaac.jpl.nasa.gov/AVHRR-Pathfinder" title="AVHRR-Pathfinder">AVHRR-Pathfinder</a></li>
+<li class="leaf menu-mlid-2030"><a href="http://podaac.jpl.nasa.gov/MetOp" title="MetOp">MetOp</a></li>
+<li class="last leaf menu-mlid-2037"><a href="http://podaac.jpl.nasa.gov/SSMI" title="SSM/I (Ocean Wind)">SSM/I</a></li>
+</ul></li>
+</ul></li>
+<li class="expanded menu-mlid-351"><a href="http://podaac.jpl.nasa.gov/AnimationsImages" title="Ocean Stories, Dataset Highlights, Images and Animations">Multimedia</a><ul class="menu"><li class="first collapsed menu-mlid-2348"><a href="http://podaac.jpl.nasa.gov/OceanEvents" title="Ocean Stories Highlighting PO.DAAC Datasets">Ocean Stories</a></li>
+<li class="leaf menu-mlid-469"><a href="http://podaac.jpl.nasa.gov/highlights" title="Dataset Highlights">Dataset Highlights</a></li>
+<li class="leaf menu-mlid-2064"><a href="http://podaac.jpl.nasa.gov/AnimationsImages/Animations" title="Animations">Animations</a></li>
+<li class="last leaf menu-mlid-2391"><a href="http://podaac.jpl.nasa.gov/AnimationsImages/Images" title="Images">Images</a></li>
+</ul></li>
+<li class="expanded menu-mlid-352"><a href="http://podaac.jpl.nasa.gov/UserCommunity" title="PO.DAAC Information Relevant to the User Community">Community</a><ul class="menu"><li class="first leaf menu-mlid-476"><a href="http://podaac.jpl.nasa.gov/announcements" title="PO.DAAC Related Announcements">Announcements</a></li>
+<li class="leaf menu-mlid-437"><a href="http://podaac.jpl.nasa.gov/events" title="Events in the Oceanography Community">Events</a></li>
+<li class="leaf menu-mlid-2536"><a href="http://podaac.jpl.nasa.gov/system-alerts" title="System Alerts">System Alerts</a></li>
+<li class="collapsed menu-mlid-2551"><a href="http://podaac.jpl.nasa.gov/spotlight" title="PO.DAAC Activities in the Oceanography Community">Spotlight</a></li>
+<li class="leaf menu-mlid-2699"><a href="http://podaac.jpl.nasa.gov/PO.DAAC_DataManagementPractices" title="Data Best Practices">Data Best Practices</a></li>
+<li class="leaf menu-mlid-493"><a href="http://podaac.jpl.nasa.gov/education" title="Education">Education</a></li>
+<li class="leaf menu-mlid-494"><a href="http://podaac.jpl.nasa.gov/MailingList" title="Mailing List">Mailing List</a></li>
+<li class="leaf menu-mlid-495"><a href="http://podaac.jpl.nasa.gov/UserWorkingGroup" title="User Working Group (UWG)">User Working Group (UWG)</a></li>
+<li class="last leaf menu-mlid-3808"><a href="http://podaac.jpl.nasa.gov/MeetingsandWorkshops" title="Meetings and Workshops">Meetings and Workshops</a></li>
+</ul></li>
+<li class="leaf menu-mlid-717"><a href="http://podaac.jpl.nasa.gov/forum" title="PO.DAAC Forum">Forum</a></li>
+<li class="last expanded menu-mlid-354"><a href="http://podaac.jpl.nasa.gov/help" title="Additional PO.DAAC Information">About</a><ul class="menu"><li class="first leaf menu-mlid-391"><a href="http://podaac.jpl.nasa.gov/AboutPodaac" title="About Us">About Us</a></li>
+<li class="leaf menu-mlid-485"><a href="http://podaac.jpl.nasa.gov/Acronyms" title="Acronyms">Acronyms</a></li>
+<li class="leaf menu-mlid-383"><a href="http://podaac.jpl.nasa.gov/Glossary" title="Glossary">Glossary</a></li>
+<li class="leaf menu-mlid-537"><a href="http://podaac.jpl.nasa.gov/DataTerminologyandFormats" title="Data Terminology">Data Terminology</a></li>
+<li class="leaf menu-mlid-488"><a href="http://podaac.jpl.nasa.gov/CitingPODAAC" title="PO.DAAC Data Citation and Acknowledgements">Data Citation</a></li>
+<li class="last leaf menu-mlid-3146"><a href="http://podaac.jpl.nasa.gov/metrics" title="PO.DAAC Metrics">PO.DAAC Metrics</a></li>
+</ul></li>
+</ul></div>
+  </div>
+
+</div><!-- /.block -->
+  </div><!-- /.region -->
+      
+        <div class="clearfix"></div>
+  
+      </div><!-- /#navigation -->
+      
+      <div id="content-container">
+        
+              
+        <div id="content-container">
+          <div class="region-content">
+            <div id="content" class="column" role="main">
+                                          <a id="main-content"></a>
+                                            <h1 class="title" id="page-title">AQUARIUS</h1>
+                                                                                    
+
+
+<article class="node-406 node node-mission view-mode-full clearfix">
+
+  
+  <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong>Mission Specification &amp; Status</strong></p>
+
+<p>The Aquarius/SAC-D mission, launched on June 10, 2011,  is a joint venture between NASA and the Argentinean Space Agency (CONAE). The mission features the sea surface salinity sensor Aquarius and is the first mission with the primary goal of measuring sea surface salinity (SSS) from space. Data from Aquarius will play a large role in understanding both climate change and the global water cycle.</p>
+
+<p>On June 7, 2015 at 12:53:17 UTC the Aquarius/SAC-D observatory suffered a mission-ending hardware failure resulting in the permanent cessation of data flows.  The entire Aquarius data record spans a full 3 year, 9 month period from 8/25/2011 – 6/7/2015.  Version 4.0 of the Aquarius data is the Official NASA end-of-prime mission data for the Aquarius/SAC-D mission.  While no further forward processing of data is possible, a release of a V5.0 end-of-mission dataset is expected in future.<br /><img alt="The Aquarius/SAC-D satellite" height="202" src="//podaac.jpl.nasa.gov/sites/default/files/content/Aquarius_SAC-D.JPG" title="The Aquarius/SAC-D satellite" width="330" /><br />
+This instrument carries 3 radiometers, and 1 scatterometer.  They are operating at 1.4 GHz &amp; 1.2 GHz respectively.  The data collected by the radiometer are being used together with sea surface temperature collected from another platform(s), to derive salinity data.  This is corrected for surface roughness using data from the Aquarius scatterometer.</p>
+
+<p>The satellite will cross the equator at 6am and pm.  The Aquarius instrument will continuously point away from the sun to avoid glint.<br />
+ <br />
+PO.DAAC will be providing Level 2 SSS data as well as gridded Level 3 degree SSS products generated by the Aquarius Ground Segment at Goddard.  Level 3 products will be produced with temporal resolutions of daily, 8 day, monthly, 3 months, and annual.  Monthly and seasonal climatology products from Aqaurius are also available. The Aquarius instrument will provide global coverage every 7 days. The spatial resolution at Level 2 will be approximately 100km.  L3 products are gridded at 1 degree spatial resolution.<br />
+ </p>
+</div></div></div>
+  
+  
+</article><!-- /.node -->
+<!-- block__no_wrapper -->
+<div id="block-cck-blocks-field-block" class="block block-cck-blocks last even">
+
+  <div class="block-content">
+              
+    <div class="field field-name-field-block field-type-field-collection field-label-hidden"><div class="field-items"><div class="field-item even"><div class="entity entity-field-collection-item field-collection-item-field-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">News and Announcements</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong>OFFICIAL NASA AQUARIUS/SAC-D VERSION 4.0 END-OF-PRIME-MISSION DATA SET RELEASED</strong></p>
+
+<p>July 17, 2015</p>
+
+<p>The PO.DAAC is pleased to announce the availability of the version 4.0 Aquarius/SAC-D data.  This is the official NASA/Aquarius Project end-of-prime-mission dataset spanning the complete 3 year, 9 nine month period of Aquarius science data availability, from August 25, 2011 through June 7, 2015 when an unrecoverable hardware failure caused the end of the mission. This end-of-prime mission dataset does not preclude future reprocessing.  An updated version (V5.0) is planned for release in 2016, and subsequent updates will be released when measurable improvements are achieved.</p>
+
+<p>Data sets comprising this release include the Level 2 orbital data and Level 3 mapped salinity, wind speed, and derived density products at 1 degree spatial resolution for ascending, descending and combined passes and for the following time intervals: daily, 7 day, monthly, seasonal, annual.  New products (added since V3.0), in addition to Density, include 7-day and 28-day running mean products plus seasonal and monthly climatology datasets. Included as part of v4.0 are also a complementary set of similarly gridded L3 ancillary SST products. A summary of improvements with this new version of the Aquarius data is available <a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/Aquarius_V4.0-V3.0_SummaryOfChanges.pdf">here</a>. All users are advised to work with v4.0 over any previous versions.   </p>
+
+<p>The Aquarius v4.0 data sets are described and discoverable via the <a href="//podaac.jpl.nasa.gov/datasetlist?search=aquarius%20%252Bproject">PO.DAAC data portal</a>.   Access to these data is via PO.DAAC’s public FTP site:   <a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/">ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/</a> .  The data are also accessible via a range of PO.DAAC tools and services: <a href="http://opendap.jpl.nasa.gov/opendap/SalinityDensity/aquarius/">OPeNDAP</a>, <a href="http://thredds.jpl.nasa.gov/thredds/podaac_catalogs/AQUARIUS_L3_SMI_V20_catalog.html">THREDDS</a>, <a href="//podaac.jpl.nasa.gov/aquarius/gallery">Aquarius Level 3 Browser</a>, <a href="//podaac.jpl.nasa.gov/las">LAS</a>, the <a href="http://podaac-tools.jpl.nasa.gov/hitide/">HiTIDE</a> L2 subsetter and associated <a href="//podaac.jpl.nasa.gov/ws/">Web Services</a>.</p>
+
+<p>The <em>Aquarius Data Users Guide</em>, <em>Aquarius Data Validation Document</em>, and other primary technical <a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs">documentation</a> , are available from the FTP site together with <a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/sw">reader software</a>.   General information regarding Aquarius/SAC-D mission is available from the <a href="http://aquarius.nasa.gov">mission website</a> and also via PO.DAAC’s <a href="//podaac.jpl.nasa.gov/aquarius">Aquarius</a>  and <a href="//podaac.jpl.nasa.gov/SeaSurfaceSalinity">salinity</a> webpages.</p>
+
+<p>Should you have any questions, please contact us at: <a href="mailto:podaac@podaac.jpl.nasa.gov">podaac@podaac.jpl.nasa.gov</a></p>
+
+<p> </p>
+
+<hr /><p><strong>NASA's Aquarius Sea Surface Salinity</strong></p>
+
+<p><iframe align="middle" frameborder="0" height="408" scrolling="no" src="http://svs.gsfc.nasa.gov/vis/a000000/a004200/a004234/aquarius_sss_3yrs_SpinningGlobe_north_1080p.mp4" width="720"></iframe></p>
+
+<p><em>This video provides a global tour of sea surface salinity using measurements taken by NASA's Aquarius instrument aboard the Aquarius/SAC-D spacecraft over the period September 2011 through September 2014. Red represents areas of high salinity, while blue represents areas of low salinity. Aquarius is a focused effort to measure sea surface salinity and providing the global view of salinity variability needed for climate studies. The mission has been a collaboration between NASA and the Space Agency of Argentina (Comisión Nacional de Actividades Espaciales).</em></p>
+
+<p><em>This video is public domain and can be downloaded at: </em><a href="http://svs.gsfc.nasa.gov/cgi-bin/details.cgi?aid=4234" target="_blank">http://svs.gsfc.nasa.gov/cgi-bin/details.cgi?aid=4234</a></p>
+
+<hr /><p>See all "<a href="http://aquarius.nasa.gov/news-status.html" style="line-height: 1.6em;" target="_blank">Official Aquarius/SAC-D</a>" Announcements</p>
+
+<p>See all <a href="//podaac.jpl.nasa.gov/announcements" style="line-height: 1.6em;" target="_blank">PO.DAAC Announcements</a></p>
+</div></div></div>  </div>
+</div>
+</div></div></div>  </div>
+
+</div><!-- /.block -->
+<!-- region__no_wrapper -->
+            </div><!-- /#content -->
+          </div>
+        </div>
+  
+          
+                  <aside class="sidebars">
+                      
+                        <div class="region-sidebar-second-container">
+                <section class="region region-sidebar-second column sidebar">
+    <div id="block-cck-blocks-field-right-sidebar-block" class="block block-cck-blocks first last odd">
+
+  <div class="block-content">
+              
+    <div class="field field-name-field-right-sidebar-block field-type-field-collection field-label-hidden"><div class="field-items"><div class="field-item even"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Data Links</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul><li><a href="//podaac.jpl.nasa.gov/datasetlist?search=aquarius%20%252Bproject"><strong>Browse Datasets for Aquarius Project Data</strong> <strong>at PO.DAAC</strong></a></li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/" target="_blank">PO.DAAC FTP Data Access</a></li>
+	<li><a href="http://nsidc.org/data/aquarius/index.html" target="_blank">Aquarius Soil Moisture Data at NSIDC</a></li>
+</ul></div></div></div>  </div>
+</div>
+</div><div class="field-item odd"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">PO.DAAC Tools and Services</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul><li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/" target="_blank"><strong>FTP</strong></a></li>
+	<li><strong><a href="http://podaac-opendap.jpl.nasa.gov/opendap/allData/aquarius/" target="_blank">OPeNDAP</a></strong></li>
+	<li><strong>THREDDS:  </strong><a href="http://thredds.jpl.nasa.gov/thredds/catalog/ncml_aggregation/SalinityDensity/aquarius/catalog.html" target="_blank">Salinity/Density</a>, <a href="http://thredds.jpl.nasa.gov/thredds/catalog/ncml_aggregation/OceanWinds/aquarius/catalog.html" target="_blank">Ocean Winds</a></li>
+	<li><a href="//podaac.jpl.nasa.gov/ws/" target="_blank"><strong>PODAAC-WS</strong></a></li>
+	<li><strong><a href="//podaac.jpl.nasa.gov/aquarius/gallery">Aquarius Level 3 Image Browser</a></strong></li>
+	<li><a href="//podaac.jpl.nasa.gov/las" target="_blank"><strong>LAS</strong></a></li>
+	<li><a href="http://podaac-tools.jpl.nasa.gov/hitide/" target="_blank"><strong>HiTIDE</strong></a></li>
+</ul></div></div></div>  </div>
+</div>
+</div><div class="field-item even"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Technical Documentation</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul><li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-010-UG-0008_AquariusUserGuide_DatasetV4.0.pdf" target="_blank">Aquarius V4.0 Data Users Guide</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/Aquarius_V4.0-V3.0_SummaryOfChanges.pdf" target="_blank">Aquarius V4.0 Summary of Improvements</a> (.pdf)   </li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0007_AquariusLevel1Aspecification_DatasetVersion3.0.pdf" target="_blank">L1A Data Specification</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0018_AquariusLevel2specification_DatasetVersion4.0.pdf" target="_blank">L2 V4.0 Data format description </a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0018_Ocean_Level-3_Standard_Mapped_Image_Products.pdf" target="_blank">L3 V4.0 Data format description</a>  (.pdf)    </li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0016_AquariusSalinityDataValidationAnalysis_DatasetVersion4.0and3.0.pdf" target="_blank">Aquarius V4.0 and V3.0 Salinity data validation analysis</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0016_AquariusSalinityDataValidationAnalysis_DatasetVersion2.0.pdf" target="_blank">Aquarius V2.0 Salinity data validation analysis</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v3/AQ-014-PS-0006_ProposalForFlags&amp;Masks_DatasetVersion3.0.pdf" target="_blank">Aquarius V3.0 Flags &amp; Masks</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0017_AquariusATBD_Level2.pdf" target="_blank">L2-ATBD  (Algorithm Theoretical Basis Document)</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0017_AquariusATBD_Level2_Addendum1.pdf" target="_blank">L2-ATBD Addendum 1</a>  (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0017_AquariusATBD_Level2_Addendum2_27Feb2013.pdf" target="_blank">L2-ATBD Addendum  2</a>  (.pdf) </li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v3/AQ-014-PS-0017_AquariusATBD_Level2_Addendum3_DatasetVersion3.0.pdf" target="_blank">L2-ATBD Addendum  3  - includes V3.0 algorithm, APC &amp; calibration updates</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0017_AquariusATBD_Level2_Addendum4_DatasetVersion4.0.pdf" target="_blank"><span>L2-ATBD</span> Addendum  4  - includes V4.0 algorithm updates</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0017_AquariusATBD_uncertainties_Addendum5_DatasetVersion4.0.pdf">Aquarius Salinity Uncertainty estimation for V4.0</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0017_AquariusATBD_ComputationOfAquariusSeaSurfaceDensity_DatasetVersion4.0.pdf">Aquarius-Derived Sea Surface Density estimation for V4.0</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v3/AQ-014-PS-0017_Aquarius_AntennaPatternCoefficientUpdates_DatasetVersion3.0.pdf" target="_blank">APC update memo for V3.0</a></li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0019_AquariusATBD_scatterometer.pdf" target="_blank">Radar ATBD  and Radar RFI algorithm</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0015_AquariusInstrumentCalibratrionDescriptionDocument.pdf" target="_blank">Radiometer calibration methodology with RFI algorithm description</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AQ-014-PS-0020_AquariusPointingAnalysisRSS-TR-021313.pdf" target="_blank">Pointing correction analysis</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v4/AQ-014-PS-0017_AquariusScatterometerCalibrationReview.pdf">Radar calibration report</a> (.pdf)</li>
+	<li><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/v2/AquariusLevel3_GriddingSmoothingPaper_Lilly&amp;Lagerloef2008.pdf" target="_blank">L3 smoothing algorithm description </a>(.pdf)</li>
+</ul><p><strong>Note:</strong> All Aquarius technical documents, including for prior versions, are available <a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/docs/" target="_blank">here</a>  </p>
+</div></div></div>  </div>
+</div>
+</div><div class="field-item odd"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Known Issues</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul><li><strong><a href="ftp://podaac-ftp.jpl.nasa.gov/allData/aquarius/README.KnownIssues.txt" target="_blank">Aquarius Data Issues</a></strong></li>
+</ul></div></div></div>  </div>
+</div>
+</div><div class="field-item even"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Educational</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong>"ADVICE": A four-part webinar series on Aquarius Data  hosted by NASA/EOSDIS</strong></p>
+
+<ul><li><a class="ext" href="https://wiki.earthdata.nasa.gov/display/advice/ADVICE+Training+Home" target="_blank">Webinar Information &amp; Training Materials</a></li>
+	<li><a class="ext" href="https://youtu.be/q1tTjZB-jD8" target="_blank">NASA Aquarius Data Training Session #1</a></li>
+	<li><a class="ext" href="https://youtu.be/GVKni0xF-N4" target="_blank">NASA Aquarius Data Training Session #2</a></li>
+	<li><a class="ext" href="https://youtu.be/IAKvkeX-skA" target="_blank">NASA Aquarius Data Training Session #3</a></li>
+	<li><a class="ext" href="https://youtu.be/elEH-12bRVU" target="_blank">NASA Aquarius Data Training Session #4</a>  </li>
+</ul><p><strong>Video Tutorials on PO.DAAC Aquarius Data Services</strong></p>
+
+<ul><li><a href="//podaac.jpl.nasa.gov/forum/viewtopic.php?f=20&amp;t=375">Discovering Aquarius Data</a> (<a href="//podaac.jpl.nasa.gov/forum/viewtopic.php?f=20&amp;t=375">Video</a> , <a href="ftp://podaac.jpl.nasa.gov/misc/web/tutorials/aquarius-tutorials/advice_data%20discover.PDF">pdf</a>)</li>
+	<li><a href="//podaac.jpl.nasa.gov/forum/viewtopic.php?f=20&amp;t=376">Accessing Aquarius Data</a>  (<a href="//podaac.jpl.nasa.gov/forum/viewtopic.php?f=20&amp;t=376">Video</a> , <a href="ftp://podaac.jpl.nasa.gov/misc/web/tutorials/aquarius-tutorials/advice_data%20access.PDF">pdf</a>)</li>
+	<li><a href="//podaac.jpl.nasa.gov/forum/viewtopic.php?f=20&amp;t=377">Visualizing &amp; Subsetting</a>   (<a href="//podaac.jpl.nasa.gov/forum/viewtopic.php?f=20&amp;t=377">Video </a>, <a href="ftp://podaac.jpl.nasa.gov/misc/web/tutorials/aquarius-tutorials/LAS%20Quick_Start_Tutorial.pdf">pdf</a>)</li>
+</ul></div></div></div>  </div>
+</div>
+</div><div class="field-item odd"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Related Links</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul><li><a href="https://wiki.earthdata.nasa.gov/display/advice/ADVICE+Training+Home" target="_blank">Aquarius/SAC-D Mission Website</a></li>
+	<li><a href="http://aquarius.nasa.gov/data.html" target="_blank">Aquarius Data Access &amp; Telemetry Monitoring Resources</a></li>
+	<li><a href="http://oceancolor.gsfc.nasa.gov/WIKI/AQ(2f)GS.html" target="_blank">Aquarius Ground System WIKI</a></li>
+	<li><a href="http://oceancolor.gsfc.nasa.gov/sdpscgi/public/aquarius_report.cgi" target="_blank">Aquarius Mission Event Log Listings</a></li>
+	<li><a href="http://oceancolor.gsfc.nasa.gov/WIKI/AQ%282f%29GS%282f%29SW%282f%29UpdatesPostLaunch.html" target="_blank">Major Events and Software Change Log</a></li>
+	<li><a href="//podaac.jpl.nasa.gov/SeaSurfaceSalinity">Learn about Sea Surface Salinity</a></li>
+	<li><a href="http://www.jpl.nasa.gov/news/press_kits/aquariusLaunch.pdf" target="_blank">Aquarius/SAC-D Press Kit</a> (.pdf)</li>
+	<li><a href="http://www.jpl.nasa.gov/news/press_kits/Aquarius_SAC-DScienceWritersGuide.pdf" target="_blank">Aquarius Science Writers' Guide </a>(.pdf)</li>
+	<li><a href="http://aquarius.jpl.nasa.gov/AQUARIUS/index.jsp" target="_blank">Jet Propulsion Laboratory Aquarius/SAC-D Mission Education Page</a></li>
+	<li><a href="http://www.esr.org/aquarius_sat/aquarius_main.html" target="_blank">Earth &amp; Space Research Aquarius SAC-D Mission Page</a></li>
+	<li><a href="http://www.conae.gov.ar/" target="_blank">Comision Nacional de Actividades </a><a href="http://www.conae.gov.ar/" target="_blank">Espaciale</a><a href="http://www.conae.gov.ar/" target="_blank">s</a><a href="http://www.conae.gov.ar/" target="_blank"> (</a><a href="http://www.conae.gov.ar/" target="_blank">Argentina's Space Agency)</a></li>
+</ul></div></div></div>  </div>
+</div>
+</div><div class="field-item even"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><div><img alt="Aquarius/SAC-D" src="//podaac.jpl.nasa.gov/sites/default/files/content/seawater.jpg" /></div>
+
+<p>Aquarius Mission Launch:<br /><a href="http://www.ustream.tv/recorded/15286484" style="line-height: 1.6em;">http://www.ustream.tv/recorded/15286484</a></p>
+
+<p>Aquarius Post-Launch News Conference:<br /><a href="http://www.ustream.tv/recorded/15288695">http://www.ustream.tv/recorded/15288695</a></p>
+
+<p>Contact:<br /><a href="mailto:Salinity@podaac.jpl.nasa.gov?subject=Aquarius%20Mission">Salinity@podaac.jpl.nasa.gov</a></p>
+</div></div></div>  </div>
+</div>
+</div><div class="field-item odd"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Aquarius Requirements</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><ul><li>390 km swath</li>
+	<li>8 samples per month near equator</li>
+	<li>0.2 psu (0.0002) accuracy after temporal averaging over a month</li>
+	<li>Temporal Resolution 1 month</li>
+	<li>Spatial Resolution 100 km</li>
+</ul></div></div></div>  </div>
+</div>
+</div><div class="field-item even"><div class="entity entity-field-collection-item field-collection-item-field-right-sidebar-block clearfix">
+  <div class="content">
+    <div class="field field-name-field-title field-type-text field-label-hidden"><div class="field-items"><div class="field-item even">Instrument Specifications</div></div></div><div class="field field-name-field-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><p><strong><u>Radiometer &amp; Scatterometer</u></strong><br />
+Footprint size - 62x68, 68x62, 75x100<br />
+Footprint size - 76x94, 84x120, 96x156 <br />
+Orbit 657 km Sun Synchronous</p>
+
+<p>    •<strong> <u>Radiometer</u></strong></p>
+
+<p class="rteindent1">Frequency n = 1.413 GHz +/- 12.5 MHz<br />
+Wavelength l = c/n ~ 0.212 m<br />
+L band = 0.39 - 1.55 GHz</p>
+
+<p>    • <strong><u>Scatterometer</u></strong></p>
+
+<p class="rteindent1">Frequency n = 1.26 GHz<br />
+Wavelength l = c/n ~ 0.238 m</p>
+</div></div></div>  </div>
+</div>
+</div></div></div>  </div>
+
+</div><!-- /.block -->
+  </section><!-- region__sidebar -->
+            </div>
+                      </aside><!-- /.sidebars -->
+              </div>
+
+      <div class="clearfix"></div>
+            <div class="clearfix"></div>
+        
+    </div><!-- /#main -->
+  
+  </div><!-- /#main-container -->
+
+</div><!-- /#page -->
+
+  <footer id="bottom" class="region region-bottom">
+    <div id="block-menu-block-2" class="block block-menu-block first odd" role="navigation">
+
+  <div class="block-content">
+              
+    <div class="menu-block-wrapper menu-block-2 menu-name-menu-footer-menu parent-mlid-0 menu-level-1">
+  <ul class="menu"><li class="first leaf menu-mlid-3805"><a href="/rss.xml" title="">RSS Feed</a></li>
+<li class="leaf menu-mlid-1996"><a href="http://www.jpl.nasa.gov/copyrights.cfm" title="">Privacy</a></li>
+<li class="leaf menu-mlid-1997"><a href="/CitingPODAAC" title="">Data Citation</a></li>
+<li class="leaf menu-mlid-1998"><a href="/Glossary" title="">Glossary</a></li>
+<li class="leaf menu-mlid-1999"><a href="/AboutPodaac" title="">About PO.DAAC</a></li>
+<li class="last leaf menu-mlid-2000"><a href="mailto:podaac@podaac.jpl.nasa.gov" title="">Contact</a></li>
+</ul></div>
+  </div>
+
+</div><!-- /.block -->
+<div id="block-simplenews-5" class="block block-simplenews last even">
+
+  <div class="block-content">
+              <h2 class="block-title">PO.DAAC Mailing List</h2>
+          
+    <a name="subscription"></a> 
+<span class="subscription-close"></span>
+  
+
+  <p>Upon successful submission, you will receive a confirmation e-mail in your inbox.</p>
+
+  <form class="simplenews-subscribe" action="/aquarius" method="post" id="simplenews-block-form-5" accept-charset="UTF-8"><div><div class="form-item form-type-textfield form-item-mail">
+  <label for="edit-mail">E-mail <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" id="edit-mail" name="mail" value="" size="20" maxlength="128" class="form-text required" />
+</div>
+<div class="captcha"><input type="hidden" name="captcha_sid" value="238886364" />
+<input type="hidden" name="captcha_token" value="f92de936550327d21572490a0f361096" />
+<img src="/image_captcha?sid=238886364&amp;ts=1487822471" width="180" height="60" alt="Image CAPTCHA" title="Image CAPTCHA" /><div class="form-item form-type-textfield form-item-captcha-response">
+  <label for="edit-captcha-response">What code is in the image? <span class="form-required" title="This field is required.">*</span></label>
+ <input type="text" id="edit-captcha-response" name="captcha_response" value="" size="15" maxlength="128" class="form-text required" />
+<div class="description">Enter the characters shown in the image.</div>
+</div>
+</div><input type="submit" id="edit-submit--2" name="op" value="Subscribe" class="form-submit" /><input type="hidden" name="form_build_id" value="form-feWDyR_g2l-d9ZABPMc9KKi67IUR4Crf0c1GK0Boxxk" />
+<input type="hidden" name="form_id" value="simplenews_block_form_5" />
+</div></form>  </div>
+
+</div><!-- /.block -->
+  	<div id="subscription-link-container">
+  		Get PO.DAAC Updates by Email <a id="subscription-link" href="#">Subscribe</a>
+  	</div>
+		<div id="podaac-jpl-clearance">
+			<span class="podaac-jpl-clearance-label">Clearance Number:</span> CL05-0770
+		</div>
+  </footer><!-- region__bottom -->
+
+	<!-- NetTracker Page Tag -->
+	<!-- Copyright 2004 Sane Solutions, LLC.	All rights reserved. -->
+		<script src="/sites/all/themes/podaac/net_tracker_files/ntpagetag.js" type="text/javascript"></script>
+	<noscript>
+		<img src="http://ws1.ems.eosdis.nasa.gov/images/ntpagetag.gif?js=0" class="element-invisible" />
+	</noscript>
+
+</body>
+</html>

@@ -204,6 +204,7 @@
     <module>encoding</module>
     <module>core</module>
     <module>cli</module>
+    <module>openie</module>
     <module>plugins/basic-crawler</module>
     <module>plugins/html-scraper</module>
     <module>plugins/office-scraper</module>

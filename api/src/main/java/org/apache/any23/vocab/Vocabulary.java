@@ -157,8 +157,8 @@ public abstract class Vocabulary {
         if(classes == null) {
             return new IRI[0];
         }
-        final Collection<IRI> IRIs = classes.values();
-        return IRIs.toArray( new IRI[ IRIs.size() ] );
+        final Collection<IRI> iris = classes.values();
+        return iris.toArray( new IRI[ iris.size() ] );
     }
 
     /**
@@ -168,8 +168,8 @@ public abstract class Vocabulary {
         if(properties == null) {
             return new IRI[0];
         }
-        final Collection<IRI> IRIs = properties.values();
-        return IRIs.toArray( new IRI[ IRIs.size() ] );
+        final Collection<IRI> iris = properties.values();
+        return iris.toArray( new IRI[ iris.size() ] );
     }
 
     /**
@@ -197,11 +197,11 @@ public abstract class Vocabulary {
     /**
      * Creates a IRI.
      *
-     * @param IRIStr the IRI string
+     * @param iriStr the IRI string
      * @return the IRI instance.
      */
-    protected IRI createIRI(String IRIStr) {
-        return SimpleValueFactory.getInstance().createIRI(IRIStr);
+    protected IRI createIRI(String iriStr) {
+        return SimpleValueFactory.getInstance().createIRI(iriStr);
     }
 
     /**
@@ -214,7 +214,7 @@ public abstract class Vocabulary {
     protected IRI createClass(String namespace, String resource) {
         IRI res = createIRI(namespace, resource);
         if(classes == null) {
-            classes = new HashMap<String, IRI>(10);
+            classes = new HashMap<>(10);
         }
         classes.put(resource, res);
         return res;
@@ -230,7 +230,7 @@ public abstract class Vocabulary {
     protected IRI createProperty(String namespace, String property) {
         IRI res = createIRI(namespace, property);
         if(properties == null) {
-            properties = new HashMap<String, IRI>(10);
+            properties = new HashMap<>(10);
         }
         properties.put(property, res);
         return res;
@@ -248,14 +248,16 @@ public abstract class Vocabulary {
     }
 
     private void fillResourceToCommentMap() {
-        if(resourceToCommentMap != null) return;
-        final Map<IRI,String> newMap = new HashMap<IRI, String>();
+        if(resourceToCommentMap != null)
+            return;
+        final Map<IRI,String> newMap = new HashMap<>();
         for (Field field : this.getClass().getFields()) {
             try {
                 final Object value = field.get(this);
                 if(value instanceof IRI) {
                     final Comment comment = field.getAnnotation(Comment.class);
-                    if(comment != null) newMap.put((IRI) value, comment.value());
+                    if(comment != null)
+                        newMap.put((IRI) value, comment.value());
                 }
             } catch (IllegalAccessException iae) {
                 throw new RuntimeException("Error while creating resource to comment map.", iae);

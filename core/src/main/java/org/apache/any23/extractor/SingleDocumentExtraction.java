@@ -231,10 +231,10 @@ public class SingleDocumentExtraction {
             log.debug(sb.toString());
         }
 
-        final List<ResourceRoot> resourceRoots = new ArrayList<ResourceRoot>();
-        final List<PropertyPath> propertyPaths = new ArrayList<PropertyPath>();
+        final List<ResourceRoot> resourceRoots = new ArrayList<>();
+        final List<PropertyPath> propertyPaths = new ArrayList<>();
         final Map<String,Collection<IssueReport.Issue>> extractorToIssues =
-            new HashMap<String,Collection<IssueReport.Issue>>();
+            new HashMap<>();
         
         // Invoke all extractors.
         try {
