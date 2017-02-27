@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.openie;
+package org.apache.any23.extractor.openie;
 
 import java.util.Arrays;
 
