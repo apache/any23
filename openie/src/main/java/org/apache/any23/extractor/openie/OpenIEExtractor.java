@@ -68,7 +68,7 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * default constructor
      */
-    OpenIEExtractor() {
+    public OpenIEExtractor() {
         // default constructor
     }
 
