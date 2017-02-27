@@ -26,37 +26,37 @@ Build Apache Any23 from sources
  
 * Access a Snapshot Version
 
-    For the latest snapshot please checkout the code from the SVN code repository and build the library.
-    Checkout the code from SVN:
+    For the latest snapshot please checkout the code from the public Git repository and build the library.
+    Checkout the code from Github:
 
 +---------------------------------------------------------------------------
-$ svn checkout http://svn.apache.org/repos/asf/any23/trunk apache-any23-trunk-readonly
+$ git clone https://github.com/apache/any23.git
 +---------------------------------------------------------------------------
 
 * Build <<Apache Any23>>
 
-    The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 2.x.y+}}.
+    The following instructions describe how to build the library with {{{http://maven.apache.org/}Maven 3.x.y+}}.
     For specific information about Maven see: {{{http://maven.apache.org/}}}
-    Go to the trunk folder:
+    Go to the any23 folder:
 
 +-----------
-$ cd trunk/
+$ cd any23/
 +-----------
 
     and execute the following command:
 
 +-----------
-trunk$ mvn clean install
+any23$ mvn clean install
 +-----------
 
     This will install the <<Apache Any23>> artifact and its dependencies in your local M2 repository.
 
 * Generate Documentation
 
-    To generate the project site locally execute the following command from the trunk dir:
+    To generate the project site locally execute the following command from the any23 dir:
 
 +---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site
+any23$ MAVEN_OPTS='-Xmx1024m' mvn clean site
 +---------------------------------------------------------------------------
 
     You can speed up the site generation process specifying the offline option ( -o ),
@@ -64,7 +64,7 @@ trunk$ MAVEN_OPTS='-Xmx1024m' mvn clean site
     in the local M2 repository:
 
 +---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site
+any23$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site
 +---------------------------------------------------------------------------
 
     If you're interested in generating the Javadoc enriched with navigable UML graphs, you can activate
@@ -72,5 +72,5 @@ trunk$ MAVEN_OPTS='-Xmx1024m' mvn -o clean site
     installed in your system.
 
 +---------------------------------------------------------------------------
-trunk$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site
+any23$ MAVEN_OPTS='-Xmx256m' mvn -P umlgraphdoc clean site
 +---------------------------------------------------------------------------
