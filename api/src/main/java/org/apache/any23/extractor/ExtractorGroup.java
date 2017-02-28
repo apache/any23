@@ -52,7 +52,7 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
      */
     public ExtractorGroup filterByMIMEType(MIMEType mimeType) {
         // @@@ wildcards, q values
-        Collection<ExtractorFactory<?>> matching = new ArrayList<ExtractorFactory<?>>();
+        Collection<ExtractorFactory<?>> matching = new ArrayList<>();
         for (ExtractorFactory<?> factory : factories) {
             if (supportsAllContentTypes(factory) || supports(factory, mimeType)) {
                 matching.add(factory);
@@ -71,7 +71,8 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
      */
     public boolean allExtractorsSupportAllContentTypes() {
         for (ExtractorFactory<?> factory : factories) {
-            if (!supportsAllContentTypes(factory)) return false;
+            if (!supportsAllContentTypes(factory))
+                return false;
         }
         return true;
     }
@@ -82,9 +83,12 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 
     private boolean supports(ExtractorFactory<?> factory, MIMEType mimeType) {
         for (MIMEType supported : factory.getSupportedMIMETypes()) {
-            if (supported.isAnyMajorType()) return true;
-            if (supported.isAnySubtype() && supported.getMajorType().equals(mimeType.getMajorType())) return true;
-            if (supported.getFullType().equals(mimeType.getFullType())) return true;
+            if (supported.isAnyMajorType())
+                return true;
+            if (supported.isAnySubtype() && supported.getMajorType().equals(mimeType.getMajorType()))
+                return true;
+            if (supported.getFullType().equals(mimeType.getFullType()))
+                return true;
         }
         return false;
     }

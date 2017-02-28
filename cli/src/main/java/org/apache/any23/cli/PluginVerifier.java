@@ -46,7 +46,7 @@ public class PluginVerifier implements Tool {
         description = "plugins-dir",
         converter = FileConverter.class
     )
-    private List<File> pluginsDirs = new LinkedList<File>();
+    private List<File> pluginsDirs = new LinkedList<>();
 
     public void run() throws Exception {
         if (pluginsDirs.isEmpty()) {
@@ -78,9 +78,9 @@ public class PluginVerifier implements Tool {
 
     private void printPluginData(ExtractorFactory extractorFactory, PrintStream ps) {
         final Author authorAnnotation = extractorFactory.getClass().getAnnotation(Author.class);
-        ps.printf("Plugin author    : %s\n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
-        ps.printf("Plugin factory   : %s\n", extractorFactory.getClass());
-        ps.printf("Plugin mime-types: %s\n", getMimeTypesStr( extractorFactory.getSupportedMIMETypes() ));
+        ps.printf("Plugin author    : %s%n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
+        ps.printf("Plugin factory   : %s%n", extractorFactory.getClass());
+        ps.printf("Plugin mime-types: %s%n", getMimeTypesStr( extractorFactory.getSupportedMIMETypes() ));
     }
 
 }

@@ -97,16 +97,6 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/../</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>LICENSE.txt</include>
-          <include>NOTICE.txt</include>
-        </includes>
-      </resource>
-    </resources>
     <pluginManagement>
       <plugins>
         <plugin>

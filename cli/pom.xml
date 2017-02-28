@@ -33,11 +33,6 @@
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>apache-any23-openie</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>apache-any23-api</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -75,6 +70,26 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>apache-any23-openie</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>apache-any23-basic-crawler</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>apache-any23-office-scraper</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>apache-any23-html-scraper</artifactId>
+      <version>${project.version}</version>
+    </dependency-->
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
@@ -217,6 +232,9 @@
             <program>
               <mainClass>org.apache.any23.cli.ToolRunner</mainClass>
               <name>any23</name>
+              <jvmSettings>
+                <maxMemorySize>6000m</maxMemorySize>
+              </jvmSettings>
             </program>
           </programs>
           <configurationDirectory>conf</configurationDirectory>
