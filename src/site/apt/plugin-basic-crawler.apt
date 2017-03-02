@@ -22,8 +22,8 @@
 
 Basic Crawler Plugin
 
-  The <Basic Crawler Plugin> implements a <CLI> {{{./xref/org/apache/any23/cli/Tool.html}Tool}} extending
-  {{{./xref/org/apache/any23/cli/Rover.html}Rover}} to add <site crawling> capabilities.
+  The <Basic Crawler Plugin> implements a <CLI> {{{./apidocs/org/apache/any23/cli/Tool.html}Tool}} extending
+  {{{./apidocs/org/apache/any23/cli/Rover.html}Rover}} to add <site crawling> capabilities.
 
   The tool can be used to extract semantic content from a small/medium size sites.
 

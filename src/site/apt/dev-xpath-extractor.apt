@@ -28,4 +28,4 @@ XPath Extractor
     activated by a regular expression over the page URL.
     When an extraction rule is activated all the variables it defines are
     evaluated and then a NQuads template is expanded for generating statements.
-    See {{{./xref/org/apache/any23/extractor/xpath/package-summary.html}Javadoc}}.
+    See {{{./apidocs/org/apache/any23/extractor/xpath/package-summary.html}Javadoc}}.

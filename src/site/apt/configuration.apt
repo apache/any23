@@ -27,8 +27,8 @@ Configuration
     The core module contains the main library code and the command-line implementation.
 
     The main library configuration parameters are managed by the
-    {{{./xref/org/apache/any23/configuration/DefaultConfiguration.html} Configuration}}
-    class. The default values are declared within the {{{http://any23.googlecode.com/svn/trunk/any23-core/src/main/resources/default-configuration.properties} default-configuration.properties}}
+    {{{./apidocs/org/apache/any23/configuration/DefaultConfiguration.html} Configuration}}
+    class. The default values are declared within the {{{https://github.com/apache/any23/blob/master/api/src/main/resources/default-configuration.properties} default-configuration.properties}}
     file. The following sections explain how to override the default configuration.
 
 ** Override Default Configuration from Command-line
@@ -52,7 +52,7 @@ any23-core/bin/$ ANY23_OPTS="-Dany23.http.client.max.connections=10" any23 http:
 
 ** Override Default Configuration Programmatically
 
-    The {{{./xref/org/apache/any23/configuration/Configuration.html} Configuration}}
+    The {{{./apidocs/org/apache/any23/configuration/Configuration.html} Configuration}}
     properties can be accessed in read-only mode just retrieving the configuration <<singleton>> instance.\
     Such instance is <immutable>:
 
@@ -62,7 +62,7 @@ final String propertyValue = immutableConf.getProperty("propertyName", "default 
 ...
 +----------------------------------------------------------------------------------------------
 
-    To obtain a <modifiable> {{{./xref/org/apache/any23/configuration/Configuration.html} Configuration}}
+    To obtain a <modifiable> {{{./apidocs/org/apache/any23/configuration/Configuration.html} Configuration}}
     instead it is possible to use the <<copy()>> method.\
     One of the <<Apache Any23>> constructors accepts a <<Configuration>> object that allows to customize the behavior
     of the <<Apache Any23>> instance for its entire life-cycle.
@@ -77,7 +77,7 @@ final Apache Any23 any23 = new Apache Any23(modifiableConf, "extractor1", ...);
 * Use of ExtractionParameters
 
     It is possible to customize the behavior of a single data extraction by providing an
-    {{{./xref/org/apache/any23/extractor/ExtractionParameters.html} ExtractionParameters}}
+    {{{./apidocs/org/apache/any23/extractor/ExtractionParameters.html} ExtractionParameters}}
     instance to one the <Apache Any23#extract()> methods accepting it. <<ExtractionParameters>> allows to customize any <property> and <flag>
     other then the <<specific extraction options>>.\
     If no custom parameters are specified the default configuration values are used.

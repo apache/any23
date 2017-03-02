@@ -22,7 +22,7 @@
 
 CSV Extractor Algorithm
 
-  The {{{./xref/org/apache/any23/extractor/csv/CSVExtractor.html}CSV Extractor}} produces 
+  The {{{./apidocs/org/apache/any23/extractor/csv/CSVExtractor.html}CSV Extractor}} produces 
   an RDF representation of a CSV file compliant with the {{{http://www.ietf.org/rfc/rfc4180.txt}RFC 4180}} 
   and that foresees an header.
   Such extractor relies on the presence of an header to use the named fields as RDF properties.

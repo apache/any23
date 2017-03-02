@@ -57,7 +57,6 @@ public class OpenIEExtractorTest {
         extractor = null;
     }
 
-    //@Ignore("This typically results in a JVM crash... disabled for the time being.")
     @Test
     public void testExtractFromHTMLDocument() 
       throws IOException, ExtractionException, TripleHandlerException {

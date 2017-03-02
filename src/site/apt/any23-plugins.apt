@@ -31,9 +31,9 @@ Apache Any23 Plugins
 
     A plugin is a standard <Maven3> module containing any implementation of
 
-    * {{{./xref/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}}
+    * {{{./apidocs/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}}
 
-    * {{{./xref/org/apache/any23/cli/Tool.html}Tool}}
+    * {{{./apidocs/org/apache/any23/cli/Tool.html}Tool}}
 
 * How to Register a Plugin
 
@@ -50,13 +50,13 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
    * adding its <JAR> to the <$HOME/.any23/plugins> directory.
 
    A plugin can be added to the <Apache Any23 library API> by using the
-   {{{./xref/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#createInstance(Configuration configuration, File... pluginLocations)
+   {{{./apidocs/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#createInstance(Configuration configuration, File... pluginLocations)
    method.
 
    TODO: plugin support in Apache Any23 Service
 
     Any implementation of <ExtractorPlugin> will automatically registered to the
-    {{{./xref/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
+    {{{./apidocs/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
 
     Any detected implementation of <Tool> will be listed by the <ToolRunner>
     command-line tool in <any23-root/><<bin/any23>> .
@@ -74,7 +74,7 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
 
    An <Extractor Plugin> is a class:
 
-   * implementing the {{{./xref/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}} interface;
+   * implementing the {{{./apidocs/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}} interface;
 
    * packaged under <<org.apache.any23.plugin>> .
 
@@ -107,7 +107,7 @@ public class HTMLScraperPlugin implements ExtractorPlugin {
 
    A <Tool Plugin> is a Java class that:
 
-   * implementing the {{{./xref/org/apache/any23/cli/Tool.html}Tool}} interface;
+   * implementing the {{{./apidocs/org/apache/any23/cli/Tool.html}Tool}} interface;
 
    * CLI parameters are extracted by annotating the class members with {{{http://jcommander.org/}JCommander}} annotations.
 
@@ -152,7 +152,7 @@ public class MyExecutableTool implements Tool {
 
   * Crawler CLI Tool
 
-    The {{{./xref/org/apache/any23/cli/Crawler.html}Crawler CLI Tool}} is an extension of the
-    {{{./xref/org/apache/any23/cli/Rover.html}Rover CLI Tool}} to add site crawling basic
+    The {{{./apidocs/org/apache/any23/cli/Crawler.html}Crawler CLI Tool}} is an extension of the
+    {{{./apidocs/org/apache/any23/cli/Rover.html}Rover CLI Tool}} to add site crawling basic
     capabilities. More information about the <CLI> can be found at
     {{{./getting-started.html#crawler-tool}Getting Started - Crawler Tool}} section.

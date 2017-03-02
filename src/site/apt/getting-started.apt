@@ -334,7 +334,7 @@ any23-service$ ./bin/any23server
     from the command line in order to start up the server, then go to {{{http://localhost:8080/}}}
     to access the web interface. A live demo version of such service is running at {{{http://any23.org/}}}.
     You can also start the server from Java by running the
-    {{{./xref/org/apache/any23/servlet/Servlet.html}Apache Any23 Servlet}} class. Maven can be used to create a WAR
+    {{{./apidocs/org/apache/any23/servlet/Servlet.html}Apache Any23 Servlet}} class. Maven can be used to create a WAR
     file for deployment into an existing servlet container such as {{{http://tomcat.apache.org/}Apache Tomcat}}.
 
 * Use <<Apache Any23>> as a Library
