@@ -43,11 +43,11 @@ Configuration
 -Dany23.http.client.max.connections=10
 +----------------------------------------------------------------------------------------------
 
-    any23, any23tools and any23server scripts accept the variable <<ANY23_OPTS>> to specify custom options.
+    any23 and any23server scripts accept the variable <<ANY23_OPTS>> to specify custom options.
     It is possible to customize the <<HTTP Max Client Connections>> for the <<any23>> script simply using:
 
 +----------------------------------------------------------------------------------------------
-any23-core/bin/$ ANY23_OPTS="-Dany23.http.client.max.connections=10" any23 http://path/to/resource
+cli/target/appassembler/bin/$ ANY23_OPTS="-Dany23.http.client.max.connections=10" any23 http://path/to/resource
 +----------------------------------------------------------------------------------------------
 
 ** Override Default Configuration Programmatically
@@ -83,7 +83,7 @@ final Apache Any23 any23 = new Apache Any23(modifiableConf, "extractor1", ...);
     If no custom parameters are specified the default configuration values are used.
 
 +----------------------------------------------------------------------------------------------
-final Apache Any23 any23 = ...
+final Any23 any23 = ...
 final TripleHandler tripleHandler = ...
 final ExtractionParameters extractionParameters = ExtractionParameters.getDefault();
 extractionParameters.setFlag("any23.microdata.strict", true);

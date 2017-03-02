@@ -32,7 +32,7 @@ Introduction to Apache Any23
 
      * {{{http://microformats.org/}Microformats1}} and {{{http://microformats.org/wiki/microformats-2}Microformats2}}: hAdr, hCard, hCalendar, hEntry, hEvent, hGeo, hItem, hListing, hProduct, hProduct, hRecipie, hResume, hReview, License, Species, XFN, etc
 
-      * {{{http://json-ld.org/}JSON-LD}}: JSON for Linking Data. a lightweight Linked Data format based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
+     * {{{http://json-ld.org/}JSON-LD}}: JSON for Linking Data. a lightweight Linked Data format based on the already successful JSON format and provides a way to help JSON data interoperate at Web-scale.
 
      * {{{http://dev.w3.org/html5/md/}HTML5 Microdata}}: (such as {{{http://schema.org}Schema.org}})
 
@@ -40,11 +40,12 @@ Introduction to Apache Any23
 
      * Vocabularies: Extraction support for {{{http://dublincore.org/}Dublin Core Terms}}, {{{http://www.w3.org/wiki/DescriptionOfACareerVocabulary}Description of a Career}}, {{{https://github.com/edumbill/doap/wiki}Description Of A Project}}, {{{http://xmlns.com/foaf/spec/}Friend Of A Friend}}, {{{http://www.geonames.org/ontology/}GEO Names}}, {{{http://www.w3.org/2002/12/cal/icaltzd#}ICAL}}, {{{https://github.com/RinkeHoekstra/lkif-core}lkif-core}}, {{{http://ogp.me/}Open Graph Protocol}}, {{{http://purl.org/ontology/po/}BBC Programmes Ontology}}, {{{http://vocab.org/review/terms.html}RDF Review Vocabulary}}, {{{http://schema.org/}schema.org}}, {{{http://www.w3.org/2006/vcard/ns}VCard}}, {{{http://purl.org/ontology/wo/}BBC Wildlife Ontology}} and {{{http://www.w3.org/1999/xhtml/vocab/}XHTML}}... and more!
 
+     * {{{http://www.yaml.org/}YAML}}: human friendly data serialization standard for all programming languages.
 
 
     A detailed description of available extractors is {{{./extractors.html}here}}.
 
-    <<Apache Any23>> is used in major Web of Data applications such as {{{http://sindice.com/}sindice.com}} and {{{http://sig.ma/}sig.ma}}. It is written in Java and licensed under the {{{http://any23.googlecode.com/svn/trunk/LICENSE.txt}Apache License}}.
+    <<Apache Any23>> is written in Java and licensed under the {{{https://www.apache.org/licenses/LICENSE-2.0}Apache License v2.0}}.
     <<Apache Any23>> can be used in various ways:
      * As a library in Java applications that consume structured data from the Web.
      * As a command-line tool for extracting and converting between the supported formats.
@@ -75,6 +76,6 @@ Introduction to Apache Any23
 
 * Community
 
-    Questions, comments? Get in touch on the {{{http://any23-dev@apache.org}mailing list}}!
+    Questions, comments? Get in touch on the {{{./mail-lists.html}mailing lists}}!
     Bugs, feature requests, patches? Please submit to the {{{https://issues.apache.org/jira/browse/ANY23}issue tracker}}.
-    You can access the source through Subversion, see the {{{./install.html}Installation Guide}} for details.
+    You can access the source through Git, see the {{{./install.html}Installation Guide}} for details.

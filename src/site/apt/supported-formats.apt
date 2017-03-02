@@ -44,6 +44,8 @@ Supported Formats in Apache Any23
 
    * <<CSV>> <<Apache Any23>> allows you to represent header-provided {{{http://www.ietf.org/rfc/rfc4180.txt}CSV}} files with RDF using a specific {{{./dev-csv-extractor.html}algorithm}}.
 
+   * <<YAML>> <<Apache Any23>> support {{{http://yaml.org/spec/1.2/spec.html}YAML}} a human friendly data serialization standard for all programming languages.
+
 * <<Output Formats>>
 
    The supported output formats are enlisted below.

@@ -23,7 +23,7 @@
 Data Conversion
 
 +----------------------------------------------------------------------------------------------
-/*1*/ Apache Any23 runner = new Apache Any23();
+/*1*/ Any23 runner = new Any23();
 /*2*/ final String content = "@prefix foo: <http://example.org/ns#> .   " +
                              "@prefix : <http://other.example.org/ns#> ." +
                              "foo:bar foo: : .                          " +
