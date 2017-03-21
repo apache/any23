@@ -60,19 +60,19 @@ local Maven3 repository.
 You can then extract the compiled code and use the command line interface
 Please note you will need to change the version to the tar or zip you are extracting.
 ```
-tar -zxvf $ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}.tar.gz
+tar -zxvf $ANY23_HOME/cli/target/apache-any23-cli-${version-SNAPSHOT}.tar.gz
 ```
 # Run the Any23 Commandline Tools
 
 Any23 comes with some command line tools. Within the directory you just extracted, you can invoke:
 Linux
 ```  
-$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23       
+$ANY23_HOME/cli/target/apache-any23-cli-${version-SNAPSHOT}/bin/any23       
 # Provides the main Any23 use case: metadata extraction on a file or URL source.
 ```
 Windows
 ```
-$ANY23_HOME/core/target/apache-any23-core-${version-SNAPSHOT}/bin/any23.bat      
+$ANY23_HOME/cli/target/apache-any23-cli-${version-SNAPSHOT}/bin/any23.bat      
 # Provides the main Any23 use case: metadata extraction on a file or URL source.
 ```
 The complete documentation about these tools can be found [here](http://any23.apache.org/getting-started.html)
@@ -82,9 +82,9 @@ To ensure the package generation, from the top level directory run:
 ```
 mvn package
 ```
-You can void extracting the archive files by going to the core generated bin folder
+You can void extracting the archive files by going to the cli generated bin folder
 ```
-cd  $ANY23_HOME/core/target/appassembler/bin/
+cd  $ANY23_HOME/cli/target/appassembler/bin/
 ```
 and finally invoke the script for your OS (UNIX or Windows):
 ```
