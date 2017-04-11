@@ -22,7 +22,6 @@ import org.eclipse.rdf4j.model.IRI;
 /**
  * This class models an internal <i>Sindice</i> Vocabulary to describe
  * resource domains and Microformat nesting relationships.
- * See the <a href="http://developers.any23.org/extraction.html">Any23 extraction notes</a>.
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  * @author Michele Mostarda (michele.mostarda@gmail.com)

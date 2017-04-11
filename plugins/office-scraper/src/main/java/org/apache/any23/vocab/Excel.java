@@ -107,7 +107,7 @@ public class Excel extends Vocabulary {
     /**
      * The namespace of the vocabulary as a string.
      */
-    public static final String NS = "http://vocab.sindice.net/excel/";
+    public static final String NS = "http://any23.apache.org/excel/";
 
     private static Excel instance;
 
