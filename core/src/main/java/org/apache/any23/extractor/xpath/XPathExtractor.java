@@ -39,11 +39,12 @@ import java.util.List;
  */
 public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
 
-    private final List<XPathExtractionRule> xPathExtractionRules = new ArrayList<XPathExtractionRule>();
+    private final List<XPathExtractionRule> xPathExtractionRules = new ArrayList<>();
 
     public XPathExtractor() {
+        //default constructor
     }
-    
+
     public XPathExtractor(List<XPathExtractionRule> rules) {
         xPathExtractionRules.addAll(rules);
     }
@@ -66,8 +67,8 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
             ExtractionContext extractionContext,
             Document in,
             ExtractionResult out
-    )
-    throws IOException, ExtractionException {
+            )
+                    throws IOException, ExtractionException {
         final IRI documentIRI = extractionContext.getDocumentIRI();
         for(XPathExtractionRule rule : xPathExtractionRules) {
             if(rule.acceptIRI(documentIRI)) {

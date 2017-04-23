@@ -17,8 +17,6 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,6 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.StringUtils;
 import org.apache.any23.vocab.YAML;
-import org.apache.commons.lang.WordUtils;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
@@ -58,6 +55,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     @Override
     public void setStopAtFirstError(boolean f) {
+      //empty
     }
 
     @Override
@@ -65,9 +63,9 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             ExtractionResult out)
             throws IOException, ExtractionException {
         IRI documentURI = context.getDocumentIRI();
-        documentRoot = RDFUtils.uri(documentURI.toString() + "root");
+        documentRoot = RDFUtils.iri(documentURI.toString() + "root");
 
-        log.debug("process: {}", documentURI.toString());
+        log.debug("Processing: {}", documentURI.toString());
         out.writeNamespace(vocab.PREFIX, vocab.NS);
         out.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
         out.writeNamespace(RDFS.PREFIX, RDFS.NAMESPACE);
@@ -99,9 +97,9 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         if (treeData == null) {
             return RDF.NIL;
         } else if (treeData instanceof Map) {
-            return processMap(fileURI, (Map) treeData, out);
+            return processMap(fileURI, (Map<String, Object>) treeData, out);
         } else if (treeData instanceof List) {
-            return processList(fileURI, (List) treeData, out);
+            return processList(fileURI, (List<?>) treeData, out);
         } else if (treeData instanceof Long) {
             return RDFUtils.literal(((Long) treeData));
         } else if (treeData instanceof Integer) {
@@ -132,13 +130,13 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return nodeURI;
     }
 
-    private Value processList(IRI fileURI, Iterable iter, ExtractionResult out) {
+    private Value processList(IRI fileURI, Iterable<?> iter, ExtractionResult out) {
         Resource node = YAMLExtractor.this.makeUri();
         out.writeTriple(node, RDF.TYPE, RDF.LIST);
 
         Resource pList = null; // previous RDF iter node
         Resource cList = node; // cutternt RDF iter node
-        Iterator listIter = iter.iterator();
+        Iterator<?> listIter = iter.iterator();
         while (listIter.hasNext()) {
             // If previous RDF iter node is given lint with current one
             if (pList != null) {
@@ -187,7 +185,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             uriString = uriString + "_" + Integer.toString(nodeId);
         }
 
-        Resource node = RDFUtils.uri(uriString);
+        Resource node = RDFUtils.iri(uriString);
         if (addId) {
             nodeId++;
         }

@@ -82,7 +82,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
      * @param ns the list of script nodes.
      */
     private void processScriptNodes(IRI documentIRI, ExtractionContext ec, ExtractionResult er, List<Node> ns) {
-        if(ns.size() > 0 && turtleParser == null) {
+        if(!ns.isEmpty() && turtleParser == null) {
             turtleParser = RDFParserFactory.getInstance().getTurtleParserInstance(true, false, ec, er);
         }
         for(Node n : ns) {

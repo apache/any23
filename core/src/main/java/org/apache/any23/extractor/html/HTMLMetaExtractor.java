@@ -51,7 +51,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private IRI profile;
 
-    private Map<String, IRI> prefixes = new HashMap<String, IRI>();
+    private Map<String, IRI> prefixes = new HashMap<>();
 
     private String documentLang;
 
@@ -82,29 +82,29 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
                 lang = meta.getLang();
             }
             if(meta.isPragmaDirective){
-            	if(lang != null) {
-            		out.writeTriple(
+                if(lang != null) {
+                    out.writeTriple(
                         documentIRI,
                         meta.getHttpEquiv(),
                         SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
-            	} else {
+                } else {
                         out.writeTriple(
                                 documentIRI,
                                 meta.getHttpEquiv(),
                                 SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
-            	}
+                }
             }else {
-            	if(lang != null) {
-            		out.writeTriple(
+                if(lang != null) {
+                    out.writeTriple(
                         documentIRI,
                         meta.getName(),
                         SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
-            	} else {
-            		out.writeTriple(
+                } else {
+                    out.writeTriple(
                             documentIRI,
                             meta.getName(),
                             SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
-            	}
+                }
             }
         }
     }
@@ -117,7 +117,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
      */
     private String getDocumentLanguage(Document in) {
         String lang = DomUtils.find(in, "string(/HTML/@lang)");
-        if (lang.equals("")) {
+        if ("".equals(lang)) {
             return null;
         }
         return lang;
@@ -125,7 +125,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private IRI extractProfile(Document in) {
         String profile = DomUtils.find(in, "string(/HTML/@profile)");
-        if (profile.equals("")) {
+        if ("".equals(profile)) {
             return null;
         }
         return SimpleValueFactory.getInstance().createIRI(profile);
@@ -150,7 +150,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private Set<Meta> extractMetaElement(Document in, String baseProfile) {
         List<Node> metaNodes = DomUtils.findAll(in, "/HTML/HEAD/META");
-        Set<Meta> result = new HashSet<Meta>();
+        Set<Meta> result = new HashSet<>();
         for (Node metaNode : metaNodes) {
             NamedNodeMap attributes = metaNode.getAttributes();
             Node nameAttribute = attributes.getNamedItem("name");
@@ -281,12 +281,15 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+              return true;
+            if (o == null || getClass() != o.getClass())
+              return false;
 
             Meta meta = (Meta) o;
 
-            if (xpath != null ? !xpath.equals(meta.xpath) : meta.xpath != null) return false;
+            if (xpath != null ? !xpath.equals(meta.xpath) : meta.xpath != null)
+              return false;
 
             return true;
         }
