@@ -1,0 +1,17 @@
+sudo: false
+language: java
+jdk:
+- oraclejdk8
+os: linux
+cache:
+  directories:
+  - "$HOME/.m2"
+
+env:
+  global:
+  - USE_NETWORK=true
+  - JVM_OPTIONS="-Xmx2g"
+
+script:
+  - mvn clean test -B
+
