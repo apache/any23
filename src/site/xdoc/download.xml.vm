@@ -191,15 +191,15 @@
           <tbody>
             <tr>
               <td>Apache Any23 Service 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0.tar.gz"> apache-any23-service-2.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0.tar.gz.md5"> apache-any23-service-2.0.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0.tar.gz.asc"> apache-any23-service-2.0.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.tar.gz"> apache-any23-service-2.0-with-deps.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.tar.gz.md5"> apache-any23-service-2.0-with-deps.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.tar.gz.asc"> apache-any23-service-2.0-with-deps.tar.gz.asc</a></td>
             </tr>
             <tr>
               <td>Apache Any23 Service 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0.zip"> apache-any23-service-2.0.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0.zip.md5"> apache-any23-service-2.0.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0.zip.asc"> apache-any23-service-2.0.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.zip"> apache-any23-service-2.0-with-deps.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.zip.md5"> apache-any23-service-2.0-with-deps.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.zip.asc"> apache-any23-service-2.0.zip.asc</a></td>
             </tr>
           </tbody>
         </table>
