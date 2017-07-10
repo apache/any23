@@ -241,6 +241,7 @@
 
     <httpclient.version>4.5.3</httpclient.version>
     <httpcore.version>4.4.6</httpcore.version>
+    <owlapi.version>5.1.0</owlapi.version>
     <poi.version>3.16</poi.version>
     <rdf4j.version>2.2.2</rdf4j.version>
     <semargl.version>0.7</semargl.version>
@@ -476,6 +477,34 @@
         <version>${rdf4j.version}</version>
       </dependency>
       <!-- END: Misc -->
+
+      <!-- BEGIN: OWLAPI -->
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-api</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-impl</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-rio</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-parsers</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>net.sourceforge.owlapi</groupId>
+        <artifactId>owlapi-apibinding</artifactId>
+        <version>${owlapi.version}</version>
+      </dependency>
+      <!-- END: OWLAPI -->
 
       <!-- BEGIN:  Apache Commons -->
       <dependency>
