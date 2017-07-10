@@ -241,9 +241,11 @@
 
     <httpclient.version>4.5.3</httpclient.version>
     <httpcore.version>4.4.6</httpcore.version>
-    <slf4j.logger.version>1.7.25</slf4j.logger.version>
+    <poi.version>3.16</poi.version>
     <rdf4j.version>2.2.2</rdf4j.version>
     <semargl.version>0.7</semargl.version>
+    <slf4j.logger.version>1.7.25</slf4j.logger.version>
+    <tika.version>1.15</tika.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args></surefire-extra-args>
@@ -365,32 +367,32 @@
       <dependency>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-core</artifactId>
-        <version>1.14</version>
+        <version>${tika.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-parsers</artifactId>
-        <version>1.14</version>
+        <version>${tika.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi</artifactId>
-        <version>3.8</version>
+        <version>${poi.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-ooxml</artifactId>
-        <version>3.8</version>
+        <version>${poi.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-ooxml-schemas</artifactId>
-        <version>3.8</version>
+        <version>${poi.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.poi</groupId>
         <artifactId>poi-scratchpad</artifactId>
-        <version>3.8</version>
+        <version>${poi.version}</version>
       </dependency>
       <!-- END: Tika -->
 
