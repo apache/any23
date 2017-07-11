@@ -139,6 +139,17 @@
       <groupId>org.semarglproject</groupId>
       <artifactId>semargl-rdf4j</artifactId>
     </dependency>
+    <dependency>
+      <groupId>net.sourceforge.owlapi</groupId>
+      <artifactId>owlapi-rio</artifactId>
+    </dependency>
+    <!-- Need to include apibinding in runtime scope to allow 
+         dependency injection to work transparently inside of owlapi -->
+    <dependency>
+      <groupId>net.sourceforge.owlapi</groupId>
+      <artifactId>owlapi-apibinding</artifactId>
+      <scope>runtime</scope>
+    </dependency>
     <!-- END: RDF4J -->
     
     <!-- BEGIN:  Apache Commons, this version is hosted in the 

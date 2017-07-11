@@ -13,18 +13,18 @@ Any23 documentation can be found on the [website](http://any23.apache.org)
 
 # Distribution Content
 
- * [api](https://github.com/lewismc/any23/tree/master/api): Any23 library external API.
- * [core](https://github.com/lewismc/any23/tree/master/core): The library core codebase.
- * [utils](https://github.com/lewismc/any23/tree/master/utils): An utilities package
- * [encoding](https://github.com/lewismc/any23/tree/master/encoding): Encoding detection library.
- * [mime](https://github.com/lewismc/any23/tree/master/mime): MIME Type detection library.
- * [nquads](https://github.com/lewismc/any23/tree/master/nquads): NQuads parsing and serialization library.
- * [plugins](https://github.com/lewismc/any23/tree/master/plugins): Library plugins codebase (read [plugins/README.txt](https://github.com/lewismc/any23/blob/master/plugins/README.md) for further details).
- * [service](https://github.com/lewismc/any23/tree/master/service): The library HTTP service codebase.
- * [src](https://github.com/lewismc/any23/tree/master/src): Packaging for Any23 artifacts.
- * [test-resources](https://github.com/lewismc/any23/tree/master/test-resources): Material relating to Any23 JUnit test cases.
- * [RELEASE-NOTES.txt](https://github.com/lewismc/any23/blob/master/RELEASE-NOTES.txt): File reporting main release notes for every version.
- * [LICENSE.txt](https://github.com/lewismc/any23/blob/master/LICENSE.txt): Applicable project license.
+ * [api](https://github.com/apache/any23/tree/master/api): Any23 library external API.
+ * [core](https://github.com/apache/any23/tree/master/core): The library core codebase.
+ * [utils](https://github.com/apache/any23/tree/master/utils): A CSV specific package
+ * [encoding](https://github.com/apache/any23/tree/master/encoding): Encoding detection library.
+ * [mime](https://github.com/apache/any23/tree/master/mime): MIME Type detection library.
+ * [nquads](https://github.com/apache/any23/tree/master/nquads): NQuads parsing and serialization library.
+ * [plugins](https://github.com/apache/any23/tree/master/plugins): Library plugins codebase (read [plugins/README.md](https://github.com/apache/any23/blob/master/plugins/README.md) for further details).
+ * [service](https://github.com/apache/any23/tree/master/service): The library HTTP service codebase.
+ * [src](https://github.com/apache/any23/tree/master/src): Packaging for Any23 artifacts.
+ * [test-resources](https://github.com/apache/any23/tree/master/test-resources): Material relating to Any23 JUnit test cases.
+ * [RELEASE-NOTES.txt](https://github.com/apache/any23/blob/master/RELEASE-NOTES.txt): File reporting main release notes for every version.
+ * [LICENSE.txt](https://github.com/apache/any23/blob/master/LICENSE.txt): Applicable project license.
  * README.md: This file.
 
 # Online Documentation
