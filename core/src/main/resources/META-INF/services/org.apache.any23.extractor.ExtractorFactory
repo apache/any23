@@ -17,7 +17,9 @@ org.apache.any23.extractor.html.SpeciesExtractorFactory
 org.apache.any23.extractor.html.TitleExtractorFactory
 org.apache.any23.extractor.html.XFNExtractorFactory
 org.apache.any23.extractor.microdata.MicrodataExtractorFactory
+org.apache.any23.extractor.rdf.FunctionalSyntaxExtractorFactory
 org.apache.any23.extractor.rdf.JSONLDExtractorFactory
+org.apache.any23.extractor.rdf.ManchesterSyntaxExtractorFactory
 org.apache.any23.extractor.rdf.NQuadsExtractorFactory
 org.apache.any23.extractor.rdf.NTriplesExtractorFactory
 org.apache.any23.extractor.rdf.RDFXMLExtractorFactory
