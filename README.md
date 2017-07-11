@@ -15,7 +15,7 @@ Any23 documentation can be found on the [website](http://any23.apache.org)
 
  * [api](https://github.com/lewismc/any23/tree/master/api): Any23 library external API.
  * [core](https://github.com/lewismc/any23/tree/master/core): The library core codebase.
- * [csvutils](https://github.com/lewismc/any23/tree/master/csvutils): A CSV specific package
+ * [utils](https://github.com/lewismc/any23/tree/master/utils): An utilities package
  * [encoding](https://github.com/lewismc/any23/tree/master/encoding): Encoding detection library.
  * [mime](https://github.com/lewismc/any23/tree/master/mime): MIME Type detection library.
  * [nquads](https://github.com/lewismc/any23/tree/master/nquads): NQuads parsing and serialization library.

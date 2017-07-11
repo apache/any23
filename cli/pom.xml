@@ -50,7 +50,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>apache-any23-csvutils</artifactId>
+      <artifactId>apache-any23-utils</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
