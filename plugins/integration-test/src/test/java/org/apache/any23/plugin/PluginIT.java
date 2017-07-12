@@ -40,8 +40,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PluginIT {
 
-    //TODO reduced from 31 to 28 within ANY23-276
-    private static final int NUM_OF_EXTRACTORS = 29;
+    private static final int NUM_OF_EXTRACTORS = 31;
 
     private static final String PLUGIN_DIR = "target/plugins-build/";
 
