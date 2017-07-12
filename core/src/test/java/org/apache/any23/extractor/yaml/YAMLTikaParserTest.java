@@ -15,11 +15,13 @@
  */
 package org.apache.any23.extractor.yaml;
 
+import com.mchange.util.AssertException;
 import java.io.InputStream;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.mime.TikaMIMETypeDetector;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,16 +34,36 @@ public class YAMLTikaParserTest {
     private static final String file1 = "/org/apache/any23/extractor/yaml/simple-load.yml";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
+    
+    private TikaMIMETypeDetector detector;
+    
+    @Before
+    public void prepareDetector() throws Exception {
+        detector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
+    }
 
-    @Test
-    public void tikaDetect()
+    /**
+     * Yaml type is detected by file name only so detector returns octet type.
+     * @throws Exception 
+     */
+    @Test(expected = AssertionError.class)
+    public void tikaStreamDetect()
             throws Exception {
         InputStream is = YAMLTikaParserTest.class.getResourceAsStream(file1);
-        TikaMIMETypeDetector detector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
         MIMEType type = detector.guessMIMEType(null, is, null);
 
         log.info("Type: {}", type.toString());
-
+        Assert.assertEquals("text/x-yaml", type.toString());
+    }
+    
+    @Test
+    public void tikaNameDetect() throws Exception {
+        String fileName = java.net.URI.create(file1).getPath();
+        
+        log.debug("normatised file name: {}", fileName);
+        MIMEType type = detector.guessMIMEType(fileName, null, null);
+        
+        log.info("Type: {}", type.toString());
         Assert.assertEquals("text/x-yaml", type.toString());
     }
 

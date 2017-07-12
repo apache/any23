@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.regex.Pattern;
-import org.apache.any23.extractor.yaml.YAMLValidator;
 
 /**
  * Implementation of {@link MIMETypeDetector} based on
@@ -132,17 +131,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      */
     public static boolean checkCSVFormat(InputStream is) throws IOException {
         return CSVReaderBuilder.isCSV(is);
-    }
-
-    /**
-     * Checks if the stream contains a valid <i>YAML</i> content.
-     *
-     * @param is
-     * @return
-     * @throws IOException
-     */
-    public static boolean checkYAMLFormat(InputStream is) throws IOException {
-        return YAMLValidator.isYAML(is);
     }
 
     /**
@@ -275,8 +263,6 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                     type = RDFFormat.TURTLE.getDefaultMIMEType();
                 } else if( checkCSVFormat(input) ) {
                     type = CSV_MIMETYPE;
-                } else if (checkYAMLFormat(input)) { // YAML detection must be at the end
-                    type = "text/x-yaml";
                 } else {
                     type = MimeTypes.OCTET_STREAM; 
                 }

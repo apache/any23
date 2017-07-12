@@ -92,17 +92,4 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         RepositoryResult<Statement> docs = getStatements(null, null, RDF.NIL);
         Assert.assertTrue(Iterations.asList(docs).size() == 2);
     }
-
-    /**
-     * Comma separated values are parsed as well.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void csvTest()
-            throws Exception {
-        assertExtract("/org/apache/any23/extractor/csv/test-comma.csv");
-        log.debug(dumpModelToTurtle());
-        assertModelNotEmpty();
-    }
 }

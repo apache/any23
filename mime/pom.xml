@@ -38,7 +38,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>apache-any23-utils</artifactId>
+      <artifactId>apache-any23-csvutils</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
