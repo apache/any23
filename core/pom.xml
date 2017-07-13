@@ -38,7 +38,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>apache-any23-utils</artifactId>
+      <artifactId>apache-any23-csvutils</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -77,6 +77,10 @@
     <dependency>
       <groupId>com.beust</groupId>
       <artifactId>jcommander</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
     </dependency>
 
     <!-- BEGIN: Tika -->

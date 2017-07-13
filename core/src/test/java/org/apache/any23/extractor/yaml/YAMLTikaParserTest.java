@@ -15,7 +15,7 @@
  */
 package org.apache.any23.extractor.yaml;
 
-import com.mchange.util.AssertException;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import org.apache.any23.mime.MIMEType;
 import org.apache.any23.mime.TikaMIMETypeDetector;
@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class YAMLTikaParserTest {
 
-    private static final String file1 = "/org/apache/any23/extractor/yaml/simple-load.yml";
+    private final String file1 = "/org/apache/any23/extractor/yaml/simple-load.yml";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     
@@ -46,14 +46,16 @@ public class YAMLTikaParserTest {
      * Yaml type is detected by file name only so detector returns octet type.
      * @throws Exception 
      */
-    @Test(expected = AssertionError.class)
+    @Test
     public void tikaStreamDetect()
             throws Exception {
-        InputStream is = YAMLTikaParserTest.class.getResourceAsStream(file1);
+        InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream(file1));
+        Assert.assertNotNull("Could not find test file: " + file1, is);
         MIMEType type = detector.guessMIMEType(null, is, null);
 
         log.info("Type: {}", type.toString());
-        Assert.assertEquals("text/x-yaml", type.toString());
+        // Not currently doing stream detection for YAML, so it returns the default, octet-stream
+        Assert.assertEquals("application/octet-stream", type.toString());
     }
     
     @Test
