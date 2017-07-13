@@ -27,7 +27,6 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.eclipse.rdf4j.repository.RepositoryResult;
-import org.semarglproject.vocab.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
