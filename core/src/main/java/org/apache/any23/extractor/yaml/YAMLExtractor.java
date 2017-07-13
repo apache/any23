@@ -17,6 +17,7 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +78,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             Resource pageNode = YAMLExtractor.this.makeUri("document", documentURI);
             out.writeTriple(documentRoot, vocab.contains, pageNode);
             out.writeTriple(pageNode, RDF.TYPE, vocab.document);
-            out.writeTriple(pageNode, vocab.contains, buildNode(documentURI, p, out));
+            buildNode(documentURI, p, out, pageNode);
         }
 
     }
@@ -87,7 +88,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return YAMLExtractorFactory.getDescriptionInstance();
     }
 
-    private Value buildNode(IRI fileURI, Object treeData, ExtractionResult out) {
+    private Value buildNode(IRI fileURI, Object treeData, ExtractionResult out, Resource... parent) {
 
         if (treeData != null) {
             log.debug("object type: {}", treeData.getClass());
@@ -96,9 +97,9 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         if (treeData == null) {
             return RDF.NIL;
         } else if (treeData instanceof Map) {
-            return processMap(fileURI, (Map) treeData, out);
+            return processMap(fileURI, (Map) treeData, out, parent);
         } else if (treeData instanceof List) {
-            return processList(fileURI, (List) treeData, out);
+            return processList(fileURI, (List) treeData, out, parent);
         } else if (treeData instanceof Long) {
             return RDFUtils.literal(((Long) treeData));
         } else if (treeData instanceof Integer) {
@@ -112,16 +113,17 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         } else if (treeData instanceof Boolean) {
             return RDFUtils.literal((Boolean) treeData);
         } else {
-            return RDFUtils.literal(((String) treeData));
+            return processString((String) treeData);
         }
     }
 
-    private Value processMap(IRI file, Map<String, Object> node, ExtractionResult out) {
-        Resource nodeURI = YAMLExtractor.this.makeUri(file);
+    private Value processMap(IRI file, Map<String, Object> node, ExtractionResult out, Resource... parent) {
+        Resource nodeURI = Arrays.asList(parent).isEmpty() ? YAMLExtractor.this.makeUri(file) : parent[0];
+        
         for (String k : node.keySet()) {
             Resource predicate = makeUri(k, file, false);
             Value value = buildNode(file, node.get(k), out);
-            out.writeTriple(nodeURI, RDF.TYPE, vocab.node);
+            out.writeTriple(nodeURI, RDF.TYPE, vocab.mapping);
             out.writeTriple(nodeURI, (IRI) predicate, value);
             out.writeTriple(predicate, RDF.TYPE, RDF.PREDICATE);
             out.writeTriple(predicate, RDFS.LABEL, RDFUtils.literal(k));
@@ -129,9 +131,13 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return nodeURI;
     }
 
-    private Value processList(IRI fileURI, Iterable iter, ExtractionResult out) {
+    private Value processList(IRI fileURI, Iterable iter, ExtractionResult out, Resource... parent) {
         Resource node = YAMLExtractor.this.makeUri();
         out.writeTriple(node, RDF.TYPE, RDF.LIST);
+        
+        if (!Arrays.asList(parent).isEmpty()) {
+            out.writeTriple(parent[0], vocab.contains, node);
+        }
 
         Resource pList = null; // previous RDF iter node
         Resource cList = node; // cutternt RDF iter node
@@ -151,6 +157,14 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         out.writeTriple(pList, RDF.REST, RDF.NIL);
 
         return node;
+    }
+    
+    private Value processString(String str) {
+        if (RDFUtils.isAbsoluteIRI(str)) {
+            return RDFUtils.iri(str);
+        } else {
+            return RDFUtils.literal(str);
+        }
     }
 
     private Resource makeUri() {
