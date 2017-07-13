@@ -263,8 +263,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
                     type = RDFFormat.TURTLE.getDefaultMIMEType();
                 } else if( checkCSVFormat(input) ) {
                     type = CSV_MIMETYPE;
-                }
-                else {
+                } else {
                     type = MimeTypes.OCTET_STREAM; 
                 }
             }

@@ -422,8 +422,9 @@ public class SingleDocumentExtraction {
             return;
         }
         ensureHasLocalCopy();
+        // detect MIME based on the real file IRI rather than based on given base namespace
         detectedMIMEType = detector.guessMIMEType(
-                java.net.URI.create(documentIRI.stringValue()).getPath(),
+                java.net.URI.create(in.getDocumentIRI()).getPath(),
                 localDocumentSource.openInputStream(),
                 MIMEType.parse(localDocumentSource.getContentType())
         );
