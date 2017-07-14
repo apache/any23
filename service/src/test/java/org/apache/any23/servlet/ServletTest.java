@@ -358,7 +358,7 @@ public class ServletTest {
         HttpTester response = doGetRequest("/best/http://foo.com");
         Assert.assertEquals(200, response.getStatus());
         Assert.assertEquals("http://foo.com", requestedIRI);
-        assertContains("<rdf:RDF", response.getContent());
+        assertContains("<rdf1:RDF", response.getContent());
     }
 
     @Test
