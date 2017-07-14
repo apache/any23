@@ -25,7 +25,9 @@ import org.eclipse.rdf4j.model.Value;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import org.apache.any23.util.StringUtils;
 
 /**
  * Triple handler decorator useful for logging purposes.
@@ -87,20 +89,23 @@ public class LoggingTripleHandler implements TripleHandler {
         underlyingHandler.receiveNamespace(prefix, uri, context);
     }
 
+    @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
         underlyingHandler.endDocument(documentIRI);
         long elapsedTime = System.currentTimeMillis() - startTime;
-        boolean success = true;
-        StringBuffer sb = new StringBuffer("[");
-        for (Entry<String, Integer> ent : contextTripleMap.entrySet()) {
-            sb.append(" ").append(ent.getKey()).append(":").append(ent.getValue());
-            if (ent.getValue() > 0) {
-                success = true;
-            }
-        }
-        sb.append("]");
+        final AtomicBoolean success = new AtomicBoolean(true);
+        
+        StringBuffer sb = new StringBuffer("[ ");
+        String[] parsers = contextTripleMap.entrySet().stream().map(e -> {
+                    if (e.getValue() > 0) {
+                        success.set(true);
+                    }
+                    return String.format("%s:%d", e.getKey(), e.getValue()); }
+                ).collect(Collectors.toList()).toArray(new String[] {});
+        sb.append(StringUtils.join(", ", parsers));
+        sb.append(" ]");
         destination.println(
-                documentIRI + "\t" + contentLength + "\t" + elapsedTime + "\t" + success + "\t" + sb.toString()
+                documentIRI + "\t" + contentLength + "\t" + elapsedTime + "\t" + success.get() + "\t" + sb.toString()
         );
         contextTripleMap.clear();
     }
@@ -111,6 +116,6 @@ public class LoggingTripleHandler implements TripleHandler {
     }
 
     private void printHeader(PrintWriter writer) {
-        writer.println("# Document-IRI\tContent-Length\tElapsed-Time\tSuccess\tExtractors");
+        writer.println("# Document-IRI\tContent-Length\tElapsed-Time\tSuccess\tExtractors:Triples");
     }
 }

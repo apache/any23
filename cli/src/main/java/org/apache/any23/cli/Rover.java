@@ -175,7 +175,7 @@ public class Rover implements Tool {
     }
 
     protected void performExtraction(DocumentSource documentSource) throws Exception {
-        if (!any23.extract(extractionParameters, documentSource, tripleHandler).hasMatchingExtractors()) {
+        if (!any23.extract(extractionParameters, documentSource, reportingTripleHandler).hasMatchingExtractors()) {
             throw new IllegalStateException(format("No suitable extractors found for source %s", documentSource));
         }
     }
