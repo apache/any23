@@ -31,6 +31,7 @@ import org.eclipse.rdf4j.rio.Rio;
 import org.eclipse.rdf4j.rio.helpers.RDFaParserSettings;
 import org.eclipse.rdf4j.rio.helpers.RDFaVersion;
 import org.eclipse.rdf4j.rio.turtle.TurtleParser;
+import org.semanticweb.owlapi.rio.OWLAPIRDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,6 +179,46 @@ public class RDFParserFactory {
             final ExtractionResult extractionResult
     ) {
         final RDFParser parser = Rio.createParser(RDFFormat.NQUADS);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
+
+    /**
+     * Returns a new instance of a configured ManchesterSyntaxParser.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured Manchester Syntax parser.
+     */
+    public RDFParser getManchesterSyntaxParser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final RDFParser parser = Rio.createParser(OWLAPIRDFFormat.MANCHESTER_OWL);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
+
+    /**
+     * Returns a new instance of a configured FunctionalSyntaxParser.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured Functional Syntax parser.
+     */
+    public RDFParser getFunctionalSyntaxParser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final RDFParser parser = Rio.createParser(OWLAPIRDFFormat.OWL_FUNCTIONAL);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }

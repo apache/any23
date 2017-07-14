@@ -17,8 +17,6 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,6 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.StringUtils;
 import org.apache.any23.vocab.YAML;
-import org.apache.commons.lang.WordUtils;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
@@ -54,7 +51,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     private int nodeId = 0;
 
-    private IRI documentRoot;
+    private Resource documentRoot;
 
     @Override
     public void setStopAtFirstError(boolean f) {
@@ -65,7 +62,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             ExtractionResult out)
             throws IOException, ExtractionException {
         IRI documentURI = context.getDocumentIRI();
-        documentRoot = RDFUtils.uri(documentURI.toString() + "root");
+        documentRoot = makeUri("root", documentURI, false);
 
         log.debug("process: {}", documentURI.toString());
         out.writeNamespace(vocab.PREFIX, vocab.NS);
