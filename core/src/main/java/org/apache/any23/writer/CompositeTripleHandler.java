@@ -110,7 +110,9 @@ public class CompositeTripleHandler implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-        // Empty.
+        for (TripleHandler handler : children) {
+            handler.setContentLength(contentLength);
+        }
     }
     
 }
