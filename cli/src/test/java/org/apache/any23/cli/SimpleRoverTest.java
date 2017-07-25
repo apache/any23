@@ -22,6 +22,7 @@ import java.util.Collection;
 import org.apache.any23.util.FileUtils;
 import org.apache.pdfbox.util.Charsets;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -91,6 +92,34 @@ public class SimpleRoverTest extends ToolTestBase {
 
         Assert.assertTrue("Content size should be greated than 0", contentSize > 0);
         Assert.assertFalse(extractors.isEmpty());
+        Assert.assertEquals("Unexpected exit code.", 0, exitCode);
+    }
+    
+    /**
+     * Ref {@link https://issues.apache.org/jira/browse/ANY23-310} unit test.
+     * 
+     * Example without the logging file.
+     * 
+     * By default that test is not active. It might be useful for debugging.
+     * @throws Exception 
+     */
+    @Test
+    @Ignore
+    public void ref310ExtendedTest()
+            throws Exception {
+        File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
+
+        int exitCode = runTool(String.format("-o %s -f turtle -e yaml,csv -d %s %s",
+                outputFile.getAbsolutePath(),
+                baseUri,
+                copyResourceToTempFile(filePath).getAbsolutePath()));
+        
+        Assert.assertTrue(outputFile.exists());
+        // check if output file is longer than 10 chracters
+        String outputFileContent = FileUtils.readFileContent(outputFile);
+        Assert.assertTrue(outputFileContent.length() > 10);
+        
+        
         Assert.assertEquals("Unexpected exit code.", 0, exitCode);
     }
 
