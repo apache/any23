@@ -50,7 +50,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     private int nodeId = 0;
 
-    private IRI documentRoot;
+    private Resource documentRoot;
 
     @Override
     public void setStopAtFirstError(boolean f) {
@@ -60,6 +60,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
     public void run(ExtractionParameters extractionParameters, ExtractionContext context, InputStream in,
             ExtractionResult out)
             throws IOException, ExtractionException {
+
         IRI documentIRI = context.getDocumentIRI();
         documentRoot = RDFUtils.iri(documentIRI.toString() + "root");
 
