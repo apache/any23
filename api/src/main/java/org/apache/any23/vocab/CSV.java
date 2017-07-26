@@ -73,7 +73,7 @@ public class CSV extends Vocabulary {
     /**
      * The namespace of the vocabulary as a string.
      */
-    public static final String NS = "http://vocab.sindice.net/csv/";
+    public static final String NS = "http://tools.ietf.org/html/rfc4180";
 
     private static CSV instance;
 
