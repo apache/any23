@@ -16,7 +16,8 @@
  */
 package org.apache.any23.openie;
 
-import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.apache.any23.extractor.ExtractionContext;
@@ -66,8 +67,8 @@ public class OpenIEExtractorTest {
     
     public void extract(IRI uri, String filePath) 
       throws IOException, ExtractionException, TripleHandlerException {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      final TripleHandler tHandler = new RDFXMLWriter(baos);
+      FileOutputStream fos = new FileOutputStream(File.createTempFile("OpenIEExtractorTest", "tmp"));
+      final TripleHandler tHandler = new RDFXMLWriter(fos);
       final ExtractionContext extractionContext = new ExtractionContext("rdf-openie", uri);
       final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, tHandler);
       try {
@@ -78,7 +79,7 @@ public class OpenIEExtractorTest {
                 result
         );
       } finally {
-        logger.debug(baos.toString());
+        logger.debug(fos.toString());
         tHandler.close();
         result.close();
       }
