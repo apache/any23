@@ -41,7 +41,9 @@ import static org.junit.Assert.assertTrue;
  */
 public class PluginIT {
 
-    private static final int NUM_OF_EXTRACTORS = 34;
+    private static final int NUM_OF_EXTRACTORS_INCL_OPENIE = 34;
+    
+    private static final int NUM_OF_EXTRACTORS_EXCL_OPENIE = 33;
 
     private static final String PLUGIN_DIR = "target/plugins-build/";
 
@@ -79,12 +81,19 @@ public class PluginIT {
                 new ExtractorRegistryImpl(),
                 HTML_SCRAPER_TARGET_DIR,  // Required to satisfy class dependencies.
                 HTML_SCRAPER_DEPENDENCY_DIR,
-                OFFICE_SCRAPER_TARGET_DIR
-, OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
+                OFFICE_SCRAPER_TARGET_DIR,
+                OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
         );
-        assertEquals("Did not find the number of expected extractors", NUM_OF_EXTRACTORS ,        // HTMLScraper Plugin, OfficeScraper Plugin.
-                extractorGroup.getNumOfExtractors()
-        );
+        try {
+          Class.forName("org.apache.any23.extractor.openie.OpenIEExtractor", false, this.getClass().getClassLoader());
+          assertEquals("Did not find the number of expected extractors", NUM_OF_EXTRACTORS_INCL_OPENIE ,
+                  extractorGroup.getNumOfExtractors()
+          );
+        } catch (ClassNotFoundException e) {
+          assertEquals("Did not find the number of expected extractors", NUM_OF_EXTRACTORS_EXCL_OPENIE ,
+                  extractorGroup.getNumOfExtractors()
+          );
+        }
     }
 
     /**
