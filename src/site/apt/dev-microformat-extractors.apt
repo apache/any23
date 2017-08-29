@@ -40,7 +40,7 @@ Microformat Extractors
  More specifically:
 
   * Embedding explicitly the logic within the
-  {{{./xref/org/apache/any23/extractor/html/package-summary.html}Microformats Extractors}}
+  {{{./apidocs/org/apache/any23/extractor/html/package-summary.html}Microformats Extractors}}
 
   * Using the default <<Apache Any23>> nesting feature.
 
@@ -60,7 +60,7 @@ Microformat Extractors
 </span>
 +----------------------------------------------------------------------------------------------
 
- Since, as shown below, the {{{./xref/org/apache/any23/extractor/html/HCardExtractor.html}HCardExtractor}}
+ Since, as shown below, the {{{./apidocs/org/apache/any23/extractor/html/HCardExtractor.html}HCardExtractor}}
  contains the code to handle nested hAddress,
 
 +------------------------------
@@ -101,12 +101,12 @@ private boolean addSubMicroformat(String className, Resource resource, IRI prope
 +-----------------------------------------------------------------------------------------------------
 
  It is higly recommended to decorate the extractors who natively handle the nesting relatioship using the
-  {{{./xref/org/apache/any23/extractor/html/annotations/Includes.html}@Includes}} annotation. This annotation,
+  {{{./apidocs/org/apache/any23/extractor/html/annotations/Includes.html}@Includes}} annotation. This annotation,
   if present, avoid the production of <nesting_original> and <nesting_structured> RDF statements.
 
-  The following example shows how the {{{./xref/org/apache/any23/extractor/html/annotations/Includes.html}@Includes}} annotation
-  could be used to claim the fact that {{{./xref/org/apache/any23/extractor/html/HCardExtractor.html}HCardExtractor}} natively
-  embedds the {{{./xref/org/apache/any23/extractor/html/AdrExtractor.html}AdrExtractor}}.
+  The following example shows how the {{{./apidocs/org/apache/any23/extractor/html/annotations/Includes.html}@Includes}} annotation
+  could be used to claim the fact that {{{./apidocs/org/apache/any23/extractor/html/HCardExtractor.html}HCardExtractor}} natively
+  embedds the {{{./apidocs/org/apache/any23/extractor/html/AdrExtractor.html}AdrExtractor}}.
 
 +----------------------------------------------------------------------------------------------
 @Includes( extractors = AdrExtractor.class )

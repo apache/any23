@@ -56,7 +56,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 
 	private IRI profile;
 
-	private Map<String, IRI> prefixes = new HashMap<String, IRI>();
+	private Map<String, IRI> prefixes = new HashMap<>();
 
 	private String documentLang;
 
@@ -137,7 +137,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 			ExtractionContext extractionContext, ExtractionResult out)
 			throws IOException, ExtractionException {
 		List<Node> scriptNodes = DomUtils.findAll(in, "/HTML/HEAD/SCRIPT");
-		Set<JSONLDScript> result = new HashSet<JSONLDScript>();
+		Set<JSONLDScript> result = new HashSet<>();
 		extractor = new JSONLDExtractorFactory().createExtractor();
 		for (Node jsonldNode : scriptNodes) {
 			NamedNodeMap attributes = jsonldNode.getAttributes();

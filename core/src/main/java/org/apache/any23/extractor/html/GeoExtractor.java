@@ -50,7 +50,8 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
     }
 
     protected boolean extractEntity(Node node, ExtractionResult out) {
-        if (null == node) return false;
+        if (null == node)
+            return false;
         //try lat & lon
         final HTMLDocument document = new HTMLDocument(node);
         HTMLDocument.TextField latNode = document.getSingularTextField("latitude" );
@@ -59,13 +60,13 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         String lon = lonNode.value();
         if ("".equals(lat) || "".equals(lon)) {
             String[] both = document.getSingularUrlField("geo").value().split(";");
-            if (both.length != 2) return false;
+            if (both.length != 2)
+                return false;
             lat = both[0];
             lon = both[1];
         }
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, vVCARD.Location);
-        final String extractorName = getDescription().getExtractorName();
         conditionallyAddStringProperty(
                 latNode.source(),
                 geo, vVCARD.latitude , lat

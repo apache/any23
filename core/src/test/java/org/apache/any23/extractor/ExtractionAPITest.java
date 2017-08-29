@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.any23.extractor.example.ExampleExtractor;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.writer.CountingTripleHandler;
@@ -30,7 +30,7 @@ import org.eclipse.rdf4j.model.IRI;
 public class ExtractionAPITest {
 
     private static final String exampleDoc = "http://example.com/";
-    private static final IRI uri           = RDFUtils.iri(exampleDoc);
+    private static final IRI uri = RDFUtils.iri(exampleDoc);
 
     @Test
     public void testDirectInstantiation() throws Exception {

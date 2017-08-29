@@ -53,29 +53,6 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
             final DefaultConfiguration conf = DefaultConfiguration.singleton();
             if (instance == null) {
                 instance = new ExtractorRegistryImpl();
-                // FIXME: Remove these hardcoded links to the extractor factories by turning them into SPI interfaces
-                //instance.register(RDFXMLExtractor.factory);
-                //instance.register(TurtleExtractor.factory);
-                //instance.register(NTriplesExtractor.factory);
-                //instance.register(NQuadsExtractor.factory);
-                //instance.register(TriXExtractor.factory);
-                //instance.register(HeadLinkExtractor.factory);
-                //instance.register(LicenseExtractor.factory);
-                //instance.register(TitleExtractor.factory);
-                //instance.register(XFNExtractor.factory);
-                //instance.register(ICBMExtractor.factory);
-                //instance.register(AdrExtractor.factory);
-                //instance.register(GeoExtractor.factory);
-                //instance.register(HCalendarExtractor.factory);
-                //instance.register(HCardExtractor.factory);
-                //instance.register(HListingExtractor.factory);
-                //instance.register(HResumeExtractor.factory);
-                //instance.register(HReviewExtractor.factory);
-                //instance.register(HRecipeExtractor.factory);
-                //instance.register(SpeciesExtractor.factory);
-                //instance.register(TurtleHTMLExtractor.factory);
-                //instance.register(MicrodataExtractor.factory);
-                //instance.register(CSVExtractor.factory);
                 
                 if(conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
                     instance.unregister(RDFaExtractorFactory.NAME);
@@ -131,8 +108,7 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
      */
     @Override
     public ExtractorFactory<?> getFactory(final String name) {
-        ExtractorFactory<?> result = this.get(name).orElseThrow(() -> new IllegalArgumentException("Unregistered extractor name: " + name));
-        return result;
+        return this.get(name).orElseThrow(() -> new IllegalArgumentException("Unregistered extractor name: " + name));
     }
 
     /**
@@ -152,7 +128,7 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
      */
     @Override
     public ExtractorGroup getExtractorGroup(List<String> names) {
-        List<ExtractorFactory<?>> members = new ArrayList<ExtractorFactory<?>>(names.size());
+        List<ExtractorFactory<?>> members = new ArrayList<>(names.size());
         for (String name : names) {
             members.add(getFactory(name));
         }
@@ -175,7 +151,7 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
      */
     @Override
     public List<String> getAllNames() {
-        List<String> result = new ArrayList<String>(this.getKeys());
+        List<String> result = new ArrayList<>(this.getKeys());
         Collections.sort(result);
         return result;
     }

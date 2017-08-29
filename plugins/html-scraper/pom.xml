@@ -71,15 +71,6 @@
     </dependency>
     <!-- END: BoilerPipe -->
 
-    <!-- BEGIN: plugins -->
-    <dependency>
-      <groupId>org.kohsuke.metainf-services</groupId>
-      <artifactId>metainf-services</artifactId>
-      <scope>compile</scope>
-      <optional>true</optional>
-    </dependency>
-    <!-- END: plugins -->
-    
     <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -104,16 +95,6 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/../../</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>LICENSE.txt</include>
-          <include>NOTICE.txt</include>
-        </includes>
-      </resource>
-    </resources>
 
     <plugins>
       <!-- Generates the distribution package -->

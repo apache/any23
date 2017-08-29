@@ -75,10 +75,10 @@ public class Rover implements Tool {
     private PrintStream outputStream = System.out;
 
     @Parameter(description = "input IRIs {<url>|<file>}+", converter = ArgumentToIRIConverter.class)
-    protected List<String> inputIRIs = new LinkedList<String>();
+    protected List<String> inputIRIs = new LinkedList<>();
 
     @Parameter(names = { "-e", "--extractors" }, description = "a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
-    private List<String> extractors = new LinkedList<String>();
+    private List<String> extractors = new LinkedList<>();
 
     @Parameter(names = { "-f", "--format" }, description = "the output format")
     private String format = FORMATS.get(DEFAULT_FORMAT_INDEX);
@@ -169,8 +169,10 @@ public class Rover implements Tool {
 
     protected String printReports() {
         final StringBuilder sb = new StringBuilder();
-        if (benchmarkTripleHandler != null) sb.append( benchmarkTripleHandler.report() ).append('\n');
-        if (reportingTripleHandler != null) sb.append( reportingTripleHandler.printReport() ).append('\n');
+        if (benchmarkTripleHandler != null)
+            sb.append( benchmarkTripleHandler.report() ).append('\n');
+        if (reportingTripleHandler != null)
+            sb.append( reportingTripleHandler.printReport() ).append('\n');
         return sb.toString();
     }
 

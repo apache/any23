@@ -38,6 +38,11 @@
       <version>${project.parent.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.apache.any23</groupId>
+      <artifactId>apache-any23-cli</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.any23.plugins</groupId>
       <artifactId>apache-any23-html-scraper</artifactId>
       <version>1.0.7-SNAPSHOT</version>
@@ -69,16 +74,6 @@
   </dependencies>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/../../</directory>
-        <targetPath>META-INF</targetPath>
-        <includes>
-          <include>LICENSE.txt</include>
-          <include>NOTICE.txt</include>
-        </includes>
-      </resource>
-    </resources>
 
     <plugins>
       <!-- skip assembly generation for ITs -->
@@ -98,7 +93,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-invoker-plugin</artifactId>
-        <version>1.5</version>
         <configuration>
           <projectsDirectory>..</projectsDirectory>
           <cloneProjectsTo>${project.build.directory}/plugins-build</cloneProjectsTo>

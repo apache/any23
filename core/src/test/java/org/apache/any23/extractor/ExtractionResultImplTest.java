@@ -17,7 +17,7 @@
 
 package org.apache.any23.extractor;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.apache.any23.extractor.html.TitleExtractor;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.writer.TripleHandler;

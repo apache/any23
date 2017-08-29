@@ -39,9 +39,10 @@ import java.util.List;
  */
 public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
 
-    private final List<XPathExtractionRule> xPathExtractionRules = new ArrayList<XPathExtractionRule>();
+    private final List<XPathExtractionRule> xPathExtractionRules = new ArrayList<>();
 
     public XPathExtractor() {
+        //default constructor
     }
     
     public XPathExtractor(List<XPathExtractionRule> rules) {

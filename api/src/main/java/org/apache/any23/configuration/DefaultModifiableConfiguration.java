@@ -30,8 +30,10 @@ public class DefaultModifiableConfiguration extends DefaultConfiguration impleme
         super(properties);
     }
 
+    @Override
     public synchronized String setProperty(String propertyName, String propertyValue) {
-        if( ! defineProperty(propertyName) ) throw new IllegalArgumentException(
+        if( ! defineProperty(propertyName) )
+            throw new IllegalArgumentException(
                 String.format("Property '%s' is not defined in configuration.", propertyName)
         );
         return (String) properties.setProperty(propertyName, propertyValue);

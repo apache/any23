@@ -17,7 +17,7 @@
 
 package org.apache.any23.cli;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -34,7 +34,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class ToolRunnerTest {
 
-    private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>(){{
+    private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>(){
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+    {
         add(ExtractorDocumentation.class);
         add(MicrodataParser.class);
         add(MimeDetector.class);
@@ -48,7 +54,10 @@ public class ToolRunnerTest {
         Iterator<Tool> tools = new ToolRunner().getToolsInClasspath();
         assertTrue("No core tools have been detected", tools.hasNext());
         while (tools.hasNext()) {
-            assertTrue("Some core tools have not been detected.", coreTools.contains(tools.next().getClass()));
+            assertTrue("Discrepancy between expected and detected tools on classpath. "
+                    + "Expected ExtractorDocumentation.class,"
+                    + "MicrodataParser.class, MimeDetector.class, PluginVerifier.class"
+                    + "Rover.class and VocabPrinter.class.", coreTools.contains(tools.next().getClass()));
         }
     }
 

@@ -223,7 +223,7 @@ public final class ToolRunner {
             return "z/os";
         } else if (osName.contains("os/400")) {
             return "os/400";
-        } else if (pathSep.equals( ";" )) {
+        } else if (";".equals(pathSep)) {
             return "dos";
         } else if (osName.contains("mac")) {
             if (osName.endsWith("x")) {
@@ -234,7 +234,7 @@ public final class ToolRunner {
             return "tandem";
         } else if (osName.contains("openvms")) {
             return "openvms";
-        } else if (pathSep.equals(":")) {
+        } else if (":".equals(pathSep)) {
             return "unix";
         }
 
@@ -248,7 +248,8 @@ public final class ToolRunner {
                 optionIndex = i;
             }
         }
-        if(optionIndex == -1) return null;
+        if(optionIndex == -1)
+            return null;
 
         if(optionIndex == args.length - 1) {
             throw new IllegalArgumentException("Missing argument for --plugins-dir option.");
