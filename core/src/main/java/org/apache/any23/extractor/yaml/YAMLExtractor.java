@@ -123,7 +123,11 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         
 
         for (String k : node.keySet()) {
-            Resource predicate = RDFUtils.makeIRI(k, file, true);
+            /* False prevents adding _<int> to the predicate.
+            Thus the predicate pattern is:
+            "some string" ---> ns:someString
+            */
+            Resource predicate = RDFUtils.makeIRI(k, file, false);
             Value value = buildNode(file, node.get(k), out);
             out.writeTriple(nodeURI, RDF.TYPE, vocab.mapping);
             out.writeTriple(nodeURI, (IRI) predicate, value);
