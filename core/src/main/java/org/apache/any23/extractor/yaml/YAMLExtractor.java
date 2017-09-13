@@ -17,6 +17,7 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
+import org.apache.any23.util.StringUtils;
 import org.apache.any23.vocab.YAML;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
@@ -77,7 +79,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             Resource pageNode = RDFUtils.makeIRI("document", documentIRI, true);
             out.writeTriple(documentRoot, vocab.contains, pageNode);
             out.writeTriple(pageNode, RDF.TYPE, vocab.document);
-            out.writeTriple(pageNode, vocab.contains, buildNode(documentIRI, p, out));
+            buildNode(documentIRI, p, out, pageNode);
         }
 
     }
@@ -87,7 +89,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return YAMLExtractorFactory.getDescriptionInstance();
     }
 
-    private Value buildNode(IRI fileURI, Object treeData, ExtractionResult out) {
+    private Value buildNode(IRI fileURI, Object treeData, ExtractionResult out, Resource... parent) {
 
         if (treeData != null) {
             log.debug("object type: {}", treeData.getClass());
@@ -96,9 +98,9 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         if (treeData == null) {
             return RDF.NIL;
         } else if (treeData instanceof Map) {
-            return processMap(fileURI, (Map<String, Object>) treeData, out);
+            return processMap(fileURI, (Map) treeData, out, parent);
         } else if (treeData instanceof List) {
-            return processList(fileURI, (List<?>) treeData, out);
+            return processList(fileURI, (List) treeData, out, parent);
         } else if (treeData instanceof Long) {
             return RDFUtils.literal(((Long) treeData));
         } else if (treeData instanceof Integer) {
@@ -112,16 +114,22 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         } else if (treeData instanceof Boolean) {
             return RDFUtils.literal((Boolean) treeData);
         } else {
-            return RDFUtils.literal(((String) treeData));
+            return processString((String) treeData);
         }
     }
 
-    private Value processMap(IRI file, Map<String, Object> node, ExtractionResult out) {
-        Resource nodeURI = RDFUtils.makeIRI(file);
+    private Value processMap(IRI file, Map<String, Object> node, ExtractionResult out, Resource... parent) {
+        Resource nodeURI = Arrays.asList(parent).isEmpty() ? YAMLExtractor.this.makeUri(file) : parent[0];
+        
+
         for (String k : node.keySet()) {
-            Resource predicate = RDFUtils.makeIRI(k, file, true);
+            /* False prevents adding _<int> to the predicate.
+            Thus the predicate pattern is:
+            "some string" ---> ns:someString
+            */
+            Resource predicate = RDFUtils.makeIRI(k, file, false);
             Value value = buildNode(file, node.get(k), out);
-            out.writeTriple(nodeURI, RDF.TYPE, vocab.node);
+            out.writeTriple(nodeURI, RDF.TYPE, vocab.mapping);
             out.writeTriple(nodeURI, (IRI) predicate, value);
             out.writeTriple(predicate, RDF.TYPE, RDF.PREDICATE);
             out.writeTriple(predicate, RDFS.LABEL, RDFUtils.literal(k));
@@ -129,9 +137,13 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return nodeURI;
     }
 
-    private Value processList(IRI fileURI, Iterable<?> iter, ExtractionResult out) {
+    private Value processList(IRI fileURI, Iterable iter, ExtractionResult out, Resource... parent) {
         Resource node = YAMLExtractor.this.makeUri();
         out.writeTriple(node, RDF.TYPE, RDF.LIST);
+        
+        if (!Arrays.asList(parent).isEmpty()) {
+            out.writeTriple(parent[0], vocab.contains, node);
+        }
 
         Resource pList = null; // previous RDF iter node
         Resource cList = node; // cutternt RDF iter node
@@ -152,10 +164,50 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
         return node;
     }
+    
+    private Value processString(String str) {
+        if (RDFUtils.isAbsoluteIRI(str)) {
+            return RDFUtils.iri(str);
+        } else {
+            return RDFUtils.literal(str);
+        }
+    }
 
     private Resource makeUri() {
         Resource bnode = RDFUtils.bnode(Integer.toString(nodeId));
         nodeId++;
         return bnode;
+    }
+
+    private Resource makeUri(IRI docUri) {
+        return makeUri("node", docUri);
+}
+
+    private Resource makeUri(String type, IRI docUri) {
+        return makeUri(type, docUri, true);
+    }
+
+    private Resource makeUri(String type, IRI docUri, boolean addId) {
+
+        // preprocess string: converts - -> _
+        //                    converts <space>: word1 word2 -> word1Word2
+        String newType = StringUtils.implementJavaNaming(type);
+
+        String uriString;
+        if (docUri.toString().endsWith("/")) {
+            uriString = docUri.toString() + newType;
+        } else {
+            uriString = docUri.toString() + "#" + newType;
+        }
+
+        if (addId) {
+            uriString = uriString + "_" + Integer.toString(nodeId);
+        }
+
+        Resource node = RDFUtils.uri(uriString);
+        if (addId) {
+            nodeId++;
+        }
+        return node;
     }
 }

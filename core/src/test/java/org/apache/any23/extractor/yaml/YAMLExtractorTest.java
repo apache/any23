@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
     public static final Logger log = LoggerFactory.getLogger(YAMLExtractorTest.class);
-
+    public static final String ns = "http://bob.example.com/";
     private static final YAML vocab = YAML.getInstance();
 
     @Override
@@ -91,5 +91,23 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         RepositoryResult<Statement> docs = getStatements(null, null, RDF.NIL);
         Assert.assertTrue(Iterations.asList(docs).size() == 2);
+    }
+    
+    @Test
+    public void treeTest() throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+        // validate part of the tree structure
+        assertContainsModel(new Statement[] {
+            RDFUtils.triple(RDFUtils.bnode(), RDFUtils.iri(ns, "value3"), RDFUtils.bnode("10")),
+            RDFUtils.triple(RDFUtils.bnode("10"), RDF.FIRST, RDFUtils.bnode("11")),
+            RDFUtils.triple(RDFUtils.bnode("11"), RDFUtils.iri(ns, "key3.1"), RDFUtils.bnode("12")),
+            RDFUtils.triple(RDFUtils.bnode("12"), RDF.TYPE, RDF.LIST),
+            RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1" ))
+        });
+        
+        // validate occurence of <urn:value1> resource
+        assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
     }
 }

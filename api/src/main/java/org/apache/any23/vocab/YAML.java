@@ -36,6 +36,10 @@ public class YAML extends Vocabulary {
 	public static final String DOCUMENT = "Document";
 
 	public static final String NODE = "Node";
+        
+        public static final String SEQUENCE = "Sequence" ;
+        
+        public static final String MAPPING = "Mapping";
 
 	public static final String CONTAINS = "contains";
 
@@ -49,6 +53,7 @@ public class YAML extends Vocabulary {
 		return _instance;
 	}
 
+        // Resources
 	/**
 	 * <p>The root node. Representation of the YAML file. NB: one file may contain more than one documents
 	 * represented by nodes; e.g. </p>
@@ -64,12 +69,16 @@ public class YAML extends Vocabulary {
 	 * </p>
 	 * Contains two documents.
 	 */
-	public final IRI root = createProperty(NS, ROOT);
+	public final IRI root = createClass(NS, ROOT);
 
-	public final IRI document = createProperty(NS, DOCUMENT);
+	public final IRI document = createClass(NS, DOCUMENT);
 
-	public final IRI node = createProperty(NS, NODE);
-
+	public final IRI node = createClass(NS, NODE);
+        
+        public final IRI sequence = createClass(NS, SEQUENCE);
+        
+        public final IRI mapping = createClass(NS, MAPPING);
+        // property
 	public final IRI contains = createProperty(NS, CONTAINS);
 
 }

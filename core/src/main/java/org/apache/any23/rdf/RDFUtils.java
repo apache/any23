@@ -573,14 +573,45 @@ public class RDFUtils {
         }
     }
 
+    /**
+     * Ref {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
+     * @param docUri
+     * @return 
+     */
     public static Resource makeIRI(IRI docUri) {
         return makeIRI("node", docUri);
     }
 
+    /**
+     * Ref {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
+     * @param type
+     * @param docIRI
+     * @return 
+     */
     public static Resource makeIRI(String type, IRI docIRI) {
         return makeIRI(type, docIRI, false);
     }
 
+    /**
+     * Creates implementation of {@link Resource} from given arguments: <it>type</it> and
+     * <it>docIRI</it>. 
+     * <ul>
+     * <li>The <it>type</type> argument is converted following Java naming conventions with 
+     * {@link StringUtils#implementJavaNaming(java.lang.String) }.
+     * 
+     * <li>The <it>docIRI</it> is treated as a namespace. If it ends with '/' character than
+     * stays unchanged otherwise the hash character '#' is added.
+     * 
+     * <li>If <it>addId</it> is TRUE than combination of underscore and the node identifier is added to 
+     * the end ('{@code_<int>'}).
+     * </ul>
+     * 
+     * @param type
+     * @param docIRI
+     * @param addId
+     * @return {@link Resource} implementation
+     * @see http://www.geeksforgeeks.org/java-naming-conventions/
+     */
     public static Resource makeIRI(String type, IRI docIRI, boolean addId) {
 
         // preprocess string: converts - -> _
