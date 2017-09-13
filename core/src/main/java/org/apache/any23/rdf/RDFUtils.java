@@ -59,6 +59,7 @@ import java.util.Optional;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (dpalmisano@gmail.com)
+ * @author Jacek Grzebyta (jgrzebyta@apache.org)
  */
 public class RDFUtils {
 
@@ -574,7 +575,7 @@ public class RDFUtils {
     }
 
     /**
-     * Ref {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
+     * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
      * @param docUri
      * @return 
      */
@@ -583,7 +584,7 @@ public class RDFUtils {
     }
 
     /**
-     * Ref {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
+     * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
      * @param type
      * @param docIRI
      * @return 
@@ -593,24 +594,13 @@ public class RDFUtils {
     }
 
     /**
-     * Creates implementation of {@link Resource} from given arguments: <it>type</it> and
-     * <it>docIRI</it>. 
-     * <ul>
-     * <li>The <it>type</type> argument is converted following Java naming conventions with 
-     * {@link StringUtils#implementJavaNaming(java.lang.String) }.
+     * Creates implementation of {@link Resource} from given arguments: <i>type</i> and <i>docIRI</i>.
      * 
-     * <li>The <it>docIRI</it> is treated as a namespace. If it ends with '/' character than
-     * stays unchanged otherwise the hash character '#' is added.
-     * 
-     * <li>If <it>addId</it> is TRUE than combination of underscore and the node identifier is added to 
-     * the end ('{@code_<int>'}).
-     * </ul>
-     * 
-     * @param type
-     * @param docIRI
-     * @param addId
+     * @param type This argument is converted following Java naming conventions with {@link StringUtils#implementJavaNaming(java.lang.String) }.
+     * @param docIRI It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#' is added to the end.
+     * @param addId If argument is <b>TRUE</b> than the node identifier is added to the end formated <tt>'_{int}'</tt>.
      * @return {@link Resource} implementation
-     * @see http://www.geeksforgeeks.org/java-naming-conventions/
+     * @see <a href="http://www.geeksforgeeks.org/java-naming-conventions/">Java Naming Conventions [from GeeksForGeeks]</a>.
      */
     public static Resource makeIRI(String type, IRI docIRI, boolean addId) {
 
