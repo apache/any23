@@ -100,7 +100,7 @@
             <ol>
               <li>Update the <tt>CHANGES</tt> based on the Text release reports from JIRA.</li>
               <li>Review and update <tt>README</tt> if needed.</li>
-              <li>Commit any changes back to svn: <pre>svn commit -m "updating files for release"</pre>.</li>
+              <li>Commit any changes back to Git: <pre>git add -A &amp;&amp; git commit -m "updating files for release"</pre>.</li>
             </ol>
           </li>
           <li>Perform a full build and deploy the SNAPSHOT artifacts: <pre>mvn clean deploy</pre></li>
@@ -119,8 +119,8 @@
           <br/>
           A branch can be made by running:
           <pre>mvn release:branch -DbranchName=1.0.x</pre></li>
-          <li>Checkout a clean copy of the trunk/branch to release using command line svn:
-          <pre>svn checkout https://svn.apache.org/repos/asf/any23/trunk/ release</pre></li>
+          <li>Checkout a clean copy of the trunk/branch to release using command line Git:
+          <pre>git clone https://git-wip-us.apache.org/repos/asf/any23.git</pre></li>
         </ol>
       </subsection>
 
@@ -143,7 +143,7 @@
               number.</li>
 
               <li>If other formatting changes have been made you should review the changes and then commit them:
-              <pre>svn commit -m "fixing formatting for release"</pre></li>
+              <pre>git add -A &amp;&amp; git commit -m "fixing formatting for release"</pre></li>
 
               <li>Assuming the <code>.tag</code> files look OK you may proceed and do any other validation you feel
               necessary. The following list may be helpful:
@@ -164,7 +164,7 @@ gpg: Signature made ...</source>
                 </ol>
               </li>
 
-              <li>Once any failures or required updates have been committed to svn, rollback the release prepare files:
+              <li>Once any failures or required updates have been committed to git, rollback the release prepare files:
               <source>mvn release:rollback</source></li>
             </ol>
           </li>
@@ -255,8 +255,8 @@ http://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12312323&styleNa
 There are still a couple of issues left in JIRA:
 http://issues.apache.org/jira/secure/IssueNavigator.jspa?reset=true&pid=12312323&status=1
 
-SVN source tag (r9999999):
-https://svn.apache.org/repos/asf/any23/tags/X.Y/
+Git source tag (r9999999):
+https://git-wip-us.apache.org/repos/asf/any23.git ...
 
 Staging repo:
 https://repository.apache.org/content/repositories/orgapacheany23-[YOUR REPOSITORY ID]/
@@ -287,7 +287,7 @@ For more information on the release process, check out http://www.apache.org/dev
 
 Some of the things to check before voting are:
  - does "mvn rat:check" pass on the source
- - can you build the contents of source-release.zip and svn tag
+ - can you build the contents of source-release.zip and Git tag
  - do all of the staged jars/zips contain the required LICENSE and NOTICE files
  - are all of the staged jars signed and the signature verifiable
  - is the signing key in the project's KEYS file and on a public server (i.e. http://www.apache.org/dist/any23/)]]>
@@ -392,8 +392,8 @@ Have Fun,
           </ol>
         </li>
 
-        <li>Delete the svn tag created by the <code>release:perform</code> step:
-        <pre>svn rm https://svn.apache.org/repos/asf/any23/tags/X.Y -m "deleting tag from rolled back release"</pre></li>
+        <li>Delete the git tag created by the <code>release:perform</code> step (N.B. replace ${tag_name} with the actual tag name):
+        <pre>git tag -d ${tag_name} &amp;&amp; git push origin :refs/tags/${tag_name}</pre></li>
 
         <li>Drop the Nexus staging repo:
           <ol>

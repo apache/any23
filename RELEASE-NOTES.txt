@@ -1,3 +1,29 @@
+			 Apache Any23 2.1
+			  Release Notes
+		      14/09/2017 (dd/mm/yyy)
+
+Bug
+
+    [ANY23-244] - Broken Links on Web-Site
+    [ANY23-282] - Replacement for all Sindice namespaces and URI's
+    [ANY23-304] - Add extractor for OpenIE
+    [ANY23-305] - Missing appender in command line tool
+    [ANY23-308] - Adding option "-d" to yaml file parsing gives error
+    [ANY23-310] - Rover displays wrong statistical values
+
+Improvement
+
+    [ANY23-206] - Overhaul Any23 site documentation
+    [ANY23-301] - Forward all logs into STDERR stream
+
+New Feature
+
+    [ANY23-257] - Support OWL as an input format
+
+Task
+
+    [ANY23-283] - access to analysis.apache.org
+
 			 Apache Any23 2.0
 			  Release Notes
 		      03/02/2017 (dd/mm/yyy)
