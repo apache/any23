@@ -216,7 +216,7 @@
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
     <connection>scm:git:http://git-wip-us.apache.org/repos/asf/any23.git</connection>
     <url>https://git-wip-us.apache.org/repos/asf/any23.git</url>
-    <tag>HEAD</tag>
+    <tag>2.1.0</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
@@ -250,7 +250,7 @@
     <tika.version>1.15</tika.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
-    <surefire-extra-args></surefire-extra-args>
+    <surefire-extra-args />
 
     <!-- Used to track API changes based on Semantic Versioning -->
     <latest.stable.released>2.0</latest.stable.released>
