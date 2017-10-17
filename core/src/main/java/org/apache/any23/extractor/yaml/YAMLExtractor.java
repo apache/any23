@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -89,32 +90,32 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         return YAMLExtractorFactory.getDescriptionInstance();
     }
 
-    private Value buildNode(IRI fileURI, Object treeData, ExtractionResult out, Resource... parent) {
+    private Optional<Value> buildNode(IRI fileURI, Object treeData, ExtractionResult out, Resource... parent) {
 
         if (treeData != null) {
             log.debug("object type: {}", treeData.getClass());
         }
 
         if (treeData == null) {
-            return RDF.NIL;
+            return Optional.empty();
         } else if (treeData instanceof Map) {
-            return processMap(fileURI, (Map) treeData, out, parent);
+            return Optional.ofNullable(processMap(fileURI, (Map) treeData, out, parent));
         } else if (treeData instanceof List) {
-            return processList(fileURI, (List) treeData, out, parent);
+            return Optional.ofNullable(processList(fileURI, (List) treeData, out, parent));
         } else if (treeData instanceof Long) {
-            return RDFUtils.literal(((Long) treeData));
+            return Optional.of(RDFUtils.literal(((Long) treeData)));
         } else if (treeData instanceof Integer) {
-            return RDFUtils.literal(((Integer) treeData));
+            return Optional.of(RDFUtils.literal(((Integer) treeData)));
         } else if (treeData instanceof Float) {
-            return RDFUtils.literal((Float) treeData);
+            return Optional.of(RDFUtils.literal((Float) treeData));
         } else if (treeData instanceof Double) {
-            return RDFUtils.literal((Double) treeData);
+            return Optional.of(RDFUtils.literal((Double) treeData));
         } else if (treeData instanceof Byte) {
-            return RDFUtils.literal((Byte) treeData);
+            return Optional.of(RDFUtils.literal((Byte) treeData));
         } else if (treeData instanceof Boolean) {
-            return RDFUtils.literal((Boolean) treeData);
+            return Optional.of(RDFUtils.literal((Boolean) treeData));
         } else {
-            return processString((String) treeData);
+            return Optional.of(processString((String) treeData));
         }
     }
 
@@ -128,9 +129,11 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             "some string" ---> ns:someString
             */
             Resource predicate = RDFUtils.makeIRI(k, file, false);
-            Value value = buildNode(file, node.get(k), out);
+            Optional<Value> isValue = buildNode(file, node.get(k), out);
             out.writeTriple(nodeURI, RDF.TYPE, vocab.mapping);
-            out.writeTriple(nodeURI, (IRI) predicate, value);
+            if (isValue.isPresent()) {
+                out.writeTriple(nodeURI, (IRI) predicate, isValue.get());
+            }
             out.writeTriple(predicate, RDF.TYPE, RDF.PREDICATE);
             out.writeTriple(predicate, RDFS.LABEL, RDFUtils.literal(k));
         });
@@ -154,8 +157,8 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
                 out.writeTriple(pList, RDF.REST, cList);
             }
             // adds value to the current iter
-            Value val = buildNode(fileURI, listIter.next(), out);
-            out.writeTriple(cList, RDF.FIRST, val);
+            Optional<Value> isValue = buildNode(fileURI, listIter.next(), out);
+            out.writeTriple(cList, RDF.FIRST, isValue.orElse(RDF.NIL));
             // makes current node the previuos one and generate new current node
             pList = cList;
             cList = YAMLExtractor.this.makeUri();
