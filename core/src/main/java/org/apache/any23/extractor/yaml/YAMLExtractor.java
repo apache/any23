@@ -122,7 +122,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
         Resource nodeURI = Arrays.asList(parent).isEmpty() ? YAMLExtractor.this.makeUri(file) : parent[0];
         
 
-        for (String k : node.keySet()) {
+        node.keySet().forEach((k) -> {
             /* False prevents adding _<int> to the predicate.
             Thus the predicate pattern is:
             "some string" ---> ns:someString
@@ -133,7 +133,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             out.writeTriple(nodeURI, (IRI) predicate, value);
             out.writeTriple(predicate, RDF.TYPE, RDF.PREDICATE);
             out.writeTriple(predicate, RDFS.LABEL, RDFUtils.literal(k));
-        }
+        });
         return nodeURI;
     }
 
@@ -204,7 +204,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             uriString = uriString + "_" + Integer.toString(nodeId);
         }
 
-        Resource node = RDFUtils.uri(uriString);
+        Resource node = RDFUtils.iri(uriString);
         if (addId) {
             nodeId++;
         }
