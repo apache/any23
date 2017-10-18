@@ -625,6 +625,21 @@ public class RDFUtils {
         }
         return node;
     }
+    
+    public static Value makeIRI(String inString) {
+        if (RDFUtils.isAbsoluteIRI(inString)) {
+            return RDFUtils.iri(inString);
+        } else {
+            return RDFUtils.literal(inString);
+        }
+    }
+    
+    public static Value makeIRI() {
+        BNode bnode = bnode(Integer.toString(nodeId));
+        nodeId++;
+        return bnode;
+    }
+    
     private RDFUtils() {}
 
 }
