@@ -16,10 +16,13 @@
 package org.apache.any23.extractor.yaml;
 
 import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.YAML;
+import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
@@ -34,6 +37,16 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 /**
+ * Converts Object into RDF graph encoded to {@link Map.Entry}. Where key is a
+ * graph root node and value is a graph itself inside a {@link Model}.
+ *
+ * This parser performs conversion for three main types:
+ * <ul>
+ * <li> List - Creates RDF:List with bnode as root
+ * <li> Map - Creates simple graph where {key: value} is converted to
+ * predicate:object pair
+ * <li> Simple type - Crates RDF Literal
+ * </ul>
  *
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
  */
@@ -42,59 +55,60 @@ public class ElementsProcessor {
     private final ModelFactory modelFactory = new LinkedHashModelFactory();
     private final YAML vocab = YAML.getInstance();
     protected ValueFactory vf = SimpleValueFactory.getInstance();
-    
-    private Map.Entry<Value,Model> asMapEntry(Value v, Model m) {
+
+    private Map.Entry<Value, Model> asMapEntry(Value v, Model m) {
         return new AbstractMap.SimpleEntry(v, m);
     }
 
     /**
-     * Converts a data structure to {@link Map.Entry<Value,Model>}. where value is a 
-     * root node of the data structure and model is a content of the RDF graph.
-     * 
-     * If requested object is simple object (i.e. is neither List or Map) than 
-     * method returns map entry of relevant instance of {@link Literal} as key and
-     * null as value.
-     * 
+     * Converts a data structure to {@link Map.Entry<Value,Model>}. where value
+     * is a root node of the data structure and model is a content of the RDF
+     * graph.
+     *
+     * If requested object is simple object (i.e. is neither List or Map) than
+     * method returns map entry of relevant instance of {@link Literal} as key
+     * and null as value.
+     *
      * @param namespace Namespace for predicates
      * @param t Object (or data structure) converting to RDF graph
-     * @param rootNode root node of the graph. If not given then blank node is created.
-     * @return 
+     * @param rootNode root node of the graph. If not given then blank node is
+     * created.
+     * @return
      */
-    public Map.Entry<Value,Model> asModel(IRI namespace, final Object t, Value rootNode) {
+    public Map.Entry<Value, Model> asModel(IRI namespace, final Object t, Value rootNode) {
         if (t == null) {
             return null;
         }
 
         if (t instanceof List) {
-            //return processList(namespace, (List) t);
+            return processList(namespace, (List) t);
         } else if (t instanceof Map) {
             return processMap(namespace, (Map) t, rootNode);
         } else {
             return asMapEntry(Literals.createLiteral(vf, t), null);
         }
-         return null;
     }
-    
-    protected Map.Entry<Value,Model> processMap(IRI ns, Map<String, Object> object, Value rootNode) {
+
+    protected Map.Entry<Value, Model> processMap(IRI ns, Map<String, Object> object, Value rootNode) {
         // check if map is empty of contains only null values
         if (object.isEmpty() || (object.values().size() == 1 && object.values().contains(null))) {
             return null;
         }
         assert ns != null : "Namespace value is null";
-        
+
         Model model = modelFactory.createEmptyModel();
         Value nodeURI = rootNode == null ? RDFUtils.makeIRI() : rootNode;
         model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
-        object.keySet().forEach( (k) -> {
+        object.keySet().forEach((k) -> {
             /* False prevents adding _<int> to the predicate.
             Thus the predicate pattern is:
             "some string" ---> ns:someString
-            */
+             */
             Resource predicate = RDFUtils.makeIRI(k, ns, false);
             /* add map's key as statements:
             predicate rdf:type rdf:predicate .
             predicate rdfs:label predicate name
-            */
+             */
             model.add(vf.createStatement(predicate, RDF.TYPE, RDF.PREDICATE));
             model.add(vf.createStatement(predicate, RDFS.LABEL, RDFUtils.literal(k)));
             Value subGraphRoot = RDFUtils.makeIRI();
@@ -110,8 +124,46 @@ public class ElementsProcessor {
                     model.addAll(valInst.getValue());
                 }
             }
-            
+
         });
         return asMapEntry(nodeURI, model);
+    }
+
+    protected Map.Entry<Value, Model> processList(IRI ns, List<Object> object) {
+
+        if (object.isEmpty() || object.stream().noneMatch((i) -> {
+            return i != null;
+        })) {
+            return null;
+        }
+        assert ns != null : "Namespace value is null";
+
+        // revers order
+        Collections.reverse(object);
+
+        Stream<Map.Entry<Value, Model>> nodesStream = object
+                .stream()
+                .map((i) -> {
+                    return asModel(ns, i, vf.createBNode());
+                });
+        // add last element
+        Map.Entry<Value, Model> outcome = Stream.concat(Stream.of(asMapEntry(RDF.NIL, modelFactory.createEmptyModel())), nodesStream)
+                .reduce((res, i) -> {
+                    BNode currentNode = vf.createBNode();
+                    Value val = res.getKey();
+                    Model mod = res.getValue();
+
+                    mod.add(vf.createStatement(currentNode, RDF.FIRST, i.getKey()));
+                    mod.add(vf.createStatement(currentNode, RDF.REST, val));
+
+                    if (i.getValue() != null) {
+                        mod.addAll(i.getValue());
+                    }
+
+                    return asMapEntry(currentNode, mod);
+                }).get();
+
+        outcome.getValue().add(vf.createStatement((Resource) outcome.getKey(), RDF.TYPE, RDF.LIST));
+        return outcome;
     }
 }

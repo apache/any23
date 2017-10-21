@@ -16,17 +16,16 @@
 package org.apache.any23.extractor.yaml;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
-import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
-import org.eclipse.rdf4j.repository.sail.SailRepository;
-import org.eclipse.rdf4j.repository.sail.SailRepositoryConnection;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.Rio;
-import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -49,15 +48,55 @@ public class ElementsProcessorTest {
                 put("key3", 3);
             }
         };
-
+        
         ElementsProcessor ep = new ElementsProcessor();
-        Map.Entry<Value, Model> toTest = ep.processMap(ep.vf.createIRI("http://example.org/"), 
-                simpleMap, 
+        Map.Entry<Value, Model> toTest = ep.processMap(ep.vf.createIRI("http://example.org/"),
+                simpleMap,
                 ep.vf.createIRI("http://example.org/node1"));
         
         Assert.assertEquals(toTest.getKey().stringValue(), "http://example.org/node1");
         Assert.assertTrue(toTest.getValue().size() > 0);
         log.debug("Model: \n{}\n", dumpModel(toTest.getValue(), RDFFormat.TURTLE));
+    }
+    
+    @Test
+    public void processList() throws Exception {
+        List<Object> simpleList = new ArrayList<Object>() {
+            {
+                add("Ala");
+                add(6);
+                add("ma");
+                add("k".getBytes()[0]);
+            }
+        };
+        
+        ElementsProcessor ep = new ElementsProcessor();
+        Map.Entry<Value, Model> toTest = ep.processList(ep.vf.createIRI("http://example.org/data"), simpleList);
+        Assert.assertNotNull(toTest);
+        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("Ala"), null));
+        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral(6), null));
+        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("ma"), null));
+        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("k".getBytes()[0]), null));
+        log.debug("Model: \n{}\n", dumpModel(toTest.getValue(), RDFFormat.TURTLE));
+    }
+    
+    @Test
+    public void processSimple() throws Exception {
+        List<Object> simpleList = new ArrayList<Object>() {
+            {
+                add("Ala");
+                add(6);
+                add("ma");
+                add("k".getBytes()[0]);
+            }
+        };
+        ElementsProcessor ep = new ElementsProcessor();
+        
+        simpleList.forEach((i) -> {
+            Map.Entry<Value, Model> out = ep.asModel(ep.vf.createIRI("urn:test/"), i, null);
+            Assert.assertTrue(out.getKey() instanceof Literal);
+            Assert.assertNull(out.getValue());
+        });
     }
     
     private String dumpModel(Model m, RDFFormat format) {
