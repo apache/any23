@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Test {@link YAMLExtractor}.
  *
- * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
+ * @author Jacek Grzebyta (jgrzebyta [at] apache [dot] org)
  */
 public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
@@ -44,6 +44,17 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
         return new YAMLExtractorFactory();
+    }
+
+    /**
+     * Test to validate simple yaml file for ANY23-312
+     */
+    @Test
+    public void simpleTest312()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/simple-312.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
     }
 
     @Test
@@ -89,24 +100,28 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         assertExtract("/org/apache/any23/extractor/yaml/test-null.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
+        /**
+         * Since the map is empty it should not contain any document marked type mapping.
+         */
+        assertNotContains(RDF.TYPE, vocab.mapping); 
         int statements = dumpAsListOfStatements().size();
-        Assert.assertTrue("Found " + statements + " statements",statements == 9);
+        Assert.assertTrue("Found " + statements + " statements", statements == 9);
     }
-    
+
     @Test
     public void treeTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
         // validate part of the tree structure
-        assertContainsModel(new Statement[] {
+        assertContainsModel(new Statement[]{
             RDFUtils.triple(RDFUtils.bnode(), RDFUtils.iri(ns, "value3"), RDFUtils.bnode("10")),
             RDFUtils.triple(RDFUtils.bnode("10"), RDF.FIRST, RDFUtils.bnode("11")),
             RDFUtils.triple(RDFUtils.bnode("11"), RDFUtils.iri(ns, "key3.1"), RDFUtils.bnode("12")),
             RDFUtils.triple(RDFUtils.bnode("12"), RDF.TYPE, RDF.LIST),
-            RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1" ))
+            RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1"))
         });
-        
+
         // validate occurence of <urn:value1> resource
         assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
     }
