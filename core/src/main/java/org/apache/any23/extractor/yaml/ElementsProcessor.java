@@ -56,6 +56,8 @@ public class ElementsProcessor {
     private final YAML vocab = YAML.getInstance();
     protected ValueFactory vf = SimpleValueFactory.getInstance();
 
+    private static final ElementsProcessor _ep = new ElementsProcessor();
+
     private Map.Entry<Value, Model> asMapEntry(Value v, Model m) {
         return new AbstractMap.SimpleEntry(v, m);
     }
@@ -84,6 +86,8 @@ public class ElementsProcessor {
             return processList(namespace, (List) t);
         } else if (t instanceof Map) {
             return processMap(namespace, (Map) t, rootNode);
+        } else if (t instanceof String) {
+            return asMapEntry(RDFUtils.makeIRI(t.toString()), null);
         } else {
             return asMapEntry(Literals.createLiteral(vf, t), null);
         }
@@ -165,5 +169,13 @@ public class ElementsProcessor {
 
         outcome.getValue().add(vf.createStatement((Resource) outcome.getKey(), RDF.TYPE, RDF.LIST));
         return outcome;
+    }
+
+    // hide constructor
+    private ElementsProcessor() {
+    }
+
+    public static final ElementsProcessor getInstance() {
+        return _ep;
     }
 }

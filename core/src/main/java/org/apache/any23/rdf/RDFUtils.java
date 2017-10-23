@@ -626,6 +626,15 @@ public class RDFUtils {
         return node;
     }
     
+    /**
+     * Convert string to either IRI or Literal.
+     * 
+     * If string value expresses valid IRI than IRI is created. Otherwise method 
+     * creates simple literal xsd:string.
+     * 
+     * @param inString
+     * @return 
+     */
     public static Value makeIRI(String inString) {
         if (RDFUtils.isAbsoluteIRI(inString)) {
             return RDFUtils.iri(inString);

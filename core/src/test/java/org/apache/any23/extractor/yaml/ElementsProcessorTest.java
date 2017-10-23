@@ -37,7 +37,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ElementsProcessorTest {
     
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    private static final ElementsProcessor ep = ElementsProcessor.getInstance();
     
     @Test
     public void processMap() throws Exception {
@@ -49,7 +50,6 @@ public class ElementsProcessorTest {
             }
         };
         
-        ElementsProcessor ep = new ElementsProcessor();
         Map.Entry<Value, Model> toTest = ep.processMap(ep.vf.createIRI("http://example.org/"),
                 simpleMap,
                 ep.vf.createIRI("http://example.org/node1"));
@@ -70,7 +70,6 @@ public class ElementsProcessorTest {
             }
         };
         
-        ElementsProcessor ep = new ElementsProcessor();
         Map.Entry<Value, Model> toTest = ep.processList(ep.vf.createIRI("http://example.org/data"), simpleList);
         Assert.assertNotNull(toTest);
         Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("Ala"), null));
@@ -90,7 +89,6 @@ public class ElementsProcessorTest {
                 add("k".getBytes()[0]);
             }
         };
-        ElementsProcessor ep = new ElementsProcessor();
         
         simpleList.forEach((i) -> {
             Map.Entry<Value, Model> out = ep.asModel(ep.vf.createIRI("urn:test/"), i, null);
