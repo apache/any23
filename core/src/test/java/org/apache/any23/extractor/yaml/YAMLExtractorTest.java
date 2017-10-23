@@ -61,7 +61,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     public void simpleFileLoading()
             throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/simple-load.yml");
-        log.debug(dumpModelToTurtle());
+        log.debug("\n{}",dumpModelToTurtle());
         assertModelNotEmpty();
 
     }
@@ -111,7 +111,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void treeTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
-        log.debug(dumpModelToTurtle());
+        log.debug("\n{}",dumpModelToTurtle());
         assertModelNotEmpty();
         // validate part of the tree structure
         assertContainsModel(new Statement[]{

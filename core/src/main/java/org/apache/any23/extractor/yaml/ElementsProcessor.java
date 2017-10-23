@@ -15,8 +15,10 @@
  */
 package org.apache.any23.extractor.yaml;
 
+import com.google.common.collect.Sets;
 import java.util.AbstractMap;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -69,7 +71,7 @@ public class ElementsProcessor {
      *
      * If requested object is simple object (i.e. is neither List or Map) than
      * method returns map entry of relevant instance of {@link Literal} as key
-     * and null as value.
+     * and empty model as value.
      *
      * @param namespace Namespace for predicates
      * @param t Object (or data structure) converting to RDF graph
@@ -87,22 +89,29 @@ public class ElementsProcessor {
         } else if (t instanceof Map) {
             return processMap(namespace, (Map) t, rootNode);
         } else if (t instanceof String) {
-            return asMapEntry(RDFUtils.makeIRI(t.toString()), null);
+            return asMapEntry(RDFUtils.makeIRI(t.toString()), modelFactory.createEmptyModel());
         } else {
-            return asMapEntry(Literals.createLiteral(vf, t), null);
+            return asMapEntry(Literals.createLiteral(vf, t), modelFactory.createEmptyModel());
         }
     }
 
     protected Map.Entry<Value, Model> processMap(IRI ns, Map<String, Object> object, Value rootNode) {
-        // check if map is empty of contains only null values
-        if (object.isEmpty() || (object.values().size() == 1 && object.values().contains(null))) {
+        // check if map is empty
+        if (object.isEmpty()) {
             return null;
+        }
+        HashSet<Object> vals = Sets.newHashSet(object.values());
+        boolean isEmpty = false;
+        if (vals.size() == 1 && vals.contains(null)) {
+            isEmpty = true;
         }
         assert ns != null : "Namespace value is null";
 
         Model model = modelFactory.createEmptyModel();
         Value nodeURI = rootNode == null ? RDFUtils.makeIRI() : rootNode;
-        model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
+        if (!isEmpty) {
+            model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
+        }
         object.keySet().forEach((k) -> {
             /* False prevents adding _<int> to the predicate.
             Thus the predicate pattern is:

@@ -17,11 +17,7 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -84,6 +80,10 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             
             if (rootNode == null) {
                 continue;
+            }
+            
+            if (!rootNode.getKey().equals(pageNode)) {
+                out.writeTriple(pageNode, vocab.contains, rootNode.getKey());
             }
             
             log.debug("Subgraph root node: {}", rootNode.getKey().stringValue());
