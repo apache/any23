@@ -609,7 +609,7 @@ public class RDFUtils {
         String newType = StringUtils.implementJavaNaming(type);
 
         String iriString;
-        if (docIRI.toString().endsWith("/")) {
+        if (docIRI.toString().endsWith("/") || docIRI.toString().endsWith("#")) {
             iriString = docIRI.toString() + newType;
         } else {
             iriString = docIRI.toString() + "#" + newType;
