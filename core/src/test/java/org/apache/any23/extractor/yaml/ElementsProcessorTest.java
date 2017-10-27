@@ -93,7 +93,7 @@ public class ElementsProcessorTest {
         simpleList.forEach((i) -> {
             Map.Entry<Value, Model> out = ep.asModel(ep.vf.createIRI("urn:test/"), i, null);
             Assert.assertTrue(out.getKey() instanceof Literal);
-            Assert.assertNull(out.getValue());
+            Assert.assertTrue(out.getValue().isEmpty());
         });
     }
     
