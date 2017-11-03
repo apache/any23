@@ -95,7 +95,17 @@ public class ElementsProcessor {
         }
     }
 
-    protected Map.Entry<Value, Model> processMap(IRI ns, Map<String, Object> object, Value rootNode) {
+    /**
+     * This method creates a map with non bnode root.
+     * 
+     * If a map has instantiated root (not a blank node) it is simpler to create SPARQL query.
+     * 
+     * @param ns
+     * @param object
+     * @param parentNode
+     * @return 
+     */
+    protected Map.Entry<Value, Model> processMap(IRI ns, Map<String, Object> object, Value parentNode) {
         // check if map is empty
         if (object.isEmpty()) {
             return null;
@@ -108,7 +118,8 @@ public class ElementsProcessor {
         assert ns != null : "Namespace value is null";
 
         Model model = modelFactory.createEmptyModel();
-        Value nodeURI = rootNode == null ? RDFUtils.makeIRI() : rootNode;
+        Value nodeURI =RDFUtils.makeIRI("node", ns, true);
+        
         if (!isEmpty) {
             model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
         }

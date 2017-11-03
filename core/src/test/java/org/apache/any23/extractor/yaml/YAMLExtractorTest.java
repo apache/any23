@@ -105,7 +105,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
          */
         assertNotContains(RDF.TYPE, vocab.mapping); 
         int statements = dumpAsListOfStatements().size();
-        Assert.assertTrue("Found " + statements + " statements", statements == 9);
+        Assert.assertTrue("Found " + statements + " statements", statements == 10);
     }
 
     @Test

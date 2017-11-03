@@ -54,7 +54,7 @@ public class ElementsProcessorTest {
                 simpleMap,
                 ep.vf.createIRI("http://example.org/node1"));
         
-        Assert.assertEquals(toTest.getKey().stringValue(), "http://example.org/node1");
+        Assert.assertEquals("http://example.org/node_0", toTest.getKey().stringValue());
         Assert.assertTrue(toTest.getValue().size() > 0);
         log.debug("Model: \n{}\n", dumpModel(toTest.getValue(), RDFFormat.TURTLE));
     }
