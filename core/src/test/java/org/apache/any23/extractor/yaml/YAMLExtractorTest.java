@@ -105,7 +105,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
          */
         assertNotContains(RDF.TYPE, vocab.mapping); 
         int statements = dumpAsListOfStatements().size();
-        Assert.assertTrue("Found " + statements + " statements", statements == 10);
+        Assert.assertTrue("Found " + statements + " statements", statements == 9);
     }
 
     @Test
@@ -124,5 +124,42 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
         // validate occurence of <urn:value1> resource
         assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
+    }
+    
+    /**
+     * This test covers a typical situation when a document is a map.
+     * 
+     * <br/><b>NB:</b> Following yaml standard those 2 cases are parsed to different graphs:
+     * <br/><br/>Case 1:
+     * 
+     * <pre>
+     * ---
+     * key1: value1
+     * key2: value2
+     * key3: Some text  value, maybe description
+     * </pre>
+     * 
+     * Case 2:
+     * <pre>
+     * ---
+     * - key1: value1
+     * - key2: value2
+     * - key3: Some text  value, maybe description
+     * </pre>
+     * 
+     * @throws Exception
+     * @see #treeTest() 
+     */
+    @Test
+    public void tree2Test() throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/tree2.yml");
+        log.debug("\n{}", dumpModelToTurtle());
+        assertModelNotEmpty();
+        
+        // check if document is type of mapping.
+        assertContainsModel(new Statement[]{
+            RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.document),
+            RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.mapping)
+        });
     }
 }

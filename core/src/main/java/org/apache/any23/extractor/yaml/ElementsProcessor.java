@@ -118,7 +118,7 @@ public class ElementsProcessor {
         assert ns != null : "Namespace value is null";
 
         Model model = modelFactory.createEmptyModel();
-        Value nodeURI =RDFUtils.makeIRI("node", ns, true);
+        Value nodeURI = parentNode instanceof BNode ? RDFUtils.makeIRI("node", ns, true) : parentNode;
         
         if (!isEmpty) {
             model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
