@@ -309,7 +309,7 @@ public class MicrodataParser {
         if(itemPropValue != null) return itemPropValue;
 
         final String nodeName = node.getNodeName().toLowerCase();
-        if ("meta".equals(nodeName)) {
+        if (DomUtils.hasAttribute(node, "content")) {
             return new ItemPropValue(DomUtils.readAttribute(node, "content"), ItemPropValue.Type.Plain);
         }
 
