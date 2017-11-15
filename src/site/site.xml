@@ -15,9 +15,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/DECORATION/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/DECORATION/1.1.0 http://maven.apache.org/xsd/decoration-1.1.0.xsd"
-  name="${project.name}">
+<project xmlns="http://maven.apache.org/DECORATION/1.7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd"
+    name="${project.name}">
 
   <publishDate position="left"/>
   <version position="left"/>
@@ -90,9 +90,10 @@
     </menu>
 
     <footer>
-      <div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation.
-      All other marks mentioned may be trademarks or registered trademarks of their respective owners.</div>
+      <![CDATA[<div class="row span16">Apache Any23, Apache, the Apache feather logo, and the Apache Any23 project logos are trademarks of The Apache Software Foundation. All other marks mentioned may be trademarks or registered trademarks of their respective owners.
+      </div>]]>
     </footer>
+
   </body>
 
 </project>

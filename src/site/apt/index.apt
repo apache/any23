@@ -42,6 +42,8 @@ Introduction to Apache Any23
 
      * {{{http://www.yaml.org/}YAML}}: human friendly data serialization standard for all programming languages.
 
+     * Additionally, as of 2.1 Any23 provides functionality to extract triples using the {{{https://github.com/allenai/openie-standalone}Open Information Extraction (Open IE) system}}. The Open IE system runs over sentences and creates extractions that represent relations in text, in the case of Any23, this results in triples.
+
 
     A detailed description of available extractors is {{{./extractors.html}here}}.
 

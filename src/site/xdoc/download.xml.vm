@@ -16,18 +16,20 @@
   limitations under the License.
 -->
 <document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+          xsi:schemaLocation="http://maven.apache.org/XDOC/2.0
+           http://maven.apache.org/xsd/xdoc-2.0.xsd">
 
   <properties>
     <title>Apache Any23 - Download</title>
-    <author email="any23-dev@apache.org">Apache Any23 Team</author>
+    <author email="dev@any23.apache.org">Apache Any23 Team</author>
   </properties>
 
   <body>
     <section name="Download Apache Any23">
       <p>Apache Any23 is distributed in several formats for your convenience. Use a source archive if you intend to build
    Apache Any23 yourself. Otherwise, simply pick a ready-made binary distribution and follow the installation
-   instructions given inside the archives.</p>
+   instructions given inside the archives. Additionally, you can use Any23 as a dependency, see the most recent release
+   artifacts on <a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.any23%22">Maven Central</a>.</p>
 
       <p>You will be prompted for a mirror - if the file is not found on yours, please be patient, as it may take 24
    hours to reach all mirrors.</p>
@@ -51,22 +53,24 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 2.0 (Source tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-2.0-src.tar.gz"> apache-any23-2.0-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-2.0-src.tar.gz.md5"> apache-any23-2.0-src.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-2.0-src.tar.gz.asc"> apache-any23-2.0-src.tar.gz.asc</a></td>
+              <td>Apache Any23 2.1 (Source tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz"> apache-any23-2.1-src.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz.md5"> apache-any23-2.1-src.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz.asc"> apache-any23-2.1-src.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz.sha512"> apache-any23-2.1-src.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 2.0 (Source zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-2.0-src.zip"> apache-any23-2.0-src.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-2.0-src.zip.md5"> apache-any23-2.0-src.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-2.0-src.zip.asc"> apache-any23-2.0-src.zip.asc</a></td>
+              <td>Apache Any23 2.1 (Source zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip"> apache-any23-2.1-src.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip.md5"> apache-any23-2.1-src.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip.asc"> apache-any23-2.1-src.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip.sha512"> apache-any23-2.1-src.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
       </subsection>
 
-      <subsection name="Apache Any23 Core">
+      <subsection name="Apache Any23 Command Line Interface">
         <table>
           <thead>
             <tr>
@@ -78,16 +82,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-core-2.0.tar.gz"> apache-any23-core-2.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-core-2.0.tar.gz.md5"> apache-any23-core-2.0.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-core-2.0.tar.gz.asc"> apache-any23-core-2.0.tar.gz.asc</a></td>
+              <td>Apache Any23 2.1 CLI (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz"> apache-any23-cli-2.1.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz.md5"> apache-any23-cli-2.1.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz.asc"> apache-any23-cli-2.1.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz.sha512"> apache-any23-cli-2.1.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-core-2.0.zip"> apache-any23-core-2.0.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-core-2.0.zip.md5"> apache-any23-core-2.0.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-core-2.0.zip.asc"> apache-any23-core-2.0.zip.asc</a></td>
+              <td>Apache Any23 2.1 CLI (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip"> apache-any23-cli-2.1.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip.md5"> apache-any23-cli-2.1.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip.asc"> apache-any23-cli-2.1.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip.sha512"> apache-any23-cli-2.1.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -107,16 +113,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Basic Crawler 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-basic-crawler-2.0.tar.gz"> apache-any23-basic-crawler-2.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-basic-crawler-2.0.tar.gz.md5"> apache-any23-basic-crawler-2.0.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-basic-crawler-2.0.tar.gz.asc"> apache-any23-basic-crawler-2.0.tar.gz.asc</a></td>
+              <td>Apache Any23 Basic Crawler 2.1 (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz"> apache-any23-basic-crawler-2.1.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz.md5"> apache-any23-basic-crawler-2.1.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz.asc"> apache-any23-basic-crawler-2.1.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz.sha512"> apache-any23-basic-crawler-2.1.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Basic Crawler 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-basic-crawler-2.0.zip"> apache-any23-basic-crawler-2.0.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-basic-crawler-2.0.zip.md5"> apache-any23-basic-crawler-2.0.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-basic-crawler-2.0.zip.asc"> apache-any23-basic-crawler-2.0.tar.gz.asc</a></td>
+              <td>Apache Any23 Basic Crawler 2.1 (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip"> apache-any23-basic-crawler-2.1.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip.md5"> apache-any23-basic-crawler-2.1.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip.asc"> apache-any23-basic-crawler-2.1.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip.sha512"> apache-any23-basic-crawler-2.1.tar.gz.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -134,16 +142,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 HTML Scraper 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-html-scraper-2.0.tar.gz"> apache-any23-html-scraper-2.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-html-scraper-2.0.tar.gz.md5"> apache-any23-html-scraper-2.0.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-html-scraper-2.0.tar.gz.asc"> apache-any23-html-scraper-2.0.tar.gz.asc</a></td>
+              <td>Apache Any23 HTML Scraper 2.1 (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz"> apache-any23-html-scraper-2.1.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz.md5"> apache-any23-html-scraper-2.1.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz.asc"> apache-any23-html-scraper-2.1.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz.sha512"> apache-any23-html-scraper-2.1.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 HTML Scraper 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-html-scraper-2.0.zip"> apache-any23-html-scraper-2.0.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-html-scraper-2.0.zip.md5"> apache-any23-html-scraper-2.0.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-html-scraper-2.0.zip.asc"> apache-any23-html-scraper-2.0.zip.asc</a></td>
+              <td>Apache Any23 HTML Scraper 2.1 (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip"> apache-any23-html-scraper-2.1.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip.md5"> apache-any23-html-scraper-2.1.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip.asc"> apache-any23-html-scraper-2.1.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip.sha512"> apache-any23-html-scraper-2.1.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -161,16 +171,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Office Scraper 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-office-scraper-2.0.tar.gz"> apache-any23-office-scraper-2.0.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-office-scraper-2.0.tar.gz.md5"> apache-any23-office-scraper-2.0.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-office-scraper-2.0.tar.gz.asc"> apache-any23-office-scraper-2.0.tar.gz.asc</a></td>
+              <td>Apache Any23 Office Scraper 2.1 (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz"> apache-any23-office-scraper-2.1.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz.md5"> apache-any23-office-scraper-2.1.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz.asc"> apache-any23-office-scraper-2.1.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz.sha512"> apache-any23-office-scraper-2.1.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Office Scraper 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-office-scraper-2.0.zip"> apache-any23-office-scraper-2.0.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-office-scraper-2.0.zip.md5"> apache-any23-office-scraper-2.0.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-office-scraper-2.0.zip.asc"> apache-any23-office-scraper-2.0.zip.asc</a></td>
+              <td>Apache Any23 Office Scraper 2.1 (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip"> apache-any23-office-scraper-2.1.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip.md5"> apache-any23-office-scraper-2.1.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip.asc"> apache-any23-office-scraper-2.1.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip.sha512"> apache-any23-office-scraper-2.1.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -190,16 +202,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Service 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.tar.gz"> apache-any23-service-2.0-with-deps.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.tar.gz.md5"> apache-any23-service-2.0-with-deps.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.tar.gz.asc"> apache-any23-service-2.0-with-deps.tar.gz.asc</a></td>
+              <td>Apache Any23 Service 2.1 (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz"> apache-any23-service-2.1-with-deps.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz.md5"> apache-any23-service-2.1-with-deps.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz.asc"> apache-any23-service-2.1-with-deps.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz.sha512"> apache-any23-service-2.1-with-deps.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Service 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.zip"> apache-any23-service-2.0-with-deps.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.zip.md5"> apache-any23-service-2.0-with-deps.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-with-deps.zip.asc"> apache-any23-service-2.0.zip.asc</a></td>
+              <td>Apache Any23 Service 2.1 (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip"> apache-any23-service-2.1-with-deps.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip.md5"> apache-any23-service-2.1-with-deps.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip.asc"> apache-any23-service-2.1.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip.sha512"> apache-any23-service-2.1.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -217,16 +231,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Service (No deps) 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-without-deps.tar.gz"> apache-any23-service-2.0-without-deps.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-without-deps.tar.gz.md5"> apache-any23-service-2.0-without-deps.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-without-deps.tar.gz.asc"> apache-any23-service-2.0-without-deps.tar.gz.asc</a></td>
+              <td>Apache Any23 Service (No deps) 2.1 (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz"> apache-any23-service-2.1-without-deps.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz.md5"> apache-any23-service-2.1-without-deps.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz.asc"> apache-any23-service-2.1-without-deps.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz.sha512"> apache-any23-service-2.1-without-deps.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Service (No deps) 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-without-deps.zip"> apache-any23-service-2.0-without-deps.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-without-deps.zip.md5"> apache-any23-service-2.0-without-deps.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-without-deps.zip.asc"> apache-any23-service-2.0-without-deps.zip.asc</a></td>
+              <td>Apache Any23 Service (No deps) 2.1 (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip"> apache-any23-service-2.1-without-deps.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip.md5"> apache-any23-service-2.1-without-deps.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip.asc"> apache-any23-service-2.1-without-deps.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip.sha512"> apache-any23-service-2.1-without-deps.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -244,16 +260,18 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Service (Standalone server embedded) 2.0 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-server-embedded.tar.gz"> apache-any23-service-2.0-server-embedded.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-server-embedded.tar.gz.md5"> apache-any23-service-2.0-server-embedded.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-server-embedded.tar.gz.asc"> apache-any23-service-2.0-server-embedded.tar.gz.asc</a></td>
+              <td>Apache Any23 Service (Standalone server embedded) 2.1 (Binary tar.gz)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz"> apache-any23-service-2.1-server-embedded.tar.gz</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz.md5"> apache-any23-service-2.1-server-embedded.tar.gz.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz.asc"> apache-any23-service-2.1-server-embedded.tar.gz.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz.sha512"> apache-any23-service-2.1-server-embedded.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Service (Standalone server embedded) 2.0 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-server-embedded.zip"> apache-any23-service-2.0-server-embedded.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-server-embedded.zip.md5"> apache-any23-service-2.0-server-embedded.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.cgi/any23/2.0/any23/apache-any23-service-2.0-server-embedded.zip.asc"> apache-any23-service-2.0-server-embedded.zip.asc</a></td>
+              <td>Apache Any23 Service (Standalone server embedded) 2.1 (Binary zip)</td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip"> apache-any23-service-2.1-server-embedded.zip</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip.md5"> apache-any23-service-2.1-server-embedded.zip.md5</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip.asc"> apache-any23-service-2.1-server-embedded.zip.asc</a></td>
+              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip.sha512"> apache-any23-service-2.1-server-embedded.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>

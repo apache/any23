@@ -50,6 +50,8 @@ Getting started with <<Apache Any23>>
 
       * <<<plugins/>>>   The core additional plugins.
 
+      * <<<openie/>>>   Additional extractor logic for the {{{https://github.com/allenai/openie-standalone}Open Information Extraction (Open IE) system}}.
+
 * Use the <<Apache Any23>> CLI
 
    The command-line tools support is provided by the <<cli>> module.
