@@ -16,6 +16,9 @@
  */
 package org.apache.any23.extractor.yaml;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
@@ -26,7 +29,11 @@ import org.eclipse.rdf4j.common.iteration.Iterations;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.TupleQueryResult;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.RepositoryResult;
+import org.junit.ComparisonFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,6 +131,29 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
         // validate occurence of <urn:value1> resource
         assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
+    }
+    
+    @Test
+    public void treeTest2() throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
+        String sparql ="select ?nodes where "
+                + "{ [] <http://bob.example.com/key3.1> [ rdf:rest*/rdf:first ?nodes ;]}";
+        
+        RepositoryConnection connection = getConnection();
+        TupleQueryResult res = connection.prepareTupleQuery(sparql).evaluate();
+        List<BindingSet> resList = Iterations.asList(res);
+        try {
+            Assert.assertEquals("value3.1.1", resList.get(0).getValue("nodes").stringValue());
+        } catch (ComparisonFailure e) {
+            if ("value3.1.1".equals(resList.get(0).getValue("nodes").stringValue())) {
+                throw new RuntimeException("there should be no error");
+            }
+        }
+        List<String> resString = resList.stream().map((Function<? super BindingSet, String>) (b) -> {
+            return b.getValue("nodes").stringValue();
+        }).collect(Collectors.toList());
+        
+        log.debug("List output: {}", resString);
     }
     
     /**
