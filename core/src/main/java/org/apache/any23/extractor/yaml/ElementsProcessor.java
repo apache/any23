@@ -18,11 +18,9 @@ package org.apache.any23.extractor.yaml;
 
 import com.google.common.collect.Sets;
 import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.YAML;
 import org.eclipse.rdf4j.model.BNode;
@@ -154,6 +152,7 @@ public class ElementsProcessor {
         return asMapEntry(nodeURI, model);
     }
 
+    @SuppressWarnings("UnusedAssignment")
     protected Map.Entry<Value, Model> processList(IRI ns, List<Object> object) {
 
         if (object.isEmpty() || object.stream().noneMatch((i) -> {
@@ -163,33 +162,37 @@ public class ElementsProcessor {
         }
         assert ns != null : "Namespace value is null";
 
-        // revers order
-        Collections.reverse(object);
-
-        Stream<Map.Entry<Value, Model>> nodesStream = object
-                .stream()
-                .map((i) -> {
-                    return asModel(ns, i, vf.createBNode());
-                });
-        // add last element
-        Map.Entry<Value, Model> outcome = Stream.concat(Stream.of(asMapEntry(RDF.NIL, modelFactory.createEmptyModel())), nodesStream)
-                .reduce((res, i) -> {
-                    BNode currentNode = vf.createBNode();
-                    Value val = res.getKey();
-                    Model mod = res.getValue();
-
-                    mod.add(vf.createStatement(currentNode, RDF.FIRST, i.getKey()));
-                    mod.add(vf.createStatement(currentNode, RDF.REST, val));
-
-                    if (i.getValue() != null) {
-                        mod.addAll(i.getValue());
-                    }
-
-                    return asMapEntry(currentNode, mod);
-                }).get();
-
-        outcome.getValue().add(vf.createStatement((Resource) outcome.getKey(), RDF.TYPE, RDF.LIST));
-        return outcome;
+        int objectSize = object.size();
+        Value listRoot = null;
+        Resource prevNode = null;
+        Model finalModel = modelFactory.createEmptyModel();
+        for (int i=0; i < objectSize; i++) {
+            Map.Entry<Value, Model> node = asModel(ns, object.get(i), RDFUtils.bnode());
+            BNode currentNode = RDFUtils.bnode();
+            
+            if (i == 0) {
+                listRoot = currentNode;
+            }
+            
+            finalModel.add(currentNode, RDF.FIRST, node.getKey(), (Resource[]) null);
+            
+            if (prevNode != null) {
+                finalModel.add(prevNode, RDF.REST, currentNode, (Resource[]) null);
+            }
+            
+            if (i == objectSize-1) {
+                finalModel.add(currentNode, RDF.REST, RDF.NIL, (Resource[]) null);
+            }
+            
+            if(node.getValue() != null) {
+                finalModel.addAll(node.getValue());
+            }
+            
+            prevNode = currentNode;
+        }
+        
+        finalModel.add((Resource) listRoot, RDF.TYPE, RDF.LIST, (Resource[]) null);
+        return asMapEntry(listRoot, finalModel);
     }
 
     // hide constructor
