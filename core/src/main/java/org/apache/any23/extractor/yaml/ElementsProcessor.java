@@ -64,7 +64,7 @@ public class ElementsProcessor {
     }
 
     /**
-     * Converts a data structure to {@link Map.Entry<Value,Model>}. where value
+     * Converts a data structure to {@link Map.Entry}. where value
      * is a root node of the data structure and model is a content of the RDF
      * graph.
      *
@@ -78,7 +78,7 @@ public class ElementsProcessor {
      * created.
      * @return
      */
-    public Map.Entry<Value, Model> asModel(IRI namespace, final Object t, Value rootNode) {
+    public Map.Entry<Value,Model> asModel(IRI namespace, final Object t, Value rootNode) {
         if (t == null) {
             return null;
         }
