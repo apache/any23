@@ -118,7 +118,7 @@ public class ElementsProcessor {
 
         Model model = modelFactory.createEmptyModel();
         Value nodeURI = parentNode instanceof BNode ? RDFUtils.makeIRI("node", ns, true) : parentNode;
-        
+
         if (!isEmpty) {
             model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
         }
@@ -169,28 +169,28 @@ public class ElementsProcessor {
         for (int i=0; i < objectSize; i++) {
             Map.Entry<Value, Model> node = asModel(ns, object.get(i), RDFUtils.bnode());
             BNode currentNode = RDFUtils.bnode();
-            
+
             if (i == 0) {
                 listRoot = currentNode;
             }
-            
+
             finalModel.add(currentNode, RDF.FIRST, node.getKey(), (Resource[]) null);
-            
+
             if (prevNode != null) {
                 finalModel.add(prevNode, RDF.REST, currentNode, (Resource[]) null);
             }
-            
+
             if (i == objectSize-1) {
                 finalModel.add(currentNode, RDF.REST, RDF.NIL, (Resource[]) null);
             }
-            
+
             if(node.getValue() != null) {
                 finalModel.addAll(node.getValue());
             }
-            
+
             prevNode = currentNode;
         }
-        
+
         finalModel.add((Resource) listRoot, RDF.TYPE, RDF.LIST, (Resource[]) null);
         return asMapEntry(listRoot, finalModel);
     }

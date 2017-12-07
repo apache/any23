@@ -132,13 +132,13 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         // validate occurence of <urn:value1> resource
         assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
     }
-    
+
     @Test
     public void treeTest2() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
         String sparql ="select ?nodes where "
                 + "{ [] <http://bob.example.com/key3.1> [ rdf:rest*/rdf:first ?nodes ;]}";
-        
+
         RepositoryConnection connection = getConnection();
         TupleQueryResult res = connection.prepareTupleQuery(sparql).evaluate();
         List<BindingSet> resList = Iterations.asList(res);
@@ -152,10 +152,10 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         List<String> resString = resList.stream().map((Function<? super BindingSet, String>) (b) -> {
             return b.getValue("nodes").stringValue();
         }).collect(Collectors.toList());
-        
+
         log.debug("List output: {}", resString);
     }
-    
+
     /**
      * This test covers a typical situation when a document is a map.
      * 
@@ -185,7 +185,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         assertExtract("/org/apache/any23/extractor/yaml/tree2.yml");
         log.debug("\n{}", dumpModelToTurtle());
         assertModelNotEmpty();
-        
+
         // check if document is type of mapping.
         assertContainsModel(new Statement[]{
             RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.document),
