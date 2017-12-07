@@ -16,6 +16,9 @@
  */
 package org.apache.any23.extractor.yaml;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
@@ -26,14 +29,18 @@ import org.eclipse.rdf4j.common.iteration.Iterations;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
+import org.eclipse.rdf4j.query.BindingSet;
+import org.eclipse.rdf4j.query.TupleQueryResult;
+import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.RepositoryResult;
+import org.junit.ComparisonFailure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Test {@link YAMLExtractor}.
  *
- * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
+ * @author Jacek Grzebyta (jgrzebyta [at] apache [dot] org)
  */
 public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
@@ -46,11 +53,22 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         return new YAMLExtractorFactory();
     }
 
+    /**
+     * Test to validate simple yaml file for ANY23-312
+     */
+    @Test
+    public void simpleTest312()
+            throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/simple-312.yml");
+        log.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+    }
+
     @Test
     public void simpleFileLoading()
             throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/simple-load.yml");
-        log.debug(dumpModelToTurtle());
+        log.debug("\n{}",dumpModelToTurtle());
         assertModelNotEmpty();
 
     }
@@ -89,25 +107,89 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         assertExtract("/org/apache/any23/extractor/yaml/test-null.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
-        RepositoryResult<Statement> docs = getStatements(null, null, RDF.NIL);
-        Assert.assertTrue(Iterations.asList(docs).size() == 2);
+        /**
+         * Since the map is empty it should not contain any document marked type mapping.
+         */
+        assertNotContains(RDF.TYPE, vocab.mapping); 
+        int statements = dumpAsListOfStatements().size();
+        Assert.assertTrue("Found " + statements + " statements", statements == 9);
     }
-    
+
     @Test
     public void treeTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
-        log.debug(dumpModelToTurtle());
+        log.debug("\n{}",dumpModelToTurtle());
         assertModelNotEmpty();
         // validate part of the tree structure
-        assertContainsModel(new Statement[] {
+        assertContainsModel(new Statement[]{
             RDFUtils.triple(RDFUtils.bnode(), RDFUtils.iri(ns, "value3"), RDFUtils.bnode("10")),
             RDFUtils.triple(RDFUtils.bnode("10"), RDF.FIRST, RDFUtils.bnode("11")),
             RDFUtils.triple(RDFUtils.bnode("11"), RDFUtils.iri(ns, "key3.1"), RDFUtils.bnode("12")),
             RDFUtils.triple(RDFUtils.bnode("12"), RDF.TYPE, RDF.LIST),
-            RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1" ))
+            RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1"))
         });
-        
+
         // validate occurence of <urn:value1> resource
         assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
+    }
+
+    @Test
+    public void treeTest2() throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
+        String sparql ="select ?nodes where "
+                + "{ [] <http://bob.example.com/key3.1> [ rdf:rest*/rdf:first ?nodes ;]}";
+
+        RepositoryConnection connection = getConnection();
+        TupleQueryResult res = connection.prepareTupleQuery(sparql).evaluate();
+        List<BindingSet> resList = Iterations.asList(res);
+        try {
+            Assert.assertEquals("value3.1.1", resList.get(0).getValue("nodes").stringValue());
+        } catch (ComparisonFailure e) {
+            if ("value3.1.1".equals(resList.get(0).getValue("nodes").stringValue())) {
+                throw new RuntimeException("there should be no error");
+            }
+        }
+        List<String> resString = resList.stream().map((Function<? super BindingSet, String>) (b) -> {
+            return b.getValue("nodes").stringValue();
+        }).collect(Collectors.toList());
+
+        log.debug("List output: {}", resString);
+    }
+
+    /**
+     * This test covers a typical situation when a document is a map.
+     * 
+     * <br/><b>NB:</b> Following yaml standard those 2 cases are parsed to different graphs:
+     * <br/><br/>Case 1:
+     * 
+     * <pre>
+     * ---
+     * key1: value1
+     * key2: value2
+     * key3: Some text  value, maybe description
+     * </pre>
+     * 
+     * Case 2:
+     * <pre>
+     * ---
+     * - key1: value1
+     * - key2: value2
+     * - key3: Some text  value, maybe description
+     * </pre>
+     * 
+     * @throws Exception
+     * @see #treeTest() 
+     */
+    @Test
+    public void tree2Test() throws Exception {
+        assertExtract("/org/apache/any23/extractor/yaml/tree2.yml");
+        log.debug("\n{}", dumpModelToTurtle());
+        assertModelNotEmpty();
+
+        // check if document is type of mapping.
+        assertContainsModel(new Statement[]{
+            RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.document),
+            RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.mapping)
+        });
     }
 }

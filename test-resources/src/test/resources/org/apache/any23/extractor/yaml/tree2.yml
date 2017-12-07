@@ -1,0 +1,27 @@
+%YAML 1.2
+---
+key1: 
+   - value1
+   - value1.1
+key2:
+   - value 2
+   - value 2.1
+   - longText: >
+        Aenean sodales suscipit porta.
+        Pellentesque tincidunt tincidunt
+        tortor in dapibus. Etiam quis nisl
+        eu velit consequat lobortis eu quis
+        turpis. Vestibulum luctus auctor diam,
+        a dapibus lacus efficitur congue.
+        Phasellus eu fermentum sem. Morbi
+        eget porta ante. Nunc sapien lorem,
+        dignissim ut purus sit amet, consequat
+        vulputate tortor. Sed dolor dui, porta
+        eu tincidunt at, mattis sit amet
+        risus. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra,
+        per inceptos himenaeos. Phasellus
+        lobortis dolor risus. Fusce at elit
+        magna. Cras et sapien vitae libero
+        dignissim sagittis suscipit sed risus.
+        Suspendisse interdum imperdiet aliquam.

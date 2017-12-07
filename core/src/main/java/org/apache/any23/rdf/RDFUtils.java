@@ -609,7 +609,7 @@ public class RDFUtils {
         String newType = StringUtils.implementJavaNaming(type);
 
         String iriString;
-        if (docIRI.toString().endsWith("/")) {
+        if (docIRI.toString().endsWith("/") || docIRI.toString().endsWith("#")) {
             iriString = docIRI.toString() + newType;
         } else {
             iriString = docIRI.toString() + "#" + newType;
@@ -625,6 +625,30 @@ public class RDFUtils {
         }
         return node;
     }
+    
+    /**
+     * Convert string to either IRI or Literal.
+     * 
+     * If string value expresses valid IRI than IRI is created. Otherwise method 
+     * creates simple literal xsd:string.
+     * 
+     * @param inString
+     * @return 
+     */
+    public static Value makeIRI(String inString) {
+        if (RDFUtils.isAbsoluteIRI(inString)) {
+            return RDFUtils.iri(inString);
+        } else {
+            return RDFUtils.literal(inString);
+        }
+    }
+    
+    public static Value makeIRI() {
+        BNode bnode = bnode(Integer.toString(nodeId));
+        nodeId++;
+        return bnode;
+    }
+    
     private RDFUtils() {}
 
 }
