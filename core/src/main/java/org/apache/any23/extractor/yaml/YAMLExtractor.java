@@ -18,7 +18,6 @@ package org.apache.any23.extractor.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -29,8 +28,6 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.YAML;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Model;
-import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.slf4j.Logger;
@@ -77,19 +74,19 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             Resource pageNode = RDFUtils.makeIRI("document", documentIRI, true);
             out.writeTriple(documentRoot, vocab.contains, pageNode);
             out.writeTriple(pageNode, RDF.TYPE, vocab.document);
-            Map.Entry<Value, Model> rootNode = ep.asModel(documentIRI, p, pageNode);
+            ElementsProcessor.ModelHolder rootNode = ep.asModel(documentIRI, p, pageNode);
             
             if (rootNode == null) {
                 continue;
             }
             
-            if (!rootNode.getKey().equals(pageNode)) {
-                out.writeTriple(pageNode, vocab.contains, rootNode.getKey());
+            if (!rootNode.getRoot().equals(pageNode)) {
+                out.writeTriple(pageNode, vocab.contains, rootNode.getRoot());
             }
             
-            log.debug("Subgraph root node: {}", rootNode.getKey().stringValue());
+            log.debug("Subgraph root node: {}", rootNode.getRoot().stringValue());
             
-            rootNode.getValue().forEach((s) ->{
+            rootNode.getModel().forEach((s) ->{
                 out.writeTriple(s.getSubject(), s.getPredicate(), s.getObject());
             });
             
