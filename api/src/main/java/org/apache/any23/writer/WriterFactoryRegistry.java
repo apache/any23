@@ -49,22 +49,46 @@ public class WriterFactoryRegistry {
      * List of registered writers.
      */
     private final List<WriterFactory> writers =
-            new ArrayList<WriterFactory>();
+            new ArrayList<>();
 
     /**
      * MIME Type to {@link FormatWriter} class.
      */
     private final Map<String,List<WriterFactory>> mimeToWriter =
-            new HashMap<String, List<WriterFactory>>();
+            new HashMap<>();
 
     /**
      * Identifier to {@link FormatWriter} class.
      */
     private final Map<String,WriterFactory> idToWriter =
-            new HashMap<String, WriterFactory>();
+            new HashMap<>();
 
-    private List<String> identifiers = new ArrayList<String>();
+    private List<String> identifiers = new ArrayList<>();
 
+    public WriterFactoryRegistry() {
+      ServiceLoader<WriterFactory> serviceLoader = java.util.ServiceLoader.load(WriterFactory.class, this.getClass().getClassLoader());
+      
+      Iterator<WriterFactory> iterator = serviceLoader.iterator();
+      
+      // use while(true) loop so that we can isolate all service loader errors from .next and .hasNext to a single service
+      while(true)
+      {
+          try
+          {
+              if(!iterator.hasNext())
+                  break;
+              
+              WriterFactory factory = iterator.next();
+              
+              this.register(factory);
+          }
+          catch(ServiceConfigurationError error)
+          {
+              LOG.error("Found error loading a WriterFactory", error);
+          }
+      }
+    }
+    
     /**
      * Reads the identifier specified for the given {@link FormatWriter}.
      *
@@ -88,35 +112,11 @@ public class WriterFactoryRegistry {
     /**
      * @return the {@link WriterFactoryRegistry} singleton instance.
      */
-    public synchronized static WriterFactoryRegistry getInstance() {
+    public static synchronized WriterFactoryRegistry getInstance() {
         if(instance == null) {
             instance = new WriterFactoryRegistry();
         }
         return instance;
-    }
-
-    public WriterFactoryRegistry() {
-        ServiceLoader<WriterFactory> serviceLoader = java.util.ServiceLoader.load(WriterFactory.class, this.getClass().getClassLoader());
-        
-        Iterator<WriterFactory> iterator = serviceLoader.iterator();
-        
-        // use while(true) loop so that we can isolate all service loader errors from .next and .hasNext to a single service
-        while(true)
-        {
-            try
-            {
-                if(!iterator.hasNext())
-                    break;
-                
-                WriterFactory factory = iterator.next();
-                
-                this.register(factory);
-            }
-            catch(ServiceConfigurationError error)
-            {
-                LOG.error("Found error loading a WriterFactory", error);
-            }
-        }
     }
 
     /**
@@ -127,7 +127,8 @@ public class WriterFactoryRegistry {
      *                                  or empty strings or if the identifier has been already defined.
      */
     public synchronized void register(WriterFactory writerClass) {
-        if(writerClass == null) throw new NullPointerException("writerClass cannot be null.");
+        if(writerClass == null)
+            throw new NullPointerException("writerClass cannot be null.");
         final String id       = writerClass.getIdentifier();
         final String mimeType = writerClass.getMimeType();
         if(id == null || id.trim().length() == 0) {
@@ -143,7 +144,7 @@ public class WriterFactoryRegistry {
         identifiers.add(writerClass.getIdentifier());
         List<WriterFactory> writerClasses = mimeToWriter.get(mimeType);
         if(writerClasses == null) {
-            writerClasses = new ArrayList<WriterFactory>();
+            writerClasses = new ArrayList<>();
             mimeToWriter.put(mimeType, writerClasses);
         }
         writerClasses.add(writerClass);
@@ -199,8 +200,7 @@ public class WriterFactoryRegistry {
      * @return a list of matching writers or an empty list.
      */
     public synchronized Collection<WriterFactory> getWritersByMimeType(String mimeType) {
-        final List<WriterFactory> writerClasses = mimeToWriter.get(mimeType);
-        return writerClasses;
+        return mimeToWriter.get(mimeType);
     }
 
     /**
