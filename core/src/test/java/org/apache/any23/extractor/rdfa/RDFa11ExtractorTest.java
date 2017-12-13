@@ -22,6 +22,7 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.FOAF;
 import org.apache.any23.vocab.OGP;
+import org.apache.any23.vocab.OGPMusic;
 import org.junit.Assert;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Literal;
@@ -98,12 +99,12 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         logger.debug(dumpModelToTurtle());
 
         assertContains(
-                RDFUtils.uri( baseIRI.toString(),"#me"),
+                RDFUtils.iri( baseIRI.toString(),"#me"),
                 FOAF.getInstance().name,
                 "John Doe"
         );
         assertContains(
-                RDFUtils.uri( baseIRI.toString(),"#me"),
+                RDFUtils.iri( baseIRI.toString(),"#me"),
                 FOAF.getInstance().homepage,
                 RDFUtils.iri("http://example.org/blog/")
         );
@@ -142,12 +143,12 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         logger.debug(dumpModelToTurtle());
 
         assertContains(
-                RDFUtils.uri(baseIRI.toString(), "#me"),
+                RDFUtils.iri(baseIRI.toString(), "#me"),
                 RDFUtils.iri("http://xmlns.com/foaf/0.1/name"),
                 RDFUtils.literal("John Doe")
         );
         assertContains(
-                RDFUtils.uri(baseIRI.toString(), "#me"),
+                RDFUtils.iri(baseIRI.toString(), "#me"),
                 RDFUtils.iri("http://xmlns.com/foaf/0.1/homepage"),
                 RDFUtils.iri("http://example.org/blog/")
         );
@@ -204,8 +205,11 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     /**
-     * Tests the correct support of the new <em>Open Graph Protocol</em>
-     * <a href="http://ogp.me/#structured">Structured Properties</a>.
+     * Tests the correct support of <a href="http://ogp.me/">Open Graph Protocol's</a>
+     * <a href="http://ogp.me/#metadata">Basic Metadata</a>, 
+     * <a href="http://ogp.me/#optional">Optional Metadata</a>,
+     * <a href="http://ogp.me/#structured">Structured Properties</a> and
+     * <a href="http://ogp.me/#array">Arrays</a>.
      *
      * @throws IOException
      * @throws org.apache.any23.extractor.ExtractionException
@@ -216,9 +220,9 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         assertExtract("/html/rdfa/opengraph-structured-properties.html");
         logger.info( dumpHumanReadableTriples() );
 
-        Assert.assertEquals(8, getStatementsSize(null, null, null) );
+        Assert.assertEquals(31, getStatementsSize(null, null, null) );
         final OGP vOGP = OGP.getInstance();
-        assertContains(baseIRI, vOGP.audio, RDFUtils.literal("http://example.com/bond/theme.mp3") );
+        assertContains(baseIRI, vOGP.audio, RDFUtils.literal("http://example.com/sound.mp3") );
         assertContains(
                 baseIRI,
                 vOGP.description,
@@ -227,7 +231,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
                 )
         );
         assertContains(baseIRI, vOGP.determiner, RDFUtils.literal("the") );
-        assertContains(baseIRI, vOGP.locale, RDFUtils.literal("en_UK") );
+        assertContains(baseIRI, vOGP.locale, RDFUtils.literal("en_GB") );
         assertContains(baseIRI, vOGP.localeAlternate, RDFUtils.literal("fr_FR") );
         assertContains(baseIRI, vOGP.localeAlternate, RDFUtils.literal("es_ES") );
         assertContains(baseIRI, vOGP.siteName, RDFUtils.literal("IMDb") );
@@ -237,6 +241,32 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {
         return new RDFa11ExtractorFactory();
+    }
+
+    /**
+     * Tests the correct support of alternate 
+     * <a href="http://ogp.me/#types">Open Graph Protocol Object Types</a>
+     *
+     * @throws IOException
+     * @throws org.apache.any23.extractor.ExtractionException
+     * @throws RepositoryException
+     */
+    @Test
+    public void testOpenGraphAlternateObjectTypes() throws IOException, ExtractionException, RepositoryException {
+        assertExtract("/html/rdfa/opengraph-music-song-object-type.html");
+        logger.info( dumpHumanReadableTriples() );
+
+        Assert.assertEquals(9, getStatementsSize(null, null, null) );
+        final OGPMusic vOGPMusic = OGPMusic.getInstance();
+        assertContains(baseIRI, vOGPMusic.musicDuration, RDFUtils.literal("447") );
+        assertContains(
+                baseIRI,
+                vOGPMusic.musicMusician,
+                RDFUtils.literal(
+                        "Jono Grant / Tony McGuinness / Ashley Tomberlin"
+                )
+        );
+        assertContains(baseIRI, vOGPMusic.musicAlbum, RDFUtils.literal("Tri-State") );
     }
 
 }
