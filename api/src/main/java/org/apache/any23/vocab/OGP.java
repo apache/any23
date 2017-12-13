@@ -130,87 +130,6 @@ public class OGP extends Vocabulary {
 
     /* END: Structured Properties. */
 
-    /* BEGIN: ogp.me/#type_video.movie */
-
-    /** Actors in the movie. */
-    public static final String VIDEO__ACTOR      = "video:actor";
-
-    /** The role they played. */
-    public static final String VIDEO__ACTOR_ROLE = "video:actor:role";
-
-    /** Directors of the movie. */
-    public static final String VIDEO__DIRECTOR   = "video:director";
-
-    /** Writers of the movie. */
-    public static final String VIDEO__WRITER     = "video:writer";
-
-    /** The movie's length in seconds. */
-    public static final String VIDEO__DURATION   = "video:duration";
-
-    /** The date the movie was released. */
-    public static final String VIDEO__RELEASE_DATE = "video:release_date";
-
-    /** Tag words associated with this movie. */
-    public static final String VIDEO__TAG        = "video:tag";
-
-    /** Which series this episode belongs to. */
-    public static final String VIDEO__SERIES     = "video:series";
-    /* END: ogp.me/#type_video.movie */
-
-    /* BEGIN: http://ogp.me/#type_article */
-
-    /** When the article was first published. */
-    public static final String ARTICLE__PUBLISHED_TIME = "article:published_time";
-
-    /** When the article was last changed. */
-    public static final String ARTICLE__MODIFIED_TIME = "article:modified_time";
-
-    /** When the article is out of date after. */
-    public static final String ARTICLE__EXPIRATION_TIME = "article:expiration_time";
-
-    /** Writers of the article. */
-    public static final String ARTICLE__AUTHOR   = "article:author";
-
-    /** A high-level section name. E.g. Technology */
-    public static final String ARTICLE__SECTION  = "article:section";
-
-    /** Tag words associated with this article. */
-    public static final String ARTICLE__TAG      = "article:tag";
-
-    /* END: http://ogp.me/#type_article */
-
-    /* BEGIN: http://ogp.me/#type_book */
-
-    /** Who wrote this book. */
-    public static final String BOOK__AUTHOR     = "book:author";
-
-    /** The ISBN */
-    public static final String BOOK__ISBN       = "book:isbn";
-
-    /** The date the book was released. */
-    public static final String BOOK__RELEASE_DATE = "book:release_date";
-
-    /** Tag words associated with this book. */
-    public static final String BOOK__TAG       = "book:tag";
-
-    /* END: http://ogp.me/#type_book */
-
-    /* BEGIN: http://ogp.me/#type_profile */
-
-    /** A name normally given to an individual by a parent or self-chosen. */
-    public static final String PROFILE__FIRST_NAME = "profile:first_name";
-
-    /** A name inherited from a family or marriage and by which the individual is commonly known. */
-    public static final String PROFILE__LAST_NAME = "profile:last_name";
-
-    /** A short unique string to identify them. */
-    public static final String PROFILE__USERNAME  = "profile:username";
-
-    /** Their gender. */
-    public static final String PROFILE__GENDER    = "profile:gender";
-
-    /* END: http://ogp.me/#type_profile */
-
     private static OGP instance;
 
     public static OGP getInstance() {
@@ -252,32 +171,6 @@ public class OGP extends Vocabulary {
     public final IRI audioSecureURL = createProperty(AUDIO__SECURE_URL);
     public final IRI audioType      = createProperty(AUDIO__TYPE);
     public final IRI audioAlt       = createProperty(AUDIO__ALT);
-    
-    public final IRI videoActor     = createProperty(VIDEO__ACTOR);
-    public final IRI videoActorRole = createProperty(VIDEO__ACTOR_ROLE);
-    public final IRI videoDirector  = createProperty(VIDEO__DIRECTOR);
-    public final IRI videoWriter    = createProperty(VIDEO__WRITER);
-    public final IRI videoDuration  = createProperty(VIDEO__DURATION);
-    public final IRI videoReleaseDate = createProperty(VIDEO__RELEASE_DATE);
-    public final IRI videoTag       = createProperty(VIDEO__TAG);
-    public final IRI videoSeries    = createProperty(VIDEO__SERIES);
-
-    public final IRI articlePublishedTime = createProperty(ARTICLE__PUBLISHED_TIME);
-    public final IRI articleModifiedTime = createProperty(ARTICLE__MODIFIED_TIME);
-    public final IRI articleExpirationTime = createProperty(ARTICLE__EXPIRATION_TIME);
-    public final IRI articleAuthor  = createProperty(ARTICLE__AUTHOR);
-    public final IRI articleSection = createProperty(ARTICLE__SECTION);
-    public final IRI articleTag     = createProperty(ARTICLE__TAG);
-
-    public final IRI bookAuthor     = createProperty(BOOK__AUTHOR);
-    public final IRI bookIsbn       = createProperty(BOOK__ISBN);
-    public final IRI bookReleaseDate = createProperty(BOOK__RELEASE_DATE);
-    public final IRI bookTag        = createProperty(BOOK__TAG);
-    
-    public final IRI profileFirstName = createProperty(PROFILE__FIRST_NAME);
-    public final IRI profileLastName = createProperty(PROFILE__LAST_NAME);
-    public final IRI profileUsername = createProperty(PROFILE__USERNAME);
-    public final IRI profileGender  = createProperty(PROFILE__GENDER);
 
     @SuppressWarnings("unused")
     private IRI createClass(String localName) {
