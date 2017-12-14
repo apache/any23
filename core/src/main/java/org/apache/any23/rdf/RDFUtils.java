@@ -577,7 +577,7 @@ public class RDFUtils {
     /**
      * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
      * @param docUri
-     * @return 
+     * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(IRI docUri) {
         return makeIRI("node", docUri);
@@ -587,7 +587,7 @@ public class RDFUtils {
      * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
      * @param type
      * @param docIRI
-     * @return 
+     * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(String type, IRI docIRI) {
         return makeIRI(type, docIRI, false);
@@ -596,11 +596,12 @@ public class RDFUtils {
     /**
      * Creates implementation of {@link Resource} from given arguments: <i>type</i> and <i>docIRI</i>.
      * 
+     * <b>NB:</b> The Java Naming Conventions is described by <a href='http://www.geeksforgeeks.org/java-naming-conventions/'>GeeksForGeeks</a>.
+     * 
      * @param type This argument is converted following Java naming conventions with {@link StringUtils#implementJavaNaming(java.lang.String) }.
      * @param docIRI It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#' is added to the end.
      * @param addId If argument is <b>TRUE</b> than the node identifier is added to the end formated <tt>'_{int}'</tt>.
-     * @return {@link Resource} implementation
-     * @see <a href="http://www.geeksforgeeks.org/java-naming-conventions/">Java Naming Conventions [from GeeksForGeeks]</a>.
+     * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(String type, IRI docIRI, boolean addId) {
 
@@ -629,11 +630,11 @@ public class RDFUtils {
     /**
      * Convert string to either IRI or Literal.
      * 
-     * If string value expresses valid IRI than IRI is created. Otherwise method 
-     * creates simple literal xsd:string.
+     * If string value expresses valid IRI than {@link IRI} is created. Otherwise method 
+     * creates simple {@link Literal} xsd:string.
      * 
      * @param inString
-     * @return 
+     * @return either {@link IRI} or {@link Literal}.
      */
     public static Value makeIRI(String inString) {
         if (RDFUtils.isAbsoluteIRI(inString)) {

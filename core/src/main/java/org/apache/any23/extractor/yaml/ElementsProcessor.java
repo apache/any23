@@ -17,7 +17,6 @@
 package org.apache.any23.extractor.yaml;
 
 import com.google.common.collect.Sets;
-import java.util.AbstractMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 /**
- * Converts Object into RDF graph encoded to {@link Map.Entry}. Where key is a
+ * Converts Object into RDF graph encoded to {@link ModelHolder}. Where key is a
  * graph root node and value is a graph itself inside a {@link Model}.
  *
  * This parser performs conversion for three main types:
@@ -59,12 +58,35 @@ public class ElementsProcessor {
 
     private static final ElementsProcessor _ep = new ElementsProcessor();
 
-    private Map.Entry<Value, Model> asMapEntry(Value v, Model m) {
-        return new AbstractMap.SimpleEntry(v, m);
+    /**
+     * A model holder describes the two required parameters which makes a model useful
+     * in further processing: a root node and model itself.
+     */
+    public class ModelHolder {
+        private final Value root;
+        private final Model model;
+
+        public Value getRoot() {
+            return root;
+        }
+
+        public Model getModel() {
+            return model;
+        }
+
+        public ModelHolder(Value root, Model model) {
+            this.root = root;
+            this.model = model;
+        }
+    }
+    
+    
+    private ModelHolder asModelHolder(Value v, Model m) {
+        return new ModelHolder(v,m);
     }
 
     /**
-     * Converts a data structure to {@link Map.Entry}. where value
+     * Converts a data structure to {@link ModelHolder}. where value
      * is a root node of the data structure and model is a content of the RDF
      * graph.
      *
@@ -76,9 +98,9 @@ public class ElementsProcessor {
      * @param t Object (or data structure) converting to RDF graph
      * @param rootNode root node of the graph. If not given then blank node is
      * created.
-     * @return
+     * @return instance of {@link ModelHolder},
      */
-    public Map.Entry<Value,Model> asModel(IRI namespace, final Object t, Value rootNode) {
+    public ModelHolder asModel(IRI namespace, final Object t, Value rootNode) {
         if (t == null) {
             return null;
         }
@@ -88,9 +110,9 @@ public class ElementsProcessor {
         } else if (t instanceof Map) {
             return processMap(namespace, (Map) t, rootNode);
         } else if (t instanceof String) {
-            return asMapEntry(RDFUtils.makeIRI(t.toString()), modelFactory.createEmptyModel());
+            return asModelHolder(RDFUtils.makeIRI(t.toString()), modelFactory.createEmptyModel());
         } else {
-            return asMapEntry(Literals.createLiteral(vf, t), modelFactory.createEmptyModel());
+            return asModelHolder(Literals.createLiteral(vf, t), modelFactory.createEmptyModel());
         }
     }
 
@@ -102,9 +124,9 @@ public class ElementsProcessor {
      * @param ns
      * @param object
      * @param parentNode
-     * @return 
+     * @return instance of {@link ModelHolder}.
      */
-    protected Map.Entry<Value, Model> processMap(IRI ns, Map<String, Object> object, Value parentNode) {
+    protected ModelHolder processMap(IRI ns, Map<String, Object> object, Value parentNode) {
         // check if map is empty
         if (object.isEmpty()) {
             return null;
@@ -135,25 +157,25 @@ public class ElementsProcessor {
             model.add(vf.createStatement(predicate, RDF.TYPE, RDF.PREDICATE));
             model.add(vf.createStatement(predicate, RDFS.LABEL, RDFUtils.literal(k)));
             Value subGraphRoot = RDFUtils.makeIRI();
-            Map.Entry<Value, Model> valInst = asModel(ns, object.get(k), subGraphRoot);
+            ModelHolder valInst = asModel(ns, object.get(k), subGraphRoot);
             // if asModel returns null than 
             if (valInst != null) {
                 /*
             Subgraph root node is added always. If subgraph is null that root node is Literal.
             Otherwise submodel in added to the current model.
                  */
-                model.add(vf.createStatement((Resource) nodeURI, (IRI) predicate, valInst.getKey()));
-                if (valInst.getValue() != null) {
-                    model.addAll(valInst.getValue());
+                model.add(vf.createStatement((Resource) nodeURI, (IRI) predicate, valInst.root));
+                if (valInst.model != null) {
+                    model.addAll(valInst.model);
                 }
             }
 
         });
-        return asMapEntry(nodeURI, model);
+        return asModelHolder(nodeURI, model);
     }
 
     @SuppressWarnings("UnusedAssignment")
-    protected Map.Entry<Value, Model> processList(IRI ns, List<Object> object) {
+    protected ModelHolder processList(IRI ns, List<Object> object) {
 
         if (object.isEmpty() || object.stream().noneMatch((i) -> {
             return i != null;
@@ -167,14 +189,14 @@ public class ElementsProcessor {
         Resource prevNode = null;
         Model finalModel = modelFactory.createEmptyModel();
         for (int i=0; i < objectSize; i++) {
-            Map.Entry<Value, Model> node = asModel(ns, object.get(i), RDFUtils.bnode());
+            ModelHolder node = asModel(ns, object.get(i), RDFUtils.bnode());
             BNode currentNode = RDFUtils.bnode();
 
             if (i == 0) {
                 listRoot = currentNode;
             }
 
-            finalModel.add(currentNode, RDF.FIRST, node.getKey(), (Resource[]) null);
+            finalModel.add(currentNode, RDF.FIRST, node.root, (Resource[]) null);
 
             if (prevNode != null) {
                 finalModel.add(prevNode, RDF.REST, currentNode, (Resource[]) null);
@@ -184,15 +206,15 @@ public class ElementsProcessor {
                 finalModel.add(currentNode, RDF.REST, RDF.NIL, (Resource[]) null);
             }
 
-            if(node.getValue() != null) {
-                finalModel.addAll(node.getValue());
+            if(node.model != null) {
+                finalModel.addAll(node.model);
             }
 
             prevNode = currentNode;
         }
 
         finalModel.add((Resource) listRoot, RDF.TYPE, RDF.LIST, (Resource[]) null);
-        return asMapEntry(listRoot, finalModel);
+        return asModelHolder(listRoot, finalModel);
     }
 
     // hide constructor

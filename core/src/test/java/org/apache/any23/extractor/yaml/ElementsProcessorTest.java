@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -51,13 +52,13 @@ public class ElementsProcessorTest {
             }
         };
         
-        Map.Entry<Value, Model> toTest = ep.processMap(ep.vf.createIRI("http://example.org/"),
+        ElementsProcessor.ModelHolder toTest = ep.processMap(ep.vf.createIRI("http://example.org/"),
                 simpleMap,
                 ep.vf.createIRI("http://example.org/node1"));
         
-        Assert.assertEquals("http://example.org/node1", toTest.getKey().stringValue()); // if parent node is not blank than returns it as key
-        Assert.assertTrue(toTest.getValue().size() > 0);
-        log.debug("Model: \n{}\n", dumpModel(toTest.getValue(), RDFFormat.TURTLE));
+        Assert.assertEquals("http://example.org/node1", toTest.getRoot().stringValue()); // if parent node is not blank than returns it as key
+        Assert.assertTrue(toTest.getModel().size() > 0);
+        log.debug("Model: \n{}\n", dumpModel(toTest.getModel(), RDFFormat.TURTLE));
     }
     
     @Test
@@ -71,13 +72,13 @@ public class ElementsProcessorTest {
             }
         };
         
-        Map.Entry<Value, Model> toTest = ep.processList(ep.vf.createIRI("http://example.org/data"), simpleList);
+        ElementsProcessor.ModelHolder toTest = ep.processList(ep.vf.createIRI("http://example.org/data"), simpleList);
         Assert.assertNotNull(toTest);
-        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("Ala"), null));
-        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral(6), null));
-        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("ma"), null));
-        Assert.assertTrue(toTest.getValue().contains(null, RDF.FIRST, ep.vf.createLiteral("k".getBytes()[0]), null));
-        log.debug("Model: \n{}\n", dumpModel(toTest.getValue(), RDFFormat.TURTLE));
+        Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("Ala"), (Resource[]) null));
+        Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral(6), (Resource[]) null));
+        Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("ma"), (Resource[]) null));
+        Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("k".getBytes()[0]), (Resource[]) null));
+        log.debug("Model: \n{}\n", dumpModel(toTest.getModel(), RDFFormat.TURTLE));
     }
     
     @Test
@@ -92,9 +93,9 @@ public class ElementsProcessorTest {
         };
         
         simpleList.forEach((i) -> {
-            Map.Entry<Value, Model> out = ep.asModel(ep.vf.createIRI("urn:test/"), i, null);
-            Assert.assertTrue(out.getKey() instanceof Literal);
-            Assert.assertTrue(out.getValue().isEmpty());
+            ElementsProcessor.ModelHolder out = ep.asModel(ep.vf.createIRI("urn:test/"), i, null);
+            Assert.assertTrue(out.getRoot() instanceof Literal);
+            Assert.assertTrue(out.getModel().isEmpty());
         });
     }
     
