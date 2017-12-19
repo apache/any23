@@ -56,6 +56,9 @@ public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 8207685628715421336L;
 
+    private final static Pattern schemeAndSingleSlashRegex =
+            Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:/[^/]");
+
     // RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
     private final static Pattern schemeRegex =
             Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:");
@@ -157,7 +160,8 @@ public class Servlet extends HttpServlet {
     }
 
     private String getFormatFromRequest(HttpServletRequest request) {
-        if (request.getPathInfo() == null) return "best";
+        if (request.getPathInfo() == null)
+            return "best";
         String[] args = request.getPathInfo().split("/", 3);
         if (args.length < 2 || "".equals(args[1])) {
             if (request.getParameter("format") == null) {
@@ -170,7 +174,8 @@ public class Servlet extends HttpServlet {
     }
 
     private String getInputIRIFromRequest(HttpServletRequest request) {
-        if (request.getPathInfo() == null) return null;
+        if (request.getPathInfo() == null)
+            return null;
         String[] args = request.getPathInfo().split("/", 3);
         if (args.length < 3) {
             if (request.getParameter("uri") != null) {
@@ -202,20 +207,21 @@ public class Servlet extends HttpServlet {
         return schemeRegex.matcher(uri).find();
     }
 
-    private final static Pattern schemeAndSingleSlashRegex =
-            Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:/[^/]");
-
     private boolean hasOnlySingleSlashAfterScheme(String uri) {
         return schemeAndSingleSlashRegex.matcher(uri).find();
     }
 
     private String getContentTypeHeader(HttpServletRequest req) {
-        if (req.getHeader("Content-Type") == null) return null;
-        if ("".equals(req.getHeader("Content-Type"))) return null;
-        String contentType = req.getHeader("Content-Type");
+        String cType = "Content-Type";
+        if (req.getHeader(cType) == null)
+            return null;
+        if ("".equals(req.getHeader(cType)))
+            return null;
+        String contentType = req.getHeader(cType);
         // strip off parameters such as ";charset=UTF-8"
-        int index = contentType.indexOf(";");
-        if (index == -1) return contentType;
+        int index = contentType.indexOf(';');
+        if (index == -1)
+            return contentType;
         return contentType.substring(0, index);
     }
 
@@ -251,14 +257,18 @@ public class Servlet extends HttpServlet {
     }
 
     private ValidationMode getValidationMode(HttpServletRequest request) {
-        final String PARAMETER = "validation-mode";
-        final String validationMode = request.getParameter(PARAMETER);
-        if (validationMode == null) return ValidationMode.None;
-        if ("none".equalsIgnoreCase(validationMode)) return ValidationMode.None;
-        if ("validate".equalsIgnoreCase(validationMode)) return ValidationMode.Validate;
-        if ("validate-fix".equalsIgnoreCase(validationMode)) return ValidationMode.ValidateAndFix;
+        final String parameter = "validation-mode";
+        final String validationMode = request.getParameter(parameter);
+        if (validationMode == null)
+            return ValidationMode.None;
+        if ("none".equalsIgnoreCase(validationMode))
+            return ValidationMode.None;
+        if ("validate".equalsIgnoreCase(validationMode))
+            return ValidationMode.Validate;
+        if ("validate-fix".equalsIgnoreCase(validationMode))
+            return ValidationMode.ValidateAndFix;
         throw new IllegalArgumentException(
-                String.format("Invalid value '%s' for '%s' parameter.", validationMode, PARAMETER)
+                String.format("Invalid value '%s' for '%s' parameter.", validationMode, parameter)
         );
     }
 

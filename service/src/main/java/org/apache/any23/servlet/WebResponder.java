@@ -33,6 +33,7 @@ import org.apache.any23.writer.CountingTripleHandler;
 import org.apache.any23.writer.FormatWriter;
 import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
+import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.writer.WriterFactory;
 import org.apache.any23.writer.WriterFactoryRegistry;
 import sun.security.validator.ValidatorException;
@@ -94,7 +95,7 @@ class WebResponder {
         this.any23servlet = any23servlet;
         this.response = response;
         this.runner = new Any23();
-        runner.setHTTPUserAgent("Any23-Servlet");
+        runner.setHTTPUserAgent("Apache Any23 Servlet http://any23.org/");
     }
 
     protected Any23 getRunner() {
@@ -107,9 +108,11 @@ class WebResponder {
             String format,
             boolean report, boolean annotate
     ) throws IOException {
-        if (in == null) return;
-        if (!initRdfWriter(format, report, annotate)) return;
-        final ExtractionReport er;
+        if (in == null)
+          return;
+        if (!initRdfWriter(format, report, annotate))
+          return;
+        ExtractionReport er = null;
         try {
             er = runner.extract(eps, in, rdfWriter);
             rdfWriter.close();
@@ -135,9 +138,20 @@ class WebResponder {
             sendError(502, "Could not fetch input.", ioe, null, report);
             return;
         } catch (ExtractionException e) {
-            // Extraction error.
-            any23servlet.log("Could not parse input", e);
-            sendError(502, "Could not parse input.", e, null, report);
+            if (rdfWriter != null) {
+                try {
+                    rdfWriter.close();
+                } catch (TripleHandlerException the) {
+                    throw new RuntimeException("Error while closing TripleHandler", the);
+                }
+            }
+
+            // Extraction error. Although there is a critical error we still wish 
+            // to return accurate, partial extraction results to the user
+            String extractionError = "Failed to fully parse input. The extraction result, at the bottom "
+                    + "of this response, if any, will contain extractions only up until the extraction error.";
+            any23servlet.log(extractionError, e);
+            sendError(502, extractionError, e, er, report);
             return;
         } catch (Exception e) {
             any23servlet.log("Internal error", e);
@@ -207,7 +221,8 @@ class WebResponder {
         for(Extractor<?> extractor : er.getMatchingExtractors()) {
             final String name = extractor.getDescription().getExtractorName();
             final Collection<IssueReport.Issue> extractorIssues = er.getExtractorIssues(name);
-            if(extractorIssues.isEmpty()) continue;
+            if(extractorIssues.isEmpty())
+                continue;
             ps.println( String.format("<extractorIssues extractor=\"%s\">", name));
             for(IssueReport.Issue issue : er.getExtractorIssues(name)) {
                 ps.println(
@@ -232,7 +247,7 @@ class WebResponder {
 
         // Human readable error message.
         if(msg != null) {
-            ps.printf("<message>%s</message>\n", msg);
+            ps.printf("<message>%s</message>%n", msg);
         } else {
             ps.print("<message/>\n");
         }
@@ -278,7 +293,9 @@ class WebResponder {
     throws IOException {
         response.setStatus(code);
         response.setContentType("text/plain");
-        final PrintStream ps = new PrintStream(response.getOutputStream());
+        final ServletOutputStream sos = response.getOutputStream();
+        final PrintStream ps = new PrintStream(sos);
+        final byte[] data = byteOutStream.toByteArray();
         if (report) {
             try {
                 printHeader(ps);
@@ -292,6 +309,7 @@ class WebResponder {
                 ps.println("================================================================");
                 e.printStackTrace(ps);
                 ps.println("================================================================");
+                printData(data, ps);
             }
         }
     }
@@ -343,8 +361,7 @@ class WebResponder {
         } else {
             return null;
         }
-        final WriterFactory writer = writerRegistry.getWriterByIdentifier(finalFormat);
-        return writer;
+        return writerRegistry.getWriterByIdentifier(finalFormat);
     }
 
 }

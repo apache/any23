@@ -110,8 +110,8 @@ public class MediaRangeSpec {
         if ("*".equals(type) && !"*".equals(subtype)) {
             return null;
         }
-        List<String> parameterNames = new ArrayList<String>();
-        List<String> parameterValues = new ArrayList<String>();
+        List<String> parameterNames = new ArrayList<>();
+        List<String> parameterValues = new ArrayList<>();
         while (m.find()) {
             String name = m.group(1).toLowerCase();
             String value = (m.group(3) == null) ? m.group(2) : unescape(m.group(3));
@@ -136,7 +136,7 @@ public class MediaRangeSpec {
      * @return A List of MediaRangeSpecs
      */
     public static List<MediaRangeSpec> parseAccept(String s) {
-        List<MediaRangeSpec> result = new ArrayList<MediaRangeSpec>();
+        List<MediaRangeSpec> result = new ArrayList<>();
         Matcher m = mediaRangePattern.matcher(s);
         while (m.find()) {
             result.add(parseRange(m.group()));
@@ -175,7 +175,7 @@ public class MediaRangeSpec {
             result.append(";");
             result.append(parameterNames.get(i));
             result.append("=");
-            String value = (String) parameterValues.get(i);
+            String value = parameterValues.get(i);
             if (tokenPattern.matcher(value).matches()) {
                 result.append(value);
             } else {
@@ -205,7 +205,7 @@ public class MediaRangeSpec {
 
     public String getParameter(String parameterName) {
         for (int i = 0; i < parameterNames.size(); i++) {
-            if (parameterNames.get(i).equals(parameterName.toLowerCase())) {
+            if (parameterNames.get(i).equalsIgnoreCase(parameterName)) {
                 return parameterValues.get(i);
             }
         }
@@ -225,16 +225,22 @@ public class MediaRangeSpec {
     }
 
     public int getPrecedence(MediaRangeSpec range) {
-        if (range.isWildcardType()) return 1;
-        if (!range.type.equals(type)) return 0;
-        if (range.isWildcardSubtype()) return 2;
-        if (!range.subtype.equals(subtype)) return 0;
-        if (range.getParameterNames().isEmpty()) return 3;
+        if (range.isWildcardType())
+          return 1;
+        if (!range.type.equals(type))
+          return 0;
+        if (range.isWildcardSubtype())
+          return 2;
+        if (!range.subtype.equals(subtype))
+          return 0;
+        if (range.getParameterNames().isEmpty())
+          return 3;
         int result = 3;
         for (int i = 0; i < range.getParameterNames().size(); i++) {
             String name  = range.getParameterNames().get(i);
             String value = range.getParameter(name);
-            if (!value.equals(getParameter(name))) return 0;
+            if (!value.equals(getParameter(name)))
+              return 0;
             result++;
         }
         return result;
@@ -254,6 +260,7 @@ public class MediaRangeSpec {
         return result;
     }
 
+    @Override
     public String toString() {
         return mediaType + ";q=" + quality;
     }

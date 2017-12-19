@@ -29,11 +29,11 @@ import java.util.regex.Pattern;
  */
 public class ContentTypeNegotiator {
 
-    private List<VariantSpec> variantSpecs = new ArrayList<VariantSpec>();
+    private List<VariantSpec> variantSpecs = new ArrayList<>();
 
     private List<MediaRangeSpec> defaultAcceptRanges = Collections.singletonList(MediaRangeSpec.parseRange("*/*"));
     
-    private Collection<AcceptHeaderOverride> userAgentOverrides = new ArrayList<AcceptHeaderOverride>();
+    private Collection<AcceptHeaderOverride> userAgentOverrides = new ArrayList<>();
 
     protected ContentTypeNegotiator(){}
 
@@ -123,7 +123,7 @@ public class ContentTypeNegotiator {
     protected class VariantSpec {
 
         private MediaRangeSpec type;
-        private List<MediaRangeSpec> aliases = new ArrayList<MediaRangeSpec>();
+        private List<MediaRangeSpec> aliases = new ArrayList<>();
         private boolean isDefault = false;
 
         public VariantSpec(String mediaType) {
@@ -182,7 +182,8 @@ public class ContentTypeNegotiator {
         }
 
         private void evaluateVariantAlias(MediaRangeSpec variant, MediaRangeSpec isAliasFor) {
-            if (variant.getBestMatch(ranges) == null) return;
+            if (variant.getBestMatch(ranges) == null)
+              return;
             double q = variant.getBestMatch(ranges).getQuality();
             if (q * variant.getQuality() > bestMatchingQuality) {
                 bestMatchingVariant = isAliasFor;
@@ -213,10 +214,6 @@ public class ContentTypeNegotiator {
             this.userAgentPattern = userAgentPattern;
             this.original = original;
             this.replacement = replacement;
-        }
-
-        boolean matches(String acceptHeader) {
-            return matches(acceptHeader, null);
         }
 
         boolean matches(String acceptHeader, String userAgentHeader) {
