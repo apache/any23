@@ -45,7 +45,6 @@ import org.apache.any23.writer.RepositoryWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.repository.Repository;
@@ -207,7 +206,6 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws org.apache.any23.extractor.ExtractionException
      */
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testDemoCodeSnippet2() throws Exception {
         assumeOnlineAllowed();
@@ -299,7 +297,6 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws URISyntaxException
      * @throws ExtractionException
      */
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testGZippedContent() throws IOException, URISyntaxException,
             ExtractionException {
@@ -449,7 +446,6 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws ExtractionException
      */
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testXMLMimeTypeManagementViaURL() throws IOException,
             ExtractionException {
@@ -464,7 +460,6 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertEquals(0, cth.getCount());
     }
 
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testBlankNodesViaURL() throws IOException, ExtractionException {
         assumeOnlineAllowed();
@@ -477,7 +472,6 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertTrue(report.hasMatchingExtractors());
     }
 
-    @Ignore("Itemscope parsing issue")
     @Test
     public void testMicrodataSupport() throws Exception {
         final String htmlWithMicrodata = IOUtils.toString(this.getClass()
