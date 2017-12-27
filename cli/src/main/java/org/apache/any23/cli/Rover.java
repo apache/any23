@@ -154,9 +154,9 @@ public class Rover implements Tool {
         extractionParameters =
                 pedantic
                         ?
-                new ExtractionParameters(configuration, ValidationMode.ValidateAndFix, nestingDisabled)
+                new ExtractionParameters(configuration, ValidationMode.VALIDATE_AND_FIX, nestingDisabled)
                         :
-                new ExtractionParameters(configuration, ValidationMode.None          , nestingDisabled);
+                new ExtractionParameters(configuration, ValidationMode.NONE          , nestingDisabled);
         if (defaultns != null) {
             extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_IRI_PROPERTY,
                                              defaultns);

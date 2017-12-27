@@ -38,10 +38,12 @@ public class MetaNameMisuseRule implements Rule {
 
     public static final String ERRORED_META_NODES = "errored-meta-nodes";
 
+    @Override
     public String getHRName() {
         return "meta-name-misuse-rule";
     }
 
+    @Override
     public boolean applyOn(
             DOMDocument document,
             @SuppressWarnings("rawtypes") RuleContext context,
@@ -49,14 +51,14 @@ public class MetaNameMisuseRule implements Rule {
     ) {
         List<Node> metaNodes = document.getNodes("/HTML/HEAD/META");
         boolean foundIssue = false;
-        final List<Node> wrongMetaNodes = new ArrayList<Node>();
+        final List<Node> wrongMetaNodes = new ArrayList<>();
         for(Node metaNode : metaNodes) {
             Node nameNode = metaNode.getAttributes().getNamedItem("name");
             if(nameNode != null && nameNode.getTextContent().contains(":")) {
                 foundIssue = true;
                 wrongMetaNodes.add(metaNode);
                 validationReportBuilder.reportIssue(
-                        ValidationReport.IssueLevel.error,
+                        ValidationReport.IssueLevel.ERROR,
                         "Error detected in meta node: name property contains a prefixed value.",
                         metaNode
                 );

@@ -34,10 +34,12 @@ import java.util.List;
  */
 public class MetaNameMisuseFix implements Fix {
 
+    @Override
     public String getHRName() {
         return "meta-name-misuse-fix";
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
         List<Node> nodes = (List<Node>) context.getData(MetaNameMisuseRule.ERRORED_META_NODES);

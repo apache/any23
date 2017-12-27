@@ -18,6 +18,7 @@ package org.apache.any23.validator.rule;
 
 import java.util.List;
 
+import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.validator.DOMDocument;
 import org.apache.any23.validator.Rule;
 import org.apache.any23.validator.RuleContext;
@@ -45,6 +46,7 @@ public class MissingItemscopeAttributeValueRule implements Rule {
    * Default constructor
    */
   public MissingItemscopeAttributeValueRule() {
+    //default costructor
   }
 
   @Override
@@ -60,7 +62,7 @@ public class MissingItemscopeAttributeValueRule implements Rule {
       ValidationReportBuilder validationReportBuilder) {
     List<Node> itemNodes = document.getNodesWithAttribute("itemscope");
     boolean foundPrecondition = false;
-    String propertyNode = null;
+    String propertyNode;
     Node iNode = null;
     for(Node itemNode : itemNodes) {
       iNode = itemNode;
@@ -72,7 +74,7 @@ public class MissingItemscopeAttributeValueRule implements Rule {
     }
     if(foundPrecondition) {
       validationReportBuilder.reportIssue(
-          ValidationReport.IssueLevel.error,
+          ValidationReport.IssueLevel.ERROR,
           "Located absence of an accompanying value for the the 'itemscope' attribute of element with hashcode: " + iNode.hashCode(),
           iNode
           );

@@ -56,11 +56,11 @@ public class Servlet extends HttpServlet {
 
     private static final long serialVersionUID = 8207685628715421336L;
 
-    private final static Pattern schemeAndSingleSlashRegex =
+    private static final Pattern schemeAndSingleSlashRegex =
             Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:/[^/]");
 
     // RFC 3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
-    private final static Pattern schemeRegex =
+    private static final Pattern schemeRegex =
             Pattern.compile("^[a-zA-Z][a-zA-Z0-9.+-]*:");
 
     @Override
@@ -142,8 +142,6 @@ public class Servlet extends HttpServlet {
         MediaRangeSpec result = Any23Negotiator.getNegotiator().getBestMatch(request.getHeader("Accept"));
         if (result == null) {
             return null;
-        } else if (RDFFormat.TURTLE.hasMIMEType(result.getMediaType())) {
-            return "turtle";
         } else if (RDFFormat.N3.hasMIMEType(result.getMediaType())) {
             return "n3";
         } else if (RDFFormat.NQUADS.hasMIMEType(result.getMediaType())) {
@@ -155,7 +153,7 @@ public class Servlet extends HttpServlet {
         } else if (RDFFormat.JSONLD.hasMIMEType(result.getMediaType())) {
             return "ld+json";
         } else {
-            return "turtle";    // shouldn't happen
+            return "turtle"; // shouldn't happen however default is turtle
         }
     }
 
@@ -260,13 +258,13 @@ public class Servlet extends HttpServlet {
         final String parameter = "validation-mode";
         final String validationMode = request.getParameter(parameter);
         if (validationMode == null)
-            return ValidationMode.None;
+            return ValidationMode.NONE;
         if ("none".equalsIgnoreCase(validationMode))
-            return ValidationMode.None;
+            return ValidationMode.NONE;
         if ("validate".equalsIgnoreCase(validationMode))
-            return ValidationMode.Validate;
+            return ValidationMode.VALIDATE;
         if ("validate-fix".equalsIgnoreCase(validationMode))
-            return ValidationMode.ValidateAndFix;
+            return ValidationMode.VALIDATE_AND_FIX;
         throw new IllegalArgumentException(
                 String.format("Invalid value '%s' for '%s' parameter.", validationMode, parameter)
         );

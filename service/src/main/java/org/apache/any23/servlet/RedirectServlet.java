@@ -17,10 +17,15 @@
 
 package org.apache.any23.servlet;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
 /**
@@ -30,11 +35,22 @@ import java.io.IOException;
  * @author Davide Palmisano ( palmisano@fbk.eu )
  */
 public class RedirectServlet extends HttpServlet {
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(RedirectServlet.class);
+
+    /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        doGet(request, response);
+        try {
+            doGet(request, response);
+        } catch (ServletException | IOException e) {
+            LOG.error("Error executing GET request.", e);
+        }
     }
 
     @Override
@@ -44,21 +60,36 @@ public class RedirectServlet extends HttpServlet {
         final String pathInfo = request.getPathInfo();
         final String queryString = request.getQueryString();
 
-        if (("/".equals(pathInfo) && queryString == null)) {
-            getServletContext().getRequestDispatcher("/resources/form.html").forward(request, response);
+        if ("/".equals(pathInfo) && queryString == null) {
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/resources/form.html");
+            try {
+                dispatcher.forward(request, response);
+            } catch (ServletException | IOException e) {
+                LOG.error("Error in request dispatcher forwarding.", e);
+            }
             return;
         }
         // forward requests to /resources/* to the default servlet, this is
         // where we can put static files
         if (pathInfo.startsWith("/resources/")) {
-            getServletContext().getNamedDispatcher("default").forward(request, response);
+            RequestDispatcher dispatcher = getServletContext().getNamedDispatcher("default");
+            try {
+              dispatcher.forward(request, response);
+            } catch (ServletException | IOException e) {
+                LOG.error("Error in named request dispatcher forwarding.", e);
+            }
             return;
         }
 
-        response.sendRedirect(
-                request.getContextPath() + "/any23" +
-                        request.getPathInfo() +
-                        (queryString == null ? "" : "?" + queryString)
-        );
+        try {
+            response.sendRedirect(
+                  request.getContextPath() + "/any23" +
+                          request.getPathInfo() +
+                          (queryString == null ? "" : "?" + queryString)
+            );
+        } catch (IOException e) {
+            LOG.error("Error in sending HttpServletResponse Redirect.", e);
+        }
+        
     }
 }

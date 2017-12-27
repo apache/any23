@@ -343,7 +343,7 @@ public class Any23Test extends Any23OnlineTestBase {
         try {
             runner.extract(
                     new ExtractionParameters(DefaultConfiguration.singleton(),
-                            ValidationMode.None), source, compositeTH1);
+                            ValidationMode.NONE), source, compositeTH1);
         } finally {
             compositeTH1.close();
         }
@@ -383,7 +383,7 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH1.addChild(ctw1);
         runner.extract(
                 new ExtractionParameters(DefaultConfiguration.singleton(),
-                        ValidationMode.None, true), source, compositeTH1);
+                        ValidationMode.NONE, true), source, compositeTH1);
         compositeTH1.close();
         logger.debug("Out1: " + baos.toString());
         Assert.assertEquals("Unexpected number of triples.",
@@ -397,7 +397,7 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH2.addChild(ctw2);
         runner.extract(
                 new ExtractionParameters(DefaultConfiguration.singleton(),
-                        ValidationMode.ValidateAndFix, false), source,
+                        ValidationMode.VALIDATE_AND_FIX, false), source,
                 compositeTH2);
         compositeTH2.close();
         logger.debug("Out2: " + baos.toString());
@@ -558,7 +558,7 @@ public class Any23Test extends Any23OnlineTestBase {
         ReportingTripleHandler outputHandler = new ReportingTripleHandler(
                 new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(
                         new NTriplesWriter(out))));
-        return any23.extract(new ExtractionParameters(conf, ValidationMode.ValidateAndFix, null, null), 
+        return any23.extract(new ExtractionParameters(conf, ValidationMode.VALIDATE_AND_FIX, null, null), 
             new StringDocumentSource(in, "http://host.com/path"), outputHandler, "UTF-8");
     }
 

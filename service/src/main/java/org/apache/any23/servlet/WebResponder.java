@@ -329,7 +329,7 @@ class WebResponder {
         FormatWriter fw = factory.getRdfWriter(byteOutStream);
         fw.setAnnotated(annotate);
         outputMediaType = factory.getMimeType();
-        List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
+        List<TripleHandler> tripleHandlers = new ArrayList<>();
         tripleHandlers.add(new IgnoreAccidentalRDFa(fw));
         tripleHandlers.add(new CountingTripleHandler());
         rdfWriter = new CompositeTripleHandler(tripleHandlers);
