@@ -242,18 +242,18 @@
 
     <httpclient.version>4.5.3</httpclient.version>
     <httpcore.version>4.4.6</httpcore.version>
-    <owlapi.version>5.1.0</owlapi.version>
+    <owlapi.version>5.1.3</owlapi.version>
     <poi.version>3.16</poi.version>
-    <rdf4j.version>2.2.2</rdf4j.version>
+    <rdf4j.version>2.2.4</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.25</slf4j.logger.version>
-    <tika.version>1.15</tika.version>
+    <tika.version>1.17</tika.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
 
     <!-- Used to track API changes based on Semantic Versioning -->
-    <latest.stable.released>2.0</latest.stable.released>
+    <latest.stable.released>2.1</latest.stable.released>
 
     <!-- Google Analytics id for website -->
     <form.tracker.id>UA-59636188-1</form.tracker.id>

@@ -28,7 +28,9 @@ import org.apache.any23.extractor.microdata.MicrodataExtractor;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.http.DefaultHTTPClient;
+import org.apache.any23.http.DefaultHTTPClientConfiguration;
 import org.apache.any23.http.HTTPClient;
+import org.apache.any23.http.HTTPClientConfiguration;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
@@ -211,7 +213,7 @@ public class Any23Test extends Any23OnlineTestBase {
         assumeOnlineAllowed();
 
         /* 1 */Any23 runner = new Any23();
-        /* 2 */runner.setHTTPUserAgent("test-user-agent");
+        /* 2 */runner.setHTTPUserAgent("apache-any23-test-user-agent");
         /* 3 */HTTPClient httpClient = runner.getHTTPClient();
         /* 4 */DocumentSource source = new HTTPDocumentSource(httpClient,
                 "http://dbpedia.org/resource/Trento");
@@ -301,20 +303,16 @@ public class Any23Test extends Any23OnlineTestBase {
     public void testGZippedContent() throws IOException, URISyntaxException,
             ExtractionException {
         assumeOnlineAllowed();
-
-        Any23 runner = new Any23();
-        runner.setHTTPUserAgent("test-user-agent");
-        HTTPClient httpClient = runner.getHTTPClient();
-        DocumentSource source = new HTTPDocumentSource(httpClient,
-                "http://products.semweb.bestbuy.com/y/products/7590289/");
+        final Any23 runner = new Any23();
+        runner.setHTTPUserAgent("apache-any23-test-user-agent");
+        DocumentSource source = new HTTPDocumentSource(runner.getHTTPClient(),
+                "https://dev.w3.org/html5/rdfa/");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TripleHandler handler = new NTriplesWriter(out);
         runner.extract(source, handler);
         String n3 = out.toString("UTF-8");
-
         logger.debug("N3 " + n3);
         Assert.assertTrue(n3.length() > 0);
-
     }
 
     @Test
@@ -451,11 +449,14 @@ public class Any23Test extends Any23OnlineTestBase {
             ExtractionException {
         assumeOnlineAllowed();
         final Any23 any23 = new Any23();
-        any23.setHTTPUserAgent("test-user-agent");
+        any23.setHTTPUserAgent("apache-any23-test-user-agent");
+        HTTPClient client = any23.getHTTPClient();
+        HTTPClientConfiguration configuration = new DefaultHTTPClientConfiguration("application/xml");
+        client.init(configuration);
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(
-                "http://www.nativeremedies.com/XML/combos.xml", rth);
+                "http://www.legislation.gov.uk/ukpga/2015/17/section/4/data.xml", rth);
         Assert.assertFalse(report.hasMatchingExtractors());
         Assert.assertEquals(0, cth.getCount());
     }
@@ -464,11 +465,11 @@ public class Any23Test extends Any23OnlineTestBase {
     public void testBlankNodesViaURL() throws IOException, ExtractionException {
         assumeOnlineAllowed();
         final Any23 any23 = new Any23();
-        any23.setHTTPUserAgent("test-user-agent");
+        any23.setHTTPUserAgent("apache-any23-test-user-agent");
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(
-                "http://www.usarab.org/news/?tag=england", rth);
+                "https://www.w3.org/", rth);
         Assert.assertTrue(report.hasMatchingExtractors());
     }
 

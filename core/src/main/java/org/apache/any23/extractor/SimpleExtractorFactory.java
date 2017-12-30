@@ -34,45 +34,9 @@ public abstract class SimpleExtractorFactory<T extends Extractor<?>> implements 
 
     private final Prefixes prefixes;
 
-    private Collection<MIMEType> supportedMIMETypes = new ArrayList<MIMEType>();
+    private Collection<MIMEType> supportedMIMETypes = new ArrayList<>();
 
     private String exampleInput;
-    
-    /**
-     * @return the name of the {@link Extractor}
-     */
-    public String getExtractorName() {
-        return name;
-    }
-
-    /**
-     * @return the label of the {@link Extractor}
-     */
-    public String getExtractorLabel() {
-        return this.getClass().getName();
-    }
-
-    /**
-     * @return the handled {@link org.apache.any23.rdf.Prefixes}
-     */
-    public Prefixes getPrefixes() {
-        return prefixes;
-    }
-
-    /**
-     * @return the supported {@link org.apache.any23.mime.MIMEType}
-     */
-    public Collection<MIMEType> getSupportedMIMETypes() {
-        return supportedMIMETypes;
-    }
-
-    /**
-     * @return an input example
-     */
-    @Override
-    public String getExampleInput() {
-        return exampleInput;
-    }
 
     protected SimpleExtractorFactory(
             String name,
@@ -80,7 +44,7 @@ public abstract class SimpleExtractorFactory<T extends Extractor<?>> implements 
         this.name = name;
         this.prefixes = prefixes;
     }
-    
+
     protected SimpleExtractorFactory(
             String name,
             Prefixes prefixes,
@@ -93,6 +57,46 @@ public abstract class SimpleExtractorFactory<T extends Extractor<?>> implements 
             this.supportedMIMETypes.add(MIMEType.parse(type));
         }
         this.exampleInput = exampleInput;
+    }
+
+    /**
+     * @return the name of the {@link Extractor}
+     */
+    @Override
+    public String getExtractorName() {
+        return name;
+    }
+
+    /**
+     * @return the label of the {@link Extractor}
+     */
+    @Override
+    public String getExtractorLabel() {
+        return this.getClass().getName();
+    }
+
+    /**
+     * @return the handled {@link org.apache.any23.rdf.Prefixes}
+     */
+    @Override
+    public Prefixes getPrefixes() {
+        return prefixes;
+    }
+
+    /**
+     * @return the supported {@link org.apache.any23.mime.MIMEType}
+     */
+    @Override
+    public Collection<MIMEType> getSupportedMIMETypes() {
+        return supportedMIMETypes;
+    }
+
+    /**
+     * @return an input example
+     */
+    @Override
+    public String getExampleInput() {
+        return exampleInput;
     }
 
 }

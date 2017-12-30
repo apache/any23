@@ -11,22 +11,6 @@ Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
 Any23 documentation can be found on the [website](http://any23.apache.org)
 
-# Distribution Content
-
- * [api](https://github.com/apache/any23/tree/master/api): Any23 library external API.
- * [core](https://github.com/apache/any23/tree/master/core): The library core codebase.
- * [csvutils](https://github.com/apache/any23/tree/master/csvutils): A CSV specific package
- * [encoding](https://github.com/apache/any23/tree/master/encoding): Encoding detection library.
- * [mime](https://github.com/apache/any23/tree/master/mime): MIME Type detection library.
- * [nquads](https://github.com/apache/any23/tree/master/nquads): NQuads parsing and serialization library.
- * [plugins](https://github.com/apache/any23/tree/master/plugins): Library plugins codebase (read [plugins/README.md](https://github.com/apache/any23/blob/master/plugins/README.md) for further details).
- * [service](https://github.com/apache/any23/tree/master/service): The library HTTP service codebase.
- * [src](https://github.com/apache/any23/tree/master/src): Packaging for Any23 artifacts.
- * [test-resources](https://github.com/apache/any23/tree/master/test-resources): Material relating to Any23 JUnit test cases.
- * [RELEASE-NOTES.txt](https://github.com/apache/any23/blob/master/RELEASE-NOTES.txt): File reporting main release notes for every version.
- * [LICENSE.txt](https://github.com/apache/any23/blob/master/LICENSE.txt): Applicable project license.
- * README.md: This file.
-
 # Online Documentation
 
 For details on the command line tool and web interface, see [here](http://any23.apache.org/getting-started.html)

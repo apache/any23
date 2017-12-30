@@ -36,7 +36,7 @@ public class RDFa11ExtractorFactory extends SimpleExtractorFactory<RDFa11Extract
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new RDFa11ExtractorFactory();
-    
+
     public RDFa11ExtractorFactory() {
         super(
                 RDFa11ExtractorFactory.NAME, 
@@ -44,7 +44,7 @@ public class RDFa11ExtractorFactory extends SimpleExtractorFactory<RDFa11Extract
                 Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
                 "example-rdfa11.html");
     }
-    
+
     @Override
     public RDFa11Extractor createExtractor() {
         return new RDFa11Extractor();
