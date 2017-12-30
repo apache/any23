@@ -62,7 +62,7 @@ public class CrawlerTest extends Any23OnlineTestBase {
                         ToolRunner.main(
                                 String.format(
                                         "crawler -f nquads --maxpages 50 --maxdepth 1 --politenessdelay 500 -o %s " +
-                                        "http://eventiesagre.it/",
+                                        "http://any23.apache.org",
                                         outFile.getAbsolutePath()
                                 ).split(" ")
                         );
