@@ -88,9 +88,9 @@ public class DefaultValidatorTest {
       ValidationReport validationReport = validator.validate(document, true);
       List<Node> fixedItemScopeNodes = document.getNodesWithAttribute("itemscope");
       for (Node node : fixedItemScopeNodes) {
-        // all nodes with itemscope now have a default value of "" e.g. empty string
+        // all nodes with itemscope now have a default value of "itemscope"
         Assert.assertNotNull(node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-        Assert.assertEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
+        Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
       }
       if(logger.isDebugEnabled()) {
           logger.debug( validationReport.toString() );

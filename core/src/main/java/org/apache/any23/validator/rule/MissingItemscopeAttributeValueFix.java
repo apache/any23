@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
  */
 public class MissingItemscopeAttributeValueFix implements Fix {
 
-  private static final String EMPTY_ITEMSCOPE_VALUE = "";
+  private static final String EMPTY_ITEMSCOPE_VALUE = "itemscope";
   
   private static final String ITEMSCOPE = "itemscope";
 
@@ -57,10 +57,6 @@ public class MissingItemscopeAttributeValueFix implements Fix {
       if (itemScopeNode.getTextContent() == null || itemScopeNode.getTextContent() == "") {
         String node = DomUtils.getXPathForNode(itemScopeContainerElement);
         document.addAttribute(node, ITEMSCOPE, EMPTY_ITEMSCOPE_VALUE);
-        //newItemScopeContainerElement.getAttributes().removeNamedItem(ITEMSCOPE);
-        //Attr newItemScopeNode = document.getOriginalDocument().createAttribute(ITEMSCOPE);
-        //newItemScopeNode.setNodeValue(EMPTY_ITEMSCOPE_VALUE);
-        //newItemScopeContainerElement.getAttributes().setNamedItem(newItemScopeNode);
       }
     }
   }
