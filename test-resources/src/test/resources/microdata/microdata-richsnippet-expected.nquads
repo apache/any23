@@ -15,15 +15,18 @@
 #  limitations under the License.
 #
 
-_:nodee6ae2861b16a51a6519079d82c13763 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data-vocabulary.org/Person> <http://bob.example.com/> .
-_:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/title> "graduate research assistant" <http://bob.example.com/> .
-_:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/nickname> "Johnny" <http://bob.example.com/> .
-_:node14cf7264b949d7a9e18598d198e5f65 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data-vocabulary.org/Address> <http://bob.example.com/> .
-_:node14cf7264b949d7a9e18598d198e5f65 <http://data-vocabulary.org/Address/region> "Georgia" <http://bob.example.com/> .
-_:node14cf7264b949d7a9e18598d198e5f65 <http://data-vocabulary.org/Address/locality> "Warner Robins" <http://bob.example.com/> .
-_:node14cf7264b949d7a9e18598d198e5f65 <http://data-vocabulary.org/Address/street-address> "1234 Peach Drive" <http://bob.example.com/> .
-_:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/address> _:node14cf7264b949d7a9e18598d198e5f65 <http://bob.example.com/> .
-_:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/name> "John Doe" <http://bob.example.com/> .
-_:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/affiliation> "University of Dreams" <http://bob.example.com/> .
-_:nodee6ae2861b16a51a6519079d82c13763 <http://data-vocabulary.org/Person/url> <http://www.JohnnyD.com> <http://bob.example.com/> .
-<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodee6ae2861b16a51a6519079d82c13763 <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data-vocabulary.org/Person> <http://bob.example.com/> .
+_:nodee94f8737ad89876c85bd87156a1eb585 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://data-vocabulary.org/Address> <http://bob.example.com/> .
+_:nodee94f8737ad89876c85bd87156a1eb585 <http://data-vocabulary.org/Address/street-address> "1234 Peach Drive" <http://bob.example.com/> .
+_:nodee94f8737ad89876c85bd87156a1eb585 <http://data-vocabulary.org/Address/locality> "Warner Robins" <http://bob.example.com/> .
+_:nodee94f8737ad89876c85bd87156a1eb585 <http://data-vocabulary.org/Address/region> "Georgia" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/address> _:nodee94f8737ad89876c85bd87156a1eb585 <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/affiliation> "University of Dreams" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/street-address> "1234 Peach Drive" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/name> "John Doe" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/nickname> "Johnny" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/locality> "Warner Robins" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/title> "graduate research assistant" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/region> "Georgia" <http://bob.example.com/> .
+_:node9423934b5f186fd49d90edd31b5625ba <http://data-vocabulary.org/Person/url> <http://www.JohnnyD.com> <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node9423934b5f186fd49d90edd31b5625ba <http://bob.example.com/> .

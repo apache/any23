@@ -21,11 +21,9 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.vocab.CSV;
 import org.junit.Test;
-import org.eclipse.rdf4j.model.impl.LiteralImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
-import org.eclipse.rdf4j.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,93 +34,93 @@ import org.slf4j.LoggerFactory;
  */
 public class CSVExtractorTest extends AbstractExtractorTestCase {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(CSVExtractorTest.class);
+  private static final Logger logger = LoggerFactory
+          .getLogger(CSVExtractorTest.class);
 
-	@Override
-	protected ExtractorFactory<?> getExtractorFactory() {
-		return new CSVExtractorFactory();
-	}
+  @Override
+  protected ExtractorFactory<?> getExtractorFactory() {
+    return new CSVExtractorFactory();
+  }
 
-	@Test
-	public void testExtractionCommaSeparated() throws Exception {
-		CSV csv = CSV.getInstance();
-		assertExtract("/org/apache/any23/extractor/csv/test-comma.csv");
-		logger.debug(dumpModelToRDFXML());
+  @Test
+  public void testExtractionCommaSeparated() throws Exception {
+    CSV csv = CSV.getInstance();
+    assertExtract("/org/apache/any23/extractor/csv/test-comma.csv");
+    logger.debug(dumpModelToRDFXML());
 
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 28);
-		assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-		assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
-				XMLSchema.INTEGER));
-		assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
-				XMLSchema.INTEGER));
-	}
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 28);
+    assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+    assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
+            XMLSchema.INTEGER));
+    assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
+            XMLSchema.INTEGER));
+  }
 
-	@Test
-	public void testExtractionSemicolonSeparated() throws Exception {
-		CSV csv = CSV.getInstance();
-		assertExtract("/org/apache/any23/extractor/csv/test-semicolon.csv");
-		logger.debug(dumpModelToRDFXML());
+  @Test
+  public void testExtractionSemicolonSeparated() throws Exception {
+    CSV csv = CSV.getInstance();
+    assertExtract("/org/apache/any23/extractor/csv/test-semicolon.csv");
+    logger.debug(dumpModelToRDFXML());
 
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 28);
-		assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-		assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
-				XMLSchema.INTEGER));
-		assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
-				XMLSchema.INTEGER));
-	}
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 28);
+    assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+    assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
+            XMLSchema.INTEGER));
+    assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
+            XMLSchema.INTEGER));
+  }
 
-	@Test
-	public void testExtractionTabSeparated() throws Exception {
-		CSV csv = CSV.getInstance();
-		assertExtract("/org/apache/any23/extractor/csv/test-tab.csv");
-		logger.debug(dumpModelToRDFXML());
+  @Test
+  public void testExtractionTabSeparated() throws Exception {
+    CSV csv = CSV.getInstance();
+    assertExtract("/org/apache/any23/extractor/csv/test-tab.csv");
+    logger.debug(dumpModelToRDFXML());
 
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 28);
-		assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-		assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
-				XMLSchema.INTEGER));
-		assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
-				XMLSchema.INTEGER));
-	}
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 28);
+    assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+    assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
+            XMLSchema.INTEGER));
+    assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
+            XMLSchema.INTEGER));
+  }
 
-	@Test
-	public void testTypeManagement() throws Exception {
-		CSV csv = CSV.getInstance();
-		assertExtract("/org/apache/any23/extractor/csv/test-type.csv");
-		logger.debug(dumpModelToRDFXML());
+  @Test
+  public void testTypeManagement() throws Exception {
+    CSV csv = CSV.getInstance();
+    assertExtract("/org/apache/any23/extractor/csv/test-type.csv");
+    logger.debug(dumpModelToRDFXML());
 
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 21);
-		assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-		assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("2",
-				XMLSchema.INTEGER));
-		assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
-				XMLSchema.INTEGER));
-		assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("5.2", XMLSchema.FLOAT));
-		assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("7.9", XMLSchema.FLOAT));
-		assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("10", XMLSchema.INTEGER));
-	}
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 21);
+    assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+    assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("2",
+            XMLSchema.INTEGER));
+    assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
+            XMLSchema.INTEGER));
+    assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("5.2", XMLSchema.FLOAT));
+    assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("7.9", XMLSchema.FLOAT));
+    assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("10", XMLSchema.INTEGER));
+  }
 
-	@Test
-	public void testExtractionEmptyValue() throws Exception {
-		CSV csv = CSV.getInstance();
-		assertExtract("/org/apache/any23/extractor/csv/test-missing.csv");
-		logger.debug(dumpModelToRDFXML());
+  @Test
+  public void testExtractionEmptyValue() throws Exception {
+    CSV csv = CSV.getInstance();
+    assertExtract("/org/apache/any23/extractor/csv/test-missing.csv");
+    logger.debug(dumpModelToRDFXML());
 
-		assertModelNotEmpty();
-		assertStatementsSize(null, null, null, 25);
-		assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-		assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
-				XMLSchema.INTEGER));
-		assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
-				XMLSchema.INTEGER));
-		assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("Michele", XMLSchema.STRING));
-		assertContains(null, null,
-				SimpleValueFactory.getInstance().createLiteral("Giovanni", XMLSchema.STRING));
-	}
+    assertModelNotEmpty();
+    assertStatementsSize(null, null, null, 25);
+    assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
+    assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4",
+            XMLSchema.INTEGER));
+    assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3",
+            XMLSchema.INTEGER));
+    assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("Michele", XMLSchema.STRING));
+    assertContains(null, null,
+            SimpleValueFactory.getInstance().createLiteral("Giovanni", XMLSchema.STRING));
+  }
 
 }

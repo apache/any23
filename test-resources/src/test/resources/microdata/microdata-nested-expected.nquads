@@ -15,14 +15,11 @@
 #  limitations under the License.
 #
 
-_:node3e103839c5eaa86c975e26a96157bf2 <http://schema.org/name> "Jazz Band" <http://bob.example.com/> .
-_:node3e103839c5eaa86c975e26a96157bf2 <http://schema.org/size> "12" <http://bob.example.com/> .
-_:node70664686c06639b5211a24a9cf34f99 <http://schema.org/band> _:node3e103839c5eaa86c975e26a96157bf2 <http://bob.example.com/> .
-_:node70664686c06639b5211a24a9cf34f99 <http://schema.org/name> "Amanda" <http://bob.example.com/> .
-<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node70664686c06639b5211a24a9cf34f99 <http://bob.example.com/> .
-_:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
-_:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
-_:noded2bffd25e1a8448b159c4c45afd3283 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
-_:noded2bffd25e1a8448b159c4c45afd3283 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
-_:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://schema.org/Movie/director> _:noded2bffd25e1a8448b159c4c45afd3283 <http://bob.example.com/> .
-<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodea2c65a1b5a43d4ac4bd93b3216f5f7d <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node295195eb5d5124e03da26bafc7313bc <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
+_:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
+_:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/Movie/director> _:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/Movie/name> "James Cameron" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node3ecb85b37ebfd65a5d57ab82374a5 <http://bob.example.com/> .

@@ -87,17 +87,17 @@ public class ItemScope extends Item {
         this.refs = refs;
         this.itemId = itemId;
 
-        final Map<String, List<ItemProp>> tmpProperties = new HashMap<String, List<ItemProp>>();
+        final Map<String, List<ItemProp>> tmpProperties = new HashMap<>();
         for (ItemProp itemProp : itemProps) {
             final String propName = itemProp.getName();
             List<ItemProp> propList = tmpProperties.get(propName);
             if (propList == null) {
-                propList = new ArrayList<ItemProp>();
+                propList = new ArrayList<>();
                 tmpProperties.put(propName, propList);
             }
             propList.add(itemProp);
         }
-        final Map<String, List<ItemProp>> properties = new HashMap<String, List<ItemProp>>();
+        final Map<String, List<ItemProp>> properties = new HashMap<>();
         for (Map.Entry<String, List<ItemProp>> propertiesEntry : tmpProperties.entrySet()) {
             properties.put(
                     propertiesEntry.getKey(),
@@ -147,7 +147,8 @@ public class ItemScope extends Item {
     @Override
     public String toJSON() {
         StringBuilder sb = new StringBuilder();
-        int i, j;
+        int i;
+        int j;
         final Collection<List<ItemProp>> itemPropsList = properties.values();
         j = 0;
         for (List<ItemProp> itemProps : itemPropsList) {
@@ -184,12 +185,12 @@ public class ItemScope extends Item {
 
     @Override
     public int hashCode() {
-	int i = properties == null ? 0 : properties.hashCode();
-	i += id == null         ? 0 : id.hashCode();
-	i += refs == null       ? 0 : refs.hashCode();
-	i += type == null       ? 0 : type.hashCode();
-	i += itemId == null     ? 0 : itemId.hashCode();
-	return i;
+        int i = properties == null ? 0 : properties.hashCode();
+        i += id == null         ? 0 : id.hashCode();
+        i += refs == null       ? 0 : Arrays.hashCode(refs);
+        i += type == null       ? 0 : type.hashCode();
+        i += itemId == null     ? 0 : itemId.hashCode();
+        return i;
     }
 
     @Override
@@ -221,15 +222,17 @@ public class ItemScope extends Item {
     protected void acquireProperty(ItemProp itemProp) {
         List<ItemProp> itemProps = properties.get(itemProp.getName());
         if (itemProps == null) {
-            itemProps = new ArrayList<ItemProp>();
+            itemProps = new ArrayList<>();
             properties.put(itemProp.getName(), itemProps);
         }
-        if (!itemProps.contains(itemProp)) itemProps.add(itemProp);
+        if (!itemProps.contains(itemProp))
+            itemProps.add(itemProp);
     }
 
     protected void disownProperty(ItemProp itemProp) {
         List<ItemProp> propList = properties.get(itemProp.getName());
-        if (propList != null) propList.remove(itemProp);
+        if (propList != null)
+            propList.remove(itemProp);
     }
 
     private String toJSON(String[] in) {

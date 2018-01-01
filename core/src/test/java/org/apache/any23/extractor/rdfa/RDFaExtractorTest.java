@@ -19,7 +19,6 @@ package org.apache.any23.extractor.rdfa;
 
 import org.apache.any23.extractor.ExtractorFactory;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.repository.RepositoryException;
@@ -65,7 +64,6 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
         }
     }
 
-    @Ignore("RDFa1 parser not able to parse RDFa11 CURIES in this case")
 	@Test
 	public void testRDFa11CURIEs() throws Exception {
 	}

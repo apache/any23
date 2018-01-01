@@ -43,6 +43,7 @@ public class MetaNameMisuseRule implements Rule {
         return "meta-name-misuse-rule";
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean applyOn(
             DOMDocument document,

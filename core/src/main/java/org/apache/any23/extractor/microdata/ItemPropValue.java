@@ -31,7 +31,17 @@ import org.apache.any23.util.StringUtils;
  */
 public class ItemPropValue {
 
-    private static final ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<SimpleDateFormat>();
+    /**
+     * Internal content value.
+     */
+    private final Object content;
+
+    /**
+     * Content type.
+     */
+    private final Type type;
+
+    private static final ThreadLocal<SimpleDateFormat> sdf = new ThreadLocal<>();
 
     /**
      * Supported types.
@@ -61,16 +71,6 @@ public class ItemPropValue {
     }
 
     /**
-     * Internal content value.
-     */
-    private final Object content;
-
-    /**
-     * Content type.
-     */
-    private final Type type;
-
-    /**
      * Constructor.
      *
      * @param content content object.
@@ -94,12 +94,11 @@ public class ItemPropValue {
             );
         }
         if(content instanceof String && ((String) content).trim().length() == 0) {
-            content = "Null";
             // ANY23-115 Empty spans seem to break ANY23
             // instead of throwing the exception and in effect failing the entire
             // parse job we wish to be lenient on web content publishers and add
             // Null (String) as content.
-            //throw new IllegalArgumentException("Invalid content '" + content + "'");
+            content = "Null";
         }
         this.content = content;
         this.type = type;
@@ -151,7 +150,8 @@ public class ItemPropValue {
      * @return <code>true</code> if type is an integer.
      */
     public boolean isInteger() {
-        if(type != Type.Plain) return false;
+        if(type != Type.Plain)
+            return false;
          try {
              Integer.parseInt((String) content);
              return true;
@@ -164,7 +164,8 @@ public class ItemPropValue {
      * @return <code>true</code> if type is a float.
      */
      public boolean isFloat() {
-         if(type != Type.Plain) return false;
+         if(type != Type.Plain)
+             return false;
          try {
              Float.parseFloat((String) content);
              return true;

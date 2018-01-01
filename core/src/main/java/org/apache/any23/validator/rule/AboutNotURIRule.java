@@ -45,6 +45,7 @@ public class AboutNotURIRule implements Rule {
         return "about-not-uri-rule";
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean applyOn(
             DOMDocument document,

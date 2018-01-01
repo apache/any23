@@ -24,19 +24,19 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
-import org.eclipse.rdf4j.model.URI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.RDFHandlerException;
-import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.RDFParserRegistry;
 import org.eclipse.rdf4j.rio.RDFWriter;
 import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import org.eclipse.rdf4j.rio.helpers.StatementCollector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -66,6 +66,10 @@ public class RDFUtils {
     private static int nodeId = 0;
 
     private static final ValueFactory valueFactory = SimpleValueFactory.getInstance();
+
+    private static final Logger LOG = LoggerFactory.getLogger(RDFUtils.class);
+
+    private RDFUtils() {}
 
     /**
      * Fixes typical errors in an absolute org.eclipse.rdf4j.model.IRI, such as unescaped spaces.
@@ -177,34 +181,11 @@ public class RDFUtils {
 
     /**
      * Creates a {@link org.eclipse.rdf4j.model.IRI}.
-     * @param uri string representation of the {@link org.eclipse.rdf4j.model.IRI}
-     * @return a valid {@link org.eclipse.rdf4j.model.IRI}
-     * @deprecated Use {@link #iri(String)} instead.
-     */
-    @Deprecated
-    public static org.eclipse.rdf4j.model.IRI uri(String uri) {
-        return iri(uri);
-    }
-
-    /**
-     * Creates a {@link org.eclipse.rdf4j.model.IRI}.
      * @param iri a base string for the {@link org.eclipse.rdf4j.model.IRI}
      * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      */
     public static org.eclipse.rdf4j.model.IRI iri(String iri) {
         return valueFactory.createIRI(iri);
-    }
-
-    /**
-     * Creates a {@link org.eclipse.rdf4j.model.IRI}.
-     * @deprecated Use {@link #iri(String, String)} instead.
-     * @param namespace a base namespace for the {@link org.eclipse.rdf4j.model.IRI}
-     * @param localName a local name to associate with the namespace
-     * @return a valid {@link org.eclipse.rdf4j.model.IRI}
-     */
-    @Deprecated
-    public static org.eclipse.rdf4j.model.IRI uri(String namespace, String localName) {
-        return valueFactory.createIRI(namespace, localName);
     }
 
     /**
@@ -297,25 +278,12 @@ public class RDFUtils {
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(String s, String l) {
-    	if(l == null) {
-    		// HACK: Workaround for ANY23 code that passes null in for language tag
-    		return valueFactory.createLiteral(s);
-    	} else {
-    		return valueFactory.createLiteral(s, l);
-    	}
-    }
-
-    /**
-     * Creates a {@link Literal}.
-     * @param s string representation of the base namespace for the
-     * {@link org.eclipse.rdf4j.model.Literal}
-     * @param datatype the datatype to associate with the namespace.
-     * @return valid {@link org.eclipse.rdf4j.model.Literal}
-     * @deprecated Use {@link #literal(String, org.eclipse.rdf4j.model.IRI)} instead.
-     */
-    @Deprecated
-    public static Literal literal(String s, URI datatype) {
-        return valueFactory.createLiteral(s, datatype);
+        if(l == null) {
+            // HACK: Workaround for ANY23 code that passes null in for language tag
+            return valueFactory.createLiteral(s);
+        } else {
+            return valueFactory.createLiteral(s, l);
+        }
     }
 
     /**
@@ -488,15 +456,13 @@ public class RDFUtils {
      * @param is input stream containing <code>RDF</code>.
      * @param baseIRI base uri.
      * @return list of statements detected within the input stream.
-     * @throws RDFHandlerException if there is an error handling the RDF
      * @throws IOException if there is an error reading the {@link java.io.InputStream}
-     * @throws RDFParseException if there is an error handling the RDF
      */
     public static Statement[] parseRDF(RDFFormat format, InputStream is, String baseIRI)
-    throws RDFHandlerException, IOException, RDFParseException {
+    throws IOException {
         final StatementCollector handler = new StatementCollector();
         final RDFParser parser = getParser(format);
-        parser.setVerifyData(true);
+        parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
         parser.setStopAtFirstError(true);
         parser.setPreserveBNodeIDs(true);
         parser.setRDFHandler(handler);
@@ -511,12 +477,10 @@ public class RDFUtils {
      * @param format input format type.
      * @param is input stream containing <code>RDF</code>.
      * @return list of statements detected within the input stream.
-     * @throws RDFHandlerException if there is an error handling the RDF
      * @throws IOException if there is an error reading the {@link java.io.InputStream}
-     * @throws RDFParseException if there is an error handling the RDF
      */
     public static Statement[] parseRDF(RDFFormat format, InputStream is)
-    throws RDFHandlerException, IOException, RDFParseException {
+    throws IOException {
         return parseRDF(format, is, "");
     }
 
@@ -527,12 +491,10 @@ public class RDFUtils {
      * @param format input format type.
      * @param in input string containing <code>RDF</code>.
      * @return list of statements detected within the input string.
-     * @throws RDFHandlerException if there is an error handling the RDF
      * @throws IOException if there is an error reading the {@link java.io.InputStream}
-     * @throws RDFParseException if there is an error handling the RDF
      */
     public static Statement[] parseRDF(RDFFormat format, String in)
-    throws RDFHandlerException, IOException, RDFParseException {
+    throws IOException {
         return parseRDF(format, new ByteArrayInputStream(in.getBytes()));
     }
 
@@ -543,11 +505,9 @@ public class RDFUtils {
      * @param resource resource name.
      * @return the statements declared within the resource file.
      * @throws java.io.IOException if an error occurs while reading file.
-     * @throws org.eclipse.rdf4j.rio.RDFHandlerException if an error occurs while parsing file.
-     * @throws org.eclipse.rdf4j.rio.RDFParseException if an error occurs while parsing file.
      */
-    public static Statement[] parseRDF(String resource) throws RDFHandlerException, IOException, RDFParseException {
-        final int extIndex = resource.lastIndexOf(".");
+    public static Statement[] parseRDF(String resource) throws IOException {
+        final int extIndex = resource.lastIndexOf('.');
         if(extIndex == -1)
             throw new IllegalArgumentException("Error while detecting the extension in resource name " + resource);
         final String extension = resource.substring(extIndex + 1);
@@ -568,8 +528,10 @@ public class RDFUtils {
             new java.net.URI(href.trim());
             return true;
         } catch (IllegalArgumentException e) {
+            LOG.error("Error processing href: {}", href, e);
             return false;
         } catch (URISyntaxException e) {
+            LOG.error("Error interpreting href: {} as URI.", href, e);
             return false;
         }
     }
@@ -649,7 +611,5 @@ public class RDFUtils {
         nodeId++;
         return bnode;
     }
-    
-    private RDFUtils() {}
 
 }
