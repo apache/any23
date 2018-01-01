@@ -121,7 +121,6 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
             RDFUtils.triple(RDFUtils.bnode(), RDFUtils.iri(ns, "value3"), RDFUtils.bnode("10")),
             RDFUtils.triple(RDFUtils.bnode("10"), RDF.FIRST, RDFUtils.bnode("11")),
             RDFUtils.triple(RDFUtils.bnode("11"), RDFUtils.iri(ns, "key3.1"), RDFUtils.bnode("12")),
-            // RDFUtils.triple(RDFUtils.bnode("12"), RDF.TYPE, RDF.LIST),
             RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1"))
         });
 
