@@ -28,7 +28,9 @@ import org.apache.any23.extractor.microdata.MicrodataExtractor;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.http.DefaultHTTPClient;
+import org.apache.any23.http.DefaultHTTPClientConfiguration;
 import org.apache.any23.http.HTTPClient;
+import org.apache.any23.http.HTTPClientConfiguration;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
@@ -45,7 +47,6 @@ import org.apache.any23.writer.RepositoryWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.repository.Repository;
@@ -207,13 +208,12 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws org.apache.any23.extractor.ExtractionException
      */
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testDemoCodeSnippet2() throws Exception {
         assumeOnlineAllowed();
 
         /* 1 */Any23 runner = new Any23();
-        /* 2 */runner.setHTTPUserAgent("test-user-agent");
+        /* 2 */runner.setHTTPUserAgent("apache-any23-test-user-agent");
         /* 3 */HTTPClient httpClient = runner.getHTTPClient();
         /* 4 */DocumentSource source = new HTTPDocumentSource(httpClient,
                 "http://dbpedia.org/resource/Trento");
@@ -299,25 +299,20 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws URISyntaxException
      * @throws ExtractionException
      */
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testGZippedContent() throws IOException, URISyntaxException,
             ExtractionException {
         assumeOnlineAllowed();
-
-        Any23 runner = new Any23();
-        runner.setHTTPUserAgent("test-user-agent");
-        HTTPClient httpClient = runner.getHTTPClient();
-        DocumentSource source = new HTTPDocumentSource(httpClient,
-                "http://products.semweb.bestbuy.com/y/products/7590289/");
+        final Any23 runner = new Any23();
+        runner.setHTTPUserAgent("apache-any23-test-user-agent");
+        DocumentSource source = new HTTPDocumentSource(runner.getHTTPClient(),
+                "https://dev.w3.org/html5/rdfa/");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TripleHandler handler = new NTriplesWriter(out);
         runner.extract(source, handler);
         String n3 = out.toString("UTF-8");
-
         logger.debug("N3 " + n3);
         Assert.assertTrue(n3.length() > 0);
-
     }
 
     @Test
@@ -343,7 +338,7 @@ public class Any23Test extends Any23OnlineTestBase {
         try {
             runner.extract(
                     new ExtractionParameters(DefaultConfiguration.singleton(),
-                            ValidationMode.None), source, compositeTH1);
+                            ValidationMode.NONE), source, compositeTH1);
         } finally {
             compositeTH1.close();
         }
@@ -383,7 +378,7 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH1.addChild(ctw1);
         runner.extract(
                 new ExtractionParameters(DefaultConfiguration.singleton(),
-                        ValidationMode.None, true), source, compositeTH1);
+                        ValidationMode.NONE, true), source, compositeTH1);
         compositeTH1.close();
         logger.debug("Out1: " + baos.toString());
         Assert.assertEquals("Unexpected number of triples.",
@@ -397,7 +392,7 @@ public class Any23Test extends Any23OnlineTestBase {
         compositeTH2.addChild(ctw2);
         runner.extract(
                 new ExtractionParameters(DefaultConfiguration.singleton(),
-                        ValidationMode.ValidateAndFix, false), source,
+                        ValidationMode.VALIDATE_AND_FIX, false), source,
                 compositeTH2);
         compositeTH2.close();
         logger.debug("Out2: " + baos.toString());
@@ -449,35 +444,35 @@ public class Any23Test extends Any23OnlineTestBase {
      * @throws IOException
      * @throws ExtractionException
      */
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testXMLMimeTypeManagementViaURL() throws IOException,
             ExtractionException {
         assumeOnlineAllowed();
         final Any23 any23 = new Any23();
-        any23.setHTTPUserAgent("test-user-agent");
+        any23.setHTTPUserAgent("apache-any23-test-user-agent");
+        HTTPClient client = any23.getHTTPClient();
+        HTTPClientConfiguration configuration = new DefaultHTTPClientConfiguration("application/xml");
+        client.init(configuration);
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(
-                "http://www.nativeremedies.com/XML/combos.xml", rth);
+                "http://www.legislation.gov.uk/ukpga/2015/17/section/4/data.xml", rth);
         Assert.assertFalse(report.hasMatchingExtractors());
         Assert.assertEquals(0, cth.getCount());
     }
 
-    @Ignore("ANY23-140 - Revise Any23 tests to remove fetching of web content")
     @Test
     public void testBlankNodesViaURL() throws IOException, ExtractionException {
         assumeOnlineAllowed();
         final Any23 any23 = new Any23();
-        any23.setHTTPUserAgent("test-user-agent");
+        any23.setHTTPUserAgent("apache-any23-test-user-agent");
         final CountingTripleHandler cth = new CountingTripleHandler(false);
         final ReportingTripleHandler rth = new ReportingTripleHandler(cth);
         final ExtractionReport report = any23.extract(
-                "http://www.usarab.org/news/?tag=england", rth);
+                "https://www.w3.org/", rth);
         Assert.assertTrue(report.hasMatchingExtractors());
     }
 
-    @Ignore("Itemscope parsing issue")
     @Test
     public void testMicrodataSupport() throws Exception {
         final String htmlWithMicrodata = IOUtils.toString(this.getClass()
@@ -558,7 +553,7 @@ public class Any23Test extends Any23OnlineTestBase {
         ReportingTripleHandler outputHandler = new ReportingTripleHandler(
                 new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(
                         new NTriplesWriter(out))));
-        return any23.extract(new ExtractionParameters(conf, ValidationMode.ValidateAndFix, null, null), 
+        return any23.extract(new ExtractionParameters(conf, ValidationMode.VALIDATE_AND_FIX, null, null), 
             new StringDocumentSource(in, "http://host.com/path"), outputHandler, "UTF-8");
     }
 

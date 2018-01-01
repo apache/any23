@@ -46,11 +46,12 @@ public class DefaultValidator implements Validator {
     private List<Class<? extends Rule>> rulesOrder;
 
     public DefaultValidator() {
-        rulesToFixes = new HashMap<Class<? extends Rule>, List<Class<? extends Fix>>>();
-        rulesOrder   = new ArrayList<Class<? extends Rule>>();
+        rulesToFixes = new HashMap<>();
+        rulesOrder   = new ArrayList<>();
         loadDefaultRules();
     }
 
+    @Override
     public ValidationReport validate(DOMDocument document, boolean applyFix)
     throws ValidatorException {
         final ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
@@ -81,15 +82,17 @@ public class DefaultValidator implements Validator {
         return validationReportBuilder.getReport();
     }
 
+    @Override
     public ValidationReport validate(URI documentIRI, Document document, boolean applyFix)
     throws ValidatorException {
         return validate( new DefaultDOMDocument(documentIRI, document), applyFix );
     }
 
+    @Override
     public synchronized void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix) {
         List<Class<? extends Fix>> fixes = rulesToFixes.get(rule);
         if(fixes == null) {
-            fixes = new ArrayList<Class<? extends Fix>>();
+            fixes = new ArrayList<>();
         }
         rulesOrder.add(rule);
         rulesToFixes.put(rule, fixes);
@@ -98,19 +101,23 @@ public class DefaultValidator implements Validator {
         }
     }
 
+    @Override
     public void addRule(Class<? extends Rule> rule) {
         addRule(rule, null);
     }
 
+    @Override
     public synchronized void removeRule(Class<? extends Rule> rule) {
         rulesOrder.remove(rule);
         rulesToFixes.remove(rule);
     }
 
+    @Override
     public List<Class<? extends Rule>> getAllRules() {
         return Collections.unmodifiableList(rulesOrder);
     }
 
+    @Override
     public List<Class<? extends Fix>> getFixes(Class<? extends Rule> rule) {
         List<Class<? extends Fix>> fixes = rulesToFixes.get(rule);
         return  fixes == null

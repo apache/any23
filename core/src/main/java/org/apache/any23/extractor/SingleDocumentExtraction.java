@@ -73,7 +73,7 @@ public class SingleDocumentExtraction {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-    private final static Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
+    private static final Logger log = LoggerFactory.getLogger(SingleDocumentExtraction.class);
 
     private final Configuration configuration;
 
@@ -115,13 +115,15 @@ public class SingleDocumentExtraction {
     public SingleDocumentExtraction(
             Configuration configuration, DocumentSource in, ExtractorGroup extractors, TripleHandler output
     ) {
-        if(configuration == null) throw new NullPointerException("configuration cannot be null.");
-        if(in == null)            throw new NullPointerException("in cannot be null.");
+        if(configuration == null)
+            throw new NullPointerException("configuration cannot be null.");
+        if(in == null)
+            throw new NullPointerException("in cannot be null.");
         this.configuration = configuration;
         this.in = in;
         this.extractors = extractors;
 
-        List<TripleHandler> tripleHandlers = new ArrayList<TripleHandler>();
+        List<TripleHandler> tripleHandlers = new ArrayList<>();
         tripleHandlers.add(output);
         tripleHandlers.add(new CountingTripleHandler());
         this.output = new CompositeTripleHandler(tripleHandlers);
@@ -222,7 +224,7 @@ public class SingleDocumentExtraction {
         filterExtractorsByMIMEType();
 
         if(log.isDebugEnabled()) {
-            StringBuffer sb = new StringBuffer("Extractors ");
+            StringBuilder sb = new StringBuilder("Extractors ");
             for (ExtractorFactory<?> factory : matchingExtractors) {
                 sb.append(factory.getExtractorName());
                 sb.append(' ');
@@ -347,7 +349,7 @@ public class SingleDocumentExtraction {
      */
     @SuppressWarnings("rawtypes")
     public List<Extractor> getMatchingExtractors() {
-        final List<Extractor> extractorsList = new ArrayList<Extractor>();
+        final List<Extractor> extractorsList = new ArrayList<>();
         for(ExtractorFactory extractorFactory : matchingExtractors) {
             extractorsList.add( extractorFactory.createExtractor() );
         }
@@ -415,7 +417,8 @@ public class SingleDocumentExtraction {
      */
     private void filterExtractorsByMIMEType()
     throws IOException {
-        if (matchingExtractors != null) return;  // has already been run.
+        if (matchingExtractors != null)
+            return;  // has already been run.
 
         if (detector == null || extractors.allExtractorsSupportAllContentTypes()) {
             matchingExtractors = extractors;
@@ -515,7 +518,8 @@ public class SingleDocumentExtraction {
      * @throws IOException
      */
     private void ensureHasLocalCopy() throws IOException {
-        if (localDocumentSource != null) return;
+        if (localDocumentSource != null)
+            return;
         if (in.isLocal()) {
             localDocumentSource = in;
             return;

@@ -21,6 +21,7 @@ import org.apache.any23.validator.DOMDocument;
 import org.apache.any23.validator.Fix;
 import org.apache.any23.validator.Rule;
 import org.apache.any23.validator.RuleContext;
+import org.apache.any23.vocab.OGP;
 
 /**
  * This fixes the missing <i>Open Graph</i> protocol.
@@ -31,12 +32,14 @@ import org.apache.any23.validator.RuleContext;
  */
 public class OpenGraphNamespaceFix implements Fix {
 
-    public static final String OPENGRAPH_PROTOCOL_NS = "http://opengraphprotocol.org/schema/";
+    public static final String OPENGRAPH_PROTOCOL_NS = OGP.NS;
 
+    @Override
     public String getHRName() {
         return "opengraph-namespace-fix";
     }
 
+    @Override
     public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
         document.addAttribute("/HTML", "xmlns:og", OPENGRAPH_PROTOCOL_NS);
     }

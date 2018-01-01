@@ -30,7 +30,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import org.junit.Ignore;
 
 /**
  * Test case for {@link TikaMIMETypeDetector} class.

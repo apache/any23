@@ -40,21 +40,23 @@ public class AboutNotURIRule implements Rule {
 
     public static final String NODES_WITH_INVALID_ABOUT = "nodes-with-invalid-about";
 
+    @Override
     public String getHRName() {
         return "about-not-uri-rule";
     }
 
+    @Override
     public boolean applyOn(
             DOMDocument document,
-            RuleContext context,
+            @SuppressWarnings("rawtypes") RuleContext context,
             ValidationReportBuilder validationReportBuilder
     ) {
         final List<Node> nodesWithAbout = document.getNodesWithAttribute("about");
-        final List<Node> nodesWithInvalidAbout = new ArrayList<Node>();
+        final List<Node> nodesWithInvalidAbout = new ArrayList<>();
         for(Node nodeWithAbout : nodesWithAbout) {
             if ( ! aboutIsValid(nodeWithAbout) ) {
                 validationReportBuilder.reportIssue(
-                        ValidationReport.IssueLevel.error,
+                        ValidationReport.IssueLevel.ERROR,
                         "Invalid about value for node, expected valid URL.",
                         nodeWithAbout
                 );

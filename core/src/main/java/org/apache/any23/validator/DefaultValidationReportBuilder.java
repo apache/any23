@@ -35,7 +35,9 @@ public class DefaultValidationReportBuilder implements ValidationReportBuilder {
     private List<ValidationReport.RuleActivation> ruleActivations;
     private List<ValidationReport.Error> errors;
 
-    public DefaultValidationReportBuilder() {}
+    public DefaultValidationReportBuilder() {
+      //default constructor
+    }
 
     public ValidationReport getReport() {
         return new DefaultValidationReport(
@@ -47,7 +49,7 @@ public class DefaultValidationReportBuilder implements ValidationReportBuilder {
 
     public void reportIssue(ValidationReport.IssueLevel issueLevel, String message, Node n) {
         if(issues == null) {
-            issues = new ArrayList<ValidationReport.Issue>();
+            issues = new ArrayList<>();
         }
         issues.add( new ValidationReport.Issue(issueLevel, message, n) );
     }
@@ -58,21 +60,21 @@ public class DefaultValidationReportBuilder implements ValidationReportBuilder {
 
     public void traceRuleActivation(Rule r) {
         if(ruleActivations == null) {
-            ruleActivations = new ArrayList<ValidationReport.RuleActivation>();
+            ruleActivations = new ArrayList<>();
         }
         ruleActivations.add( new ValidationReport.RuleActivation(r) );
     }
 
     public void reportRuleError(Rule r, Exception e, String msg) {
         if(errors == null) {
-            errors = new ArrayList<ValidationReport.Error>();
+            errors = new ArrayList<>();
         }
         errors.add( new ValidationReport.RuleError(r, e, msg) );
     }
 
     public void reportFixError(Fix f, Exception e, String msg) {
         if(errors == null) {
-            errors = new ArrayList<ValidationReport.Error>();
+            errors = new ArrayList<>();
         }
         errors.add( new ValidationReport.FixError(f, e, msg) );
 

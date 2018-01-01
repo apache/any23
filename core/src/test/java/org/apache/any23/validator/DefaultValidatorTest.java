@@ -23,7 +23,6 @@ import org.apache.xml.serialize.XMLSerializer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,13 +76,12 @@ public class DefaultValidatorTest {
             logger.debug( validationReport.toString() );
         }
     }
-    
-    @Ignore("Itemscope parsing issue")
+
     @Test
     public void testMissingItemscopeAttributeValue() throws IOException, URISyntaxException, ValidatorException {
       DOMDocument document = loadDocument("microdata-basic.html");
-      List<Node> brokenItemScopeNodes = document.getNodesWithAttribute("itemscope");
-      for (Node node : brokenItemScopeNodes) {
+      List<Node> nullItemScopeNodes = document.getNodesWithAttribute("itemscope");
+      for (Node node : nullItemScopeNodes) {
         // all nodes with itemscope have an empty string value
         Assert.assertEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
       }
@@ -92,8 +90,7 @@ public class DefaultValidatorTest {
       for (Node node : fixedItemScopeNodes) {
         // all nodes with itemscope now have a default value of "itemscope"
         Assert.assertNotNull(node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-        Assert.assertNotEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-        Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue());
+        Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
       }
       if(logger.isDebugEnabled()) {
           logger.debug( validationReport.toString() );
@@ -126,8 +123,8 @@ public class DefaultValidatorTest {
         Assert.assertEquals( "Unexpected number of issues.", 1, validationReport.getIssues().size() );
     }
 
-    private DOMDocument loadDocument(String document) throws IOException, URISyntaxException {
-        InputStream is = this.getClass().getResourceAsStream(document);
+    public static DOMDocument loadDocument(String document) throws IOException, URISyntaxException {
+        InputStream is = DefaultValidatorTest.class.getResourceAsStream(document);
         final String documentIRI = "http://test.com";
         TagSoupParser tsp = new TagSoupParser(is, documentIRI);
         return new DefaultDOMDocument( new URI(documentIRI), tsp.getDOM() );

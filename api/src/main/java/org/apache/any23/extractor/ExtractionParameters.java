@@ -73,15 +73,15 @@ public class ExtractionParameters {
         this.extractionFlags =
                 extractionFlags == null
                         ?
-                new HashMap<String,Boolean>()
+                new HashMap<>()
                         :
-                new HashMap<String,Boolean>(extractionFlags);
+                new HashMap<>(extractionFlags);
         this.extractionProperties =
                 extractionProperties == null
                         ?
-                new HashMap<String,String>()
+                new HashMap<>()
                         :
-                new HashMap<String,String>(extractionProperties);
+                new HashMap<>(extractionProperties);
     }
 
     /**
@@ -122,7 +122,7 @@ public class ExtractionParameters {
      * @return the default extraction parameters.
      */
     public static final ExtractionParameters newDefault(Configuration c) {
-        return new ExtractionParameters(c, ValidationMode.None);
+        return new ExtractionParameters(c, ValidationMode.NONE);
     }
 
     /**
@@ -131,30 +131,30 @@ public class ExtractionParameters {
      * @return the default extraction parameters.
      */
     public static final ExtractionParameters newDefault() {
-        return new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.None);
+        return new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.NONE);
     }
 
     /**
      * Declares the supported validation actions.
      */
     public enum ValidationMode {
-        None,
-        Validate,
-        ValidateAndFix
+        NONE,
+        VALIDATE,
+        VALIDATE_AND_FIX
     }
 
     /**
      * @return <code>true</code> if validation is active.
      */
     public boolean isValidate() {
-        return extractionMode == ValidationMode.Validate || extractionMode == ValidationMode.ValidateAndFix;
+        return extractionMode == ValidationMode.VALIDATE || extractionMode == ValidationMode.VALIDATE_AND_FIX;
     }
 
     /**
      * @return <code>true</code> if fix is active.
      */
     public boolean isFix() {
-        return extractionMode == ValidationMode.ValidateAndFix;
+        return extractionMode == ValidationMode.VALIDATE_AND_FIX;
     }
 
     /**

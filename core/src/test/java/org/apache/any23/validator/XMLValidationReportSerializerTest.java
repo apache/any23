@@ -68,7 +68,7 @@ public class XMLValidationReportSerializerTest {
 
         Document document = new DocumentImpl();
         Element element = document.createElement("html");
-        validationReportBuilder.reportIssue(ValidationReport.IssueLevel.info, "Test message", element);
+        validationReportBuilder.reportIssue(ValidationReport.IssueLevel.INFO, "Test message", element);
 
         validationReportBuilder.traceRuleActivation( new MetaNameMisuseRule() );
 

@@ -35,10 +35,12 @@ import java.util.List;
  */
 public class MissingOpenGraphNamespaceRule implements Rule {
 
+    @Override
     public String getHRName() {
         return "missing-opengraph-namespace-rule";
     }
 
+    @Override
     public boolean applyOn(
             DOMDocument document,
             @SuppressWarnings("rawtypes") RuleContext context,
@@ -57,7 +59,7 @@ public class MissingOpenGraphNamespaceRule implements Rule {
             Node htmlNode = document.getNode("/HTML");
             if( htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
                 validationReportBuilder.reportIssue(
-                        ValidationReport.IssueLevel.error,
+                        ValidationReport.IssueLevel.ERROR,
                         "Missing OpenGraph namespace declaration.",
                         htmlNode
                 );

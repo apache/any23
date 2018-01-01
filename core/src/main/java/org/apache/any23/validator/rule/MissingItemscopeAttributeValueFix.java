@@ -18,6 +18,7 @@ package org.apache.any23.validator.rule;
 
 import java.util.List;
 
+import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.validator.DOMDocument;
 import org.apache.any23.validator.Fix;
 import org.apache.any23.validator.Rule;
@@ -30,27 +31,33 @@ import org.w3c.dom.Node;
  */
 public class MissingItemscopeAttributeValueFix implements Fix {
 
+  private static final String EMPTY_ITEMSCOPE_VALUE = "itemscope";
+  
+  private static final String ITEMSCOPE = "itemscope";
+
   /**
    * Default constructor
    */
   public MissingItemscopeAttributeValueFix() {
+    //default constructor
   }
 
-  public static final String EMPTY_ITEMSCOPE_VALUE = "=\"itemscope\"";
-
+  @Override
   public String getHRName() {
     return "missing-itemscope-value-fix";
   }
 
+  @Override
   public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
 
-    List<Node> itemNodes = document.getNodesWithAttribute("itemscope");
-    for(Node itemNode : itemNodes) {
-      Node itemScopeNode = itemNode.getAttributes().getNamedItem("itemscope");
-      if(itemScopeNode.getNodeValue().contentEquals("")) {
-        itemNode.getAttributes().getNamedItem("itemscope").setNodeValue(EMPTY_ITEMSCOPE_VALUE);
+    List<Node> itemScopeContainerElements = document.getNodesWithAttribute(ITEMSCOPE);
+    for(Node itemScopeContainerElement : itemScopeContainerElements) {
+      Node newItemScopeContainerElement = itemScopeContainerElement;
+      Node itemScopeNode = newItemScopeContainerElement.getAttributes().getNamedItem(ITEMSCOPE);
+      if (itemScopeNode.getTextContent() == null || itemScopeNode.getTextContent() == "") {
+        String node = DomUtils.getXPathForNode(itemScopeContainerElement);
+        document.addAttribute(node, ITEMSCOPE, EMPTY_ITEMSCOPE_VALUE);
       }
     }
   }
-
 }

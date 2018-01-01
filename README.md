@@ -1,31 +1,15 @@
-```
-          :::     ::::    ::: :::   :::  ::::::::   ::::::::
-       :+: :+:   :+:+:   :+: :+:   :+: :+:    :+: :+:    :+:
-     +:+   +:+  :+:+:+  +:+  +:+ +:+        +:+         +:+
-   +#++:++#++: +#+ +:+ +#+   +#++:       +#+        +#++:
-  +#+     +#+ +#+  +#+#+#    +#+      +#+             +#+
- #+#     #+# #+#   #+#+#    #+#     #+#       #+#    #+#
-###     ### ###    ####    ###    ##########  ########
-```
+# Apache Any23 Project
+
+<img src="http://any23.apache.org/images/logo-any23.png" align="right" width="300" />
+
+[![license](https://img.shields.io/github/license/apache/any23.svg?maxAge=2592000?style=plastic)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Jenkins](https://img.shields.io/jenkins/s/https/builds.apache.org/Any23-trunk.svg?maxAge=2592000?style=plastic)](https://builds.apache.org/job/Any23-trunk/)
+[![Jenkins tests](https://img.shields.io/jenkins/t/https/builds.apache.org/Any23-trunk.svg?maxAge=2592000?style=plastic)](https://builds.apache.org/job/Any23-trunk)
+[![Maven Central](https://img.shields.io/maven-central/v/org.apache.any23/any23.svg?maxAge=2592000?style=plastic)](http://search.maven.org/#search|ga|1|g%3A%22org.apache.any23%22)
+
 Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
 Any23 documentation can be found on the [website](http://any23.apache.org)
-
-# Distribution Content
-
- * [api](https://github.com/apache/any23/tree/master/api): Any23 library external API.
- * [core](https://github.com/apache/any23/tree/master/core): The library core codebase.
- * [csvutils](https://github.com/apache/any23/tree/master/csvutils): A CSV specific package
- * [encoding](https://github.com/apache/any23/tree/master/encoding): Encoding detection library.
- * [mime](https://github.com/apache/any23/tree/master/mime): MIME Type detection library.
- * [nquads](https://github.com/apache/any23/tree/master/nquads): NQuads parsing and serialization library.
- * [plugins](https://github.com/apache/any23/tree/master/plugins): Library plugins codebase (read [plugins/README.md](https://github.com/apache/any23/blob/master/plugins/README.md) for further details).
- * [service](https://github.com/apache/any23/tree/master/service): The library HTTP service codebase.
- * [src](https://github.com/apache/any23/tree/master/src): Packaging for Any23 artifacts.
- * [test-resources](https://github.com/apache/any23/tree/master/test-resources): Material relating to Any23 JUnit test cases.
- * [RELEASE-NOTES.txt](https://github.com/apache/any23/blob/master/RELEASE-NOTES.txt): File reporting main release notes for every version.
- * [LICENSE.txt](https://github.com/apache/any23/blob/master/LICENSE.txt): Applicable project license.
- * README.md: This file.
 
 # Online Documentation
 

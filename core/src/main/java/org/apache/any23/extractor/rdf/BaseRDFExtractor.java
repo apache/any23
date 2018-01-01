@@ -22,12 +22,14 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
-import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.RioSetting;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -40,8 +42,13 @@ import java.util.HashSet;
  */
 public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(BaseRDFExtractor.class);
     private boolean verifyDataType;
     private boolean stopAtFirstError;
+
+    public BaseRDFExtractor() {
+        this(false, false);
+    }
 
     /**
      * Constructor, allows to specify the validation and error handling policies.
@@ -56,16 +63,10 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         this.stopAtFirstError = stopAtFirstError;
     }
 
-    public abstract ExtractorDescription getDescription();
-
     protected abstract RDFParser getParser(
             ExtractionContext extractionContext,
             ExtractionResult extractionResult
     );
-
-    public BaseRDFExtractor() {
-        this(false, false);
-    }
 
     public boolean isVerifyDataType() {
         return verifyDataType;
@@ -79,10 +80,12 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         return stopAtFirstError;
     }
 
+    @Override
     public void setStopAtFirstError(boolean b) {
         stopAtFirstError = b;
     }
 
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -106,7 +109,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
-            throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
+            LOG.error("Error while parsing RDF document.", ex, extractionResult);
         }
     }
 

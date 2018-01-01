@@ -19,70 +19,87 @@
 <head>
 <body>
 
-<!--  result0 -->
-<div itemscope>
-    <p>My name is <span itemprop="name">Elizabeth</span>.</p>
-</div>
-<!--  result1 -->
-<div itemscope>
-    <p>My name is <span itemprop="name">Daniel</span>.</p>
-</div>
+  <!--  result0 -->
+  <div itemscope>
+    <p>
+      My name is <span itemprop="name">Elizabeth</span>.
+    </p>
+  </div>
+  <!--  result1 -->
+  <div itemscope>
+    <p>
+      My name is <span itemprop="name">Daniel</span>.
+    </p>
+  </div>
 
-<!--  result2 -->
-<div itemscope>
-    <p>My name is <span itemprop="name">Neil</span>.</p>
-    <p>My band is called <span itemprop="band">Four Parts Water</span>.</p>
-    <p>I am <span itemprop="nationality">British</span>.</p>
-</div>
+  <!--  result2 -->
+  <div itemscope>
+    <p>
+      My name is <span itemprop="name">Neil</span>.
+    </p>
+    <p>
+      My band is called <span itemprop="band">Four Parts Water</span>.
+    </p>
+    <p>
+      I am <span itemprop="nationality">British</span>.
+    </p>
+  </div>
 
-<!--  result3 -->
-<div itemscope>
+  <!--  result3 -->
+  <div itemscope>
     <img itemprop="image" src="google-logo.png" alt="Google">
-</div>
+  </div>
 
-<!--  result4 -->
-<div itemscope>
- I was born on <time itemprop="birthday" datetime="2009-05-10">May 10th 2009</time>.
-</div>
+  <!--  result4 -->
+  <div itemscope>
+    I was born on
+    <time itemprop="birthday" datetime="2009-05-10">May 10th 2009</time>
+    .
+  </div>
 
-<!--  result5 -->
-<div itemscope>
+  <!--  result5 -->
+  <div itemscope>
     <p>Flavors in my favorite ice cream:</p>
     <ul>
-        <li itemprop="flavor">Lemon sorbet</li>
-        <li itemprop="flavor">Apricot sorbet</li>
+      <li itemprop="flavor">Lemon sorbet</li>
+      <li itemprop="flavor">Apricot sorbet</li>
     </ul>
-</div>
+  </div>
 
-<!--  result6 -->
-<div itemscope>
+  <!--  result6 -->
+  <div itemscope>
     <span itemprop="favorite-color favorite-fruit">orange</span>
-</div>
+  </div>
 
-<!--  result7 -->
-<figure>
+  <!--  result7 -->
+  <figure>
     <img src="castle.jpeg">
-    <figcaption><span itemscope><span itemprop="name">The Castle</span></span> (1986)</figcaption>
-</figure>
+    <figcaption>
+      <span itemscope>
+        <span itemprop="name">The Castle</span>
+      </span>
+      (1986)
+    </figcaption>
+  </figure>
 
-<!--  result8 -->
-<span itemscope><meta itemprop="name" content="The Castle"></span>
-<figure>
+  <!--  result8 -->
+  <span itemscope><meta itemprop="name" content="The Castle"></span>
+  <figure>
     <img src="castle.jpeg">
     <figcaption>The Castle (1986)</figcaption>
-</figure>
+  </figure>
 
-<!--  result9 -->
-<section itemscope itemtype="http://example.org/animals#cat">
+  <!--  result9 -->
+  <section itemscope itemtype="http://example.org/animals#cat">
     <h1 itemprop="name">Hedral</h1>
     <p itemprop="desc">Hedral is a male american domestic shorthair,
-     with a fluffy black fur with white paws and belly.</p>
-    <img itemprop="img" src="hedral.jpeg" alt="" title="Hedral, age 18 months">
-</section>
+      with a fluffy black fur with white paws and belly.</p>
+    <img itemprop="img" src="hedral.jpeg" alt=""
+      title="Hedral, age 18 months">
+  </section>
 
-<!--  result10 -->
-<dl itemscope
-    itemtype="http://vocab.example.net/book"
+  <!--  result10 -->
+  <dl itemscope itemtype="http://vocab.example.net/book"
     itemid="urn:isbn:0-330-34032-8">
     <dt>Title
     <dd itemprop="title">The Reality Dysfunction
@@ -90,17 +107,21 @@
     <dd itemprop="author">Peter F. Hamilton
     <dt>Publication date
     <dd>
-    <time itemprop="pubdate" datetime="1996-01-26">26 January 1996</time>
-</dl>
+      <time itemprop="pubdate" datetime="1996-01-26">26 January
+        1996</time>
+  </dl>
 
-<!--  result11 -->
-<section itemscope itemtype="http://example.org/animals#cat">
+  <!--  result11 -->
+  <section itemscope itemtype="http://example.org/animals#cat">
     <h1 itemprop="name http://example.com/fn">Hedral</h1>
-    <p itemprop="desc">Hedral is a male american domestic shorthair, with a fluffy
-        <span itemprop="http://example.com/color">black</span> fur with
-        <span itemprop="http://example.com/color">white</span> paws and belly.</p>
-    <img itemprop="img" src="hedral.jpeg" alt="" title="Hedral, age 18 months">
-</section>
+    <p itemprop="desc">
+      Hedral is a male american domestic shorthair, with a fluffy <span
+        itemprop="http://example.com/color">black</span> fur with <span
+        itemprop="http://example.com/color">white</span> paws and belly.
+    </p>
+    <img itemprop="img" src="hedral.jpeg" alt=""
+      title="Hedral, age 18 months">
+  </section>
 
 </body>
 </head>

@@ -39,9 +39,9 @@ public interface ValidationReport extends Serializable {
      * Defines the different issue levels.
      */
     enum IssueLevel {
-        error,
-        warning,
-        info
+        ERROR,
+        WARNING,
+        INFO
     }
 
     /**
@@ -70,9 +70,13 @@ public interface ValidationReport extends Serializable {
      */
     class Issue implements Serializable {
 
+        /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
         private final IssueLevel level;
         private final String message;
-        private final Node origin;
+        private final transient  Node origin;
 
         public Issue(IssueLevel level, String message, Node origin) {
             if(level == null) {
@@ -117,6 +121,10 @@ public interface ValidationReport extends Serializable {
      */
     class RuleActivation implements Serializable {
 
+        /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
         private final String ruleStr;
 
         public RuleActivation(Rule r) {
@@ -141,6 +149,10 @@ public interface ValidationReport extends Serializable {
      */
     abstract class Error implements Serializable {
 
+        /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
         private final Exception cause;
         private final String message;
 
@@ -174,6 +186,10 @@ public interface ValidationReport extends Serializable {
      */
     class RuleError extends Error {
 
+        /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
         private final Rule origin;
 
         public RuleError(Rule r, Exception e, String msg) {
@@ -199,6 +215,10 @@ public interface ValidationReport extends Serializable {
      */
     class FixError extends Error {
 
+        /**
+       * 
+       */
+      private static final long serialVersionUID = 1L;
         private final Fix origin;
 
         public FixError(Fix f, Exception e, String msg) {
