@@ -42,6 +42,8 @@ public class YAML extends Vocabulary {
         public static final String MAPPING = "Mapping";
 
 	public static final String CONTAINS = "contains";
+        
+        public static final String NULL = "Null";
 
 	private static final YAML _instance = new YAML();
 
@@ -80,5 +82,6 @@ public class YAML extends Vocabulary {
         public final IRI mapping = createClass(NS, MAPPING);
         // property
 	public final IRI contains = createProperty(NS, CONTAINS);
-
-}
+        
+        public final IRI nullValue = createProperty(NS, NULL);
+    }

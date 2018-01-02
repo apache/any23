@@ -564,12 +564,10 @@ public class RDFUtils {
      */
     public static boolean isAbsoluteIRI(String href) {
         try {
-            SimpleValueFactory.getInstance().createIRI(href.trim());
-            new java.net.URI(href.trim());
-            return true;
-        } catch (IllegalArgumentException e) {
-            return false;
-        } catch (URISyntaxException e) {
+            valueFactory.createIRI(href.trim());
+            java.net.URI asURI = new java.net.URI(href.trim());
+            return asURI.isAbsolute();
+        } catch (IllegalArgumentException | URISyntaxException e) {
             return false;
         }
     }
