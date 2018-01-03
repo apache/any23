@@ -106,9 +106,6 @@ public class ElementsProcessor {
      */
     @SuppressWarnings("unchecked")
     public ModelHolder asModel(IRI namespace, final Object t, Value rootNode) {
-        if (t == null) {
-            return null;
-        }
 
         if (t instanceof List) {
             return processList(namespace, (List<Object>) t);
@@ -116,6 +113,8 @@ public class ElementsProcessor {
             return processMap(namespace, (Map<String, Object>) t, rootNode);
         } else if (t instanceof String) {
             return asModelHolder(RDFUtils.makeIRI(t.toString()), modelFactory.createEmptyModel());
+        } else if (t == null) {
+            return asModelHolder(vocab.nullValue, modelFactory.createEmptyModel());
         } else {
             return asModelHolder(Literals.createLiteral(vf, t), modelFactory.createEmptyModel());
         }
@@ -217,7 +216,6 @@ public class ElementsProcessor {
             prevNode = currentNode;
         }
 
-        finalModel.add((Resource) listRoot, RDF.TYPE, RDF.LIST, (Resource[]) null);
         return asModelHolder(listRoot, finalModel);
     }
 
