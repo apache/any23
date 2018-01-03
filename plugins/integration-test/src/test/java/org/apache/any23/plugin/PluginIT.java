@@ -56,6 +56,9 @@ public class PluginIT {
     private static final File CRAWLER_TARGET_DIR     = new File(PLUGIN_DIR + "basic-crawler/target/classes");
     private static final File CRAWLER_DEPENDENCY_DIR = new File(PLUGIN_DIR + "basic-crawler/target/dependency");
 
+    private static final File OPENIE_TARGET_DIR     = new File(PLUGIN_DIR + "openie/target/classes");
+    private static final File OPENIE_DEPENDENCY_DIR = new File(PLUGIN_DIR + "openie/target/dependency");
+
     private Any23PluginManager manager;
 
     @Before
@@ -79,13 +82,15 @@ public class PluginIT {
     public void testDetectExtractorPlugins() throws IOException, InstantiationException, IllegalAccessException {
         final ExtractorGroup extractorGroup = manager.getApplicableExtractors(
                 new ExtractorRegistryImpl(),
-                HTML_SCRAPER_TARGET_DIR,  // Required to satisfy class dependencies.
+                HTML_SCRAPER_TARGET_DIR,
                 HTML_SCRAPER_DEPENDENCY_DIR,
                 OFFICE_SCRAPER_TARGET_DIR,
-                OFFICE_SCRAPER_DEPENDENCY_DIR // Required to satisfy class dependencies.
+                OFFICE_SCRAPER_DEPENDENCY_DIR,
+                OPENIE_TARGET_DIR,
+                OPENIE_DEPENDENCY_DIR
         );
         try {
-          Class.forName("org.apache.any23.extractor.openie.OpenIEExtractor", false, this.getClass().getClassLoader());
+          Class.forName("org.apache.any23.plugin.extractor.openie.OpenIEExtractor", false, this.getClass().getClassLoader());
           assertEquals("Did not find the number of expected extractors", NUM_OF_EXTRACTORS_INCL_OPENIE ,
                   extractorGroup.getNumOfExtractors()
           );

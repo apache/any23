@@ -80,6 +80,15 @@ function showModal( id )
         </div>
       </div>
       <div class="control-group">
+        <label class="control-label" for="url-openie-get">OpenIE</label>
+          <div class="controls">
+           <label class="checkbox">
+             <input id="url-openie-get" type="checkbox" name="openie">
+             <a href="javascript:showModal( '#sPopup-openie' );">[?]</a>
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
         <label class="control-label" for="url-validation-get">Validation</label>
         <div class="controls">
           <select id="url-validation-get" name="validation-mode" onclick="if(document.getElementById('url-validation-get').value.indexOf('validate') == 0) { document.getElementById('url-report-get').checked = true; }">
@@ -103,7 +112,7 @@ function showModal( id )
         <label class="control-label" for="url-annotate-get">Annotate</label>
           <div class="controls">
            <label class="checkbox">
-             <input id="url-annotate-get" type="checkbox" type="checkbox" name="annotate">
+             <input id="url-annotate-get" type="checkbox" name="annotate">
              <a href="javascript:showModal( '#sPopup-annotate' );">[?]</a>
           </label>
         </div>
@@ -149,6 +158,15 @@ function showModal( id )
         </div>
       </div>
       <div class="control-group">
+        <label class="control-label" for="openie-on-post">OpenIE</label>
+          <div class="controls">
+           <label class="checkbox">
+             <input id="url-openie-post" type="checkbox" name="openie">
+             <a href="javascript:showModal( '#sPopup-openie' );">[?]</a>
+          </label>
+        </div>
+      </div>
+      <div class="control-group">
         <label class="control-label" for="url-validation-post">Validation</label>
         <div class="controls">
           <select id="url-validation-post" name="validation-mode" onclick="if(document.getElementById('url-validation-post').value.indexOf('validate') == 0) { document.getElementById('url-report-post').checked = true; }">
@@ -172,7 +190,7 @@ function showModal( id )
         <label class="control-label" for="url-annotate-post">Annotate</label>
           <div class="controls">
            <label class="checkbox">
-             <input id="url-annotate-post" type="checkbox" type="checkbox" name="annotate">
+             <input id="url-annotate-post" type="checkbox" name="annotate">
              <a href="javascript:showModal( '#sPopup-annotate' );">[?]</a>
           </label>
         </div>
@@ -224,8 +242,10 @@ function showModal( id )
       </tr>
       <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
       <tr><th>report</th><td>If specified will produce a full XML report containing extraction and validation issues other than produced metadata.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
+      <tr><th>openie</th><td>If specified the <a href="https://github.com/allenai/openie-standalone" target="_blank">
+      Open Information Extraction (Open IE) system</a> will be activated (default off).<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
     </table>
-    Such URL will return an HTTP <i>302</i> redirect to <code><span class="app-base-uri">http://...</span>any23/<em>format</em></code>.<br/>
+    Formatting the URL according to the above will return an HTTP <i>302</i> redirect to <code><span class="app-base-uri">http://...</span>any23/<em>format</em></code>.<br/>
     <p>The response is the input document converted to the desired output format.</p>
 
     <h3>Direct POST API</h3>
@@ -278,6 +298,8 @@ Content-Length: 174
       </tr>
       <tr><th>annotate</th><td>If specified the output RDF will contain extractor specific scope comments.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
       <tr><th>report</th><td>If specified will produce a full XML report containing extraction and validation issues other than produced metadata.<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
+      <tr><th>openie</th><td>If specified the <a href="https://github.com/allenai/openie-standalone" target="_blank">
+      Open Information Extraction (Open IE) system</a> will be activated (default off).<br/>Possible values: <code>on</code>/<code>off</code></td></tr>
     </table>
 
     <h3>Output formats</h3>
@@ -285,11 +307,11 @@ Content-Length: 174
     <ul>
       <li><code>best</code> for content negotiation according to the client's <code>Accept</code> HTTP header</li>
       <li><code>turtle</code>, <code>ttl</code>, <code>n3</code> for
-        <a href="http://www.w3.org/TeamSubmission/turtle/" target="_blank">Turtle</a>/<a href="http://www.w3.org/DesignIssues/Notation3" target="_blank">N3</a></li>
+        <a href="https://www.w3.org/TR/turtle/" target="_blank">Turtle</a>/<a href="https://www.w3.org/TeamSubmission/n3/" target="_blank">N3</a></li>
       <li><code>ntriples</code>, <code>nt</code> for
-        <a href="http://www.w3.org/TR/rdf-testcases/#ntriples" target="_blank">N-Triples</a></li>
+        <a href="https://www.w3.org/TR/n-triples/" target="_blank">N-Triples</a></li>
       <li><code>nquads</code>, <code>nq</code> for
-        <a href="http://sw.deri.org/2008/07/n-quads/" target="_blank">N-Quads</a></li>
+        <a href="https://www.w3.org/TR/n-quads/" target="_blank">N-Quads</a></li>
       <li><code>trix</code> for
         <a href="http://www.w3.org/2004/03/trix/" target="_blank">TriX</a></li>
       <li><code>rdfxml</code>, <code>rdf</code>, <code>xml</code> for
@@ -323,6 +345,27 @@ Content-Length: 174
     <p><b>Apache Any23 v.${project.version} (${implementation.build.tstamp})</b></p>
     <p><a href="http://any23.apache.org/" target="_blank">Any23 project homepage</a> | Hosted at <a href="http://apache.org/" target="_blank">Apache Software Foundation</a></p>
 
+    <div id="sPopup-openie" class="modal hide fade">
+      <div class="modal-header">
+        <button type="button" class="close">×</button>
+        <h3>Open Information Extraction</h3>
+      </div>
+      <div class="modal-body">
+        <p>
+        If the <i>OpenIE</i> checkbox is selected, the <b>Any23</b> service will activate the
+        <a href="https://github.com/allenai/openie-standalone" target="_blank">Open Information Extraction (Open IE) system</a>, 
+        enhancing extraction results.</p>
+        <p>The Open IE system runs over sentences and creates extractions that represent relations in text, in the case 
+        of Any23, this results in triples. The confidence of relationships extracted from text are based on a 
+        configurable threshold established in 
+        <code>https://github.com/apache/any23/blob/master/api/src/main/resources/default-configuration.properties</code>.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn">Close</a>
+      </div>
+    </div>
+
     <div id="sPopup-fix" class="modal hide fade">
       <div class="modal-header">
         <button type="button" class="close" >×</button>
@@ -330,8 +373,8 @@ Content-Length: 174
       </div>
       <div class="modal-body">
         <p> 
-          The <b>Any23</b> service tries to fix some <a href="http://www.deri.ie/fileadmin/documents/DERI-TR-2009-07-28.pdf" target="_blank">common issues</a>
-          before performing a metadata extraction. The fixing is performed according a set of fully customizable rules. 
+          The <b>Any23</b> service tries to fix some common issues before performing a metadata 
+          extraction. The fixing is performed according a set of fully customizable rules.
         </p>
         <p>
           The following <i>Validation</i> options are available.

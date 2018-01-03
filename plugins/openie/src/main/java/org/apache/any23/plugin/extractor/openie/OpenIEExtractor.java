@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.extractor.openie;
+package org.apache.any23.plugin.extractor.openie;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,6 +27,9 @@ import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.plugin.Author;
+import org.apache.any23.plugin.ExtractorPlugin;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.StreamUtils;
 import org.apache.tika.Tika;
@@ -59,11 +62,10 @@ import scala.collection.Seq;
  * extractor able to generate <i>RDF</i> statements from 
  * sentences representing relations in the text.
  */
-public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
+@Author(name="Lewis John McGibbney (lewismc@apache.org)")
+public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor, ExtractorPlugin {
 
     private static final Logger LOG = LoggerFactory.getLogger(OpenIEExtractor.class);
-
-    private IRI documentRoot;
 
     /**
      * default constructor
@@ -86,7 +88,7 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
                     throws IOException, ExtractionException {
 
         IRI documentIRI = context.getDocumentIRI();
-        documentRoot = RDFUtils.iri(documentIRI.toString() + "root");
+        RDFUtils.iri(documentIRI.toString() + "root");
         out.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
         out.writeNamespace(RDFS.PREFIX, RDFS.NAMESPACE);
         LOG.debug("Processing: {}", documentIRI.toString());
@@ -126,5 +128,10 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
                 }
             }
         }
+    }
+
+    @Override
+    public ExtractorFactory<?> getExtractorFactory() {
+      return (ExtractorFactory<?>) OpenIEExtractorFactory.getDescriptionInstance();
     }
 }

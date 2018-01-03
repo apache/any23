@@ -49,11 +49,10 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
 
    * adding its <JAR> to the <$HOME/.any23/plugins> directory.
 
-   A plugin can be added to the <Apache Any23 library API> by using the
-   {{{./apidocs/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#createInstance(Configuration configuration, File... pluginLocations)
-   method.
-
-   TODO: plugin support in Apache Any23 Service
+   A plugin can be added to the <Apache Any23 library API> by first creating a static instance of
+   {{{./apidocs/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#getInstance().
+   Once this is done there is a variety of options to configure and register a plugins, etc. An example
+   of dynamic plugin loading can be seen via the OpenIE toggle in the Any23 Service.
 
     Any implementation of <ExtractorPlugin> will automatically registered to the
     {{{./apidocs/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.

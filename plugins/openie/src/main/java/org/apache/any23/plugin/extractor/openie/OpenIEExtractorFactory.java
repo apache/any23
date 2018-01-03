@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.any23.extractor.openie;
+package org.apache.any23.plugin.extractor.openie;
 
 import java.util.Arrays;
 
@@ -28,7 +28,7 @@ import org.apache.any23.rdf.Prefixes;
  *
  */
 public class OpenIEExtractorFactory extends SimpleExtractorFactory<OpenIEExtractor>
-    implements ExtractorFactory<OpenIEExtractor> {
+        implements ExtractorFactory<OpenIEExtractor> {
 
     public static final String NAME = "openie";
 

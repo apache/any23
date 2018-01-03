@@ -204,10 +204,10 @@
     <module>encoding</module>
     <module>core</module>
     <module>cli</module>
-    <module>openie</module>
     <module>plugins/basic-crawler</module>
     <module>plugins/html-scraper</module>
     <module>plugins/office-scraper</module>
+    <module>plugins/openie</module>
     <module>plugins/integration-test</module>
     <module>service</module>
   </modules>
@@ -248,6 +248,8 @@
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.25</slf4j.logger.version>
     <tika.version>1.17</tika.version>
+    <openie_2.11.version>4.2.6</openie_2.11.version>
+    <openregex.version>1.1.1</openregex.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
@@ -270,7 +272,7 @@
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-    <maven-surefire-plugin.version>2.20</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
     <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
     <maven-site-plugin.version>3.6</maven-site-plugin.version>
     <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
