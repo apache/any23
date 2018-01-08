@@ -43,7 +43,9 @@ import java.util.Map;
 public class RDFSchemaUtils {
 
     private static final String RDF_XML_SEPARATOR = StringUtils.multiply('=', 100);
-    
+
+    private RDFSchemaUtils() {}
+
     /**
      * Serializes a vocabulary composed of the given <code>namespace</code>,
      * <code>resources</code> and <code>properties</code>.
@@ -61,7 +63,7 @@ public class RDFSchemaUtils {
             IRI[] properties,
             Map<IRI,String> comments,
             RDFWriter writer
-    ) throws RDFHandlerException {
+    ) {
         writer.startRDF();
         for(IRI clazz : classes) {
             writer.handleStatement( RDFUtils.quad(clazz, RDF.TYPE, RDFS.CLASS, namespace) );
@@ -87,8 +89,7 @@ public class RDFSchemaUtils {
      * @param writer output writer.
      * @throws RDFHandlerException if there is an error handling the RDF
      */
-    public static void serializeVocabulary(Vocabulary vocabulary, RDFWriter writer)
-    throws RDFHandlerException {
+    public static void serializeVocabulary(Vocabulary vocabulary, RDFWriter writer) {
         serializeVocabulary(
                 vocabulary.getNamespace(),
                 vocabulary.getClasses(),
@@ -111,8 +112,7 @@ public class RDFSchemaUtils {
             Vocabulary vocabulary,
             RDFFormat format,
             boolean willFollowAnother,
-            PrintStream ps
-    ) throws RDFHandlerException {
+            PrintStream ps) {
         final RDFWriter rdfWriter;
         if(format == RDFFormat.RDFXML) {
             rdfWriter = Rio.createWriter(RDFFormat.RDFXML, ps);
@@ -134,8 +134,7 @@ public class RDFSchemaUtils {
      * @return string contained serialization.
      * @throws RDFHandlerException if there is an error handling the RDF
      */
-    public static String serializeVocabulary(Vocabulary vocabulary, RDFFormat format)
-    throws RDFHandlerException {
+    public static String serializeVocabulary(Vocabulary vocabulary, RDFFormat format) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final PrintStream ps = new PrintStream(baos);
         serializeVocabulary(vocabulary, format, false, ps);
@@ -150,16 +149,17 @@ public class RDFSchemaUtils {
      * @param ps output print stream.
      */
     public static void serializeVocabularies(RDFFormat format, PrintStream ps) {
-        final Class vocabularyClass = Vocabulary.class;
+        final Class<Vocabulary> vocabularyClass = Vocabulary.class;
+        @SuppressWarnings("rawtypes")
         final List<Class> vocabularies = DiscoveryUtils.getClassesInPackage(
                 vocabularyClass.getPackage().getName(),
                 vocabularyClass
         );
         int currentIndex = 0;
-        for (Class vocabClazz : vocabularies) {
+        for (Class<?> vocabClazz : vocabularies) {
             final Vocabulary instance;
             try {
-                final Constructor constructor = vocabClazz.getDeclaredConstructor();
+                final Constructor<?> constructor = vocabClazz.getDeclaredConstructor();
                 constructor.setAccessible(true);
                 instance = (Vocabulary) constructor.newInstance();
             } catch (Exception e) {
@@ -172,7 +172,5 @@ public class RDFSchemaUtils {
             }
         }
     }
-
-    private RDFSchemaUtils() {}
 
 }

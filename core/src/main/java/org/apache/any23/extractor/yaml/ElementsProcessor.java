@@ -58,6 +58,10 @@ public class ElementsProcessor {
 
     private static final ElementsProcessor _ep = new ElementsProcessor();
 
+    // hide constructor
+    private ElementsProcessor() {
+    }
+
     /**
      * A model holder describes the two required parameters which makes a model useful
      * in further processing: a root node and model itself.
@@ -66,17 +70,17 @@ public class ElementsProcessor {
         private final Value root;
         private final Model model;
 
+        public ModelHolder(Value root, Model model) {
+            this.root = root;
+            this.model = model;
+        }
+
         public Value getRoot() {
             return root;
         }
 
         public Model getModel() {
             return model;
-        }
-
-        public ModelHolder(Value root, Model model) {
-            this.root = root;
-            this.model = model;
         }
     }
     
@@ -100,12 +104,13 @@ public class ElementsProcessor {
      * created.
      * @return instance of {@link ModelHolder},
      */
+    @SuppressWarnings("unchecked")
     public ModelHolder asModel(IRI namespace, final Object t, Value rootNode) {
 
         if (t instanceof List) {
-            return processList(namespace, (List) t);
+            return processList(namespace, (List<Object>) t);
         } else if (t instanceof Map) {
-            return processMap(namespace, (Map) t, rootNode);
+            return processMap(namespace, (Map<String, Object>) t, rootNode);
         } else if (t instanceof String) {
             return asModelHolder(RDFUtils.makeIRI(t.toString()), modelFactory.createEmptyModel());
         } else if (t == null) {
@@ -173,7 +178,6 @@ public class ElementsProcessor {
         return asModelHolder(nodeURI, model);
     }
 
-    @SuppressWarnings("UnusedAssignment")
     protected ModelHolder processList(IRI ns, List<Object> object) {
 
         if (object.isEmpty() || object.stream().noneMatch((i) -> {
@@ -213,10 +217,6 @@ public class ElementsProcessor {
         }
 
         return asModelHolder(listRoot, finalModel);
-    }
-
-    // hide constructor
-    private ElementsProcessor() {
     }
 
     public static final ElementsProcessor getInstance() {

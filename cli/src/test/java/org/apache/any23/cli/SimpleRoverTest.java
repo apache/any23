@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.apache.any23.util.FileUtils;
 import org.apache.pdfbox.util.Charsets;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -104,7 +103,6 @@ public class SimpleRoverTest extends ToolTestBase {
      * @throws Exception 
      */
     @Test
-    @Ignore
     public void ref310ExtendedTest()
             throws Exception {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);

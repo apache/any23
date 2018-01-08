@@ -18,7 +18,6 @@
 package org.apache.any23.extractor.xpath;
 
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.impl.BNodeImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
@@ -32,9 +31,9 @@ public class TemplateObject extends Term {
      * Supported object types.
      */
     public enum Type {
-        uri,
-        bnode,
-        literal
+        URI,
+        BNODE,
+        LITERAL
     }
 
     /**
@@ -61,21 +60,25 @@ public class TemplateObject extends Term {
     @Override
     protected Value getValueInternal(String value) {
         switch (type) {
-            case uri:
-                try {
-                    return SimpleValueFactory.getInstance().createIRI(value);
-                } catch (IllegalArgumentException iae) {
-                    throw new IllegalArgumentException(
-                            String.format("Expected a valid IRI for object template, found '%s'", value),
-                            iae
-                    );
-                }
-            case bnode:
+            case URI:
+                return createIRI(value);
+            case BNODE:
                 return SimpleValueFactory.getInstance().createBNode(value);
-            case literal:
+            case LITERAL:
                 return SimpleValueFactory.getInstance().createLiteral(value);
             default:
                 throw new IllegalStateException();
+        }
+    }
+
+    private Value createIRI(String value) {
+        try {
+            return SimpleValueFactory.getInstance().createIRI(value);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException(
+                String.format("Expected a valid IRI for object template, found '%s'", value),
+                iae
+            );
         }
     }
 
@@ -83,11 +86,11 @@ public class TemplateObject extends Term {
     public String toString() {
         final String superStr = super.toString();
         switch (type) {
-            case uri:
+            case URI:
                 return "<" + superStr + ">";
-            case bnode:
+            case BNODE:
                 return "_:" + superStr;
-            case literal:
+            case LITERAL:
                 return "'" + superStr + "'";
             default:
                 throw new IllegalStateException();

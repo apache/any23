@@ -26,7 +26,6 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.impl.LiteralImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -51,7 +50,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private IRI profile;
 
-    private Map<String, IRI> prefixes = new HashMap<String, IRI>();
+    private Map<String, IRI> prefixes = new HashMap<>();
 
     private String documentLang;
 
@@ -82,25 +81,25 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
                 lang = meta.getLang();
             }
             if(meta.isPragmaDirective){
-            	if(lang != null) {
-            		out.writeTriple(
+                if(lang != null) {
+                    out.writeTriple(
                         documentIRI,
                         meta.getHttpEquiv(),
                         SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
-            	} else {
+                } else {
                         out.writeTriple(
                                 documentIRI,
                                 meta.getHttpEquiv(),
                                 SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
-            	}
-            }else {
-            	if(lang != null) {
-            		out.writeTriple(
+                }
+            } else {
+                if(lang != null) {
+                    out.writeTriple(
                         documentIRI,
                         meta.getName(),
                         SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
-            	} else {
-            		out.writeTriple(
+                } else {
+                    out.writeTriple(
                             documentIRI,
                             meta.getName(),
                             SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
@@ -117,7 +116,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
      */
     private String getDocumentLanguage(Document in) {
         String lang = DomUtils.find(in, "string(/HTML/@lang)");
-        if (lang.equals("")) {
+        if ("".equals(lang)) {
             return null;
         }
         return lang;
@@ -125,7 +124,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private IRI extractProfile(Document in) {
         String profile = DomUtils.find(in, "string(/HTML/@profile)");
-        if (profile.equals("")) {
+        if ("".equals(profile)) {
             return null;
         }
         return SimpleValueFactory.getInstance().createIRI(profile);
@@ -150,7 +149,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private Set<Meta> extractMetaElement(Document in, String baseProfile) {
         List<Node> metaNodes = DomUtils.findAll(in, "/HTML/HEAD/META");
-        Set<Meta> result = new HashSet<Meta>();
+        Set<Meta> result = new HashSet<>();
         for (Node metaNode : metaNodes) {
             NamedNodeMap attributes = metaNode.getAttributes();
             Node nameAttribute = attributes.getNamedItem("name");
@@ -223,6 +222,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             this.setPragmaDirective(true);
         }
 
+        @SuppressWarnings("unused")
         public Meta(String xpath, String content, IRI httpEquiv, String lang) {
             this(xpath,content,httpEquiv);
             this.lang = lang;
@@ -234,13 +234,10 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             this.content = content;
         }
 
+        @SuppressWarnings("unused")
         public Meta(String xpath, IRI name, String content, String lang) {
             this(xpath, name, content);
             this.lang = lang;
-        }
-
-        public boolean isPragmaDirective(){
-            return isPragmaDirective;
         }
 
         private void setPragmaDirective(boolean value){
@@ -251,42 +248,29 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             return httpEquiv;
         }
 
-        public void setHttpEquiv(IRI httpEquiv){
-            this.httpEquiv=httpEquiv;
-        }
-
         public IRI getName() {
             return name;
-        }
-
-        public void setName(IRI name) {
-            this.name = name;
         }
 
         public String getLang() {
             return lang;
         }
 
-        public void setLang(String lang) {
-            this.lang = lang;
-        }
-
         public String getContent() {
             return content;
         }
 
-        public void setContent(String content) {
-            this.content = content;
-        }
-
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
 
             Meta meta = (Meta) o;
 
-            if (xpath != null ? !xpath.equals(meta.xpath) : meta.xpath != null) return false;
+            if (xpath != null ? !xpath.equals(meta.xpath) : meta.xpath != null)
+                return false;
 
             return true;
         }

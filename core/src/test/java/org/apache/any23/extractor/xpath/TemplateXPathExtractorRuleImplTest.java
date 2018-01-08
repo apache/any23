@@ -75,15 +75,15 @@ public class TemplateXPathExtractorRuleImplTest {
     @Test
     public void testAddRemoveTemplates() {
         final QuadTemplate template1 = new QuadTemplate(
-                new TemplateSubject(TemplateSubject.Type.uri, "http://sub1", false),
+                new TemplateSubject(TemplateSubject.Type.URI, "http://sub1", false),
                 new TemplatePredicate("http://pred1", false),
-                new TemplateObject(TemplateObject.Type.uri, "http://obj1", false),
+                new TemplateObject(TemplateObject.Type.URI, "http://obj1", false),
                 new TemplateGraph("http://graph1", false)
         );
         final QuadTemplate template2 = new QuadTemplate(
-                new TemplateSubject(TemplateSubject.Type.uri, "http://sub2", false),
+                new TemplateSubject(TemplateSubject.Type.URI, "http://sub2", false),
                 new TemplatePredicate("http://pred2", false),
-                new TemplateObject(TemplateObject.Type.uri, "http://obj2", false),
+                new TemplateObject(TemplateObject.Type.URI, "http://obj2", false),
                 new TemplateGraph("http://graph2", false)
         );
 
@@ -94,9 +94,9 @@ public class TemplateXPathExtractorRuleImplTest {
 
         xPathExtractionRule.add(new Variable("v1", "//"));
         final QuadTemplate template3 = new QuadTemplate(
-                new TemplateSubject(TemplateSubject.Type.uri, "http://sub2", false),
+                new TemplateSubject(TemplateSubject.Type.URI, "http://sub2", false),
                 new TemplatePredicate("http://pred2", false),
-                new TemplateObject(TemplateObject.Type.uri, "v1", true),
+                new TemplateObject(TemplateObject.Type.URI, "v1", true),
                 new TemplateGraph("http://graph2", false)
         );
         xPathExtractionRule.add(template3);
@@ -106,9 +106,9 @@ public class TemplateXPathExtractorRuleImplTest {
     public void testAddTemplateWithNoDeclaredVarCheck() {
         xPathExtractionRule.add(
                 new QuadTemplate(
-                        new TemplateSubject(TemplateSubject.Type.uri, "http://sub2", false),
+                        new TemplateSubject(TemplateSubject.Type.URI, "http://sub2", false),
                         new TemplatePredicate("http://pred2", false),
-                        new TemplateObject(TemplateObject.Type.uri, "v1", true),
+                        new TemplateObject(TemplateObject.Type.URI, "v1", true),
                         new TemplateGraph("http://graph2", false)
                 )
         );
@@ -127,15 +127,15 @@ public class TemplateXPathExtractorRuleImplTest {
     @Test
     public void testProcess() throws IOException {
         final QuadTemplate template1 = new QuadTemplate(
-                new TemplateSubject(TemplateSubject.Type.uri, "http://sub1", false),
+                new TemplateSubject(TemplateSubject.Type.URI, "http://sub1", false),
                 new TemplatePredicate("http://pred1", false),
-                new TemplateObject(TemplateObject.Type.literal, "v1", true),
+                new TemplateObject(TemplateObject.Type.LITERAL, "v1", true),
                 new TemplateGraph("http://graph1", false)
         );
         final QuadTemplate template2 = new QuadTemplate(
-                new TemplateSubject(TemplateSubject.Type.uri, "http://sub2", false),
+                new TemplateSubject(TemplateSubject.Type.URI, "http://sub2", false),
                 new TemplatePredicate("v2", true),
-                new TemplateObject(TemplateObject.Type.uri, "http://obj2", false),
+                new TemplateObject(TemplateObject.Type.URI, "http://obj2", false),
                 new TemplateGraph("http://graph2", false)
         );
 

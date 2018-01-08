@@ -117,6 +117,7 @@ public class QuadTemplate {
     public void printOut(ExtractionResult er, Map<String,String> variableAssignment) {
         final Resource s = subject.getValue(variableAssignment);
         final IRI p      = predicate.getValue(variableAssignment);
+        @SuppressWarnings("unchecked")
         final Value o    = object.getValue(variableAssignment);
         if(graph != null) {
             final IRI g = graph.getValue(variableAssignment);

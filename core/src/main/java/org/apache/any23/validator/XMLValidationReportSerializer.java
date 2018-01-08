@@ -41,6 +41,7 @@ import java.util.List;
  */
 public class XMLValidationReportSerializer implements ValidationReportSerializer {
 
+    @Override
     public void serialize(ValidationReport vr, OutputStream os) throws SerializationException {
         final PrintStream ps = new PrintStream(os);
         try {
@@ -54,9 +55,9 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         if(o == null) {
             return;
         }
-        final Class oClass = o.getClass();
+        final Class<? extends Object> oClass = o.getClass();
         final String oClassName = getClassName(oClass);
-        ps.printf("<%s>\n", oClassName);
+        ps.printf("<%s>%n", oClassName);
         List<Method> getters = filterGetters(o.getClass());
         if(getters.isEmpty()) {
             ps.print( o.toString() );
@@ -65,11 +66,11 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         for (Method getter : getters) {
             serializeGetterValue(o, getter, ps);
         }
-        ps.printf("</%s>\n", oClassName);
+        ps.printf("</%s>%n", oClassName);
     }
 
-    private String getClassName(Class oClass) {
-        final NodeName nodeName = (NodeName) oClass.getAnnotation(NodeName.class);
+    private String getClassName(Class<? extends Object> oClass) {
+        final NodeName nodeName = oClass.getAnnotation(NodeName.class);
         if(nodeName != null) {
             return nodeName.value();
         }
@@ -77,9 +78,9 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         return Character.toLowerCase(simpleName.charAt(0)) + simpleName.substring(1);
     }
 
-    private List<Method> filterGetters(Class c) {
+    private List<Method> filterGetters(Class<? extends Object> c) {
         Method[] methods = c.getDeclaredMethods();
-        List<Method> filtered = new ArrayList<Method>();
+        List<Method> filtered = new ArrayList<>();
         for(Method method : methods) {
             if(Modifier.isStatic(method.getModifiers())) {
                 continue;
@@ -110,9 +111,9 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         }
         final String property = getPropertyFromMethodName(methodName);
         if( isManaged(value) ) {
-            ps.printf("<%s>\n", property);
+            ps.printf("<%s>%n", property);
             printObject(value, ps);
-            ps.printf("</%s>\n", property);
+            ps.printf("</%s>%n", property);
         } else {
             List<Method> getters = filterGetters(value.getClass());
             for (Method getter : getters) {
@@ -148,7 +149,7 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
             return;
         }
         if(o instanceof Collection) {
-            Collection collection = (Collection) o;
+            Collection<?> collection = (Collection<?>) o;
             if(collection.isEmpty()) {
                 return;
             }
