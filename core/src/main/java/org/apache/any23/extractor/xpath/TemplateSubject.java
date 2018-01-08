@@ -18,7 +18,6 @@
 package org.apache.any23.extractor.xpath;
 
 import org.eclipse.rdf4j.model.Resource;
-import org.eclipse.rdf4j.model.impl.BNodeImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 /**
@@ -32,8 +31,8 @@ public class TemplateSubject extends Term<Resource> {
      * Supported subject types.
      */
     public enum Type {
-        uri,
-        bnode
+        URI,
+        BNODE
     }
 
     /**
@@ -60,9 +59,9 @@ public class TemplateSubject extends Term<Resource> {
     @Override
     protected Resource getValueInternal(String value) {
         switch (type) {
-            case uri:
+            case URI:
                 return SimpleValueFactory.getInstance().createIRI(value);
-            case bnode:
+            case BNODE:
                 return SimpleValueFactory.getInstance().createBNode(value);
             default:
                 throw new IllegalStateException();
@@ -73,9 +72,9 @@ public class TemplateSubject extends Term<Resource> {
     public String toString() {
         final String superStr = super.toString();
         switch (type) {
-            case uri:
+            case URI:
                 return "<" + superStr + ">";
-            case bnode:
+            case BNODE:
                 return "_:" + superStr;
             default:
                 throw new IllegalStateException();

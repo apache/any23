@@ -58,12 +58,15 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setStopAtFirstError(boolean f) {
+      //not implemented
     }
 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void run(
             ExtractionParameters extractionParameters,
             ExtractionContext extractionContext,
@@ -85,7 +88,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
         String[] nextLine;
         int index = 0;
         while ((nextLine = csvParser.getLine()) != null) {
-            IRI rowSubject = RDFUtils.uri(
+            IRI rowSubject = RDFUtils.iri(
                     documentIRI.toString(),
                     "row/" + index
             );
@@ -194,11 +197,11 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     private IRI normalize(String toBeNormalized, IRI documentIRI) {
-        toBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "");
+      String newToBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "");
 
         StringBuilder result = new StringBuilder(documentIRI.toString());
 
-        StringTokenizer tokenizer = new StringTokenizer(toBeNormalized, " ");
+        StringTokenizer tokenizer = new StringTokenizer(newToBeNormalized, " ");
         while (tokenizer.hasMoreTokens()) {
             String current = tokenizer.nextToken();
 
@@ -228,7 +231,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
                 // there are some row cells that don't have an associated column name
                 break;
             }
-            if (cell.equals("")) {
+            if ("".equals(cell)) {
                 index++;
                 continue;
             }
@@ -241,17 +244,17 @@ public class CSVExtractor implements Extractor.ContentExtractor {
 
     private Value getObjectFromCell(String cell) {
         Value object;
-        cell = cell.trim();
-        if (RDFUtils.isAbsoluteIRI(cell)) {
-            object = SimpleValueFactory.getInstance().createIRI(cell);
+        String newCell = cell.trim();
+        if (RDFUtils.isAbsoluteIRI(newCell)) {
+            object = SimpleValueFactory.getInstance().createIRI(newCell);
         } else {
             IRI datatype = XMLSchema.STRING;
-            if (isInteger(cell)) {
+            if (isInteger(newCell)) {
                 datatype = XMLSchema.INTEGER;
-            } else if(isFloat(cell)) {
+            } else if(isFloat(newCell)) {
                 datatype = XMLSchema.FLOAT;
             }
-            object = SimpleValueFactory.getInstance().createLiteral(cell, datatype);
+            object = SimpleValueFactory.getInstance().createLiteral(newCell, datatype);
         }
         return object;
     }

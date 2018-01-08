@@ -28,7 +28,6 @@ import org.apache.any23.extractor.rdf.JSONLDExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.impl.LiteralImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
@@ -52,205 +51,167 @@ import java.util.Set;
  */
 public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
 
-	private static final SINDICE vSINDICE = SINDICE.getInstance();
+  private static final SINDICE vSINDICE = SINDICE.getInstance();
 
-	private IRI profile;
+  private IRI profile;
 
-	private Map<String, IRI> prefixes = new HashMap<>();
+  private Map<String, IRI> prefixes = new HashMap<>();
 
-	private String documentLang;
+  private String documentLang;
 
-	private JSONLDExtractor extractor;
+  private JSONLDExtractor extractor;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void run(ExtractionParameters extractionParameters,
-			ExtractionContext extractionContext, Document in,
-			ExtractionResult out) throws IOException, ExtractionException {
-		profile = extractProfile(in);
-		documentLang = getDocumentLanguage(in);
-		extractLinkDefinedPrefixes(in);
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void run(ExtractionParameters extractionParameters,
+          ExtractionContext extractionContext, Document in,
+          ExtractionResult out) throws IOException, ExtractionException {
+    profile = extractProfile(in);
+    documentLang = getDocumentLanguage(in);
+    extractLinkDefinedPrefixes(in);
 
-		String baseProfile = vSINDICE.NS;
-		if (profile != null) {
-			baseProfile = profile.toString();
-		}
+    String baseProfile = vSINDICE.NS;
+    if (profile != null) {
+      baseProfile = profile.toString();
+    }
 
-		final IRI documentIRI = extractionContext.getDocumentIRI();
-		Set<JSONLDScript> jsonldScripts = extractJSONLDScript(in, baseProfile,
-				extractionParameters, extractionContext, out);
-		for (JSONLDScript jsonldScript : jsonldScripts) {
-			//String lang = documentLang;
-			//if (jsonldScript.getLang() != null) {
-			//	lang = jsonldScript.getLang();
-			//}
-			//out.writeTriple(documentIRI, jsonldScript.getName(),
-			//		SimpleValueFactory.getInstance().createLiteral(jsonldScript.getContent(), lang));
-		}
-	}
+    extractionContext.getDocumentIRI();
+    Set<JSONLDScript> jsonldScripts = extractJSONLDScript(in, baseProfile,
+            extractionParameters, extractionContext, out);
+    for (JSONLDScript jsonldScript : jsonldScripts) {
+      //String lang = documentLang;
+      //if (jsonldScript.getLang() != null) {
+      //	lang = jsonldScript.getLang();
+      //}
+      //out.writeTriple(documentIRI, jsonldScript.getName(),
+      //		SimpleValueFactory.getInstance().createLiteral(jsonldScript.getContent(), lang));
+    }
+  }
 
-	/**
-	 * Returns the {@link Document} language if declared, <code>null</code>
-	 * otherwise.
-	 *
-	 * @param in
-	 *            a instance of {@link Document}.
-	 * @return the language declared, could be <code>null</code>.
-	 */
-	private String getDocumentLanguage(Document in) {
-		String lang = DomUtils.find(in, "string(/HTML/@lang)");
-		if (lang.equals("")) {
-			return null;
-		}
-		return lang;
-	}
+  /**
+   * Returns the {@link Document} language if declared, <code>null</code>
+   * otherwise.
+   *
+   * @param in
+   *            a instance of {@link Document}.
+   * @return the language declared, could be <code>null</code>.
+   */
+  private String getDocumentLanguage(Document in) {
+    String lang = DomUtils.find(in, "string(/HTML/@lang)");
+    if ("".equals(lang)) {
+      return null;
+    }
+    return lang;
+  }
 
-	private IRI extractProfile(Document in) {
-		String profile = DomUtils.find(in, "string(/HTML/@profile)");
-		if (profile.equals("")) {
-			return null;
-		}
-		return SimpleValueFactory.getInstance().createIRI(profile);
-	}
+  private IRI extractProfile(Document in) {
+    String profile = DomUtils.find(in, "string(/HTML/@profile)");
+    if ("".equals(profile)) {
+      return null;
+    }
+    return SimpleValueFactory.getInstance().createIRI(profile);
+  }
 
-	/**
-	 * It extracts prefixes defined in the <i>LINK</i> meta tags.
-	 *
-	 * @param in
-	 */
-	private void extractLinkDefinedPrefixes(Document in) {
-		List<Node> linkNodes = DomUtils.findAll(in, "/HTML/HEAD/LINK");
-		for (Node linkNode : linkNodes) {
-			NamedNodeMap attributes = linkNode.getAttributes();
-			String rel = attributes.getNamedItem("rel").getTextContent();
-			String href = attributes.getNamedItem("href").getTextContent();
-			if (rel != null && href != null && RDFUtils.isAbsoluteIRI(href)) {
-				prefixes.put(rel, SimpleValueFactory.getInstance().createIRI(href));
-			}
-		}
-	}
+  /**
+   * It extracts prefixes defined in the <i>LINK</i> meta tags.
+   *
+   * @param in
+   */
+  private void extractLinkDefinedPrefixes(Document in) {
+    List<Node> linkNodes = DomUtils.findAll(in, "/HTML/HEAD/LINK");
+    for (Node linkNode : linkNodes) {
+      NamedNodeMap attributes = linkNode.getAttributes();
+      String rel = attributes.getNamedItem("rel").getTextContent();
+      String href = attributes.getNamedItem("href").getTextContent();
+      if (rel != null && href != null && RDFUtils.isAbsoluteIRI(href)) {
+        prefixes.put(rel, SimpleValueFactory.getInstance().createIRI(href));
+      }
+    }
+  }
 
-	private Set<JSONLDScript> extractJSONLDScript(Document in,
-			String baseProfile, ExtractionParameters extractionParameters,
-			ExtractionContext extractionContext, ExtractionResult out)
-			throws IOException, ExtractionException {
-		List<Node> scriptNodes = DomUtils.findAll(in, "/HTML/HEAD/SCRIPT");
-		Set<JSONLDScript> result = new HashSet<>();
-		extractor = new JSONLDExtractorFactory().createExtractor();
-		for (Node jsonldNode : scriptNodes) {
-			NamedNodeMap attributes = jsonldNode.getAttributes();
-			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.item(i).getTextContent()
-						.equalsIgnoreCase("application/ld+json")) {
-					extractor.run(extractionParameters, extractionContext,
-							DomUtils.nodeToInputStream(jsonldNode
-									.getFirstChild()), out);
-				}
-			}
-			Node nameAttribute = attributes.getNamedItem("name");
-			Node contentAttribute = attributes.getNamedItem("content");
-			if (nameAttribute == null || contentAttribute == null) {
-				continue;
-			}
-			String name = nameAttribute.getTextContent();
-			String content = contentAttribute.getTextContent();
-			String xpath = DomUtils.getXPathForNode(jsonldNode);
-			IRI nameAsIRI = getPrefixIfExists(name);
-			if (nameAsIRI == null) {
-				nameAsIRI = SimpleValueFactory.getInstance().createIRI(baseProfile + name);
-			}
-			JSONLDScript jsonldScript = new JSONLDScript(xpath, nameAsIRI,
-					content);
-			result.add(jsonldScript);
-		}
-		return result;
-	}
+  private Set<JSONLDScript> extractJSONLDScript(Document in,
+          String baseProfile, ExtractionParameters extractionParameters,
+          ExtractionContext extractionContext, ExtractionResult out)
+                  throws IOException, ExtractionException {
+    List<Node> scriptNodes = DomUtils.findAll(in, "/HTML/HEAD/SCRIPT");
+    Set<JSONLDScript> result = new HashSet<>();
+    extractor = new JSONLDExtractorFactory().createExtractor();
+    for (Node jsonldNode : scriptNodes) {
+      NamedNodeMap attributes = jsonldNode.getAttributes();
+      for (int i = 0; i < attributes.getLength(); i++) {
+        if ("application/ld+json".equalsIgnoreCase(attributes.item(i).getTextContent())) {
+          extractor.run(extractionParameters, extractionContext,
+                  DomUtils.nodeToInputStream(jsonldNode
+                          .getFirstChild()), out);
+        }
+      }
+      Node nameAttribute = attributes.getNamedItem("name");
+      Node contentAttribute = attributes.getNamedItem("content");
+      if (nameAttribute == null || contentAttribute == null) {
+        continue;
+      }
+      String name = nameAttribute.getTextContent();
+      String content = contentAttribute.getTextContent();
+      String xpath = DomUtils.getXPathForNode(jsonldNode);
+      IRI nameAsIRI = getPrefixIfExists(name);
+      if (nameAsIRI == null) {
+        nameAsIRI = SimpleValueFactory.getInstance().createIRI(baseProfile + name);
+      }
+      JSONLDScript jsonldScript = new JSONLDScript(xpath, nameAsIRI,
+              content);
+      result.add(jsonldScript);
+    }
+    return result;
+  }
 
-	private IRI getPrefixIfExists(String name) {
-		String[] split = name.split("\\.");
-		if (split.length == 2 && prefixes.containsKey(split[0])) {
-			return SimpleValueFactory.getInstance().createIRI(prefixes.get(split[0]) + split[1]);
-		}
-		return null;
-	}
+  private IRI getPrefixIfExists(String name) {
+    String[] split = name.split("\\.");
+    if (split.length == 2 && prefixes.containsKey(split[0])) {
+      return SimpleValueFactory.getInstance().createIRI(prefixes.get(split[0]) + split[1]);
+    }
+    return null;
+  }
 
-	@Override
-	public ExtractorDescription getDescription() {
-		return EmbeddedJSONLDExtractorFactory.getDescriptionInstance();
-	}
+  @Override
+  public ExtractorDescription getDescription() {
+    return EmbeddedJSONLDExtractorFactory.getDescriptionInstance();
+  }
 
-	private class JSONLDScript {
+  private class JSONLDScript {
 
-		private String xpath;
+    private String xpath;
 
-		private IRI name;
+    public JSONLDScript(String xpath, IRI name, String content) {
+      this.xpath = xpath;
+    }
 
-		private String lang;
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null) {
+        return false;
+      }
+      if (!(o instanceof JSONLDScript)) {
+        return false;
+      }
 
-		private String content;
+      JSONLDScript meta = (JSONLDScript) o;
 
-		public JSONLDScript(String xpath, IRI name, String content) {
-			this.xpath = xpath;
-			this.name = name;
-			this.content = content;
-		}
+      if (xpath != null ? !xpath.equals(meta.xpath) : meta.xpath != null) {
+        return false;
+      }
 
-		public JSONLDScript(String xpath, IRI name, String content, String lang) {
-			this(xpath, name, content);
-			this.lang = lang;
-		}
+      return true;
+    }
 
-		public IRI getName() {
-			return name;
-		}
-
-		public void setName(IRI name) {
-			this.name = name;
-		}
-
-		public String getLang() {
-			return lang;
-		}
-
-		public void setLang(String lang) {
-			this.lang = lang;
-		}
-
-		public String getContent() {
-			return content;
-		}
-
-		public void setContent(String content) {
-			this.content = content;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) {
-				return true;
-			}
-			if (o == null) {
-				return false;
-			}
-			if (!(o instanceof JSONLDScript)) {
-				return false;
-			}
-
-			JSONLDScript meta = (JSONLDScript) o;
-
-			if (xpath != null ? !xpath.equals(meta.xpath) : meta.xpath != null) {
-				return false;
-			}
-
-			return true;
-		}
-
-		@Override
-		public int hashCode() {
-			return xpath != null ? xpath.hashCode() : 0;
-		}
-	}
+    @Override
+    public int hashCode() {
+      return xpath != null ? xpath.hashCode() : 0;
+    }
+  }
 
 }

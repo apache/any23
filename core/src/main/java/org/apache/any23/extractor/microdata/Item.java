@@ -30,11 +30,6 @@ public abstract class Item {
     private final String xpath;
 
     /**
-     * @return the <b>JSON</b> representation for this item.
-     */
-    public abstract String toJSON();
-
-    /**
      * Constructor.
      *
      * @param xpath xpath to this item in container document.
@@ -45,6 +40,11 @@ public abstract class Item {
         }
         this.xpath = xpath;
     }
+
+    /**
+     * @return the <b>JSON</b> representation for this item.
+     */
+    public abstract String toJSON();
 
     /**
      * @return the item location in container document.

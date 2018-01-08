@@ -606,7 +606,7 @@
   <repositories>
     <repository>
       <id>any23-repository-external</id>
-      <url>http://svn.apache.org/repos/asf/any23/repo-ext/</url>
+      <url>https://svn.apache.org/repos/asf/any23/repo-ext/</url>
     </repository>
     <repository>
       <id>sonatype-snapshots</id>

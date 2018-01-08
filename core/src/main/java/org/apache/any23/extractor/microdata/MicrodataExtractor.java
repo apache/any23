@@ -106,7 +106,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
          * 5.2.6
          */
         final IRI documentIRI = extractionContext.getDocumentIRI();
-        final Map<ItemScope, Resource> mappings = new HashMap<ItemScope, Resource>();
+        final Map<ItemScope, Resource> mappings = new HashMap<>();
         for (ItemScope itemScope : itemScopes) {
             Resource subject = processType(itemScope, documentIRI, out, mappings);
             out.writeTriple(
@@ -143,7 +143,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      */
     private String getDocumentLanguage(Document in) {
         String lang = DomUtils.find(in, "string(/HTML/@lang)");
-        if (lang.equals("")) {
+        if ("".equals(lang)) {
             return null;
         }
         return lang;
@@ -256,13 +256,13 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             }
         }
         String[] relTokens = rel.getTextContent().split(" ");
-        Set<String> tokensWithNoDuplicates = new HashSet<String>();
+        Set<String> tokensWithNoDuplicates = new HashSet<>();
         for (String relToken : relTokens) {
             if (relToken.contains(":")) {
                 // if contain semi-colon, skip
                 continue;
             }
-            if (relToken.equals("alternate") || relToken.equals("stylesheet")) {
+            if ("alternate".equals(relToken) || "stylesheet".equals(relToken)) {
                 tokensWithNoDuplicates.add("ALTERNATE-STYLESHEET");
                 continue;
             }
@@ -295,7 +295,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         NodeList metas = in.getElementsByTagName("meta");
         for (int i = 0; i < metas.getLength(); i++) {
             Node meta = metas.item(i);
-            String name    = DomUtils.readAttribute(meta, "name"   , null);
+            String name    = DomUtils.readAttribute(meta, "name", null);
             String content = DomUtils.readAttribute(meta, "content", null);
             if (name != null && content != null) {
                 if (isAbsoluteURL(name)) {
@@ -482,20 +482,18 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             ExtractionResult out
     ) throws MalformedURLException, ExtractionException {
         IRI predicate;
-        if (!isAbsoluteURL(propName) && itemScopeType.equals("") && isStrict) {
+        if (!isAbsoluteURL(propName) && "".equals(itemScopeType) && isStrict) {
             return;
-        } else if (!isAbsoluteURL(propName) && itemScopeType.equals("") && !isStrict) {
+        } else if (!isAbsoluteURL(propName) && "".equals(itemScopeType) && !isStrict) {
             predicate = RDFUtils.iri(toAbsoluteURL(
-			        defaultNamespace,
-			        propName,
-			        '/'
-			).toString());
+                    defaultNamespace,
+                    propName,
+                    '/').toString());
         } else {
             predicate = RDFUtils.iri(toAbsoluteURL(
-			        itemScopeType,
-			        propName,
-			        '/'
-			).toString());
+                    itemScopeType,
+                    propName,
+                    '/').toString());
         }
         Value value;
         Object propValue = itemProp.getValue().getContent();
@@ -506,10 +504,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             value = RDFUtils.literal((String) propValue, documentLanguage);
         } else if (propType.equals(ItemPropValue.Type.Link)) {
             value = RDFUtils.iri(toAbsoluteURL(
-			        documentIRI.toString(),
-			        (String) propValue,
-			        '/'
-			).toString());
+                    documentIRI.toString(),
+                    (String) propValue,
+                    '/').toString());
         } else if (propType.equals(ItemPropValue.Type.Date)) {
             value = RDFUtils.literal(ItemPropValue.formatDateTime((Date) propValue), XMLSchema.DATE);
         } else {

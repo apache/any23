@@ -14,35 +14,43 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<div id="data">
+<html>
+<body>
+  <div id="data">
     <div id="is1" itemscope itemtype="http://type/IScopeType1">
-        <a id="ip1" itemprop="p1" href="http://www.domain.org/path/1"></a>
-        <p id="ip2" itemprop="p2">Some Text 1</p>
-        <p id="ip3" itemprop="p3">Some Text 2</p>
-        <a id="ip4" itemprop="p4" href="http://www.domain.org/path/2"></a>
+      <a id="ip1" itemprop="p1" href="http://www.domain.org/path/1"></a>
+      <p id="ip2" itemprop="p2">Some Text 1</p>
+      <p id="ip3" itemprop="p3">Some Text 2</p>
+      <a id="ip4" itemprop="p4" href="http://www.domain.org/path/2"></a>
     </div>
 
     <!-- Duplicate and unexisting itemrefs. -->
-    <div id="is2" itemscope itemtype="http://type/IScopeType2" itemref="ip5 ip4 ip3 unexisting">
-        <img id="ip5" itemprop="p5" src="http://source/dom/path">
-        <p   id="ip6" itemprop="p6">Some Text 3</p>
+    <div id="is2" itemscope itemtype="http://type/IScopeType2"
+      itemref="ip5 ip4 ip3 unexisting">
+      <img id="ip5" itemprop="p5" src="http://source/dom/path">
+      <p id="ip6" itemprop="p6">Some Text 3</p>
     </div>
 
     <!-- Loops. -->
     <div id="loops" itemscope>
-        <div id="loop0" itemprop="self" itemscope itemref="loop0"></div>
-        <div id="loop1" itemprop="head" itemscope itemref="loop2">not in the loop</div>
-        <div id="loop2" itemprop="next" itemscope itemref="loop3"></div>
-        <div id="loop3" itemprop="next" itemscope itemref="loop4"></div>
-        <div id="loop4" itemprop="next" itemscope itemref="loop2"></div>
+      <div id="loop0" itemprop="self" itemscope itemref="loop0"></div>
+      <div id="loop1" itemprop="head" itemscope itemref="loop2">not
+        in the loop</div>
+      <div id="loop2" itemprop="next" itemscope itemref="loop3"></div>
+      <div id="loop3" itemprop="next" itemscope itemref="loop4"></div>
+      <div id="loop4" itemprop="next" itemscope itemref="loop2"></div>
     </div>
 
     <!-- Inside - Out Nesting. -->
     <div id="insideOut">
-        <div id="idBefore" itemprop="prop">Included via parent, before.</div>
-        <div id="idItem" itemscope itemref="insideOut">
-            <div id="ioChild" itemprop="prop">Included via tree.</div>
-        </div>
-        <div id="idAfter" itemprop="prop">Included via parent, after.</div>
+      <div id="idBefore" itemprop="prop">Included via parent,
+        before.</div>
+      <div id="idItem" itemscope itemref="insideOut">
+        <div id="ioChild" itemprop="prop">Included via tree.</div>
+      </div>
+      <div id="idAfter" itemprop="prop">Included via parent,
+        after.</div>
     </div>
-</div>
+  </div>
+</body>
+</html>

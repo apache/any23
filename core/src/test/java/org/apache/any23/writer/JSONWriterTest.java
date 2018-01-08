@@ -20,11 +20,7 @@ package org.apache.any23.writer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.impl.BNodeImpl;
-import org.eclipse.rdf4j.model.impl.LiteralImpl;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
-
 import java.io.ByteArrayOutputStream;
 
 /**

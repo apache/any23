@@ -29,7 +29,6 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
-import org.eclipse.rdf4j.model.impl.ValueFactoryBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,73 +89,90 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return defaultLiteralLanguage;
     }
 
+    @Override
     public BNode createBNode() {
         return wrappedFactory.createBNode();
     }
 
+    @Override
     public BNode createBNode(String id) {
-        if (id == null) return null;
+        if (id == null)
+            return null;
         return wrappedFactory.createBNode(id);
     }
 
+    @Override
     public Literal createLiteral(String content) {
-        if (content == null) return null;
+        if (content == null)
+            return null;
         if (defaultLiteralLanguage == null) {
-        	return wrappedFactory.createLiteral(content);
+            return wrappedFactory.createLiteral(content);
         } else {
-        	return wrappedFactory.createLiteral(content, defaultLiteralLanguage);
+            return wrappedFactory.createLiteral(content, defaultLiteralLanguage);
         }
     }
 
+    @Override
     public Literal createLiteral(boolean b) {
         return wrappedFactory.createLiteral(b);
     }
 
+    @Override
     public Literal createLiteral(byte b) {
         return wrappedFactory.createLiteral(b);
     }
 
+    @Override
     public Literal createLiteral(short i) {
         return wrappedFactory.createLiteral(i);
     }
 
+    @Override
     public Literal createLiteral(int i) {
         return wrappedFactory.createLiteral(i);
     }
 
+    @Override
     public Literal createLiteral(long l) {
         return wrappedFactory.createLiteral(l);
     }
 
+    @Override
     public Literal createLiteral(float v) {
         return wrappedFactory.createLiteral(v);
     }
 
+    @Override
     public Literal createLiteral(double v) {
         return wrappedFactory.createLiteral(v);
     }
 
-	@Override
-	public Literal createLiteral(BigDecimal v) {
+    @Override
+    public Literal createLiteral(BigDecimal v) {
         return wrappedFactory.createLiteral(v);
-	}
+    }
 
-	@Override
-	public Literal createLiteral(BigInteger v) {
+    @Override
+    public Literal createLiteral(BigInteger v) {
         return wrappedFactory.createLiteral(v);
-	}
+    }
 
+    @Override
     public Literal createLiteral(XMLGregorianCalendar calendar) {
         return wrappedFactory.createLiteral(calendar);
     }
 
+    @Override
     public Literal createLiteral(String label, String language) {
-        if (label == null) return null;
+        if (label == null)
+            return null;
         return wrappedFactory.createLiteral(label, language);
     }
 
+    @Override
     public Literal createLiteral(String pref, IRI value) {
-        if (pref == null) return null;
+        if (pref == null)
+            return null;
         return wrappedFactory.createLiteral(pref, value);
     }
 
@@ -165,6 +181,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return wrappedFactory.createLiteral(date);
     }
 
+    @Override
     public Statement createStatement(Resource sub, IRI pre, Value obj) {
         if (sub == null || pre == null || obj == null) {
             return null;
@@ -172,8 +189,10 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         return wrappedFactory.createStatement(sub, pre, obj);
     }
 
+    @Override
     public Statement createStatement(Resource sub, IRI pre, Value obj, Resource context) {
-        if (sub == null || pre == null || obj == null) return null;
+        if (sub == null || pre == null || obj == null)
+            return null;
         return wrappedFactory.createStatement(sub, pre, obj, context);
     }
 
@@ -181,8 +200,10 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      * @param uriStr input string to create URI from.
      * @return a valid sesame IRI or null if any exception occurred
      */
+    @Override
     public IRI createIRI(String uriStr) {
-        if (uriStr == null) return null;
+        if (uriStr == null)
+            return null;
         try {
             return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(uriStr));
         } catch (Exception e) {
@@ -194,8 +215,10 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * @return a valid sesame IRI or null if any exception occurred
      */
+    @Override
     public IRI createIRI(String namespace, String localName) {
-        if (namespace == null || localName == null) return null;
+        if (namespace == null || localName == null)
+            return null;
         return wrappedFactory.createIRI(RDFUtils.fixIRIWithException(namespace), localName);
     }
 
@@ -235,9 +258,11 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      * @return a valid sesame IRI or null if any exception occurred
      */
     public IRI fixLink(String link, String defaultSchema) {
-        if (link == null) return null;
+        if (link == null)
+            return null;
         link = fixWhiteSpace(link);
-        if ("".equals(link)) return null;
+        if ("".equals(link))
+            return null;
         if (defaultSchema != null && !link.startsWith(defaultSchema + ":")) {
             link = defaultSchema + ":" + link;
         }

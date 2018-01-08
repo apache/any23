@@ -37,7 +37,6 @@ import org.apache.any23.extractor.html.TagSoupParser;
 import org.apache.any23.util.StreamUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -54,12 +53,11 @@ import static org.junit.Assert.assertFalse;
  */
 public class MicrodataParserTest {
 
-	@Rule
-	public final Timeout timeout = new Timeout(100, TimeUnit.SECONDS);
-	
+//    @Rule
+//    public final Timeout timeout = new Timeout(100, TimeUnit.SECONDS);
+
     private static final Logger logger = LoggerFactory.getLogger(MicrodataParserTest.class);
 
-    @Ignore("TODO: Determine the cause of this")
     @Test
     public void testBasicFeatures() throws IOException {
         extractItemsAndVerifyJSONSerialization(
@@ -68,7 +66,6 @@ public class MicrodataParserTest {
         );
     }
 
-    @Ignore("TODO: Determine the cause of this")
     @Test
     public void testNestedMicrodata() throws IOException {
         extractItemsAndVerifyJSONSerialization(
@@ -77,7 +74,6 @@ public class MicrodataParserTest {
         );
     }
 
-    @Ignore("TODO: Determine the cause of this")
     @Test
     public void testAdvancedItemrefManagement() throws IOException {
         extractItemsAndVerifyJSONSerialization(
@@ -86,7 +82,6 @@ public class MicrodataParserTest {
         );
     }
 
-    @Ignore("TODO: Determine the cause of this")
     @Test
     public void testMicrodataJSONSerialization() throws IOException {
         final Document document = getMicrodataDom("microdata-nested");
@@ -97,6 +92,7 @@ public class MicrodataParserTest {
         final String expected = StreamUtils.asString(
                 this.getClass().getResourceAsStream("/microdata/microdata-json-serialization.json")
         );
+
         Assert.assertEquals("Unexpected serialization for Microdata file.", expected, baos.toString());
     }
 
@@ -122,29 +118,29 @@ public class MicrodataParserTest {
         final AtomicBoolean foundFailure = new AtomicBoolean(false);
         for (int i = 0; i < threadCount; i++) {
             threads.add(new Thread("Test-thread-" + i) {
-					@Override
-					public void run() {
-						try {
-							beforeLatch.await();
-							int counter = 0;
-							while (counter++ < attemptCount && !foundFailure.get()) {
-								final Document document = getDom(content);
-								final MicrodataParserReport report = MicrodataParser.getMicrodata(document);
-								final ItemScope target = report.getDetectedItemScopes()[4];
-								Date actualDate = target.getProperties().get("birthday").get(0).getValue().getAsDate();
-								if (!expectedDate.equals(actualDate)) {
-									foundFailure.set(true);
-								}
-							}
-						}
-						catch (Exception ex) {
-							ex.printStackTrace();
-							foundFailure.set(true);
-						}
-						finally {
-							afterLatch.countDown();
-						}
-					}
+              @Override
+              public void run() {
+                try {
+                  beforeLatch.await();
+                  int counter = 0;
+                  while (counter++ < attemptCount && !foundFailure.get()) {
+                    final Document document = getDom(content);
+                    final MicrodataParserReport report = MicrodataParser.getMicrodata(document);
+                    final ItemScope target = report.getDetectedItemScopes()[4];
+                    Date actualDate = target.getProperties().get("birthday").get(0).getValue().getAsDate();
+                    if (!expectedDate.equals(actualDate)) {
+                      foundFailure.set(true);
+                    }
+                  }
+                }
+                catch (Exception ex) {
+                  ex.printStackTrace();
+                  foundFailure.set(true);
+                }
+                finally {
+                  afterLatch.countDown();
+                }
+              }
             });
         }
         for (Thread thread : threads) {
@@ -167,8 +163,8 @@ public class MicrodataParserTest {
     public void testDeferProperties() throws IOException, MicrodataParserException {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
-        final ItemProp[] deferred = parser.deferProperties("ip5", "ip4", "ip3", "unexisting");
-        Assert.assertEquals(3, deferred.length);
+        final ItemProp[] deferred = parser.deferProperties(document.getElementById("is2"), "ip5", "ip4", "ip3", "unexisting");
+        Assert.assertEquals(2, deferred.length);
     }
 
     /**
@@ -181,8 +177,8 @@ public class MicrodataParserTest {
     public void testDeferPropertiesLoopDetection1() throws IOException, MicrodataParserException {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
-        parser.setErrorMode(MicrodataParser.ErrorMode.StopAtFirstError);
-        parser.deferProperties("loop0");
+        parser.setErrorMode(MicrodataParser.ErrorMode.STOP_AT_FIRST_ERROR);
+        parser.deferProperties(null, "loop0");
     }
 
     /**
@@ -195,8 +191,8 @@ public class MicrodataParserTest {
     public void testDeferPropertiesLoopDetection2() throws IOException, MicrodataParserException {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
-        parser.setErrorMode(MicrodataParser.ErrorMode.StopAtFirstError);
-        parser.deferProperties("loop2");
+        parser.setErrorMode(MicrodataParser.ErrorMode.STOP_AT_FIRST_ERROR);
+        parser.deferProperties(null, "loop2");
     }
 
     /**
@@ -210,9 +206,10 @@ public class MicrodataParserTest {
     public void testDeferPropertiesStateManagement() throws IOException, MicrodataParserException {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
-        Assert.assertEquals(1, parser.deferProperties("ip1").length);
-        Assert.assertEquals(1, parser.deferProperties("ip1").length);
-        Assert.assertEquals(1, parser.deferProperties("ip1").length);
+        String ip1 = "ip1";
+        Assert.assertEquals(1, parser.deferProperties(document.getElementById(ip1), ip1).length);
+        Assert.assertEquals(1, parser.deferProperties(document.getElementById(ip1), ip1).length);
+        Assert.assertEquals(1, parser.deferProperties(document.getElementById(ip1), ip1).length);
     }
 
     private Document getDom(String document) throws IOException {
@@ -247,7 +244,7 @@ public class MicrodataParserTest {
     private void extractItemsAndVerifyJSONSerialization(String htmlFile, String expectedResult)
     throws IOException {
         final MicrodataParserReport report = extractItems(htmlFile);
-        final ItemScope[]                items  = report.getDetectedItemScopes();
+        final ItemScope[] items = report.getDetectedItemScopes();
         final MicrodataParserException[] errors = report.getErrors();
 
         logger.debug("begin itemScopes");
@@ -267,7 +264,7 @@ public class MicrodataParserTest {
         final int expectedResults = getExpectedResultCount(resultContent);
         final int expectedErrors  = getExpectedErrorsCount(resultContent);
         Assert.assertEquals("Unexpected number of detect items.", expectedResults, items.length);
-        Assert.assertEquals("Unexpected number of errors."      , expectedErrors, errors.length);
+        Assert.assertEquals("Unexpected number of errors.", expectedErrors, errors.length);
 
         for (int i = 0; i < items.length; i++) {
             Assert.assertEquals(
