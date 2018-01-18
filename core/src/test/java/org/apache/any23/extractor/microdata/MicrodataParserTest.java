@@ -275,10 +275,11 @@ public class MicrodataParserTest {
         }
 
         for(int i = 0; i < errors.length; i++) {
+            //Jsoup doesn't support element locations
             Assert.assertEquals(
                     "Error while comparing error [" + i + "]",
-                    resultContent.getProperty("error" + i),
-                    errors[i].toJSON()
+                    resultContent.getProperty("error" + i).replaceAll("_row\" : -?\\d+", "_row\" : -1").replaceAll("_col\" : -?\\d+", "_col\" : -1"),
+                    errors[i].toJSON().replaceAll("_row\" : -?\\d+", "_row\" : -1").replaceAll("_col\" : -?\\d+", "_col\" : -1")
             );
         }
     }

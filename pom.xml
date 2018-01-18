@@ -364,6 +364,11 @@
         <artifactId>nekohtml</artifactId>
         <version>1.9.20</version>
       </dependency>
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>1.11.2</version>
+      </dependency>
 
       <!-- BEGIN: Tika -->
       <dependency>
