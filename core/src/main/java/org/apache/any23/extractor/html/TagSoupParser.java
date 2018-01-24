@@ -17,7 +17,6 @@
 
 package org.apache.any23.extractor.html;
 
-import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.validator.DefaultValidator;
 import org.apache.any23.validator.Validator;
 import org.apache.any23.validator.ValidatorException;
