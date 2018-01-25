@@ -60,6 +60,39 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         );
     }
 
+    @Test
+    public void testIssue326() {
+        assertExtract("/html/rdfa/rdfa-issue326-and-267.html");
+    }
+
+    @Test
+    public void testIssue227() {
+        assertExtract("/html/rdfa/rdfa-issue227.html");
+        logger.debug(dumpModelToTurtle());
+        assertContains(baseIRI,
+                RDFUtils.iri("http://ogp.me/ns#title"),
+                "Bread — Free listening, videos, concerts, stats and photos at Last.fm",
+                "en");
+    }
+
+    @Test
+    public void testIssue271AndJavascriptParsing() {
+        assertExtract("/html/rdfa/rdfa-issue271-and-317.html");
+        logger.debug(dumpModelToTurtle());
+        assertModelNotEmpty();
+    }
+
+    @Test
+    public void testIssue273() {
+        assertExtract("/html/rdfa/rdfa-issue273-and-317.html");
+        assertModelNotEmpty();
+    }
+
+    @Test
+    public void testIssue268And317() {
+        assertExtract("/html/rdfa/rdfa-issue268-and-317.html");
+    }
+
     /**
      * This test checks the behavior of the <i>RDFa</i> extraction where the datatype
      * of a property is explicitly set.
@@ -168,8 +201,8 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      *
      * @throws RepositoryException
      * @throws java.io.IOException
-     * @throws org.openrdf.rio.RDFHandlerException
-     * @throws org.openrdf.rio.RDFParseException
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException
+     * @throws org.eclipse.rdf4j.rio.RDFParseException
      */
     @Test
     public void testRDFa10Extraction()
@@ -189,8 +222,8 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      *
      * @throws RepositoryException
      * @throws java.io.IOException
-     * @throws org.openrdf.rio.RDFHandlerException
-     * @throws org.openrdf.rio.RDFParseException
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException
+     * @throws org.eclipse.rdf4j.rio.RDFParseException
      */
     @Test
     public void testRDFa11Extraction()
