@@ -576,18 +576,11 @@
       </dependency>
       <!-- END: logger -->
 
-      <!-- BEGIN: plugins -->
-      <dependency>
-        <groupId>org.kohsuke.metainf-services</groupId>
-        <artifactId>metainf-services</artifactId>
-        <version>1.5</version>
-      </dependency>
       <dependency>
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
         <version>1.17</version>
       </dependency>
-      <!-- END: plugins -->
 
       <!-- BEGIN: Test Dependencies -->
       <dependency>
