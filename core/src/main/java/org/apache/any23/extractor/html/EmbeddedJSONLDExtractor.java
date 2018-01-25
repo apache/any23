@@ -137,7 +137,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
           String baseProfile, ExtractionParameters extractionParameters,
           ExtractionContext extractionContext, ExtractionResult out)
                   throws IOException, ExtractionException {
-    List<Node> scriptNodes = DomUtils.findAll(in, "/HTML/HEAD/SCRIPT");
+    List<Node> scriptNodes = DomUtils.findAll(in, "//SCRIPT");
     Set<JSONLDScript> result = new HashSet<>();
     extractor = new JSONLDExtractorFactory().createExtractor();
     for (Node jsonldNode : scriptNodes) {
