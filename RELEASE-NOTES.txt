@@ -1,3 +1,69 @@
+             Apache Any23 2.2
+              Release Notes
+              25/01/2018 (dd/mm/yyy)
+
+Sub-task
+
+    [ANY23-155] - Test failure: testRunOnHTTPResource(org.apache.any23.cli.MicrodataParserTest)
+    [ANY23-267] - Entire extractions fail due to "The element type 'meta' must be terminated by the matching end-tag </meta>"
+    [ANY23-268] - Entire extraction task fails due to "Element type "t.length" must be followed by either attribute specifications, ">" or "/>"
+
+Bug
+
+    [ANY23-12] - character are wrongly encoded in rdfxml output
+    [ANY23-131] - Nested Microdata are not extracted
+    [ANY23-140] - Revise Any23 tests to remove fetching of web content
+    [ANY23-166] - Parsing crashes with attributes that don't use quotes
+    [ANY23-201] - Service Regularly Times Out on DBPedia Queries
+    [ANY23-227] - not extracting opengraph rdfa
+    [ANY23-228] - Invalid URI
+    [ANY23-230] - any23.org redirects to single slash URI
+    [ANY23-256] - MicrodataParserTest failing locally but not on Jenkins
+    [ANY23-260] - Get Any23 listed as an Application capable of using DBPedia
+    [ANY23-266] - Fix Issues with Failing WebService Examples
+    [ANY23-271] - Address "...The entity "raquo" was referenced, but not declared" SAXParseException
+    [ANY23-273] - The content of elements must consist of well-formed character data or markup - no bogus comments
+    [ANY23-303] - JsonLdError: loading remote context failed: http://schema.org/
+    [ANY23-306] - Absent binaries for version 2.0
+    [ANY23-312] - Triple sub-pred-null should not be added into outcome. Change traversing method.
+    [ANY23-314] - Service fails to return extraction in case of extraction error
+    [ANY23-316] - Yaml parser does not halndle intentional null value
+    [ANY23-317] - Any23 fails when dealing with JavaScript
+    [ANY23-318] - ExtractionException handling in BaseRDFExtractor.java kills entire extraction
+    [ANY23-326] - parsing unclosed meta and input tags fails
+
+New Feature
+
+    [ANY23-8] - Write a separate tool for RDFa/microformat detection tool usable in crawlers
+    [ANY23-233] - Add local extraction cache to Any23 service
+
+Improvement
+
+    [ANY23-106] - Gracefully shut down Any23 service
+    [ANY23-213] - Implement JSOn reporting for the Any23 service
+    [ANY23-214] - ë (e-umlaut or diaeresis) not decoded in RDF output
+    [ANY23-249] - Update all W3C and other Standards Compliance within Any23
+    [ANY23-280] - Refactor ContentExtractor to improve extraction flexibility
+    [ANY23-291] - JSON-LD should be looked up in entire HTML document, not just in <head>
+    [ANY23-298] - Revisit the OGP.java vocabulary and update it
+    [ANY23-309] - "Scraper" misspelled as "Scarper" on Downloads webpage
+    [ANY23-319] - Upgrade jsonld-java dependency to 0.11.1
+    [ANY23-324] - Replace net.sourceforge.nekohtml with jsoup
+    [ANY23-325] - Any23 incompatible with http://rdfa.info/test-suite/#
+
+Test
+
+    [ANY23-320] - Address @Ignore tests in Any23
+
+Wish
+
+    [ANY23-210] - Address 1.0 Release Review Discrepancies
+
+Task
+
+    [ANY23-40] - Complete Documentation for Plugin Management system
+
+
 			 Apache Any23 2.1
 			  Release Notes
 		      14/09/2017 (dd/mm/yyy)

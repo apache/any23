@@ -139,8 +139,10 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
         List<Node> linkNodes = DomUtils.findAll(in, "/HTML/HEAD/LINK");
         for(Node linkNode : linkNodes) {
             NamedNodeMap attributes = linkNode.getAttributes();
-            String rel = attributes.getNamedItem("rel").getTextContent();
-            String href = attributes.getNamedItem("href").getTextContent();
+            Node relNode = attributes.getNamedItem("rel");
+            String rel = relNode == null ? null : relNode.getTextContent();
+            Node hrefNode = attributes.getNamedItem("href");
+            String href = hrefNode == null ? null : hrefNode.getTextContent();
             if(rel != null && href !=null && RDFUtils.isAbsoluteIRI(href)) {
                 prefixes.put(rel, SimpleValueFactory.getInstance().createIRI(href));
             }

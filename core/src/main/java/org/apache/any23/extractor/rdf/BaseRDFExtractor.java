@@ -22,16 +22,27 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
-import org.eclipse.rdf4j.rio.RDFHandlerException;
+import org.apache.any23.extractor.html.JsoupUtils;
+import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
+import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RioSetting;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
+import org.jsoup.nodes.DataNode;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Entities;
+import org.jsoup.nodes.Node;
+import org.jsoup.select.NodeTraversor;
+import org.jsoup.select.NodeVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 
 /**
@@ -105,7 +116,38 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
             //ByteBuffer seems to represent incorrect content. Need to make sure it is the content
             //of the <script> node and not anything else!
-            parser.parse(in, extractionContext.getDocumentIRI().stringValue());
+            RDFFormat format = parser.getRDFFormat();
+            String iri = extractionContext.getDocumentIRI().stringValue();
+
+            if (format.hasFileExtension("xhtml") || format.hasMIMEType("application/xhtml+xml")) {
+                Charset charset = format.getCharset();
+                if (charset == null) {
+                    charset = StandardCharsets.UTF_8;
+                }
+                Document doc = JsoupUtils.parse(in, iri, null);
+                doc.outputSettings()
+                        .prettyPrint(false)
+                        .syntax(Document.OutputSettings.Syntax.xml)
+                        .escapeMode(Entities.EscapeMode.xhtml)
+                        .charset(charset);
+                //Delete scripts. Json-ld in script tags is extracted first
+                //from tag soup dom, so we should be fine.
+                NodeTraversor.traverse(new NodeVisitor() {
+                    @Override
+                    public void head(Node node, int depth) {
+                        if (node instanceof DataNode) {
+                            ((DataNode) node).setWholeData("");
+                        }
+                    }
+                    @Override
+                    public void tail(Node node, int depth) {
+                    }
+                }, doc);
+
+                in = new ByteArrayInputStream(doc.toString().getBytes(charset));
+            }
+
+            parser.parse(in, iri);
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {

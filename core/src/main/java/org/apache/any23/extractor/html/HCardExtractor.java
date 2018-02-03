@@ -101,7 +101,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
                 report.notifyIssue(
                         IssueReport.IssueLevel.WARNING,
                         "Current node tries to include an ancestor node.",
-                        nodeLocation[0], nodeLocation[1]
+                        nodeLocation == null ? -1 : nodeLocation[0],
+                        nodeLocation == null ? -1 : nodeLocation[1]
                 );
                 continue;
             }

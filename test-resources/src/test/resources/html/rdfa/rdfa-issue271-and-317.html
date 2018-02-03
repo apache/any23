@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Data:  | Open Data Brandweer Amsterdam Amstelland</title>
+
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="pingback" href="http://data.brandweeraa.nl/xmlrpc.php">
+
+    <meta name='robots' content='noindex,follow' />
+    <link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+    <link rel='dns-prefetch' href='//cdn.leafletjs.com' />
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <link rel="alternate" type="application/rss+xml" title="Open Data Brandweer Amsterdam Amstelland &raquo; Feed" href="http://data.brandweeraa.nl/feed" />
+    <link rel="alternate" type="application/rss+xml" title="Open Data Brandweer Amsterdam Amstelland &raquo; Reactiesfeed" href="http://data.brandweeraa.nl/comments/feed" />
+    <script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/data.brandweeraa.nl\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.9"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+    <style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+    <link rel='stylesheet' id='leaflet-style-css'  href='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css?ver=4.7.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='od_maps_plugin-style-css'  href='http://data.brandweeraa.nl/wp-content/plugins/datamaps/css/app.css?ver=4.7.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='prefix-style-css'  href='http://data.brandweeraa.nl/wp-content/plugins/linkeddata/css/app.css?ver=4.7.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='enyo-style-css'  href='http://data.brandweeraa.nl/wp-content/plugins/linkeddata/css/enyo.css?ver=4.7.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='_tk-bootstrap-wp-css'  href='http://data.brandweeraa.nl/wp-content/themes/_tk-master/includes/css/bootstrap-wp.css?ver=4.7.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='_tk-bootstrap-css'  href='http://data.brandweeraa.nl/wp-content/themes/_tk-master/includes/resources/bootstrap/css/bootstrap.min.css?ver=4.7.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='_tk-font-awesome-css'  href='http://data.brandweeraa.nl/wp-content/themes/_tk-master/includes/css/font-awesome.min.css?ver=4.1.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='_tk-style-css'  href='http://data.brandweeraa.nl/wp-content/themes/opendata-baa/style.css?ver=4.7.9' type='text/css' media='all' />
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js?ver=4.7.9'></script>
+    <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js?ver=4.7.9'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-content/plugins/datamaps/javascript/app.js?ver=4.7.9'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-content/plugins/linkeddata/javascript/enyo.js?ver=4.7.9'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-content/plugins/linkeddata/javascript/app.js?ver=4.7.9'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-content/themes/_tk-master/includes/resources/bootstrap/js/bootstrap.min.js?ver=4.7.9'></script>
+    <script type='text/javascript' src='http://data.brandweeraa.nl/wp-content/themes/_tk-master/includes/js/bootstrap-wp.js?ver=4.7.9'></script>
+    <link rel='https://api.w.org/' href='http://data.brandweeraa.nl/wp-json/' />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://data.brandweeraa.nl/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://data.brandweeraa.nl/wp-includes/wlwmanifest.xml" />
+    <meta name="generator" content="WordPress 4.7.9" />
+    <link rel="canonical" href="http://data.brandweeraa.nl/data-page" />
+    <link rel='shortlink' href='http://data.brandweeraa.nl/?p=16' />
+    <link rel="alternate" type="application/json+oembed" href="http://data.brandweeraa.nl/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fdata.brandweeraa.nl%2Fdata-page" />
+    <link rel="alternate" type="text/xml+oembed" href="http://data.brandweeraa.nl/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fdata.brandweeraa.nl%2Fdata-page&#038;format=xml" />
+    <script type="application/ld+json">{
+  "@graph" : [ {
+    "@id" : "http://data.brandweeraa.nl/data/incident/2016/32601/deployment/201601272048400#addr",
+    "@type" : [ "locn:Address", "sem:Place", "v:Address" ],
+    "country-name" : "NEDERLAND",
+    "locality" : "Amsterdam",
+    "street-address" : "Wilhelmina Druckerstraat",
+    "adminUnitL1" : "NL",
+    "fullAddress" : "Wilhelmina Druckerstraat , Amsterdam",
+    "postName" : "Amsterdam",
+    "thoroughfare" : "Wilhelmina Druckerstraat"
+  }, {
+    "@id" : "http://data.brandweeraa.nl/data/incident/2016/32601/deployment/201601272048400#location",
+    "@type" : [ "geo:Point", "sem:Place" ],
+    "lat" : "52.3500002993288618",
+    "long" : "4.82990412818292469"
+  }, {
+    "@id" : "http://data.brandweeraa.nl/data/incident/2016/32601/deployment/201601272048400#message",
+    "@type" : [ "sem:Event", "communication:DispatchMessage" ],
+    "eventType" : [ "http://data.brandweeraa.nl/data/classification/PRIO_1", "http://www.firebrary.com/data/terms/nl/lmc/4.0/200000012" ],
+    "hasTimeStamp" : "2016-01-27T19:48:40.000Z",
+    "dispatchedTo" : "http://data.brandweeraa.nl/data/stations/P",
+    "incidentAddress" : "http://data.brandweeraa.nl/data/incident/2016/32601/deployment/201601272048400#addr",
+    "incidentLocation" : "http://data.brandweeraa.nl/data/incident/2016/32601/deployment/201601272048400#location",
+    "pagerMessage" : "Pac Melding",
+    "unit" : "http://data.brandweeraa.nl/data/units/ASP",
+    "isDispatchMessageOf" : "http://data.brandweeraa.nl/data/incident/2016/32601",
+    "label" : "Pac Melding"
+  } ],
+  "@context" : {
+    "incidentAddress" : {
+      "@id" : "http://vocab.resc.info/communication#incidentAddress",
+      "@type" : "@id"
+    },
+    "label" : {
+      "@id" : "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    "incidentLocation" : {
+      "@id" : "http://vocab.resc.info/communication#incidentLocation",
+      "@type" : "@id"
+    },
+    "pagerMessage" : {
+      "@id" : "http://vocab.resc.info/communication#pagerMessage"
+    },
+    "unit" : {
+      "@id" : "http://vocab.resc.info/communication#unit",
+      "@type" : "@id"
+    },
+    "eventType" : {
+      "@id" : "http://semanticweb.cs.vu.nl/2009/11/sem/eventType",
+      "@type" : "@id"
+    },
+    "dispatchedTo" : {
+      "@id" : "http://vocab.resc.info/communication#dispatchedTo",
+      "@type" : "@id"
+    },
+    "isDispatchMessageOf" : {
+      "@id" : "http://vocab.resc.info/incident#isDispatchMessageOf",
+      "@type" : "@id"
+    },
+    "hasTimeStamp" : {
+      "@id" : "http://semanticweb.cs.vu.nl/2009/11/sem/hasTimeStamp"
+    },
+    "long" : {
+      "@id" : "http://www.w3.org/2003/01/geo/wgs84_pos#long"
+    },
+    "lat" : {
+      "@id" : "http://www.w3.org/2003/01/geo/wgs84_pos#lat"
+    },
+    "locality" : {
+      "@id" : "http://www.w3.org/2006/vcard/ns#locality"
+    },
+    "country-name" : {
+      "@id" : "http://www.w3.org/2006/vcard/ns#country-name"
+    },
+    "fullAddress" : {
+      "@id" : "http://www.w3.org/ns/locn#fullAddress"
+    },
+    "postName" : {
+      "@id" : "http://www.w3.org/ns/locn#postName"
+    },
+    "thoroughfare" : {
+      "@id" : "http://www.w3.org/ns/locn#thoroughfare"
+    },
+    "adminUnitL1" : {
+      "@id" : "http://www.w3.org/ns/locn#adminUnitL1"
+    },
+    "street-address" : {
+      "@id" : "http://www.w3.org/2006/vcard/ns#street-address"
+    },
+    "geo" : "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "v" : "http://www.w3.org/2006/vcard/ns#",
+    "xsd" : "http://www.w3.org/2001/XMLSchema#",
+    "sem" : "http://semanticweb.cs.vu.nl/2009/11/sem/",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "communication" : "http://vocab.resc.info/communication#",
+    "locn" : "http://www.w3.org/ns/locn#",
+    "incident" : "http://vocab.resc.info/incident#",
+    "dc" : "http://purl.org/dc/elements/1.1/"
+  }
+}
+</script></head>
+
+<body class="page-template-default page page-id-16">
+
+<header id="masthead" class="navbar navbar-brandweer navbar-fixed-top" role="banner">
+    <div class="container">
+        <div class='navbar-header navbar-brand'>
+            <a href='/'><h3 class="navbar-text nav">data.brandweeraa.nl</h3></a>
+        </div>
+        <div class="navbar-header navbar-right">
+
+            <div class='navbar-brand logo pull-right hidden-xs'>
+                <a href="/" class="bnl"> </a> <a href="/" class='baa'>
+                Brandweer</a>
+            </div>
+        </div>
+    </div><!-- .container -->
+</header><!-- #masthead -->
+
+
+
+<div class="main-content">
+    <div class="container">
+        <div class="row">
+            <div id="content" class="main-content-inner col-sm-12 col-md-8">
+
+
+
+
+
+                <article id="post-16" class="post-16 page type-page status-publish hentry">
+                    <header>
+                        <h1 class="page-title">Data: </h1>
+                    </header><!-- .entry-header -->
+
+                    <div class="entry-content">
+                        <div class="entry-content-thumbnail">
+                        </div>
+                        <div id='data-content'></div><script type='text/javascript'>
+		
+	    new LinkedDataCore().renderInto(jQuery('#data-content').get(0));
+	    </script>
+                    </div><!-- .entry-content -->
+                </article><!-- #post-## -->
+
+
+
+
+            </div><!-- close .main-content-inner -->
+
+            <div class="sidebar col-sm-12 col-md-4">
+
+                <div class="sidebar-padder">
+
+                    <aside id="search-3" class="widget widget_search"><form role="search" method="get" class="search-form" action="http://data.brandweeraa.nl/">
+                        <label>
+                            <input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" title="Zoekresultaten voor: %s">
+                        </label>
+                        <input type="submit" class="search-submit" value="Search">
+                    </form>
+                    </aside>
+                </div><!-- close .sidebar-padder -->
+            </div><!-- close .*-inner (main-content or sidebar, depending if sidebar is used) -->
+        </div><!-- close .row -->
+    </div><!-- close .container -->
+</div><!-- close .main-content -->
+
+<footer id="colophon" class="site-footer" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="site-footer-inner col-sm-12">
+
+                <div class="site-info">
+
+                </div><!-- close .site-info -->
+
+            </div>
+        </div>
+    </div><!-- close .container -->
+</footer><!-- close #colophon -->
+
+<script type='text/javascript' src='http://data.brandweeraa.nl/wp-content/themes/_tk-master/includes/js/skip-link-focus-fix.js?ver=20130115'></script>
+<script type='text/javascript' src='http://data.brandweeraa.nl/wp-includes/js/wp-embed.min.js?ver=4.7.9'></script>
+
+</body>
+</html>
+
