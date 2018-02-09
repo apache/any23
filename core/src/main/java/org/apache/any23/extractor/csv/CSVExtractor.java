@@ -28,6 +28,7 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.CSV;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
@@ -38,6 +39,7 @@ import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
+import java.util.Iterator;
 
 /**
  * This extractor produces <i>RDF</i> from a <i>CSV file</i> .
@@ -77,17 +79,18 @@ public class CSVExtractor implements Extractor.ContentExtractor {
 
         // build the parser
         csvParser = CSVReaderBuilder.build(in);
+        Iterator<CSVRecord> rows = csvParser.iterator();
 
         // get the header and generate the IRIs for column names
-        String[] header = csvParser.getLine();
+        CSVRecord header = rows.hasNext() ? rows.next() : null;
         headerIRIs = processHeader(header, documentIRI);
 
         // write triples to describe properties
         writeHeaderPropertiesMetadata(header, out);
 
-        String[] nextLine;
         int index = 0;
-        while ((nextLine = csvParser.getLine()) != null) {
+        while (rows.hasNext()) {
+            CSVRecord nextLine = rows.next();
             IRI rowSubject = RDFUtils.iri(
                     documentIRI.toString(),
                     "row/" + index
@@ -151,17 +154,18 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * @param header
      * @param out
      */
-    private void writeHeaderPropertiesMetadata(String[] header, ExtractionResult out) {
+    private void writeHeaderPropertiesMetadata(CSVRecord header, ExtractionResult out) {
         int index = 0;
         for (IRI singleHeader : headerIRIs) {
             if (index > headerIRIs.length) {
                 break;
             }
-            if (!RDFUtils.isAbsoluteIRI(header[index])) {
+            String headerString = header.get(index);
+            if (!RDFUtils.isAbsoluteIRI(headerString)) {
                 out.writeTriple(
                         singleHeader,
                         RDFS.LABEL,
-                        SimpleValueFactory.getInstance().createLiteral(header[index])
+                        SimpleValueFactory.getInstance().createLiteral(headerString)
                 );
             }
             out.writeTriple(
@@ -181,8 +185,11 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * @param header
      * @return an array of {@link IRI}s identifying the column names.
      */
-    private IRI[] processHeader(String[] header, IRI documentIRI) {
-        IRI[] result = new IRI[header.length];
+    private IRI[] processHeader(CSVRecord header, IRI documentIRI) {
+        if (header == null)
+            return new IRI[0];
+
+        IRI[] result = new IRI[header.size()];
         int index = 0;
         for (String h : header) {
             String candidate = h.trim();
@@ -222,7 +229,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      */
     private void produceRowStatements(
             IRI rowSubject,
-            String[] values,
+            CSVRecord values,
             ExtractionResult out
     ) {
         int index = 0;

@@ -19,11 +19,13 @@ package org.apache.any23.extractor.csv;
 
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVStrategy;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 
 /**
  * This class is responsible to build a reader first guessing the configuration
@@ -38,21 +40,19 @@ public class CSVReaderBuilder {
 
     private static final String DEFAULT_COMMENT_DELIMITER = "#";
 
-    public static final char NULL_CHAR = ' ';
-
     private static final char[] popularDelimiters = {'\t', '|', ',', ';'};
 
     private static DefaultConfiguration defaultConfiguration =
             DefaultConfiguration.singleton();
 
-    private static final CSVStrategy[] strategies;
+    private static final CSVFormat[] strategies;
 
     static {
-        strategies = new CSVStrategy[ popularDelimiters.length + 1 ];
-        strategies[0] = CSVStrategy.DEFAULT_STRATEGY;
+        strategies = new CSVFormat[popularDelimiters.length + 1];
+        strategies[0] = CSVFormat.DEFAULT;
         int index = 1;
-        for(char dlmt : popularDelimiters) {
-            strategies[index++] = getCsvStrategy(dlmt, NULL_CHAR);
+        for (char dlmt : popularDelimiters) {
+            strategies[index++] = CSVFormat.DEFAULT.withDelimiter(dlmt);
         }
     }
 
@@ -65,9 +65,10 @@ public class CSVReaderBuilder {
      * @throws java.io.IOException
      */
     public static CSVParser build(InputStream is) throws IOException {
-        CSVStrategy bestStrategy = getBestStrategy(is);
-        if(bestStrategy == null) bestStrategy = getCSVStrategyFromConfiguration();
-        return new CSVParser( new InputStreamReader(is), bestStrategy );
+        CSVFormat bestStrategy = getBestStrategy(is);
+        if (bestStrategy == null)
+            bestStrategy = getCSVStrategyFromConfiguration();
+        return new CSVParser(new InputStreamReader(is), bestStrategy);
     }
 
     /**
@@ -82,20 +83,16 @@ public class CSVReaderBuilder {
         return getBestStrategy(is) != null;
     }
 
-    private static CSVStrategy getBestStrategy(InputStream is) throws IOException {
-        for( CSVStrategy strategy : strategies ) {
-            if( testStrategy(is, strategy) ) {
+    private static CSVFormat getBestStrategy(InputStream is) throws IOException {
+        for (CSVFormat strategy : strategies) {
+            if (testStrategy(is, strategy)) {
                 return strategy;
             }
         }
         return null;
     }
 
-    private static CSVStrategy getCsvStrategy(char delimiter, char comment) {
-        return new CSVStrategy(delimiter, '\'', comment);
-    }
-
-    private static CSVStrategy getCSVStrategyFromConfiguration() {
+    private static CSVFormat getCSVStrategyFromConfiguration() {
         char fieldDelimiter = getCharValueFromConfiguration(
                 "any23.extraction.csv.field",
                 DEFAULT_FIELD_DELIMITER
@@ -104,7 +101,7 @@ public class CSVReaderBuilder {
                 "any23.extraction.csv.comment",
                 DEFAULT_COMMENT_DELIMITER
         );
-        return new CSVStrategy(fieldDelimiter, '\'', commentDelimiter);
+        return CSVFormat.DEFAULT.withDelimiter(fieldDelimiter).withCommentMarker(commentDelimiter);
     }
 
     private static char getCharValueFromConfiguration(String property, String defaultValue) {
@@ -112,7 +109,7 @@ public class CSVReaderBuilder {
                 property,
                 defaultValue
         );
-        if (delimiter.length() != 1 || delimiter.equals("")) {
+        if (delimiter.length() != 1) {
             throw new RuntimeException(property + " value must be a single character");
         }
         return delimiter.charAt(0);
@@ -128,29 +125,25 @@ public class CSVReaderBuilder {
      * @throws IOException
      * @param is
      */
-    private static boolean testStrategy(InputStream is, CSVStrategy strategy) throws IOException {
+    private static boolean testStrategy(InputStream is, CSVFormat strategy) throws IOException {
         final int MIN_COLUMNS = 2;
 
         is.mark(Integer.MAX_VALUE);
         try {
-            final CSVParser parser = new CSVParser(new InputStreamReader(is), strategy);
+            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is), strategy).iterator();
             int linesToCheck = 5;
             int headerColumnCount = -1;
-            while (linesToCheck > 0) {
-                String[] row;
-                row = parser.getLine();
-                if (row == null) {
-                    break;
-                }
-                if (row.length < MIN_COLUMNS) {
+            while (linesToCheck > 0 && rows.hasNext()) {
+                int rowLength = rows.next().size();
+                if (rowLength < MIN_COLUMNS) {
                     return false;
                 }
                 if (headerColumnCount == -1) { // first row
-                    headerColumnCount = row.length;
+                    headerColumnCount = rowLength;
                 } else { // make sure rows have the same number of columns or one more than the header
-                    if (row.length < headerColumnCount) {
+                    if (rowLength < headerColumnCount) {
                         return false;
-                    } else if (row.length - 1 > headerColumnCount) {
+                    } else if (rowLength - 1 > headerColumnCount) {
                         return false;
                     }
                 }
