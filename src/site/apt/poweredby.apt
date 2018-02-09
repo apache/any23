@@ -26,11 +26,9 @@ PoweredBy
 
 [./images/logo-sindice-90x30.png]  
 
-  {{{http://sindice.com/}Sindice}}
-
-  Sindice is a platform to build applications on top of this data.
-  Sindice collects Web Data in many ways, following existing web standards,
-  and offers Search and Querying across this data, updated live every few minutes.
+  Sindice was a platform to build applications on top of structured data.
+  Sindice collected Web Data in many ways, following existing web standards,
+  and offered Search and Querying across this data, updated live every few minutes.
 
 [./images/fu-logo-90x25.png][./images/kit-logo-90x40.png]
 
@@ -42,3 +40,15 @@ PoweredBy
   project extracts this data from several billion web pages and provides the extracted 
   data for download. Web Data Commons thus enables you to use the data without needing 
   to crawl the Web yourself.
+
+[./images/nutch_logo_tm.png]
+
+  {{{http://nutch.apache.org}Apache Nutch}}
+
+  Apache Nutch is a well matured, production ready Web crawler. Nutch enables fine 
+  grained configuration, relying on Apache Hadoop data structures, which are 
+  great for batch processing.
+  Nutch uses Any23 within it's plugin infrastructure to extract structured data markup
+  from Webpages. This data can then be indexed into one of the Nutch supported storage
+  mechanisms.
+
