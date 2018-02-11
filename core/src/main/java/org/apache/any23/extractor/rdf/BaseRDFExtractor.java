@@ -41,6 +41,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -145,6 +146,8 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                 }, doc);
 
                 in = new ByteArrayInputStream(doc.toString().getBytes(charset));
+            } else if (format.hasFileExtension("jsonld") || format.hasMIMEType("application/ld+json")) {
+                in = new JsonCommentStripperInputStream(in);
             }
 
             parser.parse(in, iri);
@@ -153,6 +156,119 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         } catch (RDFParseException ex) {
             LOG.error("Error while parsing RDF document.", ex, extractionResult);
         }
+    }
+
+
+    private static class JsonCommentStripperInputStream extends InputStream {
+
+        private int prevChar;
+        private boolean inQuote;
+        private boolean inCDATA;
+
+        private final PushbackInputStream wrapped;
+
+        JsonCommentStripperInputStream(InputStream in) {
+            wrapped = new PushbackInputStream(in, 16);
+        }
+
+        private boolean isNextOrUnread(int... next) throws IOException {
+            int i = -1;
+            for (int test : next) {
+                int c = wrapped.read();
+                if (c != test) {
+                    if (c != -1) {
+                        wrapped.unread(c);
+                    }
+                    while (i >= 0) {
+                        wrapped.unread(next[i--]);
+                    }
+                    return false;
+                }
+                i++;
+            }
+            return true;
+        }
+
+        @Override
+        public int read() throws IOException {
+            return prevChar = privateRead();
+        }
+
+        private int privateRead() throws IOException {
+            PushbackInputStream stream = wrapped;
+            int c = stream.read();
+
+            if (inQuote) {
+                if (c == '"' && prevChar != '\\') {
+                    inQuote = false;
+                }
+                return c;
+            }
+
+            //we're not in a quote
+            switch (c) {
+                case '/':
+                    if (isNextOrUnread('/')) {
+                        //single line comment: read to end of line
+                        for (;;) {
+                            c = stream.read();
+                            if (c == -1 || c == '\r' || c == '\n') {
+                                return c;
+                            }
+                        }
+                    } else if (isNextOrUnread('*')) {
+                        //multiline comment: read till next "*/"
+                        for (;;) {
+                            c = stream.read();
+                            if (c == -1) {
+                                return c;
+                            } else if (c == '*') {
+                                c = stream.read();
+                                if (c == -1) {
+                                    return c;
+                                } else if (c == '/') {
+                                    //replace entire comment with single space
+                                    return ' ';
+                                }
+                            }
+                        }
+                    } else {
+                        return c;
+                    }
+                case '<':
+                    if (isNextOrUnread('!','[','C','D','A','T','A','[')) {
+                        inCDATA = true;
+                        return ' ';
+                    } else {
+                        return c;
+                    }
+                case '#':
+                    for (;;) {
+                        c = stream.read();
+                        if (c == -1 || c == '\r' || c == '\n') {
+                            return c;
+                        }
+                    }
+                case ']':
+                    if (inCDATA) {
+                        if (isNextOrUnread(']', '>')) {
+                            inCDATA = false;
+                            return ' ';
+                        } else {
+                            return c;
+                        }
+                    } else {
+                        return c;
+                    }
+                case '"':
+                    inQuote = true;
+                    return c;
+                default:
+                    return c;
+            }
+
+        }
+
     }
 
 }
