@@ -20,6 +20,7 @@ package org.apache.any23.servlet;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.http.HTTPClient;
+import org.apache.any23.plugin.Any23PluginManager;
 import org.apache.any23.servlet.conneg.Any23Negotiator;
 import org.apache.any23.servlet.conneg.MediaRangeSpec;
 import org.apache.any23.source.ByteArrayDocumentSource;
@@ -35,6 +36,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.regex.Pattern;
@@ -69,17 +72,43 @@ public class Servlet extends HttpServlet {
         final String format = getFormatFromRequestOrNegotiation(req);
         final boolean report = isReport(req);
         final boolean annotate = isAnnotated(req);
+        final boolean openie = isOpenIE(req);
         if (format == null) {
-            responder.sendError(406, "Client accept header does not include a supported output format", report);
-            return;
+            try {
+                responder.sendError(406, "Client accept header does not include a supported output format", report);
+                return;
+            } catch (IOException e) {
+                LOG.error("Unable to send error for null request format.", e);
+            }
         }
         final String uri = getInputIRIFromRequest(req);
         if (uri == null) {
-            responder.sendError(404, "Missing IRI in GET request. Try /format/http://example.com/myfile", report);
-            return;
+            try {
+                responder.sendError(404, "Missing IRI in GET request. Try /format/http://example.com/myfile", report);
+                return;
+            } catch (Exception e) {
+                LOG.error("Unable to send error for null request IRI.", e);
+            }
+        }
+        if (openie) {
+            Any23PluginManager pManager = Any23PluginManager.getInstance();
+            //Dynamically adding Jar's to the Classpath via the following logic
+            //is absolutely dependant on the 'apache-any23-openie' directory being
+            //present within the webapp /lib directory. This is specified within 
+            //the maven-dependency-plugin.
+            File webappClasspath = new File(getClass().getClassLoader().getResource("").getPath());
+            File openIEJarPath = new File(webappClasspath.getParentFile().getPath() + "/lib/apache-any23-openie");
+            boolean loadedJars = pManager.loadJARDir(openIEJarPath);
+            if (loadedJars) {
+                LOG.info("Successful dynamic classloading of apache-any23-openie directory from webapp lib.");
+            }
         }
         final ExtractionParameters eps = getExtractionParameters(req);
-        responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report, annotate);
+        try {
+            responder.runExtraction(createHTTPDocumentSource(responder, uri, report), eps, format, report, annotate);
+        } catch (IOException e) {
+            LOG.error("Unable to run extraction on HTTPDocumentSource.", e);
+        }
     }
 
     @Override
@@ -87,6 +116,7 @@ public class Servlet extends HttpServlet {
         final WebResponder responder = new WebResponder(this, resp);
         final boolean report = isReport(req);
         final boolean annotate = isAnnotated(req);
+        final boolean openie = isOpenIE(req);
         if (req.getContentType() == null) {
             responder.sendError(400, "Invalid POST request, no Content-Type for the message body specified", report);
             return;
@@ -96,6 +126,10 @@ public class Servlet extends HttpServlet {
         if (format == null) {
             responder.sendError(406, "Client accept header does not include a supported output format", report);
             return;
+        }
+        if (openie) {
+          Any23PluginManager pManager = Any23PluginManager.getInstance();
+          pManager.loadJARDir(new File(getClass().getResource("apache-any23-openie").getPath()));
         }
         final ExtractionParameters eps = getExtractionParameters(req);
         if ("application/x-www-form-urlencoded".equals(getContentTypeHeader(req))) {
@@ -282,5 +316,9 @@ public class Servlet extends HttpServlet {
     private boolean isAnnotated(HttpServletRequest request) {
         return request.getParameter("annotate") != null;
     }
+
+    private boolean isOpenIE(HttpServletRequest request) {
+      return request.getParameter("openie") != null;
+  }
 
 }

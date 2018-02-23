@@ -98,7 +98,8 @@ public class Any23 {
      * @param extractorGroup the group of extractors to be applied.
      */
     public Any23(Configuration configuration, ExtractorGroup extractorGroup) {
-        if(configuration == null) throw new NullPointerException("configuration must be not null.");
+        if(configuration == null)
+            throw new NullPointerException("configuration must be not null.");
         this.configuration = configuration;
         logger.debug( configuration.getConfigurationDump() );
 
@@ -259,7 +260,8 @@ public class Any23 {
      * @throws IOException if an error occurs while initializing the internal {@link org.apache.any23.http.HTTPClient}.
      */
     public DocumentSource createDocumentSource(String documentIRI) throws URISyntaxException, IOException {
-        if(documentIRI == null) throw new NullPointerException("documentIRI cannot be null.");
+        if(documentIRI == null)
+            throw new NullPointerException("documentIRI cannot be null.");
         if (documentIRI.toLowerCase().startsWith("file:")) {
             return new FileDocumentSource( new File(new URI(documentIRI)) );
         }
@@ -453,7 +455,7 @@ public class Any23 {
     }
 
     private String getAcceptHeader() {
-        Collection<MIMEType> mimeTypes = new ArrayList<MIMEType>();
+        Collection<MIMEType> mimeTypes = new ArrayList<>();
         for (ExtractorFactory<?> factory : factories) {
             mimeTypes.addAll(factory.getSupportedMIMETypes());
         }

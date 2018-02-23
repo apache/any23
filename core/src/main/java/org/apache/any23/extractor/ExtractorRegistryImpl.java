@@ -30,7 +30,13 @@ import java.util.List;
  *  Singleton class acting as a register for all the various
  *  {@link Extractor}.
  */
+@SuppressWarnings("rawtypes")
 public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service.ServiceRegistry<String, ExtractorFactory> implements ExtractorRegistry {
+
+    /**
+     * The instance.
+     */
+    private static ExtractorRegistry instance = null;
 
     /**
      * Public constructor for ExtractorRegistryImpl. Should normally call getInstance.
@@ -38,11 +44,6 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
     public ExtractorRegistryImpl() {
         super(ExtractorFactory.class);
     }
-
-    /**
-     * The instance.
-     */
-    private static ExtractorRegistry instance = null;
 
     /**
      * @return returns the {@link ExtractorRegistry} instance.

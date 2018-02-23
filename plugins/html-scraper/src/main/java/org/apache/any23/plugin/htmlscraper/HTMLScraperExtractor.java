@@ -46,16 +46,16 @@ import java.util.List;
  */
 public class HTMLScraperExtractor implements Extractor.ContentExtractor {
 
-    public final static IRI PAGE_CONTENT_DE_PROPERTY  =
+    public static final IRI PAGE_CONTENT_DE_PROPERTY  =
             SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/de");
-    public final static IRI PAGE_CONTENT_AE_PROPERTY  =
+    public static final IRI PAGE_CONTENT_AE_PROPERTY  =
             SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/ae");
-    public final static IRI PAGE_CONTENT_LCE_PROPERTY =
+    public static final IRI PAGE_CONTENT_LCE_PROPERTY =
             SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/lce");
-    public final static IRI PAGE_CONTENT_CE_PROPERTY  =
+    public static final IRI PAGE_CONTENT_CE_PROPERTY  =
             SimpleValueFactory.getInstance().createIRI(SINDICE.NS + "pagecontent/ce");
 
-    private final List<ExtractionRule> extractionRules = new ArrayList<ExtractionRule>();
+    private final List<ExtractionRule> extractionRules = new ArrayList<>();
 
     public HTMLScraperExtractor() {
         loadDefaultRules();
@@ -66,7 +66,7 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
     }
 
     public String[] getTextExtractors() {
-        final List<String> extractors = new ArrayList<String>();
+        final List<String> extractors = new ArrayList<>();
         for(ExtractionRule er : extractionRules) {
             extractors.add(er.name);
         }

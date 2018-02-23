@@ -17,11 +17,9 @@
  * limitations under the License.
  * ========================================================= */
 
-
 !function ($) {
 
-  "use strict"; // jshint ;_;
-
+  "use strict";
 
  /* MODAL CLASS DEFINITION
   * ====================== */
@@ -46,7 +44,8 @@
 
         this.$element.trigger(e)
 
-        if (this.isShown || e.isDefaultPrevented()) return
+        if (this.isShown || e.isDefaultPrevented())
+          return
 
         $('body').addClass('modal-open')
 
@@ -85,7 +84,8 @@
 
         this.$element.trigger(e)
 
-        if (!this.isShown || e.isDefaultPrevented()) return
+        if (!this.isShown || e.isDefaultPrevented())
+          return
 
         this.isShown = false
 
@@ -141,7 +141,8 @@
         this.$backdrop.click($.proxy(this.hide, this))
       }
 
-      if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+      if (doAnimate)
+        this.$backdrop[0].offsetWidth // force reflow
 
       this.$backdrop.addClass('in')
 
@@ -186,9 +187,12 @@
       var $this = $(this)
         , data = $this.data('modal')
         , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
-      if (!data) $this.data('modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option]()
-      else if (options.show) data.show()
+      if (!data)
+        $this.data('modal', (data = new Modal(this, options)))
+      if (typeof option == 'string')
+        data[option]()
+      else if (options.show)
+        data.show()
     })
   }
 

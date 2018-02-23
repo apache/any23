@@ -25,7 +25,7 @@ import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractionResultImpl;
-import org.apache.any23.extractor.openie.OpenIEExtractor;
+import org.apache.any23.plugin.extractor.openie.OpenIEExtractor;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.StreamUtils;
 import org.apache.any23.writer.RDFXMLWriter;

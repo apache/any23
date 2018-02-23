@@ -1,20 +1,19 @@
-=============
-Any23 Web Service
-=============
+# Any23 Web Service
 
 This is the root dir of the Any23 Web-Service module.
 
 Apache Any23 provides a Web-Service that can be used to extract RDF from Web documents.
 
-Generate Web-Service Packaging
-===============================
+## Generate Web-Service Packaging
 
 To generate the desired Web-service package, execute 'mvn package' from this directory.
 
-$cd $ANY23-HOME/service
+```
+$ cd $ANY23-HOME/service
 $ mvn package
-
-From this directory it generates:
+```
+From this directory it generates roughly the following...
+```
 .
 ├── pom.xml
 ├── README.txt
@@ -45,6 +44,6 @@ From this directory it generates:
     ├── surefire
     ├── surefire-reports
     └── test-classes
-...
+```
 
-Specific README's can be found in either ./target/*.tar.gz || ./target/*.zip (annotated above with '<<<'), where much more detailed information sources can be located.
+Specific README's for each of the artifacts can be found in either ./target/*.tar.gz || ./target/*.zip (annotated above with '<<<'), where much more detailed information sources can be located.

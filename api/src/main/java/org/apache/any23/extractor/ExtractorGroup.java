@@ -61,6 +61,7 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
         return new ExtractorGroup(matching);
     }
 
+    @Override
     public Iterator<ExtractorFactory<?>> iterator() {
         return factories.iterator();
     }

@@ -34,14 +34,40 @@
   <properties>
     <!-- the following property is used in the bash script as well, don't remove it! -->
     <jetty.runner.version>8.1.16.v20140903</jetty.runner.version>
+    <output.directory>${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/lib/apache-any23-openie</output.directory>
   </properties>
 
   <dependencies>
-    <!-- Core Module -->
+    <!-- Any23 Modules -->
     <dependency>
       <groupId>org.apache.any23</groupId>
       <artifactId>apache-any23-core</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.any23.plugins</groupId>
+      <artifactId>apache-any23-openie</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.allenai.openie</groupId>
+      <artifactId>openie_2.11</artifactId>
+      <version>${openie_2.11.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.allenai.openie</groupId>
+      <artifactId>openie_2.11</artifactId>
+      <version>${openie_2.11.version}</version>
+      <scope>provided</scope>
+      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>edu.washington.cs.knowitall</groupId>
+      <artifactId>openregex</artifactId>
+      <version>${openregex.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- Logging -->
@@ -181,6 +207,62 @@
           </descriptors>
         </configuration>
       </plugin>
+
+      <!-- Used to provide dynamic OpenIE toggling within service -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache.any23.plugins</groupId>
+                  <artifactId>apache-any23-openie</artifactId>
+                  <version>${project.version}</version>
+                  <outputDirectory>${output.directory}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.allenai.openie</groupId>
+                  <artifactId>openie_2.11</artifactId>
+                  <version>${openie_2.11.version}</version>
+                  <outputDirectory>${output.directory}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.allenai.openie</groupId>
+                  <artifactId>openie_2.11</artifactId>
+                  <version>${openie_2.11.version}</version>
+                  <type>pom</type>
+                  <outputDirectory>${output.directory}</outputDirectory>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>edu.washington.cs.knowitall</groupId>
+                  <artifactId>openregex</artifactId>
+                  <version>${openregex.version}</version>
+                  <outputDirectory>${output.directory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <!-- other configurations here -->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <classpathDependencyExcludes>
+            <classpathDependencyExclude>org.apache.any23.plugins:apache-any23-openie</classpathDependencyExclude>
+          </classpathDependencyExcludes>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 

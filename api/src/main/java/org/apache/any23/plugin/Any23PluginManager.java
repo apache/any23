@@ -116,7 +116,7 @@ public class Any23PluginManager {
      * @return list of exceptions raised during the loading.
      */
     public synchronized Throwable[] loadJARs(File... jars) {
-        final List<Throwable> result = new ArrayList<Throwable>();
+        final List<Throwable> result = new ArrayList<>();
         for (File jar : jars) {
             try {
                 loadJAR(jar);
@@ -158,7 +158,7 @@ public class Any23PluginManager {
      * @return  list of exceptions raised during the loading.
      */
     public synchronized Throwable[] loadClassDirs(File... classDirs) {
-        final List<Throwable> result = new ArrayList<Throwable>();
+        final List<Throwable> result = new ArrayList<>();
         for (File classDir : classDirs) {
             try {
                 loadClassDir(classDir);
@@ -178,14 +178,15 @@ public class Any23PluginManager {
      * Loads all the JARs detected in a given directory.
      *
      * @param jarDir directory containing the JARs to be loaded.
+     *     Example '/usr/local/apache-tomcat-7.0.72/webapps/apache-any23-service-2.2-SNAPSHOT/WEB-INF/lib/apache-any23-openie'
      * @return <code>true</code> if all JARs in dir are loaded.
      */
     public synchronized boolean loadJARDir(File jarDir) {
         if(jarDir == null)
             throw new NullPointerException("JAR dir must be not null.");
-        if(  ! jarDir.exists() )
+        if(!jarDir.exists() )
             throw new IllegalArgumentException("Given directory doesn't exist:" + jarDir.getAbsolutePath());
-        if(! jarDir.isDirectory() )
+        if(!jarDir.isDirectory() )
             throw new IllegalArgumentException(
                     "given file exists and it is not a directory: " + jarDir.getAbsolutePath()
             );
@@ -210,7 +211,7 @@ public class Any23PluginManager {
      * @return list of errors occurred during loading.
      */
     public synchronized Throwable[] loadFiles(File... files) {
-        final List<Throwable> errors = new ArrayList<Throwable>();
+        final List<Throwable> errors = new ArrayList<>();
         for(File file : files) {
             try {
                 if (file.isFile() && file.getName().endsWith(".jar")) {
@@ -263,6 +264,7 @@ public class Any23PluginManager {
      * @return not <code>null</code> list of plugin classes.
      * @throws IOException if there is an error obtaining Extractors.
      */
+    @SuppressWarnings("rawtypes")
     public synchronized Iterator<ExtractorFactory> getExtractors() throws IOException {
         return getPlugins(ExtractorFactory.class);
     }
@@ -312,7 +314,8 @@ public class Any23PluginManager {
 
         final StringBuilder report = new StringBuilder();
         try {
-            final List<ExtractorFactory<?>> newFactoryList = new ArrayList<ExtractorFactory<?>>();
+            final List<ExtractorFactory<?>> newFactoryList = new ArrayList<>();
+            @SuppressWarnings("rawtypes")
             Iterator<ExtractorFactory> extractors = getExtractors();
             while (extractors.hasNext()) {
                 ExtractorFactory<?> factory = extractors.next();
@@ -386,7 +389,7 @@ public class Any23PluginManager {
      */
     private File[] getPluginLocations(String pluginDirsList) {
         final String[] locationsStr = pluginDirsList.split(PLUGIN_DIRS_LIST_SEPARATOR);
-        final List<File> locations = new ArrayList<File>();
+        final List<File> locations = new ArrayList<>();
         for(String locationStr : locationsStr) {
             final File location = new File(locationStr);
             if( ! location.exists()) {
@@ -404,7 +407,7 @@ public class Any23PluginManager {
      */
     private static final class DynamicClassLoader extends URLClassLoader {
 
-        private final Set<String> addedURLs = new HashSet<String>();
+        private final Set<String> addedURLs = new HashSet<>();
 
         private final List<File> jars;
 
@@ -412,8 +415,8 @@ public class Any23PluginManager {
 
         public DynamicClassLoader(URL[] urls) {
             super(urls, Any23PluginManager.class.getClassLoader());
-            jars = new ArrayList<File>();
-            dirs = new ArrayList<File>();
+            jars = new ArrayList<>();
+            dirs = new ArrayList<>();
         }
 
         public DynamicClassLoader() {
