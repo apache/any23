@@ -19,6 +19,8 @@ package org.apache.any23.servlet;
 
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.extractor.ExtractionParameters;
+import org.apache.any23.extractor.ExtractorRegistry;
+import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.apache.any23.http.HTTPClient;
 import org.apache.any23.plugin.Any23PluginManager;
 import org.apache.any23.servlet.conneg.Any23Negotiator;
@@ -100,7 +102,13 @@ public class Servlet extends HttpServlet {
             File openIEJarPath = new File(webappClasspath.getParentFile().getPath() + "/lib/apache-any23-openie");
             boolean loadedJars = pManager.loadJARDir(openIEJarPath);
             if (loadedJars) {
-                LOG.info("Successful dynamic classloading of apache-any23-openie directory from webapp lib.");
+                ExtractorRegistry r = ExtractorRegistryImpl.getInstance();
+                try {
+                    pManager.getExtractors().forEachRemaining(r::register);
+                } catch (IOException e) {
+                    LOG.error("Error during dynamic classloading of JARs from OpenIE runtime directory {}", openIEJarPath.toString(), e);
+                }
+                LOG.info("Successful dynamic classloading of JARs from OpenIE runtime directory {}", openIEJarPath.toString());
             }
         }
         final ExtractionParameters eps = getExtractionParameters(req);
