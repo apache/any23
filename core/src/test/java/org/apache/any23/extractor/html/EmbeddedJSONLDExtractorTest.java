@@ -53,6 +53,13 @@ public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 		assertStatementsSize(null, null, null, 7);
 	}
 
+	@Test
+	public void testJSONLDCommentStripping() throws Exception {
+		assertExtract("/html/html-jsonld-strip-comments.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 3);
+	}
+
 	@Override
 	protected ExtractorFactory<?> getExtractorFactory() {
 		return new EmbeddedJSONLDExtractorFactory();

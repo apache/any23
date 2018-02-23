@@ -27,6 +27,7 @@ import org.apache.any23.extractor.rdf.JSONLDExtractor;
 import org.apache.any23.extractor.rdf.JSONLDExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.w3c.dom.Document;
@@ -34,6 +35,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -145,8 +147,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
       for (int i = 0; i < attributes.getLength(); i++) {
         if ("application/ld+json".equalsIgnoreCase(attributes.item(i).getTextContent())) {
           extractor.run(extractionParameters, extractionContext,
-                  DomUtils.nodeToInputStream(jsonldNode
-                          .getFirstChild()), out);
+                  IOUtils.toInputStream(jsonldNode.getTextContent(), StandardCharsets.UTF_8), out);
         }
       }
       Node nameAttribute = attributes.getNamedItem("name");
