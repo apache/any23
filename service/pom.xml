@@ -217,37 +217,11 @@
             <id>copy</id>
             <phase>prepare-package</phase>
             <goals>
-              <goal>copy</goal>
+              <goal>copy-dependencies</goal>
             </goals>
             <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.apache.any23.plugins</groupId>
-                  <artifactId>apache-any23-openie</artifactId>
-                  <version>${project.version}</version>
-                  <outputDirectory>${output.directory}</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.allenai.openie</groupId>
-                  <artifactId>openie_2.11</artifactId>
-                  <version>${openie_2.11.version}</version>
-                  <outputDirectory>${output.directory}</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.allenai.openie</groupId>
-                  <artifactId>openie_2.11</artifactId>
-                  <version>${openie_2.11.version}</version>
-                  <type>pom</type>
-                  <outputDirectory>${output.directory}</outputDirectory>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>edu.washington.cs.knowitall</groupId>
-                  <artifactId>openregex</artifactId>
-                  <version>${openregex.version}</version>
-                  <outputDirectory>${output.directory}</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-              <!-- other configurations here -->
+              <includeScope>provided</includeScope>
+              <outputDirectory>${output.directory}</outputDirectory>
             </configuration>
           </execution>
         </executions>
