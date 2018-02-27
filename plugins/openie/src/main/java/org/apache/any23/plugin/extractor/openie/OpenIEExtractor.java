@@ -23,13 +23,12 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import org.apache.any23.extractor.Extractor;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.plugin.Author;
-import org.apache.any23.plugin.ExtractorPlugin;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.util.StreamUtils;
 import org.apache.tika.Tika;
@@ -63,7 +62,7 @@ import scala.collection.Seq;
  * sentences representing relations in the text.
  */
 @Author(name="Lewis John McGibbney (lewismc@apache.org)")
-public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor, ExtractorPlugin {
+public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(OpenIEExtractor.class);
 
@@ -106,7 +105,13 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor, Extractor
             LOG.error("Encountered error during OpenIE extraction.", e);
         } catch (TikaException e) {
             LOG.error("Encountered error whilst parsing InputStream with Tika.", e);
-        }
+        } catch (OutOfMemoryError e) {
+          //let the gc do its thing
+          openIE = null;
+          out.notifyIssue(IssueReport.IssueLevel.FATAL, "Not enough memory available to perform OpenIE extraction.", -1, -1);
+          LOG.error("Encountered OutOfMemoryError... increase JVM heap when running OpenIEExtractor.", e);
+          return;
+      }
 
         List<Instance> listExtractions = JavaConversions.seqAsJavaList(extractions);
         // for each extraction instance we can obtain a number of extraction elements
@@ -128,10 +133,5 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor, Extractor
                 }
             }
         }
-    }
-
-    @Override
-    public ExtractorFactory<?> getExtractorFactory() {
-      return (ExtractorFactory<?>) OpenIEExtractorFactory.getDescriptionInstance();
     }
 }
