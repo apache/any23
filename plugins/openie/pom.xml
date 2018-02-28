@@ -31,27 +31,6 @@
   <name>Apache Any23 :: Plugins :: OpenIE</name>
   <description>Open Information Extraction module.</description>
 
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-allenai-maven</id>
-      <name>bintray</name>
-      <url>http://allenai.bintray.com/maven</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-allenai-maven</id>
-      <name>bintray-plugins</name>
-      <url>http://allenai.bintray.com/maven</url>
-    </pluginRepository>
-  </pluginRepositories>
-
   <dependencies>
     <dependency>
       <groupId>org.apache.any23</groupId>

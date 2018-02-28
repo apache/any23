@@ -35,6 +35,27 @@
   <url>http://any23.apache.org</url>
   <inceptionYear>2010</inceptionYear>
 
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>bintray-allenai-maven</id>
+      <name>bintray</name>
+      <url>http://allenai.bintray.com/maven</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>bintray-allenai-maven</id>
+      <name>bintray-plugins</name>
+      <url>http://allenai.bintray.com/maven</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <developers>
     <developer>
       <id>hansbrende</id>
