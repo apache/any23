@@ -37,6 +37,15 @@
 
   <developers>
     <developer>
+      <id>hansbrende</id>
+      <name>Hans Brende</name>
+      <email>hansbrende[at]apache[dot]org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
+    <developer>
       <id>band</id>
       <name>Bill Anderson</name>
       <email>band[at]apache[dot]org</email>
@@ -86,7 +95,7 @@
       <name>Chris Mattmann</name>
       <email>mattmann[at]apache[dot]org</email>
       <roles>
-      <role>Champion</role>
+        <role>Champion</role>
         <role>Committer</role>
         <role>PMC Member</role>
         <role>Mentor</role>
