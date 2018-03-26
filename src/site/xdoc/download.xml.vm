@@ -29,42 +29,40 @@
       <p>Apache Any23 is distributed in several formats for your convenience. Use a source archive if you intend to build
    Apache Any23 yourself. Otherwise, simply pick a ready-made binary distribution and follow the installation
    instructions given inside the archives. Additionally, you can use Any23 as a dependency, see the most recent release
-   artifacts on <a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.any23%22">Maven Central</a>.</p>
+   artifacts on <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.any23%22">Maven Central</a>.</p>
 
       <p>You will be prompted for a mirror - if the file is not found on yours, please be patient, as it may take 24
    hours to reach all mirrors.</p>
 
       <p>In order to guard against corrupted downloads/installations, it is highly recommended to
-   <a href="http://www.apache.org/dev/release-signing#verifying-signature">verify the signature</a>
-   of the release bundles against the public <a href="http://apache.org/dist/any23/KEYS">KEYS</a> used by the Apache Any23
+   <a href="https://www.apache.org/dev/release-signing#verifying-signature">verify the signature</a>
+   of the release bundles against the public <a href="https://apache.org/dist/any23/KEYS">KEYS</a> used by the Apache Any23
    developers.</p>
 
-      <p>Apache Any23 is distributed under the <a href="http://any23.apache.org/license.html"> Apache License, version 2.0</a>.</p>
+      <p>Apache Any23 is distributed under the <a href="https://any23.apache.org/license.html"> Apache License, version 2.0</a>.</p>
 
       <subsection name="Apache Any23 Sources">
         <table>
           <thead>
             <tr>
               <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
+              <th>Mirror Download</th>
+              <th>ASCII Signature</th>
+              <th>SHA512 Checksum</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 2.1 (Source tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz"> apache-any23-2.1-src.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz.md5"> apache-any23-2.1-src.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz.asc"> apache-any23-2.1-src.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.tar.gz.sha512"> apache-any23-2.1-src.tar.gz.sha512</a></td>
+              <td>Apache Any23 2.2 (Source tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-2.2-src.tar.gz"> apache-any23-2.2-src.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-2.2-src.tar.gz.asc"> apache-any23-2.2-src.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-2.2-src.tar.gz.sha512"> apache-any23-2.2-src.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 2.1 (Source zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip"> apache-any23-2.1-src.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip.md5"> apache-any23-2.1-src.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip.asc"> apache-any23-2.1-src.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-2.1-src.zip.sha512"> apache-any23-2.1-src.zip.sha512</a></td>
+              <td>Apache Any23 2.2 (Source zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-2.2-src.zip"> apache-any23-2.2-src.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-2.2-src.zip.asc"> apache-any23-2.2-src.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-2.2-src.zip.sha512"> apache-any23-2.2-src.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -75,25 +73,23 @@
           <thead>
             <tr>
               <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
+              <th>Mirror Download</th>
+              <th>ASCII Signature</th>
+              <th>SHA512 Checksum</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 2.1 CLI (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz"> apache-any23-cli-2.1.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz.md5"> apache-any23-cli-2.1.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz.asc"> apache-any23-cli-2.1.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.tar.gz.sha512"> apache-any23-cli-2.1.tar.gz.sha512</a></td>
+              <td>Apache Any23 2.2 CLI (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-cli-2.2.tar.gz"> apache-any23-cli-2.2.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-cli-2.2.tar.gz.asc"> apache-any23-cli-2.2.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-cli-2.2.tar.gz.sha512"> apache-any23-cli-2.2.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 2.1 CLI (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip"> apache-any23-cli-2.1.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip.md5"> apache-any23-cli-2.1.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip.asc"> apache-any23-cli-2.1.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-cli-2.1.zip.sha512"> apache-any23-cli-2.1.zip.sha512</a></td>
+              <td>Apache Any23 2.2 CLI (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-cli-2.2.zip"> apache-any23-cli-2.2.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-cli-2.2.zip.asc"> apache-any23-cli-2.2.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-cli-2.2.zip.sha512"> apache-any23-cli-2.2.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -106,25 +102,23 @@
           <thead>
             <tr>
               <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
+              <th>Mirror Download</th>
+              <th>ASCII Signature</th>
+              <th>SHA512 Checksum</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Basic Crawler 2.1 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz"> apache-any23-basic-crawler-2.1.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz.md5"> apache-any23-basic-crawler-2.1.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz.asc"> apache-any23-basic-crawler-2.1.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.tar.gz.sha512"> apache-any23-basic-crawler-2.1.tar.gz.sha512</a></td>
+              <td>Apache Any23 Basic Crawler 2.2 (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-basic-crawler-2.2.tar.gz"> apache-any23-basic-crawler-2.2.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-basic-crawler-2.2.tar.gz.asc"> apache-any23-basic-crawler-2.2.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-basic-crawler-2.2.tar.gz.sha512"> apache-any23-basic-crawler-2.2.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Basic Crawler 2.1 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip"> apache-any23-basic-crawler-2.1.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip.md5"> apache-any23-basic-crawler-2.1.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip.asc"> apache-any23-basic-crawler-2.1.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-basic-crawler-2.1.zip.sha512"> apache-any23-basic-crawler-2.1.tar.gz.sha512</a></td>
+              <td>Apache Any23 Basic Crawler 2.2 (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-basic-crawler-2.2.zip"> apache-any23-basic-crawler-2.2.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-basic-crawler-2.2.zip.asc"> apache-any23-basic-crawler-2.2.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-basic-crawler-2.2.zip.sha512"> apache-any23-basic-crawler-2.2.tar.gz.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -135,25 +129,23 @@
           <thead>
             <tr>
               <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
+              <th>Mirror Download</th>
+              <th>ASCII Signature</th>
+              <th>SHA512 Checksum</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 HTML Scraper 2.1 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz"> apache-any23-html-scraper-2.1.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz.md5"> apache-any23-html-scraper-2.1.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz.asc"> apache-any23-html-scraper-2.1.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.tar.gz.sha512"> apache-any23-html-scraper-2.1.tar.gz.sha512</a></td>
+              <td>Apache Any23 HTML Scraper 2.2 (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-html-scraper-2.2.tar.gz"> apache-any23-html-scraper-2.2.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-html-scraper-2.2.tar.gz.asc"> apache-any23-html-scraper-2.2.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-html-scraper-2.2.tar.gz.sha512"> apache-any23-html-scraper-2.2.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 HTML Scraper 2.1 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip"> apache-any23-html-scraper-2.1.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip.md5"> apache-any23-html-scraper-2.1.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip.asc"> apache-any23-html-scraper-2.1.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-html-scraper-2.1.zip.sha512"> apache-any23-html-scraper-2.1.zip.sha512</a></td>
+              <td>Apache Any23 HTML Scraper 2.2 (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-html-scraper-2.2.zip"> apache-any23-html-scraper-2.2.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-html-scraper-2.2.zip.asc"> apache-any23-html-scraper-2.2.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-html-scraper-2.2.zip.sha512"> apache-any23-html-scraper-2.2.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -164,25 +156,23 @@
           <thead>
             <tr>
               <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
+              <th>Mirror Download</th>
+              <th>ASCII Signature</th>
+              <th>SHA512 Checksum</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Office Scraper 2.1 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz"> apache-any23-office-scraper-2.1.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz.md5"> apache-any23-office-scraper-2.1.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz.asc"> apache-any23-office-scraper-2.1.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.tar.gz.sha512"> apache-any23-office-scraper-2.1.tar.gz.sha512</a></td>
+              <td>Apache Any23 Office Scraper 2.2 (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-office-scraper-2.2.tar.gz"> apache-any23-office-scraper-2.2.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-office-scraper-2.2.tar.gz.asc"> apache-any23-office-scraper-2.2.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-office-scraper-2.2.tar.gz.sha512"> apache-any23-office-scraper-2.2.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Office Scraper 2.1 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip"> apache-any23-office-scraper-2.1.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip.md5"> apache-any23-office-scraper-2.1.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip.asc"> apache-any23-office-scraper-2.1.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-office-scraper-2.1.zip.sha512"> apache-any23-office-scraper-2.1.zip.sha512</a></td>
+              <td>Apache Any23 Office Scraper 2.2 (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/2.2/apache-any23-office-scraper-2.2.zip"> apache-any23-office-scraper-2.2.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-office-scraper-2.2.zip.asc"> apache-any23-office-scraper-2.2.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/2.2/apache-any23-office-scraper-2.2.zip.sha512"> apache-any23-office-scraper-2.2.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -190,92 +180,30 @@
     </section>
 
     <section name="Apache Any23 Service">
-      <subsection name="WAR package with dependencies">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Apache Any23 Service 2.1 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz"> apache-any23-service-2.1-with-deps.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz.md5"> apache-any23-service-2.1-with-deps.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz.asc"> apache-any23-service-2.1-with-deps.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.tar.gz.sha512"> apache-any23-service-2.1-with-deps.tar.gz.sha512</a></td>
-            </tr>
-            <tr>
-              <td>Apache Any23 Service 2.1 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip"> apache-any23-service-2.1-with-deps.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip.md5"> apache-any23-service-2.1-with-deps.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip.asc"> apache-any23-service-2.1.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-with-deps.zip.sha512"> apache-any23-service-2.1.zip.sha512</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </subsection>
-
-      <subsection name="WAR package without dependencies">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Apache Any23 Service (No deps) 2.1 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz"> apache-any23-service-2.1-without-deps.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz.md5"> apache-any23-service-2.1-without-deps.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz.asc"> apache-any23-service-2.1-without-deps.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.tar.gz.sha512"> apache-any23-service-2.1-without-deps.tar.gz.sha512</a></td>
-            </tr>
-            <tr>
-              <td>Apache Any23 Service (No deps) 2.1 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip"> apache-any23-service-2.1-without-deps.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip.md5"> apache-any23-service-2.1-without-deps.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip.asc"> apache-any23-service-2.1-without-deps.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-without-deps.zip.sha512"> apache-any23-service-2.1-without-deps.zip.sha512</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </subsection>
-
-      <subsection name="Standalone package with embedded Jetty">
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Mirrors</th>
-              <th>Checksum</th>
-              <th>Signature</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Apache Any23 Service (Standalone server embedded) 2.1 (Binary tar.gz)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz"> apache-any23-service-2.1-server-embedded.tar.gz</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz.md5"> apache-any23-service-2.1-server-embedded.tar.gz.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz.asc"> apache-any23-service-2.1-server-embedded.tar.gz.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.tar.gz.sha512"> apache-any23-service-2.1-server-embedded.tar.gz.sha512</a></td>
-            </tr>
-            <tr>
-              <td>Apache Any23 Service (Standalone server embedded) 2.1 (Binary zip)</td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip"> apache-any23-service-2.1-server-embedded.zip</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip.md5"> apache-any23-service-2.1-server-embedded.zip.md5</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip.asc"> apache-any23-service-2.1-server-embedded.zip.asc</a></td>
-              <td><a href="http://www.apache.org/dyn/closer.lua/any23/2.1/apache-any23-service-2.1-server-embedded.zip.sha512"> apache-any23-service-2.1-server-embedded.zip.sha512</a></td>
-            </tr>
-          </tbody>
-        </table>
+      <subsection name="WAR packages">
+        <p>Various WAR artifacts were made available for Any23 releases prior to 2.2. Post 2.2, this is not longer the case. Reasoning behind this relates to the size of the WAR artifcts post introduction of the <a href="https://github.com/apache/any23/tree/master/plugins/openie">Open Information Extraction (Open IE) module</a>. This grew the artifacts to ~1GB which became too large to distribute across the Apache global mirror network.</p>
+        <p>Release Any23 WAR artifacts can be generated by downloading one of the <a href="#Apache_Any23_Sources">Sources Artifacts</a> and then building the WAR artifacts from there.</p>
+        <p>WAR artifacts prior to 2.2 can be found in the <a href="http://archive.apache.org/dist/any23/">Apache Any23 Artifact Archive</a>.</p>
+        <p>For users merely wanting to see what the Any23 Service looks like and does, visit <b><a href="http://any23.org"></a></b>.</p>
       </subsection>
     </section>
+
+    <section name="Verify Releases">
+      <subsection>
+        <p>It is essential that you verify the integrity of the downloaded files using the PGP, and/or SHA signatures. published with every Any23 release. Please read <a href="http://httpd.apache.org/dev/verification.html">Verifying Apache HTTP Server Releases</a> for more information on why you should verify our releases. We strongly recommend you verify your downloads with at least PGP Guidance for doing so is provided below.</p>
+      </subsection>
+      <subsection name="PGP Signatures">
+        <p>The PGP signatures can be verified using PGP or GPG. First download the <a href="https://www.apache.org/dist/any23/KEYS">KEYS</a> as well as the asc signature file for the relevant distribution. <b>N.B.</b> Make sure you get these files from the main distribution directory, rather than from a mirror. Then verify the signatures using the following example</p>
+        <code>$ gpg --import KEYS</code>
+        <code>$ gpg --verify apache-any23-2.2-src.tar.gz.asc apache-any23-2.2-src.tar.gz</code>
+        <p>The files in the most recent release are signed by Lewis John McGibbney (CODE SIGNING KEY) lewismc@apache.org 48BAEBF6</p>
+      </subsection>
+      <subsection name="SHA512 Signatures">
+        <p>Alternatively, you can verify the SHA512 signatures on the files. A unix program called md5 or md5sum is included in many unix distributions. Use the following example</p>
+        <code>$ sha512sum apache-any23-2.2-src.tar.gz</code>
+        <p>... output should match the string in apache-any23-2.2-src.tar.gz.sha512</p>
+      </subsection>
+    </section>
+
   </body>
 </document>

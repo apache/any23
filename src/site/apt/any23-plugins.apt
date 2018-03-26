@@ -27,11 +27,11 @@ Apache Any23 Plugins
     This section describes the <Apache Any23> plugins support.
 
     <Apache Any23> comes with a set of predefined plugins.
-    Such plugins are located under the <any23-root>/<<plugins>> dir.
+    Such plugins are located under the <$ANY23_HOME>/<<plugins>> dir.
 
     A plugin is a standard <Maven3> module containing any implementation of
 
-    * {{{./apidocs/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}}
+    * {{{./apidocs/index.html?org/apache/any23/extractor/Extractor.html}Extractor}}
 
     * {{{./apidocs/org/apache/any23/cli/Tool.html}Tool}}
 
@@ -52,13 +52,36 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
    A plugin can be added to the <Apache Any23 library API> by first creating a static instance of
    {{{./apidocs/org/apache/any23/plugin/Any23PluginManager.html}Any23PluginManager}}#getInstance().
    Once this is done there is a variety of options to configure and register a plugins, etc. An example
-   of dynamic plugin loading can be seen via the OpenIE toggle in the Any23 Service.
+   of dynamic plugin loading can be seen via the way that the OpenIE toggling is implemented within the 
+   Any23 Webservice e.g.
+
++--------------------------------------
+if (openie) {
+    Any23PluginManager pManager = Any23PluginManager.getInstance();
+    //Dynamically adding Jar's to the Classpath via the following logic
+    //is absolutely dependant on the 'apache-any23-openie' directory being
+    //present within the webapp /lib directory. This is specified within 
+    //the maven-dependency-plugin.
+    File webappClasspath = new File(getClass().getClassLoader().getResource("").getPath());
+    File openIEJarPath = new File(webappClasspath.getParentFile().getPath() + "/lib/apache-any23-openie");
+    boolean loadedJars = pManager.loadJARDir(openIEJarPath);
+    if (loadedJars) {
+        ExtractorRegistry r = ExtractorRegistryImpl.getInstance();
+        try {
+            pManager.getExtractors().forEachRemaining(r::register);
+        } catch (IOException e) {
+            LOG.error("Error during dynamic classloading of JARs from OpenIE runtime directory {}", openIEJarPath.toString(), e);
+        }
+        LOG.info("Successful dynamic classloading of JARs from OpenIE runtime directory {}", openIEJarPath.toString());
+    }
+}
++--------------------------------------
 
     Any implementation of <ExtractorPlugin> will automatically registered to the
     {{{./apidocs/org/apache/any23/extractor/ExtractorRegistry.html}ExtractorRegistry}}.
 
     Any detected implementation of <Tool> will be listed by the <ToolRunner>
-    command-line tool in <any23-root/><<bin/any23>> .
+    command-line tool in <any23-root/><<cli/bin/any23>> .
 
 * How to Build a Plugin
 
@@ -73,7 +96,7 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
 
    An <Extractor Plugin> is a class:
 
-   * implementing the {{{./apidocs/org/apache/any23/plugin/ExtractorPlugin.html}ExtractorPlugin}} interface;
+   * implementing one of the {{{./apidocs/index.html?org/apache/any23/extractor/Extractor.html}Extractor}} subinterfaces;
 
    * packaged under <<org.apache.any23.plugin>> .
 
@@ -81,22 +104,28 @@ export CLASSPATH_PREFIX=../../../plugins/basic-crawler/target/any23-basic-crawle
 
 +--------------------------------------
 @Author(name="Michele Mostarda (mostarda@fbk.eu)")
-public class HTMLScraperPlugin implements ExtractorPlugin {
+public class HTMLScraperExtractor implements Extractor.ContentExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(HTMLScraperPlugin.class);
 
-    @Init
-    public void init() {
-        logger.info("Plugin initialization.");
+    @Override
+    public void run(
+            ExtractionParameters extractionParameters,
+            ExtractionContext extractionContext,
+            InputStream inputStream,
+            ExtractionResult extractionResult
+    ) throws IOException, ExtractionException {
+	...
     }
 
-    @Shutdown
-    public void shutdown() {
-        logger.info("Plugin shutdown.");
+    @Override
+    public ExtractorDescription getDescription() {
+        return HTMLScraperExtractorFactory.getDescriptionInstance();
     }
 
-    public ExtractorFactory getExtractorFactory() {
-        return HTMLScraperExtractor.factory;
+    @Override
+    public void setStopAtFirstError(boolean b) {
+        // Ignored.
     }
 
 }
@@ -110,7 +139,7 @@ public class HTMLScraperPlugin implements ExtractorPlugin {
 
    * CLI parameters are extracted by annotating the class members with {{{http://jcommander.org/}JCommander}} annotations.
 
-   * have to be found using the {{{http://docs.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html}ServiceLoader}}
+   * have to be found using the {{{https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html}ServiceLoader}}
      (we usually plug the Kohsuke's {{{http://weblogs.java.net/blog/kohsuke/archive/2009/03/my_project_of_t.html}generator}})
 
    An example of plugin is defined below.
@@ -146,6 +175,14 @@ public class MyExecutableTool implements Tool {
     <Microsoft Office> document formats.
 
     These plugins are documented {{{./plugin-office-scraper.html}here}}.
+
+  * OpenIE Extractor Plugin
+
+    As of 2.1 Any23 provides functionality to extract triples using the 
+    {{{https://github.com/allenai/openie-standalone}Open Information Extraction (Open IE) system}}. 
+    The Open IE system runs over input sentences and creates extractions that represent relations 
+    in text, in the case of Any23, this results in triples. Se the above example on how to register a 
+    plugin to see how the OpenIE Extractor plugin is currently used within the Any23 Service.
 
 * Available CLI Tool Plugins
 
