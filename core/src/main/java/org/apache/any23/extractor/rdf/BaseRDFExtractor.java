@@ -161,7 +161,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
 
     private static class JsonCommentStripperInputStream extends InputStream {
 
-        private int prevChar;
+        private boolean inEscape;
         private boolean inQuote;
         private boolean inCDATA;
 
@@ -191,16 +191,16 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
 
         @Override
         public int read() throws IOException {
-            return prevChar = privateRead();
-        }
-
-        private int privateRead() throws IOException {
             PushbackInputStream stream = wrapped;
             int c = stream.read();
 
             if (inQuote) {
-                if (c == '"' && prevChar != '\\') {
+                if (inEscape) {
+                    inEscape = false;
+                } else if (c == '"') {
                     inQuote = false;
+                } else if (c == '\\') {
+                    inEscape = true;
                 }
                 return c;
             }

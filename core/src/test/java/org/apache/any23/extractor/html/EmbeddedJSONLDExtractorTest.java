@@ -17,6 +17,8 @@
 package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.rdf.RDFUtils;
+import org.apache.any23.vocab.FOAF;
 import org.junit.Test;
 
 /**
@@ -58,6 +60,7 @@ public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/html/html-jsonld-strip-comments.html");
 		assertModelNotEmpty();
 		assertStatementsSize(null, null, null, 3);
+		assertContains(RDFUtils.iri(FOAF.NS, "name"), "Robert\\\" Millar\\\\\"\"\\\\");
 	}
 
 	@Override
