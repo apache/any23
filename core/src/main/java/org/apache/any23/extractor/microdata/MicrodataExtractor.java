@@ -40,6 +40,8 @@ import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
@@ -430,21 +432,12 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             IRI documentIRI, ExtractionResult out,
             Map<ItemScope, Resource> mappings
     ) throws ExtractionException {
-        Resource subject;
-        if (mappings.containsKey(itemScope)) {
-            subject = mappings.get(itemScope);
-        } else if (isAbsoluteURL(itemScope.getItemId())) {
-            subject = RDFUtils.iri(itemScope.getItemId());
-        } else {
-            subject = RDFUtils.getBNode(Integer.toString(itemScope.hashCode()));
-        }
-        mappings.put(itemScope, subject);
+        Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(scope.getItemId()));
 
         // ItemScope.type could be null, but surely it's a valid URL
         String itemScopeType = "";
         if (itemScope.getType() != null) {
-            String itemType;
-            itemType = itemScope.getType().toString();
+            String itemType = itemScope.getType().toString();
             out.writeTriple(subject, RDF.TYPE, RDFUtils.iri(itemType));
             itemScopeType = itemScope.getType().toString();
         }
@@ -470,6 +463,20 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             }
         }
         return subject;
+    }
+
+    private static Resource createSubjectForItemId(String itemId) {
+        if (itemId != null) {
+            try {
+                URI uri = new URI(itemId.trim());
+                if (uri.isAbsolute()) {
+                    return RDFUtils.iri(uri.toString());
+                }
+            } catch (URISyntaxException e) {
+                //not an absolute uri
+            }
+        }
+        return RDFUtils.bnode();
     }
 
     private void processProperty(

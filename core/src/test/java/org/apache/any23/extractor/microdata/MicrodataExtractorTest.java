@@ -20,6 +20,7 @@ package org.apache.any23.extractor.microdata;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
+import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,14 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-nested-expected.nquads"
         );
         logger.debug(dumpModelToNQuads());
+    }
+
+    @Test
+    public void testMicrodataBasic() {
+        assertExtract("/microdata/microdata-basic.html");
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 40);
+        assertStatementsSize(RDFUtils.iri("urn:isbn:0-330-34032-8"), null, null, 4);
     }
 
     /**
