@@ -61,6 +61,16 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     @Test
+    public void testBBCNewsScotland() {
+        assertExtract("/html/BBC_News_Scotland.html");
+        assertModelNotEmpty();
+        assertStatementsSize(null, RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#role"), RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#navigation"), 1);
+        assertStatementsSize(null, RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#role"), RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#search"), 1);
+        assertStatementsSize(null, RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#role"), RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#contentinfo"), 1);
+        assertStatementsSize(null, RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#role"), RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#presentation"), 8);
+    }
+
+    @Test
     public void testIssue326() {
         assertExtract("/html/rdfa/rdfa-issue326-and-267.html");
     }

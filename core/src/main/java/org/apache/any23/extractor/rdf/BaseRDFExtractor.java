@@ -29,12 +29,14 @@ import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RioSetting;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
+import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.DocumentType;
 import org.jsoup.nodes.Entities;
 import org.jsoup.nodes.Node;
+import org.jsoup.select.NodeFilter;
 import org.jsoup.select.NodeTraversor;
-import org.jsoup.select.NodeVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,17 +133,18 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                         .syntax(Document.OutputSettings.Syntax.xml)
                         .escapeMode(Entities.EscapeMode.xhtml)
                         .charset(charset);
-                //Delete scripts. Json-ld in script tags is extracted first
-                //from tag soup dom, so we should be fine.
-                NodeTraversor.traverse(new NodeVisitor() {
+                // Delete scripts, comments, and doctypes
+                // See https://issues.apache.org/jira/browse/ANY23-317
+                // and https://issues.apache.org/jira/browse/ANY23-340
+                NodeTraversor.filter(new NodeFilter() {
                     @Override
-                    public void head(Node node, int depth) {
-                        if (node instanceof DataNode) {
-                            ((DataNode) node).setWholeData("");
-                        }
+                    public FilterResult head(Node node, int depth) {
+                        return node instanceof DataNode || node instanceof Comment || node instanceof DocumentType
+                                ? FilterResult.REMOVE : FilterResult.CONTINUE;
                     }
                     @Override
-                    public void tail(Node node, int depth) {
+                    public FilterResult tail(Node node, int depth) {
+                        return FilterResult.CONTINUE;
                     }
                 }, doc);
 
