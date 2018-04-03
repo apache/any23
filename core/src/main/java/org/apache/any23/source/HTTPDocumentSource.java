@@ -17,15 +17,13 @@
 
 package org.apache.any23.source;
 
-import org.apache.any23.http.DefaultHTTPClient;
 import org.apache.any23.http.HTTPClient;
-import org.apache.commons.httpclient.URI;
-import org.apache.commons.httpclient.URIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -50,13 +48,12 @@ public class HTTPDocumentSource implements DocumentSource {
 
     private String normalize(String uri) throws URISyntaxException {
         try {
-            URI normalized = new URI(uri, DefaultHTTPClient.isUrlEncoded(uri));
-            normalized.normalize();
+            URI normalized = new URI(uri).normalize();
             return normalized.toString();
-        } catch (URIException e) {
+        } catch (URISyntaxException e) {
             LOG.warn("Invalid uri: {}", uri);
             LOG.error("Can not convert URL", e);
-            throw new URISyntaxException(uri, e.getMessage());
+            throw e;
         }
     }
 

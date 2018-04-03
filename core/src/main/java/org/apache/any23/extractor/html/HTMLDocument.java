@@ -24,6 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -375,15 +376,32 @@ public class HTMLDocument {
 
     private java.net.URI getBaseIRI() throws ExtractionException {
         if (baseIRI == null) {
+            // document.getBaseURI() returns null for document URIs with
+            // special characters, e.g., http://semanticweb.org/wiki/Knud_Möller
+            // It also does *not* take html "base" elements into account.
+            // (But it does take into account urls specified by the attribute "xml:base".)
+
+            // So, for now, let's use getDocumentURI() instead.
+            // TODO: Make this approach better.
+
+            Document doc = document instanceof Document ? (Document)document : document.getOwnerDocument();
+
+            if (doc == null) {
+                throw new ExtractionException("Node " + document.getNodeName() + " was not associated with a document.");
+            }
+
+            String uri = doc.getDocumentURI();
+
+            if (uri == null) {
+                throw new ExtractionException("document URI is null, this should not happen");
+            }
+
             try {
-                if (document.getBaseURI() == null) {
-                    log.warn("document.getBaseURI() is null, this should not happen");
-                }
-                baseIRI = new java.net.URI(RDFUtils.fixAbsoluteIRI(document.getBaseURI()));
+                baseIRI = new java.net.URI(RDFUtils.fixAbsoluteIRI(uri));
             } catch (IllegalArgumentException ex) {
-                throw new ExtractionException("Error in base IRI: " + document.getBaseURI(), ex);
+                throw new ExtractionException("Error in base IRI: " + uri, ex);
             } catch (URISyntaxException ex) {
-                throw new ExtractionException("Error in base IRI: " + document.getBaseURI(), ex);
+                throw new ExtractionException("Error in base IRI: " + uri, ex);
             }
         }
         return baseIRI;

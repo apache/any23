@@ -33,7 +33,7 @@ public interface HTTPClient {
      *
      * @param configuration configuration for the HTTP Client.
      */
-    public abstract void init(HTTPClientConfiguration configuration);
+    void init(HTTPClientConfiguration configuration);
 
     /**
      * Opens the input stream for the given target IRI.
@@ -42,7 +42,7 @@ public interface HTTPClient {
      * @return input stream to access IRI content.
      * @throws IOException if any error occurs while reading the IRI content.
      */
-    public abstract InputStream openInputStream(String uri) throws IOException;
+    InputStream openInputStream(String uri) throws IOException;
 
     /**
      * Release all static resources help by the instance. Call this
@@ -50,7 +50,7 @@ public interface HTTPClient {
      * application, like for example when shutting down a servlet
      * context.
      */
-    public abstract void close();
+    void close();
 
     /**
      * The value of the Content-Type header reported by the server.
@@ -58,12 +58,12 @@ public interface HTTPClient {
      *
      * @return the content type as string.
      */
-    public abstract String getContentType();
+    String getContentType();
 
     /**
      * @return content length in bytes.
      */
-    public abstract long getContentLength();
+    long getContentLength();
 
     /**
      * Returns the actual IRI from which the document was fetched.
@@ -73,6 +73,6 @@ public interface HTTPClient {
      *
      * @return actual document IRI.
      */
-    public abstract String getActualDocumentIRI();
+    String getActualDocumentIRI();
     
 }

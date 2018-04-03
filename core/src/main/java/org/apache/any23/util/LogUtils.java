@@ -27,8 +27,6 @@ public class LogUtils {
 
     public static void setDefaultLogging() {
         Logger.getLogger("").setLevel(Level.WARNING);
-        // Suppress silly cookie warnings.
-        Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.SEVERE);
         Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
     }
 

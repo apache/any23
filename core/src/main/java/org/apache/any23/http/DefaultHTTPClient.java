@@ -17,16 +17,24 @@
 
 package org.apache.any23.http;
 
-import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.SocketConfig;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.message.BasicHeader;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Opens an {@link InputStream} on an HTTP IRI. Is configured
@@ -37,9 +45,7 @@ import java.util.regex.Pattern;
  */
 public class DefaultHTTPClient implements HTTPClient {
 
-    private static final Pattern ESCAPED_PATTERN = Pattern.compile("%[0-9a-f]{2}",Pattern.CASE_INSENSITIVE);
-
-    private final MultiThreadedHttpConnectionManager manager = new MultiThreadedHttpConnectionManager();
+    private final PoolingHttpClientConnectionManager manager = new PoolingHttpClientConnectionManager();
 
     private HTTPClientConfiguration configuration;
 
@@ -51,9 +57,6 @@ public class DefaultHTTPClient implements HTTPClient {
 
     private String contentType = null;
 
-    public static final boolean isUrlEncoded(String url) {
-        return ESCAPED_PATTERN.matcher(url).find();
-    }
 
     /**
      * Creates a {@link DefaultHTTPClient} instance already initialized
@@ -82,35 +85,31 @@ public class DefaultHTTPClient implements HTTPClient {
      * located at the URI.
      */
     public InputStream openInputStream(String uri) throws IOException {
-        GetMethod method = null;
+        HttpGet method = null;
         try {
             ensureClientInitialized();
-            String uriStr;
-            try {
-                URI uriObj = new URI(uri, isUrlEncoded(uri));
-                // [scheme:][//authority][path][?query][#fragment]
-                uriStr = uriObj.toString();
-            } catch (URIException e) {
-                throw new IllegalArgumentException("Invalid IRI string.", e);
-            }
-            method = new GetMethod(uriStr);
-            method.setFollowRedirects(true);
-            client.executeMethod(method);
-            _contentLength = method.getResponseContentLength();
-            final Header contentTypeHeader = method.getResponseHeader("Content-Type");
+            HttpClientContext context = HttpClientContext.create();
+            method = new HttpGet(uri);
+            HttpResponse response = client.execute(method, context);
+            List<URI> locations = context.getRedirectLocations();
+
+            URI actualURI = locations == null || locations.isEmpty() ? method.getURI() : locations.get(locations.size() - 1);
+            actualDocumentIRI = actualURI.toString();
+
+            final Header contentTypeHeader = response.getFirstHeader("Content-Type");
             contentType = contentTypeHeader == null ? null : contentTypeHeader.getValue();
-            if (method.getStatusCode() != 200) {
+            if (response.getStatusLine().getStatusCode() != 200) {
                 throw new IOException(
-                        "Failed to fetch " + uri + ": " + method.getStatusCode() + " " + method.getStatusText()
+                        "Failed to fetch " + uri + ": " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase()
                 );
             }
-            actualDocumentIRI = method.getURI().toString();
-            byte[] response = method.getResponseBody();
 
-            return new ByteArrayInputStream(response);
+            byte[] bytes = IOUtils.toByteArray(response.getEntity().getContent());
+            _contentLength = bytes.length;
+            return new ByteArrayInputStream(bytes);
         } finally {
             if (method != null) {
-                method.releaseConnection();
+                method.reset();
             }
         }
     }
@@ -143,25 +142,38 @@ public class DefaultHTTPClient implements HTTPClient {
     }
 
     private void ensureClientInitialized() {
-        if(configuration == null) throw new IllegalStateException("client must be initialized first.");
-        if (client != null) return;
-        client = new HttpClient(manager);
-        HttpConnectionManager connectionManager = client.getHttpConnectionManager();
-        HttpConnectionManagerParams params = connectionManager.getParams();
-        params.setConnectionTimeout(configuration.getDefaultTimeout());
-        params.setSoTimeout(configuration.getDefaultTimeout());
-        params.setMaxTotalConnections(configuration.getMaxConnections());
+        if (configuration == null)
+            throw new IllegalStateException("client must be initialized first.");
+        if (client != null)
+            return;
 
-        HostConfiguration hostConf = client.getHostConfiguration();
-        List<Header> headers = new ArrayList<Header>();
-        headers.add(new Header("User-Agent", configuration.getUserAgent()));
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(getConnectionTimeout())
+                .setSocketTimeout(getSoTimeout())
+                .setRedirectsEnabled(true)
+                .build();
+
+        SocketConfig socketConfig = SocketConfig.custom()
+                .setSoTimeout(getSoTimeout())
+                .build();
+
+        List<Header> headers = new ArrayList<>();
+        headers.add(new BasicHeader("User-Agent", configuration.getUserAgent()));
         if (configuration.getAcceptHeader() != null) {
-            headers.add(new Header("Accept", configuration.getAcceptHeader()));
+            headers.add(new BasicHeader("Accept", configuration.getAcceptHeader()));
         }
-        headers.add(new Header("Accept-Language", "en-us,en-gb,en,*;q=0.3")); //TODO: this must become parametric.
-        headers.add(new Header("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));
-        // headers.add(new Header("Accept-Encoding", "x-gzip, gzip"));
-        hostConf.getParams().setParameter("http.default-headers", headers);
+        headers.add(new BasicHeader("Accept-Language", "en-us,en-gb,en,*;q=0.3")); //TODO: this must become parametric.
+        // headers.add(new BasicHeader("Accept-Encoding", "x-gzip, gzip"));
+        headers.add(new BasicHeader("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));
+
+
+        client = HttpClients.custom()
+                .setConnectionManager(manager)
+                .setDefaultRequestConfig(requestConfig)
+                .setDefaultSocketConfig(socketConfig)
+                .setMaxConnTotal(configuration.getMaxConnections())
+                .setDefaultHeaders(headers)
+                .build();
     }
 
 }
