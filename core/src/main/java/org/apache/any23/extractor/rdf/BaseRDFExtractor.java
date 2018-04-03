@@ -117,8 +117,10 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_DATATYPE_VALUES);
             parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);
             parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
-            //ByteBuffer seems to represent incorrect content. Need to make sure it is the content
-            //of the <script> node and not anything else!
+            parser.getParserConfig().set(BasicParserSettings.VERIFY_RELATIVE_URIS, true);
+            parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_RELATIVE_URIS);
+
+
             RDFFormat format = parser.getRDFFormat();
             String iri = extractionContext.getDocumentIRI().stringValue();
 
