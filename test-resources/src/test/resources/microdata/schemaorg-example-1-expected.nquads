@@ -16,9 +16,9 @@
 #
 
 _:node86af95e129f7381bd44dceb4ff02b7e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/AudioObject> <http://bob.example.com/> .
-_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/duration> "T0M15S" <http://bob.example.com/> .
-_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/description> "Recorded on a terrace of Girona a sunday morning" <http://bob.example.com/> .
-_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/name> "12oclock_girona.mp3" <http://bob.example.com/> .
-_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/encodingFormat> "mp3" <http://bob.example.com/> .
-_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/AudioObject/contentURL> "http://media.freesound.org/data/0/previews/719__elmomo__12oclock_girona_preview.mp3" <http://bob.example.com/> .
+_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/duration> "T0M15S" <http://bob.example.com/> .
+_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/description> "Recorded on a terrace of Girona a sunday morning" <http://bob.example.com/> .
+_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/name> "12oclock_girona.mp3" <http://bob.example.com/> .
+_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/encodingFormat> "mp3" <http://bob.example.com/> .
+_:node86af95e129f7381bd44dceb4ff02b7e <http://schema.org/contentURL> "http://media.freesound.org/data/0/previews/719__elmomo__12oclock_girona_preview.mp3" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node86af95e129f7381bd44dceb4ff02b7e <http://bob.example.com/> .

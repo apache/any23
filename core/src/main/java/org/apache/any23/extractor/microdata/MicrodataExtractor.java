@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -64,9 +65,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private String documentLanguage;
 
-    private boolean isStrict;
-
-    private String defaultNamespace;
+    private IRI defaultNamespace;
 
     @Override
     public ExtractorDescription getDescription() {
@@ -97,9 +96,14 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             return;
         }
 
-        isStrict = extractionParameters.getFlag("any23.microdata.strict");
+        boolean isStrict = extractionParameters.getFlag("any23.microdata.strict");
         if (!isStrict) {
-            defaultNamespace = extractionParameters.getProperty("any23.microdata.ns.default");
+            defaultNamespace = RDFUtils.iri(extractionParameters.getProperty("any23.microdata.ns.default"));
+            if (!defaultNamespace.getLocalName().isEmpty()) {
+                throw new IllegalArgumentException("invalid namespace IRI: " + defaultNamespace);
+            }
+        } else {
+            defaultNamespace = null;
         }
 
         documentLanguage = getDocumentLanguage(in);
@@ -435,11 +439,11 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(scope.getItemId()));
 
         // ItemScope.type could be null, but surely it's a valid URL
-        String itemScopeType = "";
+        IRI itemScopeType = null;
         if (itemScope.getType() != null) {
             String itemType = itemScope.getType().toString();
             out.writeTriple(subject, RDF.TYPE, RDFUtils.iri(itemType));
-            itemScopeType = itemScope.getType().toString();
+            itemScopeType = RDFUtils.iri(itemScope.getType().toString());
         }
         for (String propName : itemScope.getProperties().keySet()) {
             List<ItemProp> itemProps = itemScope.getProperties().get(propName);
@@ -483,25 +487,17 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             Resource subject,
             String propName,
             ItemProp itemProp,
-            String itemScopeType,
+            IRI itemScopeType,
             IRI documentIRI,
             Map<ItemScope, Resource> mappings,
             ExtractionResult out
     ) throws MalformedURLException, ExtractionException {
-        IRI predicate;
-        if (!isAbsoluteURL(propName) && "".equals(itemScopeType) && isStrict) {
+
+        IRI predicate = getPredicate(itemScopeType != null ? itemScopeType : defaultNamespace, propName);
+        if (predicate == null) {
             return;
-        } else if (!isAbsoluteURL(propName) && "".equals(itemScopeType) && !isStrict) {
-            predicate = RDFUtils.iri(toAbsoluteURL(
-                    defaultNamespace,
-                    propName,
-                    '/').toString());
-        } else {
-            predicate = RDFUtils.iri(toAbsoluteURL(
-                    itemScopeType,
-                    propName,
-                    '/').toString());
         }
+
         Value value;
         Object propValue = itemProp.getValue().getContent();
         ItemPropValue.Type propType = itemProp.getValue().getType();
@@ -523,7 +519,17 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         out.writeTriple(subject, predicate, value);
     }
 
-    private boolean isAbsoluteURL(String urlString) {
+    private static IRI getPredicate(IRI itemType, String localName) {
+        if (isAbsoluteURL(localName)) {
+            return RDFUtils.iri(localName);
+        } else if (itemType != null) {
+            return RDFUtils.iri(itemType.getNamespace(), Objects.requireNonNull(localName));
+        } else {
+            return null;
+        }
+    }
+
+    private static boolean isAbsoluteURL(String urlString) {
         boolean result = false;
         try {
             URL url = new URL(urlString);

@@ -18,8 +18,8 @@
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node295195eb5d5124e03da26bafc7313bc <http://bob.example.com/> .
 _:node3ecb85b37ebfd65a5d57ab82374a5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
 _:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .
-_:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://schema.org/Person/name> "James Cameron" <http://bob.example.com/> .
-_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/Movie/director> _:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://bob.example.com/> .
-_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/Movie/name> "Avatar" <http://bob.example.com/> .
-_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/Movie/name> "James Cameron" <http://bob.example.com/> .
+_:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://schema.org/name> "James Cameron" <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/director> _:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/name> "Avatar" <http://bob.example.com/> .
+_:node3ecb85b37ebfd65a5d57ab82374a5 <http://schema.org/name> "James Cameron" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node3ecb85b37ebfd65a5d57ab82374a5 <http://bob.example.com/> .

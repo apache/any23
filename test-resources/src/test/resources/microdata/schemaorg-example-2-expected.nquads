@@ -16,11 +16,11 @@
 #
 
 _:node8b30931f1dde708283dc52546c5572a6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Product> <http://bob.example.com/> .
-_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/Product/price> "$55,000.00" <http://bob.example.com/> .
-_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/Product/description> "2010 Dodge Challenger SRT8 Limited EditionBright Silver Metallic with Dark Slate Gray Leather Interior6.1 Liter (370 CI) V8 SRT HEMI Engine6 Speed Manual Transmission with 3:92 Rear Axle Ratio (DEC, Track Pak)" <http://bob.example.com/> .
-_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/Product/name> "2010 Dodge Challenger SRT8" <http://bob.example.com/> .
-_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/Product/image> <http://bob.example.com//microdata/images/2010-dodge-challenger-srt8.jpg> <http://bob.example.com/> .
-_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/Product/url> <http://vheminc.com/> <http://bob.example.com/> .
+_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/price> "$55,000.00" <http://bob.example.com/> .
+_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/description> "2010 Dodge Challenger SRT8 Limited EditionBright Silver Metallic with Dark Slate Gray Leather Interior6.1 Liter (370 CI) V8 SRT HEMI Engine6 Speed Manual Transmission with 3:92 Rear Axle Ratio (DEC, Track Pak)" <http://bob.example.com/> .
+_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/name> "2010 Dodge Challenger SRT8" <http://bob.example.com/> .
+_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/image> <http://bob.example.com//microdata/images/2010-dodge-challenger-srt8.jpg> <http://bob.example.com/> .
+_:node8b30931f1dde708283dc52546c5572a6 <http://schema.org/url> <http://vheminc.com/> <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node8b30931f1dde708283dc52546c5572a6 <http://bob.example.com/> .
 <http://bob.example.com/> <http://purl.org/dc/terms/title> "HTML5 Microdata Example - http://schema.org/Product" <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/vocab#icon> <http://bob.example.com//images/favicon1.ico> <http://bob.example.com/> .
