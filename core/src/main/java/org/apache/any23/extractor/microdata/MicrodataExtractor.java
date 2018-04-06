@@ -438,12 +438,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     ) throws ExtractionException {
         Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(scope.getItemId()));
 
-        // ItemScope.type could be null, but surely it's a valid URL
-        IRI itemScopeType = null;
-        if (itemScope.getType() != null) {
-            String itemType = itemScope.getType().toString();
-            out.writeTriple(subject, RDF.TYPE, RDFUtils.iri(itemType));
-            itemScopeType = RDFUtils.iri(itemScope.getType().toString());
+        IRI itemScopeType = getType(itemScope);
+        if (itemScopeType != null) {
+            out.writeTriple(subject, RDF.TYPE, itemScopeType);
         }
         for (String propName : itemScope.getProperties().keySet()) {
             List<ItemProp> itemProps = itemScope.getProperties().get(propName);
@@ -467,6 +464,11 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             }
         }
         return subject;
+    }
+
+    private static IRI getType(ItemScope scope) {
+        URL type = scope.getType();
+        return type == null ? null : RDFUtils.iri(type.toString());
     }
 
     private static Resource createSubjectForItemId(String itemId) {
