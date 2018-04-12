@@ -16,8 +16,6 @@
 #
 
 <http://books.example.com/works/45U8QJGZSQKDH8N> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/vocab/frbr/core#Work> <http://bob.example.com/> .
-<http://books.example.com/works/45U8QJGZSQKDH8N> <http://purl.org/dc/terms/type> <http://books.example.com/product-types/BOOK> <http://bob.example.com/> .
-<http://books.example.com/works/45U8QJGZSQKDH8N> <http://purl.org/dc/terms/type> <http://books.example.com/product-types/EBOOK> <http://bob.example.com/> .
 <http://books.example.com/works/45U8QJGZSQKDH8N> <http://purl.org/dc/terms/title> "Just a Geek" <http://bob.example.com/> .
 <http://books.example.com/products/9780596007683.BOOK> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/vocab/frbr/core#Expression> <http://bob.example.com/> .
 <http://books.example.com/products/9780596007683.BOOK> <http://purl.org/dc/terms/type> <http://books.example.com/product-types/BOOK> <http://bob.example.com/> .

@@ -88,7 +88,7 @@ public class MicrodataParser {
     private ErrorMode errorMode = ErrorMode.FULL_REPORT;
 
     /**
-     * List of collected errors. Used when {@link #errorMode} <code>==</code> {@link ErrorMode#FullReport}.
+     * List of collected errors. Used when {@link #errorMode} <code>==</code> {@link ErrorMode#FULL_REPORT}.
      */
     private List<MicrodataParserException> errors = new ArrayList<>();
 
@@ -379,11 +379,11 @@ public class MicrodataParser {
                     if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null && !scopeNode.equals(node)) {
                         accepted.add(node);
                     }
-//                    ANY23-131 Nested Microdata are not extracted
-//                    if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
-//                        // Don't visit descendants of nodes that define a new scope
-//                        return FILTER_REJECT;
-//                    }
+
+                    if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
+                        // Don't visit descendants of nodes that define a new scope
+                        return FILTER_REJECT;
+                    }
                 }
                 return FILTER_ACCEPT;
             }

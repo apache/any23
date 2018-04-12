@@ -442,9 +442,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if (itemScopeType != null) {
             out.writeTriple(subject, RDF.TYPE, itemScopeType);
         }
-        for (String propName : itemScope.getProperties().keySet()) {
-            List<ItemProp> itemProps = itemScope.getProperties().get(propName);
-            for (ItemProp itemProp : itemProps) {
+        for (Map.Entry<String, List<ItemProp>> itemProps : itemScope.getProperties().entrySet()) {
+            String propName = itemProps.getKey();
+            for (ItemProp itemProp : itemProps.getValue()) {
                 try {
                     processProperty(
                             subject,
