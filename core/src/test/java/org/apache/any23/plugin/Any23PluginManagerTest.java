@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.apache.any23.cli.Tool;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -52,12 +51,6 @@ public class Any23PluginManagerTest {
     @After
     public void after() {
         manager = null;
-    }
-
-    @Test
-    public void testGetTools() throws IOException {
-        Iterator<Tool> tools = manager.getTools();
-        assertTrue(tools.hasNext()); // NOTE: Punctual tool detection verification done by ToolRunnerTest.java
     }
 
     @Test
