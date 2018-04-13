@@ -250,8 +250,9 @@ public class SingleDocumentExtraction {
         try {
 	        output.setContentLength(in.getContentLength());
 	        // Create the document context.
+            final String documentLanguage;
 	        try {
-	            final String documentLanguage = extractDocumentLanguage(extractionParameters);
+	            documentLanguage = extractDocumentLanguage(extractionParameters);
 	            for (ExtractorFactory<?> factory : matchingExtractors) {
 	                @SuppressWarnings("rawtypes")
 	                final Extractor extractor = factory.createExtractor();
@@ -273,9 +274,9 @@ public class SingleDocumentExtraction {
 	        final ExtractionContext consolidationContext;
 	        if(extractionParameters.getFlag(ExtractionParameters.METADATA_NESTING_FLAG)) {
 	            // Consolidation with nesting.
-	            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output);
+	            consolidationContext = consolidateResources(resourceRoots, propertyPaths, addDomainTriples, output, documentLanguage);
 	        } else {
-	            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output);
+	            consolidationContext = consolidateResources(resourceRoots, addDomainTriples, output, documentLanguage);
 	        }
 	
 	        // Adding time/size meta triples.
@@ -645,10 +646,11 @@ public class SingleDocumentExtraction {
     /**
      * @return an extraction context specific for consolidation triples.
      */
-    private ExtractionContext createExtractionContext() {
+    private ExtractionContext createExtractionContext(String defaultLanguage) {
         return new ExtractionContext(
                 "consolidation-extractor",
                 documentIRI,
+                defaultLanguage,
                 UUID.randomUUID().toString()
         );
     }
@@ -712,9 +714,10 @@ public class SingleDocumentExtraction {
             List<ResourceRoot> resourceRoots,
             List<PropertyPath> propertyPaths,
             boolean addDomainTriples,
-            TripleHandler output
+            TripleHandler output,
+            String defaultLanguage
     ) throws ExtractionException {
-        final ExtractionContext context = createExtractionContext();
+        final ExtractionContext context = createExtractionContext(defaultLanguage);
 
         try {
             output.openContext(context);
@@ -760,9 +763,10 @@ public class SingleDocumentExtraction {
     private ExtractionContext consolidateResources(
             List<ResourceRoot> resourceRoots,
             boolean addDomainTriples,
-            TripleHandler output
+            TripleHandler output,
+            String defaultLanguage
     ) throws ExtractionException {
-        final ExtractionContext context = createExtractionContext();
+        final ExtractionContext context = createExtractionContext(defaultLanguage);
 
         try {
             output.openContext(context);
