@@ -624,7 +624,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
    * @param p
    *            predicate
    * @return matching object.
-   * @throws org.openrdf.repository.RepositoryException
+   * @throws org.eclipse.rdf4j.repository.RepositoryException
    */
   protected Value findObject(Resource s, IRI p) throws RepositoryException {
     RepositoryResult<Statement> statements = conn.getStatements(s, p, null,

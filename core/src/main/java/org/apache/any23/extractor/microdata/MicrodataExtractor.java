@@ -28,6 +28,7 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.XHTML;
+import org.eclipse.rdf4j.common.net.ParsedIRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
@@ -39,8 +40,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
@@ -48,7 +47,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -241,26 +240,14 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         if (href == null) {
             return;
         }
-        URL absoluteURL;
-        if (!isAbsoluteURL(href.getTextContent())) {
-            try {
-                absoluteURL = toAbsoluteURL(
-                        documentIRI.toString(),
-                        href.getTextContent(),
-                        '/'
-                );
-            } catch (MalformedURLException e) {
-                // okay, it's not an absolute URL, return
-                return;
-            }
-        } else {
-            try {
-                absoluteURL = new URL(href.getTextContent());
-            } catch (MalformedURLException e) {
-                // cannot happen
-                return;
-            }
+        IRI iri;
+        try {
+            iri = toAbsoluteIRI(documentIRI, href.getTextContent());
+        } catch (URISyntaxException e) {
+            // cannot happen
+            return;
         }
+
         String[] relTokens = rel.getTextContent().split(" ");
         Set<String> tokensWithNoDuplicates = new HashSet<>();
         for (String relToken : relTokens) {
@@ -275,16 +262,11 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             tokensWithNoDuplicates.add(relToken.toLowerCase());
         }
         for (String token : tokensWithNoDuplicates) {
-            IRI predicate;
-            if (isAbsoluteURL(token)) {
-                predicate = RDFUtils.iri(token);
-            } else {
-                predicate = RDFUtils.iri(XHTML.NS + token);
-            }
+            IRI predicate = toAbsoluteIRI(token).orElseGet(() -> RDFUtils.iri(XHTML.NS + token.trim()));
             out.writeTriple(
                     documentIRI,
                     predicate,
-                    RDFUtils.iri(absoluteURL.toString())
+                    iri
             );
         }
     }
@@ -304,9 +286,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             String name    = DomUtils.readAttribute(meta, "name", null);
             String content = DomUtils.readAttribute(meta, "content", null);
             if (name != null && content != null) {
-                if (isAbsoluteURL(name)) {
+                Optional<IRI> nameIRI = toAbsoluteIRI(name);
+                if (nameIRI.isPresent()) {
                     processMetaElement(
-                            RDFUtils.iri(name),
+                            nameIRI.get(),
                             content,
                             getLanguage(meta),
                             documentIRI,
@@ -385,7 +368,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         }
         out.writeTriple(
                 documentIRI,
-                RDFUtils.iri(XHTML.NS + name.toLowerCase()),
+                RDFUtils.iri(XHTML.NS + name.toLowerCase().trim()),
                 subject
         );
     }
@@ -455,7 +438,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                             mappings,
                             out
                     );
-                } catch (MalformedURLException e) {
+                } catch (URISyntaxException e) {
                     throw new ExtractionException(
                             "Error while processing on subject '" + subject +
                                     "' the itemProp: '" + itemProp + "' "
@@ -472,17 +455,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     private static Resource createSubjectForItemId(String itemId) {
-        if (itemId != null) {
-            try {
-                URI uri = new URI(itemId.trim());
-                if (uri.isAbsolute()) {
-                    return RDFUtils.iri(uri.toString());
-                }
-            } catch (URISyntaxException e) {
-                //not an absolute uri
-            }
-        }
-        return RDFUtils.bnode();
+        Optional<IRI> iri = toAbsoluteIRI(itemId);
+        return iri.isPresent() ? iri.get() : RDFUtils.bnode();
     }
 
     private void processProperty(
@@ -493,7 +467,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             IRI documentIRI,
             Map<ItemScope, Resource> mappings,
             ExtractionResult out
-    ) throws MalformedURLException, ExtractionException {
+    ) throws URISyntaxException, ExtractionException {
 
         IRI predicate = getPredicate(itemScopeType != null ? itemScopeType : defaultNamespace, propName);
         if (predicate == null) {
@@ -508,10 +482,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         } else if (propType.equals(ItemPropValue.Type.Plain)) {
             value = RDFUtils.literal((String) propValue, documentLanguage);
         } else if (propType.equals(ItemPropValue.Type.Link)) {
-            value = RDFUtils.iri(toAbsoluteURL(
-                    documentIRI.toString(),
-                    (String) propValue,
-                    '/').toString());
+            value = toAbsoluteIRI(documentIRI, (String)propValue);
         } else if (propType.equals(ItemPropValue.Type.Date)) {
             value = RDFUtils.literal(ItemPropValue.formatDateTime((Date) propValue), XMLSchema.DATE);
         } else {
@@ -522,37 +493,37 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     private static IRI getPredicate(IRI itemType, String localName) {
-        if (isAbsoluteURL(localName)) {
-            return RDFUtils.iri(localName);
-        } else if (itemType != null) {
-            return RDFUtils.iri(itemType.getNamespace(), Objects.requireNonNull(localName));
-        } else {
-            return null;
-        }
+        return toAbsoluteIRI(localName).orElseGet(() -> itemType == null ? null :
+                RDFUtils.iri(itemType.getNamespace(), localName.trim()));
     }
 
-    private static boolean isAbsoluteURL(String urlString) {
-        boolean result = false;
+    private static Optional<IRI> toAbsoluteIRI(String urlString) {
+        if (urlString != null) {
+            try {
+                ParsedIRI iri = ParsedIRI.create(urlString.trim());
+                if (iri.isAbsolute()) {
+                    return Optional.of(RDFUtils.iri(iri.toString()));
+                }
+            } catch (RuntimeException e) {
+                //not an absolute iri
+            }
+        }
+        return Optional.empty();
+    }
+
+    private static IRI toAbsoluteIRI(IRI documentIRI, String part) throws URISyntaxException {
+        ParsedIRI iri;
         try {
-            URL url = new URL(urlString);
-            String protocol = url.getProtocol();
-            if (protocol != null && protocol.trim().length() > 0)
-                result = true;
-        } catch (MalformedURLException e) {
-            return false;
+            iri = ParsedIRI.create(part.trim());
+        } catch (RuntimeException e) {
+            throw new URISyntaxException(String.valueOf(part), e.getClass().getName() + ": " + e.getMessage());
         }
-        return result;
-    }
 
-    private URL toAbsoluteURL(String ns, String part, char trailing)
-            throws MalformedURLException {
-        if (isAbsoluteURL(part)) {
-            return new URL(part);
+        if (iri.isAbsolute()) {
+            return RDFUtils.iri(iri.toString());
         }
-        char lastChar = ns.charAt(ns.length() - 1);
-        if (lastChar == '#' || lastChar == '/')
-            return new URL(ns + part);
-        return new URL(ns + trailing + part);
+
+        return RDFUtils.iri(new ParsedIRI(documentIRI.toString()).resolve(iri).toString());
     }
 
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {

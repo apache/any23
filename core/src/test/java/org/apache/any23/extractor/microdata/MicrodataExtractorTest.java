@@ -22,6 +22,7 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
+import org.eclipse.rdf4j.model.IRI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
@@ -170,6 +171,19 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "schemaorg-example-2-expected.nquads"
         );
         logger.debug(dumpHumanReadableTriples());
+    }
+
+    @Test
+    public void testMicrodataNestedUrlResolving() throws IOException {
+        IRI oldBaseIRI = baseIRI;
+        try {
+            logger.info("\n");
+            baseIRI = RDFUtils.iri("https://ruben.verborgh.org/tmp/schemaorg-test.html");
+            extractAndVerifyAgainstNQuads("microdata-nested-url-resolving.html",
+                    "microdata-nested-url-resolving-expected.nquads");
+        } finally {
+            baseIRI = oldBaseIRI;
+        }
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
