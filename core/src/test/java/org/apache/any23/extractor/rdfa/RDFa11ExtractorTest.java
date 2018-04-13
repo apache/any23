@@ -71,6 +71,14 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     @Test
+    public void test0087() {
+        assertExtract("/html/rdfa/0087.xhtml");
+        assertModelNotEmpty();
+        assertStatementsSize(null, null, null, 24);
+        assertContains(RDFUtils.iri("http://www.w3.org/1999/xhtml/vocab#stylesheet"), RDFUtils.iri("http://example.org/stylesheet"));
+    }
+
+    @Test
     public void testIssue326() {
         assertExtract("/html/rdfa/rdfa-issue326-and-267.html");
     }
