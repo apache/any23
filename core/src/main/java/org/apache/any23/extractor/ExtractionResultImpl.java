@@ -64,9 +64,9 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     private final TripleHandler tripleHandler;
 
-    private final Collection<ExtractionResult> subResults = new ArrayList<ExtractionResult>();
+    private final Collection<ExtractionResult> subResults = new ArrayList<>();
 
-    private final Set<Object> knownContextIDs = new HashSet<Object>();
+    private final Set<Object> knownContextIDs = new HashSet<>();
 
     private boolean isClosed = false;
 
@@ -83,7 +83,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             Extractor<?> extractor,
             TripleHandler tripleHandler
     ) {
-        this(context, extractor, tripleHandler, new ArrayList<Issue>());
+        this(context, extractor, tripleHandler, new ArrayList<>());
     }
 
     private ExtractionResultImpl(
@@ -108,6 +108,15 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         this.issues          = issues;
 
         knownContextIDs.add( context.getUniqueID() );
+
+        try {
+            // openContext() must be called before extraction begins
+            // so that BenchmarkTripleHandler can report accurate times.
+            // See https://issues.apache.org/jira/browse/ANY23-337
+            tripleHandler.openContext(context);
+        } catch (TripleHandlerException e) {
+            throw new RuntimeException("Error while opening context", e);
+        }
     }
 
     public boolean hasIssues() {
@@ -203,23 +212,16 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         for (ExtractionResult subResult : subResults) {
             subResult.close();
         }
-        if (isInitialized) {
-            try {
-                tripleHandler.closeContext(context);
-            } catch (TripleHandlerException e) {
-                throw new RuntimeException("Error while opening context", e);
-            }
+        try {
+            tripleHandler.closeContext(context);
+        } catch (TripleHandlerException e) {
+            throw new RuntimeException("Error while opening context", e);
         }
     }
 
     private void checkOpen() {
         if (!isInitialized) {
             isInitialized = true;
-            try {
-                tripleHandler.openContext(context);
-            } catch (TripleHandlerException e) {
-                throw new RuntimeException("Error while opening context", e);
-            }
             Prefixes prefixes = extractor.getDescription().getPrefixes();
             for (String prefix : prefixes.allPrefixes()) {
                 try {
@@ -239,14 +241,14 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
     @Override
     public void addResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
         if(resourceRoots == null) {
-            resourceRoots = new ArrayList<ResourceRoot>();
+            resourceRoots = new ArrayList<>();
         }
         resourceRoots.add( new ResourceRoot(path, root, extractor) );
     }
 
     @Override
     public List<ResourceRoot> getResourceRoots() {
-        List<ResourceRoot> allRoots = new ArrayList<ResourceRoot>();
+        List<ResourceRoot> allRoots = new ArrayList<>();
         if(resourceRoots != null) {
             allRoots.addAll( resourceRoots );
         }
@@ -268,14 +270,14 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             String[] path
     ) {
         if(propertyPaths == null) {
-            propertyPaths = new ArrayList<PropertyPath>();
+            propertyPaths = new ArrayList<>();
         }
         propertyPaths.add( new PropertyPath(path, propertySubject, property, object, extractor) );
     }
 
     @Override
     public List<PropertyPath> getPropertyPaths() {
-        List<PropertyPath> allPaths = new ArrayList<PropertyPath>();
+        List<PropertyPath> allPaths = new ArrayList<>();
         if(propertyPaths != null) {
             allPaths.addAll( propertyPaths );
         }
