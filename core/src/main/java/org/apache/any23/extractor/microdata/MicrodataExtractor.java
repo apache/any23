@@ -28,7 +28,6 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.DCTerms;
 import org.apache.any23.vocab.XHTML;
-import org.eclipse.rdf4j.common.net.ParsedIRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
@@ -40,6 +39,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
@@ -500,7 +500,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     private static Optional<IRI> toAbsoluteIRI(String urlString) {
         if (urlString != null) {
             try {
-                ParsedIRI iri = ParsedIRI.create(urlString.trim());
+                URI iri = URI.create(urlString.trim());
                 if (iri.isAbsolute()) {
                     return Optional.of(RDFUtils.iri(iri.toString()));
                 }
@@ -512,9 +512,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     private static IRI toAbsoluteIRI(IRI documentIRI, String part) throws URISyntaxException {
-        ParsedIRI iri;
+        URI iri;
         try {
-            iri = ParsedIRI.create(part.trim());
+            iri = URI.create(part.trim());
         } catch (RuntimeException e) {
             throw new URISyntaxException(String.valueOf(part), e.getClass().getName() + ": " + e.getMessage());
         }
@@ -523,7 +523,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             return RDFUtils.iri(iri.toString());
         }
 
-        return RDFUtils.iri(new ParsedIRI(documentIRI.toString()).resolve(iri).toString());
+        return RDFUtils.iri(new URI(documentIRI.toString()).resolve(iri).toString());
     }
 
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
