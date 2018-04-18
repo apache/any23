@@ -73,7 +73,7 @@ then
   REPO="$BASEDIR"/lib
 fi
 
-EXTRA_JVM_ARGUMENTS="-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit"
+EXTRA_JVM_ARGUMENTS="-Xms500m -Xmx500m -XX:-UseGCOverheadLimit"
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then

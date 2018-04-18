@@ -70,7 +70,7 @@ if "%JAVACMD%"=="" set JAVACMD=java
 
 if "%REPO%"=="" set REPO=%BASEDIR%\lib
 
-set EXTRA_JVM_ARGUMENTS=-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit
+set EXTRA_JVM_ARGUMENTS=-Xms500m -Xmx500m -XX:-UseGCOverheadLimit
 goto endInit
 
 @REM Reaching here means variables are defined and arguments have been captured

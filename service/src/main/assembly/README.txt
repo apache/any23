@@ -62,7 +62,7 @@ Apache Any23 Service ${project.version} (${implementation.build.tstamp})
 
   4) Optional: In the same dialog, add the EXTRA_JVM_ARGUMENTS environment variable in the user variables to specify
         JVM properties, e.g. the value -Xms256m -Xmx512m. This environment variable can be used to supply extra options.
-        By default, it is set to: -Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit
+        By default, it is set to: -Xms500m -Xmx500m -XX:-UseGCOverheadLimit
 
   5) In the same dialog, update/create the Path environment variable in the user variables and prepend the value
         %ANY23% to add Apache Any23 available in the command line.

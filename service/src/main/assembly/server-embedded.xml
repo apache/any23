@@ -78,7 +78,7 @@
       <outputDirectory>/lib</outputDirectory>
       <scope>provided</scope>
       <includes>
-        <include>org.mortbay.jetty:jetty-runner</include>
+        <include>org.eclipse.jetty:jetty-runner</include>
       </includes>
     </dependencySet>
   </dependencySets>
