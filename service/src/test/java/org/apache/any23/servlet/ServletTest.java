@@ -17,22 +17,21 @@
 
 package org.apache.any23.servlet;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import org.apache.any23.http.HTTPClient;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.FileDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
 import org.apache.any23.util.StringUtils;
-import org.junit.Assert;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
 
 /**
  * Test case for {@link Servlet} class.
@@ -395,12 +394,12 @@ public class ServletTest {
         HttpTester response = doPostRequest("/json", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
         final String EXPECTED_JSON =
-                "[" +
-                "{ \"type\" : \"uri\", \"value\" : \"http://sub/1\"}, " +
-                "\"http://pred/1\", " +
-                "{\"type\" : \"literal\", \"value\" : \"123\", \"lang\" : null, \"datatype\" : \"http://datatype\"}, " +
-                "\"http://graph/1\"" +
-                "]";
+                "["
+                + "{\"@graph\":"
+                + "["
+                + "{\"@id\":\"http://sub/1\","
+                + "\"http://pred/1\":[{\"@type\":\"http://datatype\",\"@value\":\"123\"}]}],"
+                + "\"@id\":\"http://graph/1\"}]";
         assertContains(EXPECTED_JSON, response.getContent());
     }
 
