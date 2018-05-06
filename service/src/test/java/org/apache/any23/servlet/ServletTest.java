@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.any23.servlet;
 
 import java.io.File;
@@ -223,7 +222,9 @@ public class ServletTest {
     }
 
     /**
-     * This test has been disabled in order to avoid external resources dependencies
+     * This test has been disabled in order to avoid external resources
+     * dependencies
+     *
      * @throws Exception
      */
     @Test
@@ -233,8 +234,10 @@ public class ServletTest {
         Assert.assertEquals(200, response.getStatus());
     }
 
-     /**
-     * This test has been disabled in order to avoid external resources dependencies
+    /**
+     * This test has been disabled in order to avoid external resources
+     * dependencies
+     *
      * @throws Exception
      */
     @Test
@@ -244,8 +247,10 @@ public class ServletTest {
         Assert.assertEquals(200, response.getStatus());
     }
 
-     /**
-     * This test has been disabled in order to avoid external resources dependencies
+    /**
+     * This test has been disabled in order to avoid external resources
+     * dependencies
+     *
      * @throws Exception
      */
     @Test
@@ -375,16 +380,16 @@ public class ServletTest {
         HttpTester response = doGetRequest("/best/http://foo.com?validation-mode=validate-fix&report=on");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
-        assertContainsTag("response"        , content);
-        assertContainsTag("extractors"      , content);
-        assertContainsTag("report"          , content);
-        assertContainsTag("message", true, 1 , content);
-        assertContainsTag("error"  , true, 1 , content);
-        assertContainsTag("error"  , true, 1 , content);
+        assertContainsTag("response", content);
+        assertContainsTag("extractors", content);
+        assertContainsTag("report", content);
+        assertContainsTag("message", true, 1, content);
+        assertContainsTag("error", true, 1, content);
+        assertContainsTag("error", true, 1, content);
         assertContainsTag("validationReport", content);
-        assertContainsTag("errors"          , content);
-        assertContainsTag("issues"          , content);
-        assertContainsTag("ruleActivations" , content);
+        assertContainsTag("errors", content);
+        assertContainsTag("issues", content);
+        assertContainsTag("ruleActivations", content);
         assertContainsTag("data", content);
     }
 
@@ -393,13 +398,13 @@ public class ServletTest {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
         HttpTester response = doPostRequest("/json", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
-        final String EXPECTED_JSON =
+        final String EXPECTED_JSON = 
                 "["
-                + "{\"@graph\":"
-                + "["
-                + "{\"@id\":\"http://sub/1\","
-                + "\"http://pred/1\":[{\"@type\":\"http://datatype\",\"@value\":\"123\"}]}],"
-                + "\"@id\":\"http://graph/1\"}]";
+                + "{ \"type\" : \"uri\", \"value\" : \"http://sub/1\"}, "
+                + "\"http://pred/1\", "
+                + "{\"type\" : \"literal\", \"value\" : \"123\", \"lang\" : null, \"datatype\" : \"http://datatype\"}, "
+                + "\"http://graph/1\""
+                + "]";
         assertContains(EXPECTED_JSON, response.getContent());
     }
 
@@ -409,8 +414,8 @@ public class ServletTest {
         HttpTester response = doPostRequest("/trix", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
         final String content = response.getContent();
-        assertContainsTag("graph" , false, 1, content);
-        assertContainsTag("uri"   , false, 3, content);
+        assertContainsTag("graph", false, 1, content);
+        assertContainsTag("uri", false, 3, content);
         assertContainsTag("triple", false, 1, content);
     }
 
@@ -451,9 +456,12 @@ public class ServletTest {
     }
 
     private void assertContains(String expected, String container) {
-        if(expected.length() == 0)
+        if (expected.length() == 0) {
             throw new IllegalArgumentException("expected string must contains at lease one char.");
-        if (container.contains(expected)) return;
+        }
+        if (container.contains(expected)) {
+            return;
+        }
         Assert.fail("expected '" + expected + "' to be contained in '" + container + "'");
     }
 
@@ -468,8 +476,8 @@ public class ServletTest {
             Assert.assertEquals(
                     String.format("Cannot find open tag %s %d times", tag, occurrences),
                     occurrences,
-                    StringUtils.countOccurrences(container, "<" + tag + ">") +
-                    StringUtils.countOccurrences(container, "<" + tag + " ")
+                    StringUtils.countOccurrences(container, "<" + tag + ">")
+                    + StringUtils.countOccurrences(container, "<" + tag + " ")
             );
             Assert.assertEquals(
                     String.format("Cannot find close tag %s %d times", tag, occurrences),
@@ -492,7 +500,7 @@ public class ServletTest {
         protected DocumentSource createHTTPDocumentSource(HTTPClient httpClient, String uri)
                 throws IOException, URISyntaxException {
             requestedIRI = uri;
-            if(content != null) {
+            if (content != null) {
                 return new StringDocumentSource(content, uri);
             } else {
                 return super.createHTTPDocumentSource(httpClient, uri);
