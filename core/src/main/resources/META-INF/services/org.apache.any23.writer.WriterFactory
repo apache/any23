@@ -1,3 +1,4 @@
+org.apache.any23.writer.JSONLDWriterFactory
 org.apache.any23.writer.JSONWriterFactory
 org.apache.any23.writer.NQuadsWriterFactory
 org.apache.any23.writer.NTriplesWriterFactory

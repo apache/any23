@@ -17,6 +17,15 @@
 
 package org.apache.any23.servlet;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.any23.Any23;
 import org.apache.any23.ExtractionReport;
 import org.apache.any23.extractor.ExtractionException;
@@ -37,16 +46,6 @@ import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.writer.WriterFactory;
 import org.apache.any23.writer.WriterFactoryRegistry;
 import sun.security.validator.ValidatorException;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * This class is responsible for building the {@link Servlet}
@@ -358,6 +357,8 @@ class WebResponder {
             finalFormat = "trix";
         } else if("json".equals(format)) {
             finalFormat = "json";
+        } else if("jsonld".equals(format)){
+            finalFormat = "jsonld";        
         } else {
             return null;
         }

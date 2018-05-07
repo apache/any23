@@ -17,14 +17,13 @@
 
 package org.apache.any23.writer;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Test case for {@link WriterRegistry}.
@@ -33,7 +32,7 @@ import java.util.Set;
  */
 public class WriterRegistryTest {
 
-    private static final int NUM_OF_WRITERS = 7;
+    private static final int NUM_OF_WRITERS = 8;
 
     private final WriterFactoryRegistry target = WriterFactoryRegistry.getInstance();
 

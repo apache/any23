@@ -398,13 +398,28 @@ public class ServletTest {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
         HttpTester response = doPostRequest("/json", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
-        final String EXPECTED_JSON = 
-                "["
+        final String EXPECTED_JSON
+                = "["
                 + "{ \"type\" : \"uri\", \"value\" : \"http://sub/1\"}, "
                 + "\"http://pred/1\", "
                 + "{\"type\" : \"literal\", \"value\" : \"123\", \"lang\" : null, \"datatype\" : \"http://datatype\"}, "
                 + "\"http://graph/1\""
                 + "]";
+        assertContains(EXPECTED_JSON, response.getContent());
+    }
+
+    @Test
+    public void testJSONLDResponseFormat() throws Exception {
+        String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
+        HttpTester response = doPostRequest("/jsonld", body, "application/n-quads");
+        Assert.assertEquals(200, response.getStatus());
+        final String EXPECTED_JSON
+                = "["
+                + "{\"@graph\":"
+                + "["
+                + "{\"@id\":\"http://sub/1\","
+                + "\"http://pred/1\":[{\"@type\":\"http://datatype\",\"@value\":\"123\"}]}],"
+                + "\"@id\":\"http://graph/1\"}]";
         assertContains(EXPECTED_JSON, response.getContent());
     }
 
