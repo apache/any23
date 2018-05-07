@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.any23.writer;
 
-import java.io.BufferedOutputStream;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Optional;
 import org.apache.any23.extractor.ExtractionContext;
 import org.eclipse.rdf4j.model.BNode;
@@ -35,29 +36,35 @@ import org.eclipse.rdf4j.model.Value;
  */
 public class JSONWriter implements FormatWriter {
 
-    private final PrintStream ps;
-
+    private JsonGenerator ps;
     private boolean documentStarted = false;
 
-    private boolean firstArrayElemWritten = false;
-    private boolean firstObjectWritten    = false;
-
     public JSONWriter(OutputStream os) {
-        if(os == null) {
+        if (os == null) {
             throw new NullPointerException("Output stream cannot be null.");
         }
-        this.ps = new PrintStream(new BufferedOutputStream(os));
+        JsonFactory factory = new JsonFactory();
+        try {
+            this.ps = factory.createGenerator(os)
+                    .setPrettyPrinter(new DefaultPrettyPrinter());
+        } catch (IOException ex) {
+        }
     }
 
     @Override
     public void startDocument(IRI documentIRI) throws TripleHandlerException {
-        if(documentStarted) {
+        if (documentStarted) {
             throw new IllegalStateException("Document already started.");
         }
         documentStarted = true;
 
-        firstArrayElemWritten = false;
-        ps.print("{ \"quads\" : [");
+        try {
+            ps.writeStartObject();
+            ps.writeFieldName("quads");
+            ps.writeStartArray();
+        } catch (IOException ex) {
+            throw new TripleHandlerException("IO Error while starting document.", ex);
+        }
     }
 
     @Override
@@ -67,42 +74,38 @@ public class JSONWriter implements FormatWriter {
 
     @Override
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         validateDocumentStarted();
+        try {
+            ps.writeStartArray();
 
-        if(firstArrayElemWritten) {
-            ps.print(", ");
-        } else {
-            firstArrayElemWritten = true;
+            if (s instanceof IRI) {
+                printExplicitIRI(s.stringValue());
+            } else {
+                printBNode(s.stringValue());
+            }
+
+            printIRI(p.stringValue());
+
+            if (o instanceof IRI) {
+                printExplicitIRI(o.stringValue());
+            } else if (o instanceof BNode) {
+                printBNode(o.stringValue());
+            } else {
+                printLiteral((Literal) o);
+            }
+
+            printIRI(g == null ? null : g.stringValue());
+
+            ps.writeEndArray();
+        } catch (IOException ex) {
+            throw new TripleHandlerException("IO Error while writing triple", ex);
         }
-        firstObjectWritten    = false;
-        
-        ps.print('[');
-
-        if(s instanceof IRI) {
-            printExplicitIRI(s.stringValue(), ps);
-        } else {
-            printBNode(s.stringValue(), ps);
-        }
-
-        printIRI(p.stringValue(), ps);
-
-         if(o instanceof IRI) {
-            printExplicitIRI(o.stringValue(), ps);
-        } else if(o instanceof BNode) {
-            printBNode(o.stringValue(), ps);
-        } else {
-            printLiteral((Literal) o, ps);
-        }
-
-        printIRI(g == null ? null : g.stringValue(), ps);
-
-        ps.print(']');
     }
 
     @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         // Empty.
     }
 
@@ -114,8 +117,14 @@ public class JSONWriter implements FormatWriter {
     @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
         validateDocumentStarted();
-        ps.print("]}");
-        documentStarted = false;
+
+        try {
+            ps.writeEndArray();
+            ps.writeEndObject();
+            documentStarted = false;
+        } catch (IOException ex) {
+            throw new TripleHandlerException("IO Error while closing document.", ex);
+        }
     }
 
     @Override
@@ -125,105 +134,53 @@ public class JSONWriter implements FormatWriter {
 
     @Override
     public void close() throws TripleHandlerException {
-    	if(documentStarted) {
-    		endDocument(null);
-    	}
-        ps.close();
+        if (documentStarted) {
+            endDocument(null);
+        }
+        try {
+            ps.close();
+        } catch (IOException ex) {
+            throw new TripleHandlerException("IO Error while closing stream.", ex);
+        }
     }
 
     private void validateDocumentStarted() {
-       if(!documentStarted) {
+        if (!documentStarted) {
             throw new IllegalStateException("Document didn't start.");
         }
     }
 
-    private void printIRI(String uri, PrintStream ps) {
-        printValue(uri, ps);
+    private void printIRI(String uri) throws IOException {
+        printValue(uri);
     }
 
-    private void printExplicitIRI(String uri, PrintStream ps) {
-        printValue("uri", uri, ps);
+    private void printExplicitIRI(String uri) throws IOException {
+        printValue("uri", uri);
     }
 
-    private void printBNode(String bnode, PrintStream ps) {
-        printValue("bnode", bnode, ps);
+    private void printBNode(String bnode) throws IOException {
+        printValue("bnode", bnode);
     }
 
-    private void printCommaIfNeeded(PrintStream ps) {
-        if(firstObjectWritten) {
-            ps.print(", ");
-        } else {
-            firstObjectWritten = true;
-        }
-    }
+    private void printLiteral(Literal literal) throws IOException {
+        ps.writeStartObject();
+        ps.writeStringField("type", "literal");
+        ps.writeStringField("value", literal.stringValue());
 
-    private void printLiteral(Literal literal, PrintStream ps) {
-        printCommaIfNeeded(ps);
-
-        ps.print('{');
-
-        ps.print("\"type\" : \"literal\"");
-
-        ps.print(", ");
-
-        ps.print("\"value\" : ");
-        ps.print('"');
-        ps.print(literal.stringValue());
-        ps.print('"');
-
-        ps.print(", ");
-
-        ps.print("\"lang\" : ");
         final Optional<String> language = literal.getLanguage();
-        if (language.isPresent()) {
-            ps.print('"');
-            ps.print(literal.getLanguage().get());
-            ps.print('"');
-        } else {
-            ps.print("null");
-        }
+        ps.writeStringField("lang", language.isPresent() ? literal.getLanguage().get() : null);
 
-        ps.print(", ");
-
-        ps.print("\"datatype\" : ");
         final IRI datatype = literal.getDatatype();
-        if(datatype != null) {
-        ps.print('"');
-        ps.print(datatype.stringValue());
-        ps.print('"');
-        } else {
-            ps.print("null");
-        }
-
-        ps.print('}');
+        ps.writeStringField("datatype", datatype != null ? datatype.stringValue() : null);
+        ps.writeEndObject();
     }
 
-    private void printValue(String type, String value, PrintStream ps) {
-        printCommaIfNeeded(ps);
-
-        ps.print("{ \"type\" : \"");
-        ps.print(type);
-        ps.print("\", \"value\" : ");
-        if (value != null) {
-            ps.print('"');
-            ps.print(value);
-            ps.print('"');
-        } else {
-            ps.print("null");
-        }
-        ps.print('}');
+    private void printValue(String type, String value) throws IOException {
+        ps.writeString(value);
     }
 
-    private void printValue(String value, PrintStream ps) {
-        printCommaIfNeeded(ps);
-
-        if (value != null) {
-            ps.print('"');
-            ps.print(value);
-            ps.print('"');
-        } else {
-            ps.print("null");
-        }
+    private void printValue(String value) throws IOException {
+        ps.writeString(value);
     }
 
     @Override

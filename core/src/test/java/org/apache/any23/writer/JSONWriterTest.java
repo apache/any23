@@ -17,6 +17,7 @@
 package org.apache.any23.writer;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.apache.any23.extractor.ExtractionContext;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
@@ -32,7 +33,7 @@ import org.junit.Test;
 public class JSONWriterTest {
 
     @Test
-    public void testJSONWriting() throws TripleHandlerException {
+    public void testJSONWriting() throws TripleHandlerException, IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeContent(new JSONWriter(baos));
 
