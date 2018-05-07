@@ -399,12 +399,15 @@ public class ServletTest {
         HttpTester response = doPostRequest("/json", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
         final String EXPECTED_JSON
-                = "["
-                + "{ \"type\" : \"uri\", \"value\" : \"http://sub/1\"}, "
-                + "\"http://pred/1\", "
-                + "{\"type\" : \"literal\", \"value\" : \"123\", \"lang\" : null, \"datatype\" : \"http://datatype\"}, "
-                + "\"http://graph/1\""
-                + "]";
+            = "[ {\n"
+            + "    \"type\" : \"uri\",\n"
+            + "    \"value\" : \"http://sub/1\"\n"
+            + "  }, \"http://pred/1\", {\n"
+            + "    \"type\" : \"literal\",\n"
+            + "    \"value\" : \"123\",\n"
+            + "    \"lang\" : null,\n"
+            + "    \"datatype\" : \"http://datatype\"\n"
+            + "  }, \"http://graph/1\" ]";
         assertContains(EXPECTED_JSON, response.getContent());
     }
 

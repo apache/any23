@@ -37,30 +37,32 @@ public class JSONWriterTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeContent(new JSONWriter(baos));
 
-        final String expected
-                = "{ "
-                + "\"quads\" : "
-                + "["
-                + "["
-                + "{ \"type\" : \"bnode\", \"value\" : \"bn1\"}, "
-                + "\"http://pred/1\", "
-                + "{ \"type\" : \"uri\", \"value\" : \"http://value/1\"}, "
-                + "\"http://graph/1\""
-                + "], "
-                + "["
-                + "{ \"type\" : \"uri\", \"value\" : \"http://sub/2\"}, "
-                + "\"http://pred/2\", "
-                + "{\"type\" : \"literal\", \"value\" : \"language literal\", \"lang\" : \"en\", \"datatype\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\"}, "
-                + "\"http://graph/2\""
-                + "], "
-                + "["
-                + "{ \"type\" : \"uri\", \"value\" : \"http://sub/3\"}, "
-                + "\"http://pred/3\", "
-                + "{\"type\" : \"literal\", \"value\" : \"123\", \"lang\" : null, \"datatype\" : \"http://datatype\"}, "
-                + "null"
-                + "]"
-                + "]"
-                + "}";
+        final String expected 
+            = "{\n"
+            + "  \"quads\" : [ [ {\n"
+            + "    \"type\" : \"bnode\",\n"
+            + "    \"value\" : \"bn1\"\n"
+            + "  }, \"http://pred/1\", {\n"
+            + "    \"type\" : \"uri\",\n"
+            + "    \"value\" : \"http://value/1\"\n"
+            + "  }, \"http://graph/1\" ], [ {\n"
+            + "    \"type\" : \"uri\",\n"
+            + "    \"value\" : \"http://sub/2\"\n"
+            + "  }, \"http://pred/2\", {\n"
+            + "    \"type\" : \"literal\",\n"
+            + "    \"value\" : \"language literal\",\n"
+            + "    \"lang\" : \"en\",\n"
+            + "    \"datatype\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\"\n"
+            + "  }, \"http://graph/2\" ], [ {\n"
+            + "    \"type\" : \"uri\",\n"
+            + "    \"value\" : \"http://sub/3\"\n"
+            + "  }, \"http://pred/3\", {\n"
+            + "    \"type\" : \"literal\",\n"
+            + "    \"value\" : \"123\",\n"
+            + "    \"lang\" : null,\n"
+            + "    \"datatype\" : \"http://datatype\"\n"
+            + "  }, null ] ]\n"
+            + "}";
         Assert.assertEquals(expected, baos.toString());
     }
 

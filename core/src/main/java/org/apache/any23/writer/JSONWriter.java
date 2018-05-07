@@ -176,7 +176,10 @@ public class JSONWriter implements FormatWriter {
     }
 
     private void printValue(String type, String value) throws IOException {
-        ps.writeString(value);
+        ps.writeStartObject();
+        ps.writeStringField("type", type);
+        ps.writeStringField("value", value);
+        ps.writeEndObject();
     }
 
     private void printValue(String value) throws IOException {
