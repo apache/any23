@@ -58,6 +58,8 @@ Supported Formats in Apache Any23
 
    * <<RDF/XML>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TR/rdf-syntax-grammar/}RDF/XML}}.
 
+   * <<JSON-LD>> <<Apache Any23>> is able to produce output in {{{http://www.w3.org/TR/json-ld/}JSON-LD}}.
+
    * <<JSON Statements>> <<Apache Any23>> is able to produce output in {{{http://www.json.org/}JSON}} . See the specific {{{json-statements}format}}.
 
    * <<XML Report>> <<Apache Any23>> is able to produce a detailed report of the latest document extraction if required. See further details {{{./service.html#report-format}here}}.
