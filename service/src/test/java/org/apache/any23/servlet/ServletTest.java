@@ -416,13 +416,17 @@ public class ServletTest {
         String body = "<http://sub/1> <http://pred/1> \"123\"^^<http://datatype> <http://graph/1>.";
         HttpTester response = doPostRequest("/jsonld", body, "application/n-quads");
         Assert.assertEquals(200, response.getStatus());
-        final String EXPECTED_JSON
-                = "["
-                + "{\"@graph\":"
-                + "["
-                + "{\"@id\":\"http://sub/1\","
-                + "\"http://pred/1\":[{\"@type\":\"http://datatype\",\"@value\":\"123\"}]}],"
-                + "\"@id\":\"http://graph/1\"}]";
+        final String EXPECTED_JSON =
+                "[ {\n" +
+                "  \"@graph\" : [ {\n" +
+                "    \"@id\" : \"http://sub/1\",\n" +
+                "    \"http://pred/1\" : [ {\n" +
+                "      \"@type\" : \"http://datatype\",\n" +
+                "      \"@value\" : \"123\"\n" +
+                "    } ]\n" +
+                "  } ],\n" +
+                "  \"@id\" : \"http://graph/1\"\n" +
+                "} ]";
         assertContains(EXPECTED_JSON, response.getContent());
     }
 

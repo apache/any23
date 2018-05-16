@@ -70,12 +70,34 @@ public class JSONWriterTest {
     public void testJSONLDWriting() throws TripleHandlerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeContent(new JSONLDWriter(baos));
-        final String expected
-                = "["
-                + "{\"@graph\":[{\"@id\":\"http://sub/3\",\"http://pred/3\":[{\"@type\":\"http://datatype\",\"@value\":\"123\"}]}],\"@id\":\"http://any23.org/tmp/\"},"
-                + "{\"@graph\":[{\"@id\":\"_:bn1\",\"http://pred/1\":[{\"@id\":\"http://value/1\"}]}],\"@id\":\"http://graph/1\"},"
-                + "{\"@graph\":[{\"@id\":\"http://sub/2\",\"http://pred/2\":[{\"@language\":\"en\",\"@value\":\"language literal\"}]}],\"@id\":\"http://graph/2\"}"
-                + "]";
+        final String expected =
+                "[ {\n" +
+                "  \"@graph\" : [ {\n" +
+                "    \"@id\" : \"http://sub/3\",\n" +
+                "    \"http://pred/3\" : [ {\n" +
+                "      \"@type\" : \"http://datatype\",\n" +
+                "      \"@value\" : \"123\"\n" +
+                "    } ]\n" +
+                "  } ],\n" +
+                "  \"@id\" : \"http://any23.org/tmp/\"\n" +
+                "}, {\n" +
+                "  \"@graph\" : [ {\n" +
+                "    \"@id\" : \"_:bn1\",\n" +
+                "    \"http://pred/1\" : [ {\n" +
+                "      \"@id\" : \"http://value/1\"\n" +
+                "    } ]\n" +
+                "  } ],\n" +
+                "  \"@id\" : \"http://graph/1\"\n" +
+                "}, {\n" +
+                "  \"@graph\" : [ {\n" +
+                "    \"@id\" : \"http://sub/2\",\n" +
+                "    \"http://pred/2\" : [ {\n" +
+                "      \"@language\" : \"en\",\n" +
+                "      \"@value\" : \"language literal\"\n" +
+                "    } ]\n" +
+                "  } ],\n" +
+                "  \"@id\" : \"http://graph/2\"\n" +
+                "} ]";
         Assert.assertEquals(expected, baos.toString());
     }
 
