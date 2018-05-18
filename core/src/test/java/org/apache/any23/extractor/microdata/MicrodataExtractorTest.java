@@ -192,6 +192,11 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         assertContains(RDFUtils.iri("http://schema.org/telephone"), RDFUtils.iri("tel:(909)%20484-2020"));
     }
 
+    @Test
+    public void testBadTypes() throws IOException {
+        extractAndVerifyAgainstNQuads("microdata-bad-types.html", "microdata-bad-types-expected.nquads");
+    }
+
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         assertExtract("/microdata/" + actual);
