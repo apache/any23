@@ -48,6 +48,15 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     return new HCardExtractorFactory();
   }
 
+
+  @Test
+  public void testNoNullPointers() {
+    //see https://issues.apache.org/jira/browse/ANY23-351
+    assertExtract("/microformats/hcard/null-pointer.html");
+    assertContains(vVCARD.logo, RDFUtils.iri("http://cambridgewi.com/wp-content/uploads/connections-images/dean-bluhm/VillagePharmacy-e04951b21968ae4d9fd04cb14ce08ade.jpg"));
+    assertContains(vVCARD.email, RDFUtils.iri("mailto:bluhmrph@yahoo.com"));
+  }
+
   @Test
   public void testEMailNotUriReal() throws Exception {
     assertExtract("/microformats/hcard/17-email-not-uri.html");

@@ -89,6 +89,8 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
             current.getAttributes().removeNamedItem("class");
             ArrayList<TextField> res = new ArrayList<TextField>();
             HTMLDocument.readUrlField(res, current);
+            if (res.isEmpty())
+                continue;
             TextField id = res.get(0);
             if (null == id)
                 continue;
