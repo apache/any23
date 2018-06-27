@@ -29,10 +29,12 @@ import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RioSetting;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
+import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.DocumentType;
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.NodeFilter;
@@ -47,6 +49,7 @@ import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Base class for a generic <i>RDF</i>
@@ -141,6 +144,19 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                 NodeTraversor.filter(new NodeFilter() {
                     @Override
                     public FilterResult head(Node node, int depth) {
+                        if (node instanceof Element) {
+                            for (Iterator<Attribute> it = node.attributes().iterator(); it.hasNext(); ) {
+                                // fix for ANY23-350: valid xml attribute names are ^[a-zA-Z_:][-a-zA-Z0-9_:.]
+                                Attribute attr = it.next();
+                                String key = attr.getKey().replaceAll("[^-a-zA-Z0-9_:.]", "");
+                                if (key.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*")) {
+                                    attr.setKey(key);
+                                } else {
+                                    it.remove();
+                                }
+                            }
+                            return FilterResult.CONTINUE;
+                        }
                         return node instanceof DataNode || node instanceof Comment || node instanceof DocumentType
                                 ? FilterResult.REMOVE : FilterResult.CONTINUE;
                     }
