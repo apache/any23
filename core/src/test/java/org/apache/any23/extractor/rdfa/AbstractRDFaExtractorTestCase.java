@@ -41,7 +41,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	/**
 	 * Verify the basic RDFa support.
 	 *
-	 * @throws org.openrdf.repository.RepositoryException
+	 * @throws org.eclipse.rdf4j.repository.RepositoryException
 	 */
 	@Test
 	public void testBasic() throws Exception {
@@ -118,7 +118,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	 * href="http://files.openspring.net/tmp/drupal-test-frontpage.html">Drupal
 	 * test page</a>.
 	 *
-	 * @throws org.openrdf.repository.RepositoryException
+	 * @throws org.eclipse.rdf4j.repository.RepositoryException
 	 */
 	@Test
 	public void testDrupalTestPage() throws Exception {

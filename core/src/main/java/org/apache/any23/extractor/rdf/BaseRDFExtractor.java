@@ -149,12 +149,24 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                                 // fix for ANY23-350: valid xml attribute names are ^[a-zA-Z_:][-a-zA-Z0-9_:.]
                                 Attribute attr = it.next();
                                 String key = attr.getKey().replaceAll("[^-a-zA-Z0-9_:.]", "");
+
+                                // fix for ANY23-347: strip xml namespaces
+                                int prefixlen = key.lastIndexOf(':') + 1;
+                                String prefix = key.substring(0, prefixlen).toLowerCase();
+                                key = (prefix.equals("xmlns:") || prefix.equals("xml:") ? prefix : "")
+                                        + key.substring(prefixlen);
+
                                 if (key.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*")) {
                                     attr.setKey(key);
                                 } else {
                                     it.remove();
                                 }
                             }
+
+                            String tagName = ((Element)node).tagName().replaceAll("[^-a-zA-Z0-9_:.]", "");
+                            tagName = tagName.substring(tagName.lastIndexOf(':') + 1);
+                            ((Element)node).tagName(tagName.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*") ? tagName : "div");
+
                             return FilterResult.CONTINUE;
                         }
                         return node instanceof DataNode || node instanceof Comment || node instanceof DocumentType
