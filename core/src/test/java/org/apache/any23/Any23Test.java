@@ -239,6 +239,8 @@ public class Any23Test extends Any23OnlineTestBase {
          */
         logger.debug("n3: " + n3);
         Assert.assertTrue(n3.length() > 0);
+
+        Assert.assertTrue(n3.contains("<http://dbpedia.org/resource/Trento> <http://dbpedia.org/property/mayor> \"Alessandro Andreatta\" ."));
     }
 
     /**

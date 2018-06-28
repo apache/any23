@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import org.apache.any23.extractor.IssueReport;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
@@ -29,6 +30,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,6 +166,8 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     @Override
     public Literal createLiteral(String label, String language) {
+        if (StringUtils.isBlank(language))
+            return createLiteral(label);
         if (label == null)
             return null;
         return wrappedFactory.createLiteral(label, language);
@@ -171,6 +175,8 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     @Override
     public Literal createLiteral(String pref, IRI value) {
+        if (RDF.LANGSTRING.equals(value))
+            return createLiteral(pref);
         if (pref == null)
             return null;
         return wrappedFactory.createLiteral(pref, value);
