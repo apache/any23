@@ -177,13 +177,24 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     public void testMicrodataNestedUrlResolving() throws IOException {
         IRI oldBaseIRI = baseIRI;
         try {
-            logger.info("\n");
             baseIRI = RDFUtils.iri("https://ruben.verborgh.org/tmp/schemaorg-test.html");
             extractAndVerifyAgainstNQuads("microdata-nested-url-resolving.html",
                     "microdata-nested-url-resolving-expected.nquads");
         } finally {
             baseIRI = oldBaseIRI;
         }
+    }
+
+    @Test
+    public void testTel() {
+        assertExtract("/microdata/tel-test.html");
+        assertModelNotEmpty();
+        assertContains(RDFUtils.iri("http://schema.org/telephone"), RDFUtils.iri("tel:(909)%20484-2020"));
+    }
+
+    @Test
+    public void testBadTypes() throws IOException {
+        extractAndVerifyAgainstNQuads("microdata-bad-types.html", "microdata-bad-types-expected.nquads");
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)

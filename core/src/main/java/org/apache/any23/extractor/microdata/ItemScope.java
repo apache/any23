@@ -17,6 +17,9 @@
 
 package org.apache.any23.extractor.microdata;
 
+import org.apache.commons.lang.StringUtils;
+import org.eclipse.rdf4j.common.net.ParsedIRI;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,20 +72,29 @@ public class ItemScope extends Item {
      * @param itemId    <i>itemscope</i> id. Can be <code>null</code>.
      */
     public ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, String type, String itemId) {
+        this(xpath, itemProps, id, refs, stringToUrl(type), itemId);
+    }
+
+    static URL stringToUrl(String type) {
+        if (StringUtils.isNotBlank(type)) {
+            try {
+                return new URL(ParsedIRI.create(type.trim()).toString());
+            } catch (MalformedURLException murle) {
+                throw new IllegalArgumentException("Invalid type '" + type + "', must be a valid URL.");
+            }
+        } else {
+            return null;
+        }
+    }
+
+    ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, URL type, String itemId) {
         super(xpath);
 
         if (itemProps == null) {
             throw new NullPointerException("itemProps list cannot be null.");
         }
-        if (type != null) {
-            try {
-                this.type = new URL(type);
-            } catch (MalformedURLException murle) {
-                throw new IllegalArgumentException("Invalid type '" + type + "', must be a valid URL.");
-            }
-        } else {
-            this.type = null;
-        }
+
+        this.type = type;
         this.id = id;
         this.refs = refs;
         this.itemId = itemId;

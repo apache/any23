@@ -86,7 +86,7 @@ public class HTMLDocument {
                 result = new TextField(href, node);
             } else
                 result = new TextField(node.getTextContent(), node);
-        } else if ("IMG".equals(name) || "AREA".equals(name)) {
+        } else if (("IMG".equals(name) || "AREA".equals(name)) && (null != attributes.getNamedItem("alt"))) {
             result = new TextField(attributes.getNamedItem("alt").getNodeValue(), node);
         } else {
             result = new TextField(node.getTextContent(), node);
@@ -110,18 +110,67 @@ public class HTMLDocument {
         }
         if ("A".equals(name) || "AREA".equals(name)) {
             Node n = attributes.getNamedItem("href");
-            res.add( new TextField(n.getNodeValue(), n) );
+            if (n != null) {
+                res.add(new TextField(n.getNodeValue(), n));
+            }
         } else if ("ABBR".equals(name)) {
             Node n = attributes.getNamedItem("title");
-            res.add( new TextField(n.getNodeValue(), n) );
+            if (n != null) {
+                res.add(new TextField(n.getNodeValue(), n));
+            }
         } else if ("IMG".equals(name)) {
             Node n = attributes.getNamedItem("src");
-            res.add( new TextField(n.getNodeValue(), n) );
+            if (n != null) {
+                res.add(new TextField(n.getNodeValue(), n));
+            } else {
+                n = attributes.getNamedItem("srcset");
+                if (n != null) {
+                    res.add(new TextField(n.getNodeValue().split("[\\s,]+")[0], n));
+                }
+            }
         } else if ("OBJECT".equals(name)) {
             Node n = attributes.getNamedItem("data");
-            res.add( new TextField(n.getNodeValue(), n) );
+            if (n != null) {
+                res.add(new TextField(n.getNodeValue(), n));
+            }
         } else {
-            res.add( new TextField(node.getTextContent().trim(), node) );
+            res.add( new TextField(extractHCardTextContent(node), node) );
+        }
+    }
+
+    private static String extractHCardTextContent(Node node) {
+        StringBuilder sb = new StringBuilder();
+        NodeList nodes = node.getChildNodes();
+        //if at least one element with 'value' class, concatenate all text in value
+        if (extractTextInValue(nodes, sb) == 0) {
+            //otherwise, concatenate all text not in elements with 'type' class
+            extractTextNotInType(nodes, sb);
+        }
+        return sb.toString();
+    }
+
+    private static int extractTextInValue(NodeList nodes, StringBuilder b) {
+        int count = 0;
+        for (int i = 0, len = nodes.getLength(); i < len; i++) {
+            Node n = nodes.item(i);
+            if (DomUtils.hasClassName(n, "value")) {
+                count++;
+                b.append(n.getTextContent().trim());
+            } else {
+                count += extractTextInValue(n.getChildNodes(), b);
+            }
+        }
+        return count;
+    }
+
+    private static void extractTextNotInType(NodeList nodes, StringBuilder b) {
+        for (int i = 0, len = nodes.getLength(); i < len; i++) {
+            Node n = nodes.item(i);
+            if (n.getNodeType() == Node.TEXT_NODE) {
+                b.append(n.getNodeValue().trim());
+            } else if (!DomUtils.hasClassName(n, "type")) {
+                extractTextNotInType(n.getChildNodes(), b);
+            }
         }
     }
 

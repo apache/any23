@@ -270,11 +270,11 @@
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
 
-    <httpclient.version>4.5.3</httpclient.version>
-    <httpcore.version>4.4.6</httpcore.version>
+    <httpclient.version>4.5.5</httpclient.version>
+    <httpcore.version>4.4.9</httpcore.version>
     <owlapi.version>5.1.3</owlapi.version>
     <poi.version>3.16</poi.version>
-    <rdf4j.version>2.2.4</rdf4j.version>
+    <rdf4j.version>2.3.2</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.25</slf4j.logger.version>
     <tika.version>1.17</tika.version>

@@ -79,6 +79,17 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     @Test
+    public void testBasicWithSyntaxErrors() {
+        //test issues ANY23-347 and ANY23-350
+        assertExtract("/html/rdfa/basic-with-errors.html");
+        assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en"));
+        assertContains(null, vDCTERMS.title,
+                RDFUtils.literal("The trouble with Bob", "en"));
+        assertContains(null, RDFUtils.iri("http://fake.org/prop"),
+                RDFUtils.literal("Mary", "en"));
+    }
+
+    @Test
     public void testIssue326() {
         assertExtract("/html/rdfa/rdfa-issue326-and-267.html");
     }

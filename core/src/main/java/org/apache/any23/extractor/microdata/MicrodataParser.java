@@ -26,6 +26,7 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.TreeWalker;
 
 import java.io.PrintStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +91,7 @@ public class MicrodataParser {
     /**
      * List of collected errors. Used when {@link #errorMode} <code>==</code> {@link ErrorMode#FULL_REPORT}.
      */
-    private List<MicrodataParserException> errors = new ArrayList<>();
+    private final List<MicrodataParserException> errors = new ArrayList<>();
 
     public static final String ITEMSCOPE_ATTRIBUTE = "itemscope";
     public static final String ITEMPROP_ATTRIBUTE  = "itemprop";
@@ -504,12 +505,20 @@ public class MicrodataParser {
             itemProps.add(deferredProperty);
         }
 
+        URL type;
+        try {
+            type = ItemScope.stringToUrl(itemType);
+        } catch (IllegalArgumentException e) {
+            manageError(new MicrodataParserException(e.getMessage(), node));
+            type = null;
+        }
+
         final ItemScope newItemScope = new ItemScope(
                 DomUtils.getXPathForNode(node),
                 itemProps.toArray(new ItemProp[itemProps.size()]),
                 id,
                 itemrefIDs,
-                itemType,
+                type,
                 itemId
         );
         itemScopes.put(node, newItemScope);
@@ -517,15 +526,15 @@ public class MicrodataParser {
     }
 
     private void manageError(MicrodataParserException mpe) throws MicrodataParserException {
-        if(errorMode == ErrorMode.STOP_AT_FIRST_ERROR) {
-            throw mpe;
+        switch (errorMode) {
+            case FULL_REPORT:
+                errors.add(mpe);
+                break;
+            case STOP_AT_FIRST_ERROR:
+                throw mpe;
+            default:
+                throw new IllegalStateException("Unsupported mode " + errorMode);
         }
-        if(errorMode != ErrorMode.FULL_REPORT)
-            throw new IllegalStateException("Unsupported mode " + errorMode);
-        if(errors == null) {
-            errors = new ArrayList<>();
-        }
-        errors.add(mpe);
     }
 
 }
