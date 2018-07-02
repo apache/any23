@@ -49,8 +49,10 @@ import org.w3c.dom.NodeList;
  * @deprecated since 2.3 the {@link org.eclipse.rdf4j.rio.Rio} implementations 
  * are used to parse RDFa. Look at {@link org.apache.any23.extractor.rdf.RDFParserFactory#getRDFa10Parser}
  * and {@link org.apache.any23.extractor.rdf.RDFParserFactory#getRDFa11Parser}.
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@Deprecated
 public class RDFa11Parser {
 
     private static final Logger logger = LoggerFactory.getLogger(RDFa11Parser.class);
