@@ -528,10 +528,10 @@ public class RDFUtils {
             new java.net.URI(href.trim());
             return true;
         } catch (IllegalArgumentException e) {
-            LOG.debug("Error processing href: {}", href, e);
+            LOG.trace("Error processing href: {}", href, e);
             return false;
         } catch (URISyntaxException e) {
-            LOG.debug("Error interpreting href: {} as URI.", href, e);
+            LOG.trace("Error interpreting href: {} as URI.", href, e);
             return false;
         }
     }

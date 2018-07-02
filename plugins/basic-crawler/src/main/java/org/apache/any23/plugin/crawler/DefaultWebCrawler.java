@@ -47,12 +47,17 @@ public class DefaultWebCrawler extends WebCrawler {
     /**
      * Override this method to specify whether the given URL should be visited or not.
      */
+
     @Override
-    public boolean shouldVisit(WebURL url) {
-        if (url.getURL() == null) return false;
+    public boolean shouldVisit(Page referringPage, WebURL url) {
+        if (!super.shouldVisit(referringPage, url))
+            return false;
+        if (url.getURL() == null)
+            return false;
         final String href = url.getURL().toLowerCase();
-        if( ! href.startsWith( sharedData.getSeed() ) ) return false;
-        return pattern == null || ! pattern.matcher(href).matches();
+        if (!href.startsWith(sharedData.getSeed()))
+            return false;
+        return pattern == null || !pattern.matcher(href).matches();
     }
 
     /**
