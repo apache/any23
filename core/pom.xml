@@ -232,11 +232,6 @@
       <artifactId>commons-lang</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>net.sourceforge.nekohtml</groupId>
-      <artifactId>nekohtml</artifactId>
-    </dependency>
-
     <dependency> <!-- used by Tika -->
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
@@ -282,6 +277,11 @@
       <artifactId>poi-ooxml</artifactId>
     </dependency>
     <!-- END: POI -->
+
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+    </dependency>
 
     <!-- BEGIN: Test Dependencies -->
     <dependency>
