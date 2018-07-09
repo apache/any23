@@ -17,7 +17,7 @@
 
 package org.apache.any23.encoding;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,12 +77,9 @@ public class TikaEncodingDetectorTest {
     }
 
     private void assertEncoding(final String expected, final String resource) throws IOException {
-        InputStream fis = this.getClass().getResourceAsStream(resource);
-        try {
+        try (InputStream fis = getClass().getResourceAsStream(resource)) {
             String encoding = detector.guessEncoding(fis);
-            Assert.assertEquals( "Unexpected encoding", expected, encoding );
-        } finally {
-            fis.close();
+            Assert.assertEquals("Unexpected encoding", expected, encoding);
         }
     }
 
