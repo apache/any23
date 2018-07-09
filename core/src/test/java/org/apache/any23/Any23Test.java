@@ -63,6 +63,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
@@ -477,8 +478,9 @@ public class Any23Test extends Any23OnlineTestBase {
 
     @Test
     public void testMicrodataSupport() throws Exception {
-        final String htmlWithMicrodata = IOUtils.toString(this.getClass()
-                .getResourceAsStream("/microdata/microdata-basic.html"));
+        final String htmlWithMicrodata = IOUtils.toString(getClass()
+                .getResourceAsStream("/microdata/microdata-basic.html"),
+                StandardCharsets.UTF_8);
         assertExtractorActivation(htmlWithMicrodata, MicrodataExtractor.class);
     }
 
