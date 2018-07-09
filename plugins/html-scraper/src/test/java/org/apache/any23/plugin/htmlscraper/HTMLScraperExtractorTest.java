@@ -25,9 +25,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
 import java.io.IOException;
@@ -35,7 +33,8 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -61,7 +60,7 @@ public class HTMLScraperExtractorTest {
     @Test
     public void testGetExtractors() {
         final String[] extractors = extractor.getTextExtractors();
-        Assert.assertEquals( new HashSet<String>(Arrays.asList(extractors)).size(), 4 );
+        Assert.assertEquals( new HashSet<>(Arrays.asList(extractors)).size(), 4 );
     }
 
     @Test
@@ -76,17 +75,13 @@ public class HTMLScraperExtractorTest {
         extractor.run(ExtractionParameters.newDefault(), extractionContext, is, extractionResult);
 
         verify(extractionResult).writeTriple(
-                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY) , (Value) Matchers.anyObject())
-        ;
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_DE_PROPERTY), any());
         verify(extractionResult).writeTriple(
-                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_AE_PROPERTY) , (Value) Matchers.anyObject())
-        ;
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_AE_PROPERTY), any());
         verify(extractionResult).writeTriple(
-                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_LCE_PROPERTY) , (Value) Matchers.anyObject())
-        ;
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_LCE_PROPERTY), any());
         verify(extractionResult).writeTriple(
-                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_CE_PROPERTY) , (Value) Matchers.anyObject())
-        ;
+                eq(pageIRI), eq(HTMLScraperExtractor.PAGE_CONTENT_CE_PROPERTY), any());
     }
 
 }
