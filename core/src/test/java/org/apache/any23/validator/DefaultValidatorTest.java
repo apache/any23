@@ -17,9 +17,8 @@
 
 package org.apache.any23.validator;
 
+import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.extractor.html.TagSoupParser;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -69,48 +67,48 @@ public class DefaultValidatorTest {
     @Test
     public void testMissingOGNamespace() throws IOException, ValidatorException, URISyntaxException {
         DOMDocument document = loadDocument("missing-og-namespace.html");
-        Assert.assertNull( document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og") );
+        Assert.assertNull(document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og"));
         ValidationReport validationReport = validator.validate(document, true);
-        Assert.assertNotNull( document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og") );
-        if(logger.isDebugEnabled()) {
-            logger.debug( validationReport.toString() );
+        Assert.assertNotNull(document.getNode("/HTML").getAttributes().getNamedItem("xmlns:og"));
+        if (logger.isDebugEnabled()) {
+            logger.debug(validationReport.toString());
         }
     }
 
     @Test
     public void testMissingItemscopeAttributeValue() throws IOException, URISyntaxException, ValidatorException {
-      DOMDocument document = loadDocument("microdata-basic.html");
-      List<Node> nullItemScopeNodes = document.getNodesWithAttribute("itemscope");
-      for (Node node : nullItemScopeNodes) {
+        DOMDocument document = loadDocument("microdata-basic.html");
+        List<Node> nullItemScopeNodes = document.getNodesWithAttribute("itemscope");
+        for (Node node : nullItemScopeNodes) {
         // all nodes with itemscope have an empty string value
-        Assert.assertEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-      }
-      ValidationReport validationReport = validator.validate(document, true);
-      List<Node> fixedItemScopeNodes = document.getNodesWithAttribute("itemscope");
-      for (Node node : fixedItemScopeNodes) {
-        // all nodes with itemscope now have a default value of "itemscope"
-        Assert.assertNotNull(node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-        Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue() );
-      }
-      if(logger.isDebugEnabled()) {
-          logger.debug( validationReport.toString() );
-      }
-  }
+            Assert.assertEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue());
+        }
+        ValidationReport validationReport = validator.validate(document, true);
+        List<Node> fixedItemScopeNodes = document.getNodesWithAttribute("itemscope");
+        for (Node node : fixedItemScopeNodes) {
+            // all nodes with itemscope now have a default value of "itemscope"
+            Assert.assertNotNull(node.getAttributes().getNamedItem("itemscope").getNodeValue());
+            Assert.assertEquals("itemscope", node.getAttributes().getNamedItem("itemscope").getNodeValue());
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug(validationReport.toString());
+        }
+    }
 
     @Test
     public void testMetaNameMisuse() throws Exception {
         DOMDocument document = loadDocument("meta-name-misuse.html");
         ValidationReport validationReport = validator.validate(document, true);
-        logger.debug( validationReport.toString() );
-        if(logger.isDebugEnabled()) {
-            logger.debug( serialize(document) );
+        if (logger.isDebugEnabled()) {
+            logger.debug(validationReport.toString());
+            logger.debug(DomUtils.serializeToXML(document.getOriginalDocument(), true));
         }
 
         List<Node> metas = document.getNodes("/HTML/HEAD/META");
-        for(Node meta : metas) {
+        for (Node meta : metas) {
             Node name = meta.getAttributes().getNamedItem("name");
-            if(name != null) {
-                Assert.assertFalse( name.getTextContent().contains(":") );
+            if (name != null) {
+                Assert.assertFalse(name.getTextContent().contains(":"));
             }
         }
     }
@@ -119,31 +117,17 @@ public class DefaultValidatorTest {
     public void testAboutNotIRIRule() throws Exception {
         DOMDocument document = loadDocument("invalid-rdfa-about.html");
         ValidationReport validationReport = validator.validate(document, true);
-        logger.debug(validationReport.toString());
-        Assert.assertEquals( "Unexpected number of issues.", 1, validationReport.getIssues().size() );
+        if (logger.isDebugEnabled()) {
+            logger.debug(validationReport.toString());
+        }
+        Assert.assertEquals("Unexpected number of issues.", 1, validationReport.getIssues().size());
     }
 
     public static DOMDocument loadDocument(String document) throws IOException, URISyntaxException {
         InputStream is = DefaultValidatorTest.class.getResourceAsStream(document);
         final String documentIRI = "http://test.com";
         TagSoupParser tsp = new TagSoupParser(is, documentIRI);
-        return new DefaultDOMDocument( new URI(documentIRI), tsp.getDOM() );
-    }
-
-    private String serialize(DOMDocument document) throws Exception {
-        OutputFormat format = new OutputFormat(document.getOriginalDocument());
-        format.setLineSeparator("\n");
-        format.setIndenting(true);
-        format.setLineWidth(0);
-        format.setPreserveSpace(true);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLSerializer serializer = new XMLSerializer(
-                baos,
-                format
-        );
-        serializer.asDOMSerializer();
-        serializer.serialize( document.getOriginalDocument() );
-        return baos.toString();
+        return new DefaultDOMDocument(new URI(documentIRI), tsp.getDOM());
     }
 
     class FakeRule implements Rule {
