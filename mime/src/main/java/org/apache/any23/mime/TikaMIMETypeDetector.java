@@ -72,11 +72,11 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             Pattern.compile("^\\S+\\s*<\\S+>\\s*\".*\"(\\^\\^\\S+)?\\s*\\<\\S+>\\s*\\.")  // * IRI TLITERAL IRI .
     };
 
-    private static TikaConfig config = null;
+    private static volatile TikaConfig config;
 
-    private static Tika tika;
+    private static volatile Tika tika;
 
-    private static MimeTypes types;
+    private static volatile MimeTypes types;
 
     /**
      * Checks if the stream contains the <i>N3</i> triple patterns.
@@ -113,7 +113,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         turtleParser.setDatatypeHandling(RDFParser.DatatypeHandling.VERIFY);
         turtleParser.setStopAtFirstError(true);
         turtleParser.setVerifyData(true);
-        ByteArrayInputStream bais = new ByteArrayInputStream( sample.getBytes() );
+        ByteArrayInputStream bais = new ByteArrayInputStream(sample.getBytes());
         try {
             turtleParser.parse(bais, "");
             return true;
@@ -146,8 +146,8 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     private static boolean findPattern(Pattern[] patterns, char delimiterChar, InputStream is)
     throws IOException {
         String sample = extractDataSample(is, delimiterChar);
-        for(Pattern pattern : patterns) {
-            if(pattern.matcher(sample).find()) {
+        for (Pattern pattern : patterns) {
+            if (pattern.matcher(sample).find()) {
                 return true;
             }
         }
@@ -198,26 +198,28 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
 
     public TikaMIMETypeDetector(Purifier purifier) {
         this.purifier = purifier;
-        InputStream is = getResourceAsStream();
-        if (config == null) {
-            try {
-                config = new TikaConfig(is);
-            } catch (Exception e) {
-                throw new RuntimeException("Error while loading Tika configuration.", e);
+        if (config == null || types == null || tika == null) {
+            synchronized (TikaMIMETypeDetector.class) {
+                if (config == null) {
+                    InputStream is = getResourceAsStream();
+                    try {
+                        config = new TikaConfig(is);
+                    } catch (Exception e) {
+                        throw new RuntimeException("Error while loading Tika configuration.", e);
+                    }
+                }
+                if (types == null) {
+                    types = config.getMimeRepository();
+                }
+                if (tika == null) {
+                    tika = new Tika(config);
+                }
             }
-        }
-
-        if (types == null) {
-            types = config.getMimeRepository();
-        }
-
-        if(tika == null) {
-            tika = new Tika(config);
         }
     }
 
     public TikaMIMETypeDetector() {
-        this( new WhiteSpacesPurifier() );
+        this(new WhiteSpacesPurifier());
     }
 
     /**
@@ -235,7 +237,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             InputStream input,
             MIMEType mimeTypeFromMetadata
     ) {
-        if(input != null) {
+        if (input != null) {
             try {
                 this.purifier.purify(input);
             } catch (IOException e) {
@@ -252,16 +254,16 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         String type;
         try {
             final String mt = guessMimeTypeByInputAndMeta(input, meta);
-            if( ! MimeTypes.OCTET_STREAM.equals(mt) ) {
+            if (input == null || !MimeTypes.OCTET_STREAM.equals(mt)) {
                 type = mt;
             } else {
-                if( checkN3Format(input) ) {
+                if (checkN3Format(input)) {
                     type = RDFFormat.N3.getDefaultMIMEType();
-                } else if( checkNQuadsFormat(input) ) {
+                } else if (checkNQuadsFormat(input)) {
                     type = RDFFormat.NQUADS.getDefaultMIMEType();
-                } else if( checkTurtleFormat(input) ) {
+                } else if (checkTurtleFormat(input)) {
                     type = RDFFormat.TURTLE.getDefaultMIMEType();
-                } else if( checkCSVFormat(input) ) {
+                } else if (checkCSVFormat(input)) {
                     type = CSV_MIMETYPE;
                 } else {
                     type = MimeTypes.OCTET_STREAM; 
@@ -282,7 +284,11 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
          InputStream result;
          result = TikaMIMETypeDetector.class.getResourceAsStream(RESOURCE_NAME);
          if (result == null) {
-             result = TikaMIMETypeDetector.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
+             try {
+                 result = TikaMIMETypeDetector.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
+             } catch (SecurityException e) {
+                 //fall through
+             }
              if (result == null) {
                  result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
              }
@@ -307,7 +313,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
     throws IOException {
         if (stream != null) {
             final String type = tika.detect(stream);
-            if ( type != null && ! isGenericMIMEType(type) ) {
+            if (type != null && !isGenericMIMEType(type)) {
                 return type;
             }
         }
@@ -319,14 +325,12 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
             try {
                 MimeType type = types.forName(contentType);
                 if (type != null) {
-                    if( ! isPlainMIMEType(type.getName()) ) {
-                        return type.getName();
-                    } else {
-                        candidateMIMEType = type.getName();
+                    candidateMIMEType = type.getName();
+                    if (!isPlainMIMEType(candidateMIMEType)) {
+                        return candidateMIMEType;
                     }
                 }
-            }
-            catch (MimeTypeException mte) {
+            } catch (MimeTypeException mte) {
                 // Malformed ocntent-type value, ignore.
             }
         }
@@ -334,14 +338,14 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         // Determines the MIMEType based on resource name hint if available.
         final String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
         if (resourceName != null) {
-            MimeType type = types.getMimeType(resourceName);
-            if (type != null) {
-                return type.getName();
+            String type = tika.detect(resourceName);
+            if (type != null && !type.equals(MimeTypes.OCTET_STREAM)) {
+                return type;
             }
         }
 
         // Finally, use the default type if no matches found
-        if(candidateMIMEType != null) {
+        if (candidateMIMEType != null) {
             return candidateMIMEType;
         } else {
             return MimeTypes.OCTET_STREAM;
