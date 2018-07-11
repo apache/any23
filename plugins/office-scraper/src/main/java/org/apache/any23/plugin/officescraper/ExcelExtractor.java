@@ -27,6 +27,7 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.Excel;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -87,9 +88,9 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
     // TODO: this should be done by Tika, the extractors should be split.
     private Workbook createWorkbook(IRI document, InputStream is) throws IOException {
         final String documentIRI = document.toString();
-        if(documentIRI.endsWith(".xlsx")) {
+        if (documentIRI.endsWith(".xlsx")) {
             return new XSSFWorkbook(is);
-        } else if(documentIRI.endsWith("xls")) {
+        } else if (documentIRI.endsWith("xls")) {
             return new HSSFWorkbook(is);
         } else {
             throw new IllegalArgumentException("Unsupported extension for resource [" + documentIRI + "]");
@@ -121,7 +122,7 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
         final int    lastRowNum  = sheet.getLastRowNum();
         er.writeTriple(sheetIRI, excel.sheetName, RDFUtils.literal(sheetName));
         er.writeTriple(sheetIRI, excel.firstRow, RDFUtils.literal(firstRowNum));
-        er.writeTriple(sheetIRI, excel.lastRow  , RDFUtils.literal(lastRowNum ));
+        er.writeTriple(sheetIRI, excel.lastRow, RDFUtils.literal(lastRowNum));
     }
 
     private void writeRowMetadata(IRI rowIRI, Row row, ExtractionResult er) {
@@ -132,8 +133,9 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
     }
 
     private void writeCell(IRI rowIRI, Cell cell, ExtractionResult er) {
-        final IRI cellType = cellTypeToType(cell.getCellType());
-        if(cellType == null) return; // Skip unsupported cells.
+        final IRI cellType = cellTypeToType(cell.getCellTypeEnum());
+        if (cellType == null)
+            return; // Skip unsupported cells.
         final IRI cellIRI = getCellIRI(rowIRI, cell);
         er.writeTriple(rowIRI, excel.containsCell, cellIRI);
         er.writeTriple(cellIRI, RDF.TYPE, excel.cell);
@@ -157,20 +159,24 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
 		String.format("/%d/", cell.getColumnIndex()));
     }
 
-    private IRI cellTypeToType(int cellType) {
+    private IRI cellTypeToType(CellType cellType) {
         final String postfix;
-        switch (cellType) {
-            case Cell.CELL_TYPE_STRING:
-                postfix = "string";
-                break;
-            case Cell.CELL_TYPE_BOOLEAN:
-                postfix = "boolean";
-                break;
-            case Cell.CELL_TYPE_NUMERIC:
-                postfix = "numeric";
-                break;
-            default:
-                postfix = null;
+        if (cellType == null) {
+            postfix = null;
+        } else {
+            switch (cellType) {
+                case STRING:
+                    postfix = "string";
+                    break;
+                case BOOLEAN:
+                    postfix = "boolean";
+                    break;
+                case NUMERIC:
+                    postfix = "numeric";
+                    break;
+                default:
+                    postfix = null;
+            }
         }
         return postfix == null ? null : RDFUtils.iri(excel.getNamespace().toString() + postfix);
     }
