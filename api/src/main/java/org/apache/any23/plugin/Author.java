@@ -17,11 +17,15 @@
 
 package org.apache.any23.plugin;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Describes the author of the plugin.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Author {
 
     /**
