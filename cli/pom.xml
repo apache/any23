@@ -332,7 +332,7 @@
           <programs>
             <program>
               <mainClass>org.apache.any23.cli.ToolRunner</mainClass>
-              <name>any23</name>
+              <id>any23</id>
               <jvmSettings>
                 <maxMemorySize>6000m</maxMemorySize>
               </jvmSettings>
