@@ -95,7 +95,7 @@ public class LoggingTripleHandler implements TripleHandler {
         long elapsedTime = System.currentTimeMillis() - startTime;
         final AtomicBoolean success = new AtomicBoolean(true);
         
-        StringBuffer sb = new StringBuffer("[ ");
+        StringBuilder sb = new StringBuilder("[ ");
         String[] parsers = contextTripleMap.entrySet().stream().map(e -> {
                     if (e.getValue() > 0) {
                         success.set(true);
