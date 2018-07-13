@@ -30,8 +30,6 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.ExtractorRegistry;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * This class provides some command-line documentation
@@ -44,32 +42,21 @@ public class ExtractorDocumentation implements Tool {
     private boolean showList;
 
     @Parameter( names = { "-i", "--input" }, description = "shows example input for the given extractor" )
-    private boolean showInput;
+    private String input;
 
-    @Parameter( names = { "-o", "--outut" }, description = "shows example output for the given extractor" )
-    private boolean showOutput;
+    @Parameter( names = { "-o", "--output" }, description = "shows example output for the given extractor" )
+    private String output;
 
     @Parameter( names = { "-a", "--all" }, description = "shows a report about all available extractors" )
     private boolean showAll;
 
-    @Parameter( arity = 1, description = "Extractor name" )
-    private List<String> extractor = new LinkedList<String>();
-
     public void run() throws Exception {
         if (showList) {
             printExtractorList(ExtractorRegistryImpl.getInstance());
-        } else if (showInput) {
-            if (extractor.isEmpty()) {
-                throw new IllegalArgumentException("Required argument for -i: extractor name");
-            }
-
-            printExampleInput(extractor.get(0), ExtractorRegistryImpl.getInstance());
-        } else if (showOutput) {
-            if (extractor.isEmpty()) {
-                throw new IllegalArgumentException("Required argument for -o: extractor name");
-            }
-
-            printExampleOutput(extractor.get(0), ExtractorRegistryImpl.getInstance());
+        } else if (input != null) {
+            printExampleInput(input, ExtractorRegistryImpl.getInstance());
+        } else if (output != null) {
+            printExampleOutput(output, ExtractorRegistryImpl.getInstance());
         } else if (showAll) {
             printReport(ExtractorRegistryImpl.getInstance());
         }

@@ -17,12 +17,12 @@
 
 package org.apache.any23.extractor.html;
 
-import junit.framework.Assert;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.ICAL;
 import org.apache.any23.vocab.SINDICE;
+import org.junit.Assert;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;

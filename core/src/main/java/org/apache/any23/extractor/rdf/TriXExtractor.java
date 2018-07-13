@@ -46,7 +46,7 @@ public class TriXExtractor extends BaseRDFExtractor {
      * Default constructor, with no verification of data types and not stop at first error.
      */
     public TriXExtractor() {
-        this(true, true);
+        this(false, false);
     }
 
     @Override

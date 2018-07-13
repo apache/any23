@@ -27,8 +27,6 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
-import org.eclipse.rdf4j.rio.RioSetting;
-import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.DataNode;
@@ -48,7 +46,6 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -111,18 +108,6 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     ) throws IOException, ExtractionException {
         try {
             final RDFParser parser = getParser(extractionContext, extractionResult);
-            parser.getParserConfig().setNonFatalErrors(new HashSet<RioSetting<?>>());
-
-            // Disable verification to ensure that DBPedia is accessible, given it uses so many custom datatypes
-            parser.getParserConfig().set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, true);
-            parser.getParserConfig().addNonFatalError(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES);
-            parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
-            parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_DATATYPE_VALUES);
-            parser.getParserConfig().set(BasicParserSettings.NORMALIZE_DATATYPE_VALUES, false);
-            parser.getParserConfig().addNonFatalError(BasicParserSettings.NORMALIZE_DATATYPE_VALUES);
-            parser.getParserConfig().set(BasicParserSettings.VERIFY_RELATIVE_URIS, true);
-            parser.getParserConfig().addNonFatalError(BasicParserSettings.VERIFY_RELATIVE_URIS);
-
 
             RDFFormat format = parser.getRDFFormat();
             String iri = extractionContext.getDocumentIRI().stringValue();

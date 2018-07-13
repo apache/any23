@@ -28,6 +28,7 @@ import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import org.eclipse.rdf4j.rio.helpers.RDFaParserSettings;
 import org.eclipse.rdf4j.rio.helpers.RDFaVersion;
 import org.eclipse.rdf4j.rio.turtle.TurtleParser;
@@ -38,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Collections;
+import java.util.HashSet;
 
 /**
  * This factory provides a common logic for creating and configuring correctly
@@ -49,13 +52,12 @@ public class RDFParserFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(RDFParserFactory.class);
 
-    private static RDFParserFactory instance;
+    private static class InstanceHolder {
+        private static final RDFParserFactory instance = new RDFParserFactory();
+    }
 
     public static RDFParserFactory getInstance() {
-        if(instance == null) {
-            instance = new RDFParserFactory();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     /**
@@ -280,11 +282,11 @@ public class RDFParserFactory {
             final ExtractionContext extractionContext,
             final ExtractionResult extractionResult
     ) {
-        parser.setDatatypeHandling(
-            verifyDataType ? RDFParser.DatatypeHandling.VERIFY : RDFParser.DatatypeHandling.IGNORE
-        );
-        parser.setStopAtFirstError(stopAtFirstError);
-        parser.setParseErrorListener( new InternalParseErrorListener(extractionResult) );
+        parser.getParserConfig().setNonFatalErrors(stopAtFirstError ? Collections.emptySet() : new HashSet<>(parser.getSupportedSettings()));
+        parser.set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, verifyDataType);
+        parser.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
+
+        parser.setParseErrorListener(new InternalParseErrorListener(extractionResult));
         parser.setValueFactory(
                 new Any23ValueFactoryWrapper(
                         SimpleValueFactory.getInstance(),

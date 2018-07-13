@@ -17,23 +17,6 @@
 
 package org.apache.any23.extractor.rdfa;
 
-import org.apache.any23.extractor.IssueReport;
-import org.apache.any23.extractor.ExtractionResult;
-import org.apache.any23.extractor.html.DomUtils;
-import org.apache.any23.rdf.RDFUtils;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.Resource;
-import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -43,13 +26,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import javax.xml.transform.TransformerException;
+import org.apache.any23.extractor.ExtractionResult;
+import org.apache.any23.extractor.IssueReport;
+import org.apache.any23.extractor.html.DomUtils;
+import org.apache.any23.rdf.RDFUtils;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * This parser is able to extract <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa 1.0</a> and
  * <a href="http://www.w3.org/TR/rdfa-core/">RDFa 1.1</a> statements from any <i>(X)HTML</i> document.
- *
+ * @deprecated since 2.3 the {@link org.eclipse.rdf4j.rio.Rio} implementations 
+ * are used to parse RDFa. Look at {@link org.apache.any23.extractor.rdf.RDFParserFactory#getRDFa10Parser}
+ * and {@link org.apache.any23.extractor.rdf.RDFParserFactory#getRDFa11Parser}.
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
+@Deprecated
 public class RDFa11Parser {
 
     private static final Logger logger = LoggerFactory.getLogger(RDFa11Parser.class);

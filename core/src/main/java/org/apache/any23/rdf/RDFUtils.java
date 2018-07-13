@@ -69,6 +69,8 @@ public class RDFUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(RDFUtils.class);
 
+    private static final Statement[] EMPTY_STATEMENTS = new Statement[0];
+
     private RDFUtils() {}
 
     /**
@@ -443,7 +445,7 @@ public class RDFUtils {
      * @throws IllegalArgumentException if no extension matches.
      */
     public static Optional<RDFFormat> getFormatByExtension(String ext) {
-        if( ! ext.startsWith(".") )
+        if (!ext.startsWith("."))
             ext = "." + ext;
         return Rio.getParserFormatForFileName(ext);
     }
@@ -463,11 +465,10 @@ public class RDFUtils {
         final StatementCollector handler = new StatementCollector();
         final RDFParser parser = getParser(format);
         parser.getParserConfig().set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
-        parser.setStopAtFirstError(true);
         parser.setPreserveBNodeIDs(true);
         parser.setRDFHandler(handler);
         parser.parse(is, baseIRI);
-        return handler.getStatements().toArray( new Statement[handler.getStatements().size()] );
+        return handler.getStatements().toArray(EMPTY_STATEMENTS);
     }
 
     /**
@@ -508,11 +509,11 @@ public class RDFUtils {
      */
     public static Statement[] parseRDF(String resource) throws IOException {
         final int extIndex = resource.lastIndexOf('.');
-        if(extIndex == -1)
+        if (extIndex == -1)
             throw new IllegalArgumentException("Error while detecting the extension in resource name " + resource);
         final String extension = resource.substring(extIndex + 1);
-        return parseRDF( getFormatByExtension(extension).orElseThrow(Rio.unsupportedFormat(extension))
-        		        , RDFUtils.class.getResourceAsStream(resource) );
+        return parseRDF(getFormatByExtension(extension).orElseThrow(Rio.unsupportedFormat(extension)),
+                RDFUtils.class.getResourceAsStream(resource));
     }
 
     /**
@@ -528,10 +529,10 @@ public class RDFUtils {
             new java.net.URI(href.trim());
             return true;
         } catch (IllegalArgumentException e) {
-            LOG.debug("Error processing href: {}", href, e);
+            LOG.trace("Error processing href: {}", href, e);
             return false;
         } catch (URISyntaxException e) {
-            LOG.debug("Error interpreting href: {} as URI.", href, e);
+            LOG.trace("Error interpreting href: {} as URI.", href, e);
             return false;
         }
     }

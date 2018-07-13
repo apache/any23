@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,7 +46,6 @@ import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.writer.WriterFactory;
 import org.apache.any23.writer.WriterFactoryRegistry;
-import sun.security.validator.ValidatorException;
 
 /**
  * This class is responsible for building the {@link Servlet}
@@ -127,7 +127,7 @@ class WebResponder {
             }
         } catch (IOException ioe) {
             // IO Error.
-            if (ioe.getCause() != null && ValidatorException.class.equals(ioe.getCause().getClass())) {
+            if (ioe.getCause() instanceof CertificateException) {
                 final String errMsg = "Could not fetch input, IO Error.";
                 any23servlet.log(errMsg, ioe.getCause());
                 sendError(502, errMsg, ioe, null, report);

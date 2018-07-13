@@ -109,13 +109,12 @@ public class Excel extends Vocabulary {
      */
     public static final String NS = "http://any23.apache.org/excel/";
 
-    private static Excel instance;
+    private static final class InstanceHolder {
+        private static final Excel instance = new Excel();
+    }
 
     public static Excel getInstance() {
-        if (instance == null) {
-            instance = new Excel();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     public IRI createResource(String localName) {

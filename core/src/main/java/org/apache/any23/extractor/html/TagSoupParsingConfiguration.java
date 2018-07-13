@@ -17,7 +17,6 @@
 
 package org.apache.any23.extractor.html;
 
-import org.apache.any23.configuration.DefaultConfiguration;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.select.NodeTraversor;
 import org.jsoup.select.NodeVisitor;
@@ -35,8 +34,6 @@ import java.io.InputStream;
  */
 abstract class TagSoupParsingConfiguration {
 
-    static final String LEGACY_PROPERTY = "any23.tagsoup.legacy";
-
     String name() {
         return getClass().getSimpleName();
     }
@@ -45,14 +42,7 @@ abstract class TagSoupParsingConfiguration {
 
 
     static TagSoupParsingConfiguration getDefault() {
-        return Default.instance;
-    }
-
-    private static class Default {
-
-        private static final TagSoupParsingConfiguration instance = DefaultConfiguration.singleton()
-                .getFlagProperty(LEGACY_PROPERTY) ? TagSoupParser.legacyConfig() : JsoupConfig.instance;
-
+        return JsoupConfig.instance;
     }
 
 

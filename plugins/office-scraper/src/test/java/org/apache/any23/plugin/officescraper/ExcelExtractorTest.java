@@ -33,9 +33,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
-import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,22 +108,22 @@ public class ExcelExtractorTest {
     private void verifyPredicateOccurrence(TripleHandler mock, IRI predicate, int occurrence)
     throws TripleHandlerException {
         Mockito.verify( mock, Mockito.times(occurrence)).receiveTriple(
-                Mockito.<Resource>anyObject(),
+                Mockito.any(),
                 Mockito.eq(predicate),
-                Mockito.<Value>anyObject(),
-                Mockito.<IRI>any(),
-                Mockito.<ExtractionContext>anyObject()
+                Mockito.any(),
+                Mockito.any(),
+                Mockito.any()
         );
     }
 
     private void verifyTypeOccurrence(TripleHandler mock, IRI type, int occurrence)
     throws TripleHandlerException {
         Mockito.verify( mock, Mockito.times(occurrence)).receiveTriple(
-                Mockito.<Resource>anyObject(),
+                Mockito.any(),
                 Mockito.eq(RDF.TYPE),
                 Mockito.eq(type),
-                Mockito.<IRI>any(),
-                Mockito.<ExtractionContext>anyObject()
+                Mockito.any(),
+                Mockito.any()
         );
     }
 

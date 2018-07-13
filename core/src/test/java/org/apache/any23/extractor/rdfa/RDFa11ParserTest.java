@@ -37,7 +37,9 @@ import static org.mockito.Mockito.mock;
 
 /**
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @deprecated since 2.3
  */
+@Deprecated
 public class RDFa11ParserTest {
 
     @Test

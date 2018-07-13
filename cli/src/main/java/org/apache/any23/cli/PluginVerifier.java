@@ -76,11 +76,11 @@ public class PluginVerifier implements Tool {
         return sb.toString();
     }
 
-    private void printPluginData(ExtractorFactory extractorFactory, PrintStream ps) {
+    private void printPluginData(ExtractorFactory<?> extractorFactory, PrintStream ps) {
         final Author authorAnnotation = extractorFactory.getClass().getAnnotation(Author.class);
         ps.printf("Plugin author    : %s%n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
         ps.printf("Plugin factory   : %s%n", extractorFactory.getClass());
-        ps.printf("Plugin mime-types: %s%n", getMimeTypesStr( extractorFactory.getSupportedMIMETypes() ));
+        ps.printf("Plugin mime-types: %s%n", getMimeTypesStr(extractorFactory.getSupportedMIMETypes()));
     }
 
 }

@@ -45,7 +45,7 @@ public class RDFXMLExtractor extends BaseRDFExtractor {
      * Default constructor, with no verification of data types and not stop at first error.
      */
     public RDFXMLExtractor() {
-        this(true, true);
+        this(false, false);
     }
 
     @Override
