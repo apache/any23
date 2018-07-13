@@ -19,7 +19,6 @@ package org.apache.any23.extractor.rdf;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import com.github.jsonldjava.core.DocumentLoader;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -30,7 +29,6 @@ import org.apache.any23.writer.RDFXMLWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.IRI;
@@ -55,25 +53,6 @@ public class JSONLDExtractorTest {
   @After
   public void tearDown() throws Exception {
       extractor = null;
-  }
-
-  @Test
-  public void testRemoteContextCaching() throws Exception {
-    DocumentLoader documentLoader = new DocumentLoader();
-    final String[] urls = {"http://schema.org/", "http://schema.org/docs/jsonldcontext.json"};
-    for (String url : urls) {
-      long start = System.currentTimeMillis();
-      for (int i = 1; i <= 1000; i++) {
-        documentLoader.loadDocument(url);
-
-        long seconds = (System.currentTimeMillis() - start) / 1000;
-
-        if (seconds > 60) {
-          Assert.fail(String.format("Took %s seconds to access %s %s times", seconds, url, i));
-          break;
-        }
-      }
-    }
   }
 
   @Test
