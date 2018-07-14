@@ -80,7 +80,7 @@ public class Any23 {
     private final Configuration configuration;
     private final String        defaultUserAgent;
 
-    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector( new WhiteSpacesPurifier() );
+    private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
 
     private HTTPClient httpClient = new DefaultHTTPClient();
 
@@ -98,10 +98,12 @@ public class Any23 {
      * @param extractorGroup the group of extractors to be applied.
      */
     public Any23(Configuration configuration, ExtractorGroup extractorGroup) {
-        if(configuration == null)
+        if (configuration == null)
             throw new NullPointerException("configuration must be not null.");
         this.configuration = configuration;
-        logger.debug( configuration.getConfigurationDump() );
+        if (logger.isDebugEnabled()) {
+            logger.debug(configuration.getConfigurationDump());
+        }
 
         this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
 
@@ -128,13 +130,8 @@ public class Any23 {
      * @param extractorNames list of extractor's names.
      */
     public Any23(Configuration configuration, String... extractorNames) {
-        this(
-                configuration,
-                extractorNames == null
-                        ?
-                null
-                        :
-                ExtractorRegistryImpl.getInstance().getExtractorGroup( Arrays.asList(extractorNames))
+        this(configuration, extractorNames == null ? null :
+                ExtractorRegistryImpl.getInstance().getExtractorGroup(Arrays.asList(extractorNames))
         );
     }
 
@@ -144,7 +141,7 @@ public class Any23 {
      * @param extractorNames list of extractor's names.
      */
     public Any23(String... extractorNames) {
-        this( DefaultConfiguration.singleton(), extractorNames );
+        this(DefaultConfiguration.singleton(), extractorNames);
     }
 
     /**
@@ -159,7 +156,7 @@ public class Any23 {
      * Constructor with default configuration.
      */
     public Any23() {
-        this( DefaultConfiguration.singleton() );
+        this(DefaultConfiguration.singleton());
     }
 
     /**
@@ -172,11 +169,11 @@ public class Any23 {
         if (httpClientInitialized) {
             throw new IllegalStateException("Cannot change HTTP configuration after client has been initialized");
         }
-        if(userAgent == null) {
+        if (userAgent == null) {
             userAgent = defaultUserAgent;
         }
-        if(userAgent.trim().length() == 0) {
-            throw new IllegalArgumentException( String.format("Invalid user agent: '%s'", userAgent) );
+        if (userAgent.trim().length() == 0) {
+            throw new IllegalArgumentException(String.format("Invalid user agent: '%s'", userAgent));
         }
         this.userAgent = userAgent;
     }
@@ -199,7 +196,7 @@ public class Any23 {
      * @throws IllegalStateException if invoked after client has been initialized.
      */
     public void setHTTPClient(HTTPClient httpClient) {
-        if(httpClient == null) {
+        if (httpClient == null) {
             throw new NullPointerException("httpClient cannot be null.");
         }
         if (httpClientInitialized) {
@@ -220,7 +217,7 @@ public class Any23 {
                 throw new IOException("Must call " + Any23.class.getSimpleName() +
                         ".setHTTPUserAgent(String) before extracting from HTTP IRI");
             }
-            httpClient.init( new DefaultHTTPClientConfiguration(this.getAcceptHeader()) );
+            httpClient.init(new DefaultHTTPClientConfiguration(this.getAcceptHeader()));
             httpClientInitialized = true;
         }
         return httpClient;
@@ -232,7 +229,7 @@ public class Any23 {
      * @param cache valid cache instance.
      */
     public void setCacheFactory(LocalCopyFactory cache) {
-        if(cache == null) {
+        if (cache == null) {
             throw new NullPointerException("cache cannot be null.");
         }
         this.streamCache = cache;
@@ -260,10 +257,10 @@ public class Any23 {
      * @throws IOException if an error occurs while initializing the internal {@link org.apache.any23.http.HTTPClient}.
      */
     public DocumentSource createDocumentSource(String documentIRI) throws URISyntaxException, IOException {
-        if(documentIRI == null)
+        if (documentIRI == null)
             throw new NullPointerException("documentIRI cannot be null.");
         if (documentIRI.toLowerCase().startsWith("file:")) {
-            return new FileDocumentSource( new File(new URI(documentIRI)) );
+            return new FileDocumentSource(new File(new URI(documentIRI)));
         }
         if (documentIRI.toLowerCase().startsWith("http:") || documentIRI.toLowerCase().startsWith("https:")) {
             return new HTTPDocumentSource(getHTTPClient(), documentIRI);
