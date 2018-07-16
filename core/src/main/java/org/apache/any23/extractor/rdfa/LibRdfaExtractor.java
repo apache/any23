@@ -20,6 +20,7 @@ import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.rdf.BaseRDFExtractor;
+import org.apache.any23.extractor.rdf.RDFParserFactory;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
@@ -38,7 +39,9 @@ public class LibRdfaExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return RDFParserFactory.getInstance().getRDFaLibrdfaParser(
+                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+        );
     }
 
     @Override

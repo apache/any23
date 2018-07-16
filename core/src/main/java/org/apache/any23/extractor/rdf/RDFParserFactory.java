@@ -17,10 +17,16 @@
 
 package org.apache.any23.extractor.rdf;
 
-import org.apache.any23.extractor.IssueReport;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.util.Collections;
+import java.util.HashSet;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
+import org.apache.any23.rdf.rdfa.LibrdfaRDFaParser;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.ParseErrorListener;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -35,12 +41,6 @@ import org.eclipse.rdf4j.rio.turtle.TurtleParser;
 import org.semanticweb.owlapi.rio.OWLAPIRDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.util.Collections;
-import java.util.HashSet;
 
 /**
  * This factory provides a common logic for creating and configuring correctly
@@ -120,6 +120,27 @@ public class RDFParserFactory {
             final ExtractionResult extractionResult
     ) {
         final RDFParser parser = Rio.createParser(RDFFormat.RDFA);
+        parser.getParserConfig().set(RDFaParserSettings.RDFA_COMPATIBILITY, RDFaVersion.RDFA_1_1);
+        configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
+        return parser;
+    }
+    
+    /**
+     * Returns a new instance of a configured RDFaParser using the librdfa library.
+     *
+     * @param verifyDataType data verification enable if <code>true</code>.
+     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
+     * @param extractionContext the extraction context where the parser is used.
+     * @param extractionResult the output extraction result.
+     * @return a new instance of a configured RDFXML parser.
+     */
+    public RDFParser getRDFaLibrdfaParser(
+            final boolean verifyDataType,
+            final boolean stopAtFirstError,
+            final ExtractionContext extractionContext,
+            final ExtractionResult extractionResult
+    ) {
+        final RDFParser parser = new LibrdfaRDFaParser();
         parser.getParserConfig().set(RDFaParserSettings.RDFA_COMPATIBILITY, RDFaVersion.RDFA_1_1);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;

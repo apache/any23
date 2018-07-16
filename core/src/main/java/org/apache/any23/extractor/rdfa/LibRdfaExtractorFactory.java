@@ -31,11 +31,11 @@ public class LibRdfaExtractorFactory extends SimpleExtractorFactory<LibRdfaExtra
     public static final String NAME = "html-librdfa";
     public static final Prefixes PREFIXES = null;
 
-    private static final ExtractorDescription descriptionInstance = new RDFa11ExtractorFactory();
+    private static final ExtractorDescription descriptionInstance = new LibRdfaExtractorFactory();
 
     public LibRdfaExtractorFactory() {
-        super(RDFa11ExtractorFactory.NAME,
-                RDFa11ExtractorFactory.PREFIXES,
+        super(LibRdfaExtractorFactory.NAME,
+                LibRdfaExtractorFactory.PREFIXES,
                 Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
                 "example-rdfa11.html");
     }
