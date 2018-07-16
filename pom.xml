@@ -285,7 +285,7 @@
     <surefire-extra-args />
 
     <!-- Used to track API changes based on Semantic Versioning -->
-    <latest.stable.released>2.1</latest.stable.released>
+    <latest.stable.released>2.2</latest.stable.released>
 
     <!-- Google Analytics id for website -->
     <form.tracker.id>UA-59636188-1</form.tracker.id>
