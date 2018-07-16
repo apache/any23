@@ -37,7 +37,7 @@ public class ReportingTripleHandler implements TripleHandler {
 
     private final TripleHandler wrapped;
 
-    private final Collection<String> extractorNames = new HashSet<String>();
+    private final Collection<String> extractorNames = new HashSet<>();
     private AtomicInteger totalTriples   = new AtomicInteger(0);
     private AtomicInteger totalDocuments = new AtomicInteger(0);
 

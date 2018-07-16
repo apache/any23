@@ -65,19 +65,19 @@ public class RDFSchemaUtils {
             RDFWriter writer
     ) {
         writer.startRDF();
-        for(IRI clazz : classes) {
-            writer.handleStatement( RDFUtils.quad(clazz, RDF.TYPE, RDFS.CLASS, namespace) );
-            writer.handleStatement( RDFUtils.quad(clazz, RDFS.MEMBER, namespace, namespace) );
+        for (IRI clazz : classes) {
+            writer.handleStatement(RDFUtils.quad(clazz, RDF.TYPE, RDFS.CLASS, namespace));
+            writer.handleStatement(RDFUtils.quad(clazz, RDFS.MEMBER, namespace, namespace));
             final String comment = comments.get(clazz);
-            if(comment != null)
-                writer.handleStatement( RDFUtils.quad(clazz, RDFS.COMMENT, RDFUtils.literal(comment), namespace) );
+            if (comment != null)
+                writer.handleStatement(RDFUtils.quad(clazz, RDFS.COMMENT, RDFUtils.literal(comment), namespace));
         }
-        for(IRI property : properties) {
+        for (IRI property : properties) {
             writer.handleStatement(RDFUtils.quad(property, RDF.TYPE, RDF.PROPERTY, namespace));
             writer.handleStatement(RDFUtils.quad(property, RDFS.MEMBER, namespace, namespace));
             final String comment = comments.get(property);
-            if(comment != null)
-                writer.handleStatement( RDFUtils.quad(property, RDFS.COMMENT, RDFUtils.literal(comment), namespace) );
+            if (comment != null)
+                writer.handleStatement(RDFUtils.quad(property, RDFS.COMMENT, RDFUtils.literal(comment), namespace));
         }
         writer.endRDF();
     }
@@ -114,9 +114,9 @@ public class RDFSchemaUtils {
             boolean willFollowAnother,
             PrintStream ps) {
         final RDFWriter rdfWriter;
-        if(format == RDFFormat.RDFXML) {
+        if (format == RDFFormat.RDFXML) {
             rdfWriter = Rio.createWriter(RDFFormat.RDFXML, ps);
-            if(willFollowAnother)
+            if (willFollowAnother)
                 ps.print("\n");
                 ps.print(RDF_XML_SEPARATOR);
                 ps.print("\n");

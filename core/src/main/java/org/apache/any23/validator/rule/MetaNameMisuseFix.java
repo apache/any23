@@ -43,13 +43,12 @@ public class MetaNameMisuseFix implements Fix {
     @SuppressWarnings("unchecked")
     public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
         List<Node> nodes = (List<Node>) context.getData(MetaNameMisuseRule.ERRORED_META_NODES);
-        for(Node node : nodes) {
+        for (Node node : nodes) {
             final String nameValue = node.getAttributes().getNamedItem("name").getTextContent();
             node.getAttributes().removeNamedItem("name");
             Node propertyNode = document.getOriginalDocument().createAttribute("property");
             propertyNode.setNodeValue(nameValue);
             node.getAttributes().setNamedItem(propertyNode);
-
         }
     }
 
