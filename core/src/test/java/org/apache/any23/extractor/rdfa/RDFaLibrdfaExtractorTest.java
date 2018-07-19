@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.any23.extractor.rdfa;
 
 import java.io.IOException;
@@ -25,6 +24,7 @@ import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -33,8 +33,10 @@ import org.junit.Test;
 public class RDFaLibrdfaExtractorTest extends AbstractRDFaExtractorTestCase {
 
     /**
-     * Taken from the <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations test cases</a>.
-     * It checks if the extraction is the same when the namespaces are defined in <i>RDFa1.0</i> or
+     * Taken from the
+     * <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations
+     * test cases</a>. It checks if the extraction is the same when the
+     * namespaces are defined in <i>RDFa1.0</i> or
      * <i>RDFa1.1</i> respectively.
      *
      * @throws org.eclipse.rdf4j.repository.RepositoryException
@@ -44,7 +46,7 @@ public class RDFaLibrdfaExtractorTest extends AbstractRDFaExtractorTestCase {
      */
     @Test
     public void testRDFa11PrefixBackwardCompatibility()
-    throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
+            throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 31;
 
         assertExtract("/html/rdfa/goodrelations-rdfa10.html");
@@ -53,22 +55,23 @@ public class RDFaLibrdfaExtractorTest extends AbstractRDFaExtractorTestCase {
         List<Statement> rdfa10Stmts = dumpAsListOfStatements();
 
         //assertContainsModel("/html/rdfa/goodrelations-rdfa10-expected.nq");
-
         assertExtract("/html/rdfa/goodrelations-rdfa11.html");
         logger.debug("Model 2 " + dumpHumanReadableTriples());
         Assert.assertTrue(dumpAsListOfStatements().size() >= EXPECTED_STATEMENTS);
 
-        for(Statement stmt : rdfa10Stmts) {
+        for (Statement stmt : rdfa10Stmts) {
             assertContains(stmt);
         }
     }
 
     @Test
-    public void testRDFa11CURIEs() throws Exception {
+    @Ignore(value = "ERROR: Corrupted STDOUT by directly writing to native stream in forked JVM 1")
+    public void testBasic() throws Exception {
     }
-	
+
     /**
-     * Tests that the default parser settings enable tolerance in data type parsing.
+     * Tests that the default parser settings enable tolerance in data type
+     * parsing.
      */
     @Test
     public void testTolerantParsing() {
