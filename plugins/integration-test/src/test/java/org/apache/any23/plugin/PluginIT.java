@@ -17,22 +17,20 @@
 
 package org.apache.any23.plugin;
 
-import org.apache.any23.cli.Crawler;
-import org.apache.any23.cli.Tool;
-import org.apache.any23.extractor.ExtractorGroup;
-import org.apache.any23.extractor.ExtractorRegistryImpl;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
+import org.apache.any23.cli.Crawler;
+import org.apache.any23.cli.Tool;
+import org.apache.any23.extractor.ExtractorGroup;
+import org.apache.any23.extractor.ExtractorRegistryImpl;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Integration test for plugins.
@@ -41,7 +39,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class PluginIT {
 
-    private static final int NUM_OF_EXTRACTORS_INCL_OPENIE = 34;
+    private static final int NUM_OF_EXTRACTORS_INCL_OPENIE = 35;
     
     private static final int NUM_OF_EXTRACTORS_EXCL_OPENIE = 33;
 
