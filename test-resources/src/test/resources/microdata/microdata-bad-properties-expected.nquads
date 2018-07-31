@@ -49,7 +49,7 @@ _:node1cjov1p83x7 <http://schema.org/name> "Begin to Knit Classes" <http://bob.e
 _:node1cjov1p83x7 <http://schema.org/description> "Learn to knit at Kaleidoscope Fibers - Cambridge's speciality yarn,..." <http://bob.example.com/> .
 _:node1cjov1p83x8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
 _:node1cjov1p83x9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
-_:node1cjov1p83x9 <http://schema.org/streetAddress> "Null" <http://bob.example.com/> .
+_:node1cjov1p83x9 <http://schema.org/streetAddress> "" <http://bob.example.com/> .
 _:node1cjov1p83x8 <http://schema.org/address> _:node1cjov1p83x9 <http://bob.example.com/> .
 _:node1cjov1p83x8 <http://schema.org/name> "Kaleidoscope Fibers (131 W. Main Street" <http://bob.example.com/> .
 _:node1cjov1p83x7 <http://schema.org/location> _:node1cjov1p83x8 <http://bob.example.com/> .
@@ -62,7 +62,7 @@ _:node1cjov1p83x10 <http://schema.org/name> "Cambridge Historic School Museum To
 _:node1cjov1p83x10 <http://schema.org/description> "Built in 1906, the Cambridge Historic School - listed on the..." <http://bob.example.com/> .
 _:node1cjov1p83x11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
 _:node1cjov1p83x12 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
-_:node1cjov1p83x12 <http://schema.org/streetAddress> "Null" <http://bob.example.com/> .
+_:node1cjov1p83x12 <http://schema.org/streetAddress> "" <http://bob.example.com/> .
 _:node1cjov1p83x11 <http://schema.org/address> _:node1cjov1p83x12 <http://bob.example.com/> .
 _:node1cjov1p83x11 <http://schema.org/name> "Cambridge Historic School" <http://bob.example.com/> .
 _:node1cjov1p83x10 <http://schema.org/location> _:node1cjov1p83x11 <http://bob.example.com/> .
@@ -75,7 +75,7 @@ _:node1cjov1p83x13 <http://schema.org/name> "Begin to Knit Classes" <http://bob.
 _:node1cjov1p83x13 <http://schema.org/description> "Learn to knit at Kaleidoscope Fibers - Cambridge's speciality yarn,..." <http://bob.example.com/> .
 _:node1cjov1p83x14 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
 _:node1cjov1p83x15 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
-_:node1cjov1p83x15 <http://schema.org/streetAddress> "Null" <http://bob.example.com/> .
+_:node1cjov1p83x15 <http://schema.org/streetAddress> "" <http://bob.example.com/> .
 _:node1cjov1p83x14 <http://schema.org/address> _:node1cjov1p83x15 <http://bob.example.com/> .
 _:node1cjov1p83x14 <http://schema.org/name> "Kaleidoscope Fibers (131 W. Main Street" <http://bob.example.com/> .
 _:node1cjov1p83x13 <http://schema.org/location> _:node1cjov1p83x14 <http://bob.example.com/> .

@@ -22,6 +22,8 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
+
 import org.apache.any23.util.StringUtils;
 
 /**
@@ -47,10 +49,24 @@ public class ItemPropValue {
      * Supported types.
      */
     public enum Type {
-        Plain,
-        Link,
-        Date,
-        Nested
+        Plain(String.class),
+        Link(String.class),
+        Date(Date.class),
+        Nested(ItemScope.class);
+
+        Type(Class<?> contentClass) {
+            this.contentClass = contentClass;
+        }
+
+        private final Class<?> contentClass;
+
+        private Object checkClass(Object content) {
+            Objects.requireNonNull(content, "content cannot be null");
+            if (!contentClass.isInstance(content)) {
+                throw new IllegalArgumentException("content must be a " + contentClass.getName() + " when type is " + this);
+            }
+            return content;
+        }
     }
 
     public static Date parseDateTime(String dateStr) throws ParseException {
@@ -77,31 +93,8 @@ public class ItemPropValue {
      * @param type content type.
      */
     public ItemPropValue(Object content, Type type) {
-        if(content == null) {
-            throw new NullPointerException("content cannot be null.");
-        }
-        if(type == null) {
-            throw new NullPointerException("type cannot be null.");
-        }
-        if(type == Type.Nested && ! (content instanceof ItemScope) ) {
-            throw new IllegalArgumentException(
-                    "content must be an " + ItemScope.class + " when type is " + Type.Nested
-            );
-        }
-        if(type == Type.Date && !(content instanceof Date) ) {
-            throw new IllegalArgumentException(
-                    "content must be a " + Date.class.getName() + " whe type is " + Type.Date
-            );
-        }
-        if(content instanceof String && ((String) content).trim().length() == 0) {
-            // ANY23-115 Empty spans seem to break ANY23
-            // instead of throwing the exception and in effect failing the entire
-            // parse job we wish to be lenient on web content publishers and add
-            // Null (String) as content.
-            content = "Null";
-        }
-        this.content = content;
-        this.type = type;
+        this.type = Objects.requireNonNull(type, "type cannot be null");
+        this.content = type.checkClass(content);
     }
 
     /**
