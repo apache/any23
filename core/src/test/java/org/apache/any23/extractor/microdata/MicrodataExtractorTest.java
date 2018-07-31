@@ -23,6 +23,7 @@ import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
@@ -81,6 +82,14 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 40);
         assertStatementsSize(RDFUtils.iri("urn:isbn:0-330-34032-8"), null, null, 4);
+    }
+
+    @Test
+    public void testMicrodataMissingScheme() {
+        assertExtract("/microdata/microdata-missing-scheme.html");
+        assertModelNotEmpty();
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/Answer"));
+        System.out.println(dumpHumanReadableTriples());
     }
 
     /**

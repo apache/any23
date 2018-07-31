@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * This class describes a <b>Microdata <i>itemscope</i></b>.
@@ -75,12 +76,27 @@ public class ItemScope extends Item {
         this(xpath, itemProps, id, refs, stringToUrl(type), itemId);
     }
 
+    private static final Pattern looksLikeStartsWithHost = Pattern.compile("[^:/.]+(\\.[^:/.]+)+(:\\d+)?([/#?].*)?");
+
     static URL stringToUrl(String type) {
         if (StringUtils.isNotBlank(type)) {
             try {
-                return new URL(ParsedIRI.create(type.trim()).toString());
+                ParsedIRI iri = ParsedIRI.create(type.trim());
+                if (StringUtils.isBlank(iri.getScheme())) {
+                    String host = iri.getHost();
+                    if (StringUtils.isNotBlank(host)) {
+                        iri = new ParsedIRI("http", iri.getUserInfo(), host, iri.getPort(), iri.getPath(), iri.getQuery(), iri.getFragment());
+                    } else {
+                        String path = iri.getPath();
+                        if (path != null && looksLikeStartsWithHost.matcher(path).matches()) {
+                            iri = ParsedIRI.create("http://" + iri.toString());
+                        }
+                    }
+                }
+
+                return new URL(iri.toString());
             } catch (MalformedURLException murle) {
-                throw new IllegalArgumentException("Invalid type '" + type + "', must be a valid URL.");
+                throw new IllegalArgumentException("Invalid type '" + type + "', must be a valid URL. " + murle.getMessage());
             }
         } else {
             return null;
