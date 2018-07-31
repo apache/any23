@@ -17,6 +17,7 @@
 package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.extractor.html.DomUtils;
+import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -394,9 +395,15 @@ public class MicrodataParser {
         while (treeWalker.nextNode() != null);
 
         final List<ItemProp> result = new ArrayList<>();
-        for(Node itemPropNode :  accepted) {
+        for (Node itemPropNode : accepted) {
             final String itemProp = DomUtils.readAttribute(itemPropNode, ITEMPROP_ATTRIBUTE, null);
-            final String[] propertyNames = itemProp.split(" ");
+
+            if (StringUtils.isBlank(itemProp)) {
+                manageError(new MicrodataParserException("invalid property name '" + itemProp + "'", itemPropNode));
+                continue;
+            }
+
+            final String[] propertyNames = itemProp.trim().split("\\s+");
             ItemPropValue itemPropValue;
             for (String propertyName : propertyNames) {
                 try {
