@@ -71,6 +71,12 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     @Test
+    public void testInvalidXMLCharacter() {
+        assertExtract("/html/rdfa/invalid-xml-character.html");
+        assertModelNotEmpty();
+    }
+
+    @Test
     public void test0087() {
         assertExtract("/html/rdfa/0087.xhtml");
         assertModelNotEmpty();

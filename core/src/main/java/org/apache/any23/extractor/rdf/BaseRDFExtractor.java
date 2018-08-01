@@ -47,6 +47,7 @@ import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 /**
  * Base class for a generic <i>RDF</i>
@@ -98,6 +99,9 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     public void setStopAtFirstError(boolean b) {
         stopAtFirstError = b;
     }
+
+    private static final Pattern invalidXMLCharacters = Pattern.compile(
+            "[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]");
 
     @Override
     public void run(
@@ -163,7 +167,10 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     }
                 }, doc);
 
-                in = new ByteArrayInputStream(doc.toString().getBytes(charset));
+                // fix for ANY23-379: remove invalid xml characters from document
+                String finalOutput = invalidXMLCharacters.matcher(doc.toString()).replaceAll("");
+
+                in = new ByteArrayInputStream(finalOutput.getBytes(charset));
             } else if (format.hasFileExtension("jsonld") || format.hasMIMEType("application/ld+json")) {
                 in = new JsonCleaningInputStream(in);
             }
