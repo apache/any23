@@ -46,6 +46,7 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
@@ -131,26 +132,43 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                 // See https://issues.apache.org/jira/browse/ANY23-317
                 // and https://issues.apache.org/jira/browse/ANY23-340
                 NodeTraversor.filter(new NodeFilter() {
+                    final HashSet<String> tmpAttributeKeys = new HashSet<>();
+
                     @Override
                     public FilterResult head(Node node, int depth) {
                         if (node instanceof Element) {
+                            HashSet<String> attributeKeys = tmpAttributeKeys;
                             for (Iterator<Attribute> it = node.attributes().iterator(); it.hasNext(); ) {
                                 // fix for ANY23-350: valid xml attribute names are ^[a-zA-Z_:][-a-zA-Z0-9_:.]
                                 Attribute attr = it.next();
-                                String key = attr.getKey().replaceAll("[^-a-zA-Z0-9_:.]", "");
+                                String oldKey = attr.getKey();
+                                String newKey = oldKey.replaceAll("[^-a-zA-Z0-9_:.]", "");
 
-                                // fix for ANY23-347: strip xml namespaces
-                                int prefixlen = key.lastIndexOf(':') + 1;
-                                String prefix = key.substring(0, prefixlen).toLowerCase();
-                                key = (prefix.equals("xmlns:") || prefix.equals("xml:") ? prefix : "")
-                                        + key.substring(prefixlen);
+                                // fix for ANY23-347: strip non-reserved xml namespaces
+                                // See https://www.w3.org/TR/xml-names/#sec-namespaces
+                                // "All other prefixes beginning with the three-letter sequence x, m, l,
+                                // in any case combination, are reserved. This means that:
+                                //   * users SHOULD NOT use them except as defined by later specifications
+                                //   * processors MUST NOT treat them as fatal errors."
+                                int prefixlen = oldKey.lastIndexOf(':') + 1;
+                                String prefix = newKey.substring(0, prefixlen).toLowerCase();
+                                newKey = (prefix.startsWith("xml") ? prefix : "") + newKey.substring(prefixlen);
 
-                                if (key.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*")) {
-                                    attr.setKey(key);
+                                if (newKey.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*")
+                                        //the namespace name for "xmlns" MUST NOT be declared
+                                        //the namespace name for "xml" need not be declared
+                                        && !newKey.startsWith("xmlns:xml")
+                                        // fix for ANY23-380: disallow duplicate attribute keys
+                                        && attributeKeys.add(newKey)) {
+                                    //avoid indexOf() operation if possible
+                                    if (!newKey.equals(oldKey)) {
+                                        attr.setKey(newKey);
+                                    }
                                 } else {
                                     it.remove();
                                 }
                             }
+                            attributeKeys.clear();
 
                             String tagName = ((Element)node).tagName().replaceAll("[^-a-zA-Z0-9_:.]", "");
                             tagName = tagName.substring(tagName.lastIndexOf(':') + 1);

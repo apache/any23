@@ -77,6 +77,12 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     @Test
+    public void testAttributeAlreadySpecified() {
+        assertExtract("/html/rdfa/attribute-already-specified.html");
+        assertModelNotEmpty();
+    }
+
+    @Test
     public void test0087() {
         assertExtract("/html/rdfa/0087.xhtml");
         assertModelNotEmpty();
