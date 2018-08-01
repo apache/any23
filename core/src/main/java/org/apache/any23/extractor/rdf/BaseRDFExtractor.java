@@ -165,7 +165,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
 
                 in = new ByteArrayInputStream(doc.toString().getBytes(charset));
             } else if (format.hasFileExtension("jsonld") || format.hasMIMEType("application/ld+json")) {
-                in = new JsonCommentStripperInputStream(in);
+                in = new JsonCleaningInputStream(in);
             }
 
             parser.parse(in, iri);
@@ -177,28 +177,29 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     }
 
 
-    private static class JsonCommentStripperInputStream extends InputStream {
+    private static class JsonCleaningInputStream extends InputStream {
 
         private boolean inEscape;
         private boolean inQuote;
         private boolean inCDATA;
+        private boolean needsComma;
 
         private final PushbackInputStream wrapped;
 
-        JsonCommentStripperInputStream(InputStream in) {
+        JsonCleaningInputStream(InputStream in) {
             wrapped = new PushbackInputStream(in, 16);
         }
 
-        private boolean isNextOrUnread(int... next) throws IOException {
+        private static boolean isNextOrUnread(PushbackInputStream stream, int... next) throws IOException {
             int i = -1;
             for (int test : next) {
-                int c = wrapped.read();
+                int c = stream.read();
                 if (c != test) {
                     if (c != -1) {
-                        wrapped.unread(c);
+                        stream.unread(c);
                     }
                     while (i >= 0) {
-                        wrapped.unread(next[i--]);
+                        stream.unread(next[i--]);
                     }
                     return false;
                 }
@@ -210,23 +211,58 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         @Override
         public int read() throws IOException {
             PushbackInputStream stream = wrapped;
-            int c = stream.read();
 
-            if (inQuote) {
-                if (inEscape) {
-                    inEscape = false;
-                } else if (c == '"') {
-                    inQuote = false;
-                } else if (c == '\\') {
-                    inEscape = true;
+            for (;;) {
+                int c = stream.read();
+
+                if (inQuote) {
+                    if (inEscape) {
+                        inEscape = false;
+                    } else if (c == '"') {
+                        inQuote = false;
+                    } else if (c == '\\') {
+                        inEscape = true;
+                    }
+                    return c;
                 }
-                return c;
+
+                //we're not in a quote
+                c = stripComments(c, stream);
+
+                switch (c) {
+                    case ',':
+                    case ';':
+                        //don't write out comma yet!
+                        needsComma = true;
+                        break;
+                    case '}':
+                    case ']':
+                        //discard comma at end of object or array
+                        needsComma = false;
+                        return c;
+                    case -1:
+                        return c;
+                    default:
+                        if (Character.isWhitespace(c)) {
+                            return ' ';
+                        } else if (needsComma) {
+                            stream.unread(c);
+                            stream.unread(' ');
+                            needsComma = false;
+                            return ',';
+                        } else if (c == '"') {
+                            inQuote = true;
+                        }
+                        return c;
+                }
             }
 
-            //we're not in a quote
+        }
+
+        private int stripComments(int c, PushbackInputStream stream) throws IOException {
             switch (c) {
                 case '/':
-                    if (isNextOrUnread('/')) {
+                    if (isNextOrUnread(stream, '/')) {
                         //single line comment: read to end of line
                         for (;;) {
                             c = stream.read();
@@ -234,7 +270,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                                 return c;
                             }
                         }
-                    } else if (isNextOrUnread('*')) {
+                    } else if (isNextOrUnread(stream,'*')) {
                         //multiline comment: read till next "*/"
                         for (;;) {
                             c = stream.read();
@@ -254,7 +290,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                         return c;
                     }
                 case '<':
-                    if (isNextOrUnread('!','[','C','D','A','T','A','[')) {
+                    if (isNextOrUnread(stream,'!','[','C','D','A','T','A','[')) {
                         inCDATA = true;
                         return ' ';
                     } else {
@@ -269,7 +305,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     }
                 case ']':
                     if (inCDATA) {
-                        if (isNextOrUnread(']', '>')) {
+                        if (isNextOrUnread(stream, ']', '>')) {
                             inCDATA = false;
                             return ' ';
                         } else {
@@ -278,9 +314,6 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     } else {
                         return c;
                     }
-                case '"':
-                    inQuote = true;
-                    return c;
                 default:
                     return c;
             }
