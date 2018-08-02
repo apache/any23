@@ -1,8 +1,0 @@
-org.apache.any23.writer.JSONLDWriterFactory
-org.apache.any23.writer.JSONWriterFactory
-org.apache.any23.writer.NQuadsWriterFactory
-org.apache.any23.writer.NTriplesWriterFactory
-org.apache.any23.writer.RDFXMLWriterFactory
-org.apache.any23.writer.TriXWriterFactory
-org.apache.any23.writer.TurtleWriterFactory
-org.apache.any23.writer.URIListWriterFactory

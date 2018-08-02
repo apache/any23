@@ -1,1124 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Licensed to the Apache Software Foundation (ASF) under one or more
-  contributor license agreements.  See the NOTICE file distributed with
-  this work for additional information regarding copyright ownership.
-  The ASF licenses this file to You under the Apache License, Version 2.0
-  (the "License"); you may not use this file except in compliance with
-  the License.  You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>10</version>
-  </parent>
-
-  <groupId>org.apache.any23</groupId>
-  <artifactId>apache-any23</artifactId>
-  <version>2.3-SNAPSHOT</version>
-  <packaging>pom</packaging>
-
-  <name>Apache Any23</name>
-  <description>Anything To Triples (any23) is a library, a web service and a command line tool that 
-  extracts structured data in RDF format from a variety of Web documents.</description>
-  <url>http://any23.apache.org</url>
-  <inceptionYear>2010</inceptionYear>
-
-  <repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-allenai-maven</id>
-      <name>bintray</name>
-      <url>http://allenai.bintray.com/maven</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-allenai-maven</id>
-      <name>bintray-plugins</name>
-      <url>http://allenai.bintray.com/maven</url>
-    </pluginRepository>
-  </pluginRepositories>
-
-  <developers>
-    <developer>
-      <id>hansbrende</id>
-      <name>Hans Brende</name>
-      <email>hansbrende[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>band</id>
-      <name>Bill Anderson</name>
-      <email>band[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>ansell</id>
-      <name>Peter Ansell</name>
-      <email>ansell[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>dpalmisano</id>
-      <name>Davide Palmisano</name>
-      <email>dpalmisano[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>giovanni</id>
-      <name>Giovanni Tummarello</name>
-      <email>giovanni[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>lewismc</id>
-      <name>Lewis John McGibbney</name>
-      <email>lewismc[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mattmann</id>
-      <name>Chris Mattmann</name>
-      <email>mattmann[at]apache[dot]org</email>
-      <roles>
-        <role>Champion</role>
-        <role>Committer</role>
-        <role>PMC Member</role>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mostarda</id>
-      <name>Michele Mostarda</name>
-      <email>mostarda[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>niq</id>
-      <name>Nick Kew</name>
-      <email>niq[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>pramirez</id>
-      <name>Paul Michael Ramirez</name>
-      <email>pramirez[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>reto</id>
-      <name>Reto Bachmann-Gmür</name>
-      <email>reto[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>simonetripodi</id>
-      <name>Simone Tripodi</name>
-      <email>simonetripodi[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>szydan</id>
-      <name>Szymon Danielczyk</name>
-      <email>szydan[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>tommaso</id>
-      <name>Tommaso Teofili</name>
-      <email>tommaso[at]apache[dot]org</email>
-      <roles>
-        <role>Committer</role>
-        <role>PMC Member</role>
-        <role>Mentor</role>
-      </roles>
-    </developer>
-  </developers>
-
-  <mailingLists>
-    <mailingList>
-      <name>Dev Mailing List</name>
-      <post>dev[at]any23[dot]apache[dot]org</post>
-      <subscribe>dev-subscribe[at]any23[dot]apache[dot]org</subscribe>
-      <unsubscribe>dev-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/any23-dev/</archive>
-      <otherArchives>
-        <otherArchive>http://any23-dev.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-
-    <mailingList>
-      <name>User Mailing List</name>
-      <post>user[at]any23[dot]apache[dot]org</post>
-      <subscribe>user-subscribe[at]any23[dot]apache[dot]org</subscribe>
-      <unsubscribe>user-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/any23-user/</archive>
-      <otherArchives>
-        <otherArchive>http://any23-user.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-
-    <mailingList>
-      <name>Commits Mailing List</name>
-      <post>commits[at]any23[dot]apache[dot]org</post>
-      <subscribe>commits-subscribe[at]any23[dot]apache[dot]org</subscribe>
-      <unsubscribe>commits-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/any23-commits/</archive>
-      <otherArchives>
-        <otherArchive>http://any23-commits.markmail.org/</otherArchive>
-      </otherArchives>
-    </mailingList>
-  </mailingLists>
-
-  <modules>
-    <module>api</module>
-    <module>test-resources</module>
-    <module>csvutils</module>
-    <module>mime</module>
-    <module>encoding</module>
-    <module>core</module>
-    <module>cli</module>
-    <module>plugins/basic-crawler</module>
-    <module>plugins/html-scraper</module>
-    <module>plugins/office-scraper</module>
-    <module>plugins/openie</module>
-    <module>plugins/integration-test</module>
-    <module>service</module>
-  </modules>
-
-  <scm>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
-    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/any23.git</connection>
-    <url>https://git-wip-us.apache.org/repos/asf/any23.git</url>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>JIRA</system>
-    <url>https://issues.apache.org/jira/browse/ANY23</url>
-  </issueManagement>
-  <ciManagement>
-    <system>Jenkins</system>
-    <url>https://builds.apache.org/job/Any23-trunk/</url>
-  </ciManagement>
-
-  <!-- General properties. -->
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-    <javac.src.version>1.8</javac.src.version>
-    <javac.target.version>1.8</javac.target.version>
-
-    <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
-    <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
-    <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
-
-    <httpclient.version>4.5.6</httpclient.version>
-    <httpcore.version>4.4.10</httpcore.version>
-    <owlapi.version>5.1.6</owlapi.version>
-    <poi.version>3.17</poi.version>
-    <rdf4j.version>2.3.2</rdf4j.version>
-    <semargl.version>0.7</semargl.version>
-    <slf4j.logger.version>1.7.25</slf4j.logger.version>
-    <tika.version>1.18</tika.version>
-    <openie_2.11.version>4.2.6</openie_2.11.version>
-    <openregex.version>1.1.1</openregex.version>
-
-    <!-- Overridden in profiles to add JDK specific arguments to surefire -->
-    <surefire-extra-args />
-
-    <!-- Used to track API changes based on Semantic Versioning -->
-    <latest.stable.released>2.2</latest.stable.released>
-
-    <!-- Google Analytics id for website -->
-    <form.tracker.id>UA-59636188-1</form.tracker.id>
-
-    <!-- Maven Plugin Versions -->
-    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
-    <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
-    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-    <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-    <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
-    <maven-assembly-plugin.version>3.0.0</maven-assembly-plugin.version>
-    <appassembler-maven-plugin.version>2.0.0</appassembler-maven-plugin.version>
-    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-    <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
-    <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
-    <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-    <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
-    <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
-    <maven-site-plugin.version>3.6</maven-site-plugin.version>
-    <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
-    <maven-project-info-reports-plugin.version>2.9</maven-project-info-reports-plugin.version>
-    <maven-jxr-plugin.version>2.5</maven-jxr-plugin.version>
-    <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-    <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
-    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-war-plugin.version>3.1.0</maven-war-plugin.version>
-
-    <!--
-     | Any23 website has to be stored in SVN
-    -->
-    <site.deploymentBaseUrl>scm:svn:https://svn.apache.org/repos/asf/any23/site</site.deploymentBaseUrl>
-    <site.filePath>${project.basedir}/any23-site/</site.filePath>
-    <site.urlDeployment>file://${site.filePath}</site.urlDeployment>
-    <site.scmPubCheckoutDirectory>${site.filePath}</site.scmPubCheckoutDirectory>
-    <assembly.skip>false</assembly.skip>
-  </properties>
-
-  <dependencyManagement>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.apache.any23</groupId>
+    <artifactId>apache-any23-librdfa</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Apache Any23 :: Librdfa</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        
+        <jni.base>${project.basedir}/src/main/c/</jni.base>
+        <jni.build>${jni.base}/build/</jni.build>
+        
+        <rdf4j.version>2.2.4</rdf4j.version>
+        <junit.version>4.12</junit.version>
+        <junit.benchmarks.version>0.7.2</junit.benchmarks.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <semargl.rdf4j.version>0.7</semargl.rdf4j.version>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.cmake-maven-project</groupId>
+                <artifactId>cmake-maven-plugin</artifactId>
+                <version>3.7.2-b1</version>
+                <executions>
+                    <execution>
+                        <id>cmake-generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourcePath>${jni.base}</sourcePath>
+                            <targetPath>${jni.build}</targetPath>
+                            <generator>Unix Makefiles</generator>
+                            <classifier>linux-x86_64</classifier>
+                            <environmentVariables>
+                                <LD_LIBRARY_PATH>${jni.build}</LD_LIBRARY_PATH>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cmake-compile</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <projectDirectory>${jni.build}</projectDirectory>
+                            <classifier>linux-x86_64</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${jni.build}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <target
+                                name="jni"
+                                description="Generate headers and compile the native code">
+                                <echo>${jni.base}</echo>
+                                
+                                <exec executable="cp">
+                                    <arg value="${jni.base}/build/librdfaJava.so"/>
+                                    <arg value="${project.build.outputDirectory}"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
     <dependencies>
-      <dependency>
-        <groupId>commons-lang</groupId>
-        <artifactId>commons-lang</artifactId>
-        <version>2.6</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>${httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient-cache</artifactId>
-        <version>${httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpmime</artifactId>
-        <version>${httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>${httpcore.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>1.11</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-compress</artifactId>
-        <version>1.17</version>
-      </dependency>
-      <dependency>
-        <groupId>xerces</groupId>
-        <artifactId>xercesImpl</artifactId>
-        <version>2.12.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jsoup</groupId>
-        <artifactId>jsoup</artifactId>
-        <version>1.11.3</version>
-      </dependency>
-
-      <!-- BEGIN: Tika -->
-      <dependency>
-        <groupId>org.apache.tika</groupId>
-        <artifactId>tika-core</artifactId>
-        <version>${tika.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.tika</groupId>
-        <artifactId>tika-parsers</artifactId>
-        <version>${tika.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.poi</groupId>
-        <artifactId>poi</artifactId>
-        <version>${poi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.poi</groupId>
-        <artifactId>poi-ooxml</artifactId>
-        <version>${poi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.poi</groupId>
-        <artifactId>poi-scratchpad</artifactId>
-        <version>${poi.version}</version>
-      </dependency>
-      <!-- END: Tika -->
-
-      <!-- BEGIN: RDF4J -->
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-model</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-api</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-languages</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-datatypes</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-binary</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-turtle</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-rdfxml</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-ntriples</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-nquads</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-n3</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-trix</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-rdfjson</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-trig</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-rio-jsonld</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-repository-sail</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-sail-memory</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.rdf4j</groupId>
-        <artifactId>rdf4j-repository-api</artifactId>
-        <version>${rdf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.github.jsonld-java</groupId>
-        <artifactId>jsonld-java</artifactId>
-        <version>0.12.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.semarglproject</groupId>
-        <artifactId>semargl-rdf4j</artifactId>
-        <version>${semargl.version}</version>
-      </dependency>
-      <!-- END: RDF4J -->
-
-      <!-- BEGIN: OWLAPI -->
-      <dependency>
-        <groupId>net.sourceforge.owlapi</groupId>
-        <artifactId>owlapi-api</artifactId>
-        <version>${owlapi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sourceforge.owlapi</groupId>
-        <artifactId>owlapi-rio</artifactId>
-        <version>${owlapi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sourceforge.owlapi</groupId>
-        <artifactId>owlapi-parsers</artifactId>
-        <version>${owlapi.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.sourceforge.owlapi</groupId>
-        <artifactId>owlapi-apibinding</artifactId>
-        <version>${owlapi.version}</version>
-      </dependency>
-      <!-- END: OWLAPI -->
-
-      <!-- BEGIN:  Apache Commons -->
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-csv</artifactId>
-        <version>1.5</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.6</version>
-      </dependency>
-      <!-- END:  Apache Commons -->
-
-      <!-- BEGIN: Plugins specific dependencies -->
-      <dependency>
-        <groupId>de.l3s.boilerpipe</groupId>
-        <artifactId>boilerpipe</artifactId>
-        <version>1.1.0</version>
-      </dependency>
-      <!-- END: Plugins specific dependencies -->
-
-      <dependency>
-        <groupId>com.beust</groupId>
-        <artifactId>jcommander</artifactId>
-        <version>1.72</version>
-      </dependency>
-
-      <!-- BEGIN: logger -->
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.logger.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.logger.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jul-to-slf4j</artifactId>
-        <version>${slf4j.logger.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j.logger.version}</version>
-      </dependency>
-      <!-- END: logger -->
-
-      <dependency>
-        <groupId>org.yaml</groupId>
-        <artifactId>snakeyaml</artifactId>
-        <version>1.21</version>
-      </dependency>
-
-      <!-- BEGIN: Test Dependencies -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>2.19.0</version>
-        <scope>test</scope>
-      </dependency>
-      <!-- END: Test Dependencies -->
+        <dependency>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-rio-api</artifactId> 
+            <version>${rdf4j.version}</version>
+        </dependency>
+        
+        <!--Testing-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.carrotsearch</groupId>
+            <artifactId>junit-benchmarks</artifactId>
+            <version>${junit.benchmarks.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.semarglproject</groupId>
+            <artifactId>semargl-rdf4j</artifactId>
+            <version>${semargl.rdf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-  </dependencyManagement>
-
-  <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>${maven-clean-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>${maven-war-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
-          <inherited>true</inherited>
-          <configuration>
-            <updateReleaseInfo>true</updateReleaseInfo>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>${maven-install-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>${maven-resources-plugin.version}</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <version>${maven-assembly-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>assembly</id>
-              <phase>package</phase>
-              <goals>
-                <goal>single</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <attach>true</attach>
-            <skipAssembly>${assembly.skip}</skipAssembly>
-            <tarLongFileMode>posix</tarLongFileMode>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>appassembler-maven-plugin</artifactId>
-          <version>${appassembler-maven-plugin.version}</version>
-          <configuration>
-            <repositoryLayout>flat</repositoryLayout>
-            <repositoryName>lib</repositoryName>
-            <extraJvmArguments>-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit</extraJvmArguments>
-          </configuration>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>${maven-release-plugin.version}</version>
-          <configuration>
-            <preparationGoals>install</preparationGoals>
-            <mavenExecutorId>forked-path</mavenExecutorId>
-            <useReleaseProfile>false</useReleaseProfile>
-            <autoVersionSubmodules>false</autoVersionSubmodules>
-            <tagNameFormat>any23-@{project.version}</tagNameFormat>
-            <arguments>-Dany23.online.test.disabled=true -Prelease,apache</arguments>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.scm</groupId>
-              <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.9</version>
-            </dependency>
-          </dependencies>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
-    <plugins>
-      <!-- Drop inherited behavior (i.e. don't put any more default LICENSE and NOTICE files in all artifacts) -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>process</goal>
-            </goals>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>${buildnumber-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <doCheck>false</doCheck>
-          <doUpdate>false</doUpdate>
-          <!-- Use committed revision so it does not change every time svn update is run -->
-          <useLastCommittedRevision>true</useLastCommittedRevision>
-          <!-- default revision number if unavailable -->
-          <revisionOnScmFailure>??????</revisionOnScmFailure>
-        </configuration>
-      </plugin>
-
-      <!-- Compiler configuration. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven-compiler-plugin.version}</version>
-        <configuration>
-          <source>${javac.src.version}</source>
-          <target>${javac.target.version}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven-jar-plugin.version}</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-            </manifest>
-            <manifestEntries>
-              <Implementation-Build>${implementation.build}</Implementation-Build>
-              <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
-              <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
-              <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-
-      <!-- Generates the distribution package -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <inherited>false</inherited>
-        <configuration>
-          <descriptors>
-            <descriptor>${basedir}/src/main/assembly/src.xml</descriptor>
-          </descriptors>
-        </configuration>
-      </plugin>
-
-      <!-- Test runner configuration. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-        <configuration>
-          <!--
-            Declaring default file encoding: UTF-8
-            Enabling assertions.
-           -->
-          <argLine>-Dfile.encoding=UTF-8 -ea ${surefire-extra-args}</argLine>
-          <includes>
-            <include>**/*Test.java</include>
-            <include>**/*TestCase.java</include>
-          </includes>
-        </configuration>
-      </plugin>
-
-      <!-- Test coverage plugin. -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco-maven-plugin.version}</version>
-	<executions>
-	  <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
-      <!-- Main project infos. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${maven-project-info-reports-plugin.version}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>cim</report>
-              <report>dependencies</report>
-              <report>distribution-management</report>
-              <report>issue-tracking</report>
-              <report>license</report>
-              <report>mailing-list</report>
-              <report>modules</report>
-              <report>project-team</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-
-      <!-- Javadoc plugin. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-          <!--
-           | Apple's JVM sometimes requires more memory
-          -->
-          <additionalJOption>-J-Xmx1024m</additionalJOption>
-        </configuration>
-      </plugin>
-
-      <!-- Browsable documentation. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>${maven-jxr-plugin.version}</version>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-
-      <!-- Code-coverage report. -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco-maven-plugin.version}</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>report-aggregate</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-
-      <!-- findBugs report. -->
-      <!-- TODO: deactivated because not working with Maven 3. Tried with 2.3.2/2.3.1/2.3 with no result.
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>1.1.1</version>
-        <configuration>
-          <xmlOutput>true</xmlOutput>
-          <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
-          <threshold>High</threshold>
-          <effort>Max</effort>
-          <visitors>FindDeadLocalStores</visitors>
-          <omitVisitors>FindDeadLocalStores</omitVisitors>
-          <onlyAnalyze>org.apache.any23.*</onlyAnalyze>
-          <debug>true</debug>
-          <relaxed>true</relaxed>
-          <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
-          <findbugsXmlOutput>target/findbugs-reports</findbugsXmlOutput>
-        </configuration>
-      </plugin>
-      -->
-
-      <!-- Check style report. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <profiles>
-    <profile>
-      <id>release</id>
-      <build>
-        <plugins>
-          <!--plugin>
-            <groupId>org.apache.rat</groupId>
-            <artifactId>apache-rat-plugin</artifactId>
-            <version>${apache-rat-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>rat-verify</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>check</goal>
-                </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>**/.gitignore</exclude>
-                    <exclude>**/any23-gcode-CHANGES.txt</exclude>
-                    <exclude>**/NOTICE-*.txt</exclude>
-                    <exclude>LICENSE.txt</exclude>
-                    <exclude>NOTICE.txt</exclude>
-                    <exclude>**/README.txt</exclude>
-                    <exclude>RELEASE-NOTES.txt</exclude>
-                    <exclude>*.bat</exclude>
-                    <exclude>*.sh</exclude>
-                    <exclude>**/*.csv</exclude>
-                    <exclude>**/*.json</exclude>
-                    <exclude>**/*.xls*</exclude>
-                    <exclude>**/*zip/*</exclude>
-                    <exclude>**/error.wsdl</exclude>
-                    <exclude>.idea/**</exclude>
-                    <exclude>.classpath</exclude>
-                    <exclude>.project</exclude>
-                    <exclude>.settings</exclude>
-                    <exclude>maven-eclipse.xml</exclude>
-                    <exclude>.externalToolBuilders/**</exclude>
-                    <exclude>.git/**</exclude>
-                    < TODO restore them once ANY23-98 is fixed >
-                    <exclude>**/application/nquads/test1.nq</exclude>
-                    <exclude>**/application/nquads/test2.nq</exclude>
-                    <exclude>**/application/rdfn3/test1</exclude>
-                    <exclude>**/application/rdfn3/test2</exclude>
-                    <exclude>**/application/rdfn3/test3</exclude>
-                    <exclude>**/application/rss1/test1</exclude>
-                    <exclude>**/cli/rover-test1.nq</exclude>
-                    < resources ALv2 compatible resources >
-                    <exclude>**/css/bootstrap.min.css</exclude>
-                    <exclude>**/js/bootstrap-modal.js</exclude>
-                    <exclude>**/js/jquery-1.7.2.min.js</exclude>
-                    <exclude>**/missing-og-namespace.html</exclude>
-                  </excludes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin-->
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-source-plugin</artifactId>
-            <version>${maven-source-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-sources</id>
-                <goals>
-                  <goal>jar-no-fork</goal>
-                </goals>
-                <configuration>
-                  <archive>
-                    <manifest>
-                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                    </manifest>
-                    <manifestEntries>
-                      <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
-                      <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
-                      <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
-                    </manifestEntries>
-                  </archive>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>${maven-javadoc-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-                <configuration>
-                  <quiet>true</quiet>
-                  <archive>
-                    <manifest>
-                      <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                      <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                    </manifest>
-                    <manifestEntries>
-                      <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
-                      <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
-                      <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
-                    </manifestEntries>
-                  </archive>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>${maven-gpg-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>site</id>
-
-      <distributionManagement>
-        <site>
-          <id>any23.website</id>
-          <name>Apache Any23 website</name>
-          <url>${site.urlDeployment}</url>
-        </site>
-      </distributionManagement>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-site-plugin</artifactId>
-            <version>${maven-site-plugin.version}</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity</artifactId>
-                <version>1.5</version>
-              </dependency>
-            </dependencies>
-            <configuration>
-              <locales>en</locales>
-              <reportPlugins>
-                <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-project-info-reports-plugin</artifactId>
-                  <version>2.4</version>
-                  <configuration>
-                    <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                    <anonymousConnection>scm:git:http://git.apache.org/any23.git</anonymousConnection>
-                    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
-                    <webAccessUrl>https://git-wip-us.apache.org/repos/asf/any23.git</webAccessUrl>
-                  </configuration>
-                  <reportSets>
-                    <reportSet>
-                      <reports>
-                        <report>index</report>
-                        <report>mailing-list</report>
-                        <report>project-team</report>
-                        <report>scm</report>
-                        <report>cim</report>
-                        <report>issue-tracking</report>
-                        <report>license</report>
-                      </reports>
-                    </reportSet>
-                  </reportSets>
-                </plugin>
-
-                <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-javadoc-plugin</artifactId>
-                  <version>${maven-javadoc-plugin.version}</version>
-                  <reportSets>
-                    <reportSet>
-                      <reports>
-                        <report>aggregate</report>
-                      </reports>
-                    </reportSet>
-                  </reportSets>
-                </plugin>
-              </reportPlugins>
-            </configuration>
-          </plugin>
-
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-scm-publish-plugin</artifactId>
-            <version>1.0-beta-2</version>
-            <configuration>
-              <tryUpdate>true</tryUpdate>
-              <checkinComment>Apache Any23 site deployment</checkinComment>
-              <checkoutDirectory>${site.scmPubCheckoutDirectory}</checkoutDirectory>
-              <pubScmUrl>${site.deploymentBaseUrl}</pubScmUrl>
-              <content>${site.filePath}</content>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>java-9-surefire</id>
-      <activation>
-        <jdk>9</jdk>
-      </activation>
-      <properties>
-        <surefire-extra-args>--add-modules java.xml.bind</surefire-extra-args>
-      </properties>
-    </profile>
-  </profiles>
-
+    
 </project>
-
