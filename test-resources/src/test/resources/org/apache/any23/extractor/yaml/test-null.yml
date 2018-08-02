@@ -1,7 +1,0 @@
-%YAML 1.2
----
-canonical: null
-tag: !!null
-practice:
-some testing:
-    values: [Very, sour, null]
