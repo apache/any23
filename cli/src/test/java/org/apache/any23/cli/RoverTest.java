@@ -28,7 +28,6 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * Test case for {@link Rover}.
@@ -130,7 +129,6 @@ public class RoverTest extends ToolTestBase {
 
         final String outNQuads = FileUtils.readFileContent(outFile);
         final Statement[] statements = RDFUtils.parseRDF(RDFFormat.NQUADS, outNQuads);
-        System.out.println(Arrays.toString(statements));
         Assert.assertTrue("Unexpected number of statements.", statements.length > 9);
     }
 

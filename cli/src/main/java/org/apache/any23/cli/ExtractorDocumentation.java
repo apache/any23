@@ -30,13 +30,14 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.ExtractorRegistry;
 
 import java.io.IOException;
+import java.io.PrintStream;
 
 /**
  * This class provides some command-line documentation
  * about available extractors and their usage.
  */
 @Parameters( commandNames = { "extractor" }, commandDescription= "Utility for obtaining documentation about metadata extractors.")
-public class ExtractorDocumentation implements Tool {
+public class ExtractorDocumentation extends BaseTool {
 
     @Parameter( names = { "-l", "--list" }, description = "shows the names of all available extractors" )
     private boolean showList;
@@ -50,6 +51,19 @@ public class ExtractorDocumentation implements Tool {
     @Parameter( names = { "-a", "--all" }, description = "shows a report about all available extractors" )
     private boolean showAll;
 
+    private PrintStream out = System.out;
+
+    @Override
+    PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    void setOut(PrintStream out) {
+        this.out = out;
+    }
+
+    @Override
     public void run() throws Exception {
         if (showList) {
             printExtractorList(ExtractorRegistryImpl.getInstance());
@@ -78,7 +92,7 @@ public class ExtractorDocumentation implements Tool {
      */
     public void printExtractorList(ExtractorRegistry registry) {
         for (ExtractorFactory factory : registry.getExtractorGroup()) {
-            System.out.println( String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
+            out.println(String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
         }
     }
 
@@ -97,7 +111,7 @@ public class ExtractorDocumentation implements Tool {
         if (input == null) {
             throw new IllegalArgumentException("Extractor " + extractorName + " provides no example input");
         }
-        System.out.println(input);
+        out.println(input);
     }
 
     /**
@@ -116,7 +130,7 @@ public class ExtractorDocumentation implements Tool {
         if (output == null) {
             throw new IllegalArgumentException("Extractor " + extractorName + " provides no example output");
         }
-        System.out.println(output);
+        out.println(output);
     }
 
     /**
@@ -131,21 +145,21 @@ public class ExtractorDocumentation implements Tool {
         for (String extractorName : registry.getAllNames()) {
             ExtractorFactory<?> factory = registry.getFactory(extractorName);
             ExampleInputOutput example = new ExampleInputOutput(factory);
-            System.out.println("Extractor: " + extractorName);
-            System.out.println("\ttype: " + getType(factory));
-            System.out.println();
+            out.println("Extractor: " + extractorName);
+            out.println("\ttype: " + getType(factory));
+            out.println();
             final String exampleInput = example.getExampleInput();
-            if(exampleInput == null) {
-                System.out.println("(No Example Available)");
+            if (exampleInput == null) {
+                out.println("(No Example Available)");
             } else {
-                System.out.println("-------- Example Input  --------");
-                System.out.println(exampleInput);
-                System.out.println("-------- Example Output --------");
+                out.println("-------- Example Input  --------");
+                out.println(exampleInput);
+                out.println("-------- Example Output --------");
                 String output = example.getExampleOutput();
-                System.out.println(output == null || output.trim().length() == 0 ? "(No Output Generated)" : output);
+                out.println(output == null || output.trim().length() == 0 ? "(No Output Generated)" : output);
             }
-            System.out.println("================================");
-            System.out.println();
+            out.println("================================");
+            out.println();
         }
     }
 

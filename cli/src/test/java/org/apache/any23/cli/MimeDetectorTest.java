@@ -39,13 +39,13 @@ public class MimeDetectorTest extends ToolTestBase {
     @Test
     public void testDetectFile() throws Exception {
         assumeOnlineAllowed();
-        runToolCheckExit0("file://"+copyResourceToTempFile("/application/trix/test1.trx").getAbsolutePath());
+        runToolCheckExit0("file://" + copyResourceToTempFile("/application/trix/test1.trx").getAbsolutePath());
     }
 
     @Test
     public void testDetectInline() throws Exception {
         assumeOnlineAllowed();
-        runToolCheckExit0( new String[] {"inline://<http://s> <http://p> <http://o> ."} );
+        runToolCheckExit0("inline://<http://s> <http://p> <http://o> .");
     }
 
 }

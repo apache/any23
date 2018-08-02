@@ -38,7 +38,7 @@ import java.util.List;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Parameters(commandNames = { "verify" }, commandDescription = "Utility for plugin management verification.")
-public class PluginVerifier implements Tool {
+public class PluginVerifier extends BaseTool {
 
     private Any23PluginManager pluginManager = Any23PluginManager.getInstance();
 
@@ -47,6 +47,18 @@ public class PluginVerifier implements Tool {
         converter = FileConverter.class
     )
     private List<File> pluginsDirs = new LinkedList<>();
+
+    private PrintStream out = System.out;
+
+    @Override
+    PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    void setOut(PrintStream out) {
+        this.out = out;
+    }
 
     public void run() throws Exception {
         if (pluginsDirs.isEmpty()) {
@@ -63,8 +75,8 @@ public class PluginVerifier implements Tool {
         final Iterator<ExtractorFactory> plugins = pluginManager.getExtractors();
 
         while (plugins.hasNext()) {
-            printPluginData(plugins.next(), System.out);
-            System.out.println("------------------------------------------------------------------------");
+            printPluginData(plugins.next(), out);
+            out.println("------------------------------------------------------------------------");
         }
     }
 

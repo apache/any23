@@ -39,7 +39,7 @@ public class RDFSchemaUtilsTest {
     /**
      * Test case for
      * {@link RDFSchemaUtils#serializeVocabularies(
-     * org.apache.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.PrintStream)} with <i>NTriples</i> format.
+     * org.eclipse.rdf4j.rio.RDFFormat, java.io.PrintStream)} with <i>NTriples</i> format.
      */
     @Test
     public void testSerializeVocabulariesNTriples() {
@@ -49,7 +49,7 @@ public class RDFSchemaUtilsTest {
     /**
      * Test case for
      * {@link RDFSchemaUtils#serializeVocabularies(
-     * org.apache.any23.vocab.RDFSchemaUtils.VocabularyFormat, java.io.PrintStream)} with <i>RDFXML</i> format.
+     * org.eclipse.rdf4j.rio.RDFFormat, java.io.PrintStream)} with <i>RDFXML</i> format.
      */
     @Test
     public void testSerializeVocabulariesRDFXML() {
@@ -58,12 +58,12 @@ public class RDFSchemaUtilsTest {
 
     private void serializeVocabularies(RDFFormat format, int expectedLines) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final PrintStream ps = new PrintStream(baos);
-        RDFSchemaUtils.serializeVocabularies(format, ps);
-        ps.close();
+        try (PrintStream ps = new PrintStream(baos)) {
+            RDFSchemaUtils.serializeVocabularies(format, ps);
+        }
         final String output = baos.toString();
         logger.debug(output);
-        final int occurrences= StringUtils.countOccurrences(output, "\n");
+        final int occurrences = StringUtils.countOccurrences(output, "\n");
         Assert.assertEquals(expectedLines, occurrences);
     }
 

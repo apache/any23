@@ -94,7 +94,7 @@ public class ExcelExtractorTest {
         );
         extractor.run(extractionParameters, extractionContext, is, extractionResult);
         compositeTripleHandler.close();
-        logger.info(out.toString());
+        logger.debug(out.toString());
 
         verifyPredicateOccurrence(verifierTripleHandler, Excel.getInstance().containsSheet, 2 );
         verifyPredicateOccurrence(verifierTripleHandler, Excel.getInstance().containsRow  , 6 );

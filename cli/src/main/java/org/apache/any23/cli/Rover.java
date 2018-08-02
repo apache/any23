@@ -59,7 +59,7 @@ import static java.lang.String.format;
  * @author Gabriele Renzi
  */
 @Parameters(commandNames = { "rover" }, commandDescription = "Any23 Command Line Tool.")
-public class Rover implements Tool {
+public class Rover extends BaseTool {
 
     private static final List<String> FORMATS = WriterFactoryRegistry.getInstance().getIdentifiers();
 
@@ -116,6 +116,16 @@ public class Rover implements Tool {
     private Any23 any23;
 
     private ExtractionParameters extractionParameters;
+
+    @Override
+    PrintStream getOut() {
+        return outputStream;
+    }
+
+    @Override
+    void setOut(PrintStream out) {
+        outputStream = out;
+    }
 
     protected void configure() {
         try {

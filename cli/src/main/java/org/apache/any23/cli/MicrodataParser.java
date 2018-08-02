@@ -30,6 +30,7 @@ import org.apache.any23.util.StreamUtils;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,7 @@ import java.util.regex.Pattern;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Parameters( commandNames = { "microdata" },  commandDescription = "Commandline Tool for extracting Microdata from file/HTTP source.")
-public class MicrodataParser implements Tool {
+public class MicrodataParser extends BaseTool {
 
     private static final Pattern HTTP_DOCUMENT_PATTERN = Pattern.compile("^https?://.*");
 
@@ -56,6 +57,18 @@ public class MicrodataParser implements Tool {
        converter = MicrodataParserDocumentSourceConverter.class
     )
     private List<DocumentSource> document = new LinkedList<DocumentSource>();
+
+    private PrintStream out = System.out;
+
+    @Override
+    PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    void setOut(PrintStream out) {
+        this.out = out;
+    }
 
     public void run() throws Exception {
         if (document.isEmpty()) {
@@ -69,7 +82,7 @@ public class MicrodataParser implements Tool {
                     documentInputInputStream,
                     documentSource.getDocumentIRI()
             );
-            org.apache.any23.extractor.microdata.MicrodataParser.getMicrodataAsJSON(tagSoupParser.getDOM(), System.out);
+            org.apache.any23.extractor.microdata.MicrodataParser.getMicrodataAsJSON(tagSoupParser.getDOM(), out);
         } finally {
             if (documentInputInputStream != null) StreamUtils.closeGracefully(documentInputInputStream);
         }
