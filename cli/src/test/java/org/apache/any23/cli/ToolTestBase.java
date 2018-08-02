@@ -21,6 +21,7 @@ import com.beust.jcommander.Parameters;
 import org.apache.any23.Any23OnlineTestBase;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import static java.lang.String.format;
 import static org.junit.Assert.assertEquals;
@@ -30,7 +31,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-// TODO: improve support for Tool testing, intercept i/o streams.
 public abstract class ToolTestBase extends Any23OnlineTestBase {
 
     public static final String TOOL_RUN_METHOD = "run";
@@ -38,8 +38,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
     private final Class<? extends Tool> toolClazz;
 
     protected ToolTestBase(Class<? extends Tool> tool) {
-        if (tool == null) throw new NullPointerException();
-        toolClazz = tool;
+        toolClazz = Objects.requireNonNull(tool, "Tool class cannot be null.");
     }
 
     /**
@@ -56,7 +55,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
         enhancedArgs[0] = commandName;
         System.arraycopy( args, 0, enhancedArgs, 1, args.length );
 
-        return new ToolRunner().execute( enhancedArgs );
+        return new ToolRunner().execute(true, enhancedArgs);
     }
 
     /**

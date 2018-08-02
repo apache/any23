@@ -32,7 +32,7 @@ public class MicrodataParserTest extends ToolTestBase {
 
     @Test
     public void testRunOnFile() throws Exception {
-        runToolCheckExit0("file:"+copyResourceToTempFile("/microdata/microdata-nested.html").getAbsolutePath());
+        runToolCheckExit0("file:" + copyResourceToTempFile("/microdata/microdata-nested.html").getAbsolutePath());
     }
 
     @Test

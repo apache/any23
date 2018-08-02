@@ -32,6 +32,7 @@ import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.source.StringDocumentSource;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,7 +45,7 @@ import java.util.List;
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Parameters(commandNames = { "mimes" }, commandDescription = "MIME Type Detector Tool.")
-public class MimeDetector implements Tool{
+public class MimeDetector extends BaseTool {
 
     public static final String FILE_DOCUMENT_PREFIX   = "file://";
 
@@ -59,6 +60,18 @@ public class MimeDetector implements Tool{
     )
     private List<DocumentSource> document = new LinkedList<DocumentSource>();
 
+    private PrintStream out = System.out;
+
+    @Override
+    PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    void setOut(PrintStream out) {
+        this.out = out;
+    }
+
     public void run() throws Exception {
         if (document.isEmpty()) {
             throw new IllegalArgumentException("No input document URL specified");
@@ -71,7 +84,7 @@ public class MimeDetector implements Tool{
                 documentSource.openInputStream(),
                 MIMEType.parse(documentSource.getContentType())
         );
-        System.out.println(mimeType);
+        out.println(mimeType);
     }
 
     public static final class MimeDetectorDocumentSourceConverter implements IStringConverter<DocumentSource> {

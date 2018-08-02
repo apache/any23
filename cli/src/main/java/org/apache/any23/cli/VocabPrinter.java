@@ -26,19 +26,33 @@ import com.beust.jcommander.IStringConverter;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
+import java.io.PrintStream;
+
 /**
  * Prints out the vocabulary <i>RDFSchema</i> as <i>NQuads</i>.
  * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Parameters(commandNames = { "vocab" }, commandDescription = "Prints out the RDF Schema of the vocabularies used by Any23.")
-public class VocabPrinter implements Tool {
+public class VocabPrinter extends BaseTool {
 
     @Parameter(names = { "-f", "--format" }, description = "Vocabulary output format", converter = RDFFormatConverter.class)
     private RDFFormat format = RDFFormat.NQUADS;
 
+    private PrintStream out = System.out;
+
+    @Override
+    PrintStream getOut() {
+        return out;
+    }
+
+    @Override
+    void setOut(PrintStream out) {
+        this.out = out;
+    }
+
     public void run() throws Exception {
-        RDFSchemaUtils.serializeVocabularies(format, System.out);
+        RDFSchemaUtils.serializeVocabularies(format, out);
     }
 
     public static final class RDFFormatConverter implements

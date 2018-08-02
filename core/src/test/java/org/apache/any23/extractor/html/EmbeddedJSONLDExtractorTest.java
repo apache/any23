@@ -63,6 +63,13 @@ public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 		assertContains(RDFUtils.iri(FOAF.NS, "name"), "Robert\\\" Millar\\\\\"\"\\\\");
 	}
 
+	@Test
+	public void testJSONLDCommaNormalization() {
+		assertExtract("/html/html-jsonld-commas.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 30);
+	}
+
 	@Override
 	protected ExtractorFactory<?> getExtractorFactory() {
 		return new EmbeddedJSONLDExtractorFactory();

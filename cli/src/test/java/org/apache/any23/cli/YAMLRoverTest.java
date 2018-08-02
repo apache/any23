@@ -16,10 +16,11 @@
  */
 package org.apache.any23.cli;
 
-import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
-import org.apache.pdfbox.util.Charsets;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class YAMLRoverTest extends ToolTestBase {
 
         Assert.assertTrue(logfile.exists());
         log.debug("Log file location: {}", logfile.getAbsolutePath());
-        log.info("Log file content: \n{}\n", Files.toString(logfile, Charsets.UTF_8));
+        log.debug("Log file content: \n{}\n", FileUtils.readFileToString(logfile, StandardCharsets.UTF_8));
 
         Assert.assertEquals("Unexpected exit code.", 0, exitCode);
         assertFileContainsString(outputFile, baseUri);
@@ -72,7 +73,7 @@ public class YAMLRoverTest extends ToolTestBase {
      * @return
      */
     public void assertFileContainsString(File f, String s) throws IOException {
-        String fileContent = Files.toString(f, Charsets.UTF_8);
+        String fileContent = FileUtils.readFileToString(f, StandardCharsets.UTF_8);
         log.trace("File content: \n{}\n", fileContent);
         Assert.assertTrue(fileContent.contains(s));
     }

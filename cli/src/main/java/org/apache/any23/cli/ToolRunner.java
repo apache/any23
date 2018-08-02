@@ -69,7 +69,11 @@ public final class ToolRunner {
         exit( new ToolRunner().execute( args ) );
     }
 
-    public int execute(String...args) throws Exception {
+    public int execute(String... args) throws Exception {
+        return execute(false, args);
+    }
+
+    int execute(boolean concise, String... args) throws Exception {
         JCommander commander = new JCommander(this);
         commander.setProgramName(System.getProperty("app.name"));
 
@@ -133,7 +137,12 @@ public final class ToolRunner {
         infoStream.println();
 
         try {
-            Tool.class.cast( commands.get( parsedCommand ).getObjects().get( 0 ) ).run();
+            Tool tool = Tool.class.cast(commands.get(parsedCommand).getObjects().get(0));
+            if (tool instanceof BaseTool) {
+                ((BaseTool) tool).run(concise);
+            } else {
+                tool.run();
+            }
         } catch (Throwable t) {
             exit = 1;
             error = t;

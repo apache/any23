@@ -272,7 +272,7 @@
 
     <httpclient.version>4.5.6</httpclient.version>
     <httpcore.version>4.4.10</httpcore.version>
-    <owlapi.version>5.1.5</owlapi.version>
+    <owlapi.version>5.1.6</owlapi.version>
     <poi.version>3.17</poi.version>
     <rdf4j.version>2.3.2</rdf4j.version>
     <semargl.version>0.7</semargl.version>
@@ -285,7 +285,7 @@
     <surefire-extra-args />
 
     <!-- Used to track API changes based on Semantic Versioning -->
-    <latest.stable.released>2.1</latest.stable.released>
+    <latest.stable.released>2.2</latest.stable.released>
 
     <!-- Google Analytics id for website -->
     <form.tracker.id>UA-59636188-1</form.tracker.id>
@@ -343,32 +343,12 @@
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>fluent-hc</artifactId>
-        <version>${httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient-osgi</artifactId>
-        <version>${httpclient.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpmime</artifactId>
         <version>${httpclient.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore-osgi</artifactId>
-        <version>${httpcore.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpcore</artifactId>
-        <version>${httpcore.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore-nio</artifactId>
         <version>${httpcore.version}</version>
       </dependency>
       <dependency>

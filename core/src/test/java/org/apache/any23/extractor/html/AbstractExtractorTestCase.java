@@ -48,9 +48,12 @@ import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.Rio;
 import org.eclipse.rdf4j.sail.Sail;
 import org.eclipse.rdf4j.sail.memory.MemoryStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,6 +65,8 @@ import java.util.Map;
  * specific test cases.
  */
 public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
+
+  private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   /**
    * Base test document.
@@ -363,11 +368,11 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
     for (Map.Entry<String, Collection<IssueReport.Issue>> entry : report
             .getExtractorToIssues().entrySet()) {
       if (entry.getValue().size() > 0) {
-        System.out.println("Unexpected issue for extractor " + entry.getKey()
+        log.debug("Unexpected issue for extractor " + entry.getKey()
         + " : " + entry.getValue());
       }
-      for(Issue nextIssue : entry.getValue()) {
-        if(nextIssue.getLevel() == IssueLevel.ERROR || nextIssue.getLevel() == IssueLevel.FATAL) {
+      for (Issue nextIssue : entry.getValue()) {
+        if (nextIssue.getLevel() == IssueLevel.ERROR || nextIssue.getLevel() == IssueLevel.FATAL) {
           Assert.fail("Unexpected issue for extractor " + entry.getKey()
           + " : " + entry.getValue());
         }

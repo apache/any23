@@ -1,0 +1,84 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+_:node1cjov1p83x2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Event> <http://bob.example.com/> .
+_:node1cjov1p83x2 <http://schema.org/endDate> "2018-07-29T17:00:00-07:00" <http://bob.example.com/> .
+_:node1cjov1p83x2 <http://schema.org/name> "Midwest Fire Fest" <http://bob.example.com/> .
+_:node1cjov1p83x2 <http://schema.org/description> "Come to the most unique festival in the Midwest" <http://bob.example.com/> .
+_:node1cjov1p83x3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
+_:node1cjov1p83x3 <http://schema.org/hasMap> "http://maps.google.com/?q=300+Water+St%2C+Cambridge%2C+WI+53523" <http://bob.example.com/> .
+_:node1cjov1p83x3 <http://schema.org/name> "Westside Park" <http://bob.example.com/> .
+_:node1cjov1p83x2 <http://schema.org/location> _:node1cjov1p83x3 <http://bob.example.com/> .
+_:node1cjov1p83x2 <http://schema.org/url> <https://cambridgewi.com/events-calendar/?event_rdate=20180729090000%2C20180729170000> <http://bob.example.com/> .
+_:node1cjov1p83x2 <http://schema.org/startDate> "2018-07-29T09:00:00-07:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node1cjov1p83x2 <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Event> <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://schema.org/endDate> "2018-07-31T13:00:00-07:00" <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://schema.org/name> "Cambridge Senior Meals" <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://schema.org/description> "Cambridge Senior Meals are served at Noon every Tuesday and Friday" <http://bob.example.com/> .
+_:node1cjov1p83x5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
+_:node1cjov1p83x6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
+_:node1cjov1p83x6 <http://schema.org/streetAddress> "200 Spring Steet" <http://bob.example.com/> .
+_:node1cjov1p83x6 <http://schema.org/postalCode> "53523" <http://bob.example.com/> .
+_:node1cjov1p83x6 <http://schema.org/addressLocality> "Cambridge" <http://bob.example.com/> .
+_:node1cjov1p83x6 <http://schema.org/addressRegion> "WI" <http://bob.example.com/> .
+_:node1cjov1p83x5 <http://schema.org/address> _:node1cjov1p83x6 <http://bob.example.com/> .
+_:node1cjov1p83x5 <http://schema.org/hasMap> "http://maps.google.com/?q=200+Spring+Street%2C+Cambridge%2C+WI+53523" <http://bob.example.com/> .
+_:node1cjov1p83x5 <http://schema.org/name> "Amundson Center" <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://schema.org/location> _:node1cjov1p83x5 <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://schema.org/url> <https://cambridgewi.com/events-calendar/?event_rdate=20180731120000%2C20180731130000> <http://bob.example.com/> .
+_:node1cjov1p83x4 <http://schema.org/startDate> "2018-07-31T12:00:00-07:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node1cjov1p83x4 <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Event> <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://schema.org/endDate> "2018-07-31T19:00:00-07:00" <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://schema.org/name> "Begin to Knit Classes" <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://schema.org/description> "Learn to knit at Kaleidoscope Fibers - Cambridge's speciality yarn,..." <http://bob.example.com/> .
+_:node1cjov1p83x8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
+_:node1cjov1p83x9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
+_:node1cjov1p83x9 <http://schema.org/streetAddress> "" <http://bob.example.com/> .
+_:node1cjov1p83x8 <http://schema.org/address> _:node1cjov1p83x9 <http://bob.example.com/> .
+_:node1cjov1p83x8 <http://schema.org/name> "Kaleidoscope Fibers (131 W. Main Street" <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://schema.org/location> _:node1cjov1p83x8 <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://schema.org/url> <https://cambridgewi.com/events-calendar/?event_rdate=20180731170000%2C20180731190000> <http://bob.example.com/> .
+_:node1cjov1p83x7 <http://schema.org/startDate> "2018-07-31T17:00:00-07:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node1cjov1p83x7 <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Event> <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://schema.org/endDate> "2018-08-01T15:00:00-07:00" <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://schema.org/name> "Cambridge Historic School Museum Tour" <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://schema.org/description> "Built in 1906, the Cambridge Historic School - listed on the..." <http://bob.example.com/> .
+_:node1cjov1p83x11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
+_:node1cjov1p83x12 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
+_:node1cjov1p83x12 <http://schema.org/streetAddress> "" <http://bob.example.com/> .
+_:node1cjov1p83x11 <http://schema.org/address> _:node1cjov1p83x12 <http://bob.example.com/> .
+_:node1cjov1p83x11 <http://schema.org/name> "Cambridge Historic School" <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://schema.org/location> _:node1cjov1p83x11 <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://schema.org/url> <https://cambridgewi.com/events-calendar/?event_rdate=20180801123000%2C20180801150000> <http://bob.example.com/> .
+_:node1cjov1p83x10 <http://schema.org/startDate> "2018-08-01T12:30:00-07:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node1cjov1p83x10 <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Event> <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://schema.org/endDate> "2018-08-01T15:00:00-07:00" <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://schema.org/name> "Begin to Knit Classes" <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://schema.org/description> "Learn to knit at Kaleidoscope Fibers - Cambridge's speciality yarn,..." <http://bob.example.com/> .
+_:node1cjov1p83x14 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Place> <http://bob.example.com/> .
+_:node1cjov1p83x15 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/PostalAddress> <http://bob.example.com/> .
+_:node1cjov1p83x15 <http://schema.org/streetAddress> "" <http://bob.example.com/> .
+_:node1cjov1p83x14 <http://schema.org/address> _:node1cjov1p83x15 <http://bob.example.com/> .
+_:node1cjov1p83x14 <http://schema.org/name> "Kaleidoscope Fibers (131 W. Main Street" <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://schema.org/location> _:node1cjov1p83x14 <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://schema.org/url> <https://cambridgewi.com/events-calendar/?event_rdate=20180801130000%2C20180801150000> <http://bob.example.com/> .
+_:node1cjov1p83x13 <http://schema.org/startDate> "2018-08-01T13:00:00-07:00" <http://bob.example.com/> .
+<http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node1cjov1p83x13 <http://bob.example.com/> .

@@ -71,6 +71,18 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     }
 
     @Test
+    public void testInvalidXMLCharacter() {
+        assertExtract("/html/rdfa/invalid-xml-character.html");
+        assertModelNotEmpty();
+    }
+
+    @Test
+    public void testAttributeAlreadySpecified() {
+        assertExtract("/html/rdfa/attribute-already-specified.html");
+        assertModelNotEmpty();
+    }
+
+    @Test
     public void test0087() {
         assertExtract("/html/rdfa/0087.xhtml");
         assertModelNotEmpty();
@@ -280,7 +292,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testOpenGraphStructuredProperties() throws IOException, ExtractionException, RepositoryException {
         assertExtract("/html/rdfa/opengraph-structured-properties.html");
-        logger.info( dumpHumanReadableTriples() );
+        logger.debug(dumpHumanReadableTriples());
 
         Assert.assertEquals(31, getStatementsSize(null, null, null) );
         final OGP vOGP = OGP.getInstance();
@@ -316,7 +328,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     @Test
     public void testOpenGraphAlternateObjectTypes() throws IOException, ExtractionException, RepositoryException {
         assertExtract("/html/rdfa/opengraph-music-song-object-type.html");
-        logger.info( dumpHumanReadableTriples() );
+        logger.debug(dumpHumanReadableTriples());
 
         Assert.assertEquals(9, getStatementsSize(null, null, null) );
         final OGPMusic vOGPMusic = OGPMusic.getInstance();

@@ -46,7 +46,9 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 /**
  * Base class for a generic <i>RDF</i>
@@ -99,6 +101,9 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         stopAtFirstError = b;
     }
 
+    private static final Pattern invalidXMLCharacters = Pattern.compile(
+            "[^\u0009\r\n\u0020-\uD7FF\uE000-\uFFFD\ud800\udc00-\udbff\udfff]");
+
     @Override
     public void run(
             ExtractionParameters extractionParameters,
@@ -127,26 +132,43 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                 // See https://issues.apache.org/jira/browse/ANY23-317
                 // and https://issues.apache.org/jira/browse/ANY23-340
                 NodeTraversor.filter(new NodeFilter() {
+                    final HashSet<String> tmpAttributeKeys = new HashSet<>();
+
                     @Override
                     public FilterResult head(Node node, int depth) {
                         if (node instanceof Element) {
+                            HashSet<String> attributeKeys = tmpAttributeKeys;
                             for (Iterator<Attribute> it = node.attributes().iterator(); it.hasNext(); ) {
                                 // fix for ANY23-350: valid xml attribute names are ^[a-zA-Z_:][-a-zA-Z0-9_:.]
                                 Attribute attr = it.next();
-                                String key = attr.getKey().replaceAll("[^-a-zA-Z0-9_:.]", "");
+                                String oldKey = attr.getKey();
+                                String newKey = oldKey.replaceAll("[^-a-zA-Z0-9_:.]", "");
 
-                                // fix for ANY23-347: strip xml namespaces
-                                int prefixlen = key.lastIndexOf(':') + 1;
-                                String prefix = key.substring(0, prefixlen).toLowerCase();
-                                key = (prefix.equals("xmlns:") || prefix.equals("xml:") ? prefix : "")
-                                        + key.substring(prefixlen);
+                                // fix for ANY23-347: strip non-reserved xml namespaces
+                                // See https://www.w3.org/TR/xml-names/#sec-namespaces
+                                // "All other prefixes beginning with the three-letter sequence x, m, l,
+                                // in any case combination, are reserved. This means that:
+                                //   * users SHOULD NOT use them except as defined by later specifications
+                                //   * processors MUST NOT treat them as fatal errors."
+                                int prefixlen = oldKey.lastIndexOf(':') + 1;
+                                String prefix = newKey.substring(0, prefixlen).toLowerCase();
+                                newKey = (prefix.startsWith("xml") ? prefix : "") + newKey.substring(prefixlen);
 
-                                if (key.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*")) {
-                                    attr.setKey(key);
+                                if (newKey.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*")
+                                        //the namespace name for "xmlns" MUST NOT be declared
+                                        //the namespace name for "xml" need not be declared
+                                        && !newKey.startsWith("xmlns:xml")
+                                        // fix for ANY23-380: disallow duplicate attribute keys
+                                        && attributeKeys.add(newKey)) {
+                                    //avoid indexOf() operation if possible
+                                    if (!newKey.equals(oldKey)) {
+                                        attr.setKey(newKey);
+                                    }
                                 } else {
                                     it.remove();
                                 }
                             }
+                            attributeKeys.clear();
 
                             String tagName = ((Element)node).tagName().replaceAll("[^-a-zA-Z0-9_:.]", "");
                             tagName = tagName.substring(tagName.lastIndexOf(':') + 1);
@@ -163,42 +185,46 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     }
                 }, doc);
 
-                in = new ByteArrayInputStream(doc.toString().getBytes(charset));
+                // fix for ANY23-379: remove invalid xml characters from document
+                String finalOutput = invalidXMLCharacters.matcher(doc.toString()).replaceAll("");
+
+                in = new ByteArrayInputStream(finalOutput.getBytes(charset));
             } else if (format.hasFileExtension("jsonld") || format.hasMIMEType("application/ld+json")) {
-                in = new JsonCommentStripperInputStream(in);
+                in = new JsonCleaningInputStream(in);
             }
 
             parser.parse(in, iri);
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
-            LOG.error("Error while parsing RDF document.", ex);
+            throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
         }
     }
 
 
-    private static class JsonCommentStripperInputStream extends InputStream {
+    private static class JsonCleaningInputStream extends InputStream {
 
         private boolean inEscape;
         private boolean inQuote;
         private boolean inCDATA;
+        private boolean needsComma;
 
         private final PushbackInputStream wrapped;
 
-        JsonCommentStripperInputStream(InputStream in) {
+        JsonCleaningInputStream(InputStream in) {
             wrapped = new PushbackInputStream(in, 16);
         }
 
-        private boolean isNextOrUnread(int... next) throws IOException {
+        private static boolean isNextOrUnread(PushbackInputStream stream, int... next) throws IOException {
             int i = -1;
             for (int test : next) {
-                int c = wrapped.read();
+                int c = stream.read();
                 if (c != test) {
                     if (c != -1) {
-                        wrapped.unread(c);
+                        stream.unread(c);
                     }
                     while (i >= 0) {
-                        wrapped.unread(next[i--]);
+                        stream.unread(next[i--]);
                     }
                     return false;
                 }
@@ -210,23 +236,58 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         @Override
         public int read() throws IOException {
             PushbackInputStream stream = wrapped;
-            int c = stream.read();
 
-            if (inQuote) {
-                if (inEscape) {
-                    inEscape = false;
-                } else if (c == '"') {
-                    inQuote = false;
-                } else if (c == '\\') {
-                    inEscape = true;
+            for (;;) {
+                int c = stream.read();
+
+                if (inQuote) {
+                    if (inEscape) {
+                        inEscape = false;
+                    } else if (c == '"') {
+                        inQuote = false;
+                    } else if (c == '\\') {
+                        inEscape = true;
+                    }
+                    return c;
                 }
-                return c;
+
+                //we're not in a quote
+                c = stripComments(c, stream);
+
+                switch (c) {
+                    case ',':
+                    case ';':
+                        //don't write out comma yet!
+                        needsComma = true;
+                        break;
+                    case '}':
+                    case ']':
+                        //discard comma at end of object or array
+                        needsComma = false;
+                        return c;
+                    case -1:
+                        return c;
+                    default:
+                        if (Character.isWhitespace(c)) {
+                            return ' ';
+                        } else if (needsComma) {
+                            stream.unread(c);
+                            stream.unread(' ');
+                            needsComma = false;
+                            return ',';
+                        } else if (c == '"') {
+                            inQuote = true;
+                        }
+                        return c;
+                }
             }
 
-            //we're not in a quote
+        }
+
+        private int stripComments(int c, PushbackInputStream stream) throws IOException {
             switch (c) {
                 case '/':
-                    if (isNextOrUnread('/')) {
+                    if (isNextOrUnread(stream, '/')) {
                         //single line comment: read to end of line
                         for (;;) {
                             c = stream.read();
@@ -234,7 +295,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                                 return c;
                             }
                         }
-                    } else if (isNextOrUnread('*')) {
+                    } else if (isNextOrUnread(stream,'*')) {
                         //multiline comment: read till next "*/"
                         for (;;) {
                             c = stream.read();
@@ -254,7 +315,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                         return c;
                     }
                 case '<':
-                    if (isNextOrUnread('!','[','C','D','A','T','A','[')) {
+                    if (isNextOrUnread(stream,'!','[','C','D','A','T','A','[')) {
                         inCDATA = true;
                         return ' ';
                     } else {
@@ -269,7 +330,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     }
                 case ']':
                     if (inCDATA) {
-                        if (isNextOrUnread(']', '>')) {
+                        if (isNextOrUnread(stream, ']', '>')) {
                             inCDATA = false;
                             return ' ';
                         } else {
@@ -278,9 +339,6 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     } else {
                         return c;
                     }
-                case '"':
-                    inQuote = true;
-                    return c;
                 default:
                     return c;
             }

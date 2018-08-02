@@ -19,10 +19,12 @@ package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
@@ -81,6 +83,13 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 40);
         assertStatementsSize(RDFUtils.iri("urn:isbn:0-330-34032-8"), null, null, 4);
+    }
+
+    @Test
+    public void testMicrodataMissingScheme() {
+        assertExtract("/microdata/microdata-missing-scheme.html");
+        assertModelNotEmpty();
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/Answer"));
     }
 
     /**
@@ -197,9 +206,20 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         extractAndVerifyAgainstNQuads("microdata-bad-types.html", "microdata-bad-types-expected.nquads");
     }
 
+    @Test
+    public void testBadPropertyNames() throws IOException {
+        extractAndVerifyAgainstNQuads("microdata-bad-properties.html", "microdata-bad-properties-expected.nquads", false);
+        assertIssue(IssueReport.IssueLevel.ERROR, ".*invalid property name ''.*\"path\" : \"/HTML\\[1\\]/BODY\\[1\\]/DIV\\[1\\]/DIV\\[2\\]/DIV\\[1\\]\".*");
+    }
+
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
+            throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
+        extractAndVerifyAgainstNQuads(actual, expected, true);
+    }
+
+    private void extractAndVerifyAgainstNQuads(String actual, String expected, boolean assertNoIssues)
     throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
-        assertExtract("/microdata/" + actual);
+        assertExtract("/microdata/" + actual, assertNoIssues);
         assertModelNotEmpty();
         logger.debug( dumpModelToNQuads() );
         List<Statement> expectedStatements = loadResultStatement("/microdata/" + expected);

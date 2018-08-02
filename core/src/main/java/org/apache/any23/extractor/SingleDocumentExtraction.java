@@ -218,8 +218,8 @@ public class SingleDocumentExtraction {
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid IRI: " + in.getDocumentIRI(), ex);
         }
-        if(log.isInfoEnabled()) {
-            log.info("Processing " + this.documentIRI);
+        if (log.isDebugEnabled()) {
+            log.debug("Processing " + this.documentIRI);
         }
         filterExtractorsByMIMEType();
 
