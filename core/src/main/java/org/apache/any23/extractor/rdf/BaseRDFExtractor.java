@@ -241,14 +241,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                 int c = stream.read();
 
                 if (inQuote) {
-                    if (inEscape) {
-                        inEscape = false;
-                    } else if (c == '"') {
-                        inQuote = false;
-                    } else if (c == '\\') {
-                        inEscape = true;
-                    }
-                    return c;
+                    return readQuoted(c, stream);
                 }
 
                 //we're not in a quote
@@ -282,6 +275,70 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                 }
             }
 
+        }
+
+        private int readQuoted(int c, PushbackInputStream stream) throws IOException {
+            if (inEscape) {
+                switch (c) {
+                    case 'u':
+                        //TODO: validate that 'u' is followed by 4 hex chars?
+                    case '"':
+                    case '\\':
+                    case '/':
+                    case 'b':
+                    case 'f':
+                    case 'n':
+                    case 'r':
+                    case 't':
+                    case -1:
+                        inEscape = false;
+                        return c;
+                    default:
+                        stream.unread(c);
+                        inEscape = false;
+                        return '\\';
+                }
+            } else {
+                switch (c) {
+                    case '\\':
+                        break;
+                    case '\n':
+                        stream.unread('n');
+                        break;
+                    case '\r':
+                        stream.unread('r');
+                        break;
+                    case '\b':
+                        stream.unread('b');
+                        break;
+                    case '\f':
+                        stream.unread('f');
+                        break;
+                    case '\t':
+                        stream.unread('t');
+                        break;
+                    case '"':
+                        inQuote = false;
+                        return c;
+                    case -1:
+                        return c;
+                    default:
+                        if (c < 0x20 || c == 0x7f) {
+                            String hex = Integer.toHexString(c);
+                            int ind = hex.length() - 1;
+                            stream.unread(hex.charAt(ind));
+                            stream.unread(ind == 0 ? '0' : hex.charAt(--ind));
+                            stream.unread(ind == 0 ? '0' : hex.charAt(--ind));
+                            stream.unread(ind == 0 ? '0' : hex.charAt(--ind));
+                            stream.unread('u');
+                            break;
+                        } else {
+                            return c;
+                        }
+                }
+                inEscape = true;
+                return '\\';
+            }
         }
 
         private int stripComments(int c, PushbackInputStream stream) throws IOException {
