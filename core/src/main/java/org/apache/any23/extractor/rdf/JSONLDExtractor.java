@@ -17,11 +17,15 @@
 
 package org.apache.any23.extractor.rdf;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import com.github.jsonldjava.utils.JsonUtils;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
+
+import java.lang.reflect.Field;
 
 /**
  * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
@@ -41,6 +45,29 @@ public class JSONLDExtractor extends BaseRDFExtractor {
             throw new AssertionError("You have an outdated version of jsonld-java on the classpath. " +
                     "Upgrade to at least version 0.12.0. See: https://issues.apache.org/jira/browse/ANY23-336", th);
         }
+
+        JsonFactory JSON_FACTORY;
+        try {
+            Field field = JsonUtils.class.getDeclaredField("JSON_FACTORY");
+            field.setAccessible(true);
+            JSON_FACTORY = (JsonFactory)field.get(null);
+        } catch (Exception e) {
+            throw new AssertionError(e);
+        }
+
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_COMMENTS);
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_MISSING_VALUES); //handled by JsonCleaningInputStream
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS);
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES);
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_TRAILING_COMMA); //handled by JsonCleaningInputStream
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
+        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_YAML_COMMENTS);
+        JSON_FACTORY.enable(JsonParser.Feature.IGNORE_UNDEFINED);
+        JSON_FACTORY.enable(JsonParser.Feature.INCLUDE_SOURCE_IN_LOCATION);
+        JSON_FACTORY.disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
     }
 
 

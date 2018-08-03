@@ -17,11 +17,14 @@
 
 package org.apache.any23.extractor.rdf;
 
+import com.fasterxml.jackson.core.JsonLocation;
+import com.fasterxml.jackson.core.JsonParseException;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.html.JsoupUtils;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFParseException;
@@ -197,7 +200,18 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
-            throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
+            Throwable cause = ex.getCause();
+            if (cause instanceof JsonParseException) {
+                JsonParseException err = (JsonParseException)cause;
+                JsonLocation loc = err.getLocation();
+                if (loc == null) {
+                    extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), -1L, -1L);
+                } else {
+                    extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), loc.getLineNr(), loc.getColumnNr());
+                }
+            } else {
+                throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
+            }
         }
     }
 
@@ -205,7 +219,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     private static class JsonCleaningInputStream extends InputStream {
 
         private boolean inEscape;
-        private boolean inQuote;
+        private int quoteChar;
         private boolean inCDATA;
         private boolean needsComma;
 
@@ -240,13 +254,37 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             for (;;) {
                 int c = stream.read();
 
-                if (inQuote) {
-                    return readQuoted(c, stream);
+                //other types of comments are handled by enabling fasterxml's
+                //ALLOW_COMMENTS and ALLOW_YAML_COMMENTS features
+                if (inCDATA) {
+                    if (c == ']' && isNextOrUnread(stream, ']', '>')) {
+                        inCDATA = false;
+                        continue;
+                    }
+                } else {
+                    if (c == '<' && isNextOrUnread(stream, '!', '[', 'C', 'D', 'A', 'T', 'A', '[')) {
+                        inCDATA = true;
+                        continue;
+                    }
+                }
+
+                int q = quoteChar;
+                if (q != 0) {
+                    //we're in a quote
+                    if (inEscape) {
+                        //end escape
+                        inEscape = false;
+                    } else if (c == '\\') {
+                        //begin escape
+                        inEscape = true;
+                    } else if (c == q) {
+                        //end quote
+                        quoteChar = 0;
+                    }
+                    return c;
                 }
 
                 //we're not in a quote
-                c = stripComments(c, stream);
-
                 switch (c) {
                     case ',':
                     case ';':
@@ -258,150 +296,21 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                         //discard comma at end of object or array
                         needsComma = false;
                         return c;
-                    case -1:
-                        return c;
                     default:
-                        if (Character.isWhitespace(c)) {
-                            return ' ';
-                        } else if (needsComma) {
-                            stream.unread(c);
-                            stream.unread(' ');
-                            needsComma = false;
-                            return ',';
-                        } else if (c == '"') {
-                            inQuote = true;
-                        }
-                        return c;
-                }
-            }
-
-        }
-
-        private int readQuoted(int c, PushbackInputStream stream) throws IOException {
-            if (inEscape) {
-                switch (c) {
-                    case 'u':
-                        //TODO: validate that 'u' is followed by 4 hex chars?
-                    case '"':
-                    case '\\':
-                    case '/':
-                    case 'b':
-                    case 'f':
-                    case 'n':
-                    case 'r':
-                    case 't':
-                    case -1:
-                        inEscape = false;
-                        return c;
-                    default:
-                        stream.unread(c);
-                        inEscape = false;
-                        return '\\';
-                }
-            } else {
-                switch (c) {
-                    case '\\':
-                        break;
-                    case '\n':
-                        stream.unread('n');
-                        break;
-                    case '\r':
-                        stream.unread('r');
-                        break;
-                    case '\b':
-                        stream.unread('b');
-                        break;
-                    case '\f':
-                        stream.unread('f');
-                        break;
-                    case '\t':
-                        stream.unread('t');
-                        break;
-                    case '"':
-                        inQuote = false;
-                        return c;
-                    case -1:
-                        return c;
-                    default:
-                        if (c < 0x20 || c == 0x7f) {
-                            String hex = Integer.toHexString(c);
-                            int ind = hex.length() - 1;
-                            stream.unread(hex.charAt(ind));
-                            stream.unread(ind == 0 ? '0' : hex.charAt(--ind));
-                            stream.unread(ind == 0 ? '0' : hex.charAt(--ind));
-                            stream.unread(ind == 0 ? '0' : hex.charAt(--ind));
-                            stream.unread('u');
-                            break;
-                        } else {
-                            return c;
-                        }
-                }
-                inEscape = true;
-                return '\\';
-            }
-        }
-
-        private int stripComments(int c, PushbackInputStream stream) throws IOException {
-            switch (c) {
-                case '/':
-                    if (isNextOrUnread(stream, '/')) {
-                        //single line comment: read to end of line
-                        for (;;) {
-                            c = stream.read();
-                            if (c == -1 || c == '\r' || c == '\n') {
-                                return c;
+                        if (c != -1 && !Character.isWhitespace(c)) {
+                            if (needsComma) {
+                                stream.unread(c);
+                                stream.unread(' ');
+                                needsComma = false;
+                                return ',';
+                            } else if (c == '"' || c == '\'') {
+                                quoteChar = c;
                             }
                         }
-                    } else if (isNextOrUnread(stream,'*')) {
-                        //multiline comment: read till next "*/"
-                        for (;;) {
-                            c = stream.read();
-                            if (c == -1) {
-                                return c;
-                            } else if (c == '*') {
-                                c = stream.read();
-                                if (c == -1) {
-                                    return c;
-                                } else if (c == '/') {
-                                    //replace entire comment with single space
-                                    return ' ';
-                                }
-                            }
-                        }
-                    } else {
                         return c;
-                    }
-                case '<':
-                    if (isNextOrUnread(stream,'!','[','C','D','A','T','A','[')) {
-                        inCDATA = true;
-                        return ' ';
-                    } else {
-                        return c;
-                    }
-                case '#':
-                    for (;;) {
-                        c = stream.read();
-                        if (c == -1 || c == '\r' || c == '\n') {
-                            return c;
-                        }
-                    }
-                case ']':
-                    if (inCDATA) {
-                        if (isNextOrUnread(stream, ']', '>')) {
-                            inCDATA = false;
-                            return ' ';
-                        } else {
-                            return c;
-                        }
-                    } else {
-                        return c;
-                    }
-                default:
-                    return c;
+                }
             }
-
         }
-
     }
 
 }
