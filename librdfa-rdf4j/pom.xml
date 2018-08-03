@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.apache.any23</groupId>
+    <artifactId>apache-any23-librdfa</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Apache Any23 :: Librdfa</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        
+        <jni.base>${project.basedir}/src/main/c/</jni.base>
+        <jni.build>${jni.base}/build/</jni.build>
+        
+        <rdf4j.version>2.2.4</rdf4j.version>
+        <junit.version>4.12</junit.version>
+        <junit.benchmarks.version>0.7.2</junit.benchmarks.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <semargl.rdf4j.version>0.7</semargl.rdf4j.version>
+    </properties>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.googlecode.cmake-maven-project</groupId>
+                <artifactId>cmake-maven-plugin</artifactId>
+                <version>3.7.2-b1</version>
+                <executions>
+                    <execution>
+                        <id>cmake-generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourcePath>${jni.base}</sourcePath>
+                            <targetPath>${jni.build}</targetPath>
+                            <generator>Unix Makefiles</generator>
+                            <classifier>linux-x86_64</classifier>
+                            <environmentVariables>
+                                <LD_LIBRARY_PATH>${jni.build}</LD_LIBRARY_PATH>
+                            </environmentVariables>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>cmake-compile</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <projectDirectory>${jni.build}</projectDirectory>
+                            <classifier>linux-x86_64</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${jni.build}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <target
+                                name="jni"
+                                description="Generate headers and compile the native code">
+                                <echo>${jni.base}</echo>
+                                
+                                <exec executable="cp">
+                                    <arg value="${jni.base}/build/librdfaJava.so"/>
+                                    <arg value="${project.build.outputDirectory}"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.rdf4j</groupId>
+            <artifactId>rdf4j-rio-api</artifactId> 
+            <version>${rdf4j.version}</version>
+        </dependency>
+        
+        <!--Testing-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.carrotsearch</groupId>
+            <artifactId>junit-benchmarks</artifactId>
+            <version>${junit.benchmarks.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.semarglproject</groupId>
+            <artifactId>semargl-rdf4j</artifactId>
+            <version>${semargl.rdf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+</project>
