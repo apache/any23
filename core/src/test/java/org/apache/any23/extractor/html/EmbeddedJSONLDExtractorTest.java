@@ -90,6 +90,11 @@ public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 		assertStatementsSize(null, null, null, 4);
 	}
 
+	@Test
+	public void testJSONLDBadCharacter() throws Exception {
+		assertExtract("/html/html-jsonld-bad-character.html");
+	}
+
 	@Override
 	protected ExtractorFactory<?> getExtractorFactory() {
 		return new EmbeddedJSONLDExtractorFactory();

@@ -216,7 +216,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     }
 
 
-    private static class JsonCleaningInputStream extends InputStream {
+    static class JsonCleaningInputStream extends InputStream {
 
         private boolean inEscape;
         private int quoteChar;
@@ -290,25 +290,73 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     case ';':
                         //don't write out comma yet!
                         needsComma = true;
-                        break;
+                        continue;
                     case '}':
                     case ']':
                         //discard comma at end of object or array
                         needsComma = false;
                         return c;
-                    default:
-                        if (c != -1 && !Character.isWhitespace(c)) {
-                            if (needsComma) {
-                                stream.unread(c);
-                                stream.unread(' ');
-                                needsComma = false;
-                                return ',';
-                            } else if (c == '"' || c == '\'') {
-                                quoteChar = c;
-                            }
-                        }
+                    case -1:
+                    case '\r':
+                    case '\n':
                         return c;
+                    case 0x09:
+                    case 0x0b:
+                    case 0x0c:
+                    case 0x1c:
+                    case 0x1d:
+                    case 0x1e:
+                    case 0x1f:
+                    case 0x20:
+                        return ' ';
+                    case 0xc2:
+                        if (isNextOrUnread(stream, 0xa0)) {
+                            return ' ';
+                        }
+                        break;
+                    case 0xe1:
+                        if (isNextOrUnread(stream, 0x9a, 0x80)
+                                || isNextOrUnread(stream, 0xa0, 0x8e)) {
+                            return ' ';
+                        }
+                        break;
+                    case 0xe2:
+                        int c1 = stream.read();
+                        if (c1 == 0x80) {
+                            int c2 = stream.read();
+                            //space separators
+                            if (c2 >= 0x80 && c2 <= 0x8a || c2 == 0xaf
+                                    //line and paragraph separators
+                                    || c2 == 0xa8 || c2 == 0xa9) {
+                                return ' ';
+                            }
+                            stream.unread(c2);
+                        } else if (c1 == 0x81) {
+                            int c2 = stream.read();
+                            if (c2 == 0x9f) {
+                                return ' ';
+                            }
+                            stream.unread(c2);
+                        }
+                        stream.unread(c1);
+                        break;
+                    case 0xe3:
+                        if (isNextOrUnread(stream, 0x80, 0x80)) {
+                            return ' ';
+                        }
+                        break;
+                    default:
+                        break;
                 }
+                if (needsComma) {
+                    stream.unread(c);
+                    stream.unread(' ');
+                    needsComma = false;
+                    return ',';
+                } else if (c == '"' || c == '\'') {
+                    quoteChar = c;
+                }
+                return c;
             }
         }
     }
