@@ -93,6 +93,7 @@ public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 	@Test
 	public void testJSONLDBadCharacter() throws Exception {
 		assertExtract("/html/html-jsonld-bad-character.html");
+		assertStatementsSize(null, null, null, 12);
 	}
 
 	@Override

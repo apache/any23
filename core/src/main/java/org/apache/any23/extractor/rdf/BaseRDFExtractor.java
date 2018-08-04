@@ -153,7 +153,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                                 // in any case combination, are reserved. This means that:
                                 //   * users SHOULD NOT use them except as defined by later specifications
                                 //   * processors MUST NOT treat them as fatal errors."
-                                int prefixlen = oldKey.lastIndexOf(':') + 1;
+                                int prefixlen = newKey.lastIndexOf(':') + 1;
                                 String prefix = newKey.substring(0, prefixlen).toLowerCase();
                                 newKey = (prefix.startsWith("xml") ? prefix : "") + newKey.substring(prefixlen);
 
