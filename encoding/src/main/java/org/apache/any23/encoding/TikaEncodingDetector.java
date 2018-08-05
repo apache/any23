@@ -17,12 +17,20 @@
 
 package org.apache.any23.encoding;
 
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.html.HtmlEncodingDetector;
 import org.apache.tika.parser.txt.CharsetDetector;
 import org.apache.tika.parser.txt.CharsetMatch;
+import org.apache.tika.utils.CharsetUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An implementation of {@link EncodingDetector} based on
@@ -35,11 +43,83 @@ import java.io.InputStream;
 public class TikaEncodingDetector implements EncodingDetector {
 
     public String guessEncoding(InputStream is) throws IOException {
-        CharsetDetector charsetDetector = new CharsetDetector();
-        charsetDetector.setText( is instanceof BufferedInputStream ? is : new BufferedInputStream(is) );
+        if (!is.markSupported()) {
+            is = new BufferedInputStream(is);
+        }
+
+        Charset xmlCharset = detectXmlEncoding(is, 1024);
+
+        HtmlEncodingDetector htmlEncodingDetector = new HtmlEncodingDetector();
+        htmlEncodingDetector.setMarkLimit(16384);
+        Charset htmlCharset = htmlEncodingDetector.detect(is, new Metadata());
+
+        CharsetDetector charsetDetector = new CharsetDetector(65536);
+        //enableInputFilter() needs to precede setText() to have any effect
         charsetDetector.enableInputFilter(true);
-        CharsetMatch cm = charsetDetector.detect();
-        return cm.getName();
+        charsetDetector.setText(is);
+
+        Charset bestCharset = null;
+        int bestConfidence = 0;
+        for (CharsetMatch match : charsetDetector.detectAll()) {
+            try {
+                Charset charset = CharsetUtils.forName(match.getName());
+                int confidence = match.getConfidence();
+                if (charset.equals(htmlCharset) || charset.equals(xmlCharset)) {
+                    confidence *= 16;
+                }
+                if (confidence > bestConfidence) {
+                    bestCharset = charset;
+                    bestConfidence = confidence;
+                }
+            } catch (Exception e) {
+                    //ignore
+            }
+        }
+
+        if (bestConfidence >= 100)
+            return bestCharset.name();
+        if (htmlCharset != null)
+            return htmlCharset.name();
+        if (xmlCharset != null)
+            return xmlCharset.name();
+        if (bestCharset != null)
+            return bestCharset.name();
+        return null;
+    }
+
+    private static final Pattern xmlEncoding = Pattern.compile(
+            "(?is)\\A\\s*<\\?\\s*xml\\s+[^<>]*encoding\\s*=\\s*(?:['\"]\\s*)?([-_:.a-z0-9]+)");
+
+    static Charset detectXmlEncoding(InputStream input, int markLimit) throws IOException {
+        if (input == null) {
+            return null;
+        }
+        input.mark(markLimit);
+        byte[] buffer = new byte[markLimit];
+        int n = 0;
+        int m = input.read(buffer);
+        while (m != -1 && n < buffer.length) {
+            n += m;
+            m = input.read(buffer, n, buffer.length - n);
+        }
+        input.reset();
+
+        // Interpret the head as ASCII and try to spot a meta tag with
+        // a possible character encoding hint
+
+        String head = StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(buffer, 0, n)).toString();
+
+        Matcher matcher = xmlEncoding.matcher(head);
+
+        if (matcher.find()) {
+            try {
+                return CharsetUtils.forName(matcher.group(1));
+            } catch (Exception e) {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
 }
