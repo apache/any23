@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -80,6 +82,21 @@ public class JSONLDExtractorTest {
         Assert.assertEquals(stream.read(), -1);
       }
     }
+  }
+
+  @Test
+  public void testJsonCleaning() throws Exception {
+    JsonCleaningInputStream stream = new JsonCleaningInputStream(getClass().getResourceAsStream("/html/json-cleaning-test.json"));
+
+    JsonParser parser = new JsonFactory().createParser(stream);
+
+    int numTokens = 0;
+    while (parser.nextToken() != null) {
+      numTokens++;
+    }
+
+    Assert.assertEquals(numTokens, 41);
+
   }
 
   public void extract(IRI uri, String filePath) 
