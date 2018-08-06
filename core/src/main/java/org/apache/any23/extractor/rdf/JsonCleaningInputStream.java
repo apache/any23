@@ -20,6 +20,7 @@ package org.apache.any23.extractor.rdf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
+import java.util.Arrays;
 
 /**
  * This class uses several strategies to fix common JSON syntax errors, including:
@@ -41,18 +42,26 @@ class JsonCleaningInputStream extends InputStream {
     private static final int EOL_COMMENT = 1;
     private static final int MULTILINE_COMMENT = 2;
 
-    private static final int NEEDS_COMMA = 1;
-    private static final int NEEDS_COMMA_AND_NEWLINE = 2;
+    private static final int NEEDS_COMMA = -1;
+    private static final int NEEDS_COMMA_AND_NEWLINE = 1;
 
     private boolean inEscape;
     private boolean inCDATA;
     private int needsComma;
     private int currentState;
 
+    private static final int MAX_BLANK_PUSHBACK = 128;
+    private static final byte[] BLANK_PUSHBACK = new byte[MAX_BLANK_PUSHBACK];
+
+    static {
+        Arrays.fill(BLANK_PUSHBACK, (byte)' ');
+        BLANK_PUSHBACK[0] = '\n';
+    }
+
     private final PushbackInputStream in;
 
     JsonCleaningInputStream(InputStream in) {
-        this.in = new PushbackInputStream(in, 16);
+        this.in = new PushbackInputStream(in, 256);
     }
 
     private static void unread(PushbackInputStream in, int c) throws IOException {
@@ -143,8 +152,9 @@ class JsonCleaningInputStream extends InputStream {
                     return c;
             }
 
+            //we're not in a quote or comment
+
             $whitespace: {
-                //we're not in a quote
                 switch (c) {
                     case '#':
                         currentState = EOL_COMMENT;
@@ -239,10 +249,7 @@ class JsonCleaningInputStream extends InputStream {
                     if (nc == NEEDS_COMMA) {
                         in.unread(' ');
                     } else {
-                        for (int i = NEEDS_COMMA_AND_NEWLINE; i < nc; i++) {
-                            in.unread(' ');
-                        }
-                        in.unread('\n');
+                        in.unread(BLANK_PUSHBACK, 0, nc);
                     }
                     needsComma = 0;
                     return ',';
@@ -257,8 +264,8 @@ class JsonCleaningInputStream extends InputStream {
 
             int nc = needsComma;
             if (nc != 0) {
-                if (nc != NEEDS_COMMA) {
-                    needsComma = (nc + 1) & 0xFF;
+                if (nc != NEEDS_COMMA && nc != MAX_BLANK_PUSHBACK) {
+                    needsComma = nc + 1;
                 }
                 continue;
             }
