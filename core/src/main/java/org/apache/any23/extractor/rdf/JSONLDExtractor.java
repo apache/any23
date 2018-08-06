@@ -56,15 +56,15 @@ public class JSONLDExtractor extends BaseRDFExtractor {
         }
 
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_COMMENTS);
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_COMMENTS); //handled by JsonCleaningInputStream
         JSON_FACTORY.disable(JsonParser.Feature.ALLOW_MISSING_VALUES); //handled by JsonCleaningInputStream
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS);
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_SINGLE_QUOTES);
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_SINGLE_QUOTES); //handled by JsonCleaningInputStream
         JSON_FACTORY.disable(JsonParser.Feature.ALLOW_TRAILING_COMMA); //handled by JsonCleaningInputStream
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_YAML_COMMENTS);
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_YAML_COMMENTS); //handled by JsonCleaningInputStream
         JSON_FACTORY.enable(JsonParser.Feature.IGNORE_UNDEFINED);
         JSON_FACTORY.enable(JsonParser.Feature.INCLUDE_SOURCE_IN_LOCATION);
         JSON_FACTORY.disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
