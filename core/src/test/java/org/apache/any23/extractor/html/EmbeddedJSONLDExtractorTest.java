@@ -17,6 +17,7 @@
 package org.apache.any23.extractor.html;
 
 import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.FOAF;
 import org.junit.Test;
@@ -68,6 +69,31 @@ public class EmbeddedJSONLDExtractorTest extends AbstractExtractorTestCase {
 		assertExtract("/html/html-jsonld-commas.html");
 		assertModelNotEmpty();
 		assertStatementsSize(null, null, null, 30);
+	}
+
+	@Test
+	public void testJSONLDUnescapedCharacters() {
+		assertExtract("/html/html-jsonld-unescaped-characters.html");
+		assertModelNotEmpty();
+		assertStatementsSize(null, null, null, 375);
+		assertContains(RDFUtils.iri("http://schema.org/name"), "Weezer & Pixies\u0008");
+		assertContains(RDFUtils.iri("http://schema.org/description"),
+				"#1 MAGIC SHOW IN L.A.\nThe current WINNER of the CW’s Penn & Teller’s FOOL US, Illusionist " +
+						"extraordinaire Ivan Amodei is on a national tour with his show INTIMATE ILLUSIONS." +
+						"\n\nCurrently, on an ei...");
+	}
+
+	@Test
+	public void testJSONLDFatalError() {
+		assertExtract("/html/html-jsonld-fatal-error.html",false);
+		assertIssue(IssueReport.IssueLevel.FATAL, ".*Unexpected character .* was expecting comma to separate Object entries.*");
+		assertStatementsSize(null, null, null, 4);
+	}
+
+	@Test
+	public void testJSONLDBadCharacter() throws Exception {
+		assertExtract("/html/html-jsonld-bad-character.html");
+		assertStatementsSize(null, null, null, 12);
 	}
 
 	@Override

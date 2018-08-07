@@ -305,7 +305,7 @@ public class RDFParserFactory {
     ) {
         parser.getParserConfig().setNonFatalErrors(stopAtFirstError ? Collections.emptySet() : new HashSet<>(parser.getSupportedSettings()));
         parser.set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, verifyDataType);
-        parser.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
+        parser.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, verifyDataType);
 
         parser.setParseErrorListener(new InternalParseErrorListener(extractionResult));
         parser.setValueFactory(

@@ -17,11 +17,14 @@
 
 package org.apache.any23.extractor.rdf;
 
+import com.fasterxml.jackson.core.JsonLocation;
+import com.fasterxml.jackson.core.JsonParseException;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.html.JsoupUtils;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFParseException;
@@ -43,7 +46,6 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PushbackInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -150,7 +152,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                                 // in any case combination, are reserved. This means that:
                                 //   * users SHOULD NOT use them except as defined by later specifications
                                 //   * processors MUST NOT treat them as fatal errors."
-                                int prefixlen = oldKey.lastIndexOf(':') + 1;
+                                int prefixlen = newKey.lastIndexOf(':') + 1;
                                 String prefix = newKey.substring(0, prefixlen).toLowerCase();
                                 newKey = (prefix.startsWith("xml") ? prefix : "") + newKey.substring(prefixlen);
 
@@ -197,154 +199,19 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         } catch (RDFHandlerException ex) {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
-            throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
-        }
-    }
-
-
-    private static class JsonCleaningInputStream extends InputStream {
-
-        private boolean inEscape;
-        private boolean inQuote;
-        private boolean inCDATA;
-        private boolean needsComma;
-
-        private final PushbackInputStream wrapped;
-
-        JsonCleaningInputStream(InputStream in) {
-            wrapped = new PushbackInputStream(in, 16);
-        }
-
-        private static boolean isNextOrUnread(PushbackInputStream stream, int... next) throws IOException {
-            int i = -1;
-            for (int test : next) {
-                int c = stream.read();
-                if (c != test) {
-                    if (c != -1) {
-                        stream.unread(c);
-                    }
-                    while (i >= 0) {
-                        stream.unread(next[i--]);
-                    }
-                    return false;
+            Throwable cause = ex.getCause();
+            if (cause instanceof JsonParseException) {
+                JsonParseException err = (JsonParseException)cause;
+                JsonLocation loc = err.getLocation();
+                if (loc == null) {
+                    extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), -1L, -1L);
+                } else {
+                    extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), loc.getLineNr(), loc.getColumnNr());
                 }
-                i++;
+            } else {
+                throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
             }
-            return true;
         }
-
-        @Override
-        public int read() throws IOException {
-            PushbackInputStream stream = wrapped;
-
-            for (;;) {
-                int c = stream.read();
-
-                if (inQuote) {
-                    if (inEscape) {
-                        inEscape = false;
-                    } else if (c == '"') {
-                        inQuote = false;
-                    } else if (c == '\\') {
-                        inEscape = true;
-                    }
-                    return c;
-                }
-
-                //we're not in a quote
-                c = stripComments(c, stream);
-
-                switch (c) {
-                    case ',':
-                    case ';':
-                        //don't write out comma yet!
-                        needsComma = true;
-                        break;
-                    case '}':
-                    case ']':
-                        //discard comma at end of object or array
-                        needsComma = false;
-                        return c;
-                    case -1:
-                        return c;
-                    default:
-                        if (Character.isWhitespace(c)) {
-                            return ' ';
-                        } else if (needsComma) {
-                            stream.unread(c);
-                            stream.unread(' ');
-                            needsComma = false;
-                            return ',';
-                        } else if (c == '"') {
-                            inQuote = true;
-                        }
-                        return c;
-                }
-            }
-
-        }
-
-        private int stripComments(int c, PushbackInputStream stream) throws IOException {
-            switch (c) {
-                case '/':
-                    if (isNextOrUnread(stream, '/')) {
-                        //single line comment: read to end of line
-                        for (;;) {
-                            c = stream.read();
-                            if (c == -1 || c == '\r' || c == '\n') {
-                                return c;
-                            }
-                        }
-                    } else if (isNextOrUnread(stream,'*')) {
-                        //multiline comment: read till next "*/"
-                        for (;;) {
-                            c = stream.read();
-                            if (c == -1) {
-                                return c;
-                            } else if (c == '*') {
-                                c = stream.read();
-                                if (c == -1) {
-                                    return c;
-                                } else if (c == '/') {
-                                    //replace entire comment with single space
-                                    return ' ';
-                                }
-                            }
-                        }
-                    } else {
-                        return c;
-                    }
-                case '<':
-                    if (isNextOrUnread(stream,'!','[','C','D','A','T','A','[')) {
-                        inCDATA = true;
-                        return ' ';
-                    } else {
-                        return c;
-                    }
-                case '#':
-                    for (;;) {
-                        c = stream.read();
-                        if (c == -1 || c == '\r' || c == '\n') {
-                            return c;
-                        }
-                    }
-                case ']':
-                    if (inCDATA) {
-                        if (isNextOrUnread(stream, ']', '>')) {
-                            inCDATA = false;
-                            return ' ';
-                        } else {
-                            return c;
-                        }
-                    } else {
-                        return c;
-                    }
-                default:
-                    return c;
-            }
-
-        }
-
     }
 
 }

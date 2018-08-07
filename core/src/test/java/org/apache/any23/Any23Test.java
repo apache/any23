@@ -345,7 +345,7 @@ public class Any23Test extends Any23OnlineTestBase {
         } finally {
             compositeTH1.close();
         }
-        logger.info(baos.toString());
+        logger.debug(baos.toString());
         Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES,
                 cth1.getCount());
 

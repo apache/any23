@@ -22,8 +22,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test case for {@link TikaEncodingDetector}.
@@ -74,6 +77,20 @@ public class TikaEncodingDetectorTest {
     @Test
     public void testEncodingHTML() throws IOException {
          assertEncoding( "UTF-8", "/html/encoding-test.html" );
+    }
+
+    @Test
+    public void testXMLEncodingPattern() throws IOException {
+        String[] strings = {
+                "<?xml encoding=\"UTF-8\"?>",
+                " \n<?xMl encoding   = 'utf-8'?>",
+                "\n <?Xml enCoding=Utf8?>"
+        };
+        for (String s : strings) {
+            byte[] bytes = s.getBytes(StandardCharsets.US_ASCII);
+            Charset detected = TikaEncodingDetector.detectXmlEncoding(new ByteArrayInputStream(bytes), 256);
+            Assert.assertEquals(detected, StandardCharsets.UTF_8);
+        }
     }
 
     private void assertEncoding(final String expected, final String resource) throws IOException {

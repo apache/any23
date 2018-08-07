@@ -16,9 +16,14 @@
  */
 package org.apache.any23.extractor.rdf;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -29,6 +34,7 @@ import org.apache.any23.writer.RDFXMLWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.IRI;
@@ -61,7 +67,38 @@ public class JSONLDExtractorTest {
       final IRI uri = RDFUtils.iri("http://host.com/place-example.jsonld");
       extract(uri, "/org/apache/any23/extractor/rdf/place-example.jsonld");
   }
-  
+
+  @Test
+  public void testWhitespaceCleaning() throws Exception {
+    for (int i = 0; i <= Character.MAX_CODE_POINT; i++) {
+      if (Character.isWhitespace(i) || Character.isSpaceChar(i)) {
+        byte[] bytes = new String(Character.toChars(i)).getBytes(StandardCharsets.UTF_8);
+        InputStream stream = new JsonCleaningInputStream(new ByteArrayInputStream(bytes));
+        if (i == '\r' || i == '\n') {
+          Assert.assertEquals(stream.read(), i);
+        } else {
+          Assert.assertEquals(stream.read(), ' ');
+        }
+        Assert.assertEquals(stream.read(), -1);
+      }
+    }
+  }
+
+  @Test
+  public void testJsonCleaning() throws Exception {
+    JsonCleaningInputStream stream = new JsonCleaningInputStream(getClass().getResourceAsStream("/html/json-cleaning-test.json"));
+
+    JsonParser parser = new JsonFactory().createParser(stream);
+
+    int numTokens = 0;
+    while (parser.nextToken() != null) {
+      numTokens++;
+    }
+
+    Assert.assertEquals(numTokens, 41);
+
+  }
+
   public void extract(IRI uri, String filePath) 
     throws IOException, ExtractionException, TripleHandlerException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
