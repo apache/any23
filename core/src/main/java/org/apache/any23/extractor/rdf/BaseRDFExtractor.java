@@ -18,7 +18,7 @@
 package org.apache.any23.extractor.rdf;
 
 import com.fasterxml.jackson.core.JsonLocation;
-import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -200,8 +200,8 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             throw new IllegalStateException("Unexpected exception.", ex);
         } catch (RDFParseException ex) {
             Throwable cause = ex.getCause();
-            if (cause instanceof JsonParseException) {
-                JsonParseException err = (JsonParseException)cause;
+            if (cause instanceof JsonProcessingException) {
+                JsonProcessingException err = (JsonProcessingException)cause;
                 JsonLocation loc = err.getLocation();
                 if (loc == null) {
                     extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), -1L, -1L);
