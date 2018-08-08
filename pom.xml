@@ -232,6 +232,7 @@
     <module>csvutils</module>
     <module>mime</module>
     <module>encoding</module>
+    <module>librdfa-rdf4j</module>
     <module>core</module>
     <module>cli</module>
     <module>plugins/basic-crawler</module>

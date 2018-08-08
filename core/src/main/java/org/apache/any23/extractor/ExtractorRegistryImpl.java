@@ -17,14 +17,14 @@
 
 package org.apache.any23.extractor;
 
-import org.apache.any23.configuration.DefaultConfiguration;
-import org.apache.any23.extractor.html.HTMLMetaExtractorFactory;
-import org.apache.any23.extractor.rdfa.RDFa11ExtractorFactory;
-import org.apache.any23.extractor.rdfa.RDFaExtractorFactory;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.any23.configuration.DefaultConfiguration;
+import org.apache.any23.extractor.html.HTMLMetaExtractorFactory;
+import org.apache.any23.extractor.rdfa.LibRdfaExtractorFactory;
+import org.apache.any23.extractor.rdfa.RDFa11ExtractorFactory;
+import org.apache.any23.extractor.rdfa.RDFaExtractorFactory;
 
 /**
  *  Singleton class acting as a register for all the various
@@ -55,12 +55,17 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
             if (instance == null) {
                 instance = new ExtractorRegistryImpl();
                 
-                if(conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
+                if(conf.getFlagProperty("any23.extraction.rdfa.librdfa")){
+                    instance.unregister(RDFaExtractorFactory.NAME);
+                    instance.unregister(RDFa11ExtractorFactory.NAME);
+                } else if(conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
+                    instance.unregister(LibRdfaExtractorFactory.NAME);
                     instance.unregister(RDFaExtractorFactory.NAME);
                     // FIXME: Unregister RDFaExtractor if flag is not set
                     //instance.register(RDFa11Extractor.factory);
                 } else {
                     instance.unregister(RDFa11ExtractorFactory.NAME);
+                    instance.unregister(LibRdfaExtractorFactory.NAME);
                     // FIXME: Unregister RDFaExtractor if flag is set
                     //instance.register(RDFaExtractor.factory);
                 }

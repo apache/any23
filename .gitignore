@@ -10,3 +10,4 @@ pom.xml.versionsBackup
 **/maven-eclipse.xml
 **/any23-site/
 **/nb*.xml
+**/c/build/

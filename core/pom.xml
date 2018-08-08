@@ -62,6 +62,14 @@
     </dependency>
     <!-- END: Any23 -->
 
+    <!-- BEGIN: Librdfa-RDF4J-->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>apache-any23-librdfa</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- END: Librdfa-RDF4J -->
+    
     <!-- BEGIN: httpcomponents -->
     <dependency> <!-- used by RDF4J, Tika -->
       <groupId>org.apache.httpcomponents</groupId>
@@ -347,7 +355,7 @@
     </dependency>
     <!-- END: Test Dependencies -->
   </dependencies>
-
+  
   <build>
     <resources>
       <resource>
