@@ -1,6 +1,6 @@
 # Librdfa - RDF4J
 
-RDF4J parser that uses [librdfa](https://github.com/rdfa/librdfa) to parse RDFa to triples.
+RDF4J parser that uses [librdfa](https://github.com/rdfa/librdfa) to parse RDFa to triples. See the [documentation](https://cwiki.apache.org/confluence/display/ANY23/Librdfa-rdf4j+documentation) for more information.
 
 ## Prerequisites
 
@@ -12,15 +12,8 @@ You need to install the [librdfa](https://github.com/rdfa/librdfa) library.
 <dependency>
    <groupId>org.apache.any23</groupId>
    <artifactId>apache-any23-librdfa</artifactId>
-   <version>1.0.0</version>
+   <version>${project.version}</version>
 </dependency>
-
-<repositories>
-   <repository>
-       <id>librdfa-rdf4j</id>
-       <url>https://raw.github.com/JulioCCBUcuenca/librdfa-java/repository/</url>
-   </repository>
-</repositories>
 ```
 
 ## Compile

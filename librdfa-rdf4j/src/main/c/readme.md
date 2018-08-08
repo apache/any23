@@ -6,7 +6,3 @@ Build:
 `cd build`  
 `cmake ..`  
 `cmake --build .`
-
-Run:
-
-`java -Djava.library.path=. -jar Main.jar`

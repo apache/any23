@@ -28,7 +28,7 @@
   <groupId>org.apache.any23</groupId>
   <artifactId>apache-any23-librdfa</artifactId>
   <packaging>jar</packaging>
-  <name>Apache Any23 :: Librdfa</name>
+  <name>Apache Any23 :: Librdfa-RDF4J</name>
   
   <properties>
     <jni.base>${project.basedir}/src/main/c/</jni.base>

@@ -62,11 +62,11 @@
     </dependency>
     <!-- END: Any23 -->
 
-    <!-- BEGIN: Librdfa-RDF4J, loading from repository -->
+    <!-- BEGIN: Librdfa-RDF4J-->
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>apache-any23-librdfa</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
     <!-- END: Librdfa-RDF4J -->
     
@@ -355,13 +355,6 @@
     </dependency>
     <!-- END: Test Dependencies -->
   </dependencies>
-  
-  <repositories>
-    <repository>
-      <id>librdfa-rdf4j</id>
-      <url>https://raw.github.com/JulioCCBUcuenca/librdfa-java/repository/</url>
-    </repository>
-  </repositories>
   
   <build>
     <resources>
