@@ -26,6 +26,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.html.JsoupUtils;
+import org.eclipse.rdf4j.common.net.ParsedIRI;
 import org.eclipse.rdf4j.rio.RDFFormat;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
@@ -40,8 +41,6 @@ import org.jsoup.nodes.Entities;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.NodeFilter;
 import org.jsoup.select.NodeTraversor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -57,10 +56,10 @@ import java.util.regex.Pattern;
  * {@link org.apache.any23.extractor.Extractor.ContentExtractor}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BaseRDFExtractor.class);
     private boolean verifyDataType;
     private boolean stopAtFirstError;
 
@@ -175,6 +174,35 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                             String tagName = ((Element)node).tagName().replaceAll("[^-a-zA-Z0-9_:.]", "");
                             tagName = tagName.substring(tagName.lastIndexOf(':') + 1);
                             ((Element)node).tagName(tagName.matches("[a-zA-Z_:][-a-zA-Z0-9_:.]*") ? tagName : "div");
+
+                            // fix for ANY23-389
+                            resolve_base:
+                            if ("base".equalsIgnoreCase(tagName) && node.hasAttr("href")) {
+                                String href = node.attr("href");
+                                String absHref;
+                                try {
+                                    ParsedIRI parsedHref = ParsedIRI.create(href.trim());
+                                    if (parsedHref.isAbsolute()) {
+                                        absHref = parsedHref.toString();
+                                    } else {
+                                        parsedHref = ParsedIRI.create(iri.trim()).resolve(parsedHref);
+                                        if (parsedHref.isAbsolute()) {
+                                            absHref = parsedHref.toString();
+                                        } else {
+                                            // shouldn't happen unless document IRI wasn't absolute
+                                            // ignore and let underlying RDFa parser report the issue
+                                            break resolve_base;
+                                        }
+                                    }
+                                } catch (RuntimeException e) {
+                                    // can't parse href as a relative or absolute IRI:
+                                    // ignore and let underlying RDFa parser report the issue
+                                    break resolve_base;
+                                }
+                                if (!absHref.equals(href)) {
+                                    node.attr("href", absHref);
+                                }
+                            }
 
                             return FilterResult.CONTINUE;
                         }
