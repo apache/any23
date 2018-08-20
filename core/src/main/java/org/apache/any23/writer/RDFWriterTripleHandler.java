@@ -35,7 +35,7 @@ import org.eclipse.rdf4j.rio.RDFWriter;
  */
 public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHandler {
 
-    private final RDFWriter writer;
+    protected final RDFWriter writer;
 
     private boolean closed = false;
 
@@ -44,7 +44,7 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
      */
     private boolean annotated = false;
 
-    RDFWriterTripleHandler(RDFWriter destination) {
+    protected RDFWriterTripleHandler(RDFWriter destination) {
         writer = destination;
         try {
             writer.startRDF();
