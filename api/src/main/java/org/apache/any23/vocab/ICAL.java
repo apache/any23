@@ -29,13 +29,12 @@ public class ICAL extends Vocabulary {
      */
     public static final String NS = "http://www.w3.org/2002/12/cal/icaltzd#";
 
-    private static ICAL instance;
+    private static final class InstanceHolder {
+        private static final ICAL instance = new ICAL();
+    }
 
     public static ICAL getInstance() {
-        if(instance == null) {
-            instance = new ICAL();
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     /**
@@ -61,7 +60,7 @@ public class ICAL extends Vocabulary {
 
     public final IRI Value_RECUR       = createClass("Value_RECUR");
 
-    public final IRI Vcalendar         = createClass("vcalendar");
+    public final IRI Vcalendar         = createClass("Vcalendar");
 
     /**
      * Provide a grouping of component properties that describe an event..
