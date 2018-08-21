@@ -372,6 +372,11 @@
         <artifactId>jsoup</artifactId>
         <version>1.11.3</version>
       </dependency>
+      <dependency>
+        <groupId>net.sf.biweekly</groupId>
+        <artifactId>biweekly</artifactId>
+        <version>0.6.2</version>
+      </dependency>
 
       <!-- BEGIN: Tika -->
       <dependency>

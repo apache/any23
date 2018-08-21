@@ -93,6 +93,11 @@
     </dependency>
     <!-- END: httpcomponents -->
 
+    <dependency>
+      <groupId>net.sf.biweekly</groupId>
+      <artifactId>biweekly</artifactId>
+    </dependency>
+
     <!-- BEGIN: Tika -->
     <dependency>
       <groupId>org.apache.tika</groupId>
