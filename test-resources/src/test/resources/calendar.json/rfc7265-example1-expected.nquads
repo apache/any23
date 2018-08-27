@@ -1,0 +1,26 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+_:node1clu3uv03x2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vcalendar> <http://bob.example.com/> .
+_:node1clu3uv03x2 <http://www.w3.org/2002/12/cal/icaltzd#prodid> "-//Example Inc.//Example Calendar//EN" <http://bob.example.com/> .
+_:node1clu3uv03x2 <http://www.w3.org/2002/12/cal/icaltzd#calscale> "GREGORIAN" <http://bob.example.com/> .
+_:node1clu3uv03x2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu3uv03x3 <http://bob.example.com/> .
+_:node1clu3uv03x3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vevent> <http://bob.example.com/> .
+_:node1clu3uv03x3 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "2008-02-05T19:12:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu3uv03x3 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "2008-10-06"^^<http://www.w3.org/2001/XMLSchema#date> <http://bob.example.com/> .
+_:node1clu3uv03x3 <http://www.w3.org/2002/12/cal/icaltzd#summary> "Planning meeting" <http://bob.example.com/> .
+_:node1clu3uv03x3 <http://www.w3.org/2002/12/cal/icaltzd#uid> "4088E990AD89CB3DBB484909" <http://bob.example.com/> .

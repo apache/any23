@@ -21,16 +21,23 @@ import biweekly.ICalDataType;
 import biweekly.ICalVersion;
 import biweekly.ICalendar;
 import biweekly.component.ICalComponent;
+import biweekly.component.VTimezone;
 import biweekly.io.ParseWarning;
 import biweekly.io.SkipMeException;
 import biweekly.io.StreamReader;
+import biweekly.io.TimezoneAssignment;
 import biweekly.io.TimezoneInfo;
 import biweekly.io.WriteContext;
+import biweekly.io.json.JCalValue;
+import biweekly.io.json.JsonValue;
 import biweekly.io.scribe.ScribeIndex;
-import biweekly.io.scribe.component.ICalComponentScribe;
 import biweekly.io.scribe.property.ICalPropertyScribe;
+import biweekly.parameter.Encoding;
+import biweekly.parameter.ICalParameters;
+import biweekly.property.Geo;
 import biweekly.property.ICalProperty;
-import com.github.mangstadt.vinnie.io.VObjectPropertyValues;
+import biweekly.util.DateTimeComponents;
+import biweekly.util.ICalDateFormat;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
@@ -38,19 +45,34 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.vocab.ICAL;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.ZoneOffset;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Hans Brende (hansbrende@apache.org)
@@ -69,7 +91,11 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
     @Override
     public final void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream inputStream,
-                          ExtractionResult extractionResult) throws IOException, ExtractionException {
+                          ExtractionResult result) throws IOException, ExtractionException {
+        result.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
+        result.writeNamespace(ICAL.PREFIX, ICAL.NS);
+        result.writeNamespace(XMLSchema.PREFIX, XMLSchema.NAMESPACE);
+
         ScribeIndex index = new ScribeIndex();
         try (StreamReader reader = reader(inputStream)) {
             ICalendar cal;
@@ -78,18 +104,19 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                     String message = warning.getMessage();
                     Integer lineNumber = warning.getLineNumber();
                     if (lineNumber == null) {
-                        extractionResult.notifyIssue(IssueReport.IssueLevel.WARNING, message, -1, -1);
+                        result.notifyIssue(IssueReport.IssueLevel.WARNING, message, -1, -1);
                     } else {
-                        extractionResult.notifyIssue(IssueReport.IssueLevel.WARNING, message, lineNumber, -1);
+                        result.notifyIssue(IssueReport.IssueLevel.WARNING, message, lineNumber, -1);
                     }
                 }
 
                 BNode calNode = f.createBNode();
-                extractionResult.writeTriple(calNode, RDF.TYPE, vICAL.Vcalendar);
-                extract(index, cal.getTimezoneInfo(), calNode, cal, extractionResult);
+                result.writeTriple(calNode, RDF.TYPE, vICAL.Vcalendar);
+                WriteContext ctx = new WriteContext(ICalVersion.V2_0, cal.getTimezoneInfo(), null);
+                extract(index, ctx, calNode, cal, result, true);
             }
         } catch (Exception e) {
-            extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, toString(e), -1, -1);
+            result.notifyIssue(IssueReport.IssueLevel.FATAL, toString(e), -1, -1);
         }
     }
 
@@ -111,56 +138,42 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             return "";
         }
         int ind = Character.charCount(typeName.codePointAt(0));
-        return typeName.substring(0, ind).toUpperCase(Locale.ENGLISH) + typeName.substring(ind);
+        return typeName.substring(0, ind).toUpperCase(Locale.ENGLISH)
+                + typeName.substring(ind).toLowerCase(Locale.ENGLISH);
     }
 
     private static String localNameOfProperty(String propertyName) {
         String[] nameComponents = propertyName.split("-");
         StringBuilder sb = new StringBuilder(propertyName.length());
-        sb.append(nameComponents[0]);
+        sb.append(nameComponents[0].toLowerCase(Locale.ENGLISH));
         for (int i = 1, len = nameComponents.length; i < len; i++) {
             sb.append(localNameOfType(nameComponents[i]));
         }
         return sb.toString();
     }
 
-    private static IRI type(ICalComponentScribe<?> scribe, ExtractionResult result) {
-        if (scribe == null) {
-            return null;
-        }
-        String originalName = scribe.getComponentName();
-        String name = originalName.toLowerCase(Locale.ENGLISH);
-
-        if (name.startsWith("x-")) {
+    private static IRI type(String originalName) {
+        if (originalName.regionMatches(true, 0, "X-", 0, 2)) {
             //non-standard class
-            return f.createIRI(ICAL.NS, "X-" + localNameOfType(name.substring(2)));
+            return f.createIRI(ICAL.NS, "X-" + localNameOfType(originalName.substring(2)));
         }
 
-        name = localNameOfType(name);
+        String name = localNameOfType(originalName);
 
         try {
             return Objects.requireNonNull(vICAL.getClass(name));
         } catch (RuntimeException e) {
-            IRI iri = f.createIRI(ICAL.NS, name);
-            result.notifyIssue(IssueReport.IssueLevel.ERROR,
-                    "class " + iri + " (" + originalName + ") not defined in " + ICAL.class.getName(),
-                    -1, -1);
-            return iri;
+            return null;
         }
     }
 
-    private static IRI predicate(ICalPropertyScribe<?> scribe, ExtractionResult result) {
-        if (scribe == null) {
-            return null;
-        }
-        String originalName = scribe.getPropertyName(ICalVersion.V2_0);
-        String name = originalName.toLowerCase(Locale.ENGLISH);
-        if (name.startsWith("x-")) {
+    private static IRI predicate(String originalName, ExtractionResult result) {
+        if (originalName.regionMatches(true, 0, "X-", 0, 2)) {
             //non-standard property
-            return f.createIRI(ICAL.NS, "x-" + localNameOfProperty(name.substring(2)));
+            return f.createIRI(ICAL.NS, "x-" + localNameOfProperty(originalName.substring(2)));
         }
 
-        name = localNameOfProperty(name);
+        String name = localNameOfProperty(originalName);
 
         try {
             return Objects.requireNonNull(vICAL.getProperty(name));
@@ -173,49 +186,332 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T extends ICalProperty> Value value(ICalPropertyScribe<T> scribe, ICalProperty property, TimezoneInfo info) {
-        try {
-            T prop = (T)property;
-            String text = scribe.writeText(prop, new WriteContext(ICalVersion.V2_0, info, null));
-            if (text == null) {
-                return null;
-            }
-            text = VObjectPropertyValues.unescape(text);
-            ICalDataType dataType = scribe.dataType(prop, ICalVersion.V2_0);
-            if (ICalDataType.URI.equals(dataType) || ICalDataType.URL.equals(dataType)) {
-                try {
-                    return f.createIRI(text.trim());
-                } catch (IllegalArgumentException e) {
-                    //ignore
+    private static final String NaN = Double.toString(Double.NaN);
+    private static String str(Double d) {
+        return d == null ? NaN : d.toString();
+    }
+
+    private static void writeParams(BNode subject, ICalParameters params, ExtractionResult result) {
+        for (Map.Entry<String, List<String>> entry : params.getMap().entrySet()) {
+            List<String> strings = entry.getValue();
+            if (strings != null && !strings.isEmpty()) {
+                IRI predicate = predicate(entry.getKey(), result);
+                for (String v : strings) {
+                    result.writeTriple(subject, predicate, f.createLiteral(v));
                 }
             }
-            return f.createLiteral(text);
-        } catch (SkipMeException e) {
-            return null;
         }
     }
 
-    private static void extract(ScribeIndex index, TimezoneInfo info, BNode node, ICalComponent component, ExtractionResult extractionResult) {
-        for (ICalProperty property : component.getProperties().values()) {
-            ICalPropertyScribe<?> scribe = index.getPropertyScribe(property);
-            IRI predicate = predicate(scribe, extractionResult);
-            if (predicate != null) {
-                Value value = value(scribe, property, info);
-                if (value != null) {
-                    extractionResult.writeTriple(node, predicate, value);
+
+    private static IRI dataType(ICalDataType dataType) {
+        if (dataType == null || ICalDataType.TEXT.equals(dataType)) {
+            return XMLSchema.STRING;
+        } else if (ICalDataType.BOOLEAN.equals(dataType)) {
+            return XMLSchema.BOOLEAN;
+        } else if (ICalDataType.INTEGER.equals(dataType)) {
+            return XMLSchema.INTEGER;
+        } else if (ICalDataType.FLOAT.equals(dataType)) {
+            return XMLSchema.FLOAT;
+        } else if (ICalDataType.BINARY.equals(dataType)) {
+            return XMLSchema.BASE64BINARY;
+        } else if (ICalDataType.URI.equals(dataType)
+                || ICalDataType.URL.equals(dataType)
+                || ICalDataType.CONTENT_ID.equals(dataType)
+                || ICalDataType.CAL_ADDRESS.equals(dataType)) {
+            return XMLSchema.ANYURI;
+        } else if (ICalDataType.DATE_TIME.equals(dataType)) {
+            return XMLSchema.DATETIME;
+        } else if (ICalDataType.DATE.equals(dataType)) {
+            return XMLSchema.DATE;
+        } else if (ICalDataType.TIME.equals(dataType)) {
+            return XMLSchema.TIME;
+        } else if (ICalDataType.DURATION.equals(dataType)) {
+            return XMLSchema.DURATION;
+        } else if (ICalDataType.PERIOD.equals(dataType)) {
+            return vICAL.Value_PERIOD;
+        } else if (ICalDataType.RECUR.equals(dataType)) {
+            return vICAL.Value_RECUR;
+        } else {
+            return XMLSchema.STRING;
+        }
+    }
+
+
+    private static final Pattern durationWeeksPattern = Pattern.compile("(-?P)(\\d+)W");
+
+    private static String normalizeAndReportIfInvalid(String s, IRI dataType, TimeZone zone, ExtractionResult result) {
+        if (dataType == null) {
+            return s;
+        }
+        try {
+            if (XMLSchema.DURATION.equals(dataType)) {
+                Matcher m = durationWeeksPattern.matcher(s);
+                if (m.matches()) {
+                    long days = Long.parseLong(m.group(2)) * 7;
+                    return m.group(1) + days + "D";
+                }
+            } else if (vICAL.Value_PERIOD.equals(dataType)) {
+                if (s.indexOf('/') == -1) {
+                    throw new IllegalArgumentException();
+                }
+            } else if (zone != null && XMLSchema.DATETIME.equals(dataType)) {
+                try {
+                    DateTimeComponents dt = DateTimeComponents.parse(s);
+                    if (!dt.isUtc()) {
+                        s = ICalDateFormat.DATE_TIME_EXTENDED.format(dt.toDate(zone), zone);
+                    }
+                } catch (IllegalArgumentException e) {
+                    //ignore
+                }
+            } else {
+                s = XMLDatatypeUtil.normalize(s, dataType);
+            }
+
+            if (!XMLDatatypeUtil.isValidValue(s, dataType)) {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            String m = e.getMessage();
+            if (StringUtils.isBlank(m)) {
+                m = "Not a valid " + dataType + " value: " + s;
+            }
+            result.notifyIssue(IssueReport.IssueLevel.ERROR, m, -1, -1);
+        }
+        return s;
+    }
+
+    private static boolean writeValue(BNode subject, IRI predicate, JsonValue jsonValue, String lang, IRI dataType, TimeZone zone, ExtractionResult result) {
+        if (jsonValue == null || jsonValue.isNull()) {
+            return false;
+        }
+        Object val = jsonValue.getValue();
+        if (val != null) {
+            Value v;
+            if (val instanceof Byte) {
+                v = f.createLiteral((byte)val);
+            } else if (val instanceof Short) {
+                v = f.createLiteral((short)val);
+            } else if (val instanceof Integer) {
+                v = f.createLiteral((int)val);
+            } else if (val instanceof Long) {
+                v = f.createLiteral((long)val);
+            } else if (val instanceof Float) {
+                v = f.createLiteral((float)val);
+            } else if (val instanceof Double) {
+                v = f.createLiteral((double)val);
+            } else if (val instanceof Boolean) {
+                v = f.createLiteral((boolean)val);
+            } else if (val instanceof BigInteger) {
+                v = f.createLiteral((BigInteger)val);
+            } else if (val instanceof BigDecimal) {
+                v = f.createLiteral((BigDecimal)val);
+            } else {
+                String str = normalizeAndReportIfInvalid(val.toString(), dataType, zone, result);
+
+                if (XMLSchema.STRING.equals(dataType)) {
+                    if (lang == null) {
+                        v = f.createLiteral(str);
+                    } else {
+                        v = f.createLiteral(str, lang);
+                    }
+                } else if (XMLSchema.ANYURI.equals(dataType)) {
+                    try {
+                        v = f.createIRI(str);
+                    } catch (IllegalArgumentException e) {
+                        v = f.createLiteral(str, dataType);
+                    }
+                } else if (vICAL.Value_PERIOD.equals(dataType)) {
+                    String[] strs = str.split("/");
+                    if (strs.length != 2) {
+                        v = f.createLiteral(str);
+                    } else {
+                        BNode bNode = f.createBNode();
+                        result.writeTriple(subject, predicate, bNode);
+                        result.writeTriple(bNode, RDF.TYPE, dataType);
+
+                        String start = normalizeAndReportIfInvalid(strs[0], XMLSchema.DATETIME, zone, result);
+                        result.writeTriple(bNode, vICAL.dtstart, f.createLiteral(start, XMLSchema.DATETIME));
+                        String str1 = strs[1];
+                        if (str1.indexOf('P') != -1) { //duration
+                            String duration = normalizeAndReportIfInvalid(str1, XMLSchema.DURATION, zone, result);
+                            result.writeTriple(bNode, vICAL.duration, f.createLiteral(duration, XMLSchema.DURATION));
+                        } else {
+                            String end = normalizeAndReportIfInvalid(str1, XMLSchema.DATETIME, zone, result);
+                            result.writeTriple(bNode, vICAL.dtend, f.createLiteral(end, XMLSchema.DATETIME));
+                        }
+                        return true;
+                    }
+                } else if (dataType != null) {
+                    v = f.createLiteral(str, dataType);
+                } else {
+                    v = f.createLiteral(str);
+                }
+
+            }
+            result.writeTriple(subject, predicate, v);
+            return true;
+        }
+
+        List<JsonValue> array = jsonValue.getArray();
+        if (array != null && !array.isEmpty()) {
+            if (array.size() == 1) {
+                return writeValue(subject, predicate, array.get(0), lang, dataType, zone, result);
+            } else {
+                BNode bNode = f.createBNode();
+                result.writeTriple(subject, predicate, bNode);
+                for (JsonValue value : array) {
+                    writeValue(bNode, RDF.VALUE, value, lang, dataType, zone, result);
+                }
+                return true;
+            }
+        }
+
+        Map<String, JsonValue> object = jsonValue.getObject();
+        if (object != null) {
+            BNode bNode = f.createBNode();
+            result.writeTriple(subject, predicate, bNode);
+            if (dataType != null && ICAL.NS.equals(dataType.getNamespace())) {
+                result.writeTriple(bNode, RDF.TYPE, dataType);
+            }
+            for (Map.Entry<String, JsonValue> entry : object.entrySet()) {
+                writeValue(bNode, predicate(entry.getKey(), result), entry.getValue(), lang, XMLSchema.STRING, zone, result);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private static TimeZone getTimeZone(ICalProperty prop, TimezoneInfo info) {
+        if (info.isFloating(prop)) {
+            return null;
+        }
+        TimezoneAssignment assignment = info.getTimezoneToWriteIn(prop);
+        if (assignment == null) {
+            return TimeZone.getTimeZone(ZoneOffset.UTC);
+        } else {
+            return assignment.getTimeZone();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends ICalProperty> void writeProperty(BNode subject, ICalPropertyScribe<T> scribe, ICalProperty property, WriteContext ctx, ExtractionResult result) {
+        try {
+            T prop = (T)property;
+
+            ICalVersion version = ctx.getVersion();
+
+            ICalDataType dataType = scribe.dataType(prop, version);
+
+            ICalParameters params = scribe.prepareParameters(prop, ctx);
+
+            String lang = params.getLanguage();
+            params.removeAll(ICalParameters.LANGUAGE);
+
+            Encoding encoding = params.getEncoding();
+
+            if (dataType == null) {
+                dataType = params.getValue();
+                if (dataType == null && Encoding.BASE64.equals(encoding)) {
+                    dataType = ICalDataType.BINARY;
                 }
             }
-        }
-        for (ICalComponent child : component.getComponents().values()) {
-            BNode childNode = f.createBNode();
-            extractionResult.writeTriple(node, vICAL.component, childNode);
-            IRI childType = type(index.getComponentScribe(child), extractionResult);
-            if (childType != null) {
-                extractionResult.writeTriple(childNode, RDF.TYPE, childType);
+            params.removeAll(ICalParameters.VALUE);
+
+            if (ICalDataType.BINARY.equals(dataType)) {
+                // RFC 5545 s. 3.2.7.
+                // If the value type parameter is ";VALUE=BINARY", then the inline
+                // encoding parameter MUST be specified with the value
+                // ";ENCODING=BASE64"
+                if (encoding != null && !Encoding.BASE64.equals(encoding)) {
+                    result.notifyIssue(IssueReport.IssueLevel.ERROR,
+                            "Invalid encoding " + encoding + " specified for BINARY value", -1, -1);
+                    dataType = null;
+                }
+                params.removeAll(ICalParameters.ENCODING);
             }
-            extract(index, info, childNode, child, extractionResult);
+
+            if (Encoding._8BIT.equals(encoding)) {
+                // RFC 5545 s. 3.2.7.
+                // The default encoding is "8BIT",
+                // corresponding to a property value consisting of text.
+                params.removeAll(ICalParameters.ENCODING);
+            }
+
+            // RFC 5545 s. 3.1.4.
+            // There is not a property parameter to declare the charset used in a
+            //   property value.  The default charset for an iCalendar stream is UTF-8
+            //   as defined in [RFC3629].
+            params.removeAll(ICalParameters.CHARSET);
+
+            IRI predicate = predicate(scribe.getPropertyName(version), result);
+
+            if (!params.isEmpty()) {
+                BNode bNode = f.createBNode();
+                result.writeTriple(subject, predicate, bNode);
+                writeParams(bNode, params, result);
+
+                subject = bNode;
+                predicate = RDF.VALUE;
+            }
+
+            if (prop instanceof Geo) {
+                // RFC 5870
+                Geo g = (Geo)prop;
+                IRI value = f.createIRI("geo:" + str(g.getLatitude()) + "," + str(g.getLongitude()));
+                result.writeTriple(subject, predicate, value);
+            } else {
+                TimeZone timeZone = getTimeZone(prop, ctx.getTimezoneInfo());
+                IRI dataTypeIRI = dataType(dataType);
+
+                JCalValue jsonVal = scribe.writeJson(prop, ctx);
+                List<JsonValue> jsonVals = jsonVal.getValues();
+
+                boolean mod = false;
+                for (JsonValue value : jsonVals) {
+                    mod |= writeValue(subject, predicate, value, lang, dataTypeIRI, timeZone, result);
+                }
+                if (!mod) {
+                    result.writeTriple(subject, predicate, f.createLiteral(jsonVal.asSingle()));
+                }
+            }
+        } catch (SkipMeException e) {
+            //ignore
         }
+    }
+
+    private static void extract(ScribeIndex index, WriteContext ctx, BNode node, ICalComponent component, ExtractionResult result, boolean writeTimezones) {
+        for (ICalProperty property : component.getProperties().values()) {
+            ctx.setParent(component);
+            writeProperty(node, index.getPropertyScribe(property), property, ctx, result);
+        }
+
+        Stream<ICalComponent> components = component.getComponents().values().stream();
+
+        if (writeTimezones) {
+            Collection<VTimezone> tzs = ctx.getTimezoneInfo().getComponents();
+            Set<String> tzIds = tzs.stream()
+                    .map(tz -> tz.getTimezoneId().getValue())
+                    .collect(Collectors.toSet());
+            components = Stream.concat(tzs.stream(), components.filter(c ->
+                    !(c instanceof VTimezone && tzIds.contains(((VTimezone) c).getTimezoneId().getValue())))
+            );
+        }
+
+        components.forEachOrdered(child -> {
+            BNode childNode = f.createBNode();
+            String componentName = index.getComponentScribe(child).getComponentName();
+            IRI childType = type(componentName);
+
+            if (childType == null) {
+                result.writeTriple(node, predicate(componentName, result), childNode);
+            } else {
+                result.writeTriple(node, vICAL.component, childNode);
+                result.writeTriple(childNode, RDF.TYPE, childType);
+            }
+            extract(index, ctx, childNode, child, result, false);
+        });
     }
 
 }
