@@ -1,0 +1,29 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+_:node1clu29scrx2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vcalendar> <http://bob.example.com/> .
+_:node1clu29scrx2 <http://www.w3.org/2002/12/cal/icaltzd#prodid> "-//RDU Software//NONSGML HandCal//EN" <http://bob.example.com/> .
+_:node1clu29scrx2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu29scrx3 <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vfreebusy> <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu29scrx7 <http://bob.example.com/> .
+_:node1clu29scrx7 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jsmith@example.com> <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "1998-03-13T14:17:11Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#dtend> "1998-04-10T14:17:11Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#freebusy> "1998-03-14T23:30:00Z/1998-03-15T00:30:00Z" <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#freebusy> "1998-03-16T15:30:00Z/1998-03-16T16:30:00Z" <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#freebusy> "1998-03-18T03:00:00Z/1998-03-18T04:00:00Z" <http://bob.example.com/> .
+_:node1clu29scrx3 <http://www.w3.org/2002/12/cal/icaltzd#url> <http://www.example.com/calendar/busytime/jsmith.ifb> <http://bob.example.com/> .

@@ -1,0 +1,31 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+_:node1clu1knnlx2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vcalendar> <http://bob.example.com/> .
+_:node1clu1knnlx2 <http://www.w3.org/2002/12/cal/icaltzd#prodid> "-//xyz Corp//NONSGML PDA Calendar Version 1.0//EN" <http://bob.example.com/> .
+_:node1clu1knnlx2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu1knnlx3 <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vevent> <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "1996-07-04T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#uid> "uid1@example.com" <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu1knnlx4 <http://bob.example.com/> .
+_:node1clu1knnlx4 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jsmith@example.com> <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "1996-09-18T14:30:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#dtend> "1996-09-20T22:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#status> "CONFIRMED" <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#categories> "CONFERENCE" <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#summary> "Networld+Interop Conference" <http://bob.example.com/> .
+_:node1clu1knnlx3 <http://www.w3.org/2002/12/cal/icaltzd#description> "Networld+Interop Conferenceand Exhibit\nAtlanta World Congress Center\nAtlanta, Georgia" <http://bob.example.com/> .

@@ -29,6 +29,11 @@ public class ICAL extends Vocabulary {
      */
     public static final String NS = "http://www.w3.org/2002/12/cal/icaltzd#";
 
+    /**
+     * Recommended prefix for the ICAL namespace
+     */
+    public static final String PREFIX = "ical";
+
     private static final class InstanceHolder {
         private static final ICAL instance = new ICAL();
     }
@@ -53,6 +58,13 @@ public class ICAL extends Vocabulary {
     public final IRI Value_CAL_ADDRESS = createClass("Value_CAL-ADDRESS");
 
     public final IRI Value_DATE        = createClass("Value_DATE");
+
+    public final IRI Value_DATE_TIME   = createClass("Value_DATE-TIME");
+
+    /**
+     * ICAL datatype for floating date-time values
+     */
+    public final IRI DATE_TIME   = createIRI(NS + "dateTime");
 
     public final IRI Value_DURATION    = createClass("Value_DURATION");
 
@@ -190,6 +202,8 @@ public class ICAL extends Vocabulary {
     public final IRI byweekno = createProperty("byweekno");
 
     public final IRI byyearday = createProperty("byyearday");
+
+    public final IRI wkst = createProperty("wkst");
 
     /**
      * value type: TEXTThis IRI defines the calendar scale used for the calendar

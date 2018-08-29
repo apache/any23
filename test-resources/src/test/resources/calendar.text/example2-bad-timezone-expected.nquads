@@ -1,0 +1,56 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+_:node1clu1u3ipx2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vcalendar> <http://bob.example.com/> .
+_:node1clu1u3ipx2 <http://www.w3.org/2002/12/cal/icaltzd#prodid> "-//RDU Software//NONSGML HandCal//EN" <http://bob.example.com/> .
+_:node1clu1u3ipx2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu1u3ipx3 <http://bob.example.com/> .
+_:node1clu1u3ipx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vtimezone> <http://bob.example.com/> .
+_:node1clu1u3ipx3 <http://www.w3.org/2002/12/cal/icaltzd#tzid> "America/New_York" <http://bob.example.com/> .
+_:node1clu1u3ipx3 <http://www.w3.org/2002/12/cal/icaltzd#standard> _:node1clu1u3ipx4 <http://bob.example.com/> .
+_:node1clu1u3ipx4 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "1998-10-25T02:00:00"^^<http://www.w3.org/2002/12/cal/icaltzd#dateTime> <http://bob.example.com/> .
+_:node1clu1u3ipx4 <http://www.w3.org/2002/12/cal/icaltzd#tzoffsetfrom> "-04:00" <http://bob.example.com/> .
+_:node1clu1u3ipx4 <http://www.w3.org/2002/12/cal/icaltzd#tzoffsetto> "-05:00" <http://bob.example.com/> .
+_:node1clu1u3ipx4 <http://www.w3.org/2002/12/cal/icaltzd#tzname> "EST" <http://bob.example.com/> .
+_:node1clu1u3ipx3 <http://www.w3.org/2002/12/cal/icaltzd#daylight> _:node1clu1u3ipx5 <http://bob.example.com/> .
+_:node1clu1u3ipx5 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "1999-04-04T02:00:00"^^<http://www.w3.org/2002/12/cal/icaltzd#dateTime> <http://bob.example.com/> .
+_:node1clu1u3ipx5 <http://www.w3.org/2002/12/cal/icaltzd#tzoffsetfrom> "-05:00" <http://bob.example.com/> .
+_:node1clu1u3ipx5 <http://www.w3.org/2002/12/cal/icaltzd#tzoffsetto> "-04:00" <http://bob.example.com/> .
+_:node1clu1u3ipx5 <http://www.w3.org/2002/12/cal/icaltzd#tzname> "EDT" <http://bob.example.com/> .
+_:node1clu1u3ipx2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu1u3ipx6 <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vevent> <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "1998-03-09T23:10:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#uid> "guid-1.example.com" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu1u3ipx1 <http://bob.example.com/> .
+_:node1clu1u3ipx1 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:mrbig@example.com> <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#attendee> _:node1clu1u3ipx7 <http://bob.example.com/> .
+_:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#cutype> "GROUP" <http://bob.example.com/> .
+_:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#rsvp> "TRUE" <http://bob.example.com/> .
+_:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#role> "REQ-PARTICIPANT" <http://bob.example.com/> .
+_:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:employee-A@example.com> <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#description> "Project XYZ Review Meeting" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#categories> "MEETING" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#class> "PUBLIC" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#created> "1998-03-09T13:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#summary> "XYZ Project Review" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> _:node1clu1u3ipx8 <http://bob.example.com/> .
+_:node1clu1u3ipx8 <http://www.w3.org/2002/12/cal/icaltzd#tzid> "America/New_Yor" <http://bob.example.com/> .
+_:node1clu1u3ipx8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> "1998-03-12T08:30:00" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#dtend> _:node1clu1u3ipx9 <http://bob.example.com/> .
+_:node1clu1u3ipx9 <http://www.w3.org/2002/12/cal/icaltzd#tzid> "America/New_Yor" <http://bob.example.com/> .
+_:node1clu1u3ipx9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> "1998-03-12T09:30:00" <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#location> "1CP Conference Room 4350" <http://bob.example.com/> .
+

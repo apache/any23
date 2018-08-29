@@ -1,0 +1,41 @@
+#
+#  Licensed to the Apache Software Foundation (ASF) under one or more
+#  contributor license agreements.  See the NOTICE file distributed with
+#  this work for additional information regarding copyright ownership.
+#  The ASF licenses this file to You under the Apache License, Version 2.0
+#  (the "License"); you may not use this file except in compliance with
+#  the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+_:node1clu24refx2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vcalendar> <http://bob.example.com/> .
+_:node1clu24refx2 <http://www.w3.org/2002/12/cal/icaltzd#prodid> "-//ABC Corporation//NONSGML My Product//EN" <http://bob.example.com/> .
+_:node1clu24refx2 <http://www.w3.org/2002/12/cal/icaltzd#method> "xyz" <http://bob.example.com/> .
+_:node1clu24refx2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu24refx3 <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vevent> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "1997-03-24T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#sequence> "0"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#uid> "uid3@example.com" <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu24refx6 <http://bob.example.com/> .
+_:node1clu24refx6 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jdoe@example.com> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#attendee> _:node1clu24refx4 <http://bob.example.com/> .
+_:node1clu24refx4 <http://www.w3.org/2002/12/cal/icaltzd#rsvp> "TRUE" <http://bob.example.com/> .
+_:node1clu24refx4 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jsmith@example.com> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "1997-03-24T12:30:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#dtend> "1997-03-24T21:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#categories> "MEETING" <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#categories> "PROJECT" <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#class> "PUBLIC" <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#summary> "Calendaring Interoperability Planning Meeting" <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#description> "Discuss how we can test c&s interoperability\nusing iCalendar and other IETF standards." <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#location> "LDB Lobby" <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#attach> _:node1clu24refx5 <http://bob.example.com/> .
+_:node1clu24refx5 <http://www.w3.org/2002/12/cal/icaltzd#fmttype> "application/postscript" <http://bob.example.com/> .
+_:node1clu24refx5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> <ftp://example.com/pub/conf/bkgrnd.ps> <http://bob.example.com/> .

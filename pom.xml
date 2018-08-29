@@ -377,6 +377,11 @@
         <artifactId>jaxb-api</artifactId>
         <version>2.4.0-b180725.0427</version>
       </dependency>
+      <dependency>
+        <groupId>net.sf.biweekly</groupId>
+        <artifactId>biweekly</artifactId>
+        <version>0.6.2</version>
+      </dependency>
 
       <!-- BEGIN: Tika -->
       <dependency>
