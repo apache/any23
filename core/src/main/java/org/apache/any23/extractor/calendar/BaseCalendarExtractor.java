@@ -61,7 +61,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -383,15 +382,17 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         return false;
     }
 
-    private static TimeZone getTimeZone(ICalProperty prop, TimezoneInfo info) {
-        if (info.isFloating(prop)) {
-            return null;
-        }
-        TimezoneAssignment assignment = info.getTimezoneToWriteIn(prop);
-        if (assignment == null) {
-            return TimeZone.getTimeZone(ZoneOffset.UTC);
-        } else {
-            return assignment.getTimeZone();
+    private static TimeZone parseTimeZoneId(String tzId) {
+        for (;;) {
+            TimeZone zone = ICalDateFormat.parseTimeZoneId(tzId);
+            if (zone != null) {
+                return zone;
+            }
+            int ind = tzId.indexOf('/');
+            if (ind == -1) {
+                return null;
+            }
+            tzId = tzId.substring(ind + 1);
         }
     }
 
@@ -462,7 +463,20 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                 IRI value = f.createIRI("geo:" + str(g.getLatitude()) + "," + str(g.getLongitude()));
                 result.writeTriple(subject, predicate, value);
             } else {
-                TimeZone timeZone = getTimeZone(prop, ctx.getTimezoneInfo());
+
+                String tzId = params.getTimezoneId();
+                TimeZone timeZone = null;
+                if (tzId != null) {
+                    TimezoneInfo tzInfo = ctx.getTimezoneInfo();
+                    TimezoneAssignment assign = tzInfo.getTimezone(prop);
+                    if (assign != null) {
+                        timeZone = assign.getTimeZone();
+                    } else {
+                        timeZone = parseTimeZoneId(tzId);
+                        tzInfo.setFloating(prop, true);
+                    }
+                }
+
                 IRI dataTypeIRI = dataType(dataType);
 
                 JCalValue jsonVal = scribe.writeJson(prop, ctx);

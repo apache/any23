@@ -45,6 +45,16 @@ public class ICalExtractorTest extends BaseCalendarExtractorTest {
     }
 
     @Test
+    public void testBadTimezone() throws IOException {
+        extractAndVerifyAgainstNQuads("example2-bad-timezone.ics", "example2-bad-timezone-expected.nquads");
+    }
+
+    @Test
+    public void testExternalTimezone() throws IOException {
+        extractAndVerifyAgainstNQuads("example2-external-timezone.ics", "example2-external-timezone-expected.nquads");
+    }
+
+    @Test
     public void testRFC5545example3() throws IOException {
         extractAndVerifyAgainstNQuads("rfc5545-example3.ics", "rfc5545-example3-expected.nquads");
     }
