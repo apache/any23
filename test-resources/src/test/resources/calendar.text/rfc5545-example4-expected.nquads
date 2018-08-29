@@ -27,7 +27,7 @@ _:node1clu27ji5x7 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:unc
 _:node1clu27ji5x3 <http://www.w3.org/2002/12/cal/icaltzd#attendee> _:node1clu27ji5x4 <http://bob.example.com/> .
 _:node1clu27ji5x4 <http://www.w3.org/2002/12/cal/icaltzd#partstat> "ACCEPTED" <http://bob.example.com/> .
 _:node1clu27ji5x4 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jqpublic@example.com> <http://bob.example.com/> .
-_:node1clu27ji5x3 <http://www.w3.org/2002/12/cal/icaltzd#due> "1998-04-15T00:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu27ji5x3 <http://www.w3.org/2002/12/cal/icaltzd#due> "1998-04-15T00:00:00"^^<http://www.w3.org/2002/12/cal/icaltzd#dateTime> <http://bob.example.com/> .
 _:node1clu27ji5x3 <http://www.w3.org/2002/12/cal/icaltzd#status> "NEEDS-ACTION" <http://bob.example.com/> .
 _:node1clu27ji5x3 <http://www.w3.org/2002/12/cal/icaltzd#summary> "Submit Income Taxes" <http://bob.example.com/> .
 _:node1clu27ji5x3 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu27ji5x5 <http://bob.example.com/> .

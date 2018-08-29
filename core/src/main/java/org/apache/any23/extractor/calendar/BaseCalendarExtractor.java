@@ -216,7 +216,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
     }
 
 
-    private static IRI dataType(ICalDataType dataType) {
+    private static IRI dataType(ICalDataType dataType, Boolean isFloating) {
         if (dataType == null || ICalDataType.TEXT.equals(dataType)) {
             return XMLSchema.STRING;
         } else if (ICalDataType.BOOLEAN.equals(dataType)) {
@@ -233,7 +233,10 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                 || ICalDataType.CAL_ADDRESS.equals(dataType)) {
             return XMLSchema.ANYURI;
         } else if (ICalDataType.DATE_TIME.equals(dataType)) {
-            return XMLSchema.DATETIME;
+            if (isFloating == null) {
+                return null;
+            }
+            return isFloating ? vICAL.DATE_TIME : XMLSchema.DATETIME;
         } else if (ICalDataType.DATE.equals(dataType)) {
             return XMLSchema.DATE;
         } else if (ICalDataType.TIME.equals(dataType)) {
@@ -466,9 +469,10 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             } else {
 
                 String tzId = params.getTimezoneId();
+                TimezoneInfo tzInfo = ctx.getTimezoneInfo();
                 TimeZone timeZone = null;
+                Boolean floating;
                 if (tzId != null) {
-                    TimezoneInfo tzInfo = ctx.getTimezoneInfo();
                     TimezoneAssignment assign = tzInfo.getTimezone(prop);
                     if (assign != null) {
                         timeZone = assign.getTimeZone();
@@ -476,9 +480,12 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                         timeZone = parseTimeZoneId(tzId);
                         tzInfo.setFloating(prop, true);
                     }
+                    floating = timeZone == null ? null : Boolean.FALSE;
+                } else {
+                    floating = tzInfo.isFloating(prop);
                 }
 
-                IRI dataTypeIRI = dataType(dataType);
+                IRI dataTypeIRI = dataType(dataType, floating);
 
                 JCalValue jsonVal = scribe.writeJson(prop, ctx);
                 List<JsonValue> jsonVals = jsonVal.getValues();

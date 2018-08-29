@@ -22,7 +22,7 @@ _:node1clu415j2x3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.
 _:node1clu415j2x3 <http://www.w3.org/2002/12/cal/icaltzd#tzid> "US/Eastern" <http://bob.example.com/> .
 _:node1clu415j2x3 <http://www.w3.org/2002/12/cal/icaltzd#lastModified> "2004-01-10T03:28:45Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
 _:node1clu415j2x3 <http://www.w3.org/2002/12/cal/icaltzd#daylight> _:node1clu415j2x4 <http://bob.example.com/> .
-_:node1clu415j2x4 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "2000-04-04T02:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu415j2x4 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "2000-04-04T02:00:00"^^<http://www.w3.org/2002/12/cal/icaltzd#dateTime> <http://bob.example.com/> .
 _:node1clu415j2x4 <http://www.w3.org/2002/12/cal/icaltzd#rrule> _:node1clu415j2x5 <http://bob.example.com/> .
 _:node1clu415j2x5 <http://www.w3.org/2002/12/cal/icaltzd#freq> "YEARLY" <http://bob.example.com/> .
 _:node1clu415j2x5 <http://www.w3.org/2002/12/cal/icaltzd#byday> "1SU" <http://bob.example.com/> .
@@ -31,7 +31,7 @@ _:node1clu415j2x4 <http://www.w3.org/2002/12/cal/icaltzd#tzname> "EDT" <http://b
 _:node1clu415j2x4 <http://www.w3.org/2002/12/cal/icaltzd#tzoffsetfrom> "-05:00" <http://bob.example.com/> .
 _:node1clu415j2x4 <http://www.w3.org/2002/12/cal/icaltzd#tzoffsetto> "-04:00" <http://bob.example.com/> .
 _:node1clu415j2x3 <http://www.w3.org/2002/12/cal/icaltzd#standard> _:node1clu415j2x6 <http://bob.example.com/> .
-_:node1clu415j2x6 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "2000-10-26T02:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
+_:node1clu415j2x6 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "2000-10-26T02:00:00"^^<http://www.w3.org/2002/12/cal/icaltzd#dateTime> <http://bob.example.com/> .
 _:node1clu415j2x6 <http://www.w3.org/2002/12/cal/icaltzd#rrule> _:node1clu415j2x7 <http://bob.example.com/> .
 _:node1clu415j2x7 <http://www.w3.org/2002/12/cal/icaltzd#freq> "YEARLY" <http://bob.example.com/> .
 _:node1clu415j2x7 <http://www.w3.org/2002/12/cal/icaltzd#byday> "1SU" <http://bob.example.com/> .

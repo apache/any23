@@ -61,6 +61,11 @@ public class ICAL extends Vocabulary {
 
     public final IRI Value_DATE_TIME   = createClass("Value_DATE-TIME");
 
+    /**
+     * ICAL datatype for floating date-time values
+     */
+    public final IRI DATE_TIME   = createIRI(NS + "dateTime");
+
     public final IRI Value_DURATION    = createClass("Value_DURATION");
 
     public final IRI Value_PERIOD      = createClass("Value_PERIOD");
