@@ -21,7 +21,8 @@ _:node1clu28m86x2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu28
 _:node1clu28m86x3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vjournal> <http://bob.example.com/> .
 _:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "1997-03-24T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
 _:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#uid> "uid5@example.com" <http://bob.example.com/> .
-_:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> <mailto:jsmith@example.com> <http://bob.example.com/> .
+_:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu28m86x4 <http://bob.example.com/> .
+_:node1clu28m86x4 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jsmith@example.com> <http://bob.example.com/> .
 _:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#status> "DRAFT" <http://bob.example.com/> .
 _:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#class> "PUBLIC" <http://bob.example.com/> .
 _:node1clu28m86x3 <http://www.w3.org/2002/12/cal/icaltzd#categories> "Project Report" <http://bob.example.com/> .

@@ -34,12 +34,13 @@ _:node1clu1u3ipx2 <http://www.w3.org/2002/12/cal/icaltzd#component> _:node1clu1u
 _:node1clu1u3ipx6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/12/cal/icaltzd#Vevent> <http://bob.example.com/> .
 _:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "1998-03-09T23:10:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
 _:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#uid> "guid-1.example.com" <http://bob.example.com/> .
-_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#organizer> <mailto:mrbig@example.com> <http://bob.example.com/> .
+_:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu1u3ipx1 <http://bob.example.com/> .
+_:node1clu1u3ipx1 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:mrbig@example.com> <http://bob.example.com/> .
 _:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#attendee> _:node1clu1u3ipx7 <http://bob.example.com/> .
 _:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#cutype> "GROUP" <http://bob.example.com/> .
 _:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#rsvp> "TRUE" <http://bob.example.com/> .
 _:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#role> "REQ-PARTICIPANT" <http://bob.example.com/> .
-_:node1clu1u3ipx7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> <mailto:employee-A@example.com> <http://bob.example.com/> .
+_:node1clu1u3ipx7 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:employee-A@example.com> <http://bob.example.com/> .
 _:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#description> "Project XYZ Review Meeting" <http://bob.example.com/> .
 _:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#categories> "MEETING" <http://bob.example.com/> .
 _:node1clu1u3ipx6 <http://www.w3.org/2002/12/cal/icaltzd#class> "PUBLIC" <http://bob.example.com/> .

@@ -133,20 +133,26 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
 
     private static String localNameOfType(String typeName) {
-        if (typeName.isEmpty()) {
-            return "";
-        }
-        int ind = Character.charCount(typeName.codePointAt(0));
-        return typeName.substring(0, ind).toUpperCase(Locale.ENGLISH)
-                + typeName.substring(ind).toLowerCase(Locale.ENGLISH);
+        return camelCase(typeName, false);
     }
 
     private static String localNameOfProperty(String propertyName) {
-        String[] nameComponents = propertyName.split("-");
-        StringBuilder sb = new StringBuilder(propertyName.length());
-        sb.append(nameComponents[0].toLowerCase(Locale.ENGLISH));
-        for (int i = 1, len = nameComponents.length; i < len; i++) {
-            sb.append(localNameOfType(nameComponents[i]));
+        return camelCase(propertyName, true);
+    }
+
+    private static String camelCase(String name, boolean forProperty) {
+        String[] nameComponents = name.toLowerCase(Locale.ENGLISH).split("-");
+        StringBuilder sb = new StringBuilder(name.length());
+        int i = 0;
+        if (forProperty) {
+            sb.append(nameComponents[i++]);
+        }
+        for (int len = nameComponents.length; i < len; i++) {
+            String n = nameComponents[i];
+            if (!n.isEmpty()) {
+                int ind = Character.charCount(n.codePointAt(0));
+                sb.append(n.substring(0, ind).toUpperCase(Locale.ENGLISH)).append(n.substring(ind));
+            }
         }
         return sb.toString();
     }
@@ -188,6 +194,13 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
     private static final String NaN = Double.toString(Double.NaN);
     private static String str(Double d) {
         return d == null ? NaN : d.toString();
+    }
+
+    private static BNode writeParams(BNode subject, IRI predicate, ICalParameters params, ExtractionResult result) {
+        BNode bNode = f.createBNode();
+        result.writeTriple(subject, predicate, bNode);
+        writeParams(bNode, params, result);
+        return bNode;
     }
 
     private static void writeParams(BNode subject, ICalParameters params, ExtractionResult result) {
@@ -322,25 +335,17 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                     }
                 } else if (vICAL.Value_PERIOD.equals(dataType)) {
                     String[] strs = str.split("/");
-                    if (strs.length != 2) {
-                        v = f.createLiteral(str);
-                    } else {
-                        BNode bNode = f.createBNode();
-                        result.writeTriple(subject, predicate, bNode);
-                        result.writeTriple(bNode, RDF.TYPE, dataType);
-
-                        String start = normalizeAndReportIfInvalid(strs[0], XMLSchema.DATETIME, zone, result);
-                        result.writeTriple(bNode, vICAL.dtstart, f.createLiteral(start, XMLSchema.DATETIME));
-                        String str1 = strs[1];
-                        if (str1.indexOf('P') != -1) { //duration
-                            String duration = normalizeAndReportIfInvalid(str1, XMLSchema.DURATION, zone, result);
-                            result.writeTriple(bNode, vICAL.duration, f.createLiteral(duration, XMLSchema.DURATION));
+                    if (strs.length == 2) {
+                        String firstPart = normalizeAndReportIfInvalid(strs[0], XMLSchema.DATETIME, zone, result);
+                        String secondPart = strs[1];
+                        if (secondPart.indexOf('P') != -1) { //duration
+                            secondPart = normalizeAndReportIfInvalid(secondPart, XMLSchema.DURATION, zone, result);
                         } else {
-                            String end = normalizeAndReportIfInvalid(str1, XMLSchema.DATETIME, zone, result);
-                            result.writeTriple(bNode, vICAL.dtend, f.createLiteral(end, XMLSchema.DATETIME));
+                            secondPart = normalizeAndReportIfInvalid(secondPart, XMLSchema.DATETIME, zone, result);
                         }
-                        return true;
+                        str = firstPart + "/" + secondPart;
                     }
+                    v = f.createLiteral(str);
                 } else if (dataType != null) {
                     v = f.createLiteral(str, dataType);
                 } else {
@@ -370,9 +375,6 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         if (object != null) {
             BNode bNode = f.createBNode();
             result.writeTriple(subject, predicate, bNode);
-            if (dataType != null && ICAL.NS.equals(dataType.getNamespace())) {
-                result.writeTriple(bNode, RDF.TYPE, dataType);
-            }
             for (Map.Entry<String, JsonValue> entry : object.entrySet()) {
                 writeValue(bNode, predicate(entry.getKey(), result), entry.getValue(), lang, XMLSchema.STRING, zone, result);
             }
@@ -448,12 +450,11 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
             IRI predicate = predicate(scribe.getPropertyName(version), result);
 
-            if (!params.isEmpty()) {
-                BNode bNode = f.createBNode();
-                result.writeTriple(subject, predicate, bNode);
-                writeParams(bNode, params, result);
-
-                subject = bNode;
+            if (ICalDataType.CAL_ADDRESS.equals(dataType)) {
+                subject = writeParams(subject, predicate, params, result);
+                predicate = vICAL.calAddress;
+            } else if (!params.isEmpty()) {
+                subject = writeParams(subject, predicate, params, result);
                 predicate = RDF.VALUE;
             }
 

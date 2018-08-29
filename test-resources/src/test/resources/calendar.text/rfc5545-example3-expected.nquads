@@ -23,10 +23,11 @@ _:node1clu24refx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstamp> "1997-03-24T12:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#sequence> "0"^^<http://www.w3.org/2001/XMLSchema#int> <http://bob.example.com/> .
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#uid> "uid3@example.com" <http://bob.example.com/> .
-_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> <mailto:jdoe@example.com> <http://bob.example.com/> .
+_:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#organizer> _:node1clu24refx6 <http://bob.example.com/> .
+_:node1clu24refx6 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jdoe@example.com> <http://bob.example.com/> .
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#attendee> _:node1clu24refx4 <http://bob.example.com/> .
 _:node1clu24refx4 <http://www.w3.org/2002/12/cal/icaltzd#rsvp> "TRUE" <http://bob.example.com/> .
-_:node1clu24refx4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> <mailto:jsmith@example.com> <http://bob.example.com/> .
+_:node1clu24refx4 <http://www.w3.org/2002/12/cal/icaltzd#calAddress> <mailto:jsmith@example.com> <http://bob.example.com/> .
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#dtstart> "1997-03-24T12:30:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#dtend> "1997-03-24T21:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> <http://bob.example.com/> .
 _:node1clu24refx3 <http://www.w3.org/2002/12/cal/icaltzd#categories> "MEETING" <http://bob.example.com/> .
