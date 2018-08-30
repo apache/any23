@@ -137,6 +137,9 @@
         <version>${jetty.runner.version}</version>
         <configuration>
           <webAppConfig>
+              <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+                  <resourcesAsCSV>src/main</resourcesAsCSV>
+              </baseResource>
             <contextPath>/${project.artifactId}</contextPath>
           </webAppConfig>
         </configuration>
