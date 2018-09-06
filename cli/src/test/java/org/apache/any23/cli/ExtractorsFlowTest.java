@@ -75,7 +75,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
         File outputFile = File.createTempFile("mockdata-", ".ttl", tempDirectory);
         File logFile = File.createTempFile("log-exec-", ".txt", tempDirectory);
 
-        runTool(String.format("-l %s -o %s -f turtle -e csv,people -d %s %s",
+        runTool(String.format("-l %s --workflows -o %s -f turtle -e csv,people -d %s %s",
                 logFile.getAbsolutePath(),
                 outputFile.getAbsolutePath(),
                 "urn:dataser:raw/",
