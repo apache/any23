@@ -35,12 +35,13 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.util.Arrays;
 import java.util.function.Function;
 
 /**
  * This is example for task ANY23-396
+ *
+ * @author Jacek Grzebyta (jgrzebyta@apache.org)
  */
 public class ExtractorsFlowTest extends ToolTestBase {
 
@@ -105,7 +106,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
 
     /**
-     * Compare expected model and received from input File
+     * Compare expected model and received from input File.
      * @param expected
      * @param received
      * @return

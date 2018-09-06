@@ -30,12 +30,7 @@ import org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.source.DocumentSource;
-import org.apache.any23.writer.BenchmarkTripleHandler;
-import org.apache.any23.writer.LoggingTripleHandler;
-import org.apache.any23.writer.ReportingTripleHandler;
-import org.apache.any23.writer.TripleHandler;
-import org.apache.any23.writer.TripleHandlerException;
-import org.apache.any23.writer.WriterFactoryRegistry;
+import org.apache.any23.writer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,6 +100,9 @@ public class Rover extends BaseTool {
     @Parameter(names = { "-d", "--defaultns" }, description = "Override the default namespace used to produce statements.")
     private String defaultns;
 
+    @Parameter(names = "--workflows", description = "Run extractors in workflow.")
+    private boolean workflows = false;
+
     // non parameters
 
     private TripleHandler tripleHandler;
@@ -137,6 +135,10 @@ public class Rover extends BaseTool {
                         FORMATS
                     )
             );
+        }
+
+        if (workflows) {
+            tripleHandler = new BufferedTripleHandler(tripleHandler);
         }
 
         if (logFile != null) {
