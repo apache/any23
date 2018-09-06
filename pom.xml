@@ -189,6 +189,15 @@
         <role>Mentor</role>
       </roles>
     </developer>
+    <developer>
+      <id>jgrzebyta</id>
+      <name>Jacek Grzebyta</name>
+      <email>jgrzebyta[at]apache[dot]org</email>
+      <roles>
+        <role>Committer</role>
+        <role>PMC Member</role>
+      </roles>
+    </developer>
   </developers>
 
   <mailingLists>
