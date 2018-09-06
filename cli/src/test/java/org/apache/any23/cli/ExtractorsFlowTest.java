@@ -16,6 +16,7 @@
  */
 package org.apache.any23.cli;
 
+import org.apache.any23.rdf.RDFUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.rdf4j.model.IRI;
@@ -31,7 +32,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.function.Function;
@@ -108,9 +111,12 @@ public class ExtractorsFlowTest extends ToolTestBase {
      * @return
      */
     public boolean assertCompareModels(Model expected, File received) throws Exception {
-        Model receivedModel = Rio.parse(new FileReader(received),
-                                        received.toURI().toString(),
-                                        Rio.getParserFormatForFileName(received.toPath().getFileName().toString()).get());
+        Model receivedModel = new TreeModelFactory().createEmptyModel();
+        receivedModel.addAll(Arrays.asList(RDFUtils.parseRDF(
+                Rio.getParserFormatForFileName(received.getName()).get(),
+                new BufferedInputStream(new FileInputStream(received)),
+                received.toURI().toString()
+        )));
 
         return receivedModel.containsAll(expected);
     }
