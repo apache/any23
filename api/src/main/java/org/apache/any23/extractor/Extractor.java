@@ -18,6 +18,7 @@
 package org.apache.any23.extractor;
 
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -58,6 +59,14 @@ public interface Extractor<Input> {
      * {@link org.w3c.dom.Document} as input format.
      */
     public interface TagSoupDOMExtractor extends Extractor<Document> {
+    }
+
+
+    /**
+     * This interface specializes an {@link Extractor} able to handle
+     * {@link org.eclipse.rdf4j.model.Model} as input format
+     */
+    public interface ModelExtractor extends Extractor<Model> {
     }
 
     /**
