@@ -56,15 +56,15 @@ public class ExtractorsFlowTest extends ToolTestBase {
     /*
      Domain ontology & data model
      */
-    private static final String NAMESPACE = "http://supercustom.net/ontology/";
-    private static final IRI PERSON = vf.createIRI(NAMESPACE, "Person");
-    private static final IRI FULL_NAME = vf.createIRI(NAMESPACE, "fullName");
-    private static final IRI HASH = vf.createIRI(NAMESPACE, "hash");
+    public static final String NAMESPACE = "http://supercustom.net/ontology/";
+    public static final IRI PERSON = vf.createIRI(NAMESPACE, "Person");
+    public static final IRI FULL_NAME = vf.createIRI(NAMESPACE, "fullName");
+    public static final IRI HASH = vf.createIRI(NAMESPACE, "hash");
 
-    private static final String DATA_NAMESPACE = "http://rdf.supercustom.net/data/";
+    public static final String DATA_NAMESPACE = "http://rdf.supercustom.net/data/";
 
     // domain ontology person IRI factory
-    private Function<String, IRI> personIRIFactory = (String s) -> {
+    public static Function<String, IRI> personIRIFactory = (String s) -> {
             return vf.createIRI(DATA_NAMESPACE, DigestUtils.sha1Hex(s));
     };
 
@@ -79,7 +79,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
         File outputFile = File.createTempFile("mockdata-", ".ttl", tempDirectory);
         File logFile = File.createTempFile("log-exec-", ".txt", tempDirectory);
 
-        runTool(String.format("-l %s --workflows -o %s -f turtle -e csv,people -d %s %s",
+        runTool(String.format("-l %s --workflow -o %s -f turtle -e csv,people -d %s %s",
                 logFile.getAbsolutePath(),
                 outputFile.getAbsolutePath(),
                 "urn:dataser:raw/",
