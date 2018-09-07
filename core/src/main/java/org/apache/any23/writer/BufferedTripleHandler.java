@@ -2,7 +2,10 @@ package org.apache.any23.writer;
 
 import com.google.common.base.Throwables;
 import org.apache.any23.extractor.ExtractionContext;
-import org.eclipse.rdf4j.model.*;
+import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.impl.SimpleNamespace;
 import org.eclipse.rdf4j.model.impl.TreeModelFactory;
 import org.slf4j.Logger;
@@ -17,16 +20,21 @@ import org.slf4j.LoggerFactory;
  */
 public class BufferedTripleHandler implements TripleHandler {
 
-    private final Logger log = LoggerFactory.getLogger(BufferedTripleHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(BufferedTripleHandler.class);
     private Model buffer;
+    private TripleHandler underlying;
+    private static boolean isDocumentFinish = false;
 
-    private final TripleHandler underlying;
-    private ExtractionContext extractionContext;
+    private static class WorkflowContext {
+        WorkflowContext(TripleHandler underlying, Model model) {
+            this.model = model;
+            this.rootHandler = underlying;
+        }
 
-    private static final ThreadLocal<Model> globalModel = new ThreadLocal<>();
-
-    public static Model getModel() {
-        return BufferedTripleHandler.globalModel.get();
+        Model model;
+        ExtractionContext context = null;
+        IRI documentIRI = null;
+        TripleHandler rootHandler ;
     }
 
     public BufferedTripleHandler(TripleHandler underlying, Model buffer) {
@@ -34,22 +42,28 @@ public class BufferedTripleHandler implements TripleHandler {
         this.underlying = underlying;
 
         // hide model in the thread
-        globalModel.set(buffer);
+        WorkflowContext wc = new WorkflowContext(underlying, buffer);
+        BufferedTripleHandler.workflowContext.set(wc);
     }
 
     public BufferedTripleHandler(TripleHandler underlying) {
         this(underlying, new TreeModelFactory().createEmptyModel());
     }
 
+    private static final ThreadLocal<WorkflowContext> workflowContext = new ThreadLocal<>();
+
+    public static Model getModel() {
+        return BufferedTripleHandler.workflowContext.get().model;
+    }
+
     @Override
     public void startDocument(IRI documentIRI) throws TripleHandlerException {
-        underlying.startDocument(documentIRI);
+        BufferedTripleHandler.workflowContext.get().documentIRI = documentIRI;
     }
 
     @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        this.extractionContext = context;
-        underlying.openContext(context);
+        BufferedTripleHandler.workflowContext.get().context = context;
     }
 
     @Override
@@ -60,25 +74,16 @@ public class BufferedTripleHandler implements TripleHandler {
     @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         buffer.setNamespace(new SimpleNamespace(prefix, uri));
-        underlying.receiveNamespace(prefix, uri, context);
     }
 
     @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        underlying.closeContext(context);
+        //
     }
 
     @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
-        // final populate underlying rdf handler.
-        buffer.stream().forEach(st->{
-            try {
-                underlying.receiveTriple(st.getSubject(), st.getPredicate(), st.getObject(), (IRI) st.getContext(), extractionContext);
-            } catch (TripleHandlerException e) {
-                Throwables.propagateIfPossible(e, RuntimeException.class);
-            }
-        });
-        underlying.endDocument(documentIRI);
+        BufferedTripleHandler.isDocumentFinish = true;
     }
 
     @Override
@@ -88,6 +93,32 @@ public class BufferedTripleHandler implements TripleHandler {
 
     @Override
     public void close() throws TripleHandlerException {
+        underlying.close();
+    }
+
+    /**
+     * Releases content of the model into underlying writer.
+     */
+    public static void releaseModel() throws TripleHandlerException {
+        if(!BufferedTripleHandler.isDocumentFinish) {
+            throw new RuntimeException("Before releasing document should be finished.");
+        }
+
+        WorkflowContext workflowContext = BufferedTripleHandler.workflowContext.get();
+        Model buffer = workflowContext.model;
+        TripleHandler underlying = workflowContext.rootHandler;
+
+
+        // final populate underlying rdf handler.
+        underlying.startDocument(workflowContext.documentIRI);
+        buffer.stream().forEach(st -> {
+            try {
+                underlying.receiveTriple(st.getSubject(), st.getPredicate(), st.getObject(), (IRI) st.getContext(), workflowContext.context);
+            } catch (TripleHandlerException e) {
+                Throwables.propagateIfPossible(e, RuntimeException.class);
+            }
+        });
+        underlying.endDocument(workflowContext.documentIRI);
         underlying.close();
     }
 }

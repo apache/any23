@@ -35,15 +35,14 @@ import org.apache.any23.source.MemCopyFactory;
 import org.apache.any23.validator.EmptyValidationReport;
 import org.apache.any23.validator.ValidatorException;
 import org.apache.any23.vocab.SINDICE;
-import org.apache.any23.writer.CompositeTripleHandler;
-import org.apache.any23.writer.CountingTripleHandler;
-import org.apache.any23.writer.TripleHandler;
-import org.apache.any23.writer.TripleHandlerException;
+import org.apache.any23.writer.*;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.apache.any23.extractor.Extractor.ModelExtractor;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -295,6 +294,12 @@ public class SingleDocumentExtraction {
         } finally {
 	        try {
 	            output.endDocument(documentIRI);
+
+	            // in case of workflow flag release data from model
+                if (extractionParameters.getFlag(ExtractionParameters.EXTRACTION_WORKFLOWS_FLAG)) {
+                    BufferedTripleHandler.releaseModel();
+                }
+
 	        } catch (TripleHandlerException e) {
 	            log.error(String.format("Error ending document with IRI %s", documentIRI));
 	            throw new ExtractionException(String.format("Error ending document with IRI %s", documentIRI),
@@ -483,6 +488,14 @@ public class SingleDocumentExtraction {
                         documentReport.getDocument(),
                         extractionResult
                 );
+            } else if (extractor instanceof ModelExtractor) {
+                final ModelExtractor modelExtractor = (ModelExtractor) extractor;
+                final Model singleModel = BufferedTripleHandler.getModel();
+                modelExtractor.run(
+                        extractionParameters,
+                        extractionContext,
+                        singleModel,
+                        extractionResult);
             } else {
                 throw new IllegalStateException("Extractor type not supported: " + extractor.getClass());
             }

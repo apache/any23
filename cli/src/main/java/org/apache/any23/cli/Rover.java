@@ -100,8 +100,8 @@ public class Rover extends BaseTool {
     @Parameter(names = { "-d", "--defaultns" }, description = "Override the default namespace used to produce statements.")
     private String defaultns;
 
-    @Parameter(names = "--workflows", description = "Run extractors in workflow.")
-    private boolean workflows = false;
+    @Parameter(names = "--workflow", description = "Run extractors in workflow.")
+    private boolean workflow = false;
 
     // non parameters
 
@@ -137,7 +137,7 @@ public class Rover extends BaseTool {
             );
         }
 
-        if (workflows) {
+        if (workflow) {
             tripleHandler = new BufferedTripleHandler(tripleHandler);
         }
 
@@ -173,6 +173,8 @@ public class Rover extends BaseTool {
             extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_IRI_PROPERTY,
                                              defaultns);
         }
+
+        extractionParameters.setFlag(ExtractionParameters.EXTRACTION_WORKFLOWS_FLAG, workflow);
 
         any23 = (extractors.isEmpty()) ? new Any23()
                                                    : new Any23(extractors.toArray(new String[extractors.size()]));

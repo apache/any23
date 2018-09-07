@@ -46,6 +46,8 @@ public class ExtractionParameters {
 
     public static final String EXTRACTION_CONTEXT_IRI_PROPERTY = "any23.extraction.context.iri";
 
+    public static final String EXTRACTION_WORKFLOWS_FLAG        = "any23.extraction.workflows";
+
     /**
      * Constructor.
      *
