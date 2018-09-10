@@ -137,10 +137,6 @@ public class Rover extends BaseTool {
             );
         }
 
-        if (workflow) {
-            tripleHandler = new BufferedTripleHandler(tripleHandler);
-        }
-
         if (logFile != null) {
             try {
                 tripleHandler = new LoggingTripleHandler(tripleHandler, new PrintWriter(logFile));
@@ -158,6 +154,10 @@ public class Rover extends BaseTool {
             tripleHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(tripleHandler),
                                                      true    // suppress stylesheet triples.
                                                      );
+        }
+
+        if (workflow) {
+            tripleHandler = new BufferedTripleHandler(tripleHandler);
         }
 
         reportingTripleHandler = new ReportingTripleHandler(tripleHandler);

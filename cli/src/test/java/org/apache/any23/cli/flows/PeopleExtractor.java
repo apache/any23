@@ -77,29 +77,11 @@ public class PeopleExtractor implements Extractor.ModelExtractor {
                     String fullName = firstName + " " + lastName;
 
                     IRI personID = ExtractorsFlowTest.personIRIFactory.apply(fullName);
-                    in.add(personID, RDF.TYPE, ExtractorsFlowTest.PERSON);
-                    in.add(personID, ExtractorsFlowTest.FULL_NAME, vf.createLiteral(fullName));
-                    in.add(personID, ExtractorsFlowTest.HASH, vf.createLiteral(DigestUtils.sha1Hex(fullName), XMLSchema.HEXBINARY));
-
-                    // clean model
-                    in.remove(rowId, null, null);
+                    out.writeTriple(personID, RDF.TYPE, ExtractorsFlowTest.PERSON);
+                    out.writeTriple(personID, ExtractorsFlowTest.FULL_NAME, vf.createLiteral(fullName));
+                    out.writeTriple(personID, ExtractorsFlowTest.HASH, vf.createLiteral(DigestUtils.sha1Hex(fullName), XMLSchema.HEXBINARY));
                 });
 
-        // remove description
-        Set<Resource> collumns = in.filter(null, csv.columnPosition, null).stream().map(s -> {
-            return s.getSubject();
-        }).collect(Collectors.toSet());
-
-        collumns.stream()
-                .forEach(s -> {
-                    in.remove(s, null, null);
-                });
-
-        // remove metadata
-        Resource datasetId = in.filter(null, csv.numberOfColumns, null).iterator().next().getSubject();
-        in.remove(datasetId, null, null);
-
-        log.info("Display model: \n\n{}", in);
     }
 
     @Override

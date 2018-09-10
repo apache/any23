@@ -6,10 +6,14 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.impl.SimpleNamespace;
+import org.eclipse.rdf4j.model.impl.LinkedHashModelFactory;
 import org.eclipse.rdf4j.model.impl.TreeModelFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Stack;
+import java.util.TreeMap;
 
 /**
  * Collects all statements until end document.
@@ -21,39 +25,51 @@ import org.slf4j.LoggerFactory;
 public class BufferedTripleHandler implements TripleHandler {
 
     private static final Logger log = LoggerFactory.getLogger(BufferedTripleHandler.class);
-    private Model buffer;
     private TripleHandler underlying;
     private static boolean isDocumentFinish = false;
 
+    private static class ContextHandler {
+        ContextHandler(ExtractionContext ctx, Model m) {
+            extractionContext = ctx;
+            extractionModel = m;
+        }
+        ExtractionContext extractionContext;
+        Model extractionModel;
+    }
+
     private static class WorkflowContext {
-        WorkflowContext(TripleHandler underlying, Model model) {
-            this.model = model;
+        WorkflowContext(TripleHandler underlying) {
             this.rootHandler = underlying;
         }
 
-        Model model;
-        ExtractionContext context = null;
+
+        Stack<String> extractors = new Stack<>();
+        Map<String, ContextHandler> modelMap = new TreeMap<>();
         IRI documentIRI = null;
         TripleHandler rootHandler ;
     }
 
-    public BufferedTripleHandler(TripleHandler underlying, Model buffer) {
-        this.buffer = buffer;
+    public BufferedTripleHandler(TripleHandler underlying) {
         this.underlying = underlying;
 
         // hide model in the thread
-        WorkflowContext wc = new WorkflowContext(underlying, buffer);
+        WorkflowContext wc = new WorkflowContext(underlying);
         BufferedTripleHandler.workflowContext.set(wc);
-    }
-
-    public BufferedTripleHandler(TripleHandler underlying) {
-        this(underlying, new TreeModelFactory().createEmptyModel());
     }
 
     private static final ThreadLocal<WorkflowContext> workflowContext = new ThreadLocal<>();
 
+    /**
+     * Returns model which contains all other models.
+     * @return
+     */
     public static Model getModel() {
-        return BufferedTripleHandler.workflowContext.get().model;
+        return BufferedTripleHandler.workflowContext.get().modelMap.values().stream()
+                .map(ch -> ch.extractionModel)
+                .reduce(new LinkedHashModelFactory().createEmptyModel(), (mf, exm) -> {
+                    mf.addAll(exm);
+                    return mf;
+                });
     }
 
     @Override
@@ -63,17 +79,17 @@ public class BufferedTripleHandler implements TripleHandler {
 
     @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        BufferedTripleHandler.workflowContext.get().context = context;
+        //
     }
 
     @Override
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) throws TripleHandlerException {
-        buffer.add(s, p, o, g);
+        getModelForContext(context).add(s,p,o,g);
     }
 
     @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
-        buffer.setNamespace(new SimpleNamespace(prefix, uri));
+        getModelForContext(context).setNamespace(prefix, uri);
     }
 
     @Override
@@ -105,20 +121,41 @@ public class BufferedTripleHandler implements TripleHandler {
         }
 
         WorkflowContext workflowContext = BufferedTripleHandler.workflowContext.get();
-        Model buffer = workflowContext.model;
-        TripleHandler underlying = workflowContext.rootHandler;
 
+        String lastExtractor = ((Stack<String>) workflowContext.extractors).peek();
+
+        Map<String, ContextHandler> models = workflowContext.modelMap;
+        TripleHandler underlying = workflowContext.rootHandler;
 
         // final populate underlying rdf handler.
         underlying.startDocument(workflowContext.documentIRI);
-        buffer.stream().forEach(st -> {
+
+        ExtractionContext outContext = models.get(lastExtractor).extractionContext;
+        Model outModel = models.get(lastExtractor).extractionModel;
+
+        outModel.stream().forEach( st -> {
             try {
-                underlying.receiveTriple(st.getSubject(), st.getPredicate(), st.getObject(), (IRI) st.getContext(), workflowContext.context);
+                underlying.receiveTriple(st.getSubject(), st.getPredicate(), st.getObject(), (IRI) st.getContext(), outContext);
             } catch (TripleHandlerException e) {
                 Throwables.propagateIfPossible(e, RuntimeException.class);
             }
         });
+
         underlying.endDocument(workflowContext.documentIRI);
         underlying.close();
+    }
+
+    private static Model getModelForContext(ExtractionContext ctx) {
+        Map<String, ContextHandler> modelMap = BufferedTripleHandler.workflowContext.get().modelMap;
+        Stack<String> extractors = BufferedTripleHandler.workflowContext.get().extractors;
+
+        if (modelMap.containsKey(ctx.getUniqueID())) {
+            return  modelMap.get(ctx.getUniqueID()).extractionModel;
+        } else {
+            Model empty = new TreeModelFactory().createEmptyModel();
+            modelMap.put(ctx.getUniqueID(), new ContextHandler(ctx, empty));
+            extractors.push(ctx.getUniqueID());
+            return empty;
+        }
     }
 }
