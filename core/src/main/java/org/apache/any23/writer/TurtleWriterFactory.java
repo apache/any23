@@ -19,15 +19,15 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import org.apache.any23.configuration.Settings;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class TurtleWriterFactory implements WriterFactory {
+public class TurtleWriterFactory implements TripleWriterFactory {
 
-    public static final String MIME_TYPE = RDFFormat.TURTLE.getDefaultMIMEType();
+    public static final String MIME_TYPE = TurtleWriter.Internal.FORMAT.getMimeType();
     public static final String IDENTIFIER = "turtle";
 
     /**
@@ -37,23 +37,23 @@ public class TurtleWriterFactory implements WriterFactory {
     }
 
     @Override
-    public RDFFormat getRdfFormat() {
-        return RDFFormat.TURTLE;
+    public TripleFormat getTripleFormat() {
+        return TurtleWriter.Internal.FORMAT;
+    }
+
+    @Override
+    public Settings getSupportedSettings() {
+        return TurtleWriter.Internal.SUPPORTED_SETTINGS;
     }
 
     @Override
     public String getIdentifier() {
-        return TurtleWriterFactory.IDENTIFIER;
+        return IDENTIFIER;
     }
 
     @Override
-    public String getMimeType() {
-        return TurtleWriterFactory.MIME_TYPE;
-    }
-
-    @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
-        return new TurtleWriter(os);
+    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
+        return new TurtleWriter(os, settings);
     }
 
 }

@@ -14,46 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.apache.any23.writer;
-
-import java.io.OutputStream;
+package org.apache.any23.cli.flows;
 
 import org.apache.any23.configuration.Settings;
+import org.apache.any23.writer.DecoratingWriterFactory;
+import org.apache.any23.writer.TripleHandler;
 
-/**
- * @author Peter Ansell p_ansell@yahoo.com
- * @author Hans Brende (hansbrende@apache.org)
- */
-public class TriXWriterFactory implements TripleWriterFactory {
+public class PeopleExtractorFactory implements DecoratingWriterFactory {
 
-    public static final String MIME_TYPE = TriXWriter.Internal.FORMAT.getMimeType();
-    public static final String IDENTIFIER = "trix";
-
-    /**
-     * 
-     */
-    public TriXWriterFactory() {
+    @Override
+    public String getIdentifier() {
+        return "people";
     }
 
     @Override
-    public TripleFormat getTripleFormat() {
-        return TriXWriter.Internal.FORMAT;
+    public TripleHandler getTripleWriter(TripleHandler delegate, Settings settings) {
+        return new PeopleExtractor(delegate);
     }
 
     @Override
     public Settings getSupportedSettings() {
-        return TriXWriter.Internal.SUPPORTED_SETTINGS;
+        return Settings.of();
     }
-
-    @Override
-    public String getIdentifier() {
-        return IDENTIFIER;
-    }
-
-    @Override
-    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
-        return new TriXWriter(os, settings);
-    }
-
 }

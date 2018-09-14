@@ -17,15 +17,40 @@
 
 package org.apache.any23.writer;
 
+import org.apache.any23.configuration.Settings;
+import org.eclipse.rdf4j.rio.WriterConfig;
+import org.eclipse.rdf4j.rio.helpers.NTriplesWriterSettings;
+
 import java.io.OutputStream;
 
 /**
- * <i>N3</i> triples writer.
+ * Implementation of an <i>N-Triples</i> {@link TripleWriter}.
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class NTriplesWriter extends RDFWriterTripleHandler implements FormatWriter {
+public class NTriplesWriter extends RDFWriterTripleHandler {
+
+    static class Internal {
+        private static final org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory rdf4j
+                = new org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory();
+
+        static final TripleFormat FORMAT = format(rdf4j);
+
+        static final Settings SUPPORTED_SETTINGS = Settings.of(
+                WriterSettings.PRINT_ASCII
+        );
+    }
+
+    @Override
+    void configure(WriterConfig config, Settings settings) {
+        config.set(NTriplesWriterSettings.ESCAPE_UNICODE, settings.get(WriterSettings.PRINT_ASCII));
+    }
 
     public NTriplesWriter(OutputStream out) {
-        super(new org.eclipse.rdf4j.rio.ntriples.NTriplesWriter(out));
+        this(out, Settings.of());
+    }
+
+    public NTriplesWriter(OutputStream os, Settings settings) {
+        super(Internal.rdf4j, Internal.FORMAT, os, settings);
     }
 
 }

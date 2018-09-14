@@ -17,6 +17,7 @@
 
 package org.apache.any23.writer;
 
+import org.apache.any23.configuration.Settings;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.rdf.RDFUtils;
 import org.eclipse.rdf4j.model.Resource;
@@ -24,6 +25,16 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFWriter;
+import org.eclipse.rdf4j.rio.RDFWriterFactory;
+import org.eclipse.rdf4j.rio.WriterConfig;
+
+import java.io.BufferedWriter;
+import java.io.Flushable;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.util.Optional;
 
 /**
  * A {@link TripleHandler} that writes
@@ -32,25 +43,56 @@ import org.eclipse.rdf4j.rio.RDFWriter;
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHandler {
+public abstract class RDFWriterTripleHandler extends TripleWriterHandler implements FormatWriter {
 
-    protected final RDFWriter writer;
-
-    private boolean closed = false;
+    private RDFWriter _writer;
+    private boolean writerStarted;
+    private final Flushable out;
+    private final TripleFormat format;
 
     /**
      * The annotation flag.
      */
     private boolean annotated = false;
 
-    protected RDFWriterTripleHandler(RDFWriter destination) {
-        writer = destination;
-        try {
-            writer.startRDF();
-        } catch (RDFHandlerException e) {
-            throw new RuntimeException(e);
+    static TripleFormat format(RDFWriterFactory rdf4j) {
+        return TripleFormat.of(rdf4j.getRDFFormat());
+    }
+
+    RDFWriterTripleHandler(RDFWriterFactory rdf4j, TripleFormat format, OutputStream out, Settings settings) {
+        this.format = format;
+        Optional<Charset> charset = format.getCharset();
+        RDFWriter w;
+        if (!charset.isPresent()) {
+            this.out = out;
+            w = _writer = rdf4j.getWriter(out);
+        } else {
+            //use buffered writer if format supports encoding
+            BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(out, charset.get()));
+            this.out = buf;
+            w = _writer = rdf4j.getWriter(buf);
         }
+        configure(w.getWriterConfig(), settings);
+    }
+
+    abstract void configure(WriterConfig config, Settings settings);
+
+    RDFWriter writer() throws TripleHandlerException {
+        RDFWriter w = _writer;
+        if (w == null) {
+            throw new TripleHandlerException("writer has been closed!");
+        }
+        if (!writerStarted) {
+            writerStarted = true;
+            try {
+                w.startRDF();
+            } catch (RDFHandlerException e) {
+                throw new TripleHandlerException("Error while starting document", e);
+            }
+        }
+        return w;
     }
 
     /**
@@ -77,7 +119,7 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
 
     @Override
     public void startDocument(IRI documentIRI) throws TripleHandlerException {
-        handleComment("OUTPUT FORMAT: " + writer.getRDFFormat());
+        handleComment("OUTPUT FORMAT: " + format);
     }
 
     @Override
@@ -86,25 +128,23 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
     }
 
     @Override
-    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+    public void writeTriple(Resource s, IRI p, Value o, Resource g)
     throws TripleHandlerException {
-        final IRI graph = g == null ? context.getDocumentIRI() : g;
         try {
-            writer.handleStatement(
-                    RDFUtils.quad(s, p, o, graph));
+            writer().handleStatement(RDFUtils.quad(s, p, o, g));
         } catch (RDFHandlerException ex) {
             throw new TripleHandlerException(
-                    String.format("Error while receiving triple: %s %s %s %s", s, p, o, graph),
+                    String.format("Error while receiving triple: %s %s %s %s", s, p, o, g),
                     ex
             );
         }
     }
 
     @Override
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    public void writeNamespace(String prefix, String uri)
     throws TripleHandlerException {
         try {
-            writer.handleNamespace(prefix, uri);
+            writer().handleNamespace(prefix, uri);
         } catch (RDFHandlerException ex) {
             throw new TripleHandlerException(String.format("Error while receiving namespace: %s:%s", prefix, uri),
                     ex
@@ -119,32 +159,36 @@ public abstract class RDFWriterTripleHandler implements FormatWriter, TripleHand
 
     @Override
     public void close() throws TripleHandlerException {
-        if (closed) return;
-        closed = true;
+        RDFWriter writer = _writer;
+        if (writer == null) {
+            return;
+        }
+        _writer = null;
         try {
-            writer.endRDF();
+            if (!writerStarted) {
+                writer.startRDF();
+            }
+            writer.endRDF(); //calls flush()
         } catch (RDFHandlerException e) {
-            throw new TripleHandlerException("Error while closing the triple handler.", e);
+            throw new TripleHandlerException("Error closing writer", e);
         }
     }
 
     @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
-        // Empty.
-    }
-
-    @Override
-    public void setContentLength(long contentLength) {
-        // Empty.
+        try {
+            out.flush();
+        } catch (IOException e) {
+            throw new TripleHandlerException("Error ending document", e);
+        }
     }
 
     private void handleComment(String comment) throws TripleHandlerException {
         if( !annotated ) return;
         try {
-            writer.handleComment(comment);
+            writer().handleComment(comment);
         } catch (RDFHandlerException rdfhe) {
             throw new TripleHandlerException("Error while handing comment.", rdfhe);
         }
     }
-
 }

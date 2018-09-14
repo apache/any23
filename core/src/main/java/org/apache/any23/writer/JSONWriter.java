@@ -22,7 +22,8 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Optional;
-import org.apache.any23.extractor.ExtractionContext;
+
+import org.apache.any23.configuration.Settings;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
@@ -30,11 +31,11 @@ import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Value;
 
 /**
- * Implementation of <i>JSON</i> format writer.
+ * Implementation of <i>JSON</i> {@link TripleWriter}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class JSONWriter implements FormatWriter {
+public class JSONWriter extends TripleWriterHandler implements FormatWriter {
 
     private JsonGenerator ps;
     private boolean documentStarted = false;
@@ -46,18 +47,21 @@ public class JSONWriter implements FormatWriter {
         JsonFactory factory = new JsonFactory();
         try {
             this.ps = factory.createGenerator(os)
+                    .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET)
+                    .enable(JsonGenerator.Feature.FLUSH_PASSED_TO_STREAM)
                     .setPrettyPrinter(new DefaultPrettyPrinter());
         } catch (IOException ex) {
         }
     }
 
-    @Override
-    public void startDocument(IRI documentIRI) throws TripleHandlerException {
+    private void start(boolean throwIfStarted) throws TripleHandlerException {
         if (documentStarted) {
-            throw new IllegalStateException("Document already started.");
+            if (throwIfStarted) {
+                throw new IllegalStateException("Document already started.");
+            }
+            return;
         }
         documentStarted = true;
-
         try {
             ps.writeStartObject();
             ps.writeFieldName("quads");
@@ -68,14 +72,14 @@ public class JSONWriter implements FormatWriter {
     }
 
     @Override
-    public void openContext(ExtractionContext context) throws TripleHandlerException {
-        // Empty.
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
+        start(true);
     }
 
     @Override
-    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+    public void writeTriple(Resource s, IRI p, Value o, Resource g)
             throws TripleHandlerException {
-        validateDocumentStarted();
+        start(false);
         try {
             ps.writeStartArray();
 
@@ -104,43 +108,28 @@ public class JSONWriter implements FormatWriter {
     }
 
     @Override
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    public void writeNamespace(String prefix, String uri)
             throws TripleHandlerException {
-        // Empty.
-    }
-
-    @Override
-    public void closeContext(ExtractionContext context) throws TripleHandlerException {
         // Empty.
     }
 
     @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
         validateDocumentStarted();
-
-        try {
-            ps.writeEndArray();
-            ps.writeEndObject();
-            documentStarted = false;
-        } catch (IOException ex) {
-            throw new TripleHandlerException("IO Error while closing document.", ex);
-        }
-    }
-
-    @Override
-    public void setContentLength(long contentLength) {
-        // Empty.
     }
 
     @Override
     public void close() throws TripleHandlerException {
-        if (documentStarted) {
-            endDocument(null);
-        }
+        start(false);
+
         try {
+            ps.writeEndArray();
+            ps.writeEndObject();
             ps.close();
         } catch (IOException ex) {
-            throw new TripleHandlerException("IO Error while closing stream.", ex);
+            throw new TripleHandlerException("IO Error while closing document.", ex);
+        } finally {
+            ps = null;
         }
     }
 

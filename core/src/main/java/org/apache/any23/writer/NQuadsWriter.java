@@ -17,20 +17,43 @@
 
 package org.apache.any23.writer;
 
+import org.apache.any23.configuration.Settings;
+import org.eclipse.rdf4j.rio.WriterConfig;
+import org.eclipse.rdf4j.rio.helpers.NTriplesWriterSettings;
+
 import java.io.OutputStream;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.Rio;
-
 /**
- * Implementation of an <i>NQuads</i> writer.
+ * Implementation of an <i>N-Quads</i> {@link TripleWriter}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class NQuadsWriter extends RDFWriterTripleHandler implements FormatWriter {
+public class NQuadsWriter extends RDFWriterTripleHandler {
+
+    static class Internal {
+        private static final org.eclipse.rdf4j.rio.nquads.NQuadsWriterFactory rdf4j
+                = new org.eclipse.rdf4j.rio.nquads.NQuadsWriterFactory();
+
+        static final TripleFormat FORMAT = format(rdf4j);
+
+        static final Settings SUPPORTED_SETTINGS = Settings.of(
+                WriterSettings.PRINT_ASCII
+        );
+    }
+
+    @Override
+    void configure(WriterConfig config, Settings settings) {
+        config.set(NTriplesWriterSettings.ESCAPE_UNICODE, settings.get(WriterSettings.PRINT_ASCII));
+    }
+
 
     public NQuadsWriter(OutputStream os) {
-        super( Rio.createWriter(RDFFormat.NQUADS, os) );
+        this(os, Settings.of());
+    }
+
+    public NQuadsWriter(OutputStream os, Settings settings) {
+        super(Internal.rdf4j, Internal.FORMAT, os, settings);
     }
 
 }

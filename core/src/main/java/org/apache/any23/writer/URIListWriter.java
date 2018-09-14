@@ -17,71 +17,70 @@
 
 package org.apache.any23.writer;
 
-import org.apache.any23.extractor.ExtractionContext;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 
+import java.io.BufferedWriter;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.TreeSet;
 
 /**
  * This writer simply produces a list of unique <i>IRI</i> present in the
  * subject or in the object of every single extracted <i>RDF Statement</i>.
  * 
  * @author Davide Palmisano (palmisano@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class URIListWriter implements FormatWriter {
+public class URIListWriter extends TripleWriterHandler implements FormatWriter {
 
-    private List<Resource> resources;
+    private static final Charset charset = StandardCharsets.UTF_8;
 
-    private PrintStream printStream;
+    static final TripleFormat FORMAT = TripleFormat.of("URIList",
+            Collections.singleton(URIListWriterFactory.MIME_TYPE), charset, Collections.singleton("txt"), null,
+            TripleFormat.NONSTANDARD);
 
-    private ExtractionContext extractionContext;
+    private final TreeSet<String> resources = new TreeSet<>();
 
-    private long contentLength;
+    private PrintWriter writer;
 
     public URIListWriter(OutputStream outputStream) {
-        this.resources = new ArrayList<Resource>();
-        this.printStream = new PrintStream(outputStream);
+        writer = new PrintWriter(new BufferedWriter(
+                new OutputStreamWriter(outputStream, charset)));
     }
 
-    public void startDocument(IRI documentIRI) throws TripleHandlerException {}
-
-    public void openContext(ExtractionContext context) throws TripleHandlerException {
-        this.extractionContext = context;
-    }
-
-    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+    @Override
+    public void writeTriple(Resource s, IRI p, Value o, Resource g)
             throws TripleHandlerException {
-        if(!this.resources.contains(s)) {
-            this.resources.add(s);
-            this.printStream.println(s.stringValue());
+        String string;
+        if (s instanceof IRI && resources.add(string = s.stringValue())) {
+            writer.println(string);
         }
-        if(o instanceof Resource && !this.resources.contains(o)) {
-            this.resources.add((Resource) o);
-            this.printStream.println(o.stringValue());
+        if (o instanceof IRI && resources.add(string = o.stringValue())) {
+            writer.println(string);
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+    @Override
+    public void writeNamespace(String prefix, String uri)
             throws TripleHandlerException {
     }
 
-    public void closeContext(ExtractionContext context) throws TripleHandlerException {
-    }
-
+    @Override
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
+        writer.flush();
     }
 
-    public void setContentLength(long contentLength) {
-        this.contentLength = contentLength;
-    }
-
+    @Override
     public void close() throws TripleHandlerException {
-        this.printStream.close();
+        writer.flush();
+        writer = null;
+        resources.clear();
     }
 
     @Override
@@ -93,4 +92,5 @@ public class URIListWriter implements FormatWriter {
     public void setAnnotated(boolean f) {
         // Empty.
     }
+
 }

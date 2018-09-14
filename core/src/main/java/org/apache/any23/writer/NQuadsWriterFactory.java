@@ -19,15 +19,15 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import org.apache.any23.configuration.Settings;
 
 /**
- * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * @author Peter Ansell (p_ansell@yahoo.com)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class NQuadsWriterFactory implements WriterFactory {
+public class NQuadsWriterFactory implements TripleWriterFactory {
 
-    public static final String MIME_TYPE = RDFFormat.NQUADS.getDefaultMIMEType();
+    public static final String MIME_TYPE = NQuadsWriter.Internal.FORMAT.getMimeType();
     public static final String IDENTIFIER = "nquads";
 
     /**
@@ -37,23 +37,23 @@ public class NQuadsWriterFactory implements WriterFactory {
     }
 
     @Override
-    public RDFFormat getRdfFormat() {
-        return RDFFormat.NQUADS;
+    public TripleFormat getTripleFormat() {
+        return NQuadsWriter.Internal.FORMAT;
+    }
+
+    @Override
+    public Settings getSupportedSettings() {
+        return NQuadsWriter.Internal.SUPPORTED_SETTINGS;
     }
 
     @Override
     public String getIdentifier() {
-        return NQuadsWriterFactory.IDENTIFIER;
+        return IDENTIFIER;
     }
 
     @Override
-    public String getMimeType() {
-        return NQuadsWriterFactory.MIME_TYPE;
-    }
-
-    @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
-        return new NQuadsWriter(os);
+    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
+        return new NQuadsWriter(os, settings);
     }
 
 }

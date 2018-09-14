@@ -35,7 +35,7 @@ public class JSONWriterTest {
     @Test
     public void testJSONWriting() throws TripleHandlerException, IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        writeContent(new JSONWriter(baos));
+        writeContentComplicated(new JSONWriter(baos));
 
         final String expected 
             = "{\n"
@@ -64,12 +64,16 @@ public class JSONWriterTest {
             + "  }, null ] ]\n"
             + "}";
         Assert.assertEquals(expected, baos.toString());
+
+        baos.reset();
+        writeContentSimple(new JSONWriter(baos));
+        Assert.assertEquals(expected, baos.toString());
     }
 
     @Test
     public void testJSONLDWriting() throws TripleHandlerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        writeContent(new JSONLDWriter(baos));
+        writeContentComplicated(new JSONLDWriter(baos));
         final String expected =
                 "[ {\n" +
                 "  \"@graph\" : [ {\n" +
@@ -99,9 +103,37 @@ public class JSONWriterTest {
                 "  \"@id\" : \"http://graph/2\"\n" +
                 "} ]";
         Assert.assertEquals(expected, baos.toString());
+
+        baos.reset();
+        writeContentSimple(new JSONLDWriter(baos));
+        Assert.assertEquals(expected, baos.toString());
     }
 
-    private void writeContent(FormatWriter writer) throws TripleHandlerException {
+    private void writeContentSimple(TripleWriter writer) throws TripleHandlerException {
+        writer.writeTriple(SimpleValueFactory.getInstance().createBNode("bn1"),
+                SimpleValueFactory.getInstance().createIRI("http://pred/1"),
+                SimpleValueFactory.getInstance().createIRI("http://value/1"),
+                SimpleValueFactory.getInstance().createIRI("http://graph/1"));
+
+        writer.writeTriple(SimpleValueFactory.getInstance().createIRI("http://sub/2"),
+                SimpleValueFactory.getInstance().createIRI("http://pred/2"),
+                SimpleValueFactory.getInstance().createLiteral("language literal", "en"),
+                SimpleValueFactory.getInstance().createIRI("http://graph/2"));
+
+        writer.writeTriple(
+                SimpleValueFactory.getInstance().createIRI("http://sub/3"),
+                SimpleValueFactory.getInstance().createIRI("http://pred/3"),
+                SimpleValueFactory.getInstance().createLiteral("123",
+                        SimpleValueFactory.getInstance().createIRI("http://datatype")),
+                writer instanceof JSONLDWriter ? SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/") : null);
+
+        writer.close();
+
+    }
+
+    private void writeContentComplicated(TripleHandler writer) throws TripleHandlerException {
+        //creating a fake document uri in order to write triples is terrible.
+        //see improved solution in "writeContentSimple"!
         final IRI documentIRI = SimpleValueFactory.getInstance().createIRI("http://fake/uri");
         writer.startDocument(documentIRI);
         writer.receiveTriple(
@@ -127,6 +159,8 @@ public class JSONWriterTest {
                     null
             );
         } else if (writer instanceof JSONLDWriter) {
+            //creating a fake extraction context in order to write triples is terrible.
+            //see improved solution in "writeContentSimple"!
             ExtractionContext extractionContext = new ExtractionContext("rdf-nq", SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/"));
             writer.receiveTriple(
                     SimpleValueFactory.getInstance().createIRI("http://sub/3"),

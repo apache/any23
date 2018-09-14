@@ -90,6 +90,45 @@ public class RoverTest extends ToolTestBase {
         Assert.assertEquals(0, graphCounter);
     }
 
+    @Test
+    public void testDelegatingWriterFactory() throws Exception {
+        final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
+        final String DEFAULT_GRAPH = "http://test/default/ns";
+        final String stylesheet = "http://www.w3.org/1999/xhtml/vocab#stylesheet";
+
+        Assert.assertEquals("Unexpected exit code.", 0, runTool(
+                String.format(
+                        "-o %s -f nquads %s -d %s",
+                        outFile.getAbsolutePath(),
+                        copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(),
+                        DEFAULT_GRAPH
+                )
+        ));
+
+        String content = FileUtils.readFileContent(outFile);
+
+        Assert.assertTrue(content.contains(stylesheet));
+
+        final int lineCountWithStylesheet = content.split("\\n").length;
+
+        Assert.assertEquals("Unexpected exit code.", 0, runTool(
+                String.format(
+                        "-o %s -f notrivial,nquads %s -d %s",
+                        outFile.getAbsolutePath(),
+                        copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(),
+                        DEFAULT_GRAPH
+                )
+        ));
+
+        content = FileUtils.readFileContent(outFile);
+
+        Assert.assertTrue(!content.contains(stylesheet));
+
+        final int lineCountWithoutStylesheet = content.split("\\n").length;
+
+        Assert.assertEquals(lineCountWithStylesheet - 1, lineCountWithoutStylesheet);
+    }
+
     /* BEGIN: online tests. */
 
     @Test

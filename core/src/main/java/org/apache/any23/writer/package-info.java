@@ -17,6 +17,6 @@
 
 /**
  * This package collects a set of {@link org.apache.any23.writer.TripleHandler}
- * decorators and specific <i>RDF</i> format writers.
+ * decorators and specific <i>RDF</i> format {@link org.apache.any23.writer.TripleWriter} implementations.
  */
 package org.apache.any23.writer;

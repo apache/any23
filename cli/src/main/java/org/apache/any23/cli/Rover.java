@@ -25,13 +25,18 @@ import com.beust.jcommander.converters.FileConverter;
 import org.apache.any23.Any23;
 import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
+import org.apache.any23.configuration.Setting;
+import org.apache.any23.configuration.Settings;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.writer.BenchmarkTripleHandler;
+import org.apache.any23.writer.DecoratingWriterFactory;
+import org.apache.any23.writer.TripleWriterFactory;
 import org.apache.any23.writer.LoggingTripleHandler;
+import org.apache.any23.writer.NTriplesWriterFactory;
 import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
@@ -41,12 +46,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -57,15 +66,42 @@ import static java.lang.String.format;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Gabriele Renzi
+ * @author Hans Brende (hansbrende@apache.org)
  */
 @Parameters(commandNames = { "rover" }, commandDescription = "Any23 Command Line Tool.")
 public class Rover extends BaseTool {
 
-    private static final List<String> FORMATS = WriterFactoryRegistry.getInstance().getIdentifiers();
-
-    private static final int DEFAULT_FORMAT_INDEX = 0;
-
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);
+
+    private static final WriterFactoryRegistry registry = WriterFactoryRegistry.getInstance();
+    private static final String DEFAULT_WRITER_IDENTIFIER = NTriplesWriterFactory.IDENTIFIER;
+
+    static {
+        final Setting<Boolean> ALWAYS_SUPPRESS_CSS_TRIPLES = Setting.newKey(
+                "alwayssuppresscsstriples", Boolean.class)
+                .withValue(Boolean.TRUE);
+        final Settings supportedSettings = Settings.of(ALWAYS_SUPPRESS_CSS_TRIPLES);
+
+        registry.register(new DecoratingWriterFactory() {
+
+            @Override
+            public TripleHandler getTripleWriter(TripleHandler delegate, Settings settings) {
+                boolean always = settings.get(ALWAYS_SUPPRESS_CSS_TRIPLES);
+                return new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(delegate), always);
+            }
+
+            @Override
+            public Settings getSupportedSettings() {
+                return supportedSettings;
+            }
+
+            @Override
+            public String getIdentifier() {
+                return "notrivial";
+            }
+        });
+    }
+
 
     @Parameter(
        names = { "-o", "--output" },
@@ -80,8 +116,10 @@ public class Rover extends BaseTool {
     @Parameter(names = { "-e", "--extractors" }, description = "a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
     private List<String> extractors = new LinkedList<>();
 
-    @Parameter(names = { "-f", "--format" }, description = "the output format")
-    private String format = FORMATS.get(DEFAULT_FORMAT_INDEX);
+    @Parameter(names = { "-f", "--format" }, description = "a comma-separated list of writer factories, e.g. notrivial,nquads")
+    private List<String> formats = new LinkedList<String>() {{
+        add(DEFAULT_WRITER_IDENTIFIER);
+    }};
 
     @Parameter(
        names = { "-l", "--log" },
@@ -93,7 +131,7 @@ public class Rover extends BaseTool {
     @Parameter(names = { "-s", "--stats" }, description = "Print out extraction statistics.")
     private boolean statistics;
 
-    @Parameter(names = { "-t", "--notrivial" }, description = "Filter trivial statements (e.g. CSS related ones).")
+    @Parameter(names = { "-t", "--notrivial" }, description = "Filter trivial statements (e.g. CSS related ones). [DEPRECATED: As of version 2.3, use --format instead.]")
     private boolean noTrivial;
 
     @Parameter(names = { "-p", "--pedantic" }, description = "Validate and fixes HTML content detecting commons issues.")
@@ -127,16 +165,28 @@ public class Rover extends BaseTool {
         outputStream = out;
     }
 
+    private static TripleHandler getWriter(String id, OutputStream os) {
+        TripleWriterFactory f = (TripleWriterFactory)registry.getWriterByIdentifier(id);
+        Objects.requireNonNull(f, () -> "Invalid writer id '" + id + "'; admitted values: " + registry.getIdentifiers());
+        return f.getTripleWriter(os, Settings.of()); //TODO parse TripleWriter settings from format list
+    }
+
+    private static TripleHandler getWriter(String id, TripleHandler delegate) {
+        DecoratingWriterFactory f = (DecoratingWriterFactory)registry.getWriterByIdentifier(id);
+        Objects.requireNonNull(f, () -> "Invalid writer id '" + id + "'; admitted values: " + registry.getIdentifiers());
+        return f.getTripleWriter(delegate, Settings.of()); //TODO parse delegate settings from format list
+    }
+
     protected void configure() {
-        try {
-            tripleHandler = WriterFactoryRegistry.getInstance().getWriterInstanceByIdentifier(format, outputStream);
-        } catch (Exception e) {
-            throw new NullPointerException(
-                    format("Invalid output format '%s', admitted values: %s",
-                        format,
-                        FORMATS
-                    )
-            );
+        List<String> formats = this.formats;
+        if (formats.isEmpty()) {
+            formats = Collections.singletonList(DEFAULT_WRITER_IDENTIFIER);
+        }
+        ListIterator<String> l = formats.listIterator(formats.size());
+        tripleHandler = getWriter(l.previous(), outputStream);
+
+        while (l.hasPrevious()) {
+            tripleHandler = getWriter(l.previous(), tripleHandler);
         }
 
         if (logFile != null) {

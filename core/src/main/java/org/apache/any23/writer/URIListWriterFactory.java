@@ -19,16 +19,17 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import org.apache.any23.configuration.Settings;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class URIListWriterFactory implements WriterFactory {
+public class URIListWriterFactory implements TripleWriterFactory {
 
     public static final String MIME_TYPE = "text/plain";
     public static final String IDENTIFIER = "uri";
+
 
     /**
      * 
@@ -37,22 +38,22 @@ public class URIListWriterFactory implements WriterFactory {
     }
 
     @Override
-    public RDFFormat getRdfFormat() {
-        throw new RuntimeException("This writer does not print RDF triples");
+    public TripleFormat getTripleFormat() {
+        return URIListWriter.FORMAT;
+    }
+
+    @Override
+    public Settings getSupportedSettings() {
+        return Settings.of();
     }
 
     @Override
     public String getIdentifier() {
-        return URIListWriterFactory.IDENTIFIER;
+        return IDENTIFIER;
     }
 
     @Override
-    public String getMimeType() {
-        return URIListWriterFactory.MIME_TYPE;
-    }
-
-    @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
+    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
         return new URIListWriter(os);
     }
 

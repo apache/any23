@@ -17,15 +17,38 @@
 
 package org.apache.any23.writer;
 
+import org.apache.any23.configuration.Settings;
+import org.eclipse.rdf4j.rio.WriterConfig;
+
 import java.io.OutputStream;
 
 /**
- * <i>RDF/XML</i> writer implementation.
+ * <i>RDF/XML</i> {@link TripleWriter} implementation.
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class RDFXMLWriter extends RDFWriterTripleHandler implements FormatWriter {
+public class RDFXMLWriter extends RDFWriterTripleHandler {
 
-    public RDFXMLWriter(OutputStream out) {
-        super( new org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriter(out) );
+    static class Internal {
+        private static final org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriterFactory rdf4j
+                = new org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriterFactory();
+
+        //TODO support pretty printing with RDFXMLPrettyWriterFactory
+
+        static final TripleFormat FORMAT = format(rdf4j);
+
+        static final Settings SUPPORTED_SETTINGS = Settings.of();
+    }
+
+    @Override
+    void configure(WriterConfig config, Settings settings) {
+    }
+
+    public RDFXMLWriter(OutputStream os) {
+        this(os, Settings.of());
+    }
+
+    public RDFXMLWriter(OutputStream os, Settings settings) {
+        super(Internal.rdf4j, Internal.FORMAT, os, settings);
     }
 
 }

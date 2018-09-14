@@ -25,10 +25,12 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.any23.Any23;
 import org.apache.any23.ExtractionReport;
+import org.apache.any23.configuration.Settings;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.Extractor;
@@ -41,6 +43,7 @@ import org.apache.any23.validator.XMLValidationReportSerializer;
 import org.apache.any23.writer.CompositeTripleHandler;
 import org.apache.any23.writer.CountingTripleHandler;
 import org.apache.any23.writer.FormatWriter;
+import org.apache.any23.writer.TripleWriterFactory;
 import org.apache.any23.writer.ReportingTripleHandler;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
@@ -315,19 +318,24 @@ class WebResponder {
 
     private boolean initRdfWriter(String format, boolean report, boolean annotate) throws IOException {
         final WriterFactory factory = getFormatWriter(format);
-        if (factory == null) {
+        if (!(factory instanceof TripleWriterFactory)) {
             sendError(
                     400,
-                    "Invalid format '" + format + "', try one of: [rdfxml, turtle, ntriples, nquads, trix, json]",
+                    "Invalid format '" + format + "', try one of: "
+                            + writerRegistry.getWriters().stream()
+                            .filter(f -> f instanceof TripleWriterFactory)
+                            .map(WriterFactory::getIdentifier).collect(Collectors.toList()),
                     null,
                     null,
                     report
             );
             return false;
         }
-        FormatWriter fw = factory.getRdfWriter(byteOutStream);
-        fw.setAnnotated(annotate);
-        outputMediaType = factory.getMimeType();
+        TripleHandler fw = ((TripleWriterFactory) factory).getTripleWriter(byteOutStream, Settings.of());
+        if (fw instanceof FormatWriter) {
+            ((FormatWriter)fw).setAnnotated(annotate);
+        }
+        outputMediaType = ((TripleWriterFactory) factory).getTripleFormat().getMimeType();
         List<TripleHandler> tripleHandlers = new ArrayList<>();
         tripleHandlers.add(new IgnoreAccidentalRDFa(fw));
         tripleHandlers.add(new CountingTripleHandler());

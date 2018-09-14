@@ -19,15 +19,15 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import org.apache.any23.configuration.Settings;
 
 /**
- * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * @author Peter Ansell (p_ansell@yahoo.com)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class RDFXMLWriterFactory implements WriterFactory {
+public class RDFXMLWriterFactory implements TripleWriterFactory {
 
-    public static final String MIME_TYPE = RDFFormat.RDFXML.getDefaultMIMEType();
+    public static final String MIME_TYPE = RDFXMLWriter.Internal.FORMAT.getMimeType();
     public static final String IDENTIFIER = "rdfxml";
 
     /**
@@ -37,23 +37,23 @@ public class RDFXMLWriterFactory implements WriterFactory {
     }
 
     @Override
-    public RDFFormat getRdfFormat() {
-        return RDFFormat.RDFXML;
+    public TripleFormat getTripleFormat() {
+        return RDFXMLWriter.Internal.FORMAT;
+    }
+
+    @Override
+    public Settings getSupportedSettings() {
+        return RDFXMLWriter.Internal.SUPPORTED_SETTINGS;
     }
 
     @Override
     public String getIdentifier() {
-        return RDFXMLWriterFactory.IDENTIFIER;
+        return IDENTIFIER;
     }
 
     @Override
-    public String getMimeType() {
-        return RDFXMLWriterFactory.MIME_TYPE;
-    }
-
-    @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
-        return new RDFXMLWriter(os);
+    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
+        return new RDFXMLWriter(os, settings);
     }
 
 }

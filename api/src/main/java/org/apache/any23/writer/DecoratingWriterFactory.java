@@ -17,43 +17,29 @@
 
 package org.apache.any23.writer;
 
-import java.io.OutputStream;
-
 import org.apache.any23.configuration.Settings;
 
 /**
- * @author Peter Ansell p_ansell@yahoo.com
+ * Base interface used for constructors of decorating {@link TripleHandler} implementations.
  * @author Hans Brende (hansbrende@apache.org)
  */
-public class TriXWriterFactory implements TripleWriterFactory {
-
-    public static final String MIME_TYPE = TriXWriter.Internal.FORMAT.getMimeType();
-    public static final String IDENTIFIER = "trix";
+public interface DecoratingWriterFactory extends BaseWriterFactory<TripleHandler> {
 
     /**
-     * 
+     *
+     * @return the settings supported by handlers produced by this factory
      */
-    public TriXWriterFactory() {
-    }
-
     @Override
-    public TripleFormat getTripleFormat() {
-        return TriXWriter.Internal.FORMAT;
-    }
+    Settings getSupportedSettings();
 
+    /**
+     * @param delegate the {@link TripleWriter} to delegate input to
+     * @param settings the settings with which to configure the returned handler
+     * @return a {@link TripleHandler} which writes to the specified delegate
+     * @throws NullPointerException if the delegate or settings is null
+     * @throws IllegalArgumentException if the settings are not correctly configured
+     */
     @Override
-    public Settings getSupportedSettings() {
-        return TriXWriter.Internal.SUPPORTED_SETTINGS;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return IDENTIFIER;
-    }
-
-    @Override
-    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
-        return new TriXWriter(os, settings);
-    }
+    TripleHandler getTripleWriter(TripleHandler delegate, Settings settings);
 
 }

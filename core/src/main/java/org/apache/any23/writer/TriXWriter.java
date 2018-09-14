@@ -17,17 +17,38 @@
 
 package org.apache.any23.writer;
 
+import org.apache.any23.configuration.Settings;
+import org.eclipse.rdf4j.rio.WriterConfig;
+
 import java.io.OutputStream;
 
 /**
- * <a href="http://www.w3.org/2004/03/trix/">TriX</a> format writer implementation.
+ * <a href="http://www.w3.org/2004/03/trix/">TriX</a> {@link TripleWriter} implementation.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class TriXWriter extends RDFWriterTripleHandler implements FormatWriter {
+public class TriXWriter extends RDFWriterTripleHandler {
 
-    public TriXWriter(OutputStream out) {
-        super( new org.eclipse.rdf4j.rio.trix.TriXWriter(out) );
+    static class Internal {
+        private static final org.eclipse.rdf4j.rio.trix.TriXWriterFactory rdf4j
+                = new org.eclipse.rdf4j.rio.trix.TriXWriterFactory();
+
+        static final TripleFormat FORMAT = format(rdf4j);
+
+        static final Settings SUPPORTED_SETTINGS = Settings.of();
+    }
+
+    @Override
+    void configure(WriterConfig config, Settings settings) {
+    }
+
+    public TriXWriter(OutputStream os) {
+        this(os, Settings.of());
+    }
+
+    public TriXWriter(OutputStream os, Settings settings) {
+        super(Internal.rdf4j, Internal.FORMAT, os, settings);
     }
 
 }

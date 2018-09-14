@@ -19,18 +19,59 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
+import org.apache.any23.configuration.Settings;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * The superinterface of all {@link TripleHandler} factory interfaces.
+ * Do not implement this interface directly. Instead, implement one of the subinterfaces {@link TripleWriterFactory} or {@link DecoratingWriterFactory}.
+ * @author Peter Ansell (p_ansell@yahoo.com)
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public interface WriterFactory {
+
+    /**
+     * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleFormat()} instead.
+     */
+    @Deprecated
     RDFFormat getRdfFormat();
 
     String getIdentifier();
 
+    /**
+     * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleFormat()}.{@link TripleFormat#getMimeType() getMimeType()} instead.
+     */
+    @Deprecated
     String getMimeType();
 
+    /**
+     * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleWriter(OutputStream, Settings)} instead.
+     */
+    @Deprecated
     FormatWriter getRdfWriter(OutputStream os);
+}
+
+interface BaseWriterFactory<Output> extends WriterFactory {
+
+    Settings getSupportedSettings();
+
+    TripleHandler getTripleWriter(Output output, Settings settings);
+
+    @Override
+    @Deprecated
+    default FormatWriter getRdfWriter(OutputStream os) {
+        throw new UnsupportedOperationException("this class does not support getRdfWriter()");
+    }
+
+    @Override
+    @Deprecated
+    default String getMimeType() {
+        throw new UnsupportedOperationException("this class does not support getMimeType()");
+    }
+
+    @Override
+    @Deprecated
+    default RDFFormat getRdfFormat() {
+        throw new UnsupportedOperationException("this class does not support getRdfFormat()");
+    }
 }

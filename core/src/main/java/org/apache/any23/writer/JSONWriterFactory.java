@@ -17,19 +17,24 @@
 
 package org.apache.any23.writer;
 
-import java.io.OutputStream;
+import org.apache.any23.configuration.Settings;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 /**
  * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class JSONWriterFactory implements WriterFactory {
+public class JSONWriterFactory implements TripleWriterFactory {
+
 
     public static final String MIME_TYPE = "text/json";
     public static final String IDENTIFIER = "json";
 
+    private static final TripleFormat FORMAT = TripleFormat.of("JSON", Collections.singleton(MIME_TYPE),
+            StandardCharsets.UTF_8, Collections.emptySet(), null, TripleFormat.QUADS);
     /**
      * 
      */
@@ -37,9 +42,13 @@ public class JSONWriterFactory implements WriterFactory {
     }
 
     @Override
-    public RDFFormat getRdfFormat() {
-        throw new RuntimeException(
-                "TODO: Implement an RDFFormat for this RDF JSON serialisation format");
+    public TripleFormat getTripleFormat() {
+        return FORMAT;
+    }
+
+    @Override
+    public Settings getSupportedSettings() {
+        return Settings.of();
     }
 
     @Override
@@ -48,13 +57,8 @@ public class JSONWriterFactory implements WriterFactory {
     }
 
     @Override
-    public String getMimeType() {
-        return JSONWriterFactory.MIME_TYPE;
-    }
-
-    @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
-        return new JSONWriter(os);
+    public TripleHandler getTripleWriter(OutputStream out, Settings settings) {
+        return new JSONWriter(out);
     }
 
 }

@@ -16,18 +16,44 @@
  */
 package org.apache.any23.writer;
 
+import org.apache.any23.configuration.Settings;
+import org.eclipse.rdf4j.rio.WriterConfig;
+import org.eclipse.rdf4j.rio.helpers.BasicWriterSettings;
+
 import java.io.OutputStream;
-import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.Rio;
 
 /**
- * Implementation of <i>JSON-LD</i> format writer.
+ * Implementation of <i>JSON-LD</i> {@link TripleWriter}.
  *
  * @author Julio Caguano
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class JSONLDWriter extends RDFWriterTripleHandler implements FormatWriter {
+public class JSONLDWriter extends RDFWriterTripleHandler {
+
+    static class Internal {
+        private static final org.eclipse.rdf4j.rio.jsonld.JSONLDWriterFactory rdf4j
+                = new org.eclipse.rdf4j.rio.jsonld.JSONLDWriterFactory();
+
+        static final TripleFormat FORMAT = format(rdf4j);
+
+        static final Settings SUPPORTED_SETTINGS = Settings.of(
+                WriterSettings.PRETTY_PRINT
+        );
+    }
+
+    @Override
+    void configure(WriterConfig config, Settings settings) {
+        config.set(BasicWriterSettings.PRETTY_PRINT, settings.get(WriterSettings.PRETTY_PRINT));
+    }
+
+
 
     public JSONLDWriter(OutputStream os) {
-        super(Rio.createWriter(RDFFormat.JSONLD, os));
+        this(os, Settings.of());
     }
+
+    public JSONLDWriter(OutputStream os, Settings settings) {
+        super(Internal.rdf4j, Internal.FORMAT, os, settings);
+    }
+
 }

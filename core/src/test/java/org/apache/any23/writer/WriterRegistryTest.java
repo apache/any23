@@ -22,11 +22,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.any23.configuration.Settings;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test case for {@link WriterRegistry}.
+ * Test case for {@link WriterFactoryRegistry}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -71,8 +73,16 @@ public class WriterRegistryTest {
     public void testGetWriterInstanceByIdentifier() {
         final List<String> ids = target.getIdentifiers();
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for(String id : ids) {
-            Assert.assertNotNull( target.getWriterInstanceByIdentifier(id, baos) );
+        final CompositeTripleHandler delegate = new CompositeTripleHandler();
+        for (String id : ids) {
+            WriterFactory f = target.getWriterByIdentifier(id);
+            if (f instanceof TripleWriterFactory) {
+                Assert.assertNotNull(((TripleWriterFactory) f).getTripleWriter(baos, Settings.of()));
+            } else if (f instanceof DecoratingWriterFactory) {
+                Assert.assertNotNull(((DecoratingWriterFactory) f).getTripleWriter(delegate, Settings.of()));
+            } else {
+                Assert.fail(id + " is not a valid writer factory");
+            }
         }
     }
 

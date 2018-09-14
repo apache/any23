@@ -1,0 +1,156 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.apache.any23.configuration;
+
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+/**
+ * This class represents an <i>immutable</i> {@link Set} of {@link Setting} objects,
+ * with the additional property that no two settings having the same {@link Setting#getIdentifier() identifier}
+ * can be simultaneously present in a {@code Settings} object.
+ *
+ * @author Hans Brende (hansbrende@apache.org)
+ */
+public final class Settings extends AbstractSet<Setting<?>> {
+
+    private static final Settings EMPTY_SETTINGS = new Settings(Collections.emptyMap());
+
+    private final Map<String, Setting<?>> values;
+
+    private Settings(Map<String, Setting<?>> values) {
+        this.values = values;
+    }
+
+    /**
+     * Returns the setting with the same {@link Setting.Key Key} as the supplied setting, if present.
+     */
+    public <E> Optional<Setting<E>> find(Setting<E> setting) {
+        return setting.cast(values.get(setting.getIdentifier()));
+    }
+
+    /**
+     * Returns the value set for {@code defaultSetting}'s {@link Setting.Key Key}, if present.
+     * Otherwise, returns {@code defaultSetting}'s value.
+     * <br><br>
+     * This method is semantically equivalent to:
+     * <br><br>
+     * <pre>
+     * {@code find(defaultSetting).orElse(defaultSetting).getValue()}
+     * </pre>
+     */
+    public <E> E get(Setting<E> defaultSetting) {
+        return find(defaultSetting).orElse(defaultSetting).getValue();
+    }
+
+
+    ///////////////////////////////////////
+    // AbstractSet overrides
+    ///////////////////////////////////////
+
+    @Override
+    public boolean contains(Object o) {
+        if (!(o instanceof Setting<?>)) {
+            return false;
+        }
+        return o.equals(values.get(((Setting<?>) o).getIdentifier()));
+    }
+
+    @Override
+    public int size() {
+        return values.size();
+    }
+
+    @Override
+    public Iterator<Setting<?>> iterator() {
+        return values.values().iterator();
+    }
+
+    ///////////////////////////////////////
+    // public constructors
+    ///////////////////////////////////////
+
+    /**
+     * Returns an empty {@link Settings} object.
+     */
+    public static Settings of() {
+        return EMPTY_SETTINGS;
+    }
+
+    /**
+     * Returns a singleton {@link Settings} object, containing only the supplied setting.
+     */
+    public static Settings of(Setting<?> s) {
+        return new Settings(Collections.singletonMap(s.getIdentifier(), s));
+    }
+
+    /**
+     * Returns a {@link Settings} object containing the supplied settings.
+     * For any two settings having the same key, the first will be overwritten by the second.
+     * @throws IllegalArgumentException if any two settings have the same identifier
+     */
+    public static Settings of(Setting<?>... settings) {
+        Map<String, Setting<?>> map = mapForSize(settings.length);
+        for (Setting<?> s : settings) put(map, s);
+        return ofModifiable(map);
+    }
+
+    /**
+     * Returns a {@link Settings} object containing the supplied settings.
+     * @throws IllegalArgumentException if any two settings have the same identifier
+     */
+    public static Settings of(Collection<? extends Setting<?>> c) {
+        if (c instanceof Settings) {
+            return (Settings)c;
+        }
+        int size = c.size();
+        if (size == 0) {
+            return EMPTY_SETTINGS;
+        }
+        Map<String, Setting<?>> map = mapForSize(size);
+        for (Setting<?> s : c) put(map, s);
+        return ofModifiable(map);
+    }
+
+    ///////////////////////////////////////
+    // Private static helpers
+    ///////////////////////////////////////
+
+    private static Settings ofModifiable(Map<String, Setting<?>> map) {
+        return new Settings(Collections.unmodifiableMap(map));
+    }
+
+    private static void put(Map<String, Setting<?>> map, Setting<?> setting) {
+        Setting<?> existing = map.put(setting.getIdentifier(), setting);
+        if (existing != null) {
+            throw new IllegalArgumentException(setting.getIdentifier() + " is already defined");
+        }
+    }
+
+    private static final float loadFactor = 0.75f;
+    private static Map<String, Setting<?>> mapForSize(int size) {
+        return new HashMap<>((int)(size / loadFactor) + 1, loadFactor);
+    }
+
+}

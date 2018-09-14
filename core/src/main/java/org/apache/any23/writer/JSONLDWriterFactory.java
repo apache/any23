@@ -17,35 +17,37 @@
 package org.apache.any23.writer;
 
 import java.io.OutputStream;
-import org.eclipse.rdf4j.rio.RDFFormat;
+
+import org.apache.any23.configuration.Settings;
 
 /**
  *
  * @author Julio Caguano.
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class JSONLDWriterFactory implements WriterFactory {
+public class JSONLDWriterFactory implements TripleWriterFactory {
 
-    public static final String MIME_TYPE = RDFFormat.JSONLD.getDefaultMIMEType();
+    public static final String MIME_TYPE = JSONLDWriter.Internal.FORMAT.getMimeType();
     public static final String IDENTIFIER = "jsonld";
 
     @Override
-    public RDFFormat getRdfFormat() {
-        return RDFFormat.JSONLD;
+    public TripleFormat getTripleFormat() {
+        return JSONLDWriter.Internal.FORMAT;
     }
 
     @Override
     public String getIdentifier() {
-        return JSONLDWriterFactory.IDENTIFIER;
+        return IDENTIFIER;
     }
 
     @Override
-    public String getMimeType() {
-        return JSONLDWriterFactory.MIME_TYPE;
+    public TripleHandler getTripleWriter(OutputStream out, Settings settings) {
+        return new JSONLDWriter(out, settings);
     }
 
     @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
-        return new JSONLDWriter(os);
+    public Settings getSupportedSettings() {
+        return JSONLDWriter.Internal.SUPPORTED_SETTINGS;
     }
 
 }

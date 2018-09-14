@@ -19,15 +19,15 @@ package org.apache.any23.writer;
 
 import java.io.OutputStream;
 
-import org.eclipse.rdf4j.rio.RDFFormat;
+import org.apache.any23.configuration.Settings;
 
 /**
- * @author Peter Ansell p_ansell@yahoo.com
- * 
+ * @author Peter Ansell (p_ansell@yahoo.com)
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class NTriplesWriterFactory implements WriterFactory {
+public class NTriplesWriterFactory implements TripleWriterFactory {
 
-    public static final String MIME_TYPE = RDFFormat.NTRIPLES.getDefaultMIMEType();
+    public static final String MIME_TYPE = NTriplesWriter.Internal.FORMAT.getMimeType();
     public static final String IDENTIFIER = "ntriples";
 
     /**
@@ -37,8 +37,13 @@ public class NTriplesWriterFactory implements WriterFactory {
     }
 
     @Override
-    public RDFFormat getRdfFormat() {
-        return RDFFormat.NTRIPLES;
+    public TripleFormat getTripleFormat() {
+        return NTriplesWriter.Internal.FORMAT;
+    }
+
+    @Override
+    public Settings getSupportedSettings() {
+        return NTriplesWriter.Internal.SUPPORTED_SETTINGS;
     }
 
     @Override
@@ -47,13 +52,8 @@ public class NTriplesWriterFactory implements WriterFactory {
     }
 
     @Override
-    public String getMimeType() {
-        return NTriplesWriterFactory.MIME_TYPE;
-    }
-
-    @Override
-    public FormatWriter getRdfWriter(OutputStream os) {
-        return new NTriplesWriter(os);
+    public TripleHandler getTripleWriter(OutputStream os, Settings settings) {
+        return new NTriplesWriter(os, settings);
     }
 
 }
