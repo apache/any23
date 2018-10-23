@@ -165,7 +165,7 @@ public final class Setting<V> {
          *      {@code this.checkValue(null, value)}
          * </pre>
          *
-         * @see #checkValue(Setting, V)
+         * @see #checkValue(Setting, Object)
          */
         public final Setting<V> withValue(V value) {
             return checked(null, value);
@@ -236,7 +236,7 @@ public final class Setting<V> {
      *     {@code this.key.checkValue(this, newValue)}
      * </pre>
      *
-     * @see Key#checkValue(Setting, V)
+     * @see Key#checkValue(Setting, Object)
      */
     public Setting<V> withValue(V newValue) {
         return key.checked(this, newValue);
