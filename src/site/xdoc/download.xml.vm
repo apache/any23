@@ -53,16 +53,16 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 ${latest.stable.released} (Source tar.gz)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-${latest.stable.released}-src.tar.gz"> apache-any23-${latest.stable.released}-src.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-${latest.stable.released}-src.tar.gz.asc"> apache-any23-${latest.stable.released}-src.tar.gz.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-${latest.stable.released}-src.tar.gz.sha512"> apache-any23-${latest.stable.released}-src.tar.gz.sha512</a></td>
+              <td>Apache Any23 ${latestStableRelease} (Source tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-${latestStableRelease}-src.tar.gz"> apache-any23-${latestStableRelease}-src.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-${latestStableRelease}-src.tar.gz.asc"> apache-any23-${latestStableRelease}-src.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-${latestStableRelease}-src.tar.gz.sha512"> apache-any23-${latestStableRelease}-src.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 ${latest.stable.released} (Source zip)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-${latest.stable.released}-src.zip"> apache-any23-${latest.stable.released}-src.zip</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-${latest.stable.released}-src.zip.asc"> apache-any23-${latest.stable.released}-src.zip.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-${latest.stable.released}-src.zip.sha512"> apache-any23-${latest.stable.released}-src.zip.sha512</a></td>
+              <td>Apache Any23 ${latestStableRelease} (Source zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-${latestStableRelease}-src.zip"> apache-any23-${latestStableRelease}-src.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-${latestStableRelease}-src.zip.asc"> apache-any23-${latestStableRelease}-src.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-${latestStableRelease}-src.zip.sha512"> apache-any23-${latestStableRelease}-src.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -80,16 +80,16 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 ${latest.stable.released} CLI (Binary tar.gz)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-cli-${latest.stable.released}.tar.gz"> apache-any23-cli-${latest.stable.released}.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-cli-${latest.stable.released}.tar.gz.asc"> apache-any23-cli-${latest.stable.released}.tar.gz.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-cli-${latest.stable.released}.tar.gz.sha512"> apache-any23-cli-${latest.stable.released}.tar.gz.sha512</a></td>
+              <td>Apache Any23 ${latestStableRelease} CLI (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-cli-${latestStableRelease}.tar.gz"> apache-any23-cli-${latestStableRelease}.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-cli-${latestStableRelease}.tar.gz.asc"> apache-any23-cli-${latestStableRelease}.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-cli-${latestStableRelease}.tar.gz.sha512"> apache-any23-cli-${latestStableRelease}.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 ${latest.stable.released} CLI (Binary zip)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-cli-${latest.stable.released}.zip"> apache-any23-cli-${latest.stable.released}.zip</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-cli-${latest.stable.released}.zip.asc"> apache-any23-cli-${latest.stable.released}.zip.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-cli-${latest.stable.released}.zip.sha512"> apache-any23-cli-${latest.stable.released}.zip.sha512</a></td>
+              <td>Apache Any23 ${latestStableRelease} CLI (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-cli-${latestStableRelease}.zip"> apache-any23-cli-${latestStableRelease}.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-cli-${latestStableRelease}.zip.asc"> apache-any23-cli-${latestStableRelease}.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-cli-${latestStableRelease}.zip.sha512"> apache-any23-cli-${latestStableRelease}.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -109,16 +109,16 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Basic Crawler ${latest.stable.released} (Binary tar.gz)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-basic-crawler-${latest.stable.released}.tar.gz"> apache-any23-basic-crawler-${latest.stable.released}.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-basic-crawler-${latest.stable.released}.tar.gz.asc"> apache-any23-basic-crawler-${latest.stable.released}.tar.gz.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-basic-crawler-${latest.stable.released}.tar.gz.sha512"> apache-any23-basic-crawler-${latest.stable.released}.tar.gz.sha512</a></td>
+              <td>Apache Any23 Basic Crawler ${latestStableRelease} (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-basic-crawler-${latestStableRelease}.tar.gz"> apache-any23-basic-crawler-${latestStableRelease}.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-basic-crawler-${latestStableRelease}.tar.gz.asc"> apache-any23-basic-crawler-${latestStableRelease}.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-basic-crawler-${latestStableRelease}.tar.gz.sha512"> apache-any23-basic-crawler-${latestStableRelease}.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Basic Crawler ${latest.stable.released} (Binary zip)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-basic-crawler-${latest.stable.released}.zip"> apache-any23-basic-crawler-${latest.stable.released}.zip</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-basic-crawler-${latest.stable.released}.zip.asc"> apache-any23-basic-crawler-${latest.stable.released}.tar.gz.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-basic-crawler-${latest.stable.released}.zip.sha512"> apache-any23-basic-crawler-${latest.stable.released}.tar.gz.sha512</a></td>
+              <td>Apache Any23 Basic Crawler ${latestStableRelease} (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-basic-crawler-${latestStableRelease}.zip"> apache-any23-basic-crawler-${latestStableRelease}.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-basic-crawler-${latestStableRelease}.zip.asc"> apache-any23-basic-crawler-${latestStableRelease}.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-basic-crawler-${latestStableRelease}.zip.sha512"> apache-any23-basic-crawler-${latestStableRelease}.tar.gz.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -136,16 +136,16 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 HTML Scraper ${latest.stable.released} (Binary tar.gz)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-html-scraper-${latest.stable.released}.tar.gz"> apache-any23-html-scraper-${latest.stable.released}.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-html-scraper-${latest.stable.released}.tar.gz.asc"> apache-any23-html-scraper-${latest.stable.released}.tar.gz.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-html-scraper-${latest.stable.released}.tar.gz.sha512"> apache-any23-html-scraper-${latest.stable.released}.tar.gz.sha512</a></td>
+              <td>Apache Any23 HTML Scraper ${latestStableRelease} (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-html-scraper-${latestStableRelease}.tar.gz"> apache-any23-html-scraper-${latestStableRelease}.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-html-scraper-${latestStableRelease}.tar.gz.asc"> apache-any23-html-scraper-${latestStableRelease}.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-html-scraper-${latestStableRelease}.tar.gz.sha512"> apache-any23-html-scraper-${latestStableRelease}.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 HTML Scraper ${latest.stable.released} (Binary zip)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-html-scraper-${latest.stable.released}.zip"> apache-any23-html-scraper-${latest.stable.released}.zip</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-html-scraper-${latest.stable.released}.zip.asc"> apache-any23-html-scraper-${latest.stable.released}.zip.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-html-scraper-${latest.stable.released}.zip.sha512"> apache-any23-html-scraper-${latest.stable.released}.zip.sha512</a></td>
+              <td>Apache Any23 HTML Scraper ${latestStableRelease} (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-html-scraper-${latestStableRelease}.zip"> apache-any23-html-scraper-${latestStableRelease}.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-html-scraper-${latestStableRelease}.zip.asc"> apache-any23-html-scraper-${latestStableRelease}.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-html-scraper-${latestStableRelease}.zip.sha512"> apache-any23-html-scraper-${latestStableRelease}.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>
@@ -163,16 +163,16 @@
           </thead>
           <tbody>
             <tr>
-              <td>Apache Any23 Office Scraper ${latest.stable.released} (Binary tar.gz)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-office-scraper-${latest.stable.released}.tar.gz"> apache-any23-office-scraper-${latest.stable.released}.tar.gz</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-office-scraper-${latest.stable.released}.tar.gz.asc"> apache-any23-office-scraper-${latest.stable.released}.tar.gz.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-office-scraper-${latest.stable.released}.tar.gz.sha512"> apache-any23-office-scraper-${latest.stable.released}.tar.gz.sha512</a></td>
+              <td>Apache Any23 Office Scraper ${latestStableRelease} (Binary tar.gz)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-office-scraper-${latestStableRelease}.tar.gz"> apache-any23-office-scraper-${latestStableRelease}.tar.gz</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-office-scraper-${latestStableRelease}.tar.gz.asc"> apache-any23-office-scraper-${latestStableRelease}.tar.gz.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-office-scraper-${latestStableRelease}.tar.gz.sha512"> apache-any23-office-scraper-${latestStableRelease}.tar.gz.sha512</a></td>
             </tr>
             <tr>
-              <td>Apache Any23 Office Scraper ${latest.stable.released} (Binary zip)</td>
-              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latest.stable.released}/apache-any23-office-scraper-${latest.stable.released}.zip"> apache-any23-office-scraper-${latest.stable.released}.zip</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-office-scraper-${latest.stable.released}.zip.asc"> apache-any23-office-scraper-${latest.stable.released}.zip.asc</a></td>
-              <td><a href="https://www.apache.org/dist/any23/${latest.stable.released}/apache-any23-office-scraper-${latest.stable.released}.zip.sha512"> apache-any23-office-scraper-${latest.stable.released}.zip.sha512</a></td>
+              <td>Apache Any23 Office Scraper ${latestStableRelease} (Binary zip)</td>
+              <td><a href="https://www.apache.org/dyn/closer.lua/any23/${latestStableRelease}/apache-any23-office-scraper-${latestStableRelease}.zip"> apache-any23-office-scraper-${latestStableRelease}.zip</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-office-scraper-${latestStableRelease}.zip.asc"> apache-any23-office-scraper-${latestStableRelease}.zip.asc</a></td>
+              <td><a href="https://www.apache.org/dist/any23/${latestStableRelease}/apache-any23-office-scraper-${latest.stable.released}.zip.sha512"> apache-any23-office-scraper-${latest.stable.released}.zip.sha512</a></td>
             </tr>
           </tbody>
         </table>

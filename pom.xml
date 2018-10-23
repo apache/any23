@@ -285,8 +285,9 @@
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
 
-    <!-- Used to track API changes based on Semantic Versioning -->
-    <latest.stable.released>2.2</latest.stable.released>
+    <!-- Used to track API changes based on Semantic Versioning
+         NOTE: velocity does.not.allow.dot.notation, so justUseCamelCase -->
+    <latestStableRelease>2.2</latestStableRelease>
 
     <!-- Google Analytics id for website -->
     <form.tracker.id>UA-59636188-1</form.tracker.id>
