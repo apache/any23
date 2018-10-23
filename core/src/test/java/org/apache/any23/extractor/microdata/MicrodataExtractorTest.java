@@ -17,15 +17,26 @@
 
 package org.apache.any23.extractor.microdata;
 
+import org.apache.any23.Any23;
+import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.html.AbstractExtractorTestCase;
+import org.apache.any23.extractor.rdf.TurtleExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
+import org.apache.any23.source.DocumentSource;
+import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.vocab.SINDICE;
+import org.apache.any23.writer.TripleHandler;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.Resource;
+import org.eclipse.rdf4j.model.impl.TreeModel;
+import org.eclipse.rdf4j.model.util.Models;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.junit.Assert;
@@ -43,8 +54,13 @@ import org.eclipse.rdf4j.rio.Rio;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Reference test class for {@link MicrodataExtractor}.
@@ -96,6 +112,148 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         assertContains(null, RDFUtils.iri("http://schema.org/additionalType"), RDFUtils.iri("http://xmlns.com/foaf/0.1/Person"));
         assertContains(null, RDFUtils.iri("http://schema.org/email"), RDFUtils.iri("mailto:mail@gmail.com"));
         assertContains(null, RDFUtils.iri("http://xmlns.com/foaf/0.1/mbox"), RDFUtils.iri("mailto:mail@gmail.com"));
+    }
+
+    @Test
+    public void runOnlineTests() throws Exception {
+        Any23 ttlRunner = new Any23(TurtleExtractorFactory.NAME);
+        ttlRunner.setHTTPUserAgent("apache-any23-test-user-agent");
+        DocumentSource source = new HTTPDocumentSource(ttlRunner.getHTTPClient(),
+                "http://w3c.github.io/microdata-rdf/tests/manifest.ttl");
+        HashMap<Resource, HashMap<IRI, ArrayDeque<Value>>> map = new HashMap<>(256);
+        ttlRunner.extract(source, new TripleHandler() {
+            public void startDocument(IRI documentIRI) {}
+            public void openContext(ExtractionContext context) { }
+            public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
+                map.computeIfAbsent(s, k -> new HashMap<>()).computeIfAbsent(p, k -> new ArrayDeque<>()).add(o);
+            }
+            public void receiveNamespace(String prefix, String uri, ExtractionContext context) { }
+            public void closeContext(ExtractionContext context) {}
+            public void endDocument(IRI documentIRI) { }
+            public void setContentLength(long contentLength) { }
+            public void close() { }
+        });
+        final IRI actionPred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action");
+        final IRI resultPred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result");
+        final IRI namePred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name");
+
+        Any23 microdataRunner = new Any23(MicrodataExtractorFactory.NAME);
+        microdataRunner.setHTTPUserAgent("apache-any23-test-user-agent");
+        ArrayList<String> passedTests = new ArrayList<>();
+        TreeMap<String, String> failedTests = new TreeMap<>();
+        Assert.assertFalse(map.isEmpty());
+        for (Map.Entry<Resource, HashMap<IRI, ArrayDeque<Value>>> entry : map.entrySet()) {
+            HashMap<IRI, ArrayDeque<Value>> item = entry.getValue();
+            ArrayDeque<Value> types = item.get(RDF.TYPE);
+            if (types == null) {
+                continue;
+            }
+            boolean positive; label: {
+                for (Value type : types) {
+                    if (type.stringValue().startsWith("http://www.w3.org/ns/rdftest#TestMicrodataNegative")) {
+                        positive = false;
+                        break label;
+                    } else if (type.stringValue().startsWith("http://www.w3.org/ns/rdftest#TestMicrodata")) {
+                        positive = true;
+                        break label;
+                    }
+                }
+                continue;
+            }
+            IRI action = (IRI)item.get(actionPred).pop();
+            IRI result = (IRI)(item.containsKey(resultPred) ? item.get(resultPred).pop() : null);
+            String name = ((Literal)item.get(namePred).pop()).getLabel()
+                    + ": " + ((Literal)item.get(RDFS.COMMENT).pop()).getLabel();
+            TreeModel actual = new TreeModel();
+            microdataRunner.extract(new HTTPDocumentSource(microdataRunner.getHTTPClient(), action.stringValue()), new TripleHandler() {
+                public void startDocument(IRI documentIRI) {}
+                public void openContext(ExtractionContext context) { }
+                public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
+                    actual.add(s, p, o);
+                }
+                public void receiveNamespace(String prefix, String uri, ExtractionContext context) { }
+                public void closeContext(ExtractionContext context) { }
+                public void endDocument(IRI documentIRI) { }
+                public void setContentLength(long contentLength) { }
+                public void close() { }
+            });
+
+            TreeModel expected = new TreeModel();
+            if (result != null) {
+                ttlRunner.extract(new HTTPDocumentSource(ttlRunner.getHTTPClient(), result.stringValue()), new TripleHandler() {
+                    public void startDocument(IRI documentIRI) {}
+                    public void openContext(ExtractionContext context) { }
+                    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
+                        expected.add(s, p, o);
+                    }
+                    public void receiveNamespace(String prefix, String uri, ExtractionContext context) { }
+                    public void closeContext(ExtractionContext context) {}
+                    public void endDocument(IRI documentIRI) { }
+                    public void setContentLength(long contentLength) { }
+                    public void close() { }
+                });
+            }
+
+            //boolean testPassed = true;
+            Assert.assertFalse(positive && expected.isEmpty());
+
+
+            boolean testPassed = positive ? Models.isSubset(expected, actual) : !Models.isomorphic(expected, actual);
+            if (testPassed) {
+                passedTests.add(name);
+            } else {
+                StringBuilder error = new StringBuilder("\n" + name + "\n");
+                error.append(action).append(positive ? " ==> " : " =/=> ").append(result).append("\n");
+
+                HashMap<Value, String> m = new HashMap<>();
+                AtomicInteger i = new AtomicInteger();
+                int match1 = 0, match2 = 0;
+                for (Statement st : expected) {
+                    Resource s = st.getSubject();
+                    Value o = st.getObject();
+
+                    if (actual.stream().noneMatch(t -> st.getPredicate().equals(t.getPredicate())
+                            && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
+                            && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
+                        if (positive) {
+                            Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k->"_:"+i.getAndIncrement()) : s;
+                            Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k->"_:"+i.getAndIncrement()) : o;
+                            error.append("EXPECT: ").append(sstr).append(" ").append(st.getPredicate())
+                                    .append(" ").append(ostr).append("\n");
+                        }
+                    } else {
+                        match1++;
+                    }
+                }
+                error.append("...").append(match1).append(" statements in common...\n");
+
+                for (Statement st : actual) {
+                    Resource s = st.getSubject();
+                    Value o = st.getObject();
+
+                    if (expected.stream().noneMatch(t -> st.getPredicate().equals(t.getPredicate())
+                            && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
+                            && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
+                        if (positive) {
+                            Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k->"_:"+i.getAndIncrement()) : s;
+                            Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k->"_:"+i.getAndIncrement()) : o;
+                            error.append("ACTUAL: ").append(sstr).append(" ").append(st.getPredicate())
+                                    .append(" ").append(ostr).append("\n");
+                        }
+                    } else {
+                        match2++;
+                    }
+                }
+                Assert.assertEquals(match1, match2);
+
+                failedTests.put(name, error.toString());
+            }
+        }
+
+        Assert.assertTrue(failedTests.size() + " failures out of "
+                + (failedTests.size() + passedTests.size()) + " total tests\n"
+                + String.join("\n", failedTests.keySet()) + "\n\n"
+                + String.join("\n", failedTests.values()), failedTests.isEmpty());
     }
 
     @Test
