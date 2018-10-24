@@ -19,6 +19,7 @@ package org.apache.any23.extractor.microdata;
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
@@ -31,7 +32,6 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.TreeWalker;
 
 import java.io.PrintStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,6 +47,7 @@ import java.util.Set;
  * nodes contained within a <i>DOM</i> document.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public class MicrodataParser {
 
@@ -578,12 +579,31 @@ public class MicrodataParser {
             itemProps.add(deferredProperty);
         }
 
-        URL type;
-        try {
-            type = ItemScope.stringToUrl(itemType);
-        } catch (IllegalArgumentException e) {
-            manageError(new MicrodataParserException(e.getMessage(), node));
-            type = null;
+        List<IRI> types;
+        if (itemType == null) {
+            types = Collections.emptyList();
+        } else {
+            types = new ArrayList<>();
+            boolean canConcatWithPrev = false;
+            for (String s : itemType.trim().split("\\s+")) {
+                try {
+                    canConcatWithPrev = types.addAll(ItemScope.stringToSingletonIRI(s));
+                } catch (RuntimeException e) {
+                    if (canConcatWithPrev) {
+                        int lastInd = types.size() - 1;
+                        try {
+                            List<IRI> secondTry = ItemScope.stringToSingletonIRI(types.get(lastInd).stringValue() + " " + s);
+                            types.remove(lastInd);
+                            canConcatWithPrev = types.addAll(secondTry);
+                        } catch (RuntimeException e2) {
+                            manageError(new MicrodataParserException(e.getMessage(), node));
+                            canConcatWithPrev = false;
+                        }
+                    } else {
+                        manageError(new MicrodataParserException(e.getMessage(), node));
+                    }
+                }
+            }
         }
 
         final ItemScope newItemScope = new ItemScope(
@@ -591,7 +611,7 @@ public class MicrodataParser {
                 itemProps.toArray(new ItemProp[itemProps.size()]),
                 id,
                 itemrefIDs,
-                type,
+                types,
                 itemId
         );
         itemScopes.put(node, newItemScope);

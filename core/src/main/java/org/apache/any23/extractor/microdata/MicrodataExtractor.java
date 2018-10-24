@@ -41,7 +41,6 @@ import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -419,12 +418,15 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             IRI documentIRI, ExtractionResult out,
             Map<ItemScope, Resource> mappings, IRI defaultNamespace
     ) throws ExtractionException {
-        Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(documentIRI, scope.getItemId()));
+        Resource subject = mappings.computeIfAbsent(itemScope, scope ->
+                createSubjectForItemId(documentIRI, scope.getItemId()));
 
-        IRI itemScopeType = getType(itemScope);
-        if (itemScopeType != null) {
-            out.writeTriple(subject, RDF.TYPE, itemScopeType);
-            defaultNamespace = getNamespaceIRI(itemScopeType);
+        List<IRI> itemScopeTypes = itemScope.getTypes();
+        if (!itemScopeTypes.isEmpty()) {
+            defaultNamespace = getNamespaceIRI(itemScopeTypes.get(0));
+            for (IRI type : itemScopeTypes) {
+                out.writeTriple(subject, RDF.TYPE, type);
+            }
         }
         for (Map.Entry<String, List<ItemProp>> itemProps : itemScope.getProperties().entrySet()) {
             String propName = itemProps.getKey();
@@ -452,11 +454,6 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             }
         }
         return subject;
-    }
-
-    private static IRI getType(ItemScope scope) {
-        URL type = scope.getType();
-        return type == null ? null : RDFUtils.iri(type.toString());
     }
 
     private static Resource createSubjectForItemId(IRI documentIRI, String itemId) {

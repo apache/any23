@@ -17,14 +17,17 @@
 
 package org.apache.any23.extractor.microdata;
 
+import org.apache.any23.rdf.RDFUtils;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.rdf4j.common.net.ParsedIRI;
+import org.eclipse.rdf4j.model.IRI;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +37,7 @@ import java.util.regex.Pattern;
  * This class describes a <b>Microdata <i>itemscope</i></b>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public class ItemScope extends Item {
 
@@ -55,7 +59,7 @@ public class ItemScope extends Item {
     /**
      * <i>itemscope</i> type.
      */
-    private final URL type;
+    private final List<IRI> type;
 
     /**
      * <i>itemscope</i> external identifier.
@@ -73,44 +77,39 @@ public class ItemScope extends Item {
      * @param itemId    <i>itemscope</i> id. Can be <code>null</code>.
      */
     public ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, String type, String itemId) {
-        this(xpath, itemProps, id, refs, stringToUrl(type), itemId);
+        this(xpath, itemProps, id, refs, stringToSingletonIRI(type), itemId);
     }
 
     private static final Pattern looksLikeStartsWithHost = Pattern.compile("[^:/.]+(\\.[^:/.]+)+(:\\d+)?([/#?].*)?");
 
-    static URL stringToUrl(String type) {
+    static List<IRI> stringToSingletonIRI(String type) {
         if (StringUtils.isNotBlank(type)) {
-            try {
-                ParsedIRI iri = ParsedIRI.create(type.trim());
-                if (StringUtils.isBlank(iri.getScheme())) {
-                    String host = iri.getHost();
-                    if (StringUtils.isNotBlank(host)) {
-                        iri = new ParsedIRI("http", iri.getUserInfo(), host, iri.getPort(), iri.getPath(), iri.getQuery(), iri.getFragment());
-                    } else {
-                        String path = iri.getPath();
-                        if (path != null && looksLikeStartsWithHost.matcher(path).matches()) {
-                            iri = ParsedIRI.create("http://" + iri.toString());
-                        }
+            ParsedIRI iri = ParsedIRI.create(type.trim());
+            if (StringUtils.isBlank(iri.getScheme())) {
+                String host = iri.getHost();
+                if (StringUtils.isNotBlank(host)) {
+                    iri = new ParsedIRI("http", iri.getUserInfo(), host, iri.getPort(), iri.getPath(), iri.getQuery(), iri.getFragment());
+                } else {
+                    String path = iri.getPath();
+                    if (path != null && looksLikeStartsWithHost.matcher(path).matches()) {
+                        iri = ParsedIRI.create("http://" + iri.toString());
                     }
                 }
-
-                return new URL(iri.toString());
-            } catch (MalformedURLException murle) {
-                throw new IllegalArgumentException("Invalid type '" + type + "', must be a valid URL. " + murle.getMessage());
             }
+            return Collections.singletonList(RDFUtils.iri(iri.toString()));
         } else {
-            return null;
+            return Collections.emptyList();
         }
     }
 
-    ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, URL type, String itemId) {
+    ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, List<IRI> types, String itemId) {
         super(xpath);
 
         if (itemProps == null) {
             throw new NullPointerException("itemProps list cannot be null.");
         }
 
-        this.type = type;
+        this.type = types;
         this.id = id;
         this.refs = refs;
         this.itemId = itemId;
@@ -162,6 +161,20 @@ public class ItemScope extends Item {
      * @return <i>itemscope</i> type.
      */
     public URL getType() {
+        //No longer using URL.
+        //But for backwards compatibility:
+        try {
+            return type.isEmpty() ? null : new URL(type.get(0).stringValue());
+        } catch (MalformedURLException e) {
+            try {
+                return new URL(ParsedIRI.create(type.get(0).stringValue()).toASCIIString());
+            } catch (Exception e1) {
+                return null;
+            }
+        }
+    }
+
+    List<IRI> getTypes() {
         return type;
     }
 
@@ -200,7 +213,7 @@ public class ItemScope extends Item {
                 getXpath(),
                 id == null ? null : "\"" + id + "\"",
                 refs == null ? null : toJSON(refs),
-                type == null ? null : "\"" + type + "\"",
+                type.isEmpty() ? null : "\"" + type.get(0) + "\"",
                 itemId == null ? null : "\"" + itemId + "\"",
                 sb.toString()
         );
@@ -248,11 +261,7 @@ public class ItemScope extends Item {
     }
 
     protected void acquireProperty(ItemProp itemProp) {
-        List<ItemProp> itemProps = properties.get(itemProp.getName());
-        if (itemProps == null) {
-            itemProps = new ArrayList<>();
-            properties.put(itemProp.getName(), itemProps);
-        }
+        List<ItemProp> itemProps = properties.computeIfAbsent(itemProp.getName(), k -> new ArrayList<>());
         if (!itemProps.contains(itemProp))
             itemProps.add(itemProp);
     }
