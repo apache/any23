@@ -17,7 +17,7 @@
 
 _:node1causocqkx2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BlogPosting> <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
 _:node1causocqkx2 <http://schema.org/alternativeHeadline> "Solution-based problem-solving restricts the result before the start."@en <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
-_:node1causocqkx2 <http://schema.org/datePublished> "2013-07-30"^^<http://www.w3.org/2001/XMLSchema#date> <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
+_:node1causocqkx2 <http://schema.org/datePublished> "2013-07-30T20:30:00+02:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
 _:node1causocqkx3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
 _:node1causocqkx3 <http://schema.org/givenName> "Ruben"@en <https://ruben.verborgh.org/tmp/schemaorg-test.html>.
 _:node1causocqkx3 <http://schema.org/familyName> "Verborgh"@en <https://ruben.verborgh.org/tmp/schemaorg-test.html> .

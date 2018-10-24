@@ -17,7 +17,11 @@
 package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.extractor.html.DomUtils;
+import org.apache.any23.rdf.RDFUtils;
 import org.apache.commons.lang.StringUtils;
+import org.eclipse.rdf4j.model.Literal;
+import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
+import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -315,8 +319,51 @@ public class MicrodataParser {
             return itemPropValue;
 
         final String nodeName = node.getNodeName().toLowerCase();
+
+        //see http://w3c.github.io/microdata-rdf/#dfn-property-values
+        if ("data".equals(nodeName) || "meter".equals(nodeName)) {
+            String value = StringUtils.stripToEmpty(readContentAttribute(node, "value"));
+            Literal l;
+            if (XMLDatatypeUtil.isValidInteger(value)) {
+                l = RDFUtils.literal(value, XMLSchema.INTEGER);
+            } else if (XMLDatatypeUtil.isValidDouble(value)) {
+                l = RDFUtils.literal(value, XMLSchema.DOUBLE);
+            } else {
+                l = RDFUtils.literal(value);
+            }
+            return new ItemPropValue(l);
+        }
+        if( "time".equals(nodeName) ) {
+            String dateTimeStr = StringUtils.stripToEmpty(readContentAttribute(node, "datetime"));
+            Literal l;
+            if (XMLDatatypeUtil.isValidDate(dateTimeStr)) {
+                l = RDFUtils.literal(dateTimeStr, XMLSchema.DATE);
+            } else if (XMLDatatypeUtil.isValidTime(dateTimeStr)) {
+                l = RDFUtils.literal(dateTimeStr, XMLSchema.TIME);
+            } else if (XMLDatatypeUtil.isValidDateTime(dateTimeStr)) {
+                l = RDFUtils.literal(dateTimeStr, XMLSchema.DATETIME);
+            } else if (XMLDatatypeUtil.isValidGYearMonth(dateTimeStr)) {
+                l = RDFUtils.literal(dateTimeStr, XMLSchema.GYEARMONTH);
+            } else if (XMLDatatypeUtil.isValidGYear(dateTimeStr)) {
+                l = RDFUtils.literal(dateTimeStr, XMLSchema.GYEAR);
+            } else if (XMLDatatypeUtil.isValidDuration(dateTimeStr)) {
+                l = RDFUtils.literal(dateTimeStr, XMLSchema.DURATION);
+            } else {
+                String lang = getLanguage(node);
+                if (lang != null) {
+                    l = RDFUtils.literal(dateTimeStr, lang);
+                } else {
+                    l = RDFUtils.literal(dateTimeStr);
+                }
+            }
+            return new ItemPropValue(l);
+        }
+
         if (DomUtils.hasAttribute(node, "content")) {
-            return new ItemPropValue(DomUtils.readAttribute(node, "content"), ItemPropValue.Type.Plain);
+            String val = DomUtils.readAttribute(node, "content");
+            String lang = getLanguage(node);
+            Literal l = lang == null ? RDFUtils.literal(val) : RDFUtils.literal(val, lang);
+            return new ItemPropValue(l);
         }
 
         if( SRC_TAGS.contains(nodeName) ) {
@@ -329,27 +376,48 @@ public class MicrodataParser {
         if( "object".equals(nodeName) ) {
             return new ItemPropValue( DomUtils.readAttribute(node, "data"), ItemPropValue.Type.Link);
         }
-        if( "time".equals(nodeName) ) {
-            final String dateTimeStr = DomUtils.readAttribute(node, "datetime");
-            final Date dateTime;
-            try {
-                dateTime = ItemPropValue.parseDateTime(dateTimeStr);
-            } catch (ParseException pe) {
-                throw new MicrodataParserException(
-                        String.format("Invalid format for datetime '%s'", dateTimeStr),
-                        node
-                );
-            }
-            return new ItemPropValue(dateTime, ItemPropValue.Type.Date);
-        }
 
         if( isItemScope(node) ) {
             return new ItemPropValue( getItemScope(node), ItemPropValue.Type.Nested);
         }
 
-        final ItemPropValue newItemPropValue = new ItemPropValue( node.getTextContent(), ItemPropValue.Type.Plain);
+        String lang = getLanguage(node);
+        Literal l = lang == null ? RDFUtils.literal(node.getTextContent()) : RDFUtils.literal(node.getTextContent(), lang);
+        final ItemPropValue newItemPropValue = new ItemPropValue(l);
         itemPropValues.put(node, newItemPropValue);
         return newItemPropValue;
+    }
+
+    private static String readContentAttribute(Node node, String attrName) {
+        NamedNodeMap attributes = node.getAttributes();
+        if (attributes != null) {
+            Node attr = attributes.getNamedItem("content");
+            if (attr != null) {
+                return attr.getNodeValue();
+            }
+            attr = attributes.getNamedItem(attrName);
+            if (attr != null) {
+                return attr.getNodeValue();
+            }
+        }
+        return node.getTextContent();
+    }
+
+    //see https://www.w3.org/TR/html52/dom.html#the-lang-and-xmllang-attributes
+    private static String getLanguage(Node node) {
+        String lang;
+        do {
+            lang = DomUtils.readAttribute(node, "xml:lang", null);
+            if (StringUtils.isNotBlank(lang)) {
+                return lang.trim();
+            }
+            lang = DomUtils.readAttribute(node, "lang", null);
+            if (StringUtils.isNotBlank(lang)) {
+                return lang.trim();
+            }
+            node = node.getParentNode();
+        } while (node != null);
+        return null;
     }
 
     /**

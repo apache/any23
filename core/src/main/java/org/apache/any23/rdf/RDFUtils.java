@@ -274,9 +274,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * @param s string representation of the base namespace for the
-     * {@link org.eclipse.rdf4j.model.Literal}
-     * @param l the local name to associate with the namespace.
+     * @param s the literal's label
+     * @param l the literal's language
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(String s, String l) {
@@ -290,9 +289,8 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * @param s string representation of the base namespace for the
-     * {@link org.eclipse.rdf4j.model.Literal}
-     * @param datatype the datatype to associate with the namespace.
+     * @param s the literal's label
+     * @param datatype the literal's datatype
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(String s, org.eclipse.rdf4j.model.IRI datatype) {

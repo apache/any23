@@ -33,6 +33,8 @@ import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
+import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.w3c.dom.Document;
@@ -477,7 +479,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         Value value;
         Object propValue = itemProp.getValue().getContent();
         ItemPropValue.Type propType = itemProp.getValue().getType();
-        if (propType.equals(ItemPropValue.Type.Nested)) {
+        if (itemProp.getValue().literal != null) {
+            value = itemProp.getValue().literal;
+        } else if (propType.equals(ItemPropValue.Type.Nested)) {
             value = processType((ItemScope) propValue, documentIRI, out, mappings, defaultNamespace);
         } else if (propType.equals(ItemPropValue.Type.Plain)) {
             value = RDFUtils.literal((String) propValue, documentLanguage);
