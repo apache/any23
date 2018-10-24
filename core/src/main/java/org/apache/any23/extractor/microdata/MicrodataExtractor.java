@@ -103,7 +103,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                 throw new IllegalArgumentException("invalid namespace IRI: " + defaultNamespace);
             }
         } else {
-            defaultNamespace = null;
+            defaultNamespace = createNamespaceFromPrefix(documentIRI);
         }
 
         documentLanguage = getDocumentLanguage(in);
@@ -506,6 +506,20 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private static final String hcardPrefix    = "http://microformats.org/profile/hcard";
     private static final IRI hcardNamespaceIRI = RDFUtils.iri("http://microformats.org/profile/hcard#");
+
+    static {
+        assert createNamespaceFromPrefix(RDFUtils.iri(hcardPrefix)).equals(hcardNamespaceIRI);
+    }
+
+    private static IRI createNamespaceFromPrefix(IRI prefix) {
+        if (prefix.getLocalName().isEmpty()) {
+            return prefix;
+        }
+        String ns = prefix.getNamespace();
+        IRI ret = RDFUtils.iri(ns.endsWith("#") ? ns : (prefix.stringValue() + "#"));
+        assert ret.getLocalName().isEmpty() && ret.getNamespace().endsWith("#");
+        return ret;
+    }
 
     private static IRI getNamespaceIRI(IRI itemType) {
         //TODO: support registries so hardcoding not needed
