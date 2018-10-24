@@ -18,7 +18,8 @@
 package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.Any23;
-import org.apache.any23.extractor.ExtractionContext;
+import org.apache.any23.configuration.DefaultConfiguration;
+import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.extractor.IssueReport;
@@ -132,7 +133,9 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         final IRI resultPred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result");
         final IRI namePred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name");
 
-        Any23 microdataRunner = new Any23(MicrodataExtractorFactory.NAME);
+        ModifiableConfiguration config = DefaultConfiguration.copy();
+        config.setProperty("any23.microdata.strict", DefaultConfiguration.FLAG_PROPERTY_ON);
+        Any23 microdataRunner = new Any23(config, MicrodataExtractorFactory.NAME);
         microdataRunner.setHTTPUserAgent("apache-any23-test-user-agent");
         ArrayList<String> passedTests = new ArrayList<>();
         TreeMap<String, String> failedTests = new TreeMap<>();
