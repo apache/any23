@@ -64,8 +64,6 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private String documentLanguage;
 
-    private IRI defaultNamespace;
-
     @Override
     public ExtractorDescription getDescription() {
         return MicrodataExtractorFactory.getDescriptionInstance();
@@ -95,7 +93,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             return;
         }
 
+        final IRI documentIRI = extractionContext.getDocumentIRI();
+
         boolean isStrict = extractionParameters.getFlag("any23.microdata.strict");
+        final IRI defaultNamespace;
         if (!isStrict) {
             defaultNamespace = RDFUtils.iri(extractionParameters.getProperty("any23.microdata.ns.default"));
             if (!defaultNamespace.getLocalName().isEmpty()) {
@@ -110,10 +111,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         /**
          * 5.2.6
          */
-        final IRI documentIRI = extractionContext.getDocumentIRI();
         final Map<ItemScope, Resource> mappings = new HashMap<>();
         for (ItemScope itemScope : itemScopes) {
-            Resource subject = processType(itemScope, documentIRI, out, mappings);
+            Resource subject = processType(itemScope, documentIRI, out, mappings, defaultNamespace);
             out.writeTriple(
                     documentIRI,
                     MICRODATA_ITEM,
@@ -417,26 +417,31 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     private Resource processType(
             ItemScope itemScope,
             IRI documentIRI, ExtractionResult out,
-            Map<ItemScope, Resource> mappings
+            Map<ItemScope, Resource> mappings, IRI defaultNamespace
     ) throws ExtractionException {
         Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(scope.getItemId()));
 
         IRI itemScopeType = getType(itemScope);
         if (itemScopeType != null) {
             out.writeTriple(subject, RDF.TYPE, itemScopeType);
+            defaultNamespace = getNamespaceIRI(itemScopeType);
         }
         for (Map.Entry<String, List<ItemProp>> itemProps : itemScope.getProperties().entrySet()) {
             String propName = itemProps.getKey();
+            IRI predicate = getPredicate(defaultNamespace, propName);
+            if (predicate == null) {
+                continue;
+            }
             for (ItemProp itemProp : itemProps.getValue()) {
                 try {
                     processProperty(
                             subject,
-                            propName,
+                            predicate,
                             itemProp,
-                            itemScopeType,
                             documentIRI,
                             mappings,
-                            out
+                            out,
+                            defaultNamespace
                     );
                 } catch (URISyntaxException e) {
                     throw new ExtractionException(
@@ -461,40 +466,47 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private void processProperty(
             Resource subject,
-            String propName,
+            IRI predicate,
             ItemProp itemProp,
-            IRI itemScopeType,
             IRI documentIRI,
             Map<ItemScope, Resource> mappings,
-            ExtractionResult out
+            ExtractionResult out,
+            IRI defaultNamespace
     ) throws URISyntaxException, ExtractionException {
-
-        IRI predicate = getPredicate(itemScopeType != null ? itemScopeType : defaultNamespace, propName);
-        if (predicate == null) {
-            return;
-        }
 
         Value value;
         Object propValue = itemProp.getValue().getContent();
         ItemPropValue.Type propType = itemProp.getValue().getType();
         if (propType.equals(ItemPropValue.Type.Nested)) {
-            value = processType((ItemScope) propValue, documentIRI, out, mappings);
+            value = processType((ItemScope) propValue, documentIRI, out, mappings, defaultNamespace);
         } else if (propType.equals(ItemPropValue.Type.Plain)) {
             value = RDFUtils.literal((String) propValue, documentLanguage);
         } else if (propType.equals(ItemPropValue.Type.Link)) {
             value = toAbsoluteIRI(documentIRI, (String)propValue);
+            //TODO: support registries so hardcoding not needed
+            if (predicate.stringValue().equals("http://schema.org/additionalType")) {
+                out.writeTriple(subject, RDF.TYPE, value);
+            }
         } else if (propType.equals(ItemPropValue.Type.Date)) {
             value = RDFUtils.literal(ItemPropValue.formatDateTime((Date) propValue), XMLSchema.DATE);
         } else {
             throw new RuntimeException("Invalid Type '" +
-                    propType + "' for ItemPropValue with name: '" + propName + "'");
+                    propType + "' for ItemPropValue with name: '" + predicate + "'");
         }
         out.writeTriple(subject, predicate, value);
     }
 
-    private static IRI getPredicate(IRI itemType, String localName) {
-        return toAbsoluteIRI(localName).orElseGet(() -> itemType == null ? null :
-                RDFUtils.iri(itemType.getNamespace(), localName.trim()));
+    private static final String hcardPrefix    = "http://microformats.org/profile/hcard";
+    private static final IRI hcardNamespaceIRI = RDFUtils.iri("http://microformats.org/profile/hcard#");
+
+    private static IRI getNamespaceIRI(IRI itemType) {
+        //TODO: support registries so hardcoding not needed
+        return itemType.stringValue().startsWith(hcardPrefix) ? hcardNamespaceIRI : itemType;
+    }
+
+    private static IRI getPredicate(IRI namespaceIRI, String localName) {
+        return toAbsoluteIRI(localName).orElseGet(() -> namespaceIRI == null ? null :
+                RDFUtils.iri(namespaceIRI.getNamespace(), localName.trim()));
     }
 
     private static Optional<IRI> toAbsoluteIRI(String urlString) {

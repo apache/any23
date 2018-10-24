@@ -24,6 +24,7 @@ import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.vocab.SINDICE;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,6 +76,26 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 "microdata-nested-expected.nquads"
         );
         logger.debug(dumpModelToNQuads());
+    }
+
+    @Test
+    public void testExample2() {
+        //Property URI generation for hcard
+        assertExtract("/microdata/example2.html");
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://microformats.org/profile/hcard"));
+        assertContains(null, RDFUtils.iri("http://microformats.org/profile/hcard#given-name"), (Value)null);
+        assertContains(null, RDFUtils.iri("http://microformats.org/profile/hcard#n"), (Value)null);
+    }
+
+    @Test
+    public void testExample5() {
+        //Vocabulary expansion for schema.org
+        assertExtract("/microdata/example5.html");
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/Person"));
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://xmlns.com/foaf/0.1/Person"));
+        assertContains(null, RDFUtils.iri("http://schema.org/additionalType"), RDFUtils.iri("http://xmlns.com/foaf/0.1/Person"));
+        assertContains(null, RDFUtils.iri("http://schema.org/email"), RDFUtils.iri("mailto:mail@gmail.com"));
+        assertContains(null, RDFUtils.iri("http://xmlns.com/foaf/0.1/mbox"), RDFUtils.iri("mailto:mail@gmail.com"));
     }
 
     @Test
