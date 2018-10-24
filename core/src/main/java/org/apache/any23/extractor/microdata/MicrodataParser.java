@@ -32,11 +32,9 @@ import org.w3c.dom.traversal.TreeWalker;
 
 import java.io.PrintStream;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;

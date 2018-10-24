@@ -33,8 +33,6 @@ import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
-import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.w3c.dom.Document;
@@ -421,7 +419,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             IRI documentIRI, ExtractionResult out,
             Map<ItemScope, Resource> mappings, IRI defaultNamespace
     ) throws ExtractionException {
-        Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(scope.getItemId()));
+        Resource subject = mappings.computeIfAbsent(itemScope, scope -> createSubjectForItemId(documentIRI, scope.getItemId()));
 
         IRI itemScopeType = getType(itemScope);
         if (itemScopeType != null) {
@@ -461,9 +459,15 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         return type == null ? null : RDFUtils.iri(type.toString());
     }
 
-    private static Resource createSubjectForItemId(String itemId) {
-        Optional<IRI> iri = toAbsoluteIRI(itemId);
-        return iri.isPresent() ? iri.get() : RDFUtils.bnode();
+    private static Resource createSubjectForItemId(IRI documentIRI, String itemId) {
+        if (itemId == null) {
+            return RDFUtils.bnode();
+        }
+        try {
+            return toAbsoluteIRI(documentIRI, itemId);
+        } catch (URISyntaxException e) {
+            return RDFUtils.bnode();
+        }
     }
 
     private void processProperty(
