@@ -28,7 +28,7 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
 import org.apache.any23.vocab.SINDICE;
-import org.apache.any23.writer.TripleHandler;
+import org.apache.any23.writer.TripleWriterHandler;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.Literal;
@@ -121,16 +121,11 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         DocumentSource source = new HTTPDocumentSource(ttlRunner.getHTTPClient(),
                 "http://w3c.github.io/microdata-rdf/tests/manifest.ttl");
         HashMap<Resource, HashMap<IRI, ArrayDeque<Value>>> map = new HashMap<>(256);
-        ttlRunner.extract(source, new TripleHandler() {
-            public void startDocument(IRI documentIRI) {}
-            public void openContext(ExtractionContext context) { }
-            public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
+        ttlRunner.extract(source, new TripleWriterHandler() {
+            public void writeTriple(Resource s, IRI p, Value o, Resource g) {
                 map.computeIfAbsent(s, k -> new HashMap<>()).computeIfAbsent(p, k -> new ArrayDeque<>()).add(o);
             }
-            public void receiveNamespace(String prefix, String uri, ExtractionContext context) { }
-            public void closeContext(ExtractionContext context) {}
-            public void endDocument(IRI documentIRI) { }
-            public void setContentLength(long contentLength) { }
+            public void writeNamespace(String prefix, String uri) { }
             public void close() { }
         });
         final IRI actionPred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action");
@@ -165,31 +160,21 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
             String name = ((Literal)item.get(namePred).pop()).getLabel()
                     + ": " + ((Literal)item.get(RDFS.COMMENT).pop()).getLabel();
             TreeModel actual = new TreeModel();
-            microdataRunner.extract(new HTTPDocumentSource(microdataRunner.getHTTPClient(), action.stringValue()), new TripleHandler() {
-                public void startDocument(IRI documentIRI) {}
-                public void openContext(ExtractionContext context) { }
-                public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
+            microdataRunner.extract(new HTTPDocumentSource(microdataRunner.getHTTPClient(), action.stringValue()), new TripleWriterHandler() {
+                public void writeTriple(Resource s, IRI p, Value o, Resource g) {
                     actual.add(s, p, o);
                 }
-                public void receiveNamespace(String prefix, String uri, ExtractionContext context) { }
-                public void closeContext(ExtractionContext context) { }
-                public void endDocument(IRI documentIRI) { }
-                public void setContentLength(long contentLength) { }
+                public void writeNamespace(String prefix, String uri) { }
                 public void close() { }
             });
 
             TreeModel expected = new TreeModel();
             if (result != null) {
-                ttlRunner.extract(new HTTPDocumentSource(ttlRunner.getHTTPClient(), result.stringValue()), new TripleHandler() {
-                    public void startDocument(IRI documentIRI) {}
-                    public void openContext(ExtractionContext context) { }
-                    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) {
+                ttlRunner.extract(new HTTPDocumentSource(ttlRunner.getHTTPClient(), result.stringValue()), new TripleWriterHandler() {
+                    public void writeTriple(Resource s, IRI p, Value o, Resource g) {
                         expected.add(s, p, o);
                     }
-                    public void receiveNamespace(String prefix, String uri, ExtractionContext context) { }
-                    public void closeContext(ExtractionContext context) {}
-                    public void endDocument(IRI documentIRI) { }
-                    public void setContentLength(long contentLength) { }
+                    public void writeNamespace(String prefix, String uri) { }
                     public void close() { }
                 });
             }
