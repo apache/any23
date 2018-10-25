@@ -63,6 +63,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private String documentLanguage;
 
+    private static final ParsedIRI EMPTY_FRAG = ParsedIRI.create("#");
+
     @Override
     public ExtractorDescription getDescription() {
         return MicrodataExtractorFactory.getDescriptionInstance();
@@ -93,6 +95,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         }
 
         final IRI documentIRI = extractionContext.getDocumentIRI();
+        final ParsedIRI parsedDocumentIRI = ParsedIRI.create(documentIRI.stringValue());
 
         boolean isStrict = extractionParameters.getFlag("any23.microdata.strict");
         final IRI defaultNamespace;
@@ -102,7 +105,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                 throw new IllegalArgumentException("invalid namespace IRI: " + defaultNamespace);
             }
         } else {
-            defaultNamespace = createNamespaceFromPrefix(documentIRI);
+            //TODO: incorporate document's "base" element
+            defaultNamespace = RDFUtils.iri(parsedDocumentIRI.resolve(EMPTY_FRAG).toString());
         }
 
         documentLanguage = getDocumentLanguage(in);
@@ -112,7 +116,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
          */
         final Map<ItemScope, Resource> mappings = new HashMap<>();
         for (ItemScope itemScope : itemScopes) {
-            Resource subject = processType(itemScope, documentIRI, out, mappings, defaultNamespace);
+            Resource subject = processType(itemScope, parsedDocumentIRI, out, mappings, defaultNamespace);
             out.writeTriple(
                     documentIRI,
                     MICRODATA_ITEM,
@@ -127,7 +131,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         /**
          * 5.2.2
          */
-        processHREFElements(in, documentIRI, out);
+        processHREFElements(in, documentIRI, parsedDocumentIRI, out);
         /**
          * 5.2.3
          */
@@ -207,18 +211,18 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * @param documentIRI Document current {@link IRI}.
      * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
-    private void processHREFElements(Document in, IRI documentIRI, ExtractionResult out) {
+    private void processHREFElements(Document in, IRI documentIRI, ParsedIRI parsedDocumentIRI, ExtractionResult out) {
         NodeList anchors = in.getElementsByTagName("a");
         for (int i = 0; i < anchors.getLength(); i++) {
-            processHREFElement(anchors.item(i), documentIRI, out);
+            processHREFElement(anchors.item(i), documentIRI, parsedDocumentIRI, out);
         }
         NodeList areas = in.getElementsByTagName("area");
         for (int i = 0; i < areas.getLength(); i++) {
-            processHREFElement(areas.item(i), documentIRI, out);
+            processHREFElement(areas.item(i), documentIRI, parsedDocumentIRI, out);
         }
         NodeList links = in.getElementsByTagName("link");
         for (int i = 0; i < links.getLength(); i++) {
-            processHREFElement(links.item(i), documentIRI, out);
+            processHREFElement(links.item(i), documentIRI, parsedDocumentIRI, out);
         }
     }
 
@@ -230,7 +234,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      * @param documentIRI Document current {@link IRI}.
      * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
-    private void processHREFElement(Node item, IRI documentIRI, ExtractionResult out) {
+    private void processHREFElement(Node item, IRI documentIRI, ParsedIRI parsedDocumentIRI, ExtractionResult out) {
         Node rel = item.getAttributes().getNamedItem("rel");
         if (rel == null) {
             return;
@@ -241,7 +245,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         }
         IRI iri;
         try {
-            iri = toAbsoluteIRI(documentIRI, href.getTextContent());
+            iri = toAbsoluteIRI(parsedDocumentIRI, href.getTextContent());
         } catch (URISyntaxException e) {
             // cannot happen
             return;
@@ -415,7 +419,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
      */
     private Resource processType(
             ItemScope itemScope,
-            IRI documentIRI, ExtractionResult out,
+            ParsedIRI documentIRI, ExtractionResult out,
             Map<ItemScope, Resource> mappings, IRI defaultNamespace
     ) throws ExtractionException {
         Resource subject = mappings.computeIfAbsent(itemScope, scope ->
@@ -456,7 +460,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         return subject;
     }
 
-    private static Resource createSubjectForItemId(IRI documentIRI, String itemId) {
+    private static Resource createSubjectForItemId(ParsedIRI documentIRI, String itemId) {
         if (itemId == null) {
             return RDFUtils.bnode();
         }
@@ -471,7 +475,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             Resource subject,
             IRI predicate,
             ItemProp itemProp,
-            IRI documentIRI,
+            ParsedIRI documentIRI,
             Map<ItemScope, Resource> mappings,
             ExtractionResult out,
             IRI defaultNamespace
@@ -504,20 +508,6 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     private static final String hcardPrefix    = "http://microformats.org/profile/hcard";
     private static final IRI hcardNamespaceIRI = RDFUtils.iri("http://microformats.org/profile/hcard#");
 
-    static {
-        assert createNamespaceFromPrefix(RDFUtils.iri(hcardPrefix)).equals(hcardNamespaceIRI);
-    }
-
-    private static IRI createNamespaceFromPrefix(IRI prefix) {
-        if (prefix.getLocalName().isEmpty()) {
-            return prefix;
-        }
-        String ns = prefix.getNamespace();
-        IRI ret = RDFUtils.iri(ns.endsWith("#") ? ns : (prefix.stringValue() + "#"));
-        assert ret.getLocalName().isEmpty() && ret.getNamespace().endsWith("#");
-        return ret;
-    }
-
     private static IRI getNamespaceIRI(IRI itemType) {
         //TODO: support registries so hardcoding not needed
         return itemType.stringValue().startsWith(hcardPrefix) ? hcardNamespaceIRI : itemType;
@@ -542,19 +532,17 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         return Optional.empty();
     }
 
-    private static IRI toAbsoluteIRI(IRI documentIRI, String part) throws URISyntaxException {
-        ParsedIRI iri;
+    private static IRI toAbsoluteIRI(ParsedIRI documentIRI, String part) throws URISyntaxException {
         try {
-            iri = ParsedIRI.create(part.trim());
+            return RDFUtils.iri(documentIRI.resolve(part.trim()));
         } catch (RuntimeException e) {
-            throw new URISyntaxException(String.valueOf(part), e.getClass().getName() + ": " + e.getMessage());
+            if (e.getCause() instanceof URISyntaxException) {
+                throw (URISyntaxException)e.getCause();
+            } else {
+                throw new URISyntaxException(String.valueOf(part), e.getClass().getName()
+                        + (e.getMessage() != null ? ": " + e.getMessage() : ""));
+            }
         }
-
-        if (iri.isAbsolute()) {
-            return RDFUtils.iri(iri.toString());
-        }
-
-        return RDFUtils.iri(new ParsedIRI(documentIRI.toString()).resolve(iri).toString());
     }
 
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
