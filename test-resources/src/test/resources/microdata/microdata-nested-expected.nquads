@@ -15,6 +15,10 @@
 #  limitations under the License.
 #
 
+_:node295195eb5d5124e03da26bafc7313bc <http://schema.org/name> "Amanda" <http://bob.example.com/> .
+_:node1cqmii7qqx3 <http://schema.org/size> "12" <http://bob.example.com/> .
+_:node1cqmii7qqx3 <http://schema.org/name> "Jazz Band" <http://bob.example.com/> .
+_:node295195eb5d5124e03da26bafc7313bc <http://schema.org/band> _:node1cqmii7qqx3 <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:node295195eb5d5124e03da26bafc7313bc <http://bob.example.com/> .
 _:node3ecb85b37ebfd65a5d57ab82374a5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Movie> <http://bob.example.com/> .
 _:node1fd8d9ab2f041cdaecbae55b76fadc1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <http://bob.example.com/> .

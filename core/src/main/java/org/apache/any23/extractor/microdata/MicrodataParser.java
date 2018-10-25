@@ -62,12 +62,12 @@ public class MicrodataParser {
 
     /**
      * This set holds the name of properties being dereferenced.
-     * The {@link #deferProperties(Node, String...)} checks first if the
+     * The {@link #deferProperties(String...)} checks first if the
      * required dereference has been already asked, if so raises
      * a loop detection error. This map works in coordination
      * with {@link #dereferenceRecursionCounter}, so that at the end of
-     * {@link #deferProperties(Node, String...)} call recursion the
-     * {@link #loopDetectorSet} can be cleaned up.
+     * {@link #deferProperties(String...)} call recursion the
+     * loopDetectorSet can be cleaned up.
      */
     private final Set<String> loopDetectorSet = new HashSet<>();
 
@@ -82,7 +82,7 @@ public class MicrodataParser {
     private final Map<Node, ItemPropValue> itemPropValues = new HashMap<>();
 
    /**
-     * Counts the recursive call of {@link #deferProperties(Node, String...)}.
+     * Counts the recursive call of {@link #deferProperties(String...)}.
      * It helps to cleanup the {@link #loopDetectorSet} when recursion ends.
      */
     private int dereferenceRecursionCounter = 0;
@@ -495,12 +495,12 @@ public class MicrodataParser {
      * Given a document and a list of <b>itemprop</b> names this method will return
      * such <b>itemprops</b>.
      * 
-     * @param node a {@link org.w3c.dom.Node} to which the refs belong
      * @param refs list of references.
      * @return list of retrieved <b>itemprop</b>s.
      * @throws MicrodataParserException if a loop is detected or a property name is missing.
      */
-    public ItemProp[] deferProperties(Node node, String... refs) throws MicrodataParserException {
+    public ItemProp[] deferProperties(String... refs) throws MicrodataParserException {
+        Document document = this.document;
         dereferenceRecursionCounter++;
         final List<ItemProp> result = new ArrayList<>();
         try {
@@ -515,17 +515,14 @@ public class MicrodataParser {
                         );
                 }
                 loopDetectorSet.add(ref);
-                Element element = (Element) node;
+                Element element = document.getElementById(ref);
                 if (element == null) {
                     manageError(
                             new MicrodataParserException( String.format("Unknown itemProp id '%s'", ref ), null )
                     );
                     continue;
                 }
-                List<ItemProp> propList = getItemProps(element, false);
-                if (!result.containsAll(propList)) {
-                  result.addAll(propList);
-                }
+                result.addAll(getItemProps(element, false));
             }
         } catch (MicrodataParserException mpe) {
             if(dereferenceRecursionCounter == 1)
@@ -558,10 +555,10 @@ public class MicrodataParser {
         final String itemId   = DomUtils.readAttribute(node, "itemid"  , null);
 
         final List<ItemProp> itemProps = getItemProps(node, true);
-        final String[] itemrefIDs = itemref == null ? new String[0] : itemref.split(" ");
+        final String[] itemrefIDs = itemref == null ? new String[0] : itemref.split("\\s+");
         final ItemProp[] deferredProperties;
         try {
-            deferredProperties = deferProperties(node, itemrefIDs);
+            deferredProperties = deferProperties(itemrefIDs);
         } catch (MicrodataParserException mpe) {
             mpe.setErrorNode(node);
             throw mpe;

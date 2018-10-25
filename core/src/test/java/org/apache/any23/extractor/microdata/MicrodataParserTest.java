@@ -30,16 +30,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.any23.extractor.html.TagSoupParser;
 import org.apache.any23.util.StreamUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -163,8 +160,8 @@ public class MicrodataParserTest {
     public void testDeferProperties() throws IOException, MicrodataParserException {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
-        final ItemProp[] deferred = parser.deferProperties(document.getElementById("is2"), "ip5", "ip4", "ip3", "unexisting");
-        Assert.assertEquals(2, deferred.length);
+        final ItemProp[] deferred = parser.deferProperties("ip5", "ip4", "ip3", "unexisting");
+        Assert.assertEquals(3, deferred.length);
     }
 
     /**
@@ -178,7 +175,7 @@ public class MicrodataParserTest {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
         parser.setErrorMode(MicrodataParser.ErrorMode.STOP_AT_FIRST_ERROR);
-        parser.deferProperties(null, "loop0");
+        parser.deferProperties("loop0");
     }
 
     /**
@@ -192,7 +189,7 @@ public class MicrodataParserTest {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
         parser.setErrorMode(MicrodataParser.ErrorMode.STOP_AT_FIRST_ERROR);
-        parser.deferProperties(null, "loop2");
+        parser.deferProperties("loop2");
     }
 
     /**
@@ -207,9 +204,9 @@ public class MicrodataParserTest {
         final Document document = getMicrodataDom("microdata-itemref");
         final MicrodataParser parser = new MicrodataParser(document);
         String ip1 = "ip1";
-        Assert.assertEquals(1, parser.deferProperties(document.getElementById(ip1), ip1).length);
-        Assert.assertEquals(1, parser.deferProperties(document.getElementById(ip1), ip1).length);
-        Assert.assertEquals(1, parser.deferProperties(document.getElementById(ip1), ip1).length);
+        Assert.assertEquals(1, parser.deferProperties(ip1).length);
+        Assert.assertEquals(1, parser.deferProperties(ip1).length);
+        Assert.assertEquals(1, parser.deferProperties(ip1).length);
     }
 
     private Document getDom(String document) throws IOException {
