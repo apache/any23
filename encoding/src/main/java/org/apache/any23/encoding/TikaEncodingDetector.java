@@ -18,6 +18,7 @@
 package org.apache.any23.encoding;
 
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MediaType;
 import org.apache.tika.parser.html.HtmlEncodingDetector;
 import org.apache.tika.parser.txt.CharsetDetector;
 import org.apache.tika.parser.txt.CharsetMatch;
@@ -38,11 +39,18 @@ import java.util.regex.Pattern;
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
+ * @author Hans Brende (hansbrende@apache.org)
  * @version $Id$
  */
 public class TikaEncodingDetector implements EncodingDetector {
 
-    public String guessEncoding(InputStream is) throws IOException {
+    @Override
+    public String guessEncoding(InputStream input) throws IOException {
+        return guessEncoding(input, null);
+    }
+
+    @Override
+    public String guessEncoding(InputStream is, String contentType) throws IOException {
         if (!is.markSupported()) {
             is = new BufferedInputStream(is);
         }
@@ -54,6 +62,22 @@ public class TikaEncodingDetector implements EncodingDetector {
         Charset htmlCharset = htmlEncodingDetector.detect(is, new Metadata());
 
         CharsetDetector charsetDetector = new CharsetDetector(65536);
+
+        String incomingCharset = null;
+        if (contentType != null) {
+            MediaType mt = MediaType.parse(contentType);
+            if (mt != null) {
+                incomingCharset = mt.getParameters().get("charset");
+            }
+        }
+
+        if (incomingCharset != null) {
+            incomingCharset = CharsetUtils.clean(incomingCharset);
+            if (incomingCharset != null) {
+                charsetDetector.setDeclaredEncoding(incomingCharset);
+            }
+        }
+
         //enableInputFilter() needs to precede setText() to have any effect
         charsetDetector.enableInputFilter(true);
         charsetDetector.setText(is);
@@ -64,7 +88,13 @@ public class TikaEncodingDetector implements EncodingDetector {
             try {
                 Charset charset = CharsetUtils.forName(match.getName());
                 int confidence = match.getConfidence();
+                if (StandardCharsets.UTF_8.equals(charset)) {
+                    confidence *= 4;
+                }
                 if (charset.equals(htmlCharset) || charset.equals(xmlCharset)) {
+                    confidence *= 16;
+                }
+                if (charset.name().equals(incomingCharset)) {
                     confidence *= 16;
                 }
                 if (confidence > bestConfidence) {

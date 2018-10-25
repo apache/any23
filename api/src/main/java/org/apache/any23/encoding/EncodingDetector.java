@@ -37,4 +37,17 @@ public interface EncodingDetector {
      */
     String guessEncoding(InputStream input) throws IOException;
 
+    /**
+     * Guesses the data encoding.
+     *
+     * @param input the input stream containing the data.
+     * @param contentType the declared content type of the data.
+     * @return a string compliant to
+     *         <a href="http://www.iana.org/assignments/character-sets">IANA Charset Specification</a>.
+     * @throws IOException if there is an error whilst guessing the encoding.
+     */
+    default String guessEncoding(InputStream input, String contentType) throws IOException {
+        return guessEncoding(input);
+    }
+
 }

@@ -572,7 +572,7 @@ public class SingleDocumentExtraction {
         try {
             ensureHasLocalCopy();
             InputStream is = new BufferedInputStream(localDocumentSource.openInputStream());
-            String encoding = this.encoderDetector.guessEncoding(is);
+            String encoding = this.encoderDetector.guessEncoding(is, localDocumentSource.getContentType());
             is.close();
             return encoding;
         } catch (Exception e) {
