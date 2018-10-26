@@ -50,11 +50,12 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Default implementation of <a href="http://www.w3.org/TR/microdata/">Microdata</a> extractor,
+ * Default implementation of <a href="https://www.w3.org/TR/microdata/">Microdata</a> extractor,
  * based on {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano ( dpalmisano@gmail.com )
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
@@ -72,10 +73,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     /**
      * This extraction performs the
-     * <a href="http://www.w3.org/TR/microdata/#rdf">Microdata to RDF conversion algorithm</a>.
-     * A slight modification of the specification algorithm has been introduced
-     * to avoid performing actions 5.2.1, 5.2.2, 5.2.3, 5.2.4 if step 5.2.6 doesn't detect any
-     * Microdata.
+     * <a href="https://www.w3.org/TR/microdata-rdf/">Microdata to RDF conversion algorithm</a>.
      */
     @Override
     public void run(
@@ -111,8 +109,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
         documentLanguage = getDocumentLanguage(in);
 
-        /**
-         * 5.2.6
+        /*
+         * 5.2.6 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
          */
         final Map<ItemScope, Resource> mappings = new HashMap<>();
         for (ItemScope itemScope : itemScopes) {
@@ -124,21 +122,21 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             );
         }
 
-        /**
-         * 5.2.1
+        /*
+         * 5.2.1 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
          */
         processTitle(in, documentIRI, out);
-        /**
-         * 5.2.2
+        /*
+         * 5.2.2 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
          */
         processHREFElements(in, documentIRI, parsedDocumentIRI, out);
-        /**
-         * 5.2.3
+        /*
+         * 5.2.3 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
          */
         processMetaElements(in, documentIRI, out);
 
-        /**
-         * 5.2.4
+        /*
+         * 5.2.4 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
          */
         processCiteElements(in, documentIRI, out);
     }
@@ -174,12 +172,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements step 5.2.1 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements step 5.2.1 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param in          {@link Document} to be processed.
-     * @param documentIRI Document current {@link IRI}.
-     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processTitle(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList titles = in.getElementsByTagName("title");
@@ -204,12 +198,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements step 5.2.2 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements step 5.2.2 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param in          {@link Document} to be processed.
-     * @param documentIRI Document current {@link IRI}.
-     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processHREFElements(Document in, IRI documentIRI, ParsedIRI parsedDocumentIRI, ExtractionResult out) {
         NodeList anchors = in.getElementsByTagName("a");
@@ -227,12 +217,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements sub-step for 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements sub-step for 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param item        {@link Node} to be processed.
-     * @param documentIRI Document current {@link IRI}.
-     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processHREFElement(Node item, IRI documentIRI, ParsedIRI parsedDocumentIRI, ExtractionResult out) {
         Node rel = item.getAttributes().getNamedItem("rel");
@@ -275,12 +261,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements step 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements step 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param in          {@link Document} to be processed.
-     * @param documentIRI Document current {@link IRI}.
-     * @param out         a valid not <code>null</code> {@link ExtractionResult}
      */
     private void processMetaElements(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList metas = in.getElementsByTagName("meta");
@@ -312,14 +294,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements sub step for 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements sub step for 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param uri
-     * @param content
-     * @param language
-     * @param documentIRI
-     * @param out
      */
     private void processMetaElement(
             IRI uri,
@@ -347,14 +323,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements sub step for 5.2.3 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements sub step for 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param name
-     * @param content
-     * @param language
-     * @param documentIRI
-     * @param out
      */
     private void processMetaElement(
             String name,
@@ -377,12 +347,8 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Implements sub step for 5.2.4 of <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Implements sub step for 5.2.4 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param in
-     * @param documentIRI
-     * @param out
      */
     private void processCiteElements(Document in, IRI documentIRI, ExtractionResult out) {
         NodeList blockQuotes = in.getElementsByTagName("blockquote");
@@ -406,16 +372,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * Recursive method implementing 5.2.6.1 "generate the triple for the item" of
-     * <a href="http://dev.w3.org/html5/md/Overview.html#rdf">Microdata to RDF</a>
+     * Recursive method implementing 6.3 "generate the triples" of the
+     * <a href="https://www.w3.org/TR/microdata-rdf/#generate-the-triples">Microdata to RDF</a>
      * extraction algorithm.
-     *
-     * @param itemScope
-     * @param documentIRI
-     * @param out
-     * @param mappings
-     * @return
-     * @throws ExtractionException
      */
     private Resource processType(
             ItemScope itemScope,
