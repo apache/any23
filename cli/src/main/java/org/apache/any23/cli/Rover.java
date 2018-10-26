@@ -77,9 +77,8 @@ public class Rover extends BaseTool {
     private static final String DEFAULT_WRITER_IDENTIFIER = NTriplesWriterFactory.IDENTIFIER;
 
     static {
-        final Setting<Boolean> ALWAYS_SUPPRESS_CSS_TRIPLES = Setting.newKey(
-                "alwayssuppresscsstriples", Boolean.class)
-                .withValue(Boolean.TRUE);
+        final Setting<Boolean> ALWAYS_SUPPRESS_CSS_TRIPLES = new Setting<Boolean>(
+                "alwayssuppresscsstriples", Boolean.TRUE) {};
         final Settings supportedSettings = Settings.of(ALWAYS_SUPPRESS_CSS_TRIPLES);
 
         registry.register(new DecoratingWriterFactory() {

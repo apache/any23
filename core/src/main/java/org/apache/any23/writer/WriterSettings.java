@@ -46,14 +46,12 @@ public class WriterSettings {
     /**
      * Directive to writer that output should be printed in a way to maximize human readability.
      */
-    public static final Setting<Boolean> PRETTY_PRINT = Setting.newKey("pretty", Boolean.class)
-            .withValue(Boolean.TRUE);
+    public static final Setting<Boolean> PRETTY_PRINT = new Setting<Boolean>("pretty", Boolean.TRUE){};
 
     /**
      * Directive to writer that at least the non-ASCII characters should be escaped.
      */
-    public static final Setting<Boolean> PRINT_ASCII = Setting.newKey("ascii", Boolean.class)
-            .withValue(Boolean.FALSE);
+    public static final Setting<Boolean> PRINT_ASCII = new Setting<Boolean>("ascii", Boolean.FALSE){};
 
 
 }

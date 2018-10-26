@@ -44,10 +44,25 @@ public final class Settings extends AbstractSet<Setting<?>> {
     }
 
     /**
-     * Returns the setting with the same {@link Setting.Key Key} as the supplied setting, if present.
+     * @param identifier the identifier of the setting to find
+     * @return the setting with the identifier supplied, if present
      */
-    public <E> Optional<Setting<E>> find(Setting<E> setting) {
-        return setting.cast(values.get(setting.getIdentifier()));
+    public Optional<Setting<?>> find(String identifier) {
+        return Optional.ofNullable(values.get(identifier));
+    }
+
+    /**
+     * Returns the setting with the same setting key as the supplied setting, if present.
+     * <br><br>
+     * This method is semantically equivalent to:
+     * <br><br>
+     * <pre>
+     * {@code find(setting.getIdentifier()).flatMap(s -> s.as(setting))}
+     * </pre>
+     */
+    public <S extends Setting<?>> Optional<S> find(S setting) {
+        Setting<?> found = values.get(setting.getIdentifier());
+        return found == null ? Optional.empty() : found.as(setting);
     }
 
     /**

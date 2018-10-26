@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +39,7 @@ public class SettingsTest {
 
     @Test
     public void testNonNullSetting() {
-        Setting<String> nonNull = Setting.newKey("nulltest", String.class).withValue("A nonnull string");
+        Setting<String> nonNull = new Setting<String>("nulltest", "A nonnull string") {};
         try {
             nonNull.withValue(null);
             fail();
@@ -49,15 +50,15 @@ public class SettingsTest {
 
     @Test
     public void testNullableSetting() {
-        Setting<String> nullable = Setting.newKey("nulltest", String.class).withValue(null);
+        Setting<String> nullable = new Setting<String>("nulltest", null) {};
         assertNull(nullable.withValue(null).getValue());
     }
 
     @Test
     public void testDuplicateIdentifiers() {
         try {
-            Setting<String> first = Setting.newKey("foo", String.class).withValue("");
-            Setting<String> second = Setting.newKey("foo", String.class).withValue("");
+            Setting<String> first = new Setting<String>("foo", "") {};
+            Setting<String> second = new Setting<String>("foo", "") {};
 
             Settings.of(first, second);
 
@@ -69,7 +70,7 @@ public class SettingsTest {
 
     @Test
     public void testFind() {
-        Setting<String> key = Setting.newKey("foo", String.class).withValue("key");
+        Setting<String> key = new Setting<String>("foo", "key") {};
         Setting<String> element = key.withValue("element");
 
         Settings settings = Settings.of(element);
@@ -86,7 +87,7 @@ public class SettingsTest {
 
     @Test
     public void testGetPresentSetting() {
-        Setting<String> key = Setting.newKey("foo", String.class).withValue("key");
+        Setting<String> key = new Setting<String>("foo", "key") {};
 
         Setting<String> actual = key.withValue("actual");
         Settings settings = Settings.of(actual);
@@ -96,9 +97,9 @@ public class SettingsTest {
 
     @Test
     public void testGetAbsentSetting() {
-        Setting<String> key = Setting.newKey("foo", String.class).withValue("key");
+        Setting<String> key = new Setting<String>("foo", "key") {};
 
-        Setting<String> actual = Setting.newKey("foo", String.class).withValue("actual");
+        Setting<String> actual = new Setting<String>("foo", "actual") {};
         Settings settings = Settings.of(actual);
 
         assertSame(key.getValue(), settings.get(key));
@@ -106,26 +107,27 @@ public class SettingsTest {
 
     @Test
     public void testGetNullSetting() {
-        Setting.Key<String> baseKey = Setting.newKey("foo", String.class);
+        Setting<String> baseKey = new Setting<String>("foo", null) {};
 
-        Settings settings = Settings.of(baseKey.withValue(null));
+        Settings settings = Settings.of(baseKey);
         assertNull(settings.get(baseKey.withValue("not null")));
+
+        //make sure we can go back to null
+        baseKey.withValue("not null").withValue(null);
     }
 
     @Test
     public void testSettingType() {
-        assertEquals(CharSequence.class, Setting.newKey("foo", CharSequence.class).withValue("").getValueType());
-        assertEquals(CharSequence.class, new Setting.Key<CharSequence>("foo"){}.withValue("").getValueType());
+        assertEquals(CharSequence.class, new Setting<CharSequence>("foo", ""){}.getValueType());
 
-        Type mapType = new Setting.Key<Map<String, Integer>>(
-                "foo"){}.withValue(Collections.emptyMap()).getValueType();
+        Type mapType = new Setting<Map<String, Integer>>("foo", Collections.emptyMap()){}.getValueType();
 
         assertTrue(mapType instanceof ParameterizedType);
         assertEquals("java.util.Map<java.lang.String, java.lang.Integer>", mapType.getTypeName());
 
-        class Key0<Bar, V> extends Setting.Key<V> {
+        class Key0<Bar, V> extends Setting<V> {
             Key0() {
-                super("foo");
+                super("foo", null);
             }
         }
 
@@ -149,61 +151,77 @@ public class SettingsTest {
         assertEquals(String.class, simpleType);
     }
 
+    @Test
+    public void testCustomValueChecking() {
+        class PositiveIntegerSetting extends Setting<Integer> {
+            private PositiveIntegerSetting(String identifier, Integer defaultValue) {
+                super(identifier, defaultValue);
+            }
 
+            @Override
+            protected void checkValue(Integer newValue) throws Exception {
+                if (newValue < 0) {
+                    throw new NumberFormatException();
+                }
+            }
+
+            @Override
+            public String toString() {
+                return getValue().toString();
+            }
+        }
+
+        Setting<Integer> setting = new PositiveIntegerSetting("foo", 0);
+
+        assertNotSame(setting, setting.withValue(0));
+        assertEquals(setting, setting.withValue(0));
+
+        setting = setting.withValue(5).withValue(6).withValue(7);
+
+        assertEquals(setting.getClass(), PositiveIntegerSetting.class);
+        assertEquals(setting.toString(), "7");
+
+        try {
+            setting.withValue(-1);
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getCause() instanceof NumberFormatException);
+        }
+    }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testBadSetting() {
         try {
-            new Setting.Key("foo") {};
+            new Setting("foo", null) {};
             fail();
         } catch (IllegalArgumentException e) {
             //test passes; ignore
         }
 
         try {
-            Setting.newKey("foo", null);
+            new Setting<Integer>(null, null) {};
             fail();
         } catch (IllegalArgumentException e) {
             //test passes; ignore
         }
 
         try {
-            Setting.newKey(null, Integer.class);
+            new Setting<Integer>(" ", null) {};
             fail();
         } catch (IllegalArgumentException e) {
             //test passes; ignore
         }
 
         try {
-            Setting.newKey(" ", Integer.class);
+            new Setting<Integer[]>("foo", null) {};
             fail();
         } catch (IllegalArgumentException e) {
             //test passes; ignore
         }
 
         try {
-            Setting.newKey("foo", boolean.class);
-            fail();
-        } catch (IllegalArgumentException e) {
-            //test passes; ignore
-        }
-
-        try {
-            Setting.newKey("foo", Integer[].class);
-            fail();
-        } catch (IllegalArgumentException e) {
-            //test passes; ignore
-        }
-
-        try {
-            new Setting.Key<Integer[]>("foo") {};
-            fail();
-        } catch (IllegalArgumentException e) {
-            //test passes; ignore
-        }
-
-        try {
-            new Setting.Key<List<Integer>[]>("foo") {};
+            new Setting<List<Integer>[]>("foo", null) {};
             fail();
         } catch (IllegalArgumentException e) {
             //test passes; ignore
@@ -211,7 +229,7 @@ public class SettingsTest {
 
         class BadKeyCreator {
             private <V> void badKey() {
-                new Setting.Key<V>("foo") {};
+                new Setting<V>("foo", null) {};
             }
         }
 
