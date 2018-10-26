@@ -18,6 +18,7 @@
 package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.Any23;
+import org.apache.any23.Any23OnlineTestBase;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.ExtractionException;
@@ -57,6 +58,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,10 +118,28 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         assertContains(null, RDFUtils.iri("http://xmlns.com/foaf/0.1/mbox"), RDFUtils.iri("mailto:mail@gmail.com"));
     }
 
+    private static final List<String> ignoredOnlineTestNames = Arrays.asList(
+            "Test 0073", //Vocabulary Expansion test with rdfs:subPropertyOf
+            "Test 0074", //Vocabulary Expansion test with owl:equivalentProperty
+            "Test 0081", //Simple @itemprop-reverse (experimental)
+            "Test 0082", //@itemprop-reverse with @itemscope value (experimental)
+            "Test 0084"  //@itemprop-reverse with @itemprop (experimental)
+    );
+
+    private static Any23 createRunner(String extractorName) {
+        ModifiableConfiguration config = DefaultConfiguration.copy();
+        config.setProperty("any23.microdata.strict", DefaultConfiguration.FLAG_PROPERTY_ON);
+        Any23 runner = new Any23(config, extractorName);
+        runner.setHTTPUserAgent("apache-any23-test-user-agent");
+        return runner;
+    }
+
     @Test
     public void runOnlineTests() throws Exception {
-        Any23 ttlRunner = new Any23(TurtleExtractorFactory.NAME);
-        ttlRunner.setHTTPUserAgent("apache-any23-test-user-agent");
+
+        Any23OnlineTestBase.assumeOnlineAllowed();
+
+        Any23 ttlRunner = createRunner(TurtleExtractorFactory.NAME);
         DocumentSource source = new HTTPDocumentSource(ttlRunner.getHTTPClient(),
                 "http://w3c.github.io/microdata-rdf/tests/manifest.ttl");
         HashMap<Resource, HashMap<IRI, ArrayDeque<Value>>> map = new HashMap<>(256);
@@ -129,22 +150,21 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
             public void writeNamespace(String prefix, String uri) { }
             public void close() { }
         });
+
+        Assert.assertFalse(map.isEmpty());
+
         final IRI actionPred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#action");
         final IRI resultPred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result");
         final IRI namePred = RDFUtils.iri("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name");
 
-        ModifiableConfiguration config = DefaultConfiguration.copy();
-        config.setProperty("any23.microdata.strict", DefaultConfiguration.FLAG_PROPERTY_ON);
-        Any23 microdataRunner = new Any23(config, MicrodataExtractorFactory.NAME);
-        microdataRunner.setHTTPUserAgent("apache-any23-test-user-agent");
-        ArrayList<String> passedTests = new ArrayList<>();
-        TreeMap<String, String> failedTests = new TreeMap<>();
-        Assert.assertFalse(map.isEmpty());
-        for (Map.Entry<Resource, HashMap<IRI, ArrayDeque<Value>>> entry : map.entrySet()) {
-            HashMap<IRI, ArrayDeque<Value>> item = entry.getValue();
+        AtomicInteger passedTests = new AtomicInteger();
+        AtomicInteger ignoredTests = new AtomicInteger();
+        Map<String, String> failedTests = Collections.synchronizedMap(new TreeMap<>());
+
+        map.values().parallelStream().forEach(item -> {
             ArrayDeque<Value> types = item.get(RDF.TYPE);
             if (types == null) {
-                continue;
+                return;
             }
             boolean positive; label: {
                 for (Value type : types) {
@@ -156,92 +176,100 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                         break label;
                     }
                 }
-                continue;
+                return;
             }
             IRI action = (IRI)item.get(actionPred).pop();
             IRI result = (IRI)(item.containsKey(resultPred) ? item.get(resultPred).pop() : null);
-            String name = ((Literal)item.get(namePred).pop()).getLabel()
-                    + ": " + ((Literal)item.get(RDFS.COMMENT).pop()).getLabel();
-            TreeModel actual = new TreeModel();
-            microdataRunner.extract(new HTTPDocumentSource(microdataRunner.getHTTPClient(), action.stringValue()), new TripleWriterHandler() {
-                public void writeTriple(Resource s, IRI p, Value o, Resource g) {
-                    actual.add(s, p, o);
-                }
-                public void writeNamespace(String prefix, String uri) { }
-                public void close() { }
-            });
-
-            TreeModel expected = new TreeModel();
-            if (result != null) {
-                ttlRunner.extract(new HTTPDocumentSource(ttlRunner.getHTTPClient(), result.stringValue()), new TripleWriterHandler() {
+            String name = ((Literal)item.get(namePred).pop()).getLabel();
+            if (ignoredOnlineTestNames.contains(name)) {
+                ignoredTests.incrementAndGet();
+                return;
+            }
+            try {
+                name += ": " + ((Literal)item.get(RDFS.COMMENT).pop()).getLabel();
+                TreeModel actual = new TreeModel();
+                createRunner(MicrodataExtractorFactory.NAME).extract(action.stringValue(), new TripleWriterHandler() {
                     public void writeTriple(Resource s, IRI p, Value o, Resource g) {
-                        expected.add(s, p, o);
+                        actual.add(s, p, o);
                     }
                     public void writeNamespace(String prefix, String uri) { }
                     public void close() { }
                 });
-            }
 
-            //boolean testPassed = true;
-            Assert.assertFalse(positive && expected.isEmpty());
-
-
-            boolean testPassed = positive ? Models.isSubset(expected, actual) : !Models.isomorphic(expected, actual);
-            if (testPassed) {
-                passedTests.add(name);
-            } else {
-                StringBuilder error = new StringBuilder("\n" + name + "\n");
-                error.append(action).append(positive ? " ==> " : " =/=> ").append(result).append("\n");
-
-                HashMap<Value, String> m = new HashMap<>();
-                AtomicInteger i = new AtomicInteger();
-                int match1 = 0, match2 = 0;
-                for (Statement st : expected) {
-                    Resource s = st.getSubject();
-                    Value o = st.getObject();
-
-                    if (actual.stream().noneMatch(t -> st.getPredicate().equals(t.getPredicate())
-                            && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
-                            && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
-                        if (positive) {
-                            Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k->"_:"+i.getAndIncrement()) : s;
-                            Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k->"_:"+i.getAndIncrement()) : o;
-                            error.append("EXPECT: ").append(sstr).append(" ").append(st.getPredicate())
-                                    .append(" ").append(ostr).append("\n");
+                TreeModel expected = new TreeModel();
+                if (result != null) {
+                    createRunner(TurtleExtractorFactory.NAME).extract(result.stringValue(), new TripleWriterHandler() {
+                        public void writeTriple(Resource s, IRI p, Value o, Resource g) {
+                            expected.add(s, p, o);
                         }
-                    } else {
-                        match1++;
-                    }
+                        public void writeNamespace(String prefix, String uri) { }
+                        public void close() { }
+                    });
                 }
-                error.append("...").append(match1).append(" statements in common...\n");
 
-                for (Statement st : actual) {
-                    Resource s = st.getSubject();
-                    Value o = st.getObject();
+                boolean testPassed = positive ? (expected.isEmpty() ? actual.isEmpty()
+                        : Models.isSubset(expected, actual)) : !Models.isomorphic(expected, actual);
+                if (testPassed) {
+                    passedTests.incrementAndGet();
+                } else {
+                    StringBuilder error = new StringBuilder("\n" + name + "\n");
+                    error.append(action).append(positive ? " ==> " : " =/=> ").append(result).append("\n");
 
-                    if (expected.stream().noneMatch(t -> st.getPredicate().equals(t.getPredicate())
-                            && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
-                            && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
-                        if (positive) {
-                            Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k->"_:"+i.getAndIncrement()) : s;
-                            Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k->"_:"+i.getAndIncrement()) : o;
-                            error.append("ACTUAL: ").append(sstr).append(" ").append(st.getPredicate())
-                                    .append(" ").append(ostr).append("\n");
+                    HashMap<Value, String> m = new HashMap<>();
+                    AtomicInteger i = new AtomicInteger();
+                    int match = 0;
+                    for (Statement st : expected) {
+                        Resource s = st.getSubject();
+                        Value o = st.getObject();
+
+                        if (actual.stream().noneMatch(t -> st.getPredicate().equals(t.getPredicate())
+                                && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
+                                && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
+                            if (positive) {
+                                Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k->"_:"+i.getAndIncrement()) : s;
+                                Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k->"_:"+i.getAndIncrement()) : o;
+                                error.append("EXPECT: ").append(sstr).append(" ").append(st.getPredicate())
+                                        .append(" ").append(ostr).append("\n");
+                            }
+                        } else {
+                            match++;
                         }
-                    } else {
-                        match2++;
                     }
-                }
-                Assert.assertEquals(match1, match2);
+                    error.append("...").append(match).append(" statements in common...\n");
 
-                failedTests.put(name, error.toString());
+                    for (Statement st : actual) {
+                        Resource s = st.getSubject();
+                        Value o = st.getObject();
+
+                        if (expected.stream().noneMatch(t -> st.getPredicate().equals(t.getPredicate())
+                                && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
+                                && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
+                            if (positive) {
+                                Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k -> "_:" + i.getAndIncrement()) : s;
+                                Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k -> "_:" + i.getAndIncrement()) : o;
+                                error.append("ACTUAL: ").append(sstr).append(" ").append(st.getPredicate())
+                                        .append(" ").append(ostr).append("\n");
+                            }
+                        }
+                    }
+
+                    failedTests.put(name, error.toString());
+                }
+            } catch (Exception e) {
+                failedTests.put(name, "\n" + e.toString() + "\n");
             }
+        });
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("passed=" + passedTests.get() + "; ignored=" + ignoredTests.get());
         }
 
-        Assert.assertTrue(failedTests.size() + " failures out of "
-                + (failedTests.size() + passedTests.size()) + " total tests\n"
-                + String.join("\n", failedTests.keySet()) + "\n\n"
-                + String.join("\n", failedTests.values()), failedTests.isEmpty());
+        if (!failedTests.isEmpty()) {
+            Assert.fail(failedTests.size() + " failures out of "
+                    + (failedTests.size() + passedTests.get()) + " total tests\n"
+                    + String.join("\n", failedTests.keySet()) + "\n\n"
+                    + String.join("\n", failedTests.values()));
+        }
     }
 
     @Test
