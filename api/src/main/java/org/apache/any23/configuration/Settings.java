@@ -66,7 +66,7 @@ public final class Settings extends AbstractSet<Setting<?>> {
     }
 
     /**
-     * Returns the value set for {@code defaultSetting}'s {@link Setting.Key Key}, if present.
+     * Returns the value set for {@code defaultSetting}'s key, if present.
      * Otherwise, returns {@code defaultSetting}'s value.
      * <br><br>
      * This method is semantically equivalent to:
