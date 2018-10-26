@@ -26,7 +26,7 @@ public class XCalExtractorTest extends BaseCalendarExtractorTest {
 
     @Override
     String filePrefix() {
-        return "/calendar.xml/";
+        return "/calendar/xml/";
     }
 
     @Override

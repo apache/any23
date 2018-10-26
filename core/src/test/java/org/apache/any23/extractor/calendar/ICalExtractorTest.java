@@ -31,7 +31,7 @@ public class ICalExtractorTest extends BaseCalendarExtractorTest {
 
     @Override
     String filePrefix() {
-        return "/calendar.text/";
+        return "/calendar/text/";
     }
 
     @Test

@@ -26,7 +26,7 @@ public class JCalExtractorTest extends BaseCalendarExtractorTest {
 
     @Override
     String filePrefix() {
-        return "/calendar.json/";
+        return "/calendar/json/";
     }
 
     @Override
