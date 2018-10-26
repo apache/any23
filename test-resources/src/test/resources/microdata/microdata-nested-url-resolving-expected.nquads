@@ -27,4 +27,3 @@ _:node1causocqkx2 <http://schema.org/author> _:node1causocqkx3 <https://ruben.ve
 _:node1causocqkx2 <http://schema.org/name> "One hammer for a thousand nails"@en <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
 _:node1causocqkx2 <http://schema.org/headline> "One hammer for a thousand nails"@en <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
 <https://ruben.verborgh.org/tmp/schemaorg-test.html> <http://www.w3.org/1999/xhtml/microdata#item> _:node1causocqkx2 <https://ruben.verborgh.org/tmp/schemaorg-test.html> .
-<https://ruben.verborgh.org/tmp/schemaorg-test.html> <http://purl.org/dc/terms/title> "One hammer for a thousand nails | Ruben Verborgh"@en <https://ruben.verborgh.org/tmp/schemaorg-test.html> .

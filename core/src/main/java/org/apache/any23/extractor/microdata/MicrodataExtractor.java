@@ -17,37 +17,27 @@
 
 package org.apache.any23.extractor.microdata;
 
-import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.html.DomUtils;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.vocab.DCTerms;
-import org.apache.any23.vocab.XHTML;
 import org.eclipse.rdf4j.common.net.ParsedIRI;
-import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Default implementation of <a href="https://www.w3.org/TR/microdata/">Microdata</a> extractor,
@@ -61,8 +51,6 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
     private static final IRI MICRODATA_ITEM
             = RDFUtils.iri("http://www.w3.org/1999/xhtml/microdata#item");
-
-    private String documentLanguage;
 
     private static final ParsedIRI EMPTY_FRAG = ParsedIRI.create("#");
 
@@ -107,266 +95,17 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             defaultNamespace = RDFUtils.iri(parsedDocumentIRI.resolve(EMPTY_FRAG).toString());
         }
 
-        documentLanguage = getDocumentLanguage(in);
-
-        /*
-         * 5.2.6 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
-         */
+        //https://www.w3.org/TR/microdata-rdf/#generate-the-triples
         final Map<ItemScope, Resource> mappings = new HashMap<>();
         for (ItemScope itemScope : itemScopes) {
             Resource subject = processType(itemScope, parsedDocumentIRI, out, mappings, defaultNamespace);
+
+            //Writing out md:item triple has been removed from spec
+            //but for now, keep for backwards compatibility.
             out.writeTriple(
                     documentIRI,
                     MICRODATA_ITEM,
                     subject
-            );
-        }
-
-        /*
-         * 5.2.1 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
-         */
-        processTitle(in, documentIRI, out);
-        /*
-         * 5.2.2 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
-         */
-        processHREFElements(in, documentIRI, parsedDocumentIRI, out);
-        /*
-         * 5.2.3 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
-         */
-        processMetaElements(in, documentIRI, out);
-
-        /*
-         * 5.2.4 of https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf
-         */
-        processCiteElements(in, documentIRI, out);
-    }
-
-    /**
-     * Returns the {@link Document} language if declared, <code>null</code> otherwise.
-     *
-     * @param in a instance of {@link Document}.
-     * @return the language declared, could be <code>null</code>.
-     */
-    private String getDocumentLanguage(Document in) {
-        String lang = DomUtils.find(in, "string(/HTML/@lang)");
-        if ("".equals(lang)) {
-            return null;
-        }
-        return lang;
-    }
-
-    /**
-     * Returns the {@link Node} language if declared, or the {@link Document} one
-     * if not defined.
-     *
-     * @param node a {@link Node} instance.
-     * @return the {@link Node} language or the {@link Document} one. Could be <code>null</code>
-     */
-    private String getLanguage(Node node) {
-        Node nodeLang = node.getAttributes().getNamedItem("lang");
-        if (nodeLang == null) {
-            // if the element does not specify a lang, use the document one
-            return documentLanguage;
-        }
-        return nodeLang.getTextContent();
-    }
-
-    /**
-     * Implements step 5.2.1 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processTitle(Document in, IRI documentIRI, ExtractionResult out) {
-        NodeList titles = in.getElementsByTagName("title");
-        // just one title is allowed.
-        if (titles.getLength() == 1) {
-            Node title = titles.item(0);
-            String titleValue = title.getTextContent();
-            Literal object;
-            String lang = getLanguage(title);
-            if (lang == null) {
-                // unable to decide the language, leave it unknown
-                object = RDFUtils.literal(titleValue);
-            } else {
-                object = RDFUtils.literal(titleValue, lang);
-            }
-            out.writeTriple(
-                    documentIRI,
-                    DCTerms.getInstance().title,
-                    object
-            );
-        }
-    }
-
-    /**
-     * Implements step 5.2.2 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processHREFElements(Document in, IRI documentIRI, ParsedIRI parsedDocumentIRI, ExtractionResult out) {
-        NodeList anchors = in.getElementsByTagName("a");
-        for (int i = 0; i < anchors.getLength(); i++) {
-            processHREFElement(anchors.item(i), documentIRI, parsedDocumentIRI, out);
-        }
-        NodeList areas = in.getElementsByTagName("area");
-        for (int i = 0; i < areas.getLength(); i++) {
-            processHREFElement(areas.item(i), documentIRI, parsedDocumentIRI, out);
-        }
-        NodeList links = in.getElementsByTagName("link");
-        for (int i = 0; i < links.getLength(); i++) {
-            processHREFElement(links.item(i), documentIRI, parsedDocumentIRI, out);
-        }
-    }
-
-    /**
-     * Implements sub-step for 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processHREFElement(Node item, IRI documentIRI, ParsedIRI parsedDocumentIRI, ExtractionResult out) {
-        Node rel = item.getAttributes().getNamedItem("rel");
-        if (rel == null) {
-            return;
-        }
-        Node href = item.getAttributes().getNamedItem("href");
-        if (href == null) {
-            return;
-        }
-        IRI iri;
-        try {
-            iri = toAbsoluteIRI(parsedDocumentIRI, href.getTextContent());
-        } catch (URISyntaxException e) {
-            // cannot happen
-            return;
-        }
-
-        String[] relTokens = rel.getTextContent().split(" ");
-        Set<String> tokensWithNoDuplicates = new HashSet<>();
-        for (String relToken : relTokens) {
-            if (relToken.contains(":")) {
-                // if contain semi-colon, skip
-                continue;
-            }
-            if ("alternate".equals(relToken) || "stylesheet".equals(relToken)) {
-                tokensWithNoDuplicates.add("ALTERNATE-STYLESHEET");
-                continue;
-            }
-            tokensWithNoDuplicates.add(relToken.toLowerCase());
-        }
-        for (String token : tokensWithNoDuplicates) {
-            IRI predicate = toAbsoluteIRI(token).orElseGet(() -> RDFUtils.iri(XHTML.NS + token.trim()));
-            out.writeTriple(
-                    documentIRI,
-                    predicate,
-                    iri
-            );
-        }
-    }
-
-    /**
-     * Implements step 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processMetaElements(Document in, IRI documentIRI, ExtractionResult out) {
-        NodeList metas = in.getElementsByTagName("meta");
-        for (int i = 0; i < metas.getLength(); i++) {
-            Node meta = metas.item(i);
-            String name    = DomUtils.readAttribute(meta, "name", null);
-            String content = DomUtils.readAttribute(meta, "content", null);
-            if (name != null && content != null) {
-                Optional<IRI> nameIRI = toAbsoluteIRI(name);
-                if (nameIRI.isPresent()) {
-                    processMetaElement(
-                            nameIRI.get(),
-                            content,
-                            getLanguage(meta),
-                            documentIRI,
-                            out
-                    );
-                } else {
-                    processMetaElement(
-                            name,
-                            content,
-                            getLanguage(meta),
-                            documentIRI,
-                            out
-                    );
-                }
-            }
-        }
-    }
-
-    /**
-     * Implements sub step for 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processMetaElement(
-            IRI uri,
-            String content,
-            String language,
-            IRI documentIRI,
-            ExtractionResult out
-    ) {
-        if (content.contains(":")) {
-            // if it contains U+003A COLON, exit
-            return;
-        }
-        Literal subject;
-        if (language == null) {
-            // ok, we don't know the language
-            subject = RDFUtils.literal(content);
-        } else {
-            subject = RDFUtils.literal(content, language);
-        }
-        out.writeTriple(
-                documentIRI,
-                uri,
-                subject
-        );
-    }
-
-    /**
-     * Implements sub step for 5.2.3 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processMetaElement(
-            String name,
-            String content,
-            String language,
-            IRI documentIRI,
-            ExtractionResult out) {
-        Literal subject;
-        if (language == null) {
-            // ok, we don't know the language
-            subject = RDFUtils.literal(content);
-        } else {
-            subject = RDFUtils.literal(content, language);
-        }
-        out.writeTriple(
-                documentIRI,
-                RDFUtils.iri(XHTML.NS + name.toLowerCase().trim()),
-                subject
-        );
-    }
-
-    /**
-     * Implements sub step for 5.2.4 of <a href="https://www.w3.org/TR/2011/WD-microdata-20110525/#rdf">Microdata to RDF</a>
-     * extraction algorithm.
-     */
-    private void processCiteElements(Document in, IRI documentIRI, ExtractionResult out) {
-        NodeList blockQuotes = in.getElementsByTagName("blockquote");
-        for (int i = 0; i < blockQuotes.getLength(); i++) {
-            processCiteElement(blockQuotes.item(i), documentIRI, out);
-        }
-        NodeList quotes = in.getElementsByTagName("q");
-        for (int i = 0; i < quotes.getLength(); i++) {
-            processCiteElement(quotes.item(i), documentIRI, out);
-        }
-    }
-
-    private void processCiteElement(Node item, IRI documentIRI, ExtractionResult out) {
-        if (item.getAttributes().getNamedItem("cite") != null) {
-            out.writeTriple(
-                    documentIRI,
-                    DCTerms.getInstance().source,
-                    RDFUtils.iri(item.getAttributes().getNamedItem("cite").getTextContent())
             );
         }
     }
@@ -447,16 +186,12 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             value = itemProp.getValue().literal;
         } else if (propType.equals(ItemPropValue.Type.Nested)) {
             value = processType((ItemScope) propValue, documentIRI, out, mappings, defaultNamespace);
-        } else if (propType.equals(ItemPropValue.Type.Plain)) {
-            value = RDFUtils.literal((String) propValue, documentLanguage);
         } else if (propType.equals(ItemPropValue.Type.Link)) {
             value = toAbsoluteIRI(documentIRI, (String)propValue);
             //TODO: support registries so hardcoding not needed
             if (predicate.stringValue().equals("http://schema.org/additionalType")) {
                 out.writeTriple(subject, RDF.TYPE, value);
             }
-        } else if (propType.equals(ItemPropValue.Type.Date)) {
-            value = RDFUtils.literal(ItemPropValue.formatDateTime((Date) propValue), XMLSchema.DATE);
         } else {
             throw new RuntimeException("Invalid Type '" +
                     propType + "' for ItemPropValue with name: '" + predicate + "'");
