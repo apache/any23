@@ -106,16 +106,6 @@
     <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-parsers</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency> <!-- used by Tika -->
         <groupId>org.apache.commons</groupId>
@@ -290,11 +280,6 @@
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
     </dependency>
     <!-- END: Misc -->
 

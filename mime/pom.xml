@@ -88,16 +88,6 @@
     <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-parsers</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <!-- ensure dependencies of tika-parsers match versions
       specified in dependencyManagement section of parent pom -->

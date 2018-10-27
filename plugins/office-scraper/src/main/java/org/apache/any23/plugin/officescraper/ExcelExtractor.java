@@ -133,7 +133,7 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
     }
 
     private void writeCell(IRI rowIRI, Cell cell, ExtractionResult er) {
-        final IRI cellType = cellTypeToType(cell.getCellTypeEnum());
+        final IRI cellType = cellTypeToType(cell.getCellType());
         if (cellType == null)
             return; // Skip unsupported cells.
         final IRI cellIRI = getCellIRI(rowIRI, cell);

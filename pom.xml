@@ -273,11 +273,11 @@
     <httpclient.version>4.5.6</httpclient.version>
     <httpcore.version>4.4.10</httpcore.version>
     <owlapi.version>5.1.6</owlapi.version>
-    <poi.version>3.17</poi.version>
+    <poi.version>4.0.0</poi.version>
     <rdf4j.version>2.4.0</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.25</slf4j.logger.version>
-    <tika.version>1.18</tika.version>
+    <tika.version>1.19.1</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
     <jackson.version>2.9.6</jackson.version>
@@ -361,7 +361,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.17</version>
+        <version>1.18</version>
       </dependency>
       <dependency>
         <groupId>xerces</groupId>
@@ -372,11 +372,6 @@
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
         <version>1.11.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.4.0-b180725.0427</version>
       </dependency>
       <dependency>
         <groupId>net.sf.biweekly</groupId>
