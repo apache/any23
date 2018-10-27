@@ -39,7 +39,7 @@ public class SettingsTest {
 
     @Test
     public void testNonNullSetting() {
-        Setting<String> nonNull = new Setting<String>("nulltest", "A nonnull string") {};
+        Setting<String> nonNull = Setting.create("nulltest", "A nonnull string");
         try {
             nonNull.withValue(null);
             fail();
@@ -50,15 +50,15 @@ public class SettingsTest {
 
     @Test
     public void testNullableSetting() {
-        Setting<String> nullable = new Setting<String>("nulltest", null) {};
+        Setting<String> nullable = Setting.create("nulltest", (String)null);
         assertNull(nullable.withValue(null).getValue());
     }
 
     @Test
     public void testDuplicateIdentifiers() {
         try {
-            Setting<String> first = new Setting<String>("foo", "") {};
-            Setting<String> second = new Setting<String>("foo", "") {};
+            Setting<String> first = Setting.create("foo", "");
+            Setting<String> second = Setting.create("foo", "");
 
             Settings.of(first, second);
 
@@ -70,7 +70,7 @@ public class SettingsTest {
 
     @Test
     public void testFind() {
-        Setting<String> key = new Setting<String>("foo", "key") {};
+        Setting<String> key = Setting.create("foo", "key");
         Setting<String> element = key.withValue("element");
 
         Settings settings = Settings.of(element);
@@ -87,7 +87,7 @@ public class SettingsTest {
 
     @Test
     public void testGetPresentSetting() {
-        Setting<String> key = new Setting<String>("foo", "key") {};
+        Setting<String> key = Setting.create("foo", "key");
 
         Setting<String> actual = key.withValue("actual");
         Settings settings = Settings.of(actual);
@@ -97,9 +97,9 @@ public class SettingsTest {
 
     @Test
     public void testGetAbsentSetting() {
-        Setting<String> key = new Setting<String>("foo", "key") {};
+        Setting<String> key = Setting.create("foo", "key");
 
-        Setting<String> actual = new Setting<String>("foo", "actual") {};
+        Setting<String> actual = Setting.create("foo", "actual");
         Settings settings = Settings.of(actual);
 
         assertSame(key.getValue(), settings.get(key));
@@ -107,7 +107,7 @@ public class SettingsTest {
 
     @Test
     public void testGetNullSetting() {
-        Setting<String> baseKey = new Setting<String>("foo", null) {};
+        Setting<String> baseKey = Setting.create("foo", (String)null);
 
         Settings settings = Settings.of(baseKey);
         assertNull(settings.get(baseKey.withValue("not null")));
@@ -118,6 +118,7 @@ public class SettingsTest {
 
     @Test
     public void testSettingType() {
+        assertEquals(CharSequence.class, Setting.create("foo", CharSequence.class, "").getValueType());
         assertEquals(CharSequence.class, new Setting<CharSequence>("foo", ""){}.getValueType());
 
         Type mapType = new Setting<Map<String, Integer>>("foo", Collections.emptyMap()){}.getValueType();
@@ -207,7 +208,42 @@ public class SettingsTest {
         }
 
         try {
+            Setting.create(null, 0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            //test passes; ignore
+        }
+
+        try {
             new Setting<Integer>(" ", null) {};
+            fail();
+        } catch (IllegalArgumentException e) {
+            //test passes; ignore
+        }
+
+        try {
+            Setting.create(" ", 0);
+            fail();
+        } catch (IllegalArgumentException e) {
+            //test passes; ignore
+        }
+
+        try {
+            Setting.create("foo", List.class, null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            //test passes; ignore
+        }
+
+        try {
+            Setting.create("foo", boolean.class, null);
+            fail();
+        } catch (IllegalArgumentException e) {
+            //test passes; ignore
+        }
+
+        try {
+            Setting.create("foo", Integer[].class, null);
             fail();
         } catch (IllegalArgumentException e) {
             //test passes; ignore

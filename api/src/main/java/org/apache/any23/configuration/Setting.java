@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  */
 public abstract class Setting<V> implements Cloneable {
 
-    private final Key<V> key;
+    private final Key key;
     private V value;
 
     /**
@@ -45,7 +45,35 @@ public abstract class Setting<V> implements Cloneable {
      */
     protected Setting(String identifier, V defaultValue) {
         checkIdentifier(identifier);
-        this.key = new Key<>(identifier, lookupValueType(getClass(), identifier), defaultValue);
+        this.key = new Key(identifier, lookupValueType(getClass(), identifier), defaultValue != null);
+        this.value = defaultValue;
+    }
+
+    /**
+     * Constructs a new setting with the specified identifier, value type, and default value.
+     * @param identifier the identifier for this setting
+     * @param valueType the value type for this setting
+     * @param defaultValue the default value for this setting
+     * @throws IllegalArgumentException if the identifier is invalid, or
+     * the value type is primitive, mutable, or has type parameters
+     */
+    protected Setting(String identifier, Class<V> valueType, V defaultValue) {
+        this(identifier, defaultValue, valueType);
+        if (valueType.isArray()) {
+            throw new IllegalArgumentException(identifier + " value class must be immutable");
+        } else if (valueType.getTypeParameters().length != 0) {
+            throw new IllegalArgumentException(identifier + " setting key must fill in type parameters for "
+                    + valueType.toGenericString());
+        } else if (valueType.isPrimitive()) {
+            //ensure using primitive wrapper classes
+            //so that Class.isInstance(), etc. will work as expected
+            throw new IllegalArgumentException(identifier + " value class cannot be primitive");
+        }
+    }
+
+    private Setting(String identifier, V defaultValue, Class<V> valueType) {
+        checkIdentifier(identifier);
+        this.key = new Key(identifier, valueType, defaultValue != null);
         this.value = defaultValue;
     }
 
@@ -58,13 +86,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Subclasses may override this method to check that new values for this setting are valid.
-     * The default implementation of this method throws a {@link NullPointerException} if the new value is null and the default value is non-null.
+     * The default implementation of this method throws a {@link NullPointerException} if the
+     * new value is null and the original default value for this setting was non-null.
      *
      * @param newValue the new value for this setting
      * @throws Exception if the new value for this setting is invalid
      */
     protected void checkValue(V newValue) throws Exception {
-        if (newValue == null && key.defaultValue != null) {
+        if (newValue == null && key.nonnull) {
             throw new NullPointerException();
         }
     }
@@ -74,13 +103,6 @@ public abstract class Setting<V> implements Cloneable {
      */
     public final V getValue() {
         return value;
-    }
-
-    /**
-     * @return the default value for this setting
-     */
-    public final V getDefaultValue() {
-        return key.defaultValue;
     }
 
     /**
@@ -146,20 +168,114 @@ public abstract class Setting<V> implements Cloneable {
     }
 
 
+    /**
+     * Convenience method to create a new setting with the specified identifier and default value.
+     * @param identifier the identifier for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid
+     */
+    public static Setting<Boolean> create(String identifier, Boolean defaultValue) {
+        return new Impl<>(identifier, defaultValue, Boolean.class);
+    }
+
+    /**
+     * Convenience method to create a new setting with the specified identifier and default value.
+     * @param identifier the identifier for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid
+     */
+    public static Setting<String> create(String identifier, String defaultValue) {
+        return new Impl<>(identifier, defaultValue, String.class);
+    }
+
+    /**
+     * Convenience method to create a new setting with the specified identifier and default value.
+     * @param identifier the identifier for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid
+     */
+    public static Setting<Integer> create(String identifier, Integer defaultValue) {
+        return new Impl<>(identifier, defaultValue, Integer.class);
+    }
+
+    /**
+     * Convenience method to create a new setting with the specified identifier and default value.
+     * @param identifier the identifier for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid
+     */
+    public static Setting<Long> create(String identifier, Long defaultValue) {
+        return new Impl<>(identifier, defaultValue, Long.class);
+    }
+
+    /**
+     * Convenience method to create a new setting with the specified identifier and default value.
+     * @param identifier the identifier for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid
+     */
+    public static Setting<Float> create(String identifier, Float defaultValue) {
+        return new Impl<>(identifier, defaultValue, Float.class);
+    }
+
+    /**
+     * Convenience method to create a new setting with the specified identifier and default value.
+     * @param identifier the identifier for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid
+     */
+    public static Setting<Double> create(String identifier, Double defaultValue) {
+        return new Impl<>(identifier, defaultValue, Double.class);
+    }
+
+    /**
+     * Convenience method to create a new setting with the specified identifier,
+     * value type, and default value.
+     * @param identifier the identifier for this setting
+     * @param valueType the value type for this setting
+     * @param defaultValue the default value for this setting
+     * @return the new setting
+     * @throws IllegalArgumentException if the identifier is invalid, or
+     * the value type is primitive, mutable, or has type parameters
+     */
+    public static <V> Setting<V> create(String identifier, Class<V> valueType, V defaultValue) {
+        return new Impl<>(identifier, valueType, defaultValue);
+    }
+
+
 
     ///////////////////////////////////////
     // Private static helpers
     ///////////////////////////////////////
 
-    private static final class Key<V> {
+    // Use Impl when possible to avoid creating an anonymous class (and class file) for
+    // every single existing setting, and to avoid the overhead of value type lookup.
+    private static class Impl<V> extends Setting<V> {
+        //this constructor does not check the value type
+        private Impl(String identifier, V defaultValue, Class<V> valueType) {
+            super(identifier, defaultValue, valueType);
+        }
+        //this constructor does check the value type
+        private Impl(String identifier, Class<V> valueType, V defaultValue) {
+            super(identifier, valueType, defaultValue);
+        }
+    }
+
+    private static final class Key {
         final String identifier;
         final Type valueType;
-        final V defaultValue;
+        final boolean nonnull;
 
-        Key(String identifier, Type valueType, V defaultValue) {
+        Key(String identifier, Type valueType, boolean nonnull) {
             this.identifier = identifier;
             this.valueType = valueType;
-            this.defaultValue = defaultValue;
+            this.nonnull = nonnull;
         }
     }
 
@@ -207,14 +323,14 @@ public abstract class Setting<V> implements Cloneable {
                         if (((Class) type).isArray()) {
                             throw new IllegalArgumentException(identifier + " value class must be immutable");
                         } else if (((Class) type).getTypeParameters().length != 0) {
-                            throw new IllegalArgumentException(identifier + " setting key must fill in type parameters for " + ((Class) type).toGenericString());
+                            throw new IllegalArgumentException(identifier + " setting must fill in type parameters for " + ((Class) type).toGenericString());
                         }
                     } else if (type instanceof GenericArrayType) {
                         throw new IllegalArgumentException(identifier + " value class must be immutable");
                     } else if (type instanceof TypeVariable) {
-                        throw new IllegalArgumentException("Invalid setting key type 'Key<" + type.getTypeName() + ">' for identifier " + identifier);
+                        throw new IllegalArgumentException("Invalid setting type 'Key<" + type.getTypeName() + ">' for identifier " + identifier);
                     } else if (!(type instanceof ParameterizedType)) {
-                        throw new IllegalArgumentException(identifier + " invalid key type " + type + " (" + type.getClass().getName() + ")");
+                        throw new IllegalArgumentException(identifier + " invalid type " + type + " (" + type.getClass().getName() + ")");
                     }
                     return type;
                 }
