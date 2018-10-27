@@ -335,8 +335,8 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     public void testExample5222()
             throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
         extractAndVerifyAgainstNQuads(
-                "5.2.1-non-normative-example-1.html",
-                "5.2.1-non-normative-example-1-expected.nquads"
+                "5.2.1-non-normative-example-2.html",
+                "5.2.1-non-normative-example-2-expected.nquads"
         );
         logger.debug(dumpHumanReadableTriples());
     }
