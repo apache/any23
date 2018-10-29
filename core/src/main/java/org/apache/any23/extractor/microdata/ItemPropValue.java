@@ -97,6 +97,7 @@ public class ItemPropValue {
     public ItemPropValue(Object content, Type type) {
         this.type = Objects.requireNonNull(type, "type cannot be null");
         this.content = type.checkClass(content);
+        this.literal = null;
     }
 
     ItemPropValue(Literal literal) {
@@ -122,7 +123,7 @@ public class ItemPropValue {
         this.content = content;
     }
 
-    Literal literal;
+    final Literal literal;
 
     /**
      * @return the content object.

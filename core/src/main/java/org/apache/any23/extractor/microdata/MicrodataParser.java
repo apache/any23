@@ -41,6 +41,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This class provides utility methods for handling <b>Microdata</b>
@@ -162,6 +163,27 @@ public class MicrodataParser {
         return DomUtils.readAttribute(node, ITEMPROP_ATTRIBUTE, null) != null;
     }
 
+    private static boolean isContainedInItemScope(Node node) {
+        for (Node p = node.getParentNode(); p != null; p = p.getParentNode()) {
+            NamedNodeMap attrs = p.getAttributes();
+            if (attrs != null && attrs.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isContainedInId(Node node, Set<String> ids) {
+        do {
+            String id = DomUtils.readAttribute(node, "id", null);
+            if (id != null && ids.contains(id)) {
+                return true;
+            }
+            node = node.getParentNode();
+        } while (node != null);
+        return false;
+    }
+
     /**
      * Returns only the <i>itemScope</i>s that are top level items.
      *
@@ -171,13 +193,27 @@ public class MicrodataParser {
     public static List<Node> getTopLevelItemScopeNodes(Node node)  {
         final List<Node> itemScopes = getItemScopeNodes(node);
         final List<Node> topLevelItemScopes = new ArrayList<>();
-        for(Node itemScope : itemScopes) {
-            if( ! isItemProp(itemScope) ) {
+        final List<Node> possibles = new ArrayList<>();
+        for (Node itemScope : itemScopes) {
+            if (!isItemProp(itemScope)) {
                 topLevelItemScopes.add(itemScope);
+            } else if (!isContainedInItemScope(itemScope)) {
+                possibles.add(itemScope);
             }
         }
-        // ANY23-131 Nested Microdata are not extracted
-        //return getUnnestedNodes( topLevelItemScopes );
+
+        if (!possibles.isEmpty()) {
+            Set<String> refIds = itemScopes.stream()
+                    .flatMap(n -> Arrays.stream(itemrefIds(n)))
+                    .collect(Collectors.toSet());
+
+            for (Node itemScope : possibles) {
+                if (!isContainedInId(itemScope, refIds)) {
+                    topLevelItemScopes.add(itemScope);
+                }
+            }
+        }
+
         return topLevelItemScopes;
     }
 
@@ -470,15 +506,14 @@ public class MicrodataParser {
                 continue;
             }
 
-            final String[] propertyNames = itemProp.trim().split("\\s+");
             ItemPropValue itemPropValue;
-            for (String propertyName : propertyNames) {
-                try {
-                    itemPropValue = getPropertyValue(itemPropNode);
-                } catch (MicrodataParserException mpe) {
-                    manageError(mpe);
-                    continue;
-                }
+            try {
+                itemPropValue = getPropertyValue(itemPropNode);
+            } catch (MicrodataParserException mpe) {
+                manageError(mpe);
+                continue;
+            }
+            for (String propertyName : itemProp.trim().split("\\s+")) {
                 result.add(
                         new ItemProp(
                                 DomUtils.getXPathForNode(itemPropNode),
@@ -537,6 +572,12 @@ public class MicrodataParser {
         return result.toArray( new ItemProp[result.size()] );
     }
 
+    private static final String[] EMPTY_STRINGS = new String[0];
+    private static String[] itemrefIds(Node node) {
+        String itemref = DomUtils.readAttribute(node, "itemref" , null);
+        return StringUtils.isBlank(itemref) ? EMPTY_STRINGS : itemref.trim().split("\\s+");
+    }
+
     /**
      * Returns the {@link ItemScope} instance described within the specified <code>node</code>.
      *
@@ -550,12 +591,11 @@ public class MicrodataParser {
             return itemScope;
 
         final String id       = DomUtils.readAttribute(node, "id"      , null);
-        final String itemref  = DomUtils.readAttribute(node, "itemref" , null);
         final String itemType = DomUtils.readAttribute(node, "itemtype", null);
         final String itemId   = DomUtils.readAttribute(node, "itemid"  , null);
 
         final List<ItemProp> itemProps = getItemProps(node, true);
-        final String[] itemrefIDs = itemref == null ? new String[0] : itemref.split("\\s+");
+        final String[] itemrefIDs = itemrefIds(node);
         final ItemProp[] deferredProperties;
         try {
             deferredProperties = deferProperties(itemrefIDs);

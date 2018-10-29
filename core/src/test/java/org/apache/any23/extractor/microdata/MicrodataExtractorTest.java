@@ -99,6 +99,13 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
+    public void testUnusedItemprop() {
+        //Test for ANY23-154
+        assertExtract("/microdata/unused-itemprop.html");
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/Offer"));
+    }
+
+    @Test
     public void testExample2() {
         //Property URI generation for hcard
         assertExtract("/microdata/example2.html");
