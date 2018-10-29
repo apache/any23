@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Optional;
 
-import org.apache.any23.configuration.Settings;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
@@ -34,7 +33,10 @@ import org.eclipse.rdf4j.model.Value;
  * Implementation of <i>JSON</i> {@link TripleWriter}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ *
+ * @deprecated since 2.3. Use {@link JSONLDWriter} instead.
  */
+@Deprecated
 public class JSONWriter extends TripleWriterHandler implements FormatWriter {
 
     private JsonGenerator ps;

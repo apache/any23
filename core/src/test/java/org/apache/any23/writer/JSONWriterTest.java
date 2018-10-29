@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test case for {@link JSONWriter} and {@link JSONLDWriter} class.
+ * Test case for {@link JSONLDWriter} and deprecated JSONWriter classes.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Julio Caguano
@@ -33,6 +33,7 @@ import org.junit.Test;
 public class JSONWriterTest {
 
     @Test
+    @Deprecated
     public void testJSONWriting() throws TripleHandlerException, IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeContentComplicated(new JSONWriter(baos));
@@ -150,7 +151,7 @@ public class JSONWriterTest {
                 SimpleValueFactory.getInstance().createIRI("http://graph/2"),
                 null
         );
-        if (writer instanceof JSONWriter) {
+        if (!(writer instanceof JSONLDWriter)) {
             writer.receiveTriple(
                     SimpleValueFactory.getInstance().createIRI("http://sub/3"),
                     SimpleValueFactory.getInstance().createIRI("http://pred/3"),
@@ -158,7 +159,7 @@ public class JSONWriterTest {
                     null,
                     null
             );
-        } else if (writer instanceof JSONLDWriter) {
+        } else {
             //creating a fake extraction context in order to write triples is terrible.
             //see improved solution in "writeContentSimple"!
             ExtractionContext extractionContext = new ExtractionContext("rdf-nq", SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/"));

@@ -26,7 +26,10 @@ import java.util.Collections;
 /**
  * @author Peter Ansell p_ansell@yahoo.com
  * @author Hans Brende (hansbrende@apache.org)
+ *
+ * @deprecated since 2.3. Use {@link JSONLDWriterFactory} instead.
  */
+@Deprecated
 public class JSONWriterFactory implements TripleWriterFactory {
 
 
