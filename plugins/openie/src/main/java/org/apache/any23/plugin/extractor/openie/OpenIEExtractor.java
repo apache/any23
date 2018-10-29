@@ -120,8 +120,13 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
         // instance.extr().arg1().text() - subject
         // instance.extr().rel().text() - predicate
         // instance.extr().arg2s().text() - object
-        final Configuration immutableConf = DefaultConfiguration.singleton();
-        Double threshold = Double.parseDouble(immutableConf.getProperty("any23.extraction.openie.confidence.threshold", "0.5"));
+        String thresholdString;
+        try {
+            thresholdString = extractionParameters.getProperty("any23.extraction.openie.confidence.threshold");
+        } catch (RuntimeException e) {
+            thresholdString = null;
+        }
+        double threshold = thresholdString == null ? 0.5 : Double.parseDouble(thresholdString);
         for(Instance instance : listExtractions) {
             if (instance.confidence() > threshold) {
                 List<Argument> listArg2s = JavaConversions.seqAsJavaList(instance.extr().arg2s());
