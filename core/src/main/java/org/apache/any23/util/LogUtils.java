@@ -17,23 +17,26 @@
 
 package org.apache.any23.util;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.invoke.MethodHandles;
 
 /**
  * Provides specific application logger configuration methods.
+ * @deprecated since 2.3. JUL is no longer used in this project.
  */
+@Deprecated
 public class LogUtils {
 
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
     public static void setDefaultLogging() {
-        Logger.getLogger("").setLevel(Level.WARNING);
-        Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
+        logger.error("setDefaultLogging() is not supported.");
     }
 
     public static void setVerboseLogging() {
-        Logger.getLogger("").setLevel(Level.INFO);
-        Logger.getLogger("org.apache.any23").setLevel(Level.ALL);
-        Logger.getLogger("").getHandlers()[0].setLevel(Level.ALL);
+        logger.error("setVerboseLogging() is not supported.");
     }
 
 }

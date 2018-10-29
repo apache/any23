@@ -22,7 +22,6 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.converters.FileConverter;
 import org.apache.any23.Any23;
 import org.apache.any23.plugin.Any23PluginManager;
-import org.apache.any23.util.LogUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -116,12 +115,6 @@ public final class ToolRunner {
             infoStream.println("A command must be specified.");
             commander.usage();
             return 1;
-        }
-
-        if (verbose) {
-            LogUtils.setVerboseLogging();
-        } else {
-            LogUtils.setDefaultLogging();
         }
 
         long start = currentTimeMillis();
