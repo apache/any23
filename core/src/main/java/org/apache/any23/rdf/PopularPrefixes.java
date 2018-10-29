@@ -36,19 +36,18 @@ public class PopularPrefixes {
 
     private static final String RESOURCE_NAME = "/org/apache/any23/prefixes/prefixes.properties";
 
-    private static Prefixes popularPrefixes = getPrefixes();
+    private static final Prefixes popularPrefixes = getPrefixes();
 
     private static Prefixes getPrefixes() {
         Prefixes prefixes = new Prefixes();
         Properties properties = new Properties();
         try {
-            logger.info(String.format("Loading prefixes from %s", RESOURCE_NAME));
+            logger.trace(String.format("Loading prefixes from %s", RESOURCE_NAME));
             properties.load(getResourceAsStream());
         } catch (IOException e) {
             logger.error(String.format("Error while loading prefixes from %s", RESOURCE_NAME), e);
             throw new RuntimeException(String.format("Error while loading prefixes from %s", RESOURCE_NAME));
         }
-        popularPrefixes = new Prefixes();
         for (Map.Entry entry : properties.entrySet()) {
             if (testIRICompliance((String) entry.getValue())) {
                 prefixes.add(

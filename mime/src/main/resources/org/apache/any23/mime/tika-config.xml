@@ -17,4 +17,7 @@
 -->
 <properties>
     <mimeTypeRepository resource="/org/apache/any23/mime/mimetypes.xml" magic="false"/>
+
+    <!-- Cf. ANY23-406, TIKA-2490 -->
+    <service-loader initializableProblemHandler="ignore"/>
 </properties>
