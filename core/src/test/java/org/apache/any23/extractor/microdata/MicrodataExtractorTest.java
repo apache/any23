@@ -29,9 +29,9 @@ import org.apache.any23.extractor.rdf.TurtleExtractorFactory;
 import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.source.DocumentSource;
 import org.apache.any23.source.HTTPDocumentSource;
-import org.apache.any23.vocab.SINDICE;
 import org.apache.any23.writer.TripleWriterHandler;
 import org.eclipse.rdf4j.model.IRI;
+import org.eclipse.rdf4j.model.Model;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;
@@ -428,14 +428,38 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         int actualStmtSize = getStatementsSize(null, null, null);
         Assert.assertEquals( expectedStatements.size(), actualStmtSize);
         for (Statement statement : expectedStatements) {
-            if (!statement.getPredicate().equals(SINDICE.getInstance().date)) {
-                assertContains(
-                        statement.getSubject() instanceof BNode ? null : statement.getSubject(),
-                        statement.getPredicate(),
-                        statement.getObject() instanceof BNode ? null : statement.getObject()
-                );
-            }
+            assertContains(
+                    statement.getSubject() instanceof BNode ? null : statement.getSubject(),
+                    statement.getPredicate(),
+                    statement.getObject() instanceof BNode ? null : statement.getObject()
+            );
         }
+        Model expectedModel = new TreeModel();
+        for (Statement s : expectedStatements) {
+            expectedModel.add(s.getSubject(), s.getPredicate(), s.getObject());
+        }
+
+        Model actualModel = new TreeModel();
+        conn.export(new RDFHandler() {
+            @Override
+            public void startRDF() throws RDFHandlerException {
+            }
+            @Override
+            public void endRDF() throws RDFHandlerException {
+            }
+            @Override
+            public void handleNamespace(String s, String s1) throws RDFHandlerException {
+            }
+            @Override
+            public void handleStatement(Statement statement) throws RDFHandlerException {
+                actualModel.add(statement.getSubject(), statement.getPredicate(), statement.getObject());
+            }
+            @Override
+            public void handleComment(String s) throws RDFHandlerException {
+            }
+        });
+
+        Assert.assertTrue("Models are not isomorphic", Models.isomorphic(expectedModel, actualModel));
     }
 
     private List<Statement> loadResultStatement(String resultFilePath)
