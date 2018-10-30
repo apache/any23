@@ -24,8 +24,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import org.apache.any23.extractor.Extractor;
 import org.apache.any23.extractor.IssueReport;
-import org.apache.any23.configuration.Configuration;
-import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.plugin.Author;
@@ -86,6 +84,21 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
             ExtractionContext context, Document in, ExtractionResult out)
                     throws IOException, ExtractionException {
 
+        Runtime runtime = Runtime.getRuntime();
+        long maxMemory = runtime.maxMemory();
+        //free up as much memory as possible before performing this calculation
+        runtime.gc();
+        long usedMemory = Math.max(0L, runtime.totalMemory() - runtime.freeMemory());
+        long availableMemory = maxMemory - usedMemory;
+        if (availableMemory < 4294967296L) {
+            out.notifyIssue(IssueReport.IssueLevel.FATAL,
+                    "Not enough heap space available to perform OpenIE extraction: "
+                            + (availableMemory/1048576L) + "/" + (maxMemory / 1048576L)
+                            + " MB. Requires 4096 MB.", -1, -1);
+            LOG.error("Increase JVM heap size when running OpenIE extractor. max=" + maxMemory + "; available=" + availableMemory);
+            return;
+        }
+
         IRI documentIRI = context.getDocumentIRI();
         RDFUtils.iri(documentIRI.toString() + "root");
         out.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
@@ -105,13 +118,7 @@ public class OpenIEExtractor implements Extractor.TagSoupDOMExtractor {
             LOG.error("Encountered error during OpenIE extraction.", e);
         } catch (TikaException e) {
             LOG.error("Encountered error whilst parsing InputStream with Tika.", e);
-        } catch (OutOfMemoryError e) {
-          //let the gc do its thing
-          openIE = null;
-          out.notifyIssue(IssueReport.IssueLevel.FATAL, "Not enough memory available to perform OpenIE extraction.", -1, -1);
-          LOG.error("Encountered OutOfMemoryError... increase JVM heap when running OpenIEExtractor.", e);
-          return;
-      }
+        }
 
         List<Instance> listExtractions = JavaConversions.seqAsJavaList(extractions);
         // for each extraction instance we can obtain a number of extraction elements
