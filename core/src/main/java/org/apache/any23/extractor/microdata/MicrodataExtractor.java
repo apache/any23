@@ -49,7 +49,7 @@ import java.util.Optional;
  */
 public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
-    private static final IRI MICRODATA_ITEM
+    static final IRI MICRODATA_ITEM
             = RDFUtils.iri("http://www.w3.org/1999/xhtml/microdata#item");
 
     private static final ParsedIRI EMPTY_FRAG = ParsedIRI.create("#");

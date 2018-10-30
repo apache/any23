@@ -16,7 +16,6 @@
 #
 
 _:nodebdb2c525cf8095abb6954b51432e6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://microformats.org/profile/hcard> <http://bob.example.com/> .
-_:nodebdb2c525cf8095abb6954b51432e6 <http://microformats.org/profile/hcard#street-address> "Avenue Q" <http://bob.example.com/> .
 _:nodebdb2c525cf8095abb6954b51432e6 <http://microformats.org/profile/hcard#fn> "Princeton" <http://bob.example.com/> .
 _:nodebdb2c525cf8095abb6954b51432e6 <http://microformats.org/profile/hcard#given-name> "Princeton" <http://bob.example.com/> .
 _:nodebdb2c525cf8095abb6954b51432e6 <http://microformats.org/profile/hcard#n> _:node5194c3bb9d7f53e4759c6f393d95f88 <http://bob.example.com/> .
@@ -24,7 +23,6 @@ _:node1ffeb2699b75ba7aca5ee3d72adb55a8 <http://microformats.org/profile/hcard#st
 _:nodebdb2c525cf8095abb6954b51432e6 <http://microformats.org/profile/hcard#adr> _:node1ffeb2699b75ba7aca5ee3d72adb55a8 <http://bob.example.com/> .
 <http://bob.example.com/> <http://www.w3.org/1999/xhtml/microdata#item> _:nodebdb2c525cf8095abb6954b51432e6 <http://bob.example.com/> .
 _:node7a12e48e321d29211c8b7c2ce396854 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://microformats.org/profile/hcard> <http://bob.example.com/> .
-_:node7a12e48e321d29211c8b7c2ce396854 <http://microformats.org/profile/hcard#street-address> "Avenue Q" <http://bob.example.com/> .
 _:node7a12e48e321d29211c8b7c2ce396854 <http://microformats.org/profile/hcard#fn> "Trekkie" <http://bob.example.com/> .
 _:node7a12e48e321d29211c8b7c2ce396854 <http://microformats.org/profile/hcard#given-name> "Trekkie" <http://bob.example.com/> .
 _:node7a12e48e321d29211c8b7c2ce396854 <http://microformats.org/profile/hcard#n> _:node45173ea18b736c2e9c3136e52ed3727e <http://bob.example.com/> .

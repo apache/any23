@@ -197,6 +197,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 TreeModel actual = new TreeModel();
                 createRunner(MicrodataExtractorFactory.NAME).extract(action.stringValue(), new TripleWriterHandler() {
                     public void writeTriple(Resource s, IRI p, Value o, Resource g) {
+                        if (MicrodataExtractor.MICRODATA_ITEM.equals(p)) return;
                         actual.add(s, p, o);
                     }
                     public void writeNamespace(String prefix, String uri) { }
@@ -214,8 +215,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                     });
                 }
 
-                boolean testPassed = positive ? (expected.isEmpty() ? actual.isEmpty()
-                        : Models.isSubset(expected, actual)) : !Models.isomorphic(expected, actual);
+                boolean testPassed = positive == Models.isomorphic(expected, actual);
                 if (testPassed) {
                     passedTests.incrementAndGet();
                 } else {

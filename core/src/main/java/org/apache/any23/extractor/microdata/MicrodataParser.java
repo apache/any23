@@ -300,32 +300,6 @@ public class MicrodataParser {
         ps.append("}");
     }
 
-    /**
-     * Returns only nodes that are <b>not</b> nested one each other.
-     *
-     * @param candidates list of candidate nodes.
-     * @return list of unnested nodes.
-     */
-    @SuppressWarnings("unused")
-    private static List<Node> getUnnestedNodes(List<Node> candidates) {
-        final List<Node> unnesteds  = new ArrayList<>();
-        for(int i = 0; i < candidates.size(); i++) {
-            boolean skip = false;
-            for(int j = 0; j < candidates.size(); j++) {
-                if(i == j)
-                    continue;
-                if( DomUtils.isAncestorOf(candidates.get(j), candidates.get(i), true) ) {
-                    skip = true;
-                    break;
-                }
-            }
-            if(!skip) {
-                unnesteds.add( candidates.get(i) );
-            }
-        }
-        return unnesteds;
-    }
-
     public void setErrorMode(ErrorMode errorMode) {
         if(errorMode == null)
             throw new IllegalArgumentException("errorMode must be not null.");
@@ -527,35 +501,42 @@ public class MicrodataParser {
     public List<ItemProp> getItemProps(final Node scopeNode, boolean skipRoot) throws MicrodataParserException {
         final Set<Node> accepted = new LinkedHashSet<>();
 
+        boolean skipRootChildren = false;
         if (!skipRoot) {
             NamedNodeMap attributes = scopeNode.getAttributes();
             if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null) {
                 accepted.add(scopeNode);
             }
+            if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
+                skipRootChildren = true;
+            }
         }
 
-        // TreeWalker to walk DOM tree starting with the scopeNode. Nodes maybe visited multiple times.
-        TreeWalker treeWalker = ((DocumentTraversal) scopeNode.getOwnerDocument())
-            .createTreeWalker(scopeNode, NodeFilter.SHOW_ELEMENT, new NodeFilter() {
-            @Override
-            public short acceptNode(Node node) {
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    NamedNodeMap attributes = node.getAttributes();
-                    if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null && !scopeNode.equals(node)) {
-                        accepted.add(node);
-                    }
+        if (!skipRootChildren) {
+            // TreeWalker to walk DOM tree starting with the scopeNode. Nodes maybe visited multiple times.
+            TreeWalker treeWalker = ((DocumentTraversal) scopeNode.getOwnerDocument())
+                    .createTreeWalker(scopeNode, NodeFilter.SHOW_ELEMENT, new NodeFilter() {
+                        @Override
+                        public short acceptNode(Node node) {
+                            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                                NamedNodeMap attributes = node.getAttributes();
+                                if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null && !scopeNode.equals(node)) {
+                                    accepted.add(node);
+                                }
 
-                    if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
-                        // Don't visit descendants of nodes that define a new scope
-                        return FILTER_REJECT;
-                    }
-                }
-                return FILTER_ACCEPT;
-            }
-        }, false);
+                                if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
+                                    // Don't visit descendants of nodes that define a new scope
+                                    return FILTER_REJECT;
+                                }
+                            }
+                            return FILTER_ACCEPT;
+                        }
+                    }, false);
 
-        // To populate accepted we only need to walk the tree.
-        while (treeWalker.nextNode() != null);
+
+            // To populate accepted we only need to walk the tree.
+            while (treeWalker.nextNode() != null) ;
+        }
 
         final List<ItemProp> result = new ArrayList<>();
         for (Node itemPropNode : accepted) {
