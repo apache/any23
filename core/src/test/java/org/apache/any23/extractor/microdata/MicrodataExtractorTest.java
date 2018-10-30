@@ -127,10 +127,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
     private static final List<String> ignoredOnlineTestNames = Arrays.asList(
             "Test 0073", //Vocabulary Expansion test with rdfs:subPropertyOf
-            "Test 0074", //Vocabulary Expansion test with owl:equivalentProperty
-            "Test 0081", //Simple @itemprop-reverse (experimental)
-            "Test 0082", //@itemprop-reverse with @itemscope value (experimental)
-            "Test 0084"  //@itemprop-reverse with @itemprop (experimental)
+            "Test 0074" //Vocabulary Expansion test with owl:equivalentProperty
     );
 
     private static Any23 createRunner(String extractorName) {

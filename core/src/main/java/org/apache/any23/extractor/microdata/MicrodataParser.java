@@ -103,6 +103,7 @@ public class MicrodataParser {
 
     public static final String ITEMSCOPE_ATTRIBUTE = "itemscope";
     public static final String ITEMPROP_ATTRIBUTE  = "itemprop";
+    private static final String REVERSE_ITEMPROP_ATTRIBUTE = "itemprop-reverse";
 
     /**
      * List of tags providing the <code>src</code> property.
@@ -198,7 +199,8 @@ public class MicrodataParser {
         final List<Node> topLevelItemScopes = new ArrayList<>();
         final List<Node> possibles = new ArrayList<>();
         for (Node itemScope : itemScopes) {
-            if (!isItemProp(itemScope)) {
+            if (!isItemProp(itemScope)
+                    && DomUtils.readAttribute(itemScope, REVERSE_ITEMPROP_ATTRIBUTE, null) == null) {
                 topLevelItemScopes.add(itemScope);
             } else if (!isContainedInItemScope(itemScope)) {
                 possibles.add(itemScope);
@@ -504,7 +506,8 @@ public class MicrodataParser {
         boolean skipRootChildren = false;
         if (!skipRoot) {
             NamedNodeMap attributes = scopeNode.getAttributes();
-            if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null) {
+            if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null
+                    || attributes.getNamedItem(REVERSE_ITEMPROP_ATTRIBUTE) != null) {
                 accepted.add(scopeNode);
             }
             if (attributes.getNamedItem(ITEMSCOPE_ATTRIBUTE) != null) {
@@ -520,7 +523,8 @@ public class MicrodataParser {
                         public short acceptNode(Node node) {
                             if (node.getNodeType() == Node.ELEMENT_NODE) {
                                 NamedNodeMap attributes = node.getAttributes();
-                                if (attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null && !scopeNode.equals(node)) {
+                                if ((attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null
+                                        || attributes.getNamedItem(REVERSE_ITEMPROP_ATTRIBUTE) != null) && scopeNode != node) {
                                     accepted.add(node);
                                 }
 
@@ -541,8 +545,12 @@ public class MicrodataParser {
         final List<ItemProp> result = new ArrayList<>();
         for (Node itemPropNode : accepted) {
             final String itemProp = DomUtils.readAttribute(itemPropNode, ITEMPROP_ATTRIBUTE, null);
+            final String reverseProp = DomUtils.readAttribute(itemPropNode, REVERSE_ITEMPROP_ATTRIBUTE, null);
 
-            if (StringUtils.isBlank(itemProp)) {
+            boolean hasItemProp = StringUtils.isNotBlank(itemProp);
+            boolean hasReverseProp = StringUtils.isNotBlank(reverseProp);
+
+            if (!hasItemProp && !hasReverseProp) {
                 manageError(new MicrodataParserException("invalid property name '" + itemProp + "'", itemPropNode));
                 continue;
             }
@@ -554,14 +562,34 @@ public class MicrodataParser {
                 manageError(mpe);
                 continue;
             }
-            for (String propertyName : itemProp.trim().split("\\s+")) {
-                result.add(
-                        new ItemProp(
-                                DomUtils.getXPathForNode(itemPropNode),
-                                propertyName,
-                                itemPropValue
-                        )
-                );
+            if (hasItemProp) {
+                for (String propertyName : itemProp.trim().split("\\s+")) {
+                    result.add(
+                            new ItemProp(
+                                    DomUtils.getXPathForNode(itemPropNode),
+                                    propertyName,
+                                    itemPropValue,
+                                    false
+                            )
+                    );
+                }
+            }
+            if (hasReverseProp) {
+                if (itemPropValue.literal != null) {
+                    manageError(new MicrodataParserException(REVERSE_ITEMPROP_ATTRIBUTE
+                            + " cannot point to a literal", itemPropNode));
+                    continue;
+                }
+                for (String propertyName : reverseProp.trim().split("\\s+")) {
+                    result.add(
+                            new ItemProp(
+                                    DomUtils.getXPathForNode(itemPropNode),
+                                    propertyName,
+                                    itemPropValue,
+                                    true
+                            )
+                    );
+                }
             }
         }
         return result;

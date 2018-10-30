@@ -190,13 +190,21 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             value = toAbsoluteIRI(documentIRI, (String)propValue);
             //TODO: support registries so hardcoding not needed
             if (predicate.stringValue().equals("http://schema.org/additionalType")) {
-                out.writeTriple(subject, RDF.TYPE, value);
+                if (itemProp.reverse) {
+                    out.writeTriple((Resource)value, RDF.TYPE, subject);
+                } else {
+                    out.writeTriple(subject, RDF.TYPE, value);
+                }
             }
         } else {
             throw new RuntimeException("Invalid Type '" +
                     propType + "' for ItemPropValue with name: '" + predicate + "'");
         }
-        out.writeTriple(subject, predicate, value);
+        if (itemProp.reverse) {
+            out.writeTriple((Resource)value, predicate, subject);
+        } else {
+            out.writeTriple(subject, predicate, value);
+        }
     }
 
     private static final String hcardPrefix    = "http://microformats.org/profile/hcard";

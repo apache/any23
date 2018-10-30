@@ -42,6 +42,11 @@ public class ItemProp extends Item {
      * @param value item property value.
      */
     public ItemProp(String xpath, String name, ItemPropValue value) {
+        this(xpath, name, value, false);
+    }
+
+    final boolean reverse;
+    ItemProp(String xpath, String name, ItemPropValue value, boolean reverse) {
         super(xpath);
 
         if(name == null) {
@@ -55,6 +60,7 @@ public class ItemProp extends Item {
         }
         this.name = name;
         this.value = value;
+        this.reverse = reverse;
     }
 
     /**
