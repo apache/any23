@@ -23,10 +23,12 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
 import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.jsoup.parser.Tag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.traversal.DocumentTraversal;
 import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.TreeWalker;
@@ -39,6 +41,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -417,10 +420,60 @@ public class MicrodataParser {
         }
 
         String lang = getLanguage(node);
-        Literal l = lang == null ? RDFUtils.literal(node.getTextContent()) : RDFUtils.literal(node.getTextContent(), lang);
+        StringBuilder content = new StringBuilder();
+        appendFormatted(node, content, false);
+        Literal l = RDFUtils.literal(content.toString(), lang);
         final ItemPropValue newItemPropValue = new ItemPropValue(l);
         itemPropValues.put(node, newItemPropValue);
         return newItemPropValue;
+    }
+
+    private static boolean shouldSeparateWithNewline(CharSequence s0, CharSequence s1) {
+        for (int i = 0, len = s1.length(); i < len; i++) {
+            char ch = s1.charAt(i);
+            if (ch == '\n' || ch == '\r') {
+                return false;
+            }
+            if (!Character.isWhitespace(ch)) {
+                break;
+            }
+        }
+        for (int i = s0.length() - 1; i >= 0; i--) {
+            char ch = s0.charAt(i);
+            if (ch == '\n' || ch == '\r') {
+                return false;
+            }
+            if (!Character.isWhitespace(ch)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean appendFormatted(Node node, StringBuilder sb, boolean needsNewline) {
+        switch (node.getNodeType()) {
+            case Node.TEXT_NODE:
+                String text = node.getTextContent();
+                if (text.isEmpty()) {
+                    return needsNewline;
+                }
+                if (needsNewline && shouldSeparateWithNewline(sb, text)) {
+                    sb.append('\n');
+                }
+                sb.append(text);
+                return false;
+            case Node.ELEMENT_NODE:
+                final String nodeName = node.getNodeName().toLowerCase(Locale.ENGLISH);
+                final boolean thisNeedsNewline = "br".equals(nodeName) || Tag.valueOf(nodeName).isBlock();
+                final NodeList children = node.getChildNodes();
+                boolean prevChildNeedsNewline = needsNewline || thisNeedsNewline;
+                for (int i = 0, len = children.getLength(); i < len; i++) {
+                    prevChildNeedsNewline = appendFormatted(children.item(i), sb, prevChildNeedsNewline);
+                }
+                return prevChildNeedsNewline || thisNeedsNewline;
+            default:
+                return needsNewline;
+        }
     }
 
     private static String readContentAttribute(Node node, String attrName) {
