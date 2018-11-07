@@ -114,7 +114,7 @@ public class TikaEncodingDetector implements EncodingDetector {
             while ((n = is.read(buffer)) != -1) {
                 chars.ensureCapacity(chars.length() + n);
                 for (int i = 0; i < n; i++) {
-                    chars.append((char) buffer[i]);
+                    chars.append((char)(buffer[i] & 0xFF));
                 }
             }
         } finally {
