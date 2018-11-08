@@ -42,9 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,7 +73,7 @@ public class TikaEncodingDetector implements EncodingDetector {
         }
     }
 
-    private static Charset xmlCharset(CharSequence str) {
+    static Charset xmlCharset(CharSequence str) {
         Matcher matcher = xmlEncoding.matcher(str);
         if (matcher.find()) {
             return charset(matcher.group(1));
@@ -107,7 +105,7 @@ public class TikaEncodingDetector implements EncodingDetector {
         if (mark) {
             is.mark(Integer.MAX_VALUE);
         }
-        StringBuilder chars = new StringBuilder(8192);
+        StringBuilder chars = new StringBuilder(Math.max(is.available(), 8192));
         byte[] buffer = new byte[8192];
         int n;
         try {
@@ -423,37 +421,4 @@ public class TikaEncodingDetector implements EncodingDetector {
 
     private static final Pattern xmlEncoding = Pattern.compile(
             "(?is)\\A\\s*<\\?\\s*xml\\s+[^<>]*encoding\\s*=\\s*(?:['\"]\\s*)?([-_:.a-z0-9]+)");
-
-    static Charset detectXmlEncoding(InputStream input, int markLimit) throws IOException {
-        if (input == null) {
-            return null;
-        }
-        input.mark(markLimit);
-        byte[] buffer = new byte[markLimit];
-        int n = 0;
-        int m = input.read(buffer);
-        while (m != -1 && n < buffer.length) {
-            n += m;
-            m = input.read(buffer, n, buffer.length - n);
-        }
-        input.reset();
-
-        // Interpret the head as ASCII and try to spot a meta tag with
-        // a possible character encoding hint
-
-        String head = StandardCharsets.US_ASCII.decode(ByteBuffer.wrap(buffer, 0, n)).toString();
-
-        Matcher matcher = xmlEncoding.matcher(head);
-
-        if (matcher.find()) {
-            try {
-                return CharsetUtils.forName(matcher.group(1));
-            } catch (Exception e) {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
 }
