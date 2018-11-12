@@ -72,6 +72,7 @@ class EncodingUtils {
                 if (numInvalid > (numValid + 1) * 10) {
                     return false;
                 }
+                state = 0; //reset state to valid
             } else if (state >= 0) { //state is a valid codepoint
                 //take a hint from jchardet: count SO, SI, ESC as invalid
                 if (state == 0x0E || state == 0x0F || state == 0x1B) {
