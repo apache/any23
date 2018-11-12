@@ -136,50 +136,23 @@ class EncodingUtils {
                     return -1;
                 }
             case 0xE0000000: //3rd-to-last continuation byte
-                if ((nextByte & 0xC0) == 0x80) {
-                    return (currentState << 6) | (nextByte & 0x9000003F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xC0) == 0x80 ? currentState << 6 | nextByte & 0x9000003F : -1;
             case 0x80000000: //3rd-to-last continuation byte, check overlong
                 // jchardet's (incorrect) version was: 0xA0-0xBF
                 // Need to allow 0x90-0x9F (Supplementary Multilingual Plane) as well!
-                if ((nextByte & 0xE0) == 0xA0 || (nextByte & 0xF0) == 0x90) {
-                    return (currentState << 6) | (nextByte & 0x9000003F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xE0) == 0xA0 || (nextByte & 0xF0) == 0x90
+                        ? currentState << 6 | nextByte & 0x9000003F : -1;
             case 0xD0000000: //3rd-to-last continuation byte, check undefined
                 //anything greater than or equal to 0x90 is illegal
-                if ((nextByte & 0xF0) == 0x80) {
-                    return (currentState << 6) | (nextByte & 0x9000003F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xF0) == 0x80 ? currentState << 6 | nextByte & 0x9000003F : -1;
             case 0x90000000: //2nd-to-last continuation byte
-                if ((nextByte & 0xC0) == 0x80) {
-                    return (currentState << 6) | (nextByte & 0xC000003F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xC0) == 0x80 ? currentState << 6 | nextByte & 0xC000003F : -1;
             case 0xA0000000: //2nd-to-last continuation byte, check overlong
-                if ((nextByte & 0xE0) == 0xA0) {
-                    return (currentState << 6) | (nextByte & 0xC000003F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xE0) == 0xA0 ? currentState << 6 | nextByte & 0xC000003F : -1;
             case 0xB0000000: //2nd-to-last continuation byte, check surrogate
-                if ((nextByte & 0xE0) == 0x80) {
-                    return (currentState << 6) | (nextByte & 0xC000003F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xE0) == 0x80 ? currentState << 6 | nextByte & 0xC000003F : -1;
             case 0xC0000000: //last continuation byte
-                if ((nextByte & 0xC0) == 0x80) {
-                    return (currentState << 6) | (nextByte & 0x3F);
-                } else {
-                    return -1;
-                }
+                return (nextByte & 0xC0) == 0x80 ? currentState << 6 | nextByte & 0x3F : -1;
             case 0xF0000000: //error
                 return -1;
             default:
