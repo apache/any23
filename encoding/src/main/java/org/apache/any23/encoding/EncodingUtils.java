@@ -66,6 +66,12 @@ class EncodingUtils {
             state = nextStateUtf8(state, (byte)i);
             if (state == -1) { //bad state
                 numInvalid++;
+
+                //shortcut: avoid reading entire stream
+                //if we can detect early on that it's not UTF-8
+                if (numInvalid > (numValid + 1) * 10) {
+                    return false;
+                }
             } else if (state >= 0) { //state is a valid codepoint
                 //take a hint from jchardet: count SO, SI, ESC as invalid
                 if (state == 0x0E || state == 0x0F || state == 0x1B) {
