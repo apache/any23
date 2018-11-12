@@ -29,6 +29,7 @@ import java.nio.charset.Charset;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test case for {@link TikaEncodingDetector}.
@@ -89,8 +90,78 @@ public class TikaEncodingDetectorTest {
                 "\n <?Xml enCoding=Utf8?>"
         };
         for (String s : strings) {
-            Charset detected = TikaEncodingDetector.xmlCharset(s);
+            Charset detected = EncodingUtils.xmlCharset(s);
             assertEquals(detected, UTF_8);
+        }
+    }
+
+    @Test
+    public void testUTF8StateMachineForValid() throws IOException {
+        int state = 0;
+        for (int i = 0; i <= Character.MAX_CODE_POINT; i++) {
+            byte[] bytes = new String(Character.toChars(i)).getBytes(UTF_8);
+
+            for (byte b : bytes) {
+                state = EncodingUtils.nextStateUtf8(state, b);
+            }
+
+            assertEquals(new String(bytes, UTF_8).codePointAt(0), state);
+        }
+    }
+
+    @Test
+    public void testUTF8StateMachineForInvalid() {
+        for (int i = 0; i <= 0xFF; i++) { //check -1 state preservation
+            assertEquals(-1, EncodingUtils.nextStateUtf8(-1, (byte)i));
+        }
+
+        for (int i = 0x80; i < 0xC2; i++) { //check invalid first byte
+            assertEquals(-1, EncodingUtils.nextStateUtf8(0, (byte)i));
+        }
+
+        for (int i = 0xF5; i <= 0xFF; i++) { //illegal code points > 0x10FFFF
+            assertEquals(-1, EncodingUtils.nextStateUtf8(0, (byte)i));
+        }
+
+        for (int i = 0xC2; i <= 0xF4; i++) { //check invalid continuation bytes
+            //check invalid second byte
+            int state0 = EncodingUtils.nextStateUtf8(0, (byte)i);
+            assertTrue(state0 < -1);
+            int from = i == 0xE0 ? 0xA0 : i == 0xF0 ? 0x90 : 0x80;
+            for (int j = 0; j < from; j++) {
+                assertEquals(-1, EncodingUtils.nextStateUtf8(state0, (byte)j));
+            }
+            int to = i == 0xED ? 0xA0 : i == 0xF4 ? 0x90 : 0xC0;
+            for (int j = to; j <= 0xFF; j++) {
+                assertEquals(-1, EncodingUtils.nextStateUtf8(state0, (byte)j));
+            }
+            if (i >= 0xE0) { //check invalid third byte
+                int state1 = EncodingUtils.nextStateUtf8(state0, (byte) from);
+                assertTrue(state1 < -1);
+                for (int j = from + 1; j < to; j++) {
+                    assertTrue(EncodingUtils.nextStateUtf8(state0, (byte)j) < -1);
+                }
+                for (int j = 0; j < 0x80; j++) {
+                    assertEquals(-1, EncodingUtils.nextStateUtf8(state1, (byte) j));
+                }
+                for (int j = 0xC0; j <= 0xFF; j++) {
+                    assertEquals(-1, EncodingUtils.nextStateUtf8(state1, (byte) j));
+                }
+
+                if (i >= 0xF0) { //check invalid 4th byte
+                    int state2 = EncodingUtils.nextStateUtf8(state1, (byte) 0x80);
+                    assertTrue(state2 < -1);
+                    for (int j = 0x81; j < 0xC0; j++) {
+                        assertTrue(EncodingUtils.nextStateUtf8(state1, (byte)j) < -1);
+                    }
+                    for (int j = 0; j < 0x80; j++) {
+                        assertEquals(-1, EncodingUtils.nextStateUtf8(state2, (byte) j));
+                    }
+                    for (int j = 0xC0; j <= 0xFF; j++) {
+                        assertEquals(-1, EncodingUtils.nextStateUtf8(state2, (byte) j));
+                    }
+                }
+            }
         }
     }
 
