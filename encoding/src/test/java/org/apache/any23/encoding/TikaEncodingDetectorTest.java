@@ -17,6 +17,7 @@
 
 package org.apache.any23.encoding;
 
+import org.apache.tika.detect.TextStatistics;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,7 +91,7 @@ public class TikaEncodingDetectorTest {
                 "\n <?Xml enCoding=Utf8?>"
         };
         for (String s : strings) {
-            Charset detected = EncodingUtils.xmlCharset(s);
+            Charset detected = EncodingUtils.xmlCharset(new TextStatistics(), s);
             assertEquals(detected, UTF_8);
         }
     }

@@ -20,7 +20,6 @@ package org.apache.any23.encoding;
 import org.apache.tika.detect.TextStatistics;
 import org.apache.tika.parser.txt.CharsetDetector;
 import org.apache.tika.parser.txt.CharsetMatch;
-import org.apache.tika.utils.CharsetUtils;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
@@ -67,46 +66,38 @@ public class TikaEncodingDetector implements EncodingDetector {
         if (!is.markSupported()) {
             is = new BufferedInputStream(is);
         }
-        is.mark(Integer.MAX_VALUE);
-        TextStatistics stats;
-        try {
-            //we've overridden the looksLikeUTF8() method to be 100% precise, as in jchardet
-            if ((stats = EncodingUtils.stats(is)).looksLikeUTF8()) {
-                // > 92% of the web is UTF-8. Do not risk false positives from obscure charsets.
-                // See https://issues.apache.org/jira/browse/TIKA-2771
-                // and https://issues.apache.org/jira/browse/TIKA-539
-                return UTF_8;
-            }
-        } finally {
-            is.reset();
+
+        TextStatistics stats = computeAndReset(is, EncodingUtils::stats);
+
+        //we've overridden the looksLikeUTF8() method to be 100% precise, as in jchardet
+        if (stats.looksLikeUTF8()) {
+            // > 92% of the web is UTF-8. Do not risk false positives from other charsets.
+            // See https://issues.apache.org/jira/browse/TIKA-2771
+            // and https://issues.apache.org/jira/browse/TIKA-539
+            return UTF_8;
         }
 
+        declared = EncodingUtils.correctVariant(stats, declared);
         if (declared != null) {
-            return EncodingUtils.correctVariant(stats, declared);
+            return declared;
         }
 
         // ISO-8859-1 is Java's only "standard charset" which maps 1-to-1 onto the first 256 unicode characters;
         // use ISO-8859-1 for round-tripping of bytes after stripping html/xml tags from input
-        is.mark(Integer.MAX_VALUE);
-        String iso_8859_1;
-        try {
-            iso_8859_1 = EncodingUtils.iso_8859_1(is);
-        } finally {
-            is.reset();
-        }
+        String iso_8859_1 = computeAndReset(is, EncodingUtils::iso_8859_1);
 
-        Charset xmlCharset = EncodingUtils.xmlCharset(iso_8859_1);
+        Charset xmlCharset = EncodingUtils.xmlCharset(stats, iso_8859_1);
         if (xmlCharset != null) {
-            return EncodingUtils.correctVariant(stats, xmlCharset);
+            return xmlCharset;
         }
 
         ParseErrorList htmlErrors = ParseErrorList.tracking(Integer.MAX_VALUE);
         Document doc = parseFragment(iso_8859_1, htmlErrors);
 
-        Charset htmlCharset = EncodingUtils.htmlCharset(doc);
+        Charset htmlCharset = EncodingUtils.htmlCharset(stats, doc);
 
         if (htmlCharset != null) {
-            return EncodingUtils.correctVariant(stats, htmlCharset);
+            return htmlCharset;
         }
 
         if (stats.countEightBit() == 0) {
@@ -140,7 +131,7 @@ public class TikaEncodingDetector implements EncodingDetector {
 
         for (CharsetMatch match : icu4j.detectAll()) {
             try {
-                Charset charset = CharsetUtils.forName(match.getName());
+                Charset charset = EncodingUtils.forName(match.getName());
 
                 // If we successfully filtered input based on 0x3C and 0x3E, then this must be an ascii-compatible charset
                 // See https://issues.apache.org/jira/browse/TIKA-2771
@@ -148,7 +139,10 @@ public class TikaEncodingDetector implements EncodingDetector {
                     continue;
                 }
 
-                return EncodingUtils.correctVariant(stats, charset);
+                charset = EncodingUtils.correctVariant(stats, charset);
+                if (charset != null) {
+                    return charset;
+                }
             } catch (Exception e) {
                 //ignore; if this charset isn't supported by this platform, it's probably not correct anyway.
             }
@@ -162,15 +156,28 @@ public class TikaEncodingDetector implements EncodingDetector {
     @Override
     public String guessEncoding(InputStream is, String contentType) throws IOException {
         Charset charset = EncodingUtils.contentTypeCharset(contentType);
-        Charset best = guessEncoding(is, charset);
-        return best == null ? null : best.name();
+        return guessEncoding(is, charset).name();
     }
 
 
 
-    //////////////////////////
-    // JSOUP HELPER METHODS //
-    //////////////////////////
+    ////////////////////
+    // STATIC HELPERS //
+    ////////////////////
+
+    @FunctionalInterface
+    private interface InputStreamFunction<E> {
+        E compute(InputStream is) throws IOException;
+    }
+
+    private static <E> E computeAndReset(InputStream is, InputStreamFunction<E> function) throws IOException {
+        is.mark(Integer.MAX_VALUE);
+        try {
+            return function.compute(is);
+        } finally {
+            is.reset();
+        }
+    }
 
     private static Document parseFragment(String html, ParseErrorList errors) {
         Document doc = new Document("");
