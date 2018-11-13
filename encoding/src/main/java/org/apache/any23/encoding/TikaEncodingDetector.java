@@ -17,6 +17,7 @@
 
 package org.apache.any23.encoding;
 
+import org.apache.tika.detect.TextStatistics;
 import org.apache.tika.parser.txt.CharsetDetector;
 import org.apache.tika.parser.txt.CharsetMatch;
 import org.apache.tika.utils.CharsetUtils;
@@ -67,10 +68,10 @@ public class TikaEncodingDetector implements EncodingDetector {
             is = new BufferedInputStream(is);
         }
         is.mark(Integer.MAX_VALUE);
-        Boolean utf8;
+        TextStatistics stats;
         try {
-            utf8 = EncodingUtils.isUTF8(is);
-            if (utf8 != null && utf8) {
+            //we've overridden the looksLikeUTF8() method to be 100% precise, as in jchardet
+            if ((stats = EncodingUtils.stats(is)).looksLikeUTF8()) {
                 // > 92% of the web is UTF-8. Do not risk false positives from obscure charsets.
                 // See https://issues.apache.org/jira/browse/TIKA-2771
                 // and https://issues.apache.org/jira/browse/TIKA-539
@@ -81,70 +82,64 @@ public class TikaEncodingDetector implements EncodingDetector {
         }
 
         if (declared != null) {
-            return declared;
+            return EncodingUtils.correctVariant(stats, declared);
         }
 
-        boolean filterInput;
-        byte[] text;
-        {
-            // ISO-8859-1 is Java's only "standard charset" which maps 1-to-1 onto the first 256 unicode characters;
-            // use ISO-8859-1 for round-tripping of bytes after stripping html/xml tags from input
-            String iso_8859_1;
-            is.mark(Integer.MAX_VALUE);
-            try {
-                iso_8859_1 = EncodingUtils.iso_8859_1(is);
-            } finally {
-                is.reset();
-            }
+        // ISO-8859-1 is Java's only "standard charset" which maps 1-to-1 onto the first 256 unicode characters;
+        // use ISO-8859-1 for round-tripping of bytes after stripping html/xml tags from input
+        is.mark(Integer.MAX_VALUE);
+        String iso_8859_1;
+        try {
+            iso_8859_1 = EncodingUtils.iso_8859_1(is);
+        } finally {
+            is.reset();
+        }
 
-            Charset xmlCharset = EncodingUtils.xmlCharset(iso_8859_1);
-            if (xmlCharset != null) {
-                return xmlCharset;
-            }
+        Charset xmlCharset = EncodingUtils.xmlCharset(iso_8859_1);
+        if (xmlCharset != null) {
+            return EncodingUtils.correctVariant(stats, xmlCharset);
+        }
 
-            ParseErrorList htmlErrors = ParseErrorList.tracking(Integer.MAX_VALUE);
-            Document doc = parseFragment(iso_8859_1, htmlErrors);
+        ParseErrorList htmlErrors = ParseErrorList.tracking(Integer.MAX_VALUE);
+        Document doc = parseFragment(iso_8859_1, htmlErrors);
 
-            Charset htmlCharset = EncodingUtils.htmlCharset(doc);
+        Charset htmlCharset = EncodingUtils.htmlCharset(doc);
 
-            if (htmlCharset != null) {
-                return htmlCharset;
-            }
+        if (htmlCharset != null) {
+            return EncodingUtils.correctVariant(stats, htmlCharset);
+        }
 
-            if (utf8 == null) {
-                // All characters are plain ASCII, so it doesn't matter what we choose.
-                return UTF_8;
-            }
+        if (stats.countEightBit() == 0) {
+            // All characters are plain ASCII, so it doesn't matter what we choose.
+            return UTF_8;
+        }
 
-            long openTags = countTags(doc);
-            long badTags = htmlErrors.stream().map(ParseError::getErrorMessage)
-                    .filter(err -> err != null && err.matches(".*'[</>]'.*")).count();
+        //HTML & XML tag-stripping is vital for accurate n-gram detection, so use Jsoup instead of icu4j's
+        // "quick and dirty, not 100% accurate" tag-stripping implementation for more accurate results.
+        // Cf. https://issues.apache.org/jira/browse/TIKA-2038
+        long openTags = countTags(doc);
+        long badTags = htmlErrors.stream().map(ParseError::getErrorMessage)
+                .filter(err -> err != null && err.matches(".*'[</>]'.*")).count();
 
-            //condition for filtering input adapted from icu4j's CharsetDetector#MungeInput()
-            if (openTags < 5 || openTags / 5 < badTags) {
+        //condition for filtering input adapted from icu4j's CharsetDetector#MungeInput()
+        boolean filterInput = true;
+        if (openTags < 5 || openTags / 5 < badTags) {
+            filterInput = false;
+        } else {
+            String wholeText = wholeText(doc);
+            if (wholeText.length() < 100 && iso_8859_1.length() > 600) {
                 filterInput = false;
             } else {
-                String wholeText = wholeText(doc);
-                if (wholeText.length() < 100 && iso_8859_1.length() > 600) {
-                    filterInput = false;
-                } else {
-                    filterInput = true;
-                    iso_8859_1 = wholeText;
-                }
+                iso_8859_1 = wholeText;
             }
-            text = iso_8859_1.getBytes(ISO_8859_1);
         }
+        byte[] text = iso_8859_1.getBytes(ISO_8859_1);
 
         CharsetDetector icu4j = new CharsetDetector(text.length);
         icu4j.setText(text);
 
         for (CharsetMatch match : icu4j.detectAll()) {
             try {
-                int confidence = match.getConfidence();
-                if (confidence <= 0) {
-                    continue;
-                }
-
                 Charset charset = CharsetUtils.forName(match.getName());
 
                 // If we successfully filtered input based on 0x3C and 0x3E, then this must be an ascii-compatible charset
@@ -153,7 +148,7 @@ public class TikaEncodingDetector implements EncodingDetector {
                     continue;
                 }
 
-                return charset;
+                return EncodingUtils.correctVariant(stats, charset);
             } catch (Exception e) {
                 //ignore; if this charset isn't supported by this platform, it's probably not correct anyway.
             }
@@ -161,7 +156,7 @@ public class TikaEncodingDetector implements EncodingDetector {
 
         // No bytes are invalid in ISO-8859-1, so this one is always possible if there are no options left.
         // Also, has second-highest popularity on the web behind UTF-8.
-        return ISO_8859_1;
+        return EncodingUtils.correctVariant(stats, ISO_8859_1);
     }
 
     @Override

@@ -17,6 +17,7 @@
 
 package org.apache.any23.encoding;
 
+import org.apache.tika.detect.TextStatistics;
 import org.apache.tika.utils.CharsetUtils;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Evaluator;
@@ -26,6 +27,7 @@ import org.jsoup.select.Selector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,51 +52,124 @@ class EncodingUtils {
         return chars.toString();
     }
 
+    private static class CustomTextStatistics extends TextStatistics {
 
-    /**
-     * Returns null for an ASCII stream, true for a UTF-8 stream,
-     * and false for a stream encoded in something other than UTF-8.
+        private boolean isUtf8;
+
+        @Override
+        public boolean looksLikeUTF8() {
+            return isUtf8;
+        }
+
+    }
+
+    //get correct ISO-8859-1 variant
+    static Charset correctVariant(TextStatistics stats, Charset charset) {
+        switch (charset.name().toLowerCase()) {
+            case "iso-8859-1":
+                //Take a hint from icu4j's CharsetRecog_8859_1 and Tika's UniversalEncodingListener:
+                // return windows-1252 before ISO-8859-1 if:
+                // (1) C1 ctrl chars are used (as in icu4j), or
+                // (2) '\r' is used (as in Tika)
+                if ((stats.count('\r') > 0 || hasC1Control(stats)) && canBeWindows1252(stats)) {
+                    try {
+                        return CharsetUtils.forName("windows-1252");
+                    } catch (Exception e) {
+                        //ignore
+                    }
+                }
+
+                //Take a hint from Tika's UniversalEncodingListener:
+                // return ISO-8859-15 before ISO-8859-1 if currency/euro symbol is used
+                if (stats.count(0xa4) > 0) {
+                    try {
+                        return CharsetUtils.forName("ISO-8859-15");
+                    } catch (Exception e) {
+                        //ignore
+                    }
+                }
+                return charset;
+            case "windows-1252":
+                if (!canBeWindows1252(stats)) {
+                    //Take a hint from Tika's UniversalEncodingListener:
+                    // return ISO-8859-15 before ISO-8859-1 if currency/euro symbol is used
+                    if (stats.count(0xa4) > 0) {
+                        try {
+                            return CharsetUtils.forName("ISO-8859-15");
+                        } catch (Exception e) {
+                            //ignore
+                        }
+                    }
+                    return StandardCharsets.ISO_8859_1;
+                }
+                return charset;
+            default:
+                return charset;
+        }
+    }
+
+
+    private static boolean canBeWindows1252(TextStatistics stats) {
+        //these C1 chars are not defined in windows-1252
+        return (stats.count(0x81) | stats.count(0x8D) | stats.count(0x8F)
+                | stats.count(0x90) | stats.count(0x9D)) == 0;
+    }
+
+    private static boolean hasC1Control(TextStatistics ts) {
+        for (int i = 0x80; i < 0xA0; i++) {
+            if (ts.count(i) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+     * Returns a custom implementation of Tika's TextStatistics class for an input stream
      */
-    static Boolean isUTF8(InputStream stream) throws IOException {
+    static TextStatistics stats(InputStream stream) throws IOException {
         long numInvalid = 0;
         long numValid = 0;
 
         int state = 0;
 
-        int i;
-        while ((i = stream.read()) != -1) {
-            state = nextStateUtf8(state, (byte)i);
-            if (state == -1) { //bad state
-                numInvalid++;
+        byte[] buffer = new byte[8192];
 
-                //shortcut: avoid reading entire stream
-                //if we can detect early on that it's not UTF-8
-                if (numInvalid > (numValid + 1) * 10) {
-                    return false;
-                }
-                state = 0; //reset state to valid
-            } else if (state >= 0) { //state is a valid codepoint
-                //take a hint from jchardet: count SO, SI, ESC as invalid
-                if (state == 0x0E || state == 0x0F || state == 0x1B) {
+        CustomTextStatistics stats = new CustomTextStatistics();
+
+        int n;
+        while ((n = stream.read(buffer)) != -1) {
+            stats.addData(buffer, 0, n);
+
+            for (int i = 0; i < n; i++) {
+                state = nextStateUtf8(state, (byte) i);
+                if (state == -1) { //bad state
                     numInvalid++;
-                } else if (state > 0x7F) { //was at least a two-byte sequence
-                    numValid++;
+                    state = 0; //reset state to valid
+                } else if (state >= 0) { //state is a valid codepoint
+                    //take a hint from jchardet: count SO, SI, ESC as invalid
+                    //(but Tika calls ESC (0x1B) a "safe control", so let's OK that one for now).
+                    if (state == 0x0E || state == 0x0F /* || state == 0x1B*/) {
+                        numInvalid++;
+                    } else if (state > 0x7F) { //was at least a two-byte sequence
+                        numValid++;
 
-                    //shortcut: avoid reading entire stream
-                    //if we can detect early on that it's UTF-8
-                    if (numValid > (numInvalid + 1) * 10) {
-                        return true;
+                        //shortcut: avoid reading entire stream
+                        //if we can detect early on that it's UTF-8
+                        if (numValid > (numInvalid + 1) * 10) {
+                            stats.isUtf8 = true;
+                            return stats;
+                        }
                     }
                 }
             }
         }
 
-        if (numValid == 0 && numInvalid == 0) { //Plain ASCII
-            return null;
-        }
-        //condition for success based roughly on ICU4j's CharsetRecog_UTF8 class
-        //valid multi-byte UTF-8 sequences are unlikely to occur by chance
-        return numValid > numInvalid * 10;
+        //condition for success based roughly on ICU4j's CharsetRecog_UTF8 class:
+        // Valid multi-byte UTF-8 sequences are unlikely to occur by chance
+        stats.isUtf8 = numValid > numInvalid * 10;
+
+        return stats;
     }
 
 
@@ -106,6 +181,12 @@ class EncodingUtils {
      * invalid UTF-8 byte sequence is detected.
      */
     static int nextStateUtf8(int currentState, byte nextByte) {
+
+        // This function was adapted from jchardet, with 2 bugfixes:
+        // (1) jchardet counted codepoints in Supplementary Multilingual Plane as invalid
+        // (2) jchardet counted codepoints past 0x10FFFF as valid
+        // Cf. https://issues.apache.org/jira/browse/TIKA-2038
+
         switch (currentState & 0xF0000000) {
             case 0:
                 if ((nextByte & 0x80) == 0) { //0 trailing bytes (ASCII)
