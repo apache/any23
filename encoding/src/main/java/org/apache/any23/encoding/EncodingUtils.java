@@ -52,17 +52,6 @@ class EncodingUtils {
         return chars.toString();
     }
 
-    private static class CustomTextStatistics extends TextStatistics {
-
-        private boolean isUtf8;
-
-        @Override
-        public boolean looksLikeUTF8() {
-            return isUtf8;
-        }
-
-    }
-
     //get correct ISO-8859-1 variant
     static Charset correctVariant(TextStatistics stats, Charset charset) {
         switch (charset.name().toLowerCase()) {
@@ -71,7 +60,7 @@ class EncodingUtils {
                 // return windows-1252 before ISO-8859-1 if:
                 // (1) C1 ctrl chars are used (as in icu4j), or
                 // (2) '\r' is used (as in Tika)
-                if ((stats.count('\r') > 0 || hasC1Control(stats)) && canBeWindows1252(stats)) {
+                if ((stats.count('\r') != 0 || hasC1Control(stats)) && canBeWindows1252(stats)) {
                     try {
                         return CharsetUtils.forName("windows-1252");
                     } catch (Exception e) {
@@ -79,33 +68,25 @@ class EncodingUtils {
                     }
                 }
 
-                //Take a hint from Tika's UniversalEncodingListener:
-                // return ISO-8859-15 before ISO-8859-1 if currency/euro symbol is used
-                if (stats.count(0xa4) > 0) {
-                    try {
-                        return CharsetUtils.forName("ISO-8859-15");
-                    } catch (Exception e) {
-                        //ignore
-                    }
-                }
-                return charset;
+                return iso_8859_1_or_15(stats);
             case "windows-1252":
-                if (!canBeWindows1252(stats)) {
-                    //Take a hint from Tika's UniversalEncodingListener:
-                    // return ISO-8859-15 before ISO-8859-1 if currency/euro symbol is used
-                    if (stats.count(0xa4) > 0) {
-                        try {
-                            return CharsetUtils.forName("ISO-8859-15");
-                        } catch (Exception e) {
-                            //ignore
-                        }
-                    }
-                    return StandardCharsets.ISO_8859_1;
-                }
-                return charset;
+                return canBeWindows1252(stats) ? charset : iso_8859_1_or_15(stats);
             default:
                 return charset;
         }
+    }
+
+    private static Charset iso_8859_1_or_15(TextStatistics stats) {
+        //Take a hint from Tika's UniversalEncodingListener:
+        // return ISO-8859-15 before ISO-8859-1 if currency/euro symbol is used
+        if (stats.count(0xa4) != 0) {
+            try {
+                return CharsetUtils.forName("ISO-8859-15");
+            } catch (Exception e) {
+                //ignore
+            }
+        }
+        return StandardCharsets.ISO_8859_1;
     }
 
 
@@ -135,6 +116,15 @@ class EncodingUtils {
 
         byte[] buffer = new byte[8192];
 
+        class CustomTextStatistics extends TextStatistics {
+            private boolean looksLikeUTF8;
+            @Override
+            public boolean looksLikeUTF8() {
+                //override to be 100% precise
+                return looksLikeUTF8;
+            }
+        }
+
         CustomTextStatistics stats = new CustomTextStatistics();
 
         int n;
@@ -157,7 +147,7 @@ class EncodingUtils {
                         //shortcut: avoid reading entire stream
                         //if we can detect early on that it's UTF-8
                         if (numValid > (numInvalid + 1) * 10) {
-                            stats.isUtf8 = true;
+                            stats.looksLikeUTF8 = true;
                             return stats;
                         }
                     }
@@ -167,8 +157,7 @@ class EncodingUtils {
 
         //condition for success based roughly on ICU4j's CharsetRecog_UTF8 class:
         // Valid multi-byte UTF-8 sequences are unlikely to occur by chance
-        stats.isUtf8 = numValid > numInvalid * 10;
-
+        stats.looksLikeUTF8 = numValid > numInvalid * 10;
         return stats;
     }
 
