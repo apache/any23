@@ -23,6 +23,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Evaluator;
 import org.jsoup.select.QueryParser;
 import org.jsoup.select.Selector;
+import org.rypt.f8.Utf8Statistics;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -206,19 +207,14 @@ class EncodingUtils {
      * Returns a custom implementation of Tika's TextStatistics class for an input stream
      */
     static TextStatistics stats(InputStream stream) throws IOException {
-        long numInvalid = 0;
-        long numValid = 0;
-
-        int state = 0;
-
         byte[] buffer = new byte[8192];
 
         class CustomTextStatistics extends TextStatistics {
-            private boolean looksLikeUTF8;
+            private final Utf8Statistics utf8Stats = new Utf8Statistics();
             @Override
             public boolean looksLikeUTF8() {
                 //override to be 100% precise
-                return looksLikeUTF8;
+                return utf8Stats.looksLikeUtf8();
             }
         }
 
@@ -227,107 +223,22 @@ class EncodingUtils {
         int n;
         while ((n = stream.read(buffer)) != -1) {
             stats.addData(buffer, 0, n);
-
+            stats.utf8Stats.write(buffer, 0, n);
             for (int i = 0; i < n; i++) {
-                state = nextStateUtf8(state, (byte) i);
-                if (state == -1) { //bad state
-                    numInvalid++;
-                    state = 0; //reset state to valid
-                } else if (state >= 0) { //state is a valid codepoint
-                    //take a hint from jchardet: count SO, SI, ESC as invalid
-                    //(but Tika calls ESC (0x1B) a "safe control", so let's OK that one for now).
-                    if (state == 0x0E || state == 0x0F /* || state == 0x1B*/) {
-                        numInvalid++;
-                    } else if (state > 0x7F) { //was at least a two-byte sequence
-                        numValid++;
-
-                        //shortcut: avoid reading entire stream
-                        //if we can detect early on that it's UTF-8
-                        if (numValid > (numInvalid + 1) * 10) {
-                            stats.looksLikeUTF8 = true;
-                            return stats;
-                        }
-                    }
+                //take a hint from jchardet: count SO, SI, ESC as invalid
+                //(but Tika calls ESC (0x1B) a "safe control", so let's OK that one for now).
+                if (buffer[i] == 0x0E || buffer[i] == 0x0F /* || state == 0x1B*/) {
+                    stats.utf8Stats.handleError();
                 }
             }
-        }
 
-        //condition for success based roughly on ICU4j's CharsetRecog_UTF8 class:
-        // Valid multi-byte UTF-8 sequences are unlikely to occur by chance
-        stats.looksLikeUTF8 = numValid > numInvalid * 10;
+            //shortcut: avoid reading entire stream if we can detect early on that it's UTF-8
+            if (stats.utf8Stats.looksLikeUtf8() && stats.utf8Stats.countValid() > 10) {
+                return stats;
+            }
+        }
         return stats;
     }
-
-
-    /**
-     * Returns the next UTF-8 state given the next byte of input and the current state.
-     * If the input byte is the last byte in a valid UTF-8 byte sequence,
-     * the returned state will be the corresponding unicode character (in the range of 0 through 0x10FFFF).
-     * Otherwise, a negative integer is returned. A state of -1 is returned whenever an
-     * invalid UTF-8 byte sequence is detected.
-     */
-    static int nextStateUtf8(int currentState, byte nextByte) {
-
-        // This function was adapted from jchardet, with 2 bugfixes:
-        // (1) jchardet counted codepoints in Supplementary Multilingual Plane as invalid
-        // (2) jchardet counted codepoints past 0x10FFFF as valid
-        // Cf. https://issues.apache.org/jira/browse/TIKA-2038
-
-        switch (currentState & 0xF0000000) {
-            case 0:
-                if ((nextByte & 0x80) == 0) { //0 trailing bytes (ASCII)
-                    return nextByte;
-                } else if ((nextByte & 0xE0) == 0xC0) { //1 trailing byte
-                    if (nextByte == (byte) 0xC0 || nextByte == (byte) 0xC1) { //0xCO & 0xC1 are overlong
-                        return -1;
-                    } else {
-                        return nextByte & 0xC000001F;
-                    }
-                } else if ((nextByte & 0xF0) == 0xE0) { //2 trailing bytes
-                    if (nextByte == (byte) 0xE0) { //possibly overlong
-                        return nextByte & 0xA000000F;
-                    } else if (nextByte == (byte) 0xED) { //possibly surrogate
-                        return nextByte & 0xB000000F;
-                    } else {
-                        return nextByte & 0x9000000F;
-                    }
-                } else if ((nextByte & 0xFC) == 0xF0) { //3 trailing bytes
-                    if (nextByte == (byte) 0xF0) { //possibly overlong
-                        return nextByte & 0x80000007;
-                    } else {
-                        return nextByte & 0xE0000007;
-                    }
-                } else if (nextByte == (byte) 0xF4) { //3 trailing bytes, possibly undefined
-                    //modification from jchardet: don't allow > 0x10FFFF.
-                    return nextByte & 0xD0000007;
-                } else {
-                    return -1;
-                }
-            case 0xE0000000: //3rd-to-last continuation byte
-                return (nextByte & 0xC0) == 0x80 ? currentState << 6 | nextByte & 0x9000003F : -1;
-            case 0x80000000: //3rd-to-last continuation byte, check overlong
-                // jchardet's (incorrect) version was: 0xA0-0xBF
-                // Need to allow 0x90-0x9F (Supplementary Multilingual Plane) as well!
-                return (nextByte & 0xE0) == 0xA0 || (nextByte & 0xF0) == 0x90
-                        ? currentState << 6 | nextByte & 0x9000003F : -1;
-            case 0xD0000000: //3rd-to-last continuation byte, check undefined
-                //anything greater than or equal to 0x90 is illegal
-                return (nextByte & 0xF0) == 0x80 ? currentState << 6 | nextByte & 0x9000003F : -1;
-            case 0x90000000: //2nd-to-last continuation byte
-                return (nextByte & 0xC0) == 0x80 ? currentState << 6 | nextByte & 0xC000003F : -1;
-            case 0xA0000000: //2nd-to-last continuation byte, check overlong
-                return (nextByte & 0xE0) == 0xA0 ? currentState << 6 | nextByte & 0xC000003F : -1;
-            case 0xB0000000: //2nd-to-last continuation byte, check surrogate
-                return (nextByte & 0xE0) == 0x80 ? currentState << 6 | nextByte & 0xC000003F : -1;
-            case 0xC0000000: //last continuation byte
-                return (nextByte & 0xC0) == 0x80 ? currentState << 6 | nextByte & 0x3F : -1;
-            case 0xF0000000: //error
-                return -1;
-            default:
-                throw new IllegalStateException("illegal state " + Integer.toHexString(currentState));
-        }
-    }
-
 
     static Charset forName(String charset) throws Exception {
         try {
