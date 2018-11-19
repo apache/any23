@@ -203,34 +203,42 @@ class EncodingUtils {
         return false;
     }
 
+    private static class TextStatisticsOptimizedForUtf8 extends TextStatistics {
+
+        private final Utf8Statistics utf8Stats = new Utf8Statistics() {
+            @Override
+            public void handleCodePoint(int codePoint) {
+                //take a hint from jchardet: count SO, SI, ESC as invalid
+                //(but Tika calls ESC (0x1B) a "safe control", so let's OK that one for now).
+                if (codePoint == 0x0E || codePoint == 0x0F /* || codePoint == 0x1B*/) {
+                    handleError();
+                } else {
+                    super.handleCodePoint(codePoint);
+                }
+            }
+        };
+
+        @Override
+        public void addData(byte[] buffer, int offset, int length) {
+            super.addData(buffer, offset, length);
+            utf8Stats.write(buffer, offset, length);
+        }
+
+        @Override
+        public boolean looksLikeUTF8() {
+            return utf8Stats.looksLikeUtf8();
+        }
+    }
+
     /*
      * Returns a custom implementation of Tika's TextStatistics class for an input stream
      */
     static TextStatistics stats(InputStream stream) throws IOException {
+        TextStatisticsOptimizedForUtf8 stats = new TextStatisticsOptimizedForUtf8();
         byte[] buffer = new byte[8192];
-
-        class CustomTextStatistics extends TextStatistics {
-            private final Utf8Statistics utf8Stats = new Utf8Statistics();
-            @Override
-            public boolean looksLikeUTF8() {
-                //override to be 100% precise
-                return utf8Stats.looksLikeUtf8();
-            }
-        }
-
-        CustomTextStatistics stats = new CustomTextStatistics();
-
         int n;
         while ((n = stream.read(buffer)) != -1) {
             stats.addData(buffer, 0, n);
-            stats.utf8Stats.write(buffer, 0, n);
-            for (int i = 0; i < n; i++) {
-                //take a hint from jchardet: count SO, SI, ESC as invalid
-                //(but Tika calls ESC (0x1B) a "safe control", so let's OK that one for now).
-                if (buffer[i] == 0x0E || buffer[i] == 0x0F /* || state == 0x1B*/) {
-                    stats.utf8Stats.handleError();
-                }
-            }
 
             //shortcut: avoid reading entire stream if we can detect early on that it's UTF-8
             if (stats.utf8Stats.looksLikeUtf8() && stats.utf8Stats.countValid() > 10) {
