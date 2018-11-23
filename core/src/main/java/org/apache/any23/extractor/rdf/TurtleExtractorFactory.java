@@ -42,12 +42,12 @@ public class TurtleExtractorFactory extends SimpleExtractorFactory<TurtleExtract
                 TurtleExtractorFactory.NAME, 
                 TurtleExtractorFactory.PREFIXES,
                 Arrays.asList(
+                        "text/turtle",
                         "text/rdf+n3",
                         "text/n3",
                         "application/n3",
                         "application/x-turtle",
-                        "application/turtle",
-                        "text/turtle"
+                        "application/turtle"
                 ),
                 "example-turtle.ttl");
     }
