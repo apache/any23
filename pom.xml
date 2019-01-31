@@ -243,9 +243,9 @@
   </modules>
 
   <scm>
-    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
-    <connection>scm:git:http://git-wip-us.apache.org/repos/asf/any23.git</connection>
-    <url>https://git-wip-us.apache.org/repos/asf/any23.git</url>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/any23.git</developerConnection>
+    <connection>scm:git:http://gitbox.apache.org/repos/asf/any23.git</connection>
+    <url>https://gitbox.apache.org/repos/asf/any23.git</url>
     <tag>HEAD</tag>
   </scm>
   <issueManagement>
@@ -1081,8 +1081,8 @@
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                     <anonymousConnection>scm:git:http://git.apache.org/any23.git</anonymousConnection>
-                    <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/any23.git</developerConnection>
-                    <webAccessUrl>https://git-wip-us.apache.org/repos/asf/any23.git</webAccessUrl>
+                    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/any23.git</developerConnection>
+                    <webAccessUrl>https://gitbox.apache.org/repos/asf/any23.git</webAccessUrl>
                   </configuration>
                   <reportSets>
                     <reportSet>
