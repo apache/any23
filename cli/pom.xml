@@ -347,7 +347,6 @@
             </program>
           </programs>
           <configurationDirectory>conf</configurationDirectory>
-          <configurationSourceDirectory>${basedir}/src/test/resources</configurationSourceDirectory>
           <copyConfigurationDirectory>true</copyConfigurationDirectory>
         </configuration>
       </plugin>
