@@ -205,18 +205,7 @@ class EncodingUtils {
 
     private static class TextStatisticsOptimizedForUtf8 extends TextStatistics {
 
-        private final Utf8Statistics utf8Stats = new Utf8Statistics() {
-            @Override
-            public void handleCodePoint(int codePoint) {
-                //take a hint from jchardet: count SO, SI, ESC as invalid
-                //(but Tika calls ESC (0x1B) a "safe control", so let's OK that one for now).
-                if (codePoint == 0x0E || codePoint == 0x0F /* || codePoint == 0x1B*/) {
-                    handleError();
-                } else {
-                    super.handleCodePoint(codePoint);
-                }
-            }
-        };
+        private final Utf8Statistics utf8Stats = new Utf8Statistics();
 
         @Override
         public void addData(byte[] buffer, int offset, int length) {
@@ -239,11 +228,6 @@ class EncodingUtils {
         int n;
         while ((n = stream.read(buffer)) != -1) {
             stats.addData(buffer, 0, n);
-
-            //shortcut: avoid reading entire stream if we can detect early on that it's UTF-8
-            if (stats.utf8Stats.looksLikeUtf8() && stats.utf8Stats.countValid() > 10) {
-                return stats;
-            }
         }
         return stats;
     }
@@ -261,10 +245,9 @@ class EncodingUtils {
             charset = charset.replaceAll("(?i)-I\\b", "");
             try {
                 return CharsetUtils.forName(charset);
-            } catch (Exception e1) {
-                //ignore
+            } catch (Exception ignored) {
+                throw e;
             }
-            throw e;
         }
     }
 
@@ -340,17 +323,17 @@ class EncodingUtils {
 //        };
 //
 //        for (String name : cs) {
-//            System.out.println(IntStream.range(0, 256).filter(i -> {
-//                try {
-//                    Charset c = EncodingUtils.forName(name);
-//                    String s = new String(new byte[]{(byte) i}, c);
-//                    byte[] bytes = s.getBytes(c);
-//                    return bytes.length != 1 || bytes[0] != (byte)i;
-//                } catch (Exception e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }).mapToObj(i -> "0x" + Integer.toHexString(i).toUpperCase())
-//                    .collect(Collectors.joining(", ", "undefined " + name + " = {", "};")));
+//            Charset c = EncodingUtils.forName(name);
+//            if (c.newEncoder().maxBytesPerChar() > 1) {
+//                throw new IllegalArgumentException("this method doesn't support " + c);
+//            }
+//            String line = java.util.stream.IntStream
+//                    .range(0, 256)
+//                    .filter(i -> new String(new byte[]{(byte) i}, c).getBytes(c)[0] != (byte)i)
+//                    .mapToObj(i -> "0x" + Integer.toHexString(i).toUpperCase())
+//                    .collect(java.util.stream.Collectors.joining(", ", "undefined " + name + " = {", "};"));
+//
+//            System.out.println(line);
 //        }
 //    }
 
