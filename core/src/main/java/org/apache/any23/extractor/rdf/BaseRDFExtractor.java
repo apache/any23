@@ -28,9 +28,7 @@ import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.html.JsoupUtils;
 import org.eclipse.rdf4j.common.net.ParsedIRI;
 import org.eclipse.rdf4j.rio.RDFFormat;
-import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
-import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.DataNode;
@@ -45,6 +43,8 @@ import org.jsoup.select.NodeTraversor;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
@@ -224,9 +224,10 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
             }
 
             parser.parse(in, iri);
-        } catch (RDFHandlerException ex) {
-            throw new IllegalStateException("Unexpected exception.", ex);
-        } catch (RDFParseException ex) {
+        } catch (Exception ex) {
+            // ANY23-420: jsonld-java can sometimes throw IllegalArgumentException,
+            // so don't limit catch block to RDFParseExceptions
+
             Throwable cause = ex.getCause();
             if (cause instanceof JsonProcessingException) {
                 JsonProcessingException err = (JsonProcessingException)cause;
@@ -237,9 +238,21 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
                     extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), loc.getLineNr(), loc.getColumnNr());
                 }
             } else {
-                throw new ExtractionException("Error while parsing RDF document.", ex, extractionResult);
+                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, toString(ex), -1, -1);
             }
         }
+    }
+
+    private static String toString(Throwable th) {
+        StringWriter writer = new StringWriter();
+        try (PrintWriter pw = new PrintWriter(writer)) {
+            th.printStackTrace(pw);
+        }
+        String string = writer.toString();
+        if (string.length() > 1024) {
+            return string.substring(0, 1021) + "...";
+        }
+        return string;
     }
 
 }

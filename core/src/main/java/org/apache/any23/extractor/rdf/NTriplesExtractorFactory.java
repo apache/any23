@@ -42,6 +42,7 @@ public class NTriplesExtractorFactory extends SimpleExtractorFactory<NTriplesExt
                 NTriplesExtractorFactory.NAME, 
                 NTriplesExtractorFactory.PREFIXES,
                 Arrays.asList(
+                        "application/n-triples;q=0.1",
                         "text/nt;q=0.1",
                         "text/ntriples;q=0.1",
                         "text/plain;q=0.1"

@@ -41,7 +41,7 @@ public class RDFa11ExtractorFactory extends SimpleExtractorFactory<RDFa11Extract
         super(
                 RDFa11ExtractorFactory.NAME, 
                 RDFa11ExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.3", "application/xhtml+xml;q=0.3"),
+                Arrays.asList("application/xhtml+xml;q=0.3", "application/html;q=0.3", "text/html;q=0.3"),
                 "example-rdfa11.html");
     }
 
