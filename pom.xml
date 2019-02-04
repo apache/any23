@@ -270,17 +270,17 @@
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
 
-    <httpclient.version>4.5.6</httpclient.version>
-    <httpcore.version>4.4.10</httpcore.version>
-    <owlapi.version>5.1.7</owlapi.version>
-    <poi.version>4.0.0</poi.version>
-    <rdf4j.version>2.4.0</rdf4j.version>
+    <httpclient.version>4.5.7</httpclient.version>
+    <httpcore.version>4.4.11</httpcore.version>
+    <owlapi.version>5.1.9</owlapi.version>
+    <poi.version>4.0.1</poi.version>
+    <rdf4j.version>2.4.3</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.25</slf4j.logger.version>
-    <tika.version>1.19.1</tika.version>
+    <tika.version>1.20</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
-    <jackson.version>2.9.7</jackson.version>
+    <jackson.version>2.9.8</jackson.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
@@ -376,7 +376,7 @@
       <dependency>
         <groupId>net.sf.biweekly</groupId>
         <artifactId>biweekly</artifactId>
-        <version>0.6.2</version>
+        <version>0.6.3</version>
       </dependency>
 
       <!-- BEGIN: Tika -->
@@ -511,7 +511,7 @@
       <dependency>
         <groupId>com.github.jsonld-java</groupId>
         <artifactId>jsonld-java</artifactId>
-        <version>0.12.1</version>
+        <version>0.12.3</version>
       </dependency>
       <dependency>
         <groupId>org.semarglproject</groupId>
@@ -609,7 +609,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>2.23.0</version>
+        <version>2.24.0</version>
         <scope>test</scope>
       </dependency>
       <!-- END: Test Dependencies -->

@@ -25,6 +25,7 @@ import org.apache.any23.rdf.RDFUtils;
 import org.apache.any23.writer.RDFXMLWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.IRI;
@@ -71,9 +72,14 @@ public class FunctionalSyntaxExtractorTest {
                     result
             );
         } finally {
-            logger.debug(baos.toString());
-            th.close();
             result.close();
+            th.close();
+            String output = baos.toString();
+            logger.debug(output);
+            Assert.assertTrue(output.contains(
+                    "<rdfs:comment>Test individual is a unique individual</rdfs:comment>"));
+            Assert.assertTrue(output.contains(
+                    "<rdf:Description rdf:about=\"http://example.org/example-manchestersyntax#TestIndividual\">"));
         }
     }
 
