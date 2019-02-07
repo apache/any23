@@ -17,70 +17,40 @@
 
 package org.apache.any23.extractor.rdf;
 
-import org.apache.any23.extractor.ExtractionContext;
-import org.apache.any23.extractor.ExtractionParameters;
-import org.apache.any23.extractor.ExtractionResult;
-import org.apache.any23.extractor.ExtractionResultImpl;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.html.AbstractExtractorTestCase;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.any23.writer.RDFXMLWriter;
-import org.apache.any23.writer.TripleHandler;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import org.eclipse.rdf4j.model.vocabulary.OWL;
+import org.eclipse.rdf4j.model.vocabulary.RDF;
+import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.junit.Test;
-import org.eclipse.rdf4j.model.IRI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
+import java.lang.invoke.MethodHandles;
 
 /**
  * Test case for {@link FunctionalSyntaxExtractor}.
  *
  * @author Peter Ansell
+ * @author Hans Brende (hansbrende@apache.org)
  */
-public class FunctionalSyntaxExtractorTest {
+public class FunctionalSyntaxExtractorTest extends AbstractExtractorTestCase {
 
-    private static final Logger logger = LoggerFactory.getLogger(FunctionalSyntaxExtractorTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private FunctionalSyntaxExtractor extractor;
-
-    @Before
-    public void setUp() {
-        extractor = new FunctionalSyntaxExtractor();
-    }
-
-    @After
-    public void tearDown() {
-        extractor = null;
+    @Override
+    public ExtractorFactory<?> getExtractorFactory() {
+        return new FunctionalSyntaxExtractorFactory();
     }
 
     @Test
-    public void testExampleFunctionalSyntax()
-    		throws Exception {
-        final IRI uri = RDFUtils.iri("http://example.org/example-functionalsyntax.ofn");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final TripleHandler th = new RDFXMLWriter(baos);
-        final ExtractionContext extractionContext = new ExtractionContext("owl-functionalsyntax-extractor", uri);
-        final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, th);
-        extractor.setStopAtFirstError(false);
-        try {
-            extractor.run(
-                    ExtractionParameters.newDefault(),
-                    extractionContext,
-                    this.getClass().getResourceAsStream("/text/owl-functional/example-functionalsyntax.ofn"),
-                    result
-            );
-        } finally {
-            result.close();
-            th.close();
-            String output = baos.toString();
-            logger.debug(output);
-            Assert.assertTrue(output.contains(
-                    "<rdfs:comment>Test individual is a unique individual</rdfs:comment>"));
-            Assert.assertTrue(output.contains(
-                    "<rdf:Description rdf:about=\"http://example.org/example-manchestersyntax#TestIndividual\">"));
-        }
+    public void testExampleFunctionalSyntax() {
+        assertExtract("/text/owl-functional/example-functionalsyntax.ofn");
+        logger.debug(dumpModelToNQuads());
+        assertStatementsSize(null, null, null, 2);
+        assertContains(RDFUtils.iri("http://example.org/example-manchestersyntax"), RDF.TYPE, OWL.ONTOLOGY);
+        assertContains(RDFUtils.iri("http://example.org/example-manchestersyntax#TestIndividual"), RDFS.COMMENT, "Test individual is a unique individual");
     }
 
 }
