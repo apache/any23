@@ -47,6 +47,12 @@
     </dependency>
     <!-- END: Any23 -->
 
+    <dependency>
+      <groupId>org.rypt</groupId>
+      <artifactId>f8</artifactId>
+      <version>1.1</version>
+    </dependency>
+
     <!-- BEGIN: Tika -->
     <dependency>
       <groupId>org.apache.tika</groupId>

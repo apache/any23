@@ -17,7 +17,7 @@
 
 package org.apache.any23.encoding;
 
-import org.junit.Assert;
+import org.apache.tika.detect.TextStatistics;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+
+import static java.nio.charset.StandardCharsets.ISO_8859_1;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test case for {@link TikaEncodingDetector}.
@@ -87,16 +90,44 @@ public class TikaEncodingDetectorTest {
                 "\n <?Xml enCoding=Utf8?>"
         };
         for (String s : strings) {
-            byte[] bytes = s.getBytes(StandardCharsets.US_ASCII);
-            Charset detected = TikaEncodingDetector.detectXmlEncoding(new ByteArrayInputStream(bytes), 256);
-            Assert.assertEquals(detected, StandardCharsets.UTF_8);
+            Charset detected = EncodingUtils.xmlCharset(new TextStatistics(), s);
+            assertEquals(detected, UTF_8);
         }
+    }
+
+    private static ByteArrayInputStream bytes(String string, Charset encoding) {
+        return new ByteArrayInputStream(string.getBytes(encoding));
+    }
+
+    @Test
+    public void testUtf8Simple() throws IOException {
+        assertEquals("UTF-8", detector.guessEncoding(bytes("Hellö Wörld!", UTF_8)));
+    }
+
+    @Test
+    public void testIso88591Simple() throws IOException {
+        assertEquals("ISO-8859-1", detector.guessEncoding(bytes("Hellö Wörld!", ISO_8859_1)));
+    }
+
+    @Test
+    public void testTikaIssue771() throws IOException {
+        assertEquals("UTF-8", detector.guessEncoding(bytes("Hello, World!", UTF_8)));
+    }
+
+    @Test
+    public void testTikaIssue868() throws IOException {
+        assertEquals("UTF-8", detector.guessEncoding(bytes("Indanyl", UTF_8)));
+    }
+
+    @Test
+    public void testTikaIssue2771() throws IOException {
+        assertEquals("UTF-8", detector.guessEncoding(bytes("Name: Amanda\nJazz Band", UTF_8)));
     }
 
     private void assertEncoding(final String expected, final String resource) throws IOException {
         try (InputStream fis = getClass().getResourceAsStream(resource)) {
             String encoding = detector.guessEncoding(fis);
-            Assert.assertEquals("Unexpected encoding", expected, encoding);
+            assertEquals("Unexpected encoding", expected, encoding);
         }
     }
 
