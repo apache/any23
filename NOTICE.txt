@@ -22,3 +22,6 @@ Michael Schmitz, (Developers) Open IE 4 Software
 US patent number 7,877,343 and 12/970,155 patent pending
 (https://github.com/allenai/openie-standalone) under the Open IE 4 
 Software License Agreement
+
+This product includes software developed by Hans Brende
+(https://github.com/HansBrende/f8) under an MIT license.
