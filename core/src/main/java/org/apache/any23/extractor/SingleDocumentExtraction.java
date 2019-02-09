@@ -42,6 +42,7 @@ import org.apache.any23.writer.TripleHandlerException;
 import org.apache.any23.extractor.Extractor.BlindExtractor;
 import org.apache.any23.extractor.Extractor.ContentExtractor;
 import org.apache.any23.extractor.Extractor.TagSoupDOMExtractor;
+import org.apache.tika.mime.MimeTypes;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
@@ -59,6 +60,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -253,14 +255,21 @@ public class SingleDocumentExtraction {
             final String documentLanguage;
 	        try {
 	            documentLanguage = extractDocumentLanguage(extractionParameters);
-	            for (ExtractorFactory<?> factory : matchingExtractors) {
-	                @SuppressWarnings("rawtypes")
-	                final Extractor extractor = factory.createExtractor();
+                Iterator<ExtractorFactory<?>> factories = matchingExtractors.iterator();
+                while (factories.hasNext()) {
+	                ExtractorFactory<?> factory = factories.next();
+	                final Extractor<?> extractor = factory.createExtractor();
 	                final SingleExtractionReport er = runExtractor(
 	                        extractionParameters,
 	                        documentLanguage,
 	                        extractor
 	                );
+	                // Fix for ANY23-415:
+	                if (!er.touched && detectedMIMEType != null && isTooGeneric(detectedMIMEType)
+                            && factory.getSupportedMIMETypes().stream().anyMatch(mt -> !isTooGeneric(mt))) {
+	                    factories.remove();
+	                    continue;
+                    }
 	                resourceRoots.addAll( er.resourceRoots );
 	                propertyPaths.addAll( er.propertyPaths );
 	                extractorToIssues.put(factory.getExtractorName(), er.issues);
@@ -309,6 +318,16 @@ public class SingleDocumentExtraction {
                 EmptyValidationReport.getInstance() : documentReport.getReport(),
                 extractorToIssues
         );
+    }
+
+    private static boolean isTooGeneric(MIMEType type) {
+        if (type.isAnySubtype()) {
+            return true;
+        }
+        String mt = type.getFullType();
+        return mt.equals(MimeTypes.PLAIN_TEXT)
+                || mt.equals(MimeTypes.OCTET_STREAM)
+                || mt.equals(MimeTypes.XML);
     }
 
     /**
@@ -490,7 +509,8 @@ public class SingleDocumentExtraction {
                 new SingleExtractionReport(
                     extractionResult.getIssues(),
                     new ArrayList<ResourceRoot>( extractionResult.getResourceRoots() ),
-                    new ArrayList<PropertyPath>( extractionResult.getPropertyPaths() )
+                    new ArrayList<PropertyPath>( extractionResult.getPropertyPaths() ),
+                    extractionResult.wasTouched()
                 );
         } catch (ExtractionException ex) {
             if(log.isDebugEnabled()) {
@@ -866,19 +886,22 @@ public class SingleDocumentExtraction {
     /**
      * Entity detection report.
      */
-    private class SingleExtractionReport {
+    private static class SingleExtractionReport {
         private final Collection<IssueReport.Issue> issues;
         private final List<ResourceRoot>            resourceRoots;
         private final List<PropertyPath>            propertyPaths;
+        private final boolean touched;
 
         public SingleExtractionReport(
                 Collection<IssueReport.Issue>  issues,
                 List<ResourceRoot> resourceRoots,
-                List<PropertyPath> propertyPaths
+                List<PropertyPath> propertyPaths,
+                boolean wasTouched
         ) {
             this.issues        = issues;
             this.resourceRoots = resourceRoots;
             this.propertyPaths = propertyPaths;
+            this.touched = wasTouched;
         }
     }
 

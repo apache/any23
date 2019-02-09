@@ -17,6 +17,8 @@
 
 package org.apache.any23;
 
+import org.apache.any23.extractor.ExtractorGroup;
+import org.apache.any23.extractor.rdf.NTriplesExtractorFactory;
 import org.junit.Assert;
 import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
@@ -64,6 +66,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
@@ -538,6 +541,20 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertFalse(
                 "Should not contain triple with http://vocab.sindice.net/size",
                 n3.contains("http://vocab.sindice.net/size"));
+    }
+
+    @Test
+    public void testIssue415() throws Exception {
+        NTriplesExtractorFactory factory = new NTriplesExtractorFactory();
+        Any23 runner = new Any23(new ExtractorGroup(Collections.singleton(factory)));
+
+        ExtractionReport report = runner.extract(
+                IOUtils.resourceToString("/rdf/issue415.txt", StandardCharsets.UTF_8),
+                "http://humanstxt.org/humans.txt",
+                new CompositeTripleHandler());
+        Assert.assertEquals("text/plain", report.getDetectedMimeType());
+        Assert.assertEquals(0, report.getExtractorIssues(factory.getExtractorName()).size());
+        Assert.assertEquals(0, report.getMatchingExtractors().size());
     }
 
     /**
