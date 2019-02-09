@@ -544,7 +544,7 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     @Test
-    public void testIssue415() throws Exception {
+    public void testIssue415InvalidNTriples() throws Exception {
         NTriplesExtractorFactory factory = new NTriplesExtractorFactory();
         Any23 runner = new Any23(new ExtractorGroup(Collections.singleton(factory)));
 
@@ -555,6 +555,22 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertEquals("text/plain", report.getDetectedMimeType());
         Assert.assertEquals(0, report.getExtractorIssues(factory.getExtractorName()).size());
         Assert.assertEquals(0, report.getMatchingExtractors().size());
+    }
+
+    @Test
+    public void testIssue415ValidNTriples() throws Exception {
+        NTriplesExtractorFactory factory = new NTriplesExtractorFactory();
+        Any23 runner = new Any23(new ExtractorGroup(Collections.singleton(factory)));
+
+        CountingTripleHandler handler = new CountingTripleHandler();
+        ExtractionReport report = runner.extract(
+                IOUtils.resourceToString("/rdf/issue415-valid.txt", StandardCharsets.UTF_8),
+                "http://humanstxt.org/humans.txt",
+                handler);
+        Assert.assertEquals("application/n-triples", report.getDetectedMimeType());
+        Assert.assertEquals(0, report.getExtractorIssues(factory.getExtractorName()).size());
+        Assert.assertEquals(1, report.getMatchingExtractors().size());
+        Assert.assertEquals(1, handler.getCount());
     }
 
     /**

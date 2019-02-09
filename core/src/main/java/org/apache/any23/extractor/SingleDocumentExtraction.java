@@ -60,10 +60,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.apache.any23.extractor.TagSoupExtractionResult.PropertyPath;
 import static org.apache.any23.extractor.TagSoupExtractionResult.ResourceRoot;
@@ -255,9 +255,10 @@ public class SingleDocumentExtraction {
             final String documentLanguage;
 	        try {
 	            documentLanguage = extractDocumentLanguage(extractionParameters);
-                Iterator<ExtractorFactory<?>> factories = matchingExtractors.iterator();
-                while (factories.hasNext()) {
-	                ExtractorFactory<?> factory = factories.next();
+	            ArrayList<ExtractorFactory<?>> filteredList = new ArrayList<>(matchingExtractors.getNumOfExtractors());
+                final boolean mimeTypeIsTooGeneric = isTooGeneric(detectedMIMEType);
+                ArrayList<String> intersectionOfRdfMimetypes = null;
+                for (ExtractorFactory<?> factory : matchingExtractors) {
 	                final Extractor<?> extractor = factory.createExtractor();
 	                final SingleExtractionReport er = runExtractor(
 	                        extractionParameters,
@@ -265,15 +266,42 @@ public class SingleDocumentExtraction {
 	                        extractor
 	                );
 	                // Fix for ANY23-415:
-	                if (!er.touched && detectedMIMEType != null && isTooGeneric(detectedMIMEType)
-                            && factory.getSupportedMIMETypes().stream().anyMatch(mt -> !isTooGeneric(mt))) {
-	                    factories.remove();
-	                    continue;
+                    if (mimeTypeIsTooGeneric) {
+                        List<String> rdfMimetypes = factory.getSupportedMIMETypes().stream()
+                                .filter(mt -> !isTooGeneric(mt))
+                                .map(MIMEType::getFullType)
+                                .collect(Collectors.toList());
+                        if (er.touched) {
+                            // If detected mimetype is too generic, but we find extractors matching
+                            // this mimetype that are capable of producing RDF triples from this resource,
+                            // and these extractors are also associated with more specific RDF mimetypes,
+                            // then we can simply take the intersection of these more specific mimetypes
+                            // to narrow down the generic, non-RDF mimetype to a specific RDF mimetype.
+                            if (intersectionOfRdfMimetypes == null) {
+                                intersectionOfRdfMimetypes = new ArrayList<>(rdfMimetypes);
+                            } else {
+                                intersectionOfRdfMimetypes.retainAll(rdfMimetypes);
+                            }
+                        } else if (!rdfMimetypes.isEmpty()) {
+                            // If detected mimetype is too generic, and this extractor matches both the
+                            // generic mimetype and a more specific mimetype, but did not produce any RDF
+                            // triples, then we can safely assume that this extractor is not actually a
+                            // match for the type of file we are parsing (e.g., a "humans.txt" file).
+                            continue;
+                        }
                     }
 	                resourceRoots.addAll( er.resourceRoots );
 	                propertyPaths.addAll( er.propertyPaths );
+	                filteredList.add(factory);
 	                extractorToIssues.put(factory.getExtractorName(), er.issues);
 	            }
+                matchingExtractors = new ExtractorGroup(filteredList);
+                if (intersectionOfRdfMimetypes != null && !intersectionOfRdfMimetypes.isEmpty()) {
+                    // If the detected mimetype is a generic, non-RDF mimetype, and the intersection
+                    // of specific RDF mimetypes across all triple-producing extractors is non-empty,
+                    // simply replace the generic mimetype with a specific RDF mimetype in that intersection.
+                    detectedMIMEType = MIMEType.parse(intersectionOfRdfMimetypes.get(0));
+                }
 	        } catch(ValidatorException ve) {
 	            throw new ExtractionException("An error occurred during the validation phase.", ve);
 	        }
@@ -321,7 +349,7 @@ public class SingleDocumentExtraction {
     }
 
     private static boolean isTooGeneric(MIMEType type) {
-        if (type.isAnySubtype()) {
+        if (type == null || type.isAnySubtype()) {
             return true;
         }
         String mt = type.getFullType();
