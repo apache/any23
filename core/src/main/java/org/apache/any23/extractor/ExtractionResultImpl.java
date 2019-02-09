@@ -182,6 +182,10 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         }
     }
 
+    boolean wasTouched() {
+        return isInitialized;
+    }
+
     @Override
     public void writeTriple(Resource s, IRI p, Value o) {
         writeTriple(s, p, o, null);
