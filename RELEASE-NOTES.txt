@@ -1,3 +1,129 @@
+             Apache Any23 2.3
+              Release Notes
+           10/02/2019 (dd/mm/yyy)
+
+Sub-task
+
+    [ANY23-184] - Update Javadoc in o.a.a.extractor.microdata.*
+    [ANY23-356] - Update dependencies
+    [ANY23-357] - Resolve mockito deprecation warnings
+    [ANY23-358] - Resolve junit.framework deprecation warnings & RDFa11Parser deprecation warnings
+    [ANY23-359] - Resolve org.apache.commons.io.IOUtils deprecation warning
+    [ANY23-360] - Resolve Xerces deprecation warnings
+    [ANY23-361] - Resolve Tika deprecation warning
+    [ANY23-362] - Resolve rdf4j deprecation warnings
+    [ANY23-363] - Update httpclient/httpcore to version 4.5.6/4.4.10
+    [ANY23-364] - Resolve POI deprecation warnings
+    [ANY23-365] - Resolve additional warnings
+    [ANY23-366] - Resolve additional warnings in build
+    [ANY23-369] - Resolve overlapping classes
+    [ANY23-388] - It should be possible to configure the NTriplesWriter to use unicode points
+    [ANY23-404] - Make MicrodataExtractor compliant with default registry
+    [ANY23-405] - Parse microdata property values correctly
+    [ANY23-407] - Allow microdata itemids to be created from relative URLs
+    [ANY23-408] - Use document IRI as default namespace in microdata strict mode
+    [ANY23-409] - Allow multiple microdata itemtype values
+    [ANY23-410] - Fix microdata itemrefs
+
+Bug
+
+    [ANY23-13] - Verify why the maven-changelog-plugin doesn't work properly
+    [ANY23-16] - Property URI generation for Microdata/schema.org
+    [ANY23-17] - problem detecting media type for turtle content with comment at the top
+    [ANY23-55] - any23 is not following the redirection
+    [ANY23-67] - Microdata extraction using obsolete RDF conversion scheme
+    [ANY23-154] - Not able to extract microdata in few test cases
+    [ANY23-167] - Microdata itemscope properties incorrectly attached
+    [ANY23-169] - Incorrect interpretation of relative and absolute paths with Microdata
+    [ANY23-188] - NPE when ICBMExtractor#getDescription()#getExtractorLabel() called
+    [ANY23-237] - Fix RDFa test 0087: stylesheet reserved word is stripped out
+    [ANY23-245] - Infinite loop on some malformed markup
+    [ANY23-322] - Any23 embedded service is broken
+    [ANY23-329] - master branch broken with pom.xml any23 version
+    [ANY23-331] - Tool service implementations declared in wrong module?
+    [ANY23-334] - SingleDocumentExtraction.createExtractionContext() uses UUID as defaultLanguage
+    [ANY23-336] - Parsing json-ld content takes prohibitively long time
+    [ANY23-337] - BenchmarkTripleHandler does not report accurate extraction interval times
+    [ANY23-338] - Json-ld comment parsing fails in rare cases
+    [ANY23-339] - Microdata extractor can sometime merge two different itemscopes into one
+    [ANY23-340] - Any23 extraction does not pass Nutch plugin test
+    [ANY23-344] - MicrodataExtractor not resolving urls correctly
+    [ANY23-345] - MicrodataExtractorTest has a duplicated test
+    [ANY23-346] - rdf4j versions 2.3.0, 2.3.1 contain a regression: we need to switch back to version 2.2.4
+    [ANY23-347] - RDFParseException: the prefix "pw" is not bound
+    [ANY23-348] - IllegalArgumentException in MicrodataExtractor
+    [ANY23-349] - MicrodataExtractor errors for links that are telephone numbers
+    [ANY23-350] - RDFParseException: "icon" must be followed by ' = ' character
+    [ANY23-351] - NullPointerException in HCardExtractor
+    [ANY23-353] - RDFParseException: datatype rdf:langString requires a language tag
+    [ANY23-367] - latest.stable.released property is never used and out of date
+    [ANY23-368] - Jenkins builds are failing after running out of disk space
+    [ANY23-372] - LGPL-licensed transitive dependency
+    [ANY23-373] - Web page /install.html: software version variable was not decoded.
+    [ANY23-376] - IllegalArgumentException: invalid property name ''
+    [ANY23-377] - Microdata extractor replaces empty strings with "Null"
+    [ANY23-378] - JsonParseException caused by trailing commas in JSON-LD
+    [ANY23-379] - RDFa SAXParseException: invalid XML character
+    [ANY23-380] - RDFa SAXParseException: attribute was already specified
+    [ANY23-381] - JsonParseException: Illegal unquoted character
+    [ANY23-382] - Distinguish between fatal and recoverable json-ld parsing errors
+    [ANY23-383] - JsonParseException: Unexpected character 0x2028
+    [ANY23-386] - Item's properties are in the wrong item since the 2.2
+    [ANY23-387] - Possible OutOfMemoryError with bad deeply nested HTML
+    [ANY23-389] - RDFa extraction breaks when base element uses relative href
+    [ANY23-391] - ICAL vocab uses class "vcalendar" instead of "Vcalendar"
+    [ANY23-392] - Lunching maven-jetty-plugin: Problem accessing /apache-any23-service/resources/form.html
+    [ANY23-395] - any23.org 500 Internal Server Error
+    [ANY23-406] - Cannot suppress Tika warnings
+    [ANY23-411] - Use Content-Type to help determine encoding
+    [ANY23-415] - NTriplesExtractor tries all text/plain files, causing numerous fatal issues
+    [ANY23-416] - NTriplesExtractor does not recognize "application/n-triples" mimetype
+    [ANY23-420] - Handle Json+ld extraction failure
+    [ANY23-425] - iCal, jCal, xCal extractors aren't listed in META-INF/services
+
+New Feature
+
+    [ANY23-81] - Interactive web service
+
+Improvement
+
+    [ANY23-38] - Use a single logging tool: slf4j
+    [ANY23-190] - any23.org homepage busted on IE11
+    [ANY23-212] - Improve naming convention for service output files
+    [ANY23-215] - Forward slashes in URL's should not be escaped in RDF output
+    [ANY23-231] - Make JSON Reporting output pretty print
+    [ANY23-240] - Option to process html tags as spaces in Microdata
+    [ANY23-323] - Update Eclipse RDF4J version to 2.3
+    [ANY23-332] - Plugin-specific properties shouldn't be declared in default-configuration.properties
+    [ANY23-341] - Remove dependency on defunct commons-httpclient 3.1
+    [ANY23-343] - Upgrade to jsonld-java v 0.12.0
+    [ANY23-352] - Update to rdf4j version 2.3.2
+    [ANY23-354] - Clean up dependencies
+    [ANY23-355] - Deprecate RDFa11Parser since Rio implementations are used instead
+    [ANY23-374] - Invalid nested item takes out everything
+    [ANY23-385] - Improve charset detection for (x)html documents
+    [ANY23-390] - Implement ICal, JCal, XCal extractors
+    [ANY23-393] - Any23 master to build under JDK 10.X
+    [ANY23-394] - JSON-LD Extractions Flag Errors in Google's Structured Data Tooling
+    [ANY23-396] - Overhaul WriterFactory API
+    [ANY23-399] - Upgrade Apache parent POM to version 21
+    [ANY23-401] - Upgrade to Tika 1.19.1
+    [ANY23-402] - Deprecate JSONWriter, JSONWriterFactory
+    [ANY23-403] - Upgrade to RDF4J 2.4.0
+    [ANY23-414] - Support reverse itemprops in microdata
+    [ANY23-418] - Take another look at encoding detection
+    [ANY23-419] - Add J2EE depednencies such that service runs under JDK11
+    [ANY23-424] - Update dependencies
+
+Test
+
+    [ANY23-422] - Error message when any23 cli tool used
+
+Task
+
+    [ANY23-333] - Augment use of Any23PluginManager in How to Register a Plugin documentation
+    [ANY23-423] - Update POM for the move to gitbox.
+
              Apache Any23 2.2
               Release Notes
               25/01/2018 (dd/mm/yyy)
