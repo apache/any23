@@ -238,7 +238,7 @@
     <module>plugins/html-scraper</module>
     <module>plugins/office-scraper</module>
     <module>plugins/openie</module>
-    <module>plugins/integration-test</module>
+    <!--module>plugins/integration-test</module-->
     <module>service</module>
   </modules>
 
