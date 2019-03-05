@@ -929,7 +929,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
    * Tests that the HCardName data is not cumulative and is cleaned up at each
    * extraction.
    *
-   * @throws Exception
+   * @throws Exception if there is an error asserting the test data.
    */
   @Test
   public void testCumulativeHNames() throws Exception {
@@ -944,8 +944,8 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
    * sibling node. This test is related to issue <a
    * href="https://issues.apache.org/jira/browse/ANY23-58">ANY23-58</a>.
    *
-   * @throws IOException
-   * @throws ExtractionException
+   * @throws IOException if there is an error interpreting the input data
+   * @throws ExtractionException if there is an exception during extraction
    */
   @Test
   public void testInfiniteLoop() throws IOException, ExtractionException {

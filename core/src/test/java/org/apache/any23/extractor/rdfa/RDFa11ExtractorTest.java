@@ -47,7 +47,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     /**
      * This test verifies the correct object resource conversion.
      *
-     * @throws RepositoryException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection 
      */
     @Test
     public void testObjectResourceConversion() throws RepositoryException {
@@ -140,7 +140,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      * For details see the <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in XHTML: Syntax and Processing</a>
      * recommendation.
      *
-     * @throws RepositoryException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testExplicitDatatypeDeclaration() throws RepositoryException {
@@ -165,7 +165,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     /**
      * Tests the correct behavior of <i>REL</i> and <i>HREF</i>.
      *
-     * @throws RepositoryException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testRelWithHref() throws RepositoryException {
@@ -187,7 +187,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     /**
      * This test verifies the correct <em>REL/REV</em> attribute usage.
      *
-     * @throws RepositoryException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testRelRevSupport() throws RepositoryException {
@@ -209,7 +209,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     /**
      * Tests the <em>@vocab</em> support.
      *
-     * @throws RepositoryException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testVocabSupport() throws RepositoryException {
@@ -240,10 +240,10 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      * Taken from the <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations test cases</a>.
      * It checks if the extraction is the same when the namespaces are defined in <i>RDFa1.0</i>.
      *
-     * @throws RepositoryException
-     * @throws java.io.IOException
-     * @throws org.eclipse.rdf4j.rio.RDFHandlerException
-     * @throws org.eclipse.rdf4j.rio.RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws java.io.IOException if there is an error processing input data
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler}
+     * @throws org.eclipse.rdf4j.rio.RDFParseException if there is an error parsing input RDF
      */
     @Test
     public void testRDFa10Extraction()
@@ -261,10 +261,10 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      * Taken from the <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations test cases</a>.
      * It checks if the extraction is the same when the namespaces are defined in <i>RDFa1.1</i>.
      *
-     * @throws RepositoryException
-     * @throws java.io.IOException
-     * @throws org.eclipse.rdf4j.rio.RDFHandlerException
-     * @throws org.eclipse.rdf4j.rio.RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws java.io.IOException if there is an error processing input data
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler}
+     * @throws org.eclipse.rdf4j.rio.RDFParseException if there is an error parsing input RDF
      */
     @Test
     public void testRDFa11Extraction()
@@ -285,9 +285,9 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      * <a href="http://ogp.me/#structured">Structured Properties</a> and
      * <a href="http://ogp.me/#array">Arrays</a>.
      *
-     * @throws IOException
-     * @throws org.apache.any23.extractor.ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error processing the input data
+     * @throws org.apache.any23.extractor.ExtractionException if there is an exception during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testOpenGraphStructuredProperties() throws IOException, ExtractionException, RepositoryException {
@@ -321,9 +321,9 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
      * Tests the correct support of alternate 
      * <a href="http://ogp.me/#types">Open Graph Protocol Object Types</a>
      *
-     * @throws IOException
-     * @throws org.apache.any23.extractor.ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error processing the input data
+     * @throws org.apache.any23.extractor.ExtractionException if there is an exception during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testOpenGraphAlternateObjectTypes() throws IOException, ExtractionException, RepositoryException {

@@ -52,6 +52,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
     /**
      * Emulates action described in ANY23-396.
+     * @throws Exception if there is an error asserting the test data.
      */
     @Test
     public void runTestFor396() throws Exception {
@@ -79,6 +80,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
     /**
      * Compare expected model and received from input File.
+     * @throws Exception if there is an error asserting the test data.
      */
     private boolean assertCompareModels(Model expected, File received) throws Exception {
         Model receivedModel = new TreeModel();

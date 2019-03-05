@@ -52,6 +52,7 @@ public class EncodingTest extends AbstractAny23TestBase {
      * for the title.
      *
      * For this test we expect to not recognize the title.
+     * @throws Exception if there is an error asserting the test data.
      */
     @Test
     public void testEncodingHTML_UTF_8_DeclarationAfterTitle() throws Exception {

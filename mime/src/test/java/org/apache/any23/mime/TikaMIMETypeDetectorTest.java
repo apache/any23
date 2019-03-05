@@ -382,8 +382,7 @@ public class TikaMIMETypeDetectorTest {
     /**
      * Test done only based on content is failed because the standard does not
      * require to have "%YAML" header.
-     *
-     * @throws Exception
+     * @throws Exception if there is an error detecting the mime type from the content and name
      */
     @Test
     public void testYAMLByContentAndName() throws Exception {

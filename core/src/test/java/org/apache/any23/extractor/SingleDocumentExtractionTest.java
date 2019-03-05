@@ -60,7 +60,7 @@ import java.io.IOException;
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
-// TODO #20 - Solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.  
+// TODO #20 - Solve issue that hreview item and vcard item have the same BNode due they have the same XPath DOM.
 public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
@@ -110,9 +110,9 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     /**
      * Tests the existence of the domain triples.
      *
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error loading input data
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testMicroformatDomains() throws IOException, ExtractionException, RepositoryException {
@@ -131,9 +131,9 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * {@link SingleDocumentExtraction}
      * consolidateResources(java.util.List, java.util.List, org.apache.any23.writer.TripleHandler)}
      *
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error loading input data
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testNestedMicroformats() throws IOException, ExtractionException, RepositoryException {
@@ -154,9 +154,9 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * with the {@link org.apache.any23.extractor.html.AdrExtractor}.
      *
      * @see org.apache.any23.extractor.html.annotations.Includes
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error loading input data
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testNestedVCardAdr() throws IOException, ExtractionException, RepositoryException {
@@ -181,9 +181,9 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * See also the <a href="http://www.google.com/support/webmasters/bin/answer.py?answer=146862">Nested Entities</a>
      * article that is linked by the official microformats.org doc page.
      *
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error loading input data
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testNestedMicroformatsInduced() throws IOException, ExtractionException, RepositoryException {
@@ -203,9 +203,9 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * when the nesting relationship is handled by the microformat extractor itself (like the HReview that is
      * able to detect an inner VCard).
      *
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error loading input data
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     /* NOTE: The triple (bnode http://www.w3.org/2006/vcard/ns#url http://pizza.example.com) and
@@ -252,8 +252,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     /**
      * Logs the storage content.
-     * 
-     * @throws RepositoryException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     private void logStorageContent() throws RepositoryException {
         RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
@@ -317,6 +316,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param value
      * @throws RepositoryException
      */
+    @SuppressWarnings("unused")
     private void assertTriple(IRI predicate, String value) throws RepositoryException {
         assertTriple(predicate, SimpleValueFactory.getInstance().createLiteral(value) );
     }

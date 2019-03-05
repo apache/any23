@@ -83,10 +83,11 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * Reference test for <a href="http://schema.org">Schema.org</a>.
      *
-     * @throws RepositoryException
-     * @throws RDFHandlerException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException if there is an error loading input data
+     * @throws RDFParseException if there is an error parsing an actual RDF stream
      */
     @Test
     public void testSchemaOrgNestedProps()
@@ -294,10 +295,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * Reference test as provided by <a href="http://googlewebmastercentral.blogspot.com/2010/03/microdata-support-for-rich-snippets.html">Google Rich Snippet for Microdata.</a>
      *
-     * @throws RDFHandlerException
-     * @throws RepositoryException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException if there is an error loading input data
+     * @throws RDFParseException if there is an error parsing an actual RDF stream
      */
     @Test
     public void testMicrodataGoogleRichSnippet()
@@ -312,10 +313,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * First reference test  for <a href="http://www.w3.org/TR/microdata/">Microdata Extraction algorithm</a>.
      *
-     * @throws RDFHandlerException
-     * @throws RepositoryException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException if there is an error loading input data
+     * @throws RDFParseException if there is an error parsing an actual RDF stream
      */
     @Test
     public void testExample5221()
@@ -330,10 +331,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * Second reference test  for <a href="http://www.w3.org/TR/microdata/">Microdata Extraction algorithm</a>.
      *
-     * @throws RDFHandlerException
-     * @throws RepositoryException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException if there is an error loading input data
+     * @throws RDFParseException if there is an error parsing an actual RDF stream
      */
     @Test
     public void testExample5222()
@@ -348,10 +349,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * First reference test for <a href="http://schema.org/">http://schema.org/</a>.
      *
-     * @throws RDFHandlerException
-     * @throws RepositoryException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException if there is an error loading input data
+     * @throws RDFParseException if there is an error parsing an actual RDF stream
      */
     @Test
     public void testExampleSchemaOrg1()
@@ -366,10 +367,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * Second reference test for <a href="http://schema.org/">http://schema.org/</a>.
      *
-     * @throws RDFHandlerException
-     * @throws RepositoryException
-     * @throws IOException
-     * @throws RDFParseException
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException if there is an error loading input data
+     * @throws RDFParseException if there is an error parsing an actual RDF stream
      */
     @Test
     public void testExampleSchemaOrg2()

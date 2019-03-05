@@ -68,9 +68,9 @@ public class AbstractAny23TestBase {
      * @param resourceLocation
      *            The absolute location of the resource in the classpath, which
      *            can be used with this.getClass().getResourceAsStream.
-     * @return
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @return temporary {@link java.io.File}
+     * @throws FileNotFoundException if the temp file location cannot be converted to a {@link java.io.FileOutputStream}
+     * @throws IOException if there is an issue with the input
      */
     protected File copyResourceToTempFile(String resourceLocation)
             throws FileNotFoundException, IOException {

@@ -55,6 +55,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
     /**
      * Test to validate simple yaml file for ANY23-312
+     * @throws Exception if there is an error asserting the test data.
      */
     @Test
     public void simpleTest312()
@@ -154,8 +155,8 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     /**
      * This test covers a typical situation when a document is a map.
      * 
-     * <br/><b>NB:</b> Following yaml standard those 2 cases are parsed to different graphs:
-     * <br/><br/>Case 1:
+     * <br><b>NB:</b> Following yaml standard those 2 cases are parsed to different graphs:
+     * <br>Case 1:
      * 
      * <pre>
      * ---
@@ -172,7 +173,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
      * - key3: Some text  value, maybe description
      * </pre>
      * 
-     * @throws Exception
+     * @throws Exception if there is an error asserting the test data.
      * @see #treeTest() 
      */
     @Test

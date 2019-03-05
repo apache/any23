@@ -35,8 +35,8 @@ public class DiscoveryUtilsTest {
     /**
      * Test case for {@link DiscoveryUtils#getClassesInPackage(String, Class)} with detection in classes dir.
      *
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @throws ClassNotFoundException if there is an error location class in 'org.apache.any23.vocab' package
+     * @throws IOException if there is an error in the input
      */
     @Test
     public void testGetClassesInPackage() throws ClassNotFoundException, IOException {
@@ -47,8 +47,8 @@ public class DiscoveryUtilsTest {
     /**
      * Test case for {@link DiscoveryUtils#getClassesInPackage(String, Class)} with detection in JAR file.
      *
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @throws ClassNotFoundException if there is an error location class in 'org.eclipse.rdf4j' package
+     * @throws IOException if there is an error in the input
      */
     @Test
     public void testGetClassesInJAR() throws ClassNotFoundException, IOException {

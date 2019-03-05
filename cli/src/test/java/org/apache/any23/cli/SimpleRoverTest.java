@@ -59,6 +59,7 @@ public class SimpleRoverTest extends ToolTestBase {
 
     /**
      * Ref <a href="https://issues.apache.org/jira/browse/ANY23-310">ANY23-310</a> unit test.
+     * @throws Exception if there is an error asserting the test data.
      */
     @Test
     public void ref310Test()
@@ -104,6 +105,7 @@ public class SimpleRoverTest extends ToolTestBase {
      * Example without the logging file.
      * 
      * By default that test is not active. It might be useful for debugging.
+     * @throws Exception if there is an error asserting the test data.
      */
     @Test
     public void ref310ExtendedTest()

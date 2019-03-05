@@ -68,9 +68,9 @@ public class YAMLRoverTest extends ToolTestBase {
      * 
      * If logging level is <tt>trace</tt> than additionally displays file content.
      * 
-     * @param f
+     * @param f input file
      * @param s Expected string in the file
-     * @return
+     * @throws IOException if there is an error reading the input data.
      */
     public void assertFileContainsString(File f, String s) throws IOException {
         String fileContent = FileUtils.readFileToString(f, StandardCharsets.UTF_8);

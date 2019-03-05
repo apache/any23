@@ -61,9 +61,9 @@ public class TurtleExtractorTest {
     /**
      * Tests the correct support for a typed literal with incompatible value.
      * 
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws TripleHandlerException
+     * @throws IOException if there is an error interpreting the input data
+     * @throws ExtractionException if there is an exception during extraction
+     * @throws TripleHandlerException if there is an error within the {@link org.apache.any23.writer.TripleHandler} implementation
      */
     @Test
     public void testTypedLiteralIncompatibleValueSupport()
