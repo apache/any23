@@ -53,11 +53,9 @@ import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
-import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.eclipse.rdf4j.repository.sail.SailRepository;
 import org.eclipse.rdf4j.rio.RDFParseException;
-import org.eclipse.rdf4j.sail.SailException;
 import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,10 +111,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * This tests the behavior of <i>Any23</i> to execute the extraction
      * explicitly specifying the charset encoding of the input.
      * 
-     * @throws org.apache.any23.extractor.ExtractionException
-     * @throws IOException
-     * @throws SailException
-     * @throws RepositoryException
+     * @throws Exception if there is an error reading the input
      */
     @Test
     public void testExplicitEncoding() throws Exception {
@@ -129,11 +124,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * passing it any charset encoding. The encoding is therefore guessed using
      * {@link org.apache.any23.encoding.TikaEncodingDetector} class.
      * 
-     * @throws org.apache.any23.extractor.ExtractionException
-     * @throws IOException
-     * @throws SailException
-     * @throws RepositoryException
-     * @throws org.apache.any23.writer.TripleHandlerException
+     * @throws Exception if there is an error reading the input
      */
     @Test
     public void testImplicitEncoding() throws Exception {
@@ -175,8 +166,7 @@ public class Any23Test extends Any23OnlineTestBase {
     /**
      * Tests out the first code snipped used in <i>Developer Manual</i>.
      * 
-     * @throws IOException
-     * @throws org.apache.any23.extractor.ExtractionException
+     * @throws Exception if there is an error reading the input
      */
     @Test
     public void testDemoCodeSnippet1() throws Exception {
@@ -209,8 +199,7 @@ public class Any23Test extends Any23OnlineTestBase {
     /**
      * Tests out the second code snipped used in <i>Developer Manual</i>.
      * 
-     * @throws IOException
-     * @throws org.apache.any23.extractor.ExtractionException
+     * @throws Exception if there is an error reading the input
      */
     @Test
     public void testDemoCodeSnippet2() throws Exception {
@@ -253,9 +242,9 @@ public class Any23Test extends Any23OnlineTestBase {
      * different behaviors between Maven and Ant. The behavior was related to a
      * 2nd-level dependency introduced by Maven.
      * 
-     * @throws org.apache.any23.extractor.ExtractionException
-     * @throws IOException
-     * @throws URISyntaxException
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error running extraction logic
+     * @throws IOException if there is an error reading the input
+     * @throws URISyntaxException if there is an error defining input URI's
      */
     @Test
     public void testProgrammaticExtraction() throws ExtractionException,
@@ -301,9 +290,9 @@ public class Any23Test extends Any23OnlineTestBase {
      * This test checks if a URL that is supposed to be GZIPPED is correctly
      * opened and parsed with the {@link Any23} facade.
      * 
-     * @throws IOException
-     * @throws URISyntaxException
-     * @throws ExtractionException
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error running extraction logic
+     * @throws IOException if there is an error reading the input
+     * @throws URISyntaxException if there is an error defining input URI's
      */
     @Test
     public void testGZippedContent() throws IOException, URISyntaxException,
@@ -423,8 +412,8 @@ public class Any23Test extends Any23OnlineTestBase {
     /**
      * Test correct management of general <i>XML</i> content.
      * 
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error running extraction logic
+     * @throws IOException if there is an error reading the input
      */
     @Test
     public void testXMLMimeTypeManagement() throws IOException,
@@ -447,8 +436,8 @@ public class Any23Test extends Any23OnlineTestBase {
      * Test correct management of general <i>XML</i> content from <i>URL</i>
      * source.
      * 
-     * @throws IOException
-     * @throws ExtractionException
+     * @throws org.apache.any23.extractor.ExtractionException if there is an error running extraction logic
+     * @throws IOException if there is an error reading the input
      */
     @Test
     public void testXMLMimeTypeManagementViaURL() throws IOException,
@@ -579,9 +568,8 @@ public class Any23Test extends Any23OnlineTestBase {
      * 
      * @param in
      *            input string.
-     * @return
-     * @throws IOException
-     * @throws ExtractionException
+     * @return a populated {@link org.apache.any23.ExtractionReport}
+     * @throws Exception if there is an error detecting mime type and running extraction
      */
     private ExtractionReport detectAndExtract(String in) throws Exception {
         Any23 any23 = new Any23();

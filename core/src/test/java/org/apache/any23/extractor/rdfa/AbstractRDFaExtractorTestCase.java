@@ -41,7 +41,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	/**
 	 * Verify the basic RDFa support.
 	 *
-	 * @throws org.eclipse.rdf4j.repository.RepositoryException
+	 * @throws Exception if there is an issue asserting test values.
 	 */
 	@Test
 	public void testBasic() throws Exception {
@@ -55,13 +55,11 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	}
 
 	/**
-	 * This test check if the <a
-	 * href=""http://www.w3.org/TR/2010/WD-rdfa-core-20100422
-	 * /#s_curieprocessing">RDFa1.1 CURIEs</a> expansion is correct and backward
-	 * compatible with <a
-	 * href="http://www.w3.org/TR/rdfa-syntax/#s_curieprocessing">RDFa 1.0</a>.
+	 * This test check if the <a href="https://www.w3.org/TR/rdfa-core/#s_curieprocessing">RDFa1.1 CURIEs</a> 
+	 * expansion is correct and backward compatible with 
+	 * <a href="http://www.w3.org/TR/rdfa-syntax/#s_curieprocessing">RDFa 1.0</a>.
 	 *
-	 * @throws Exception
+	 * @throws Exception if there is an issue asserting test values.
 	 */
 	@Test
 	public void testRDFa11CURIEs() throws Exception {
@@ -98,7 +96,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	 * details see the <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa in
 	 * XHTML: Syntax and Processing</a> recommendation.
 	 *
-	 * @throws Exception
+	 * @throws Exception if there an error asserting test values.
 	 */
 	@Test
 	public void testEmptyDatatypeDeclarationWithInnerXMLTags() throws Exception {
@@ -118,7 +116,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	 * href="http://files.openspring.net/tmp/drupal-test-frontpage.html">Drupal
 	 * test page</a>.
 	 *
-	 * @throws org.eclipse.rdf4j.repository.RepositoryException
+	 * @throws Exception if there an error asserting test values.
 	 */
 	@Test
 	public void testDrupalTestPage() throws Exception {
@@ -131,7 +129,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	/**
 	 * See RDFa 1.1 Specification section 6.2 .
 	 *
-	 * @throws Exception
+	 * @throws Exception if there an error asserting test values.
 	 */
 	@Test
 	public void testIncompleteTripleManagement() throws Exception {

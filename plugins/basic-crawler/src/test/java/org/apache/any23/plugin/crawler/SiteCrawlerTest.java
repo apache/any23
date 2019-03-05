@@ -42,7 +42,7 @@ public class SiteCrawlerTest extends Any23OnlineTestBase {
     /**
      * Tests the main crawler use case.
      *
-     * @throws Exception
+     * @throws Exception if there is an error asserting test data
      */
     @Test
     public void testSiteCrawling() throws Exception {

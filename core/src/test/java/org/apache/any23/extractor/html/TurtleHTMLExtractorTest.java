@@ -17,10 +17,10 @@
 
 package org.apache.any23.extractor.html;
 
+import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractorFactory;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +43,9 @@ public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
     /**
      * Tests the extraction of the RDF content from the sample HTML file.
      * 
-     * @throws IOException
-     * @throws org.apache.any23.extractor.ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error interpreting the input data
+     * @throws ExtractionException if there is an exception during extraction
+     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testExtraction() throws Exception {

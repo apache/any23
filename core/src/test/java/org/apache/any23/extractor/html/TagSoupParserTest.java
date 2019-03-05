@@ -82,9 +82,9 @@ public class TagSoupParserTest {
      * We expect that this test may fail if something changes in the Neko library, as an auto-detection of
      * the encoding.
      *
-     * @throws IOException
-     * @throws ExtractionException
-     * @throws RepositoryException
+     * @throws IOException if there is an error interpreting the input data
+     * @throws ExtractionException if there is an exception during extraction
+     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testImplicitEncodingBehavior() throws IOException, ExtractionException, RepositoryException {
@@ -103,7 +103,7 @@ public class TagSoupParserTest {
      * Test related to the issue 78 and disabled until the underlying <i>NekoHTML</i>
      * bug has been fixed.
      * 
-     * @throws IOException
+     * @throws IOException if there is an error interpreting the input data
      */
     @Test
     public void testEmptySpanElements() throws IOException {

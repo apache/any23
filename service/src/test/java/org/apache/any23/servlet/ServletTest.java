@@ -225,7 +225,7 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources
      * dependencies
      *
-     * @throws Exception
+     * @throws Exception if there is an error asserting test data
      */
     @Test
     public void testGETwithURLEncoding() throws Exception {
@@ -238,7 +238,7 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources
      * dependencies
      *
-     * @throws Exception
+     * @throws Exception if there is an error asserting test data
      */
     @Test
     public void testGETwithURLEncodingWithQuery() throws Exception {
@@ -251,7 +251,7 @@ public class ServletTest {
      * This test has been disabled in order to avoid external resources
      * dependencies
      *
-     * @throws Exception
+     * @throws Exception if there is an error asserting test data
      */
     @Test
     public void testGETwithURLEncodingWithFragment() throws Exception {

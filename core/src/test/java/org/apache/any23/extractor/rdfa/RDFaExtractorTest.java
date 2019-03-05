@@ -38,10 +38,10 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
      * It checks if the extraction is the same when the namespaces are defined in <i>RDFa1.0</i> or
      * <i>RDFa1.1</i> respectively.
      *
-     * @throws org.eclipse.rdf4j.repository.RepositoryException
-     * @throws java.io.IOException
-     * @throws org.eclipse.rdf4j.rio.RDFHandlerException
-     * @throws org.eclipse.rdf4j.rio.RDFParseException
+     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws java.io.IOException if there is an error interpreting the input data
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException if there is an error within the {@link org.eclipse.rdf4j.rio.RDFHandler}
+     * @throws org.eclipse.rdf4j.rio.RDFParseException if there is an exception parsing an RDF Stream
      */
     @Test
     public void testRDFa11PrefixBackwardCompatibility()

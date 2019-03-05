@@ -50,9 +50,6 @@ import static org.junit.Assert.assertFalse;
  */
 public class MicrodataParserTest {
 
-//    @Rule
-//    public final Timeout timeout = new Timeout(100, TimeUnit.SECONDS);
-
     private static final Logger logger = LoggerFactory.getLogger(MicrodataParserTest.class);
 
     @Test
@@ -153,8 +150,8 @@ public class MicrodataParserTest {
     /**
      * Test the main use case of {@link MicrodataParser#deferProperties(String...)}
      *
-     * @throws IOException
-     * @throws MicrodataParserException
+     * @throws IOException if there is an error processing the input data
+     * @throws MicrodataParserException if there is an error within the {@link org.apache.any23.extractor.microdata.MicrodataParser}
      */
     @Test
     public void testDeferProperties() throws IOException, MicrodataParserException {
@@ -167,8 +164,8 @@ public class MicrodataParserTest {
     /**
      * Tests the loop detection in {@link MicrodataParser#deferProperties(String...)}.
      *
-     * @throws IOException
-     * @throws MicrodataParserException
+     * @throws IOException if there is an error processing the input data
+     * @throws MicrodataParserException if there is an error within the {@link org.apache.any23.extractor.microdata.MicrodataParser}
      */
     @Test(expected = MicrodataParserException.class)
     public void testDeferPropertiesLoopDetection1() throws IOException, MicrodataParserException {
@@ -181,8 +178,8 @@ public class MicrodataParserTest {
     /**
      * Tests the deep loop detection in {@link MicrodataParser#deferProperties(String...)}.
      *
-     * @throws IOException
-     * @throws MicrodataParserException
+     * @throws IOException if there is an error processing the input data
+     * @throws MicrodataParserException if there is an error within the {@link org.apache.any23.extractor.microdata.MicrodataParser}
      */
     @Test(expected = MicrodataParserException.class)
     public void testDeferPropertiesLoopDetection2() throws IOException, MicrodataParserException {
@@ -196,8 +193,8 @@ public class MicrodataParserTest {
      * Tests that the loop detection works property even with multiple calls
      * of {@link MicrodataParser#deferProperties(String...)} over the same item props.
      *
-     * @throws java.io.IOException
-     * @throws MicrodataParserException
+     * @throws java.io.IOException if there is an error processing the input data
+     * @throws MicrodataParserException if there is an error within the {@link org.apache.any23.extractor.microdata.MicrodataParser}
      */
     @Test
     public void testDeferPropertiesStateManagement() throws IOException, MicrodataParserException {

@@ -46,7 +46,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *
      * @param args tool arguments.
      * @return the tool exit code.
-     * @throws Exception
+     * @throws Exception if there is an error asserting the test data.
      */
     protected int runTool(String... args) throws Exception {
         final String commandName = toolClazz.getAnnotation( Parameters.class ).commandNames()[0];
@@ -63,7 +63,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *
      * @param args args tool arguments.
      * @return the tool exit code.
-     * @throws Exception
+     * @throws Exception if there is an error asserting the test data.
      */
     protected int runTool(String args) throws Exception {
         return runTool(args.split(" "));
@@ -73,7 +73,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      * Runs the underlying tool and verify the exit code to <code>0</code>.
      *
      * @param args tool arguments.
-     * @throws Exception
+     * @throws Exception if there is an error asserting the test data.
      */
     protected void runToolCheckExit0(String... args) throws Exception {
         assertEquals(

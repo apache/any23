@@ -33,7 +33,7 @@ public class CSVReaderBuilderTest {
     /**
      * Tests positive CSV detection.
      *
-     * @throws IOException
+     * @throws IOException if there is an error interpreting the input data
      */
     @Test
     public void testPositiveCSVDetection() throws IOException {
@@ -54,7 +54,7 @@ public class CSVReaderBuilderTest {
     /**
      * Tests negative CSV detection.
      *
-     * @throws IOException
+     * @throws IOException if there is an error interpreting the input data
      */
     @Test
     public void testNegativeCSVDetection() throws IOException {

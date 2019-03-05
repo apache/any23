@@ -21,7 +21,6 @@ import org.apache.any23.extractor.ExtractorFactory;
 import org.apache.any23.vocab.WO;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.repository.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,7 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
     /**
      * Test the beahvior against two <a href="http://en.wikipedia.org/wiki/Template:Taxobox">Wikipedia Taxobox</a>.
      *
-     * @throws RepositoryException
+     * @throws Exception if there is an error asserting the test data.
      */
     @Test
     public void testSpeciesMicroformatExtractOverTaxoBox() throws Exception {

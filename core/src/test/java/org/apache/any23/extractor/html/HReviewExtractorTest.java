@@ -28,7 +28,6 @@ import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.repository.RepositoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -288,7 +287,7 @@ public class HReviewExtractorTest extends AbstractExtractorTestCase {
 	 * in presence of a <i>Microformat</i> name with a different letter
 	 * capitalization.
 	 *
-	 * @throws RepositoryException
+	 * @throws Exception if there is an error asserting the test data.
 	 */
 	@Test
 	public void testCaseSensitiveness() throws Exception {
