@@ -222,28 +222,24 @@ public class ServletTest {
     }
 
     /**
-     * This test has been disabled in order to avoid external resources
-     * dependencies
      *
      * @throws Exception if there is an error asserting test data
      */
     @Test
     public void testGETwithURLEncoding() throws Exception {
         content = null;
-        HttpTester.Response response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller");
+        HttpTester.Response response = doGetRequest("/best/http://dbpedia.org/resource/Knud_M%C3%B6ller");
         Assert.assertEquals(200, response.getStatus());
     }
 
     /**
-     * This test has been disabled in order to avoid external resources
-     * dependencies
      *
      * @throws Exception if there is an error asserting test data
      */
     @Test
     public void testGETwithURLEncodingWithQuery() throws Exception {
         content = null;
-        HttpTester.Response response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller?appo=xxx");
+        HttpTester.Response response = doGetRequest("/best/http://commons.wikimedia.org/wiki/Special:FilePath/Knud_M%C3%B6ller_vuonna_1965.jpg?width=300");
         Assert.assertEquals(200, response.getStatus());
     }
 
@@ -256,7 +252,7 @@ public class ServletTest {
     @Test
     public void testGETwithURLEncodingWithFragment() throws Exception {
         content = null;
-        HttpTester.Response response = doGetRequest("/best/http://semanticweb.org/wiki/Knud_M%C3%B6ller#abcde");
+        HttpTester.Response response = doGetRequest("/best/http://dbpedia.org/resource/Knud_M%C3%B6ller#title");
         Assert.assertEquals(200, response.getStatus());
     }
 
