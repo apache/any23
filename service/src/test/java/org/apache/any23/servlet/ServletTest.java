@@ -239,7 +239,7 @@ public class ServletTest {
     @Test
     public void testGETwithURLEncodingWithQuery() throws Exception {
         content = null;
-        HttpTester.Response response = doGetRequest("/best/http://commons.wikimedia.org/wiki/Special:FilePath/Knud_M%C3%B6ller_vuonna_1965.jpg?width=300");
+        HttpTester.Response response = doGetRequest("/best/https://en.wikipedia.org/wiki/Knud_M%C3%B6ller?oldid=717712065");
         Assert.assertEquals(200, response.getStatus());
     }
 
