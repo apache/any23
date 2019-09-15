@@ -20,7 +20,6 @@ package org.apache.any23.extractor.rdfa;
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
-import org.apache.any23.extractor.rdf.BaseRDFExtractor;
 import org.apache.any23.extractor.rdf.RDFParserFactory;
 import org.eclipse.rdf4j.rio.RDFParser;
 
@@ -30,7 +29,7 @@ import org.eclipse.rdf4j.rio.RDFParser;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class RDFaExtractor extends BaseRDFExtractor {
+public class RDFaExtractor extends BaseRDFaExtractor {
 
     public RDFaExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
