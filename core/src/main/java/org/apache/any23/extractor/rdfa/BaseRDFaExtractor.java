@@ -7,7 +7,14 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.html.JsoupUtils;
 import org.apache.any23.extractor.rdf.BaseRDFExtractor;
 import org.eclipse.rdf4j.common.net.ParsedIRI;
-import org.jsoup.nodes.*;
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Comment;
+import org.jsoup.nodes.DataNode;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.DocumentType;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Entities;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.NodeFilter;
 import org.jsoup.select.NodeTraversor;
 
