@@ -19,6 +19,7 @@ package org.apache.any23;
 
 import org.apache.any23.extractor.ExtractorGroup;
 import org.apache.any23.extractor.rdf.NTriplesExtractorFactory;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.junit.Assert;
 import org.apache.any23.configuration.Configuration;
 import org.apache.any23.configuration.DefaultConfiguration;
@@ -49,6 +50,7 @@ import org.apache.any23.writer.RepositoryWriter;
 import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.commons.io.IOUtils;
+import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.repository.Repository;
@@ -304,7 +306,13 @@ public class Any23Test extends Any23OnlineTestBase {
                 "https://dev.w3.org/html5/rdfa/");
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TripleHandler handler = new NTriplesWriter(out);
-        runner.extract(source, handler);
+        try {
+            runner.extract(source, handler);
+        } catch (ConnectTimeoutException e) {
+            // This page is down as of 2019.09.14
+            logger.error("Connection to " + source.getDocumentIRI() + " timed out; skipping test", e);
+            throw new AssumptionViolatedException(e.getMessage());
+        }
         String n3 = out.toString("UTF-8");
         logger.debug("N3 " + n3);
         Assert.assertTrue(n3.length() > 0);
