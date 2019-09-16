@@ -22,6 +22,7 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.rdf.RDFParserFactory;
 import org.eclipse.rdf4j.rio.RDFParser;
+import org.semarglproject.vocab.RDFa;
 
 /**
  * {@link org.apache.any23.extractor.Extractor} implementation for
@@ -31,12 +32,13 @@ import org.eclipse.rdf4j.rio.RDFParser;
  */
 public class RDFaExtractor extends BaseRDFaExtractor {
 
+    @Deprecated
     public RDFaExtractor(boolean verifyDataType, boolean stopAtFirstError) {
-        super(verifyDataType, stopAtFirstError);
+        this();
     }
 
     public RDFaExtractor() {
-        this(false, false);
+        super(RDFa.VERSION_10);
     }
 
     @Override
@@ -45,6 +47,7 @@ public class RDFaExtractor extends BaseRDFaExtractor {
     }
 
     @Override
+    @Deprecated
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
         return RDFParserFactory.getInstance().getRDFa10Parser(
                 isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult

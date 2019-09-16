@@ -120,7 +120,7 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         }
     }
 
-    private static String toString(Throwable th) {
+    protected static String toString(Throwable th) {
         StringWriter writer = new StringWriter();
         try (PrintWriter pw = new PrintWriter(writer)) {
             th.printStackTrace(pw);
