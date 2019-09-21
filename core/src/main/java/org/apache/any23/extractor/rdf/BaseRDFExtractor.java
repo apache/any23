@@ -120,7 +120,9 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
         }
     }
 
-    protected static String toString(Throwable th) {
+    // keep private to avoid backwards compatibility woes (may move around later)
+    @SuppressWarnings("Duplicates")
+    private static String toString(Throwable th) {
         StringWriter writer = new StringWriter();
         try (PrintWriter pw = new PrintWriter(writer)) {
             th.printStackTrace(pw);

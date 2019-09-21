@@ -1,3 +1,20 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.apache.any23.extractor.rdfa;
 
 import org.jsoup.nodes.CDataNode;
@@ -13,6 +30,9 @@ import org.xml.sax.helpers.NamespaceSupport;
 
 import java.util.ArrayList;
 
+/**
+ * @author Hans Brende (hansbrende@apache.org)
+ */
 class JsoupScanner implements NodeVisitor {
 
     private final NamespaceSupport ns = new NamespaceSupport();
@@ -28,10 +48,6 @@ class JsoupScanner implements NodeVisitor {
     private static String orEmpty(String str) {
         return str == null ? "" : str;
     }
-
-//    private static String orNull(String str) {
-//        return "".equals(str) ? null : str;
-//    }
 
     private void startElement(Element e) throws SAXException {
         ns.pushContext();
@@ -111,7 +127,6 @@ class JsoupScanner implements NodeVisitor {
         handler.comment(str.toCharArray(), 0, str.length());
     }
 
-
     @Override
     public void head(Node node, int depth) {
         try {
@@ -141,6 +156,7 @@ class JsoupScanner implements NodeVisitor {
                 endElement((Element) node);
             } else if (node instanceof CDataNode) {
                 handler.endCDATA();
+                // TODO support document types
 //            } else if (node instanceof DocumentType) {
 //                handler.endDTD();
             }
@@ -149,11 +165,8 @@ class JsoupScanner implements NodeVisitor {
         }
     }
 
-
-
     @SuppressWarnings("unchecked")
     private static <E extends Throwable> void sneakyThrow(Throwable e) throws E {
         throw (E)e;
     }
-
 }

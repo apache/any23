@@ -29,12 +29,38 @@ import org.semarglproject.vocab.RDFa;
  * <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa 1.0</a> specification.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public class RDFaExtractor extends BaseRDFaExtractor {
 
+    /**
+     * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #RDFaExtractor()} instead.
+     * @param verifyDataType has no effect
+     * @param stopAtFirstError has no effect
+     */
     @Deprecated
     public RDFaExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         this();
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
+    @Override
+    public void setStopAtFirstError(boolean stopAtFirstError) {
+        super.setStopAtFirstError(stopAtFirstError);
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param verifyDataType has no effect
+     */
+    @Deprecated
+    @Override
+    public void setVerifyDataType(boolean verifyDataType) {
+        super.setVerifyDataType(verifyDataType);
     }
 
     public RDFaExtractor() {
@@ -46,6 +72,12 @@ public class RDFaExtractor extends BaseRDFaExtractor {
         return RDFaExtractorFactory.getDescriptionInstance();
     }
 
+    /**
+     * @deprecated since 2.4. This extractor no longer wraps an RDF4J {@link RDFParser}. Do not use this method.
+     * @param extractionContext the extraction context
+     * @param extractionResult the extraction result
+     * @return a {@link RDFParser}
+     */
     @Override
     @Deprecated
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {

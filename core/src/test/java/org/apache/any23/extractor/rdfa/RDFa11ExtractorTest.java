@@ -94,6 +94,7 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
     public void testBasicWithSyntaxErrors() {
         //test issues ANY23-347 and ANY23-350
         assertExtract("/html/rdfa/basic-with-errors.html");
+        System.out.println(dumpModelToTurtle());
         assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en"));
         assertContains(null, vDCTERMS.title,
                 RDFUtils.literal("The trouble with Bob", "en"));
