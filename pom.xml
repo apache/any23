@@ -270,17 +270,17 @@
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
 
-    <httpclient.version>4.5.7</httpclient.version>
-    <httpcore.version>4.4.11</httpcore.version>
+    <httpclient.version>4.5.10</httpclient.version>
+    <httpcore.version>4.4.12</httpcore.version>
     <owlapi.version>5.1.11</owlapi.version>
-    <poi.version>4.0.1</poi.version>
-    <rdf4j.version>2.4.4</rdf4j.version>
+    <poi.version>4.1.0</poi.version>
+    <rdf4j.version>3.0.0</rdf4j.version>
     <semargl.version>0.7</semargl.version>
-    <slf4j.logger.version>1.7.25</slf4j.logger.version>
-    <tika.version>1.20</tika.version>
+    <slf4j.logger.version>2.0.0-alpha0</slf4j.logger.version>
+    <tika.version>1.22</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
-    <jackson.version>2.9.8</jackson.version>
+    <jackson.version>2.9.10</jackson.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
@@ -293,29 +293,30 @@
     <form.tracker.id>UA-59636188-1</form.tracker.id>
 
     <!-- Maven Plugin Versions -->
-    <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
     <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
     <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
     <maven-assembly-plugin.version>3.1.1</maven-assembly-plugin.version>
-    <appassembler-maven-plugin.version>2.0.0</appassembler-maven-plugin.version>
+    <appassembler-maven-plugin.version>2.1.0</appassembler-maven-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
-    <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-    <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
-    <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
     <maven-project-info-reports-plugin.version>3.0.0</maven-project-info-reports-plugin.version>
     <maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
-    <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.0</maven-checkstyle-plugin.version>
     <apache-rat-plugin.version>0.13</apache-rat-plugin.version>
     <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-war-plugin.version>3.2.2</maven-war-plugin.version>
-    <maven-invoker-plugin.version>3.2.0</maven-invoker-plugin.version>
+    <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
+    <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
+    <maven-checkstyle-plugin.version>3.1.12.2</maven-checkstyle-plugin.version>
 
     <!--
      | Any23 website has to be stored in SVN
@@ -711,6 +712,28 @@
             </dependency>
           </dependencies>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M2</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>3.5.0</version>
+                  </requireMavenVersion>
+                </rules>    
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
       </plugins>
     </pluginManagement>
 
@@ -816,14 +839,20 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco-maven-plugin.version}</version>
-	<executions>
-	  <execution>
+        <executions>
+          <execution>
             <id>prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
@@ -896,27 +925,11 @@
         </reportSets>
       </plugin>
 
-      <!-- findBugs report. -->
-      <!-- TODO: deactivated because not working with Maven 3. Tried with 2.3.2/2.3.1/2.3 with no result.
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <version>1.1.1</version>
-        <configuration>
-          <xmlOutput>true</xmlOutput>
-          <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
-          <threshold>High</threshold>
-          <effort>Max</effort>
-          <visitors>FindDeadLocalStores</visitors>
-          <omitVisitors>FindDeadLocalStores</omitVisitors>
-          <onlyAnalyze>org.apache.any23.*</onlyAnalyze>
-          <debug>true</debug>
-          <relaxed>true</relaxed>
-          <xmlOutputDirectory>target/findbugs-reports</xmlOutputDirectory>
-          <findbugsXmlOutput>target/findbugs-reports</findbugsXmlOutput>
-        </configuration>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${maven-checkstyle-plugin.version}</version>
       </plugin>
-      -->
 
       <!-- Check style report. -->
       <plugin>
