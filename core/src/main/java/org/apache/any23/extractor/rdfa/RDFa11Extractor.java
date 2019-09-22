@@ -22,21 +22,49 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
 import org.apache.any23.extractor.rdf.RDFParserFactory;
 import org.eclipse.rdf4j.rio.RDFParser;
+import org.semarglproject.vocab.RDFa;
 
 /**
  * {@link org.apache.any23.extractor.Extractor} implementation for
  * <a href="http://www.w3.org/TR/rdfa-core/">RDFa 1.1</a> specification.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * @author Hans Brende (hansbrende@apache.org)
  */
 public class RDFa11Extractor extends BaseRDFaExtractor {
 
+    /**
+     * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #RDFa11Extractor()} instead.
+     * @param verifyDataType has no effect
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
     public RDFa11Extractor(boolean verifyDataType, boolean stopAtFirstError) {
-        super(verifyDataType, stopAtFirstError);
+        this();
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
+    @Override
+    public void setStopAtFirstError(boolean stopAtFirstError) {
+        super.setStopAtFirstError(stopAtFirstError);
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param verifyDataType has no effect
+     */
+    @Deprecated
+    @Override
+    public void setVerifyDataType(boolean verifyDataType) {
+        super.setVerifyDataType(verifyDataType);
     }
 
     public RDFa11Extractor() {
-        this(false, false);
+        super(RDFa.VERSION_11);
     }
 
     @Override
@@ -44,7 +72,14 @@ public class RDFa11Extractor extends BaseRDFaExtractor {
         return RDFa11ExtractorFactory.getDescriptionInstance();
     }
 
+    /**
+     * @deprecated since 2.4. This extractor no longer wraps an RDF4J {@link RDFParser}. Do not use this method.
+     * @param extractionContext the extraction context
+     * @param extractionResult the extraction result
+     * @return a {@link RDFParser}
+     */
     @Override
+    @Deprecated
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
         return RDFParserFactory.getInstance().getRDFa11Parser(
                 isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
