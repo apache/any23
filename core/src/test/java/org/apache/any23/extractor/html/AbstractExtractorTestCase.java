@@ -110,7 +110,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
     super.setUp();
     store = new MemoryStore();
     repository = new SailRepository(store);
-    repository.init();
+    repository.initialize();
     conn = repository.getConnection();
   }
 
