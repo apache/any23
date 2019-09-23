@@ -33,7 +33,7 @@
 
   <properties>
     <!-- the following property is used in the bash script as well, don't remove it! -->
-    <jetty.runner.version>9.4.14.v20181114</jetty.runner.version>
+    <jetty.runner.version>9.4.20.v20190813</jetty.runner.version>
     <output.directory>${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/lib/apache-any23-openie</output.directory>
   </properties>
 
