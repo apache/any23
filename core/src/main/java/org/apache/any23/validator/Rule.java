@@ -39,6 +39,6 @@ public interface Rule {
      * @param validationReportBuilder the report builder used to collect rule reporting.
      * @return <code>true</code> if al least an issue is detected, <code>false</code> otherwise.
      */
-    boolean applyOn(DOMDocument document, RuleContext context, ValidationReportBuilder validationReportBuilder);
+    boolean applyOn(DOMDocument document, RuleContext<?> context, ValidationReportBuilder validationReportBuilder);
 
 }

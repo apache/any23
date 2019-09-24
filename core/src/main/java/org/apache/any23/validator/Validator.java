@@ -17,7 +17,6 @@
 
 package org.apache.any23.validator;
 
-import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
 import java.net.URI;
