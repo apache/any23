@@ -25,7 +25,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
-import org.apache.any23.extractor.*;
+import org.apache.any23.extractor.ExtractionContext;
+import org.apache.any23.extractor.ExtractionException;
+import org.apache.any23.extractor.ExtractionParameters;
+import org.apache.any23.extractor.ExtractionResult;
+import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.rdf.Any23ValueFactoryWrapper;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.RDFParser;
@@ -58,25 +63,23 @@ public class JSONLDExtractor extends BaseRDFExtractor {
         JSON_FACTORY.disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
     }
 
-
+    /**
+     * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #JSONLDExtractor()} instead.
+     * @param verifyDataType has no effect
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
     public JSONLDExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
     }
 
     public JSONLDExtractor() {
-        this(false, false);
+        super(false, false);
     }
 
     @Override
     public ExtractorDescription getDescription() {
         return JSONLDExtractorFactory.getDescriptionInstance();
-    }
-
-    @Override
-    protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getJSONLDParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
     }
 
     @Override
@@ -104,6 +107,42 @@ public class JSONLDExtractor extends BaseRDFExtractor {
             // ANY23-420: jsonld-java can sometimes throw IllegalArgumentException
             extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, toString(e), -1, -1);
         }
+    }
+
+    /* DEPRECATED METHODS */
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
+    @Override
+    public void setStopAtFirstError(boolean stopAtFirstError) {
+        super.setStopAtFirstError(stopAtFirstError);
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param verifyDataType has no effect
+     */
+    @Deprecated
+    @Override
+    public void setVerifyDataType(boolean verifyDataType) {
+        super.setVerifyDataType(verifyDataType);
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor no longer wraps an RDF4J {@link RDFParser}. Do not use this method.
+     * @param extractionContext the extraction context
+     * @param extractionResult the extraction result
+     * @return a {@link RDFParser}
+     */
+    @Deprecated
+    @Override
+    protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
+        return RDFParserFactory.getInstance().getJSONLDParser(
+                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
+        );
     }
 
 }
