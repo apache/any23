@@ -513,7 +513,7 @@
       <dependency>
         <groupId>com.github.jsonld-java</groupId>
         <artifactId>jsonld-java</artifactId>
-        <version>0.12.3</version>
+        <version>0.12.5</version>
       </dependency>
       <dependency>
         <groupId>org.semarglproject</groupId>

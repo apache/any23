@@ -93,36 +93,15 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     ) throws IOException, ExtractionException {
         try {
             final RDFParser parser = getParser(extractionContext, extractionResult);
-
-            RDFFormat format = parser.getRDFFormat();
-
-            if (format.hasFileExtension("jsonld") || format.hasMIMEType("application/ld+json")) {
-                in = new JsonCleaningInputStream(in);
-            }
-
             parser.parse(in, extractionContext.getDocumentIRI().stringValue());
         } catch (Exception ex) {
-            // ANY23-420: jsonld-java can sometimes throw IllegalArgumentException,
-            // so don't limit catch block to RDFParseExceptions
-
-            Throwable cause = ex.getCause();
-            if (cause instanceof JsonProcessingException) {
-                JsonProcessingException err = (JsonProcessingException)cause;
-                JsonLocation loc = err.getLocation();
-                if (loc == null) {
-                    extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), -1L, -1L);
-                } else {
-                    extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, err.getOriginalMessage(), loc.getLineNr(), loc.getColumnNr());
-                }
-            } else {
-                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, toString(ex), -1, -1);
-            }
+            extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, toString(ex), -1, -1);
         }
     }
 
     // keep private to avoid backwards compatibility woes (may move around later)
     @SuppressWarnings("Duplicates")
-    private static String toString(Throwable th) {
+    static String toString(Throwable th) {
         StringWriter writer = new StringWriter();
         try (PrintWriter pw = new PrintWriter(writer)) {
             th.printStackTrace(pw);
