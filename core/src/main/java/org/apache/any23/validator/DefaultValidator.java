@@ -136,7 +136,7 @@ public class DefaultValidator implements Validator {
 
     private Fix newFixInstance(Class<? extends Fix> cFix) throws ValidatorException {
         try {
-            return cFix.newInstance();
+            return cFix.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new ValidatorException("An error occurred while instantiating a fix.", e);
         }
@@ -144,7 +144,7 @@ public class DefaultValidator implements Validator {
 
     private Rule newRuleInstance(Class<? extends Rule> cRule) throws ValidatorException {
         try {
-            return cRule.newInstance();
+            return cRule.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new ValidatorException("An error occurred while instantiating a rule.", e);
         }
