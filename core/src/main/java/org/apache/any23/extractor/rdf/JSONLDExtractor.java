@@ -18,14 +18,25 @@
 package org.apache.any23.extractor.rdf;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jsonldjava.core.JsonLdOptions;
+import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
 import org.apache.any23.extractor.ExtractionContext;
+import org.apache.any23.extractor.ExtractionException;
+import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
+import org.apache.any23.extractor.IssueReport;
+import org.apache.any23.rdf.Any23ValueFactoryWrapper;
+import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.rio.RDFParser;
 
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
@@ -34,27 +45,9 @@ import java.lang.reflect.Field;
  */
 public class JSONLDExtractor extends BaseRDFExtractor {
 
+    private static final JsonFactory JSON_FACTORY = new JsonFactory(new ObjectMapper());
+
     static {
-        //See https://issues.apache.org/jira/browse/ANY23-336
-        try {
-            //This field was introduced in jsonld-java version 0.12.0
-            if ((Object)JsonUtils.JSONLD_JAVA_USER_AGENT instanceof Void) {
-                throw new Error("This error will never be thrown.");
-            }
-        } catch (NoSuchFieldError th) {
-            throw new AssertionError("You have an outdated version of jsonld-java on the classpath. " +
-                    "Upgrade to at least version 0.12.0. See: https://issues.apache.org/jira/browse/ANY23-336", th);
-        }
-
-        JsonFactory JSON_FACTORY;
-        try {
-            Field field = JsonUtils.class.getDeclaredField("JSON_FACTORY");
-            field.setAccessible(true);
-            JSON_FACTORY = (JsonFactory)field.get(null);
-        } catch (Exception e) {
-            throw new AssertionError(e);
-        }
-
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
         JSON_FACTORY.disable(JsonParser.Feature.ALLOW_COMMENTS); //handled by JsonCleaningInputStream
         JSON_FACTORY.disable(JsonParser.Feature.ALLOW_MISSING_VALUES); //handled by JsonCleaningInputStream
@@ -70,13 +63,18 @@ public class JSONLDExtractor extends BaseRDFExtractor {
         JSON_FACTORY.disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
     }
 
-
+    /**
+     * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #JSONLDExtractor()} instead.
+     * @param verifyDataType has no effect
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
     public JSONLDExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
     }
 
     public JSONLDExtractor() {
-        this(false, false);
+        super(false, false);
     }
 
     @Override
@@ -85,9 +83,66 @@ public class JSONLDExtractor extends BaseRDFExtractor {
     }
 
     @Override
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in, ExtractionResult extractionResult) throws IOException, ExtractionException {
+        JSONLDJavaSink handler = new JSONLDJavaSink(extractionResult, new Any23ValueFactoryWrapper(
+                SimpleValueFactory.getInstance(),
+                extractionResult,
+                extractionContext.getDefaultLanguage()
+        ));
+
+        JsonLdOptions options = new JsonLdOptions(extractionContext.getDocumentIRI().stringValue());
+        options.useNamespaces = true;
+
+        try {
+            Object json = JsonUtils.fromJsonParser(JSON_FACTORY.createParser(new JsonCleaningInputStream(in)));
+            JsonLdProcessor.toRDF(json, handler, options);
+        } catch (JsonProcessingException e) {
+            JsonLocation loc = e.getLocation();
+            if (loc == null) {
+                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, e.getOriginalMessage(), -1L, -1L);
+            } else {
+                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, e.getOriginalMessage(), loc.getLineNr(), loc.getColumnNr());
+            }
+        } catch (Exception e) {
+            // ANY23-420: jsonld-java can sometimes throw IllegalArgumentException
+            extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, toString(e), -1, -1);
+        }
+    }
+
+    /* DEPRECATED METHODS */
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param stopAtFirstError has no effect
+     */
+    @Deprecated
+    @Override
+    public void setStopAtFirstError(boolean stopAtFirstError) {
+        super.setStopAtFirstError(stopAtFirstError);
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
+     * @param verifyDataType has no effect
+     */
+    @Deprecated
+    @Override
+    public void setVerifyDataType(boolean verifyDataType) {
+        super.setVerifyDataType(verifyDataType);
+    }
+
+    /**
+     * @deprecated since 2.4. This extractor no longer wraps an RDF4J {@link RDFParser}. Do not use this method.
+     * @param extractionContext the extraction context
+     * @param extractionResult the extraction result
+     * @return a {@link RDFParser}
+     */
+    @Deprecated
+    @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
         return RDFParserFactory.getInstance().getJSONLDParser(
                 isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
         );
     }
+
 }
