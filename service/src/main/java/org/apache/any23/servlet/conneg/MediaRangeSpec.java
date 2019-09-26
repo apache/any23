@@ -79,7 +79,7 @@ public class MediaRangeSpec {
     }
 
     /**
-     * Parses a media type from a string such as <tt>text/html;charset=utf-8;q=0.9</tt>.
+     * Parses a media type from a string such as <code>text/html;charset=utf-8;q=0.9</code>.
      * @param mediaType input string from which to extract mediaType
      * @return {@link org.apache.any23.servlet.conneg.MediaRangeSpec}
      */
@@ -92,7 +92,7 @@ public class MediaRangeSpec {
     }
 
     /**
-     * Parses a media range from a string such as <tt>text/*;charset=utf-8;q=0.9</tt>.
+     * Parses a media range from a string such as <code>text/*;charset=utf-8;q=0.9</code>.
      * Unlike simple media types, media ranges may include wildcards.
      * @param mediaRange input string from which to extract media range
      * @return {@link org.apache.any23.servlet.conneg.MediaRangeSpec}

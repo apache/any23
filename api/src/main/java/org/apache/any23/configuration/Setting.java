@@ -113,6 +113,8 @@ public abstract class Setting<V> implements Cloneable {
     }
 
     /**
+     * @param setting a setting key to retrieve
+     * @param <S> generic type for setting
      * @return this setting, if this setting has the same key as the supplied setting
      */
     @SuppressWarnings("unchecked")
@@ -121,6 +123,7 @@ public abstract class Setting<V> implements Cloneable {
     }
 
     /**
+     * @param newValue a value to provide for the new setting pair
      * @return a new {@link Setting} object with this setting's key and the supplied value.
      *
      * @throws IllegalArgumentException if the new value was invalid, as determined by:
@@ -237,6 +240,7 @@ public abstract class Setting<V> implements Cloneable {
     /**
      * Convenience method to create a new setting with the specified identifier,
      * value type, and default value.
+     * @param <V> generic setting value type
      * @param identifier the identifier for this setting
      * @param valueType the value type for this setting
      * @param defaultValue the default value for this setting
@@ -247,8 +251,6 @@ public abstract class Setting<V> implements Cloneable {
     public static <V> Setting<V> create(String identifier, Class<V> valueType, V defaultValue) {
         return new Impl<>(identifier, valueType, defaultValue);
     }
-
-
 
     ///////////////////////////////////////
     // Private static helpers
@@ -314,16 +316,16 @@ public abstract class Setting<V> implements Cloneable {
         for (;;) {
             Type superclass = rawType.getGenericSuperclass();
             if (superclass instanceof ParameterizedType) {
-                rawType = (Class)((ParameterizedType) superclass).getRawType();
+                rawType = (Class<?>)((ParameterizedType) superclass).getRawType();
                 Type[] args = ((ParameterizedType) superclass).getActualTypeArguments();
                 if (Setting.class.equals(rawType)) {
                     Type type = args[0];
                     type = mapping.getOrDefault(type, type);
                     if (type instanceof Class) {
-                        if (((Class) type).isArray()) {
+                        if (((Class<?>) type).isArray()) {
                             throw new IllegalArgumentException(identifier + " value class must be immutable");
-                        } else if (((Class) type).getTypeParameters().length != 0) {
-                            throw new IllegalArgumentException(identifier + " setting must fill in type parameters for " + ((Class) type).toGenericString());
+                        } else if (((Class<?>) type).getTypeParameters().length != 0) {
+                            throw new IllegalArgumentException(identifier + " setting must fill in type parameters for " + ((Class<?>) type).toGenericString());
                         }
                     } else if (type instanceof GenericArrayType) {
                         throw new IllegalArgumentException(identifier + " value class must be immutable");
