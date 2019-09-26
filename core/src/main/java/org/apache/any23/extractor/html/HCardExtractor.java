@@ -24,7 +24,7 @@ import org.apache.any23.extractor.IssueReport;
 import org.apache.any23.extractor.TagSoupExtractionResult;
 import org.apache.any23.extractor.html.annotations.Includes;
 import org.apache.any23.vocab.VCard;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
