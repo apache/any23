@@ -62,7 +62,7 @@ public class CSVReaderBuilder {
      *
      * @param is {@link InputStream} of the <i>CSV</i> file where guess the configuration.
      * @return a {@link CSVParser}
-     * @throws java.io.IOException
+     * @throws java.io.IOException if there is an error building the parser
      */
     public static CSVParser build(InputStream is) throws IOException {
         CSVFormat bestStrategy = getBestStrategy(is);
@@ -77,7 +77,7 @@ public class CSVReaderBuilder {
      * @param is input stream to be verified.
      * @return <code>true</code> if the given <code>is</code> input stream contains a <i>CSV</i> content.
      *         <code>false</code> otherwise.
-     * @throws IOException
+     * @throws IOException if there is an error processing the input stream
      */
     public static boolean isCSV(InputStream is) throws IOException {
         return getBestStrategy(is) != null;

@@ -132,10 +132,14 @@ public class StreamUtils {
     }
 
     /**
-     * Converts a {@link org.w3c.dom.Document} to an
-     * {@link java.io.InputStream}
-     * @throws TransformerFactoryConfigurationError 
-     * @throws TransformerConfigurationException 
+     * Converts a {@link org.w3c.dom.Document} to an {@link java.io.InputStream}
+     * @param doc the {@link org.w3c.dom.Document} to convert
+     * @return an {@link java.io.InputStream} representing the contents of the 
+     * input {@link org.w3c.dom.Document}
+     * @throws TransformerFactoryConfigurationError thrown when there is a problem 
+     * with configuration with the Transformer Factories
+     * @throws TransformerConfigurationException thrown when a serious 
+     * configuration error exists
      */
     public static InputStream documentToInputStream(Document doc) 
             throws TransformerConfigurationException, TransformerFactoryConfigurationError {

@@ -537,7 +537,7 @@ public class RDFUtils {
 
     /**
      * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
-     * @param docUri
+     * @param docUri It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#' is added to the end.
      * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(IRI docUri) {
@@ -546,8 +546,8 @@ public class RDFUtils {
 
     /**
      * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
-     * @param type
-     * @param docIRI
+     * @param type This argument is converted following Java naming conventions with {@link StringUtils#implementJavaNaming(java.lang.String) }.
+     * @param docIRI It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#' is added to the end.
      * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(String type, IRI docIRI) {
@@ -561,7 +561,7 @@ public class RDFUtils {
      * 
      * @param type This argument is converted following Java naming conventions with {@link StringUtils#implementJavaNaming(java.lang.String) }.
      * @param docIRI It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#' is added to the end.
-     * @param addId If argument is <b>TRUE</b> than the node identifier is added to the end formated <tt>'_{int}'</tt>.
+     * @param addId If argument is <b>TRUE</b> than the node identifier is added to the end formated <code>'_{int}'</code>.
      * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(String type, IRI docIRI, boolean addId) {
@@ -594,7 +594,7 @@ public class RDFUtils {
      * If string value expresses valid IRI than {@link IRI} is created. Otherwise method 
      * creates simple {@link Literal} xsd:string.
      * 
-     * @param inString
+     * @param inString an input string to manifest as {@link org.eclipse.rdf4j.model.Value}
      * @return either {@link IRI} or {@link Literal}.
      */
     public static Value makeIRI(String inString) {

@@ -117,13 +117,18 @@ public class Excel extends Vocabulary {
         return InstanceHolder.instance;
     }
 
+    /**
+    *
+    * @param localName resource label to create
+    * @return the new IRI instance.
+    */
     public IRI createResource(String localName) {
         return createProperty(NS, localName);
     }
 
     /**
      *
-     * @param localName
+     * @param localName property label to create
      * @return the new IRI instance.
      */
     public IRI createProperty(String localName) {
