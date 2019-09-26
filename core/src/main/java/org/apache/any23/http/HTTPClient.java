@@ -54,7 +54,7 @@ public interface HTTPClient {
 
     /**
      * The value of the Content-Type header reported by the server.
-     * Can be <tt>null</tt>.
+     * Can be <code>null</code>.
      *
      * @return the content type as string.
      */
@@ -68,7 +68,7 @@ public interface HTTPClient {
     /**
      * Returns the actual IRI from which the document was fetched.
      * This might differ from the IRI passed to openInputStream()
-     * if a redirect was performed. A return value of <tt>null</tt>
+     * if a redirect was performed. A return value of <code>null</code>
      * means that the IRI is unchanged and the original IRI was used.
      *
      * @return actual document IRI.

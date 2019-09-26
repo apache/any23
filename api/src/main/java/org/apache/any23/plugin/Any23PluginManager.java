@@ -103,7 +103,7 @@ public class Any23PluginManager {
         }
         if (!jar.isFile() && !jar.exists()) {
             throw new IllegalArgumentException(
-                    String.format("Invalid JAR [%s], must be an existing file.", jar.getAbsolutePath())
+                    String.format(java.util.Locale.ROOT, "Invalid JAR [%s], must be an existing file.", jar.getAbsolutePath())
             );
         }
         return dynamicClassLoader.addJAR(jar);
@@ -123,7 +123,7 @@ public class Any23PluginManager {
             } catch (Throwable t) {
                 result.add(
                         new IllegalArgumentException(
-                                String.format("Error while loading jar [%s]", jar.getAbsolutePath()),
+                                String.format(java.util.Locale.ROOT, "Error while loading jar [%s]", jar.getAbsolutePath()),
                                 t
                         )
                 );
@@ -145,7 +145,7 @@ public class Any23PluginManager {
         }
         if (!classDir.isDirectory() && !classDir.exists()) {
             throw new IllegalArgumentException(
-                    String.format("Invalid class dir [%s], must be an existing file.", classDir.getAbsolutePath())
+                    String.format(java.util.Locale.ROOT, "Invalid class dir [%s], must be an existing file.", classDir.getAbsolutePath())
             );
         }
         return dynamicClassLoader.addClassDir(classDir);
@@ -165,7 +165,7 @@ public class Any23PluginManager {
             } catch (Throwable t) {
                 result.add(
                         new IllegalArgumentException(
-                                String.format("Error while loading class dir [%s]", classDir.getAbsolutePath()),
+                                String.format(java.util.Locale.ROOT, "Error while loading class dir [%s]", classDir.getAbsolutePath()),
                                 t
                         )
                 );
@@ -394,7 +394,7 @@ public class Any23PluginManager {
             final File location = new File(locationStr);
             if( ! location.exists()) {
                 throw new IllegalArgumentException(
-                        String.format("Plugin location '%s' cannot be found.", locationStr)
+                        String.format(java.util.Locale.ROOT, "Plugin location '%s' cannot be found.", locationStr)
                 );
             }
             locations.add(location);

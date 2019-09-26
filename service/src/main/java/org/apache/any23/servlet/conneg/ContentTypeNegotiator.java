@@ -94,9 +94,9 @@ public class ContentTypeNegotiator {
      * faulty Accept headers.
      *
      * @param userAgentString      A pattern to be matched against the User-Agent header;
-     *                             <tt>null</tt> means regardless of User-Agent
+     *                             <code>null</code> means regardless of User-Agent
      * @param originalAcceptHeader Only override the Accept header if the user agent
-     *                             sends this header; <tt>null</tt> means always override
+     *                             sends this header; <code>null</code> means always override
      * @param newAcceptHeader      The Accept header to be used instead
      */
     protected void addUserAgentOverride(

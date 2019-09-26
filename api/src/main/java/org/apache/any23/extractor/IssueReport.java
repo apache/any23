@@ -94,7 +94,7 @@ public interface IssueReport {
 
         @Override
         public String toString() {
-            return String.format("%s: \t'%s' \t(%d,%d)", level, message, row, col);
+            return String.format(java.util.Locale.ROOT, "%s: \t'%s' \t(%d,%d)", level, message, row, col);
         }
     }
 

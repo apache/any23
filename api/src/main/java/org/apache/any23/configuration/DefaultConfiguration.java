@@ -140,6 +140,7 @@ public class DefaultConfiguration implements Configuration {
         }
         throw new IllegalArgumentException(
                 String.format(
+                    java.util.Locale.ROOT,
                     "Invalid value [%s] for flag property [%s]. Supported values are %s|%s",
                     value, propertyName, FLAG_PROPERTY_ON, FLAG_PROPERTY_OFF
                 )
@@ -163,6 +164,7 @@ public class DefaultConfiguration implements Configuration {
             if(logger.isDebugEnabled()) {
                 logger.debug(
                         String.format(
+                                java.util.Locale.ROOT,
                                 "Property '%s' is not declared in default configuration file [%s]",
                                 propertyName,
                                 DEFAULT_CONFIG_FILE

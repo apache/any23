@@ -27,6 +27,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -398,22 +399,22 @@ public class TikaMIMETypeDetectorTest {
 
     /* END: by content and name. */
     private void assertN3Detection(String n3Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(n3Exp.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(n3Exp.getBytes(StandardCharsets.UTF_8));
         Assert.assertTrue(TikaMIMETypeDetector.checkN3Format(bais));
     }
 
     private void assertN3DetectionFail(String n3Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(n3Exp.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(n3Exp.getBytes(StandardCharsets.UTF_8));
         Assert.assertFalse(TikaMIMETypeDetector.checkN3Format(bais));
     }
 
     private void assertNQuadsDetection(String n4Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(n4Exp.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(n4Exp.getBytes(StandardCharsets.UTF_8));
         Assert.assertTrue(TikaMIMETypeDetector.checkNQuadsFormat(bais));
     }
 
     private void assertNQuadsDetectionFail(String n4Exp) throws IOException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(n4Exp.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(n4Exp.getBytes(StandardCharsets.UTF_8));
         Assert.assertFalse(TikaMIMETypeDetector.checkNQuadsFormat(bais));
     }
 
@@ -438,7 +439,8 @@ public class TikaMIMETypeDetectorTest {
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
             } else {
                 Assert.assertEquals(
-                        String.format("Error in mimetype detection for file %s", test),
+                        String.format(java.util.Locale.ROOT,
+                        "Error in mimetype detection for file %s", test),
                         expectedMimeType,
                         detectedMimeType
                 );
@@ -481,7 +483,8 @@ public class TikaMIMETypeDetectorTest {
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
             } else {
                 Assert.assertEquals(
-                        String.format("Error while detecting mimetype in file %s", test),
+                        String.format(java.util.Locale.ROOT,
+                        "Error while detecting mimetype in file %s", test),
                         expectedMimeType,
                         detectedMimeType
                 );

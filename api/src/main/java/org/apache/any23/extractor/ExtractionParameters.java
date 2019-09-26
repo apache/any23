@@ -243,13 +243,13 @@ public class ExtractionParameters {
     private void checkPropertyExists(String propertyName) {
         if(! configuration.defineProperty(propertyName) ) {
             throw new IllegalArgumentException(
-                    String.format("Property '%s' is unknown and cannot be set.", propertyName)
+                    String.format(java.util.Locale.ROOT, "Property '%s' is unknown and cannot be set.", propertyName)
             );
         }
     }
 
     private void validateValue(String desc, String value) {
         if(value == null || value.trim().length() == 0)
-            throw new IllegalArgumentException( String.format("Invalid %s: '%s'", desc, value) );
+            throw new IllegalArgumentException( String.format(java.util.Locale.ROOT, "Invalid %s: '%s'", desc, value) );
     }
 }

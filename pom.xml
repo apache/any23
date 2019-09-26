@@ -333,9 +333,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>commons-lang</groupId>
-        <artifactId>commons-lang</artifactId>
-        <version>2.6</version>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.9</version>
       </dependency>
       <dependency>
         <groupId>org.apache.httpcomponents</groupId>
@@ -746,6 +746,7 @@
         <version>${forbiddenapis.version}</version>
         <configuration>
           <failOnUnsupportedJava>false</failOnUnsupportedJava>
+          <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
           <bundledSignatures>
             <!-- https://github.com/policeman-tools/forbidden-apis/wiki/BundledSignatures -->
             <bundledSignature>jdk-unsafe-${javac.src.version}</bundledSignature>
@@ -754,7 +755,7 @@
             <bundledSignature>jdk-reflection</bundledSignature>
             <bundledSignature>jdk-internal-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-system-out</bundledSignature>
-            <!--bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature-->
+            <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature>
           </bundledSignatures>
         </configuration>
         <executions>
@@ -765,6 +766,20 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <!-- Javadoc plugin. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <!--
+           | Apple's JVM sometimes requires more memory
+          -->
+          <additionalJOption>-J-Xmx1024m</additionalJOption>
+          <source>8</source>
+        </configuration>
       </plugin>
 
       <!-- Drop inherited behavior (i.e. don't put any more default LICENSE and NOTICE files in all artifacts) -->
@@ -796,7 +811,6 @@
         <configuration>
           <doCheck>false</doCheck>
           <doUpdate>false</doUpdate>
-          <!-- Use committed revision so it does not change every time svn update is run -->
           <useLastCommittedRevision>true</useLastCommittedRevision>
           <!-- default revision number if unavailable -->
           <revisionOnScmFailure>??????</revisionOnScmFailure>
@@ -927,6 +941,7 @@
            | Apple's JVM sometimes requires more memory
           -->
           <additionalJOption>-J-Xmx1024m</additionalJOption>
+          <source>8</source>
         </configuration>
       </plugin>
 
@@ -1066,6 +1081,7 @@
                   <goal>jar</goal>
                 </goals>
                 <configuration>
+                  <source>8</source>
                   <quiet>true</quiet>
                   <archive>
                     <manifest>
@@ -1159,6 +1175,9 @@
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-javadoc-plugin</artifactId>
                   <version>${maven-javadoc-plugin.version}</version>
+                  <configuration>
+                    <source>8</source>
+                  </configuration>
                   <reportSets>
                     <reportSet>
                       <reports>

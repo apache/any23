@@ -204,7 +204,8 @@ public class SiteCrawler {
     /**
      * Registers a {@link CrawlerListener} to this crawler.
      *
-     * @param listener
+     * @param listener a {@link org.apache.any23.plugin.crawler.CrawlerListener} 
+     * implementation which listens for page discovery
      */
     public void addListener(CrawlerListener listener) {
         listeners.add(listener);
@@ -213,7 +214,8 @@ public class SiteCrawler {
     /**
      * Deregisters a {@link CrawlerListener} from this crawler.
      *
-     * @param listener
+     * @param listener a {@link org.apache.any23.plugin.crawler.CrawlerListener} 
+     * implementation which listens for page discovery
      */
     public void removeListener(CrawlerListener listener) {
         listeners.remove(listener);
@@ -225,7 +227,7 @@ public class SiteCrawler {
      * @param seed the starting URL for the crawler process.
      * @param filters filters to be applied to the crawler process. Can be <code>null</code>.
      * @param wait if <code>true</code> the process will wait for the crawler termination.
-     * @throws Exception
+     * @throws Exception if an error occurred during crawler initiation
      */
     public synchronized void start(
             final URL seed, final Pattern filters, final boolean wait
@@ -252,7 +254,7 @@ public class SiteCrawler {
      *
      * @param seed the starting URL for the crawler process.
      * @param wait if <code>true</code> the process will wait for the crawler termination.
-     * @throws Exception
+     * @throws Exception if an error occurred during crawler initiation
      */
     public void start(final URL seed, final boolean wait) throws Exception {
         start(seed, defaultFilters, wait);

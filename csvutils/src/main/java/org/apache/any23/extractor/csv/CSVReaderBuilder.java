@@ -25,6 +25,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 /**
@@ -62,13 +63,13 @@ public class CSVReaderBuilder {
      *
      * @param is {@link InputStream} of the <i>CSV</i> file where guess the configuration.
      * @return a {@link CSVParser}
-     * @throws java.io.IOException
+     * @throws java.io.IOException if there is an error building the parser
      */
     public static CSVParser build(InputStream is) throws IOException {
         CSVFormat bestStrategy = getBestStrategy(is);
         if (bestStrategy == null)
             bestStrategy = getCSVStrategyFromConfiguration();
-        return new CSVParser(new InputStreamReader(is), bestStrategy);
+        return new CSVParser(new InputStreamReader(is, StandardCharsets.UTF_8), bestStrategy);
     }
 
     /**
@@ -77,7 +78,7 @@ public class CSVReaderBuilder {
      * @param is input stream to be verified.
      * @return <code>true</code> if the given <code>is</code> input stream contains a <i>CSV</i> content.
      *         <code>false</code> otherwise.
-     * @throws IOException
+     * @throws IOException if there is an error processing the input stream
      */
     public static boolean isCSV(InputStream is) throws IOException {
         return getBestStrategy(is) != null;
@@ -130,7 +131,8 @@ public class CSVReaderBuilder {
 
         is.mark(Integer.MAX_VALUE);
         try {
-            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is), strategy).iterator();
+            @SuppressWarnings("resource")
+            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is, StandardCharsets.UTF_8), strategy).iterator();
             int linesToCheck = 5;
             int headerColumnCount = -1;
             while (linesToCheck > 0 && rows.hasNext()) {

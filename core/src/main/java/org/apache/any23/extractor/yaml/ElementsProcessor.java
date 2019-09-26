@@ -121,13 +121,13 @@ public class ElementsProcessor {
     }
 
     /**
-     * This method creates a map with non bnode root.
+     * This method processes a map with non bnode root.
      * 
      * If a map has instantiated root (not a blank node) it is simpler to create SPARQL query.
      * 
-     * @param ns
-     * @param object
-     * @param parentNode
+     * @param ns the namespace to associated with statements
+     * @param object a populated {@link java.util.Map} 
+     * @param parentNode a {@link org.eclipse.rdf4j.model.Value} subject node to use in the new statement
      * @return instance of {@link ModelHolder}.
      */
     protected ModelHolder processMap(IRI ns, Map<String, Object> object, Value parentNode) {
