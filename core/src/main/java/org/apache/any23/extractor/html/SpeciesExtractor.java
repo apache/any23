@@ -17,6 +17,8 @@
 
 package org.apache.any23.extractor.html;
 
+import java.util.Locale;
+
 import org.apache.any23.extractor.ExtractionException;
 import org.apache.any23.extractor.ExtractionResult;
 import org.apache.any23.extractor.ExtractorDescription;
@@ -140,7 +142,7 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
     private IRI resolvePropertyName(String clazz) {
         return vWO.getProperty(
-                String.format(
+                String.format(Locale.ROOT,
                         "%sName",
                         clazz
                 )
@@ -150,8 +152,8 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     private IRI resolveClassName(String clazz) {
         String upperCaseClass = clazz.substring(0, 1);
         return vWO.getClass(
-                String.format("%s%s",
-                        upperCaseClass.toUpperCase(),
+                String.format(Locale.ROOT, "%s%s",
+                        upperCaseClass.toUpperCase(Locale.ROOT),
                         clazz.substring(1)
                 )
         );

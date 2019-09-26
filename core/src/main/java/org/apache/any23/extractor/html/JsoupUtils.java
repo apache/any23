@@ -26,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 /**
@@ -69,7 +70,7 @@ public class JsoupUtils {
 
                                 if (c == '>') {
                                     if (length >= 20 && bytes[length - 2] == '?') {
-                                        String decl = "<" + new String(bytes, 2, length - 4) + ">";
+                                        String decl = "<" + new String(bytes, 2, length - 4, StandardCharsets.UTF_8) + ">";
                                         org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(decl, documentIRI, Parser.xmlParser());
                                         for (org.jsoup.nodes.Element el : doc.children()) {
                                             if ("xml".equalsIgnoreCase(el.tagName())) {

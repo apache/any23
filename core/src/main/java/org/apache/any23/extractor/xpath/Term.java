@@ -19,6 +19,7 @@ package org.apache.any23.extractor.xpath;
 
 import org.eclipse.rdf4j.model.Value;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -79,7 +80,7 @@ public abstract class Term<T extends Value> {
             value = varMapping.get(internalValue);
             if(value == null) {
                 throw new IllegalStateException(
-                        String.format("Cannot find a valid value for variable '%s'", internalValue)
+                        String.format(Locale.ROOT, "Cannot find a valid value for variable '%s'", internalValue)
                 );
             }
         } else {

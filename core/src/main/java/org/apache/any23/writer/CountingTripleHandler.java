@@ -17,6 +17,8 @@
 
 package org.apache.any23.writer;
 
+import java.util.Locale;
+
 import org.apache.any23.extractor.ExtractionContext;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
@@ -70,7 +72,7 @@ public class CountingTripleHandler implements TripleHandler {
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
     throws TripleHandlerException {
         count++;
-        if(logTriples) logger.debug( String.format("%s %s %s %s %s\n", s, p, o, g, context) );
+        if(logTriples) logger.debug( String.format(Locale.ROOT, "%s %s %s %s %s\n", s, p, o, g, context) );
     }
 
     public void receiveNamespace(String prefix, String uri, ExtractionContext context)

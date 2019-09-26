@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -206,7 +207,7 @@ public class ItemScope extends Item {
             }
             j++;
         }
-        return String.format(
+        return String.format(Locale.ROOT,
                 "{ " +
                         "\"xpath\" : \"%s\", \"id\" : %s, \"refs\" : %s, \"type\" : %s, \"itemid\" : %s, \"properties\" : [ %s ]" +
                         " }",

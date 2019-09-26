@@ -336,7 +336,7 @@ public class MicrodataParser {
             return new ItemPropValue( getItemScope(node), ItemPropValue.Type.Nested);
         }
 
-        final String nodeName = node.getNodeName().toLowerCase();
+        final String nodeName = node.getNodeName().toLowerCase(Locale.ROOT);
 
         //see http://w3c.github.io/microdata-rdf/#dfn-property-values
         if ("data".equals(nodeName) || "meter".equals(nodeName)) {
@@ -611,7 +611,7 @@ public class MicrodataParser {
             for (String ref : refs) {
                 if (loopDetectorSet.contains(ref)) {
                         throw new MicrodataParserException(
-                                String.format(
+                                String.format(Locale.ROOT, 
                                         "Loop detected with depth %d while dereferencing itemProp '%s' .",
                                         dereferenceRecursionCounter - 1, ref
                                 ),
@@ -622,7 +622,7 @@ public class MicrodataParser {
                 Element element = document.getElementById(ref);
                 if (element == null) {
                     manageError(
-                            new MicrodataParserException( String.format("Unknown itemProp id '%s'", ref ), null )
+                            new MicrodataParserException( String.format(Locale.ROOT, "Unknown itemProp id '%s'", ref ), null )
                     );
                     continue;
                 }
@@ -676,7 +676,7 @@ public class MicrodataParser {
             if( itemProps.contains(deferredProperty) ) {
                 manageError(
                         new MicrodataParserException(
-                            String.format("Duplicated deferred itemProp '%s'.", deferredProperty.getName() ),
+                            String.format(Locale.ROOT, "Duplicated deferred itemProp '%s'.", deferredProperty.getName() ),
                             node
                         )
                 );

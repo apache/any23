@@ -51,6 +51,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Locale;
 
 
 /**
@@ -173,7 +174,7 @@ public class Any23 {
             userAgent = defaultUserAgent;
         }
         if (userAgent.trim().length() == 0) {
-            throw new IllegalArgumentException(String.format("Invalid user agent: '%s'", userAgent));
+            throw new IllegalArgumentException(String.format(Locale.ROOT, "Invalid user agent: '%s'", userAgent));
         }
         this.userAgent = userAgent;
     }
@@ -259,14 +260,14 @@ public class Any23 {
     public DocumentSource createDocumentSource(String documentIRI) throws URISyntaxException, IOException {
         if (documentIRI == null)
             throw new NullPointerException("documentIRI cannot be null.");
-        if (documentIRI.toLowerCase().startsWith("file:")) {
+        if (documentIRI.toLowerCase(Locale.ROOT).startsWith("file:")) {
             return new FileDocumentSource(new File(new URI(documentIRI)));
         }
-        if (documentIRI.toLowerCase().startsWith("http:") || documentIRI.toLowerCase().startsWith("https:")) {
+        if (documentIRI.toLowerCase(Locale.ROOT).startsWith("http:") || documentIRI.toLowerCase(Locale.ROOT).startsWith("https:")) {
             return new HTTPDocumentSource(getHTTPClient(), documentIRI);
         }
         throw new IllegalArgumentException(
-                String.format("Unsupported protocol for document IRI: '%s' . "
+                String.format(Locale.ROOT, "Unsupported protocol for document IRI: '%s' . "
                     + "Check that document IRI contains a protocol.", documentIRI)
         );
     }

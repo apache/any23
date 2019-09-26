@@ -30,6 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a>
@@ -56,7 +57,7 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
             if ("".equals(link)) {
                 out.notifyIssue(
                         IssueReport.IssueLevel.WARNING,
-                        String.format(
+                        String.format(Locale.ROOT,
                                 "Invalid license link detected within document %s.",
                                 documentIRI.toString()
                         ),

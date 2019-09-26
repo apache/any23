@@ -24,6 +24,7 @@ import org.eclipse.rdf4j.model.Value;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -100,7 +101,7 @@ public class LoggingTripleHandler implements TripleHandler {
                     if (e.getValue() > 0) {
                         success.set(true);
                     }
-                    return String.format("%s:%d", e.getKey(), e.getValue()); }
+                    return String.format(Locale.ROOT, "%s:%d", e.getKey(), e.getValue()); }
                 ).collect(Collectors.toList()).toArray(new String[] {});
         sb.append(StringUtils.join(", ", parsers));
         sb.append(" ]");

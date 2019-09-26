@@ -32,6 +32,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class StreamUtils {
      * @throws IOException if an error occurs while consuming the <code>is</code> stream.
      */
     public static String[] asLines(InputStream is) throws IOException {
-        final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         final List<String> lines = new ArrayList<String>();
         try {
             String line;
@@ -91,7 +92,7 @@ public class StreamUtils {
         if (is == null) {
             throw new NullPointerException("input stream is null.");
         }
-        final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        final BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         try {
             final StringBuilder content = new StringBuilder();
             String line;

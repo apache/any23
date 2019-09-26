@@ -22,6 +22,7 @@ import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -129,7 +130,7 @@ public class QuadTemplate {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s %s", subject, predicate, object, graph);
+        return String.format(Locale.ROOT, "%s %s %s %s", subject, predicate, object, graph);
     }
 
 }

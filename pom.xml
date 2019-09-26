@@ -752,7 +752,8 @@
             <bundledSignature>jdk-unsafe-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-deprecated-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-non-portable</bundledSignature>
-            <bundledSignature>jdk-reflection</bundledSignature>
+            <!-- comment out until we upgrade past Java 8 -->
+            <!--bundledSignature>jdk-reflection</bundledSignature-->
             <bundledSignature>jdk-internal-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-system-out</bundledSignature>
             <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature>

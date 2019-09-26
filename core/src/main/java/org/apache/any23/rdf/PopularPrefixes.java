@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -42,11 +43,11 @@ public class PopularPrefixes {
         Prefixes prefixes = new Prefixes();
         Properties properties = new Properties();
         try {
-            logger.trace(String.format("Loading prefixes from %s", RESOURCE_NAME));
+            logger.trace(String.format(Locale.ROOT, "Loading prefixes from %s", RESOURCE_NAME));
             properties.load(getResourceAsStream());
         } catch (IOException e) {
-            logger.error(String.format("Error while loading prefixes from %s", RESOURCE_NAME), e);
-            throw new RuntimeException(String.format("Error while loading prefixes from %s", RESOURCE_NAME));
+            logger.error(String.format(Locale.ROOT, "Error while loading prefixes from %s", RESOURCE_NAME), e);
+            throw new RuntimeException(String.format(Locale.ROOT, "Error while loading prefixes from %s", RESOURCE_NAME));
         }
         for (Map.Entry entry : properties.entrySet()) {
             if (testIRICompliance((String) entry.getValue())) {
@@ -55,7 +56,7 @@ public class PopularPrefixes {
                         (String) entry.getValue()
                 );
             } else {
-                logger.warn(String.format("Prefixes entry '%s' is not a well-formad IRI. Skipped.", entry.getValue()));
+                logger.warn(String.format(Locale.ROOT, "Prefixes entry '%s' is not a well-formad IRI. Skipped.", entry.getValue()));
             }
         }
         return prefixes;

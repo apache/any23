@@ -20,6 +20,7 @@ package org.apache.any23.source;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * String implementation of {@link DocumentSource}.
@@ -51,7 +52,7 @@ public class StringDocumentSource implements DocumentSource {
 
     public InputStream openInputStream() throws IOException {
         if (encoding == null) {
-            return new ByteArrayInputStream(in.getBytes());
+            return new ByteArrayInputStream(in.getBytes(StandardCharsets.UTF_8));
         }
         return new ByteArrayInputStream(in.getBytes(encoding));
     }

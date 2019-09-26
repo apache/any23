@@ -69,7 +69,7 @@ public abstract class Vocabulary {
     private Map<IRI,String> resourceToCommentMap;
 
     /**
-     * Constructor.
+     * Overloaded Constructor.
      *
      * @param namespace the namespace IRI prefix.
      */

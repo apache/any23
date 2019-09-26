@@ -34,6 +34,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/xfn">XFN</a>
@@ -113,7 +114,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 
     private boolean containsRelMe(String[] rels) {
         for (String rel : rels) {
-            if ("me".equals(rel.toLowerCase())) {
+            if ("me".equals(rel.toLowerCase(Locale.ROOT))) {
                 return true;
             }
         }
@@ -122,7 +123,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
 
     private boolean containsXFNRelExceptMe(String[] rels) {
         for (String rel : rels) {
-            if (!"me".equals(rel.toLowerCase()) && vXFN.isXFNLocalName(rel)) {
+            if (!"me".equals(rel.toLowerCase(Locale.ROOT)) && vXFN.isXFNLocalName(rel)) {
                 return true;
             }
         }
