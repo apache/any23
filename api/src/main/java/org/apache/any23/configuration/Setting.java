@@ -113,8 +113,8 @@ public abstract class Setting<V> implements Cloneable {
     }
 
     /**
-     * @param setting a setting key to retrieve
-     * @param <S> generic type for setting
+     * @param setting a setting that may or may not have the same key as this setting
+     * @param <S> the type of the supplied setting
      * @return this setting, if this setting has the same key as the supplied setting
      */
     @SuppressWarnings("unchecked")
@@ -123,7 +123,7 @@ public abstract class Setting<V> implements Cloneable {
     }
 
     /**
-     * @param newValue a value to provide for the new setting pair
+     * @param newValue a value for a new setting
      * @return a new {@link Setting} object with this setting's key and the supplied value.
      *
      * @throws IllegalArgumentException if the new value was invalid, as determined by:

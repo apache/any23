@@ -137,7 +137,7 @@ public final class Settings extends AbstractSet<Setting<?>> {
     }
 
     /**
-     * @param c a polulated {@link java.util.Collection} of {@link org.apache.any23.configuration.Setting}'s
+     * @param c a populated {@link java.util.Collection} of {@link org.apache.any23.configuration.Setting}'s
      * @return a {@link Settings} object containing the supplied settings.
      * @throws IllegalArgumentException if any two settings have the same identifier
      */
