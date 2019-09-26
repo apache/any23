@@ -18,7 +18,7 @@ package org.apache.any23.extractor.microdata;
 
 import org.apache.any23.extractor.html.DomUtils;
 import org.apache.any23.rdf.RDFUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;

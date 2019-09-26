@@ -22,7 +22,7 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import org.apache.any23.extractor.IssueReport;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.rdf4j.model.BNode;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.Resource;

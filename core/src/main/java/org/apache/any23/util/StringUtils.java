@@ -16,9 +16,6 @@
  */
 package org.apache.any23.util;
 
-import java.util.regex.Pattern;
-import org.apache.commons.lang.WordUtils;
-
 /**
  * This class provides a set of string utility methods.
  *
@@ -194,18 +191,18 @@ public class StringUtils {
 
         in = in.trim().replaceAll("-", "_");
 
-		// If no white chars found inside a string return uncapitalized
-        if (in.trim().matches("\\S+")) {
-			return WordUtils.uncapitalize(in);
+        if (in.matches("\\S+")) {
+            return org.apache.commons.lang3.StringUtils.uncapitalize(in);
         }
 
         in = in.toLowerCase();
-        if (Pattern.matches("\\S+(\\s+\\S+)+", in)) {
-            String[] words = in.split("\\s", 2);
-            in = words[0] + WordUtils.capitalize(words[1]).replaceAll("\\s", "");
+        String[] words = in.split("\\s+");
+        StringBuilder sb = new StringBuilder(in.length());
+        sb.append(words[0]);
+        for (int i = 1; i < words.length; i++) {
+            sb.append(org.apache.commons.lang3.StringUtils.capitalize(words[i]));
         }
-
-        return in;
+        return sb.toString();
     }
 
     private StringUtils() {
