@@ -36,6 +36,7 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class HTMLScraperExtractor implements Extractor.ContentExtractor {
         try {
             final IRI documentIRI = extractionContext.getDocumentIRI();
             for (ExtractionRule extractionRule : extractionRules) {
-                final String content = extractionRule.boilerpipeExtractor.getText(new InputStreamReader(inputStream));
+                final String content = extractionRule.boilerpipeExtractor.getText(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
                 extractionResult.writeTriple(
                         documentIRI,
                         extractionRule.property,

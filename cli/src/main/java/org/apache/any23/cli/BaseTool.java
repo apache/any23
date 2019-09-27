@@ -20,6 +20,7 @@ package org.apache.any23.cli;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * This class reduces the verbosity of testing command-line
@@ -54,15 +55,19 @@ abstract class BaseTool implements Tool {
     }
 
     private static PrintStream concise(PrintStream out, boolean concise) {
-        return (concise && (out == System.out || out == System.err)) ? new ConcisePrintStream(out)
-                : (out instanceof ConcisePrintStream ? ((ConcisePrintStream) out).out : out);
+        try {
+          return (concise && (out == System.out || out == System.err)) ? new ConcisePrintStream(out)
+                  : (out instanceof ConcisePrintStream ? ((ConcisePrintStream) out).out : out);
+        } catch (UnsupportedEncodingException e) {
+          throw new RuntimeException("Error supporting UTF-8 encodings in ConcisePrintStream", e);
+        }
     }
 
     private static final class ConcisePrintStream extends PrintStream {
 
         private PrintStream out;
 
-        private ConcisePrintStream(PrintStream out) {
+        private ConcisePrintStream(PrintStream out) throws UnsupportedEncodingException {
             super(new OutputStream() {
                 StringBuilder sb = new StringBuilder();
                 int lineCount;
@@ -98,7 +103,7 @@ abstract class BaseTool implements Tool {
                     sb = null;
                     BaseTool.close(out);
                 }
-            }, true);
+            }, true, "UTF-8");
             this.out = out;
         }
 

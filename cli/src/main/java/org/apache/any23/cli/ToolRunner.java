@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -125,7 +126,7 @@ public final class ToolRunner {
         // execute the parsed command
         infoStream.println();
         infoStream.println( "------------------------------------------------------------------------" );
-        infoStream.printf( "Apache Any23 :: %s%n", parsedCommand );
+        infoStream.printf(Locale.ROOT, "Apache Any23 :: %s%n", parsedCommand );
         infoStream.println( "------------------------------------------------------------------------" );
         infoStream.println();
 
@@ -142,7 +143,7 @@ public final class ToolRunner {
         } finally {
             infoStream.println();
             infoStream.println( "------------------------------------------------------------------------" );
-            infoStream.printf( "Apache Any23 %s%n", ( exit != 0 ) ? "FAILURE" : "SUCCESS" );
+            infoStream.printf(Locale.ROOT, "Apache Any23 %s%n", ( exit != 0 ) ? "FAILURE" : "SUCCESS" );
 
             if (exit != 0) {
                 infoStream.println();
@@ -151,18 +152,18 @@ public final class ToolRunner {
                     System.err.println( "Execution terminated with errors:" );
                     error.printStackTrace(infoStream);
                 } else {
-                    infoStream.printf( "Execution terminated with errors: %s%n", error.getMessage() );
+                    infoStream.printf(Locale.ROOT, "Execution terminated with errors: %s%n", error.getMessage() );
                 }
 
                 infoStream.println();
             }
 
-            infoStream.printf( "Total time: %ss%n", ( ( currentTimeMillis() - start ) / 1000 ) );
-            infoStream.printf( "Finished at: %s%n", new Date() );
+            infoStream.printf(Locale.ROOT, "Total time: %ss%n", ( ( currentTimeMillis() - start ) / 1000 ) );
+            infoStream.printf(Locale.ROOT, "Finished at: %s%n", new Date() );
 
             final Runtime runtime = Runtime.getRuntime();
             final int megaUnit = 1024 * 1024;
-            infoStream.printf( "Final Memory: %sM/%sM%n", ( runtime.totalMemory() - runtime.freeMemory() ) / megaUnit,
+            infoStream.printf(Locale.ROOT, "Final Memory: %sM/%sM%n", ( runtime.totalMemory() - runtime.freeMemory() ) / megaUnit,
                          runtime.totalMemory() / megaUnit );
 
             infoStream.println( "------------------------------------------------------------------------" );
@@ -197,16 +198,16 @@ public final class ToolRunner {
             }
         }
 
-        infoStream.printf( "Apache Any23 %s%n", Any23.VERSION );
-        infoStream.printf( "Java version: %s, vendor: %s%n",
+        infoStream.printf(Locale.ROOT, "Apache Any23 %s%n", Any23.VERSION );
+        infoStream.printf(Locale.ROOT, "Java version: %s, vendor: %s%n",
                            System.getProperty( "java.version" ),
                            System.getProperty( "java.vendor" ) );
-        infoStream.printf( "Java home: %s%n", System.getProperty( "java.home" ) );
-        infoStream.printf( "Default locale: %s_%s, platform encoding: %s%n",
+        infoStream.printf(Locale.ROOT, "Java home: %s%n", System.getProperty( "java.home" ) );
+        infoStream.printf(Locale.ROOT, "Default locale: %s_%s, platform encoding: %s%n",
                            System.getProperty( "user.language" ),
                            System.getProperty( "user.country" ),
                            System.getProperty( "sun.jnu.encoding" ) );
-        infoStream.printf( "OS name: \"%s\", version: \"%s\", arch: \"%s\", family: \"%s\"%n",
+        infoStream.printf(Locale.ROOT, "OS name: \"%s\", version: \"%s\", arch: \"%s\", family: \"%s\"%n",
                            System.getProperty( "os.name" ),
                            System.getProperty( "os.version" ),
                            System.getProperty( "os.arch" ),
@@ -214,7 +215,7 @@ public final class ToolRunner {
     }
 
     private static final String getOsFamily() {
-        String osName = System.getProperty( "os.name" ).toLowerCase();
+        String osName = System.getProperty( "os.name" ).toLowerCase(Locale.ROOT);
         String pathSep = System.getProperty( "path.separator" );
 
         if (osName.contains("windows")) {

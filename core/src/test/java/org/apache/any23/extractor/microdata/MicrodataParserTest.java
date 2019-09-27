@@ -128,7 +128,7 @@ public class MicrodataParserTest {
                   }
                 }
                 catch (Exception ex) {
-                  ex.printStackTrace();
+                  logger.error(ex.getMessage());
                   foundFailure.set(true);
                 }
                 finally {

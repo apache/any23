@@ -28,9 +28,12 @@ import edu.uci.ics.crawler4j.parser.ParseData;
 import org.apache.any23.plugin.crawler.CrawlerListener;
 import org.apache.any23.plugin.crawler.SiteCrawler;
 import org.apache.any23.source.StringDocumentSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -45,6 +48,8 @@ import static java.lang.String.format;
  */
 @Parameters(commandNames = "crawler", commandDescription = "Any23 Crawler Command Line Tool.")
 public class Crawler extends Rover {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Crawler.class);
 
     private final Object roverLock = new Object();
 
@@ -84,14 +89,14 @@ public class Crawler extends Rover {
         final URL seed = new URL(inputIRIs.get( 0 ));
 
         if ( storageFolder.isFile() ) {
-            throw new IllegalStateException( format( "Storage folder %s can not be a file, must be a directory",
+            throw new IllegalStateException( format(Locale.ROOT, "Storage folder %s can not be a file, must be a directory",
                                                      storageFolder ) );
         }
 
         if ( !storageFolder.exists() ) {
             if ( !storageFolder.mkdirs() ) {
                 throw new IllegalStateException(
-                        format( "Storage folder %s can not be created, please verify you have enough permissions",
+                        format(Locale.ROOT, "Storage folder %s can not be created, please verify you have enough permissions",
                                                          storageFolder ) );
             }
         }
@@ -106,7 +111,7 @@ public class Crawler extends Rover {
             @Override
             public void visitedPage(Page page) {
                 final String pageURL = page.getWebURL().getURL();
-                System.err.println( format("Processing page: [%s]", pageURL) );
+                LOG.info(format(Locale.ROOT, "Processing page: [%s]", pageURL) );
 
                 final ParseData parseData = page.getParseData();
                 if (parseData instanceof HtmlParseData) {
@@ -122,7 +127,7 @@ public class Crawler extends Rover {
                             );
                         }
                     } catch (Exception e) {
-                        System.err.println(format("Error while processing page [%s], error: %s .",
+                        LOG.error(format(Locale.ROOT, "Error while processing page [%s], error: %s .",
                                                   pageURL, e.getMessage())
                         );
                     }
@@ -134,10 +139,9 @@ public class Crawler extends Rover {
             @Override
             public void run() {
                 try {
-                    System.err.println( Crawler.super.printReports() );
-                    // siteCrawler.stop(); // TODO: cause shutdown hanging.
+                    LOG.error(Crawler.super.printReports());
                 } catch (Exception e) {
-                    e.printStackTrace(System.err);
+                    LOG.error(e.getMessage());
                 }
             }
         });
@@ -149,9 +153,9 @@ public class Crawler extends Rover {
         @Override
         public Pattern convert( String value ) {
             try {
-                return Pattern.compile( value );
+                return Pattern.compile(value);
             } catch (PatternSyntaxException pse) {
-                throw new ParameterException( format("Invalid page filter, '%s' must be a regular expression.", value) );
+                throw new ParameterException(format(Locale.ROOT, "Invalid page filter, '%s' must be a regular expression.", value) );
             }
         }
 

@@ -23,6 +23,7 @@ import edu.uci.ics.crawler4j.url.WebURL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -54,7 +55,7 @@ public class DefaultWebCrawler extends WebCrawler {
             return false;
         if (url.getURL() == null)
             return false;
-        final String href = url.getURL().toLowerCase();
+        final String href = url.getURL().toLowerCase(Locale.ROOT);
         if (!href.startsWith(sharedData.getSeed()))
             return false;
         return pattern == null || !pattern.matcher(href).matches();

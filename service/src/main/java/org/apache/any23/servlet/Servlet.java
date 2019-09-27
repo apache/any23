@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
@@ -308,7 +309,7 @@ public class Servlet extends HttpServlet {
         if ("validate-fix".equalsIgnoreCase(validationMode))
             return ValidationMode.VALIDATE_AND_FIX;
         throw new IllegalArgumentException(
-                String.format("Invalid value '%s' for '%s' parameter.", validationMode, parameter)
+                String.format(Locale.ROOT, "Invalid value '%s' for '%s' parameter.", validationMode, parameter)
         );
     }
 

@@ -648,7 +648,7 @@ public class Any23Test extends Any23OnlineTestBase {
         
         any23 = new Any23();
         Repository store = new SailRepository(new MemoryStore());
-        store.initialize();
+        store.init();
         try
         {
             conn = store.getConnection();
@@ -708,7 +708,7 @@ public class Any23Test extends Any23OnlineTestBase {
                 statement.getPredicate(), statement.getObject()));
     }
 
-    private boolean containsClass(List<?> list, Class clazz) {
+    private boolean containsClass(List<?> list, Class<?> clazz) {
         for (Object o : list) {
             if (o.getClass().equals(clazz)) {
                 return true;

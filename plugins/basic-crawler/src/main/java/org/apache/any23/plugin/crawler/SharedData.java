@@ -20,6 +20,7 @@ package org.apache.any23.plugin.crawler;
 import edu.uci.ics.crawler4j.crawler.Page;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -85,7 +86,7 @@ public class SharedData {
     private SharedData(String seed, Pattern pattern, List<CrawlerListener> listeners) {
         if(seed == null || seed.trim().length() == 0)
             throw new IllegalArgumentException(
-                String.format("Invalid seed '%s'", seed)
+                String.format(Locale.ROOT, "Invalid seed '%s'", seed)
             );
 
         this.seed      = seed;

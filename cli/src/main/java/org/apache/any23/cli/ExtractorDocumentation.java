@@ -31,6 +31,7 @@ import org.apache.any23.extractor.ExtractorRegistry;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Locale;
 
 /**
  * This class provides some command-line documentation
@@ -92,7 +93,7 @@ public class ExtractorDocumentation extends BaseTool {
      */
     public void printExtractorList(ExtractorRegistry registry) {
         for (ExtractorFactory factory : registry.getExtractorGroup()) {
-            out.println(String.format("%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
+            out.println(String.format(Locale.ROOT, "%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
         }
     }
 

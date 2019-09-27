@@ -25,6 +25,7 @@ import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -178,7 +179,7 @@ class WebResponder {
         final ServletOutputStream sos = response.getOutputStream();
         final byte[] data = byteOutStream.toByteArray();
         if(report) {
-            final PrintStream ps = new PrintStream(sos);
+            final PrintStream ps = new PrintStream(sos, true, "UTF-8");
             try {
                 printHeader(ps);
                 printResponse(reporter, er, data, ps);
@@ -225,10 +226,10 @@ class WebResponder {
             final Collection<IssueReport.Issue> extractorIssues = er.getExtractorIssues(name);
             if(extractorIssues.isEmpty())
                 continue;
-            ps.println( String.format("<extractorIssues extractor=\"%s\">", name));
+            ps.println( String.format(Locale.ROOT, "<extractorIssues extractor=\"%s\">", name));
             for(IssueReport.Issue issue : er.getExtractorIssues(name)) {
                 ps.println(
-                        String.format(
+                        String.format(Locale.ROOT, 
                                 "<issue level=\"%s\" row=\"%d\" col=\"%d\">%s</issue>",
                                 issue.getLevel().toString(),
                                 issue.getRow(),
@@ -249,7 +250,7 @@ class WebResponder {
 
         // Human readable error message.
         if(msg != null) {
-            ps.printf("<message>%s</message>%n", msg);
+            ps.printf(Locale.ROOT, "<message>%s</message>%n", msg);
         } else {
             ps.print("<message/>\n");
         }
@@ -296,7 +297,7 @@ class WebResponder {
         response.setStatus(code);
         response.setContentType("text/plain");
         final ServletOutputStream sos = response.getOutputStream();
-        final PrintStream ps = new PrintStream(sos);
+        final PrintStream ps = new PrintStream(sos, true, "UTF-8");
         final byte[] data = byteOutStream.toByteArray();
         if (report) {
             try {

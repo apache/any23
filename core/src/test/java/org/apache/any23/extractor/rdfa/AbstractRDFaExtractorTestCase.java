@@ -46,7 +46,7 @@ public abstract class AbstractRDFaExtractorTestCase extends
 	@Test
 	public void testBasic() throws Exception {
 		assertExtract("/html/rdfa/basic.html");
-		System.out.println(dumpModelToNQuads());
+		logger.info(dumpModelToNQuads());
 		assertContains(null, vDCTERMS.creator, RDFUtils.literal("Alice", "en"));
 		assertContains(null, vDCTERMS.title,
 				RDFUtils.literal("The trouble with Bob", "en"));
