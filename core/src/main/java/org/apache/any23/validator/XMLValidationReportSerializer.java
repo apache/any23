@@ -21,6 +21,7 @@ import org.w3c.dom.Element;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -32,6 +33,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Default implementation of {@link ValidationReportSerializer}
@@ -43,7 +45,12 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
 
     @Override
     public void serialize(ValidationReport vr, OutputStream os) throws SerializationException {
-        final PrintStream ps = new PrintStream(os);
+        PrintStream ps;
+        try {
+            ps = new PrintStream(os, true, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Error serializing the OuputStream as UTF-8 encoding.", e);
+        }
         try {
             serializeObject(vr, ps);
         } finally {
@@ -57,7 +64,7 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         }
         final Class<? extends Object> oClass = o.getClass();
         final String oClassName = getClassName(oClass);
-        ps.printf("<%s>%n", oClassName);
+        ps.printf(Locale.ROOT, "<%s>%n", oClassName);
         List<Method> getters = filterGetters(o.getClass());
         if(getters.isEmpty()) {
             ps.print( o.toString() );
@@ -66,7 +73,7 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         for (Method getter : getters) {
             serializeGetterValue(o, getter, ps);
         }
-        ps.printf("</%s>%n", oClassName);
+        ps.printf(Locale.ROOT, "</%s>%n", oClassName);
     }
 
     private String getClassName(Class<? extends Object> oClass) {
@@ -107,13 +114,13 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         try {
             value = m.invoke(o);
         } catch (Exception e) {
-            throw new SerializationException( String.format("Error while reading method '%s'", methodName), e );
+            throw new SerializationException( String.format(Locale.ROOT, "Error while reading method '%s'", methodName), e );
         }
         final String property = getPropertyFromMethodName(methodName);
         if( isManaged(value) ) {
-            ps.printf("<%s>%n", property);
+            ps.printf(Locale.ROOT, "<%s>%n", property);
             printObject(value, ps);
-            ps.printf("</%s>%n", property);
+            ps.printf(Locale.ROOT, "</%s>%n", property);
         } else {
             List<Method> getters = filterGetters(value.getClass());
             for (Method getter : getters) {

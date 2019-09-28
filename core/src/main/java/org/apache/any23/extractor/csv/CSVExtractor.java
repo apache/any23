@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * This extractor produces <i>RDF</i> from a <i>CSV file</i> .
@@ -204,7 +205,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     private IRI normalize(String toBeNormalized, IRI documentIRI) {
-      String newToBeNormalized = toBeNormalized.trim().toLowerCase().replace("?", "").replace("&", "");
+      String newToBeNormalized = toBeNormalized.trim().toLowerCase(Locale.ROOT).replace("?", "").replace("&", "");
 
         StringBuilder result = new StringBuilder(documentIRI.toString());
 

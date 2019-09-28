@@ -55,12 +55,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -244,8 +246,8 @@ public class SingleDocumentExtraction {
         try {
             output.startDocument(documentIRI);
         } catch (TripleHandlerException e) {
-            log.error(String.format("Error starting document with IRI %s", documentIRI));
-            throw new ExtractionException(String.format("Error starting document with IRI %s", documentIRI),
+            log.error(String.format(Locale.ROOT, "Error starting document with IRI %s", documentIRI));
+            throw new ExtractionException(String.format(Locale.ROOT, "Error starting document with IRI %s", documentIRI),
                     e
             );
         }
@@ -322,7 +324,7 @@ public class SingleDocumentExtraction {
 	                addExtractionTimeSizeMetaTriples(consolidationContext);
 	            } catch (TripleHandlerException e) {
 	                throw new ExtractionException(
-	                        String.format(
+	                        String.format(Locale.ROOT,
 	                                "Error while adding extraction metadata triples document with IRI %s", documentIRI
 	                        ),
 	                        e
@@ -333,8 +335,8 @@ public class SingleDocumentExtraction {
 	        try {
 	            output.endDocument(documentIRI);
 	        } catch (TripleHandlerException e) {
-	            log.error(String.format("Error ending document with IRI %s", documentIRI));
-	            throw new ExtractionException(String.format("Error ending document with IRI %s", documentIRI),
+	            log.error(String.format(Locale.ROOT, "Error ending document with IRI %s", documentIRI));
+	            throw new ExtractionException(String.format(Locale.ROOT, "Error ending document with IRI %s", documentIRI),
 	                    e
 	            );
 	        }
@@ -549,8 +551,8 @@ public class SingleDocumentExtraction {
             // Logging result error report.
             if(log.isDebugEnabled() && extractionResult.hasIssues() ) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                extractionResult.printReport(new PrintStream(baos));
-                log.debug(baos.toString());
+                extractionResult.printReport(new PrintStream(baos, true, "UTF-8"));
+                log.debug(baos.toString("UTF-8"));
             }
             extractionResult.close();
 
@@ -771,7 +773,7 @@ public class SingleDocumentExtraction {
             output.openContext(context);
         } catch (TripleHandlerException e) {
             throw new ExtractionException(
-                    String.format("Error starting document with IRI %s", documentIRI),
+                    String.format(Locale.ROOT, "Error starting document with IRI %s", documentIRI),
                     e
             );
         }
@@ -820,7 +822,7 @@ public class SingleDocumentExtraction {
             output.openContext(context);
         } catch (TripleHandlerException e) {
             throw new ExtractionException(
-                    String.format("Error starting document with IRI %s", documentIRI),
+                    String.format(Locale.ROOT, "Error starting document with IRI %s", documentIRI),
                     e
             );
         }

@@ -32,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -129,7 +130,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     @Override
     public void printReport(PrintStream ps) {
-        ps.print(String.format("Context: %s [errors: %d] {\n", context, getIssuesCount()));
+        ps.print(String.format(Locale.ROOT, "Context: %s [errors: %d] {\n", context, getIssuesCount()));
         for (Issue issue : issues) {
             ps.print(issue.toString());
             ps.print("\n");
@@ -176,7 +177,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             tripleHandler.receiveTriple(s, p, o, g, context);
         } catch (TripleHandlerException e) {
             throw new RuntimeException(
-                    String.format("Error while receiving triple %s %s %s", s, p, o ),
+                    String.format(Locale.ROOT, "Error while receiving triple %s %s %s", s, p, o ),
                     e
             );
         }
@@ -198,7 +199,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
             tripleHandler.receiveNamespace(prefix, uri, context);
         } catch (TripleHandlerException e) {
             throw new RuntimeException(
-                    String.format("Error while writing namespace %s:%s", prefix, uri),
+                    String.format(Locale.ROOT, "Error while writing namespace %s:%s", prefix, uri),
                     e
             );
         }
@@ -231,7 +232,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
                 try {
                     tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceIRIFor(prefix), context);
                 } catch (TripleHandlerException e) {
-                    throw new RuntimeException(String.format("Error while writing namespace %s", prefix),
+                    throw new RuntimeException(String.format(Locale.ROOT, "Error while writing namespace %s", prefix),
                             e
                     );
                 }

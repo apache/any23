@@ -73,6 +73,7 @@ public class JSONLDExtractorTest {
     for (int i = 0; i <= Character.MAX_CODE_POINT; i++) {
       if (Character.isWhitespace(i) || Character.isSpaceChar(i)) {
         byte[] bytes = new String(Character.toChars(i)).getBytes(StandardCharsets.UTF_8);
+        @SuppressWarnings("resource")
         InputStream stream = new JsonCleaningInputStream(new ByteArrayInputStream(bytes));
         if (i == '\r' || i == '\n') {
           Assert.assertEquals(stream.read(), i);
@@ -105,7 +106,6 @@ public class JSONLDExtractorTest {
     final TripleHandler tHandler = new RDFXMLWriter(baos);
     final ExtractionContext extractionContext = new ExtractionContext("rdf-jsonld", uri);
     final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, tHandler);
-    extractor.setStopAtFirstError(false);
     try {
       extractor.run(
               ExtractionParameters.newDefault(),
@@ -114,7 +114,7 @@ public class JSONLDExtractorTest {
               result
       );
     } finally {
-      logger.debug(baos.toString());
+      logger.debug(baos.toString("UTF-8"));
       tHandler.close();
       result.close();
     }

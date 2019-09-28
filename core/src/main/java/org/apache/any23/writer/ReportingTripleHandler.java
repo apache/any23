@@ -24,6 +24,7 @@ import org.eclipse.rdf4j.model.Value;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -64,7 +65,7 @@ public class ReportingTripleHandler implements TripleHandler {
      * @return a human readable report.
      */
     public String printReport() {
-        return String.format("Total Documents: %d, Total Triples: %d", getTotalDocuments(), getTotalTriples());
+        return String.format(Locale.ROOT, "Total Documents: %d, Total Triples: %d", getTotalDocuments(), getTotalTriples());
     }
 
     public void startDocument(IRI documentIRI) throws TripleHandlerException {

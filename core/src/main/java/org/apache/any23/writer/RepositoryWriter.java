@@ -17,6 +17,8 @@
 
 package org.apache.any23.writer;
 
+import java.util.Locale;
+
 import org.apache.any23.extractor.ExtractionContext;
 import org.eclipse.rdf4j.model.Resource;
 import org.eclipse.rdf4j.model.IRI;
@@ -67,7 +69,7 @@ public class RepositoryWriter implements TripleHandler {
                 getContextResource(context.getDocumentIRI())
             );
         } catch (RepositoryException ex) {
-            throw new TripleHandlerException(String.format("Error while receiving triple: %s %s %s", s, p , o),
+            throw new TripleHandlerException(String.format(Locale.ROOT, "Error while receiving triple: %s %s %s", s, p , o),
                     ex
             );
         }
@@ -82,7 +84,7 @@ public class RepositoryWriter implements TripleHandler {
         try {
             conn.setNamespace(prefix, uri);
         } catch (RepositoryException ex) {
-            throw new TripleHandlerException(String.format("Error while receiving namespace: %s:%s", prefix, uri),
+            throw new TripleHandlerException(String.format(Locale.ROOT, "Error while receiving namespace: %s:%s", prefix, uri),
                     ex
             );
         }

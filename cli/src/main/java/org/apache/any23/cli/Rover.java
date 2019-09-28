@@ -46,15 +46,20 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Objects;
 
 import static java.lang.String.format;
@@ -190,9 +195,10 @@ public class Rover extends BaseTool {
 
         if (logFile != null) {
             try {
-                tripleHandler = new LoggingTripleHandler(tripleHandler, new PrintWriter(logFile));
+                tripleHandler = new LoggingTripleHandler(tripleHandler, 
+                        new PrintWriter(new OutputStreamWriter(new FileOutputStream(logFile), StandardCharsets.UTF_8)));
             } catch (FileNotFoundException fnfe) {
-                throw new IllegalArgumentException( format("Can not write to log file [%s]", logFile), fnfe );
+                throw new IllegalArgumentException(format(Locale.ROOT, "Can not write to log file [%s]", logFile), fnfe );
             }
         }
 
@@ -202,9 +208,8 @@ public class Rover extends BaseTool {
         }
 
         if (noTrivial) {
-            tripleHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(tripleHandler),
-                                                     true    // suppress stylesheet triples.
-                                                     );
+            tripleHandler = new IgnoreAccidentalRDFa(
+                    new IgnoreTitlesOfEmptyDocuments(tripleHandler),true); // suppress stylesheet triples.
         }
 
         reportingTripleHandler = new ReportingTripleHandler(tripleHandler);
@@ -237,7 +242,7 @@ public class Rover extends BaseTool {
 
     protected void performExtraction(DocumentSource documentSource) throws Exception {
         if (!any23.extract(extractionParameters, documentSource, reportingTripleHandler).hasMatchingExtractors()) {
-            throw new IllegalStateException(format("No suitable extractors found for source %s", documentSource.getDocumentIRI()));
+            throw new IllegalStateException(format(Locale.ROOT, "No suitable extractors found for source %s", documentSource.getDocumentIRI()));
         }
     }
 
@@ -289,20 +294,20 @@ public class Rover extends BaseTool {
         @Override
         public String convert(String uri) {
             uri = uri.trim();
-            if (uri.toLowerCase().startsWith("http:") || uri.toLowerCase().startsWith("https:")) {
+            if (uri.toLowerCase(Locale.ROOT).startsWith("http:") || uri.toLowerCase(Locale.ROOT).startsWith("https:")) {
                 try {
                     return new URL(uri).toString();
                 } catch (MalformedURLException murle) {
-                    throw new ParameterException(format("Invalid IRI: '%s': %s", uri, murle.getMessage()));
+                    throw new ParameterException(format(Locale.ROOT, "Invalid IRI: '%s': %s", uri, murle.getMessage()));
                 }
             }
 
             final File f = new File(uri);
             if (!f.exists()) {
-                throw new ParameterException(format("No such file: [%s]", f.getAbsolutePath()));
+                throw new ParameterException(format(Locale.ROOT, "No such file: [%s]", f.getAbsolutePath()));
             }
             if (f.isDirectory()) {
-                throw new ParameterException(format("Found a directory: [%s]", f.getAbsolutePath()));
+                throw new ParameterException(format(Locale.ROOT, "Found a directory: [%s]", f.getAbsolutePath()));
             }
             return f.toURI().toString();
         }
@@ -315,9 +320,11 @@ public class Rover extends BaseTool {
         public PrintStream convert( String value ) {
             final File file = new File(value);
             try {
-                return new PrintStream(file);
+                return new PrintStream(new FileOutputStream(file), true, "UTF-8");
             } catch (FileNotFoundException fnfe) {
-                throw new ParameterException(format("Cannot open file '%s': %s", file, fnfe.getMessage()));
+                throw new ParameterException(format(Locale.ROOT, "Cannot open file '%s': %s", file, fnfe.getMessage()));
+            } catch (UnsupportedEncodingException e) {
+              throw new RuntimeException("Error converting to PrintStream with UTF-8 encoding.", e);
             }
         }
 

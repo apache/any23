@@ -62,7 +62,7 @@ public class MIMEType implements Comparable<MIMEType> {
                 if (i2 == -1) {
                   continue;
                 }
-                if (!"q".equals(param.substring(0, i2).trim().toLowerCase())){
+                if (!"q".equals(param.substring(0, i2).trim().toLowerCase(java.util.Locale.ROOT))){
                   continue;
                 }
                 String value = param.substring(i2 + 1);
@@ -83,8 +83,8 @@ public class MIMEType implements Comparable<MIMEType> {
         if (i2 == -1) {
             throw new IllegalArgumentException(MSG + mimeType);
         }
-        String p1 = type.substring(0, i2).trim().toLowerCase();
-        String p2 = type.substring(i2 + 1).trim().toLowerCase();
+        String p1 = type.substring(0, i2).trim().toLowerCase(java.util.Locale.ROOT);
+        String p2 = type.substring(i2 + 1).trim().toLowerCase(java.util.Locale.ROOT);
         if ("*".equals(p1)) {
             if (!"*".equals(p2)) {
                 throw new IllegalArgumentException(MSG + mimeType);

@@ -30,6 +30,7 @@ import org.eclipse.rdf4j.rio.Rio;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
@@ -136,10 +137,19 @@ public class RDFSchemaUtils {
      */
     public static String serializeVocabulary(Vocabulary vocabulary, RDFFormat format) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final PrintStream ps = new PrintStream(baos);
+        PrintStream ps;
+        try {
+          ps = new PrintStream(baos, true, "UTF-8");
+        } catch (UnsupportedEncodingException e1) {
+          throw new RuntimeException("UTF-8 encoding error when serializing the vocabulary to NQuads.", e1);
+        }
         serializeVocabulary(vocabulary, format, false, ps);
         ps.close();
-        return baos.toString();
+        try {
+          return baos.toString("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+          throw new RuntimeException("Error writing ByteArrayOutputStream to String with \"UTF-8\" encoding!");
+        }
     }
 
     /**

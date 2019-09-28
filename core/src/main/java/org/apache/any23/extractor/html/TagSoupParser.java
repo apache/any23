@@ -30,6 +30,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Locale;
 
 /**
  * <p>Parses an {@link java.io.InputStream}
@@ -74,7 +75,7 @@ public class TagSoupParser {
 
     public TagSoupParser(InputStream input, String documentIRI, String encoding) {
         if (encoding != null && !Charset.isSupported(encoding))
-            throw new UnsupportedCharsetException(String.format("Charset %s is not supported", encoding));
+            throw new UnsupportedCharsetException(String.format(Locale.ROOT, "Charset %s is not supported", encoding));
 
         this.input = input;
         this.documentIRI = documentIRI;

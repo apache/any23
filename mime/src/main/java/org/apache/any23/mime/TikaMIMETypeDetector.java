@@ -36,6 +36,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
 
 /**
@@ -112,7 +113,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         String sample = extractDataSample(is, '.');
         RDFParser turtleParser = Rio.createParser(RDFFormat.TURTLE);
         turtleParser.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, true);
-        ByteArrayInputStream bais = new ByteArrayInputStream(sample.getBytes());
+        ByteArrayInputStream bais = new ByteArrayInputStream(sample.getBytes(StandardCharsets.UTF_8));
         try {
             turtleParser.parse(bais, "");
             return true;
@@ -163,7 +164,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      * @throws IOException if an error occurs during sampling.
      */
     private static String extractDataSample(InputStream is, char breakChar) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         StringBuilder sb = new StringBuilder();
         final int MAX_SIZE = 1024 * 2;
         int c;

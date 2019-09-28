@@ -27,6 +27,7 @@ import org.eclipse.rdf4j.model.Value;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -104,7 +105,7 @@ public class ExtractionContextBlocker implements TripleHandler {
             contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o, g);
         } catch (ValvedTriplePipeException e) {
             throw new TripleHandlerException(
-                    String.format("Error while receiving triple %s %s %s", s, p, o),
+                    String.format(Locale.ROOT, "Error while receiving triple %s %s %s", s, p, o),
                     e
             );
         }
@@ -116,7 +117,7 @@ public class ExtractionContextBlocker implements TripleHandler {
             contextQueues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
         } catch (ValvedTriplePipeException e) {
             throw new TripleHandlerException(
-                    String.format("Error while receiving namespace %s:%s", prefix, uri),
+                    String.format(Locale.ROOT, "Error while receiving namespace %s:%s", prefix, uri),
                     e
             );
         }

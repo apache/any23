@@ -17,6 +17,8 @@
 
 package org.apache.any23.extractor.microdata;
 
+import java.util.Locale;
+
 /**
  * Describes a <b>Microdata item property</b>.
  *
@@ -79,7 +81,7 @@ public class ItemProp extends Item {
 
     @Override
     public String toJSON() {
-        return String.format(
+        return String.format(Locale.ROOT,
                 "{ \"xpath\" : \"%s\", \"name\" : \"%s\", \"value\" : %s }",
                 getXpath(),
                 name,

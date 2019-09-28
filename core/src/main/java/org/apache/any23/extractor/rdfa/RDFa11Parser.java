@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 import javax.xml.transform.TransformerException;
@@ -231,7 +232,7 @@ public class RDFa11Parser {
             if( ! isXMLNSDeclared(document)) {
                 reportError(
                         document.getDocumentElement(),
-                        String.format(
+                        String.format(Locale.ROOT,
                                 "The default %s namespace is expected to be declared and equal to '%s' .",
                                 XMLNS_ATTRIBUTE, XMLNS_DEFAULT
                         )
@@ -280,7 +281,7 @@ public class RDFa11Parser {
         try {
             pushVocabulary(currentNode, RDFUtils.iri(vocabularyStr));
         } catch (Exception e) {
-            reportError(currentNode, String.format("Invalid vocabulary [%s], must be a IRI.", vocabularyStr));
+            reportError(currentNode, String.format(Locale.ROOT, "Invalid vocabulary [%s], must be a IRI.", vocabularyStr));
         }
     }
 
@@ -357,7 +358,7 @@ public class RDFa11Parser {
             if(curieOrIRI != null && curieOrIRI instanceof IRI) {
                 result.add((IRI) curieOrIRI);
             } else {
-                reportError(n, String.format("Invalid CURIE '%s' : expected IRI, found BNode.", curieORIRIListPart));
+                reportError(n, String.format(Locale.ROOT, "Invalid CURIE '%s' : expected IRI, found BNode.", curieORIRIListPart));
             }
         }
         return result.toArray(new IRI[result.size()]);
@@ -482,7 +483,7 @@ public class RDFa11Parser {
      * @param msg human readable message.
      */
     private void reportError(Node n, String msg) {
-        final String errorMsg = String.format(
+        final String errorMsg = String.format(Locale.ROOT,
                 "Error while processing node [%s] : '%s'",
                 DomUtils.getXPathForNode(n), msg
         );
@@ -710,7 +711,7 @@ public class RDFa11Parser {
             int splitPoint = prefixPart.indexOf(IRI_PREFIX_SEPARATOR);
             final String prefix = prefixPart.substring(0, splitPoint);
             if(prefix.length() == 0) {
-                reportError(node, String.format("Invalid prefix length in prefix attribute '%s'", prefixAttribute));
+                reportError(node, String.format(Locale.ROOT, "Invalid prefix length in prefix attribute '%s'", prefixAttribute));
                 continue;
             }
             final IRI iri;
@@ -720,7 +721,7 @@ public class RDFa11Parser {
             } catch (Exception e) {
                 reportError(
                         node,
-                        String.format(
+                        String.format(Locale.ROOT,
                                 "Resolution of prefix '%s' defines an invalid IRI: '%s'",
                                 prefixAttribute, iriStr
                         )
@@ -956,7 +957,7 @@ public class RDFa11Parser {
         if(prefixSeparatorIndex == -1) { // there is no prefix separator.
             if(resolutionPolicy == ResolutionPolicy.NSRequired) {
                 throw new IllegalArgumentException(
-                        String.format("Invalid mapping string [%s], must declare a prefix.", mapping)
+                        String.format(Locale.ROOT, "Invalid mapping string [%s], must declare a prefix.", mapping)
                 );
             }
             if (resolutionPolicy == ResolutionPolicy.TermAllowed) {
@@ -972,14 +973,14 @@ public class RDFa11Parser {
         final String prefix = mapping.substring(0, prefixSeparatorIndex);
         final IRI curieMapping = getMapping(prefix);
         if(curieMapping == null) {
-            throw new IllegalArgumentException( String.format("Cannot map prefix '%s'", prefix) );
+            throw new IllegalArgumentException( String.format(Locale.ROOT, "Cannot map prefix '%s'", prefix) );
         }
         final String candidateCURIEStr = curieMapping.toString() + mapping.substring(prefixSeparatorIndex + 1);
         final java.net.URI candidateCURIE;
         try {
             candidateCURIE = new java.net.URI(candidateCURIEStr);
         } catch (URISyntaxException IRIse) {
-            throw new IllegalArgumentException(String.format("Invalid CURIE '%s'", candidateCURIEStr) );
+            throw new IllegalArgumentException(String.format(Locale.ROOT, "Invalid CURIE '%s'", candidateCURIEStr) );
         }
         return resolveIRI(
                 candidateCURIE.isAbsolute()

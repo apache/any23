@@ -25,6 +25,7 @@ import org.w3c.dom.Node;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class wraps the <i>DOM</i> document.
@@ -65,12 +66,12 @@ public class DefaultDOMDocument implements DOMDocument {
         List<Node> nodes = DomUtils.findAll(document, xPath);
         if(nodes.size() == 0) {
             throw new IllegalArgumentException(
-                    String.format("Cannot find node at XPath '%s'", xPath)
+                    String.format(Locale.ROOT, "Cannot find node at XPath '%s'", xPath)
             );
         }
         if(nodes.size() > 1) {
             throw new IllegalArgumentException(
-                    String.format("The given XPath '%s' corresponds to more than one node.", xPath)
+                    String.format(Locale.ROOT, "The given XPath '%s' corresponds to more than one node.", xPath)
             );
         }
         return nodes.get(0);

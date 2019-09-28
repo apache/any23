@@ -47,12 +47,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.TimeZone;
 
 /**
  * Basic class providing a set of utility methods when dealing with <i>RDF</i>.
@@ -104,9 +107,9 @@ public class RDFUtils {
      */
     public static String getXSDDate(String dateToBeParsed, String format)
     throws ParseException, DatatypeConfigurationException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format, Locale.ROOT);
         Date date = simpleDateFormat.parse(dateToBeParsed);
-        GregorianCalendar gc = new GregorianCalendar();
+        GregorianCalendar gc = new GregorianCalendar(TimeZone.getDefault(), Locale.ROOT);
         gc.setTime(date);
         XMLGregorianCalendar xml = DatatypeFactory.newInstance().newXMLGregorianCalendar(gc);
         xml.setTimezone(0);
@@ -120,7 +123,7 @@ public class RDFUtils {
      * @return the string representation of the input date.
      */
     public static String toXSDDateTime(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.ROOT);
         String s = simpleDateFormat.format(date);
         StringBuilder sb = new StringBuilder(s);
         sb.insert(22, ':');
@@ -494,7 +497,7 @@ public class RDFUtils {
      */
     public static Statement[] parseRDF(RDFFormat format, String in)
     throws IOException {
-        return parseRDF(format, new ByteArrayInputStream(in.getBytes()));
+        return parseRDF(format, new ByteArrayInputStream(in.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**

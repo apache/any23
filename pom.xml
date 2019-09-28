@@ -281,6 +281,7 @@
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
     <jackson.version>2.9.10</jackson.version>
+    <commons-io.version>2.6</commons-io.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
@@ -317,6 +318,7 @@
     <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
     <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
     <maven-checkstyle-plugin.version>3.1.12.2</maven-checkstyle-plugin.version>
+    <forbiddenapis.version>2.6</forbiddenapis.version>
 
     <!--
      | Any23 website has to be stored in SVN
@@ -554,7 +556,7 @@
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.6</version>
+        <version>${commons-io.version}</version>
       </dependency>
       <!-- END:  Apache Commons -->
 
@@ -738,6 +740,34 @@
     </pluginManagement>
 
     <plugins>
+      <plugin>
+        <groupId>de.thetaphi</groupId>
+        <artifactId>forbiddenapis</artifactId>
+        <version>${forbiddenapis.version}</version>
+        <configuration>
+          <failOnUnsupportedJava>false</failOnUnsupportedJava>
+          <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
+          <bundledSignatures>
+            <!-- https://github.com/policeman-tools/forbidden-apis/wiki/BundledSignatures -->
+            <bundledSignature>jdk-unsafe-${javac.src.version}</bundledSignature>
+            <bundledSignature>jdk-deprecated-${javac.src.version}</bundledSignature>
+            <bundledSignature>jdk-non-portable</bundledSignature>
+            <!-- comment out until we upgrade past Java 8 -->
+            <!--bundledSignature>jdk-reflection</bundledSignature-->
+            <bundledSignature>jdk-internal-${javac.src.version}</bundledSignature>
+            <bundledSignature>jdk-system-out</bundledSignature>
+            <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature>
+          </bundledSignatures>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+              <!--goal>testCheck</goal-->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
       <!-- Javadoc plugin. -->
       <plugin>
@@ -782,7 +812,6 @@
         <configuration>
           <doCheck>false</doCheck>
           <doUpdate>false</doUpdate>
-          <!-- Use committed revision so it does not change every time svn update is run -->
           <useLastCommittedRevision>true</useLastCommittedRevision>
           <!-- default revision number if unavailable -->
           <revisionOnScmFailure>??????</revisionOnScmFailure>

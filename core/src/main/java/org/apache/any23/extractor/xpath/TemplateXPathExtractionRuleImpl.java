@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -102,7 +103,7 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
         final Map<String,String> varValues = new HashMap<String, String>();
         String value;
         for(Variable variable : variables) {
-            value = DomUtils.find(in, variable.getxPath().toUpperCase());
+            value = DomUtils.find(in, variable.getxPath().toUpperCase(Locale.ROOT));
             varValues.put(variable.getName(), value);
         }
 
@@ -123,7 +124,7 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
     private void checkVariableNameDeclared(String varName) {
         if (!variableNameDeclared(varName)) {
             throw new IllegalArgumentException(
-                    String.format("A variable with name '%s' was not declared.", varName)
+                    String.format(Locale.ROOT, "A variable with name '%s' was not declared.", varName)
             );
         }
     }
@@ -131,7 +132,7 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
     private void checkVariableNameNotDeclared(String varName) {
         if (variableNameDeclared(varName)) {
             throw new IllegalArgumentException(
-                    String.format("A variable with name '%s' is already declared.", varName)
+                    String.format(Locale.ROOT, "A variable with name '%s' is already declared.", varName)
             );
         }
     }

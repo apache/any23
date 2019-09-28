@@ -22,6 +22,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 import org.apache.any23.util.StringUtils;
@@ -82,7 +83,7 @@ public class ItemPropValue {
     private static SimpleDateFormat getSdf() {
         SimpleDateFormat simpleDateFormat = sdf.get();
         if (simpleDateFormat == null) {
-            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
             sdf.set(simpleDateFormat);
         }
         return simpleDateFormat;
@@ -258,7 +259,7 @@ public class ItemPropValue {
             contentStr = content.toString();
         }
 
-        return String.format( "{ \"content\" : %s, \"type\" : \"%s\" }", contentStr, type );
+        return String.format(Locale.ROOT, "{ \"content\" : %s, \"type\" : \"%s\" }", contentStr, type );
     }
 
     @Override

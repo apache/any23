@@ -47,6 +47,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -128,10 +129,10 @@ public class DomUtils {
             return EMPTY_STRING_ARRAY;
         }
         List<String> ancestors = new ArrayList<String>();
-        ancestors.add( String.format("%s[%s]", n.getNodeName(), getIndexInParent(n) ) );
+        ancestors.add( String.format(Locale.ROOT, "%s[%s]", n.getNodeName(), getIndexInParent(n) ) );
         Node parent = n.getParentNode();
         while(parent != null) {
-            ancestors.add(0, String.format("%s[%s]", parent.getNodeName(), getIndexInParent(parent) ) );
+            ancestors.add(0, String.format(Locale.ROOT, "%s[%s]", parent.getNodeName(), getIndexInParent(parent) ) );
             parent = parent.getParentNode();
         }
         return ancestors.toArray( new String[ancestors.size()] );
@@ -201,7 +202,7 @@ public class DomUtils {
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByClassName(Node root, String className) {
-        return findAllBy(root, null, "class", className.toLowerCase());
+        return findAllBy(root, null, "class", className.toLowerCase(Locale.ROOT));
     }
 
     /**
@@ -493,28 +494,28 @@ public class DomUtils {
      * @return an {@link java.io.InputStream}
      */
     public static InputStream documentToInputStream(Document doc) {
-      DOMSource source = new DOMSource(doc);
-      StringWriter xmlAsWriter = new StringWriter();
-      StreamResult result = new StreamResult(xmlAsWriter);
-      try {
-        TransformerFactory.newInstance().newTransformer().transform(source, result);
-      } catch (TransformerConfigurationException e) {
-        throw new RuntimeException("Error within Document to InputStream transformation configuration!");
-      } catch (TransformerException e) {
-        throw new RuntimeException("Error whilst transforming the Document to InputStream!");
-      } catch (TransformerFactoryConfigurationError e) {
-        throw new RuntimeException("Error within Document to InputStream transformation configuration!");
-      }
-       
-      InputStream is = null;
-      try {
-        is = new ByteArrayInputStream(xmlAsWriter.toString().getBytes("UTF-8"));
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
-      return is;
+        DOMSource source = new DOMSource(doc);
+        StringWriter xmlAsWriter = new StringWriter();
+        StreamResult result = new StreamResult(xmlAsWriter);
+        try {
+            TransformerFactory.newInstance().newTransformer().transform(source, result);
+        } catch (TransformerConfigurationException e) {
+            throw new RuntimeException("Error within Document to InputStream transformation configuration!");
+        } catch (TransformerException e) {
+            throw new RuntimeException("Error whilst transforming the Document to InputStream!");
+        } catch (TransformerFactoryConfigurationError e) {
+            throw new RuntimeException("Error within Document to InputStream transformation configuration factory!");
+        }
+
+        InputStream is = null;
+        try {
+            is = new ByteArrayInputStream(xmlAsWriter.toString().getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Error obtaining data with \"UTF-8\" encoding!", e);
+        }
+        return is;
     }
-    
+
 
     /**
      * Convert a w3c dom node to a InputStream
@@ -526,21 +527,19 @@ public class DomUtils {
         Result outputTarget = new StreamResult(outputStream);
         Transformer t = null;
         try {
-          t = TransformerFactory.newInstance().newTransformer();
+            t = TransformerFactory.newInstance().newTransformer();
         } catch (TransformerConfigurationException e) {
-          e.printStackTrace();
+            throw new RuntimeException("Serious configuration error.", e);
         } catch (TransformerFactoryConfigurationError e) {
-          e.printStackTrace();
+            throw new RuntimeException("Serious configuration error.", e);
         }
         t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         try {
-          t.transform(new DOMSource(node), outputTarget);
+            t.transform(new DOMSource(node), outputTarget);
         } catch (TransformerException e) {
-          e.printStackTrace();
+            throw new RuntimeException("Error whilst transforming the Node to InputStream!");
         }
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
-
-
 
 }

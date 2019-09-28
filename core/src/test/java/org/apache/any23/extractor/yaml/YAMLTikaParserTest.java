@@ -54,7 +54,6 @@ public class YAMLTikaParserTest {
         Assert.assertNotNull("Could not find test file: " + file1, is);
         MIMEType type = detector.guessMIMEType(null, is, null);
 
-        log.info("Type: {}", type.toString());
         // Not currently doing stream detection for YAML, so it returns the default, octet-stream
         Assert.assertEquals("application/octet-stream", type.toString());
     }
@@ -66,7 +65,6 @@ public class YAMLTikaParserTest {
         log.debug("normatised file name: {}", fileName);
         MIMEType type = detector.guessMIMEType(fileName, null, null);
         
-        log.info("Type: {}", type.toString());
         Assert.assertEquals("text/x-yaml", type.toString());
     }
 

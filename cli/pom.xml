@@ -373,6 +373,36 @@
           </execution>
         </executions>
       </plugin>
+
+      <!-- Does NOT forbid calls to jdk-system-out -->
+      <plugin>
+        <groupId>de.thetaphi</groupId>
+        <artifactId>forbiddenapis</artifactId>
+        <version>${forbiddenapis.version}</version>
+        <configuration>
+          <failOnUnsupportedJava>false</failOnUnsupportedJava>
+          <failOnUnresolvableSignatures>false</failOnUnresolvableSignatures>
+          <bundledSignatures>
+            <!-- https://github.com/policeman-tools/forbidden-apis/wiki/BundledSignatures -->
+            <bundledSignature>jdk-unsafe-${javac.src.version}</bundledSignature>
+            <bundledSignature>jdk-deprecated-${javac.src.version}</bundledSignature>
+            <bundledSignature>jdk-non-portable</bundledSignature>
+            <!-- comment out until we upgrade past Java 8 -->
+            <!--bundledSignature>jdk-reflection</bundledSignature-->
+            <bundledSignature>jdk-internal-${javac.src.version}</bundledSignature>
+            <!--bundledSignature>jdk-system-out</bundledSignature-->
+            <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature>
+          </bundledSignatures>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+              <!--goal>testCheck</goal-->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 

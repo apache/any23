@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,8 +103,8 @@ public class MediaRangeSpec {
         if (!m.matches()) {
             return null;
         }
-        String type = m.group(1).toLowerCase();
-        String subtype = m.group(2).toLowerCase();
+        String type = m.group(1).toLowerCase(Locale.ROOT);
+        String subtype = m.group(2).toLowerCase(Locale.ROOT);
         String unparsedParameters = m.group(3);
         String qValue = m.group(7);
         m = parameterPattern.matcher(unparsedParameters);
@@ -113,7 +114,7 @@ public class MediaRangeSpec {
         List<String> parameterNames = new ArrayList<>();
         List<String> parameterValues = new ArrayList<>();
         while (m.find()) {
-            String name = m.group(1).toLowerCase();
+            String name = m.group(1).toLowerCase(Locale.ROOT);
             String value = (m.group(3) == null) ? m.group(2) : unescape(m.group(3));
             parameterNames.add(name);
             parameterValues.add(value);

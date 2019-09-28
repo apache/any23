@@ -17,8 +17,10 @@
 
 package org.apache.any23.extractor;
 
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Defines a specific exception raised during the metadata extraction phase.
@@ -44,7 +46,7 @@ public class ExtractionException extends Exception {
 
     @Override
     public void printStackTrace(PrintStream ps) {
-        printExceptionResult( new PrintWriter(ps) );
+        printExceptionResult( new PrintWriter(new OutputStreamWriter(ps, StandardCharsets.UTF_8), true));
         super.printStackTrace(ps);
     }
 

@@ -25,6 +25,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 /**
@@ -68,7 +69,7 @@ public class CSVReaderBuilder {
         CSVFormat bestStrategy = getBestStrategy(is);
         if (bestStrategy == null)
             bestStrategy = getCSVStrategyFromConfiguration();
-        return new CSVParser(new InputStreamReader(is), bestStrategy);
+        return new CSVParser(new InputStreamReader(is, StandardCharsets.UTF_8), bestStrategy);
     }
 
     /**
@@ -130,7 +131,8 @@ public class CSVReaderBuilder {
 
         is.mark(Integer.MAX_VALUE);
         try {
-            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is), strategy).iterator();
+            @SuppressWarnings("resource")
+            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is, StandardCharsets.UTF_8), strategy).iterator();
             int linesToCheck = 5;
             int headerColumnCount = -1;
             while (linesToCheck > 0 && rows.hasNext()) {

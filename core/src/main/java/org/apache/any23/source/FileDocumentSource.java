@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * File implementation of {@link DocumentSource}.
@@ -74,6 +75,6 @@ public class FileDocumentSource implements DocumentSource {
         } finally {
             is.close();
         }
-        return new String( baos.toByteArray() );
+        return new String(baos.toByteArray(), StandardCharsets.UTF_8 );
     }
 }

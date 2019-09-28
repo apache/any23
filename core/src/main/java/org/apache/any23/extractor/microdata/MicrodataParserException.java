@@ -17,6 +17,8 @@
 
 package org.apache.any23.extractor.microdata;
 
+import java.util.Locale;
+
 import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 
@@ -63,7 +65,7 @@ public class MicrodataParserException extends Exception {
     }
 
     public String toJSON() {
-        return String.format(
+        return String.format(Locale.ROOT,
                 "{ \"message\" : \"%s\", " +
                   "\"path\" : \"%s\", " +
                   "\"begin_row\" : %d, \"begin_col\" : %d, " +

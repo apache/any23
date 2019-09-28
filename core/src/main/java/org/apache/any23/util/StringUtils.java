@@ -16,6 +16,8 @@
  */
 package org.apache.any23.util;
 
+import java.util.Locale;
+
 /**
  * This class provides a set of string utility methods.
  *
@@ -195,7 +197,7 @@ public class StringUtils {
             return org.apache.commons.lang3.StringUtils.uncapitalize(in);
         }
 
-        in = in.toLowerCase();
+        in = in.toLowerCase(Locale.ROOT);
         String[] words = in.split("\\s+");
         StringBuilder sb = new StringBuilder(in.length());
         sb.append(words[0]);

@@ -37,6 +37,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} able to process
@@ -156,7 +157,7 @@ public class ExcelExtractor implements Extractor.ContentExtractor {
 
     private IRI getCellIRI(IRI rowIRI, Cell cell) {
         return RDFUtils.iri(rowIRI +
-		String.format("/%d/", cell.getColumnIndex()));
+                String.format(Locale.ROOT, "/%d/", cell.getColumnIndex()));
     }
 
     private IRI cellTypeToType(CellType cellType) {

@@ -24,13 +24,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Utility class for handling files.
@@ -55,7 +58,7 @@ public class FileUtils {
         boolean success = target.renameTo(newFile);
         if (!success) {
             throw new IllegalStateException(
-                    String.format("Cannot move target file [%s] to destination [%s]", target, newFile)
+                    String.format(Locale.ROOT, "Cannot move target file [%s] to destination [%s]", target, newFile)
             );
         }
         return newFile;
@@ -120,9 +123,10 @@ public class FileUtils {
      * @throws IOException if there is an error dumping the content
      */
     public static void dumpContent(File f, String content) throws IOException {
-        FileWriter fw = new FileWriter(f);
+        Writer fw = null;
         try {
-            fw.write(content);
+          fw = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
+          fw.write(content);
         } finally {
             StreamUtils.closeGracefully(fw);
         }
@@ -137,10 +141,11 @@ public class FileUtils {
      */
     public static void dumpContent(File f, Throwable t) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final PrintWriter pw = new PrintWriter(baos);
+        final PrintWriter pw = new PrintWriter(new OutputStreamWriter(
+                baos, StandardCharsets.UTF_8), true);
         t.printStackTrace(pw);
         pw.close();
-        dumpContent(f, baos.toString());
+        dumpContent(f, baos.toString("UTF-8"));
     }
 
     /**

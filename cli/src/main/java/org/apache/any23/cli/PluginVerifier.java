@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Commandline utility to verify the <b>Any23</b> plugins
@@ -90,9 +91,9 @@ public class PluginVerifier extends BaseTool {
 
     private void printPluginData(ExtractorFactory<?> extractorFactory, PrintStream ps) {
         final Author authorAnnotation = extractorFactory.getClass().getAnnotation(Author.class);
-        ps.printf("Plugin author    : %s%n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
-        ps.printf("Plugin factory   : %s%n", extractorFactory.getClass());
-        ps.printf("Plugin mime-types: %s%n", getMimeTypesStr(extractorFactory.getSupportedMIMETypes()));
+        ps.printf(Locale.ROOT, "Plugin author    : %s%n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
+        ps.printf(Locale.ROOT, "Plugin factory   : %s%n", extractorFactory.getClass());
+        ps.printf(Locale.ROOT, "Plugin mime-types: %s%n", getMimeTypesStr(extractorFactory.getSupportedMIMETypes()));
     }
 
 }

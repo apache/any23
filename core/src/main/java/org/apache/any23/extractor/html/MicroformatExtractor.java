@@ -36,6 +36,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * The abstract base class for any
@@ -167,7 +168,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         if( containsScriptBlock(literalStr) ) {
             out.notifyIssue(
                     IssueReport.IssueLevel.WARNING,
-                    String.format("Detected script in literal: [%s]", literalStr)
+                    String.format(Locale.ROOT, "Detected script in literal: [%s]", literalStr)
                     , -1
                     , -1
             );
@@ -237,7 +238,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     }
 
     private boolean containsScriptBlock(String in) {
-        final String inLowerCase = in.toLowerCase();
+        final String inLowerCase = in.toLowerCase(Locale.ROOT);
         final int beginBlock = inLowerCase.indexOf(BEGIN_SCRIPT);
         if(beginBlock == -1) {
             return false;

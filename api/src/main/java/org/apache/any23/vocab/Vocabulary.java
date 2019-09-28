@@ -69,7 +69,7 @@ public abstract class Vocabulary {
     private Map<IRI,String> resourceToCommentMap;
 
     /**
-     * Constructor.
+     * Overloaded Constructor.
      *
      * @param namespace the namespace IRI prefix.
      */
@@ -145,7 +145,7 @@ public abstract class Vocabulary {
         String camelCase = names[0];
         for (int i = 1; i < names.length; i++) {
             String tmp = names[i];
-            camelCase += tmp.replaceFirst("(.)", tmp.substring(0, 1).toUpperCase());
+            camelCase += tmp.replaceFirst("(.)", tmp.substring(0, 1).toUpperCase(java.util.Locale.ROOT));
         }
         return getProperty(camelCase);
     }

@@ -23,6 +23,7 @@ import org.eclipse.rdf4j.model.Resource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This interface models a specific {@link ExtractionResult}
@@ -85,7 +86,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
 
         public ResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
             if(path == null || path.length == 0) {
-                throw new IllegalArgumentException( String.format("Invalid xpath: '%s'.", Arrays.toString(path) ) );
+                throw new IllegalArgumentException( String.format(Locale.ROOT, "Invalid xpath: '%s'.", Arrays.toString(path) ) );
             }
             if(root == null) {
                 throw new IllegalArgumentException("Invalid root, cannot be null.");
@@ -112,7 +113,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
 
         @Override
         public String toString() {
-            return String.format(
+            return String.format(Locale.ROOT,
                     "%s-%s-%s %s",
                     this.getClass().getCanonicalName(),
                     Arrays.toString(path), 
@@ -175,7 +176,7 @@ public interface TagSoupExtractionResult extends ExtractionResult {
 
         @Override
          public String toString() {
-            return String.format(
+            return String.format(Locale.ROOT,
                     "%s %s - %s - %s -- %s -->",
                     this.getClass().getCanonicalName(),
                     Arrays.toString(path),

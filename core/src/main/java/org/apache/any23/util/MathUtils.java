@@ -17,6 +17,7 @@
 
 package org.apache.any23.util;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -34,7 +35,7 @@ public class MathUtils {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.reset();
-            md5.update(s.getBytes());
+            md5.update(s.getBytes(StandardCharsets.UTF_8));
             byte[] digest = md5.digest();
             StringBuffer result = new StringBuffer();
             for (byte b : digest) {

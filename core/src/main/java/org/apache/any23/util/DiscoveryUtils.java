@@ -70,6 +70,7 @@ public class DiscoveryUtils {
             }
             dirs.add( new File(fileNameDecoded) );
         }
+        @SuppressWarnings("rawtypes")
         final ArrayList<Class> classes = new ArrayList<Class>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName) );
@@ -86,11 +87,12 @@ public class DiscoveryUtils {
      * @param filter the interface/class filter.
      * @return list of matching classes.
      */
-    public static List<Class> getClassesInPackage(String packageName, Class filter) {
+    public static List<Class> getClassesInPackage(String packageName, Class<?> filter) {
         final List<Class> classesInPackage = getClassesInPackage(packageName);
+        @SuppressWarnings("rawtypes")
         final List<Class> result = new ArrayList<Class>();
-        Class superClazz;
-        for(Class clazz : classesInPackage) {
+        Class<?> superClazz;
+        for(Class<?> clazz : classesInPackage) {
             if(clazz.equals(filter)) {
                 continue;
             }
@@ -133,13 +135,15 @@ public class DiscoveryUtils {
         final String packagePath = sections[1].substring(1);
 
         try {
+            @SuppressWarnings("resource")
             final JarFile jarFile = new JarFile(jarLocation);
             final Enumeration<JarEntry> entries = jarFile.entries();
+            @SuppressWarnings("rawtypes")
             final List<Class> result = new ArrayList<Class>();
             JarEntry current;
             String entryName;
             String clazzName;
-            Class clazz;
+            Class<?> clazz;
             while(entries.hasMoreElements()) {
                 current = entries.nextElement();
                 entryName = current.getName();
@@ -178,6 +182,7 @@ public class DiscoveryUtils {
         if (!directory.exists()) {
             return Collections.emptyList();
         }
+        @SuppressWarnings("rawtypes")
         final List<Class> classes = new ArrayList<Class>();
         File[] files = directory.listFiles();
         for (File file : files) {
@@ -187,7 +192,7 @@ public class DiscoveryUtils {
                 classes.addAll(findClassesInDir(file, packageName + "." + fileName));
             } else if (fileName.endsWith(".class") && !fileName.contains("$")) {
                 try {
-                    Class clazz;
+                    Class<?> clazz;
                     try {
                         clazz = Class.forName(packageName + '.' + fileName.substring(0, fileName.length() - 6));
                     } catch (ExceptionInInitializerError e) {

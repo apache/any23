@@ -17,6 +17,8 @@
 
 package org.apache.any23.extractor.xpath;
 
+import java.util.Locale;
+
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 
@@ -44,7 +46,7 @@ public class TemplatePredicate extends Term<IRI> {
             return SimpleValueFactory.getInstance().createIRI(value);
         } catch (IllegalArgumentException iae) {
             throw new IllegalArgumentException(
-                    String.format("Expected a valid IRI for predicate template, found '%s'", value),
+                    String.format(Locale.ROOT, "Expected a valid IRI for predicate template, found '%s'", value),
                     iae
             );
         }

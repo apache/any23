@@ -22,6 +22,7 @@ import org.w3c.dom.Node;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class contains the report of a validation performed by
@@ -107,7 +108,7 @@ public interface ValidationReport extends Serializable {
 
         @Override
         public String toString() {
-            return String.format(
+            return String.format(Locale.ROOT,
                     "Issue %s '%s' %s",
                     level,
                     message,
@@ -177,7 +178,7 @@ public interface ValidationReport extends Serializable {
 
         @Override
         public String toString() {
-            return String.format("%s %s %s", this.getClass().getName(), cause, message);
+            return String.format(Locale.ROOT, "%s %s %s", this.getClass().getName(), cause, message);
         }
     }
 
@@ -206,7 +207,7 @@ public interface ValidationReport extends Serializable {
 
         @Override
         public String toString() {
-            return String.format("%s - %s", super.toString(), origin.getHRName());
+            return String.format(Locale.ROOT, "%s - %s", super.toString(), origin.getHRName());
         }
     }
 
@@ -232,7 +233,7 @@ public interface ValidationReport extends Serializable {
 
         @Override
         public String toString() {
-            return String.format("%s - %s", super.toString(), origin.getHRName());
+            return String.format(Locale.ROOT, "%s - %s", super.toString(), origin.getHRName());
         }
     }
 

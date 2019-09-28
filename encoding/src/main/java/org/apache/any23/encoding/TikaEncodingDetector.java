@@ -224,7 +224,7 @@ public class TikaEncodingDetector implements EncodingDetector {
                         //make sure json-ld data is included in text stats
                         //otherwise, ignore css & javascript
                         if ("script".equalsIgnoreCase(node.nodeName())) {
-                            if (node.attr("type").toLowerCase().contains("json")) {
+                            if (node.attr("type").toLowerCase(java.util.Locale.ROOT).contains("json")) {
                                 sb.append(data);
                             }
                             break;

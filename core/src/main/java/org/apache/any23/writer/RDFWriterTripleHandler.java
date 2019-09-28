@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -134,7 +135,7 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
             writer().handleStatement(RDFUtils.quad(s, p, o, g));
         } catch (RDFHandlerException ex) {
             throw new TripleHandlerException(
-                    String.format("Error while receiving triple: %s %s %s %s", s, p, o, g),
+                    String.format(Locale.ROOT, "Error while receiving triple: %s %s %s %s", s, p, o, g),
                     ex
             );
         }
@@ -146,7 +147,7 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
         try {
             writer().handleNamespace(prefix, uri);
         } catch (RDFHandlerException ex) {
-            throw new TripleHandlerException(String.format("Error while receiving namespace: %s:%s", prefix, uri),
+            throw new TripleHandlerException(String.format(Locale.ROOT, "Error while receiving namespace: %s:%s", prefix, uri),
                     ex
             );
         }

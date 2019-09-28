@@ -89,7 +89,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
         super.setUp();
         extractorGroup = ExtractorRegistryImpl.getInstance().getExtractorGroup();
         store = new MemoryStore();
-        store.initialize();
+        store.init();
         conn = new SailRepository(store).getConnection();
     }
 
@@ -97,7 +97,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     public void tearDown() throws SailException, RepositoryException, TripleHandlerException {
         rdfxmlWriter.close();
         repositoryWriter.close();
-        logger.debug( baos.toString() );
+        logger.debug(baos.toString());
 
         singleDocumentExtraction = null;
         extractorGroup = null;

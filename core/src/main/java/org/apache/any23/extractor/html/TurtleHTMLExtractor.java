@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Extractor for <i>Turtle/N3</i> format embedded within <i>HTML</i>
@@ -108,7 +109,7 @@ public class TurtleHTMLExtractor implements Extractor.TagSoupDOMExtractor {
         } catch (RDFParseException rdfpe) {
             er.notifyIssue(
                     IssueReport.IssueLevel.ERROR,
-                    String.format(
+                    String.format(Locale.ROOT,
                             "An error occurred while parsing turtle content within script node: %s",
                             Arrays.toString(DomUtils.getXPathListForNode(n))
                     ),
