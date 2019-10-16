@@ -63,11 +63,6 @@ public class OGPBook extends Vocabulary {
     public final IRI bookReleaseDate = createProperty(BOOK__RELEASE_DATE);
     public final IRI bookTag        = createProperty(BOOK__TAG);
 
-    @SuppressWarnings("unused")
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

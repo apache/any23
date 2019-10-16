@@ -78,11 +78,6 @@ public class OGPVideo extends Vocabulary {
     public final IRI videoTag       = createProperty(VIDEO__TAG);
     public final IRI videoSeries    = createProperty(VIDEO__SERIES);
 
-    @SuppressWarnings("unused")
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

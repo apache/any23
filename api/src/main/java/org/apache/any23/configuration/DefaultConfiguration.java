@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -74,8 +75,8 @@ public class DefaultConfiguration implements Configuration {
 
     private static Properties loadDefaultProperties() {
         final Properties properties = new Properties();
-        try {
-            properties.load( DefaultConfiguration.class.getResourceAsStream(DEFAULT_CONFIG_FILE) );
+        try(InputStream is = DefaultConfiguration.class.getResourceAsStream(DEFAULT_CONFIG_FILE)) {
+            properties.load(is);
         } catch (IOException ioe) {
             throw new IllegalStateException("Error while loading default configuration.", ioe);
         }
@@ -129,9 +130,6 @@ public class DefaultConfiguration implements Configuration {
     @Override
     public synchronized boolean getFlagProperty(final String propertyName) {
         final String value = getPropertyOrFail(propertyName);
-        if(value == null) {
-            return false;
-        }
         if(FLAG_PROPERTY_ON.equals(value)) {
             return true;
         }

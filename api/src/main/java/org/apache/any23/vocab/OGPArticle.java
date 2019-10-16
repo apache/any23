@@ -71,11 +71,6 @@ public class OGPArticle extends Vocabulary {
     public final IRI articleSection = createProperty(ARTICLE__SECTION);
     public final IRI articleTag     = createProperty(ARTICLE__TAG);
 
-    @SuppressWarnings("unused")
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

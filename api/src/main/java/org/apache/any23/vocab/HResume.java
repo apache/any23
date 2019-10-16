@@ -36,12 +36,11 @@ public class HResume extends Vocabulary {
         return instance;
     }
 
-    public IRI Resume  = createClass(NS, "Resume");
+    public IRI resume  = createClass(NS, "Resume");
     public IRI education   = createClass(NS, "education");
     public IRI experience = createClass(NS, "experience");
     public IRI contact = createClass(NS, "contact");
     public IRI affiliation = createClass(NS, "affiliation");
-
 
     public IRI name  = createProperty(NS, "name");
     public IRI summary   = createProperty(NS, "summary");

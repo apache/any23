@@ -172,11 +172,6 @@ public class OGP extends Vocabulary {
     public final IRI audioType      = createProperty(AUDIO__TYPE);
     public final IRI audioAlt       = createProperty(AUDIO__ALT);
 
-    @SuppressWarnings("unused")
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

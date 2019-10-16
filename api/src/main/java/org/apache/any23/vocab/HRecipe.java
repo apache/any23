@@ -38,10 +38,10 @@ public class HRecipe extends Vocabulary {
     }
 
     // Resources.
-    public IRI Recipe     = createClass(NS, "Recipe");
-    public IRI Duration   = createClass(NS, "Duration");
-    public IRI Ingredient = createClass(NS, "Ingredient");
-    public IRI Nutrition  = createClass(NS, "Nutrition");
+    public IRI recipe     = createClass(NS, "Recipe");
+    public IRI _Duration   = createClass(NS, "Duration");
+    public IRI _Ingredient = createClass(NS, "Ingredient");
+    public IRI _Nutrition  = createClass(NS, "Nutrition");
 
     // Properties.
     public IRI fn                     = createProperty(NS, "fn");
