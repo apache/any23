@@ -78,8 +78,7 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
         return true;
     }
 
-    @SuppressWarnings("unlikely-arg-type")
-    private boolean supportsAllContentTypes(ExtractorFactory<?> factory) {
+    private boolean supportsAllContentTypes(ExtractorFactory factory) {
         return factory.getSupportedMIMETypes().contains("*/*");
     }
 
