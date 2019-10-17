@@ -36,9 +36,9 @@ public class HCard extends Vocabulary {
         return instance;
     }
 
-    public IRI card  = createClass(NS, "Card");
-    public IRI address   = createClass(NS, "Address");
-    public IRI _Geo = createClass(NS, "Geo");
+    public IRI Card  = createClass(NS, "Card");
+    public IRI Address   = createClass(NS, "Address");
+    public IRI Geo = createClass(NS, "Geo");
 
     public IRI name  = createProperty(NS, "name");
     public IRI honorific_prefix   = createProperty(NS, "honorific-prefix");

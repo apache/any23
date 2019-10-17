@@ -37,7 +37,7 @@ public class HItem extends Vocabulary {
         return instance;
     }
 
-    public IRI item  = createClass(NS, "Item");
+    public IRI Item  = createClass(NS, "Item");
     public IRI name  = createProperty(NS, "name");
     public IRI url   = createProperty(NS, "url");
     public IRI photo = createProperty(NS, "photo");

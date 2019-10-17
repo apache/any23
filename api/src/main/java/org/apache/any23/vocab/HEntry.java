@@ -37,7 +37,7 @@ public class HEntry extends Vocabulary {
         return instance;
     }
 
-    public IRI entry  = createClass(NS, "Entry");
+    public IRI Entry  = createClass(NS, "Entry");
     public IRI author   = createClass(NS, "author");
     public IRI location = createClass(NS, "location");
 
@@ -51,7 +51,7 @@ public class HEntry extends Vocabulary {
     public IRI url   = createProperty(NS, "url");
     public IRI uid  = createProperty(NS, "uid");
     public IRI syndication   = createProperty(NS, "syndication");
-    public IRI inReplyTo   = createProperty(NS, "in-reply-to");
+    public IRI in_reply_to   = createProperty(NS, "in-reply-to");
 
     private HEntry() {
         super(NS);

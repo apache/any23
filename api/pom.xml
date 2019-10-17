@@ -28,7 +28,7 @@
   <artifactId>apache-any23-api</artifactId>
  
   <name>Apache Any23 :: Base API</name>
-  <description>Any23 library external API.</description>
+  <description>Any23 library external API</description>
 
   <dependencies>
     <dependency>
@@ -89,6 +89,16 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${maven-spotbugs-plugin.version}</version>
+        <configuration>
+          <omitVisitors>UnreadFields,Naming</omitVisitors>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <profiles>
