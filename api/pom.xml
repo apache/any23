@@ -95,7 +95,7 @@
         <artifactId>spotbugs-maven-plugin</artifactId>
         <version>${maven-spotbugs-plugin.version}</version>
         <configuration>
-          <omitVisitors>UnreadFields,Naming</omitVisitors>
+          <omitVisitors>UnreadFields,Naming,FindUnrelatedTypesInGenericContainer</omitVisitors>
         </configuration>
       </plugin>
     </plugins>
