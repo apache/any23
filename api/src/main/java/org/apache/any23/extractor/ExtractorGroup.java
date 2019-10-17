@@ -24,8 +24,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * It simple models a group of {@link ExtractorFactory} providing
- * simple accessing methods.
+ * Models a group of {@link ExtractorFactory} objcts providing
+ * simple accessor methods.
  */
 public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 
@@ -78,7 +78,7 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
         return true;
     }
 
-    private boolean supportsAllContentTypes(ExtractorFactory factory) {
+    private boolean supportsAllContentTypes(ExtractorFactory<?> factory) {
         return factory.getSupportedMIMETypes().contains("*/*");
     }
 

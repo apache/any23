@@ -37,7 +37,7 @@ public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescr
 
     /**
      * Supports wildcards, e.g. <code>"*&#47;*"</code> for blind extractors that merely call a web service.
-     * @return a {@link java.util.Collection} of supported mimetypes.
+     * @return a {@link java.util.Collection} of supported {@link org.apache.any23.mime.MIMEType}'s.
      */
     Collection<MIMEType> getSupportedMIMETypes();
 
