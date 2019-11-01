@@ -274,7 +274,7 @@
     <tika.version>1.22</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
-    <jackson.version>2.9.10</jackson.version>
+    <jackson.version>2.10.0</jackson.version>
     <commons-io.version>2.6</commons-io.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
