@@ -267,7 +267,7 @@
     <httpclient.version>4.5.10</httpclient.version>
     <httpcore.version>4.4.12</httpcore.version>
     <owlapi.version>5.1.11</owlapi.version>
-    <poi.version>4.1.0</poi.version>
+    <poi.version>4.1.1</poi.version>
     <rdf4j.version>3.0.0</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.28</slf4j.logger.version>
@@ -359,7 +359,7 @@
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.18</version>
+        <version>1.19</version>
       </dependency>
       <dependency>
         <groupId>xerces</groupId>
