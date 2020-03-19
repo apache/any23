@@ -42,7 +42,7 @@
       </snapshots>
       <id>bintray-allenai-maven</id>
       <name>bintray</name>
-      <url>http://allenai.bintray.com/maven</url>
+      <url>https://allenai.bintray.com/maven</url>
     </repository>
   </repositories>
   <pluginRepositories>
@@ -52,7 +52,7 @@
       </snapshots>
       <id>bintray-allenai-maven</id>
       <name>bintray-plugins</name>
-      <url>http://allenai.bintray.com/maven</url>
+      <url>https://allenai.bintray.com/maven</url>
     </pluginRepository>
   </pluginRepositories>
 
