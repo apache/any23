@@ -146,7 +146,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
         Any23 ttlRunner = createRunner(TurtleExtractorFactory.NAME);
         DocumentSource source = new HTTPDocumentSource(ttlRunner.getHTTPClient(),
-                "http://w3c.github.io/microdata-rdf/tests/manifest.ttl");
+                "https://w3c.github.io/microdata-rdf/tests/manifest.ttl");
         HashMap<Resource, HashMap<IRI, ArrayDeque<Value>>> map = new HashMap<>(256);
         ttlRunner.extract(source, new TripleWriterHandler() {
             public void writeTriple(Resource s, IRI p, Value o, Resource g) {
@@ -206,6 +206,11 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 if (result != null) {
                     createRunner(TurtleExtractorFactory.NAME).extract(result.stringValue(), new TripleWriterHandler() {
                         public void writeTriple(Resource s, IRI p, Value o, Resource g) {
+                            // TODO: remove this if-block after https://github.com/w3c/microdata-rdf/issues/30 has been resolved
+                            if (o instanceof IRI && o.stringValue().equals("http://w3c.github.io/author/jd_salinger.html")) {
+                                o = RDFUtils.iri("https://w3c.github.io/author/jd_salinger.html");
+                            }
+
                             expected.add(s, p, o);
                         }
                         public void writeNamespace(String prefix, String uri) { }
