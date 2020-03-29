@@ -17,6 +17,7 @@
 
 package org.apache.any23.extractor.rdfa;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.nodes.CDataNode;
 import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.Element;
@@ -49,6 +50,25 @@ class JsoupScanner implements NodeVisitor {
         return str == null ? "" : str;
     }
 
+    private static final String[] commonHashDelimitedVocabs = {
+            "http://creativecommons.org/ns",
+            "http://www.w3.org/2002/07/owl",
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+            "http://www.w3.org/ns/rdfa",
+            "http://www.w3.org/2000/01/rdf-schema",
+            "http://www.w3.org/1999/xhtml/vocab",
+            "http://www.w3.org/2001/XMLSchema",
+            "http://microformats.org/profile/hcard",
+            "http://www.w3.org/2006/vcard/ns",
+            "http://ogp.me/ns",
+            "http://ogp.me/ns/music",
+            "http://ogp.me/ns/video",
+            "http://ogp.me/ns/article",
+            "http://ogp.me/ns/book",
+            "http://ogp.me/ns/profile",
+            "http://ogp.me/ns/website"
+    };
+
     private void startElement(Element e) throws SAXException {
         ns.pushContext();
 
@@ -67,6 +87,19 @@ class JsoupScanner implements NodeVisitor {
                     ns.declarePrefix(localName, value);
                     handler.startPrefixMapping(localName, value);
                     continue;
+                }
+            } else if (name.equalsIgnoreCase("vocab")) {
+                // Fix for ANY23-428
+                name = "vocab";
+                value = value.trim();
+                int len = value.length();
+                char lastChar;
+                if (len != 0 && (lastChar = value.charAt(len - 1)) != '/' && lastChar != '#' && lastChar != ':') {
+                    if (ArrayUtils.contains(commonHashDelimitedVocabs, value)) {
+                        value += "#";
+                    } else {
+                        value += "/";
+                    }
                 }
             }
 

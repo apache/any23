@@ -228,6 +228,14 @@ public class RDFa11ExtractorTest extends AbstractRDFaExtractorTestCase {
         );
     }
 
+    @Test
+    public void testVocabWithoutTrailingSlash() {
+        // test for issue ANY23-428
+        assertExtract("/html/rdfa/vocab-without-trailing-slash.html");
+
+        assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/BreadcrumbList"));
+    }
+
     /**
      * Tests that the default parser settings enable tolerance in data type parsing.
      */
