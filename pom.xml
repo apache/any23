@@ -26,7 +26,7 @@
 
   <groupId>org.apache.any23</groupId>
   <artifactId>apache-any23</artifactId>
-  <version>2.5-SNAPSHOT</version>
+  <version>2.4</version>
   <packaging>pom</packaging>
 
   <name>Apache Any23</name>
@@ -240,7 +240,7 @@
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/any23.git</developerConnection>
     <connection>scm:git:http://gitbox.apache.org/repos/asf/any23.git</connection>
     <url>https://gitbox.apache.org/repos/asf/any23.git</url>
-    <tag>HEAD</tag>
+    <tag>any23-2.4</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
