@@ -3,8 +3,8 @@
 <img src="http://any23.apache.org/images/logo-any23.png" align="right" width="300" />
 
 [![license](https://img.shields.io/github/license/apache/any23.svg?maxAge=2592000)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Jenkins](https://img.shields.io/jenkins/s/https/builds.apache.org/Any23-trunk.svg?maxAge=3600)](https://builds.apache.org/job/Any23-trunk/)
-[![Jenkins tests](https://img.shields.io/jenkins/t/https/builds.apache.org/Any23-trunk.svg?maxAge=3600)](https://builds.apache.org/job/Any23-trunk)
+[![Jenkins](https://img.shields.io/jenkins/s/https/ci-builds.apache.org/job/Any23/job/any23-master-jdk8.svg?maxAge=3600)](https://builds.apache.org/job/Any23-trunk/)
+[![Jenkins tests](https://img.shields.io/jenkins/t/https/ci-builds.apache.org/job/Any23/job/any23-master-jdk8.svg?maxAge=3600)](https://builds.apache.org/job/Any23-trunk)
 [![Maven Central](https://img.shields.io/maven-central/v/org.apache.any23/apache-any23.svg?maxAge=86400)](http://search.maven.org/#search|ga|1|g%3A%22org.apache.any23%22)
 
 Apache Anything To Triples (Any23) is a library and web service that extracts
@@ -25,13 +25,13 @@ You can reach our and connect with our community on our [mailing lists](http://a
 
 # Build Any23 from Source Code
 
-The canonical Any23 source code lives at the [Apache Software Foundation Git repository](https://git-wip-us.apache.org/repos/asf/any23.git).
+The canonical Any23 source code lives at https://github.com/apache/any23.git
 
 Be sure to have the [Apache Maven v.3.x+](http://maven.apache.org/) installed and included in $PATH.
 
 ## Clone the source:
 ```
-git clone https://git-wip-us.apache.org/repos/asf/any23.git
+git clone https://github.com/apache/any23.git
 ```
 ## Navigate and build:
 ```
