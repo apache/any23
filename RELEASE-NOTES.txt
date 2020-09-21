@@ -1,3 +1,64 @@
+             Apache Any23 2.4
+              Release Notes
+           20/09/2020 (dd/mm/yyy)
+
+Sub-task
+
+    [ANY23-146] - CEN Metalex Vocabulary
+    [ANY23-149] - Expand SCHEMAORG Vocab
+    [ANY23-150] - Implement all vocab.sindice.net Vocabularies
+    [ANY23-269] - Support auto.schema.org
+    [ANY23-270] - Support bib.schema.org
+
+Bug
+
+    [ANY23-427] - http://semanticweb.org/ down causes tests to fail
+    [ANY23-428] - RDFa parse issue if vocab not defined with trailing slash
+    [ANY23-430] - Microdata and HTML's attribute case
+    [ANY23-441] - TikaEncodingDetector: guessEncoding may throws an ArrayIndexOutOfBoundsException
+    [ANY23-446] - Fix bugs in Jsoup
+    [ANY23-449] - Fix the online microdata test failure
+    [ANY23-453] - Upgrade jsonld-java to 0.13.1
+
+New Feature
+
+    [ANY23-5] - Add support for archive input.
+    [ANY23-6] - Integrate MetaX support
+
+Improvement
+
+    [ANY23-51] - Full support for rel-tag's
+    [ANY23-178] - Add fully annotated Javadoc to o.a.any23.source.*
+    [ANY23-183] - Address javac warning's in Any23 code base
+    [ANY23-202] - Add analytics on any23.org landing page
+    [ANY23-254] - Demo frontend should provide interactive CLI usage examples
+    [ANY23-281] - Build Policeman's Forbidden API Checker into Maven config
+    [ANY23-426] - Address Javadoc WARNING's
+    [ANY23-439] - Replace commons-lang with commons-lang3
+    [ANY23-440] - any23 configuration documentation has a wrong property name
+    [ANY23-442] - Move HTML preprocessing logic from BaseRDFExtractor to semargl Extractors
+    [ANY23-443] - Improve efficiency of RDFa Extractor
+    [ANY23-444] - Update all dependencies and plugins
+    [ANY23-450] - Update Maven deps and plugin versions
+
+Wish
+
+    [ANY23-225] - Fix Javadoc WARNING's in Any23 codebase
+
+Task
+
+    [ANY23-72] - Evaluate the introduction of Aether as to improve the Any23 plugin management system
+    [ANY23-429] - Website Build Fails due to Javadoc issues
+    [ANY23-431] - Upgrade jsoup to v1.12.1
+    [ANY23-432] - Upgrade owlapi to v5.1.11
+    [ANY23-433] - Upgrade rdf4j to v3.0.0
+    [ANY23-434] - Upgrade tika to v1.22
+    [ANY23-435] - Upgrade httpclient to v4.5.10
+    [ANY23-436] - Upgrade commons-csv to v1.7
+    [ANY23-437] - Upgrade snakeyaml to v1.25
+    [ANY23-438] - Upgrade slf4j-api to v1.7.28
+    [ANY23-448] - Move service and plugins out of core
+
              Apache Any23 2.3
               Release Notes
            10/02/2019 (dd/mm/yyy)
