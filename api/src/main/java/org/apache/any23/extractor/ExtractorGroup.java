@@ -24,8 +24,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * It simple models a group of {@link ExtractorFactory} providing
- * simple accessing methods.
+ * Models a group of {@link ExtractorFactory} objcts providing
+ * simple accessor methods.
  */
 public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 

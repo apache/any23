@@ -311,7 +311,7 @@
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
     <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
-    <maven-checkstyle-plugin.version>3.1.12.2</maven-checkstyle-plugin.version>
+    <maven-spotbugs-plugin.version>3.1.12.2</maven-spotbugs-plugin.version>
     <forbiddenapis.version>2.6</forbiddenapis.version>
 
     <!--
@@ -890,7 +890,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
+        <version>${maven-spotbugs-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
@@ -967,7 +967,7 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>${maven-checkstyle-plugin.version}</version>
+        <version>${maven-spotbugs-plugin.version}</version>
       </plugin>
 
       <!-- Check style report. -->

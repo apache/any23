@@ -42,7 +42,6 @@ public class HResume extends Vocabulary {
     public IRI contact = createClass(NS, "contact");
     public IRI affiliation = createClass(NS, "affiliation");
 
-
     public IRI name  = createProperty(NS, "name");
     public IRI summary   = createProperty(NS, "summary");
     public IRI skill   = createProperty(NS, "skill");

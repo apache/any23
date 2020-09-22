@@ -99,11 +99,6 @@ public class OGPMusic extends Vocabulary {
     
     public final IRI musicCreator   = createProperty(MUSIC__CREATOR);
 
-    @SuppressWarnings("unused")
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

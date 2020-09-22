@@ -93,11 +93,6 @@ public class SINDICE extends Vocabulary {
      */
     public final IRI date = createProperty(DATE);
 
-
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

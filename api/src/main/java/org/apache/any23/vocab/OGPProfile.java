@@ -63,11 +63,6 @@ public class OGPProfile extends Vocabulary {
     public final IRI profileUsername = createProperty(PROFILE__USERNAME);
     public final IRI profileGender  = createProperty(PROFILE__GENDER);
 
-    @SuppressWarnings("unused")
-    private IRI createClass(String localName) {
-        return createClass(NS, localName);
-    }
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }

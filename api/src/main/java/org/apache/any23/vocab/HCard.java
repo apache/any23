@@ -40,7 +40,6 @@ public class HCard extends Vocabulary {
     public IRI Address   = createClass(NS, "Address");
     public IRI Geo = createClass(NS, "Geo");
 
-
     public IRI name  = createProperty(NS, "name");
     public IRI honorific_prefix   = createProperty(NS, "honorific-prefix");
     public IRI given_name   = createProperty(NS, "given-name");

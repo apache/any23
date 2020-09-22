@@ -142,12 +142,12 @@ public abstract class Vocabulary {
      */
     public IRI getPropertyCamelCase(String property) {
         String[] names = property.split("\\W");
-        String camelCase = names[0];
+        StringBuilder camelCase = new StringBuilder(property.length()).append(names[0]);
         for (int i = 1; i < names.length; i++) {
             String tmp = names[i];
-            camelCase += tmp.replaceFirst("(.)", tmp.substring(0, 1).toUpperCase(java.util.Locale.ROOT));
+            camelCase.append(tmp.replaceFirst("(.)", tmp.substring(0, 1).toUpperCase(java.util.Locale.ROOT)));
         }
-        return getProperty(camelCase);
+        return getProperty(camelCase.toString());
     }
 
     /**
