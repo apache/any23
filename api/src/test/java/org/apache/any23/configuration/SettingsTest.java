@@ -34,7 +34,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 public class SettingsTest {
 
     @Test

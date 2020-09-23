@@ -116,7 +116,24 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      */
     @Test
     public void testMicroformatDomains() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("/microformats/microformat-domains.html");
+        singleDocumentExtraction = getInstance("/microformats/microformat-domains.html", false);
+        singleDocumentExtraction.run();
+        logStorageContent();
+        assertTripleCount(vSINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 1);
+    }
+
+    /**
+     * Tests the existence of the domain triples using the SingleDocumentExtraction 
+     * extractor matching and mimetype detection optimization implemented in
+     * <a href="https://issues.apache.org/jira/projects/ANY23/issues/ANY23-43">ANY23-43</a>
+     *
+     * @throws IOException if there is an error loading input data
+     * @throws ExtractionException if an exception is raised during extraction
+     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     */
+    @Test
+    public void testMicroformatDomainsAny2343Optimization() throws IOException, ExtractionException, RepositoryException {
+        singleDocumentExtraction = getInstance("/microformats/microformat-domains.html", true);
         singleDocumentExtraction.run();
         logStorageContent();
         assertTripleCount(vSINDICE.getProperty(SINDICE.DOMAIN), "nested.test.com", 1);
@@ -137,7 +154,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      */
     @Test
     public void testNestedMicroformats() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a1.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a1.html", false);
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -160,7 +177,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      */
     @Test
     public void testNestedVCardAdr() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a3.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a3.html", false);
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -187,7 +204,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      */
     @Test
     public void testNestedMicroformatsInduced() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a2.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-a2.html", false);
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -214,7 +231,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      *       show the triple property as double. Despite this the model contains it just once.
      */
     public void testNestedMicroformatsManaged() throws IOException, ExtractionException, RepositoryException {
-        singleDocumentExtraction = getInstance("/microformats/nested-microformats-managed.html");
+        singleDocumentExtraction = getInstance("/microformats/nested-microformats-managed.html", false);
         singleDocumentExtraction.run();
 
         logStorageContent();
@@ -229,7 +246,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL)  , vREVIEW.hasReview, 1);
     }
 
-    private SingleDocumentExtraction getInstance(String file) throws FileNotFoundException, IOException {
+    private SingleDocumentExtraction getInstance(String file, Boolean optimizeMimeTypeAndExtractorSelection) throws FileNotFoundException, IOException {
         baos = new ByteArrayOutputStream();
         rdfxmlWriter = new RDFXMLWriter(baos);
         repositoryWriter = new RepositoryWriter(conn);
@@ -238,18 +255,18 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
         cth.addChild(rdfxmlWriter);
         cth.addChild(repositoryWriter);
 
-        final ModifiableConfiguration configuration = DefaultConfiguration.copy();
-        configuration.setProperty("any23.extraction.metadata.domain.per.entity", "on");
-        SingleDocumentExtraction instance =  new SingleDocumentExtraction(
-                configuration,
-                new HTMLFixture(copyResourceToTempFile(file)).getOpener("http://nested.test.com"),
-                extractorGroup,
-                cth
-        );
-        instance.setMIMETypeDetector( new TikaMIMETypeDetector(new WhiteSpacesPurifier()) );
-        return instance;
-    }
-
+      final ModifiableConfiguration configuration = DefaultConfiguration.copy();
+      configuration.setProperty("any23.extraction.metadata.domain.per.entity", "on");
+      SingleDocumentExtraction instance =  new SingleDocumentExtraction(
+              configuration,
+              new HTMLFixture(copyResourceToTempFile(file))
+                  .getOpener("http://nested.test.com", optimizeMimeTypeAndExtractorSelection),
+              extractorGroup,
+              cth
+      );
+      instance.setMIMETypeDetector(new TikaMIMETypeDetector(new WhiteSpacesPurifier()) );
+      return instance;
+  }
     /**
      * Logs the storage content.
      * @throws RepositoryException if an error is encountered whilst loading content from a storage connection

@@ -34,15 +34,25 @@ public class FileDocumentSource implements DocumentSource {
 
     private final String uri;
 
+    private final String contentType;
+
     public FileDocumentSource(File file) {
         this.file = file;
         this.uri = file.toURI().toString();
+        this.contentType = null;
     }
 
     public FileDocumentSource(File file, String baseIRI) {
         this.file = file;
         this.uri = baseIRI;
+        this.contentType = null;
     }
+
+    public FileDocumentSource(File file, String baseIRI, String contentType) {
+        this.file = file;
+        this.uri = baseIRI;
+        this.contentType = contentType;
+  }
 
     public InputStream openInputStream() throws IOException {
         return new BufferedInputStream( new FileInputStream(file) );
@@ -57,7 +67,7 @@ public class FileDocumentSource implements DocumentSource {
     }
 
     public String getContentType() {
-        return null;
+        return contentType;
     }
 
     public boolean isLocal() {

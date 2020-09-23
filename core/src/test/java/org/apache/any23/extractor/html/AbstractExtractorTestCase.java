@@ -189,7 +189,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
   IOException {
     SingleDocumentExtraction ex = new SingleDocumentExtraction(
             new HTMLFixture(copyResourceToTempFile(resource)).getOpener(baseIRI
-                    .toString()), getExtractorFactory(),
+                    .toString(), false), getExtractorFactory(),
             new RepositoryWriter(conn));
     ex.setMIMETypeDetector(null);
     report = ex.run();
