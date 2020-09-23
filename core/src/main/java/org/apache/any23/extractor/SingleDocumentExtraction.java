@@ -55,7 +55,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -132,6 +131,8 @@ public class SingleDocumentExtraction {
         tripleHandlers.add(new CountingTripleHandler());
         this.output = new CompositeTripleHandler(tripleHandlers);
         this.encoderDetector = new TikaEncodingDetector();
+        if (configuration.getFlagProperty("any23.extraction.extractor.mimetype.optimization") && in.getContentType() != null)
+            optimizeExtractorMatchingAndMimetypeDetection(in.getContentType());
     }
 
     /**
@@ -153,6 +154,8 @@ public class SingleDocumentExtraction {
                 output
         );
         this.setMIMETypeDetector(null);
+        if (configuration.getFlagProperty("any23.extraction.extractor.mimetype.optimization") && in.getContentType() != null)
+            optimizeExtractorMatchingAndMimetypeDetection(in.getContentType());
     }
 
     /**
@@ -174,6 +177,20 @@ public class SingleDocumentExtraction {
                 output
         );
         this.setMIMETypeDetector(null);
+        if (configuration.getFlagProperty("any23.extraction.extractor.mimetype.optimization") && in.getContentType() != null)
+            optimizeExtractorMatchingAndMimetypeDetection(in.getContentType());
+    }
+
+    /**
+     * Simple utility to attempt extractor matches and mimetype detection given
+     * a {@link DocumentSource#getContentType()}.
+     * @param contentType String content type obtained from {@link DocumentSource#getContentType()}
+     * @see <a href="https://issues.apache.org/jira/browse/ANY23-43">https://issues.apache.org/jira/browse/ANY23-43</a>
+     */
+    private void optimizeExtractorMatchingAndMimetypeDetection(String contentType) {
+      if (contentType != null)
+        detectedMIMEType = MIMEType.parse(contentType);
+        matchingExtractors = extractors.filterByMIMEType(detectedMIMEType);
     }
 
     /**
@@ -225,7 +242,9 @@ public class SingleDocumentExtraction {
         if (log.isDebugEnabled()) {
             log.debug("Processing " + this.documentIRI);
         }
-        filterExtractorsByMIMEType();
+        if (matchingExtractors != null && detectedMIMEType != null) {
+          filterExtractorsByMIMEType();
+        }
 
         if(log.isDebugEnabled()) {
             StringBuilder sb = new StringBuilder("Extractors ");
@@ -252,22 +271,22 @@ public class SingleDocumentExtraction {
             );
         }
         try {
-	        output.setContentLength(in.getContentLength());
-	        // Create the document context.
+            output.setContentLength(in.getContentLength());
+            // Create the document context.
             final String documentLanguage;
-	        try {
-	            documentLanguage = extractDocumentLanguage(extractionParameters);
-	            ArrayList<ExtractorFactory<?>> filteredList = new ArrayList<>(matchingExtractors.getNumOfExtractors());
+            try {
+                documentLanguage = extractDocumentLanguage(extractionParameters);
+                ArrayList<ExtractorFactory<?>> filteredList = new ArrayList<>(matchingExtractors.getNumOfExtractors());
                 final boolean mimeTypeIsTooGeneric = isTooGeneric(detectedMIMEType);
                 ArrayList<String> intersectionOfRdfMimetypes = null;
                 for (ExtractorFactory<?> factory : matchingExtractors) {
-	                final Extractor<?> extractor = factory.createExtractor();
-	                final SingleExtractionReport er = runExtractor(
-	                        extractionParameters,
-	                        documentLanguage,
-	                        extractor
-	                );
-	                // Fix for ANY23-415:
+                    final Extractor<?> extractor = factory.createExtractor();
+                    final SingleExtractionReport er = runExtractor(
+                            extractionParameters,
+                            documentLanguage,
+                            extractor
+                    );
+                    // Fix for ANY23-415:
                     if (mimeTypeIsTooGeneric) {
                         List<String> rdfMimetypes = factory.getSupportedMIMETypes().stream()
                                 .filter(mt -> !isTooGeneric(mt))

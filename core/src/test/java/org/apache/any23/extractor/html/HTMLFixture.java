@@ -27,7 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * This class is a wrapper around an HTML document providing a simply facade.
+ * This class is a wrapper around an HTML document providing a simple facade.
  */
 public class HTMLFixture {
 
@@ -43,8 +43,21 @@ public class HTMLFixture {
         return file;
     }
 
-    public DocumentSource getOpener(String baseIRI) {
-        return new FileDocumentSource(getFile(), baseIRI);
+    /**
+     * 
+     * @param baseIRI the base IRI to use for the DocumentSource
+     * @param optimizeMimeTypeAndExtractorSelection if you wish to optimize 
+     * SingleDocumentExtraction extractor matching and mimetype detection by 
+     * trusting the input DocumentSource content type. See 
+     * https://issues.apache.org/jira/projects/ANY23/issues/ANY23-43
+     * @return the document source which is actually a {@link FileDocumentSource}
+     */
+    public DocumentSource getOpener(String baseIRI, Boolean optimizeMimeTypeAndExtractorSelection) {
+        if (optimizeMimeTypeAndExtractorSelection) {
+            return new FileDocumentSource(getFile(), baseIRI, "text/html");
+        } else {
+            return new FileDocumentSource(getFile(), baseIRI);
+        }
     }
 
     /**
