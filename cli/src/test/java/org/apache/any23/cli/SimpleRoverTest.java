@@ -37,20 +37,17 @@ import org.slf4j.LoggerFactory;
  */
 @RunWith(Parameterized.class)
 public class SimpleRoverTest extends ToolTestBase {
-    
+
     private static final String baseUri = "urn:test";
     private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    
+
     private String filePath;
-    
+
     @Parameterized.Parameters
     public static Collection<String[]> litsFiles() throws Exception {
-        return Arrays.asList(new String[][] {
-            {"/org/apache/any23/extractor/yaml/simple-load.yml"},
-            {"/org/apache/any23/extractor/csv/test-comma.csv"}
-        });
+        return Arrays.asList(new String[][] { { "/org/apache/any23/extractor/yaml/simple-load.yml" },
+                { "/org/apache/any23/extractor/csv/test-comma.csv" } });
     }
-    
 
     public SimpleRoverTest(String filePath) {
         super(Rover.class);
@@ -59,29 +56,27 @@ public class SimpleRoverTest extends ToolTestBase {
 
     /**
      * Ref <a href="https://issues.apache.org/jira/browse/ANY23-310">ANY23-310</a> unit test.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     @Test
-    public void ref310Test()
-            throws Exception {
+    public void ref310Test() throws Exception {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
         File logfile = File.createTempFile("test-log", ".txt", tempDirectory);
 
-        int exitCode = runTool(String.format("-l %s -o %s -f turtle -e yaml,csv -d %s %s",
-                logfile.getAbsolutePath(),
-                outputFile.getAbsolutePath(),
-                baseUri,
-                copyResourceToTempFile(filePath).getAbsolutePath()));
-        
+        int exitCode = runTool(String.format("-l %s -o %s -f turtle -e yaml,csv -d %s %s", logfile.getAbsolutePath(),
+                outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(filePath).getAbsolutePath()));
+
         Assert.assertTrue(logfile.exists());
         Assert.assertTrue(outputFile.exists());
         // check if output file is longer than 10 chracters
         String outputFileContent = FileUtils.readFileToString(outputFile, StandardCharsets.UTF_8);
         Assert.assertTrue(outputFileContent.length() > 10);
-        
+
         String[] logFileContent = FileUtils.readLines(logfile, StandardCharsets.UTF_8).toArray(new String[0]);
         Assert.assertEquals(2, logFileContent.length);
-        //Assert.assertTrue(logFileContent[1].split("\\W*")[1] == );
+        // Assert.assertTrue(logFileContent[1].split("\\W*")[1] == );
         int contentSize = Integer.valueOf(logFileContent[1].split("\\t")[1]);
         String extractors = logFileContent[1].split("\\t")[4].replaceAll("[\\[\\]\\s:\\d]", "");
 
@@ -98,31 +93,29 @@ public class SimpleRoverTest extends ToolTestBase {
         Assert.assertFalse(extractors.isEmpty());
         Assert.assertEquals("Unexpected exit code.", 0, exitCode);
     }
-    
+
     /**
      * Ref <a href="https://issues.apache.org/jira/browse/ANY23-310">ANY23-310</a> unit test.
      * 
      * Example without the logging file.
      * 
      * By default that test is not active. It might be useful for debugging.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     @Test
-    public void ref310ExtendedTest()
-            throws Exception {
+    public void ref310ExtendedTest() throws Exception {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
 
-        int exitCode = runTool(String.format("-o %s -f turtle -e yaml,csv -d %s %s",
-                outputFile.getAbsolutePath(),
-                baseUri,
-                copyResourceToTempFile(filePath).getAbsolutePath()));
-        
+        int exitCode = runTool(String.format("-o %s -f turtle -e yaml,csv -d %s %s", outputFile.getAbsolutePath(),
+                baseUri, copyResourceToTempFile(filePath).getAbsolutePath()));
+
         Assert.assertTrue(outputFile.exists());
         // check if output file is longer than 10 chracters
         String outputFileContent = FileUtils.readFileToString(outputFile, StandardCharsets.UTF_8);
         Assert.assertTrue(outputFileContent.length() > 10);
-        
-        
+
         Assert.assertEquals("Unexpected exit code.", 0, exitCode);
     }
 

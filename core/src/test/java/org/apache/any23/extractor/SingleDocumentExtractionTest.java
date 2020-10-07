@@ -64,9 +64,9 @@ import java.io.IOException;
 public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
-    private static final ICAL vICAL    = ICAL.getInstance();
-    private static final Review  vREVIEW  = Review.getInstance();
-    private static final VCard vVCARD   = VCard.getInstance();
+    private static final ICAL vICAL = ICAL.getInstance();
+    private static final Review vREVIEW = Review.getInstance();
+    private static final VCard vVCARD = VCard.getInstance();
 
     private static final Logger logger = LoggerFactory.getLogger(SingleDocumentExtractionTest.class);
 
@@ -110,9 +110,12 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     /**
      * Tests the existence of the domain triples.
      *
-     * @throws IOException if there is an error loading input data
-     * @throws ExtractionException if an exception is raised during extraction
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testMicroformatDomains() throws IOException, ExtractionException, RepositoryException {
@@ -123,17 +126,18 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     }
 
     /**
-     * Tests the nested microformat relationships. This test verifies the first supported approach
-     * for microformat nesting. Such approach foreseen to add a microformat HTML node within the
-     * property of a container microformat.
+     * Tests the nested microformat relationships. This test verifies the first supported approach for microformat
+     * nesting. Such approach foreseen to add a microformat HTML node within the property of a container microformat.
      *
-     * For further details see
-     * {@link SingleDocumentExtraction}
-     * consolidateResources(java.util.List, java.util.List, org.apache.any23.writer.TripleHandler)}
+     * For further details see {@link SingleDocumentExtraction} consolidateResources(java.util.List, java.util.List,
+     * org.apache.any23.writer.TripleHandler)}
      *
-     * @throws IOException if there is an error loading input data
-     * @throws ExtractionException if an exception is raised during extraction
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testNestedMicroformats() throws IOException, ExtractionException, RepositoryException {
@@ -149,14 +153,18 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     }
 
     /**
-     * This test assess the absence of {@link SINDICE} <i>nesting</i> relationship,
-     * since {@link org.apache.any23.extractor.html.HCardExtractor} declared a native nesting
-     * with the {@link org.apache.any23.extractor.html.AdrExtractor}.
+     * This test assess the absence of {@link SINDICE} <i>nesting</i> relationship, since
+     * {@link org.apache.any23.extractor.html.HCardExtractor} declared a native nesting with the
+     * {@link org.apache.any23.extractor.html.AdrExtractor}.
      *
      * @see org.apache.any23.extractor.html.annotations.Includes
-     * @throws IOException if there is an error loading input data
-     * @throws ExtractionException if an exception is raised during extraction
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * 
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testNestedVCardAdr() throws IOException, ExtractionException, RepositoryException {
@@ -165,25 +173,27 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
         logStorageContent();
 
-         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), (Value) null, 0);
-         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), (Value) null, 0);
+        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), (Value) null, 0);
+        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), (Value) null, 0);
     }
 
     /**
-     *  Tests the nested microformat relationships. This test verifies the second supported approach
-     * for microformat nesting. Such approach foreseen to use the same node attributes to declare both
-     * a microformat container property and a nested microformat root class.
+     * Tests the nested microformat relationships. This test verifies the second supported approach for microformat
+     * nesting. Such approach foreseen to use the same node attributes to declare both a microformat container property
+     * and a nested microformat root class.
      *
-     * For further details see
-     * {@link SingleDocumentExtraction}
-     * consolidateResources(java.util.List, java.util.List, org.apache.any23.writer.TripleHandler)}
+     * For further details see {@link SingleDocumentExtraction} consolidateResources(java.util.List, java.util.List,
+     * org.apache.any23.writer.TripleHandler)}
      *
      * See also the <a href="http://www.google.com/support/webmasters/bin/answer.py?answer=146862">Nested Entities</a>
      * article that is linked by the official microformats.org doc page.
      *
-     * @throws IOException if there is an error loading input data
-     * @throws ExtractionException if an exception is raised during extraction
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testNestedMicroformatsInduced() throws IOException, ExtractionException, RepositoryException {
@@ -199,19 +209,23 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     }
 
     /**
-     * Tests the nested microformat relationships. This test verifies the behavior of the nested microformats
-     * when the nesting relationship is handled by the microformat extractor itself (like the HReview that is
-     * able to detect an inner VCard).
+     * Tests the nested microformat relationships. This test verifies the behavior of the nested microformats when the
+     * nesting relationship is handled by the microformat extractor itself (like the HReview that is able to detect an
+     * inner VCard).
      *
-     * @throws IOException if there is an error loading input data
-     * @throws ExtractionException if an exception is raised during extraction
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
-    /* NOTE: The triple (bnode http://www.w3.org/2006/vcard/ns#url http://pizza.example.com) and
-     *       (bnode http://vocab.sindice.net/nesting_original (structured) *) are printed out twice,
-     *       once for every extractor. The RDFWriter doesn't remove the duplicates and some graph renderers
-     *       show the triple property as double. Despite this the model contains it just once.
+    /*
+     * NOTE: The triple (bnode http://www.w3.org/2006/vcard/ns#url http://pizza.example.com) and (bnode
+     * http://vocab.sindice.net/nesting_original (structured) *) are printed out twice, once for every extractor. The
+     * RDFWriter doesn't remove the duplicates and some graph renderers show the triple property as double. Despite this
+     * the model contains it just once.
      */
     public void testNestedMicroformatsManaged() throws IOException, ExtractionException, RepositoryException {
         singleDocumentExtraction = getInstance("/microformats/nested-microformats-managed.html");
@@ -225,8 +239,8 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
         assertTripleCount(vVCARD.url, (Value) null, 1);
         Value object = getTripleObject(null, vREVIEW.hasReview);
-        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), object           , 1);
-        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL)  , vREVIEW.hasReview, 1);
+        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), object, 1);
+        assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), vREVIEW.hasReview, 1);
     }
 
     private SingleDocumentExtraction getInstance(String file) throws FileNotFoundException, IOException {
@@ -240,25 +254,23 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
         final ModifiableConfiguration configuration = DefaultConfiguration.copy();
         configuration.setProperty("any23.extraction.metadata.domain.per.entity", "on");
-        SingleDocumentExtraction instance =  new SingleDocumentExtraction(
-                configuration,
-                new HTMLFixture(copyResourceToTempFile(file)).getOpener("http://nested.test.com"),
-                extractorGroup,
-                cth
-        );
-        instance.setMIMETypeDetector( new TikaMIMETypeDetector(new WhiteSpacesPurifier()) );
+        SingleDocumentExtraction instance = new SingleDocumentExtraction(configuration,
+                new HTMLFixture(copyResourceToTempFile(file)).getOpener("http://nested.test.com"), extractorGroup, cth);
+        instance.setMIMETypeDetector(new TikaMIMETypeDetector(new WhiteSpacesPurifier()));
         return instance;
     }
 
     /**
      * Logs the storage content.
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
+     * 
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     private void logStorageContent() throws RepositoryException {
         RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
         while (result.hasNext()) {
             Statement statement = result.next();
-            logger.debug( statement.toString() );
+            logger.debug(statement.toString());
         }
     }
 
@@ -268,22 +280,18 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param predicate
      * @param value
      * @param occurrences
+     * 
      * @throws RepositoryException
      */
     private void assertTripleCount(IRI predicate, Value value, int occurrences) throws RepositoryException {
-        RepositoryResult<Statement> statements = conn.getStatements(
-                null, predicate, value, false
-        );
+        RepositoryResult<Statement> statements = conn.getStatements(null, predicate, value, false);
         int count = 0;
         while (statements.hasNext()) {
             statements.next();
             count++;
         }
-        Assert.assertEquals(
-                String.format("Cannot find triple (* %s %s) %d times", predicate, value, occurrences),
-                occurrences,
-                count
-        );
+        Assert.assertEquals(String.format("Cannot find triple (* %s %s) %d times", predicate, value, occurrences),
+                occurrences, count);
     }
 
     /**
@@ -292,6 +300,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param predicate
      * @param value
      * @param occurrences
+     * 
      * @throws RepositoryException
      */
     private void assertTripleCount(IRI predicate, String value, int occurrences) throws RepositoryException {
@@ -303,6 +312,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      *
      * @param predicate
      * @param value
+     * 
      * @throws RepositoryException
      */
     private void assertTriple(IRI predicate, Value value) throws RepositoryException {
@@ -314,27 +324,33 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      *
      * @param predicate
      * @param value
+     * 
      * @throws RepositoryException
      */
     @SuppressWarnings("unused")
     private void assertTriple(IRI predicate, String value) throws RepositoryException {
-        assertTriple(predicate, SimpleValueFactory.getInstance().createLiteral(value) );
+        assertTriple(predicate, SimpleValueFactory.getInstance().createLiteral(value));
     }
 
     /**
      * Retrieves the triple object matching with the given pattern that is expected to be just one.
      * 
-     * @param sub the triple subject, <code>null</code> for any.
-     * @param prop the triple property, <code>null</code> for any.
+     * @param sub
+     *            the triple subject, <code>null</code> for any.
+     * @param prop
+     *            the triple property, <code>null</code> for any.
+     * 
      * @return the object of the unique triple matching the given pattern.
-     * @throws RepositoryException if an error occurred during the search.
+     * 
+     * @throws RepositoryException
+     *             if an error occurred during the search.
      */
     private Value getTripleObject(Resource sub, IRI prop) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(sub, prop, null, false);
         Assert.assertTrue(statements.hasNext());
         Statement statement = statements.next();
         Value value = statement.getObject();
-        Assert.assertFalse( "Expected just one result.", statements.hasNext() );
+        Assert.assertFalse("Expected just one result.", statements.hasNext());
         statements.close();
         return value;
     }

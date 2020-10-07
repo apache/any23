@@ -23,19 +23,19 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * able to perform the extraction on <a href="http://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a>
- * documents.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} able to perform the
+ * extraction on <a href="http://www.w3.org/TR/REC-rdf-syntax/">RDF/XML</a> documents.
  */
 public class RDFXMLExtractor extends BaseRDFExtractor {
 
     /**
      * Constructor, allows to specify the validation and error handling policies.
      *
-     * @param verifyDataType if <code>true</code> the data types will be verified,
-     *         if <code>false</code> will be ignored.
-     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
-     *        if <code>false</code> will ignore non blocking errors.
+     * @param verifyDataType
+     *            if <code>true</code> the data types will be verified, if <code>false</code> will be ignored.
+     * @param stopAtFirstError
+     *            if <code>true</code> the parser will stop at first parsing error, if <code>false</code> will ignore
+     *            non blocking errors.
      */
     public RDFXMLExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
@@ -55,9 +55,8 @@ public class RDFXMLExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getRDFXMLParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getRDFXMLParser(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

@@ -47,22 +47,27 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
     /**
      * Extracts an entity from a <i>DOM</i> node.
      *
-     * @param node the DOM node.
-     * @param out the extraction result collector.
+     * @param node
+     *            the DOM node.
+     * @param out
+     *            the extraction result collector.
+     * 
      * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
-     * @throws ExtractionException if there is an error during extraction
+     * 
+     * @throws ExtractionException
+     *             if there is an error during extraction
      */
     protected abstract boolean extractEntity(Node node, ExtractionResult out) throws ExtractionException;
 
     @Override
     public boolean extract() throws ExtractionException {
-        List<Node> nodes = DomUtils.findAllByClassName( getHTMLDocument().getDocument(), getBaseClassName());
+        List<Node> nodes = DomUtils.findAllByClassName(getHTMLDocument().getDocument(), getBaseClassName());
         boolean foundAny = false;
         int count = 1;
         for (Node node : nodes) {
             resetExtractor();
             String contextID = Integer.toString(count);
-            ExtractionResult subResult = openSubResult( getExtractionContext().copy(contextID) );
+            ExtractionResult subResult = openSubResult(getExtractionContext().copy(contextID));
             foundAny |= extractEntity(node, subResult);
             subResult.close();
             count++;
@@ -71,12 +76,14 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
     }
 
     /**
-     * @param node a DOM node representing a blank node
-     * @return an RDF blank node corresponding to that DOM node, by using a
-     *         blank node ID like "MD5 of http://doc-uri/#xpath/to/node"
+     * @param node
+     *            a DOM node representing a blank node
+     * 
+     * @return an RDF blank node corresponding to that DOM node, by using a blank node ID like "MD5 of
+     *         http://doc-uri/#xpath/to/node"
      */
     protected BNode getBlankNodeFor(Node node) {
         return RDFUtils.getBNode(getDocumentIRI() + "#" + DomUtils.getXPathForNode(node));
     }
-    
+
 }

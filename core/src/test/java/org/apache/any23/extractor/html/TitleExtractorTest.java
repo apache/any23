@@ -68,13 +68,14 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
     /**
      * This test verifies that when present the default language this is adopted by the title literal.
      * 
-     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws org.eclipse.rdf4j.repository.RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testTitleWithDefaultLanguage() throws RepositoryException {
         assertExtract("/html/default-language.html");
-        assertContains   (baseIRI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"));
-        assertNotContains(baseIRI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net",(String) null));
+        assertContains(baseIRI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", "en"));
+        assertNotContains(baseIRI, vDCTERMS.title, RDFUtils.literal("Welcome to mydomain.net", (String) null));
     }
-    
+
 }

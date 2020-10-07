@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-
 package org.apache.any23.extractor.html;
 
 import org.jsoup.Jsoup;
@@ -35,12 +34,12 @@ import java.util.Arrays;
 public class JsoupUtils {
 
     public static Document parse(InputStream input, String documentIRI, String encoding) throws IOException {
-        //Jsoup doesn't allow null document URIs
+        // Jsoup doesn't allow null document URIs
         if (documentIRI == null) {
             documentIRI = "";
         }
 
-        //workaround for Jsoup issue #1009
+        // workaround for Jsoup issue #1009
         if (encoding == null) {
 
             int c;
@@ -52,12 +51,12 @@ public class JsoupUtils {
                 int capacity = 256;
                 byte[] bytes = new byte[capacity];
                 int length = 0;
-                bytes[length++] = (byte)c;
+                bytes[length++] = (byte) c;
 
                 if (c == '<') {
                     c = input.read();
                     if (c != -1) {
-                        bytes[length++] = (byte)c;
+                        bytes[length++] = (byte) c;
                         if (c == '?') {
                             c = input.read();
 
@@ -66,12 +65,14 @@ public class JsoupUtils {
                                     capacity *= 2;
                                     bytes = Arrays.copyOf(bytes, capacity);
                                 }
-                                bytes[length++] = (byte)c;
+                                bytes[length++] = (byte) c;
 
                                 if (c == '>') {
                                     if (length >= 20 && bytes[length - 2] == '?') {
-                                        String decl = "<" + new String(bytes, 2, length - 4, StandardCharsets.UTF_8) + ">";
-                                        org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(decl, documentIRI, Parser.xmlParser());
+                                        String decl = "<" + new String(bytes, 2, length - 4, StandardCharsets.UTF_8)
+                                                + ">";
+                                        org.jsoup.nodes.Document doc = org.jsoup.Jsoup.parse(decl, documentIRI,
+                                                Parser.xmlParser());
                                         for (org.jsoup.nodes.Element el : doc.children()) {
                                             if ("xml".equalsIgnoreCase(el.tagName())) {
                                                 String enc = el.attr("encoding");
@@ -97,7 +98,7 @@ public class JsoupUtils {
 
         }
 
-        //Use Parser.htmlParser() to parse javascript correctly
+        // Use Parser.htmlParser() to parse javascript correctly
         return Jsoup.parse(input, encoding, documentIRI, Parser.htmlParser());
     }
 

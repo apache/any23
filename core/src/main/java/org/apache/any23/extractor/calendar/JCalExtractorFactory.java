@@ -45,4 +45,3 @@ public class JCalExtractorFactory extends SimpleExtractorFactory<JCalExtractor> 
         return new JCalExtractor();
     }
 }
-

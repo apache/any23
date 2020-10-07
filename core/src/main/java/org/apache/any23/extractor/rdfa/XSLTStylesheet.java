@@ -34,8 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An XSLT stylesheet loaded from an InputStream, can be applied
- * to DOM trees and writes the result to a {@link Writer}.
+ * An XSLT stylesheet loaded from an InputStream, can be applied to DOM trees and writes the result to a {@link Writer}.
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -56,36 +55,40 @@ public class XSLTStylesheet {
 
     /**
      * Applies the XSLT transformation
-     * @param document where apply the transformation
-     * @param output the {@link java.io.Writer} where write on
-     * @throws XSLTStylesheetException if there is an error applying the transformation
+     * 
+     * @param document
+     *            where apply the transformation
+     * @param output
+     *            the {@link java.io.Writer} where write on
+     * 
+     * @throws XSLTStylesheetException
+     *             if there is an error applying the transformation
      */
-    public synchronized void applyTo(Document document, Writer output)
-            throws XSLTStylesheetException {
+    public synchronized void applyTo(Document document, Writer output) throws XSLTStylesheetException {
         this.applyTo(document, output, new HashMap<String, String>());
     }
 
     /**
      * Applies the XSLT transformation
-     * @param document where apply the transformation
-     * @param output the {@link java.io.Writer} where write on
-     * @param parameters the parameters to be passed to {@link Transformer}.
-     *              Pass an empty {@link Map} if no parameters are foreseen.
-     * @throws XSLTStylesheetException if there is an error applying the transformation
+     * 
+     * @param document
+     *            where apply the transformation
+     * @param output
+     *            the {@link java.io.Writer} where write on
+     * @param parameters
+     *            the parameters to be passed to {@link Transformer}. Pass an empty {@link Map} if no parameters are
+     *            foreseen.
+     * 
+     * @throws XSLTStylesheetException
+     *             if there is an error applying the transformation
      */
-    public synchronized void applyTo(Document document, Writer output,
-                                     Map<String, String> parameters) throws XSLTStylesheetException {
-        for(String parameterKey : parameters.keySet()) {
+    public synchronized void applyTo(Document document, Writer output, Map<String, String> parameters)
+            throws XSLTStylesheetException {
+        for (String parameterKey : parameters.keySet()) {
             transformer.setParameter(parameterKey, parameters.get(parameterKey));
         }
         try {
-            transformer.transform(
-                    new DOMSource(
-                            document,
-                            document.getBaseURI()
-                    ),
-                    new StreamResult(output)
-            );
+            transformer.transform(new DOMSource(document, document.getBaseURI()), new StreamResult(output));
         } catch (TransformerException te) {
             log.error("------ BEGIN XSLT Transformer Exception ------");
             log.error("Exception in XSLT Stylesheet transformation.", te);
@@ -96,5 +99,5 @@ public class XSLTStylesheet {
             throw new XSLTStylesheetException(" An error occurred during the XSLT transformation", te);
         }
     }
-    
+
 }

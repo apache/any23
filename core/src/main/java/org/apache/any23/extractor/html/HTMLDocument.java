@@ -39,8 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A wrapper around the DOM representation of an HTML document.
- * Provides convenience access to various parts of the document.
+ * A wrapper around the DOM representation of an HTML document. Provides convenience access to various parts of the
+ * document.
  *
  * @author Gabriele Renzi
  * @author Michele Mostarda
@@ -48,18 +48,20 @@ import java.util.List;
 public class HTMLDocument {
 
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
-    private final static Logger log        = LoggerFactory.getLogger(HTMLDocument.class);
+    private final static Logger log = LoggerFactory.getLogger(HTMLDocument.class);
 
-    private Node         document;
+    private Node document;
     private java.net.URI baseIRI;
 
-    private final Any23ValueFactoryWrapper valueFactory =
-            new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance());
+    private final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(
+            SimpleValueFactory.getInstance());
 
     /**
      * Reads a text field from the given node adding the content to the given <i>res</i> list.
      *
-     * @param node the node from which read the content.
+     * @param node
+     *            the node from which read the content.
+     * 
      * @return a valid TextField
      */
     public static TextField readTextField(Node node) {
@@ -67,8 +69,8 @@ public class HTMLDocument {
         final String name = node.getNodeName();
         final NamedNodeMap attributes = node.getAttributes();
         // excess of safety check, should be impossible
-        if (attributes == null ) {
-            return new TextField( node.getTextContent(), node);
+        if (attributes == null) {
+            return new TextField(node.getTextContent(), node);
         }
         // first check if there are values inside
         List<Node> values = DomUtils.findAllByClassName(node, "value");
@@ -76,7 +78,7 @@ public class HTMLDocument {
             String val = "";
             for (Node n : values)
                 val += n.getTextContent();
-            return new TextField( val.trim(), node);
+            return new TextField(val.trim(), node);
         }
         if ("ABBR".equals(name) && (null != attributes.getNamedItem("title"))) {
             result = new TextField(attributes.getNamedItem("title").getNodeValue(), node);
@@ -97,15 +99,16 @@ public class HTMLDocument {
     /**
      * Reads an URL field from the given node adding the content to the given <i>res</i> list.
      *
-     * @param res {@link java.util.List} of 
-     * {@link org.apache.any23.extractor.html.HTMLDocument.TextField}
-     * @param node the node to read
+     * @param res
+     *            {@link java.util.List} of {@link org.apache.any23.extractor.html.HTMLDocument.TextField}
+     * @param node
+     *            the node to read
      */
     public static void readUrlField(List<TextField> res, Node node) {
         String name = node.getNodeName();
         NamedNodeMap attributes = node.getAttributes();
         if (null == attributes) {
-            res.add( new TextField(node.getTextContent(), node) );
+            res.add(new TextField(node.getTextContent(), node));
             return;
         }
         if ("A".equals(name) || "AREA".equals(name)) {
@@ -134,16 +137,16 @@ public class HTMLDocument {
                 res.add(new TextField(n.getNodeValue(), n));
             }
         } else {
-            res.add( new TextField(extractHCardTextContent(node), node) );
+            res.add(new TextField(extractHCardTextContent(node), node));
         }
     }
 
     private static String extractHCardTextContent(Node node) {
         StringBuilder sb = new StringBuilder();
         NodeList nodes = node.getChildNodes();
-        //if at least one element with 'value' class, concatenate all text in value
+        // if at least one element with 'value' class, concatenate all text in value
         if (extractTextInValue(nodes, sb) == 0) {
-            //otherwise, concatenate all text not in elements with 'type' class
+            // otherwise, concatenate all text not in elements with 'type' class
             extractTextNotInType(nodes, sb);
         }
         return sb.toString();
@@ -175,10 +178,12 @@ public class HTMLDocument {
     }
 
     /**
-     * Extracts the href specific rel-tag string.
-     * See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a> specification.
+     * Extracts the href specific rel-tag string. See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a>
+     * specification.
      *
-     * @param hrefAttributeContent the content of the <i>href</i> attribute.
+     * @param hrefAttributeContent
+     *            the content of the <i>href</i> attribute.
+     * 
      * @return the rel-tag specification.
      */
     public static String extractRelTag(String hrefAttributeContent) {
@@ -186,17 +191,19 @@ public class HTMLDocument {
         // Cleanup spurious segments.
         String path = all[0];
         int pathLenghtMin1 = path.length() - 1;
-        if( '/' == path.charAt(pathLenghtMin1) ) {
+        if ('/' == path.charAt(pathLenghtMin1)) {
             path = path.substring(0, pathLenghtMin1);
         }
         return path;
     }
 
     /**
-     * Extracts the href specific rel-tag string.
-     * See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a> specification.
+     * Extracts the href specific rel-tag string. See the <a href="http://microformats.org/wiki/rel-tag">rel-tag</a>
+     * specification.
      *
-     * @param attributes the list of attributes of a node.
+     * @param attributes
+     *            the list of attributes of a node.
+     * 
      * @return the rel-tag specification.
      */
     public static String extractRelTag(NamedNodeMap attributes) {
@@ -204,12 +211,14 @@ public class HTMLDocument {
     }
 
     /**
-     * Reads the text content of the given node and returns it.
-     * If the <code>prettify</code> flag is <code>true</code>
+     * Reads the text content of the given node and returns it. If the <code>prettify</code> flag is <code>true</code>
      * the text is cleaned up.
      *
-     * @param node node to read content.
-     * @param prettify if <code>true</code> blank chars will be removed.
+     * @param node
+     *            node to read content.
+     * @param prettify
+     *            if <code>true</code> blank chars will be removed.
+     * 
      * @return the read text.
      */
     public static String readNodeContent(Node node, boolean prettify) {
@@ -220,7 +229,8 @@ public class HTMLDocument {
     /**
      * Constructor accepting the root node.
      * 
-     * @param document a {@link org.w3c.dom.Node}
+     * @param document
+     *            a {@link org.w3c.dom.Node}
      */
     public HTMLDocument(Node document) {
         if (null == document)
@@ -229,9 +239,13 @@ public class HTMLDocument {
     }
 
     /**
-     * @param uri string to resolve to {@link org.eclipse.rdf4j.model.IRI}
+     * @param uri
+     *            string to resolve to {@link org.eclipse.rdf4j.model.IRI}
+     * 
      * @return An absolute IRI, or null if the IRI is not fixable
-     * @throws org.apache.any23.extractor.ExtractionException If the base IRI is invalid
+     * 
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             If the base IRI is invalid
      */
     public IRI resolveIRI(String uri) throws ExtractionException {
         return valueFactory.resolveIRI(uri, getBaseIRI());
@@ -249,13 +263,7 @@ public class HTMLDocument {
         return DomUtils.findAll(getDocument(), xpath);
     }
 
-    public String findMicroformattedValue(
-            String objectTag,
-            String object,
-            String fieldTag,
-            String field,
-            String key
-    ) {
+    public String findMicroformattedValue(String objectTag, String object, String fieldTag, String field, String key) {
         Node node = findMicroformattedObjectNode(objectTag, object);
         if (null == node)
             return "";
@@ -282,11 +290,13 @@ public class HTMLDocument {
     }
 
     /**
-     * Returns a singular text field. 
+     * Returns a singular text field.
      *
-     * @param className name of class containing text.
-     * @return if multiple values are found just the first is returned,
-     * if we want to check that there are no n-ary values use plural finder
+     * @param className
+     *            name of class containing text.
+     * 
+     * @return if multiple values are found just the first is returned, if we want to check that there are no n-ary
+     *         values use plural finder
      */
     public TextField getSingularTextField(String className) {
         TextField[] res = getPluralTextField(className);
@@ -298,24 +308,28 @@ public class HTMLDocument {
     /**
      * Returns a plural text field.
      * 
-     * @param className name of class node containing text.
+     * @param className
+     *            name of class node containing text.
+     * 
      * @return list of fields.
      */
     public TextField[] getPluralTextField(String className) {
         List<TextField> res = new ArrayList<TextField>();
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes) {
-            res.add( readTextField(node) );
+            res.add(readTextField(node));
         }
-        return res.toArray( new TextField[res.size()] );
+        return res.toArray(new TextField[res.size()]);
     }
 
     /**
      * Returns the URL associated to the field marked with class <i>className</i>.
      *
-     * @param className name of node class containing the URL field.
-     * @return if multiple values are found just the first is returned,
-     *  if we want to check that there are no n-ary values use plural finder
+     * @param className
+     *            name of node class containing the URL field.
+     * 
+     * @return if multiple values are found just the first is returned, if we want to check that there are no n-ary
+     *         values use plural finder
      */
     public TextField getSingularUrlField(String className) {
         TextField[] res = getPluralUrlField(className);
@@ -327,7 +341,9 @@ public class HTMLDocument {
     /**
      * Returns the list of URLs associated to the fields marked with class <i>className</i>.
      *
-     * @param className name of node class containing the URL field.
+     * @param className
+     *            name of node class containing the URL field.
+     * 
      * @return the list of {@link HTMLDocument.TextField} found.
      */
     public TextField[] getPluralUrlField(String className) {
@@ -335,7 +351,7 @@ public class HTMLDocument {
         List<Node> nodes = DomUtils.findAllByClassName(getDocument(), className);
         for (Node node : nodes)
             readUrlField(res, node);
-        return res.toArray( new TextField[res.size()] );
+        return res.toArray(new TextField[res.size()]);
     }
 
     public Node findMicroformattedObjectNode(String objectTag, String name) {
@@ -346,10 +362,11 @@ public class HTMLDocument {
     }
 
     /**
-     * Read an attribute avoiding NullPointerExceptions, if the attr is
-     * missing it just returns an empty string.
+     * Read an attribute avoiding NullPointerExceptions, if the attr is missing it just returns an empty string.
      *
-     * @param attribute the attribute name.
+     * @param attribute
+     *            the attribute name.
+     * 
      * @return the string representing the attribute.
      */
     public String readAttribute(String attribute) {
@@ -359,7 +376,9 @@ public class HTMLDocument {
     /**
      * Finds all the nodes by class name.
      *
-     * @param clazz the class name.
+     * @param clazz
+     *            the class name.
+     * 
      * @return list of matching nodes.
      */
     public List<Node> findAllByClassName(String clazz) {
@@ -367,14 +386,13 @@ public class HTMLDocument {
     }
 
     /**
-     * Returns the text contained inside a node if leaf,
-     * <code>null</code> otherwise.
+     * Returns the text contained inside a node if leaf, <code>null</code> otherwise.
      *
      * @return the text of a leaf node.
      */
     public String getText() {
         NodeList children = getDocument().getChildNodes();
-        if(children.getLength() == 1 && children.item(0) instanceof Text) {
+        if (children.getLength() == 1 && children.item(0) instanceof Text) {
             return children.item(0).getTextContent();
         }
         return null;
@@ -417,10 +435,10 @@ public class HTMLDocument {
     public TextField[] extractRelTagNodes() {
         final List<Node> relTagNodes = DomUtils.findAllByAttributeName(getDocument(), "rel");
         final List<TextField> result = new ArrayList<TextField>();
-        for(Node relTagNode : relTagNodes) {
+        for (Node relTagNode : relTagNodes) {
             readUrlField(result, relTagNode);
         }
-        return result.toArray( new TextField[result.size()] );
+        return result.toArray(new TextField[result.size()]);
     }
 
     private java.net.URI getBaseIRI() throws ExtractionException {
@@ -433,10 +451,11 @@ public class HTMLDocument {
             // So, for now, let's use getDocumentURI() instead.
             // TODO: Make this approach better.
 
-            Document doc = document instanceof Document ? (Document)document : document.getOwnerDocument();
+            Document doc = document instanceof Document ? (Document) document : document.getOwnerDocument();
 
             if (doc == null) {
-                throw new ExtractionException("Node " + document.getNodeName() + " was not associated with a document.");
+                throw new ExtractionException(
+                        "Node " + document.getNodeName() + " was not associated with a document.");
             }
 
             String uri = doc.getDocumentURI();
@@ -457,12 +476,12 @@ public class HTMLDocument {
     }
 
     /**
-     * This class represents a text extracted from the <i>HTML</i> DOM related
-     * to the node from which such test has been retrieved.
+     * This class represents a text extracted from the <i>HTML</i> DOM related to the node from which such test has been
+     * retrieved.
      */
     public static class TextField {
         private String value;
-        private Node   source;
+        private Node source;
 
         public TextField(String value, Node source) {
             this.value = value;

@@ -24,10 +24,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Default implementation of {@link Configuration}.
- * The default property values are read from the
- * <i>/default-configuration.properties</i> properties file
- * in classpath.
+ * Default implementation of {@link Configuration}. The default property values are read from the
+ * <i>/default-configuration.properties</i> properties file in classpath.
  *
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
@@ -38,7 +36,7 @@ public class DefaultConfiguration implements Configuration {
      */
     public static final String DEFAULT_CONFIG_FILE = "/default-configuration.properties";
 
-    public static final String FLAG_PROPERTY_ON  = "on";
+    public static final String FLAG_PROPERTY_ON = "on";
 
     public static final String FLAG_PROPERTY_OFF = "off";
 
@@ -53,12 +51,11 @@ public class DefaultConfiguration implements Configuration {
     }
 
     private DefaultConfiguration() {
-        this( loadDefaultProperties() );
+        this(loadDefaultProperties());
     }
 
     /**
-     * @return the singleton configuration instance.
-     *         Such instance is unmodifiable.
+     * @return the singleton configuration instance. Such instance is unmodifiable.
      */
     public static synchronized DefaultConfiguration singleton() {
         return singleton;
@@ -75,7 +72,7 @@ public class DefaultConfiguration implements Configuration {
     private static Properties loadDefaultProperties() {
         final Properties properties = new Properties();
         try {
-            properties.load( DefaultConfiguration.class.getResourceAsStream(DEFAULT_CONFIG_FILE) );
+            properties.load(DefaultConfiguration.class.getResourceAsStream(DEFAULT_CONFIG_FILE));
         } catch (IOException ioe) {
             throw new IllegalStateException("Error while loading default configuration.", ioe);
         }
@@ -84,7 +81,7 @@ public class DefaultConfiguration implements Configuration {
 
     @Override
     public synchronized String[] getProperties() {
-        return properties.keySet().toArray( new String[properties.size()] );
+        return properties.keySet().toArray(new String[properties.size()]);
     }
 
     @Override
@@ -95,7 +92,7 @@ public class DefaultConfiguration implements Configuration {
     @Override
     public synchronized String getProperty(String propertyName, String defaultValue) {
         final String value = getPropertyValue(propertyName);
-        if(value == null) {
+        if (value == null) {
             return defaultValue;
         }
         return value;
@@ -104,13 +101,12 @@ public class DefaultConfiguration implements Configuration {
     @Override
     public synchronized String getPropertyOrFail(String propertyName) {
         final String propertyValue = getPropertyValue(propertyName);
-        if(propertyValue == null) {
+        if (propertyValue == null) {
             throw new IllegalArgumentException("The property '" + propertyName + "' is expected to be declared.");
         }
-        if(  propertyValue.trim().length() == 0) {
+        if (propertyValue.trim().length() == 0) {
             throw new IllegalArgumentException(
-                    "Invalid value '" + propertyValue + "' for property '" + propertyName + "'"
-            );
+                    "Invalid value '" + propertyValue + "' for property '" + propertyName + "'");
         }
         return propertyValue;
     }
@@ -129,22 +125,18 @@ public class DefaultConfiguration implements Configuration {
     @Override
     public synchronized boolean getFlagProperty(final String propertyName) {
         final String value = getPropertyOrFail(propertyName);
-        if(value == null) {
+        if (value == null) {
             return false;
         }
-        if(FLAG_PROPERTY_ON.equals(value)) {
+        if (FLAG_PROPERTY_ON.equals(value)) {
             return true;
         }
-        if(FLAG_PROPERTY_OFF.equals(value)) {
+        if (FLAG_PROPERTY_OFF.equals(value)) {
             return false;
         }
-        throw new IllegalArgumentException(
-                String.format(
-                    java.util.Locale.ROOT,
-                    "Invalid value [%s] for flag property [%s]. Supported values are %s|%s",
-                    value, propertyName, FLAG_PROPERTY_ON, FLAG_PROPERTY_OFF
-                )
-        );
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                "Invalid value [%s] for flag property [%s]. Supported values are %s|%s", value, propertyName,
+                FLAG_PROPERTY_ON, FLAG_PROPERTY_OFF));
     }
 
     @Override
@@ -160,21 +152,16 @@ public class DefaultConfiguration implements Configuration {
     }
 
     private String getPropertyValue(String propertyName) {
-        if( ! defineProperty(propertyName) ) {
-            if(logger.isDebugEnabled()) {
-                logger.debug(
-                        String.format(
-                                java.util.Locale.ROOT,
-                                "Property '%s' is not declared in default configuration file [%s]",
-                                propertyName,
-                                DEFAULT_CONFIG_FILE
-                        )
-                );
+        if (!defineProperty(propertyName)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug(String.format(java.util.Locale.ROOT,
+                        "Property '%s' is not declared in default configuration file [%s]", propertyName,
+                        DEFAULT_CONFIG_FILE));
             }
             return null;
         }
         final String systemValue = System.getProperties().getProperty(propertyName);
-        if(systemValue == null) {
+        if (systemValue == null) {
             return properties.getProperty(propertyName);
         }
         return systemValue;

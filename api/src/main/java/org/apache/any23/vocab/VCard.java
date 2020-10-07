@@ -32,7 +32,7 @@ public class VCard extends Vocabulary {
     private static VCard instance;
 
     public static VCard getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new VCard();
         }
         return instance;
@@ -144,8 +144,7 @@ public class VCard extends Vocabulary {
     public final IRI key = createProperty("key");
 
     /**
-     * The formatted version of a postal address (a string with embedded line breaks,
-     * punctuation, etc.).
+     * The formatted version of a postal address (a string with embedded line breaks, punctuation, etc.).
      */
     public final IRI label = createProperty("label");
 
@@ -215,8 +214,7 @@ public class VCard extends Vocabulary {
     public final IRI organization_unit = createProperty("organization-unit");
 
     /**
-     * An email address unaffiliated with any particular organization or employer;
-     * a personal email address.
+     * An email address unaffiliated with any particular organization or employer; a personal email address.
      */
     public final IRI personalEmail = createProperty("personalEmail");
 
@@ -352,12 +350,11 @@ public class VCard extends Vocabulary {
      */
     public final IRI VCard = createIRI("http://www.w3.org/2006/vcard/ns#VCard");
 
-
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
 
-    public VCard(){
+    public VCard() {
         super(NS);
     }
 }

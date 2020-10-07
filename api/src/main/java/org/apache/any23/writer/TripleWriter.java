@@ -30,29 +30,43 @@ public interface TripleWriter extends AutoCloseable {
 
     /**
      * Writes a triple and, optionally, a graph resource name.
-     * @param s the subject to write
-     * @param p the predicate to write
-     * @param o the object to write
-     * @param g the graph name to write, or null
-     * @throws TripleHandlerException if there is an error writing the triple
+     * 
+     * @param s
+     *            the subject to write
+     * @param p
+     *            the predicate to write
+     * @param o
+     *            the object to write
+     * @param g
+     *            the graph name to write, or null
+     * 
+     * @throws TripleHandlerException
+     *             if there is an error writing the triple
      */
     void writeTriple(Resource s, IRI p, Value o, Resource g) throws TripleHandlerException;
 
     /**
-     * Writes a prefix-namespace mapping. <br><b>NOTE:</b> this method should be called
-     * <b>before</b> writing out any triples. Calling this method <b>after</b> writing
-     * out a triple may result in the prefix-namespace mapping being ignored.
-     * @param prefix the namespace prefix
-     * @param uri the namespace uri
-     * @throws TripleHandlerException if there was an error writing out the prefix-namespace mapping
+     * Writes a prefix-namespace mapping. <br>
+     * <b>NOTE:</b> this method should be called <b>before</b> writing out any triples. Calling this method <b>after</b>
+     * writing out a triple may result in the prefix-namespace mapping being ignored.
+     * 
+     * @param prefix
+     *            the namespace prefix
+     * @param uri
+     *            the namespace uri
+     * 
+     * @throws TripleHandlerException
+     *             if there was an error writing out the prefix-namespace mapping
      */
     void writeNamespace(String prefix, String uri) throws TripleHandlerException;
 
     /**
-     * Releases resources associated with this {@link TripleWriter}, and flushes (but by default does not close)
-     * any underlying {@link java.io.OutputStream}s. Future invocations of methods of this writer
-     * produce <b>undefined behavior</b> after this method has been called.
-     * @throws TripleHandlerException if there was an error closing this {@link TripleWriter}
+     * Releases resources associated with this {@link TripleWriter}, and flushes (but by default does not close) any
+     * underlying {@link java.io.OutputStream}s. Future invocations of methods of this writer produce <b>undefined
+     * behavior</b> after this method has been called.
+     * 
+     * @throws TripleHandlerException
+     *             if there was an error closing this {@link TripleWriter}
      */
     @Override
     void close() throws TripleHandlerException;

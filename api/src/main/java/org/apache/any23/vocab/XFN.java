@@ -35,33 +35,33 @@ public class XFN extends Vocabulary {
     private static XFN instance;
 
     public static XFN getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new XFN();
         }
         return instance;
     }
 
-    public final IRI contact      = createProperty("contact");
+    public final IRI contact = createProperty("contact");
     public final IRI acquaintance = createProperty("acquaintance");
-    public final IRI friend       = createProperty("friend");
-    public final IRI met          = createProperty("met");
-    public final IRI coWorker     = createProperty("co-worker");
-    public final IRI colleague    = createProperty("colleague");
-    public final IRI coResident   = createProperty("co-resident");
-    public final IRI neighbor     = createProperty("neighbor");
-    public final IRI child        = createProperty("child");
-    public final IRI parent       = createProperty("parent");
-    public final IRI spouse       = createProperty("spouse");
-    public final IRI kin          = createProperty("kin");
-    public final IRI muse         = createProperty("muse");
-    public final IRI crush        = createProperty("crush");
-    public final IRI date         = createProperty("date");
-    public final IRI sweetheart   = createProperty("sweetheart");
-    public final IRI me           = createProperty("me");
+    public final IRI friend = createProperty("friend");
+    public final IRI met = createProperty("met");
+    public final IRI coWorker = createProperty("co-worker");
+    public final IRI colleague = createProperty("colleague");
+    public final IRI coResident = createProperty("co-resident");
+    public final IRI neighbor = createProperty("neighbor");
+    public final IRI child = createProperty("child");
+    public final IRI parent = createProperty("parent");
+    public final IRI spouse = createProperty("spouse");
+    public final IRI kin = createProperty("kin");
+    public final IRI muse = createProperty("muse");
+    public final IRI crush = createProperty("crush");
+    public final IRI date = createProperty("date");
+    public final IRI sweetheart = createProperty("sweetheart");
+    public final IRI me = createProperty("me");
 
     public final IRI mePage = createProperty(NS, "mePage");
 
-    private  Map<String, IRI> PeopleXFNProperties;
+    private Map<String, IRI> PeopleXFNProperties;
 
     private Map<String, IRI> HyperlinkXFNProperties;
 
@@ -82,11 +82,11 @@ public class XFN extends Vocabulary {
     }
 
     private IRI createProperty(String localName) {
-        if(HyperlinkXFNProperties == null) {
+        if (HyperlinkXFNProperties == null) {
             HyperlinkXFNProperties = new HashMap<String, IRI>();
         }
-        if(PeopleXFNProperties == null) {
-            PeopleXFNProperties =  new HashMap<String, IRI>();
+        if (PeopleXFNProperties == null) {
+            PeopleXFNProperties = new HashMap<String, IRI>();
         }
 
         IRI result = createProperty(NS, localName + "-hyperlink");
@@ -97,7 +97,7 @@ public class XFN extends Vocabulary {
         return result;
     }
 
-    private XFN(){
+    private XFN() {
         super(NS);
     }
 

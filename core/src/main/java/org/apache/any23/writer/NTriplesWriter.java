@@ -25,19 +25,17 @@ import java.io.OutputStream;
 
 /**
  * Implementation of an <i>N-Triples</i> {@link TripleWriter}.
+ * 
  * @author Hans Brende (hansbrende@apache.org)
  */
 public class NTriplesWriter extends RDFWriterTripleHandler {
 
     static class Internal {
-        private static final org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory rdf4j
-                = new org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory();
+        private static final org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory rdf4j = new org.eclipse.rdf4j.rio.ntriples.NTriplesWriterFactory();
 
         static final TripleFormat FORMAT = format(rdf4j);
 
-        static final Settings SUPPORTED_SETTINGS = Settings.of(
-                WriterSettings.PRINT_ASCII
-        );
+        static final Settings SUPPORTED_SETTINGS = Settings.of(WriterSettings.PRINT_ASCII);
     }
 
     @Override

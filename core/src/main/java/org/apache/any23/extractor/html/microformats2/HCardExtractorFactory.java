@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Nisala Nirmana
  *
  */
-public class HCardExtractorFactory extends SimpleExtractorFactory<HCardExtractor> implements
-        ExtractorFactory<HCardExtractor> {
+public class HCardExtractorFactory extends SimpleExtractorFactory<HCardExtractor>
+        implements ExtractorFactory<HCardExtractor> {
 
     public static final String NAME = "html-mf2-h-card";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "hcard");
 
     private static final ExtractorDescription descriptionInstance = new HCardExtractorFactory();
-    
+
     public HCardExtractorFactory() {
-        super(
-                HCardExtractorFactory.NAME, 
-                HCardExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf2-h-card.html");
+        super(HCardExtractorFactory.NAME, HCardExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf2-h-card.html");
     }
-    
+
     @Override
     public HCardExtractor createExtractor() {
         return new HCardExtractor();

@@ -29,7 +29,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-    public void testModelNotEmpty() throws RepositoryException , RDFHandlerException {
+    public void testModelNotEmpty() throws RepositoryException, RDFHandlerException {
         assertExtract("/microformats2/h-card/h-card-test.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 9);

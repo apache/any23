@@ -23,8 +23,8 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * to perform extraction on <a href="http://www.w3.org/2004/03/trix/">TriX</a> documents.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} to perform extraction on
+ * <a href="http://www.w3.org/2004/03/trix/">TriX</a> documents.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -33,10 +33,11 @@ public class TriXExtractor extends BaseRDFExtractor {
     /**
      * Constructor, allows to specify the validation and error handling policies.
      *
-     * @param verifyDataType   if <code>true</code> the data types will be verified,
-     *                         if <code>false</code> will be ignored.
-     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
-     *                         if <code>false</code> will ignore non blocking errors.
+     * @param verifyDataType
+     *            if <code>true</code> the data types will be verified, if <code>false</code> will be ignored.
+     * @param stopAtFirstError
+     *            if <code>true</code> the parser will stop at first parsing error, if <code>false</code> will ignore
+     *            non blocking errors.
      */
     public TriXExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
@@ -56,10 +57,8 @@ public class TriXExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getTriXParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getTriXParser(isVerifyDataType(), isStopAtFirstError(), extractionContext,
+                extractionResult);
     }
-
 
 }

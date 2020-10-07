@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Nisala Nirmana
  *
  */
-public class HEventExtractorFactory extends SimpleExtractorFactory<HEventExtractor> implements
-        ExtractorFactory<HEventExtractor> {
+public class HEventExtractorFactory extends SimpleExtractorFactory<HEventExtractor>
+        implements ExtractorFactory<HEventExtractor> {
 
     public static final String NAME = "html-mf2-h-event";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "hevent");
 
     private static final ExtractorDescription descriptionInstance = new HEventExtractorFactory();
-    
+
     public HEventExtractorFactory() {
-        super(
-                HEventExtractorFactory.NAME,
-                HEventExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf2-h-event.html");
+        super(HEventExtractorFactory.NAME, HEventExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf2-h-event.html");
     }
-    
+
     @Override
     public HEventExtractor createExtractor() {
         return new HEventExtractor();

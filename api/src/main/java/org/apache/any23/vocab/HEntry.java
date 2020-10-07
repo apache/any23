@@ -31,27 +31,26 @@ public class HEntry extends Vocabulary {
     private static HEntry instance;
 
     public static HEntry getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HEntry();
         }
         return instance;
     }
 
-    public IRI Entry  = createClass(NS, "Entry");
-    public IRI author   = createClass(NS, "author");
+    public IRI Entry = createClass(NS, "Entry");
+    public IRI author = createClass(NS, "author");
     public IRI location = createClass(NS, "location");
 
-
-    public IRI name  = createProperty(NS, "name");
-    public IRI summary   = createProperty(NS, "summary");
-    public IRI content   = createProperty(NS, "content");
-    public IRI published   = createProperty(NS, "published");
-    public IRI updated   = createProperty(NS, "updated");
-    public IRI category   = createProperty(NS, "category");
-    public IRI url   = createProperty(NS, "url");
-    public IRI uid  = createProperty(NS, "uid");
-    public IRI syndication   = createProperty(NS, "syndication");
-    public IRI in_reply_to   = createProperty(NS, "in-reply-to");
+    public IRI name = createProperty(NS, "name");
+    public IRI summary = createProperty(NS, "summary");
+    public IRI content = createProperty(NS, "content");
+    public IRI published = createProperty(NS, "published");
+    public IRI updated = createProperty(NS, "updated");
+    public IRI category = createProperty(NS, "category");
+    public IRI url = createProperty(NS, "url");
+    public IRI uid = createProperty(NS, "uid");
+    public IRI syndication = createProperty(NS, "syndication");
+    public IRI in_reply_to = createProperty(NS, "in-reply-to");
 
     private HEntry() {
         super(NS);

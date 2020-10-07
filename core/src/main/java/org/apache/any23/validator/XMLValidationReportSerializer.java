@@ -36,8 +36,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Default implementation of {@link ValidationReportSerializer}
- * for <i>XML</i>.
+ * Default implementation of {@link ValidationReportSerializer} for <i>XML</i>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -59,15 +58,15 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
     }
 
     private void serializeObject(Object o, PrintStream ps) throws SerializationException {
-        if(o == null) {
+        if (o == null) {
             return;
         }
         final Class<? extends Object> oClass = o.getClass();
         final String oClassName = getClassName(oClass);
         ps.printf(Locale.ROOT, "<%s>%n", oClassName);
         List<Method> getters = filterGetters(o.getClass());
-        if(getters.isEmpty()) {
-            ps.print( o.toString() );
+        if (getters.isEmpty()) {
+            ps.print(o.toString());
             return;
         }
         for (Method getter : getters) {
@@ -78,7 +77,7 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
 
     private String getClassName(Class<? extends Object> oClass) {
         final NodeName nodeName = oClass.getAnnotation(NodeName.class);
-        if(nodeName != null) {
+        if (nodeName != null) {
             return nodeName.value();
         }
         final String simpleName = oClass.getSimpleName();
@@ -88,20 +87,13 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
     private List<Method> filterGetters(Class<? extends Object> c) {
         Method[] methods = c.getDeclaredMethods();
         List<Method> filtered = new ArrayList<>();
-        for(Method method : methods) {
-            if(Modifier.isStatic(method.getModifiers())) {
+        for (Method method : methods) {
+            if (Modifier.isStatic(method.getModifiers())) {
                 continue;
             }
             final String methodName = method.getName();
-            if(
-                    method.getParameterTypes().length == 0
-                        &&
-                    (
-                            (methodName.length() > 3 && methodName.indexOf("get") == 0)
-                                    ||
-                            (methodName.length() > 2 && methodName.indexOf("is")  == 0)
-                    )
-            ) {
+            if (method.getParameterTypes().length == 0 && ((methodName.length() > 3 && methodName.indexOf("get") == 0)
+                    || (methodName.length() > 2 && methodName.indexOf("is") == 0))) {
                 filtered.add(method);
             }
         }
@@ -114,10 +106,11 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
         try {
             value = m.invoke(o);
         } catch (Exception e) {
-            throw new SerializationException( String.format(Locale.ROOT, "Error while reading method '%s'", methodName), e );
+            throw new SerializationException(String.format(Locale.ROOT, "Error while reading method '%s'", methodName),
+                    e);
         }
         final String property = getPropertyFromMethodName(methodName);
-        if( isManaged(value) ) {
+        if (isManaged(value)) {
             ps.printf(Locale.ROOT, "<%s>%n", property);
             printObject(value, ps);
             ps.printf(Locale.ROOT, "</%s>%n", property);
@@ -131,54 +124,46 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
 
     private String getPropertyFromMethodName(String methodName) {
         int i = methodName.indexOf("is");
-        if(i == 0) {
-            return Character.toLowerCase( methodName.charAt(2) ) + methodName.substring(3);
+        if (i == 0) {
+            return Character.toLowerCase(methodName.charAt(2)) + methodName.substring(3);
         }
-        return Character.toLowerCase( methodName.charAt(3) ) + methodName.substring(4);
+        return Character.toLowerCase(methodName.charAt(3)) + methodName.substring(4);
     }
 
     private void printObject(Object o, PrintStream ps) throws SerializationException {
-        if(o == null) {
+        if (o == null) {
             return;
         }
-        if(o instanceof Element) {
-            ps.print( o.toString() );
+        if (o instanceof Element) {
+            ps.print(o.toString());
             return;
         }
-        if(o instanceof Array) {
+        if (o instanceof Array) {
             Object[] array = (Object[]) o;
-            if(array.length == 0) {
+            if (array.length == 0) {
                 return;
             }
-            for(Object a : array) {
+            for (Object a : array) {
                 serializeObject(a, ps);
             }
             return;
         }
-        if(o instanceof Collection) {
+        if (o instanceof Collection) {
             Collection<?> collection = (Collection<?>) o;
-            if(collection.isEmpty()) {
+            if (collection.isEmpty()) {
                 return;
             }
-            for(Object e : collection) {
+            for (Object e : collection) {
                 serializeObject(e, ps);
             }
             return;
         }
-        ps.print( o.toString() );
+        ps.print(o.toString());
     }
 
     private boolean isManaged(Object o) {
-        return
-                o == null
-                        ||
-                o instanceof String
-                        ||
-                o.getClass().isPrimitive()
-                        ||
-                (o instanceof Collection)
-                        ||
-                o instanceof Element;
+        return o == null || o instanceof String || o.getClass().isPrimitive() || (o instanceof Collection)
+                || o instanceof Element;
     }
 
     /**
@@ -190,5 +175,5 @@ public class XMLValidationReportSerializer implements ValidationReportSerializer
     public @interface NodeName {
         String value();
     }
-    
+
 }

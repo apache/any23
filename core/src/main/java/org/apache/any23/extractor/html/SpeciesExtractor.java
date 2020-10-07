@@ -31,26 +31,18 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 /**
- * Extractor able to extract the <a href="http://microformats.org/wiki/species">Species Microformat</a>.
- * The data are represented using the
- * <a href="http://www.bbc.co.uk/ontologies/wildlife/2010-02-22.shtml">BBC Wildlife Ontology</a>.
+ * Extractor able to extract the <a href="http://microformats.org/wiki/species">Species Microformat</a>. The data are
+ * represented using the <a href="http://www.bbc.co.uk/ontologies/wildlife/2010-02-22.shtml">BBC Wildlife Ontology</a>.
  *
  * @see org.apache.any23.vocab.WO
+ * 
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
 
     private static final WO vWO = WO.getInstance();
 
-    private static final String[] classes = {
-            "kingdom",
-            "phylum",
-            "order",
-            "family",
-            "genus",
-            "species",
-            "class",
-    };
+    private static final String[] classes = { "kingdom", "phylum", "order", "family", "genus", "species", "class", };
 
     /**
      * Returns the description of this extractor.
@@ -83,10 +75,15 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     /**
      * Extracts an entity from a <i>DOM</i> node.
      *
-     * @param node the DOM node.
-     * @param out  the extraction result collector.
+     * @param node
+     *            the DOM node.
+     * @param out
+     *            the extraction result collector.
+     * 
      * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      *
      */
     @Override
@@ -99,38 +96,30 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
         addClasses(fragment, biota);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addResourceRoot(
-                DomUtils.getXPathListForNode(node),
-                biota,
-                this.getClass()
-        );
+        tser.addResourceRoot(DomUtils.getXPathListForNode(node), biota, this.getClass());
 
         return true;
     }
 
     private void addNames(HTMLDocument doc, Resource biota) throws ExtractionException {
         HTMLDocument.TextField binomial = doc.getSingularTextField("binomial");
-        conditionallyAddStringProperty(
-                binomial.source(), biota, vWO.scientificName, binomial.value()
-        );
+        conditionallyAddStringProperty(binomial.source(), biota, vWO.scientificName, binomial.value());
         HTMLDocument.TextField vernacular = doc.getSingularTextField("vernacular");
-        conditionallyAddStringProperty(
-                vernacular.source(), biota, vWO.speciesName, vernacular.value()
-        );
+        conditionallyAddStringProperty(vernacular.source(), biota, vWO.speciesName, vernacular.value());
     }
 
     private void addClassesName(HTMLDocument doc, Resource biota) throws ExtractionException {
         for (String clazz : classes) {
             HTMLDocument.TextField classTextField = doc.getSingularTextField(clazz);
-            conditionallyAddStringProperty(
-                    classTextField.source(), biota, resolvePropertyName(clazz), classTextField.value());
+            conditionallyAddStringProperty(classTextField.source(), biota, resolvePropertyName(clazz),
+                    classTextField.value());
         }
     }
 
     private void addClasses(HTMLDocument doc, Resource biota) throws ExtractionException {
-        for(String clazz : classes) {
+        for (String clazz : classes) {
             HTMLDocument.TextField classTextField = doc.getSingularUrlField(clazz);
-            if(classTextField.source() != null) {
+            if (classTextField.source() != null) {
                 BNode classBNode = getBlankNodeFor(classTextField.source());
                 addBNodeProperty(biota, vWO.getProperty(clazz), classBNode);
                 conditionallyAddResourceProperty(classBNode, RDF.TYPE, resolveClassName(clazz));
@@ -141,21 +130,12 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
     }
 
     private IRI resolvePropertyName(String clazz) {
-        return vWO.getProperty(
-                String.format(Locale.ROOT,
-                        "%sName",
-                        clazz
-                )
-        );
+        return vWO.getProperty(String.format(Locale.ROOT, "%sName", clazz));
     }
 
     private IRI resolveClassName(String clazz) {
         String upperCaseClass = clazz.substring(0, 1);
         return vWO.getClass(
-                String.format(Locale.ROOT, "%s%s",
-                        upperCaseClass.toUpperCase(Locale.ROOT),
-                        clazz.substring(1)
-                )
-        );
+                String.format(Locale.ROOT, "%s%s", upperCaseClass.toUpperCase(Locale.ROOT), clazz.substring(1)));
     }
 }

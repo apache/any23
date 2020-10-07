@@ -17,8 +17,8 @@
 
 /**
  *
- * All the various {@link org.apache.any23.extractor.Extractor} needed to distill <i>RDF</i>
- * from <a href="http://microformats.org/">Microformats</a> in HTML pages are contained in this package.
+ * All the various {@link org.apache.any23.extractor.Extractor} needed to distill <i>RDF</i> from
+ * <a href="http://microformats.org/">Microformats</a> in HTML pages are contained in this package.
  *
  */
 package org.apache.any23.extractor.html.microformats2;

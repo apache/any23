@@ -58,7 +58,8 @@ public class HTTPDocumentSource implements DocumentSource {
     }
 
     private void ensureOpen() throws IOException {
-        if (loaded) return;
+        if (loaded)
+            return;
         loaded = true;
         unusedInputStream = client.openInputStream(uri);
         if (client.getActualDocumentIRI() != null) {

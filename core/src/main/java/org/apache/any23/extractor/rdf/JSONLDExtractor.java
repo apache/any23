@@ -39,8 +39,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * handling <a href="http://www.w3.org/TR/json-ld/">JSON-LD</a> format.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} handling
+ * <a href="http://www.w3.org/TR/json-ld/">JSON-LD</a> format.
  *
  */
 public class JSONLDExtractor extends BaseRDFExtractor {
@@ -49,15 +49,15 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     static {
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_COMMENTS); //handled by JsonCleaningInputStream
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_MISSING_VALUES); //handled by JsonCleaningInputStream
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_COMMENTS); // handled by JsonCleaningInputStream
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_MISSING_VALUES); // handled by JsonCleaningInputStream
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS);
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_SINGLE_QUOTES); //handled by JsonCleaningInputStream
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_TRAILING_COMMA); //handled by JsonCleaningInputStream
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_SINGLE_QUOTES); // handled by JsonCleaningInputStream
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_TRAILING_COMMA); // handled by JsonCleaningInputStream
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
         JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_YAML_COMMENTS); //handled by JsonCleaningInputStream
+        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_YAML_COMMENTS); // handled by JsonCleaningInputStream
         JSON_FACTORY.enable(JsonParser.Feature.IGNORE_UNDEFINED);
         JSON_FACTORY.enable(JsonParser.Feature.INCLUDE_SOURCE_IN_LOCATION);
         JSON_FACTORY.disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
@@ -65,8 +65,11 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #JSONLDExtractor()} instead.
-     * @param verifyDataType has no effect
-     * @param stopAtFirstError has no effect
+     * 
+     * @param verifyDataType
+     *            has no effect
+     * @param stopAtFirstError
+     *            has no effect
      */
     @Deprecated
     public JSONLDExtractor(boolean verifyDataType, boolean stopAtFirstError) {
@@ -83,12 +86,10 @@ public class JSONLDExtractor extends BaseRDFExtractor {
     }
 
     @Override
-    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in, ExtractionResult extractionResult) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in,
+            ExtractionResult extractionResult) throws IOException, ExtractionException {
         JSONLDJavaSink handler = new JSONLDJavaSink(extractionResult, new Any23ValueFactoryWrapper(
-                SimpleValueFactory.getInstance(),
-                extractionResult,
-                extractionContext.getDefaultLanguage()
-        ));
+                SimpleValueFactory.getInstance(), extractionResult, extractionContext.getDefaultLanguage()));
 
         JsonLdOptions options = new JsonLdOptions(extractionContext.getDocumentIRI().stringValue());
         options.useNamespaces = true;
@@ -101,7 +102,8 @@ public class JSONLDExtractor extends BaseRDFExtractor {
             if (loc == null) {
                 extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, e.getOriginalMessage(), -1L, -1L);
             } else {
-                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, e.getOriginalMessage(), loc.getLineNr(), loc.getColumnNr());
+                extractionResult.notifyIssue(IssueReport.IssueLevel.FATAL, e.getOriginalMessage(), loc.getLineNr(),
+                        loc.getColumnNr());
             }
         } catch (Exception e) {
             // ANY23-420: jsonld-java can sometimes throw IllegalArgumentException
@@ -113,7 +115,9 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
-     * @param stopAtFirstError has no effect
+     * 
+     * @param stopAtFirstError
+     *            has no effect
      */
     @Deprecated
     @Override
@@ -123,7 +127,9 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
-     * @param verifyDataType has no effect
+     * 
+     * @param verifyDataType
+     *            has no effect
      */
     @Deprecated
     @Override
@@ -133,16 +139,19 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor no longer wraps an RDF4J {@link RDFParser}. Do not use this method.
-     * @param extractionContext the extraction context
-     * @param extractionResult the extraction result
+     * 
+     * @param extractionContext
+     *            the extraction context
+     * @param extractionResult
+     *            the extraction result
+     * 
      * @return a {@link RDFParser}
      */
     @Deprecated
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getJSONLDParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getJSONLDParser(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

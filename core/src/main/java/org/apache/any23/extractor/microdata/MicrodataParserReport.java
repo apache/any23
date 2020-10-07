@@ -18,8 +18,8 @@
 package org.apache.any23.extractor.microdata;
 
 /**
- * This class describes the report of the {@link MicrodataParser}.
- * Such report contains the detected {@link ItemScope}s and errors.
+ * This class describes the report of the {@link MicrodataParser}. Such report contains the detected {@link ItemScope}s
+ * and errors.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -32,7 +32,7 @@ public class MicrodataParserReport {
     private final MicrodataParserException[] errors;
 
     public MicrodataParserReport(ItemScope[] detectedItemScopes, MicrodataParserException[] errors) {
-        if(detectedItemScopes == null) {
+        if (detectedItemScopes == null) {
             throw new NullPointerException("detected item scopes list cannot be null.");
         }
         this.detectedItemScopes = detectedItemScopes;

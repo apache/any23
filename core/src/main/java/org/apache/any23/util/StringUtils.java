@@ -26,11 +26,13 @@ import java.util.Locale;
 public class StringUtils {
 
     /**
-     * Joins the given input sting <code>data</code> list using the specified
-     * <code>delimiter</code>.
+     * Joins the given input sting <code>data</code> list using the specified <code>delimiter</code>.
      *
-     * @param delimiter string delimiter.
-     * @param data list of data to be joined.
+     * @param delimiter
+     *            string delimiter.
+     * @param data
+     *            list of data to be joined.
+     * 
      * @return the joined string.
      */
     public static String join(String delimiter, String... data) {
@@ -46,11 +48,13 @@ public class StringUtils {
     }
 
     /**
-     * Counts how many times <code>content</code> appears within
-     * <code>container</code> without string overlapping.
+     * Counts how many times <code>content</code> appears within <code>container</code> without string overlapping.
      *
-     * @param container container string.
-     * @param content content string.
+     * @param container
+     *            container string.
+     * @param content
+     *            content string.
+     * 
      * @return occurrences count.
      */
     public static int countOccurrences(String container, String content) {
@@ -69,7 +73,9 @@ public class StringUtils {
     /**
      * Counts the number of <code>NL</code> in the given <i>in</i> string.
      *
-     * @param in input string.
+     * @param in
+     *            input string.
+     * 
      * @return the number of new line chars.
      */
     public static int countNL(String in) {
@@ -77,13 +83,15 @@ public class StringUtils {
     }
 
     /**
-     * Check whether string <code>candidatePrefix</code> is prefix of string
-     * <code>container</code>.
+     * Check whether string <code>candidatePrefix</code> is prefix of string <code>container</code>.
      *
-     * @param candidatePrefix prefix to check
-     * @param container container to check against
-     * @return <code>true</code> if <code>candidatePrefix</code> is prefix of
-     * <code>container</code>, <code>false</code> otherwise.
+     * @param candidatePrefix
+     *            prefix to check
+     * @param container
+     *            container to check against
+     * 
+     * @return <code>true</code> if <code>candidatePrefix</code> is prefix of <code>container</code>, <code>false</code>
+     *         otherwise.
      */
     public static boolean isPrefix(String candidatePrefix, String container) {
         if (candidatePrefix == null || container == null) {
@@ -101,13 +109,15 @@ public class StringUtils {
     }
 
     /**
-     * Check whether string <code>candidateSuffix</code> is suffix of string
-     * <code>container</code>.
+     * Check whether string <code>candidateSuffix</code> is suffix of string <code>container</code>.
      *
-     * @param candidateSuffix suffix to check
-     * @param container container to check against
-     * @return <code>true</code> if <code>candidateSuffix</code> is prefix of
-     * <code>container</code>, <code>false</code> otherwise.
+     * @param candidateSuffix
+     *            suffix to check
+     * @param container
+     *            container to check against
+     * 
+     * @return <code>true</code> if <code>candidateSuffix</code> is prefix of <code>container</code>, <code>false</code>
+     *         otherwise.
      */
     public static boolean isSuffix(String candidateSuffix, String container) {
         if (candidateSuffix == null || container == null) {
@@ -128,7 +138,9 @@ public class StringUtils {
     /**
      * Escapes all the unescaped double quotes when needed.
      *
-     * @param in input string.
+     * @param in
+     *            input string.
+     * 
      * @return unescaped output.
      */
     public static String escapeDoubleQuotes(String in) {
@@ -148,10 +160,11 @@ public class StringUtils {
     }
 
     /**
-     * Escapes the <code>in</code> string as <b>JSON</b> string to let it being
-     * embeddable within a string field.
+     * Escapes the <code>in</code> string as <b>JSON</b> string to let it being embeddable within a string field.
      *
-     * @param in string to be escaped.
+     * @param in
+     *            string to be escaped.
+     * 
      * @return escaped string.
      */
     public static String escapeAsJSONString(String in) {
@@ -159,11 +172,13 @@ public class StringUtils {
     }
 
     /**
-     * Builds a string composed of the given char <code>c</code> <code>n</code>
-     * times.
+     * Builds a string composed of the given char <code>c</code> <code>n</code> times.
      *
-     * @param c char to be multiplied.
-     * @param times number of times.
+     * @param c
+     *            char to be multiplied.
+     * @param times
+     *            number of times.
+     * 
      * @return the string containing the multiplied char.
      */
     public static String multiply(char c, int times) {
@@ -181,12 +196,13 @@ public class StringUtils {
      * Changes string with following convention:
      * <ul>
      * <li>Changes '-' -&gt; '_'
-     * <li>remove space characters and make first letter word uppercase: 'some
-     * string' -&gt; 'someString'
+     * <li>remove space characters and make first letter word uppercase: 'some string' -&gt; 'someString'
      * </ul>
      * If input string does not contains a whitespace than return unchanged.
      *
-     * @param in an input string to convert to Java code convention
+     * @param in
+     *            an input string to convert to Java code convention
+     * 
      * @return the correctly formatter string as per Java spec.
      */
     public static String implementJavaNaming(String in) {

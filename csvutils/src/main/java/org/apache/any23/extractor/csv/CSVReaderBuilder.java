@@ -29,8 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 /**
- * This class is responsible to build a reader first guessing the configuration
- * from the file it self and then, if not successful, from the {@link org.apache.any23.configuration.DefaultConfiguration}.
+ * This class is responsible to build a reader first guessing the configuration from the file it self and then, if not
+ * successful, from the {@link org.apache.any23.configuration.DefaultConfiguration}.
  *
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
@@ -41,10 +41,9 @@ public class CSVReaderBuilder {
 
     private static final String DEFAULT_COMMENT_DELIMITER = "#";
 
-    private static final char[] popularDelimiters = {'\t', '|', ',', ';'};
+    private static final char[] popularDelimiters = { '\t', '|', ',', ';' };
 
-    private static DefaultConfiguration defaultConfiguration =
-            DefaultConfiguration.singleton();
+    private static DefaultConfiguration defaultConfiguration = DefaultConfiguration.singleton();
 
     private static final CSVFormat[] strategies;
 
@@ -58,12 +57,16 @@ public class CSVReaderBuilder {
     }
 
     /**
-     * Builds a not <code>null</code> {@link org.apache.commons.csv.CSVParser} guessing
-     * from the provided <i>CSV</i> file.
+     * Builds a not <code>null</code> {@link org.apache.commons.csv.CSVParser} guessing from the provided <i>CSV</i>
+     * file.
      *
-     * @param is {@link InputStream} of the <i>CSV</i> file where guess the configuration.
+     * @param is
+     *            {@link InputStream} of the <i>CSV</i> file where guess the configuration.
+     * 
      * @return a {@link CSVParser}
-     * @throws java.io.IOException if there is an error building the parser
+     * 
+     * @throws java.io.IOException
+     *             if there is an error building the parser
      */
     public static CSVParser build(InputStream is) throws IOException {
         CSVFormat bestStrategy = getBestStrategy(is);
@@ -75,10 +78,14 @@ public class CSVReaderBuilder {
     /**
      * Checks whether the given input stream is a CSV or not.
      *
-     * @param is input stream to be verified.
+     * @param is
+     *            input stream to be verified.
+     * 
      * @return <code>true</code> if the given <code>is</code> input stream contains a <i>CSV</i> content.
      *         <code>false</code> otherwise.
-     * @throws IOException if there is an error processing the input stream
+     * 
+     * @throws IOException
+     *             if there is an error processing the input stream
      */
     public static boolean isCSV(InputStream is) throws IOException {
         return getBestStrategy(is) != null;
@@ -94,22 +101,14 @@ public class CSVReaderBuilder {
     }
 
     private static CSVFormat getCSVStrategyFromConfiguration() {
-        char fieldDelimiter = getCharValueFromConfiguration(
-                "any23.extraction.csv.field",
-                DEFAULT_FIELD_DELIMITER
-        );
-        char commentDelimiter = getCharValueFromConfiguration(
-                "any23.extraction.csv.comment",
-                DEFAULT_COMMENT_DELIMITER
-        );
+        char fieldDelimiter = getCharValueFromConfiguration("any23.extraction.csv.field", DEFAULT_FIELD_DELIMITER);
+        char commentDelimiter = getCharValueFromConfiguration("any23.extraction.csv.comment",
+                DEFAULT_COMMENT_DELIMITER);
         return CSVFormat.DEFAULT.withDelimiter(fieldDelimiter).withCommentMarker(commentDelimiter);
     }
 
     private static char getCharValueFromConfiguration(String property, String defaultValue) {
-        String delimiter = defaultConfiguration.getProperty(
-                property,
-                defaultValue
-        );
+        String delimiter = defaultConfiguration.getProperty(property, defaultValue);
         if (delimiter.length() != 1) {
             throw new RuntimeException(property + " value must be a single character");
         }
@@ -117,13 +116,18 @@ public class CSVReaderBuilder {
     }
 
     /**
-     * make sure the reader has correct delimiter and quotation set.
-     * Check first lines and make sure they have the same amount of columns and at least 2
+     * make sure the reader has correct delimiter and quotation set. Check first lines and make sure they have the same
+     * amount of columns and at least 2
      *
-     * @param is input stream to be checked
-     * @param strategy strategy to be verified.
+     * @param is
+     *            input stream to be checked
+     * @param strategy
+     *            strategy to be verified.
+     * 
      * @return
+     * 
      * @throws IOException
+     * 
      * @param is
      */
     private static boolean testStrategy(InputStream is, CSVFormat strategy) throws IOException {
@@ -132,7 +136,8 @@ public class CSVReaderBuilder {
         is.mark(Integer.MAX_VALUE);
         try {
             @SuppressWarnings("resource")
-            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is, StandardCharsets.UTF_8), strategy).iterator();
+            final Iterator<CSVRecord> rows = new CSVParser(new InputStreamReader(is, StandardCharsets.UTF_8), strategy)
+                    .iterator();
             int linesToCheck = 5;
             int headerColumnCount = -1;
             while (linesToCheck > 0 && rows.hasNext()) {
@@ -156,6 +161,5 @@ public class CSVReaderBuilder {
             is.reset();
         }
     }
-
 
 }

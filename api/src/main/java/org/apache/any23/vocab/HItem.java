@@ -31,16 +31,17 @@ public class HItem extends Vocabulary {
     private static HItem instance;
 
     public static HItem getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HItem();
         }
         return instance;
     }
 
-    public IRI Item  = createClass(NS, "Item");
-    public IRI name  = createProperty(NS, "name");
-    public IRI url   = createProperty(NS, "url");
+    public IRI Item = createClass(NS, "Item");
+    public IRI name = createProperty(NS, "name");
+    public IRI url = createProperty(NS, "url");
     public IRI photo = createProperty(NS, "photo");
+
     private HItem() {
         super(NS);
     }

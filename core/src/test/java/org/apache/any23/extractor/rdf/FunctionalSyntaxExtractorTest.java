@@ -50,7 +50,8 @@ public class FunctionalSyntaxExtractorTest extends AbstractExtractorTestCase {
         logger.debug(dumpModelToNQuads());
         assertStatementsSize(null, null, null, 2);
         assertContains(RDFUtils.iri("http://example.org/example-manchestersyntax"), RDF.TYPE, OWL.ONTOLOGY);
-        assertContains(RDFUtils.iri("http://example.org/example-manchestersyntax#TestIndividual"), RDFS.COMMENT, "Test individual is a unique individual");
+        assertContains(RDFUtils.iri("http://example.org/example-manchestersyntax#TestIndividual"), RDFS.COMMENT,
+                "Test individual is a unique individual");
     }
 
 }

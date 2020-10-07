@@ -47,8 +47,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * This class provides utility methods for handling <b>Microdata</b>
- * nodes contained within a <i>DOM</i> document.
+ * This class provides utility methods for handling <b>Microdata</b> nodes contained within a <i>DOM</i> document.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Hans Brende (hansbrende@apache.org)
@@ -58,36 +57,33 @@ public class MicrodataParser {
     enum ErrorMode {
         /** This mode raises an exception at first encountered error. */
         STOP_AT_FIRST_ERROR,
-        /**  This mode produces a full error report. */
+        /** This mode produces a full error report. */
         FULL_REPORT
     }
 
     private final Document document;
 
     /**
-     * This set holds the name of properties being dereferenced.
-     * The {@link #deferProperties(String...)} checks first if the
-     * required dereference has been already asked, if so raises
-     * a loop detection error. This map works in coordination
-     * with {@link #dereferenceRecursionCounter}, so that at the end of
-     * {@link #deferProperties(String...)} call recursion the
-     * loopDetectorSet can be cleaned up.
+     * This set holds the name of properties being dereferenced. The {@link #deferProperties(String...)} checks first if
+     * the required dereference has been already asked, if so raises a loop detection error. This map works in
+     * coordination with {@link #dereferenceRecursionCounter}, so that at the end of {@link #deferProperties(String...)}
+     * call recursion the loopDetectorSet can be cleaned up.
      */
     private final Set<String> loopDetectorSet = new HashSet<>();
 
     /**
      * {@link ItemScope} cache.
      */
-    private final Map<Node,ItemScope> itemScopes = new HashMap<>();
+    private final Map<Node, ItemScope> itemScopes = new HashMap<>();
 
     /**
      * {@link ItemPropValue} cache.
      */
     private final Map<Node, ItemPropValue> itemPropValues = new HashMap<>();
 
-   /**
-     * Counts the recursive call of {@link #deferProperties(String...)}.
-     * It helps to cleanup the {@link #loopDetectorSet} when recursion ends.
+    /**
+     * Counts the recursive call of {@link #deferProperties(String...)}. It helps to cleanup the
+     * {@link #loopDetectorSet} when recursion ends.
      */
     private int dereferenceRecursionCounter = 0;
 
@@ -102,35 +98,34 @@ public class MicrodataParser {
     private final List<MicrodataParserException> errors = new ArrayList<>();
 
     public static final String ITEMSCOPE_ATTRIBUTE = "itemscope";
-    public static final String ITEMPROP_ATTRIBUTE  = "itemprop";
+    public static final String ITEMPROP_ATTRIBUTE = "itemprop";
     private static final String REVERSE_ITEMPROP_ATTRIBUTE = "itemprop-reverse";
 
     /**
      * List of tags providing the <code>src</code> property.
      */
-    public static final Set<String> SRC_TAGS =  Collections.unmodifiableSet(
-            new HashSet<String>( Arrays.asList("audio", "embed", "frame", "iframe", "img", 
-              "source", "track", "video", "input", "layer", "script", "textarea") )
-    );
+    public static final Set<String> SRC_TAGS = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("audio",
+            "embed", "frame", "iframe", "img", "source", "track", "video", "input", "layer", "script", "textarea")));
 
     /**
      * List of tags providing the <code>href</code> property.
      */
-    public static final Set<String> HREF_TAGS =  Collections.unmodifiableSet(
-            new HashSet<String>( Arrays.asList("a", "area", "link") )
-    );
+    public static final Set<String> HREF_TAGS = Collections
+            .unmodifiableSet(new HashSet<String>(Arrays.asList("a", "area", "link")));
 
     public MicrodataParser(Document document) {
-      if(document == null) {
-          throw new NullPointerException("Document cannot be null.");
-      }
-      this.document = document;
+        if (document == null) {
+            throw new NullPointerException("Document cannot be null.");
+        }
+        this.document = document;
     }
 
     /**
      * Returns all the <i>itemScope</i>s detected within the given root node.
      *
-     * @param node root node to search in.
+     * @param node
+     *            root node to search in.
+     * 
      * @return list of detected items.
      */
     public static List<Node> getItemScopeNodes(Node node) {
@@ -140,7 +135,9 @@ public class MicrodataParser {
     /**
      * Check whether a node is an <i>itemScope</i>.
      *
-     * @param node node to check.
+     * @param node
+     *            node to check.
+     * 
      * @return <code>true</code> if the node is an <i>itemScope</i>., <code>false</code> otherwise.
      */
     public static boolean isItemScope(Node node) {
@@ -150,7 +147,9 @@ public class MicrodataParser {
     /**
      * Returns all the <i>itemProp</i>s detected within the given root node.
      *
-     * @param node root node to search in.
+     * @param node
+     *            root node to search in.
+     * 
      * @return list of detected items.
      */
     public static List<Node> getItemPropNodes(Node node) {
@@ -160,7 +159,9 @@ public class MicrodataParser {
     /**
      * Check whether a node is an <i>itemProp</i>.
      *
-     * @param node node to check.
+     * @param node
+     *            node to check.
+     * 
      * @return <code>true</code> if the node is an <i>itemProp</i>., <code>false</code> otherwise.
      */
     public static boolean isItemProp(Node node) {
@@ -191,16 +192,17 @@ public class MicrodataParser {
     /**
      * Returns only the <i>itemScope</i>s that are top level items.
      *
-     * @param node root node to search in.
+     * @param node
+     *            root node to search in.
+     * 
      * @return list of detected top item scopes.
      */
-    public static List<Node> getTopLevelItemScopeNodes(Node node)  {
+    public static List<Node> getTopLevelItemScopeNodes(Node node) {
         final List<Node> itemScopes = getItemScopeNodes(node);
         final List<Node> topLevelItemScopes = new ArrayList<>();
         final List<Node> possibles = new ArrayList<>();
         for (Node itemScope : itemScopes) {
-            if (!isItemProp(itemScope)
-                    && DomUtils.readAttribute(itemScope, REVERSE_ITEMPROP_ATTRIBUTE, null) == null) {
+            if (!isItemProp(itemScope) && DomUtils.readAttribute(itemScope, REVERSE_ITEMPROP_ATTRIBUTE, null) == null) {
                 topLevelItemScopes.add(itemScope);
             } else if (!isContainedInItemScope(itemScope)) {
                 possibles.add(itemScope);
@@ -208,8 +210,7 @@ public class MicrodataParser {
         }
 
         if (!possibles.isEmpty()) {
-            Set<String> refIds = itemScopes.stream()
-                    .flatMap(n -> Arrays.stream(itemrefIds(n)))
+            Set<String> refIds = itemScopes.stream().flatMap(n -> Arrays.stream(itemrefIds(n)))
                     .collect(Collectors.toSet());
 
             for (Node itemScope : possibles) {
@@ -225,49 +226,55 @@ public class MicrodataParser {
     /**
      * Returns all the <b>Microdata items</b> detected within the given <code>document</code>.
      *
-     * @param document document to be processed.
-     * @param errorMode error management policy.
+     * @param document
+     *            document to be processed.
+     * @param errorMode
+     *            error management policy.
+     * 
      * @return list of <b>itemscope</b> items.
-     * @throws MicrodataParserException if
-     *         <code>errorMode == {@link org.apache.any23.extractor.microdata.MicrodataParser.ErrorMode#STOP_AT_FIRST_ERROR}</code>
-     *         and an error occurs.
+     * 
+     * @throws MicrodataParserException
+     *             if
+     *             <code>errorMode == {@link org.apache.any23.extractor.microdata.MicrodataParser.ErrorMode#STOP_AT_FIRST_ERROR}</code>
+     *             and an error occurs.
      */
     public static MicrodataParserReport getMicrodata(Document document, ErrorMode errorMode)
-    throws MicrodataParserException {
+            throws MicrodataParserException {
         final List<Node> itemNodes = getTopLevelItemScopeNodes(document);
         final List<ItemScope> items = new ArrayList<>();
         final MicrodataParser microdataParser = new MicrodataParser(document);
         microdataParser.setErrorMode(errorMode);
-        for(Node itemNode : itemNodes) {
-            items.add( microdataParser.getItemScope(itemNode) );
+        for (Node itemNode : itemNodes) {
+            items.add(microdataParser.getItemScope(itemNode));
         }
-        return new MicrodataParserReport(
-                items.toArray( new ItemScope[items.size()] ),
-                microdataParser.getErrors()
-        );
+        return new MicrodataParserReport(items.toArray(new ItemScope[items.size()]), microdataParser.getErrors());
     }
 
     /**
-     * Returns all the <b>Microdata items</b> detected within the given <code>document</code>,
-     * works in full report mode.
+     * Returns all the <b>Microdata items</b> detected within the given <code>document</code>, works in full report
+     * mode.
      *
-     * @param document document to be processed.
+     * @param document
+     *            document to be processed.
+     * 
      * @return list of <b>itemscope</b> items.
      */
     public static MicrodataParserReport getMicrodata(Document document) {
         try {
             return getMicrodata(document, ErrorMode.FULL_REPORT);
         } catch (MicrodataParserException mpe) {
-             throw new IllegalStateException("Unexpected exception.", mpe);
+            throw new IllegalStateException("Unexpected exception.", mpe);
         }
     }
 
     /**
-     * Returns a <i>JSON</i> containing the list of all extracted Microdata,
-     * as described at <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
+     * Returns a <i>JSON</i> containing the list of all extracted Microdata, as described at
+     * <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
      *
-     * @param document document to be processed.
-     * @param ps the {@link java.io.PrintStream} to write JSON to
+     * @param document
+     *            document to be processed.
+     * @param ps
+     *            the {@link java.io.PrintStream} to write JSON to
      */
     public static void getMicrodataAsJSON(Document document, PrintStream ps) {
         final MicrodataParserReport report = getMicrodata(document);
@@ -278,23 +285,23 @@ public class MicrodataParser {
 
         // Results.
         ps.append("\"result\" : [");
-        for(int i = 0; i < itemScopes.length; i++) {
+        for (int i = 0; i < itemScopes.length; i++) {
             if (i > 0) {
                 ps.print(", ");
             }
-            ps.print( itemScopes[i].toJSON() );
+            ps.print(itemScopes[i].toJSON());
         }
         ps.append("] ");
 
         // Errors.
-        if(errors != null && errors.length > 0) {
+        if (errors != null && errors.length > 0) {
             ps.append(", ");
             ps.append("\"errors\" : [");
             for (int i = 0; i < errors.length; i++) {
                 if (i > 0) {
                     ps.print(", ");
                 }
-                ps.print( errors[i].toJSON() );
+                ps.print(errors[i].toJSON());
             }
             ps.append("] ");
         }
@@ -303,7 +310,7 @@ public class MicrodataParser {
     }
 
     public void setErrorMode(ErrorMode errorMode) {
-        if(errorMode == null)
+        if (errorMode == null)
             throw new IllegalArgumentException("errorMode must be not null.");
         this.errorMode = errorMode;
     }
@@ -313,19 +320,20 @@ public class MicrodataParser {
     }
 
     public MicrodataParserException[] getErrors() {
-        return errors == null
-                ?
-                new MicrodataParserException[0]
-                :
-                errors.toArray( new MicrodataParserException[errors.size()] );
+        return errors == null ? new MicrodataParserException[0]
+                : errors.toArray(new MicrodataParserException[errors.size()]);
     }
 
     /**
      * Reads the value of a <b>itemprop</b> node.
      *
-     * @param node itemprop node.
+     * @param node
+     *            itemprop node.
+     * 
      * @return value detected within the given <code>node</code>.
-     * @throws MicrodataParserException if an error occurs while extracting a nested item scope.
+     * 
+     * @throws MicrodataParserException
+     *             if an error occurs while extracting a nested item scope.
      */
     public ItemPropValue getPropertyValue(Node node) throws MicrodataParserException {
         final ItemPropValue itemPropValue = itemPropValues.get(node);
@@ -333,12 +341,12 @@ public class MicrodataParser {
             return itemPropValue;
 
         if (isItemScope(node)) {
-            return new ItemPropValue( getItemScope(node), ItemPropValue.Type.Nested);
+            return new ItemPropValue(getItemScope(node), ItemPropValue.Type.Nested);
         }
 
         final String nodeName = node.getNodeName().toLowerCase(Locale.ROOT);
 
-        //see http://w3c.github.io/microdata-rdf/#dfn-property-values
+        // see http://w3c.github.io/microdata-rdf/#dfn-property-values
         if ("data".equals(nodeName) || "meter".equals(nodeName)) {
             String value = value(node, "value");
             Literal l;
@@ -424,27 +432,27 @@ public class MicrodataParser {
 
     private static boolean appendFormatted(Node node, StringBuilder sb, boolean needsNewline) {
         switch (node.getNodeType()) {
-            case Node.TEXT_NODE:
-                String text = node.getTextContent();
-                if (text.isEmpty()) {
-                    return needsNewline;
-                }
-                if (needsNewline && shouldSeparateWithNewline(sb, text)) {
-                    sb.append('\n');
-                }
-                sb.append(text);
-                return false;
-            case Node.ELEMENT_NODE:
-                final String nodeName = node.getNodeName().toLowerCase(Locale.ENGLISH);
-                final boolean thisNeedsNewline = "br".equals(nodeName) || Tag.valueOf(nodeName).isBlock();
-                final NodeList children = node.getChildNodes();
-                boolean prevChildNeedsNewline = needsNewline || thisNeedsNewline;
-                for (int i = 0, len = children.getLength(); i < len; i++) {
-                    prevChildNeedsNewline = appendFormatted(children.item(i), sb, prevChildNeedsNewline);
-                }
-                return prevChildNeedsNewline || thisNeedsNewline;
-            default:
+        case Node.TEXT_NODE:
+            String text = node.getTextContent();
+            if (text.isEmpty()) {
                 return needsNewline;
+            }
+            if (needsNewline && shouldSeparateWithNewline(sb, text)) {
+                sb.append('\n');
+            }
+            sb.append(text);
+            return false;
+        case Node.ELEMENT_NODE:
+            final String nodeName = node.getNodeName().toLowerCase(Locale.ENGLISH);
+            final boolean thisNeedsNewline = "br".equals(nodeName) || Tag.valueOf(nodeName).isBlock();
+            final NodeList children = node.getChildNodes();
+            boolean prevChildNeedsNewline = needsNewline || thisNeedsNewline;
+            for (int i = 0, len = children.getLength(); i < len; i++) {
+                prevChildNeedsNewline = appendFormatted(children.item(i), sb, prevChildNeedsNewline);
+            }
+            return prevChildNeedsNewline || thisNeedsNewline;
+        default:
+            return needsNewline;
         }
     }
 
@@ -474,7 +482,7 @@ public class MicrodataParser {
                 : new ItemPropValue(content, ItemPropValue.Type.Link);
     }
 
-    //see https://www.w3.org/TR/html52/dom.html#the-lang-and-xmllang-attributes
+    // see https://www.w3.org/TR/html52/dom.html#the-lang-and-xmllang-attributes
     private static String getLanguage(Node node) {
         String lang;
         do {
@@ -494,11 +502,16 @@ public class MicrodataParser {
     /**
      * Returns all the <b>itemprop</b>s for the given <b>itemscope</b> node.
      *
-     * @param scopeNode node representing the <b>itemscope</b>
-     * @param skipRoot if <code>true</code> the given root <code>node</code>
-     *        will be not read as a property, even if it contains the <b>itemprop</b> attribute.
+     * @param scopeNode
+     *            node representing the <b>itemscope</b>
+     * @param skipRoot
+     *            if <code>true</code> the given root <code>node</code> will be not read as a property, even if it
+     *            contains the <b>itemprop</b> attribute.
+     * 
      * @return the list of <b>itemprop</b>s detected within the given <b>itemscope</b>.
-     * @throws MicrodataParserException if an error occurs while retrieving an property value.
+     * 
+     * @throws MicrodataParserException
+     *             if an error occurs while retrieving an property value.
      */
     public List<ItemProp> getItemProps(final Node scopeNode, boolean skipRoot) throws MicrodataParserException {
         final Set<Node> accepted = new LinkedHashSet<>();
@@ -517,14 +530,15 @@ public class MicrodataParser {
 
         if (!skipRootChildren) {
             // TreeWalker to walk DOM tree starting with the scopeNode. Nodes maybe visited multiple times.
-            TreeWalker treeWalker = ((DocumentTraversal) scopeNode.getOwnerDocument())
-                    .createTreeWalker(scopeNode, NodeFilter.SHOW_ELEMENT, new NodeFilter() {
+            TreeWalker treeWalker = ((DocumentTraversal) scopeNode.getOwnerDocument()).createTreeWalker(scopeNode,
+                    NodeFilter.SHOW_ELEMENT, new NodeFilter() {
                         @Override
                         public short acceptNode(Node node) {
                             if (node.getNodeType() == Node.ELEMENT_NODE) {
                                 NamedNodeMap attributes = node.getAttributes();
                                 if ((attributes.getNamedItem(ITEMPROP_ATTRIBUTE) != null
-                                        || attributes.getNamedItem(REVERSE_ITEMPROP_ATTRIBUTE) != null) && scopeNode != node) {
+                                        || attributes.getNamedItem(REVERSE_ITEMPROP_ATTRIBUTE) != null)
+                                        && scopeNode != node) {
                                     accepted.add(node);
                                 }
 
@@ -537,9 +551,9 @@ public class MicrodataParser {
                         }
                     }, false);
 
-
             // To populate accepted we only need to walk the tree.
-            while (treeWalker.nextNode() != null) ;
+            while (treeWalker.nextNode() != null)
+                ;
         }
 
         final List<ItemProp> result = new ArrayList<>();
@@ -565,30 +579,17 @@ public class MicrodataParser {
             if (hasItemProp) {
                 for (String propertyName : itemProp.trim().split("\\s+")) {
                     result.add(
-                            new ItemProp(
-                                    DomUtils.getXPathForNode(itemPropNode),
-                                    propertyName,
-                                    itemPropValue,
-                                    false
-                            )
-                    );
+                            new ItemProp(DomUtils.getXPathForNode(itemPropNode), propertyName, itemPropValue, false));
                 }
             }
             if (hasReverseProp) {
                 if (itemPropValue.literal != null) {
-                    manageError(new MicrodataParserException(REVERSE_ITEMPROP_ATTRIBUTE
-                            + " cannot point to a literal", itemPropNode));
+                    manageError(new MicrodataParserException(REVERSE_ITEMPROP_ATTRIBUTE + " cannot point to a literal",
+                            itemPropNode));
                     continue;
                 }
                 for (String propertyName : reverseProp.trim().split("\\s+")) {
-                    result.add(
-                            new ItemProp(
-                                    DomUtils.getXPathForNode(itemPropNode),
-                                    propertyName,
-                                    itemPropValue,
-                                    true
-                            )
-                    );
+                    result.add(new ItemProp(DomUtils.getXPathForNode(itemPropNode), propertyName, itemPropValue, true));
                 }
             }
         }
@@ -596,12 +597,15 @@ public class MicrodataParser {
     }
 
     /**
-     * Given a document and a list of <b>itemprop</b> names this method will return
-     * such <b>itemprops</b>.
+     * Given a document and a list of <b>itemprop</b> names this method will return such <b>itemprops</b>.
      * 
-     * @param refs list of references.
+     * @param refs
+     *            list of references.
+     * 
      * @return list of retrieved <b>itemprop</b>s.
-     * @throws MicrodataParserException if a loop is detected or a property name is missing.
+     * 
+     * @throws MicrodataParserException
+     *             if a loop is detected or a property name is missing.
      */
     public ItemProp[] deferProperties(String... refs) throws MicrodataParserException {
         Document document = this.document;
@@ -610,58 +614,59 @@ public class MicrodataParser {
         try {
             for (String ref : refs) {
                 if (loopDetectorSet.contains(ref)) {
-                        throw new MicrodataParserException(
-                                String.format(Locale.ROOT, 
-                                        "Loop detected with depth %d while dereferencing itemProp '%s' .",
-                                        dereferenceRecursionCounter - 1, ref
-                                ),
-                                null
-                        );
+                    throw new MicrodataParserException(String.format(Locale.ROOT,
+                            "Loop detected with depth %d while dereferencing itemProp '%s' .",
+                            dereferenceRecursionCounter - 1, ref), null);
                 }
                 loopDetectorSet.add(ref);
                 Element element = document.getElementById(ref);
                 if (element == null) {
-                    manageError(
-                            new MicrodataParserException( String.format(Locale.ROOT, "Unknown itemProp id '%s'", ref ), null )
-                    );
+                    manageError(new MicrodataParserException(
+                            String.format(Locale.ROOT, "Unknown itemProp id '%s'", ref), null));
                     continue;
                 }
                 result.addAll(getItemProps(element, false));
             }
         } catch (MicrodataParserException mpe) {
-            if(dereferenceRecursionCounter == 1)
+            if (dereferenceRecursionCounter == 1)
                 manageError(mpe);
-            else throw mpe;  // Recursion end, this the the top call.
+            else
+                throw mpe; // Recursion end, this the the top call.
         } finally {
             dereferenceRecursionCounter--;
-            if(dereferenceRecursionCounter == 0) { // Recursion end, this the the top call.
+            if (dereferenceRecursionCounter == 0) { // Recursion end, this the the top call.
                 loopDetectorSet.clear();
             }
         }
-        return result.toArray( new ItemProp[result.size()] );
+        return result.toArray(new ItemProp[result.size()]);
     }
 
     private static final String[] EMPTY_STRINGS = new String[0];
+
     private static String[] itemrefIds(Node node) {
-        String itemref = DomUtils.readAttribute(node, "itemref" , null);
+        String itemref = DomUtils.readAttribute(node, "itemref", null);
         return StringUtils.isBlank(itemref) ? EMPTY_STRINGS : itemref.trim().split("\\s+");
     }
 
     /**
      * Returns the {@link ItemScope} instance described within the specified <code>node</code>.
      *
-     * @param node node describing an <i>itemscope</i>.
+     * @param node
+     *            node describing an <i>itemscope</i>.
+     * 
      * @return instance of ItemScope object.
-     * @throws MicrodataParserException if an error occurs while dereferencing properties.
+     * 
+     * @throws MicrodataParserException
+     *             if an error occurs while dereferencing properties.
      */
     public ItemScope getItemScope(Node node) throws MicrodataParserException {
         final ItemScope itemScope = itemScopes.get(node);
-        if(itemScope != null)
+        if (itemScope != null)
             return itemScope;
 
-        final String id       = DomUtils.readAttribute(node, "id"      , null);
+        final String id = DomUtils.readAttribute(node, "id", null);
         final String itemType = DomUtils.readAttribute(node, "itemtype", null);
-        final String itemId   = DomUtils.readAttribute(node, "itemid"  , null);
+        final String itemId = DomUtils.readAttribute(node, "itemid", null);
 
         final List<ItemProp> itemProps = getItemProps(node, true);
         final String[] itemrefIDs = itemrefIds(node);
@@ -672,14 +677,11 @@ public class MicrodataParser {
             mpe.setErrorNode(node);
             throw mpe;
         }
-        for(ItemProp deferredProperty : deferredProperties) {
-            if( itemProps.contains(deferredProperty) ) {
-                manageError(
-                        new MicrodataParserException(
-                            String.format(Locale.ROOT, "Duplicated deferred itemProp '%s'.", deferredProperty.getName() ),
-                            node
-                        )
-                );
+        for (ItemProp deferredProperty : deferredProperties) {
+            if (itemProps.contains(deferredProperty)) {
+                manageError(new MicrodataParserException(
+                        String.format(Locale.ROOT, "Duplicated deferred itemProp '%s'.", deferredProperty.getName()),
+                        node));
                 continue;
             }
             itemProps.add(deferredProperty);
@@ -698,7 +700,8 @@ public class MicrodataParser {
                     if (canConcatWithPrev) {
                         int lastInd = types.size() - 1;
                         try {
-                            List<IRI> secondTry = ItemScope.stringToSingletonIRI(types.get(lastInd).stringValue() + " " + s);
+                            List<IRI> secondTry = ItemScope
+                                    .stringToSingletonIRI(types.get(lastInd).stringValue() + " " + s);
                             types.remove(lastInd);
                             canConcatWithPrev = types.addAll(secondTry);
                         } catch (RuntimeException e2) {
@@ -712,27 +715,21 @@ public class MicrodataParser {
             }
         }
 
-        final ItemScope newItemScope = new ItemScope(
-                DomUtils.getXPathForNode(node),
-                itemProps.toArray(new ItemProp[itemProps.size()]),
-                id,
-                itemrefIDs,
-                types,
-                itemId
-        );
+        final ItemScope newItemScope = new ItemScope(DomUtils.getXPathForNode(node),
+                itemProps.toArray(new ItemProp[itemProps.size()]), id, itemrefIDs, types, itemId);
         itemScopes.put(node, newItemScope);
         return newItemScope;
     }
 
     private void manageError(MicrodataParserException mpe) throws MicrodataParserException {
         switch (errorMode) {
-            case FULL_REPORT:
-                errors.add(mpe);
-                break;
-            case STOP_AT_FIRST_ERROR:
-                throw mpe;
-            default:
-                throw new IllegalStateException("Unsupported mode " + errorMode);
+        case FULL_REPORT:
+            errors.add(mpe);
+            break;
+        case STOP_AT_FIRST_ERROR:
+            throw mpe;
+        default:
+            throw new IllegalStateException("Unsupported mode " + errorMode);
         }
     }
 

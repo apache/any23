@@ -28,19 +28,17 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class RDFa11ExtractorFactory extends SimpleExtractorFactory<RDFa11Extractor> implements
-        ExtractorFactory<RDFa11Extractor> {
+public class RDFa11ExtractorFactory extends SimpleExtractorFactory<RDFa11Extractor>
+        implements ExtractorFactory<RDFa11Extractor> {
 
     public static final String NAME = "html-rdfa11";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new RDFa11ExtractorFactory();
 
     public RDFa11ExtractorFactory() {
-        super(
-                RDFa11ExtractorFactory.NAME, 
-                RDFa11ExtractorFactory.PREFIXES,
+        super(RDFa11ExtractorFactory.NAME, RDFa11ExtractorFactory.PREFIXES,
                 Arrays.asList("application/xhtml+xml;q=0.3", "application/html;q=0.3", "text/html;q=0.3"),
                 "example-rdfa11.html");
     }

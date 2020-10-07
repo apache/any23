@@ -34,54 +34,31 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * This {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor} implementation
- * retrieves the <code>LINK</code>s declared within the <code>HTML/HEAD</code> page header.
+ * This {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor} implementation retrieves the <code>LINK</code>s
+ * declared within the <code>HTML/HEAD</code> page header.
  */
 public class HeadLinkExtractor implements TagSoupDOMExtractor {
 
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
         HTMLDocument html = new HTMLDocument(in);
         ValueFactory vf = SimpleValueFactory.getInstance();
 
-        final List<Node> headLinkNodes = DomUtils.findAll(
-                in,
-                "/HTML/HEAD/LINK[(" +
-                        "@type='application/rdf+xml' or " +
-                        "@type='text/rdf' or " +
-                        "@type='application/x-turtle' or " +
-                        "@type='application/turtle' or " +
-                        "@type='text/turtle' or " +
-                        "@type='text/rdf+n3'" +
-                        ") and @href and @rel]"
-        );
+        final List<Node> headLinkNodes = DomUtils.findAll(in,
+                "/HTML/HEAD/LINK[(" + "@type='application/rdf+xml' or " + "@type='text/rdf' or "
+                        + "@type='application/x-turtle' or " + "@type='application/turtle' or "
+                        + "@type='text/turtle' or " + "@type='text/rdf+n3'" + ") and @href and @rel]");
         for (Node node : headLinkNodes) {
             final IRI href = html.resolveIRI(DomUtils.find(node, "@href"));
             final String rel = DomUtils.find(node, "@rel");
-            out.writeTriple(
-                    extractionContext.getDocumentIRI(),
-                    vf.createIRI(XHTML.NS + rel),
-                    href
-            );
+            out.writeTriple(extractionContext.getDocumentIRI(), vf.createIRI(XHTML.NS + rel), href);
             final String title = DomUtils.find(node, "@title");
             if (title != null && !"".equals(title)) {
-                out.writeTriple(
-                        href,
-                        getDescription().getPrefixes().expand("dcterms:title"),
-                        vf.createLiteral(title)
-                );
+                out.writeTriple(href, getDescription().getPrefixes().expand("dcterms:title"), vf.createLiteral(title));
             }
             final String type = DomUtils.find(node, "@type");
             if (type != null && !"".equals(type)) {
-                out.writeTriple(
-                        href,
-                        getDescription().getPrefixes().expand("dcterms:format"),
-                        vf.createLiteral(type)
-                );
+                out.writeTriple(href, getDescription().getPrefixes().expand("dcterms:format"), vf.createLiteral(type));
             }
         }
     }

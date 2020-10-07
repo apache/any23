@@ -21,8 +21,7 @@ import org.apache.any23.rdf.Prefixes;
 
 /**
  *
- * It defines a minimal signature for an
- * {@link Extractor} description.
+ * It defines a minimal signature for an {@link Extractor} description.
  *
  */
 public interface ExtractorDescription {
@@ -40,7 +39,7 @@ public interface ExtractorDescription {
      * @return A string label describing the type of extractors created from this factory.
      */
     String getExtractorLabel();
-    
+
     /**
      * An instance defining the prefixes supported by this extractor.
      *

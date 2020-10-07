@@ -23,19 +23,20 @@ package org.apache.any23.writer;
 public interface FormatWriter extends TripleHandler {
 
     /**
-     * If <code>true</code> then the produced <b>RDF</b> is annotated with
-     * the extractors used to generate the specific statements.
+     * If <code>true</code> then the produced <b>RDF</b> is annotated with the extractors used to generate the specific
+     * statements.
      *
      * @return the annotation flag value.
      */
-     boolean isAnnotated();
+    boolean isAnnotated();
 
     /**
      * Sets the <i>annotation</i> flag.
      *
-     * @param f If <code>true</code> then the produced <b>RDF</b> is annotated with
-     *          the extractors used to generate the specific statements.
+     * @param f
+     *            If <code>true</code> then the produced <b>RDF</b> is annotated with the extractors used to generate
+     *            the specific statements.
      */
-     void setAnnotated(boolean f);
+    void setAnnotated(boolean f);
 
 }

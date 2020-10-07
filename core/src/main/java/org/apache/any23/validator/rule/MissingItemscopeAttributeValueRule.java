@@ -27,60 +27,60 @@ import org.apache.any23.validator.ValidationReportBuilder;
 import org.w3c.dom.Node;
 
 /**
- * This fixes missing attribute values for the 'itemscope' attribute 
- * Typically when such a snippet of XHTML is fed through the 
- * {@link org.apache.any23.extractor.rdfa.RDFa11Extractor}, and
- * subsequently to Sesame's SesameRDFaParser,
- * it will result in the following behavior. 
+ * This fixes missing attribute values for the 'itemscope' attribute Typically when such a snippet of XHTML is fed
+ * through the {@link org.apache.any23.extractor.rdfa.RDFa11Extractor}, and subsequently to Sesame's SesameRDFaParser,
+ * it will result in the following behavior.
+ * 
  * <pre>
  * {@code
  * [Fatal Error] :23:15: Attribute name "itemscope" associated with an element type "div" must be followed by the ' = ' character.
  * }
  * </pre>
+ * 
  * This Rule identifies that happening.
  *
  */
 public class MissingItemscopeAttributeValueRule implements Rule {
 
-  /**
-   * Default constructor
-   */
-  public MissingItemscopeAttributeValueRule() {
-    //default costructor
-  }
-
-  @Override
-  public String getHRName() {
-    return "missing-itemscope-value-rule";
-  }
-
-  /**
-   * @see org.apache.any23.validator.Rule#applyOn(org.apache.any23.validator.DOMDocument, org.apache.any23.validator.RuleContext, org.apache.any23.validator.ValidationReportBuilder)
-   */
-  @Override
-  public boolean applyOn(DOMDocument document, @SuppressWarnings("rawtypes") RuleContext context,
-      ValidationReportBuilder validationReportBuilder) {
-    List<Node> itemNodes = document.getNodesWithAttribute("itemscope");
-    boolean foundPrecondition = false;
-    String propertyNode;
-    Node iNode = null;
-    for(Node itemNode : itemNodes) {
-      iNode = itemNode;
-      propertyNode = iNode.getAttributes().getNamedItem("itemscope").getNodeValue();
-      if( propertyNode == null || propertyNode.contentEquals("")) {
-        foundPrecondition = true;
-        break;
-      }
+    /**
+     * Default constructor
+     */
+    public MissingItemscopeAttributeValueRule() {
+        // default costructor
     }
-    if(foundPrecondition) {
-      validationReportBuilder.reportIssue(
-          ValidationReport.IssueLevel.ERROR,
-          "Located absence of an accompanying value for the the 'itemscope' attribute of element with hashcode: " + iNode.hashCode(),
-          iNode
-          );
-      return true;
+
+    @Override
+    public String getHRName() {
+        return "missing-itemscope-value-rule";
     }
-    return false;
-  }
+
+    /**
+     * @see org.apache.any23.validator.Rule#applyOn(org.apache.any23.validator.DOMDocument,
+     *      org.apache.any23.validator.RuleContext, org.apache.any23.validator.ValidationReportBuilder)
+     */
+    @Override
+    public boolean applyOn(DOMDocument document, @SuppressWarnings("rawtypes") RuleContext context,
+            ValidationReportBuilder validationReportBuilder) {
+        List<Node> itemNodes = document.getNodesWithAttribute("itemscope");
+        boolean foundPrecondition = false;
+        String propertyNode;
+        Node iNode = null;
+        for (Node itemNode : itemNodes) {
+            iNode = itemNode;
+            propertyNode = iNode.getAttributes().getNamedItem("itemscope").getNodeValue();
+            if (propertyNode == null || propertyNode.contentEquals("")) {
+                foundPrecondition = true;
+                break;
+            }
+        }
+        if (foundPrecondition) {
+            validationReportBuilder.reportIssue(ValidationReport.IssueLevel.ERROR,
+                    "Located absence of an accompanying value for the the 'itemscope' attribute of element with hashcode: "
+                            + iNode.hashCode(),
+                    iNode);
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -53,10 +53,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Locale;
 
-
 /**
- * A facade with convenience methods for typical <i>Any23</i> extraction
- * operations.
+ * A facade with convenience methods for typical <i>Any23</i> extraction operations.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
@@ -64,22 +62,20 @@ import java.util.Locale;
 public class Any23 {
 
     /**
-     * Any23 core library version.
-     * NOTE: there's also a version string in pom.xml, they should match.
+     * Any23 core library version. NOTE: there's also a version string in pom.xml, they should match.
      */
     public static final String VERSION = DefaultConfiguration.singleton().getPropertyOrFail("any23.core.version");
 
     /**
      * Default HTTP User Agent defined in default configuration.
      */
-    public static final String DEFAULT_HTTP_CLIENT_USER_AGENT = DefaultConfiguration.singleton().getPropertyOrFail(
-            "any23.http.user.agent.default"
-    );
+    public static final String DEFAULT_HTTP_CLIENT_USER_AGENT = DefaultConfiguration.singleton()
+            .getPropertyOrFail("any23.http.user.agent.default");
 
     protected static final Logger logger = LoggerFactory.getLogger(Any23.class);
 
     private final Configuration configuration;
-    private final String        defaultUserAgent;
+    private final String defaultUserAgent;
 
     private MIMETypeDetector mimeTypeDetector = new TikaMIMETypeDetector(new WhiteSpacesPurifier());
 
@@ -88,15 +84,16 @@ public class Any23 {
     private boolean httpClientInitialized = false;
 
     private final ExtractorGroup factories;
-    private LocalCopyFactory     streamCache;
-    private String               userAgent;
+    private LocalCopyFactory streamCache;
+    private String userAgent;
 
     /**
-     * Constructor that allows the specification of a
-     * custom configuration and of a list of extractors.
+     * Constructor that allows the specification of a custom configuration and of a list of extractors.
      *
-     * @param configuration configuration used to build the <i>Any23</i> instance.
-     * @param extractorGroup the group of extractors to be applied.
+     * @param configuration
+     *            configuration used to build the <i>Any23</i> instance.
+     * @param extractorGroup
+     *            the group of extractors to be applied.
      */
     public Any23(Configuration configuration, ExtractorGroup extractorGroup) {
         if (configuration == null)
@@ -108,8 +105,7 @@ public class Any23 {
 
         this.defaultUserAgent = configuration.getPropertyOrFail("any23.http.user.agent.default");
 
-        this.factories = (extractorGroup == null)
-                ? ExtractorRegistryImpl.getInstance().getExtractorGroup()
+        this.factories = (extractorGroup == null) ? ExtractorRegistryImpl.getInstance().getExtractorGroup()
                 : extractorGroup;
         setCacheFactory(new MemCopyFactory());
     }
@@ -117,29 +113,31 @@ public class Any23 {
     /**
      * Constructor that allows the specification of a list of extractors.
      *
-     * @param extractorGroup the group of extractors to be applied.
+     * @param extractorGroup
+     *            the group of extractors to be applied.
      */
     public Any23(ExtractorGroup extractorGroup) {
         this(DefaultConfiguration.singleton(), extractorGroup);
     }
 
     /**
-     * Constructor that allows the specification of a
-     * custom configuration and of list of extractor names.
+     * Constructor that allows the specification of a custom configuration and of list of extractor names.
      *
-     * @param configuration a {@link Configuration} object
-     * @param extractorNames list of extractor's names.
+     * @param configuration
+     *            a {@link Configuration} object
+     * @param extractorNames
+     *            list of extractor's names.
      */
     public Any23(Configuration configuration, String... extractorNames) {
-        this(configuration, extractorNames == null ? null :
-                ExtractorRegistryImpl.getInstance().getExtractorGroup(Arrays.asList(extractorNames))
-        );
+        this(configuration, extractorNames == null ? null
+                : ExtractorRegistryImpl.getInstance().getExtractorGroup(Arrays.asList(extractorNames)));
     }
 
     /**
      * Constructor that allows the specification of a list of extractor names.
      *
-     * @param extractorNames list of extractor's names.
+     * @param extractorNames
+     *            list of extractor's names.
      */
     public Any23(String... extractorNames) {
         this(DefaultConfiguration.singleton(), extractorNames);
@@ -147,7 +145,9 @@ public class Any23 {
 
     /**
      * Constructor accepting {@link Configuration}.
-     * @param configuration a {@link Configuration} object
+     * 
+     * @param configuration
+     *            a {@link Configuration} object
      */
     public Any23(Configuration configuration) {
         this(configuration, (String[]) null);
@@ -161,10 +161,10 @@ public class Any23 {
     }
 
     /**
-     * Sets the <i>HTTP Header User Agent</i>,
-     * see <i>RFC 2616-14.43</i>.
+     * Sets the <i>HTTP Header User Agent</i>, see <i>RFC 2616-14.43</i>.
      *
-     * @param userAgent text describing the user agent.
+     * @param userAgent
+     *            text describing the user agent.
      */
     public void setHTTPUserAgent(String userAgent) {
         if (httpClientInitialized) {
@@ -180,8 +180,7 @@ public class Any23 {
     }
 
     /**
-     * Returns the <i>HTTP Header User Agent</i>,
-     * see <i>RFC 2616-14.43</i>.
+     * Returns the <i>HTTP Header User Agent</i>, see <i>RFC 2616-14.43</i>.
      *
      * @return text describing the user agent.
      */
@@ -190,11 +189,14 @@ public class Any23 {
     }
 
     /**
-     * Allows to set the {@link org.apache.any23.http.HTTPClient} implementation
-     * used to retrieve contents. The default instance is {@link org.apache.any23.http.DefaultHTTPClient}.
+     * Allows to set the {@link org.apache.any23.http.HTTPClient} implementation used to retrieve contents. The default
+     * instance is {@link org.apache.any23.http.DefaultHTTPClient}.
      *
-     * @param httpClient a valid client instance.
-     * @throws IllegalStateException if invoked after client has been initialized.
+     * @param httpClient
+     *            a valid client instance.
+     * 
+     * @throws IllegalStateException
+     *             if invoked after client has been initialized.
      */
     public void setHTTPClient(HTTPClient httpClient) {
         if (httpClient == null) {
@@ -210,13 +212,15 @@ public class Any23 {
      * Returns the current {@link org.apache.any23.http.HTTPClient} implementation.
      *
      * @return instance of HTTPClient.
-     * @throws IOException if the HTTP client has not initialized.
+     * 
+     * @throws IOException
+     *             if the HTTP client has not initialized.
      */
     public HTTPClient getHTTPClient() throws IOException {
         if (!httpClientInitialized) {
             if (userAgent == null) {
-                throw new IOException("Must call " + Any23.class.getSimpleName() +
-                        ".setHTTPUserAgent(String) before extracting from HTTP IRI");
+                throw new IOException("Must call " + Any23.class.getSimpleName()
+                        + ".setHTTPUserAgent(String) before extracting from HTTP IRI");
             }
             httpClient.init(new DefaultHTTPClientConfiguration(this.getAcceptHeader()));
             httpClientInitialized = true;
@@ -227,7 +231,8 @@ public class Any23 {
     /**
      * Allows to set a {@link org.apache.any23.source.LocalCopyFactory} instance.
      *
-     * @param cache valid cache instance.
+     * @param cache
+     *            valid cache instance.
      */
     public void setCacheFactory(LocalCopyFactory cache) {
         if (cache == null) {
@@ -239,23 +244,31 @@ public class Any23 {
     /**
      * Allows to set an instance of {@link org.apache.any23.mime.MIMETypeDetector}.
      *
-     * @param detector a valid detector instance, if <code>null</code> all the detectors
-     *        will be used.
+     * @param detector
+     *            a valid detector instance, if <code>null</code> all the detectors will be used.
      */
     public void setMIMETypeDetector(MIMETypeDetector detector) {
         this.mimeTypeDetector = detector;
     }
 
     /**
-     * <p>Returns the most appropriate {@link DocumentSource} for the given<code>documentIRI</code>.</p>
-     * <p><b>N.B.</b> <code>documentIRI's</code> <i>should</i> contain a protocol.
-     * E.g. <b>http:</b>, <b>https:</b>, <b>file:</b>
+     * <p>
+     * Returns the most appropriate {@link DocumentSource} for the given<code>documentIRI</code>.
+     * </p>
+     * <p>
+     * <b>N.B.</b> <code>documentIRI's</code> <i>should</i> contain a protocol. E.g. <b>http:</b>, <b>https:</b>,
+     * <b>file:</b>
      * </p>
      *
-     * @param documentIRI the document <i>IRI</i>.
+     * @param documentIRI
+     *            the document <i>IRI</i>.
+     * 
      * @return a new instance of DocumentSource.
-     * @throws URISyntaxException if an error occurs while parsing the <code>documentIRI</code> as a <i>IRI</i>.
-     * @throws IOException if an error occurs while initializing the internal {@link org.apache.any23.http.HTTPClient}.
+     * 
+     * @throws URISyntaxException
+     *             if an error occurs while parsing the <code>documentIRI</code> as a <i>IRI</i>.
+     * @throws IOException
+     *             if an error occurs while initializing the internal {@link org.apache.any23.http.HTTPClient}.
      */
     public DocumentSource createDocumentSource(String documentIRI) throws URISyntaxException, IOException {
         if (documentIRI == null)
@@ -263,121 +276,139 @@ public class Any23 {
         if (documentIRI.toLowerCase(Locale.ROOT).startsWith("file:")) {
             return new FileDocumentSource(new File(new URI(documentIRI)));
         }
-        if (documentIRI.toLowerCase(Locale.ROOT).startsWith("http:") || documentIRI.toLowerCase(Locale.ROOT).startsWith("https:")) {
+        if (documentIRI.toLowerCase(Locale.ROOT).startsWith("http:")
+                || documentIRI.toLowerCase(Locale.ROOT).startsWith("https:")) {
             return new HTTPDocumentSource(getHTTPClient(), documentIRI);
         }
-        throw new IllegalArgumentException(
-                String.format(Locale.ROOT, "Unsupported protocol for document IRI: '%s' . "
-                    + "Check that document IRI contains a protocol.", documentIRI)
-        );
+        throw new IllegalArgumentException(String.format(Locale.ROOT,
+                "Unsupported protocol for document IRI: '%s' . " + "Check that document IRI contains a protocol.",
+                documentIRI));
     }
 
-
     /**
-     * Performs metadata extraction from the content of the given
-     * <code>in</code> document source, sending the generated events
-     * to the specified <code>outputHandler</code>.
+     * Performs metadata extraction from the content of the given <code>in</code> document source, sending the generated
+     * events to the specified <code>outputHandler</code>.
      *
-     * @param eps the extraction parameters to be applied.
-     * @param in the input document source.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
-     * @param encoding explicit encoding see
-     *        <a href="http://www.iana.org/assignments/character-sets">available encodings</a>.
+     * @param eps
+     *            the extraction parameters to be applied.
+     * @param in
+     *            the input document source.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * @param encoding
+     *            explicit encoding see <a href="http://www.iana.org/assignments/character-sets">available
+     *            encodings</a>.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
-    public ExtractionReport extract(
-            ExtractionParameters eps,
-            DocumentSource in,
-            TripleHandler outputHandler,
-            String encoding
-    ) throws IOException, ExtractionException {
+    public ExtractionReport extract(ExtractionParameters eps, DocumentSource in, TripleHandler outputHandler,
+            String encoding) throws IOException, ExtractionException {
         final SingleDocumentExtraction ex = new SingleDocumentExtraction(configuration, in, factories, outputHandler);
         ex.setMIMETypeDetector(mimeTypeDetector);
         ex.setLocalCopyFactory(streamCache);
         ex.setParserEncoding(encoding);
         final SingleDocumentExtractionReport sder = ex.run(eps);
-        return new ExtractionReport(
-                ex.getMatchingExtractors(),
-                ex.getParserEncoding(),
-                ex.getDetectedMIMEType(),
-                sder.getValidationReport(),
-                sder.getExtractorToIssues()
-        );
+        return new ExtractionReport(ex.getMatchingExtractors(), ex.getParserEncoding(), ex.getDetectedMIMEType(),
+                sder.getValidationReport(), sder.getExtractorToIssues());
     }
 
     /**
-     * Performs metadata extraction on the <code>in</code> string
-     * associated to the <code>documentIRI</code> IRI, declaring
-     * <code>contentType</code> and <code>encoding</code>.
-     * The generated events are sent to the specified <code>outputHandler</code>.
+     * Performs metadata extraction on the <code>in</code> string associated to the <code>documentIRI</code> IRI,
+     * declaring <code>contentType</code> and <code>encoding</code>. The generated events are sent to the specified
+     * <code>outputHandler</code>.
      *
-     * @param in raw data to be analyzed.
-     * @param documentIRI IRI from which the raw data has been extracted.
-     * @param contentType declared data content type.
-     * @param encoding declared data encoding.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param in
+     *            raw data to be analyzed.
+     * @param documentIRI
+     *            IRI from which the raw data has been extracted.
+     * @param contentType
+     *            declared data content type.
+     * @param encoding
+     *            declared data encoding.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
-    public ExtractionReport extract(
-            String in,
-            String documentIRI,
-            String contentType,
-            String encoding,
-            TripleHandler outputHandler
-    ) throws IOException, ExtractionException {
+    public ExtractionReport extract(String in, String documentIRI, String contentType, String encoding,
+            TripleHandler outputHandler) throws IOException, ExtractionException {
         return extract(new StringDocumentSource(in, documentIRI, contentType, encoding), outputHandler);
     }
 
     /**
-     * Performs metadata extraction on the <code>in</code> string
-     * associated to the <code>documentIRI</code> IRI, sending the generated
-     * events to the specified <code>outputHandler</code>.
+     * Performs metadata extraction on the <code>in</code> string associated to the <code>documentIRI</code> IRI,
+     * sending the generated events to the specified <code>outputHandler</code>.
      *
-     * @param in raw data to be analyzed.
-     * @param documentIRI IRI from which the raw data has been extracted.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param in
+     *            raw data to be analyzed.
+     * @param documentIRI
+     *            IRI from which the raw data has been extracted.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
     public ExtractionReport extract(String in, String documentIRI, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
         return extract(new StringDocumentSource(in, documentIRI), outputHandler);
     }
 
     /**
-     * Performs metadata extraction from the content of the given <code>file</code>
-     * sending the generated events to the specified <code>outputHandler</code>.
+     * Performs metadata extraction from the content of the given <code>file</code> sending the generated events to the
+     * specified <code>outputHandler</code>.
      *
-     * @param file file containing raw data.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param file
+     *            file containing raw data.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
-    public ExtractionReport extract(File file, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
+    public ExtractionReport extract(File file, TripleHandler outputHandler) throws IOException, ExtractionException {
         return extract(new FileDocumentSource(file), outputHandler);
     }
 
     /**
-     * Performs metadata extraction from the content of the given <code>documentIRI</code>
-     * sending the generated events to the specified <code>outputHandler</code>.
-     * If the <i>IRI</i> is replied with a redirect, the last will be followed.
+     * Performs metadata extraction from the content of the given <code>documentIRI</code> sending the generated events
+     * to the specified <code>outputHandler</code>. If the <i>IRI</i> is replied with a redirect, the last will be
+     * followed.
      *
-     * @param eps the parameters to be applied to the extraction.
-     * @param documentIRI the IRI from which retrieve document.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param eps
+     *            the parameters to be applied to the extraction.
+     * @param documentIRI
+     *            the IRI from which retrieve document.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
     public ExtractionReport extract(ExtractionParameters eps, String documentIRI, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
         try {
             return extract(eps, createDocumentSource(documentIRI), outputHandler);
         } catch (URISyntaxException ex) {
@@ -386,69 +417,92 @@ public class Any23 {
     }
 
     /**
-     * Performs metadata extraction from the content of the given <code>documentIRI</code>
-     * sending the generated events to the specified <code>outputHandler</code>.
-     * If the <i>IRI</i> is replied with a redirect, the last will be followed.
+     * Performs metadata extraction from the content of the given <code>documentIRI</code> sending the generated events
+     * to the specified <code>outputHandler</code>. If the <i>IRI</i> is replied with a redirect, the last will be
+     * followed.
      *
-     * @param documentIRI the IRI from which retrieve document.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param documentIRI
+     *            the IRI from which retrieve document.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
     public ExtractionReport extract(String documentIRI, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
         return extract((ExtractionParameters) null, documentIRI, outputHandler);
     }
 
     /**
-     * Performs metadata extraction from the content of the given
-     * <code>in</code> document source, sending the generated events
-     * to the specified <code>outputHandler</code>.
+     * Performs metadata extraction from the content of the given <code>in</code> document source, sending the generated
+     * events to the specified <code>outputHandler</code>.
      *
-     * @param in the input document source.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
-     * @param encoding explicit encoding see
-     *        <a href="http://www.iana.org/assignments/character-sets">available encodings</a>.
+     * @param in
+     *            the input document source.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * @param encoding
+     *            explicit encoding see <a href="http://www.iana.org/assignments/character-sets">available
+     *            encodings</a>.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
     public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler, String encoding)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
         return extract(null, in, outputHandler, encoding);
     }
 
     /**
-     * Performs metadata extraction from the content of the given
-     * <code>in</code> document source, sending the generated events
-     * to the specified <code>outputHandler</code>.
+     * Performs metadata extraction from the content of the given <code>in</code> document source, sending the generated
+     * events to the specified <code>outputHandler</code>.
      *
-     * @param in the input document source.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param in
+     *            the input document source.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
     public ExtractionReport extract(DocumentSource in, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
         return extract(null, in, outputHandler, null);
     }
 
     /**
-     * Performs metadata extraction from the content of the given
-     * <code>in</code> document source, sending the generated events
-     * to the specified <code>outputHandler</code>.
+     * Performs metadata extraction from the content of the given <code>in</code> document source, sending the generated
+     * events to the specified <code>outputHandler</code>.
      *
-     * @param eps the parameters to be applied for the extraction phase.
-     * @param in the input document source.
-     * @param outputHandler handler responsible for collecting of the extracted metadata.
+     * @param eps
+     *            the parameters to be applied for the extraction phase.
+     * @param in
+     *            the input document source.
+     * @param outputHandler
+     *            handler responsible for collecting of the extracted metadata.
+     * 
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * @throws IOException if there is an error reading the {@link org.apache.any23.source.DocumentSource}
-     * @throws org.apache.any23.extractor.ExtractionException if there is an error during extraction
+     * 
+     * @throws IOException
+     *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
+     * @throws org.apache.any23.extractor.ExtractionException
+     *             if there is an error during extraction
      */
     public ExtractionReport extract(ExtractionParameters eps, DocumentSource in, TripleHandler outputHandler)
-    throws IOException, ExtractionException {
+            throws IOException, ExtractionException {
         return extract(eps, in, outputHandler, null);
     }
 
@@ -459,5 +513,5 @@ public class Any23 {
         }
         return new AcceptHeaderBuilder(mimeTypes).getAcceptHeader();
     }
-    
+
 }

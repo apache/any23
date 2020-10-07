@@ -51,44 +51,44 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
- * This class provides utility methods for DOM manipulation.
- * It is separated from {@link HTMLDocument} so that its methods
- * can be run on single DOM nodes without having to wrap them
- * into an HTMLDocument.
+ * This class provides utility methods for DOM manipulation. It is separated from {@link HTMLDocument} so that its
+ * methods can be run on single DOM nodes without having to wrap them into an HTMLDocument.
  * <p>
  * We use a mix of XPath and DOM manipulation.
  * </p>
- * This is likely to be a performance bottleneck but at least
- * everything is localized here.
+ * This is likely to be a performance bottleneck but at least everything is localized here.
  */
 public class DomUtils {
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
-        
+
     private final static XPath xPathEngine = XPathFactory.newInstance().newXPath();
 
-    private DomUtils(){}
+    private DomUtils() {
+    }
 
     /**
-     * Given a node this method returns the index corresponding to such node
-     * within the list of the children of its parent node.
+     * Given a node this method returns the index corresponding to such node within the list of the children of its
+     * parent node.
      *
-     * @param n the node of which returning the index.
+     * @param n
+     *            the node of which returning the index.
+     * 
      * @return a non negative number.
      */
     public static int getIndexInParent(Node n) {
         Node parent = n.getParentNode();
-        if(parent == null) {
+        if (parent == null) {
             return 0;
         }
         NodeList nodes = parent.getChildNodes();
         int counter = -1;
-        for(int i = 0; i < nodes.getLength(); i++) {
+        for (int i = 0; i < nodes.getLength(); i++) {
             Node current = nodes.item(i);
-            if ( current.getNodeType() == n.getNodeType() && current.getNodeName().equals( n.getNodeName() ) ) {
+            if (current.getNodeType() == n.getNodeType() && current.getNodeName().equals(n.getNodeName())) {
                 counter++;
             }
-            if( current.equals(n) ) {
+            if (current.equals(n)) {
                 return counter;
             }
         }
@@ -96,17 +96,18 @@ public class DomUtils {
     }
 
     /**
-     * Does a reverse walking of the DOM tree to generate a unique XPath
-     * expression leading to this node. The XPath generated is the canonical
-     * one based on sibling index: /html[1]/body[1]/div[2]/span[3] etc..
+     * Does a reverse walking of the DOM tree to generate a unique XPath expression leading to this node. The XPath
+     * generated is the canonical one based on sibling index: /html[1]/body[1]/div[2]/span[3] etc..
      *
-     * @param node the input node.
+     * @param node
+     *            the input node.
+     * 
      * @return the XPath location of node as String.
      */
     public static String getXPathForNode(Node node) {
         final StringBuilder sb = new StringBuilder();
         Node parent = node;
-        while(parent != null && parent.getNodeType() != Node.DOCUMENT_NODE) {
+        while (parent != null && parent.getNodeType() != Node.DOCUMENT_NODE) {
             sb.insert(0, "]");
             sb.insert(0, getIndexInParent(parent) + 1);
             sb.insert(0, "[");
@@ -118,63 +119,72 @@ public class DomUtils {
     }
 
     /**
-     * Returns a list of tag names representing the path from
-     * the document root to the given node <i>n</i>.
+     * Returns a list of tag names representing the path from the document root to the given node <i>n</i>.
      *
-     * @param n the node for which retrieve the path.
+     * @param n
+     *            the node for which retrieve the path.
+     * 
      * @return a sequence of HTML tag names.
      */
     public static String[] getXPathListForNode(Node n) {
-        if(n == null) {
+        if (n == null) {
             return EMPTY_STRING_ARRAY;
         }
         List<String> ancestors = new ArrayList<String>();
-        ancestors.add( String.format(Locale.ROOT, "%s[%s]", n.getNodeName(), getIndexInParent(n) ) );
+        ancestors.add(String.format(Locale.ROOT, "%s[%s]", n.getNodeName(), getIndexInParent(n)));
         Node parent = n.getParentNode();
-        while(parent != null) {
-            ancestors.add(0, String.format(Locale.ROOT, "%s[%s]", parent.getNodeName(), getIndexInParent(parent) ) );
+        while (parent != null) {
+            ancestors.add(0, String.format(Locale.ROOT, "%s[%s]", parent.getNodeName(), getIndexInParent(parent)));
             parent = parent.getParentNode();
         }
-        return ancestors.toArray( new String[ancestors.size()] );
+        return ancestors.toArray(new String[ancestors.size()]);
     }
 
     /**
      * Returns the row/col location of the given node.
      *
-     * @param n input node.
+     * @param n
+     *            input node.
+     * 
      * @return an array of two elements of type
-     *         <code>[&lt;begin-row&gt;, &lt;begin-col&gt;, &lt;end-row&gt; &lt;end-col&gt;]</code>
-     *         or <code>null</code> if not possible to extract such data.
+     *         <code>[&lt;begin-row&gt;, &lt;begin-col&gt;, &lt;end-row&gt; &lt;end-col&gt;]</code> or <code>null</code>
+     *         if not possible to extract such data.
      */
     public static int[] getNodeLocation(Node n) {
-        if(n == null) throw new NullPointerException("node cannot be null.");
-        final TagSoupParser.ElementLocation elementLocation =
-            (TagSoupParser.ElementLocation) n.getUserData( TagSoupParser.ELEMENT_LOCATION );
-        if(elementLocation == null) return null;
-        return new int[]{
-                elementLocation.getBeginLineNumber(),
-                elementLocation.getBeginColumnNumber(),
-                elementLocation.getEndLineNumber(),
-                elementLocation.getEndColumnNumber()
-        };
+        if (n == null)
+            throw new NullPointerException("node cannot be null.");
+        final TagSoupParser.ElementLocation elementLocation = (TagSoupParser.ElementLocation) n
+                .getUserData(TagSoupParser.ELEMENT_LOCATION);
+        if (elementLocation == null)
+            return null;
+        return new int[] { elementLocation.getBeginLineNumber(), elementLocation.getBeginColumnNumber(),
+                elementLocation.getEndLineNumber(), elementLocation.getEndColumnNumber() };
     }
 
     /**
      * Checks whether a node is ancestor or same of another node.
      *
-     * @param candidateAncestor the candidate ancestor node.
-     * @param candidateSibling the candidate sibling node.
-     * @param strict if <code>true</code> is not allowed that the ancestor and sibling can be the same node.
+     * @param candidateAncestor
+     *            the candidate ancestor node.
+     * @param candidateSibling
+     *            the candidate sibling node.
+     * @param strict
+     *            if <code>true</code> is not allowed that the ancestor and sibling can be the same node.
+     * 
      * @return <code>true</code> if <code>candidateSibling</code> is ancestor of <code>candidateSibling</code>,
      *         <code>false</code> otherwise.
      */
     public static boolean isAncestorOf(Node candidateAncestor, Node candidateSibling, boolean strict) {
-        if(candidateAncestor == null) throw new NullPointerException("candidate ancestor cannot be null null.");
-        if(candidateSibling  == null) throw new NullPointerException("candidate sibling cannot be null null." );
-        if(strict && candidateAncestor.equals(candidateSibling)) return false;
+        if (candidateAncestor == null)
+            throw new NullPointerException("candidate ancestor cannot be null null.");
+        if (candidateSibling == null)
+            throw new NullPointerException("candidate sibling cannot be null null.");
+        if (strict && candidateAncestor.equals(candidateSibling))
+            return false;
         Node parent = candidateSibling;
-        while(parent != null) {
-            if(parent.equals(candidateAncestor)) return true;
+        while (parent != null) {
+            if (parent.equals(candidateAncestor))
+                return true;
             parent = parent.getParentNode();
         }
         return false;
@@ -184,8 +194,11 @@ public class DomUtils {
      * Checks whether a node is ancestor or same of another node. As
      * {@link #isAncestorOf(org.w3c.dom.Node, org.w3c.dom.Node, boolean)} with <code>strict=false</code>.
      *
-     * @param candidateAncestor the candidate ancestor node.
-     * @param candidateSibling the candidate sibling node.
+     * @param candidateAncestor
+     *            the candidate ancestor node.
+     * @param candidateSibling
+     *            the candidate sibling node.
+     * 
      * @return <code>true</code> if <code>candidateSibling</code> is ancestor of <code>candidateSibling</code>,
      *         <code>false</code> otherwise.
      */
@@ -194,11 +207,14 @@ public class DomUtils {
     }
 
     /**
-     * Finds all nodes that have a declared class.
-     * Note that the className is transformed to lower case before being
+     * Finds all nodes that have a declared class. Note that the className is transformed to lower case before being
      * matched against the DOM.
-     * @param root the root node from which start searching.
-     * @param className the name of the filtered class.
+     * 
+     * @param root
+     *            the root node from which start searching.
+     * @param className
+     *            the name of the filtered class.
+     * 
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByClassName(Node root, String className) {
@@ -206,33 +222,40 @@ public class DomUtils {
     }
 
     /**
-     * Finds all nodes that have a declared attribute.
-     * Note that the className is transformed to lower case before being
+     * Finds all nodes that have a declared attribute. Note that the className is transformed to lower case before being
      * matched against the DOM.
-     * @param root the root node from which start searching.
-     * @param attrName the name of the filtered attribue.
+     * 
+     * @param root
+     *            the root node from which start searching.
+     * @param attrName
+     *            the name of the filtered attribue.
+     * 
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByAttributeName(Node root, String attrName) {
         return findAllBy(root, null, attrName, null);
     }
-    
-   public static List<Node> findAllByAttributeContains(Node node, String attrName, String attrContains) {
-       return findAllBy(node, null, attrName, attrContains);
-   }
+
+    public static List<Node> findAllByAttributeContains(Node node, String attrName, String attrContains) {
+        return findAllBy(node, null, attrName, attrContains);
+    }
 
     public static List<Node> findAllByTag(Node root, String tagName) {
-           return findAllBy(root, tagName, null, null);
+        return findAllBy(root, tagName, null, null);
     }
-    
+
     public static List<Node> findAllByTagAndClassName(Node root, final String tagName, final String className) {
-       return findAllBy(root, tagName, "class", className);
+        return findAllBy(root, tagName, "class", className);
     }
 
     /**
      * Mimics the JS DOM API, or prototype's $()
-     * @param root the node to locate
-     * @param id the id of the node to locate
+     * 
+     * @param root
+     *            the node to locate
+     * @param id
+     *            the id of the node to locate
+     * 
      * @return the {@link org.w3c.dom.Node} if one exists
      */
     public static Node findNodeById(Node root, String id) {
@@ -247,14 +270,17 @@ public class DomUtils {
     }
 
     /**
-     * Returns a NodeList composed of all the nodes that match an XPath
-     * expression, which must be valid.
-     * @param node the node object to locate
-     * @param xpath an xpath expression
+     * Returns a NodeList composed of all the nodes that match an XPath expression, which must be valid.
+     * 
+     * @param node
+     *            the node object to locate
+     * @param xpath
+     *            an xpath expression
+     * 
      * @return a list of {@link org.w3c.dom.Node}'s if they exists
      */
     public static List<Node> findAll(Node node, String xpath) {
-        if(node == null) {
+        if (node == null) {
             throw new NullPointerException("node cannot be null.");
         }
         try {
@@ -271,8 +297,12 @@ public class DomUtils {
 
     /**
      * Gets the string value of an XPath expression.
-     * @param node the node object to locate
-     * @param xpath an xpath expression
+     * 
+     * @param node
+     *            the node object to locate
+     * @param xpath
+     *            an xpath expression
+     * 
      * @return a string xpath value
      */
     public static String find(Node node, String xpath) {
@@ -287,10 +317,14 @@ public class DomUtils {
     }
 
     /**
-     * Tells if an element has a class name <b>not checking the parents
-     * in the hierarchy</b> mimicking the <i>CSS</i> .foo match.
-     * @param node the node object to locate
-     * @param className the CSS class name
+     * Tells if an element has a class name <b>not checking the parents in the hierarchy</b> mimicking the <i>CSS</i>
+     * .foo match.
+     * 
+     * @param node
+     *            the node object to locate
+     * @param className
+     *            the CSS class name
+     * 
      * @return true if the class name exists
      */
     public static boolean hasClassName(Node node, String className) {
@@ -298,12 +332,16 @@ public class DomUtils {
     }
 
     /**
-     * Checks the presence of an attribute value in attributes that
-     * contain whitespace-separated lists of values. The semantic is the
-     * CSS classes' ones: "foo" matches "bar foo", "foo" but not "foob"
-     * @param node the node object to locate
-     * @param attributeName attribute value
-     * @param className the CSS class name
+     * Checks the presence of an attribute value in attributes that contain whitespace-separated lists of values. The
+     * semantic is the CSS classes' ones: "foo" matches "bar foo", "foo" but not "foob"
+     * 
+     * @param node
+     *            the node object to locate
+     * @param attributeName
+     *            attribute value
+     * @param className
+     *            the CSS class name
+     * 
      * @return true if the class has the attribute name
      */
     public static boolean hasAttribute(Node node, String attributeName, String className) {
@@ -316,13 +354,16 @@ public class DomUtils {
         return false;
     }
 
-     /**
+    /**
      * Checks the presence of an attribute in the given <code>node</code>.
-      *
-      * @param node the node container.
-      * @param attributeName the name of the attribute.
-      * @return true if the attribute is present
-      */
+     *
+     * @param node
+     *            the node container.
+     * @param attributeName
+     *            the name of the attribute.
+     * 
+     * @return true if the attribute is present
+     */
     public static boolean hasAttribute(Node node, String attributeName) {
         return readAttribute(node, attributeName, null) != null;
     }
@@ -330,21 +371,26 @@ public class DomUtils {
     /**
      * Verifies if the given target node is an element.
      *
-     * @param target target node to check
-     * @return <code>true</code> if the element the node is an element,
-     *         <code>false</code> otherwise.
+     * @param target
+     *            target node to check
+     * 
+     * @return <code>true</code> if the element the node is an element, <code>false</code> otherwise.
      */
     public static boolean isElementNode(Node target) {
         return Node.ELEMENT_NODE == target.getNodeType();
     }
 
     /**
-     * Reads the value of the specified <code>attribute</code>, returning the
-     * <code>defaultValue</code> string if not present.
+     * Reads the value of the specified <code>attribute</code>, returning the <code>defaultValue</code> string if not
+     * present.
      *
-     * @param node node to read the attribute.
-     * @param attribute attribute name.
-     * @param defaultValue the default value to return if attribute is not found.
+     * @param node
+     *            node to read the attribute.
+     * @param attribute
+     *            attribute name.
+     * @param defaultValue
+     *            the default value to return if attribute is not found.
+     * 
      * @return the attribute value or <code>defaultValue</code> if not found.
      */
     public static String readAttribute(Node node, String attribute, String defaultValue) {
@@ -352,7 +398,7 @@ public class DomUtils {
         if (null == attributes)
             return defaultValue;
         Node attr = attributes.getNamedItem(attribute);
-        if (null==attr)
+        if (null == attr)
             return defaultValue;
         return attr.getNodeValue();
     }
@@ -361,9 +407,13 @@ public class DomUtils {
      * Reads the value of the first <i>attribute</i> which name matches with the specified <code>attributePrefix</code>.
      * Returns the <code>defaultValue</code> if not found.
      *
-     * @param node node to look for attributes.
-     * @param attributePrefix attribute prefix.
-     * @param defaultValue default returned value.
+     * @param node
+     *            node to look for attributes.
+     * @param attributePrefix
+     *            attribute prefix.
+     * @param defaultValue
+     *            default returned value.
+     * 
      * @return the value found or default.
      */
     public static String readAttributeWithPrefix(Node node, String attributePrefix, String defaultValue) {
@@ -382,11 +432,13 @@ public class DomUtils {
     }
 
     /**
-     * Reads the value of an <code>attribute</code>, returning the
-     * empty string if not present.
+     * Reads the value of an <code>attribute</code>, returning the empty string if not present.
      *
-     * @param node node to read the attribute.
-     * @param attribute attribute name.
+     * @param node
+     *            node to read the attribute.
+     * @param attribute
+     *            attribute name.
+     * 
      * @return the attribute value or <code>""</code> if not found.
      */
     public static String readAttribute(Node node, String attribute) {
@@ -394,15 +446,19 @@ public class DomUtils {
     }
 
     /**
-     * Given a <i>DOM</i> {@link Node} produces the <i>XML</i> serialization
-     * omitting the <i>XML declaration</i>.
+     * Given a <i>DOM</i> {@link Node} produces the <i>XML</i> serialization omitting the <i>XML declaration</i>.
      *
-     * @param node node to be serialized.
-     * @param indent if <code>true</code> the output is indented.
+     * @param node
+     *            node to be serialized.
+     * @param indent
+     *            if <code>true</code> the output is indented.
+     * 
      * @return the XML serialization.
-     * @throws TransformerException if an error occurs during the
-     *         serializator initialization and activation.
-     * @throws java.io.IOException if there is an error locating the node
+     * 
+     * @throws TransformerException
+     *             if an error occurs during the serializator initialization and activation.
+     * @throws java.io.IOException
+     *             if there is an error locating the node
      */
     public static String serializeToXML(Node node, boolean indent) throws TransformerException, IOException {
         final DOMSource domSource = new DOMSource(node);
@@ -410,7 +466,7 @@ public class DomUtils {
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-        if(indent) {
+        if (indent) {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         }
@@ -424,10 +480,15 @@ public class DomUtils {
     /**
      * High performance implementation of {@link #findAll(org.w3c.dom.Node, String)}.
      *
-     * @param root root node to start search.
-     * @param tagName name of target tag.
-     * @param attrName name of attribute filter.
-     * @param attrContains expected content for attribute.
+     * @param root
+     *            root node to start search.
+     * @param tagName
+     *            name of target tag.
+     * @param attrName
+     *            name of attribute filter.
+     * @param attrContains
+     *            expected content for attribute.
+     * 
      * @return a {@link java.util.List} of {@link org.w3c.dom.Node}'s
      */
     private static List<Node> findAllBy(Node root, final String tagName, final String attrName, String attrContains) {
@@ -444,9 +505,7 @@ public class DomUtils {
         }
 
         final List<Node> result = new ArrayList<Node>();
-        NodeIterator nodeIterator = documentTraversal.createNodeIterator(
-                root,
-                NodeFilter.SHOW_ELEMENT,
+        NodeIterator nodeIterator = documentTraversal.createNodeIterator(root, NodeFilter.SHOW_ELEMENT,
                 new NodeFilter() {
                     @Override
                     public short acceptNode(Node node) {
@@ -463,11 +522,8 @@ public class DomUtils {
                                     return FILTER_ACCEPT;
                                 }
 
-                                if (
-                                        attrContainsPattern != null
-                                                &&
-                                                !attrContainsPattern.matcher(attrNameNode.getNodeValue()).find()
-                                        ) {
+                                if (attrContainsPattern != null
+                                        && !attrContainsPattern.matcher(attrNameNode.getNodeValue()).find()) {
                                     // attrContains given but doesn't match
                                     return FILTER_ACCEPT;
                                 }
@@ -479,18 +535,21 @@ public class DomUtils {
                 }, false);
 
         // To populate result we only need to iterate...
-        while (nodeIterator.nextNode() != null) ;
+        while (nodeIterator.nextNode() != null)
+            ;
 
         // We have to explicitly declare we are done with this nodeIterator to free it's resources.
         nodeIterator.detach();
 
         return result;
     }
-    
+
     /**
-     * Given a {@link org.w3c.dom.Document} this method will return an
-     * input stream representing that document.
-     * @param doc the input {@link org.w3c.dom.Document}
+     * Given a {@link org.w3c.dom.Document} this method will return an input stream representing that document.
+     * 
+     * @param doc
+     *            the input {@link org.w3c.dom.Document}
+     * 
      * @return an {@link java.io.InputStream}
      */
     public static InputStream documentToInputStream(Document doc) {
@@ -516,10 +575,12 @@ public class DomUtils {
         return is;
     }
 
-
     /**
      * Convert a w3c dom node to a InputStream
-     * @param node {@link org.w3c.dom.Node} to convert
+     * 
+     * @param node
+     *            {@link org.w3c.dom.Node} to convert
+     * 
      * @return the converted {@link java.io.InputStream}
      */
     public static InputStream nodeToInputStream(Node node) {

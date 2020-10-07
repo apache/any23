@@ -28,30 +28,23 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class RDFXMLExtractorFactory extends SimpleExtractorFactory<RDFXMLExtractor> implements
-        ExtractorFactory<RDFXMLExtractor> {
+public class RDFXMLExtractorFactory extends SimpleExtractorFactory<RDFXMLExtractor>
+        implements ExtractorFactory<RDFXMLExtractor> {
 
     public static final String NAME = "rdf-xml";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new RDFXMLExtractorFactory();
-    
+
     public RDFXMLExtractorFactory() {
-        super(
-                RDFXMLExtractorFactory.NAME, 
-                RDFXMLExtractorFactory.PREFIXES,
-                Arrays.asList(
-                        "application/rdf+xml",
-                        "text/rdf",
-                        "text/rdf+xml",
-                        "application/rdf"
-                        // "application/xml;q=0.2",
-                        // "text/xml;q=0.2"
-                ),
-                "example-rdfxml.rdf");
+        super(RDFXMLExtractorFactory.NAME, RDFXMLExtractorFactory.PREFIXES,
+                Arrays.asList("application/rdf+xml", "text/rdf", "text/rdf+xml", "application/rdf"
+                // "application/xml;q=0.2",
+                // "text/xml;q=0.2"
+                ), "example-rdfxml.rdf");
     }
-    
+
     @Override
     public RDFXMLExtractor createExtractor() {
         return new RDFXMLExtractor();

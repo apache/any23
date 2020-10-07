@@ -21,6 +21,7 @@ import org.apache.any23.configuration.Settings;
 
 /**
  * Base interface used for constructors of decorating {@link TripleHandler} implementations.
+ * 
  * @author Hans Brende (hansbrende@apache.org)
  */
 public interface DecoratingWriterFactory extends BaseWriterFactory<TripleHandler> {
@@ -33,11 +34,17 @@ public interface DecoratingWriterFactory extends BaseWriterFactory<TripleHandler
     Settings getSupportedSettings();
 
     /**
-     * @param delegate the {@link TripleWriter} to delegate input to
-     * @param settings the settings with which to configure the returned handler
+     * @param delegate
+     *            the {@link TripleWriter} to delegate input to
+     * @param settings
+     *            the settings with which to configure the returned handler
+     * 
      * @return a {@link TripleHandler} which writes to the specified delegate
-     * @throws NullPointerException if the delegate or settings is null
-     * @throws IllegalArgumentException if the settings are not correctly configured
+     * 
+     * @throws NullPointerException
+     *             if the delegate or settings is null
+     * @throws IllegalArgumentException
+     *             if the settings are not correctly configured
      */
     @Override
     TripleHandler getTripleWriter(TripleHandler delegate, Settings settings);

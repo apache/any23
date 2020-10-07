@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class GeoExtractorFactory extends SimpleExtractorFactory<GeoExtractor> implements
-        ExtractorFactory<GeoExtractor> {
+public class GeoExtractorFactory extends SimpleExtractorFactory<GeoExtractor>
+        implements ExtractorFactory<GeoExtractor> {
 
     public static final String NAME = "html-mf-geo";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "vcard");
 
     private static final ExtractorDescription descriptionInstance = new GeoExtractorFactory();
-    
+
     public GeoExtractorFactory() {
-        super(
-                GeoExtractorFactory.NAME, 
-                GeoExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf-geo.html");
+        super(GeoExtractorFactory.NAME, GeoExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf-geo.html");
     }
-    
+
     @Override
     public GeoExtractor createExtractor() {
         return new GeoExtractor();

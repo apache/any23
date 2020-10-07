@@ -31,8 +31,8 @@ import java.util.Collections;
 import java.util.TreeSet;
 
 /**
- * This writer simply produces a list of unique <i>IRI</i> present in the
- * subject or in the object of every single extracted <i>RDF Statement</i>.
+ * This writer simply produces a list of unique <i>IRI</i> present in the subject or in the object of every single
+ * extracted <i>RDF Statement</i>.
  * 
  * @author Davide Palmisano (palmisano@fbk.eu)
  * @author Hans Brende (hansbrende@apache.org)
@@ -41,22 +41,19 @@ public class URIListWriter extends TripleWriterHandler implements FormatWriter {
 
     private static final Charset charset = StandardCharsets.UTF_8;
 
-    static final TripleFormat FORMAT = TripleFormat.of("URIList",
-            Collections.singleton(URIListWriterFactory.MIME_TYPE), charset, Collections.singleton("txt"), null,
-            TripleFormat.NONSTANDARD);
+    static final TripleFormat FORMAT = TripleFormat.of("URIList", Collections.singleton(URIListWriterFactory.MIME_TYPE),
+            charset, Collections.singleton("txt"), null, TripleFormat.NONSTANDARD);
 
     private final TreeSet<String> resources = new TreeSet<>();
 
     private PrintWriter writer;
 
     public URIListWriter(OutputStream outputStream) {
-        writer = new PrintWriter(new BufferedWriter(
-                new OutputStreamWriter(outputStream, charset)));
+        writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream, charset)));
     }
 
     @Override
-    public void writeTriple(Resource s, IRI p, Value o, Resource g)
-            throws TripleHandlerException {
+    public void writeTriple(Resource s, IRI p, Value o, Resource g) throws TripleHandlerException {
         String string;
         if (s instanceof IRI && resources.add(string = s.stringValue())) {
             writer.println(string);
@@ -67,8 +64,7 @@ public class URIListWriter extends TripleWriterHandler implements FormatWriter {
     }
 
     @Override
-    public void writeNamespace(String prefix, String uri)
-            throws TripleHandlerException {
+    public void writeNamespace(String prefix, String uri) throws TripleHandlerException {
     }
 
     @Override

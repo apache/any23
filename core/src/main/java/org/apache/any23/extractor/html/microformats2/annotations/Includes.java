@@ -26,8 +26,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * This annotation could be used to decorate a {@link MicroformatExtractor} to
- * represent which of the other <i>Microformats</i> could it nest.
+ * This annotation could be used to decorate a {@link MicroformatExtractor} to represent which of the other
+ * <i>Microformats</i> could it nest.
  *
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */

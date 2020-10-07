@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class TurtleHTMLExtractorFactory extends SimpleExtractorFactory<TurtleHTMLExtractor> implements
-        ExtractorFactory<TurtleHTMLExtractor> {
+public class TurtleHTMLExtractorFactory extends SimpleExtractorFactory<TurtleHTMLExtractor>
+        implements ExtractorFactory<TurtleHTMLExtractor> {
 
     public static final String NAME = "html-script-turtle";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.get();
 
     private static final ExtractorDescription descriptionInstance = new TurtleHTMLExtractorFactory();
-    
+
     public TurtleHTMLExtractorFactory() {
-        super(
-                TurtleHTMLExtractorFactory.NAME, 
-                TurtleHTMLExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                "example-script-turtle.html");
+        super(TurtleHTMLExtractorFactory.NAME, TurtleHTMLExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"), "example-script-turtle.html");
     }
-    
+
     @Override
     public TurtleHTMLExtractor createExtractor() {
         return new TurtleHTMLExtractor();

@@ -32,7 +32,8 @@ public abstract class Item {
     /**
      * Constructor.
      *
-     * @param xpath xpath to this item in container document.
+     * @param xpath
+     *            xpath to this item in container document.
      */
     public Item(String xpath) {
         if (xpath == null) {
@@ -60,15 +61,15 @@ public abstract class Item {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(obj == this) {
+        if (obj == this) {
             return true;
         }
-        if(obj instanceof Item) {
+        if (obj instanceof Item) {
             final Item other = (Item) obj;
-            return xpath.equals( other.xpath );
+            return xpath.equals(other.xpath);
         }
         return false;
     }

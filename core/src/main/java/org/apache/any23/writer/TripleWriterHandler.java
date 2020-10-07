@@ -30,33 +30,49 @@ import org.eclipse.rdf4j.model.Value;
 public abstract class TripleWriterHandler implements TripleHandler, TripleWriter {
 
     /**
-     * Writers may override this method to handle a "receiveTriple" extraction event.
-     * The default implementation calls:
+     * Writers may override this method to handle a "receiveTriple" extraction event. The default implementation calls:
+     * 
      * <pre>
      *     {@code this.writeTriple(s, p, o, context == null || g != null ? g : context.getDocumentIRI())}
      * </pre>
-     * @param s the subject received
-     * @param p the predicate received
-     * @param o the object received
-     * @param g the graph name received, or null
-     * @param context the extraction context
-     * @throws TripleHandlerException if there was an error responding to a received triple
+     * 
+     * @param s
+     *            the subject received
+     * @param p
+     *            the predicate received
+     * @param o
+     *            the object received
+     * @param g
+     *            the graph name received, or null
+     * @param context
+     *            the extraction context
+     * 
+     * @throws TripleHandlerException
+     *             if there was an error responding to a received triple
      */
     @Override
-    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+            throws TripleHandlerException {
         writeTriple(s, p, o, context == null || g != null ? g : context.getDocumentIRI());
     }
 
     /**
-     * Writers may override this method to handle a "receiveNamespace" extraction event.
-     * The default implementation calls:
+     * Writers may override this method to handle a "receiveNamespace" extraction event. The default implementation
+     * calls:
+     * 
      * <pre>
      *     {@code this.writeNamespace(prefix, uri)}
      * </pre>
-     * @param prefix namespace prefix.
-     * @param uri namespace <i>IRI</i>.
-     * @param context the extraction context
-     * @throws TripleHandlerException if there was an error responding to the received namepsace.
+     * 
+     * @param prefix
+     *            namespace prefix.
+     * @param uri
+     *            namespace <i>IRI</i>.
+     * @param context
+     *            the extraction context
+     * 
+     * @throws TripleHandlerException
+     *             if there was an error responding to the received namepsace.
      */
     @Override
     public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
@@ -64,51 +80,70 @@ public abstract class TripleWriterHandler implements TripleHandler, TripleWriter
     }
 
     /**
-     * Writers may override this method to handle a "startDocument" extraction event.
-     * The default implementation does nothing.
-     * @param documentIRI the name of the document that was started
-     * @throws TripleHandlerException if an error occurred while responding to a "startDocument"
-     * extraction event.
+     * Writers may override this method to handle a "startDocument" extraction event. The default implementation does
+     * nothing.
+     * 
+     * @param documentIRI
+     *            the name of the document that was started
+     * 
+     * @throws TripleHandlerException
+     *             if an error occurred while responding to a "startDocument" extraction event.
      */
     @Override
-    public void startDocument(IRI documentIRI) throws TripleHandlerException { }
+    public void startDocument(IRI documentIRI) throws TripleHandlerException {
+    }
 
     /**
-     * Writers may override this method to handle an "openContext" extraction event.
-     * The default implementation does nothing.
-     * @param context the context that was opened
-     * @throws TripleHandlerException if an error occurred while responding to a "startDocument"
-     * extraction event.
+     * Writers may override this method to handle an "openContext" extraction event. The default implementation does
+     * nothing.
+     * 
+     * @param context
+     *            the context that was opened
+     * 
+     * @throws TripleHandlerException
+     *             if an error occurred while responding to a "startDocument" extraction event.
      */
     @Override
-    public void openContext(ExtractionContext context) throws TripleHandlerException { }
+    public void openContext(ExtractionContext context) throws TripleHandlerException {
+    }
 
     /**
-     * Writers may override this method to handle a "closeContext" extraction event.
-     * The default implementation does nothing.
-     * @param context the context to be closed.
-     * @throws TripleHandlerException if an error occurred while responding to a "closeContext"
-     * extraction event.
+     * Writers may override this method to handle a "closeContext" extraction event. The default implementation does
+     * nothing.
+     * 
+     * @param context
+     *            the context to be closed.
+     * 
+     * @throws TripleHandlerException
+     *             if an error occurred while responding to a "closeContext" extraction event.
      */
     @Override
-    public void closeContext(ExtractionContext context) throws TripleHandlerException { }
+    public void closeContext(ExtractionContext context) throws TripleHandlerException {
+    }
 
     /**
-     * Writers may override this method to handle an "endDocument" extraction event.
-     * The default implementation does nothing.
-     * @param documentIRI the document IRI.
-     * @throws TripleHandlerException if an error occurred while responding to a "endDocument"
-     * extraction event.
+     * Writers may override this method to handle an "endDocument" extraction event. The default implementation does
+     * nothing.
+     * 
+     * @param documentIRI
+     *            the document IRI.
+     * 
+     * @throws TripleHandlerException
+     *             if an error occurred while responding to a "endDocument" extraction event.
      */
     @Override
-    public void endDocument(IRI documentIRI) throws TripleHandlerException { }
+    public void endDocument(IRI documentIRI) throws TripleHandlerException {
+    }
 
     /**
-     * Writers may override this method to handle a "setContentLength" extraction event.
-     * The default implementation does nothing.
-     * @param contentLength length of the content being processed.
+     * Writers may override this method to handle a "setContentLength" extraction event. The default implementation does
+     * nothing.
+     * 
+     * @param contentLength
+     *            length of the content being processed.
      */
     @Override
-    public void setContentLength(long contentLength) { }
+    public void setContentLength(long contentLength) {
+    }
 
 }

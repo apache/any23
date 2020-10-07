@@ -25,9 +25,8 @@ import org.eclipse.rdf4j.rio.RDFHandler;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 
 /**
- * An RDFHandler that relays statements and prefix definitions to
- * an {@link ExtractionResult}. Used to feed output from Sesame's
- * RDF parsers into Any23.
+ * An RDFHandler that relays statements and prefix definitions to an {@link ExtractionResult}. Used to feed output from
+ * Sesame's RDF parsers into Any23.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -47,9 +46,9 @@ public class RDFHandlerAdapter implements RDFHandler {
     }
 
     public void handleStatement(Statement stmt) {
-        if(stmt != null) {
+        if (stmt != null) {
             final Resource context = stmt.getContext();
-            if(context instanceof IRI) {
+            if (context instanceof IRI) {
                 target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject(), (IRI) context);
             } else {
                 target.writeTriple(stmt.getSubject(), stmt.getPredicate(), stmt.getObject());

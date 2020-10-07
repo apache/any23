@@ -27,7 +27,7 @@ public class Review extends Vocabulary {
     private static Review instance;
 
     public static Review getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Review();
         }
         return instance;
@@ -46,7 +46,7 @@ public class Review extends Vocabulary {
     /**
      * The commenter on the review.
      */
-    public final IRI commenter =  createProperty("commenter");
+    public final IRI commenter = createProperty("commenter");
 
     /**
      * Used to associate a review with a comment on the review.
@@ -127,7 +127,7 @@ public class Review extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    private Review(){
+    private Review() {
         super(NS);
     }
 

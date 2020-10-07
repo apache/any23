@@ -34,15 +34,14 @@ import java.util.List;
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/hreview">hReview</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/hreview">hReview</a> microformat.
  *
  * @author Gabriele Renzi
  */
 public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
-    private static final Review  vREVIEW  = Review.getInstance();
-    private static final VCard   vVCARD   = VCard.getInstance();
+    private static final Review vREVIEW = Review.getInstance();
+    private static final VCard vVCARD = VCard.getInstance();
     private static final DCTerms vDCTERMS = DCTerms.getInstance();
 
     @Override
@@ -74,31 +73,21 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         addReviewer(fragment, rev);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addResourceRoot(
-                DomUtils.getXPathListForNode(node),
-                rev,
-                this.getClass()
-        );
+        tser.addResourceRoot(DomUtils.getXPathListForNode(node), rev, this.getClass());
 
         return true;
     }
 
     private void addType(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("type");
-        conditionallyAddStringProperty(
-                value.source(),
-                rev, vREVIEW.type, value.value()
-        );
+        conditionallyAddStringProperty(value.source(), rev, vREVIEW.type, value.value());
     }
 
     private void addReviewer(HTMLDocument doc, Resource rev) {
         List<Node> nodes = doc.findAllByClassName("reviewer");
         if (nodes.size() > 0) {
             Node node0 = nodes.get(0);
-            addBNodeProperty(
-                    node0,
-                    rev, vREVIEW.reviewer, getBlankNodeFor(node0)
-            );
+            addBNodeProperty(node0, rev, vREVIEW.reviewer, getBlankNodeFor(node0));
         }
     }
 
@@ -106,20 +95,14 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
         List<Node> nodes = root.findAllByClassName("item");
         for (Node node : nodes) {
             Resource item = findDummy(new HTMLDocument(node));
-            addBNodeProperty(
-                    node,
-                    item, vREVIEW.hasReview, rev
-            );
+            addBNodeProperty(node, item, vREVIEW.hasReview, rev);
         }
     }
 
     private Resource findDummy(HTMLDocument item) throws ExtractionException {
         Resource blank = getBlankNodeFor(item.getDocument());
         TextField val = item.getSingularTextField("fn");
-        conditionallyAddStringProperty(
-                val.source(),
-                blank, vVCARD.fn, val.value()
-        );
+        conditionallyAddStringProperty(val.source(), blank, vVCARD.fn, val.value());
         final TextField url = item.getSingularUrlField("url");
         conditionallyAddResourceProperty(blank, vVCARD.url, getHTMLDocument().resolveIRI(url.value()));
         TextField pics[] = item.getPluralUrlField("photo");
@@ -131,33 +114,22 @@ public class HReviewExtractor extends EntityBasedMicroformatExtractor {
 
     private void addRating(HTMLDocument doc, Resource rev) {
         HTMLDocument.TextField value = doc.getSingularTextField("rating");
-        conditionallyAddStringProperty(
-                value.source(), rev, vREVIEW.rating, value.value()
-        );
+        conditionallyAddStringProperty(value.source(), rev, vREVIEW.rating, value.value());
     }
 
     private void addSummary(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(
-                value.source(),
-                rev, vREVIEW.title, value.value()
-        );
+        conditionallyAddStringProperty(value.source(), rev, vREVIEW.title, value.value());
     }
 
     private void addTime(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("dtreviewed");
-        conditionallyAddStringProperty(
-                value.source(),
-                rev, vDCTERMS.date, value.value()
-        );
+        conditionallyAddStringProperty(value.source(), rev, vDCTERMS.date, value.value());
     }
 
     private void addDescription(HTMLDocument doc, Resource rev) {
         TextField value = doc.getSingularTextField("description");
-        conditionallyAddStringProperty(
-                value.source(),
-                rev, vREVIEW.text, value.value()
-        );
+        conditionallyAddStringProperty(value.source(), rev, vREVIEW.text, value.value());
     }
 
 }

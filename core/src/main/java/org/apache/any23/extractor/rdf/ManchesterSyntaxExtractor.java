@@ -23,8 +23,8 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * handling <a href="http://www.w3.org/TR/owl2-manchester-syntax/">Manchester Syntax</a> format.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} handling
+ * <a href="http://www.w3.org/TR/owl2-manchester-syntax/">Manchester Syntax</a> format.
  *
  * @author Peter Ansell
  */
@@ -45,9 +45,8 @@ public class ManchesterSyntaxExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getManchesterSyntaxParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getManchesterSyntaxParser(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

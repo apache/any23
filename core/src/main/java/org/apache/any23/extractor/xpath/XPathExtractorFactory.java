@@ -28,23 +28,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class XPathExtractorFactory extends SimpleExtractorFactory<XPathExtractor> implements
-        ExtractorFactory<XPathExtractor> {
+public class XPathExtractorFactory extends SimpleExtractorFactory<XPathExtractor>
+        implements ExtractorFactory<XPathExtractor> {
 
     public static final String NAME = "html-xpath";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new XPathExtractorFactory();
-    
+
     public XPathExtractorFactory() {
-        super(
-                XPathExtractorFactory.NAME, 
-                XPathExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                null);
+        super(XPathExtractorFactory.NAME, XPathExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"), null);
     }
-    
+
     @Override
     public XPathExtractor createExtractor() {
         return new XPathExtractor();

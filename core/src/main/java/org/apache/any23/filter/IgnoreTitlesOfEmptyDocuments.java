@@ -27,16 +27,14 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 
 /**
- * A {@link TripleHandler} that suppresses output of the
- * {@link TitleExtractor} unless some other triples could
- * be parsed from the document. This is used when we don't
- * want to have single-triple RDF documents around that
- * contain only the title triple.
+ * A {@link TripleHandler} that suppresses output of the {@link TitleExtractor} unless some other triples could be
+ * parsed from the document. This is used when we don't want to have single-triple RDF documents around that contain
+ * only the title triple.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
-    
+
     private final ExtractionContextBlocker blocker;
 
     public IgnoreTitlesOfEmptyDocuments(TripleHandler wrapped) {
@@ -55,15 +53,14 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
     }
 
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         if (!isTitleContext(context)) {
             blocker.unblockDocument();
         }
         blocker.receiveTriple(s, p, o, g, context);
     }
 
-    public void receiveNamespace(String prefix, String uri,
-                                 ExtractionContext context) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         blocker.receiveNamespace(prefix, uri, context);
     }
 
@@ -84,6 +81,6 @@ public class IgnoreTitlesOfEmptyDocuments implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-        //Ignore.
+        // Ignore.
     }
 }

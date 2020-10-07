@@ -46,7 +46,7 @@ public class ExtractionException extends Exception {
 
     @Override
     public void printStackTrace(PrintStream ps) {
-        printExceptionResult( new PrintWriter(new OutputStreamWriter(ps, StandardCharsets.UTF_8), true));
+        printExceptionResult(new PrintWriter(new OutputStreamWriter(ps, StandardCharsets.UTF_8), true));
         super.printStackTrace(ps);
     }
 
@@ -57,12 +57,12 @@ public class ExtractionException extends Exception {
     }
 
     private void printExceptionResult(PrintWriter ps) {
-        if(extractionResult == null) {
+        if (extractionResult == null) {
             return;
         }
         ps.println();
         ps.println("------------ BEGIN Exception context ------------");
-        ps.print( extractionResult.toString() );
+        ps.print(extractionResult.toString());
         ps.println("------------ END   Exception context ------------");
         ps.println();
         ps.flush();

@@ -36,15 +36,10 @@ import java.io.File;
  */
 public class RoverTest extends ToolTestBase {
 
-    private static final String[] TARGET_FILES = {
-        "/microdata/microdata-nested.html",
-        "/org/apache/any23/extractor/csv/test-semicolon.csv"
-    };
+    private static final String[] TARGET_FILES = { "/microdata/microdata-nested.html",
+            "/org/apache/any23/extractor/csv/test-semicolon.csv" };
 
-    private static final String[] TARGET_URLS = {
-            "http://twitter.com/micmos",
-            "http://twitter.com/dpalmisano"
-    };
+    private static final String[] TARGET_URLS = { "http://twitter.com/micmos", "http://twitter.com/dpalmisano" };
 
     public RoverTest() {
         super(Rover.class);
@@ -52,15 +47,14 @@ public class RoverTest extends ToolTestBase {
 
     @Test
     public void testRunMultiFiles() throws Exception {
-        
+
         String[] copiedTargets = new String[TARGET_FILES.length];
-        for(int i = 0; i < TARGET_FILES.length; i++)
-        {
+        for (int i = 0; i < TARGET_FILES.length; i++) {
             File tempFile = copyResourceToTempFile(TARGET_FILES[i]);
-            
+
             copiedTargets[i] = tempFile.getAbsolutePath();
         }
-        
+
         runWithMultiSourcesAndVerify(copiedTargets, 0);
     }
 
@@ -68,22 +62,16 @@ public class RoverTest extends ToolTestBase {
     public void testRunWithDefaultNS() throws Exception {
         final String DEFAULT_GRAPH = "http://test/default/ns";
         final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
-        final int exitCode = runTool(
-                String.format(
-                        "-o %s -f nquads -p -n %s -d %s",
-                        outFile.getAbsolutePath(),
-                        copyResourceToTempFile("/cli/rover-test1.nq").getAbsolutePath(),
-                        DEFAULT_GRAPH
-                )
-        );
+        final int exitCode = runTool(String.format("-o %s -f nquads -p -n %s -d %s", outFile.getAbsolutePath(),
+                copyResourceToTempFile("/cli/rover-test1.nq").getAbsolutePath(), DEFAULT_GRAPH));
 
         Assert.assertEquals("Unexpected exit code.", 0, exitCode);
         Assert.assertTrue(outFile.exists());
         final String fileContent = FileUtils.readFileContent(outFile);
         final String[] lines = fileContent.split("\\n");
         int graphCounter = 0;
-        for(String line : lines) {
-            if(line.contains(DEFAULT_GRAPH)) {
+        for (String line : lines) {
+            if (line.contains(DEFAULT_GRAPH)) {
                 graphCounter++;
             }
         }
@@ -96,14 +84,9 @@ public class RoverTest extends ToolTestBase {
         final String DEFAULT_GRAPH = "http://test/default/ns";
         final String stylesheet = "http://www.w3.org/1999/xhtml/vocab#stylesheet";
 
-        Assert.assertEquals("Unexpected exit code.", 0, runTool(
-                String.format(
-                        "-o %s -f nquads %s -d %s",
-                        outFile.getAbsolutePath(),
-                        copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(),
-                        DEFAULT_GRAPH
-                )
-        ));
+        Assert.assertEquals("Unexpected exit code.", 0,
+                runTool(String.format("-o %s -f nquads %s -d %s", outFile.getAbsolutePath(),
+                        copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(), DEFAULT_GRAPH)));
 
         String content = FileUtils.readFileContent(outFile);
 
@@ -111,14 +94,9 @@ public class RoverTest extends ToolTestBase {
 
         final int lineCountWithStylesheet = content.split("\\n").length;
 
-        Assert.assertEquals("Unexpected exit code.", 0, runTool(
-                String.format(
-                        "-o %s -f notrivial,nquads %s -d %s",
-                        outFile.getAbsolutePath(),
-                        copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(),
-                        DEFAULT_GRAPH
-                )
-        ));
+        Assert.assertEquals("Unexpected exit code.", 0,
+                runTool(String.format("-o %s -f notrivial,nquads %s -d %s", outFile.getAbsolutePath(),
+                        copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(), DEFAULT_GRAPH)));
 
         content = FileUtils.readFileContent(outFile);
 
@@ -135,8 +113,8 @@ public class RoverTest extends ToolTestBase {
     public void testRunMultiURLs() throws Exception {
         // Assuming first accessibility to remote resources.
         assumeOnlineAllowed();
-        for(String targetURL : TARGET_URLS) {
-            Assume.assumeTrue( URLUtils.isOnline(targetURL) );
+        for (String targetURL : TARGET_URLS) {
+            Assume.assumeTrue(URLUtils.isOnline(targetURL));
         }
 
         runWithMultiSourcesAndVerify(TARGET_URLS, 0);
@@ -146,25 +124,16 @@ public class RoverTest extends ToolTestBase {
         final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
         final File logFile = File.createTempFile("rover-test", "log", tempDirectory);
 
-        final int exitCode = runTool(
-                String.format(
-                        "-o %s -f nquads -l %s -p -n %s",
-                        outFile.getAbsolutePath(),
-                        logFile.getAbsolutePath(),
-                        StringUtils.join(" ", targets)
-                )
-        );
+        final int exitCode = runTool(String.format("-o %s -f nquads -l %s -p -n %s", outFile.getAbsolutePath(),
+                logFile.getAbsolutePath(), StringUtils.join(" ", targets)));
         Assert.assertEquals("Unexpected exit code.", expectedExit, exitCode);
 
         Assert.assertTrue(outFile.exists());
         Assert.assertTrue(logFile.exists());
 
         final String logFileContent = FileUtils.readFileContent(logFile);
-        Assert.assertEquals(
-                "Unexpected number of log lines.",
-                targets.length + 1,  // Header line.
-                StringUtils.countNL(logFileContent)
-        );
+        Assert.assertEquals("Unexpected number of log lines.", targets.length + 1, // Header line.
+                StringUtils.countNL(logFileContent));
 
         final String outNQuads = FileUtils.readFileContent(outFile);
         final Statement[] statements = RDFUtils.parseRDF(RDFFormat.NQUADS, outNQuads);

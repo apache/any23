@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class HRecipeExtractorFactory extends SimpleExtractorFactory<HRecipeExtractor> implements
-        ExtractorFactory<HRecipeExtractor> {
+public class HRecipeExtractorFactory extends SimpleExtractorFactory<HRecipeExtractor>
+        implements ExtractorFactory<HRecipeExtractor> {
 
     public static final String NAME = "html-mf-hrecipe";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "hrecipe");
 
     private static final ExtractorDescription descriptionInstance = new HRecipeExtractorFactory();
-    
+
     public HRecipeExtractorFactory() {
-        super(
-                HRecipeExtractorFactory.NAME, 
-                HRecipeExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf-hrecipe.html");
+        super(HRecipeExtractorFactory.NAME, HRecipeExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf-hrecipe.html");
     }
-    
+
     @Override
     public HRecipeExtractor createExtractor() {
         return new HRecipeExtractor();

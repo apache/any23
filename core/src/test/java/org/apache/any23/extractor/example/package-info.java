@@ -16,7 +16,6 @@
  */
 
 /**
- * Package containing just a simple
- * {@link org.apache.any23.extractor.example.ExampleExtractor} example.
+ * Package containing just a simple {@link org.apache.any23.extractor.example.ExampleExtractor} example.
  */
 package org.apache.any23.extractor.example;

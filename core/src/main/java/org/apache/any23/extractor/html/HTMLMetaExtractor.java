@@ -39,8 +39,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This extractor represents the <i>HTML META</i> tag values
- * according the <a href="http://www.w3.org/TR/html401/struct/global.html#h-7.4.4">HTML4 specification</a>.
+ * This extractor represents the <i>HTML META</i> tag values according the
+ * <a href="http://www.w3.org/TR/html401/struct/global.html#h-7.4.4">HTML4 specification</a>.
  *
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */
@@ -58,52 +58,40 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
      * {@inheritDoc}
      */
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
         profile = extractProfile(in);
         documentLang = getDocumentLanguage(in);
         extractLinkDefinedPrefixes(in);
 
         String baseProfile = vSINDICE.NS;
-        if(profile != null) {
+        if (profile != null) {
             baseProfile = profile.toString();
         }
 
         final IRI documentIRI = extractionContext.getDocumentIRI();
         Set<Meta> metas = extractMetaElement(in, baseProfile);
-        for(Meta meta : metas) {
+        for (Meta meta : metas) {
             String lang = documentLang;
-            if(meta.getLang() != null) {
+            if (meta.getLang() != null) {
                 lang = meta.getLang();
             }
-            if(meta.isPragmaDirective){
-                if(lang != null) {
-                    out.writeTriple(
-                        documentIRI,
-                        meta.getHttpEquiv(),
-                        SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
+            if (meta.isPragmaDirective) {
+                if (lang != null) {
+                    out.writeTriple(documentIRI, meta.getHttpEquiv(),
+                            SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
                 } else {
-                        out.writeTriple(
-                                documentIRI,
-                                meta.getHttpEquiv(),
-                                SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
+                    out.writeTriple(documentIRI, meta.getHttpEquiv(),
+                            SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
                 }
             } else {
-                if(lang != null) {
-                    out.writeTriple(
-                        documentIRI,
-                        meta.getName(),
-                        SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
+                if (lang != null) {
+                    out.writeTriple(documentIRI, meta.getName(),
+                            SimpleValueFactory.getInstance().createLiteral(meta.getContent(), lang));
                 } else {
-                    out.writeTriple(
-                            documentIRI,
-                            meta.getName(),
+                    out.writeTriple(documentIRI, meta.getName(),
                             SimpleValueFactory.getInstance().createLiteral(meta.getContent()));
-            	}
+                }
             }
         }
     }
@@ -111,7 +99,9 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
     /**
      * Returns the {@link Document} language if declared, <code>null</code> otherwise.
      *
-     * @param in a instance of {@link Document}.
+     * @param in
+     *            a instance of {@link Document}.
+     * 
      * @return the language declared, could be <code>null</code>.
      */
     private String getDocumentLanguage(Document in) {
@@ -137,13 +127,13 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
      */
     private void extractLinkDefinedPrefixes(Document in) {
         List<Node> linkNodes = DomUtils.findAll(in, "/HTML/HEAD/LINK");
-        for(Node linkNode : linkNodes) {
+        for (Node linkNode : linkNodes) {
             NamedNodeMap attributes = linkNode.getAttributes();
             Node relNode = attributes.getNamedItem("rel");
             String rel = relNode == null ? null : relNode.getTextContent();
             Node hrefNode = attributes.getNamedItem("href");
             String href = hrefNode == null ? null : hrefNode.getTextContent();
-            if(rel != null && href !=null && RDFUtils.isAbsoluteIRI(href)) {
+            if (rel != null && href != null && RDFUtils.isAbsoluteIRI(href)) {
                 prefixes.put(rel, SimpleValueFactory.getInstance().createIRI(href));
             }
         }
@@ -158,14 +148,14 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             Node httpEquivAttribute = attributes.getNamedItem("http-equiv");
             Node contentAttribute = attributes.getNamedItem("content");
             if (nameAttribute == null && httpEquivAttribute == null)
-                continue; //support HTML5 meta element nodes that do not have both name and http-equiv
-            if (nameAttribute != null || httpEquivAttribute != null){
-                if ( contentAttribute == null ){
+                continue; // support HTML5 meta element nodes that do not have both name and http-equiv
+            if (nameAttribute != null || httpEquivAttribute != null) {
+                if (contentAttribute == null) {
                     continue;
                 }
             }
             boolean isPragmaDirective = (httpEquivAttribute != null) ? true : false;
-            if (isPragmaDirective){
+            if (isPragmaDirective) {
                 String httpEquiv = httpEquivAttribute.getTextContent();
                 String content = contentAttribute.getTextContent();
                 String xpath = DomUtils.getXPathForNode(metaNode);
@@ -192,7 +182,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
     private IRI getPrefixIfExists(String name) {
         String[] split = name.split("\\.");
-        if(split.length == 2 && prefixes.containsKey(split[0])) {
+        if (split.length == 2 && prefixes.containsKey(split[0])) {
             return SimpleValueFactory.getInstance().createIRI(prefixes.get(split[0]) + split[1]);
         }
         return null;
@@ -226,7 +216,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
 
         @SuppressWarnings("unused")
         public Meta(String xpath, String content, IRI httpEquiv, String lang) {
-            this(xpath,content,httpEquiv);
+            this(xpath, content, httpEquiv);
             this.lang = lang;
         }
 
@@ -242,11 +232,11 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
             this.lang = lang;
         }
 
-        private void setPragmaDirective(boolean value){
-            this.isPragmaDirective=value;
+        private void setPragmaDirective(boolean value) {
+            this.isPragmaDirective = value;
         }
 
-        public IRI getHttpEquiv(){
+        public IRI getHttpEquiv() {
             return httpEquiv;
         }
 

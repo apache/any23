@@ -30,8 +30,7 @@ import org.w3c.dom.Node;
 import java.util.List;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/hresume">hResume</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/hresume">hResume</a> microformat.
  *
  * @author Gabriele Renzi
  */
@@ -57,7 +56,8 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
 
     @Override
     protected boolean extractEntity(Node node, ExtractionResult out) {
-        if (null == node) return false;
+        if (null == node)
+            return false;
         BNode person = getBlankNodeFor(node);
         // we have a person, at least
         out.writeTriple(person, RDF.TYPE, vFOAF.Person);
@@ -70,32 +70,20 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         addSkills(fragment, person);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addResourceRoot(
-                DomUtils.getXPathListForNode(node),
-                person,
-                this.getClass()
-        );
+        tser.addResourceRoot(DomUtils.getXPathListForNode(node), person, this.getClass());
 
         return true;
     }
 
     private void addSummary(HTMLDocument doc, Resource person) {
         HTMLDocument.TextField summary = doc.getSingularTextField("summary");
-        conditionallyAddStringProperty(
-                summary.source(),
-                person,
-                vDOAC.summary,
-                summary.value()
-        );
+        conditionallyAddStringProperty(summary.source(), person, vDOAC.summary, summary.value());
     }
 
     private void addContact(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("contact");
         if (nodes.size() > 0)
-            addBNodeProperty(
-                    nodes.get(0),
-                    person, vFOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0))
-            );
+            addBNodeProperty(nodes.get(0), person, vFOAF.isPrimaryTopicOf, getBlankNodeFor(nodes.get(0)));
     }
 
     private void addExperiences(HTMLDocument doc, Resource person) {
@@ -103,15 +91,12 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         for (Node node : nodes) {
             BNode exp = valueFactory.createBNode();
             if (addExperience(exp, new HTMLDocument(node)))
-            addBNodeProperty(
-                    node,
-                    person, vDOAC.experience, exp
-            );
+                addBNodeProperty(node, person, vDOAC.experience, exp);
         }
     }
 
     private boolean addExperience(Resource exp, HTMLDocument document) {
-        final Node documentNode    = document.getDocument();
+        final Node documentNode = document.getDocument();
         String check = "";
 
         HTMLDocument.TextField value = document.getSingularTextField("title");
@@ -138,20 +123,14 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         for (Node node : nodes) {
             BNode exp = valueFactory.createBNode();
             if (addExperience(exp, new HTMLDocument(node)))
-            addBNodeProperty(
-                    node,
-                    person, vDOAC.education, exp
-            );
+                addBNodeProperty(node, person, vDOAC.education, exp);
         }
     }
 
     private void addAffiliations(HTMLDocument doc, Resource person) {
         List<Node> nodes = doc.findAllByClassName("affiliation");
         for (Node node : nodes) {
-            addBNodeProperty(
-                    node,
-                    person, vDOAC.affiliation, getBlankNodeFor(node)
-            );
+            addBNodeProperty(node, person, vDOAC.affiliation, getBlankNodeFor(node));
         }
     }
 
@@ -161,21 +140,15 @@ public class HResumeExtractor extends EntityBasedMicroformatExtractor {
         // Extracting data from single node.
         nodes = doc.findAllByClassName("skill");
         for (Node node : nodes) {
-            conditionallyAddStringProperty(
-                    node,
-                    person, vDOAC.skill, extractSkillValue(node)
-            );
+            conditionallyAddStringProperty(node, person, vDOAC.skill, extractSkillValue(node));
         }
         // Extracting from enlisting node.
         nodes = doc.findAllByClassName("skills");
-        for(Node node : nodes) {
+        for (Node node : nodes) {
             String nodeText = node.getTextContent();
             String[] skills = nodeText.split(",");
-            for(String skill : skills) {
-                conditionallyAddStringProperty(
-                        node,
-                        person, vDOAC.skill, skill.trim()
-                );
+            for (String skill : skills) {
+                conditionallyAddStringProperty(node, person, vDOAC.skill, skill.trim());
             }
         }
     }

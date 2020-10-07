@@ -68,12 +68,12 @@ public class Any23PluginManagerTest {
         final byte data[] = new byte[BUFFER];
         try {
             FileInputStream fis = new FileInputStream(jarFile);
-            zis  = new ZipInputStream(new BufferedInputStream(fis));
+            zis = new ZipInputStream(new BufferedInputStream(fis));
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 int count;
-                final File destinationFile = new File(destination, entry.getName() );
-                if(entry.getName().endsWith("/")) {
+                final File destinationFile = new File(destination, entry.getName());
+                if (entry.getName().endsWith("/")) {
                     destinationFile.mkdirs();
                 } else {
                     fos = new FileOutputStream(destinationFile);
@@ -87,9 +87,12 @@ public class Any23PluginManagerTest {
                 }
             }
         } finally {
-            if(zis  != null) zis.close();
-            if(dest != null) dest.close();
-            if(fos  != null) fos.close();
+            if (zis != null)
+                zis.close();
+            if (dest != null)
+                dest.close();
+            if (fos != null)
+                fos.close();
         }
     }
 

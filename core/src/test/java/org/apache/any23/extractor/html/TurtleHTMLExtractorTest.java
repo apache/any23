@@ -43,15 +43,18 @@ public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
     /**
      * Tests the extraction of the RDF content from the sample HTML file.
      * 
-     * @throws IOException if there is an error interpreting the input data
-     * @throws ExtractionException if there is an exception during extraction
-     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws IOException
+     *             if there is an error interpreting the input data
+     * @throws ExtractionException
+     *             if there is an exception during extraction
+     * @throws org.eclipse.rdf4j.repository.RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testExtraction() throws Exception {
         assertExtract("/html/html-turtle.html");
-        logger.debug( dumpModelToRDFXML() );
-        assertStatementsSize( null, (Value) null, 10);
+        logger.debug(dumpModelToRDFXML());
+        assertStatementsSize(null, (Value) null, 10);
     }
 
 }

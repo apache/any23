@@ -33,9 +33,7 @@ public class TemplateObject extends Term {
      * Supported object types.
      */
     public enum Type {
-        URI,
-        BNODE,
-        LITERAL
+        URI, BNODE, LITERAL
     }
 
     /**
@@ -46,10 +44,12 @@ public class TemplateObject extends Term {
     /**
      * Constructor.
      *
-     * @param type object template type.
-     * @param value internal value.
-     * @param isVar if <code>true</code> it the given <code>value</code>
-     *              will be resolved with the variable value.
+     * @param type
+     *            object template type.
+     * @param value
+     *            internal value.
+     * @param isVar
+     *            if <code>true</code> it the given <code>value</code> will be resolved with the variable value.
      */
     public TemplateObject(Type type, String value, boolean isVar) {
         super(value, isVar);
@@ -62,14 +62,14 @@ public class TemplateObject extends Term {
     @Override
     protected Value getValueInternal(String value) {
         switch (type) {
-            case URI:
-                return createIRI(value);
-            case BNODE:
-                return SimpleValueFactory.getInstance().createBNode(value);
-            case LITERAL:
-                return SimpleValueFactory.getInstance().createLiteral(value);
-            default:
-                throw new IllegalStateException();
+        case URI:
+            return createIRI(value);
+        case BNODE:
+            return SimpleValueFactory.getInstance().createBNode(value);
+        case LITERAL:
+            return SimpleValueFactory.getInstance().createLiteral(value);
+        default:
+            throw new IllegalStateException();
         }
     }
 
@@ -78,9 +78,7 @@ public class TemplateObject extends Term {
             return SimpleValueFactory.getInstance().createIRI(value);
         } catch (IllegalArgumentException iae) {
             throw new IllegalArgumentException(
-                String.format(Locale.ROOT, "Expected a valid IRI for object template, found '%s'", value),
-                iae
-            );
+                    String.format(Locale.ROOT, "Expected a valid IRI for object template, found '%s'", value), iae);
         }
     }
 
@@ -88,14 +86,14 @@ public class TemplateObject extends Term {
     public String toString() {
         final String superStr = super.toString();
         switch (type) {
-            case URI:
-                return "<" + superStr + ">";
-            case BNODE:
-                return "_:" + superStr;
-            case LITERAL:
-                return "'" + superStr + "'";
-            default:
-                throw new IllegalStateException();
+        case URI:
+            return "<" + superStr + ">";
+        case BNODE:
+            return "_:" + superStr;
+        case LITERAL:
+            return "'" + superStr + "'";
+        default:
+            throw new IllegalStateException();
         }
     }
 

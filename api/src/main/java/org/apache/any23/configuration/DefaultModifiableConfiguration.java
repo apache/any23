@@ -24,7 +24,7 @@ import java.util.Properties;
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-public class DefaultModifiableConfiguration extends DefaultConfiguration implements ModifiableConfiguration{
+public class DefaultModifiableConfiguration extends DefaultConfiguration implements ModifiableConfiguration {
 
     protected DefaultModifiableConfiguration(Properties properties) {
         super(properties);
@@ -32,10 +32,9 @@ public class DefaultModifiableConfiguration extends DefaultConfiguration impleme
 
     @Override
     public synchronized String setProperty(String propertyName, String propertyValue) {
-        if( ! defineProperty(propertyName) )
-            throw new IllegalArgumentException(
-                String.format(java.util.Locale.ROOT, "Property '%s' is not defined in configuration.", propertyName)
-        );
+        if (!defineProperty(propertyName))
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                    "Property '%s' is not defined in configuration.", propertyName));
         return (String) properties.setProperty(propertyName, propertyValue);
     }
 

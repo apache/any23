@@ -34,22 +34,22 @@ import java.io.PrintStream;
 import java.util.Locale;
 
 /**
- * This class provides some command-line documentation
- * about available extractors and their usage.
+ * This class provides some command-line documentation about available extractors and their usage.
  */
-@Parameters( commandNames = { "extractor" }, commandDescription= "Utility for obtaining documentation about metadata extractors.")
+@Parameters(commandNames = {
+        "extractor" }, commandDescription = "Utility for obtaining documentation about metadata extractors.")
 public class ExtractorDocumentation extends BaseTool {
 
-    @Parameter( names = { "-l", "--list" }, description = "shows the names of all available extractors" )
+    @Parameter(names = { "-l", "--list" }, description = "shows the names of all available extractors")
     private boolean showList;
 
-    @Parameter( names = { "-i", "--input" }, description = "shows example input for the given extractor" )
+    @Parameter(names = { "-i", "--input" }, description = "shows example input for the given extractor")
     private String input;
 
-    @Parameter( names = { "-o", "--output" }, description = "shows example output for the given extractor" )
+    @Parameter(names = { "-o", "--output" }, description = "shows example output for the given extractor")
     private String output;
 
-    @Parameter( names = { "-a", "--all" }, description = "shows a report about all available extractors" )
+    @Parameter(names = { "-a", "--all" }, description = "shows a report about all available extractors")
     private boolean showAll;
 
     private PrintStream out = System.out;
@@ -80,7 +80,8 @@ public class ExtractorDocumentation extends BaseTool {
     /**
      * Print an error message.
      *
-     * @param msg the error message to be printed
+     * @param msg
+     *            the error message to be printed
      */
     public void printError(String msg) {
         System.err.println(msg);
@@ -88,22 +89,27 @@ public class ExtractorDocumentation extends BaseTool {
 
     /**
      * Prints the list of all the available extractors.
-     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
-     * containing all extractors
+     * 
+     * @param registry
+     *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
      */
     public void printExtractorList(ExtractorRegistry registry) {
         for (ExtractorFactory factory : registry.getExtractorGroup()) {
-            out.println(String.format(Locale.ROOT, "%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
+            out.println(
+                    String.format(Locale.ROOT, "%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
         }
     }
 
     /**
      * Prints an example of input for the provided extractor.
      *
-     * @param extractorName the name of the extractor
-     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
-     * containing all extractors
-     * @throws IOException raised if no extractor is found with that name
+     * @param extractorName
+     *            the name of the extractor
+     * @param registry
+     *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
+     * 
+     * @throws IOException
+     *             raised if no extractor is found with that name
      */
     public void printExampleInput(String extractorName, ExtractorRegistry registry) throws IOException {
         ExtractorFactory<?> factory = getFactory(registry, extractorName);
@@ -118,13 +124,18 @@ public class ExtractorDocumentation extends BaseTool {
     /**
      * Prints an output example for the given extractor.
      *
-     * @param extractorName the extractor name
-     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
-     * containing all extractors
-     * @throws IOException raised if no extractor is found with that name
-     * @throws ExtractionException if there is an error duing extraction
+     * @param extractorName
+     *            the extractor name
+     * @param registry
+     *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
+     * 
+     * @throws IOException
+     *             raised if no extractor is found with that name
+     * @throws ExtractionException
+     *             if there is an error duing extraction
      */
-    public void printExampleOutput(String extractorName, ExtractorRegistry registry) throws IOException, ExtractionException {
+    public void printExampleOutput(String extractorName, ExtractorRegistry registry)
+            throws IOException, ExtractionException {
         ExtractorFactory<?> factory = getFactory(registry, extractorName);
         ExampleInputOutput example = new ExampleInputOutput(factory);
         String output = example.getExampleOutput();
@@ -137,10 +148,13 @@ public class ExtractorDocumentation extends BaseTool {
     /**
      * Prints a complete report on all the available extractors.
      *
-     * @param registry the {@link org.apache.any23.extractor.ExtractorRegistry}
-     * containing all extractors
-     * @throws IOException raised if no extractor is found with that name
-     * @throws ExtractionException if there is an error duing extraction
+     * @param registry
+     *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
+     * 
+     * @throws IOException
+     *             raised if no extractor is found with that name
+     * @throws ExtractionException
+     *             if there is an error duing extraction
      */
     public void printReport(ExtractorRegistry registry) throws IOException, ExtractionException {
         for (String extractorName : registry.getAllNames()) {

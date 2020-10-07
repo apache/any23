@@ -32,9 +32,13 @@ public class URLUtils {
     /**
      * Verifies if the specified URL is reachable online.
      *
-     * @param url input URL.
+     * @param url
+     *            input URL.
+     * 
      * @return <code>true</code> if the resource can be accessed, <code>false</code> otherwise.
-     * @throws MalformedURLException if <code>url</code> is malformed.
+     * 
+     * @throws MalformedURLException
+     *             if <code>url</code> is malformed.
      */
     public static boolean isOnline(String url) throws MalformedURLException {
         try {
@@ -42,13 +46,14 @@ public class URLUtils {
             connection.getInputStream().close();
             return true;
         } catch (IOException ioe) {
-            if(ioe instanceof MalformedURLException) {
+            if (ioe instanceof MalformedURLException) {
                 throw (MalformedURLException) ioe;
             }
             return false;
         }
     }
 
-    private URLUtils(){}
+    private URLUtils() {
+    }
 
 }

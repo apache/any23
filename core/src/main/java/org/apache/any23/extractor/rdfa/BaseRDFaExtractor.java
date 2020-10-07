@@ -53,19 +53,19 @@ abstract class BaseRDFaExtractor extends BaseRDFExtractor {
     }
 
     @Override
-    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in, ExtractionResult extractionResult) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in,
+            ExtractionResult extractionResult) throws IOException, ExtractionException {
 
         SemarglSink rdfaSink = new SemarglSink(extractionResult, new Any23ValueFactoryWrapper(
-                SimpleValueFactory.getInstance(),
-                extractionResult,
-                extractionContext.getDefaultLanguage()
-        ));
+                SimpleValueFactory.getInstance(), extractionResult, extractionContext.getDefaultLanguage()));
 
         XmlSink xmlSink = RdfaParser.connect(rdfaSink);
         xmlSink.setProperty(StreamProcessor.PROCESSOR_GRAPH_HANDLER_PROPERTY, rdfaSink);
         xmlSink.setProperty(RdfaParser.RDFA_VERSION_PROPERTY, version);
-        xmlSink.setProperty(RdfaParser.ENABLE_VOCAB_EXPANSION, RDFaParserSettings.VOCAB_EXPANSION_ENABLED.getDefaultValue());
-        xmlSink.setProperty(RdfaParser.ENABLE_PROCESSOR_GRAPH, SemarglParserSettings.PROCESSOR_GRAPH_ENABLED.getDefaultValue());
+        xmlSink.setProperty(RdfaParser.ENABLE_VOCAB_EXPANSION,
+                RDFaParserSettings.VOCAB_EXPANSION_ENABLED.getDefaultValue());
+        xmlSink.setProperty(RdfaParser.ENABLE_PROCESSOR_GRAPH,
+                SemarglParserSettings.PROCESSOR_GRAPH_ENABLED.getDefaultValue());
 
         String baseUri = extractionContext.getDocumentIRI().stringValue();
         xmlSink.setBaseUri(baseUri);

@@ -25,11 +25,13 @@ package org.apache.any23.configuration;
 public interface ModifiableConfiguration extends Configuration {
 
     /**
-     * Sets a new value <code>propertyValue</code> for
-     * property which name <code>propertyName</code>.
+     * Sets a new value <code>propertyValue</code> for property which name <code>propertyName</code>.
      *
-     * @param propertyName name of property.
-     * @param propertyValue value of property.
+     * @param propertyName
+     *            name of property.
+     * @param propertyValue
+     *            value of property.
+     * 
      * @return the old property value.
      */
     String setProperty(String propertyName, String propertyValue);

@@ -36,6 +36,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
+ * 
  * @version $Id$
  */
 public class TikaEncodingDetectorTest {
@@ -54,41 +55,38 @@ public class TikaEncodingDetectorTest {
 
     @Test
     public void testISO8859HTML() throws IOException {
-         assertEncoding( "ISO-8859-1", "/microformats/xfn/encoding-iso-8859-1.html" );
+        assertEncoding("ISO-8859-1", "/microformats/xfn/encoding-iso-8859-1.html");
     }
 
     @Test
     public void testISO8859XHTML() throws IOException {
-         assertEncoding( "ISO-8859-1", "/microformats/xfn/encoding-iso-8859-1.xhtml" );
+        assertEncoding("ISO-8859-1", "/microformats/xfn/encoding-iso-8859-1.xhtml");
     }
 
     @Test
     public void testUTF8AfterTitle() throws IOException {
-         assertEncoding( "UTF-8", "/microformats/xfn/encoding-utf-8-after-title.html" );
+        assertEncoding("UTF-8", "/microformats/xfn/encoding-utf-8-after-title.html");
     }
 
     @Test
     public void testUTF8HTML() throws IOException {
-         assertEncoding( "UTF-8", "/microformats/xfn/encoding-utf-8.html" );
+        assertEncoding("UTF-8", "/microformats/xfn/encoding-utf-8.html");
     }
 
     @Test
     public void testUTF8XHTML() throws IOException {
-         assertEncoding( "UTF-8", "/microformats/xfn/encoding-utf-8.xhtml" );
+        assertEncoding("UTF-8", "/microformats/xfn/encoding-utf-8.xhtml");
     }
 
     @Test
     public void testEncodingHTML() throws IOException {
-         assertEncoding( "UTF-8", "/html/encoding-test.html" );
+        assertEncoding("UTF-8", "/html/encoding-test.html");
     }
 
     @Test
     public void testXMLEncodingPattern() throws IOException {
-        String[] strings = {
-                "<?xml encoding=\"UTF-8\"?>",
-                " \n<?xMl encoding   = 'utf-8'?>",
-                "\n <?Xml enCoding=Utf8?>"
-        };
+        String[] strings = { "<?xml encoding=\"UTF-8\"?>", " \n<?xMl encoding   = 'utf-8'?>",
+                "\n <?Xml enCoding=Utf8?>" };
         for (String s : strings) {
             Charset detected = EncodingUtils.xmlCharset(new TextStatistics(), s);
             assertEquals(detected, UTF_8);

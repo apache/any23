@@ -30,36 +30,36 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
  */
 public class HRecipeExtractorTest extends AbstractExtractorTestCase {
 
-	private static final SINDICE vSINDICE = SINDICE.getInstance();
-	private static final HRecipe vHRECIPE = HRecipe.getInstance();
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+    private static final HRecipe vHRECIPE = HRecipe.getInstance();
 
-	@Override
-	protected ExtractorFactory<?> getExtractorFactory() {
-		return new HRecipeExtractorFactory();
-	}
+    @Override
+    protected ExtractorFactory<?> getExtractorFactory() {
+        return new HRecipeExtractorFactory();
+    }
 
-	@Test
-	public void testNoMicroformats() throws Exception {
-		assertExtract("/html/html-without-uf.html");
-		assertModelEmpty();
-	}
+    @Test
+    public void testNoMicroformats() throws Exception {
+        assertExtract("/html/html-without-uf.html");
+        assertModelEmpty();
+    }
 
-	@Test
-	public void testExtraction() throws Exception {
-		assertExtract("/microformats/hrecipe/01-spec.html");
-		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, vHRECIPE.Recipe, 1);
-		assertStatementsSize(RDF.TYPE, vHRECIPE.Ingredient, 3);
-		assertStatementsSize(RDF.TYPE, vHRECIPE.Duration, 2);
-		assertStatementsSize(RDF.TYPE, vHRECIPE.Nutrition, 2);
-		assertStatementsSize(vHRECIPE.fn, (String) null, 1);
-		assertStatementsSize(vHRECIPE.yield, (String) null, 1);
-		assertStatementsSize(vHRECIPE.instructions, (String) null, 1);
-		assertStatementsSize(vHRECIPE.photo, (String) null, 1);
-		assertStatementsSize(vHRECIPE.summary, (String) null, 1);
-		assertStatementsSize(vHRECIPE.author, (String) null, 2);
-		assertStatementsSize(vHRECIPE.published, (String) null, 1);
-		assertStatementsSize(vHRECIPE.tag, (String) null, 2);
-	}
+    @Test
+    public void testExtraction() throws Exception {
+        assertExtract("/microformats/hrecipe/01-spec.html");
+        assertModelNotEmpty();
+        assertStatementsSize(RDF.TYPE, vHRECIPE.Recipe, 1);
+        assertStatementsSize(RDF.TYPE, vHRECIPE.Ingredient, 3);
+        assertStatementsSize(RDF.TYPE, vHRECIPE.Duration, 2);
+        assertStatementsSize(RDF.TYPE, vHRECIPE.Nutrition, 2);
+        assertStatementsSize(vHRECIPE.fn, (String) null, 1);
+        assertStatementsSize(vHRECIPE.yield, (String) null, 1);
+        assertStatementsSize(vHRECIPE.instructions, (String) null, 1);
+        assertStatementsSize(vHRECIPE.photo, (String) null, 1);
+        assertStatementsSize(vHRECIPE.summary, (String) null, 1);
+        assertStatementsSize(vHRECIPE.author, (String) null, 2);
+        assertStatementsSize(vHRECIPE.published, (String) null, 1);
+        assertStatementsSize(vHRECIPE.tag, (String) null, 2);
+    }
 
 }

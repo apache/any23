@@ -37,8 +37,8 @@ import static java.lang.System.currentTimeMillis;
 import static java.lang.System.exit;
 
 /**
- * This class is the main class responsible to provide a uniform command-line
- * access points to all the others tools like {@link Rover}.
+ * This class is the main class responsible to provide a uniform command-line access points to all the others tools like
+ * {@link Rover}.
  *
  * @see ExtractorDocumentation
  * @see Rover
@@ -49,24 +49,21 @@ public final class ToolRunner {
 
     private static final PrintStream infoStream = System.err;
 
-    @Parameter( names = { "-h", "--help" }, description = "Display help information." )
+    @Parameter(names = { "-h", "--help" }, description = "Display help information.")
     private boolean printHelp;
 
-    @Parameter( names = { "-v", "--version" }, description = "Display version information." )
+    @Parameter(names = { "-v", "--version" }, description = "Display version information.")
     private boolean showVersion;
 
-    @Parameter( names = { "-X", "--verbose" }, description = "Produce execution verbose output." )
+    @Parameter(names = { "-X", "--verbose" }, description = "Produce execution verbose output.")
     private boolean verbose;
 
-    @Parameter(
-            names = { "--plugins-dir" },
-            description = "The Any23 plugins directory.",
-            converter = FileConverter.class
-    )
+    @Parameter(names = {
+            "--plugins-dir" }, description = "The Any23 plugins directory.", converter = FileConverter.class)
     private File pluginsDir = DEFAULT_PLUGIN_DIR;
 
-    public static void main( String[] args ) throws Exception {
-        exit( new ToolRunner().execute( args ) );
+    public static void main(String[] args) throws Exception {
+        exit(new ToolRunner().execute(args));
     }
 
     public int execute(String... args) throws Exception {
@@ -78,7 +75,7 @@ public final class ToolRunner {
         commander.setProgramName(System.getProperty("app.name"));
 
         // TODO (low) : this dirty solution has been introduced because it is not possible to
-        //              parse arguments ( commander.parse() ) twice.
+        // parse arguments ( commander.parse() ) twice.
         final File pluginsDirOption;
         try {
             pluginsDirOption = parsePluginDirOption(args);
@@ -86,7 +83,7 @@ public final class ToolRunner {
             System.err.println(e.getMessage());
             return 1;
         }
-        if(pluginsDirOption != null) {
+        if (pluginsDirOption != null) {
             pluginsDir = pluginsDirOption;
         }
 
@@ -112,7 +109,7 @@ public final class ToolRunner {
             return 0;
         }
 
-        if(parsedCommand == null) {
+        if (parsedCommand == null) {
             infoStream.println("A command must be specified.");
             commander.usage();
             return 1;
@@ -125,9 +122,9 @@ public final class ToolRunner {
 
         // execute the parsed command
         infoStream.println();
-        infoStream.println( "------------------------------------------------------------------------" );
-        infoStream.printf(Locale.ROOT, "Apache Any23 :: %s%n", parsedCommand );
-        infoStream.println( "------------------------------------------------------------------------" );
+        infoStream.println("------------------------------------------------------------------------");
+        infoStream.printf(Locale.ROOT, "Apache Any23 :: %s%n", parsedCommand);
+        infoStream.println("------------------------------------------------------------------------");
         infoStream.println();
 
         try {
@@ -142,38 +139,38 @@ public final class ToolRunner {
             error = t;
         } finally {
             infoStream.println();
-            infoStream.println( "------------------------------------------------------------------------" );
-            infoStream.printf(Locale.ROOT, "Apache Any23 %s%n", ( exit != 0 ) ? "FAILURE" : "SUCCESS" );
+            infoStream.println("------------------------------------------------------------------------");
+            infoStream.printf(Locale.ROOT, "Apache Any23 %s%n", (exit != 0) ? "FAILURE" : "SUCCESS");
 
             if (exit != 0) {
                 infoStream.println();
 
                 if (verbose) {
-                    System.err.println( "Execution terminated with errors:" );
+                    System.err.println("Execution terminated with errors:");
                     error.printStackTrace(infoStream);
                 } else {
-                    infoStream.printf(Locale.ROOT, "Execution terminated with errors: %s%n", error.getMessage() );
+                    infoStream.printf(Locale.ROOT, "Execution terminated with errors: %s%n", error.getMessage());
                 }
 
                 infoStream.println();
             }
 
-            infoStream.printf(Locale.ROOT, "Total time: %ss%n", ( ( currentTimeMillis() - start ) / 1000 ) );
-            infoStream.printf(Locale.ROOT, "Finished at: %s%n", new Date() );
+            infoStream.printf(Locale.ROOT, "Total time: %ss%n", ((currentTimeMillis() - start) / 1000));
+            infoStream.printf(Locale.ROOT, "Finished at: %s%n", new Date());
 
             final Runtime runtime = Runtime.getRuntime();
             final int megaUnit = 1024 * 1024;
-            infoStream.printf(Locale.ROOT, "Final Memory: %sM/%sM%n", ( runtime.totalMemory() - runtime.freeMemory() ) / megaUnit,
-                         runtime.totalMemory() / megaUnit );
+            infoStream.printf(Locale.ROOT, "Final Memory: %sM/%sM%n",
+                    (runtime.totalMemory() - runtime.freeMemory()) / megaUnit, runtime.totalMemory() / megaUnit);
 
-            infoStream.println( "------------------------------------------------------------------------" );
+            infoStream.println("------------------------------------------------------------------------");
         }
 
         return exit;
     }
 
     Iterator<Tool> getToolsInClasspath() throws IOException {
-        final Any23PluginManager pluginManager =  Any23PluginManager.getInstance();
+        final Any23PluginManager pluginManager = Any23PluginManager.getInstance();
         if (pluginsDir.exists() && pluginsDir.isDirectory()) {
             pluginManager.loadJARDir(pluginsDir);
         }
@@ -182,12 +179,13 @@ public final class ToolRunner {
 
     private static void printVersionInfo() {
         Properties properties = new Properties();
-        InputStream input = ToolRunner.class.getClassLoader().getResourceAsStream( "META-INF/maven/org.apache.any23/any23-core/pom.properties" );
+        InputStream input = ToolRunner.class.getClassLoader()
+                .getResourceAsStream("META-INF/maven/org.apache.any23/any23-core/pom.properties");
 
-        if ( input != null ) {
+        if (input != null) {
             try {
-                properties.load( input );
-            } catch ( IOException e ) {
+                properties.load(input);
+            } catch (IOException e) {
                 // ignore, just don't load the properties
             } finally {
                 try {
@@ -198,25 +196,21 @@ public final class ToolRunner {
             }
         }
 
-        infoStream.printf(Locale.ROOT, "Apache Any23 %s%n", Any23.VERSION );
-        infoStream.printf(Locale.ROOT, "Java version: %s, vendor: %s%n",
-                           System.getProperty( "java.version" ),
-                           System.getProperty( "java.vendor" ) );
-        infoStream.printf(Locale.ROOT, "Java home: %s%n", System.getProperty( "java.home" ) );
+        infoStream.printf(Locale.ROOT, "Apache Any23 %s%n", Any23.VERSION);
+        infoStream.printf(Locale.ROOT, "Java version: %s, vendor: %s%n", System.getProperty("java.version"),
+                System.getProperty("java.vendor"));
+        infoStream.printf(Locale.ROOT, "Java home: %s%n", System.getProperty("java.home"));
         infoStream.printf(Locale.ROOT, "Default locale: %s_%s, platform encoding: %s%n",
-                           System.getProperty( "user.language" ),
-                           System.getProperty( "user.country" ),
-                           System.getProperty( "sun.jnu.encoding" ) );
+                System.getProperty("user.language"), System.getProperty("user.country"),
+                System.getProperty("sun.jnu.encoding"));
         infoStream.printf(Locale.ROOT, "OS name: \"%s\", version: \"%s\", arch: \"%s\", family: \"%s\"%n",
-                           System.getProperty( "os.name" ),
-                           System.getProperty( "os.version" ),
-                           System.getProperty( "os.arch" ),
-                           getOsFamily() );
+                System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"),
+                getOsFamily());
     }
 
     private static final String getOsFamily() {
-        String osName = System.getProperty( "os.name" ).toLowerCase(Locale.ROOT);
-        String pathSep = System.getProperty( "path.separator" );
+        String osName = System.getProperty("os.name").toLowerCase(Locale.ROOT);
+        String pathSep = System.getProperty("path.separator");
 
         if (osName.contains("windows")) {
             return "windows";
@@ -246,20 +240,20 @@ public final class ToolRunner {
 
     private static File parsePluginDirOption(String[] args) {
         int optionIndex = -1;
-        for(int i = 0; i < args.length; i++) {
-            if("--plugins-dir".equals(args[i])) {
+        for (int i = 0; i < args.length; i++) {
+            if ("--plugins-dir".equals(args[i])) {
                 optionIndex = i;
             }
         }
-        if(optionIndex == -1)
+        if (optionIndex == -1)
             return null;
 
-        if(optionIndex == args.length - 1) {
+        if (optionIndex == args.length - 1) {
             throw new IllegalArgumentException("Missing argument for --plugins-dir option.");
         }
-        final File pluginsDir = new File( args[optionIndex + 1] );
-        if( ! pluginsDir.isDirectory() ) {
-            throw  new IllegalArgumentException("Expected a directory for --plugins-dir option value.");
+        final File pluginsDir = new File(args[optionIndex + 1]);
+        if (!pluginsDir.isDirectory()) {
+            throw new IllegalArgumentException("Expected a directory for --plugins-dir option value.");
         }
         return pluginsDir;
     }

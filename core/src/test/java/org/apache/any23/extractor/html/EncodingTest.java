@@ -25,8 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test class to ensure behaviors of {@link HTMLDocument} parser with encoding
- * corner cases. 
+ * Test class to ensure behaviors of {@link HTMLDocument} parser with encoding corner cases.
  */
 public class EncodingTest extends AbstractAny23TestBase {
 
@@ -44,15 +43,15 @@ public class EncodingTest extends AbstractAny23TestBase {
         Assert.assertEquals(HELLO_WORLD, document.find("//TITLE"));
     }
 
-     /**
-     * Known issue: NekoHTML does not auto-detect the encoding, but relies
-     * on the explicitly specified encoding (via XML declaration or
-     * HTTP-Equiv meta header). If the meta header comes *after* the
-     * title element, then NekoHTML will not use the declared encoding
-     * for the title.
+    /**
+     * Known issue: NekoHTML does not auto-detect the encoding, but relies on the explicitly specified encoding (via XML
+     * declaration or HTTP-Equiv meta header). If the meta header comes *after* the title element, then NekoHTML will
+     * not use the declared encoding for the title.
      *
      * For this test we expect to not recognize the title.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     @Test
     public void testEncodingHTML_UTF_8_DeclarationAfterTitle() throws Exception {

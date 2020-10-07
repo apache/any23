@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * A source of input streams. Mostly intended for
- * situations where opening of an input stream is
- * to be delayed.
+ * A source of input streams. Mostly intended for situations where opening of an input stream is to be delayed.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -33,8 +31,10 @@ public interface DocumentSource {
      * Returns the input stream for accessing the content of the document.
      *
      * @return not <code>null</code> input stream for accessing document data.
-     * @throws IOException if there is an error opening the
-     * {@link org.apache.any23.source.DocumentSource} {@link java.io.InputStream}
+     * 
+     * @throws IOException
+     *             if there is an error opening the {@link org.apache.any23.source.DocumentSource}
+     *             {@link java.io.InputStream}
      */
     InputStream openInputStream() throws IOException;
 
@@ -54,13 +54,11 @@ public interface DocumentSource {
     public String getDocumentIRI();
 
     /**
-     * A value of <i>false</i> indicates that the document
-     * resides remotely, and that multiple successive accesses
-     * to it should be avoided by copying it to local storage.
-     * This can also be used for sources that do not support
-     * multiple calls to {@link #openInputStream()}.
-     * @return true if the {@link org.apache.any23.source.DocumentSource} is
-     * cached locally.
+     * A value of <i>false</i> indicates that the document resides remotely, and that multiple successive accesses to it
+     * should be avoided by copying it to local storage. This can also be used for sources that do not support multiple
+     * calls to {@link #openInputStream()}.
+     * 
+     * @return true if the {@link org.apache.any23.source.DocumentSource} is cached locally.
      */
     public boolean isLocal();
 }

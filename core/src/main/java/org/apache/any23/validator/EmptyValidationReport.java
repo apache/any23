@@ -37,10 +37,11 @@ public class EmptyValidationReport implements ValidationReport {
     private static final List<Error> EMPTY_ERRORS = Collections.emptyList();
 
     public static EmptyValidationReport getInstance() {
-        return INSTANCE; 
+        return INSTANCE;
     }
 
-    private EmptyValidationReport() {}
+    private EmptyValidationReport() {
+    }
 
     public List<Issue> getIssues() {
         return EMPTY_ISSUES;

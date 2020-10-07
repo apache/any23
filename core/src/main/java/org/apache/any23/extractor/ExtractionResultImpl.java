@@ -37,23 +37,20 @@ import java.util.Set;
 
 /**
  * <p>
- * A default implementation of {@link ExtractionResult}; it receives
- * extraction output from one {@link Extractor} working on one document,
- * and passes the output on to a {@link TripleHandler}. It deals with
- * details such as creation of {@link ExtractionContext} objects
- * and closing any open contexts at the end of extraction.
+ * A default implementation of {@link ExtractionResult}; it receives extraction output from one {@link Extractor}
+ * working on one document, and passes the output on to a {@link TripleHandler}. It deals with details such as creation
+ * of {@link ExtractionContext} objects and closing any open contexts at the end of extraction.
  * </p>
  * <p>
- * The {@link #close()} method must be invoked after the extractor has
- * finished processing.
+ * The {@link #close()} method must be invoked after the extractor has finished processing.
  * </p>
  * <p>
- * There is usually no need to provide additional implementations
- * of the ExtractionWriter interface.
- *</p>
+ * There is usually no need to provide additional implementations of the ExtractionWriter interface.
+ * </p>
  *
  * @see org.apache.any23.writer.TripleHandler
  * @see ExtractionContext
+ * 
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */
@@ -79,36 +76,28 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     private List<PropertyPath> propertyPaths;
 
-    public ExtractionResultImpl(
-            ExtractionContext context,
-            Extractor<?> extractor,
-            TripleHandler tripleHandler
-    ) {
+    public ExtractionResultImpl(ExtractionContext context, Extractor<?> extractor, TripleHandler tripleHandler) {
         this(context, extractor, tripleHandler, new ArrayList<>());
     }
 
-    private ExtractionResultImpl(
-            ExtractionContext context,
-            Extractor<?> extractor,
-            TripleHandler tripleHandler,
-            List<Issue> issues
-    ) {
-        if(context == null) {
+    private ExtractionResultImpl(ExtractionContext context, Extractor<?> extractor, TripleHandler tripleHandler,
+            List<Issue> issues) {
+        if (context == null) {
             throw new NullPointerException("context cannot be null.");
         }
-        if(extractor == null) {
+        if (extractor == null) {
             throw new NullPointerException("extractor cannot be null.");
         }
-        if(tripleHandler == null) {
+        if (tripleHandler == null) {
             throw new NullPointerException("triple handler cannot be null.");
         }
 
-        this.extractor       = extractor;
-        this.tripleHandler   = tripleHandler;
-        this.context         = context;
-        this.issues          = issues;
+        this.extractor = extractor;
+        this.tripleHandler = tripleHandler;
+        this.context = context;
+        this.issues = issues;
 
-        knownContextIDs.add( context.getUniqueID() );
+        knownContextIDs.add(context.getUniqueID());
 
         try {
             // openContext() must be called before extraction begins
@@ -121,7 +110,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
     }
 
     public boolean hasIssues() {
-        return ! issues.isEmpty();
+        return !issues.isEmpty();
     }
 
     public int getIssuesCount() {
@@ -144,7 +133,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     @Override
     public Collection<Issue> getIssues() {
-        return issues.isEmpty() ? Collections.<Issue>emptyList() : Collections.unmodifiableList(issues);
+        return issues.isEmpty() ? Collections.<Issue> emptyList() : Collections.unmodifiableList(issues);
     }
 
     @Override
@@ -167,7 +156,8 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     @Override
     public void writeTriple(Resource s, IRI p, Value o, IRI g) {
-        if (s == null || p == null || o == null) return;
+        if (s == null || p == null || o == null)
+            return;
         // Check for misconstructed literals or BNodes, Sesame does not catch this.
         if (s.stringValue() == null || p.stringValue() == null || o.stringValue() == null) {
             throw new IllegalArgumentException("The statement arguments must be not null.");
@@ -176,10 +166,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         try {
             tripleHandler.receiveTriple(s, p, o, g, context);
         } catch (TripleHandlerException e) {
-            throw new RuntimeException(
-                    String.format(Locale.ROOT, "Error while receiving triple %s %s %s", s, p, o ),
-                    e
-            );
+            throw new RuntimeException(String.format(Locale.ROOT, "Error while receiving triple %s %s %s", s, p, o), e);
         }
     }
 
@@ -198,10 +185,8 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
         try {
             tripleHandler.receiveNamespace(prefix, uri, context);
         } catch (TripleHandlerException e) {
-            throw new RuntimeException(
-                    String.format(Locale.ROOT, "Error while writing namespace %s:%s", prefix, uri),
-                    e
-            );
+            throw new RuntimeException(String.format(Locale.ROOT, "Error while writing namespace %s:%s", prefix, uri),
+                    e);
         }
     }
 
@@ -212,7 +197,8 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     @Override
     public void close() {
-        if (isClosed) return;
+        if (isClosed)
+            return;
         isClosed = true;
         for (ExtractionResult subResult : subResults) {
             subResult.close();
@@ -233,8 +219,7 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
                     tripleHandler.receiveNamespace(prefix, prefixes.getNamespaceIRIFor(prefix), context);
                 } catch (TripleHandlerException e) {
                     throw new RuntimeException(String.format(Locale.ROOT, "Error while writing namespace %s", prefix),
-                            e
-                    );
+                            e);
                 }
             }
         }
@@ -245,51 +230,46 @@ public class ExtractionResultImpl implements TagSoupExtractionResult {
 
     @Override
     public void addResourceRoot(String[] path, Resource root, Class<? extends MicroformatExtractor> extractor) {
-        if(resourceRoots == null) {
+        if (resourceRoots == null) {
             resourceRoots = new ArrayList<>();
         }
-        resourceRoots.add( new ResourceRoot(path, root, extractor) );
+        resourceRoots.add(new ResourceRoot(path, root, extractor));
     }
 
     @Override
     public List<ResourceRoot> getResourceRoots() {
         List<ResourceRoot> allRoots = new ArrayList<>();
-        if(resourceRoots != null) {
-            allRoots.addAll( resourceRoots );
+        if (resourceRoots != null) {
+            allRoots.addAll(resourceRoots);
         }
-        for(ExtractionResult er : subResults) {
+        for (ExtractionResult er : subResults) {
             ExtractionResultImpl eri = (ExtractionResultImpl) er;
-            if( eri.resourceRoots != null ) {
-                allRoots.addAll( eri.resourceRoots );
+            if (eri.resourceRoots != null) {
+                allRoots.addAll(eri.resourceRoots);
             }
         }
         return allRoots;
     }
 
     @Override
-    public void addPropertyPath(
-            Class<? extends MicroformatExtractor> extractor,
-            Resource propertySubject,
-            Resource property,
-            BNode object,
-            String[] path
-    ) {
-        if(propertyPaths == null) {
+    public void addPropertyPath(Class<? extends MicroformatExtractor> extractor, Resource propertySubject,
+            Resource property, BNode object, String[] path) {
+        if (propertyPaths == null) {
             propertyPaths = new ArrayList<>();
         }
-        propertyPaths.add( new PropertyPath(path, propertySubject, property, object, extractor) );
+        propertyPaths.add(new PropertyPath(path, propertySubject, property, object, extractor));
     }
 
     @Override
     public List<PropertyPath> getPropertyPaths() {
         List<PropertyPath> allPaths = new ArrayList<>();
-        if(propertyPaths != null) {
-            allPaths.addAll( propertyPaths );
+        if (propertyPaths != null) {
+            allPaths.addAll(propertyPaths);
         }
-        for(ExtractionResult er : subResults) {
+        for (ExtractionResult er : subResults) {
             ExtractionResultImpl eri = (ExtractionResultImpl) er;
-            if( eri.propertyPaths != null ) {
-                allPaths.addAll( eri.propertyPaths );
+            if (eri.propertyPaths != null) {
+                allPaths.addAll(eri.propertyPaths);
             }
         }
         return allPaths;

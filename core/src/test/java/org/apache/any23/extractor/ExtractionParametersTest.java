@@ -28,14 +28,8 @@ public class ExtractionParametersTest {
     @Test
     public void testReadDefaultConfig() {
         final ExtractionParameters extractionParameters = ExtractionParameters.newDefault();
-        Assert.assertEquals(
-                false,
-                extractionParameters.getFlag("any23.microdata.strict")
-        );
-        Assert.assertEquals(
-                "http://schema.org/",
-                extractionParameters.getProperty("any23.microdata.ns.default")
-        );
+        Assert.assertEquals(false, extractionParameters.getFlag("any23.microdata.strict"));
+        Assert.assertEquals("http://schema.org/", extractionParameters.getProperty("any23.microdata.ns.default"));
     }
 
     @Test
@@ -43,19 +37,10 @@ public class ExtractionParametersTest {
         final ExtractionParameters extractionParameters = ExtractionParameters.newDefault();
         extractionParameters.setFlag("any23.microdata.strict", true);
         final String CUSTOM_PROP = "http://fake/property";
-        extractionParameters.setProperty(
-                "any23.microdata.ns.default",
-                CUSTOM_PROP
-        );
+        extractionParameters.setProperty("any23.microdata.ns.default", CUSTOM_PROP);
 
-        Assert.assertEquals(
-                true,
-                extractionParameters.getFlag("any23.microdata.strict")
-        );
-        Assert.assertEquals(
-                CUSTOM_PROP,
-                extractionParameters.getProperty("any23.microdata.ns.default")
-        );
+        Assert.assertEquals(true, extractionParameters.getFlag("any23.microdata.strict"));
+        Assert.assertEquals(CUSTOM_PROP, extractionParameters.getProperty("any23.microdata.ns.default"));
     }
 
 }

@@ -80,7 +80,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
     @Override
     public void setStopAtFirstError(boolean b) {
-        //unsupported
+        // unsupported
     }
 
     private static final ValueFactory f = SimpleValueFactory.getInstance();
@@ -89,8 +89,8 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
     abstract StreamReader reader(InputStream inputStream);
 
     @Override
-    public final void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream inputStream,
-                          ExtractionResult result) throws IOException, ExtractionException {
+    public final void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext,
+            InputStream inputStream, ExtractionResult result) throws IOException, ExtractionException {
         result.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
         result.writeNamespace(ICAL.PREFIX, ICAL.NS);
         result.writeNamespace(XMLSchema.PREFIX, XMLSchema.NAMESPACE);
@@ -131,7 +131,6 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         return string;
     }
 
-
     private static String localNameOfType(String typeName) {
         return camelCase(typeName, false);
     }
@@ -159,7 +158,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
     private static IRI type(String originalName) {
         if (originalName.regionMatches(true, 0, "X-", 0, 2)) {
-            //non-standard class
+            // non-standard class
             return f.createIRI(ICAL.NS, "X-" + localNameOfType(originalName.substring(2)));
         }
 
@@ -174,7 +173,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
     private static IRI predicate(String originalName, ExtractionResult result) {
         if (originalName.regionMatches(true, 0, "X-", 0, 2)) {
-            //non-standard property
+            // non-standard property
             return f.createIRI(ICAL.NS, "x-" + localNameOfProperty(originalName.substring(2)));
         }
 
@@ -185,13 +184,13 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         } catch (RuntimeException e) {
             IRI iri = f.createIRI(ICAL.NS, name);
             result.notifyIssue(IssueReport.IssueLevel.ERROR,
-                    "property " + iri + " (" + originalName + ") not defined in " + ICAL.class.getName(),
-                    -1, -1);
+                    "property " + iri + " (" + originalName + ") not defined in " + ICAL.class.getName(), -1, -1);
             return iri;
         }
     }
 
     private static final String NaN = Double.toString(Double.NaN);
+
     private static String str(Double d) {
         return d == null ? NaN : d.toString();
     }
@@ -215,7 +214,6 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         }
     }
 
-
     private static IRI dataType(ICalDataType dataType, Boolean isFloating) {
         if (dataType == null || ICalDataType.TEXT.equals(dataType)) {
             return XMLSchema.STRING;
@@ -227,10 +225,8 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             return XMLSchema.FLOAT;
         } else if (ICalDataType.BINARY.equals(dataType)) {
             return XMLSchema.BASE64BINARY;
-        } else if (ICalDataType.URI.equals(dataType)
-                || ICalDataType.URL.equals(dataType)
-                || ICalDataType.CONTENT_ID.equals(dataType)
-                || ICalDataType.CAL_ADDRESS.equals(dataType)) {
+        } else if (ICalDataType.URI.equals(dataType) || ICalDataType.URL.equals(dataType)
+                || ICalDataType.CONTENT_ID.equals(dataType) || ICalDataType.CAL_ADDRESS.equals(dataType)) {
             return XMLSchema.ANYURI;
         } else if (ICalDataType.DATE_TIME.equals(dataType)) {
             if (isFloating == null) {
@@ -251,7 +247,6 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             return XMLSchema.STRING;
         }
     }
-
 
     private static final Pattern durationWeeksPattern = Pattern.compile("(-?P)(\\d+)W");
 
@@ -277,7 +272,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                         s = ICalDateFormat.DATE_TIME_EXTENDED.format(dt.toDate(zone), zone);
                     }
                 } catch (IllegalArgumentException e) {
-                    //ignore
+                    // ignore
                 }
             } else {
                 s = XMLDatatypeUtil.normalize(s, dataType);
@@ -296,7 +291,8 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         return s;
     }
 
-    private static boolean writeValue(BNode subject, IRI predicate, JsonValue jsonValue, String lang, IRI dataType, TimeZone zone, ExtractionResult result) {
+    private static boolean writeValue(BNode subject, IRI predicate, JsonValue jsonValue, String lang, IRI dataType,
+            TimeZone zone, ExtractionResult result) {
         if (jsonValue == null || jsonValue.isNull()) {
             return false;
         }
@@ -304,23 +300,23 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
         if (val != null) {
             Value v;
             if (val instanceof Byte) {
-                v = f.createLiteral((byte)val);
+                v = f.createLiteral((byte) val);
             } else if (val instanceof Short) {
-                v = f.createLiteral((short)val);
+                v = f.createLiteral((short) val);
             } else if (val instanceof Integer) {
-                v = f.createLiteral((int)val);
+                v = f.createLiteral((int) val);
             } else if (val instanceof Long) {
-                v = f.createLiteral((long)val);
+                v = f.createLiteral((long) val);
             } else if (val instanceof Float) {
-                v = f.createLiteral((float)val);
+                v = f.createLiteral((float) val);
             } else if (val instanceof Double) {
-                v = f.createLiteral((double)val);
+                v = f.createLiteral((double) val);
             } else if (val instanceof Boolean) {
-                v = f.createLiteral((boolean)val);
+                v = f.createLiteral((boolean) val);
             } else if (val instanceof BigInteger) {
-                v = f.createLiteral((BigInteger)val);
+                v = f.createLiteral((BigInteger) val);
             } else if (val instanceof BigDecimal) {
-                v = f.createLiteral((BigDecimal)val);
+                v = f.createLiteral((BigDecimal) val);
             } else {
                 String str = normalizeAndReportIfInvalid(val.toString(), dataType, zone, result);
 
@@ -341,7 +337,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                     if (strs.length == 2) {
                         String firstPart = normalizeAndReportIfInvalid(strs[0], XMLSchema.DATETIME, zone, result);
                         String secondPart = strs[1];
-                        if (secondPart.indexOf('P') != -1) { //duration
+                        if (secondPart.indexOf('P') != -1) { // duration
                             secondPart = normalizeAndReportIfInvalid(secondPart, XMLSchema.DURATION, zone, result);
                         } else {
                             secondPart = normalizeAndReportIfInvalid(secondPart, XMLSchema.DATETIME, zone, result);
@@ -379,7 +375,8 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             BNode bNode = f.createBNode();
             result.writeTriple(subject, predicate, bNode);
             for (Map.Entry<String, JsonValue> entry : object.entrySet()) {
-                writeValue(bNode, predicate(entry.getKey(), result), entry.getValue(), lang, XMLSchema.STRING, zone, result);
+                writeValue(bNode, predicate(entry.getKey(), result), entry.getValue(), lang, XMLSchema.STRING, zone,
+                        result);
             }
             return true;
         }
@@ -402,9 +399,10 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends ICalProperty> void writeProperty(BNode subject, ICalPropertyScribe<T> scribe, ICalProperty property, WriteContext ctx, ExtractionResult result) {
+    private static <T extends ICalProperty> void writeProperty(BNode subject, ICalPropertyScribe<T> scribe,
+            ICalProperty property, WriteContext ctx, ExtractionResult result) {
         try {
-            T prop = (T)property;
+            T prop = (T) property;
 
             ICalVersion version = ctx.getVersion();
 
@@ -447,8 +445,8 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
             // RFC 5545 s. 3.1.4.
             // There is not a property parameter to declare the charset used in a
-            //   property value.  The default charset for an iCalendar stream is UTF-8
-            //   as defined in [RFC3629].
+            // property value. The default charset for an iCalendar stream is UTF-8
+            // as defined in [RFC3629].
             params.removeAll(ICalParameters.CHARSET);
 
             IRI predicate = predicate(scribe.getPropertyName(version), result);
@@ -463,7 +461,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
             if (prop instanceof Geo) {
                 // RFC 5870
-                Geo g = (Geo)prop;
+                Geo g = (Geo) prop;
                 IRI value = f.createIRI("geo:" + str(g.getLatitude()) + "," + str(g.getLongitude()));
                 result.writeTriple(subject, predicate, value);
             } else {
@@ -499,11 +497,12 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                 }
             }
         } catch (SkipMeException e) {
-            //ignore
+            // ignore
         }
     }
 
-    private static void extract(ScribeIndex index, WriteContext ctx, BNode node, ICalComponent component, ExtractionResult result, boolean writeTimezones) {
+    private static void extract(ScribeIndex index, WriteContext ctx, BNode node, ICalComponent component,
+            ExtractionResult result, boolean writeTimezones) {
         for (ICalProperty property : component.getProperties().values()) {
             ctx.setParent(component);
             writeProperty(node, index.getPropertyScribe(property), property, ctx, result);
@@ -513,12 +512,9 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
         if (writeTimezones) {
             Collection<VTimezone> tzs = ctx.getTimezoneInfo().getComponents();
-            Set<String> tzIds = tzs.stream()
-                    .map(tz -> tz.getTimezoneId().getValue())
-                    .collect(Collectors.toSet());
-            components = Stream.concat(tzs.stream(), components.filter(c ->
-                    !(c instanceof VTimezone && tzIds.contains(((VTimezone) c).getTimezoneId().getValue())))
-            );
+            Set<String> tzIds = tzs.stream().map(tz -> tz.getTimezoneId().getValue()).collect(Collectors.toSet());
+            components = Stream.concat(tzs.stream(), components.filter(
+                    c -> !(c instanceof VTimezone && tzIds.contains(((VTimezone) c).getTimezoneId().getValue()))));
         }
 
         components.forEachOrdered(child -> {
@@ -537,4 +533,3 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
     }
 
 }
-

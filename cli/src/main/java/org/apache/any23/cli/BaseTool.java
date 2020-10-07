@@ -23,15 +23,15 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 /**
- * This class reduces the verbosity of testing command-line
- * console output by intercepting the underlying {@link PrintStream}
- * when applicable and replacing it with a more concise version.
+ * This class reduces the verbosity of testing command-line console output by intercepting the underlying
+ * {@link PrintStream} when applicable and replacing it with a more concise version.
  *
  * @author Hans Brende (hansbrende@apache.org)
  */
 abstract class BaseTool implements Tool {
 
     abstract PrintStream getOut();
+
     abstract void setOut(PrintStream out);
 
     void run(boolean concise) throws Exception {
@@ -49,17 +49,17 @@ abstract class BaseTool implements Tool {
             try {
                 stream.close();
             } catch (Throwable th) {
-                //ignore
+                // ignore
             }
         }
     }
 
     private static PrintStream concise(PrintStream out, boolean concise) {
         try {
-          return (concise && (out == System.out || out == System.err)) ? new ConcisePrintStream(out)
-                  : (out instanceof ConcisePrintStream ? ((ConcisePrintStream) out).out : out);
+            return (concise && (out == System.out || out == System.err)) ? new ConcisePrintStream(out)
+                    : (out instanceof ConcisePrintStream ? ((ConcisePrintStream) out).out : out);
         } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException("Error supporting UTF-8 encodings in ConcisePrintStream", e);
+            throw new RuntimeException("Error supporting UTF-8 encodings in ConcisePrintStream", e);
         }
     }
 
@@ -72,6 +72,7 @@ abstract class BaseTool implements Tool {
                 StringBuilder sb = new StringBuilder();
                 int lineCount;
                 boolean truncated = false;
+
                 @Override
                 public void write(int b) throws IOException {
                     if (sb == null) {
@@ -81,7 +82,7 @@ abstract class BaseTool implements Tool {
                         lineCount++;
                     }
                     if (lineCount == 0 && sb.length() < 200) {
-                        sb.append((char)b);
+                        sb.append((char) b);
                     } else if (!Character.isWhitespace(b)) {
                         truncated = true;
                     }

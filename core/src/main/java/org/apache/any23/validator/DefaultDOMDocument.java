@@ -40,10 +40,10 @@ public class DefaultDOMDocument implements DOMDocument {
     private Document document;
 
     public DefaultDOMDocument(URI documentIRI, Document document) {
-        if(documentIRI == null) {
+        if (documentIRI == null) {
             throw new NullPointerException("documentIRI cannot be null.");
         }
-        if(document == null) {
+        if (document == null) {
             throw new NullPointerException("document cannot be null.");
         }
         this.documentIRI = documentIRI;
@@ -64,22 +64,19 @@ public class DefaultDOMDocument implements DOMDocument {
 
     public Node getNode(String xPath) {
         List<Node> nodes = DomUtils.findAll(document, xPath);
-        if(nodes.size() == 0) {
-            throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "Cannot find node at XPath '%s'", xPath)
-            );
+        if (nodes.size() == 0) {
+            throw new IllegalArgumentException(String.format(Locale.ROOT, "Cannot find node at XPath '%s'", xPath));
         }
-        if(nodes.size() > 1) {
+        if (nodes.size() > 1) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "The given XPath '%s' corresponds to more than one node.", xPath)
-            );
+                    String.format(Locale.ROOT, "The given XPath '%s' corresponds to more than one node.", xPath));
         }
         return nodes.get(0);
     }
 
     public void addAttribute(String xPath, String attrName, String attrValue) {
         Node node = getNode(xPath);
-        NamedNodeMap namedNodeMap =  node.getAttributes();
+        NamedNodeMap namedNodeMap = node.getAttributes();
         Attr attr = document.createAttribute(attrName);
         attr.setNodeValue(attrValue);
         namedNodeMap.setNamedItem(attr);

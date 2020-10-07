@@ -47,15 +47,14 @@ public class DefaultValidator implements Validator {
 
     public DefaultValidator() {
         rulesToFixes = new HashMap<>();
-        rulesOrder   = new ArrayList<>();
+        rulesOrder = new ArrayList<>();
         loadDefaultRules();
     }
 
     @Override
-    public ValidationReport validate(DOMDocument document, boolean applyFix)
-    throws ValidatorException {
+    public ValidationReport validate(DOMDocument document, boolean applyFix) throws ValidatorException {
         final ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
-        for(Class<? extends Rule> cRule : rulesOrder) {
+        for (Class<? extends Rule> cRule : rulesOrder) {
             Rule rule = newRuleInstance(cRule);
             @SuppressWarnings("rawtypes")
             final RuleContext ruleContext = new DefaultRuleContext();
@@ -66,10 +65,10 @@ public class DefaultValidator implements Validator {
                 validationReportBuilder.reportRuleError(rule, e, "Error while processing rule.");
                 continue;
             }
-            if(applyFix && applyOn) {
+            if (applyFix && applyOn) {
                 validationReportBuilder.traceRuleActivation(rule);
                 List<Class<? extends Fix>> cFixes = getFixes(cRule);
-                for(Class<? extends Fix> cFix : cFixes) {
+                for (Class<? extends Fix> cFix : cFixes) {
                     Fix fix = newFixInstance(cFix);
                     try {
                         fix.execute(rule, ruleContext, document);
@@ -83,20 +82,19 @@ public class DefaultValidator implements Validator {
     }
 
     @Override
-    public ValidationReport validate(URI documentIRI, Document document, boolean applyFix)
-    throws ValidatorException {
-        return validate( new DefaultDOMDocument(documentIRI, document), applyFix );
+    public ValidationReport validate(URI documentIRI, Document document, boolean applyFix) throws ValidatorException {
+        return validate(new DefaultDOMDocument(documentIRI, document), applyFix);
     }
 
     @Override
     public synchronized void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix) {
         List<Class<? extends Fix>> fixes = rulesToFixes.get(rule);
-        if(fixes == null) {
+        if (fixes == null) {
             fixes = new ArrayList<>();
         }
         rulesOrder.add(rule);
         rulesToFixes.put(rule, fixes);
-        if(fix != null)  {
+        if (fix != null) {
             fixes.add(fix);
         }
     }
@@ -120,11 +118,8 @@ public class DefaultValidator implements Validator {
     @Override
     public List<Class<? extends Fix>> getFixes(Class<? extends Rule> rule) {
         List<Class<? extends Fix>> fixes = rulesToFixes.get(rule);
-        return  fixes == null
-                ?
-                Collections.<Class<? extends Fix>>emptyList()
-                :
-                Collections.unmodifiableList( rulesToFixes.get(rule) );
+        return fixes == null ? Collections.<Class<? extends Fix>> emptyList()
+                : Collections.unmodifiableList(rulesToFixes.get(rule));
     }
 
     private void loadDefaultRules() {

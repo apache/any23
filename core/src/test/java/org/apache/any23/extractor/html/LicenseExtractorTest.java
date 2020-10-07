@@ -37,10 +37,10 @@ import java.util.Collection;
 public class LicenseExtractorTest extends AbstractExtractorTestCase {
 
     private static final SINDICE vSINDICE = SINDICE.getInstance();
-    private static final XHTML   vXHTML   = XHTML.getInstance();
+    private static final XHTML vXHTML = XHTML.getInstance();
 
     private IRI ccBy = RDFUtils.iri("http://creativecommons.org/licenses/by/2.0/");
-    
+
     private IRI apache = RDFUtils.iri("http://www.apache.org/licenses/LICENSE-2.0");
 
     public ExtractorFactory<?> getExtractorFactory() {
@@ -73,7 +73,7 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
         assertExtract("/microformats/license/multiple-empty-href.html", false);
         assertNotContains(baseIRI, vXHTML.license, "");
         assertContains(baseIRI, vXHTML.license, apache);
-        
+
         final Collection<IssueReport.Issue> errors = getIssues();
         Assert.assertEquals(1, errors.size());
         IssueReport.Issue error = errors.iterator().next();
@@ -95,4 +95,3 @@ public class LicenseExtractorTest extends AbstractExtractorTestCase {
     }
 
 }
-

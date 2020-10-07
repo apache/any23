@@ -76,7 +76,8 @@ public class PeopleExtractor extends CompositeTripleHandler {
     }
 
     @Override
-    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) throws TripleHandlerException {
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+            throws TripleHandlerException {
         if ("csv".equals(context.getExtractorName())) {
             csvModel.add(s, p, o, vf.createIRI(context.getUniqueID()));
         } else {
@@ -86,17 +87,17 @@ public class PeopleExtractor extends CompositeTripleHandler {
 
     @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        Set<Resource> subjects = csvModel.filter(null, RDF.TYPE, csv.rowType)
-                .stream().map(Statement::getSubject).collect(Collectors.toSet());
+        Set<Resource> subjects = csvModel.filter(null, RDF.TYPE, csv.rowType).stream().map(Statement::getSubject)
+                .collect(Collectors.toSet());
 
         log.debug("List of rows: {}", subjects);
 
         for (Resource rowId : subjects) {
-            String firstName = Models.objectLiteral(csvModel.filter(rowId, RAW_FIRST_NAME, null))
-                    .map(Literal::getLabel).orElse("");
+            String firstName = Models.objectLiteral(csvModel.filter(rowId, RAW_FIRST_NAME, null)).map(Literal::getLabel)
+                    .orElse("");
 
-            String lastName = Models.objectLiteral(csvModel.filter(rowId, RAW_LAST_NAME, null))
-                    .map(Literal::getLabel).orElse("");
+            String lastName = Models.objectLiteral(csvModel.filter(rowId, RAW_LAST_NAME, null)).map(Literal::getLabel)
+                    .orElse("");
 
             String fullName = firstName + " " + lastName;
 

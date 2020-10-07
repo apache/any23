@@ -76,44 +76,32 @@ public class TikaMIMETypeDetectorTest {
         assertN3Detection("<http://www.example.com> <http://purl.org/dc/elements/1.1/title> \"x\"^^xsd:integer .");
 
         // Wrong N3 line '.'
-        assertN3DetectionFail(""
-                + "<http://wrong.example.org/path> <http://wrong.foo.com> . <http://wrong.org/Document/foo#>"
-        );
+        assertN3DetectionFail(
+                "" + "<http://wrong.example.org/path> <http://wrong.foo.com> . <http://wrong.org/Document/foo#>");
         // NQuads is not mislead with N3.
         assertN3DetectionFail(
-                "<http://example.org/path> <http://foo.com> <http://dom.org/Document/foo#> <http://path/to/graph> ."
-        );
+                "<http://example.org/path> <http://foo.com> <http://dom.org/Document/foo#> <http://path/to/graph> .");
     }
 
     @Test
     public void testNQuadsDetection() throws IOException {
         assertNQuadsDetection(
-                "<http://www.ex.eu> <http://foo.com> <http://example.org/Document/foo#> <http://path.to.graph> ."
-        );
+                "<http://www.ex.eu> <http://foo.com> <http://example.org/Document/foo#> <http://path.to.graph> .");
+        assertNQuadsDetection("_:bnode1 <http://foo.com> _:bnode2 <http://path.to.graph> .");
         assertNQuadsDetection(
-                "_:bnode1 <http://foo.com> _:bnode2 <http://path.to.graph> ."
-        );
+                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\" <http://path.to.graph> .");
         assertNQuadsDetection(
-                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\" <http://path.to.graph> ."
-        );
+                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\"@it <http://path.to.graph> .");
         assertNQuadsDetection(
-                "<http://www.ex.eu> <http://purl.org/dc/elements/1.1/title> \"x\"@it <http://path.to.graph> ."
-        );
+                "<http://www.ex.eu> <http://dd.cc.org/1.1/p> \"xxx\"^^<http://www.sp.net/a#tt> <http://path.to.graph> .");
         assertNQuadsDetection(
-                "<http://www.ex.eu> <http://dd.cc.org/1.1/p> \"xxx\"^^<http://www.sp.net/a#tt> <http://path.to.graph> ."
-        );
-        assertNQuadsDetection(
-                "<http://www.ex.eu> <http://purlo.org/1.1/title> \"yyy\"^^xsd:datetime <http://path.to.graph> ."
-        );
+                "<http://www.ex.eu> <http://purlo.org/1.1/title> \"yyy\"^^xsd:datetime <http://path.to.graph> .");
 
         // Wrong NQuads line.
         assertNQuadsDetectionFail(
-                "<http://www.wrong.com> <http://wrong.com/1.1/tt> \"x\"^^<http://xxx.net/int> . <http://path.to.graph>"
-        );
+                "<http://www.wrong.com> <http://wrong.com/1.1/tt> \"x\"^^<http://xxx.net/int> . <http://path.to.graph>");
         // N3 is not mislead with NQuads.
-        assertNQuadsDetectionFail(
-                "<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> ."
-        );
+        assertNQuadsDetectionFail("<http://example.org/path> <http://foo.com> <http://example.org/Document/foo#> .");
     }
 
     /* BEGIN: by content. */
@@ -132,7 +120,8 @@ public class TikaMIMETypeDetectorTest {
     }
 
     private List<String> manifestRss2() {
-        return Arrays.asList("/application/rss2/index.html", "/application/rss2/rss2sample.xml", "/application/rss2/test1");
+        return Arrays.asList("/application/rss2/index.html", "/application/rss2/rss2sample.xml",
+                "/application/rss2/test1");
     }
 
     @Test
@@ -159,7 +148,9 @@ public class TikaMIMETypeDetectorTest {
     }
 
     private List<String> manifestRdfXml() {
-        return Arrays.asList("/application/rdfxml/error.rdf", "/application/rdfxml/foaf", "/application/rdfxml/physics.owl", "/application/rdfxml/test1", "/application/rdfxml/test2", "/application/rdfxml/test3");
+        return Arrays.asList("/application/rdfxml/error.rdf", "/application/rdfxml/foaf",
+                "/application/rdfxml/physics.owl", "/application/rdfxml/test1", "/application/rdfxml/test2",
+                "/application/rdfxml/test3");
     }
 
     @Test
@@ -195,7 +186,8 @@ public class TikaMIMETypeDetectorTest {
     }
 
     private List<String> manifestRdfa() {
-        return Arrays.asList("/application/rdfa/false.test", "/application/rdfa/london-gazette.html", "/application/rdfa/mic.xhtml", "/application/rdfa/test1.html");
+        return Arrays.asList("/application/rdfa/false.test", "/application/rdfa/london-gazette.html",
+                "/application/rdfa/mic.xhtml", "/application/rdfa/test1.html");
     }
 
     @Test
@@ -204,7 +196,8 @@ public class TikaMIMETypeDetectorTest {
     }
 
     private List<String> manifestXHtml() {
-        return Arrays.asList("/application/xhtml/blank-file-header.xhtml", "/application/xhtml/index.html", "/application/xhtml/test1");
+        return Arrays.asList("/application/xhtml/blank-file-header.xhtml", "/application/xhtml/index.html",
+                "/application/xhtml/test1");
     }
 
     @Test
@@ -231,12 +224,14 @@ public class TikaMIMETypeDetectorTest {
     }
 
     private List<String> manifestCsv() {
-        return Arrays.asList("/org/apache/any23/extractor/csv/test-comma.csv", "/org/apache/any23/extractor/csv/test-semicolon.csv", "/org/apache/any23/extractor/csv/test-tab.csv", "/org/apache/any23/extractor/csv/test-type.csv");
+        return Arrays.asList("/org/apache/any23/extractor/csv/test-comma.csv",
+                "/org/apache/any23/extractor/csv/test-semicolon.csv", "/org/apache/any23/extractor/csv/test-tab.csv",
+                "/org/apache/any23/extractor/csv/test-type.csv");
     }
 
     /* END: by content. */
 
- /* BEGIN: by content metadata. */
+    /* BEGIN: by content metadata. */
     @Test
     public void testDetectContentPlainByMeta() throws IOException {
         detectMIMETypeByMimeTypeHint(PLAIN, "text/plain");
@@ -314,7 +309,7 @@ public class TikaMIMETypeDetectorTest {
 
     /* END: by content metadata. */
 
- /* BEGIN: by content and name. */
+    /* BEGIN: by content and name. */
     @Test
     public void testRDFXMLByContentAndName() throws Exception {
         detectMIMETypeByContentAndName(RDFXML, manifestRdfXml());
@@ -381,9 +376,10 @@ public class TikaMIMETypeDetectorTest {
     }
 
     /**
-     * Test done only based on content is failed because the standard does not
-     * require to have "%YAML" header.
-     * @throws Exception if there is an error detecting the mime type from the content and name
+     * Test done only based on content is failed because the standard does not require to have "%YAML" header.
+     * 
+     * @throws Exception
+     *             if there is an error detecting the mime type from the content and name
      */
     @Test
     public void testYAMLByContentAndName() throws Exception {
@@ -393,8 +389,7 @@ public class TikaMIMETypeDetectorTest {
     private List<String> manifestYAML() {
         return Arrays.asList("/org/apache/any23/extractor/yaml/simple-load.yml",
                 "/org/apache/any23/extractor/yaml/simple-load_no_head.yml",
-                "/org/apache/any23/extractor/yaml/simple-load_yaml.yaml"
-        );
+                "/org/apache/any23/extractor/yaml/simple-load_yaml.yaml");
     }
 
     /* END: by content and name. */
@@ -421,49 +416,39 @@ public class TikaMIMETypeDetectorTest {
     /**
      * Checks the detection of a specific MIME based on content analysis.
      *
-     * @param expectedMimeType the expected mime type.
-     * @param testDir the target file.
+     * @param expectedMimeType
+     *            the expected mime type.
+     * @param testDir
+     *            the target file.
+     * 
      * @throws IOException
      */
-    private void detectMIMEtypeByContent(String expectedMimeType, Collection<String> manifest)
-            throws IOException {
+    private void detectMIMEtypeByContent(String expectedMimeType, Collection<String> manifest) throws IOException {
         String detectedMimeType;
         for (String test : manifest) {
             InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream(test));
-            detectedMimeType = detector.guessMIMEType(
-                    null,
-                    is,
-                    null
-            ).toString();
+            detectedMimeType = detector.guessMIMEType(null, is, null).toString();
             if (test.contains("error")) {
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
             } else {
                 Assert.assertEquals(
-                        String.format(java.util.Locale.ROOT,
-                        "Error in mimetype detection for file %s", test),
-                        expectedMimeType,
-                        detectedMimeType
-                );
+                        String.format(java.util.Locale.ROOT, "Error in mimetype detection for file %s", test),
+                        expectedMimeType, detectedMimeType);
             }
             is.close();
         }
     }
 
     /**
-     * Verifies the detection of a specific MIME based on content, filename and
-     * metadata MIME type.
+     * Verifies the detection of a specific MIME based on content, filename and metadata MIME type.
      *
      * @param expectedMimeType
      * @param contentTypeHeader
+     * 
      * @throws IOException
      */
-    private void detectMIMETypeByMimeTypeHint(String expectedMimeType, String contentTypeHeader)
-            throws IOException {
-        String detectedMimeType = detector.guessMIMEType(
-                null,
-                null,
-                MIMEType.parse(contentTypeHeader)
-        ).toString();
+    private void detectMIMETypeByMimeTypeHint(String expectedMimeType, String contentTypeHeader) throws IOException {
+        String detectedMimeType = detector.guessMIMEType(null, null, MIMEType.parse(contentTypeHeader)).toString();
         Assert.assertEquals(expectedMimeType, detectedMimeType);
     }
 
@@ -472,9 +457,11 @@ public class TikaMIMETypeDetectorTest {
      *
      * @param expectedMimeType
      * @param testDir
+     * 
      * @throws IOException
      */
-    private void detectMIMETypeByContentAndName(String expectedMimeType, Collection<String> manifest) throws IOException {
+    private void detectMIMETypeByContentAndName(String expectedMimeType, Collection<String> manifest)
+            throws IOException {
         String detectedMimeType;
         for (String test : manifest) {
             InputStream is = new BufferedInputStream(this.getClass().getResourceAsStream(test));
@@ -483,11 +470,8 @@ public class TikaMIMETypeDetectorTest {
                 Assert.assertNotSame(expectedMimeType, detectedMimeType);
             } else {
                 Assert.assertEquals(
-                        String.format(java.util.Locale.ROOT,
-                        "Error while detecting mimetype in file %s", test),
-                        expectedMimeType,
-                        detectedMimeType
-                );
+                        String.format(java.util.Locale.ROOT, "Error while detecting mimetype in file %s", test),
+                        expectedMimeType, detectedMimeType);
             }
             is.close();
         }

@@ -16,8 +16,7 @@
  */
 
 /**
- * This package contains the definition of a specific
- * {@link org.apache.any23.extractor.Extractor} for
+ * This package contains the definition of a specific {@link org.apache.any23.extractor.Extractor} for
  * <a href="http://www.w3.org/TR/xhtml-rdfa-primer/">RDFa</a>.
  */
 package org.apache.any23.extractor.rdfa;

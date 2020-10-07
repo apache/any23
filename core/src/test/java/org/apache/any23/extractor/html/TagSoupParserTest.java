@@ -50,7 +50,7 @@ public class TagSoupParserTest {
     @After
     public void tearDown() throws RepositoryException {
         this.tagSoupParser = null;
-        
+
     }
 
     @Test
@@ -63,57 +63,47 @@ public class TagSoupParserTest {
     }
 
     @Test
-    public void testExplicitEncodingBehavior()
-    throws IOException, ExtractionException, RepositoryException {
+    public void testExplicitEncodingBehavior() throws IOException, ExtractionException, RepositoryException {
         this.tagSoupParser = new TagSoupParser(
-                new BufferedInputStream(this.getClass().getResourceAsStream("/html/encoding-test.html")),
-                page,
-                "UTF-8"
-        );
+                new BufferedInputStream(this.getClass().getResourceAsStream("/html/encoding-test.html")), page,
+                "UTF-8");
 
-        Assert.assertEquals(
-            this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
-            "Knud M\u00F6ller - semanticweb.org"
-        );
+        Assert.assertEquals(this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
+                "Knud M\u00F6ller - semanticweb.org");
     }
 
     /**
-     * This tests the Neko HTML parser without forcing it on using a specific encoding charset.
-     * We expect that this test may fail if something changes in the Neko library, as an auto-detection of
-     * the encoding.
+     * This tests the Neko HTML parser without forcing it on using a specific encoding charset. We expect that this test
+     * may fail if something changes in the Neko library, as an auto-detection of the encoding.
      *
-     * @throws IOException if there is an error interpreting the input data
-     * @throws ExtractionException if there is an exception during extraction
-     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
+     * @throws IOException
+     *             if there is an error interpreting the input data
+     * @throws ExtractionException
+     *             if there is an exception during extraction
+     * @throws org.eclipse.rdf4j.repository.RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
      */
     @Test
     public void testImplicitEncodingBehavior() throws IOException, ExtractionException, RepositoryException {
         this.tagSoupParser = new TagSoupParser(
-                new BufferedInputStream(this.getClass().getResourceAsStream("/html/encoding-test.html")),
-                page
-        );
-        Assert.assertNotSame(
-                this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
-                "Knud M\u00F6ller - semanticweb.org"
-        );
+                new BufferedInputStream(this.getClass().getResourceAsStream("/html/encoding-test.html")), page);
+        Assert.assertNotSame(this.tagSoupParser.getDOM().getElementsByTagName("title").item(0).getTextContent(),
+                "Knud M\u00F6ller - semanticweb.org");
     }
 
-
     /**
-     * Test related to the issue 78 and disabled until the underlying <i>NekoHTML</i>
-     * bug has been fixed.
+     * Test related to the issue 78 and disabled until the underlying <i>NekoHTML</i> bug has been fixed.
      * 
-     * @throws IOException if there is an error interpreting the input data
+     * @throws IOException
+     *             if there is an error interpreting the input data
      */
     @Test
     public void testEmptySpanElements() throws IOException {
         final String page = "http://example.com/test-page";
-        InputStream brokenEmptySpanHtml = 
-                new BufferedInputStream(this.getClass().getResourceAsStream("/html/empty-span-broken.html"))
-        ;
-        InputStream worksEmptySpanHtml = 
-                new BufferedInputStream(this.getClass().getResourceAsStream("/html/empty-span-works.html"))
-        ;
+        InputStream brokenEmptySpanHtml = new BufferedInputStream(
+                this.getClass().getResourceAsStream("/html/empty-span-broken.html"));
+        InputStream worksEmptySpanHtml = new BufferedInputStream(
+                this.getClass().getResourceAsStream("/html/empty-span-works.html"));
         this.tagSoupParser = new TagSoupParser(brokenEmptySpanHtml, page);
         Document brokenElementDom = this.tagSoupParser.getDOM();
         this.tagSoupParser = null; // useless but force GC

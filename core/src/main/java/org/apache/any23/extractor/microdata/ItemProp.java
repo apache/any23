@@ -39,25 +39,29 @@ public class ItemProp extends Item {
     /**
      * Constructor.
      *
-     * @param xpath item location in container document.
-     * @param name item property name.
-     * @param value item property value.
+     * @param xpath
+     *            item location in container document.
+     * @param name
+     *            item property name.
+     * @param value
+     *            item property value.
      */
     public ItemProp(String xpath, String name, ItemPropValue value) {
         this(xpath, name, value, false);
     }
 
     final boolean reverse;
+
     ItemProp(String xpath, String name, ItemPropValue value, boolean reverse) {
         super(xpath);
 
-        if(name == null) {
+        if (name == null) {
             throw new NullPointerException("name cannot be null.");
         }
-        if(name.trim().length() == 0) {
+        if (name.trim().length() == 0) {
             throw new IllegalArgumentException("invalid property name '" + name + "'");
         }
-        if(value == null) {
+        if (value == null) {
             throw new NullPointerException("value cannot be null.");
         }
         this.name = name;
@@ -81,12 +85,8 @@ public class ItemProp extends Item {
 
     @Override
     public String toJSON() {
-        return String.format(Locale.ROOT,
-                "{ \"xpath\" : \"%s\", \"name\" : \"%s\", \"value\" : %s }",
-                getXpath(),
-                name,
-                value.toJSON()
-        );
+        return String.format(Locale.ROOT, "{ \"xpath\" : \"%s\", \"name\" : \"%s\", \"value\" : %s }", getXpath(), name,
+                value.toJSON());
     }
 
     @Override
@@ -101,15 +101,15 @@ public class ItemProp extends Item {
 
     @Override
     public boolean equals(Object obj) {
-        if( obj == null ) {
+        if (obj == null) {
             return false;
         }
-        if(obj == this) {
+        if (obj == this) {
             return true;
         }
-        if(obj instanceof ItemProp) {
+        if (obj instanceof ItemProp) {
             final ItemProp other = (ItemProp) obj;
-            return name.equals(other.name) && value.equals( other.value );
+            return name.equals(other.name) && value.equals(other.value);
         }
         return false;
     }

@@ -33,10 +33,12 @@ import java.io.PrintStream;
  * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@Parameters(commandNames = { "vocab" }, commandDescription = "Prints out the RDF Schema of the vocabularies used by Any23.")
+@Parameters(commandNames = {
+        "vocab" }, commandDescription = "Prints out the RDF Schema of the vocabularies used by Any23.")
 public class VocabPrinter extends BaseTool {
 
-    @Parameter(names = { "-f", "--format" }, description = "Vocabulary output format", converter = RDFFormatConverter.class)
+    @Parameter(names = { "-f",
+            "--format" }, description = "Vocabulary output format", converter = RDFFormatConverter.class)
     private RDFFormat format = RDFFormat.NQUADS;
 
     private PrintStream out = System.out;
@@ -55,12 +57,12 @@ public class VocabPrinter extends BaseTool {
         RDFSchemaUtils.serializeVocabularies(format, out);
     }
 
-    public static final class RDFFormatConverter implements
-            IStringConverter<RDFFormat> {
+    public static final class RDFFormatConverter implements IStringConverter<RDFFormat> {
 
         @Override
         public RDFFormat convert(String value) {
-        	return RDFWriterRegistry.getInstance().getFileFormatForMIMEType(value).orElseThrow(Rio.unsupportedFormat(value));
+            return RDFWriterRegistry.getInstance().getFileFormatForMIMEType(value)
+                    .orElseThrow(Rio.unsupportedFormat(value));
         }
 
     }

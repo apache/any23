@@ -27,10 +27,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 /**
- * {@link TripleHandler} decorator useful to
- * perform benchmarking.
+ * {@link TripleHandler} decorator useful to perform benchmarking.
  */
 public class BenchmarkTripleHandler implements TripleHandler {
 
@@ -40,16 +38,18 @@ public class BenchmarkTripleHandler implements TripleHandler {
     private TripleHandler underlyingHandler;
 
     /**
-     * Collected statistics. 
+     * Collected statistics.
      */
     private final Map<String, StatObject> stats;
 
     /**
      * Constructor.
-     * @param tripleHandler a configured {@link org.apache.any23.writer.TripleHandler}
+     * 
+     * @param tripleHandler
+     *            a configured {@link org.apache.any23.writer.TripleHandler}
      */
     public BenchmarkTripleHandler(TripleHandler tripleHandler) {
-        if(tripleHandler == null) {
+        if (tripleHandler == null) {
             throw new NullPointerException("tripleHandler cannot be null.");
         }
         underlyingHandler = tripleHandler;
@@ -78,14 +78,14 @@ public class BenchmarkTripleHandler implements TripleHandler {
         stats.remove("SUM");
 
         for (Entry<String, StatObject> ent : stats.entrySet()) {
-            sb.append("\n>Extractor: "       ).append(ent.getKey());
-            sb.append("\n   -total calls: "  ).append(ent.getValue().methodCalls);
+            sb.append("\n>Extractor: ").append(ent.getKey());
+            sb.append("\n   -total calls: ").append(ent.getValue().methodCalls);
             sb.append("\n   -total triples: ").append(ent.getValue().triples);
             sb.append("\n   -total runtime: ").append(ent.getValue().runtime).append(" ms!");
             if (ent.getValue().runtime != 0)
-                sb.append("\n   -tripls/ms: "  ).append(ent.getValue().triples.get() / ent.getValue().runtime);
+                sb.append("\n   -tripls/ms: ").append(ent.getValue().triples.get() / ent.getValue().runtime);
             if (ent.getValue().methodCalls.get() != 0)
-                sb.append("\n   -ms/calls: "   ).append(ent.getValue().runtime / ent.getValue().methodCalls.get());
+                sb.append("\n   -ms/calls: ").append(ent.getValue().runtime / ent.getValue().methodCalls.get());
 
         }
 
@@ -120,7 +120,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
     }
 
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         if (!stats.containsKey(context.getExtractorName())) {
             stats.put(context.getExtractorName(), new StatObject());
         }
@@ -147,9 +147,9 @@ public class BenchmarkTripleHandler implements TripleHandler {
     private class StatObject {
 
         AtomicInteger methodCalls = new AtomicInteger(0);
-        AtomicInteger triples     = new AtomicInteger(0);
-        long runtime    = 0;
-        long intStart   = 0;
+        AtomicInteger triples = new AtomicInteger(0);
+        long runtime = 0;
+        long intStart = 0;
 
         /**
          * Takes the start time.
@@ -168,4 +168,3 @@ public class BenchmarkTripleHandler implements TripleHandler {
     }
 
 }
-

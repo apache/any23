@@ -28,8 +28,8 @@ import java.util.Arrays;
  * @author Nisala Nirmana
  *
  */
-public class HProductExtractorFactory extends SimpleExtractorFactory<HProductExtractor> implements
-        ExtractorFactory<HProductExtractor> {
+public class HProductExtractorFactory extends SimpleExtractorFactory<HProductExtractor>
+        implements ExtractorFactory<HProductExtractor> {
 
     public static final String NAME = "html-mf2-h-product";
 
@@ -38,11 +38,8 @@ public class HProductExtractorFactory extends SimpleExtractorFactory<HProductExt
     private static final ExtractorDescription descriptionInstance = new HProductExtractorFactory();
 
     public HProductExtractorFactory() {
-        super(
-                HProductExtractorFactory.NAME,
-                HProductExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf2-h-product.html");
+        super(HProductExtractorFactory.NAME, HProductExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf2-h-product.html");
     }
 
     @Override

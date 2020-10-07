@@ -29,8 +29,8 @@ import org.apache.any23.rdf.Prefixes;
  * @author Nisala Nirmana
  *
  */
-public class HItemExtractorFactory extends SimpleExtractorFactory<HItemExtractor> implements
-        ExtractorFactory<HItemExtractor> {
+public class HItemExtractorFactory extends SimpleExtractorFactory<HItemExtractor>
+        implements ExtractorFactory<HItemExtractor> {
 
     public static final String NAME = "html-mf2-h-item";
 
@@ -39,11 +39,8 @@ public class HItemExtractorFactory extends SimpleExtractorFactory<HItemExtractor
     private static final ExtractorDescription descriptionInstance = new HItemExtractorFactory();
 
     public HItemExtractorFactory() {
-        super(
-                HItemExtractorFactory.NAME,
-                HItemExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf2-h-item.html");
+        super(HItemExtractorFactory.NAME, HItemExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf2-h-item.html");
     }
 
     @Override

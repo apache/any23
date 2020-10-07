@@ -26,6 +26,7 @@ import java.util.Map;
  * This class provides the report for a {@link SingleDocumentExtraction} run.
  *
  * @see SingleDocumentExtraction
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class SingleDocumentExtractionReport {
@@ -34,13 +35,13 @@ public class SingleDocumentExtractionReport {
 
     private final Map<String, Collection<IssueReport.Issue>> extractorToIssues;
 
-    public SingleDocumentExtractionReport(
-            ValidationReport validationReport,
-            Map<String, Collection<IssueReport.Issue>> extractorToIssues
-    ) {
-        if(validationReport  == null) throw new NullPointerException("validation report cannot be null.");
-        if(extractorToIssues == null) throw new NullPointerException("extractor issues map cannot be null.");
-        this.validationReport  = validationReport;
+    public SingleDocumentExtractionReport(ValidationReport validationReport,
+            Map<String, Collection<IssueReport.Issue>> extractorToIssues) {
+        if (validationReport == null)
+            throw new NullPointerException("validation report cannot be null.");
+        if (extractorToIssues == null)
+            throw new NullPointerException("extractor issues map cannot be null.");
+        this.validationReport = validationReport;
         this.extractorToIssues = extractorToIssues;
     }
 

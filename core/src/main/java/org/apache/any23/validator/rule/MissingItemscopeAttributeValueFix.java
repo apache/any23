@@ -26,38 +26,37 @@ import org.apache.any23.validator.RuleContext;
 import org.w3c.dom.Node;
 
 /**
- * Fix for the issue described within 
- * {@link org.apache.any23.validator.rule.MissingItemscopeAttributeValueRule}
+ * Fix for the issue described within {@link org.apache.any23.validator.rule.MissingItemscopeAttributeValueRule}
  */
 public class MissingItemscopeAttributeValueFix implements Fix {
 
-  private static final String EMPTY_ITEMSCOPE_VALUE = "itemscope";
-  
-  private static final String ITEMSCOPE = "itemscope";
+    private static final String EMPTY_ITEMSCOPE_VALUE = "itemscope";
 
-  /**
-   * Default constructor
-   */
-  public MissingItemscopeAttributeValueFix() {
-    //default constructor
-  }
+    private static final String ITEMSCOPE = "itemscope";
 
-  @Override
-  public String getHRName() {
-    return "missing-itemscope-value-fix";
-  }
-
-  @Override
-  public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
-
-    List<Node> itemScopeContainerElements = document.getNodesWithAttribute(ITEMSCOPE);
-    for(Node itemScopeContainerElement : itemScopeContainerElements) {
-      Node newItemScopeContainerElement = itemScopeContainerElement;
-      Node itemScopeNode = newItemScopeContainerElement.getAttributes().getNamedItem(ITEMSCOPE);
-      if (itemScopeNode.getTextContent() == null || itemScopeNode.getTextContent() == "") {
-        String node = DomUtils.getXPathForNode(itemScopeContainerElement);
-        document.addAttribute(node, ITEMSCOPE, EMPTY_ITEMSCOPE_VALUE);
-      }
+    /**
+     * Default constructor
+     */
+    public MissingItemscopeAttributeValueFix() {
+        // default constructor
     }
-  }
+
+    @Override
+    public String getHRName() {
+        return "missing-itemscope-value-fix";
+    }
+
+    @Override
+    public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
+
+        List<Node> itemScopeContainerElements = document.getNodesWithAttribute(ITEMSCOPE);
+        for (Node itemScopeContainerElement : itemScopeContainerElements) {
+            Node newItemScopeContainerElement = itemScopeContainerElement;
+            Node itemScopeNode = newItemScopeContainerElement.getAttributes().getNamedItem(ITEMSCOPE);
+            if (itemScopeNode.getTextContent() == null || itemScopeNode.getTextContent() == "") {
+                String node = DomUtils.getXPathForNode(itemScopeContainerElement);
+                document.addAttribute(node, ITEMSCOPE, EMPTY_ITEMSCOPE_VALUE);
+            }
+        }
+    }
 }

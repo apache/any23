@@ -35,42 +35,54 @@ public interface ValidationReportBuilder {
     /**
      * Reports an issue detected on a specified node.
      *
-     * @param issueLevel issue level classifier.
-     * @param message human readable message connected to the issue.
-     * @param n the node affected by the issue.
+     * @param issueLevel
+     *            issue level classifier.
+     * @param message
+     *            human readable message connected to the issue.
+     * @param n
+     *            the node affected by the issue.
      */
     void reportIssue(ValidationReport.IssueLevel issueLevel, String message, Node n);
 
     /**
      * Reports a detected issue.
      *
-     * @param issueLevel issue level classifier.
-     * @param message human readable message connected to the issue.
+     * @param issueLevel
+     *            issue level classifier.
+     * @param message
+     *            human readable message connected to the issue.
      */
     void reportIssue(ValidationReport.IssueLevel issueLevel, String message);
 
     /**
      * Traces that a rule has been applied.
      * 
-     * @param r activated rule.
+     * @param r
+     *            activated rule.
      */
     void traceRuleActivation(Rule r);
 
     /**
      * Reports an error occurred while executing a {@link Rule}.
      *
-     * @param r rule originating the error.
-     * @param e exception raised.
-     * @param msg human readable message.
+     * @param r
+     *            rule originating the error.
+     * @param e
+     *            exception raised.
+     * @param msg
+     *            human readable message.
      */
     void reportRuleError(Rule r, Exception e, String msg);
 
     /**
      * Reports an error occurred while executing a {@link Fix}.
      * 
-     * @param f fix originating the error.
-     * @param e exception raised.
-     * @param msg human readable message.
+     * @param f
+     *            fix originating the error.
+     * @param e
+     *            exception raised.
+     * @param msg
+     *            human readable message.
      */
     void reportFixError(Fix f, Exception e, String msg);
 

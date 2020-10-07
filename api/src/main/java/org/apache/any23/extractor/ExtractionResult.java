@@ -27,47 +27,56 @@ import org.eclipse.rdf4j.model.Value;
 public interface ExtractionResult extends IssueReport {
 
     /**
-     * Writes a triple.
-     * Parameters can be null, then the triple will be silently ignored.
+     * Writes a triple. Parameters can be null, then the triple will be silently ignored.
      *
-     * @param s subject
-     * @param p predicate
-     * @param o object
-     * @param g graph
+     * @param s
+     *            subject
+     * @param p
+     *            predicate
+     * @param o
+     *            object
+     * @param g
+     *            graph
      */
     void writeTriple(Resource s, IRI p, Value o, IRI g);
 
     /**
-     * Write a triple.
-     * Parameters can be null, then the triple will be silently ignored.
+     * Write a triple. Parameters can be null, then the triple will be silently ignored.
      *
-     * @param s subject
-     * @param p predicate
-     * @param o object
+     * @param s
+     *            subject
+     * @param p
+     *            predicate
+     * @param o
+     *            object
      */
     void writeTriple(Resource s, IRI p, Value o);
 
     /**
      * Write a namespace.
      *
-     * @param prefix the prefix of the namespace
-     * @param IRI    the long IRI identifying the namespace
+     * @param prefix
+     *            the prefix of the namespace
+     * @param IRI
+     *            the long IRI identifying the namespace
      */
     void writeNamespace(String prefix, String IRI);
 
     /**
-     * <p>Close the result.</p>
-     * Extractors should close their results as soon as possible, but
-     * don't have to, the environment will close any remaining ones.
-     * Implementations should be robust against multiple close()
-     * invocations.
+     * <p>
+     * Close the result.
+     * </p>
+     * Extractors should close their results as soon as possible, but don't have to, the environment will close any
+     * remaining ones. Implementations should be robust against multiple close() invocations.
      */
     void close();
 
     /**
      * Open a result nested in the current one.
      *
-     * @param extractionContext the context to be used to open the sub result.
+     * @param extractionContext
+     *            the context to be used to open the sub result.
+     * 
      * @return the instance of the nested extraction result.
      */
     ExtractionResult openSubResult(ExtractionContext extractionContext);

@@ -27,11 +27,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  Singleton class acting as a register for all the various
- *  {@link Extractor}.
+ * Singleton class acting as a register for all the various {@link Extractor}.
  */
 @SuppressWarnings("rawtypes")
-public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service.ServiceRegistry<String, ExtractorFactory> implements ExtractorRegistry {
+public class ExtractorRegistryImpl extends
+        org.eclipse.rdf4j.common.lang.service.ServiceRegistry<String, ExtractorFactory> implements ExtractorRegistry {
 
     /**
      * The instance.
@@ -54,20 +54,20 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
             final DefaultConfiguration conf = DefaultConfiguration.singleton();
             if (instance == null) {
                 instance = new ExtractorRegistryImpl();
-                
-                if(conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
+
+                if (conf.getFlagProperty("any23.extraction.rdfa.programmatic")) {
                     instance.unregister(RDFaExtractorFactory.NAME);
                     // FIXME: Unregister RDFaExtractor if flag is not set
-                    //instance.register(RDFa11Extractor.factory);
+                    // instance.register(RDFa11Extractor.factory);
                 } else {
                     instance.unregister(RDFa11ExtractorFactory.NAME);
                     // FIXME: Unregister RDFaExtractor if flag is set
-                    //instance.register(RDFaExtractor.factory);
+                    // instance.register(RDFaExtractor.factory);
                 }
-                if(!conf.getFlagProperty("any23.extraction.head.meta")) {
+                if (!conf.getFlagProperty("any23.extraction.head.meta")) {
                     instance.unregister(HTMLMetaExtractorFactory.NAME);
                     // FIXME: Unregister HTMLMetaExtractor if this flag is not set
-                    //instance.register(HTMLMetaExtractor.factory);
+                    // instance.register(HTMLMetaExtractor.factory);
                 }
             }
         }
@@ -77,35 +77,41 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
     /**
      * Registers an {@link ExtractorFactory}.
      *
-     * @param factory the {@link org.apache.any23.extractor.ExtractorFactory} to register
-     * @throws IllegalArgumentException if trying to register a {@link ExtractorFactory}
-     *         with a that already exists in the registry.
+     * @param factory
+     *            the {@link org.apache.any23.extractor.ExtractorFactory} to register
+     * 
+     * @throws IllegalArgumentException
+     *             if trying to register a {@link ExtractorFactory} with a that already exists in the registry.
      */
     @Override
     public void register(ExtractorFactory<?> factory) {
         this.add(factory);
     }
-    
+
     /**
      * Unregisters the {@link ExtractorFactory} with the given name.
      * 
-     * @param name The name of the ExtractorFactory to unregister.
+     * @param name
+     *            The name of the ExtractorFactory to unregister.
      */
     @Override
     public void unregister(String name) {
-        if(this.has(name)) {
+        if (this.has(name)) {
             this.remove(this.get(name).get());
         }
     }
-    
+
     /**
      *
      * Retrieves a {@link ExtractorFactory} given its name
      *
-     * @param name of the desired factory
+     * @param name
+     *            of the desired factory
+     * 
      * @return the {@link ExtractorFactory} associated to the provided name
-     * @throws IllegalArgumentException if there is not a
-     * {@link ExtractorFactory} associated to the provided name.
+     * 
+     * @throws IllegalArgumentException
+     *             if there is not a {@link ExtractorFactory} associated to the provided name.
      */
     @Override
     public ExtractorFactory<?> getFactory(final String name) {
@@ -113,8 +119,7 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
     }
 
     /**
-     * @return an {@link ExtractorGroup} with all the registered
-     * {@link Extractor}.
+     * @return an {@link ExtractorGroup} with all the registered {@link Extractor}.
      */
     @Override
     public ExtractorGroup getExtractorGroup() {
@@ -122,9 +127,11 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
     }
 
     /**
-     * Returns an {@link ExtractorGroup} containing the
-     * {@link ExtractorFactory} mathing the names provided as input.
-     * @param names a {@link java.util.List} containing the names of the desired {@link ExtractorFactory}.
+     * Returns an {@link ExtractorGroup} containing the {@link ExtractorFactory} mathing the names provided as input.
+     * 
+     * @param names
+     *            a {@link java.util.List} containing the names of the desired {@link ExtractorFactory}.
+     * 
      * @return the extraction group.
      */
     @Override
@@ -138,9 +145,10 @@ public class ExtractorRegistryImpl extends org.eclipse.rdf4j.common.lang.service
 
     /**
      * 
-     * @param name of the {@link ExtractorFactory}
-     * @return <code>true</code> if is there a {@link ExtractorFactory}
-     * associated to the provided name.
+     * @param name
+     *            of the {@link ExtractorFactory}
+     * 
+     * @return <code>true</code> if is there a {@link ExtractorFactory} associated to the provided name.
      */
     @Override
     public boolean isRegisteredName(String name) {

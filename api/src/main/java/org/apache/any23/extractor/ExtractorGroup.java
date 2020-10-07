@@ -24,8 +24,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * It simple models a group of {@link ExtractorFactory} providing
- * simple accessing methods.
+ * It simple models a group of {@link ExtractorFactory} providing simple accessing methods.
  */
 public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
 
@@ -44,10 +43,11 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
     }
 
     /**
-     * Returns a {@link ExtractorGroup} with a set of {@link Extractor} able to
-     * process the provided mime type.
+     * Returns a {@link ExtractorGroup} with a set of {@link Extractor} able to process the provided mime type.
      * 
-     * @param mimeType to perform the selection.
+     * @param mimeType
+     *            to perform the selection.
+     * 
      * @return an {@link ExtractorGroup} able to process the provided mime type.
      */
     public ExtractorGroup filterByMIMEType(MIMEType mimeType) {
@@ -67,8 +67,7 @@ public class ExtractorGroup implements Iterable<ExtractorFactory<?>> {
     }
 
     /**
-     * @return <code>true</code> if all the {@link Extractor} contained in the group
-     * supports all the content types.
+     * @return <code>true</code> if all the {@link Extractor} contained in the group supports all the content types.
      */
     public boolean allExtractorsSupportAllContentTypes() {
         for (ExtractorFactory<?> factory : factories) {

@@ -19,46 +19,50 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
- * vocabulary which is a library of ontologies relevant for the legal domain. 
- * The library consists of 15 modules, each of which describes a set of closely 
- * related concepts from both legal and commonsense domains.</p>
+ * <p>
+ * An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a> vocabulary which is a
+ * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
+ * set of closely related concepts from both legal and commonsense domains.
+ * </p>
  * 
- * <p>The legal role module extends the role module with a small number 
- * of legal concepts related to roles, legal professions etc.</p>
+ * <p>
+ * The legal role module extends the role module with a small number of legal concepts related to roles, legal
+ * professions etc.
+ * </p>
  *
- * @author lewismc 
+ * @author lewismc
  *
  */
 public class LKIFCoreLegalRole extends Vocabulary {
-	
+
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.estrellaproject.org/lkif-core/legal-role.owl#";
-    
+
     private static LKIFCoreLegalRole instance;
-    
+
     public static LKIFCoreLegalRole getInstance() {
-      if(instance == null) {
-          instance = new LKIFCoreLegalRole();
-      }
-      return instance;
-  }
+        if (instance == null) {
+            instance = new LKIFCoreLegalRole();
+        }
+        return instance;
+    }
+
     //////////////////////////////////////////////////////////////
     /* http://www.estrellaproject.org/lkif-core/legal-role.owl# */
     //////////////////////////////////////////////////////////////
     // CLASSES
-    public final IRI Social_Legal_Role                  = createClass(NS, "Social_Legal_Role");
-    public final IRI Legal_Role                         = createClass(NS, "Legal_Role");
-    public final IRI Professional_Legal_Role            = createClass(NS, "Professional_Legal_Role");
-    
+    public final IRI Social_Legal_Role = createClass(NS, "Social_Legal_Role");
+    public final IRI Legal_Role = createClass(NS, "Legal_Role");
+    public final IRI Professional_Legal_Role = createClass(NS, "Professional_Legal_Role");
+
     // RESOURCES
-    
+
     // PROPERTIES
-    
+
     private LKIFCoreLegalRole() {
-      super(NS);
+        super(NS);
     }
 
 }

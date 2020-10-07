@@ -16,7 +16,6 @@
  */
 
 /**
- * This package provides classes for dealing with
- * <a href="http://www.w3.org/TR/microdata/">Microdata</a> extraction.
+ * This package provides classes for dealing with <a href="http://www.w3.org/TR/microdata/">Microdata</a> extraction.
  */
 package org.apache.any23.extractor.microdata;

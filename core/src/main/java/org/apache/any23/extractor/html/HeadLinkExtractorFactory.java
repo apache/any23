@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class HeadLinkExtractorFactory extends SimpleExtractorFactory<HeadLinkExtractor> implements
-        ExtractorFactory<HeadLinkExtractor> {
+public class HeadLinkExtractorFactory extends SimpleExtractorFactory<HeadLinkExtractor>
+        implements ExtractorFactory<HeadLinkExtractor> {
 
     public static final String NAME = "html-head-links";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("xhtml", "dcterms");
 
     private static final ExtractorDescription descriptionInstance = new HeadLinkExtractorFactory();
-    
+
     public HeadLinkExtractorFactory() {
-        super(
-                HeadLinkExtractorFactory.NAME, 
-                HeadLinkExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.05", "application/xhtml+xml;q=0.05"),
-                "example-head-link.html");
+        super(HeadLinkExtractorFactory.NAME, HeadLinkExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.05", "application/xhtml+xml;q=0.05"), "example-head-link.html");
     }
-    
+
     @Override
     public HeadLinkExtractor createExtractor() {
         return new HeadLinkExtractor();

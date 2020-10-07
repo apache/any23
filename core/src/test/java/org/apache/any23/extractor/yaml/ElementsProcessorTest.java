@@ -37,10 +37,10 @@ import org.slf4j.LoggerFactory;
  * @author Jacek Grzebyta (jgrzebyta [at] apache [dot] org)
  */
 public class ElementsProcessorTest {
-    
+
     private final Logger log = LoggerFactory.getLogger(getClass());
     private static final ElementsProcessor ep = ElementsProcessor.getInstance();
-    
+
     @Test
     public void processMap() throws Exception {
         Map<String, Object> simpleMap = new HashMap<String, Object>() {
@@ -50,16 +50,16 @@ public class ElementsProcessorTest {
                 put("key3", 3);
             }
         };
-        
-        ElementsProcessor.ModelHolder toTest = ep.processMap(ep.vf.createIRI("http://example.org/"),
-                simpleMap,
+
+        ElementsProcessor.ModelHolder toTest = ep.processMap(ep.vf.createIRI("http://example.org/"), simpleMap,
                 ep.vf.createIRI("http://example.org/node1"));
-        
-        Assert.assertEquals("http://example.org/node1", toTest.getRoot().stringValue()); // if parent node is not blank than returns it as key
+
+        Assert.assertEquals("http://example.org/node1", toTest.getRoot().stringValue()); // if parent node is not blank
+                                                                                         // than returns it as key
         Assert.assertTrue(toTest.getModel().size() > 0);
         log.debug("Model: \n{}\n", dumpModel(toTest.getModel(), RDFFormat.TURTLE));
     }
-    
+
     @Test
     public void processList() throws Exception {
         List<Object> simpleList = new ArrayList<Object>() {
@@ -70,16 +70,17 @@ public class ElementsProcessorTest {
                 add("k".getBytes()[0]);
             }
         };
-        
+
         ElementsProcessor.ModelHolder toTest = ep.processList(ep.vf.createIRI("http://example.org/data"), simpleList);
         Assert.assertNotNull(toTest);
         Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("Ala"), (Resource[]) null));
         Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral(6), (Resource[]) null));
         Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("ma"), (Resource[]) null));
-        Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("k".getBytes()[0]), (Resource[]) null));
+        Assert.assertTrue(
+                toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("k".getBytes()[0]), (Resource[]) null));
         log.debug("Model: \n{}\n", dumpModel(toTest.getModel(), RDFFormat.TURTLE));
     }
-    
+
     @Test
     public void processSimple() throws Exception {
         List<Object> simpleList = new ArrayList<Object>() {
@@ -90,14 +91,14 @@ public class ElementsProcessorTest {
                 add("k".getBytes()[0]);
             }
         };
-        
+
         simpleList.forEach((i) -> {
             ElementsProcessor.ModelHolder out = ep.asModel(ep.vf.createIRI("urn:test/"), i, null);
             Assert.assertTrue(out.getRoot() instanceof Literal);
             Assert.assertTrue(out.getModel().isEmpty());
         });
     }
-    
+
     private String dumpModel(Model m, RDFFormat format) {
         StringWriter writer = new StringWriter();
         Rio.write(m, writer, format);

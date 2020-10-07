@@ -60,8 +60,8 @@ public class DefaultConfigurationTest {
         final String TARGET_PROPERTY = "any23.http.client.max.connections";
         final ModifiableConfiguration copy = DefaultConfiguration.copy();
         copy.setProperty(TARGET_PROPERTY, "100");
-        Assert.assertEquals( DefaultConfiguration.singleton().getPropertyIntOrFail(TARGET_PROPERTY), 5);
-        Assert.assertEquals( copy.getPropertyIntOrFail(TARGET_PROPERTY), 100 );
+        Assert.assertEquals(DefaultConfiguration.singleton().getPropertyIntOrFail(TARGET_PROPERTY), 5);
+        Assert.assertEquals(copy.getPropertyIntOrFail(TARGET_PROPERTY), 100);
     }
 
     @Test
@@ -83,15 +83,15 @@ public class DefaultConfigurationTest {
     public void testGetProperties() {
         final String[] properties = configuration.getProperties();
         Assert.assertTrue(properties.length > 6);
-        for(String property : properties) {
+        for (String property : properties) {
             Assert.assertTrue(property.startsWith("any23."));
         }
     }
 
     @Test
     public void testDefineProperty() {
-        Assert.assertTrue( configuration.defineProperty("any23.core.version") );
-        Assert.assertFalse( configuration.defineProperty("any23.fake") );
+        Assert.assertTrue(configuration.defineProperty("any23.core.version"));
+        Assert.assertFalse(configuration.defineProperty("any23.fake"));
     }
 
     @Test
@@ -137,7 +137,7 @@ public class DefaultConfigurationTest {
 
     @Test
     public void testGetFlagProperty() {
-        Assert.assertTrue( configuration.getFlagProperty("any23.extraction.metadata.nesting") );
+        Assert.assertTrue(configuration.getFlagProperty("any23.extraction.metadata.nesting"));
     }
 
 }

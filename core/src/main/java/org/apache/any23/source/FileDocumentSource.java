@@ -45,7 +45,7 @@ public class FileDocumentSource implements DocumentSource {
     }
 
     public InputStream openInputStream() throws IOException {
-        return new BufferedInputStream( new FileInputStream(file) );
+        return new BufferedInputStream(new FileInputStream(file));
     }
 
     public long getContentLength() {
@@ -75,6 +75,6 @@ public class FileDocumentSource implements DocumentSource {
         } finally {
             is.close();
         }
-        return new String(baos.toByteArray(), StandardCharsets.UTF_8 );
+        return new String(baos.toByteArray(), StandardCharsets.UTF_8);
     }
 }

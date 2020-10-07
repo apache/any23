@@ -46,22 +46,19 @@ public class WhiteSpacesPurifierTest {
 
     @Test
     public void testPurification() throws IOException {
-        InputStream inputStream =
-                new BufferedInputStream(this.getClass().getResourceAsStream("/application/xhtml/blank-file-header.xhtml"));
+        InputStream inputStream = new BufferedInputStream(
+                this.getClass().getResourceAsStream("/application/xhtml/blank-file-header.xhtml"));
         this.purifier.purify(inputStream);
         Assert.assertNotNull(inputStream);
-        Assert.assertTrue(
-                validatePurification(
-                       IOUtils.toString(inputStream)
-                )
-        );
-        
+        Assert.assertTrue(validatePurification(IOUtils.toString(inputStream)));
+
     }
 
     /**
      * Checks if a {@link String} starts with a propert character.
-     *  
+     * 
      * @param string
+     * 
      * @return
      */
     private boolean validatePurification(String string) {

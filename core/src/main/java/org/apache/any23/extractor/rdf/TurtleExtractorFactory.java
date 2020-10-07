@@ -28,30 +28,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class TurtleExtractorFactory extends SimpleExtractorFactory<TurtleExtractor> implements
-        ExtractorFactory<TurtleExtractor> {
+public class TurtleExtractorFactory extends SimpleExtractorFactory<TurtleExtractor>
+        implements ExtractorFactory<TurtleExtractor> {
 
     public static final String NAME = "rdf-turtle";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new TurtleExtractorFactory();
-    
+
     public TurtleExtractorFactory() {
-        super(
-                TurtleExtractorFactory.NAME, 
-                TurtleExtractorFactory.PREFIXES,
-                Arrays.asList(
-                        "text/turtle",
-                        "text/rdf+n3",
-                        "text/n3",
-                        "application/n3",
-                        "application/x-turtle",
-                        "application/turtle"
-                ),
-                "example-turtle.ttl");
+        super(TurtleExtractorFactory.NAME, TurtleExtractorFactory.PREFIXES, Arrays.asList("text/turtle", "text/rdf+n3",
+                "text/n3", "application/n3", "application/x-turtle", "application/turtle"), "example-turtle.ttl");
     }
-    
+
     @Override
     public TurtleExtractor createExtractor() {
         return new TurtleExtractor();

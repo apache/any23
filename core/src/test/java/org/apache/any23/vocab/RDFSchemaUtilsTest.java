@@ -37,9 +37,8 @@ public class RDFSchemaUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(RDFSchemaUtilsTest.class);
 
     /**
-     * Test case for
-     * {@link RDFSchemaUtils#serializeVocabularies(
-     * org.eclipse.rdf4j.rio.RDFFormat, java.io.PrintStream)} with <i>NTriples</i> format.
+     * Test case for {@link RDFSchemaUtils#serializeVocabularies( org.eclipse.rdf4j.rio.RDFFormat, java.io.PrintStream)}
+     * with <i>NTriples</i> format.
      */
     @Test
     public void testSerializeVocabulariesNTriples() {
@@ -47,9 +46,8 @@ public class RDFSchemaUtilsTest {
     }
 
     /**
-     * Test case for
-     * {@link RDFSchemaUtils#serializeVocabularies(
-     * org.eclipse.rdf4j.rio.RDFFormat, java.io.PrintStream)} with <i>RDFXML</i> format.
+     * Test case for {@link RDFSchemaUtils#serializeVocabularies( org.eclipse.rdf4j.rio.RDFFormat, java.io.PrintStream)}
+     * with <i>RDFXML</i> format.
      */
     @Test
     public void testSerializeVocabulariesRDFXML() {

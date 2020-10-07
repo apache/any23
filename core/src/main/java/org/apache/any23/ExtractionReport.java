@@ -26,12 +26,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * This class contains some statistics and general information about
- * an extraction.
+ * This class contains some statistics and general information about an extraction.
  *
  * @see Any23
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -45,30 +44,27 @@ public class ExtractionReport {
 
     private final ValidationReport validationReport;
 
-    private final Map<String,Collection<IssueReport.Issue>> extractorIssues;
+    private final Map<String, Collection<IssueReport.Issue>> extractorIssues;
 
-    public ExtractionReport(
-            final List<Extractor> matchingExtractors,
-            String encoding,
-            String detectedMimeType,
-            ValidationReport validationReport,
-            Map<String,Collection<IssueReport.Issue>> extractorIssues
-    ) {
-        if(matchingExtractors == null) throw new NullPointerException("list of matching extractors cannot be null.");
-        if(encoding == null) throw new NullPointerException("encoding cannot be null.");
+    public ExtractionReport(final List<Extractor> matchingExtractors, String encoding, String detectedMimeType,
+            ValidationReport validationReport, Map<String, Collection<IssueReport.Issue>> extractorIssues) {
+        if (matchingExtractors == null)
+            throw new NullPointerException("list of matching extractors cannot be null.");
+        if (encoding == null)
+            throw new NullPointerException("encoding cannot be null.");
         // if(detectedMimeType == null) throw new NullPointerException("detected mime type cannot be null.");
-        if(validationReport == null) throw new NullPointerException("validation report cannot be null.");
+        if (validationReport == null)
+            throw new NullPointerException("validation report cannot be null.");
 
-        this.matchingExtractors    = Collections.unmodifiableList(matchingExtractors);
-        this.encoding              = encoding;
-        this.detectedMimeType      = detectedMimeType;
-        this.validationReport      = validationReport;
-        this.extractorIssues       = Collections.unmodifiableMap(extractorIssues);
+        this.matchingExtractors = Collections.unmodifiableList(matchingExtractors);
+        this.encoding = encoding;
+        this.detectedMimeType = detectedMimeType;
+        this.validationReport = validationReport;
+        this.extractorIssues = Collections.unmodifiableMap(extractorIssues);
     }
 
     /**
-     * @return <code>true</code> if the extraction has activated
-     *         at least an extractor, <code>false</code> otherwise.
+     * @return <code>true</code> if the extraction has activated at least an extractor, <code>false</code> otherwise.
      */
     public boolean hasMatchingExtractors() {
         return matchingExtractors.size() > 0;
@@ -89,7 +85,7 @@ public class ExtractionReport {
     }
 
     /**
-     * @return the tetected mimetype for the input stream.      
+     * @return the tetected mimetype for the input stream.
      */
     public String getDetectedMimeType() {
         return detectedMimeType;
@@ -103,16 +99,15 @@ public class ExtractionReport {
     }
 
     /**
-     * @param extractorName name of the extractor.
+     * @param extractorName
+     *            name of the extractor.
+     * 
      * @return the (unmodifiable) map of issues per extractor.
      */
     public Collection<IssueReport.Issue> getExtractorIssues(String extractorName) {
         final Collection<IssueReport.Issue> errors = extractorIssues.get(extractorName);
-        return  errors == null
-                ?
-                Collections.<IssueReport.Issue>emptyList()
-                :
-                Collections.unmodifiableCollection(errors);
+        return errors == null ? Collections.<IssueReport.Issue> emptyList()
+                : Collections.unmodifiableCollection(errors);
     }
 
 }

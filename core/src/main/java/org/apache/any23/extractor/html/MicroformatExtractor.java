@@ -39,13 +39,12 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * The abstract base class for any
- * <a href="microformats.org/">Microformat specification</a> extractor.
+ * The abstract base class for any <a href="microformats.org/">Microformat specification</a> extractor.
  */
 public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
     public static final String BEGIN_SCRIPT = "<script>";
-    public static final String END_SCRIPT   = "</script>";
+    public static final String END_SCRIPT = "</script>";
 
     private HTMLDocument htmlDocument;
 
@@ -55,8 +54,8 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
     private ExtractionResult out;
 
-    protected final Any23ValueFactoryWrapper valueFactory =
-            new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance());
+    protected final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(
+            SimpleValueFactory.getInstance());
 
     /**
      * Returns the description of this extractor.
@@ -66,13 +65,14 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     public abstract ExtractorDescription getDescription();
 
     /**
-     * Performs the extraction of the data and writes them to the model.
-     * The nodes generated in the model can have any name or implicit label
-     * but if possible they <i>SHOULD</i> have names (either URIs or AnonId) that
-     * are uniquely derivable from their position in the DOM tree, so that
-     * multiple extractors can merge information.
+     * Performs the extraction of the data and writes them to the model. The nodes generated in the model can have any
+     * name or implicit label but if possible they <i>SHOULD</i> have names (either URIs or AnonId) that are uniquely
+     * derivable from their position in the DOM tree, so that multiple extractors can merge information.
+     * 
      * @return true if extraction is successful
-     * @throws ExtractionException if there is an error during extraction
+     * 
+     * @throws ExtractionException
+     *             if there is an error during extraction
      */
     protected abstract boolean extract() throws ExtractionException;
 
@@ -88,16 +88,12 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         return documentIRI;
     }
 
-    public final void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public final void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
         this.htmlDocument = new HTMLDocument(in);
-        this.context      = extractionContext;
-        this.documentIRI  = extractionContext.getDocumentIRI();
-        this.out          = out;
+        this.context = extractionContext;
+        this.documentIRI = extractionContext.getDocumentIRI();
+        this.out = out;
         valueFactory.setIssueReport(out);
         try {
             extract();
@@ -107,8 +103,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     }
 
     /**
-     * Returns the {@link org.apache.any23.extractor.ExtractionResult} associated
-     * to the extraction session.
+     * Returns the {@link org.apache.any23.extractor.ExtractionResult} associated to the extraction session.
      *
      * @return a valid extraction result.
      */
@@ -125,70 +120,68 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     }
 
     /**
-     * Helper method that adds a literal property to a subject only if the value of the property
-     * is a valid string.
+     * Helper method that adds a literal property to a subject only if the value of the property is a valid string.
      *
-     * @param n the <i>HTML</i> node from which the property value has been extracted.
-     * @param subject the property subject.
-     * @param p the property IRI.
-     * @param value the property value.
+     * @param n
+     *            the <i>HTML</i> node from which the property value has been extracted.
+     * @param subject
+     *            the property subject.
+     * @param p
+     *            the property IRI.
+     * @param value
+     *            the property value.
+     * 
      * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
-    protected boolean conditionallyAddStringProperty(
-            Node n,
-            Resource subject, IRI p, String value
-    ) {
-        if (value == null) return false;
+    protected boolean conditionallyAddStringProperty(Node n, Resource subject, IRI p, String value) {
+        if (value == null)
+            return false;
         value = value.trim();
-        return
-                value.length() > 0 
-                        &&
-                conditionallyAddLiteralProperty(
-                        n,
-                        subject, p, valueFactory.createLiteral(value)
-                );
+        return value.length() > 0 && conditionallyAddLiteralProperty(n, subject, p, valueFactory.createLiteral(value));
     }
 
     /**
      * Helper method that adds a literal property to a node.
      *
-     * @param n the <i>HTML</i> node from which the property value has been extracted.
-     * @param subject subject the property subject.
-     * @param property the property IRI.
-     * @param literal value the property value.
+     * @param n
+     *            the <i>HTML</i> node from which the property value has been extracted.
+     * @param subject
+     *            subject the property subject.
+     * @param property
+     *            the property IRI.
+     * @param literal
+     *            value the property value.
+     * 
      * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
      */
-    protected boolean conditionallyAddLiteralProperty(
-            Node n,
-            Resource subject,
-            IRI property,
-            Literal literal
-    ) {
+    protected boolean conditionallyAddLiteralProperty(Node n, Resource subject, IRI property, Literal literal) {
         final String literalStr = literal.stringValue();
-        if( containsScriptBlock(literalStr) ) {
-            out.notifyIssue(
-                    IssueReport.IssueLevel.WARNING,
-                    String.format(Locale.ROOT, "Detected script in literal: [%s]", literalStr)
-                    , -1
-                    , -1
-            );
+        if (containsScriptBlock(literalStr)) {
+            out.notifyIssue(IssueReport.IssueLevel.WARNING,
+                    String.format(Locale.ROOT, "Detected script in literal: [%s]", literalStr), -1, -1);
             return false;
         }
         out.writeTriple(subject, property, literal);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addPropertyPath(this.getClass(), subject, property, null, DomUtils.getXPathListForNode(n) );
+        tser.addPropertyPath(this.getClass(), subject, property, null, DomUtils.getXPathListForNode(n));
         return true;
     }
 
     /**
      * Helper method that adds a IRI property to a node.
-     * @param subject the property subject.
-     * @param property the property IRI.
-     * @param uri the property object.
-     * @return <code>true</code> if the the resource has been added, <code>false</code> otherwise. 
+     * 
+     * @param subject
+     *            the property subject.
+     * @param property
+     *            the property IRI.
+     * @param uri
+     *            the property object.
+     * 
+     * @return <code>true</code> if the the resource has been added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddResourceProperty(Resource subject, IRI property, IRI uri) {
-        if (uri == null) return false;
+        if (uri == null)
+            return false;
         out.writeTriple(subject, property, uri);
         return true;
     }
@@ -196,37 +189,47 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     /**
      * Helper method that adds a BNode property to a node.
      *
-     * @param n the <i>HTML</i> node used for extracting such property.
-     * @param subject the property subject.
-     * @param property the property IRI.
-     * @param bnode the property value.
+     * @param n
+     *            the <i>HTML</i> node used for extracting such property.
+     * @param subject
+     *            the property subject.
+     * @param property
+     *            the property IRI.
+     * @param bnode
+     *            the property value.
      */
     protected void addBNodeProperty(Node n, Resource subject, IRI property, BNode bnode) {
         out.writeTriple(subject, property, bnode);
         TagSoupExtractionResult tser = (TagSoupExtractionResult) out;
-        tser.addPropertyPath(this.getClass(), subject, property, bnode, DomUtils.getXPathListForNode(n) );
+        tser.addPropertyPath(this.getClass(), subject, property, bnode, DomUtils.getXPathListForNode(n));
     }
 
     /**
      * Helper method that adds a BNode property to a node.
      *
-     * @param subject the property subject.
-     * @param property the property IRI.
-     * @param bnode the property value.
+     * @param subject
+     *            the property subject.
+     * @param property
+     *            the property IRI.
+     * @param bnode
+     *            the property value.
      */
-    protected void addBNodeProperty( Resource subject, IRI property, BNode bnode) {
+    protected void addBNodeProperty(Resource subject, IRI property, BNode bnode) {
         out.writeTriple(subject, property, bnode);
     }
 
     /**
      * Helper method that adds a IRI property to a node.
      *
-     * @param subject subject to add
-     * @param property predicate to add
-     * @param object object to add
+     * @param subject
+     *            subject to add
+     * @param property
+     *            predicate to add
+     * @param object
+     *            object to add
      */
     protected void addIRIProperty(Resource subject, IRI property, IRI object) {
-        out.writeTriple(subject, property, object);    
+        out.writeTriple(subject, property, object);
     }
 
     protected IRI fixLink(String link) {
@@ -240,23 +243,25 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
     private boolean containsScriptBlock(String in) {
         final String inLowerCase = in.toLowerCase(Locale.ROOT);
         final int beginBlock = inLowerCase.indexOf(BEGIN_SCRIPT);
-        if(beginBlock == -1) {
+        if (beginBlock == -1) {
             return false;
         }
         return inLowerCase.indexOf(END_SCRIPT, beginBlock + BEGIN_SCRIPT.length()) != -1;
     }
 
-        /**
-     * This method checks if there is a native nesting relationship between two
-     * {@link MicroformatExtractor}.
+    /**
+     * This method checks if there is a native nesting relationship between two {@link MicroformatExtractor}.
      *
      * @see org.apache.any23.extractor.html.annotations.Includes
-     * @param including the including {@link MicroformatExtractor}
-     * @param included the included {@link MicroformatExtractor}
+     * 
+     * @param including
+     *            the including {@link MicroformatExtractor}
+     * @param included
+     *            the included {@link MicroformatExtractor}
+     * 
      * @return <code>true</code> if there is a declared nesting relationship
      */
-    public static boolean includes(
-            Class<? extends MicroformatExtractor>including,
+    public static boolean includes(Class<? extends MicroformatExtractor> including,
             Class<? extends MicroformatExtractor> included) {
         Includes includes = including.getAnnotation(Includes.class);
         if (includes != null) {
@@ -271,6 +276,5 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
         }
         return false;
     }
-
 
 }

@@ -34,10 +34,8 @@ import java.util.List;
 
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 
-
 /**
- * Extractor for the <a href="http://microformats.org/wiki/hcalendar">hCalendar</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/hcalendar">hCalendar</a> microformat.
  *
  * @author Gabriele Renzi
  */
@@ -45,23 +43,13 @@ public class HCalendarExtractor extends MicroformatExtractor {
 
     private static final ICAL vICAL = ICAL.getInstance();
 
-    private static final String[] Components = {"Vevent", "Vtodo", "Vjournal", "Vfreebusy"};
+    private static final String[] Components = { "Vevent", "Vtodo", "Vjournal", "Vfreebusy" };
 
     private static final String DATE_FORMAT = "yyyyMMdd'T'HHmm'Z'";
 
-    private String[] textSingularProps = {
-            "summary",
-            "class",
-            "transp",
-            "description",
-            "status",
-            "location"};
+    private String[] textSingularProps = { "summary", "class", "transp", "description", "status", "location" };
 
-    private String[] textDateProps = {
-            "dtstart",
-            "dtstamp",
-            "dtend",
-    };
+    private String[] textDateProps = { "dtstart", "dtstamp", "dtend", };
 
     @Override
     public ExtractorDescription getDescription() {
@@ -115,22 +103,20 @@ public class HCalendarExtractor extends MicroformatExtractor {
         addBNodeProperty(cal, vICAL.component, evt);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( compoNode.getPathToLocalRoot(), evt, this.getClass() );
+        tser.addResourceRoot(compoNode.getPathToLocalRoot(), evt, this.getClass());
 
         return true;
     }
 
     private void addUid(HTMLDocument compoNode, Resource evt) {
         TextField url = compoNode.getSingularUrlField("uid");
-        conditionallyAddStringProperty(
-                compoNode.getDocument(),
-                evt, vICAL.uid, url.value()
-        );
+        conditionallyAddStringProperty(compoNode.getDocument(), evt, vICAL.uid, url.value());
     }
 
     private void addUrl(HTMLDocument compoNode, Resource evt) throws ExtractionException {
         TextField url = compoNode.getSingularUrlField("url");
-        if ("".equals(url.value())) return;
+        if ("".equals(url.value()))
+            return;
         addIRIProperty(evt, vICAL.url, getHTMLDocument().resolveIRI(url.value()));
     }
 
@@ -139,57 +125,35 @@ public class HCalendarExtractor extends MicroformatExtractor {
             BNode rrule = valueFactory.createBNode();
             addIRIProperty(rrule, RDF.TYPE, vICAL.DomainOf_rrule);
             TextField freq = new HTMLDocument(rule).getSingularTextField("freq");
-            conditionallyAddStringProperty(
-                    freq.source(),
-                    rrule, vICAL.freq, freq.value()
-            );
-            addBNodeProperty(
-                    rule,
-                    evt, vICAL.rrule, rrule
-            );
+            conditionallyAddStringProperty(freq.source(), rrule, vICAL.freq, freq.value());
+            addBNodeProperty(rule, evt, vICAL.rrule, rrule);
         }
     }
 
     private void addOrganizer(HTMLDocument compoNode, Resource evt) {
         for (Node organizer : compoNode.findAllByClassName("organizer")) {
-            //untyped
+            // untyped
             BNode blank = valueFactory.createBNode();
             TextField mail = new HTMLDocument(organizer).getSingularUrlField("organizer");
-            conditionallyAddStringProperty(
-                    compoNode.getDocument(),
-                    blank, vICAL.calAddress, mail.value()
-            );
-            addBNodeProperty(
-                    organizer,
-                    evt, vICAL.organizer, blank
-            );
+            conditionallyAddStringProperty(compoNode.getDocument(), blank, vICAL.calAddress, mail.value());
+            addBNodeProperty(organizer, evt, vICAL.organizer, blank);
         }
     }
 
     private void addTextProps(HTMLDocument node, Resource evt) {
         for (String date : textSingularProps) {
             HTMLDocument.TextField val = node.getSingularTextField(date);
-            conditionallyAddStringProperty(
-                    val.source(),
-                    evt, vICAL.getProperty(date), val.value()
-            );
+            conditionallyAddStringProperty(val.source(), evt, vICAL.getProperty(date), val.value());
         }
 
         for (String date : textDateProps) {
             HTMLDocument.TextField val = node.getSingularTextField(date);
             try {
-                conditionallyAddStringProperty(
-                        val.source(),
-                        evt,
-                        vICAL.getProperty(date),
-                        RDFUtils.getXSDDate(
-                                val.value(),
-                                DATE_FORMAT
-                        )
-                );
+                conditionallyAddStringProperty(val.source(), evt, vICAL.getProperty(date),
+                        RDFUtils.getXSDDate(val.value(), DATE_FORMAT));
             } catch (ParseException e) {
                 // Unparsable date format just leave it as it is.
-                conditionallyAddStringProperty( val.source(), evt, vICAL.getProperty(date), val.value());
+                conditionallyAddStringProperty(val.source(), evt, vICAL.getProperty(date), val.value());
             } catch (DatatypeConfigurationException e) {
                 // Unparsable date format just leave it as it is
                 conditionallyAddStringProperty(val.source(), evt, vICAL.getProperty(date), val.value());

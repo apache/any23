@@ -45,8 +45,11 @@ public class FileUtils {
     /**
      * Moves a <code>target</code> file to a new <code>dest</code> location.
      *
-     * @param target file to be moved.
-     * @param dest   dest dir.
+     * @param target
+     *            file to be moved.
+     * @param dest
+     *            dest dir.
+     * 
      * @return destination file.
      */
     public static File mv(File target, File dest) {
@@ -58,18 +61,18 @@ public class FileUtils {
         boolean success = target.renameTo(newFile);
         if (!success) {
             throw new IllegalStateException(
-                    String.format(Locale.ROOT, "Cannot move target file [%s] to destination [%s]", target, newFile)
-            );
+                    String.format(Locale.ROOT, "Cannot move target file [%s] to destination [%s]", target, newFile));
         }
         return newFile;
     }
 
     /**
-     * Copies the content of the input stream within the given dest file.
-     * The dest file must not exist.
+     * Copies the content of the input stream within the given dest file. The dest file must not exist.
      *
-     * @param is {@link java.io.InputStream} to copy
-     * @param dest detination to copy it to.
+     * @param is
+     *            {@link java.io.InputStream} to copy
+     * @param dest
+     *            detination to copy it to.
      */
     public static void cp(InputStream is, File dest) {
         if (dest.exists()) {
@@ -101,9 +104,13 @@ public class FileUtils {
     /**
      * Copies a file <code>src</code> to the <code>dest</code>.
      *
-     * @param src  source file.
-     * @param dest destination file.
-     * @throws java.io.FileNotFoundException if file cannot be copied or created.
+     * @param src
+     *            source file.
+     * @param dest
+     *            destination file.
+     * 
+     * @throws java.io.FileNotFoundException
+     *             if file cannot be copied or created.
      */
     public static void cp(File src, File dest) throws FileNotFoundException {
         FileInputStream fis = null;
@@ -118,15 +125,19 @@ public class FileUtils {
     /**
      * Dumps the given string within a file.
      *
-     * @param f       file target.
-     * @param content content to be dumped.
-     * @throws IOException if there is an error dumping the content
+     * @param f
+     *            file target.
+     * @param content
+     *            content to be dumped.
+     * 
+     * @throws IOException
+     *             if there is an error dumping the content
      */
     public static void dumpContent(File f, String content) throws IOException {
         Writer fw = null;
         try {
-          fw = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
-          fw.write(content);
+            fw = new OutputStreamWriter(new FileOutputStream(f), StandardCharsets.UTF_8);
+            fw.write(content);
         } finally {
             StreamUtils.closeGracefully(fw);
         }
@@ -135,14 +146,17 @@ public class FileUtils {
     /**
      * Dumps the stack trace of the given exception into the specified file.
      *
-     * @param f file to generate dump.
-     * @param t exception to be dumped.
-     * @throws IOException if there is an error dumping the content
+     * @param f
+     *            file to generate dump.
+     * @param t
+     *            exception to be dumped.
+     * 
+     * @throws IOException
+     *             if there is an error dumping the content
      */
     public static void dumpContent(File f, Throwable t) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        final PrintWriter pw = new PrintWriter(new OutputStreamWriter(
-                baos, StandardCharsets.UTF_8), true);
+        final PrintWriter pw = new PrintWriter(new OutputStreamWriter(baos, StandardCharsets.UTF_8), true);
         t.printStackTrace(pw);
         pw.close();
         dumpContent(f, baos.toString("UTF-8"));
@@ -151,21 +165,30 @@ public class FileUtils {
     /**
      * Reads a resource file and returns the content as a string.
      *
-     * @param clazz    the class to use load the resource.
-     * @param resource the resource to be load.
+     * @param clazz
+     *            the class to use load the resource.
+     * @param resource
+     *            the resource to be load.
+     * 
      * @return the string representing the file content.
-     * @throws java.io.IOException if there is an error loading the resource
+     * 
+     * @throws java.io.IOException
+     *             if there is an error loading the resource
      */
     public static String readResourceContent(Class clazz, String resource) throws IOException {
-        return StreamUtils.asString( clazz.getResourceAsStream(resource) );
+        return StreamUtils.asString(clazz.getResourceAsStream(resource));
     }
 
     /**
      * Reads a resource file and returns the content as a string.
      *
-     * @param resource the resource to be load.
+     * @param resource
+     *            the resource to be load.
+     * 
      * @return the string representing the file content.
-     * @throws java.io.IOException if there is an error loading the resource
+     * 
+     * @throws java.io.IOException
+     *             if there is an error loading the resource
      */
     public static String readResourceContent(String resource) throws IOException {
         return readResourceContent(FileUtils.class, resource);
@@ -174,9 +197,13 @@ public class FileUtils {
     /**
      * Returns the content of a file a single string.
      *
-     * @param f the file to read.
+     * @param f
+     *            the file to read.
+     * 
      * @return the content of file.
-     * @throws IOException if an error occurs while locating or accessing the file.
+     * 
+     * @throws IOException
+     *             if an error occurs while locating or accessing the file.
      */
     public static String readFileContent(File f) throws IOException {
         FileInputStream fis = new FileInputStream(f);
@@ -186,9 +213,13 @@ public class FileUtils {
     /**
      * Returns all the lines of a file.
      *
-     * @param f the file to read.
+     * @param f
+     *            the file to read.
+     * 
      * @return a not <code>null</code> array with not <code>null</code> line strings.
-     * @throws IOException if an error occurs while locating or accessing the file.
+     * 
+     * @throws IOException
+     *             if an error occurs while locating or accessing the file.
      */
     public static String[] readFileLines(File f) throws IOException {
         FileInputStream fis = new FileInputStream(f);
@@ -198,25 +229,31 @@ public class FileUtils {
     /**
      * Lists the content of a dir applying the specified filter.
      *
-     * @param dir directory root.
-     * @param filenameFilter filter to be applied.
+     * @param dir
+     *            directory root.
+     * @param filenameFilter
+     *            filter to be applied.
+     * 
      * @return list of matching files.
      */
     public static File[] listFilesRecursively(File dir, FilenameFilter filenameFilter) {
-        if( ! dir.isDirectory() ) {
+        if (!dir.isDirectory()) {
             throw new IllegalArgumentException(dir.getAbsolutePath() + " must be a directory.");
         }
         final List<File> result = new ArrayList<File>();
         visitFilesRecursively(dir, filenameFilter, result);
-        return result.toArray( new File[result.size()] );
+        return result.toArray(new File[result.size()]);
     }
 
     /**
      * Visits a directory recursively, applying the given filter and adding matches to the result list.
      *
-     * @param dir directory to find.
-     * @param filenameFilter filter to apply.
-     * @param result result list.
+     * @param dir
+     *            directory to find.
+     * @param filenameFilter
+     *            filter to apply.
+     * @param result
+     *            result list.
      */
     private static void visitFilesRecursively(File dir, FilenameFilter filenameFilter, List<File> result) {
         for (File file : dir.listFiles()) {
@@ -233,6 +270,7 @@ public class FileUtils {
     /**
      * Function class.
      */
-    private FileUtils() {}
+    private FileUtils() {
+    }
 
 }

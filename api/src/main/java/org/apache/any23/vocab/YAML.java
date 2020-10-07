@@ -25,64 +25,66 @@ import org.eclipse.rdf4j.model.IRI;
  */
 public class YAML extends Vocabulary {
 
-	/*
-	 * Namespace of YAML vocabulary
-	 */
-	public static final String NS = "http://yaml.org/spec/1.2/spec.html#";
+    /*
+     * Namespace of YAML vocabulary
+     */
+    public static final String NS = "http://yaml.org/spec/1.2/spec.html#";
 
-	public static final String PREFIX = "yaml";
+    public static final String PREFIX = "yaml";
 
-	public static final String ROOT = "Root";
+    public static final String ROOT = "Root";
 
-	public static final String DOCUMENT = "Document";
+    public static final String DOCUMENT = "Document";
 
-	public static final String NODE = "Node";
-        
-        public static final String SEQUENCE = "Sequence" ;
-        
-        public static final String MAPPING = "Mapping";
+    public static final String NODE = "Node";
 
-	public static final String CONTAINS = "contains";
-        
-        public static final String NULL = "Null";
+    public static final String SEQUENCE = "Sequence";
 
-	private static final YAML _instance = new YAML();
+    public static final String MAPPING = "Mapping";
 
-	private YAML() {
-		super(NS);
-	}
+    public static final String CONTAINS = "contains";
 
-	public static YAML getInstance() {
-		return _instance;
-	}
+    public static final String NULL = "Null";
 
-        // Resources
-	/**
-	 * <p>The root node. Representation of the YAML file. NB: one file may contain more than one documents
-	 * represented by nodes; e.g. </p>
-	 * <p>
-	 * <code>
-	 * %YAML 1.2 
-	 * --- 
-	 * - data1 
-	 * - data2 
-	 * --- 
-	 * - data3 
-	 * </code>
-	 * </p>
-	 * Contains two documents.
-	 */
-	public final IRI root = createClass(NS, ROOT);
+    private static final YAML _instance = new YAML();
 
-	public final IRI document = createClass(NS, DOCUMENT);
-
-	public final IRI node = createClass(NS, NODE);
-        
-        public final IRI sequence = createClass(NS, SEQUENCE);
-        
-        public final IRI mapping = createClass(NS, MAPPING);
-        // property
-	public final IRI contains = createProperty(NS, CONTAINS);
-        
-        public final IRI nullValue = createProperty(NS, NULL);
+    private YAML() {
+        super(NS);
     }
+
+    public static YAML getInstance() {
+        return _instance;
+    }
+
+    // Resources
+    /**
+     * <p>
+     * The root node. Representation of the YAML file. NB: one file may contain more than one documents represented by
+     * nodes; e.g.
+     * </p>
+     * <p>
+     * <code>
+     * %YAML 1.2 
+     * --- 
+     * - data1 
+     * - data2 
+     * --- 
+     * - data3 
+     * </code>
+     * </p>
+     * Contains two documents.
+     */
+    public final IRI root = createClass(NS, ROOT);
+
+    public final IRI document = createClass(NS, DOCUMENT);
+
+    public final IRI node = createClass(NS, NODE);
+
+    public final IRI sequence = createClass(NS, SEQUENCE);
+
+    public final IRI mapping = createClass(NS, MAPPING);
+    // property
+    public final IRI contains = createProperty(NS, CONTAINS);
+
+    public final IRI nullValue = createProperty(NS, NULL);
+}

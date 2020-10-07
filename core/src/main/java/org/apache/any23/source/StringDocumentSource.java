@@ -32,7 +32,7 @@ public class StringDocumentSource implements DocumentSource {
     private final String contentType;
 
     private final String encoding;
-    
+
     private final String uri;
 
     public StringDocumentSource(String in, String uri) {

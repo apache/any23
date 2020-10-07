@@ -36,6 +36,7 @@ import java.io.PrintStream;
  * Test case for {@link ExtractionResultImpl} class.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
+ * 
  * @version $Id$
  */
 public class ExtractionResultImplTest {
@@ -50,20 +51,17 @@ public class ExtractionResultImplTest {
     public void setUp() {
         extractor = new TitleExtractor();
         mockTripleHandler = Mockito.mock(TripleHandler.class);
-        extractionResult  = new ExtractionResultImpl(
-                new ExtractionContext("test-extractor-name", TEST_IRI),
-                extractor,
-                mockTripleHandler
-        );
+        extractionResult = new ExtractionResultImpl(new ExtractionContext("test-extractor-name", TEST_IRI), extractor,
+                mockTripleHandler);
     }
 
     @After
     public void tearDown() throws TripleHandlerException {
         extractionResult.close();
         mockTripleHandler.close();
-        extractor         = null;
+        extractor = null;
         mockTripleHandler = null;
-        extractionResult  = null;
+        extractionResult = null;
     }
 
     @Test
@@ -71,22 +69,21 @@ public class ExtractionResultImplTest {
         notifyErrors(extractionResult);
         assertContent(extractionResult, 3);
 
-        final ExtractionResult subExtractionResult = extractionResult.openSubResult(
-                new ExtractionContext("sub-id", RDFUtils.iri("http://sub/uri") )
-        );
+        final ExtractionResult subExtractionResult = extractionResult
+                .openSubResult(new ExtractionContext("sub-id", RDFUtils.iri("http://sub/uri")));
 
         notifyErrors(subExtractionResult);
         assertContent(subExtractionResult, 6);
     }
 
     private void notifyErrors(ExtractionResult er) {
-        er.notifyIssue(IssueReport.IssueLevel.ERROR  , "Error message"  , 1, 2);
+        er.notifyIssue(IssueReport.IssueLevel.ERROR, "Error message", 1, 2);
         er.notifyIssue(IssueReport.IssueLevel.WARNING, "Warning message", 3, 4);
-        er.notifyIssue(IssueReport.IssueLevel.FATAL  , "Fatal message"  , 5, 6);
+        er.notifyIssue(IssueReport.IssueLevel.FATAL, "Fatal message", 5, 6);
     }
 
     private void assertContent(ExtractionResult er, int errorCount) {
-        Assert.assertEquals("Unexpected errors list size." , errorCount, er.getIssues().size() );
+        Assert.assertEquals("Unexpected errors list size.", errorCount, er.getIssues().size());
         assertOutputString(er, IssueReport.IssueLevel.ERROR.toString());
         assertOutputString(er, IssueReport.IssueLevel.WARNING.toString());
         assertOutputString(er, IssueReport.IssueLevel.FATAL.toString());
@@ -98,7 +95,7 @@ public class ExtractionResultImplTest {
         PrintStream ps = new PrintStream(baos);
         er.printReport(ps);
         ps.flush();
-        Assert.assertTrue( String.format("Cannot find string '%s' in output stream.", s), baos.toString().contains(s) );
+        Assert.assertTrue(String.format("Cannot find string '%s' in output stream.", s), baos.toString().contains(s));
     }
 
 }

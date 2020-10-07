@@ -31,6 +31,7 @@ import java.util.List;
  * Checks whether the meta attribute name is used to contain a property.
  *
  * @see MetaNameMisuseFix
+ * 
  * @author Davide Palmisano (palmisano@fbk.eu)
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -45,24 +46,18 @@ public class MetaNameMisuseRule implements Rule {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean applyOn(
-            DOMDocument document,
-            @SuppressWarnings("rawtypes") RuleContext context,
-            ValidationReportBuilder validationReportBuilder
-    ) {
+    public boolean applyOn(DOMDocument document, @SuppressWarnings("rawtypes") RuleContext context,
+            ValidationReportBuilder validationReportBuilder) {
         List<Node> metaNodes = document.getNodes("/HTML/HEAD/META");
         boolean foundIssue = false;
         final List<Node> wrongMetaNodes = new ArrayList<>();
-        for(Node metaNode : metaNodes) {
+        for (Node metaNode : metaNodes) {
             Node nameNode = metaNode.getAttributes().getNamedItem("name");
-            if(nameNode != null && nameNode.getTextContent().contains(":")) {
+            if (nameNode != null && nameNode.getTextContent().contains(":")) {
                 foundIssue = true;
                 wrongMetaNodes.add(metaNode);
-                validationReportBuilder.reportIssue(
-                        ValidationReport.IssueLevel.ERROR,
-                        "Error detected in meta node: name property contains a prefixed value.",
-                        metaNode
-                );
+                validationReportBuilder.reportIssue(ValidationReport.IssueLevel.ERROR,
+                        "Error detected in meta node: name property contains a prefixed value.", metaNode);
             }
         }
         context.putData(ERRORED_META_NODES, wrongMetaNodes);

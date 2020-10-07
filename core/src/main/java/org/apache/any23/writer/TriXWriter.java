@@ -31,8 +31,7 @@ import java.io.OutputStream;
 public class TriXWriter extends RDFWriterTripleHandler {
 
     static class Internal {
-        private static final org.eclipse.rdf4j.rio.trix.TriXWriterFactory rdf4j
-                = new org.eclipse.rdf4j.rio.trix.TriXWriterFactory();
+        private static final org.eclipse.rdf4j.rio.trix.TriXWriterFactory rdf4j = new org.eclipse.rdf4j.rio.trix.TriXWriterFactory();
 
         static final TripleFormat FORMAT = format(rdf4j);
 

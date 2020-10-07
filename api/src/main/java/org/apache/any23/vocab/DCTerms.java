@@ -20,8 +20,7 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * The <i>DCTERMS</i> vocabulary.
- * See <a href="http://dublincore.org/">Dublin Core</a>.
+ * The <i>DCTERMS</i> vocabulary. See <a href="http://dublincore.org/">Dublin Core</a>.
  */
 public class DCTerms extends Vocabulary {
 
@@ -29,20 +28,20 @@ public class DCTerms extends Vocabulary {
 
     // Properties
     public final IRI license = createProperty(NS, "license");
-    public final IRI title   = createProperty(NS, "title"  );
+    public final IRI title = createProperty(NS, "title");
     public final IRI creator = createProperty(NS, "creator");
     public final IRI related = createProperty(NS, "related");
-    public final IRI date    = createProperty(NS, "date"   );
-    public final IRI source  = createProperty(NS, "source" );
+    public final IRI date = createProperty(NS, "date");
+    public final IRI source = createProperty(NS, "source");
 
-    private DCTerms(){
-      super(NS);
+    private DCTerms() {
+        super(NS);
     }
 
-	private static DCTerms instance;
+    private static DCTerms instance;
 
     public static DCTerms getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new DCTerms();
         }
         return instance;

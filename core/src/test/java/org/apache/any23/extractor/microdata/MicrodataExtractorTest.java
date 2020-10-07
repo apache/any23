@@ -83,52 +83,55 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     /**
      * Reference test for <a href="http://schema.org">Schema.org</a>.
      *
-     * @throws ExtractionException if an exception is raised during extraction
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
-     * @throws IOException if there is an error loading input data
-     * @throws RDFParseException if there is an error parsing an actual RDF stream
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException
+     *             if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws RDFParseException
+     *             if there is an error parsing an actual RDF stream
      */
     @Test
     public void testSchemaOrgNestedProps()
             throws RepositoryException, RDFHandlerException, IOException, RDFParseException, ExtractionException {
-        extractAndVerifyAgainstNQuads(
-                "microdata-nested.html",
-                "microdata-nested-expected.nquads"
-        );
+        extractAndVerifyAgainstNQuads("microdata-nested.html", "microdata-nested-expected.nquads");
         logger.debug(dumpModelToNQuads());
     }
 
     @Test
     public void testUnusedItemprop() {
-        //Test for ANY23-154
+        // Test for ANY23-154
         assertExtract("/microdata/unused-itemprop.html");
         assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/Offer"));
     }
 
     @Test
     public void testExample2() {
-        //Property URI generation for hcard
+        // Property URI generation for hcard
         assertExtract("/microdata/example2.html");
         assertContains(null, RDF.TYPE, RDFUtils.iri("http://microformats.org/profile/hcard"));
-        assertContains(null, RDFUtils.iri("http://microformats.org/profile/hcard#given-name"), (Value)null);
-        assertContains(null, RDFUtils.iri("http://microformats.org/profile/hcard#n"), (Value)null);
+        assertContains(null, RDFUtils.iri("http://microformats.org/profile/hcard#given-name"), (Value) null);
+        assertContains(null, RDFUtils.iri("http://microformats.org/profile/hcard#n"), (Value) null);
     }
 
     @Test
     public void testExample5() {
-        //Vocabulary expansion for schema.org
+        // Vocabulary expansion for schema.org
         assertExtract("/microdata/example5.html");
         assertContains(null, RDF.TYPE, RDFUtils.iri("http://schema.org/Person"));
         assertContains(null, RDF.TYPE, RDFUtils.iri("http://xmlns.com/foaf/0.1/Person"));
-        assertContains(null, RDFUtils.iri("http://schema.org/additionalType"), RDFUtils.iri("http://xmlns.com/foaf/0.1/Person"));
+        assertContains(null, RDFUtils.iri("http://schema.org/additionalType"),
+                RDFUtils.iri("http://xmlns.com/foaf/0.1/Person"));
         assertContains(null, RDFUtils.iri("http://schema.org/email"), RDFUtils.iri("mailto:mail@gmail.com"));
         assertContains(null, RDFUtils.iri("http://xmlns.com/foaf/0.1/mbox"), RDFUtils.iri("mailto:mail@gmail.com"));
     }
 
-    private static final List<String> ignoredOnlineTestNames = Arrays.asList(
-            "Test 0073", //Vocabulary Expansion test with rdfs:subPropertyOf
-            "Test 0074" //Vocabulary Expansion test with owl:equivalentProperty
+    private static final List<String> ignoredOnlineTestNames = Arrays.asList("Test 0073", // Vocabulary Expansion test
+                                                                                          // with rdfs:subPropertyOf
+            "Test 0074" // Vocabulary Expansion test with owl:equivalentProperty
     );
 
     private static Any23 createRunner(String extractorName) {
@@ -152,8 +155,12 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
             public void writeTriple(Resource s, IRI p, Value o, Resource g) {
                 map.computeIfAbsent(s, k -> new HashMap<>()).computeIfAbsent(p, k -> new ArrayDeque<>()).add(o);
             }
-            public void writeNamespace(String prefix, String uri) { }
-            public void close() { }
+
+            public void writeNamespace(String prefix, String uri) {
+            }
+
+            public void close() {
+            }
         });
 
         Assert.assertFalse(map.isEmpty());
@@ -171,7 +178,8 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
             if (types == null) {
                 return;
             }
-            boolean positive; label: {
+            boolean positive;
+            label: {
                 for (Value type : types) {
                     if (type.stringValue().startsWith("http://www.w3.org/ns/rdftest#TestMicrodataNegative")) {
                         positive = false;
@@ -183,38 +191,49 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 }
                 return;
             }
-            IRI action = (IRI)item.get(actionPred).pop();
-            IRI result = (IRI)(item.containsKey(resultPred) ? item.get(resultPred).pop() : null);
-            String name = ((Literal)item.get(namePred).pop()).getLabel();
+            IRI action = (IRI) item.get(actionPred).pop();
+            IRI result = (IRI) (item.containsKey(resultPred) ? item.get(resultPred).pop() : null);
+            String name = ((Literal) item.get(namePred).pop()).getLabel();
             if (ignoredOnlineTestNames.contains(name)) {
                 ignoredTests.incrementAndGet();
                 return;
             }
             try {
-                name += ": " + ((Literal)item.get(RDFS.COMMENT).pop()).getLabel();
+                name += ": " + ((Literal) item.get(RDFS.COMMENT).pop()).getLabel();
                 TreeModel actual = new TreeModel();
                 createRunner(MicrodataExtractorFactory.NAME).extract(action.stringValue(), new TripleWriterHandler() {
                     public void writeTriple(Resource s, IRI p, Value o, Resource g) {
-                        if (MicrodataExtractor.MICRODATA_ITEM.equals(p)) return;
+                        if (MicrodataExtractor.MICRODATA_ITEM.equals(p))
+                            return;
                         actual.add(s, p, o);
                     }
-                    public void writeNamespace(String prefix, String uri) { }
-                    public void close() { }
+
+                    public void writeNamespace(String prefix, String uri) {
+                    }
+
+                    public void close() {
+                    }
                 });
 
                 TreeModel expected = new TreeModel();
                 if (result != null) {
                     createRunner(TurtleExtractorFactory.NAME).extract(result.stringValue(), new TripleWriterHandler() {
                         public void writeTriple(Resource s, IRI p, Value o, Resource g) {
-                            // TODO: remove this if-block after https://github.com/w3c/microdata-rdf/issues/30 has been resolved
-                            if (o instanceof IRI && o.stringValue().equals("http://w3c.github.io/author/jd_salinger.html")) {
+                            // TODO: remove this if-block after https://github.com/w3c/microdata-rdf/issues/30 has been
+                            // resolved
+                            if (o instanceof IRI
+                                    && o.stringValue().equals("http://w3c.github.io/author/jd_salinger.html")) {
                                 o = RDFUtils.iri("https://w3c.github.io/author/jd_salinger.html");
                             }
 
                             expected.add(s, p, o);
                         }
-                        public void writeNamespace(String prefix, String uri) { }
-                        public void close() { }
+
+                        public void writeNamespace(String prefix, String uri) {
+                        }
+
+                        public void close() {
+                        }
                     });
                 }
 
@@ -236,10 +255,12 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                                 && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
                                 && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
                             if (positive) {
-                                Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k->"_:"+i.getAndIncrement()) : s;
-                                Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k->"_:"+i.getAndIncrement()) : o;
-                                error.append("EXPECT: ").append(sstr).append(" ").append(st.getPredicate())
-                                        .append(" ").append(ostr).append("\n");
+                                Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k -> "_:" + i.getAndIncrement())
+                                        : s;
+                                Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k -> "_:" + i.getAndIncrement())
+                                        : o;
+                                error.append("EXPECT: ").append(sstr).append(" ").append(st.getPredicate()).append(" ")
+                                        .append(ostr).append("\n");
                             }
                         } else {
                             match++;
@@ -255,10 +276,12 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                                 && (s instanceof BNode ? t.getSubject() instanceof BNode : s.equals(t.getSubject()))
                                 && (o instanceof BNode ? t.getObject() instanceof BNode : o.equals(t.getObject())))) {
                             if (positive) {
-                                Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k -> "_:" + i.getAndIncrement()) : s;
-                                Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k -> "_:" + i.getAndIncrement()) : o;
-                                error.append("ACTUAL: ").append(sstr).append(" ").append(st.getPredicate())
-                                        .append(" ").append(ostr).append("\n");
+                                Object sstr = s instanceof BNode ? m.computeIfAbsent(s, k -> "_:" + i.getAndIncrement())
+                                        : s;
+                                Object ostr = o instanceof BNode ? m.computeIfAbsent(o, k -> "_:" + i.getAndIncrement())
+                                        : o;
+                                error.append("ACTUAL: ").append(sstr).append(" ").append(st.getPredicate()).append(" ")
+                                        .append(ostr).append("\n");
                             }
                         }
                     }
@@ -275,9 +298,8 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         }
 
         if (!failedTests.isEmpty()) {
-            Assert.fail(failedTests.size() + " failures out of "
-                    + (failedTests.size() + passedTests.get()) + " total tests\n"
-                    + String.join("\n", failedTests.keySet()) + "\n\n"
+            Assert.fail(failedTests.size() + " failures out of " + (failedTests.size() + passedTests.get())
+                    + " total tests\n" + String.join("\n", failedTests.keySet()) + "\n\n"
                     + String.join("\n", failedTests.values()));
         }
     }
@@ -298,92 +320,99 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     }
 
     /**
-     * Reference test as provided by <a href="http://googlewebmastercentral.blogspot.com/2010/03/microdata-support-for-rich-snippets.html">Google Rich Snippet for Microdata.</a>
+     * Reference test as provided by
+     * <a href="http://googlewebmastercentral.blogspot.com/2010/03/microdata-support-for-rich-snippets.html">Google Rich
+     * Snippet for Microdata.</a>
      *
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
-     * @throws IOException if there is an error loading input data
-     * @throws RDFParseException if there is an error parsing an actual RDF stream
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException
+     *             if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws RDFParseException
+     *             if there is an error parsing an actual RDF stream
      */
     @Test
     public void testMicrodataGoogleRichSnippet()
             throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
-        extractAndVerifyAgainstNQuads(
-                "microdata-richsnippet.html",
-                "microdata-richsnippet-expected.nquads"
-        );
+        extractAndVerifyAgainstNQuads("microdata-richsnippet.html", "microdata-richsnippet-expected.nquads");
         logger.debug(dumpHumanReadableTriples());
     }
 
     /**
-     * First reference test  for <a href="http://www.w3.org/TR/microdata/">Microdata Extraction algorithm</a>.
+     * First reference test for <a href="http://www.w3.org/TR/microdata/">Microdata Extraction algorithm</a>.
      *
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
-     * @throws IOException if there is an error loading input data
-     * @throws RDFParseException if there is an error parsing an actual RDF stream
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException
+     *             if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws RDFParseException
+     *             if there is an error parsing an actual RDF stream
      */
     @Test
-    public void testExample5221()
-            throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
-        extractAndVerifyAgainstNQuads(
-                "5.2.1-non-normative-example-1.html",
-                "5.2.1-non-normative-example-1-expected.nquads"
-        );
+    public void testExample5221() throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
+        extractAndVerifyAgainstNQuads("5.2.1-non-normative-example-1.html",
+                "5.2.1-non-normative-example-1-expected.nquads");
         logger.debug(dumpHumanReadableTriples());
     }
 
     /**
-     * Second reference test  for <a href="http://www.w3.org/TR/microdata/">Microdata Extraction algorithm</a>.
+     * Second reference test for <a href="http://www.w3.org/TR/microdata/">Microdata Extraction algorithm</a>.
      *
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
-     * @throws IOException if there is an error loading input data
-     * @throws RDFParseException if there is an error parsing an actual RDF stream
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException
+     *             if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws RDFParseException
+     *             if there is an error parsing an actual RDF stream
      */
     @Test
-    public void testExample5222()
-            throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
-        extractAndVerifyAgainstNQuads(
-                "5.2.1-non-normative-example-2.html",
-                "5.2.1-non-normative-example-2-expected.nquads"
-        );
+    public void testExample5222() throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
+        extractAndVerifyAgainstNQuads("5.2.1-non-normative-example-2.html",
+                "5.2.1-non-normative-example-2-expected.nquads");
         logger.debug(dumpHumanReadableTriples());
     }
 
     /**
      * First reference test for <a href="http://schema.org/">http://schema.org/</a>.
      *
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
-     * @throws IOException if there is an error loading input data
-     * @throws RDFParseException if there is an error parsing an actual RDF stream
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException
+     *             if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws RDFParseException
+     *             if there is an error parsing an actual RDF stream
      */
     @Test
     public void testExampleSchemaOrg1()
             throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
-        extractAndVerifyAgainstNQuads(
-                "schemaorg-example-1.html",
-                "schemaorg-example-1-expected.nquads"
-        );
+        extractAndVerifyAgainstNQuads("schemaorg-example-1.html", "schemaorg-example-1-expected.nquads");
         logger.debug(dumpHumanReadableTriples());
     }
 
     /**
      * Second reference test for <a href="http://schema.org/">http://schema.org/</a>.
      *
-     * @throws RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws RDFHandlerException if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
-     * @throws IOException if there is an error loading input data
-     * @throws RDFParseException if there is an error parsing an actual RDF stream
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws RDFHandlerException
+     *             if there is an error in the {@link org.eclipse.rdf4j.rio.RDFHandler} implementation
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws RDFParseException
+     *             if there is an error parsing an actual RDF stream
      */
     @Test
     public void testExampleSchemaOrg2()
             throws RDFHandlerException, RepositoryException, IOException, RDFParseException {
-        extractAndVerifyAgainstNQuads(
-                "schemaorg-example-2.html",
-                "schemaorg-example-2-expected.nquads"
-        );
+        extractAndVerifyAgainstNQuads("schemaorg-example-2.html", "schemaorg-example-2-expected.nquads");
         logger.debug(dumpHumanReadableTriples());
     }
 
@@ -413,8 +442,10 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
 
     @Test
     public void testBadPropertyNames() throws IOException {
-        extractAndVerifyAgainstNQuads("microdata-bad-properties.html", "microdata-bad-properties-expected.nquads", false);
-        assertIssue(IssueReport.IssueLevel.ERROR, ".*invalid property name ''.*\"path\" : \"/HTML\\[1\\]/BODY\\[1\\]/DIV\\[1\\]/DIV\\[2\\]/DIV\\[1\\]\".*");
+        extractAndVerifyAgainstNQuads("microdata-bad-properties.html", "microdata-bad-properties-expected.nquads",
+                false);
+        assertIssue(IssueReport.IssueLevel.ERROR,
+                ".*invalid property name ''.*\"path\" : \"/HTML\\[1\\]/BODY\\[1\\]/DIV\\[1\\]/DIV\\[2\\]/DIV\\[1\\]\".*");
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected)
@@ -423,19 +454,16 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
     }
 
     private void extractAndVerifyAgainstNQuads(String actual, String expected, boolean assertNoIssues)
-    throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
+            throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         assertExtract("/microdata/" + actual, assertNoIssues);
         assertModelNotEmpty();
-        logger.debug( dumpModelToNQuads() );
+        logger.debug(dumpModelToNQuads());
         List<Statement> expectedStatements = loadResultStatement("/microdata/" + expected);
         int actualStmtSize = getStatementsSize(null, null, null);
-        Assert.assertEquals( expectedStatements.size(), actualStmtSize);
+        Assert.assertEquals(expectedStatements.size(), actualStmtSize);
         for (Statement statement : expectedStatements) {
-            assertContains(
-                    statement.getSubject() instanceof BNode ? null : statement.getSubject(),
-                    statement.getPredicate(),
-                    statement.getObject() instanceof BNode ? null : statement.getObject()
-            );
+            assertContains(statement.getSubject() instanceof BNode ? null : statement.getSubject(),
+                    statement.getPredicate(), statement.getObject() instanceof BNode ? null : statement.getObject());
         }
         Model expectedModel = new TreeModel();
         for (Statement s : expectedStatements) {
@@ -447,16 +475,20 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
             @Override
             public void startRDF() throws RDFHandlerException {
             }
+
             @Override
             public void endRDF() throws RDFHandlerException {
             }
+
             @Override
             public void handleNamespace(String s, String s1) throws RDFHandlerException {
             }
+
             @Override
             public void handleStatement(Statement statement) throws RDFHandlerException {
                 actualModel.add(statement.getSubject(), statement.getPredicate(), statement.getObject());
             }
+
             @Override
             public void handleComment(String s) throws RDFHandlerException {
             }
@@ -471,10 +503,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         TestRDFHandler rdfHandler = new TestRDFHandler();
         nQuadsParser.setRDFHandler(rdfHandler);
         File file = copyResourceToTempFile(resultFilePath);
-        nQuadsParser.parse(
-                new FileReader(file),
-                baseIRI.toString()
-        );
+        nQuadsParser.parse(new FileReader(file), baseIRI.toString());
         return rdfHandler.getStatements();
     }
 

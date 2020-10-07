@@ -46,78 +46,73 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class JSONLDExtractorTest {
-  
-  private static final Logger logger = LoggerFactory.getLogger(JSONLDExtractorTest.class);
 
-  private JSONLDExtractor extractor;
+    private static final Logger logger = LoggerFactory.getLogger(JSONLDExtractorTest.class);
 
-  @Before
-  public void setUp() throws Exception {
-      extractor = new JSONLDExtractor();
-  }
+    private JSONLDExtractor extractor;
 
-  @After
-  public void tearDown() throws Exception {
-      extractor = null;
-  }
+    @Before
+    public void setUp() throws Exception {
+        extractor = new JSONLDExtractor();
+    }
 
-  @Test
-  public void testExtractFromJSONLDDocument() 
-    throws IOException, ExtractionException, TripleHandlerException {
-      final IRI uri = RDFUtils.iri("http://host.com/place-example.jsonld");
-      extract(uri, "/org/apache/any23/extractor/rdf/place-example.jsonld");
-  }
+    @After
+    public void tearDown() throws Exception {
+        extractor = null;
+    }
 
-  @Test
-  public void testWhitespaceCleaning() throws Exception {
-    for (int i = 0; i <= Character.MAX_CODE_POINT; i++) {
-      if (Character.isWhitespace(i) || Character.isSpaceChar(i)) {
-        byte[] bytes = new String(Character.toChars(i)).getBytes(StandardCharsets.UTF_8);
-        @SuppressWarnings("resource")
-        InputStream stream = new JsonCleaningInputStream(new ByteArrayInputStream(bytes));
-        if (i == '\r' || i == '\n') {
-          Assert.assertEquals(stream.read(), i);
-        } else {
-          Assert.assertEquals(stream.read(), ' ');
+    @Test
+    public void testExtractFromJSONLDDocument() throws IOException, ExtractionException, TripleHandlerException {
+        final IRI uri = RDFUtils.iri("http://host.com/place-example.jsonld");
+        extract(uri, "/org/apache/any23/extractor/rdf/place-example.jsonld");
+    }
+
+    @Test
+    public void testWhitespaceCleaning() throws Exception {
+        for (int i = 0; i <= Character.MAX_CODE_POINT; i++) {
+            if (Character.isWhitespace(i) || Character.isSpaceChar(i)) {
+                byte[] bytes = new String(Character.toChars(i)).getBytes(StandardCharsets.UTF_8);
+                @SuppressWarnings("resource")
+                InputStream stream = new JsonCleaningInputStream(new ByteArrayInputStream(bytes));
+                if (i == '\r' || i == '\n') {
+                    Assert.assertEquals(stream.read(), i);
+                } else {
+                    Assert.assertEquals(stream.read(), ' ');
+                }
+                Assert.assertEquals(stream.read(), -1);
+            }
         }
-        Assert.assertEquals(stream.read(), -1);
-      }
-    }
-  }
-
-  @Test
-  public void testJsonCleaning() throws Exception {
-    JsonCleaningInputStream stream = new JsonCleaningInputStream(getClass().getResourceAsStream("/html/json-cleaning-test.json"));
-
-    JsonParser parser = new JsonFactory().createParser(stream);
-
-    int numTokens = 0;
-    while (parser.nextToken() != null) {
-      numTokens++;
     }
 
-    Assert.assertEquals(numTokens, 41);
+    @Test
+    public void testJsonCleaning() throws Exception {
+        JsonCleaningInputStream stream = new JsonCleaningInputStream(
+                getClass().getResourceAsStream("/html/json-cleaning-test.json"));
 
-  }
+        JsonParser parser = new JsonFactory().createParser(stream);
 
-  public void extract(IRI uri, String filePath) 
-    throws IOException, ExtractionException, TripleHandlerException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    final TripleHandler tHandler = new RDFXMLWriter(baos);
-    final ExtractionContext extractionContext = new ExtractionContext("rdf-jsonld", uri);
-    final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, tHandler);
-    try {
-      extractor.run(
-              ExtractionParameters.newDefault(),
-              extractionContext,
-              this.getClass().getResourceAsStream(filePath),
-              result
-      );
-    } finally {
-      logger.debug(baos.toString("UTF-8"));
-      tHandler.close();
-      result.close();
+        int numTokens = 0;
+        while (parser.nextToken() != null) {
+            numTokens++;
+        }
+
+        Assert.assertEquals(numTokens, 41);
+
     }
-  }
+
+    public void extract(IRI uri, String filePath) throws IOException, ExtractionException, TripleHandlerException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final TripleHandler tHandler = new RDFXMLWriter(baos);
+        final ExtractionContext extractionContext = new ExtractionContext("rdf-jsonld", uri);
+        final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, tHandler);
+        try {
+            extractor.run(ExtractionParameters.newDefault(), extractionContext,
+                    this.getClass().getResourceAsStream(filePath), result);
+        } finally {
+            logger.debug(baos.toString("UTF-8"));
+            tHandler.close();
+            result.close();
+        }
+    }
 
 }

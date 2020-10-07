@@ -34,20 +34,21 @@ import static org.junit.Assert.assertTrue;
  */
 public class ToolRunnerTest {
 
-    private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>(){
+    private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>() {
         /**
          * 
          */
         private static final long serialVersionUID = 1L;
 
-    {
-        add(ExtractorDocumentation.class);
-        add(MicrodataParser.class);
-        add(MimeDetector.class);
-        add(PluginVerifier.class);
-        add(Rover.class);
-        add(VocabPrinter.class);
-    }};
+        {
+            add(ExtractorDocumentation.class);
+            add(MicrodataParser.class);
+            add(MimeDetector.class);
+            add(PluginVerifier.class);
+            add(Rover.class);
+            add(VocabPrinter.class);
+        }
+    };
 
     @Test
     public void testGetToolsInClasspath() throws IOException {
@@ -63,12 +64,12 @@ public class ToolRunnerTest {
 
     @Test
     public void testGetVersion() throws Exception {
-        Assert.assertEquals(0, new ToolRunner().execute("-v") );
+        Assert.assertEquals(0, new ToolRunner().execute("-v"));
     }
 
     @Test
     public void testGetHelp() throws Exception {
-        Assert.assertEquals(0, new ToolRunner().execute("-h") );
+        Assert.assertEquals(0, new ToolRunner().execute("-h"));
     }
 
 }

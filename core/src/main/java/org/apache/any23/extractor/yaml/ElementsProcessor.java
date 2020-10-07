@@ -37,15 +37,14 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
 /**
- * Converts Object into RDF graph encoded to {@link ModelHolder}. Where key is a
- * graph root node and value is a graph itself inside a {@link Model}.
+ * Converts Object into RDF graph encoded to {@link ModelHolder}. Where key is a graph root node and value is a graph
+ * itself inside a {@link Model}.
  *
  * This parser performs conversion for three main types:
  * <ul>
- * <li> List - Creates RDF:List with bnode as root
- * <li> Map - Creates simple graph where {key: value} is converted to
- * predicate:object pair
- * <li> Simple type - Crates RDF Literal
+ * <li>List - Creates RDF:List with bnode as root
+ * <li>Map - Creates simple graph where {key: value} is converted to predicate:object pair
+ * <li>Simple type - Crates RDF Literal
  * </ul>
  *
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
@@ -63,8 +62,8 @@ public class ElementsProcessor {
     }
 
     /**
-     * A model holder describes the two required parameters which makes a model useful
-     * in further processing: a root node and model itself.
+     * A model holder describes the two required parameters which makes a model useful in further processing: a root
+     * node and model itself.
      */
     public class ModelHolder {
         private final Value root;
@@ -83,25 +82,25 @@ public class ElementsProcessor {
             return model;
         }
     }
-    
-    
+
     private ModelHolder asModelHolder(Value v, Model m) {
-        return new ModelHolder(v,m);
+        return new ModelHolder(v, m);
     }
 
     /**
-     * Converts a data structure to {@link ModelHolder}. where value
-     * is a root node of the data structure and model is a content of the RDF
-     * graph.
+     * Converts a data structure to {@link ModelHolder}. where value is a root node of the data structure and model is a
+     * content of the RDF graph.
      *
-     * If requested object is simple object (i.e. is neither List or Map) than
-     * method returns map entry of relevant instance of {@link Literal} as key
-     * and empty model as value.
+     * If requested object is simple object (i.e. is neither List or Map) than method returns map entry of relevant
+     * instance of {@link Literal} as key and empty model as value.
      *
-     * @param namespace Namespace for predicates
-     * @param t Object (or data structure) converting to RDF graph
-     * @param rootNode root node of the graph. If not given then blank node is
-     * created.
+     * @param namespace
+     *            Namespace for predicates
+     * @param t
+     *            Object (or data structure) converting to RDF graph
+     * @param rootNode
+     *            root node of the graph. If not given then blank node is created.
+     * 
      * @return instance of {@link ModelHolder},
      */
     @SuppressWarnings("unchecked")
@@ -125,9 +124,13 @@ public class ElementsProcessor {
      * 
      * If a map has instantiated root (not a blank node) it is simpler to create SPARQL query.
      * 
-     * @param ns the namespace to associated with statements
-     * @param object a populated {@link java.util.Map} 
-     * @param parentNode a {@link org.eclipse.rdf4j.model.Value} subject node to use in the new statement
+     * @param ns
+     *            the namespace to associated with statements
+     * @param object
+     *            a populated {@link java.util.Map}
+     * @param parentNode
+     *            a {@link org.eclipse.rdf4j.model.Value} subject node to use in the new statement
+     * 
      * @return instance of {@link ModelHolder}.
      */
     protected ModelHolder processMap(IRI ns, Map<String, Object> object, Value parentNode) {
@@ -149,24 +152,23 @@ public class ElementsProcessor {
             model.add(vf.createStatement((Resource) nodeURI, RDF.TYPE, vocab.mapping));
         }
         object.keySet().forEach((k) -> {
-            /* False prevents adding _<int> to the predicate.
-            Thus the predicate pattern is:
-            "some string" ---> ns:someString
+            /*
+             * False prevents adding _<int> to the predicate. Thus the predicate pattern is: "some string" --->
+             * ns:someString
              */
             Resource predicate = RDFUtils.makeIRI(k, ns, false);
-            /* add map's key as statements:
-            predicate rdf:type rdf:predicate .
-            predicate rdfs:label predicate name
+            /*
+             * add map's key as statements: predicate rdf:type rdf:predicate . predicate rdfs:label predicate name
              */
             model.add(vf.createStatement(predicate, RDF.TYPE, RDF.PREDICATE));
             model.add(vf.createStatement(predicate, RDFS.LABEL, RDFUtils.literal(k)));
             Value subGraphRoot = RDFUtils.makeIRI();
             ModelHolder valInst = asModel(ns, object.get(k), subGraphRoot);
-            // if asModel returns null than 
+            // if asModel returns null than
             if (valInst != null) {
                 /*
-            Subgraph root node is added always. If subgraph is null that root node is Literal.
-            Otherwise submodel in added to the current model.
+                 * Subgraph root node is added always. If subgraph is null that root node is Literal. Otherwise submodel
+                 * in added to the current model.
                  */
                 model.add(vf.createStatement((Resource) nodeURI, (IRI) predicate, valInst.root));
                 if (valInst.model != null) {
@@ -191,7 +193,7 @@ public class ElementsProcessor {
         Value listRoot = null;
         Resource prevNode = null;
         Model finalModel = modelFactory.createEmptyModel();
-        for (int i=0; i < objectSize; i++) {
+        for (int i = 0; i < objectSize; i++) {
             ModelHolder node = asModel(ns, object.get(i), RDFUtils.bnode());
             BNode currentNode = RDFUtils.bnode();
 
@@ -205,11 +207,11 @@ public class ElementsProcessor {
                 finalModel.add(prevNode, RDF.REST, currentNode, (Resource[]) null);
             }
 
-            if (i == objectSize-1) {
+            if (i == objectSize - 1) {
                 finalModel.add(currentNode, RDF.REST, RDF.NIL, (Resource[]) null);
             }
 
-            if(node.model != null) {
+            if (node.model != null) {
                 finalModel.addAll(node.model);
             }
 

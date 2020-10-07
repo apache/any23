@@ -40,6 +40,7 @@ import java.io.IOException;
  * Test case for {@link NTriplesExtractor}.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
+ * 
  * @version $Id$
  */
 public class TurtleExtractorTest {
@@ -61,13 +62,16 @@ public class TurtleExtractorTest {
     /**
      * Tests the correct support for a typed literal with incompatible value.
      * 
-     * @throws IOException if there is an error interpreting the input data
-     * @throws ExtractionException if there is an exception during extraction
-     * @throws TripleHandlerException if there is an error within the {@link org.apache.any23.writer.TripleHandler} implementation
+     * @throws IOException
+     *             if there is an error interpreting the input data
+     * @throws ExtractionException
+     *             if there is an exception during extraction
+     * @throws TripleHandlerException
+     *             if there is an error within the {@link org.apache.any23.writer.TripleHandler} implementation
      */
     @Test
     public void testTypedLiteralIncompatibleValueSupport()
-    throws IOException, ExtractionException, TripleHandlerException {
+            throws IOException, ExtractionException, TripleHandlerException {
         final IRI uri = RDFUtils.iri("http://host.com/test-malformed-literal.turtle");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final TripleHandler th = new RDFXMLWriter(baos);
@@ -75,12 +79,9 @@ public class TurtleExtractorTest {
         final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, th);
         extractor.setStopAtFirstError(false);
         try {
-            extractor.run(
-                    ExtractionParameters.newDefault(),
-                    extractionContext,
+            extractor.run(ExtractionParameters.newDefault(), extractionContext,
                     this.getClass().getResourceAsStream("/org/apache/any23/extractor/rdf/testMalformedLiteral"),
-                    result
-            );
+                    result);
         } finally {
             logger.debug(baos.toString());
             th.close();

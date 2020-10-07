@@ -52,10 +52,7 @@ public class ItemPropValue {
      * Supported types.
      */
     public enum Type {
-        Plain(String.class),
-        Link(String.class),
-        Date(Date.class),
-        Nested(ItemScope.class);
+        Plain(String.class), Link(String.class), Date(Date.class), Nested(ItemScope.class);
 
         Type(Class<?> contentClass) {
             this.contentClass = contentClass;
@@ -66,7 +63,8 @@ public class ItemPropValue {
         private Object checkClass(Object content) {
             Objects.requireNonNull(content, "content cannot be null");
             if (!contentClass.isInstance(content)) {
-                throw new IllegalArgumentException("content must be a " + contentClass.getName() + " when type is " + this);
+                throw new IllegalArgumentException(
+                        "content must be a " + contentClass.getName() + " when type is " + this);
             }
             return content;
         }
@@ -79,7 +77,7 @@ public class ItemPropValue {
     public static String formatDateTime(Date in) {
         return getSdf().format(in);
     }
-    
+
     private static SimpleDateFormat getSdf() {
         SimpleDateFormat simpleDateFormat = sdf.get();
         if (simpleDateFormat == null) {
@@ -92,8 +90,10 @@ public class ItemPropValue {
     /**
      * Constructor.
      *
-     * @param content content object.
-     * @param type content type.
+     * @param content
+     *            content object.
+     * @param type
+     *            content type.
      */
     public ItemPropValue(Object content, Type type) {
         this.type = Objects.requireNonNull(type, "type cannot be null");
@@ -107,7 +107,7 @@ public class ItemPropValue {
         Type type;
         Object content;
 
-        //for backwards compatibility:
+        // for backwards compatibility:
         if (XMLSchema.DATE.equals(literal.getDatatype()) || XMLSchema.DATETIME.equals(literal.getDatatype())) {
             try {
                 content = parseDateTime(literal.getLabel());
@@ -140,7 +140,7 @@ public class ItemPropValue {
         return type;
     }
 
-   /**
+    /**
      * @return <code>true</code> if type is plain text.
      */
     public boolean isPlain() {
@@ -172,60 +172,66 @@ public class ItemPropValue {
      * @return <code>true</code> if type is an integer.
      */
     public boolean isInteger() {
-        if(type != Type.Plain)
+        if (type != Type.Plain)
             return false;
-         try {
-             Integer.parseInt((String) content);
-             return true;
-         } catch (Exception e) {
-             return false;
-         }
-     }
+        try {
+            Integer.parseInt((String) content);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * @return <code>true</code> if type is a float.
      */
-     public boolean isFloat() {
-         if(type != Type.Plain)
-             return false;
-         try {
-             Float.parseFloat((String) content);
-             return true;
-         } catch (Exception e) {
-             return false;
-         }
-     }
+    public boolean isFloat() {
+        if (type != Type.Plain)
+            return false;
+        try {
+            Float.parseFloat((String) content);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * @return <code>true</code> if type is a number.
      */
-     public boolean isNumber() {
-         return isInteger() || isFloat();
-     }
+    public boolean isNumber() {
+        return isInteger() || isFloat();
+    }
 
     /**
      * @return the content value as integer, or raises an exception.
-     * @throws NumberFormatException if the content is not an integer.
-     * @throws ClassCastException if content is not plain.
+     * 
+     * @throws NumberFormatException
+     *             if the content is not an integer.
+     * @throws ClassCastException
+     *             if content is not plain.
      */
-     public int getAsInteger() {
-         return Integer.parseInt((String) content);
-     }
+    public int getAsInteger() {
+        return Integer.parseInt((String) content);
+    }
 
     /**
      * @return the content value as float, or raises an exception.
-     * @throws NumberFormatException if the content is not an float.
-     * @throws ClassCastException if content is not plain.
+     * 
+     * @throws NumberFormatException
+     *             if the content is not an float.
+     * @throws ClassCastException
+     *             if content is not plain.
      */
-     public float getAsFloat() {
-         return Float.parseFloat((String) content);
-     }
-
+    public float getAsFloat() {
+        return Float.parseFloat((String) content);
+    }
 
     /**
-     * @return the content as {@link Date}
-     *         if <code>type == Type.DateTime</code>,
-     * @throws ClassCastException if content is not a valid date.
+     * @return the content as {@link Date} if <code>type == Type.DateTime</code>,
+     * 
+     * @throws ClassCastException
+     *             if content is not a valid date.
      */
     public Date getAsDate() {
         return (Date) content;
@@ -251,15 +257,15 @@ public class ItemPropValue {
 
     public String toJSON() {
         String contentStr;
-        if(content instanceof String) {
+        if (content instanceof String) {
             contentStr = "\"" + StringUtils.escapeAsJSONString((String) content) + "\"";
-        } else if(content instanceof Date) {
+        } else if (content instanceof Date) {
             contentStr = "\"" + getSdf().format((Date) content) + "\"";
         } else {
             contentStr = content.toString();
         }
 
-        return String.format(Locale.ROOT, "{ \"content\" : %s, \"type\" : \"%s\" }", contentStr, type );
+        return String.format(Locale.ROOT, "{ \"content\" : %s, \"type\" : \"%s\" }", contentStr, type);
     }
 
     @Override
@@ -274,13 +280,13 @@ public class ItemPropValue {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(obj == this) {
+        if (obj == this) {
             return true;
         }
-        if(obj instanceof ItemPropValue) {
+        if (obj instanceof ItemPropValue) {
             final ItemPropValue other = (ItemPropValue) obj;
             return content.equals(other.content) && type.equals(other.type);
         }

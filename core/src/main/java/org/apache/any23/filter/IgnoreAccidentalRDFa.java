@@ -27,8 +27,7 @@ import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 
 /**
- * A {@link TripleHandler} that suppresses output of the RDFa
- * parser if the document only contains "accidental" RDFa,
+ * A {@link TripleHandler} that suppresses output of the RDFa parser if the document only contains "accidental" RDFa,
  * like stylesheet links and other non-RDFa uses of HTML's
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -44,16 +43,17 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     /**
      * Constructor.
      *
-     * @param wrapped the decorated triple handler.
-     * @param alwaysSuppressCSSTriples if <code>true</code> the <i>CSS</i> triples will be
-     *        always suppressed even if the document is not empty.
-     *        If <code>false</code> then the <i>CSS</i> triples will be suppressed only if
-     *        document is empty.
+     * @param wrapped
+     *            the decorated triple handler.
+     * @param alwaysSuppressCSSTriples
+     *            if <code>true</code> the <i>CSS</i> triples will be always suppressed even if the document is not
+     *            empty. If <code>false</code> then the <i>CSS</i> triples will be suppressed only if document is empty.
      */
     public IgnoreAccidentalRDFa(TripleHandler wrapped, boolean alwaysSuppressCSSTriples) {
         this.blocker = new ExtractionContextBlocker(wrapped);
         this.alwaysSuppressCSSTriples = alwaysSuppressCSSTriples;
     }
+
     public IgnoreAccidentalRDFa(TripleHandler wrapped) {
         this(wrapped, false);
     }
@@ -70,9 +70,9 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     }
 
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         // Suppress stylesheet triples.
-        if(alwaysSuppressCSSTriples && p.stringValue().equals(vXHTML.stylesheet.stringValue())) {
+        if (alwaysSuppressCSSTriples && p.stringValue().equals(vXHTML.stylesheet.stringValue())) {
             return;
         }
         if (isRDFaContext(context)) {
@@ -81,8 +81,7 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
         blocker.receiveTriple(s, p, o, g, context);
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
-    throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         blocker.receiveNamespace(prefix, uri, context);
     }
 
@@ -103,6 +102,6 @@ public class IgnoreAccidentalRDFa implements TripleHandler {
     }
 
     public void setContentLength(long contentLength) {
-        //Ignore.
+        // Ignore.
     }
 }

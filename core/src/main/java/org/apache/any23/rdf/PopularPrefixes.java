@@ -47,26 +47,27 @@ public class PopularPrefixes {
             properties.load(getResourceAsStream());
         } catch (IOException e) {
             logger.error(String.format(Locale.ROOT, "Error while loading prefixes from %s", RESOURCE_NAME), e);
-            throw new RuntimeException(String.format(Locale.ROOT, "Error while loading prefixes from %s", RESOURCE_NAME));
+            throw new RuntimeException(
+                    String.format(Locale.ROOT, "Error while loading prefixes from %s", RESOURCE_NAME));
         }
         for (Map.Entry entry : properties.entrySet()) {
             if (testIRICompliance((String) entry.getValue())) {
-                prefixes.add(
-                        (String) entry.getKey(),
-                        (String) entry.getValue()
-                );
+                prefixes.add((String) entry.getKey(), (String) entry.getValue());
             } else {
-                logger.warn(String.format(Locale.ROOT, "Prefixes entry '%s' is not a well-formad IRI. Skipped.", entry.getValue()));
+                logger.warn(String.format(Locale.ROOT, "Prefixes entry '%s' is not a well-formad IRI. Skipped.",
+                        entry.getValue()));
             }
         }
         return prefixes;
     }
 
     /**
-     * This method perform a prefix lookup. Given a set of prefixes it returns {@link Prefixes} bag
-     * class containing them.
+     * This method perform a prefix lookup. Given a set of prefixes it returns {@link Prefixes} bag class containing
+     * them.
      *
-     * @param prefixes the input prefixes where perform the lookup
+     * @param prefixes
+     *            the input prefixes where perform the lookup
+     * 
      * @return a {@link Prefixes} containing all the prefixes mathing the input parameter
      */
     public static Prefixes createSubset(String... prefixes) {
@@ -83,9 +84,10 @@ public class PopularPrefixes {
     /**
      * Checks the compliance of the <i>IRI</i>.
      *
-     * @param stringUri the string of the IRI to be checked
-     * @return <code>true</code> if <i> stringUri</i> is a valid IRI,
-     *         <code>false</code> otherwise.
+     * @param stringUri
+     *            the string of the IRI to be checked
+     * 
+     * @return <code>true</code> if <i> stringUri</i> is a valid IRI, <code>false</code> otherwise.
      */
     private static boolean testIRICompliance(String stringUri) {
         try {
@@ -97,21 +99,20 @@ public class PopularPrefixes {
     }
 
     /**
-      * Loads the prefixes list configuration file.
-      *
-      * @return the input stream containing the configuration.
-      */
-     private static InputStream getResourceAsStream() {
-         InputStream result;
-         result = PopularPrefixes.class.getResourceAsStream(RESOURCE_NAME);
-         if (result == null) {
-             result = PopularPrefixes.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
-             if (result == null) {
-                 result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
-             }
-         }
-         return result;
-     }
-
+     * Loads the prefixes list configuration file.
+     *
+     * @return the input stream containing the configuration.
+     */
+    private static InputStream getResourceAsStream() {
+        InputStream result;
+        result = PopularPrefixes.class.getResourceAsStream(RESOURCE_NAME);
+        if (result == null) {
+            result = PopularPrefixes.class.getClassLoader().getResourceAsStream(RESOURCE_NAME);
+            if (result == null) {
+                result = ClassLoader.getSystemResourceAsStream(RESOURCE_NAME);
+            }
+        }
+        return result;
+    }
 
 }

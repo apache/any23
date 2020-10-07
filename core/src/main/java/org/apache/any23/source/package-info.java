@@ -16,7 +16,6 @@
  */
 
 /**
- * Package containing some auxiliary classes to handle different types
- * of {@link java.io.InputStream} sources.
+ * Package containing some auxiliary classes to handle different types of {@link java.io.InputStream} sources.
  */
 package org.apache.any23.source;

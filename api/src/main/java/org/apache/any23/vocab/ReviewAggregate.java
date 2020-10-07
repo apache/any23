@@ -23,12 +23,12 @@ public class ReviewAggregate extends Vocabulary {
     private static ReviewAggregate instance;
 
     public static ReviewAggregate getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ReviewAggregate();
         }
         return instance;
     }
-    
+
     /**
      * The namespace of the vocabulary as a string.
      */
@@ -38,28 +38,27 @@ public class ReviewAggregate extends Vocabulary {
      * The namespace of the vocabulary as a IRI.
      */
     public final IRI NAMESPACE = createIRI(NS);
-    
+
     /**
      * Number of usefulness votes (integer).
      */
     public final IRI votes = createProperty("votes");
-    
+
     /**
      * Number of usefulness reviews (integer).
      */
     public final IRI count = createProperty("count");
-    
+
     /**
      * Optional
      */
     public final IRI average = createProperty("average");
-    
+
     public final IRI worst = createProperty("worst");
-    
+
     public final IRI best = createProperty("best");
 
-    
-     /**
+    /**
      * An agg review of a work.
      */
     public final IRI ReviewAggregate = createProperty("ReviewAggregate");
@@ -67,8 +66,8 @@ public class ReviewAggregate extends Vocabulary {
     private IRI createProperty(String localName) {
         return createProperty(NS, localName);
     }
-    
-    private ReviewAggregate(){
+
+    private ReviewAggregate() {
         super(NS);
     }
 }

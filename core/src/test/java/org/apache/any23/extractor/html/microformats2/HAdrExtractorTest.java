@@ -29,7 +29,7 @@ public class HAdrExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-    public void testModelNotEmpty() throws RepositoryException , RDFHandlerException {
+    public void testModelNotEmpty() throws RepositoryException, RDFHandlerException {
         assertExtract("/microformats2/h-adr/h-adr-test.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 11);

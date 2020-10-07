@@ -29,6 +29,7 @@ import java.util.List;
  * Fixes the misuse of the meta name attribute.
  *
  * @see MetaNameMisuseRule
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

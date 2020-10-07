@@ -24,15 +24,15 @@ import java.io.OutputStream;
 
 /**
  * <i>RDF/XML</i> {@link TripleWriter} implementation.
+ * 
  * @author Hans Brende (hansbrende@apache.org)
  */
 public class RDFXMLWriter extends RDFWriterTripleHandler {
 
     static class Internal {
-        private static final org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriterFactory rdf4j
-                = new org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriterFactory();
+        private static final org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriterFactory rdf4j = new org.eclipse.rdf4j.rio.rdfxml.RDFXMLWriterFactory();
 
-        //TODO support pretty printing with RDFXMLPrettyWriterFactory
+        // TODO support pretty printing with RDFXMLPrettyWriterFactory
 
         static final TripleFormat FORMAT = format(rdf4j);
 

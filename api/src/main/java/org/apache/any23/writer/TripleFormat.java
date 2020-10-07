@@ -70,7 +70,7 @@ public class TripleFormat {
             return new Capabilities(raw | WRITES_NAMESPACES);
         }
 
-        //TODO: add "supportsComments()"
+        // TODO: add "supportsComments()"
     }
 
     private static IllegalArgumentException mimeTypeErr(String mt) {
@@ -88,7 +88,7 @@ public class TripleFormat {
         return object;
     }
 
-    //see https://tools.ietf.org/html/rfc2045#section-5.1
+    // see https://tools.ietf.org/html/rfc2045#section-5.1
     private static void checkMimeTypes(List<String> mts) {
         if (checkNonNull(mts, "mimetypes").isEmpty()) {
             throw new IllegalArgumentException("mimetypes must not be empty");
@@ -97,11 +97,10 @@ public class TripleFormat {
             boolean slash = false;
             for (int i = 0, len = checkNonNull(mt, "mimetype").length(); i < len; i++) {
                 char ch = mt.charAt(i);
-                if (ch <= ' ' || ch >= 127 || ch == '(' || ch == ')' ||
-                        ch == '<' || ch == '>' || ch == '@' || ch == ',' ||
-                        ch == ';' || ch == ':' || ch == '\\' || ch == '"' ||
-                        ch == '[' || ch == ']' || ch == '?' || ch == '='
-                        //also disallow wildcards:
+                if (ch <= ' ' || ch >= 127 || ch == '(' || ch == ')' || ch == '<' || ch == '>' || ch == '@' || ch == ','
+                        || ch == ';' || ch == ':' || ch == '\\' || ch == '"' || ch == '[' || ch == ']' || ch == '?'
+                        || ch == '='
+                        // also disallow wildcards:
                         || ch == '*') {
                     throw mimeTypeErr(mt);
                 } else if (ch == '/') {
@@ -122,9 +121,8 @@ public class TripleFormat {
             int illegalDot = 0;
             for (int i = 0, len = checkNonNull(ext, "extension").length(); i < len; i++) {
                 char ch = ext.charAt(i);
-                if (ch <= ' ' || ch >= 127 || ch == '<' || ch == '>' ||
-                        ch == ':' || ch == '"' || ch == '/' || ch == '\\' ||
-                        ch == '|' || ch == '?' || ch == '*') {
+                if (ch <= ' ' || ch >= 127 || ch == '<' || ch == '>' || ch == ':' || ch == '"' || ch == '/'
+                        || ch == '\\' || ch == '|' || ch == '?' || ch == '*') {
                     throw extensionErr(ext);
                 } else if (ch == '.') {
                     int next = i + 1;
@@ -145,22 +143,22 @@ public class TripleFormat {
         return ext.toLowerCase(Locale.ENGLISH);
     }
 
-    private TripleFormat(String name, Collection<String> mimeTypes, Charset charset,
-                     Collection<String> fileExtensions, String standardIRI, Capabilities capabilities) {
+    private TripleFormat(String name, Collection<String> mimeTypes, Charset charset, Collection<String> fileExtensions,
+            String standardIRI, Capabilities capabilities) {
         this.name = checkNonNull(name, "display name");
-        checkMimeTypes(this.mimeTypes = Collections.unmodifiableList(mimeTypes.stream()
-                .map(TripleFormat::normalizeMimeType).distinct().collect(Collectors.toList())));
+        checkMimeTypes(this.mimeTypes = Collections.unmodifiableList(
+                mimeTypes.stream().map(TripleFormat::normalizeMimeType).distinct().collect(Collectors.toList())));
         if ((this.charset = charset) != null && !charset.canEncode()) {
             throw new IllegalArgumentException(charset + " does not allow encoding");
         }
-        checkExtensions(this.fileExtensions = Collections.unmodifiableList(fileExtensions.stream()
-                .map(TripleFormat::normalizeExtension).distinct().collect(Collectors.toList())));
+        checkExtensions(this.fileExtensions = Collections.unmodifiableList(
+                fileExtensions.stream().map(TripleFormat::normalizeExtension).distinct().collect(Collectors.toList())));
         this.standardIRI = standardIRI == null ? null : vf.createIRI(standardIRI);
         this.capabilities = checkNonNull(capabilities, "capabilities");
     }
 
     public static TripleFormat of(String displayName, Collection<String> mimeTypes, Charset defaultCharset,
-                                  Collection<String> fileExtensions, String standardIRI, Capabilities capabilities) {
+            Collection<String> fileExtensions, String standardIRI, Capabilities capabilities) {
         return new TripleFormat(displayName, mimeTypes, defaultCharset, fileExtensions, standardIRI, capabilities);
     }
 
@@ -181,9 +179,8 @@ public class TripleFormat {
     }
 
     static TripleFormat of(RDFFormat format) {
-        TripleFormat f = of(format.getName(), format.getMIMETypes(),
-                format.getCharset(), format.getFileExtensions(), iri(format.getStandardURI()),
-                capabilities(format));
+        TripleFormat f = of(format.getName(), format.getMIMETypes(), format.getCharset(), format.getFileExtensions(),
+                iri(format.getStandardURI()), capabilities(format));
         f.rdfFormat = format;
         return f;
     }
@@ -230,10 +227,8 @@ public class TripleFormat {
     }
 
     public String toString() {
-        return name + mimeTypes.stream().collect(
-                Collectors.joining(", ", " (mimeTypes=", "; "))
-                + fileExtensions.stream().collect(
-                        Collectors.joining(", ", "ext=", ")"));
+        return name + mimeTypes.stream().collect(Collectors.joining(", ", " (mimeTypes=", "; "))
+                + fileExtensions.stream().collect(Collectors.joining(", ", "ext=", ")"));
     }
 
 }

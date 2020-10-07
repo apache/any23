@@ -20,8 +20,7 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * The <a href="http://ogp.me/">Open Graph Protocol Article Type</a> 
- * vocabulary.
+ * The <a href="http://ogp.me/">Open Graph Protocol Article Type</a> vocabulary.
  */
 public class OGPArticle extends Vocabulary {
 
@@ -43,20 +42,20 @@ public class OGPArticle extends Vocabulary {
     public static final String ARTICLE__EXPIRATION_TIME = "article:expiration_time";
 
     /** Writers of the article. */
-    public static final String ARTICLE__AUTHOR   = "article:author";
+    public static final String ARTICLE__AUTHOR = "article:author";
 
     /** A high-level section name. E.g. Technology */
-    public static final String ARTICLE__SECTION  = "article:section";
+    public static final String ARTICLE__SECTION = "article:section";
 
     /** Tag words associated with this article. */
-    public static final String ARTICLE__TAG      = "article:tag";
+    public static final String ARTICLE__TAG = "article:tag";
 
     /* END: http://ogp.me/#type_article */
 
     private static OGPArticle instance;
 
     public static OGPArticle getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OGPArticle();
         }
         return instance;
@@ -67,9 +66,9 @@ public class OGPArticle extends Vocabulary {
     public final IRI articlePublishedTime = createProperty(ARTICLE__PUBLISHED_TIME);
     public final IRI articleModifiedTime = createProperty(ARTICLE__MODIFIED_TIME);
     public final IRI articleExpirationTime = createProperty(ARTICLE__EXPIRATION_TIME);
-    public final IRI articleAuthor  = createProperty(ARTICLE__AUTHOR);
+    public final IRI articleAuthor = createProperty(ARTICLE__AUTHOR);
     public final IRI articleSection = createProperty(ARTICLE__SECTION);
-    public final IRI articleTag     = createProperty(ARTICLE__TAG);
+    public final IRI articleTag = createProperty(ARTICLE__TAG);
 
     @SuppressWarnings("unused")
     private IRI createClass(String localName) {

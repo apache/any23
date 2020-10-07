@@ -27,25 +27,20 @@ import org.apache.any23.rdf.Prefixes;
 /**
  *
  */
-public class JSONLDExtractorFactory extends SimpleExtractorFactory<JSONLDExtractor> implements
-        ExtractorFactory<JSONLDExtractor> {
+public class JSONLDExtractorFactory extends SimpleExtractorFactory<JSONLDExtractor>
+        implements ExtractorFactory<JSONLDExtractor> {
 
     public static final String NAME = "rdf-jsonld";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new JSONLDExtractorFactory();
-    
+
     public JSONLDExtractorFactory() {
-        super(
-                JSONLDExtractorFactory.NAME, 
-                JSONLDExtractorFactory.PREFIXES,
-                Arrays.asList(
-                        "application/ld+json;q=0.1"
-                ),
+        super(JSONLDExtractorFactory.NAME, JSONLDExtractorFactory.PREFIXES, Arrays.asList("application/ld+json;q=0.1"),
                 "example-jsonld.jsonld");
     }
-    
+
     @Override
     public JSONLDExtractor createExtractor() {
         return new JSONLDExtractor();

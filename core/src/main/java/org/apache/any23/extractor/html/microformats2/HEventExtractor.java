@@ -34,10 +34,8 @@ import java.util.List;
 
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 
-
 /**
- * Extractor for the <a href="http://microformats.org/wiki/h-event">h-event</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/h-event">h-event</a> microformat.
  *
  * @author Nisala Nirmana
  */
@@ -46,25 +44,10 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
     private static final HEvent vEvent = HEvent.getInstance();
     private static final VCard vVCARD = VCard.getInstance();
 
-    private String[] eventFields = {
-            "name",
-            "summary",
-            "start",
-            "end",
-            "duration",
-            "description",
-            "url",
-            "category",
-            "location",
-            "attendee"
-    };
+    private String[] eventFields = { "name", "summary", "start", "end", "duration", "description", "url", "category",
+            "location", "attendee" };
 
-    private static final String[] geoFields = {
-            "latitude",
-            "longitude",
-            "altitude"
-    };
-
+    private static final String[] geoFields = { "latitude", "longitude", "altitude" };
 
     @Override
     public ExtractorDescription getDescription() {
@@ -73,7 +56,7 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
 
     @Override
     protected String getBaseClassName() {
-        return Microformats2Prefixes.CLASS_PREFIX+"event";
+        return Microformats2Prefixes.CLASS_PREFIX + "event";
     }
 
     @Override
@@ -95,12 +78,11 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         addURLs(fragment, event);
         addCategories(fragment, event);
         addLocations(fragment, event);
-        addAttendees(fragment,event);
+        addAttendees(fragment, event);
         return true;
     }
 
-    public Resource extractEntityAsEmbeddedProperty(HTMLDocument fragment, BNode event,
-                                                    ExtractionResult out)
+    public Resource extractEntityAsEmbeddedProperty(HTMLDocument fragment, BNode event, ExtractionResult out)
             throws ExtractionException {
         this.setCurrentExtractionResult(out);
         addName(fragment, event);
@@ -112,13 +94,13 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         addURLs(fragment, event);
         addCategories(fragment, event);
         addLocations(fragment, event);
-        addAttendees(fragment,event);
+        addAttendees(fragment, event);
         return event;
     }
 
     private void addAttendees(HTMLDocument doc, Resource entry) throws ExtractionException {
-        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[9] +
-                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[9]
+                + Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
         if (nodes.isEmpty())
             return;
         HCardExtractorFactory factory = new HCardExtractorFactory();
@@ -126,112 +108,86 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
         for (Node node : nodes) {
             BNode attendee = valueFactory.createBNode();
             addIRIProperty(attendee, RDF.TYPE, vEvent.attendee);
-            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), attendee,
-                    getCurrentExtractionResult());
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), attendee, getCurrentExtractionResult());
         }
     }
 
-    private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass,
-                                      IRI property) {
+    private void mapFieldWithProperty(HTMLDocument fragment, BNode recipe, String fieldClass, IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
-        conditionallyAddStringProperty(
-                title.source(), recipe, property, title.value()
-        );
+        conditionallyAddStringProperty(title.source(), recipe, property, title.value());
     }
 
     private void addName(HTMLDocument fragment, BNode event) {
-        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX +
-                eventFields[0], vEvent.name);
+        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX + eventFields[0], vEvent.name);
     }
 
     private void addSummary(HTMLDocument fragment, BNode event) {
-        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX +
-                eventFields[1], vEvent.summary);
+        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX + eventFields[1], vEvent.summary);
     }
 
     private void addStart(HTMLDocument fragment, BNode event) {
-        final TextField start = fragment.getSingularTextField(
-                Microformats2Prefixes.TIME_PROPERTY_PREFIX + eventFields[2]);
-        if(start.source()==null)
+        final TextField start = fragment
+                .getSingularTextField(Microformats2Prefixes.TIME_PROPERTY_PREFIX + eventFields[2]);
+        if (start.source() == null)
             return;
         Node attribute = start.source().getAttributes().getNamedItem("datetime");
         if (attribute == null) {
-            conditionallyAddStringProperty(
-                    start.source(),
-                    event, vEvent.start, start.value()
-            );
+            conditionallyAddStringProperty(start.source(), event, vEvent.start, start.value());
         } else {
-            conditionallyAddStringProperty(
-                    start.source(),
-                    event, vEvent.start, attribute.getNodeValue()
-            );
+            conditionallyAddStringProperty(start.source(), event, vEvent.start, attribute.getNodeValue());
         }
     }
 
     private void addEnd(HTMLDocument fragment, BNode event) {
-        final TextField end = fragment.getSingularTextField(
-                Microformats2Prefixes.TIME_PROPERTY_PREFIX + eventFields[3]);
-        if(end.source()==null)
+        final TextField end = fragment
+                .getSingularTextField(Microformats2Prefixes.TIME_PROPERTY_PREFIX + eventFields[3]);
+        if (end.source() == null)
             return;
         Node attribute = end.source().getAttributes().getNamedItem("datetime");
         if (attribute == null) {
-            conditionallyAddStringProperty(
-                    end.source(),
-                    event, vEvent.end, end.value()
-            );
+            conditionallyAddStringProperty(end.source(), event, vEvent.end, end.value());
         } else {
-            conditionallyAddStringProperty(
-                    end.source(),
-                    event, vEvent.end, attribute.getNodeValue()
-            );
+            conditionallyAddStringProperty(end.source(), event, vEvent.end, attribute.getNodeValue());
         }
     }
 
     private void addDuration(HTMLDocument fragment, BNode event) {
-        final TextField duration = fragment.getSingularTextField(
-                Microformats2Prefixes.TIME_PROPERTY_PREFIX + eventFields[4]);
-        if(duration.source()==null)
+        final TextField duration = fragment
+                .getSingularTextField(Microformats2Prefixes.TIME_PROPERTY_PREFIX + eventFields[4]);
+        if (duration.source() == null)
             return;
         Node attribute = duration.source().getAttributes().getNamedItem("datetime");
         if (attribute == null) {
-            conditionallyAddStringProperty(
-                    duration.source(),
-                    event, vEvent.duration, duration.value()
-            );
+            conditionallyAddStringProperty(duration.source(), event, vEvent.duration, duration.value());
         } else {
-            conditionallyAddStringProperty(
-                    duration.source(),
-                    event, vEvent.duration, attribute.getNodeValue()
-            );
+            conditionallyAddStringProperty(duration.source(), event, vEvent.duration, attribute.getNodeValue());
         }
     }
 
     private void addDescription(HTMLDocument fragment, BNode event) {
-        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX +
-                eventFields[5], vEvent.description);
+        mapFieldWithProperty(fragment, event, Microformats2Prefixes.PROPERTY_PREFIX + eventFields[5],
+                vEvent.description);
     }
 
     private void addURLs(HTMLDocument fragment, BNode event) throws ExtractionException {
-        final HTMLDocument.TextField[] urls = fragment.getPluralUrlField
-                (Microformats2Prefixes.URL_PROPERTY_PREFIX + eventFields[6]);
-        for(HTMLDocument.TextField url : urls) {
+        final HTMLDocument.TextField[] urls = fragment
+                .getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX + eventFields[6]);
+        for (HTMLDocument.TextField url : urls) {
             addIRIProperty(event, vEvent.url, fragment.resolveIRI(url.value()));
         }
     }
 
     private void addCategories(HTMLDocument fragment, BNode event) {
-        final HTMLDocument.TextField[] categories = fragment.getPluralTextField
-                (Microformats2Prefixes.PROPERTY_PREFIX + eventFields[7]);
-        for(HTMLDocument.TextField category : categories) {
-            conditionallyAddStringProperty(
-                    category.source(), event, vEvent.category, category.value()
-            );
+        final HTMLDocument.TextField[] categories = fragment
+                .getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[7]);
+        for (HTMLDocument.TextField category : categories) {
+            conditionallyAddStringProperty(category.source(), event, vEvent.category, category.value());
         }
     }
 
     private void addLocations(HTMLDocument doc, Resource entry) throws ExtractionException {
-        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[8] +
-                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "geo");
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + eventFields[8]
+                + Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "geo");
         if (nodes.isEmpty())
             return;
         for (Node node : nodes) {
@@ -239,19 +195,15 @@ public class HEventExtractor extends EntityBasedMicroformatExtractor {
             addIRIProperty(location, RDF.TYPE, vEvent.location);
             HTMLDocument fragment = new HTMLDocument(node);
             for (String field : geoFields) {
-                HTMLDocument.TextField[] values = fragment.getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX+field);
+                HTMLDocument.TextField[] values = fragment
+                        .getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX + field);
                 for (HTMLDocument.TextField val : values) {
-                    Node attribute=val.source().getAttributes().getNamedItem("title");
-                    if (attribute==null){
-                        conditionallyAddStringProperty(
-                                val.source(),
-                                location, vVCARD.getProperty(field), val.value()
-                        );
-                    }else{
-                        conditionallyAddStringProperty(
-                                val.source(),
-                                location, vVCARD.getProperty(field), attribute.getNodeValue()
-                        );
+                    Node attribute = val.source().getAttributes().getNamedItem("title");
+                    if (attribute == null) {
+                        conditionallyAddStringProperty(val.source(), location, vVCARD.getProperty(field), val.value());
+                    } else {
+                        conditionallyAddStringProperty(val.source(), location, vVCARD.getProperty(field),
+                                attribute.getNodeValue());
                     }
                 }
             }
