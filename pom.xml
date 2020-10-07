@@ -199,7 +199,7 @@
       <unsubscribe>dev-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/any23-dev/</archive>
       <otherArchives>
-        <otherArchive>http://any23-dev.markmail.org/</otherArchive>
+        <otherArchive>https://lists.apache.org/list.html?dev@any23.apache.org</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -210,7 +210,7 @@
       <unsubscribe>user-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/any23-user/</archive>
       <otherArchives>
-        <otherArchive>http://any23-user.markmail.org/</otherArchive>
+        <otherArchive>https://lists.apache.org/list.html?user@any23.apache.org</otherArchive>
       </otherArchives>
     </mailingList>
 
@@ -221,7 +221,7 @@
       <unsubscribe>commits-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
       <archive>http://mail-archives.apache.org/mod_mbox/any23-commits/</archive>
       <otherArchives>
-        <otherArchive>http://any23-commits.markmail.org/</otherArchive>
+        <otherArchive>https://lists.apache.org/list.html?commits@any23.apache.org</otherArchive>
       </otherArchives>
     </mailingList>
   </mailingLists>
@@ -248,7 +248,7 @@
   </issueManagement>
   <ciManagement>
     <system>Jenkins</system>
-    <url>https://builds.apache.org/job/Any23-trunk/</url>
+    <url>https://ci-builds.apache.org/job/Any23/</url>
   </ciManagement>
 
   <!-- General properties. -->
@@ -282,7 +282,7 @@
 
     <!-- Used to track API changes based on Semantic Versioning
          NOTE: velocity does.not.allow.dot.notation, so justUseCamelCase -->
-    <latestStableRelease>2.3</latestStableRelease>
+    <latestStableRelease>2.4</latestStableRelease>
 
     <!-- Google Analytics id for website -->
     <form.tracker.id>UA-59636188-1</form.tracker.id>
