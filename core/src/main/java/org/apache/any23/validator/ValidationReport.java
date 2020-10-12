@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * This class contains the report of a validation performed by
- * the {@link Validator} class.
+ * This class contains the report of a validation performed by the {@link Validator} class.
  *
  * @see Validator
  * @see ValidationReportBuilder
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -40,9 +40,7 @@ public interface ValidationReport extends Serializable {
      * Defines the different issue levels.
      */
     enum IssueLevel {
-        ERROR,
-        WARNING,
-        INFO
+        ERROR, WARNING, INFO
     }
 
     /**
@@ -72,26 +70,26 @@ public interface ValidationReport extends Serializable {
     class Issue implements Serializable {
 
         /**
-       * 
-       */
-      private static final long serialVersionUID = 1L;
+        * 
+        */
+        private static final long serialVersionUID = 1L;
         private final IssueLevel level;
         private final String message;
-        private final transient  Node origin;
+        private final transient Node origin;
 
         public Issue(IssueLevel level, String message, Node origin) {
-            if(level == null) {
+            if (level == null) {
                 throw new NullPointerException("level cannot be null.");
             }
-            if(message == null) {
+            if (message == null) {
                 throw new NullPointerException("message cannot be null.");
             }
-            if(origin == null) {
+            if (origin == null) {
                 throw new NullPointerException("origin cannot be null.");
             }
-            this.level   = level;
+            this.level = level;
             this.message = message;
-            this.origin  = origin;
+            this.origin = origin;
         }
 
         public String getMessage() {
@@ -108,28 +106,23 @@ public interface ValidationReport extends Serializable {
 
         @Override
         public String toString() {
-            return String.format(Locale.ROOT,
-                    "Issue %s '%s' %s",
-                    level,
-                    message,
-                    DomUtils.getXPathForNode(origin)
-            );
+            return String.format(Locale.ROOT, "Issue %s '%s' %s", level, message, DomUtils.getXPathForNode(origin));
         }
     }
 
     /**
-     * This class describes the activation of a rule. 
+     * This class describes the activation of a rule.
      */
     class RuleActivation implements Serializable {
 
         /**
-       * 
-       */
-      private static final long serialVersionUID = 1L;
+        * 
+        */
+        private static final long serialVersionUID = 1L;
         private final String ruleStr;
 
         public RuleActivation(Rule r) {
-            if(r == null) {
+            if (r == null) {
                 throw new NullPointerException("rule cannot be null.");
             }
             ruleStr = r.getHRName();
@@ -140,7 +133,7 @@ public interface ValidationReport extends Serializable {
         }
 
         @Override
-         public String toString() {
+        public String toString() {
             return ruleStr;
         }
     }
@@ -151,20 +144,20 @@ public interface ValidationReport extends Serializable {
     abstract class Error implements Serializable {
 
         /**
-       * 
-       */
-      private static final long serialVersionUID = 1L;
+        * 
+        */
+        private static final long serialVersionUID = 1L;
         private final Exception cause;
         private final String message;
 
         public Error(Exception e, String msg) {
-            if(e == null) {
+            if (e == null) {
                 throw new NullPointerException("exception cannot be null.");
             }
-            if(msg == null) {
+            if (msg == null) {
                 throw new NullPointerException("message cannot be null.");
             }
-            cause   = e;
+            cause = e;
             message = msg;
         }
 
@@ -188,14 +181,14 @@ public interface ValidationReport extends Serializable {
     class RuleError extends Error {
 
         /**
-       * 
-       */
-      private static final long serialVersionUID = 1L;
+        * 
+        */
+        private static final long serialVersionUID = 1L;
         private final Rule origin;
 
         public RuleError(Rule r, Exception e, String msg) {
             super(e, msg);
-            if(r == null) {
+            if (r == null) {
                 throw new NullPointerException("rule cannot be null.");
             }
             origin = r;
@@ -217,14 +210,14 @@ public interface ValidationReport extends Serializable {
     class FixError extends Error {
 
         /**
-       * 
-       */
-      private static final long serialVersionUID = 1L;
+        * 
+        */
+        private static final long serialVersionUID = 1L;
         private final Fix origin;
 
         public FixError(Fix f, Exception e, String msg) {
-             super(e, msg);
-             origin = f;
+            super(e, msg);
+            origin = f;
         }
 
         public Fix getOrigin() {

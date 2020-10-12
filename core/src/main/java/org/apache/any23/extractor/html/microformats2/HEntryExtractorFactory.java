@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-
 package org.apache.any23.extractor.html.microformats2;
 
 import org.apache.any23.extractor.ExtractorDescription;
@@ -27,13 +26,12 @@ import org.apache.any23.rdf.Prefixes;
 import java.util.Arrays;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/h-entry">h-entry</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/h-entry">h-entry</a> microformat.
  *
  * @author Nisala Nirmana
  */
-public class HEntryExtractorFactory extends SimpleExtractorFactory<HEntryExtractor> implements
-        ExtractorFactory<HEntryExtractor> {
+public class HEntryExtractorFactory extends SimpleExtractorFactory<HEntryExtractor>
+        implements ExtractorFactory<HEntryExtractor> {
 
     public static final String NAME = "html-mf2-h-entry";
 
@@ -42,11 +40,8 @@ public class HEntryExtractorFactory extends SimpleExtractorFactory<HEntryExtract
     private static final ExtractorDescription descriptionInstance = new HEntryExtractorFactory();
 
     public HEntryExtractorFactory() {
-        super(
-                HEntryExtractorFactory.NAME,
-                HEntryExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf2-h-entry.html");
+        super(HEntryExtractorFactory.NAME, HEntryExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf2-h-entry.html");
     }
 
     @Override

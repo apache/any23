@@ -37,20 +37,19 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/xfn">XFN</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/xfn">XFN</a> microformat.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class XFNExtractor implements TagSoupDOMExtractor {
 
     private static final FOAF vFOAF = FOAF.getInstance();
-    private static final XFN vXFN  = XFN.getInstance();
+    private static final XFN vXFN = XFN.getInstance();
 
-    private final static Any23ValueFactoryWrapper factoryWrapper =
-            new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance());
+    private final static Any23ValueFactoryWrapper factoryWrapper = new Any23ValueFactoryWrapper(
+            SimpleValueFactory.getInstance());
 
-    private HTMLDocument     document;
+    private HTMLDocument document;
     private ExtractionResult out;
 
     @Override
@@ -59,12 +58,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
     }
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
         factoryWrapper.setIssueReport(out);
         try {
             document = new HTMLDocument(in);
@@ -76,7 +71,8 @@ public class XFNExtractor implements TagSoupDOMExtractor {
             for (Node link : document.findAll("//A[@rel][@href]")) {
                 foundAnyXFN |= extractLink(link, subject, documentIRI);
             }
-            if (!foundAnyXFN) return;
+            if (!foundAnyXFN)
+                return;
             out.writeTriple(subject, RDF.TYPE, vFOAF.Person);
             out.writeTriple(subject, vXFN.mePage, documentIRI);
         } finally {
@@ -84,8 +80,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
         }
     }
 
-    private boolean extractLink(Node firstLink, BNode subject, IRI documentIRI)
-    throws ExtractionException {
+    private boolean extractLink(Node firstLink, BNode subject, IRI documentIRI) throws ExtractionException {
         String href = firstLink.getAttributes().getNamedItem("href").getNodeValue();
         String rel = firstLink.getAttributes().getNamedItem("rel").getNodeValue();
 
@@ -93,7 +88,7 @@ public class XFNExtractor implements TagSoupDOMExtractor {
         IRI link = document.resolveIRI(href);
         if (containsRelMe(rels)) {
             if (containsXFNRelExceptMe(rels)) {
-                return false;    // "me" cannot be combined with any other XFN values
+                return false; // "me" cannot be combined with any other XFN values
             }
             out.writeTriple(subject, vXFN.mePage, link);
             out.writeTriple(documentIRI, vXFN.getExtendedProperty("me"), link);

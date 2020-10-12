@@ -24,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class models the parameters to be used to perform an extraction.
- * See org.apache.any23.Any23 for more details.
+ * This class models the parameters to be used to perform an extraction. See org.apache.any23.Any23 for more details.
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class ExtractionParameters {
@@ -36,89 +36,83 @@ public class ExtractionParameters {
 
     private final Map<String, Boolean> extractionFlags;
 
-    private final Map<String,String> extractionProperties;
+    private final Map<String, String> extractionProperties;
 
-    public static final String METADATA_DOMAIN_PER_ENTITY_FLAG  = "any23.extraction.metadata.domain.per.entity";
+    public static final String METADATA_DOMAIN_PER_ENTITY_FLAG = "any23.extraction.metadata.domain.per.entity";
 
-    public static final String METADATA_NESTING_FLAG            = "any23.extraction.metadata.nesting";
+    public static final String METADATA_NESTING_FLAG = "any23.extraction.metadata.nesting";
 
-    public static final String METADATA_TIMESIZE_FLAG           = "any23.extraction.metadata.timesize";
+    public static final String METADATA_TIMESIZE_FLAG = "any23.extraction.metadata.timesize";
 
     public static final String EXTRACTION_CONTEXT_IRI_PROPERTY = "any23.extraction.context.iri";
 
     /**
      * Constructor.
      *
-     * @param configuration underlying configuration.
-     * @param extractionMode specifies the required extraction mode.
-     * @param extractionFlags map of specific flags used for extraction. If not specified they will
-     *        be retrieved by the default {@link org.apache.any23.configuration.Configuration}.
-     * @param extractionProperties map of specific properties used for extraction. If not specified
-     *        they will ne retrieved by the default {@link org.apache.any23.configuration.Configuration}.
+     * @param configuration
+     *            underlying configuration.
+     * @param extractionMode
+     *            specifies the required extraction mode.
+     * @param extractionFlags
+     *            map of specific flags used for extraction. If not specified they will be retrieved by the default
+     *            {@link org.apache.any23.configuration.Configuration}.
+     * @param extractionProperties
+     *            map of specific properties used for extraction. If not specified they will ne retrieved by the default
+     *            {@link org.apache.any23.configuration.Configuration}.
      */
-    public ExtractionParameters(
-            Configuration configuration,
-            ValidationMode extractionMode,
-            Map<String, Boolean> extractionFlags,
-            Map<String,String> extractionProperties
-    ) {
-        if(configuration == null) {
+    public ExtractionParameters(Configuration configuration, ValidationMode extractionMode,
+            Map<String, Boolean> extractionFlags, Map<String, String> extractionProperties) {
+        if (configuration == null) {
             throw new NullPointerException("Configuration cannot be null.");
         }
-        if(extractionMode == null) {
+        if (extractionMode == null) {
             throw new NullPointerException("Extraction mode cannot be null.");
         }
-        this.configuration  = configuration;
+        this.configuration = configuration;
         this.extractionMode = extractionMode;
-        this.extractionFlags =
-                extractionFlags == null
-                        ?
-                new HashMap<>()
-                        :
-                new HashMap<>(extractionFlags);
-        this.extractionProperties =
-                extractionProperties == null
-                        ?
-                new HashMap<>()
-                        :
-                new HashMap<>(extractionProperties);
+        this.extractionFlags = extractionFlags == null ? new HashMap<>() : new HashMap<>(extractionFlags);
+        this.extractionProperties = extractionProperties == null ? new HashMap<>()
+                : new HashMap<>(extractionProperties);
     }
 
     /**
      * Constructor.
      *
-     * @param configuration underlying configuration.
-     * @param extractionMode specifies the required extraction mode.
+     * @param configuration
+     *            underlying configuration.
+     * @param extractionMode
+     *            specifies the required extraction mode.
      */
     public ExtractionParameters(Configuration configuration, ValidationMode extractionMode) {
         this(configuration, extractionMode, null, null);
     }
 
     /**
-     * Constructor, allows to set explicitly the value for flag
-     * SingleDocumentExtraction#METADATA_NESTING_FLAG.
+     * Constructor, allows to set explicitly the value for flag SingleDocumentExtraction#METADATA_NESTING_FLAG.
      *
-     * @param configuration the underlying configuration.
-     * @param extractionMode specifies the required extraction mode.
-     * @param nesting if <code>true</code> nesting triples will be expressed.
+     * @param configuration
+     *            the underlying configuration.
+     * @param extractionMode
+     *            specifies the required extraction mode.
+     * @param nesting
+     *            if <code>true</code> nesting triples will be expressed.
      */
     public ExtractionParameters(Configuration configuration, ValidationMode extractionMode, final boolean nesting) {
-        this(
-                configuration,
-                extractionMode,
-                new HashMap<String, Boolean>(){
-                  /**
-                   * 
-                   */
-                  private static final long serialVersionUID = 1L; {
-                    put(ExtractionParameters.METADATA_NESTING_FLAG, nesting);
-                }},
-                null
-        );
+        this(configuration, extractionMode, new HashMap<String, Boolean>() {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 1L;
+            {
+                put(ExtractionParameters.METADATA_NESTING_FLAG, nesting);
+            }
+        }, null);
     }
 
     /**
-     * @param c the underlying configuration.
+     * @param c
+     *            the underlying configuration.
+     * 
      * @return the default extraction parameters.
      */
     public static final ExtractionParameters newDefault(Configuration c) {
@@ -138,9 +132,7 @@ public class ExtractionParameters {
      * Declares the supported validation actions.
      */
     public enum ValidationMode {
-        NONE,
-        VALIDATE,
-        VALIDATE_AND_FIX
+        NONE, VALIDATE, VALIDATE_AND_FIX
     }
 
     /**
@@ -158,15 +150,17 @@ public class ExtractionParameters {
     }
 
     /**
-     * Returns the value of the specified extraction flag, if the flag is undefined
-     * it will be retrieved by the default {@link org.apache.any23.configuration.Configuration}.
+     * Returns the value of the specified extraction flag, if the flag is undefined it will be retrieved by the default
+     * {@link org.apache.any23.configuration.Configuration}.
      *
-     * @param flagName name of flag.
+     * @param flagName
+     *            name of flag.
+     * 
      * @return flag value.
      */
     public boolean getFlag(String flagName) {
         final Boolean value = extractionFlags.get(flagName);
-        if(value == null) {
+        if (value == null) {
             return configuration.getFlagProperty(flagName);
         }
         return value;
@@ -175,8 +169,11 @@ public class ExtractionParameters {
     /**
      * Sets the value for an extraction flag.
      *
-     * @param flagName flag name.
-     * @param value new flag value.
+     * @param flagName
+     *            flag name.
+     * @param value
+     *            new flag value.
+     * 
      * @return the previous flag value.
      */
     public Boolean setFlag(String flagName, boolean value) {
@@ -186,16 +183,20 @@ public class ExtractionParameters {
     }
 
     /**
-     * Returns the value of the specified extraction property, if the property is undefined
-     * it will be retrieved by the default {@link org.apache.any23.configuration.Configuration}.
+     * Returns the value of the specified extraction property, if the property is undefined it will be retrieved by the
+     * default {@link org.apache.any23.configuration.Configuration}.
      *
-     * @param propertyName the property name.
+     * @param propertyName
+     *            the property name.
+     * 
      * @return the property value.
-     * @throws IllegalArgumentException if the property name is not defined in configuration.
+     * 
+     * @throws IllegalArgumentException
+     *             if the property name is not defined in configuration.
      */
     public String getProperty(String propertyName) {
         final String propertyValue = extractionProperties.get(propertyName);
-        if(propertyValue == null) {
+        if (propertyValue == null) {
             return configuration.getPropertyOrFail(propertyName);
         }
         return propertyValue;
@@ -204,33 +205,32 @@ public class ExtractionParameters {
     /**
      * Sets the value for an extraction property.
      *
-     * @param propertyName the property name.
-     * @param propertyValue the property value.
+     * @param propertyName
+     *            the property name.
+     * @param propertyValue
+     *            the property value.
+     * 
      * @return the previous property value.
      */
     public String setProperty(String propertyName, String propertyValue) {
         checkPropertyExists(propertyName);
-        validateValue("property name" , propertyName);
+        validateValue("property name", propertyName);
         validateValue("property value", propertyValue);
         return extractionProperties.put(propertyName, propertyValue);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) {
+        if (obj == null) {
             return false;
         }
-        if(obj == this) {
+        if (obj == this) {
             return true;
         }
-        if(obj instanceof ExtractionParameters) {
+        if (obj instanceof ExtractionParameters) {
             ExtractionParameters other = (ExtractionParameters) obj;
-            return
-                    extractionMode == other.extractionMode
-                            &&
-                    extractionFlags.equals( other.extractionFlags)
-                            &&
-                    extractionProperties.equals( other.extractionProperties );
+            return extractionMode == other.extractionMode && extractionFlags.equals(other.extractionFlags)
+                    && extractionProperties.equals(other.extractionProperties);
         }
         return false;
     }
@@ -241,15 +241,14 @@ public class ExtractionParameters {
     }
 
     private void checkPropertyExists(String propertyName) {
-        if(! configuration.defineProperty(propertyName) ) {
+        if (!configuration.defineProperty(propertyName)) {
             throw new IllegalArgumentException(
-                    String.format(java.util.Locale.ROOT, "Property '%s' is unknown and cannot be set.", propertyName)
-            );
+                    String.format(java.util.Locale.ROOT, "Property '%s' is unknown and cannot be set.", propertyName));
         }
     }
 
     private void validateValue(String desc, String value) {
-        if(value == null || value.trim().length() == 0)
-            throw new IllegalArgumentException( String.format(java.util.Locale.ROOT, "Invalid %s: '%s'", desc, value) );
+        if (value == null || value.trim().length() == 0)
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Invalid %s: '%s'", desc, value));
     }
 }

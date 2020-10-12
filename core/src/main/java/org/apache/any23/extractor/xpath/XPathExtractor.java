@@ -31,10 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of an {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor} able to
- * apply {@link XPathExtractionRule}s and generate <i>quads</i>.
+ * Implementation of an {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor} able to apply
+ * {@link XPathExtractionRule}s and generate <i>quads</i>.
  *
  * @see XPathExtractionRule
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
@@ -42,9 +43,9 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
     private final List<XPathExtractionRule> xPathExtractionRules = new ArrayList<>();
 
     public XPathExtractor() {
-        //default constructor
+        // default constructor
     }
-    
+
     public XPathExtractor(List<XPathExtractionRule> rules) {
         xPathExtractionRules.addAll(rules);
     }
@@ -62,16 +63,11 @@ public class XPathExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    )
-    throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
         final IRI documentIRI = extractionContext.getDocumentIRI();
-        for(XPathExtractionRule rule : xPathExtractionRules) {
-            if(rule.acceptIRI(documentIRI)) {
+        for (XPathExtractionRule rule : xPathExtractionRules) {
+            if (rule.acceptIRI(documentIRI)) {
                 rule.process(in, out);
             }
         }

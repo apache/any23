@@ -33,8 +33,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/rel-license">rel-license</a> microformat.
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak
@@ -44,25 +43,15 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
     private static final XHTML vXHTML = XHTML.getInstance();
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
         HTMLDocument document = new HTMLDocument(in);
         final IRI documentIRI = extractionContext.getDocumentIRI();
         for (Node node : DomUtils.findAll(in, "//A[@rel='license']/@href")) {
             String link = node.getNodeValue();
             if ("".equals(link)) {
-                out.notifyIssue(
-                        IssueReport.IssueLevel.WARNING,
-                        String.format(Locale.ROOT,
-                                "Invalid license link detected within document %s.",
-                                documentIRI.toString()
-                        ),
-                        0, 0
-                );
+                out.notifyIssue(IssueReport.IssueLevel.WARNING, String.format(Locale.ROOT,
+                        "Invalid license link detected within document %s.", documentIRI.toString()), 0, 0);
                 continue;
             }
             out.writeTriple(documentIRI, vXHTML.license, document.resolveIRI(link));
@@ -73,5 +62,5 @@ public class LicenseExtractor implements TagSoupDOMExtractor {
     public ExtractorDescription getDescription() {
         return LicenseExtractorFactory.getDescriptionInstance();
     }
-    
+
 }

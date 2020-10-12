@@ -33,8 +33,7 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 
 /**
- * Extractor for "ICBM coordinates" provided as META headers in the head
- * of an HTML page.
+ * Extractor for "ICBM coordinates" provided as META headers in the head of an HTML page.
  *
  * @author Gabriele Renzi
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -42,16 +41,13 @@ import java.io.IOException;
 public class ICBMExtractor implements TagSoupDOMExtractor {
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
 
         // ICBM is the preferred method, if two values are available it is meaningless to read both
         String props = DomUtils.find(in, "//META[@name=\"ICBM\" or @name=\"geo.position\"]/@content");
-        if ("".equals(props)) return;
+        if ("".equals(props))
+            return;
 
         String[] coords = props.split("[;,]");
         float lat, lon;

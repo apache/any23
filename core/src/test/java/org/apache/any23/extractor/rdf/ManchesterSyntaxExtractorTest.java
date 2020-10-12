@@ -55,8 +55,7 @@ public class ManchesterSyntaxExtractorTest {
     }
 
     @Test
-    public void testExampleManchesterSyntax()
-    		throws Exception {
+    public void testExampleManchesterSyntax() throws Exception {
         final IRI uri = RDFUtils.iri("http://example.org/example-manchestersyntax.omn");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final TripleHandler th = new RDFXMLWriter(baos);
@@ -64,12 +63,8 @@ public class ManchesterSyntaxExtractorTest {
         final ExtractionResult result = new ExtractionResultImpl(extractionContext, extractor, th);
         extractor.setStopAtFirstError(false);
         try {
-            extractor.run(
-                    ExtractionParameters.newDefault(),
-                    extractionContext,
-                    this.getClass().getResourceAsStream("/text/owl-manchester/example-manchestersyntax.omn"),
-                    result
-            );
+            extractor.run(ExtractionParameters.newDefault(), extractionContext,
+                    this.getClass().getResourceAsStream("/text/owl-manchester/example-manchestersyntax.omn"), result);
         } finally {
             logger.debug(baos.toString());
             th.close();

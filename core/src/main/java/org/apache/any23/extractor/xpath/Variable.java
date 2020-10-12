@@ -21,6 +21,7 @@ package org.apache.any23.extractor.xpath;
  * Represents a variable in {@link TemplateXPathExtractionRule}.
  *
  * @see TemplateXPathExtractionRule
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class Variable {

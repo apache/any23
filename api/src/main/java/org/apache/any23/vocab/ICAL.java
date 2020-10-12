@@ -48,31 +48,31 @@ public class ICAL extends Vocabulary {
     public final IRI NAMESPACE = createIRI(NS);
 
     public final IRI DomainOf_rrule = createClass("DomainOf_rrule");
-    public final IRI List_of_Float  = createClass("List_of_Float");
+    public final IRI List_of_Float = createClass("List_of_Float");
 
     /**
      * Provide a grouping of component properties that define an alarm..
      */
-    public final IRI Valarm            = createClass("Valarm");
+    public final IRI Valarm = createClass("Valarm");
 
     public final IRI Value_CAL_ADDRESS = createClass("Value_CAL-ADDRESS");
 
-    public final IRI Value_DATE        = createClass("Value_DATE");
+    public final IRI Value_DATE = createClass("Value_DATE");
 
-    public final IRI Value_DATE_TIME   = createClass("Value_DATE-TIME");
+    public final IRI Value_DATE_TIME = createClass("Value_DATE-TIME");
 
     /**
      * ICAL datatype for floating date-time values
      */
-    public final IRI DATE_TIME   = createIRI(NS + "dateTime");
+    public final IRI DATE_TIME = createIRI(NS + "dateTime");
 
-    public final IRI Value_DURATION    = createClass("Value_DURATION");
+    public final IRI Value_DURATION = createClass("Value_DURATION");
 
-    public final IRI Value_PERIOD      = createClass("Value_PERIOD");
+    public final IRI Value_PERIOD = createClass("Value_PERIOD");
 
-    public final IRI Value_RECUR       = createClass("Value_RECUR");
+    public final IRI Value_RECUR = createClass("Value_RECUR");
 
-    public final IRI Vcalendar         = createClass("Vcalendar");
+    public final IRI Vcalendar = createClass("Vcalendar");
 
     /**
      * Provide a grouping of component properties that describe an event..
@@ -80,9 +80,8 @@ public class ICAL extends Vocabulary {
     public final IRI Vevent = createClass("Vevent");
 
     /**
-     * Provide a grouping of component properties that describe either a request
-     * for free/busy time, describe a response to a request for free/busy time or
-     * describe a published set of busy time..
+     * Provide a grouping of component properties that describe either a request for free/busy time, describe a response
+     * to a request for free/busy time or describe a published set of busy time..
      */
     public final IRI Vfreebusy = createClass("Vfreebusy");
 
@@ -101,21 +100,18 @@ public class ICAL extends Vocabulary {
      */
     public final IRI Vtodo = createClass("Vtodo");
 
-
     /**
-     * The IRI provides the capability to associate a document object with a
-     * calendar component.default value type: IRI.
+     * The IRI provides the capability to associate a document object with a calendar component.default value type: IRI.
      */
     public final IRI attach = createProperty("attach");
 
     /**
-     * The IRI defines an "Attendee" within a calendar component.value type:
-     * CAL-ADDRESS.
+     * The IRI defines an "Attendee" within a calendar component.value type: CAL-ADDRESS.
      */
-    public final IRI attendee   = createProperty("attendee");
+    public final IRI attendee = createProperty("attendee");
     public final IRI calAddress = createProperty("calAddress");
-    public final IRI component  = createProperty("component");
-    public final IRI daylight  = createProperty("daylight");
+    public final IRI component = createProperty("component");
+    public final IRI daylight = createProperty("daylight");
 
     /**
      * The IRI specifies a positive duration of time.value type: DURATION.
@@ -123,8 +119,7 @@ public class ICAL extends Vocabulary {
     public final IRI duration = createProperty("duration");
 
     /**
-     * This IRI defines a rule or repeating pattern for an exception to a recurrence
-     * set.value type: RECUR.
+     * This IRI defines a rule or repeating pattern for an exception to a recurrence set.value type: RECUR.
      */
     public final IRI exrule = createProperty("exrule");
 
@@ -134,8 +129,8 @@ public class ICAL extends Vocabulary {
     public final IRI freebusy = createProperty("freebusy");
 
     /**
-     * value type: list of FLOATThis IRI specifies information related to the
-     * global position for the activity specified by a calendar component..
+     * value type: list of FLOATThis IRI specifies information related to the global position for the activity specified
+     * by a calendar component..
      */
     public final IRI geo = createProperty("geo");
 
@@ -145,8 +140,8 @@ public class ICAL extends Vocabulary {
     public final IRI organizer = createProperty("organizer");
 
     /**
-     * This IRI defines a rule or repeating pattern for recurring events, to-dos,
-     * or time zone definitions.value type: RECUR.
+     * This IRI defines a rule or repeating pattern for recurring events, to-dos, or time zone definitions.value type:
+     * RECUR.
      */
     public final IRI rrule = createProperty("rrule");
 
@@ -158,27 +153,23 @@ public class ICAL extends Vocabulary {
     public final IRI trigger = createProperty("trigger");
 
     /**
-     * The TZURL provides a means for a VTIMEZONE component to point to a network
-     * location that can be used to retrieve an up-to- date version of itself.value
-     * type: IRI.
+     * The TZURL provides a means for a VTIMEZONE component to point to a network location that can be used to retrieve
+     * an up-to- date version of itself.value type: IRI.
      */
     public final IRI tzurl = createProperty("tzurl");
 
     /**
-     * This IRI defines a Uniform IRI Locator (URL) associated with the
-     * iCalendar object.value type: IRI.
+     * This IRI defines a Uniform IRI Locator (URL) associated with the iCalendar object.value type: IRI.
      */
     public final IRI url = createProperty("url");
 
     /**
-     * value type: TEXTThis class of IRI provides a framework for defining non-standard
-     * properties..
+     * value type: TEXTThis class of IRI provides a framework for defining non-standard properties..
      */
     public final IRI X_ = createProperty("X-");
 
     /**
-     * value type: TEXTThis IRI defines the action to be invoked when an alarm
-     * is triggered..
+     * value type: TEXTThis IRI defines the action to be invoked when an alarm is triggered..
      */
     public final IRI action = createProperty("action");
 
@@ -206,8 +197,8 @@ public class ICAL extends Vocabulary {
     public final IRI wkst = createProperty("wkst");
 
     /**
-     * value type: TEXTThis IRI defines the calendar scale used for the calendar
-     * information specified in the iCalendar object..
+     * value type: TEXTThis IRI defines the calendar scale used for the calendar information specified in the iCalendar
+     * object..
      */
     public final IRI calscale = createProperty("calscale");
 
@@ -217,41 +208,38 @@ public class ICAL extends Vocabulary {
     public final IRI categories = createProperty("categories");
 
     /**
-     * value type: TEXTThis IRI defines the access classification for a calendar
-     * component..
+     * value type: TEXTThis IRI defines the access classification for a calendar component..
      */
     public final IRI class_ = createProperty("class");
 
     /**
-     * To specify the common name to be associated with the calendar user specified
-     * by the IRI..
+     * To specify the common name to be associated with the calendar user specified by the IRI..
      */
     public final IRI cn = createProperty("cn");
 
     /**
-     * value type: TEXTThis IRI specifies non-processing information intended
-     * to provide a comment to the calendar user..
+     * value type: TEXTThis IRI specifies non-processing information intended to provide a comment to the calendar
+     * user..
      */
     public final IRI comment = createProperty("comment");
 
     /**
-     * value type: DATE-TIMEThis IRI defines the date and time that a to-do
-     * was actually completed..
+     * value type: DATE-TIMEThis IRI defines the date and time that a to-do was actually completed..
      */
     public final IRI completed = createProperty("completed");
 
     /**
-     * value type: TEXTThe IRI is used to represent contact information or alternately
-     * a reference to contact information associated with the calendar component..
+     * value type: TEXTThe IRI is used to represent contact information or alternately a reference to contact
+     * information associated with the calendar component..
      */
     public final IRI contact = createProperty("contact");
 
     public final IRI count = createProperty("count");
 
     /**
-     * This IRI specifies the date and time that the calendar information was
-     * created by the calendar user agent in the calendar store. Note: This is analogous
-     * to the creation date and time for a file in the file system.value type: DATE-TIME.
+     * This IRI specifies the date and time that the calendar information was created by the calendar user agent in the
+     * calendar store. Note: This is analogous to the creation date and time for a file in the file system.value type:
+     * DATE-TIME.
      */
     public final IRI created = createProperty("created");
 
@@ -261,50 +249,43 @@ public class ICAL extends Vocabulary {
     public final IRI cutype = createProperty("cutype");
 
     /**
-     * To specify the calendar users that have delegated their participation to the
-     * calendar user specified by the IRI..
+     * To specify the calendar users that have delegated their participation to the calendar user specified by the IRI..
      */
     public final IRI delegatedFrom = createProperty("delegatedFrom");
 
     /**
-     * To specify the calendar users to whom the calendar user specified by the IRI
-     * has delegated participation..
+     * To specify the calendar users to whom the calendar user specified by the IRI has delegated participation..
      */
     public final IRI delegatedTo = createProperty("delegatedTo");
 
     /**
-     * value type: TEXTThis IRI provides a more complete description of the
-     * calendar component, than that provided by the "SUMMARY" IRI..
+     * value type: TEXTThis IRI provides a more complete description of the calendar component, than that provided by
+     * the "SUMMARY" IRI..
      */
     public final IRI description = createProperty("description");
 
     /**
-     * To specify reference to a directory entry associated with the calendar user
-     * specified by the IRI..
+     * To specify reference to a directory entry associated with the calendar user specified by the IRI..
      */
     public final IRI dir = createProperty("dir");
 
     /**
-     * This IRI specifies the date and time that a calendar component ends.default
-     * value type: DATE-TIME.
+     * This IRI specifies the date and time that a calendar component ends.default value type: DATE-TIME.
      */
     public final IRI dtend = createProperty("dtend");
 
     /**
-     * value type: DATE-TIMEThe IRI indicates the date/time that the instance
-     * of the iCalendar object was created..
+     * value type: DATE-TIMEThe IRI indicates the date/time that the instance of the iCalendar object was created..
      */
     public final IRI dtstamp = createProperty("dtstamp");
 
     /**
-     * default value type: DATE-TIMEThis IRI specifies when the calendar component
-     * begins..
+     * default value type: DATE-TIMEThis IRI specifies when the calendar component begins..
      */
     public final IRI dtstart = createProperty("dtstart");
 
     /**
-     * default value type: DATE-TIMEThis IRI defines the date and time that
-     * a to-do is expected to be completed..
+     * default value type: DATE-TIMEThis IRI defines the date and time that a to-do is expected to be completed..
      */
     public final IRI due = createProperty("due");
 
@@ -314,8 +295,8 @@ public class ICAL extends Vocabulary {
     public final IRI encoding = createProperty("encoding");
 
     /**
-     * default value type: DATE-TIMEThis IRI defines the list of date/time exceptions
-     * for a recurring calendar component..
+     * default value type: DATE-TIMEThis IRI defines the list of date/time exceptions for a recurring calendar
+     * component..
      */
     public final IRI exdate = createProperty("exdate");
 
@@ -339,108 +320,95 @@ public class ICAL extends Vocabulary {
     public final IRI language = createProperty("language");
 
     /**
-     * value type: DATE-TIMEThe IRI specifies the date and time that the information
-     * associated with the calendar component was last revised in the calendar store.
-     * Note: This is analogous to the modification date and time for a file in the
-     * file system..
+     * value type: DATE-TIMEThe IRI specifies the date and time that the information associated with the calendar
+     * component was last revised in the calendar store. Note: This is analogous to the modification date and time for a
+     * file in the file system..
      */
     public final IRI lastModified = createProperty("lastModified");
 
     /**
-     * value type: TEXTThe IRI defines the intended venue for the activity defined
-     * by a calendar component..
+     * value type: TEXTThe IRI defines the intended venue for the activity defined by a calendar component..
      */
     public final IRI location = createProperty("location");
 
     /**
-     * To specify the group or list membership of the calendar user specified by
-     * the IRI..
+     * To specify the group or list membership of the calendar user specified by the IRI..
      */
     public final IRI member = createProperty("member");
 
     /**
-     * value type: TEXTThis IRI defines the iCalendar object method associated
-     * with the calendar object..
+     * value type: TEXTThis IRI defines the iCalendar object method associated with the calendar object..
      */
     public final IRI method = createProperty("method");
 
     /**
-     * To specify the participation status for the calendar user specified by the
-     * IRI..
+     * To specify the participation status for the calendar user specified by the IRI..
      */
     public final IRI partstat = createProperty("partstat");
 
     /**
-     * value type: INTEGERThis IRI is used by an assignee or delegatee of a
-     * to-do to convey the percent completion of a to-do to the Organizer..
+     * value type: INTEGERThis IRI is used by an assignee or delegatee of a to-do to convey the percent completion of a
+     * to-do to the Organizer..
      */
     public final IRI percentComplete = createProperty("percentComplete");
 
     /**
-     * The IRI defines the relative priority for a calendar component.value
-     * type: INTEGER.
+     * The IRI defines the relative priority for a calendar component.value type: INTEGER.
      */
     public final IRI priority = createProperty("priority");
 
     /**
-     * value type: TEXTThis IRI specifies the identifier for the product that
-     * created the iCalendar object..
+     * value type: TEXTThis IRI specifies the identifier for the product that created the iCalendar object..
      */
     public final IRI prodid = createProperty("prodid");
 
     /**
-     * To specify the effective range of recurrence instances from the instance specified
-     * by the recurrence identifier specified by the IRI..
+     * To specify the effective range of recurrence instances from the instance specified by the recurrence identifier
+     * specified by the IRI..
      */
     public final IRI range = createProperty("range");
 
     /**
-     * default value type: DATE-TIMEThis IRI defines the list of date/times
-     * for a recurrence set..
+     * default value type: DATE-TIMEThis IRI defines the list of date/times for a recurrence set..
      */
     public final IRI rdate = createProperty("rdate");
 
     /**
-     * default value type: DATE-TIMEThis IRI is used in conjunction with the
-     * "UID" and "SEQUENCE" IRI to identify a specific instance of a recurring
-     * "VEVENT", "VTODO" or "VJOURNAL" calendar component. The IRI value is
-     * the effective value of the "DTSTART" IRI of the recurrence instance..
+     * default value type: DATE-TIMEThis IRI is used in conjunction with the "UID" and "SEQUENCE" IRI to identify a
+     * specific instance of a recurring "VEVENT", "VTODO" or "VJOURNAL" calendar component. The IRI value is the
+     * effective value of the "DTSTART" IRI of the recurrence instance..
      */
     public final IRI recurrenceId = createProperty("recurrenceId");
 
     /**
-     * To specify the relationship of the alarm trigger with respect to the start
-     * or end of the calendar component..
+     * To specify the relationship of the alarm trigger with respect to the start or end of the calendar component..
      */
     public final IRI related = createProperty("related");
 
     /**
-     * The IRI is used to represent a relationship or reference between one
-     * calendar component and another.value type: TEXT.
+     * The IRI is used to represent a relationship or reference between one calendar component and another.value type:
+     * TEXT.
      */
     public final IRI relatedTo = createProperty("relatedTo");
 
     /**
-     * To specify the type of hierarchical relationship associated with the calendar
-     * component specified by the IRI..
+     * To specify the type of hierarchical relationship associated with the calendar component specified by the IRI..
      */
     public final IRI reltype = createProperty("reltype");
 
     /**
-     * This IRI defines the number of time the alarm should be repeated, after
-     * the initial trigger.value type: INTEGER.
+     * This IRI defines the number of time the alarm should be repeated, after the initial trigger.value type: INTEGER.
      */
     public final IRI repeat = createProperty("repeat");
 
     /**
-     * value type: TEXTThis IRI defines the status code returned for a scheduling
-     * request..
+     * value type: TEXTThis IRI defines the status code returned for a scheduling request..
      */
     public final IRI requestStatus = createProperty("requestStatus");
 
     /**
-     * value type: TEXTThis IRI defines the equipment or resources anticipated
-     * for an activity specified by a calendar entity...
+     * value type: TEXTThis IRI defines the equipment or resources anticipated for an activity specified by a calendar
+     * entity...
      */
     public final IRI resources = createProperty("resources");
 
@@ -450,78 +418,68 @@ public class ICAL extends Vocabulary {
     public final IRI role = createProperty("role");
 
     /**
-     * To specify whether there is an expectation of a favor of a reply from the
-     * calendar user specified by the IRI value..
+     * To specify whether there is an expectation of a favor of a reply from the calendar user specified by the IRI
+     * value..
      */
     public final IRI rsvp = createProperty("rsvp");
 
     /**
-     * To specify the calendar user that is acting on behalf of the calendar user
-     * specified by the IRI..
+     * To specify the calendar user that is acting on behalf of the calendar user specified by the IRI..
      */
     public final IRI sentBy = createProperty("sentBy");
 
     /**
-     * value type: integerThis IRI defines the revision sequence number of the
-     * calendar component within a sequence of revisions..
+     * value type: integerThis IRI defines the revision sequence number of the calendar component within a sequence of
+     * revisions..
      */
     public final IRI sequence = createProperty("sequence");
 
     /**
-     * value type: TEXTThis IRI defines the overall status or confirmation for
-     * the calendar component..
+     * value type: TEXTThis IRI defines the overall status or confirmation for the calendar component..
      */
     public final IRI status = createProperty("status");
 
     /**
-     * This IRI defines a short summary or subject for the calendar component.value
-     * type: TEXT.
+     * This IRI defines a short summary or subject for the calendar component.value type: TEXT.
      */
     public final IRI summary = createProperty("summary");
 
     /**
-     * This IRI defines whether an event is transparent or not to busy time
-     * searches.value type: TEXT.
+     * This IRI defines whether an event is transparent or not to busy time searches.value type: TEXT.
      */
     public final IRI transp = createProperty("transp");
 
     /**
-     * value type: TEXTTo specify the identifier for the time zone definition for
-     * a time component in the IRI value.This IRI specifies the text value
-     * that uniquely identifies the "VTIMEZONE" calendar component..
+     * value type: TEXTTo specify the identifier for the time zone definition for a time component in the IRI value.This
+     * IRI specifies the text value that uniquely identifies the "VTIMEZONE" calendar component..
      */
     public final IRI tzid = createProperty("tzid");
 
     /**
-     * value type: TEXTThis IRI specifies the customary designation for a time
-     * zone description..
+     * value type: TEXTThis IRI specifies the customary designation for a time zone description..
      */
     public final IRI tzname = createProperty("tzname");
 
     /**
-     * value type: UTC-OFFSETThis IRI specifies the offset which is in use prior
-     * to this time zone observance..
+     * value type: UTC-OFFSETThis IRI specifies the offset which is in use prior to this time zone observance..
      */
     public final IRI tzoffsetfrom = createProperty("tzoffsetfrom");
 
     /**
-     * value type: UTC-OFFSETThis IRI specifies the offset which is in use in
-     * this time zone observance..
+     * value type: UTC-OFFSETThis IRI specifies the offset which is in use in this time zone observance..
      */
     public final IRI tzoffsetto = createProperty("tzoffsetto");
 
     /**
-     * This IRI defines the persistent, globally unique identifier for the calendar
-     * component.value type: TEXT.
+     * This IRI defines the persistent, globally unique identifier for the calendar component.value type: TEXT.
      */
     public final IRI uid = createProperty("uid");
 
     public final IRI until = createProperty("until");
 
     /**
-     * value type: TEXTThis IRI specifies the identifier corresponding to the
-     * highest version number or the minimum and maximum range of the iCalendar specification
-     * that is required in order to interpret the iCalendar object..
+     * value type: TEXTThis IRI specifies the identifier corresponding to the highest version number or the minimum and
+     * maximum range of the iCalendar specification that is required in order to interpret the iCalendar object..
      */
     public final IRI version = createProperty("version");
 
@@ -533,7 +491,7 @@ public class ICAL extends Vocabulary {
         return createProperty(NS, string);
     }
 
-    private ICAL(){
+    private ICAL() {
         super(NS);
     }
 

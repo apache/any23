@@ -28,10 +28,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * A reporter for example input and output of an extractor. Example
- * input is part of every extractor's metadata; example output is
- * obtained by running the extractor on its own example input. This
- * is useful as a documentation device.
+ * A reporter for example input and output of an extractor. Example input is part of every extractor's metadata; example
+ * output is obtained by running the extractor on its own example input. This is useful as a documentation device.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -54,13 +52,10 @@ public class ExampleInputOutput {
         if (isBlindExtractor()) {
             return null;
         }
-        InputStream in = factory.createExtractor().getClass().getResourceAsStream(
-                factory.getExampleInput());
+        InputStream in = factory.createExtractor().getClass().getResourceAsStream(factory.getExampleInput());
         if (in == null) {
-            throw new IllegalArgumentException(
-                    "Example input resource not found for extractor " +
-                            factory.getExtractorName() + ": " +
-                            factory.getExampleInput());
+            throw new IllegalArgumentException("Example input resource not found for extractor "
+                    + factory.getExtractorName() + ": " + factory.getExampleInput());
         }
         return new String(MemCopyFactory.toByteArray(in), "utf-8");
     }
@@ -70,7 +65,7 @@ public class ExampleInputOutput {
             return null;
         }
         if (isBlindExtractor()) {
-            return factory.getExampleInput();    // Should be a IRI.
+            return factory.getExampleInput(); // Should be a IRI.
         }
         return "http://example.com/";
     }
@@ -81,10 +76,8 @@ public class ExampleInputOutput {
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TripleHandler writer = new TurtleWriter(out);
-        new SingleDocumentExtraction(
-                new StringDocumentSource(getExampleInput(), getExampleIRI()),
-                factory,
-                writer).run();
+        new SingleDocumentExtraction(new StringDocumentSource(getExampleInput(), getExampleIRI()), factory, writer)
+                .run();
         try {
             writer.close();
         } catch (TripleHandlerException e) {

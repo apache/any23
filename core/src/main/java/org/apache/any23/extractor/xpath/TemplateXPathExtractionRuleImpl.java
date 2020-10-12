@@ -47,7 +47,7 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
     private final List<QuadTemplate> templates;
 
     public TemplateXPathExtractionRuleImpl(String name, String uriRegex) {
-        if(name == null) {
+        if (name == null) {
             throw new NullPointerException("The rule name cannot be null.");
         }
 
@@ -93,28 +93,28 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
     }
 
     public boolean acceptIRI(IRI uri) {
-        if(uriRegexPattern == null) {
+        if (uriRegexPattern == null) {
             return true;
         }
         return uriRegexPattern.matcher(uri.stringValue()).find();
     }
 
     public void process(Document in, ExtractionResult er) {
-        final Map<String,String> varValues = new HashMap<String, String>();
+        final Map<String, String> varValues = new HashMap<String, String>();
         String value;
-        for(Variable variable : variables) {
+        for (Variable variable : variables) {
             value = DomUtils.find(in, variable.getxPath().toUpperCase(Locale.ROOT));
             varValues.put(variable.getName(), value);
         }
 
-        for(QuadTemplate template : templates) {
+        for (QuadTemplate template : templates) {
             template.printOut(er, varValues);
         }
     }
 
     private boolean variableNameDeclared(String varName) {
-        for(Variable variable : variables) {
-            if(variable.getName().equals(varName)) {
+        for (Variable variable : variables) {
+            if (variable.getName().equals(varName)) {
                 return true;
             }
         }
@@ -124,25 +124,26 @@ public class TemplateXPathExtractionRuleImpl implements TemplateXPathExtractionR
     private void checkVariableNameDeclared(String varName) {
         if (!variableNameDeclared(varName)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "A variable with name '%s' was not declared.", varName)
-            );
+                    String.format(Locale.ROOT, "A variable with name '%s' was not declared.", varName));
         }
     }
 
     private void checkVariableNameNotDeclared(String varName) {
         if (variableNameDeclared(varName)) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "A variable with name '%s' is already declared.", varName)
-            );
+                    String.format(Locale.ROOT, "A variable with name '%s' is already declared.", varName));
         }
     }
 
     private void checkTemplateVariablesDeclared(QuadTemplate template) {
-        if( template.getSubject().isVar()   ) checkVariableNameDeclared( template.getSubject().getInternalValue() );
-        if( template.getPredicate().isVar() ) checkVariableNameDeclared( template.getPredicate().getInternalValue() );
-        if( template.getObject().isVar()    ) checkVariableNameDeclared( template.getObject().getInternalValue() );
-        if( template.getGraph() != null && template.getGraph().isVar() ) {
-            checkVariableNameDeclared( template.getGraph().getInternalValue() );
+        if (template.getSubject().isVar())
+            checkVariableNameDeclared(template.getSubject().getInternalValue());
+        if (template.getPredicate().isVar())
+            checkVariableNameDeclared(template.getPredicate().getInternalValue());
+        if (template.getObject().isVar())
+            checkVariableNameDeclared(template.getObject().getInternalValue());
+        if (template.getGraph() != null && template.getGraph().isVar()) {
+            checkVariableNameDeclared(template.getGraph().getInternalValue());
         }
     }
 

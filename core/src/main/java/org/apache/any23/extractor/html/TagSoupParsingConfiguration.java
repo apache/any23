@@ -27,9 +27,9 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.io.InputStream;
 
-
 /**
  * The parsing configuration for a {@link TagSoupParser}
+ * 
  * @author Hans Brende
  */
 abstract class TagSoupParsingConfiguration {
@@ -40,16 +40,13 @@ abstract class TagSoupParsingConfiguration {
 
     abstract Document parse(InputStream input, String documentIRI, String encoding) throws IOException;
 
-
     static TagSoupParsingConfiguration getDefault() {
         return JsoupConfig.instance;
     }
 
-
     private static class JsoupConfig extends TagSoupParsingConfiguration {
 
         private static final JsoupConfig instance = new JsoupConfig();
-
 
         @Override
         Document parse(InputStream input, String documentIRI, String encoding) throws IOException {
@@ -58,7 +55,6 @@ abstract class TagSoupParsingConfiguration {
 
             return convert(document);
         }
-
 
         private static Document convert(org.jsoup.nodes.Document document) {
             Document w3cDoc = new org.apache.html.dom.HTMLDocumentImpl();
@@ -136,7 +132,7 @@ abstract class TagSoupParsingConfiguration {
 
             int l2;
             char c;
-            for(l2 = endMarker.length(); i < string.length() - l1 - l2; ++i) {
+            for (l2 = endMarker.length(); i < string.length() - l1 - l2; ++i) {
                 c = string.charAt(i);
                 if (!Character.isWhitespace(c)) {
                     if (c == startMarker.charAt(0) && startMarker.equals(string.substring(i, l1 + i))) {
@@ -149,7 +145,7 @@ abstract class TagSoupParsingConfiguration {
             }
 
             if (startContent != -1) {
-                for(i = string.length() - 1; i > startContent + l2; --i) {
+                for (i = string.length() - 1; i > startContent + l2; --i) {
                     c = string.charAt(i);
                     if (!Character.isWhitespace(c)) {
                         if (c == endMarker.charAt(l2 - 1) && endMarker.equals(string.substring(i - l2 + 1, i + 1))) {
@@ -166,6 +162,5 @@ abstract class TagSoupParsingConfiguration {
         }
 
     }
-
 
 }

@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Nisala Nirmana
  *
  */
-public class HAdrExtractorFactory extends SimpleExtractorFactory<HAdrExtractor> implements
-        ExtractorFactory<HAdrExtractor> {
+public class HAdrExtractorFactory extends SimpleExtractorFactory<HAdrExtractor>
+        implements ExtractorFactory<HAdrExtractor> {
 
     public static final String NAME = "html-mf2-h-adr";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "vcard");
 
     private static final ExtractorDescription descriptionInstance = new HAdrExtractorFactory();
-    
+
     public HAdrExtractorFactory() {
-        super(
-                HAdrExtractorFactory.NAME,
-                HAdrExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-mf2-h-adr.html");
+        super(HAdrExtractorFactory.NAME, HAdrExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf2-h-adr.html");
     }
-    
+
     @Override
     public HAdrExtractor createExtractor() {
         return new HAdrExtractor();

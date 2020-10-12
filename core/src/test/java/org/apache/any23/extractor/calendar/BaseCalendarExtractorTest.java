@@ -48,11 +48,8 @@ abstract class BaseCalendarExtractorTest extends AbstractExtractorTestCase {
         int actualStmtSize = getStatementsSize(null, null, null);
         Assert.assertEquals(expectedStatements.size(), actualStmtSize);
         for (Statement statement : expectedStatements) {
-            assertContains(
-                    statement.getSubject() instanceof BNode ? null : statement.getSubject(),
-                    statement.getPredicate(),
-                    statement.getObject() instanceof BNode ? null : statement.getObject()
-            );
+            assertContains(statement.getSubject() instanceof BNode ? null : statement.getSubject(),
+                    statement.getPredicate(), statement.getObject() instanceof BNode ? null : statement.getObject());
         }
     }
 
@@ -62,10 +59,7 @@ abstract class BaseCalendarExtractorTest extends AbstractExtractorTestCase {
         TestRDFHandler rdfHandler = new TestRDFHandler();
         nQuadsParser.setRDFHandler(rdfHandler);
         File file = copyResourceToTempFile(resultFilePath);
-        nQuadsParser.parse(
-                new FileReader(file),
-                baseIRI.toString()
-        );
+        nQuadsParser.parse(new FileReader(file), baseIRI.toString());
         return rdfHandler.getStatements();
     }
 

@@ -37,6 +37,7 @@ import static org.mockito.Mockito.mock;
 
 /**
  * @author Michele Mostarda (mostarda@fbk.eu)
+ * 
  * @deprecated since 2.3
  */
 @Deprecated
@@ -44,8 +45,8 @@ public class RDFa11ParserTest {
 
     @Test
     public void testGetDocumentBase() throws MalformedURLException {
-        final URL in  = new URL("http://fake.doc/url");
-        final URL out = RDFa11Parser.getDocumentBase(in , mock(Document.class) );
+        final URL in = new URL("http://fake.doc/url");
+        final URL out = RDFa11Parser.getDocumentBase(in, mock(Document.class));
         Assert.assertEquals(in, out);
     }
 
@@ -63,7 +64,7 @@ public class RDFa11ParserTest {
 
     @Test
     public void testIsCURIEPositive() {
-        Assert.assertTrue( RDFa11Parser.isCURIE("[dbr:Albert_Einstein]") );
+        Assert.assertTrue(RDFa11Parser.isCURIE("[dbr:Albert_Einstein]"));
     }
 
     @Test
@@ -73,7 +74,7 @@ public class RDFa11ParserTest {
 
     @Test
     public void testIsCURIEBNodePositive() {
-        Assert.assertTrue( RDFa11Parser.isCURIEBNode("[_:john]") );
+        Assert.assertTrue(RDFa11Parser.isCURIEBNode("[_:john]"));
     }
 
     @Test
@@ -83,7 +84,7 @@ public class RDFa11ParserTest {
 
     @Test
     public void testIsRelativeNegative() {
-        Assert.assertFalse( RDFa11Parser.isRelativeNode( mock(Document.class) ) );
+        Assert.assertFalse(RDFa11Parser.isRelativeNode(mock(Document.class)));
     }
 
     @Test
@@ -103,7 +104,7 @@ public class RDFa11ParserTest {
     @Test
     public void testUpdateIRIMapping() throws ParserConfigurationException {
         Element div = getRootDocument().createElement("DIV");
-        div.setAttribute("xmlns:dc"  , "http://purl.org/dc/terms/");
+        div.setAttribute("xmlns:dc", "http://purl.org/dc/terms/");
         div.setAttribute("xmlns:fake", "http://fake.org/");
         final RDFa11Parser parser = new RDFa11Parser();
         parser.updateIRIMapping(div);
@@ -134,10 +135,7 @@ public class RDFa11ParserTest {
         root.appendChild(child2);
 
         final Literal literal = RDFa11Parser.getAsXMLLiteral(root);
-        final String value =
-                "<DIV datatype=\"rdf:XMLLiteral\">" +
-                "<DIV>text 1</DIV><DIV>text 2</DIV>" +
-                "</DIV>";
+        final String value = "<DIV datatype=\"rdf:XMLLiteral\">" + "<DIV>text 1</DIV><DIV>text 2</DIV>" + "</DIV>";
         Assert.assertEquals(RDFUtils.literal(value, RDF.XMLLITERAL), literal);
     }
 

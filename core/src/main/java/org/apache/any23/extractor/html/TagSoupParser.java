@@ -33,15 +33,16 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Locale;
 
 /**
- * <p>Parses an {@link java.io.InputStream}
- * into an <i>HTML DOM</i> tree.
+ * <p>
+ * Parses an {@link java.io.InputStream} into an <i>HTML DOM</i> tree.
  * </p>
- * <p><strong>Note:</strong> The resulting <i>DOM</i> tree will not be namespace
- * aware, and all element names will be upper case, while attributes
- * will be lower case. This is because the HTML parser
- * uses the <a href="http://xerces.apache.org/xerces2-j/dom.html">Xerces HTML DOM</a>
- * implementation, which doesn't support namespaces and forces uppercase element names. This works
- * with the <i>RDFa XSLT Converter</i> and with <i>XPath</i>, so we left it this way.</p>
+ * <p>
+ * <strong>Note:</strong> The resulting <i>DOM</i> tree will not be namespace aware, and all element names will be upper
+ * case, while attributes will be lower case. This is because the HTML parser uses the
+ * <a href="http://xerces.apache.org/xerces2-j/dom.html">Xerces HTML DOM</a> implementation, which doesn't support
+ * namespaces and forces uppercase element names. This works with the <i>RDFa XSLT Converter</i> and with <i>XPath</i>,
+ * so we left it this way.
+ * </p>
  *
  * @author Richard Cyganiak (richard at cyganiak dot de)
  * @author Michele Mostarda (mostarda@fbk.eu)
@@ -64,7 +65,6 @@ public class TagSoupParser {
 
     private Document result = null;
 
-
     public TagSoupParser(InputStream input, String documentIRI) {
         this.input = input;
         this.documentIRI = documentIRI;
@@ -84,12 +84,13 @@ public class TagSoupParser {
         config = TagSoupParsingConfiguration.getDefault();
     }
 
-
     /**
-     * Returns the DOM of the given document IRI. 
+     * Returns the DOM of the given document IRI.
      *
      * @return the <i>HTML</i> DOM.
-     * @throws IOException if there is an error whilst accessing the DOM
+     * 
+     * @throws IOException
+     *             if there is an error whilst accessing the DOM
      */
     public Document getDOM() throws IOException {
         if (result == null) {
@@ -106,15 +107,19 @@ public class TagSoupParser {
     }
 
     /**
-     * Returns the validated DOM and applies fixes on it if <i>applyFix</i>
-     * is set to <code>true</code>.
+     * Returns the validated DOM and applies fixes on it if <i>applyFix</i> is set to <code>true</code>.
      *
-     * @param applyFix whether to apply fixes to the DOM
-     * @return a report containing the <i>HTML</i> DOM that has been validated and fixed if <i>applyFix</i>
-     *         if <code>true</code>. The reports contains also information about the activated rules and the
-     *         the detected issues.
-     * @throws IOException if there is an error accessing the DOM
-     * @throws org.apache.any23.validator.ValidatorException if there is an error validating the DOM
+     * @param applyFix
+     *            whether to apply fixes to the DOM
+     * 
+     * @return a report containing the <i>HTML</i> DOM that has been validated and fixed if <i>applyFix</i> if
+     *         <code>true</code>. The reports contains also information about the activated rules and the the detected
+     *         issues.
+     * 
+     * @throws IOException
+     *             if there is an error accessing the DOM
+     * @throws org.apache.any23.validator.ValidatorException
+     *             if there is an error validating the DOM
      */
     public DocumentReport getValidatedDOM(boolean applyFix) throws IOException, ValidatorException {
         final URI dIRI;
@@ -125,7 +130,7 @@ public class TagSoupParser {
         }
         Validator validator = new DefaultValidator();
         Document document = getDOM();
-        return new DocumentReport( validator.validate(dIRI, document, applyFix), document );
+        return new DocumentReport(validator.validate(dIRI, document, applyFix), document);
     }
 
     /**
@@ -138,9 +143,7 @@ public class TagSoupParser {
         private int endLineNumber;
         private int endColumnNumber;
 
-        private ElementLocation(
-                int beginLineNumber, int beginColumnNumber, int endLineNumber, int endColumnNumber
-        ) {
+        private ElementLocation(int beginLineNumber, int beginColumnNumber, int endLineNumber, int endColumnNumber) {
             this.beginLineNumber = beginLineNumber;
             this.beginColumnNumber = beginColumnNumber;
             this.endLineNumber = endLineNumber;
@@ -163,5 +166,5 @@ public class TagSoupParser {
             return endColumnNumber;
         }
     }
-    
+
 }

@@ -41,5 +41,5 @@ public class DefaultRuleContext implements RuleContext<Object> {
     public void removeData(String name) {
         data.remove(name);
     }
-    
+
 }

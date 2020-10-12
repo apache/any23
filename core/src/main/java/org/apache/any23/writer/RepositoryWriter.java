@@ -56,37 +56,23 @@ public class RepositoryWriter implements TripleHandler {
     }
 
     @Override
-    public void receiveTriple(
-            Resource s,
-            IRI p,
-            Value o,
-            IRI g,
-          ExtractionContext context
-    ) throws TripleHandlerException {
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+            throws TripleHandlerException {
         try {
-            conn.add(
-                conn.getValueFactory().createStatement(s, p, o, g),
-                getContextResource(context.getDocumentIRI())
-            );
+            conn.add(conn.getValueFactory().createStatement(s, p, o, g), getContextResource(context.getDocumentIRI()));
         } catch (RepositoryException ex) {
-            throw new TripleHandlerException(String.format(Locale.ROOT, "Error while receiving triple: %s %s %s", s, p , o),
-                    ex
-            );
+            throw new TripleHandlerException(
+                    String.format(Locale.ROOT, "Error while receiving triple: %s %s %s", s, p, o), ex);
         }
     }
 
     @Override
-    public void receiveNamespace(
-            String prefix,
-            String uri,
-            ExtractionContext context
-    ) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         try {
             conn.setNamespace(prefix, uri);
         } catch (RepositoryException ex) {
-            throw new TripleHandlerException(String.format(Locale.ROOT, "Error while receiving namespace: %s:%s", prefix, uri),
-                    ex
-            );
+            throw new TripleHandlerException(
+                    String.format(Locale.ROOT, "Error while receiving namespace: %s:%s", prefix, uri), ex);
         }
     }
 
@@ -96,7 +82,7 @@ public class RepositoryWriter implements TripleHandler {
     }
 
     @Override
-    public void close()throws TripleHandlerException {
+    public void close() throws TripleHandlerException {
         // ignore
     }
 
@@ -107,7 +93,7 @@ public class RepositoryWriter implements TripleHandler {
 
     @Override
     public void setContentLength(long contentLength) {
-        //ignore
+        // ignore
     }
 
     private Resource getContextResource(Resource fromExtractor) {

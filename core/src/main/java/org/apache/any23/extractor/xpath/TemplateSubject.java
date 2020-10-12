@@ -31,8 +31,7 @@ public class TemplateSubject extends Term<Resource> {
      * Supported subject types.
      */
     public enum Type {
-        URI,
-        BNODE
+        URI, BNODE
     }
 
     /**
@@ -43,10 +42,12 @@ public class TemplateSubject extends Term<Resource> {
     /**
      * Constructor.
      *
-     * @param type subject type.
-     * @param value internal value.
-     * @param isVar if <code>true</code> it the given <code>value</code>
-     *              will be resolved with the variable value.
+     * @param type
+     *            subject type.
+     * @param value
+     *            internal value.
+     * @param isVar
+     *            if <code>true</code> it the given <code>value</code> will be resolved with the variable value.
      */
     public TemplateSubject(Type type, String value, boolean isVar) {
         super(value, isVar);
@@ -59,12 +60,12 @@ public class TemplateSubject extends Term<Resource> {
     @Override
     protected Resource getValueInternal(String value) {
         switch (type) {
-            case URI:
-                return SimpleValueFactory.getInstance().createIRI(value);
-            case BNODE:
-                return SimpleValueFactory.getInstance().createBNode(value);
-            default:
-                throw new IllegalStateException();
+        case URI:
+            return SimpleValueFactory.getInstance().createIRI(value);
+        case BNODE:
+            return SimpleValueFactory.getInstance().createBNode(value);
+        default:
+            throw new IllegalStateException();
         }
     }
 
@@ -72,12 +73,12 @@ public class TemplateSubject extends Term<Resource> {
     public String toString() {
         final String superStr = super.toString();
         switch (type) {
-            case URI:
-                return "<" + superStr + ">";
-            case BNODE:
-                return "_:" + superStr;
-            default:
-                throw new IllegalStateException();
+        case URI:
+            return "<" + superStr + ">";
+        case BNODE:
+            return "_:" + superStr;
+        default:
+            throw new IllegalStateException();
         }
     }
 

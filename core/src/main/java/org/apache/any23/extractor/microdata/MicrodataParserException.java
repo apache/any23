@@ -23,16 +23,16 @@ import org.apache.any23.extractor.html.DomUtils;
 import org.w3c.dom.Node;
 
 /**
- * Defines an exception occurring while parsing
- * <i>Microdata</i>.
+ * Defines an exception occurring while parsing <i>Microdata</i>.
  *
  * @see MicrodataParser
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class MicrodataParserException extends Exception {
 
     private String errorPath;
-    private int[]  errorLocation;
+    private int[] errorLocation;
 
     public MicrodataParserException(String message, Node errorNode) {
         super(message);
@@ -66,17 +66,10 @@ public class MicrodataParserException extends Exception {
 
     public String toJSON() {
         return String.format(Locale.ROOT,
-                "{ \"message\" : \"%s\", " +
-                  "\"path\" : \"%s\", " +
-                  "\"begin_row\" : %d, \"begin_col\" : %d, " +
-                  "\"end_row\" : %d, \"end_col\" : %d }",
-                getMessage().replaceAll("\"", ""),
-                getErrorPath(),
-                getErrorLocationBeginRow(),
-                getErrorLocationBeginCol(),
-                getErrorLocationEndRow(),
-                getErrorLocationEndCol()
-        );
+                "{ \"message\" : \"%s\", " + "\"path\" : \"%s\", " + "\"begin_row\" : %d, \"begin_col\" : %d, "
+                        + "\"end_row\" : %d, \"end_col\" : %d }",
+                getMessage().replaceAll("\"", ""), getErrorPath(), getErrorLocationBeginRow(),
+                getErrorLocationBeginCol(), getErrorLocationEndRow(), getErrorLocationEndCol());
     }
 
     @Override
@@ -85,13 +78,13 @@ public class MicrodataParserException extends Exception {
     }
 
     protected void setErrorNode(Node n) {
-        if(n == null) {
-            errorPath     = null;
+        if (n == null) {
+            errorPath = null;
             errorLocation = null;
             return;
         }
 
-        errorPath     = DomUtils.getXPathForNode(n);
+        errorPath = DomUtils.getXPathForNode(n);
         errorLocation = DomUtils.getNodeLocation(n);
     }
 

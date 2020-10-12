@@ -16,9 +16,9 @@
  */
 
 /**
- *  This package contains the annotations needed to describe the
- *  single nesting relations among different <a href="http://microformats.org/">Microformats</a>.
+ * This package contains the annotations needed to describe the single nesting relations among different
+ * <a href="http://microformats.org/">Microformats</a>.
  *
- *  @see org.apache.any23.extractor.html.MicroformatExtractor
+ * @see org.apache.any23.extractor.html.MicroformatExtractor
  */
 package org.apache.any23.extractor.html.microformats2.annotations;

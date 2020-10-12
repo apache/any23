@@ -29,11 +29,9 @@ public class TripleFormatTest {
     @Test
     public void testRdf4jRoundTripping() {
 
-        RDFFormat[] formats = {
-                RDFFormat.TRIX, RDFFormat.NQUADS, RDFFormat.RDFA, RDFFormat.TRIG,
-                RDFFormat.N3, RDFFormat.RDFXML, RDFFormat.TURTLE, RDFFormat.JSONLD,
-                RDFFormat.NTRIPLES, RDFFormat.BINARY, RDFFormat.RDFJSON
-        };
+        RDFFormat[] formats = { RDFFormat.TRIX, RDFFormat.NQUADS, RDFFormat.RDFA, RDFFormat.TRIG, RDFFormat.N3,
+                RDFFormat.RDFXML, RDFFormat.TURTLE, RDFFormat.JSONLD, RDFFormat.NTRIPLES, RDFFormat.BINARY,
+                RDFFormat.RDFJSON };
 
         for (RDFFormat expected : formats) {
             TripleFormat tf = TripleFormat.of(expected);

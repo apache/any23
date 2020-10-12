@@ -33,10 +33,11 @@ public class TurtleExtractor extends BaseRDFExtractor {
     /**
      * Constructor, allows to specify the validation and error handling policies.
      *
-     * @param verifyDataType   if <code>true</code> the data types will be verified,
-     *                         if <code>false</code> will be ignored.
-     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
-     *                         if <code>false</code> will ignore non blocking errors.
+     * @param verifyDataType
+     *            if <code>true</code> the data types will be verified, if <code>false</code> will be ignored.
+     * @param stopAtFirstError
+     *            if <code>true</code> the parser will stop at first parsing error, if <code>false</code> will ignore
+     *            non blocking errors.
      */
     public TurtleExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         super(verifyDataType, stopAtFirstError);
@@ -56,9 +57,8 @@ public class TurtleExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getTurtleParserInstance(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getTurtleParserInstance(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

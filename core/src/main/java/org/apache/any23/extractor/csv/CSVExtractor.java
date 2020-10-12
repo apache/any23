@@ -43,11 +43,11 @@ import java.util.Iterator;
 import java.util.Locale;
 
 /**
- * This extractor produces <i>RDF</i> from a <i>CSV file</i> .
- * It automatically detects fields <i>delimiter</i>. If not able uses
- * the one provided in the <i>Any23</i> configuration.
+ * This extractor produces <i>RDF</i> from a <i>CSV file</i> . It automatically detects fields <i>delimiter</i>. If not
+ * able uses the one provided in the <i>Any23</i> configuration.
  *
  * @see CSVReaderBuilder
+ * 
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */
 public class CSVExtractor implements Extractor.ContentExtractor {
@@ -63,19 +63,15 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      */
     @Override
     public void setStopAtFirstError(boolean f) {
-      //not implemented
+        // not implemented
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            InputStream in
-            , ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in,
+            ExtractionResult out) throws IOException, ExtractionException {
         final IRI documentIRI = extractionContext.getDocumentIRI();
 
         // build the parser
@@ -92,10 +88,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
         int index = 0;
         while (rows.hasNext()) {
             CSVRecord nextLine = rows.next();
-            IRI rowSubject = RDFUtils.iri(
-                    documentIRI.toString(),
-                    "row/" + index
-            );
+            IRI rowSubject = RDFUtils.iri(documentIRI.toString(), "row/" + index);
             // add a row type
             out.writeTriple(rowSubject, RDF.TYPE, csv.rowType);
             // for each row produce its statements
@@ -103,26 +96,19 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             // link the row to the document
             out.writeTriple(documentIRI, csv.row, rowSubject);
             // the progressive row number
-            out.writeTriple(
-                    rowSubject,
-                    csv.rowPosition,
-                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index))
-            );
+            out.writeTriple(rowSubject, csv.rowPosition,
+                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index)));
             index++;
         }
         // add some CSV metadata such as the number of rows and columns
-        addTableMetadataStatements(
-                documentIRI,
-                out,
-                index,
-                headerIRIs.length
-        );
+        addTableMetadataStatements(documentIRI, out, index, headerIRIs.length);
     }
 
     /**
      * Check whether a number is an integer.
      *
      * @param number
+     * 
      * @return
      */
     private boolean isInteger(String number) {
@@ -138,6 +124,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * Check whether a number is a float.
      *
      * @param number
+     * 
      * @return
      */
     private boolean isFloat(String number) {
@@ -163,27 +150,21 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             }
             String headerString = header.get(index);
             if (!RDFUtils.isAbsoluteIRI(headerString)) {
-                out.writeTriple(
-                        singleHeader,
-                        RDFS.LABEL,
-                        SimpleValueFactory.getInstance().createLiteral(headerString)
-                );
+                out.writeTriple(singleHeader, RDFS.LABEL, SimpleValueFactory.getInstance().createLiteral(headerString));
             }
-            out.writeTriple(
-                    singleHeader,
-                    csv.columnPosition,
-                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index), XMLSchema.INTEGER)
-            );
+            out.writeTriple(singleHeader, csv.columnPosition,
+                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index), XMLSchema.INTEGER));
             index++;
         }
     }
 
     /**
-     * It process the first row of the file, returning a list of {@link IRI}s representing
-     * the properties for each column. If a value of the header is an absolute <i>IRI</i>
-     * then it leave it as is. Otherwise the {@link org.apache.any23.vocab.CSV} vocabulary is used.
+     * It process the first row of the file, returning a list of {@link IRI}s representing the properties for each
+     * column. If a value of the header is an absolute <i>IRI</i> then it leave it as is. Otherwise the
+     * {@link org.apache.any23.vocab.CSV} vocabulary is used.
      *
      * @param header
+     * 
      * @return an array of {@link IRI}s identifying the column names.
      */
     private IRI[] processHeader(CSVRecord header, IRI documentIRI) {
@@ -205,7 +186,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     private IRI normalize(String toBeNormalized, IRI documentIRI) {
-      String newToBeNormalized = toBeNormalized.trim().toLowerCase(Locale.ROOT).replace("?", "").replace("&", "");
+        String newToBeNormalized = toBeNormalized.trim().toLowerCase(Locale.ROOT).replace("?", "").replace("&", "");
 
         StringBuilder result = new StringBuilder(documentIRI.toString());
 
@@ -220,19 +201,14 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     /**
-     * It writes on the provided {@link ExtractionResult}, the </>RDF statements</>
-     * representing the row <i>cell</i>. If a  row <i>cell</i> is an absolute <i>IRI</i>
-     * then an object property is written, literal otherwise.
+     * It writes on the provided {@link ExtractionResult}, the </>RDF statements</> representing the row <i>cell</i>. If
+     * a row <i>cell</i> is an absolute <i>IRI</i> then an object property is written, literal otherwise.
      *
      * @param rowSubject
      * @param values
      * @param out
      */
-    private void produceRowStatements(
-            IRI rowSubject,
-            CSVRecord values,
-            ExtractionResult out
-    ) {
+    private void produceRowStatements(IRI rowSubject, CSVRecord values, ExtractionResult out) {
         int index = 0;
         for (String cell : values) {
             if (index >= headerIRIs.length) {
@@ -259,7 +235,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
             IRI datatype = XMLSchema.STRING;
             if (isInteger(newCell)) {
                 datatype = XMLSchema.INTEGER;
-            } else if(isFloat(newCell)) {
+            } else if (isFloat(newCell)) {
                 datatype = XMLSchema.FLOAT;
             }
             object = SimpleValueFactory.getInstance().createLiteral(newCell, datatype);
@@ -268,29 +244,20 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     }
 
     /**
-     * It writes on the provided {@link ExtractionResult} some <i>RDF Statements</i>
-     * on generic properties of the <i>CSV</i> file, such as number of rows and columns.
+     * It writes on the provided {@link ExtractionResult} some <i>RDF Statements</i> on generic properties of the
+     * <i>CSV</i> file, such as number of rows and columns.
      *
      * @param documentIRI
      * @param out
      * @param numberOfRows
      * @param numberOfColumns
      */
-    private void addTableMetadataStatements(
-            IRI documentIRI,
-            ExtractionResult out,
-            int numberOfRows,
+    private void addTableMetadataStatements(IRI documentIRI, ExtractionResult out, int numberOfRows,
             int numberOfColumns) {
-        out.writeTriple(
-                documentIRI,
-                csv.numberOfRows,
-                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfRows), XMLSchema.INTEGER)
-        );
-        out.writeTriple(
-                documentIRI,
-                csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfColumns), XMLSchema.INTEGER)
-        );
+        out.writeTriple(documentIRI, csv.numberOfRows,
+                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfRows), XMLSchema.INTEGER));
+        out.writeTriple(documentIRI, csv.numberOfColumns,
+                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfColumns), XMLSchema.INTEGER));
     }
 
     /**

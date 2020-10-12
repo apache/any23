@@ -29,6 +29,7 @@ import java.net.URISyntaxException;
 
 /**
  * <i>N3</i> notation {@link TripleWriter} implementation.
+ * 
  * @author Hans Brende (hansbrende@apache.org)
  */
 public class TurtleWriter extends RDFWriterTripleHandler {
@@ -37,20 +38,22 @@ public class TurtleWriter extends RDFWriterTripleHandler {
         // rdf4j-internal ArrangedWriter + -ea causes AssertionError
         // when writing example output of html-mf-hlisting extractor!
         // Override to return rdf4j TurtleWriter instances instead.
-        private static final org.eclipse.rdf4j.rio.turtle.TurtleWriterFactory rdf4j
-                = new org.eclipse.rdf4j.rio.turtle.TurtleWriterFactory() {
+        private static final org.eclipse.rdf4j.rio.turtle.TurtleWriterFactory rdf4j = new org.eclipse.rdf4j.rio.turtle.TurtleWriterFactory() {
             @Override
             public RDFWriter getWriter(OutputStream out) {
                 return new org.eclipse.rdf4j.rio.turtle.TurtleWriter(out);
             }
+
             @Override
             public RDFWriter getWriter(OutputStream out, String baseURI) throws URISyntaxException {
                 return new org.eclipse.rdf4j.rio.turtle.TurtleWriter(out, new ParsedIRI(baseURI));
             }
+
             @Override
             public RDFWriter getWriter(Writer writer) {
                 return new org.eclipse.rdf4j.rio.turtle.TurtleWriter(writer);
             }
+
             @Override
             public RDFWriter getWriter(Writer writer, String baseURI) throws URISyntaxException {
                 return new org.eclipse.rdf4j.rio.turtle.TurtleWriter(writer, new ParsedIRI(baseURI));
@@ -59,9 +62,7 @@ public class TurtleWriter extends RDFWriterTripleHandler {
 
         static final TripleFormat FORMAT = format(rdf4j);
 
-        static final Settings SUPPORTED_SETTINGS = Settings.of(
-                WriterSettings.PRETTY_PRINT
-        );
+        static final Settings SUPPORTED_SETTINGS = Settings.of(WriterSettings.PRETTY_PRINT);
     }
 
     @Override
@@ -72,7 +73,8 @@ public class TurtleWriter extends RDFWriterTripleHandler {
     /**
      * Constructor.
      *
-     * @param out stream to write on.
+     * @param out
+     *            stream to write on.
      */
     public TurtleWriter(OutputStream out) {
         this(out, Settings.of());

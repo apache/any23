@@ -31,13 +31,10 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * A wrapper around a {@link TripleHandler} that can block and unblock
- * calls to the handler, either for the entire document, or for
- * individual {@link ExtractionContext}s. A document is initially
- * blocked and must be explicitly unblocked. Contexts are initially
- * unblocked and must be explicitly blocked. Unblocking a document
- * unblocks all contexts as well.
- * This class it thread-safe.
+ * A wrapper around a {@link TripleHandler} that can block and unblock calls to the handler, either for the entire
+ * document, or for individual {@link ExtractionContext}s. A document is initially blocked and must be explicitly
+ * unblocked. Contexts are initially unblocked and must be explicitly blocked. Unblocking a document unblocks all
+ * contexts as well. This class it thread-safe.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -46,7 +43,7 @@ public class ExtractionContextBlocker implements TripleHandler {
     private TripleHandler wrapped;
 
     private Map<String, ValvedTriplePipe> contextQueues = new HashMap<String, ValvedTriplePipe>();
-    
+
     private boolean documentBlocked;
 
     public ExtractionContextBlocker(TripleHandler wrapped) {
@@ -58,7 +55,8 @@ public class ExtractionContextBlocker implements TripleHandler {
     }
 
     public synchronized void blockContext(ExtractionContext context) {
-        if (!documentBlocked) return;
+        if (!documentBlocked)
+            return;
         try {
             contextQueues.get(context.getUniqueID()).block();
         } catch (ValvedTriplePipeException e) {
@@ -88,7 +86,8 @@ public class ExtractionContextBlocker implements TripleHandler {
     }
 
     public synchronized void unblockDocument() {
-        if (!documentBlocked) return;
+        if (!documentBlocked)
+            return;
         documentBlocked = false;
         for (ValvedTriplePipe pipe : contextQueues.values()) {
             try {
@@ -100,26 +99,22 @@ public class ExtractionContextBlocker implements TripleHandler {
     }
 
     public synchronized void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         try {
             contextQueues.get(context.getUniqueID()).receiveTriple(s, p, o, g);
         } catch (ValvedTriplePipeException e) {
             throw new TripleHandlerException(
-                    String.format(Locale.ROOT, "Error while receiving triple %s %s %s", s, p, o),
-                    e
-            );
+                    String.format(Locale.ROOT, "Error while receiving triple %s %s %s", s, p, o), e);
         }
     }
 
     public synchronized void receiveNamespace(String prefix, String uri, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         try {
             contextQueues.get(context.getUniqueID()).receiveNamespace(prefix, uri);
         } catch (ValvedTriplePipeException e) {
             throw new TripleHandlerException(
-                    String.format(Locale.ROOT, "Error while receiving namespace %s:%s", prefix, uri),
-                    e
-            );
+                    String.format(Locale.ROOT, "Error while receiving namespace %s:%s", prefix, uri), e);
         }
     }
 
@@ -209,12 +204,14 @@ public class ExtractionContextBlocker implements TripleHandler {
         }
 
         void block() throws ValvedTriplePipeException {
-            if (blocked) return;
+            if (blocked)
+                return;
             blocked = true;
         }
 
         void unblock() throws ValvedTriplePipeException {
-            if (!blocked) return;
+            if (!blocked)
+                return;
             blocked = false;
             for (int i = 0; i < prefixes.size(); i++) {
                 sendNamespace(prefixes.get(i), uris.get(i));
@@ -237,8 +234,8 @@ public class ExtractionContextBlocker implements TripleHandler {
         private void sendTriple(Resource s, IRI p, Value o, IRI g) throws ValvedTriplePipeException {
             if (!hasReceivedTriples) {
                 try {
-                wrapped.openContext(context);
-                } catch(TripleHandlerException e) {
+                    wrapped.openContext(context);
+                } catch (TripleHandlerException e) {
                     throw new ValvedTriplePipeException("Error while opening the triple handler", e);
                 }
                 hasReceivedTriples = true;
@@ -262,7 +259,8 @@ public class ExtractionContextBlocker implements TripleHandler {
             try {
                 wrapped.receiveNamespace(prefix, uri, context);
             } catch (TripleHandlerException e) {
-                throw new ValvedTriplePipeException("Error while receiving the namespace", e);            }
+                throw new ValvedTriplePipeException("Error while receiving the namespace", e);
+            }
         }
     }
 

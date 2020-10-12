@@ -24,7 +24,8 @@ import java.util.Collection;
 /**
  * Interface defining a factory for {@link Extractor}.
  *
- * @param <T> the type of the {@link Extractor} to be created by this factory.
+ * @param <T>
+ *            the type of the {@link Extractor} to be created by this factory.
  */
 public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescription {
 
@@ -37,20 +38,19 @@ public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescr
 
     /**
      * Supports wildcards, e.g. <code>"*&#47;*"</code> for blind extractors that merely call a web service.
+     * 
      * @return a {@link java.util.Collection} of supported mimetypes.
      */
     Collection<MIMEType> getSupportedMIMETypes();
 
     /**
-     * An example input file for the extractor, to be used in auto-generated
-     * documentation. For the {@link Extractor.BlindExtractor},
-     * this is an arbitrary IRI.
-     * For extractors that require content, it is the name of a file, relative
-     * to the factory's class file's location, it will be opened using
-     * factory.getClass().getResourceAsStream(filename). The example should be
-     * a short file that produces characteristic output if sent through the
-     * extractor. The file will be read as UTF-8, so it should either use that
-     * encoding or avoid characters outside of the US-ASCII range.
+     * An example input file for the extractor, to be used in auto-generated documentation. For the
+     * {@link Extractor.BlindExtractor}, this is an arbitrary IRI. For extractors that require content, it is the name
+     * of a file, relative to the factory's class file's location, it will be opened using
+     * factory.getClass().getResourceAsStream(filename). The example should be a short file that produces characteristic
+     * output if sent through the extractor. The file will be read as UTF-8, so it should either use that encoding or
+     * avoid characters outside of the US-ASCII range.
+     * 
      * @return a string representing sample input for a particular extractor.
      */
     String getExampleInput();

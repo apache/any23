@@ -29,19 +29,19 @@ public class XHTML extends Vocabulary {
     private static XHTML instance;
 
     public static XHTML getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new XHTML();
         }
         return instance;
     }
 
-    public final IRI license    = createProperty(NS, "license"   );
-    public final IRI meta       = createProperty(NS, "meta"      );
-    public final IRI alternate  = createProperty(NS, "alternate" );
+    public final IRI license = createProperty(NS, "license");
+    public final IRI meta = createProperty(NS, "meta");
+    public final IRI alternate = createProperty(NS, "alternate");
     public final IRI stylesheet = createProperty(NS, "stylesheet");
 
-    private XHTML(){
+    private XHTML() {
         super(NS);
     }
-    
+
 }

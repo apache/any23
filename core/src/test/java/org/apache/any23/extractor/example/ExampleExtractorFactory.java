@@ -30,23 +30,20 @@ import org.apache.any23.rdf.Prefixes;
  *
  */
 // NOTE: Not enabling this in META-INF/services
-public class ExampleExtractorFactory extends SimpleExtractorFactory<ExampleExtractor> implements
-        ExtractorFactory<ExampleExtractor> {
+public class ExampleExtractorFactory extends SimpleExtractorFactory<ExampleExtractor>
+        implements ExtractorFactory<ExampleExtractor> {
 
     public static final String NAME = "example";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "foaf");
 
     private static final ExtractorDescription descriptionInstance = new ExampleExtractorFactory();
-    
+
     public ExampleExtractorFactory() {
-        super(
-                ExampleExtractorFactory.NAME, 
-                ExampleExtractorFactory.PREFIXES,
-                Collections.singleton("*/*;q=0.01"),
+        super(ExampleExtractorFactory.NAME, ExampleExtractorFactory.PREFIXES, Collections.singleton("*/*;q=0.01"),
                 "http://example.com/");
     }
-    
+
     @Override
     public ExampleExtractor createExtractor() {
         return new ExampleExtractor();

@@ -31,11 +31,7 @@ public class DefaultValidationReport implements ValidationReport {
     private final List<RuleActivation> ruleActivations;
     private final List<Error> errors;
 
-    public DefaultValidationReport(
-            List<Issue> issues,
-            List<RuleActivation> ruleActivations,
-            List<Error> errors
-    ) {
+    public DefaultValidationReport(List<Issue> issues, List<RuleActivation> ruleActivations, List<Error> errors) {
         this.issues = issues;
         this.ruleActivations = ruleActivations;
         this.errors = errors;
@@ -56,13 +52,13 @@ public class DefaultValidationReport implements ValidationReport {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        for(Issue issue : issues) {
+        for (Issue issue : issues) {
             sb.append(issue).append('\n');
         }
-        for(RuleActivation ruleActivation : ruleActivations) {
+        for (RuleActivation ruleActivation : ruleActivations) {
             sb.append(ruleActivation).append('\n');
         }
-        for(Error error : errors) {
+        for (Error error : errors) {
             sb.append(error).append('\n');
         }
         return sb.toString();

@@ -44,13 +44,13 @@ public class SettingsTest {
             nonNull.withValue(null);
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
     }
 
     @Test
     public void testNullableSetting() {
-        Setting<String> nullable = Setting.create("nulltest", (String)null);
+        Setting<String> nullable = Setting.create("nulltest", (String) null);
         assertNull(nullable.withValue(null).getValue());
     }
 
@@ -64,7 +64,7 @@ public class SettingsTest {
 
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
     }
 
@@ -107,21 +107,23 @@ public class SettingsTest {
 
     @Test
     public void testGetNullSetting() {
-        Setting<String> baseKey = Setting.create("foo", (String)null);
+        Setting<String> baseKey = Setting.create("foo", (String) null);
 
         Settings settings = Settings.of(baseKey);
         assertNull(settings.get(baseKey.withValue("not null")));
 
-        //make sure we can go back to null
+        // make sure we can go back to null
         baseKey.withValue("not null").withValue(null);
     }
 
     @Test
     public void testSettingType() {
         assertEquals(CharSequence.class, Setting.create("foo", CharSequence.class, "").getValueType());
-        assertEquals(CharSequence.class, new Setting<CharSequence>("foo", ""){}.getValueType());
+        assertEquals(CharSequence.class, new Setting<CharSequence>("foo", "") {
+        }.getValueType());
 
-        Type mapType = new Setting<Map<String, Integer>>("foo", Collections.emptyMap()){}.getValueType();
+        Type mapType = new Setting<Map<String, Integer>>("foo", Collections.emptyMap()) {
+        }.getValueType();
 
         assertTrue(mapType instanceof ParameterizedType);
         assertEquals("java.util.Map<java.lang.String, java.lang.Integer>", mapType.getTypeName());
@@ -132,20 +134,25 @@ public class SettingsTest {
             }
         }
 
-        class Key2<Baz, V, Bar> extends Key0<V, Bar> { }
+        class Key2<Baz, V, Bar> extends Key0<V, Bar> {
+        }
 
-        class Key3<V> extends Key2<Boolean, Integer, List<Optional<String>>> { }
+        class Key3<V> extends Key2<Boolean, Integer, List<Optional<String>>> {
+        }
 
-        class Key4 extends Key3<Boolean> { }
+        class Key4 extends Key3<Boolean> {
+        }
 
         Type complicatedType = new Key4().withValue(Collections.emptyList()).getValueType();
 
         assertTrue(complicatedType instanceof ParameterizedType);
         assertEquals("java.util.List<java.util.Optional<java.lang.String>>", complicatedType.getTypeName());
 
-        class Key3Simple<V> extends Key2<Boolean, Integer, String> { }
+        class Key3Simple<V> extends Key2<Boolean, Integer, String> {
+        }
 
-        class Key4Simple extends Key3Simple<Boolean> { }
+        class Key4Simple extends Key3Simple<Boolean> {
+        }
 
         Type simpleType = new Key4Simple().withValue("").getValueType();
 
@@ -194,78 +201,84 @@ public class SettingsTest {
     @SuppressWarnings("unchecked")
     public void testBadSetting() {
         try {
-            new Setting("foo", null) {};
+            new Setting("foo", null) {
+            };
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
-            new Setting<Integer>(null, null) {};
+            new Setting<Integer>(null, null) {
+            };
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
             Setting.create(null, 0);
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
-            new Setting<Integer>(" ", null) {};
+            new Setting<Integer>(" ", null) {
+            };
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
             Setting.create(" ", 0);
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
             Setting.create("foo", List.class, null);
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
             Setting.create("foo", boolean.class, null);
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
             Setting.create("foo", Integer[].class, null);
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
-            new Setting<Integer[]>("foo", null) {};
+            new Setting<Integer[]>("foo", null) {
+            };
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         try {
-            new Setting<List<Integer>[]>("foo", null) {};
+            new Setting<List<Integer>[]>("foo", null) {
+            };
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
 
         class BadKeyCreator {
             private <V> void badKey() {
-                new Setting<V>("foo", null) {};
+                new Setting<V>("foo", null) {
+                };
             }
         }
 
@@ -273,9 +286,8 @@ public class SettingsTest {
             new BadKeyCreator().badKey();
             fail();
         } catch (IllegalArgumentException e) {
-            //test passes; ignore
+            // test passes; ignore
         }
     }
-
 
 }

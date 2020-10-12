@@ -38,24 +38,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Command line <i>Microdata</i> parser, accepting both files and URLs and
- * returing a <i>JSON</i> representation of the extracted metadata as described at
- * <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
+ * Command line <i>Microdata</i> parser, accepting both files and URLs and returing a <i>JSON</i> representation of the
+ * extracted metadata as described at <a href="http://www.w3.org/TR/microdata/#json">Microdata JSON Specification</a>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
-@Parameters( commandNames = { "microdata" },  commandDescription = "Commandline Tool for extracting Microdata from file/HTTP source.")
+@Parameters(commandNames = {
+        "microdata" }, commandDescription = "Commandline Tool for extracting Microdata from file/HTTP source.")
 public class MicrodataParser extends BaseTool {
 
     private static final Pattern HTTP_DOCUMENT_PATTERN = Pattern.compile("^https?://.*");
 
     private static final Pattern FILE_DOCUMENT_PATTERN = Pattern.compile("^file:(.*)$");
 
-    @Parameter(
-       arity = 1,
-       description = "Input document URL, {http://path/to/resource.html|file:/path/to/localFile.html}",
-       converter = MicrodataParserDocumentSourceConverter.class
-    )
+    @Parameter(arity = 1, description = "Input document URL, {http://path/to/resource.html|file:/path/to/localFile.html}", converter = MicrodataParserDocumentSourceConverter.class)
     private List<DocumentSource> document = new LinkedList<DocumentSource>();
 
     private PrintStream out = System.out;
@@ -78,31 +74,30 @@ public class MicrodataParser extends BaseTool {
         try {
             final DocumentSource documentSource = document.get(0);
             documentInputInputStream = documentSource.openInputStream();
-            final TagSoupParser tagSoupParser = new TagSoupParser(
-                    documentInputInputStream,
-                    documentSource.getDocumentIRI()
-            );
+            final TagSoupParser tagSoupParser = new TagSoupParser(documentInputInputStream,
+                    documentSource.getDocumentIRI());
             org.apache.any23.extractor.microdata.MicrodataParser.getMicrodataAsJSON(tagSoupParser.getDOM(), out);
         } finally {
-            if (documentInputInputStream != null) StreamUtils.closeGracefully(documentInputInputStream);
+            if (documentInputInputStream != null)
+                StreamUtils.closeGracefully(documentInputInputStream);
         }
     }
 
     public static final class MicrodataParserDocumentSourceConverter implements IStringConverter<DocumentSource> {
 
         @Override
-        public DocumentSource convert( String value ) {
+        public DocumentSource convert(String value) {
             final Matcher httpMatcher = HTTP_DOCUMENT_PATTERN.matcher(value);
             if (httpMatcher.find()) {
                 try {
                     return new HTTPDocumentSource(DefaultHTTPClient.createInitializedHTTPClient(), value);
-                } catch ( URISyntaxException e ) {
+                } catch (URISyntaxException e) {
                     throw new ParameterException("Invalid source IRI: '" + value + "'");
                 }
             }
             final Matcher fileMatcher = FILE_DOCUMENT_PATTERN.matcher(value);
             if (fileMatcher.find()) {
-                return new FileDocumentSource( new File( fileMatcher.group(1) ) );
+                return new FileDocumentSource(new File(fileMatcher.group(1)));
             }
             throw new ParameterException("Invalid source protocol: '" + value + "'");
         }

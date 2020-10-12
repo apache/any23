@@ -21,13 +21,14 @@ package org.apache.any23.validator;
  * Models any exception raised by the {@link Validator}.
  *
  * @see Validator
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
 public class ValidatorException extends Exception {
 
     public ValidatorException(String message) {
-        super(message);    
+        super(message);
     }
 
     public ValidatorException(String message, Throwable cause) {

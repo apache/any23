@@ -41,7 +41,6 @@ import static org.mockito.Mockito.verify;
  */
 public class IgnoreAccidentalRDFaTest {
 
-
     @Test
     public void testBlockCSSTriple() throws TripleHandlerException {
         checkTriple("http://www.w3.org/1999/xhtml/vocab#stylesheet", never());
@@ -52,36 +51,21 @@ public class IgnoreAccidentalRDFaTest {
         checkTriple("http://www.w3.org/1999/xhtml/vocab#license", times(1));
     }
 
-    private void checkTriple(String predicate, VerificationMode verificationMode)
-    throws TripleHandlerException {
+    private void checkTriple(String predicate, VerificationMode verificationMode) throws TripleHandlerException {
         final String DOCUMENT_IRI = "http://an.html.page";
         final TripleHandler mockTripleHandler = mock(TripleHandler.class);
         final ValueFactory valueFactory = SimpleValueFactory.getInstance();
-        ExtractionContext extractionContext = new ExtractionContext(
-                "test-extractor",
-                valueFactory.createIRI(DOCUMENT_IRI)
-        );
+        ExtractionContext extractionContext = new ExtractionContext("test-extractor",
+                valueFactory.createIRI(DOCUMENT_IRI));
         final IgnoreAccidentalRDFa ignoreAccidentalRDFa = new IgnoreAccidentalRDFa(mockTripleHandler, true);
         ignoreAccidentalRDFa.openContext(extractionContext);
-        ignoreAccidentalRDFa.receiveTriple(
-                valueFactory.createIRI(DOCUMENT_IRI),
-                valueFactory.createIRI(predicate),
+        ignoreAccidentalRDFa.receiveTriple(valueFactory.createIRI(DOCUMENT_IRI), valueFactory.createIRI(predicate),
                 valueFactory.createIRI("http://www.myedu.com/modules/20110519065453/profile.css"),
-                valueFactory.createIRI(DOCUMENT_IRI),
-                extractionContext
-        );
+                valueFactory.createIRI(DOCUMENT_IRI), extractionContext);
         ignoreAccidentalRDFa.close();
 
-        verify(
-                mockTripleHandler,
-                verificationMode
-        ).receiveTriple(
-                (Resource) any(),
-                (IRI) any(),
-                (Value) any(),
-                (IRI) any(),
-                (ExtractionContext) any()
-        );
+        verify(mockTripleHandler, verificationMode).receiveTriple((Resource) any(), (IRI) any(), (Value) any(),
+                (IRI) any(), (ExtractionContext) any());
     }
 
 }

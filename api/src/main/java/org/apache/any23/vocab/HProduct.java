@@ -31,25 +31,23 @@ public class HProduct extends Vocabulary {
     private static HProduct instance;
 
     public static HProduct getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HProduct();
         }
         return instance;
     }
 
-    public IRI product  = createClass(NS, "Product");
+    public IRI product = createClass(NS, "Product");
 
-
-    public IRI name  = createProperty(NS, "name");
-    public IRI photo  = createProperty(NS, "photo");
+    public IRI name = createProperty(NS, "name");
+    public IRI photo = createProperty(NS, "photo");
     public IRI brand = createProperty(NS, "brand");
-    public IRI category  = createProperty(NS, "category");
-    public IRI description  = createProperty(NS, "description");
+    public IRI category = createProperty(NS, "category");
+    public IRI description = createProperty(NS, "description");
     public IRI url = createProperty(NS, "url");
     public IRI identifier = createProperty(NS, "identifier");
     public IRI price = createProperty(NS, "price");
-    public IRI review  = createProperty(NS, "review");
-
+    public IRI review = createProperty(NS, "review");
 
     private HProduct() {
         super(NS);

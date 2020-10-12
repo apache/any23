@@ -38,9 +38,8 @@ import java.util.Locale;
 import java.util.Optional;
 
 /**
- * A {@link TripleHandler} that writes
- * triples to a Sesame {@link org.eclipse.rdf4j.rio.RDFWriter},
- * eg for serialization using one of Sesame's writers.
+ * A {@link TripleHandler} that writes triples to a Sesame {@link org.eclipse.rdf4j.rio.RDFWriter}, eg for serialization
+ * using one of Sesame's writers.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (mostarda@fbk.eu)
@@ -70,7 +69,7 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
             this.out = out;
             w = _writer = rdf4j.getWriter(out);
         } else {
-            //use buffered writer if format supports encoding
+            // use buffered writer if format supports encoding
             BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(out, charset.get()));
             this.out = buf;
             w = _writer = rdf4j.getWriter(buf);
@@ -97,8 +96,8 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
     }
 
     /**
-     * If <code>true</code> then the produced <b>RDF</b> is annotated with
-     * the extractors used to generate the specific statements.
+     * If <code>true</code> then the produced <b>RDF</b> is annotated with the extractors used to generate the specific
+     * statements.
      *
      * @return the annotation flag value.
      */
@@ -110,8 +109,9 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
     /**
      * Sets the <i>annotation</i> flag.
      *
-     * @param f If <code>true</code> then the produced <b>RDF</b> is annotated with
-     *          the extractors used to generate the specific statements.
+     * @param f
+     *            If <code>true</code> then the produced <b>RDF</b> is annotated with the extractors used to generate
+     *            the specific statements.
      */
     @Override
     public void setAnnotated(boolean f) {
@@ -125,37 +125,32 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
 
     @Override
     public void openContext(ExtractionContext context) throws TripleHandlerException {
-        handleComment("BEGIN: " + context );
+        handleComment("BEGIN: " + context);
     }
 
     @Override
-    public void writeTriple(Resource s, IRI p, Value o, Resource g)
-    throws TripleHandlerException {
+    public void writeTriple(Resource s, IRI p, Value o, Resource g) throws TripleHandlerException {
         try {
             writer().handleStatement(RDFUtils.quad(s, p, o, g));
         } catch (RDFHandlerException ex) {
             throw new TripleHandlerException(
-                    String.format(Locale.ROOT, "Error while receiving triple: %s %s %s %s", s, p, o, g),
-                    ex
-            );
+                    String.format(Locale.ROOT, "Error while receiving triple: %s %s %s %s", s, p, o, g), ex);
         }
     }
 
     @Override
-    public void writeNamespace(String prefix, String uri)
-    throws TripleHandlerException {
+    public void writeNamespace(String prefix, String uri) throws TripleHandlerException {
         try {
             writer().handleNamespace(prefix, uri);
         } catch (RDFHandlerException ex) {
-            throw new TripleHandlerException(String.format(Locale.ROOT, "Error while receiving namespace: %s:%s", prefix, uri),
-                    ex
-            );
+            throw new TripleHandlerException(
+                    String.format(Locale.ROOT, "Error while receiving namespace: %s:%s", prefix, uri), ex);
         }
     }
 
     @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        handleComment( "END: " + context );
+        handleComment("END: " + context);
     }
 
     @Override
@@ -169,7 +164,7 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
             if (!writerStarted) {
                 writer.startRDF();
             }
-            writer.endRDF(); //calls flush()
+            writer.endRDF(); // calls flush()
         } catch (RDFHandlerException e) {
             throw new TripleHandlerException("Error closing writer", e);
         }
@@ -185,7 +180,8 @@ public abstract class RDFWriterTripleHandler extends TripleWriterHandler impleme
     }
 
     private void handleComment(String comment) throws TripleHandlerException {
-        if( !annotated ) return;
+        if (!annotated)
+            return;
         try {
             writer().handleComment(comment);
         } catch (RDFHandlerException rdfhe) {

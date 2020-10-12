@@ -36,22 +36,20 @@ public class DefaultValidationReportBuilder implements ValidationReportBuilder {
     private List<ValidationReport.Error> errors;
 
     public DefaultValidationReportBuilder() {
-      //default constructor
+        // default constructor
     }
 
     public ValidationReport getReport() {
-        return new DefaultValidationReport(
-                issues == null ? Collections.<ValidationReport.Issue>emptyList() : issues,
-                ruleActivations == null ? Collections.<ValidationReport.RuleActivation>emptyList() : ruleActivations,
-                errors == null ? Collections.<ValidationReport.Error>emptyList() : errors 
-        );
+        return new DefaultValidationReport(issues == null ? Collections.<ValidationReport.Issue> emptyList() : issues,
+                ruleActivations == null ? Collections.<ValidationReport.RuleActivation> emptyList() : ruleActivations,
+                errors == null ? Collections.<ValidationReport.Error> emptyList() : errors);
     }
 
     public void reportIssue(ValidationReport.IssueLevel issueLevel, String message, Node n) {
-        if(issues == null) {
+        if (issues == null) {
             issues = new ArrayList<>();
         }
-        issues.add( new ValidationReport.Issue(issueLevel, message, n) );
+        issues.add(new ValidationReport.Issue(issueLevel, message, n));
     }
 
     public void reportIssue(ValidationReport.IssueLevel issueLevel, String message) {
@@ -59,48 +57,48 @@ public class DefaultValidationReportBuilder implements ValidationReportBuilder {
     }
 
     public void traceRuleActivation(Rule r) {
-        if(ruleActivations == null) {
+        if (ruleActivations == null) {
             ruleActivations = new ArrayList<>();
         }
-        ruleActivations.add( new ValidationReport.RuleActivation(r) );
+        ruleActivations.add(new ValidationReport.RuleActivation(r));
     }
 
     public void reportRuleError(Rule r, Exception e, String msg) {
-        if(errors == null) {
+        if (errors == null) {
             errors = new ArrayList<>();
         }
-        errors.add( new ValidationReport.RuleError(r, e, msg) );
+        errors.add(new ValidationReport.RuleError(r, e, msg));
     }
 
     public void reportFixError(Fix f, Exception e, String msg) {
-        if(errors == null) {
+        if (errors == null) {
             errors = new ArrayList<>();
         }
-        errors.add( new ValidationReport.FixError(f, e, msg) );
+        errors.add(new ValidationReport.FixError(f, e, msg));
 
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        if(ruleActivations != null) {
+        if (ruleActivations != null) {
             sb.append("Rules {\n");
-            for(ValidationReport.RuleActivation ra :ruleActivations) {
+            for (ValidationReport.RuleActivation ra : ruleActivations) {
                 sb.append(ra).append('\n');
             }
             sb.append("}\n");
         }
-        if(issues != null) {
+        if (issues != null) {
             sb.append("Issues {\n");
-            for(ValidationReport.Issue issue : issues) {
-                sb.append( issue.toString() ).append('\n');
+            for (ValidationReport.Issue issue : issues) {
+                sb.append(issue.toString()).append('\n');
             }
             sb.append("}\n");
         }
         if (errors != null) {
             sb.append("Errors {\n");
             for (ValidationReport.Error error : errors) {
-                sb.append( error.toString() ).append('\n');
+                sb.append(error.toString()).append('\n');
             }
             sb.append("}\n");
         }

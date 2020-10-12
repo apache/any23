@@ -20,8 +20,8 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * This class models an internal <i>Sindice</i> Vocabulary to describe
- * resource domains and Microformat nesting relationships.
+ * This class models an internal <i>Sindice</i> Vocabulary to describe resource domains and Microformat nesting
+ * relationships.
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
@@ -48,7 +48,7 @@ public class SINDICE extends Vocabulary {
     private static SINDICE instance;
 
     public static SINDICE getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new SINDICE();
         }
         return instance;
@@ -60,15 +60,13 @@ public class SINDICE extends Vocabulary {
     public final IRI NAMESPACE = createIRI(NS);
 
     /**
-     * This property expresses the DNS domain of the resource on which
-     * it is applied. It is intended to be used to keep track of the domain provenance
-     * of each resource.
+     * This property expresses the DNS domain of the resource on which it is applied. It is intended to be used to keep
+     * track of the domain provenance of each resource.
      */
     public final IRI domain = createProperty(DOMAIN);
 
     /**
-     * This property links a resource with a <i>blank node</i> that represents
-     * a nested <i>Microformat</i> node.
+     * This property links a resource with a <i>blank node</i> that represents a nested <i>Microformat</i> node.
      */
     public final IRI nesting = createProperty(NESTING);
 
@@ -93,7 +91,6 @@ public class SINDICE extends Vocabulary {
      */
     public final IRI date = createProperty(DATE);
 
-
     private IRI createClass(String localName) {
         return createClass(NS, localName);
     }
@@ -102,7 +99,7 @@ public class SINDICE extends Vocabulary {
         return createProperty(NS, localName);
     }
 
-    private SINDICE(){
+    private SINDICE() {
         super(NS);
     }
 

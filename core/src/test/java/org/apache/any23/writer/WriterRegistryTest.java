@@ -47,7 +47,7 @@ public class WriterRegistryTest {
 
     @Test
     public void testHasIdentifier() {
-        Assert.assertTrue( target.hasIdentifier( target.getIdentifiers().get(0) ) );
+        Assert.assertTrue(target.hasIdentifier(target.getIdentifiers().get(0)));
     }
 
     @Test
@@ -58,14 +58,14 @@ public class WriterRegistryTest {
 
     @Test
     public void testGetWriters() {
-        Assert.assertTrue( target.getWriters().size() >= NUM_OF_WRITERS);
+        Assert.assertTrue(target.getWriters().size() >= NUM_OF_WRITERS);
     }
 
     @Test
     public void testGetWriterByIdentifier() {
         final List<String> ids = target.getIdentifiers();
-        for(String id : ids) {
-            Assert.assertNotNull( target.getWriterByIdentifier(id) );
+        for (String id : ids) {
+            Assert.assertNotNull(target.getWriterByIdentifier(id));
         }
     }
 
@@ -90,16 +90,16 @@ public class WriterRegistryTest {
     public void testGetWritersByMimeType() {
         final Set<WriterFactory> set = new HashSet<WriterFactory>();
         final Collection<String> mimeTypes = target.getMimeTypes();
-        for(String mimeType : mimeTypes) {
-            set.addAll( target.getWritersByMimeType(mimeType) );
+        for (String mimeType : mimeTypes) {
+            set.addAll(target.getWritersByMimeType(mimeType));
         }
-        Assert.assertEquals( NUM_OF_WRITERS, set.size() );
+        Assert.assertEquals(NUM_OF_WRITERS, set.size());
     }
 
     private void assertUnique(List<String> list) {
         final Set<String> set = new HashSet<String>();
-        for(String elem : list) {
-            if(set.contains(elem))
+        for (String elem : list) {
+            if (set.contains(elem))
                 Assert.fail("Element " + elem + " already defined.");
             set.add(elem);
         }

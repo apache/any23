@@ -30,17 +30,22 @@ public interface IssueReport {
     /**
      * Notifies an issue occurred while performing an extraction on an input stream.
      *
-     * @param level issue level.
-     * @param msg   issue message.
-     * @param row   issue row.
-     * @param col   issue column.
+     * @param level
+     *            issue level.
+     * @param msg
+     *            issue message.
+     * @param row
+     *            issue row.
+     * @param col
+     *            issue column.
      */
     void notifyIssue(IssueLevel level, String msg, long row, long col);
 
     /**
      * Prints out the content of the report.
      *
-     * @param ps a {@link java.io.PrintStream} to use for generating the report.
+     * @param ps
+     *            a {@link java.io.PrintStream} to use for generating the report.
      */
     void printReport(PrintStream ps);
 
@@ -55,9 +60,7 @@ public interface IssueReport {
      * Possible issue levels.
      */
     enum IssueLevel {
-        WARNING,
-        ERROR,
-        FATAL
+        WARNING, ERROR, FATAL
     }
 
     /**
@@ -66,8 +69,8 @@ public interface IssueReport {
     public class Issue {
 
         private IssueLevel level;
-        private String     message;
-        private long       row, col;
+        private String message;
+        private long row, col;
 
         Issue(IssueLevel l, String msg, long r, long c) {
             level = l;

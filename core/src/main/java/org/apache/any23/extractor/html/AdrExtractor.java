@@ -26,8 +26,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/adr">adr</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/adr">adr</a> microformat.
  *
  * @author Gabriele Renzi
  */
@@ -35,15 +34,8 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
 
     private static final VCard vVCARD = VCard.getInstance();
 
-    private static final String[] addressFields = {
-            "post-office-box",
-            "extended-address",
-            "street-address",
-            "locality",
-            "region",
-            "country-name",
-            "postal-code"
-    };
+    private static final String[] addressFields = { "post-office-box", "extended-address", "street-address", "locality",
+            "region", "country-name", "postal-code" };
 
     protected String getBaseClassName() {
         return "adr";
@@ -55,8 +47,9 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
     }
 
     protected boolean extractEntity(Node node, ExtractionResult out) {
-        if (null == node) return false;
-        //try lat & lon
+        if (null == node)
+            return false;
+        // try lat & lon
         final HTMLDocument document = new HTMLDocument(node);
         BNode adr = getBlankNodeFor(node);
         out.writeTriple(adr, RDF.TYPE, vVCARD.Address);
@@ -64,22 +57,16 @@ public class AdrExtractor extends EntityBasedMicroformatExtractor {
         for (String field : addressFields) {
             HTMLDocument.TextField[] values = document.getPluralTextField(field);
             for (HTMLDocument.TextField val : values) {
-                conditionallyAddStringProperty(
-                        val.source(),
-                        adr, vVCARD.getProperty(field), val.value()
-                );
+                conditionallyAddStringProperty(val.source(), adr, vVCARD.getProperty(field), val.value());
             }
         }
         HTMLDocument.TextField[] types = document.getPluralTextField("type");
         for (HTMLDocument.TextField val : types) {
-            conditionallyAddStringProperty(
-                    val.source(),
-                    adr, vVCARD.addressType, val.value()
-            );
+            conditionallyAddStringProperty(val.source(), adr, vVCARD.addressType, val.value());
         }
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), adr, this.getClass() );
+        tser.addResourceRoot(document.getPathToLocalRoot(), adr, this.getClass());
 
         return true;
     }

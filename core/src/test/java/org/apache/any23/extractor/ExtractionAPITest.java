@@ -46,8 +46,8 @@ public class ExtractionAPITest {
 
     @Test
     public void testDirectInstantiation() throws Exception {
-        CountingTripleHandler out   = new CountingTripleHandler();
-        ExampleExtractor extractor  = new ExampleExtractor();
+        CountingTripleHandler out = new CountingTripleHandler();
+        ExampleExtractor extractor = new ExampleExtractor();
         ExtractionContext extractionContext = new ExtractionContext("extractor-name", uri);
         ExtractionResultImpl writer = new ExtractionResultImpl(extractionContext, extractor, out);
         extractor.run(ExtractionParameters.newDefault(), extractionContext, uri, writer);
@@ -56,15 +56,15 @@ public class ExtractionAPITest {
     }
 
     private static void test(ExtractorFactory<?> factory, RDFFormat... formats) {
-        List<String> mimetypes = factory.getSupportedMIMETypes().stream()
-                .map(MIMEType::getFullType).collect(Collectors.toList());
+        List<String> mimetypes = factory.getSupportedMIMETypes().stream().map(MIMEType::getFullType)
+                .collect(Collectors.toList());
 
         Assert.assertEquals(formats[0].getDefaultMIMEType(), mimetypes.get(0));
 
         for (RDFFormat format : formats) {
             for (String mimeType : format.getMIMETypes()) {
                 if (mimeType.endsWith("/xml")) {
-                    //TODO: xml mimetypes are commented out in RDFXML extractor. Why?
+                    // TODO: xml mimetypes are commented out in RDFXML extractor. Why?
                     continue;
                 }
                 Assert.assertTrue(mimeType, mimetypes.contains(mimeType));
@@ -82,5 +82,5 @@ public class ExtractionAPITest {
         test(new TriXExtractorFactory(), RDFFormat.TRIX);
         test(new RDFa11ExtractorFactory(), RDFFormat.RDFA);
     }
-    
+
 }

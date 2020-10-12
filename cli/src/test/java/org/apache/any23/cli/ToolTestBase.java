@@ -44,16 +44,20 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
     /**
      * Runs the underlying tool.
      *
-     * @param args tool arguments.
+     * @param args
+     *            tool arguments.
+     * 
      * @return the tool exit code.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     protected int runTool(String... args) throws Exception {
-        final String commandName = toolClazz.getAnnotation( Parameters.class ).commandNames()[0];
+        final String commandName = toolClazz.getAnnotation(Parameters.class).commandNames()[0];
 
         final String[] enhancedArgs = new String[args.length + 1];
         enhancedArgs[0] = commandName;
-        System.arraycopy( args, 0, enhancedArgs, 1, args.length );
+        System.arraycopy(args, 0, enhancedArgs, 1, args.length);
 
         return new ToolRunner().execute(true, enhancedArgs);
     }
@@ -61,9 +65,13 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
     /**
      * Runs the underlying tool.
      *
-     * @param args args tool arguments.
+     * @param args
+     *            args tool arguments.
+     * 
      * @return the tool exit code.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     protected int runTool(String args) throws Exception {
         return runTool(args.split(" "));
@@ -72,19 +80,15 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
     /**
      * Runs the underlying tool and verify the exit code to <code>0</code>.
      *
-     * @param args tool arguments.
-     * @throws Exception if there is an error asserting the test data.
+     * @param args
+     *            tool arguments.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     protected void runToolCheckExit0(String... args) throws Exception {
-        assertEquals(
-                format(
-                        "Unexpected exit code for tool [%s] invoked with %s",
-                        toolClazz.getSimpleName(),
-                        Arrays.asList(args)
-                ),
-                0,
-                runTool(args)
-        );
+        assertEquals(format("Unexpected exit code for tool [%s] invoked with %s", toolClazz.getSimpleName(),
+                Arrays.asList(args)), 0, runTool(args));
     }
 
 }

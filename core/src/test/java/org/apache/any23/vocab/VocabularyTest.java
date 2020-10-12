@@ -17,7 +17,6 @@
 
 package org.apache.any23.vocab;
 
-
 import org.apache.any23.rdf.RDFUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -55,9 +54,9 @@ public class VocabularyTest {
         final IRI[] props = target.getProperties();
         Assert.assertEquals(3, props.length);
         final List<IRI> propsList = new ArrayList<IRI>(Arrays.asList(props));
-        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#prop1")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#prop2")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#prop3")) );
+        Assert.assertTrue(propsList.contains(RDFUtils.iri("http://test/vocab#prop1")));
+        Assert.assertTrue(propsList.contains(RDFUtils.iri("http://test/vocab#prop2")));
+        Assert.assertTrue(propsList.contains(RDFUtils.iri("http://test/vocab#prop3")));
     }
 
     @Test
@@ -65,17 +64,17 @@ public class VocabularyTest {
         final IRI[] classes = target.getClasses();
         Assert.assertEquals(3, classes.length);
         final List<IRI> propsList = new ArrayList<IRI>(Arrays.asList(classes));
-        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#Class1")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#Class2")) );
-        Assert.assertTrue(propsList.contains( RDFUtils.iri("http://test/vocab#Class3")) );
+        Assert.assertTrue(propsList.contains(RDFUtils.iri("http://test/vocab#Class1")));
+        Assert.assertTrue(propsList.contains(RDFUtils.iri("http://test/vocab#Class2")));
+        Assert.assertTrue(propsList.contains(RDFUtils.iri("http://test/vocab#Class3")));
     }
-    
+
     @Test
     public void testGetComments() {
-        Assert.assertEquals( "Comment class 1.", target.getCommentFor(RDFUtils.iri("http://test/vocab#Class1")) );
-        Assert.assertEquals( "Comment class 2.", target.getCommentFor(RDFUtils.iri("http://test/vocab#Class2")) );
-        Assert.assertEquals( "Comment prop 1." , target.getCommentFor(RDFUtils.iri("http://test/vocab#prop1")) );
-        Assert.assertEquals( "Comment prop 2." , target.getCommentFor(RDFUtils.iri("http://test/vocab#prop2")) );
+        Assert.assertEquals("Comment class 1.", target.getCommentFor(RDFUtils.iri("http://test/vocab#Class1")));
+        Assert.assertEquals("Comment class 2.", target.getCommentFor(RDFUtils.iri("http://test/vocab#Class2")));
+        Assert.assertEquals("Comment prop 1.", target.getCommentFor(RDFUtils.iri("http://test/vocab#prop1")));
+        Assert.assertEquals("Comment prop 2.", target.getCommentFor(RDFUtils.iri("http://test/vocab#prop2")));
         Assert.assertEquals(4, target.getComments().size());
     }
 

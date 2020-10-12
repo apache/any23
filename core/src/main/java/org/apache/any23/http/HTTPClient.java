@@ -21,8 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Abstraction for opening an {@link InputStream} on an
- * HTTP IRI.
+ * Abstraction for opening an {@link InputStream} on an HTTP IRI.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -31,30 +30,32 @@ public interface HTTPClient {
     /**
      * Initializes the HTTP client.
      *
-     * @param configuration configuration for the HTTP Client.
+     * @param configuration
+     *            configuration for the HTTP Client.
      */
     void init(HTTPClientConfiguration configuration);
 
     /**
      * Opens the input stream for the given target IRI.
      *
-     * @param uri target IRI.
+     * @param uri
+     *            target IRI.
+     * 
      * @return input stream to access IRI content.
-     * @throws IOException if any error occurs while reading the IRI content.
+     * 
+     * @throws IOException
+     *             if any error occurs while reading the IRI content.
      */
     InputStream openInputStream(String uri) throws IOException;
 
     /**
-     * Release all static resources help by the instance. Call this
-     * method only if you are sure you will not use it again in your
-     * application, like for example when shutting down a servlet
-     * context.
+     * Release all static resources help by the instance. Call this method only if you are sure you will not use it
+     * again in your application, like for example when shutting down a servlet context.
      */
     void close();
 
     /**
-     * The value of the Content-Type header reported by the server.
-     * Can be <code>null</code>.
+     * The value of the Content-Type header reported by the server. Can be <code>null</code>.
      *
      * @return the content type as string.
      */
@@ -66,13 +67,12 @@ public interface HTTPClient {
     long getContentLength();
 
     /**
-     * Returns the actual IRI from which the document was fetched.
-     * This might differ from the IRI passed to openInputStream()
-     * if a redirect was performed. A return value of <code>null</code>
-     * means that the IRI is unchanged and the original IRI was used.
+     * Returns the actual IRI from which the document was fetched. This might differ from the IRI passed to
+     * openInputStream() if a redirect was performed. A return value of <code>null</code> means that the IRI is
+     * unchanged and the original IRI was used.
      *
      * @return actual document IRI.
      */
     String getActualDocumentIRI();
-    
+
 }

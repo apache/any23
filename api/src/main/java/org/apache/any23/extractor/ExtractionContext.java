@@ -20,8 +20,7 @@ package org.apache.any23.extractor;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * This class provides the context for the processing of
- * a single {@link Extractor}.
+ * This class provides the context for the processing of a single {@link Extractor}.
  */
 public class ExtractionContext {
 
@@ -48,14 +47,12 @@ public class ExtractionContext {
     private final String uniqueID;
 
     public ExtractionContext(String extractorName, IRI documentIRI, String defaultLanguage, String localID) {
-        checkNotNull(extractorName  , "extractor name");
-        checkNotNull(documentIRI    , "document IRI");
-        this.extractorName   = extractorName;
-        this.documentIRI     = documentIRI;
+        checkNotNull(extractorName, "extractor name");
+        checkNotNull(documentIRI, "document IRI");
+        this.extractorName = extractorName;
+        this.documentIRI = documentIRI;
         this.defaultLanguage = defaultLanguage;
-        this.uniqueID      =
-                "urn:x-any23:" + extractorName + ":" +
-                (localID == null ? "" : localID) + ":" + documentIRI;
+        this.uniqueID = "urn:x-any23:" + extractorName + ":" + (localID == null ? "" : localID) + ":" + documentIRI;
     }
 
     public ExtractionContext(String extractorName, IRI documentIRI, String defaultLanguage) {
@@ -67,12 +64,7 @@ public class ExtractionContext {
     }
 
     public ExtractionContext copy(String localID) {
-        return new ExtractionContext(
-                getExtractorName(),
-                getDocumentIRI(),
-                getDefaultLanguage(),
-                localID
-        );
+        return new ExtractionContext(getExtractorName(), getDocumentIRI(), getDefaultLanguage(), localID);
     }
 
     public String getExtractorName() {
@@ -96,7 +88,8 @@ public class ExtractionContext {
     }
 
     public boolean equals(Object other) {
-        if (!(other instanceof ExtractionContext)) return false;
+        if (!(other instanceof ExtractionContext))
+            return false;
         return ((ExtractionContext) other).uniqueID.equals(uniqueID);
     }
 
@@ -105,7 +98,8 @@ public class ExtractionContext {
     }
 
     private void checkNotNull(Object data, String desc) {
-        if(data == null) throw new NullPointerException(desc + " cannot be null.");
+        if (data == null)
+            throw new NullPointerException(desc + " cannot be null.");
     }
-    
+
 }

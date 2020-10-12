@@ -40,8 +40,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Default implementation of <a href="https://www.w3.org/TR/microdata/">Microdata</a> extractor,
- * based on {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor}.
+ * Default implementation of <a href="https://www.w3.org/TR/microdata/">Microdata</a> extractor, based on
+ * {@link org.apache.any23.extractor.Extractor.TagSoupDOMExtractor}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano ( dpalmisano@gmail.com )
@@ -49,8 +49,7 @@ import java.util.Optional;
  */
 public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
 
-    static final IRI MICRODATA_ITEM
-            = RDFUtils.iri("http://www.w3.org/1999/xhtml/microdata#item");
+    static final IRI MICRODATA_ITEM = RDFUtils.iri("http://www.w3.org/1999/xhtml/microdata#item");
 
     private static final ParsedIRI EMPTY_FRAG = ParsedIRI.create("#");
 
@@ -60,19 +59,15 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
     }
 
     /**
-     * This extraction performs the
-     * <a href="https://www.w3.org/TR/microdata-rdf/">Microdata to RDF conversion algorithm</a>.
+     * This extraction performs the <a href="https://www.w3.org/TR/microdata-rdf/">Microdata to RDF conversion
+     * algorithm</a>.
      */
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
 
         final MicrodataParserReport parserReport = MicrodataParser.getMicrodata(in);
-        if(parserReport.getErrors().length > 0) {
+        if (parserReport.getErrors().length > 0) {
             notifyError(parserReport.getErrors(), out);
         }
         final ItemScope[] itemScopes = parserReport.getDetectedItemScopes();
@@ -91,37 +86,29 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                 throw new IllegalArgumentException("invalid namespace IRI: " + defaultNamespace);
             }
         } else {
-            //TODO: incorporate document's "base" element
+            // TODO: incorporate document's "base" element
             defaultNamespace = RDFUtils.iri(parsedDocumentIRI.resolve(EMPTY_FRAG).toString());
         }
 
-        //https://www.w3.org/TR/microdata-rdf/#generate-the-triples
+        // https://www.w3.org/TR/microdata-rdf/#generate-the-triples
         final Map<ItemScope, Resource> mappings = new HashMap<>();
         for (ItemScope itemScope : itemScopes) {
             Resource subject = processType(itemScope, parsedDocumentIRI, out, mappings, defaultNamespace);
 
-            //Writing out md:item triple has been removed from spec
-            //but for now, keep for backwards compatibility.
-            out.writeTriple(
-                    documentIRI,
-                    MICRODATA_ITEM,
-                    subject
-            );
+            // Writing out md:item triple has been removed from spec
+            // but for now, keep for backwards compatibility.
+            out.writeTriple(documentIRI, MICRODATA_ITEM, subject);
         }
     }
 
     /**
      * Recursive method implementing 6.3 "generate the triples" of the
-     * <a href="https://www.w3.org/TR/microdata-rdf/#generate-the-triples">Microdata to RDF</a>
-     * extraction algorithm.
+     * <a href="https://www.w3.org/TR/microdata-rdf/#generate-the-triples">Microdata to RDF</a> extraction algorithm.
      */
-    private Resource processType(
-            ItemScope itemScope,
-            ParsedIRI documentIRI, ExtractionResult out,
-            Map<ItemScope, Resource> mappings, IRI defaultNamespace
-    ) throws ExtractionException {
-        Resource subject = mappings.computeIfAbsent(itemScope, scope ->
-                createSubjectForItemId(documentIRI, scope.getItemId()));
+    private Resource processType(ItemScope itemScope, ParsedIRI documentIRI, ExtractionResult out,
+            Map<ItemScope, Resource> mappings, IRI defaultNamespace) throws ExtractionException {
+        Resource subject = mappings.computeIfAbsent(itemScope,
+                scope -> createSubjectForItemId(documentIRI, scope.getItemId()));
 
         List<IRI> itemScopeTypes = itemScope.getTypes();
         if (!itemScopeTypes.isEmpty()) {
@@ -138,20 +125,10 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             }
             for (ItemProp itemProp : itemProps.getValue()) {
                 try {
-                    processProperty(
-                            subject,
-                            predicate,
-                            itemProp,
-                            documentIRI,
-                            mappings,
-                            out,
-                            defaultNamespace
-                    );
+                    processProperty(subject, predicate, itemProp, documentIRI, mappings, out, defaultNamespace);
                 } catch (URISyntaxException e) {
                     throw new ExtractionException(
-                            "Error while processing on subject '" + subject +
-                                    "' the itemProp: '" + itemProp + "' "
-                    );
+                            "Error while processing on subject '" + subject + "' the itemProp: '" + itemProp + "' ");
                 }
             }
         }
@@ -169,15 +146,9 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         }
     }
 
-    private void processProperty(
-            Resource subject,
-            IRI predicate,
-            ItemProp itemProp,
-            ParsedIRI documentIRI,
-            Map<ItemScope, Resource> mappings,
-            ExtractionResult out,
-            IRI defaultNamespace
-    ) throws URISyntaxException, ExtractionException {
+    private void processProperty(Resource subject, IRI predicate, ItemProp itemProp, ParsedIRI documentIRI,
+            Map<ItemScope, Resource> mappings, ExtractionResult out, IRI defaultNamespace)
+            throws URISyntaxException, ExtractionException {
 
         Value value;
         Object propValue = itemProp.getValue().getContent();
@@ -187,37 +158,37 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
         } else if (propType.equals(ItemPropValue.Type.Nested)) {
             value = processType((ItemScope) propValue, documentIRI, out, mappings, defaultNamespace);
         } else if (propType.equals(ItemPropValue.Type.Link)) {
-            value = toAbsoluteIRI(documentIRI, (String)propValue);
-            //TODO: support registries so hardcoding not needed
+            value = toAbsoluteIRI(documentIRI, (String) propValue);
+            // TODO: support registries so hardcoding not needed
             if (predicate.stringValue().equals("http://schema.org/additionalType")) {
                 if (itemProp.reverse) {
-                    out.writeTriple((Resource)value, RDF.TYPE, subject);
+                    out.writeTriple((Resource) value, RDF.TYPE, subject);
                 } else {
                     out.writeTriple(subject, RDF.TYPE, value);
                 }
             }
         } else {
-            throw new RuntimeException("Invalid Type '" +
-                    propType + "' for ItemPropValue with name: '" + predicate + "'");
+            throw new RuntimeException(
+                    "Invalid Type '" + propType + "' for ItemPropValue with name: '" + predicate + "'");
         }
         if (itemProp.reverse) {
-            out.writeTriple((Resource)value, predicate, subject);
+            out.writeTriple((Resource) value, predicate, subject);
         } else {
             out.writeTriple(subject, predicate, value);
         }
     }
 
-    private static final String hcardPrefix    = "http://microformats.org/profile/hcard";
+    private static final String hcardPrefix = "http://microformats.org/profile/hcard";
     private static final IRI hcardNamespaceIRI = RDFUtils.iri("http://microformats.org/profile/hcard#");
 
     private static IRI getNamespaceIRI(IRI itemType) {
-        //TODO: support registries so hardcoding not needed
+        // TODO: support registries so hardcoding not needed
         return itemType.stringValue().startsWith(hcardPrefix) ? hcardNamespaceIRI : itemType;
     }
 
     private static IRI getPredicate(IRI namespaceIRI, String localName) {
-        return toAbsoluteIRI(localName).orElseGet(() -> namespaceIRI == null ? null :
-                RDFUtils.iri(namespaceIRI.getNamespace(), localName.trim()));
+        return toAbsoluteIRI(localName).orElseGet(
+                () -> namespaceIRI == null ? null : RDFUtils.iri(namespaceIRI.getNamespace(), localName.trim()));
     }
 
     private static Optional<IRI> toAbsoluteIRI(String urlString) {
@@ -228,7 +199,7 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
                     return Optional.of(RDFUtils.iri(iri.toString()));
                 }
             } catch (RuntimeException e) {
-                //not an absolute iri
+                // not an absolute iri
             }
         }
         return Optional.empty();
@@ -239,22 +210,18 @@ public class MicrodataExtractor implements Extractor.TagSoupDOMExtractor {
             return RDFUtils.iri(documentIRI.resolve(part.trim()));
         } catch (RuntimeException e) {
             if (e.getCause() instanceof URISyntaxException) {
-                throw (URISyntaxException)e.getCause();
+                throw (URISyntaxException) e.getCause();
             } else {
-                throw new URISyntaxException(String.valueOf(part), e.getClass().getName()
-                        + (e.getMessage() != null ? ": " + e.getMessage() : ""));
+                throw new URISyntaxException(String.valueOf(part),
+                        e.getClass().getName() + (e.getMessage() != null ? ": " + e.getMessage() : ""));
             }
         }
     }
 
     private void notifyError(MicrodataParserException[] errors, ExtractionResult out) {
-        for(MicrodataParserException mpe : errors) {
-            out.notifyIssue(
-                    IssueReport.IssueLevel.ERROR,
-                    mpe.toJSON(),
-                    mpe.getErrorLocationBeginRow(),
-                    mpe.getErrorLocationBeginCol()
-            );
+        for (MicrodataParserException mpe : errors) {
+            out.notifyIssue(IssueReport.IssueLevel.ERROR, mpe.toJSON(), mpe.getErrorLocationBeginRow(),
+                    mpe.getErrorLocationBeginCol());
         }
     }
 

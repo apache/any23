@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-
 public class ICalExtractorTest extends BaseCalendarExtractorTest {
     @Override
     protected ExtractorFactory<?> getExtractorFactory() {

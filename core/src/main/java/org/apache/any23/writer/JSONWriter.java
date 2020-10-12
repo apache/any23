@@ -48,10 +48,8 @@ public class JSONWriter extends TripleWriterHandler implements FormatWriter {
         }
         JsonFactory factory = new JsonFactory();
         try {
-            this.ps = factory.createGenerator(os)
-                    .disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET)
-                    .enable(JsonGenerator.Feature.FLUSH_PASSED_TO_STREAM)
-                    .setPrettyPrinter(new DefaultPrettyPrinter());
+            this.ps = factory.createGenerator(os).disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET)
+                    .enable(JsonGenerator.Feature.FLUSH_PASSED_TO_STREAM).setPrettyPrinter(new DefaultPrettyPrinter());
         } catch (IOException ex) {
         }
     }
@@ -79,8 +77,7 @@ public class JSONWriter extends TripleWriterHandler implements FormatWriter {
     }
 
     @Override
-    public void writeTriple(Resource s, IRI p, Value o, Resource g)
-            throws TripleHandlerException {
+    public void writeTriple(Resource s, IRI p, Value o, Resource g) throws TripleHandlerException {
         start(false);
         try {
             ps.writeStartArray();
@@ -110,8 +107,7 @@ public class JSONWriter extends TripleWriterHandler implements FormatWriter {
     }
 
     @Override
-    public void writeNamespace(String prefix, String uri)
-            throws TripleHandlerException {
+    public void writeNamespace(String prefix, String uri) throws TripleHandlerException {
         // Empty.
     }
 

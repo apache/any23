@@ -16,8 +16,7 @@
  */
 
 /**
- * This package contains classes and interfaces to implement a
- * small multi-threaded <i>HTTP Client</i> used to fetch data
- * sources.
+ * This package contains classes and interfaces to implement a small multi-threaded <i>HTTP Client</i> used to fetch
+ * data sources.
  */
 package org.apache.any23.http;

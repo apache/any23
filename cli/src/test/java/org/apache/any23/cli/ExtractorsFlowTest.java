@@ -52,23 +52,23 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
     /**
      * Emulates action described in ANY23-396.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     @Test
     public void runTestFor396() throws Exception {
         File outputFile = File.createTempFile("mockdata-", ".ttl", tempDirectory);
         File logFile = File.createTempFile("log-exec-", ".txt", tempDirectory);
 
-        runTool(String.format("-l %s -o %s -f people,turtle -e csv -d %s %s",
-                logFile.getAbsolutePath(),
-                outputFile.getAbsolutePath(),
-                PeopleExtractor.RAW_NS,
+        runTool(String.format("-l %s -o %s -f people,turtle -e csv -d %s %s", logFile.getAbsolutePath(),
+                outputFile.getAbsolutePath(), PeopleExtractor.RAW_NS,
                 copyResourceToTempFile(testingDatafile).getAbsolutePath()));
 
         // populate expected model
         Model expected = new TreeModel();
-        Stream.of("Davide Palmisano", "Michele Mostarda", "Giovanni Tummarello")
-                .map(PeopleExtractor::createPerson).forEach(expected::addAll);
+        Stream.of("Davide Palmisano", "Michele Mostarda", "Giovanni Tummarello").map(PeopleExtractor::createPerson)
+                .forEach(expected::addAll);
 
         if (log.isDebugEnabled()) {
             log.debug("\n\nlog file content:\n{}", FileUtils.readFileToString(logFile, "utf-8"));
@@ -80,15 +80,15 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
     /**
      * Compare expected model and received from input File.
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     private boolean assertCompareModels(Model expected, File received) throws Exception {
         Model receivedModel = new TreeModel();
-        receivedModel.addAll(Arrays.asList(RDFUtils.parseRDF(
-                Rio.getParserFormatForFileName(received.getName()).orElseThrow(AssertionError::new),
-                new BufferedInputStream(new FileInputStream(received)),
-                received.toURI().toString()
-        )));
+        receivedModel.addAll(Arrays.asList(
+                RDFUtils.parseRDF(Rio.getParserFormatForFileName(received.getName()).orElseThrow(AssertionError::new),
+                        new BufferedInputStream(new FileInputStream(received)), received.toURI().toString())));
 
         return receivedModel.containsAll(expected);
     }

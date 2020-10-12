@@ -26,26 +26,25 @@ import org.apache.any23.rdf.Prefixes;
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
  */
 public class YAMLExtractorFactory extends SimpleExtractorFactory<YAMLExtractor>
-		implements ExtractorFactory<YAMLExtractor>
-{
+        implements ExtractorFactory<YAMLExtractor> {
 
-	public static final String NAME = "yaml";
+    public static final String NAME = "yaml";
 
-	public static final Prefixes prefixes = null;
+    public static final Prefixes prefixes = null;
 
-	private static final ExtractorDescription descriptionInstance = new YAMLExtractorFactory();
+    private static final ExtractorDescription descriptionInstance = new YAMLExtractorFactory();
 
-	public YAMLExtractorFactory() {
-		super(NAME, prefixes, Arrays.asList("text/x-yaml;q=0.5"), "example.yaml");
-	}
+    public YAMLExtractorFactory() {
+        super(NAME, prefixes, Arrays.asList("text/x-yaml;q=0.5"), "example.yaml");
+    }
 
-	@Override
-	public YAMLExtractor createExtractor() {
-		return new YAMLExtractor();
-	}
+    @Override
+    public YAMLExtractor createExtractor() {
+        return new YAMLExtractor();
+    }
 
-	public static ExtractorDescription getDescriptionInstance() {
-		return descriptionInstance;
-	}
+    public static ExtractorDescription getDescriptionInstance() {
+        return descriptionInstance;
+    }
 
 }

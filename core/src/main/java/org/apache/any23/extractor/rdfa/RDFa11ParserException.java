@@ -20,8 +20,7 @@ package org.apache.any23.extractor.rdfa;
 /**
  * Exception class raised by {@link RDFa11Parser}.
  *
- * @deprecated since 2.3 the {@link org.eclipse.rdf4j.rio.Rio} implementations 
- * are used to parse RDFa.
+ * @deprecated since 2.3 the {@link org.eclipse.rdf4j.rio.Rio} implementations are used to parse RDFa.
  * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */

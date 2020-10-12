@@ -28,7 +28,6 @@ public class TripleHandlerException extends Exception {
         super(s);
     }
 
-
     public TripleHandlerException(String s, Exception exception) {
         super(s, exception);
     }

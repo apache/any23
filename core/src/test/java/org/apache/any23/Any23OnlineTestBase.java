@@ -20,9 +20,8 @@ package org.apache.any23;
 import org.junit.Assume;
 
 /**
- * Base class for any <code>Any23</code> test class containing online tests
- * (test which require online resources to run).
- * This class excluded all online tests if JVM flag {@link #ONLINE_TEST_DISABLED_FLAG} is specified.
+ * Base class for any <code>Any23</code> test class containing online tests (test which require online resources to
+ * run). This class excluded all online tests if JVM flag {@link #ONLINE_TEST_DISABLED_FLAG} is specified.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */

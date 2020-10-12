@@ -20,8 +20,7 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * The <a href="http://ogp.me/#type_video">Open Graph Protocol Video Type</a> 
- * vocabulary.
+ * The <a href="http://ogp.me/#type_video">Open Graph Protocol Video Type</a> vocabulary.
  */
 public class OGPVideo extends Vocabulary {
 
@@ -34,34 +33,34 @@ public class OGPVideo extends Vocabulary {
     /* BEGIN: ogp.me/#type_video.movie */
 
     /** Actors in the movie. */
-    public static final String VIDEO__ACTOR      = "video:actor";
+    public static final String VIDEO__ACTOR = "video:actor";
 
     /** The role they played. */
     public static final String VIDEO__ACTOR_ROLE = "video:actor:role";
 
     /** Directors of the movie. */
-    public static final String VIDEO__DIRECTOR   = "video:director";
+    public static final String VIDEO__DIRECTOR = "video:director";
 
     /** Writers of the movie. */
-    public static final String VIDEO__WRITER     = "video:writer";
+    public static final String VIDEO__WRITER = "video:writer";
 
     /** The movie's length in seconds. */
-    public static final String VIDEO__DURATION   = "video:duration";
+    public static final String VIDEO__DURATION = "video:duration";
 
     /** The date the movie was released. */
     public static final String VIDEO__RELEASE_DATE = "video:release_date";
 
     /** Tag words associated with this movie. */
-    public static final String VIDEO__TAG        = "video:tag";
+    public static final String VIDEO__TAG = "video:tag";
 
     /** Which series this episode belongs to. */
-    public static final String VIDEO__SERIES     = "video:series";
+    public static final String VIDEO__SERIES = "video:series";
     /* END: ogp.me/#type_video.movie */
 
     private static OGPVideo instance;
 
     public static OGPVideo getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OGPVideo();
         }
         return instance;
@@ -69,14 +68,14 @@ public class OGPVideo extends Vocabulary {
 
     public final IRI NAMESPACE = createIRI(NS);
 
-    public final IRI videoActor     = createProperty(VIDEO__ACTOR);
+    public final IRI videoActor = createProperty(VIDEO__ACTOR);
     public final IRI videoActorRole = createProperty(VIDEO__ACTOR_ROLE);
-    public final IRI videoDirector  = createProperty(VIDEO__DIRECTOR);
-    public final IRI videoWriter    = createProperty(VIDEO__WRITER);
-    public final IRI videoDuration  = createProperty(VIDEO__DURATION);
+    public final IRI videoDirector = createProperty(VIDEO__DIRECTOR);
+    public final IRI videoWriter = createProperty(VIDEO__WRITER);
+    public final IRI videoDuration = createProperty(VIDEO__DURATION);
     public final IRI videoReleaseDate = createProperty(VIDEO__RELEASE_DATE);
-    public final IRI videoTag       = createProperty(VIDEO__TAG);
-    public final IRI videoSeries    = createProperty(VIDEO__SERIES);
+    public final IRI videoTag = createProperty(VIDEO__TAG);
+    public final IRI videoSeries = createProperty(VIDEO__SERIES);
 
     @SuppressWarnings("unused")
     private IRI createClass(String localName) {

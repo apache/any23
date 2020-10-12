@@ -70,12 +70,18 @@ public class ItemScope extends Item {
     /**
      * Constructor.
      *
-     * @param xpath     location of this <i>itemscope</i> within the container document.
-     * @param itemProps list of properties bound to this <i>itemscope</i>.
-     * @param id        DOM identifier for this <i>itemscope</i>. Can be <code>null</code>.
-     * @param refs      list of item prop references connected to this <i>itemscope</i>. Can be <code>null</code>.
-     * @param type      <i>itemscope</i> type. Can be <code>null</code>.
-     * @param itemId    <i>itemscope</i> id. Can be <code>null</code>.
+     * @param xpath
+     *            location of this <i>itemscope</i> within the container document.
+     * @param itemProps
+     *            list of properties bound to this <i>itemscope</i>.
+     * @param id
+     *            DOM identifier for this <i>itemscope</i>. Can be <code>null</code>.
+     * @param refs
+     *            list of item prop references connected to this <i>itemscope</i>. Can be <code>null</code>.
+     * @param type
+     *            <i>itemscope</i> type. Can be <code>null</code>.
+     * @param itemId
+     *            <i>itemscope</i> id. Can be <code>null</code>.
      */
     public ItemScope(String xpath, ItemProp[] itemProps, String id, String[] refs, String type, String itemId) {
         this(xpath, itemProps, id, refs, stringToSingletonIRI(type), itemId);
@@ -89,7 +95,8 @@ public class ItemScope extends Item {
             if (StringUtils.isBlank(iri.getScheme())) {
                 String host = iri.getHost();
                 if (StringUtils.isNotBlank(host)) {
-                    iri = new ParsedIRI("http", iri.getUserInfo(), host, iri.getPort(), iri.getPath(), iri.getQuery(), iri.getFragment());
+                    iri = new ParsedIRI("http", iri.getUserInfo(), host, iri.getPort(), iri.getPath(), iri.getQuery(),
+                            iri.getFragment());
                 } else {
                     String path = iri.getPath();
                     if (path != null && looksLikeStartsWithHost.matcher(path).matches()) {
@@ -127,11 +134,9 @@ public class ItemScope extends Item {
         }
         final Map<String, List<ItemProp>> properties = new HashMap<>();
         for (Map.Entry<String, List<ItemProp>> propertiesEntry : tmpProperties.entrySet()) {
-            properties.put(
-                    propertiesEntry.getKey(),
-                    //Collections.unmodifiableList( propertiesEntry.getValue() )
-                    propertiesEntry.getValue()
-            );
+            properties.put(propertiesEntry.getKey(),
+                    // Collections.unmodifiableList( propertiesEntry.getValue() )
+                    propertiesEntry.getValue());
         }
         // this.properties = Collections.unmodifiableMap(properties);
         this.properties = properties;
@@ -162,8 +167,8 @@ public class ItemScope extends Item {
      * @return <i>itemscope</i> type.
      */
     public URL getType() {
-        //No longer using URL.
-        //But for backwards compatibility:
+        // No longer using URL.
+        // But for backwards compatibility:
         try {
             return type.isEmpty() ? null : new URL(type.get(0).stringValue());
         } catch (MalformedURLException e) {
@@ -207,17 +212,11 @@ public class ItemScope extends Item {
             }
             j++;
         }
-        return String.format(Locale.ROOT,
-                "{ " +
-                        "\"xpath\" : \"%s\", \"id\" : %s, \"refs\" : %s, \"type\" : %s, \"itemid\" : %s, \"properties\" : [ %s ]" +
-                        " }",
-                getXpath(),
-                id == null ? null : "\"" + id + "\"",
-                refs == null ? null : toJSON(refs),
-                type.isEmpty() ? null : "\"" + type.get(0) + "\"",
-                itemId == null ? null : "\"" + itemId + "\"",
-                sb.toString()
-        );
+        return String.format(Locale.ROOT, "{ "
+                + "\"xpath\" : \"%s\", \"id\" : %s, \"refs\" : %s, \"type\" : %s, \"itemid\" : %s, \"properties\" : [ %s ]"
+                + " }", getXpath(), id == null ? null : "\"" + id + "\"", refs == null ? null : toJSON(refs),
+                type.isEmpty() ? null : "\"" + type.get(0) + "\"", itemId == null ? null : "\"" + itemId + "\"",
+                sb.toString());
     }
 
     @Override
@@ -228,10 +227,10 @@ public class ItemScope extends Item {
     @Override
     public int hashCode() {
         int i = properties == null ? 0 : properties.hashCode();
-        i += id == null         ? 0 : id.hashCode();
-        i += refs == null       ? 0 : Arrays.hashCode(refs);
-        i += type == null       ? 0 : type.hashCode();
-        i += itemId == null     ? 0 : itemId.hashCode();
+        i += id == null ? 0 : id.hashCode();
+        i += refs == null ? 0 : Arrays.hashCode(refs);
+        i += type == null ? 0 : type.hashCode();
+        i += itemId == null ? 0 : itemId.hashCode();
         return i;
     }
 
@@ -245,18 +244,12 @@ public class ItemScope extends Item {
         }
         if (obj instanceof ItemScope) {
             final ItemScope other = (ItemScope) obj;
-                return
-                        super.getXpath().equals(other.getXpath())
-                            &&
-                        (properties == null ? other.properties == null : properties.equals(other.properties))
-                            &&
-                        (id == null ? other.id == null : id.equals(other.id))
-                            &&
-                        (refs == null ? other.refs == null : Arrays.equals(refs, other.refs))
-                            &&
-                        (type == null ? other.type == null : type.equals(other.type))
-                            &&
-                        (itemId == null ? other.itemId == null : itemId.equals(other.itemId));
+            return super.getXpath().equals(other.getXpath())
+                    && (properties == null ? other.properties == null : properties.equals(other.properties))
+                    && (id == null ? other.id == null : id.equals(other.id))
+                    && (refs == null ? other.refs == null : Arrays.equals(refs, other.refs))
+                    && (type == null ? other.type == null : type.equals(other.type))
+                    && (itemId == null ? other.itemId == null : itemId.equals(other.itemId));
         }
         return false;
     }

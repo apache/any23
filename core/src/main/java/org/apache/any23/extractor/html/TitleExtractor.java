@@ -31,8 +31,7 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 
 /**
- * Extracts the value of the &lt;title&gt; element of an
- * HTML or XHTML page.
+ * Extracts the value of the &lt;title&gt; element of an HTML or XHTML page.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -41,16 +40,11 @@ public class TitleExtractor implements TagSoupDOMExtractor {
     private static final DCTerms vDCTERMS = DCTerms.getInstance();
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            Document in,
-            ExtractionResult out
-    ) throws IOException, ExtractionException {
-        final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(
-            SimpleValueFactory.getInstance(), out, extractionContext.getDefaultLanguage()
-        );
-        
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, Document in,
+            ExtractionResult out) throws IOException, ExtractionException {
+        final Any23ValueFactoryWrapper valueFactory = new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance(),
+                out, extractionContext.getDefaultLanguage());
+
         try {
             String title = DomUtils.find(in, "/HTML/HEAD/TITLE/text()").trim();
             if (title != null && (title.length() != 0)) {
@@ -65,5 +59,5 @@ public class TitleExtractor implements TagSoupDOMExtractor {
     public ExtractorDescription getDescription() {
         return TitleExtractorFactory.getDescriptionInstance();
     }
-    
+
 }

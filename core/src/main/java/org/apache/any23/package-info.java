@@ -16,7 +16,6 @@
  */
 
 /**
- * The <i>Any23</i> root package defines the {@link org.apache.any23.Any23}
- * library facade and auxiliary classes.
+ * The <i>Any23</i> root package defines the {@link org.apache.any23.Any23} library facade and auxiliary classes.
  */
 package org.apache.any23;

@@ -23,8 +23,9 @@ import org.apache.any23.configuration.Settings;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 /**
- * The superinterface of all {@link TripleHandler} factory interfaces.
- * Do not implement this interface directly. Instead, implement one of the subinterfaces {@link TripleWriterFactory} or {@link DecoratingWriterFactory}.
+ * The superinterface of all {@link TripleHandler} factory interfaces. Do not implement this interface directly.
+ * Instead, implement one of the subinterfaces {@link TripleWriterFactory} or {@link DecoratingWriterFactory}.
+ * 
  * @author Peter Ansell (p_ansell@yahoo.com)
  * @author Hans Brende (hansbrende@apache.org)
  */
@@ -32,6 +33,7 @@ public interface WriterFactory {
 
     /**
      * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleFormat()} instead.
+     * 
      * @return the {@link org.eclipse.rdf4j.rio.RDFFormat} being handled
      */
     @Deprecated
@@ -40,7 +42,9 @@ public interface WriterFactory {
     String getIdentifier();
 
     /**
-     * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleFormat()}.{@link TripleFormat#getMimeType() getMimeType()} instead.
+     * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleFormat()}.{@link TripleFormat#getMimeType()
+     *             getMimeType()} instead.
+     * 
      * @return a String representing the Mimetype being handled in this Writer
      */
     @Deprecated
@@ -48,8 +52,11 @@ public interface WriterFactory {
 
     /**
      * @deprecated since 2.3. Use {@link TripleWriterFactory#getTripleWriter(OutputStream, Settings)} instead.
-     * @param os a {@link java.io.OutputStream} to be written to the FormatWriter handler
-     * @return a {@link org.apache.any23.writer.FormatWriter} ready to be implemented 
+     * 
+     * @param os
+     *            a {@link java.io.OutputStream} to be written to the FormatWriter handler
+     * 
+     * @return a {@link org.apache.any23.writer.FormatWriter} ready to be implemented
      */
     @Deprecated
     FormatWriter getRdfWriter(OutputStream os);

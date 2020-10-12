@@ -32,7 +32,7 @@ public class HListing extends Vocabulary {
     private static HListing instance;
 
     public static HListing getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HListing();
         }
         return instance;
@@ -40,47 +40,47 @@ public class HListing extends Vocabulary {
 
     // Resources.
     public final IRI Listing = createClass("Listing");
-    public final IRI Lister  = createClass("Lister" ); // isa FOAF.Person
-    public final IRI Item    = createClass("Item"   ); // isa ?
+    public final IRI Lister = createClass("Lister"); // isa FOAF.Person
+    public final IRI Item = createClass("Item"); // isa ?
 
     // Properties.
     public final IRI action = createProperty("action");
     public final IRI lister = createProperty("lister"); // ranges over Lister
-    public final IRI item   = createProperty("item"  );
+    public final IRI item = createProperty("item");
 
-    public final IRI sell     = createClass("sell"    );
-    public final IRI rent     = createClass("rent"    );
-    public final IRI trade    = createClass("trade"   );
-    public final IRI meet     = createClass("meet"    );
+    public final IRI sell = createClass("sell");
+    public final IRI rent = createClass("rent");
+    public final IRI trade = createClass("trade");
+    public final IRI meet = createClass("meet");
     public final IRI announce = createClass("announce");
-    public final IRI offer    = createClass("offer"   );
-    public final IRI wanted   = createClass("wanted"  );
-    public final IRI event    = createClass("event"   );
-    public final IRI service  = createClass("service" );
+    public final IRI offer = createClass("offer");
+    public final IRI wanted = createClass("wanted");
+    public final IRI event = createClass("event");
+    public final IRI service = createClass("service");
 
-    public final IRI tel       = VCard.getInstance().tel;
-    public final IRI dtlisted  = createProperty("dtlisted" );
+    public final IRI tel = VCard.getInstance().tel;
+    public final IRI dtlisted = createProperty("dtlisted");
     public final IRI dtexpired = createProperty("dtexpired");
-    public final IRI price     = createProperty("price"    );
+    public final IRI price = createProperty("price");
 
     public final IRI description = createProperty("description");
-    public final IRI summary     = createProperty("summary"    );
-    public final IRI permalink   = createProperty("permalink"  );
+    public final IRI summary = createProperty("summary");
+    public final IRI permalink = createProperty("permalink");
 
-    public final IRI region          = VCard.getInstance().region;
-    public final IRI postOfficeBox   = VCard.getInstance().post_office_box;
-    public final IRI locality        = VCard.getInstance().locality;
+    public final IRI region = VCard.getInstance().region;
+    public final IRI postOfficeBox = VCard.getInstance().post_office_box;
+    public final IRI locality = VCard.getInstance().locality;
     public final IRI extendedAddress = VCard.getInstance().extended_address;
-    public final IRI streetAddress   = VCard.getInstance().street_address;
-    public final IRI postalCode      = VCard.getInstance().postal_code;
-    public final IRI countryName     = VCard.getInstance().country_name;
+    public final IRI streetAddress = VCard.getInstance().street_address;
+    public final IRI postalCode = VCard.getInstance().postal_code;
+    public final IRI countryName = VCard.getInstance().country_name;
 
-    public final IRI listerUrl  = createProperty("listerUrl" );
+    public final IRI listerUrl = createProperty("listerUrl");
     public final IRI listerName = createProperty("listerName");
-    public final IRI itemName   = createProperty("itemName"  );
-    public final IRI itemUrl    = createProperty("itemUrl"   );
-    public final IRI itemPhoto  = createProperty("itemPhoto" );
-    public final IRI listerOrg  = createProperty("listerOrg" );
+    public final IRI itemName = createProperty("itemName");
+    public final IRI itemUrl = createProperty("itemUrl");
+    public final IRI itemPhoto = createProperty("itemPhoto");
+    public final IRI listerOrg = createProperty("listerOrg");
     public final IRI listerLogo = createProperty("listerLogo");
 
     private IRI createProperty(String localName) {
@@ -91,7 +91,7 @@ public class HListing extends Vocabulary {
         return createClass(NS, localName);
     }
 
-    private HListing(){
+    private HListing() {
         super(NS);
     }
 

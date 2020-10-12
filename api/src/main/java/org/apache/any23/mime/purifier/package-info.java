@@ -16,8 +16,8 @@
  */
 
 /**
- * This package contains all the logic to implement your own {@link org.apache.any23.mime.purifier.Purifier}.
- * Each {@link org.apache.any23.mime.purifier.Purifier} is responsible for modifying the file <b>before</b>
- * its <i>MIME type</i> is detected.
+ * This package contains all the logic to implement your own {@link org.apache.any23.mime.purifier.Purifier}. Each
+ * {@link org.apache.any23.mime.purifier.Purifier} is responsible for modifying the file <b>before</b> its <i>MIME
+ * type</i> is detected.
  */
 package org.apache.any23.mime.purifier;

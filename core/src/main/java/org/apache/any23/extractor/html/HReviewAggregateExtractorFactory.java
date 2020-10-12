@@ -29,24 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * 
  * @author Peter Ansell p_ansell@yahoo.com
  */
-public class HReviewAggregateExtractorFactory extends SimpleExtractorFactory<HReviewAggregateExtractor> implements
-        ExtractorFactory<HReviewAggregateExtractor> {
+public class HReviewAggregateExtractorFactory extends SimpleExtractorFactory<HReviewAggregateExtractor>
+        implements ExtractorFactory<HReviewAggregateExtractor> {
 
     public static final String NAME = "html-mf-hreview-aggregate";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "vcard", "rev");
 
     private static final ExtractorDescription descriptionInstance = new HReviewAggregateExtractorFactory();
-    
+
     public HReviewAggregateExtractorFactory() {
-        super(
-                HReviewAggregateExtractorFactory.NAME, 
-                HReviewAggregateExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1",
-                        "application/xhtml+xml;q=0.1"),
-                        "example-mf-hreview-aggregate.html");
+        super(HReviewAggregateExtractorFactory.NAME, HReviewAggregateExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-mf-hreview-aggregate.html");
     }
-    
+
     @Override
     public HReviewAggregateExtractor createExtractor() {
         return new HReviewAggregateExtractor();

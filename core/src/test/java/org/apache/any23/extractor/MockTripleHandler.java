@@ -29,11 +29,10 @@ import java.util.List;
 
 /**
  *
- * Just a mockup implementing a {@link org.apache.any23.writer.TripleHandler}.
- * Used only for test purposes. 
+ * Just a mockup implementing a {@link org.apache.any23.writer.TripleHandler}. Used only for test purposes.
  *
  */
-//TODO: replace with Mockito
+// TODO: replace with Mockito
 public class MockTripleHandler implements TripleHandler {
 
     private final List<String> expectations = new LinkedList<String>();
@@ -63,19 +62,18 @@ public class MockTripleHandler implements TripleHandler {
     }
 
     public void expectTriple(Resource s, IRI p, Value o, IRI g, String extractorName, IRI documentIRI, String localID) {
-        expectations.add("triple(" + RDFUtils.quad(s, p, o, g) + ", " +
-                new ExtractionContext(extractorName, documentIRI, localID) + ")");
+        expectations.add("triple(" + RDFUtils.quad(s, p, o, g) + ", "
+                + new ExtractionContext(extractorName, documentIRI, localID) + ")");
     }
 
     public void expectNamespace(String prefix, String uri, String extractorName, IRI documentIRI, String localID) {
-        expectations.add("namespace(" + prefix + ", " + uri + ", " +
-                new ExtractionContext(extractorName, documentIRI, localID) + ")");
+        expectations.add("namespace(" + prefix + ", " + uri + ", "
+                + new ExtractionContext(extractorName, documentIRI, localID) + ")");
     }
 
     public void verify() {
         if (!expectations.isEmpty()) {
-            Assert.fail("Expected " + expectations.size() +
-                    " more invocation(s), first: " + expectations.get(0));
+            Assert.fail("Expected " + expectations.size() + " more invocation(s), first: " + expectations.get(0));
         }
     }
 

@@ -23,8 +23,8 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * handling <a href="http://sw.deri.org/2008/07/n-quads/">N-Quads</a> format.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} handling
+ * <a href="http://sw.deri.org/2008/07/n-quads/">N-Quads</a> format.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -45,9 +45,8 @@ public class NQuadsExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getNQuadsParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getNQuadsParser(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

@@ -32,9 +32,10 @@ public class TemplatePredicate extends Term<IRI> {
     /**
      * Constructor.
      *
-     * @param value internal value.
-     * @param isVar if <code>true</code> it the given <code>value</code>
-     *              will be resolved with the variable value.
+     * @param value
+     *            internal value.
+     * @param isVar
+     *            if <code>true</code> it the given <code>value</code> will be resolved with the variable value.
      */
     public TemplatePredicate(String value, boolean isVar) {
         super(value, isVar);
@@ -46,9 +47,7 @@ public class TemplatePredicate extends Term<IRI> {
             return SimpleValueFactory.getInstance().createIRI(value);
         } catch (IllegalArgumentException iae) {
             throw new IllegalArgumentException(
-                    String.format(Locale.ROOT, "Expected a valid IRI for predicate template, found '%s'", value),
-                    iae
-            );
+                    String.format(Locale.ROOT, "Expected a valid IRI for predicate template, found '%s'", value), iae);
         }
     }
 

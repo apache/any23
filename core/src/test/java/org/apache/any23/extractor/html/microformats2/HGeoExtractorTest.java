@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.eclipse.rdf4j.repository.RepositoryException;
 import org.eclipse.rdf4j.rio.RDFHandlerException;
 
-
 public class HGeoExtractorTest extends AbstractExtractorTestCase {
 
     protected ExtractorFactory<?> getExtractorFactory() {
@@ -32,7 +31,7 @@ public class HGeoExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-    public void testModelNotEmpty() throws RepositoryException , RDFHandlerException {
+    public void testModelNotEmpty() throws RepositoryException, RDFHandlerException {
         assertExtract("/microformats2/h-geo/h-geo-test.html");
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 8);

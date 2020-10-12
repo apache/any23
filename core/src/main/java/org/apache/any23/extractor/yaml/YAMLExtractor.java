@@ -55,8 +55,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     @Override
     public void run(ExtractionParameters extractionParameters, ExtractionContext context, InputStream in,
-            ExtractionResult out)
-            throws IOException, ExtractionException {
+            ExtractionResult out) throws IOException, ExtractionException {
 
         IRI documentIRI = context.getDocumentIRI();
         documentRoot = RDFUtils.iri(documentIRI.toString() + "root");
@@ -75,21 +74,21 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
             out.writeTriple(documentRoot, vocab.contains, pageNode);
             out.writeTriple(pageNode, RDF.TYPE, vocab.document);
             ElementsProcessor.ModelHolder rootNode = ep.asModel(documentIRI, p, pageNode);
-            
+
             if (rootNode == null) {
                 continue;
             }
-            
+
             if (!rootNode.getRoot().equals(pageNode)) {
                 out.writeTriple(pageNode, vocab.contains, rootNode.getRoot());
             }
-            
+
             log.debug("Subgraph root node: {}", rootNode.getRoot().stringValue());
-            
-            rootNode.getModel().forEach((s) ->{
+
+            rootNode.getModel().forEach((s) -> {
                 out.writeTriple(s.getSubject(), s.getPredicate(), s.getObject());
             });
-            
+
         }
 
     }

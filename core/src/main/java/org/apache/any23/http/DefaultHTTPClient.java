@@ -37,8 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Opens an {@link InputStream} on an HTTP IRI. Is configured
- * with sane values for timeouts, default headers and so on.
+ * Opens an {@link InputStream} on an HTTP IRI. Is configured with sane values for timeouts, default headers and so on.
  *
  * @author Paolo Capriotti
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -57,7 +56,6 @@ public class DefaultHTTPClient implements HTTPClient {
 
     private String contentType = null;
 
-
     /**
      * Creates a {@link DefaultHTTPClient} instance already initialized
      *
@@ -65,24 +63,27 @@ public class DefaultHTTPClient implements HTTPClient {
      */
     public static DefaultHTTPClient createInitializedHTTPClient() {
         final DefaultHTTPClient defaultHTTPClient = new DefaultHTTPClient();
-        defaultHTTPClient.init( DefaultHTTPClientConfiguration.singleton() );
+        defaultHTTPClient.init(DefaultHTTPClientConfiguration.singleton());
         return defaultHTTPClient;
     }
 
     public void init(HTTPClientConfiguration configuration) {
-        if(configuration == null) throw new NullPointerException("Illegal configuration, cannot be null.");
+        if (configuration == null)
+            throw new NullPointerException("Illegal configuration, cannot be null.");
         this.configuration = configuration;
     }
 
     /**
      *
-     * Opens an {@link java.io.InputStream} from a given IRI.
-     * It follows redirects.
+     * Opens an {@link java.io.InputStream} from a given IRI. It follows redirects.
      *
-     * @param uri to be opened
+     * @param uri
+     *            to be opened
+     * 
      * @return {@link java.io.InputStream}
-     * @throws IOException if there is an error opening the {@link java.io.InputStream}
-     * located at the URI.
+     * 
+     * @throws IOException
+     *             if there is an error opening the {@link java.io.InputStream} located at the URI.
      */
     public InputStream openInputStream(String uri) throws IOException {
         HttpGet method = null;
@@ -93,15 +94,15 @@ public class DefaultHTTPClient implements HTTPClient {
             HttpResponse response = client.execute(method, context);
             List<URI> locations = context.getRedirectLocations();
 
-            URI actualURI = locations == null || locations.isEmpty() ? method.getURI() : locations.get(locations.size() - 1);
+            URI actualURI = locations == null || locations.isEmpty() ? method.getURI()
+                    : locations.get(locations.size() - 1);
             actualDocumentIRI = actualURI.toString();
 
             final Header contentTypeHeader = response.getFirstHeader("Content-Type");
             contentType = contentTypeHeader == null ? null : contentTypeHeader.getValue();
             if (response.getStatusLine().getStatusCode() != 200) {
-                throw new IOException(
-                        "Failed to fetch " + uri + ": " + response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase()
-                );
+                throw new IOException("Failed to fetch " + uri + ": " + response.getStatusLine().getStatusCode() + " "
+                        + response.getStatusLine().getReasonPhrase());
             }
 
             byte[] bytes = IOUtils.toByteArray(response.getEntity().getContent());
@@ -147,33 +148,23 @@ public class DefaultHTTPClient implements HTTPClient {
         if (client != null)
             return;
 
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(getConnectionTimeout())
-                .setSocketTimeout(getSoTimeout())
-                .setRedirectsEnabled(true)
-                .build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(getConnectionTimeout())
+                .setSocketTimeout(getSoTimeout()).setRedirectsEnabled(true).build();
 
-        SocketConfig socketConfig = SocketConfig.custom()
-                .setSoTimeout(getSoTimeout())
-                .build();
+        SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(getSoTimeout()).build();
 
         List<Header> headers = new ArrayList<>();
         headers.add(new BasicHeader("User-Agent", configuration.getUserAgent()));
         if (configuration.getAcceptHeader() != null) {
             headers.add(new BasicHeader("Accept", configuration.getAcceptHeader()));
         }
-        headers.add(new BasicHeader("Accept-Language", "en-us,en-gb,en,*;q=0.3")); //TODO: this must become parametric.
+        headers.add(new BasicHeader("Accept-Language", "en-us,en-gb,en,*;q=0.3")); // TODO: this must become parametric.
         // headers.add(new BasicHeader("Accept-Encoding", "x-gzip, gzip"));
         headers.add(new BasicHeader("Accept-Charset", "utf-8,iso-8859-1;q=0.7,*;q=0.5"));
 
-
-        client = HttpClients.custom()
-                .setConnectionManager(manager)
-                .setDefaultRequestConfig(requestConfig)
-                .setDefaultSocketConfig(socketConfig)
-                .setMaxConnTotal(configuration.getMaxConnections())
-                .setDefaultHeaders(headers)
-                .build();
+        client = HttpClients.custom().setConnectionManager(manager).setDefaultRequestConfig(requestConfig)
+                .setDefaultSocketConfig(socketConfig).setMaxConnTotal(configuration.getMaxConnections())
+                .setDefaultHeaders(headers).build();
     }
 
 }

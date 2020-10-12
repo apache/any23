@@ -35,7 +35,6 @@ import java.io.PrintWriter;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
 /**
  * Test case for {@link org.apache.any23.extractor.ExtractionException}.
  *
@@ -52,14 +51,12 @@ public class ExtractionExceptionTest {
         when(extractor.getDescription()).thenReturn(ed);
 
         final TripleHandler th = mock(TripleHandler.class);
-        final ExtractionContext extractionContext = new ExtractionContext(
-                extractor.getDescription().getExtractorName(),
-                SimpleValueFactory.getInstance().createIRI("http://fake.document.uri")
-        );
+        final ExtractionContext extractionContext = new ExtractionContext(extractor.getDescription().getExtractorName(),
+                SimpleValueFactory.getInstance().createIRI("http://fake.document.uri"));
         final ExtractionResult er = new ExtractionResultImpl(extractionContext, extractor, th);
-        er.notifyIssue(IssueReport.IssueLevel.FATAL  , "Fake fatal error.", 1, 2);
-        er.notifyIssue(IssueReport.IssueLevel.ERROR  , "Fake error."      , 3, 4);
-        er.notifyIssue(IssueReport.IssueLevel.WARNING, "Fake warning."    , 5, 6);
+        er.notifyIssue(IssueReport.IssueLevel.FATAL, "Fake fatal error.", 1, 2);
+        er.notifyIssue(IssueReport.IssueLevel.ERROR, "Fake error.", 3, 4);
+        er.notifyIssue(IssueReport.IssueLevel.WARNING, "Fake warning.", 5, 6);
 
         ExtractionException ee = new ExtractionException("Fake message.", new RuntimeException("Fake cause"), er);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -67,9 +64,8 @@ public class ExtractionExceptionTest {
         final String bufferContent = baos.toString();
         Assert.assertTrue("Unexpected message content.", bufferContent.contains(FAKE_EXTRACTOR_NAME));
         Assert.assertTrue("Unexpected message content.", bufferContent.contains("http://fake.document.uri"));
-        Assert.assertTrue("Unexpected message content.", bufferContent.contains(
-            ExtractionContext.ROOT_EXTRACTION_RESULT_ID
-        ));
+        Assert.assertTrue("Unexpected message content.",
+                bufferContent.contains(ExtractionContext.ROOT_EXTRACTION_RESULT_ID));
         Assert.assertTrue("Unexpected message content.", bufferContent.contains("Fake fatal error."));
         Assert.assertTrue("Unexpected message content.", bufferContent.contains("(1,2)"));
         Assert.assertTrue("Unexpected message content.", bufferContent.contains("Fake error."));

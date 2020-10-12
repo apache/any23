@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This rule is able to detect whether an about value is a valid URL
- * or otherwise is a valid relative URL.
+ * This rule is able to detect whether an about value is a valid URL or otherwise is a valid relative URL.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
@@ -47,24 +46,18 @@ public class AboutNotURIRule implements Rule {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean applyOn(
-            DOMDocument document,
-            @SuppressWarnings("rawtypes") RuleContext context,
-            ValidationReportBuilder validationReportBuilder
-    ) {
+    public boolean applyOn(DOMDocument document, @SuppressWarnings("rawtypes") RuleContext context,
+            ValidationReportBuilder validationReportBuilder) {
         final List<Node> nodesWithAbout = document.getNodesWithAttribute("about");
         final List<Node> nodesWithInvalidAbout = new ArrayList<>();
-        for(Node nodeWithAbout : nodesWithAbout) {
-            if ( ! aboutIsValid(nodeWithAbout) ) {
-                validationReportBuilder.reportIssue(
-                        ValidationReport.IssueLevel.ERROR,
-                        "Invalid about value for node, expected valid URL.",
-                        nodeWithAbout
-                );
+        for (Node nodeWithAbout : nodesWithAbout) {
+            if (!aboutIsValid(nodeWithAbout)) {
+                validationReportBuilder.reportIssue(ValidationReport.IssueLevel.ERROR,
+                        "Invalid about value for node, expected valid URL.", nodeWithAbout);
                 nodesWithInvalidAbout.add(nodeWithAbout);
             }
         }
-        if(nodesWithInvalidAbout.isEmpty()) {
+        if (nodesWithInvalidAbout.isEmpty()) {
             return false;
         }
         context.putData(NODES_WITH_INVALID_ABOUT, nodesWithInvalidAbout);
@@ -73,7 +66,7 @@ public class AboutNotURIRule implements Rule {
 
     private boolean aboutIsValid(Node n) {
         final String aboutContent = n.getAttributes().getNamedItem("about").getTextContent();
-        if( isURL(aboutContent) ) {
+        if (isURL(aboutContent)) {
             return true;
         }
         final char firstChar = aboutContent.charAt(0);

@@ -26,7 +26,9 @@ public interface Tool {
 
     /**
      * Runs the tool and retrieves the exit code.
-     * @throws Exception if there is an error running the tool.
+     * 
+     * @throws Exception
+     *             if there is an error running the tool.
      */
     void run() throws Exception;
 

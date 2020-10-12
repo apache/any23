@@ -32,14 +32,10 @@ public class HTMLDocumentTest {
      */
     @Test
     public void testExtractRelTag() {
-        Assert.assertEquals(
-                "http://technorati.com/tag/Technology",
-                HTMLDocument.extractRelTag("http://technorati.com/tag/Technology/")
-        );
-        Assert.assertEquals(
-                "http://technorati.com/tag/Technology",
-                HTMLDocument.extractRelTag("http://technorati.com/tag/Technology")
-        );
+        Assert.assertEquals("http://technorati.com/tag/Technology",
+                HTMLDocument.extractRelTag("http://technorati.com/tag/Technology/"));
+        Assert.assertEquals("http://technorati.com/tag/Technology",
+                HTMLDocument.extractRelTag("http://technorati.com/tag/Technology"));
     }
 
 }

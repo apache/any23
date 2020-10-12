@@ -26,8 +26,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.w3c.dom.Node;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/geo">Geo</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/geo">Geo</a> microformat.
  *
  * @author Gabriele Renzi
  */
@@ -52,9 +51,9 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
     protected boolean extractEntity(Node node, ExtractionResult out) {
         if (null == node)
             return false;
-        //try lat & lon
+        // try lat & lon
         final HTMLDocument document = new HTMLDocument(node);
-        HTMLDocument.TextField latNode = document.getSingularTextField("latitude" );
+        HTMLDocument.TextField latNode = document.getSingularTextField("latitude");
         HTMLDocument.TextField lonNode = document.getSingularTextField("longitude");
         String lat = latNode.value();
         String lon = lonNode.value();
@@ -67,19 +66,13 @@ public class GeoExtractor extends EntityBasedMicroformatExtractor {
         }
         BNode geo = getBlankNodeFor(node);
         out.writeTriple(geo, RDF.TYPE, vVCARD.Location);
-        conditionallyAddStringProperty(
-                latNode.source(),
-                geo, vVCARD.latitude , lat
-        );
-        conditionallyAddStringProperty(
-                lonNode.source(),
-                geo, vVCARD.longitude, lon
-        );
+        conditionallyAddStringProperty(latNode.source(), geo, vVCARD.latitude, lat);
+        conditionallyAddStringProperty(lonNode.source(), geo, vVCARD.longitude, lon);
 
         final TagSoupExtractionResult tser = (TagSoupExtractionResult) getCurrentExtractionResult();
-        tser.addResourceRoot( document.getPathToLocalRoot(), geo, this.getClass() );
+        tser.addResourceRoot(document.getPathToLocalRoot(), geo, this.getClass());
 
         return true;
     }
-    
+
 }

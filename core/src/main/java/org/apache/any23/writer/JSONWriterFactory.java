@@ -32,12 +32,12 @@ import java.util.Collections;
 @Deprecated
 public class JSONWriterFactory implements TripleWriterFactory {
 
-
     public static final String MIME_TYPE = "text/json";
     public static final String IDENTIFIER = "json";
 
     private static final TripleFormat FORMAT = TripleFormat.of("JSON", Collections.singleton(MIME_TYPE),
             StandardCharsets.UTF_8, Collections.emptySet(), null, TripleFormat.QUADS);
+
     /**
      * 
      */

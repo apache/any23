@@ -34,15 +34,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Base class for the definition of a vocabulary.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
+ * 
  * @version $Id$
  */
 public abstract class Vocabulary {
 
     /**
-     * Allows to add comments to <code>namespaces</code>,
-     * <code>classes</code> and <code>properties</code>.
+     * Allows to add comments to <code>namespaces</code>, <code>classes</code> and <code>properties</code>.
      */
-    @Target({FIELD})
+    @Target({ FIELD })
     @Retention(RUNTIME)
     @interface Comment {
         String value();
@@ -56,26 +56,27 @@ public abstract class Vocabulary {
     /**
      * Map of vocabulary resources.
      */
-    private Map<String,IRI> classes;
+    private Map<String, IRI> classes;
 
     /**
      * Map of vocabulary properties.
      */
-    private Map<String,IRI> properties;
+    private Map<String, IRI> properties;
 
     /**
      * Map any resource with the relative comment.
      */
-    private Map<IRI,String> resourceToCommentMap;
+    private Map<IRI, String> resourceToCommentMap;
 
     /**
      * Overloaded Constructor.
      *
-     * @param namespace the namespace IRI prefix.
+     * @param namespace
+     *            the namespace IRI prefix.
      */
     public Vocabulary(String namespace) {
         try {
-        this.namespace =  SimpleValueFactory.getInstance().createIRI(namespace);
+            this.namespace = SimpleValueFactory.getInstance().createIRI(namespace);
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid namespace '" + namespace + "'", e);
         }
@@ -91,7 +92,9 @@ public abstract class Vocabulary {
     /**
      * Returns a class defined within this vocabulary.
      *
-     * @param name class name.
+     * @param name
+     *            class name.
+     * 
      * @return the IRI associated to such resource.
      */
     public IRI getClass(String name) {
@@ -105,7 +108,9 @@ public abstract class Vocabulary {
     /**
      * Returns a property defined within this vocabulary.
      *
-     * @param name property name.
+     * @param name
+     *            property name.
+     * 
      * @return the IRI associated to such property.
      */
     public IRI getProperty(String name) {
@@ -117,11 +122,13 @@ public abstract class Vocabulary {
     }
 
     /**
-     * Returns a property defined within this vocabulary, if not found the
-     * <code>defaultValue</code> will be returned.
+     * Returns a property defined within this vocabulary, if not found the <code>defaultValue</code> will be returned.
      *
-     * @param name property name.
-     * @param defaultValue the default value if property name not found.
+     * @param name
+     *            property name.
+     * @param defaultValue
+     *            the default value if property name not found.
+     * 
      * @return the IRI associated to such property.
      */
     public IRI getProperty(String name, IRI defaultValue) {
@@ -133,11 +140,12 @@ public abstract class Vocabulary {
     }
 
     /**
-     * Returns the property IRI for the specified property string.
-     * If the string contains a list of words separated by blank chars,
-     * such words are merged and camel case separated.
+     * Returns the property IRI for the specified property string. If the string contains a list of words separated by
+     * blank chars, such words are merged and camel case separated.
      *
-     * @param property property name.
+     * @param property
+     *            property name.
+     * 
      * @return property IRI.
      */
     public IRI getPropertyCamelCase(String property) {
@@ -154,22 +162,22 @@ public abstract class Vocabulary {
      * @return the list of all defined classes.
      */
     public IRI[] getClasses() {
-        if(classes == null) {
+        if (classes == null) {
             return new IRI[0];
         }
         final Collection<IRI> iris = classes.values();
-        return iris.toArray( new IRI[ iris.size() ] );
+        return iris.toArray(new IRI[iris.size()]);
     }
 
     /**
      * @return the list of all defined properties.
      */
     public IRI[] getProperties() {
-        if(properties == null) {
+        if (properties == null) {
             return new IRI[0];
         }
         final Collection<IRI> iris = properties.values();
-        return iris.toArray( new IRI[ iris.size() ] );
+        return iris.toArray(new IRI[iris.size()]);
     }
 
     /**
@@ -177,7 +185,7 @@ public abstract class Vocabulary {
      *
      * @return unmodifiable list of comments.
      */
-    public Map<IRI,String> getComments() {
+    public Map<IRI, String> getComments() {
         fillResourceToCommentMap();
         return Collections.unmodifiableMap(resourceToCommentMap);
     }
@@ -185,19 +193,22 @@ public abstract class Vocabulary {
     /**
      * Returns the comment for the given resource.
      *
-     * @param resource input resource to have a comment.
-     * @return the human readable comment associated to the
-     *         given resource.
+     * @param resource
+     *            input resource to have a comment.
+     * 
+     * @return the human readable comment associated to the given resource.
      */
     public String getCommentFor(IRI resource) {
         fillResourceToCommentMap();
         return resourceToCommentMap.get(resource);
     }
-    
+
     /**
      * Creates a IRI.
      *
-     * @param iriStr the IRI string
+     * @param iriStr
+     *            the IRI string
+     * 
      * @return the IRI instance.
      */
     protected IRI createIRI(String iriStr) {
@@ -207,13 +218,16 @@ public abstract class Vocabulary {
     /**
      * Creates a resource and register it to the {@link #classes} map.
      *
-     * @param namespace vocabulary namespace.
-     * @param resource name of the resource.
+     * @param namespace
+     *            vocabulary namespace.
+     * @param resource
+     *            name of the resource.
+     * 
      * @return the created resource IRI.
      */
     protected IRI createClass(String namespace, String resource) {
         IRI res = createIRI(namespace, resource);
-        if(classes == null) {
+        if (classes == null) {
             classes = new HashMap<>(10);
         }
         classes.put(resource, res);
@@ -223,13 +237,16 @@ public abstract class Vocabulary {
     /**
      * Creates a property and register it to the {@link #properties} map.
      *
-     * @param namespace vocabulary namespace.
-     * @param property name of the property.
+     * @param namespace
+     *            vocabulary namespace.
+     * @param property
+     *            name of the property.
+     * 
      * @return the created property IRI.
      */
     protected IRI createProperty(String namespace, String property) {
         IRI res = createIRI(namespace, property);
-        if(properties == null) {
+        if (properties == null) {
             properties = new HashMap<>(10);
         }
         properties.put(property, res);
@@ -241,6 +258,7 @@ public abstract class Vocabulary {
      *
      * @param namespace
      * @param localName
+     * 
      * @return
      */
     private IRI createIRI(String namespace, String localName) {
@@ -248,15 +266,15 @@ public abstract class Vocabulary {
     }
 
     private void fillResourceToCommentMap() {
-        if(resourceToCommentMap != null)
+        if (resourceToCommentMap != null)
             return;
-        final Map<IRI,String> newMap = new HashMap<>();
+        final Map<IRI, String> newMap = new HashMap<>();
         for (Field field : this.getClass().getFields()) {
             try {
                 final Object value = field.get(this);
-                if(value instanceof IRI) {
+                if (value instanceof IRI) {
                     final Comment comment = field.getAnnotation(Comment.class);
-                    if(comment != null)
+                    if (comment != null)
                         newMap.put((IRI) value, comment.value());
                 }
             } catch (IllegalAccessException iae) {

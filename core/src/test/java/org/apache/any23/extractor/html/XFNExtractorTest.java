@@ -36,9 +36,9 @@ import org.eclipse.rdf4j.repository.RepositoryException;
  */
 public class XFNExtractorTest extends AbstractExtractorTestCase {
 
-    private static final FOAF    vFOAF    = FOAF.getInstance();
+    private static final FOAF vFOAF = FOAF.getInstance();
     private static final SINDICE vSINDICE = SINDICE.getInstance();
-    private static final XFN     vXFN     = XFN.getInstance();
+    private static final XFN vXFN = XFN.getInstance();
 
     private final static IRI bobsHomepage = baseIRI;
 
@@ -135,7 +135,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     public void testSomeLinksWithoutRel() throws RepositoryException {
         assertExtract("/microformats/xfn/some-links-without-rel.html");
         assertNotContains(null, null, alicesHomepage);
-        assertContains   (null, null, charliesHomepage);
+        assertContains(null, null, charliesHomepage);
     }
 
     @Test
@@ -155,6 +155,7 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
         assertExtract("/microformats/xfn/mixed-case.html");
         assertContains(null, vXFN.mePage, baseIRI);
     }
+
     @Test
     public void testUpcaseHREF() throws RepositoryException {
         assertExtract("/microformats/xfn/upcase-href.html");

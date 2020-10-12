@@ -28,38 +28,34 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Basic implementation of {@link MIMETypeDetector} based
- * on file extensions.
+ * Basic implementation of {@link MIMETypeDetector} based on file extensions.
  */
 public class NaiveMIMETypeDetector implements MIMETypeDetector {
 
     private final static Map<String, String> extensions = new HashMap<String, String>() {
-      /**
-       * 
-       */
-      private static final long serialVersionUID = 1L;
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
 
         {
             // extension -> mime type
-            put("html" , "text/html"            );
-            put("htm"  , "text/html"            );
+            put("html", "text/html");
+            put("htm", "text/html");
             put("xhtml", "application/xhtml+xml");
-            put("xht"  , "application/xhtml+xml");
-            put("xrdf" , "application/rdf+xml"  );
-            put("rdfx" , "application/rdf+xml"  );
-            put("owl"  , "application/rdf+xml"  );
-            put("txt"  , "text/plain"           );
+            put("xht", "application/xhtml+xml");
+            put("xrdf", "application/rdf+xml");
+            put("rdfx", "application/rdf+xml");
+            put("owl", "application/rdf+xml");
+            put("txt", "text/plain");
         }
     };
 
     private final static Pattern extensionRegex = Pattern.compile(".*\\.([a-z0-9]+)");
 
-    public MIMEType guessMIMEType(
-            String fileName,
-            InputStream input,
+    public MIMEType guessMIMEType(String fileName, InputStream input,
 
-            MIMEType mimeTypeFromMetadata
-    ) {
+            MIMEType mimeTypeFromMetadata) {
         if (mimeTypeFromMetadata != null) {
             return mimeTypeFromMetadata;
         }
@@ -82,7 +78,8 @@ public class NaiveMIMETypeDetector implements MIMETypeDetector {
 
     private String getExtension(String filename) {
         Matcher m = extensionRegex.matcher(filename);
-        if (!m.matches()) return null;
+        if (!m.matches())
+            return null;
         return m.group(1);
     }
 

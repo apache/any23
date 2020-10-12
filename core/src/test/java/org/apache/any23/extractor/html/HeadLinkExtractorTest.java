@@ -42,21 +42,15 @@ public class HeadLinkExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         final ValueFactory valueFactory = SimpleValueFactory.getInstance();
         final IRI externalLinkIRI = valueFactory.createIRI("http://www.myexperiment.org/workflows/16.rdf");
-        assertContains(
-                AbstractExtractorTestCase.baseIRI,
-                valueFactory.createIRI("http://www.w3.org/1999/xhtml/vocab#alternate"),
-                externalLinkIRI
+        assertContains(AbstractExtractorTestCase.baseIRI,
+                valueFactory.createIRI("http://www.w3.org/1999/xhtml/vocab#alternate"), externalLinkIRI
 
         );
-        assertContains(
-                externalLinkIRI,
-                valueFactory.createIRI("http://purl.org/dc/terms/title"),
+        assertContains(externalLinkIRI, valueFactory.createIRI("http://purl.org/dc/terms/title"),
                 valueFactory.createLiteral("RDF+XML")
 
         );
-        assertContains(
-                externalLinkIRI,
-                valueFactory.createIRI("http://purl.org/dc/terms/format"),
+        assertContains(externalLinkIRI, valueFactory.createIRI("http://purl.org/dc/terms/format"),
                 valueFactory.createLiteral("application/rdf+xml")
 
         );

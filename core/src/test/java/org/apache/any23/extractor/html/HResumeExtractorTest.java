@@ -42,124 +42,114 @@ import java.util.Set;
  */
 public class HResumeExtractorTest extends AbstractExtractorTestCase {
 
-	private static final SINDICE vSINDICE = SINDICE.getInstance();
-	private static final FOAF vFOAF = FOAF.getInstance();
-	private static final DOAC vDOAC = DOAC.getInstance();
-	private static final VCard vVCARD = VCard.getInstance();
+    private static final SINDICE vSINDICE = SINDICE.getInstance();
+    private static final FOAF vFOAF = FOAF.getInstance();
+    private static final DOAC vDOAC = DOAC.getInstance();
+    private static final VCard vVCARD = VCard.getInstance();
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(HReviewExtractorTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(HReviewExtractorTest.class);
 
-	protected ExtractorFactory<?> getExtractorFactory() {
-		return new HResumeExtractorFactory();
-	}
+    protected ExtractorFactory<?> getExtractorFactory() {
+        return new HResumeExtractorFactory();
+    }
 
-	@Test
-	public void testNoMicroformats() throws Exception {
-		assertExtract("/html/html-without-uf.html");
-		assertModelEmpty();
-	}
+    @Test
+    public void testNoMicroformats() throws Exception {
+        assertExtract("/html/html-without-uf.html");
+        assertModelEmpty();
+    }
 
-	@Test
-	public void testLinkedIn() throws Exception {
-		assertExtract("/microformats/hresume/steveganz.html");
-		assertModelNotEmpty();
-		assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
+    @Test
+    public void testLinkedIn() throws Exception {
+        assertExtract("/microformats/hresume/steveganz.html");
+        assertModelNotEmpty();
+        assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
-		Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
 
-		assertContains(person, vDOAC.summary, (Resource) null);
+        assertContains(person, vDOAC.summary, (Resource) null);
 
-		assertContains(
-				person,
-				vDOAC.summary,
-				"Steve Ganz is passionate about connecting people,\n"
-						+ "semantic markup, sushi, and disc golf - not necessarily in that order.\n"
-						+ "Currently obsessed with developing the user experience at LinkedIn,\n"
-						+ "Steve is a second generation Silicon Valley geek and a veteran web\n"
-						+ "professional who has been building human-computer interfaces since 1994.");
+        assertContains(person, vDOAC.summary,
+                "Steve Ganz is passionate about connecting people,\n"
+                        + "semantic markup, sushi, and disc golf - not necessarily in that order.\n"
+                        + "Currently obsessed with developing the user experience at LinkedIn,\n"
+                        + "Steve is a second generation Silicon Valley geek and a veteran web\n"
+                        + "professional who has been building human-computer interfaces since 1994.");
 
-		assertContains(person, vFOAF.isPrimaryTopicOf, (Resource) null);
+        assertContains(person, vFOAF.isPrimaryTopicOf, (Resource) null);
 
-		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
-		assertStatementsSize(vDOAC.experience, (Value) null, 7);
-		assertStatementsSize(vDOAC.education, (Value) null, 2);
-		assertStatementsSize(vDOAC.affiliation, (Value) null, 8);
-	}
+        assertStatementsSize(vDOAC.experience, (Value) null, 7);
+        assertStatementsSize(vDOAC.education, (Value) null, 2);
+        assertStatementsSize(vDOAC.affiliation, (Value) null, 8);
+    }
 
-	@Test
-	public void testLinkedInComplete() throws Exception {
+    @Test
+    public void testLinkedInComplete() throws Exception {
 
-		assertExtract("/microformats/hresume/steveganz.html");
-		assertModelNotEmpty();
+        assertExtract("/microformats/hresume/steveganz.html");
+        assertModelNotEmpty();
 
-		assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
+        assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
-		assertStatementsSize(vDOAC.experience, (Value) null, 7);
-		assertStatementsSize(vDOAC.education, (Value) null, 2);
-		assertStatementsSize(vDOAC.affiliation, (Value) null, 8);
-		assertStatementsSize(vDOAC.skill, (Value) null, 17);
+        assertStatementsSize(vDOAC.experience, (Value) null, 7);
+        assertStatementsSize(vDOAC.education, (Value) null, 2);
+        assertStatementsSize(vDOAC.affiliation, (Value) null, 8);
+        assertStatementsSize(vDOAC.skill, (Value) null, 17);
 
-		RepositoryResult<Statement> statements = getStatements(null,
-				vDOAC.organization, null);
+        RepositoryResult<Statement> statements = getStatements(null, vDOAC.organization, null);
 
-		Set<String> checkSet = new HashSet<String>();
+        Set<String> checkSet = new HashSet<String>();
 
-		try {
-			while (statements.hasNext()) {
-				Statement statement = statements.next();
-				checkSet.add(statement.getObject().stringValue());
-				logger.debug(statement.getObject().stringValue());
-			}
+        try {
+            while (statements.hasNext()) {
+                Statement statement = statements.next();
+                checkSet.add(statement.getObject().stringValue());
+                logger.debug(statement.getObject().stringValue());
+            }
 
-		} finally {
-			statements.close();
-		}
+        } finally {
+            statements.close();
+        }
 
-		String[] names = new String[] { "LinkedIn Corporation",
-				"PayPal, an eBay Company", "McAfee, Inc.",
-				"Printable Technologies", "Collabria, Inc.", "Self-employed",
-				"3G Productions",
-				"Lee Strasberg Theatre and Film\n" + "\tInstitute",
-				"Leland High School" };
+        String[] names = new String[] { "LinkedIn Corporation", "PayPal, an eBay Company", "McAfee, Inc.",
+                "Printable Technologies", "Collabria, Inc.", "Self-employed", "3G Productions",
+                "Lee Strasberg Theatre and Film\n" + "\tInstitute", "Leland High School" };
 
-		for (String name : names)
-			Assert.assertTrue(checkSet.contains(name));
+        for (String name : names)
+            Assert.assertTrue(checkSet.contains(name));
 
-		Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
-		assertContains(person, vFOAF.isPrimaryTopicOf, (Value) null);
-		findExactlyOneObject(person, vFOAF.isPrimaryTopicOf);
-	}
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        assertContains(person, vFOAF.isPrimaryTopicOf, (Value) null);
+        findExactlyOneObject(person, vFOAF.isPrimaryTopicOf);
+    }
 
-	@Test
-	public void testAnt() throws Exception {
-		assertExtract("/microformats/hresume/ant.html");
-		assertModelNotEmpty();
+    @Test
+    public void testAnt() throws Exception {
+        assertExtract("/microformats/hresume/ant.html");
+        assertModelNotEmpty();
 
-		assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
+        assertStatementsSize(RDF.TYPE, vFOAF.Person, 1);
 
-		Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
-		assertContains(person, vDOAC.summary, (Resource) null);
+        Resource person = findExactlyOneBlankSubject(RDF.TYPE, vFOAF.Person);
+        assertContains(person, vDOAC.summary, (Resource) null);
 
-		assertContains(
-				person,
-				vDOAC.summary,
-				"Senior Systems\n              Analyst/Developer.\n              "
-						+ "Experienced in the analysis, design and\n              "
-						+ "implementation of distributed, multi-tier\n              "
-						+ "applications using Microsoft\n              technologies.\n"
-						+ "              Specialising in data capture applications on the\n"
-						+ "              Web.");
+        assertContains(person, vDOAC.summary,
+                "Senior Systems\n              Analyst/Developer.\n              "
+                        + "Experienced in the analysis, design and\n              "
+                        + "implementation of distributed, multi-tier\n              "
+                        + "applications using Microsoft\n              technologies.\n"
+                        + "              Specialising in data capture applications on the\n" + "              Web.");
 
-		assertContains(person, vFOAF.isPrimaryTopicOf, (Resource) null);
+        assertContains(person, vFOAF.isPrimaryTopicOf, (Resource) null);
 
-		assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
+        assertStatementsSize(RDF.TYPE, vVCARD.VCard, 0);
 
-		assertStatementsSize(vDOAC.experience, (Value) null, 16);
-		assertStatementsSize(vDOAC.education, (Value) null, 2);
-		assertStatementsSize(vDOAC.affiliation, (Value) null, 0);
-		assertStatementsSize(vDOAC.skill, (Value) null, 4);
-	}
+        assertStatementsSize(vDOAC.experience, (Value) null, 16);
+        assertStatementsSize(vDOAC.education, (Value) null, 2);
+        assertStatementsSize(vDOAC.affiliation, (Value) null, 0);
+        assertStatementsSize(vDOAC.skill, (Value) null, 4);
+    }
 
 }

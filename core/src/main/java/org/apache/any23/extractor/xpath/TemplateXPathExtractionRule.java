@@ -18,9 +18,7 @@
 package org.apache.any23.extractor.xpath;
 
 /**
- * Defines an {@link XPathExtractionRule} able
- * to expand a {@link QuadTemplate} set based
- * on a given template.
+ * Defines an {@link XPathExtractionRule} able to expand a {@link QuadTemplate} set based on a given template.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -34,14 +32,17 @@ public interface TemplateXPathExtractionRule extends XPathExtractionRule {
     /**
      * Adds a variable to the template.
      *
-     * @param variable variable to be added.
+     * @param variable
+     *            variable to be added.
      */
     public void add(Variable variable);
 
     /**
      * Removes a variable from the template.
      *
-     * @param variable variable to be removed.
+     * @param variable
+     *            variable to be removed.
+     * 
      * @return <i>true</i> if the <code>variable</code> argument was found.
      */
     public boolean remove(Variable variable);
@@ -49,16 +50,18 @@ public interface TemplateXPathExtractionRule extends XPathExtractionRule {
     /**
      * Adds a {@link QuadTemplate} to the rule.
      *
-     * @param template template instance to be added.
+     * @param template
+     *            template instance to be added.
      */
     public void add(QuadTemplate template);
 
     /**
      * Removes a quad template from the rule.
      *
-     * @param template template to be removed.
-     * @return <code>true</code> if the <code>template</code>
-     *         argument was found.
+     * @param template
+     *            template to be removed.
+     * 
+     * @return <code>true</code> if the <code>template</code> argument was found.
      */
     public boolean remove(QuadTemplate template);
 

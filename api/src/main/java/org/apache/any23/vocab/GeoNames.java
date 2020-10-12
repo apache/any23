@@ -29,7 +29,7 @@ public class GeoNames extends Vocabulary {
     private static Vocabulary instance;
 
     public static Vocabulary getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new GeoNames();
         }
         return instance;
@@ -39,10 +39,10 @@ public class GeoNames extends Vocabulary {
     public final IRI Point = createClass(NS, "Point");
 
     // Properties
-    public final IRI lat = createProperty(NS, "lat" );
+    public final IRI lat = createProperty(NS, "lat");
     public final IRI lon = createProperty(NS, "long");
 
-    private GeoNames(){
+    private GeoNames() {
         super(NS);
     }
 

@@ -16,7 +16,7 @@
  */
 
 /**
- * This package defines specific {@link org.apache.any23.writer.TripleHandler}s
- * able to filter document and triples that don't respect particular conditions.
+ * This package defines specific {@link org.apache.any23.writer.TripleHandler}s able to filter document and triples that
+ * don't respect particular conditions.
  */
 package org.apache.any23.filter;

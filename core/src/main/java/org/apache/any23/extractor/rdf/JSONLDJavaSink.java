@@ -96,13 +96,14 @@ class JSONLDJavaSink implements JsonLdTripleCallback {
                     String lang = o.getLanguage();
                     String datatype = o.getDatatype();
                     String literal = o.getValue();
-                    if (lang != null && !lang.isEmpty() &&
-                            (datatype == null || datatype.indexOf(':') < 0
+                    if (lang != null && !lang.isEmpty()
+                            && (datatype == null || datatype.indexOf(':') < 0
                                     || JsonLdConsts.RDF_LANGSTRING.equalsIgnoreCase(datatype)
                                     || JsonLdConsts.XSD_STRING.equalsIgnoreCase(datatype))) {
                         writeQuad(s, p, valueFactory.createLiteral(literal, lang), graphName);
                     } else if (datatype != null && !datatype.isEmpty()) {
-                        writeQuad(s, p, valueFactory.createLiteral(literal, valueFactory.createIRI(datatype)), graphName);
+                        writeQuad(s, p, valueFactory.createLiteral(literal, valueFactory.createIRI(datatype)),
+                                graphName);
                     } else {
                         writeQuad(s, p, valueFactory.createLiteral(literal), graphName);
                     }

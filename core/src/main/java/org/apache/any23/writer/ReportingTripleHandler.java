@@ -28,9 +28,8 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * A {@link TripleHandler} that collects
- * various information about the extraction process, such as
- * the extractors used and the total number of triples.
+ * A {@link TripleHandler} that collects various information about the extraction process, such as the extractors used
+ * and the total number of triples.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -39,11 +38,11 @@ public class ReportingTripleHandler implements TripleHandler {
     private final TripleHandler wrapped;
 
     private final Collection<String> extractorNames = new HashSet<>();
-    private AtomicInteger totalTriples   = new AtomicInteger(0);
+    private AtomicInteger totalTriples = new AtomicInteger(0);
     private AtomicInteger totalDocuments = new AtomicInteger(0);
 
     public ReportingTripleHandler(TripleHandler wrapped) {
-        if(wrapped == null) {
+        if (wrapped == null) {
             throw new NullPointerException("wrapped cannot be null.");
         }
         this.wrapped = wrapped;
@@ -65,7 +64,8 @@ public class ReportingTripleHandler implements TripleHandler {
      * @return a human readable report.
      */
     public String printReport() {
-        return String.format(Locale.ROOT, "Total Documents: %d, Total Triples: %d", getTotalDocuments(), getTotalTriples());
+        return String.format(Locale.ROOT, "Total Documents: %d, Total Triples: %d", getTotalDocuments(),
+                getTotalTriples());
     }
 
     public void startDocument(IRI documentIRI) throws TripleHandlerException {
@@ -77,21 +77,12 @@ public class ReportingTripleHandler implements TripleHandler {
         wrapped.openContext(context);
     }
 
-    public void receiveNamespace(
-            String prefix,
-            String uri,
-            ExtractionContext context
-    ) throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         wrapped.receiveNamespace(prefix, uri, context);
     }
 
-    public void receiveTriple(
-            Resource s,
-            IRI p,
-            Value o,
-            IRI g,
-            ExtractionContext context
-    ) throws TripleHandlerException {
+    public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+            throws TripleHandlerException {
         extractorNames.add(context.getExtractorName());
         totalTriples.incrementAndGet();
         wrapped.receiveTriple(s, p, o, g, context);

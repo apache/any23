@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
  */
 public class YAMLProcessorException extends RuntimeException {
-    
+
     @Nullable
     private Object reason;
 
@@ -54,12 +54,10 @@ public class YAMLProcessorException extends RuntimeException {
         this.reason = reason;
     }
 
-    public YAMLProcessorException(Object reason, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public YAMLProcessorException(Object reason, String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
         this.reason = reason;
     }
-    
-    
-    
-    
+
 }

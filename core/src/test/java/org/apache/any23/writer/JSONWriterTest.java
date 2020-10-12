@@ -38,32 +38,17 @@ public class JSONWriterTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeContentComplicated(new JSONWriter(baos));
 
-        final String expected 
-            = "{\n"
-            + "  \"quads\" : [ [ {\n"
-            + "    \"type\" : \"bnode\",\n"
-            + "    \"value\" : \"bn1\"\n"
-            + "  }, \"http://pred/1\", {\n"
-            + "    \"type\" : \"uri\",\n"
-            + "    \"value\" : \"http://value/1\"\n"
-            + "  }, \"http://graph/1\" ], [ {\n"
-            + "    \"type\" : \"uri\",\n"
-            + "    \"value\" : \"http://sub/2\"\n"
-            + "  }, \"http://pred/2\", {\n"
-            + "    \"type\" : \"literal\",\n"
-            + "    \"value\" : \"language literal\",\n"
-            + "    \"lang\" : \"en\",\n"
-            + "    \"datatype\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\"\n"
-            + "  }, \"http://graph/2\" ], [ {\n"
-            + "    \"type\" : \"uri\",\n"
-            + "    \"value\" : \"http://sub/3\"\n"
-            + "  }, \"http://pred/3\", {\n"
-            + "    \"type\" : \"literal\",\n"
-            + "    \"value\" : \"123\",\n"
-            + "    \"lang\" : null,\n"
-            + "    \"datatype\" : \"http://datatype\"\n"
-            + "  }, null ] ]\n"
-            + "}";
+        final String expected = "{\n" + "  \"quads\" : [ [ {\n" + "    \"type\" : \"bnode\",\n"
+                + "    \"value\" : \"bn1\"\n" + "  }, \"http://pred/1\", {\n" + "    \"type\" : \"uri\",\n"
+                + "    \"value\" : \"http://value/1\"\n" + "  }, \"http://graph/1\" ], [ {\n"
+                + "    \"type\" : \"uri\",\n" + "    \"value\" : \"http://sub/2\"\n" + "  }, \"http://pred/2\", {\n"
+                + "    \"type\" : \"literal\",\n" + "    \"value\" : \"language literal\",\n"
+                + "    \"lang\" : \"en\",\n"
+                + "    \"datatype\" : \"http://www.w3.org/1999/02/22-rdf-syntax-ns#langString\"\n"
+                + "  }, \"http://graph/2\" ], [ {\n" + "    \"type\" : \"uri\",\n"
+                + "    \"value\" : \"http://sub/3\"\n" + "  }, \"http://pred/3\", {\n" + "    \"type\" : \"literal\",\n"
+                + "    \"value\" : \"123\",\n" + "    \"lang\" : null,\n" + "    \"datatype\" : \"http://datatype\"\n"
+                + "  }, null ] ]\n" + "}";
         Assert.assertEquals(expected, baos.toString());
 
         baos.reset();
@@ -75,34 +60,15 @@ public class JSONWriterTest {
     public void testJSONLDWriting() throws TripleHandlerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeContentComplicated(new JSONLDWriter(baos));
-        final String expected =
-                "[ {\n" +
-                "  \"@graph\" : [ {\n" +
-                "    \"@id\" : \"http://sub/3\",\n" +
-                "    \"http://pred/3\" : [ {\n" +
-                "      \"@type\" : \"http://datatype\",\n" +
-                "      \"@value\" : \"123\"\n" +
-                "    } ]\n" +
-                "  } ],\n" +
-                "  \"@id\" : \"http://any23.org/tmp/\"\n" +
-                "}, {\n" +
-                "  \"@graph\" : [ {\n" +
-                "    \"@id\" : \"_:bn1\",\n" +
-                "    \"http://pred/1\" : [ {\n" +
-                "      \"@id\" : \"http://value/1\"\n" +
-                "    } ]\n" +
-                "  } ],\n" +
-                "  \"@id\" : \"http://graph/1\"\n" +
-                "}, {\n" +
-                "  \"@graph\" : [ {\n" +
-                "    \"@id\" : \"http://sub/2\",\n" +
-                "    \"http://pred/2\" : [ {\n" +
-                "      \"@language\" : \"en\",\n" +
-                "      \"@value\" : \"language literal\"\n" +
-                "    } ]\n" +
-                "  } ],\n" +
-                "  \"@id\" : \"http://graph/2\"\n" +
-                "} ]";
+        final String expected = "[ {\n" + "  \"@graph\" : [ {\n" + "    \"@id\" : \"http://sub/3\",\n"
+                + "    \"http://pred/3\" : [ {\n" + "      \"@type\" : \"http://datatype\",\n"
+                + "      \"@value\" : \"123\"\n" + "    } ]\n" + "  } ],\n" + "  \"@id\" : \"http://any23.org/tmp/\"\n"
+                + "}, {\n" + "  \"@graph\" : [ {\n" + "    \"@id\" : \"_:bn1\",\n" + "    \"http://pred/1\" : [ {\n"
+                + "      \"@id\" : \"http://value/1\"\n" + "    } ]\n" + "  } ],\n" + "  \"@id\" : \"http://graph/1\"\n"
+                + "}, {\n" + "  \"@graph\" : [ {\n" + "    \"@id\" : \"http://sub/2\",\n"
+                + "    \"http://pred/2\" : [ {\n" + "      \"@language\" : \"en\",\n"
+                + "      \"@value\" : \"language literal\"\n" + "    } ]\n" + "  } ],\n"
+                + "  \"@id\" : \"http://graph/2\"\n" + "} ]";
         Assert.assertEquals(expected, baos.toString());
 
         baos.reset();
@@ -121,55 +87,44 @@ public class JSONWriterTest {
                 SimpleValueFactory.getInstance().createLiteral("language literal", "en"),
                 SimpleValueFactory.getInstance().createIRI("http://graph/2"));
 
-        writer.writeTriple(
-                SimpleValueFactory.getInstance().createIRI("http://sub/3"),
+        writer.writeTriple(SimpleValueFactory.getInstance().createIRI("http://sub/3"),
                 SimpleValueFactory.getInstance().createIRI("http://pred/3"),
                 SimpleValueFactory.getInstance().createLiteral("123",
                         SimpleValueFactory.getInstance().createIRI("http://datatype")),
-                writer instanceof JSONLDWriter ? SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/") : null);
+                writer instanceof JSONLDWriter ? SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/")
+                        : null);
 
         writer.close();
 
     }
 
     private void writeContentComplicated(TripleHandler writer) throws TripleHandlerException {
-        //creating a fake document uri in order to write triples is terrible.
-        //see improved solution in "writeContentSimple"!
+        // creating a fake document uri in order to write triples is terrible.
+        // see improved solution in "writeContentSimple"!
         final IRI documentIRI = SimpleValueFactory.getInstance().createIRI("http://fake/uri");
         writer.startDocument(documentIRI);
-        writer.receiveTriple(
-                SimpleValueFactory.getInstance().createBNode("bn1"),
+        writer.receiveTriple(SimpleValueFactory.getInstance().createBNode("bn1"),
                 SimpleValueFactory.getInstance().createIRI("http://pred/1"),
                 SimpleValueFactory.getInstance().createIRI("http://value/1"),
-                SimpleValueFactory.getInstance().createIRI("http://graph/1"),
-                null
-        );
-        writer.receiveTriple(
-                SimpleValueFactory.getInstance().createIRI("http://sub/2"),
+                SimpleValueFactory.getInstance().createIRI("http://graph/1"), null);
+        writer.receiveTriple(SimpleValueFactory.getInstance().createIRI("http://sub/2"),
                 SimpleValueFactory.getInstance().createIRI("http://pred/2"),
                 SimpleValueFactory.getInstance().createLiteral("language literal", "en"),
-                SimpleValueFactory.getInstance().createIRI("http://graph/2"),
-                null
-        );
+                SimpleValueFactory.getInstance().createIRI("http://graph/2"), null);
         if (!(writer instanceof JSONLDWriter)) {
-            writer.receiveTriple(
-                    SimpleValueFactory.getInstance().createIRI("http://sub/3"),
-                    SimpleValueFactory.getInstance().createIRI("http://pred/3"),
-                    SimpleValueFactory.getInstance().createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
-                    null,
-                    null
-            );
+            writer.receiveTriple(SimpleValueFactory.getInstance().createIRI("http://sub/3"),
+                    SimpleValueFactory.getInstance().createIRI("http://pred/3"), SimpleValueFactory.getInstance()
+                            .createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
+                    null, null);
         } else {
-            //creating a fake extraction context in order to write triples is terrible.
-            //see improved solution in "writeContentSimple"!
-            ExtractionContext extractionContext = new ExtractionContext("rdf-nq", SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/"));
-            writer.receiveTriple(
-                    SimpleValueFactory.getInstance().createIRI("http://sub/3"),
-                    SimpleValueFactory.getInstance().createIRI("http://pred/3"),
-                    SimpleValueFactory.getInstance().createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
-                    null,
-                    extractionContext
-            );
+            // creating a fake extraction context in order to write triples is terrible.
+            // see improved solution in "writeContentSimple"!
+            ExtractionContext extractionContext = new ExtractionContext("rdf-nq",
+                    SimpleValueFactory.getInstance().createIRI("http://any23.org/tmp/"));
+            writer.receiveTriple(SimpleValueFactory.getInstance().createIRI("http://sub/3"),
+                    SimpleValueFactory.getInstance().createIRI("http://pred/3"), SimpleValueFactory.getInstance()
+                            .createLiteral("123", SimpleValueFactory.getInstance().createIRI("http://datatype")),
+                    null, extractionContext);
         }
         writer.endDocument(documentIRI);
         writer.close();

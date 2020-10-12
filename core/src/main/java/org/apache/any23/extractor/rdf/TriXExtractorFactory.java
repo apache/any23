@@ -28,25 +28,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class TriXExtractorFactory extends SimpleExtractorFactory<TriXExtractor> implements
-        ExtractorFactory<TriXExtractor> {
+public class TriXExtractorFactory extends SimpleExtractorFactory<TriXExtractor>
+        implements ExtractorFactory<TriXExtractor> {
 
     public static final String NAME = "rdf-trix";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new TriXExtractorFactory();
-    
+
     public TriXExtractorFactory() {
-        super(
-                TriXExtractorFactory.NAME, 
-                TriXExtractorFactory.PREFIXES,
-                Arrays.asList(
-                        "application/trix"
-                ),
+        super(TriXExtractorFactory.NAME, TriXExtractorFactory.PREFIXES, Arrays.asList("application/trix"),
                 "example-trix.trx");
     }
-    
+
     @Override
     public TriXExtractor createExtractor() {
         return new TriXExtractor();

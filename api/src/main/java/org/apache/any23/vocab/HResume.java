@@ -30,23 +30,21 @@ public class HResume extends Vocabulary {
     private static HResume instance;
 
     public static HResume getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HResume();
         }
         return instance;
     }
 
-    public IRI Resume  = createClass(NS, "Resume");
-    public IRI education   = createClass(NS, "education");
+    public IRI Resume = createClass(NS, "Resume");
+    public IRI education = createClass(NS, "education");
     public IRI experience = createClass(NS, "experience");
     public IRI contact = createClass(NS, "contact");
     public IRI affiliation = createClass(NS, "affiliation");
 
-
-    public IRI name  = createProperty(NS, "name");
-    public IRI summary   = createProperty(NS, "summary");
-    public IRI skill   = createProperty(NS, "skill");
-
+    public IRI name = createProperty(NS, "name");
+    public IRI summary = createProperty(NS, "summary");
+    public IRI skill = createProperty(NS, "skill");
 
     private HResume() {
         super(NS);

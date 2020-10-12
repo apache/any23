@@ -21,7 +21,6 @@ import org.apache.any23.extractor.ExtractionResult;
 import org.eclipse.rdf4j.model.IRI;
 import org.w3c.dom.Document;
 
-
 /**
  * Defines an extraction rule for the {@link XPathExtractor}.
  *
@@ -37,7 +36,9 @@ public interface XPathExtractionRule {
     /**
      * Checks if the rule can be applied on the given document <i>IRI</i>.
      *
-     * @param uri input document IRI.
+     * @param uri
+     *            input document IRI.
+     * 
      * @return <code>true</code> if applied, <code>false</code> otherwise.
      */
     boolean acceptIRI(IRI uri);
@@ -45,8 +46,10 @@ public interface XPathExtractionRule {
     /**
      * Processes this extraction rule on the given document.
      *
-     * @param in input document to be processed.
-     * @param out output result writer.
+     * @param in
+     *            input document to be processed.
+     * @param out
+     *            output result writer.
      */
     void process(Document in, ExtractionResult out);
 

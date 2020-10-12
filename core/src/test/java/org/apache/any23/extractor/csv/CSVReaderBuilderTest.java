@@ -33,45 +33,33 @@ public class CSVReaderBuilderTest {
     /**
      * Tests positive CSV detection.
      *
-     * @throws IOException if there is an error interpreting the input data
+     * @throws IOException
+     *             if there is an error interpreting the input data
      */
     @Test
     public void testPositiveCSVDetection() throws IOException {
-        Assert.assertTrue(
-                "Builder cannot detect CVS stream.",
-                CSVReaderBuilder.isCSV( new BufferedInputStream(this.getClass().getResourceAsStream("test-comma.csv")) )
-        );
-        Assert.assertTrue(
-                "Builder cannot detect CVS stream.",
-                CSVReaderBuilder.isCSV( new BufferedInputStream(this.getClass().getResourceAsStream("test-semicolon.csv")) )
-        );
-        Assert.assertTrue(
-                "Builder cannot detect CVS stream.",
-                CSVReaderBuilder.isCSV( new BufferedInputStream(this.getClass().getResourceAsStream("test-tab.csv")) )
-        );
+        Assert.assertTrue("Builder cannot detect CVS stream.",
+                CSVReaderBuilder.isCSV(new BufferedInputStream(this.getClass().getResourceAsStream("test-comma.csv"))));
+        Assert.assertTrue("Builder cannot detect CVS stream.", CSVReaderBuilder
+                .isCSV(new BufferedInputStream(this.getClass().getResourceAsStream("test-semicolon.csv"))));
+        Assert.assertTrue("Builder cannot detect CVS stream.",
+                CSVReaderBuilder.isCSV(new BufferedInputStream(this.getClass().getResourceAsStream("test-tab.csv"))));
     }
 
     /**
      * Tests negative CSV detection.
      *
-     * @throws IOException if there is an error interpreting the input data
+     * @throws IOException
+     *             if there is an error interpreting the input data
      */
     @Test
     public void testNegativeCSVDetection() throws IOException {
-        Assert.assertFalse(
-                "Wrong CSV detection.",
-                CSVReaderBuilder.isCSV( new BufferedInputStream(this.getClass().getResourceAsStream("/application/nquads/test1.nq")) )
-        );
-        Assert.assertFalse(
-                "Wrong CSV detection.",
-                CSVReaderBuilder.isCSV( new BufferedInputStream(this.getClass().getResourceAsStream("/application/nquads/test2.nq")) )
-        );
-        Assert.assertFalse(
-                "Wrong CSV detection.",
-                CSVReaderBuilder.isCSV(
-                        new BufferedInputStream(this.getClass().getResourceAsStream("/org/apache/any23/extractor/rdf/example-ntriples.nt"))
-                )
-        );
+        Assert.assertFalse("Wrong CSV detection.", CSVReaderBuilder
+                .isCSV(new BufferedInputStream(this.getClass().getResourceAsStream("/application/nquads/test1.nq"))));
+        Assert.assertFalse("Wrong CSV detection.", CSVReaderBuilder
+                .isCSV(new BufferedInputStream(this.getClass().getResourceAsStream("/application/nquads/test2.nq"))));
+        Assert.assertFalse("Wrong CSV detection.", CSVReaderBuilder.isCSV(new BufferedInputStream(
+                this.getClass().getResourceAsStream("/org/apache/any23/extractor/rdf/example-ntriples.nt"))));
     }
 
 }

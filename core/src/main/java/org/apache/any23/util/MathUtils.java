@@ -29,7 +29,8 @@ import java.security.NoSuchAlgorithmException;
  */
 public class MathUtils {
 
-    private MathUtils(){}
+    private MathUtils() {
+    }
 
     public static final String md5(String s) {
         try {

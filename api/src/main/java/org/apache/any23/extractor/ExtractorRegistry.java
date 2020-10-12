@@ -20,8 +20,7 @@ package org.apache.any23.extractor;
 import java.util.List;
 
 /**
- * An interface to the enable a registry for extractors to be implemented by
- * different implementors of this API.
+ * An interface to the enable a registry for extractors to be implemented by different implementors of this API.
  * 
  * @author Peter Ansell p_ansell@yahoo.com
  */
@@ -30,10 +29,11 @@ public interface ExtractorRegistry {
     /**
      * Registers an {@link ExtractorFactory}.
      * 
-     * @param factory an {@link ExtractorFactory} to register.
+     * @param factory
+     *            an {@link ExtractorFactory} to register.
+     * 
      * @throws IllegalArgumentException
-     *             if trying to register a {@link ExtractorFactory} that already
-     *             exists in the registry.
+     *             if trying to register a {@link ExtractorFactory} that already exists in the registry.
      */
     void register(ExtractorFactory<?> factory);
 
@@ -43,26 +43,25 @@ public interface ExtractorRegistry {
      * 
      * @param name
      *            The name of the desired factory
+     * 
      * @return The {@link ExtractorFactory} associated to the provided name
+     * 
      * @throws IllegalArgumentException
-     *             If there is not an {@link ExtractorFactory} associated to the
-     *             provided name.
+     *             If there is not an {@link ExtractorFactory} associated to the provided name.
      */
     ExtractorFactory<?> getFactory(String name);
 
     /**
-     * @return An {@link ExtractorGroup} with all the registered
-     *         {@link Extractor}.
+     * @return An {@link ExtractorGroup} with all the registered {@link Extractor}.
      */
     ExtractorGroup getExtractorGroup();
 
     /**
-     * Returns an {@link ExtractorGroup} containing the {@link ExtractorFactory}
-     * mathing the names provided as input.
+     * Returns an {@link ExtractorGroup} containing the {@link ExtractorFactory} mathing the names provided as input.
      * 
      * @param names
-     *            A {@link java.util.List} containing the names of the desired
-     *            {@link ExtractorFactory}.
+     *            A {@link java.util.List} containing the names of the desired {@link ExtractorFactory}.
+     * 
      * @return the extraction group.
      */
     ExtractorGroup getExtractorGroup(List<String> names);
@@ -71,13 +70,14 @@ public interface ExtractorRegistry {
      * 
      * @param name
      *            The name of the {@link ExtractorFactory}
-     * @return <code>true</code> if is there a {@link ExtractorFactory}
-     *         associated to the provided name.
+     * 
+     * @return <code>true</code> if is there a {@link ExtractorFactory} associated to the provided name.
      */
     boolean isRegisteredName(String name);
 
     /**
      * Returns the names of all registered extractors, sorted alphabetically.
+     * 
      * @return an alphabetically sorted {@link java.util.List}
      */
     List<String> getAllNames();

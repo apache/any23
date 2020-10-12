@@ -30,9 +30,10 @@ public class TemplateGraph extends Term<IRI> {
     /**
      * Constructor.
      *
-     * @param value internal value.
-     * @param isVar if <code>true</code> it the given <code>value</code>
-     *              will be resolved with the variable value.
+     * @param value
+     *            internal value.
+     * @param isVar
+     *            if <code>true</code> it the given <code>value</code> will be resolved with the variable value.
      */
     public TemplateGraph(String value, boolean isVar) {
         super(value, isVar);

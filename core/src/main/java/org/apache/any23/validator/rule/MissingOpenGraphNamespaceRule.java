@@ -30,6 +30,7 @@ import java.util.List;
  * This rule detects the issue of missing Open Graph namespace.
  *
  * @see OpenGraphNamespaceFix
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -41,28 +42,22 @@ public class MissingOpenGraphNamespaceRule implements Rule {
     }
 
     @Override
-    public boolean applyOn(
-            DOMDocument document,
-            @SuppressWarnings("rawtypes") RuleContext context,
-            ValidationReportBuilder validationReportBuilder
-    ) {
+    public boolean applyOn(DOMDocument document, @SuppressWarnings("rawtypes") RuleContext context,
+            ValidationReportBuilder validationReportBuilder) {
         List<Node> metas = document.getNodes("/HTML/HEAD/META");
         boolean foundPrecondition = false;
-        for(Node meta : metas) {
+        for (Node meta : metas) {
             Node propertyNode = meta.getAttributes().getNamedItem("property");
-            if( propertyNode != null && propertyNode.getTextContent().indexOf("og:") == 0) {
+            if (propertyNode != null && propertyNode.getTextContent().indexOf("og:") == 0) {
                 foundPrecondition = true;
                 break;
             }
         }
-        if(foundPrecondition) {
+        if (foundPrecondition) {
             Node htmlNode = document.getNode("/HTML");
-            if( htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
-                validationReportBuilder.reportIssue(
-                        ValidationReport.IssueLevel.ERROR,
-                        "Missing OpenGraph namespace declaration.",
-                        htmlNode
-                );
+            if (htmlNode.getAttributes().getNamedItem("xmlns:og") == null) {
+                validationReportBuilder.reportIssue(ValidationReport.IssueLevel.ERROR,
+                        "Missing OpenGraph namespace declaration.", htmlNode);
                 return true;
             }
         }

@@ -38,27 +38,16 @@ public class RDFUtilsTest {
 
     @Test
     public void testFixAbsoluteIRI() throws UnsupportedEncodingException, URISyntaxException {
-        Assert.assertEquals(
-                "Error: passed IRIs are not the same.",
-                "http://example.com/resource/the%20godfather",
-                RDFUtils.fixAbsoluteIRI("http://example.com/resource/the godfather")
-        );
+        Assert.assertEquals("Error: passed IRIs are not the same.", "http://example.com/resource/the%20godfather",
+                RDFUtils.fixAbsoluteIRI("http://example.com/resource/the godfather"));
 
-        Assert.assertEquals(
-                "Error: passed IRIs are not the same.",
-                "http://dbpedia.org/",
-                RDFUtils.fixAbsoluteIRI("http://dbpedia.org")
-        );
+        Assert.assertEquals("Error: passed IRIs are not the same.", "http://dbpedia.org/",
+                RDFUtils.fixAbsoluteIRI("http://dbpedia.org"));
     }
 
     @Test
     public void testGetXSDDate() throws DatatypeConfigurationException, ParseException {
-        Assert.assertEquals("1997-09-01T13:00:00.000Z",
-                RDFUtils.getXSDDate(
-                        "19970901T1300Z",
-                        "yyyyMMdd'T'HHmm'Z'"
-                )
-        );
+        Assert.assertEquals("1997-09-01T13:00:00.000Z", RDFUtils.getXSDDate("19970901T1300Z", "yyyyMMdd'T'HHmm'Z'"));
     }
 
     /**
@@ -67,7 +56,7 @@ public class RDFUtilsTest {
     @Test
     public void testGetRDFFormatByExtension() {
         Assert.assertEquals(RDFFormat.NTRIPLES, RDFUtils.getFormatByExtension("nt").get());
-        Assert.assertEquals(RDFFormat.TURTLE  , RDFUtils.getFormatByExtension("ttl").get());
+        Assert.assertEquals(RDFFormat.TURTLE, RDFUtils.getFormatByExtension("ttl").get());
         Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension("nq").get());
         Assert.assertEquals(RDFFormat.NQUADS, RDFUtils.getFormatByExtension(".nq").get());
     }
@@ -85,7 +74,7 @@ public class RDFUtilsTest {
      */
     @Test
     public void testGetNQuadsParser() {
-        Assert.assertNotNull( RDFUtils.getParser(RDFFormat.NQUADS) );
+        Assert.assertNotNull(RDFUtils.getParser(RDFFormat.NQUADS));
     }
 
     /**
@@ -93,9 +82,7 @@ public class RDFUtilsTest {
      */
     @Test
     public void testGetNQuadsWriter() {
-        Assert.assertNotNull(
-                RDFUtils.getWriter(RDFFormat.NQUADS, new OutputStreamWriter(new ByteArrayOutputStream() ) )
-        );
+        Assert.assertNotNull(RDFUtils.getWriter(RDFFormat.NQUADS, new OutputStreamWriter(new ByteArrayOutputStream())));
     }
 
 }

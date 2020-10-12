@@ -30,7 +30,6 @@ public class URIListWriterFactory implements TripleWriterFactory {
     public static final String MIME_TYPE = "text/plain";
     public static final String IDENTIFIER = "uri";
 
-
     /**
      * 
      */

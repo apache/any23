@@ -32,7 +32,9 @@ public interface Configuration {
     /**
      * Checks whether a property is defined or not in configuration.
      *
-     * @param propertyName name of property to check.
+     * @param propertyName
+     *            name of property to check.
+     * 
      * @return <code>true</code> if defined, <code>false</code> otherwise.
      */
     boolean defineProperty(String propertyName);
@@ -40,45 +42,61 @@ public interface Configuration {
     /**
      * Returns the value of a specified property, of the default value if property is not defined.
      *
-     * @param propertyName name of property
-     * @param defaultValue default value if not found.
+     * @param propertyName
+     *            name of property
+     * @param defaultValue
+     *            default value if not found.
+     * 
      * @return the value associated to <i>propertyName</i>.
      */
     String getProperty(String propertyName, String defaultValue);
 
     /**
-     * Returns the value of the specified <code>propertyName</code> or raises an exception
-     * if <code>propertyName</code> is not defined.
+     * Returns the value of the specified <code>propertyName</code> or raises an exception if <code>propertyName</code>
+     * is not defined.
      *
-     * @param propertyName name of property to be returned.
+     * @param propertyName
+     *            name of property to be returned.
+     * 
      * @return property value.
-     * @throws IllegalArgumentException if the property name is not defined
-     *                                  or the found property value is blank or empty.
+     * 
+     * @throws IllegalArgumentException
+     *             if the property name is not defined or the found property value is blank or empty.
      */
     String getPropertyOrFail(String propertyName);
 
     /**
-     * Returns the {@link Integer} value of the specified <code>propertyName</code> or raises an exception
-     * if <code>propertyName</code> is not defined.
+     * Returns the {@link Integer} value of the specified <code>propertyName</code> or raises an exception if
+     * <code>propertyName</code> is not defined.
      *
-     * @param propertyName name of property to be returned.
+     * @param propertyName
+     *            name of property to be returned.
+     * 
      * @return property value.
-     * @throws NullPointerException if the property name is not defined.
-     * @throws IllegalArgumentException if the found property value is blank or empty.
-     * @throws NumberFormatException if the found property value is not a valid {@link Integer}.
+     * 
+     * @throws NullPointerException
+     *             if the property name is not defined.
+     * @throws IllegalArgumentException
+     *             if the found property value is blank or empty.
+     * @throws NumberFormatException
+     *             if the found property value is not a valid {@link Integer}.
      */
     int getPropertyIntOrFail(String propertyName);
 
     /**
      * Returns the value of a <i> flag property</i>. Such properties can assume only two values:
      * <ul>
-     *     <li><code>on</code>  if flag is active   (<code>true</code> is returned).
-     *     <li><code>off</code> if flag is inactive (<code>false</code> is returned).
+     * <li><code>on</code> if flag is active (<code>true</code> is returned).
+     * <li><code>off</code> if flag is inactive (<code>false</code> is returned).
      * </ul>
      *
-     * @param propertyName name of property flag.
+     * @param propertyName
+     *            name of property flag.
+     * 
      * @return <code>true</code> for <code>on</code>, <code>false</code> for <code>off</code>.
-     * @throws IllegalArgumentException if the <code>propertyName</code> is not declared.
+     * 
+     * @throws IllegalArgumentException
+     *             if the <code>propertyName</code> is not declared.
      */
     boolean getFlagProperty(final String propertyName);
 

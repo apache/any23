@@ -17,7 +17,6 @@
 
 package org.apache.any23.filter;
 
-
 import org.apache.any23.extractor.ExtractionContext;
 import org.apache.any23.extractor.MockTripleHandler;
 import org.apache.any23.rdf.RDFUtils;

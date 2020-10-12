@@ -18,10 +18,10 @@
 package org.apache.any23.extractor.rdfa;
 
 /**
- * Defines an exception raised by the
- * {@link XSLTStylesheet} class.
+ * Defines an exception raised by the {@link XSLTStylesheet} class.
  *
  * @see XSLTStylesheet
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class XSLTStylesheetException extends Exception {
@@ -31,7 +31,7 @@ public class XSLTStylesheetException extends Exception {
     }
 
     public XSLTStylesheetException(String message, Throwable cause) {
-        super(message, cause); 
+        super(message, cause);
     }
-    
+
 }

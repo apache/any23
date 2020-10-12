@@ -20,8 +20,7 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * The <a href="http://ogp.me/#type_book">Open Graph Protocol Book Type</a> 
- * vocabulary.
+ * The <a href="http://ogp.me/#type_book">Open Graph Protocol Book Type</a> vocabulary.
  */
 public class OGPBook extends Vocabulary {
 
@@ -34,23 +33,23 @@ public class OGPBook extends Vocabulary {
     /* BEGIN: http://ogp.me/#type_book */
 
     /** Who wrote this book. */
-    public static final String BOOK__AUTHOR     = "book:author";
+    public static final String BOOK__AUTHOR = "book:author";
 
     /** The ISBN */
-    public static final String BOOK__ISBN       = "book:isbn";
+    public static final String BOOK__ISBN = "book:isbn";
 
     /** The date the book was released. */
     public static final String BOOK__RELEASE_DATE = "book:release_date";
 
     /** Tag words associated with this book. */
-    public static final String BOOK__TAG       = "book:tag";
+    public static final String BOOK__TAG = "book:tag";
 
     /* END: http://ogp.me/#type_book */
 
     private static OGPBook instance;
 
     public static OGPBook getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OGPBook();
         }
         return instance;
@@ -58,10 +57,10 @@ public class OGPBook extends Vocabulary {
 
     public final IRI NAMESPACE = createIRI(NS);
 
-    public final IRI bookAuthor     = createProperty(BOOK__AUTHOR);
-    public final IRI bookIsbn       = createProperty(BOOK__ISBN);
+    public final IRI bookAuthor = createProperty(BOOK__AUTHOR);
+    public final IRI bookIsbn = createProperty(BOOK__ISBN);
     public final IRI bookReleaseDate = createProperty(BOOK__RELEASE_DATE);
-    public final IRI bookTag        = createProperty(BOOK__TAG);
+    public final IRI bookTag = createProperty(BOOK__TAG);
 
     @SuppressWarnings("unused")
     private IRI createClass(String localName) {

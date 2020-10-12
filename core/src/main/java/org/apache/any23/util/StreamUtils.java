@@ -57,14 +57,19 @@ public class StreamUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(StreamUtils.class);
 
-    private StreamUtils(){}
+    private StreamUtils() {
+    }
 
     /**
      * Returns all the lines read from an input stream.
      *
-     * @param is input stream.
+     * @param is
+     *            input stream.
+     * 
      * @return list of not <code>null</code> lines.
-     * @throws IOException if an error occurs while consuming the <code>is</code> stream.
+     * 
+     * @throws IOException
+     *             if an error occurs while consuming the <code>is</code> stream.
      */
     public static String[] asLines(InputStream is) throws IOException {
         final BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -74,7 +79,7 @@ public class StreamUtils {
             while ((line = br.readLine()) != null) {
                 lines.add(line);
             }
-            return lines.toArray( new String[ lines.size() ] );
+            return lines.toArray(new String[lines.size()]);
         } finally {
             closeGracefully(br);
         }
@@ -83,10 +88,15 @@ public class StreamUtils {
     /**
      * Returns the string content of a stream.
      *
-     * @param is input stream.
-     * @param preserveNL preserves new line chars.
+     * @param is
+     *            input stream.
+     * @param preserveNL
+     *            preserves new line chars.
+     * 
      * @return the string content.
-     * @throws IOException if an error occurs while consuming the <code>is</code> stream.
+     * 
+     * @throws IOException
+     *             if an error occurs while consuming the <code>is</code> stream.
      */
     public static String asString(InputStream is, boolean preserveNL) throws IOException {
         if (is == null) {
@@ -98,7 +108,8 @@ public class StreamUtils {
             String line;
             while ((line = br.readLine()) != null) {
                 content.append(line);
-                if(preserveNL) content.append('\n');
+                if (preserveNL)
+                    content.append('\n');
             }
             return content.toString();
         } finally {
@@ -109,9 +120,13 @@ public class StreamUtils {
     /**
      * Returns the string content of a stream, new line chars will be removed.
      *
-     * @param is input stream.
+     * @param is
+     *            input stream.
+     * 
      * @return the string content.
-     * @throws IOException if an error occurs while consuming the <code>is</code> stream.
+     * 
+     * @throws IOException
+     *             if an error occurs while consuming the <code>is</code> stream.
      */
     public static String asString(InputStream is) throws IOException {
         return asString(is, false);
@@ -120,7 +135,8 @@ public class StreamUtils {
     /**
      * Closes the closable interface and reports error if any.
      *
-     * @param closable the closable object to be closed.
+     * @param closable
+     *            the closable object to be closed.
      */
     public static void closeGracefully(Closeable closable) {
         if (closable != null) {
@@ -134,15 +150,18 @@ public class StreamUtils {
 
     /**
      * Converts a {@link org.w3c.dom.Document} to an {@link java.io.InputStream}
-     * @param doc the {@link org.w3c.dom.Document} to convert
-     * @return an {@link java.io.InputStream} representing the contents of the 
-     * input {@link org.w3c.dom.Document}
-     * @throws TransformerFactoryConfigurationError thrown when there is a problem 
-     * with configuration with the Transformer Factories
-     * @throws TransformerConfigurationException thrown when a serious 
-     * configuration error exists
+     * 
+     * @param doc
+     *            the {@link org.w3c.dom.Document} to convert
+     * 
+     * @return an {@link java.io.InputStream} representing the contents of the input {@link org.w3c.dom.Document}
+     * 
+     * @throws TransformerFactoryConfigurationError
+     *             thrown when there is a problem with configuration with the Transformer Factories
+     * @throws TransformerConfigurationException
+     *             thrown when a serious configuration error exists
      */
-    public static InputStream documentToInputStream(Document doc) 
+    public static InputStream documentToInputStream(Document doc)
             throws TransformerConfigurationException, TransformerFactoryConfigurationError {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Source xmlSource = new DOMSource(doc);

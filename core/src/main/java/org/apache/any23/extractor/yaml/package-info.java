@@ -16,7 +16,6 @@
  */
 
 /**
- * This package provides an <i>YAML</i> extractor able to generate <i>RDF</i> statements from any <i>YAML</i>
- * files.
+ * This package provides an <i>YAML</i> extractor able to generate <i>RDF</i> statements from any <i>YAML</i> files.
  */
 package org.apache.any23.extractor.yaml;

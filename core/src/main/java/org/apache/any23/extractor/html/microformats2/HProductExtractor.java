@@ -32,8 +32,7 @@ import org.w3c.dom.Node;
 import java.util.List;
 
 /**
- * Extractor for the <a href="http://microformats.org/wiki/h-product">h-product</a>
- * microformat.
+ * Extractor for the <a href="http://microformats.org/wiki/h-product">h-product</a> microformat.
  *
  * @author Nisala Nirmana
  */
@@ -41,17 +40,9 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
 
     private static final HProduct vProduct = HProduct.getInstance();
 
-    private static final String[] productFields = {
-            "name",
-            "photo",
-            "brand",
-            "category",
-            "description",
-            "url",
-            "identifier",
-            "review", //toDo
-            "price"
-    };
+    private static final String[] productFields = { "name", "photo", "brand", "category", "description", "url",
+            "identifier", "review", // toDo
+            "price" };
 
     @Override
     public ExtractorDescription getDescription() {
@@ -60,7 +51,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
 
     @Override
     protected String getBaseClassName() {
-        return Microformats2Prefixes.CLASS_PREFIX+"product";
+        return Microformats2Prefixes.CLASS_PREFIX + "product";
     }
 
     @Override
@@ -80,84 +71,73 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         addURLs(fragment, product);
         addIdentifiers(fragment, product);
         addPrice(fragment, product);
-        addBrand(fragment,product);
+        addBrand(fragment, product);
         return true;
     }
 
-    private void mapFieldWithProperty(HTMLDocument fragment, BNode product, String fieldClass,
-                                      IRI property) {
+    private void mapFieldWithProperty(HTMLDocument fragment, BNode product, String fieldClass, IRI property) {
         HTMLDocument.TextField title = fragment.getSingularTextField(fieldClass);
-        conditionallyAddStringProperty(
-                title.source(), product, property, title.value()
-        );
+        conditionallyAddStringProperty(title.source(), product, property, title.value());
     }
 
     private void addName(HTMLDocument fragment, BNode product) {
-        mapFieldWithProperty(fragment, product, Microformats2Prefixes.PROPERTY_PREFIX +
-                productFields[0], vProduct.name);
+        mapFieldWithProperty(fragment, product, Microformats2Prefixes.PROPERTY_PREFIX + productFields[0],
+                vProduct.name);
     }
 
     private void addPhoto(HTMLDocument fragment, BNode product) throws ExtractionException {
-        final HTMLDocument.TextField[] photos = fragment.getPluralUrlField
-                (Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[1]);
-        for(HTMLDocument.TextField photo : photos) {
+        final HTMLDocument.TextField[] photos = fragment
+                .getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[1]);
+        for (HTMLDocument.TextField photo : photos) {
             addIRIProperty(product, vProduct.photo, fragment.resolveIRI(photo.value()));
         }
     }
 
     private void addCategories(HTMLDocument fragment, BNode product) {
-        final HTMLDocument.TextField[] categories = fragment.getPluralTextField
-                (Microformats2Prefixes.PROPERTY_PREFIX + productFields[3]);
-        for(HTMLDocument.TextField category : categories) {
-            conditionallyAddStringProperty(
-                    category.source(), product, vProduct.category, category.value()
-            );
+        final HTMLDocument.TextField[] categories = fragment
+                .getPluralTextField(Microformats2Prefixes.PROPERTY_PREFIX + productFields[3]);
+        for (HTMLDocument.TextField category : categories) {
+            conditionallyAddStringProperty(category.source(), product, vProduct.category, category.value());
         }
     }
 
     private void addDescription(HTMLDocument fragment, BNode product) {
-        mapFieldWithProperty(fragment, product, Microformats2Prefixes.EMBEDDED_PROPERTY_PREFIX +
-                productFields[4], vProduct.description);
+        mapFieldWithProperty(fragment, product, Microformats2Prefixes.EMBEDDED_PROPERTY_PREFIX + productFields[4],
+                vProduct.description);
     }
 
     private void addURLs(HTMLDocument fragment, BNode product) throws ExtractionException {
-        final HTMLDocument.TextField[] urls = fragment.getPluralUrlField
-                (Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[5]);
-        for(HTMLDocument.TextField url : urls) {
+        final HTMLDocument.TextField[] urls = fragment
+                .getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[5]);
+        for (HTMLDocument.TextField url : urls) {
             addIRIProperty(product, vProduct.url, fragment.resolveIRI(url.value()));
         }
     }
 
     private void addIdentifiers(HTMLDocument fragment, BNode product) throws ExtractionException {
-        final HTMLDocument.TextField[] identifiers = fragment.getPluralUrlField
-                (Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[6]);
-        for(HTMLDocument.TextField identifier :identifiers) {
+        final HTMLDocument.TextField[] identifiers = fragment
+                .getPluralUrlField(Microformats2Prefixes.URL_PROPERTY_PREFIX + productFields[6]);
+        for (HTMLDocument.TextField identifier : identifiers) {
             addIRIProperty(product, vProduct.identifier, fragment.resolveIRI(identifier.value()));
         }
     }
 
     private void addPrice(HTMLDocument fragment, BNode product) {
-        final HTMLDocument.TextField price = fragment.getSingularTextField(
-                Microformats2Prefixes.PROPERTY_PREFIX + productFields[8]);
-        if(price.source()==null)
+        final HTMLDocument.TextField price = fragment
+                .getSingularTextField(Microformats2Prefixes.PROPERTY_PREFIX + productFields[8]);
+        if (price.source() == null)
             return;
         Node attribute = price.source().getAttributes().getNamedItem("value");
         if (attribute == null) {
-            conditionallyAddStringProperty(
-                    price.source(),
-                    product, vProduct.price, price.value()
-            );
+            conditionallyAddStringProperty(price.source(), product, vProduct.price, price.value());
         } else {
-            conditionallyAddStringProperty(
-                    price.source(),
-                    product, vProduct.price, attribute.getNodeValue()
-            );
+            conditionallyAddStringProperty(price.source(), product, vProduct.price, attribute.getNodeValue());
         }
     }
 
     private void addBrand(HTMLDocument doc, Resource product) throws ExtractionException {
-        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + productFields[2] +
-                Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
+        List<Node> nodes = doc.findAllByClassName(Microformats2Prefixes.PROPERTY_PREFIX + productFields[2]
+                + Microformats2Prefixes.SPACE_SEPARATOR + Microformats2Prefixes.CLASS_PREFIX + "card");
         if (nodes.isEmpty())
             return;
         HCardExtractorFactory factory = new HCardExtractorFactory();
@@ -165,8 +145,7 @@ public class HProductExtractor extends EntityBasedMicroformatExtractor {
         for (Node node : nodes) {
             BNode brand = valueFactory.createBNode();
             addIRIProperty(brand, RDF.TYPE, vProduct.brand);
-            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), brand,
-                    getCurrentExtractionResult());
+            extractor.extractEntityAsEmbeddedProperty(new HTMLDocument(node), brand, getCurrentExtractionResult());
         }
     }
 }

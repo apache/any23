@@ -23,8 +23,8 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * The validator class allows to perform validation - correction of
- * related to <i>HTML</i> {@link org.w3c.dom.Document} instances.
+ * The validator class allows to perform validation - correction of related to <i>HTML</i> {@link org.w3c.dom.Document}
+ * instances.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
@@ -34,45 +34,58 @@ public interface Validator {
     /**
      * Performs a validation - fixing of the provided document.
      *
-     * @param document the {@link DOMDocument} instance wrapping the
-     *        original <i>HTML</i> document.
-     * @param applyFix if <code>true</code> tries to fix the document.
+     * @param document
+     *            the {@link DOMDocument} instance wrapping the original <i>HTML</i> document.
+     * @param applyFix
+     *            if <code>true</code> tries to fix the document.
+     * 
      * @return a report of the detected issues.
-     * @throws ValidatorException if an error occurs during the validation process.
+     * 
+     * @throws ValidatorException
+     *             if an error occurs during the validation process.
      */
     ValidationReport validate(DOMDocument document, boolean applyFix) throws ValidatorException;
 
     /**
      * Performs a validation - fixing of the provided document.
      *
-     * @param documentIRI the document source IRI.
-     * @param document the original <i>HTML</i> document.
-     * @param applyFix if <code>true</code> tries to fix the document.
+     * @param documentIRI
+     *            the document source IRI.
+     * @param document
+     *            the original <i>HTML</i> document.
+     * @param applyFix
+     *            if <code>true</code> tries to fix the document.
+     * 
      * @return a report of the detected issues.
-     * @throws ValidatorException if an error occurs during the validation process.
+     * 
+     * @throws ValidatorException
+     *             if an error occurs during the validation process.
      */
-    ValidationReport validate(URI documentIRI, Document document, boolean applyFix)
-    throws ValidatorException;
+    ValidationReport validate(URI documentIRI, Document document, boolean applyFix) throws ValidatorException;
 
     /**
      * Allows to register a new rule to this validator
      *
-     * @param rule add a configured {@link org.apache.any23.validator.Rule}
+     * @param rule
+     *            add a configured {@link org.apache.any23.validator.Rule}
      */
     void addRule(Class<? extends Rule> rule);
 
     /**
      * Allows to register a new rule to this validator and associating it to a fix.
      *
-     * @param rule add a configured {@link org.apache.any23.validator.Rule}
-     * @param fix add a configured {@link org.apache.any23.validator.Fix} for the rule
+     * @param rule
+     *            add a configured {@link org.apache.any23.validator.Rule}
+     * @param fix
+     *            add a configured {@link org.apache.any23.validator.Fix} for the rule
      */
     void addRule(Class<? extends Rule> rule, Class<? extends Fix> fix);
 
     /**
      * Allows to remove a rule from the validator and all the related {@link Fix}es.
      *
-     * @param rule {@link org.apache.any23.validator.Rule} to remove
+     * @param rule
+     *            {@link org.apache.any23.validator.Rule} to remove
      */
     void removeRule(Class<? extends Rule> rule);
 
@@ -86,7 +99,9 @@ public interface Validator {
     /**
      * Returns all fixes registered for the give rule.
      *
-     * @param rule {@link org.apache.any23.validator.Rule} to obtain fixes for.
+     * @param rule
+     *            {@link org.apache.any23.validator.Rule} to obtain fixes for.
+     * 
      * @return a not null list of fixes.
      */
     List<Class<? extends Fix>> getFixes(Class<? extends Rule> rule);

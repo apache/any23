@@ -44,16 +44,12 @@ public class YAMLRoverTest extends ToolTestBase {
     }
 
     @Test
-    public void simpleTest()
-            throws Exception {
+    public void simpleTest() throws Exception {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
         File logfile = File.createTempFile("test-log", ".txt", tempDirectory);
 
-        int exitCode = runTool(String.format("-l %s -o %s -f turtle -e yaml,csv -d %s %s",
-                logfile.getAbsolutePath(),
-                outputFile.getAbsolutePath(),
-                baseUri,
-                copyResourceToTempFile(file1).getAbsolutePath()));
+        int exitCode = runTool(String.format("-l %s -o %s -f turtle -e yaml,csv -d %s %s", logfile.getAbsolutePath(),
+                outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(file1).getAbsolutePath()));
 
         Assert.assertTrue(logfile.exists());
         log.debug("Log file location: {}", logfile.getAbsolutePath());
@@ -68,9 +64,13 @@ public class YAMLRoverTest extends ToolTestBase {
      * 
      * If logging level is <tt>trace</tt> than additionally displays file content.
      * 
-     * @param f input file
-     * @param s Expected string in the file
-     * @throws IOException if there is an error reading the input data.
+     * @param f
+     *            input file
+     * @param s
+     *            Expected string in the file
+     * 
+     * @throws IOException
+     *             if there is an error reading the input data.
      */
     public void assertFileContainsString(File f, String s) throws IOException {
         String fileContent = FileUtils.readFileToString(f, StandardCharsets.UTF_8);

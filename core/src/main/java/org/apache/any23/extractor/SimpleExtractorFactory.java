@@ -26,7 +26,8 @@ import java.util.Collection;
 /**
  * This class is a simple and default-like implementation of {@link ExtractorFactory}.
  *
- * @param <T> the type of the {@link Extractor} served by this factory.
+ * @param <T>
+ *            the type of the {@link Extractor} served by this factory.
  */
 public abstract class SimpleExtractorFactory<T extends Extractor<?>> implements ExtractorFactory<T> {
 
@@ -38,19 +39,13 @@ public abstract class SimpleExtractorFactory<T extends Extractor<?>> implements 
 
     private String exampleInput;
 
-    protected SimpleExtractorFactory(
-            String name,
-            Prefixes prefixes) {
+    protected SimpleExtractorFactory(String name, Prefixes prefixes) {
         this.name = name;
         this.prefixes = prefixes;
     }
 
-    protected SimpleExtractorFactory(
-            String name,
-            Prefixes prefixes,
-            Collection<String> supportedMIMETypes,
-            String exampleInput
-    ) {
+    protected SimpleExtractorFactory(String name, Prefixes prefixes, Collection<String> supportedMIMETypes,
+            String exampleInput) {
         this.name = name;
         this.prefixes = (prefixes == null) ? Prefixes.EMPTY : prefixes;
         for (String type : supportedMIMETypes) {

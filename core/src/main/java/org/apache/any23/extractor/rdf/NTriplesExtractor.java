@@ -23,8 +23,8 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * handling NTriples <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} handling NTriples
+ * <a href="http://www.w3.org/2001/sw/RDFCore/ntriples/">NTriples</a> format.
  */
 public class NTriplesExtractor extends BaseRDFExtractor {
 
@@ -46,9 +46,8 @@ public class NTriplesExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getNTriplesParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getNTriplesParser(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

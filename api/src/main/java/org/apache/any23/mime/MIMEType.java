@@ -29,7 +29,7 @@ public class MIMEType implements Comparable<MIMEType> {
     private final String type;
 
     private final String subtype;
-    
+
     private final double q;
 
     private MIMEType(String type, String subtype, double q) {
@@ -39,19 +39,21 @@ public class MIMEType implements Comparable<MIMEType> {
     }
 
     /**
-     * Parses the given MIME type string returning an instance of
-     * {@link MIMEType}.
-     * The expected format for <code>mimeType</code> is
-     * <code>type/subtype[;q=x.y]</code> .
-     * An example of valid mime type is: <code>application/rdf+xml;q=0.9</code> 
+     * Parses the given MIME type string returning an instance of {@link MIMEType}. The expected format for
+     * <code>mimeType</code> is <code>type/subtype[;q=x.y]</code> . An example of valid mime type is:
+     * <code>application/rdf+xml;q=0.9</code>
      *
-     * @param mimeType a provided mimetype string.
+     * @param mimeType
+     *            a provided mimetype string.
+     * 
      * @return the mime type instance.
-     * @throws IllegalArgumentException if the <code>mimeType</code> is not well formatted.
+     * 
+     * @throws IllegalArgumentException
+     *             if the <code>mimeType</code> is not well formatted.
      */
     public static MIMEType parse(String mimeType) {
         if (mimeType == null) {
-          return null;
+            return null;
         }
         int i = mimeType.indexOf(';');
         double q = 1.0;
@@ -60,10 +62,10 @@ public class MIMEType implements Comparable<MIMEType> {
             for (String param : params) {
                 int i2 = param.indexOf('=');
                 if (i2 == -1) {
-                  continue;
+                    continue;
                 }
-                if (!"q".equals(param.substring(0, i2).trim().toLowerCase(java.util.Locale.ROOT))){
-                  continue;
+                if (!"q".equals(param.substring(0, i2).trim().toLowerCase(java.util.Locale.ROOT))) {
+                    continue;
                 }
                 String value = param.substring(i2 + 1);
                 try {

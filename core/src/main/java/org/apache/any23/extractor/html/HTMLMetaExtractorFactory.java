@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class HTMLMetaExtractorFactory extends SimpleExtractorFactory<HTMLMetaExtractor> implements
-        ExtractorFactory<HTMLMetaExtractor> {
+public class HTMLMetaExtractorFactory extends SimpleExtractorFactory<HTMLMetaExtractor>
+        implements ExtractorFactory<HTMLMetaExtractor> {
 
     public static final String NAME = "html-head-meta";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("sindice");
 
     private static final ExtractorDescription descriptionInstance = new HTMLMetaExtractorFactory();
-    
+
     public HTMLMetaExtractorFactory() {
-        super(
-                HTMLMetaExtractorFactory.NAME, 
-                HTMLMetaExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                "example-meta.html");
+        super(HTMLMetaExtractorFactory.NAME, HTMLMetaExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"), "example-meta.html");
     }
-    
+
     @Override
     public HTMLMetaExtractor createExtractor() {
         return new HTMLMetaExtractor();

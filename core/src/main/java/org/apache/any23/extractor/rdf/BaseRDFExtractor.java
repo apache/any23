@@ -31,8 +31,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * Base class for a generic <i>RDF</i>
- * {@link org.apache.any23.extractor.Extractor.ContentExtractor}.
+ * Base class for a generic <i>RDF</i> {@link org.apache.any23.extractor.Extractor.ContentExtractor}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Hans Brende (hansbrende@apache.org)
@@ -49,20 +48,18 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     /**
      * Constructor, allows to specify the validation and error handling policies.
      *
-     * @param verifyDataType if <code>true</code> the data types will be verified,
-     *         if <code>false</code> will be ignored.
-     * @param stopAtFirstError if <code>true</code> the parser will stop at first parsing error,
-     *        if <code>false</code> will ignore non blocking errors.
+     * @param verifyDataType
+     *            if <code>true</code> the data types will be verified, if <code>false</code> will be ignored.
+     * @param stopAtFirstError
+     *            if <code>true</code> the parser will stop at first parsing error, if <code>false</code> will ignore
+     *            non blocking errors.
      */
     public BaseRDFExtractor(boolean verifyDataType, boolean stopAtFirstError) {
         this.verifyDataType = verifyDataType;
         this.stopAtFirstError = stopAtFirstError;
     }
 
-    protected abstract RDFParser getParser(
-            ExtractionContext extractionContext,
-            ExtractionResult extractionResult
-    );
+    protected abstract RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult);
 
     public boolean isVerifyDataType() {
         return verifyDataType;
@@ -82,12 +79,8 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     }
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            InputStream in,
-            ExtractionResult extractionResult
-    ) throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, InputStream in,
+            ExtractionResult extractionResult) throws IOException, ExtractionException {
         try {
             final RDFParser parser = getParser(extractionContext, extractionResult);
             parser.parse(in, extractionContext.getDocumentIRI().stringValue());

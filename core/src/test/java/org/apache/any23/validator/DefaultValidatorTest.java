@@ -59,7 +59,7 @@ public class DefaultValidatorTest {
         validator.addRule(FakeRule.class, FakeFix.class);
         List<Class<? extends Fix>> fixes = validator.getFixes(FakeRule.class);
         Assert.assertEquals("Unexpected fixes size.", 1, fixes.size());
-        Assert.assertEquals("Unexpected fix.", FakeFix.class,  fixes.get(0));
+        Assert.assertEquals("Unexpected fix.", FakeFix.class, fixes.get(0));
         validator.removeRule(FakeRule.class);
         Assert.assertEquals("Unexpected fixes size.", 0, validator.getFixes(FakeRule.class).size());
     }
@@ -80,7 +80,7 @@ public class DefaultValidatorTest {
         DOMDocument document = loadDocument("microdata-basic.html");
         List<Node> nullItemScopeNodes = document.getNodesWithAttribute("itemscope");
         for (Node node : nullItemScopeNodes) {
-        // all nodes with itemscope have an empty string value
+            // all nodes with itemscope have an empty string value
             Assert.assertEquals("", node.getAttributes().getNamedItem("itemscope").getNodeValue());
         }
         ValidationReport validationReport = validator.validate(document, true);
@@ -135,11 +135,8 @@ public class DefaultValidatorTest {
             return "fake-rule";
         }
 
-        public boolean applyOn(
-                DOMDocument document,
-                @SuppressWarnings("rawtypes") RuleContext context,
-                ValidationReportBuilder validationReportBuilder
-        ) {
+        public boolean applyOn(DOMDocument document, @SuppressWarnings("rawtypes") RuleContext context,
+                ValidationReportBuilder validationReportBuilder) {
             throw new UnsupportedOperationException();
         }
     }
@@ -150,7 +147,7 @@ public class DefaultValidatorTest {
         }
 
         public void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document) {
-              throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException();
         }
     }
 

@@ -29,23 +29,20 @@ import org.apache.any23.rdf.Prefixes;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class MicrodataExtractorFactory extends SimpleExtractorFactory<MicrodataExtractor> implements
-        ExtractorFactory<MicrodataExtractor> {
+public class MicrodataExtractorFactory extends SimpleExtractorFactory<MicrodataExtractor>
+        implements ExtractorFactory<MicrodataExtractor> {
 
     public static final String NAME = "html-microdata";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("rdf", "doac", "foaf");
 
     private static final ExtractorDescription descriptionInstance = new MicrodataExtractorFactory();
-    
+
     public MicrodataExtractorFactory() {
-        super(
-                MicrodataExtractorFactory.NAME, 
-                MicrodataExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"),
-                "example-microdata.html");
+        super(MicrodataExtractorFactory.NAME, MicrodataExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.1", "application/xhtml+xml;q=0.1"), "example-microdata.html");
     }
-    
+
     @Override
     public MicrodataExtractor createExtractor() {
         return new MicrodataExtractor();

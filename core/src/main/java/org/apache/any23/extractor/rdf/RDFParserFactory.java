@@ -43,8 +43,8 @@ import java.util.Collections;
 import java.util.HashSet;
 
 /**
- * This factory provides a common logic for creating and configuring correctly
- * any <i>RDF</i> parser used within the library.
+ * This factory provides a common logic for creating and configuring correctly any <i>RDF</i> parser used within the
+ * library.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -63,18 +63,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured TurtleParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured Turtle parser.
      */
-    public RDFParser getTurtleParserInstance(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getTurtleParserInstance(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         if (extractionResult == null) {
             throw new NullPointerException("extractionResult cannot be null.");
         }
@@ -86,18 +87,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured RDFaParser, set to RDFa-1.0 compatibility mode.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured RDFXML parser.
      */
-    public RDFParser getRDFa10Parser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getRDFa10Parser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.RDFA);
         parser.getParserConfig().set(RDFaParserSettings.RDFA_COMPATIBILITY, RDFaVersion.RDFA_1_0);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
@@ -107,18 +109,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured RDFaParser, set to RDFa-1.1 compatibility mode.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured RDFXML parser.
      */
-    public RDFParser getRDFa11Parser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getRDFa11Parser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.RDFA);
         parser.getParserConfig().set(RDFaParserSettings.RDFA_COMPATIBILITY, RDFaVersion.RDFA_1_1);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
@@ -128,18 +131,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured RDFXMLParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured RDFXML parser.
      */
-    public RDFParser getRDFXMLParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getRDFXMLParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.RDFXML);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
@@ -148,18 +152,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured NTriplesParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured NTriples parser.
      */
-    public RDFParser getNTriplesParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getNTriplesParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.NTRIPLES);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
@@ -168,18 +173,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured NQuadsParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured NQuads parser.
      */
-    public RDFParser getNQuadsParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getNQuadsParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.NQUADS);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
@@ -188,18 +194,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured ManchesterSyntaxParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured Manchester Syntax parser.
      */
-    public RDFParser getManchesterSyntaxParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getManchesterSyntaxParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(OWLAPIRDFFormat.MANCHESTER_OWL);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
@@ -208,18 +215,19 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured FunctionalSyntaxParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured Functional Syntax parser.
      */
-    public RDFParser getFunctionalSyntaxParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getFunctionalSyntaxParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(OWLAPIRDFFormat.OWL_FUNCTIONAL);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
@@ -228,72 +236,71 @@ public class RDFParserFactory {
     /**
      * Returns a new instance of a configured TriXParser.
      *
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured TriX parser.
      */
-    public RDFParser getTriXParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getTriXParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.TRIX);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
-    
+
     /**
      * Returns a new instance of a configured <i>SesameJSONLDParser</i>.
-     * @param verifyDataType data verification enable if <code>true</code>.
-     * @param stopAtFirstError the parser stops at first error if <code>true</code>.
-     * @param extractionContext the extraction context where the parser is used.
-     * @param extractionResult the output extraction result.
+     * 
+     * @param verifyDataType
+     *            data verification enable if <code>true</code>.
+     * @param stopAtFirstError
+     *            the parser stops at first error if <code>true</code>.
+     * @param extractionContext
+     *            the extraction context where the parser is used.
+     * @param extractionResult
+     *            the output extraction result.
+     * 
      * @return a new instance of a configured JSONLDParser parser.
      */
-    public RDFParser getJSONLDParser(
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
+    public RDFParser getJSONLDParser(final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         final RDFParser parser = Rio.createParser(RDFFormat.JSONLD);
         configureParser(parser, verifyDataType, stopAtFirstError, extractionContext, extractionResult);
         return parser;
     }
 
     /**
-     * Configures the given parser on the specified extraction result
-     * setting the policies for data verification and error handling.
+     * Configures the given parser on the specified extraction result setting the policies for data verification and
+     * error handling.
      *
-     * @param parser the parser to be configured.
-     * @param verifyDataType enables the data verification.
-     * @param stopAtFirstError enables the tolerant error handling.
-     * @param extractionContext the extraction context in which the parser is used.
-     * @param extractionResult the extraction result used to collect the parsed data.
+     * @param parser
+     *            the parser to be configured.
+     * @param verifyDataType
+     *            enables the data verification.
+     * @param stopAtFirstError
+     *            enables the tolerant error handling.
+     * @param extractionContext
+     *            the extraction context in which the parser is used.
+     * @param extractionResult
+     *            the extraction result used to collect the parsed data.
      */
     // TODO: what about passing just default language and ErrorReport to configureParser() ?
-    private void configureParser(
-            final RDFParser parser,
-            final boolean verifyDataType,
-            final boolean stopAtFirstError,
-            final ExtractionContext extractionContext,
-            final ExtractionResult extractionResult
-    ) {
-        parser.getParserConfig().setNonFatalErrors(stopAtFirstError ? Collections.emptySet() : new HashSet<>(parser.getSupportedSettings()));
+    private void configureParser(final RDFParser parser, final boolean verifyDataType, final boolean stopAtFirstError,
+            final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
+        parser.getParserConfig().setNonFatalErrors(
+                stopAtFirstError ? Collections.emptySet() : new HashSet<>(parser.getSupportedSettings()));
         parser.set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, verifyDataType);
         parser.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, verifyDataType);
 
         parser.setParseErrorListener(new InternalParseErrorListener(extractionResult));
-        parser.setValueFactory(
-                new Any23ValueFactoryWrapper(
-                        SimpleValueFactory.getInstance(),
-                        extractionResult,
-                        extractionContext.getDefaultLanguage()
-                )
-        );
+        parser.setValueFactory(new Any23ValueFactoryWrapper(SimpleValueFactory.getInstance(), extractionResult,
+                extractionContext.getDefaultLanguage()));
         parser.setRDFHandler(new RDFHandlerAdapter(extractionResult));
     }
 
@@ -343,20 +350,17 @@ public class RDFParserFactory {
     }
 
     /**
-     * This extended Turtle parser sets the default namespace to the base IRI
-     * before the parsing.
+     * This extended Turtle parser sets the default namespace to the base IRI before the parsing.
      */
     private class ExtendedTurtleParser extends TurtleParser {
         @Override
-        public void parse(Reader reader, String baseIRI)
-        throws IOException, RDFParseException, RDFHandlerException {
+        public void parse(Reader reader, String baseIRI) throws IOException, RDFParseException, RDFHandlerException {
             setNamespace("", baseIRI);
             super.parse(reader, baseIRI);
         }
 
         @Override
-        public void parse(InputStream in, String baseIRI)
-        throws IOException, RDFParseException, RDFHandlerException {
+        public void parse(InputStream in, String baseIRI) throws IOException, RDFParseException, RDFHandlerException {
             setNamespace("", baseIRI);
             super.parse(in, baseIRI);
         }

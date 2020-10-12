@@ -37,8 +37,8 @@ import org.slf4j.LoggerFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- * Any23 specialization of the {@link org.eclipse.rdf4j.model.ValueFactory}.
- * It provides a wrapper to instantiate RDF objects.
+ * Any23 specialization of the {@link org.eclipse.rdf4j.model.ValueFactory}. It provides a wrapper to instantiate RDF
+ * objects.
  */
 // TODO: Merge with RDFUtils.java
 public class Any23ValueFactoryWrapper implements ValueFactory {
@@ -54,16 +54,15 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * Constructor with error reporter.
      *
-     * @param factory the wrapped value factory, cannot be <code>null</code>.
-     * @param er the error reporter.
-     * @param defaultLitLanguage the default literal language.
+     * @param factory
+     *            the wrapped value factory, cannot be <code>null</code>.
+     * @param er
+     *            the error reporter.
+     * @param defaultLitLanguage
+     *            the default literal language.
      */
-    public Any23ValueFactoryWrapper(
-            final ValueFactory factory,
-            IssueReport er,
-            String defaultLitLanguage
-    ) {
-        if(factory == null) {
+    public Any23ValueFactoryWrapper(final ValueFactory factory, IssueReport er, String defaultLitLanguage) {
+        if (factory == null) {
             throw new NullPointerException("factory cannot be null.");
         }
         wrappedFactory = factory;
@@ -203,7 +202,9 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @param uriStr input string to create URI from.
+     * @param uriStr
+     *            input string to create URI from.
+     * 
      * @return a valid sesame IRI or null if any exception occurred
      */
     @Override
@@ -231,8 +232,11 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * Fixes typical errors in IRIs, and resolves relative IRIs against a base IRI.
      *
-     * @param uri     A IRI, relative or absolute, can have typical syntax errors
-     * @param baseIRI A base IRI to use for resolving relative IRIs
+     * @param uri
+     *            A IRI, relative or absolute, can have typical syntax errors
+     * @param baseIRI
+     *            A base IRI to use for resolving relative IRIs
+     * 
      * @return An absolute IRI, sytnactically valid, or null if not fixable
      */
     public IRI resolveIRI(String uri, java.net.URI baseIRI) {
@@ -245,7 +249,9 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     }
 
     /**
-     * @param iri IRI to fix
+     * @param iri
+     *            IRI to fix
+     * 
      * @return a valid sesame IRI or null if any exception occurred
      */
     public IRI fixIRI(String iri) {
@@ -259,8 +265,12 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     /**
      * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
-     * @param link string representation of the URI
-     * @param defaultSchema schema to add the URI
+     * 
+     * @param link
+     *            string representation of the URI
+     * @param defaultSchema
+     *            schema to add the URI
+     * 
      * @return a valid sesame IRI or null if any exception occurred
      */
     public IRI fixLink(String link, String defaultSchema) {
@@ -282,10 +292,11 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * Reports an error in the most appropriate way.
      * 
-     * @param e error to be reported.
+     * @param e
+     *            error to be reported.
      */
     private void reportError(Exception e) {
-        if(issueReport == null) {
+        if (issueReport == null) {
             logger.warn(e.getMessage());
         } else {
             issueReport.notifyIssue(IssueReport.IssueLevel.WARNING, e.getMessage(), -1, -1);

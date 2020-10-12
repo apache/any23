@@ -23,8 +23,8 @@ import org.apache.any23.extractor.ExtractorDescription;
 import org.eclipse.rdf4j.rio.RDFParser;
 
 /**
- * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor}
- * handling <a href="https://www.w3.org/TR/owl2-syntax/">OWL2 Functional-Style Syntax</a> format.
+ * Concrete implementation of {@link org.apache.any23.extractor.Extractor.ContentExtractor} handling
+ * <a href="https://www.w3.org/TR/owl2-syntax/">OWL2 Functional-Style Syntax</a> format.
  *
  * @author Peter Ansell
  */
@@ -45,9 +45,8 @@ public class FunctionalSyntaxExtractor extends BaseRDFExtractor {
 
     @Override
     protected RDFParser getParser(ExtractionContext extractionContext, ExtractionResult extractionResult) {
-        return RDFParserFactory.getInstance().getFunctionalSyntaxParser(
-                isVerifyDataType(), isStopAtFirstError(), extractionContext, extractionResult
-        );
+        return RDFParserFactory.getInstance().getFunctionalSyntaxParser(isVerifyDataType(), isStopAtFirstError(),
+                extractionContext, extractionResult);
     }
 
 }

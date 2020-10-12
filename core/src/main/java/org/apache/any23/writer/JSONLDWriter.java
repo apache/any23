@@ -31,22 +31,17 @@ import java.io.OutputStream;
 public class JSONLDWriter extends RDFWriterTripleHandler {
 
     static class Internal {
-        private static final org.eclipse.rdf4j.rio.jsonld.JSONLDWriterFactory rdf4j
-                = new org.eclipse.rdf4j.rio.jsonld.JSONLDWriterFactory();
+        private static final org.eclipse.rdf4j.rio.jsonld.JSONLDWriterFactory rdf4j = new org.eclipse.rdf4j.rio.jsonld.JSONLDWriterFactory();
 
         static final TripleFormat FORMAT = format(rdf4j);
 
-        static final Settings SUPPORTED_SETTINGS = Settings.of(
-                WriterSettings.PRETTY_PRINT
-        );
+        static final Settings SUPPORTED_SETTINGS = Settings.of(WriterSettings.PRETTY_PRINT);
     }
 
     @Override
     void configure(WriterConfig config, Settings settings) {
         config.set(BasicWriterSettings.PRETTY_PRINT, settings.get(WriterSettings.PRETTY_PRINT));
     }
-
-
 
     public JSONLDWriter(OutputStream os) {
         this(os, Settings.of());

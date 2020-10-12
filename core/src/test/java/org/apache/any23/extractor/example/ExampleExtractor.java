@@ -37,13 +37,8 @@ public class ExampleExtractor implements BlindExtractor {
     private static final FOAF vFOAF = FOAF.getInstance();
 
     @Override
-    public void run(
-            ExtractionParameters extractionParameters,
-            ExtractionContext extractionContext,
-            IRI documentIRI,
-            ExtractionResult out
-    )
-    throws IOException, ExtractionException {
+    public void run(ExtractionParameters extractionParameters, ExtractionContext extractionContext, IRI documentIRI,
+            ExtractionResult out) throws IOException, ExtractionException {
         out.writeTriple(documentIRI, RDF.TYPE, vFOAF.Document);
     }
 

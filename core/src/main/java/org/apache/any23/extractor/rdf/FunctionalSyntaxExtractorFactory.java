@@ -29,25 +29,20 @@ import org.semanticweb.owlapi.rio.OWLAPIRDFFormat;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class FunctionalSyntaxExtractorFactory extends SimpleExtractorFactory<FunctionalSyntaxExtractor> implements
-        ExtractorFactory<FunctionalSyntaxExtractor> {
+public class FunctionalSyntaxExtractorFactory extends SimpleExtractorFactory<FunctionalSyntaxExtractor>
+        implements ExtractorFactory<FunctionalSyntaxExtractor> {
 
     public static final String NAME = "owl-functional";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new FunctionalSyntaxExtractorFactory();
-    
+
     public FunctionalSyntaxExtractorFactory() {
-        super(
-                FunctionalSyntaxExtractorFactory.NAME, 
-                FunctionalSyntaxExtractorFactory.PREFIXES,
-                Arrays.asList(
-                		OWLAPIRDFFormat.OWL_FUNCTIONAL.getDefaultMIMEType()
-                ),
-                "example-functionalsyntax.ofn");
+        super(FunctionalSyntaxExtractorFactory.NAME, FunctionalSyntaxExtractorFactory.PREFIXES,
+                Arrays.asList(OWLAPIRDFFormat.OWL_FUNCTIONAL.getDefaultMIMEType()), "example-functionalsyntax.ofn");
     }
-    
+
     @Override
     public FunctionalSyntaxExtractor createExtractor() {
         return new FunctionalSyntaxExtractor();

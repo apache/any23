@@ -33,8 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Commandline utility to verify the <b>Any23</b> plugins
- * and extract basic information.
+ * Commandline utility to verify the <b>Any23</b> plugins and extract basic information.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -43,10 +42,7 @@ public class PluginVerifier extends BaseTool {
 
     private Any23PluginManager pluginManager = Any23PluginManager.getInstance();
 
-    @Parameter(
-        description = "plugins-dir",
-        converter = FileConverter.class
-    )
+    @Parameter(description = "plugins-dir", converter = FileConverter.class)
     private List<File> pluginsDirs = new LinkedList<>();
 
     private PrintStream out = System.out;
@@ -91,7 +87,8 @@ public class PluginVerifier extends BaseTool {
 
     private void printPluginData(ExtractorFactory<?> extractorFactory, PrintStream ps) {
         final Author authorAnnotation = extractorFactory.getClass().getAnnotation(Author.class);
-        ps.printf(Locale.ROOT, "Plugin author    : %s%n", authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
+        ps.printf(Locale.ROOT, "Plugin author    : %s%n",
+                authorAnnotation == null ? "<unknown>" : authorAnnotation.name());
         ps.printf(Locale.ROOT, "Plugin factory   : %s%n", extractorFactory.getClass());
         ps.printf(Locale.ROOT, "Plugin mime-types: %s%n", getMimeTypesStr(extractorFactory.getSupportedMIMETypes()));
     }

@@ -28,8 +28,9 @@ import org.eclipse.rdf4j.rio.RDFFormat;
 import java.io.OutputStream;
 
 /**
- * Base interface for constructors of {@link TripleHandler} implementations
- * that write to an {@link OutputStream} using a particular {@link FileFormat}.
+ * Base interface for constructors of {@link TripleHandler} implementations that write to an {@link OutputStream} using
+ * a particular {@link FileFormat}.
+ * 
  * @author Hans Brende (hansbrende@apache.org)
  */
 public interface TripleWriterFactory extends BaseWriterFactory<OutputStream> {
@@ -64,48 +65,59 @@ public interface TripleWriterFactory extends BaseWriterFactory<OutputStream> {
     @Deprecated
     default FormatWriter getRdfWriter(OutputStream os) {
         TripleHandler th = getTripleWriter(os, Settings.of());
-        return th instanceof FormatWriter ? (FormatWriter)th : new FormatWriter() {
+        return th instanceof FormatWriter ? (FormatWriter) th : new FormatWriter() {
             @Override
             public boolean isAnnotated() {
                 return false;
             }
+
             @Override
-            public void setAnnotated(boolean f) {}
+            public void setAnnotated(boolean f) {
+            }
+
             @Override
             public void startDocument(IRI documentIRI) throws TripleHandlerException {
                 th.startDocument(documentIRI);
             }
+
             @Override
             public void openContext(ExtractionContext context) throws TripleHandlerException {
                 th.openContext(context);
             }
+
             @Override
-            public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context) throws TripleHandlerException {
+            public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
+                    throws TripleHandlerException {
                 th.receiveTriple(s, p, o, g, context);
             }
+
             @Override
-            public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
+            public void receiveNamespace(String prefix, String uri, ExtractionContext context)
+                    throws TripleHandlerException {
                 th.receiveNamespace(prefix, uri, context);
             }
+
             @Override
             public void closeContext(ExtractionContext context) throws TripleHandlerException {
                 th.closeContext(context);
             }
+
             @Override
             public void endDocument(IRI documentIRI) throws TripleHandlerException {
                 th.endDocument(documentIRI);
             }
+
             @Override
             public void setContentLength(long contentLength) {
                 th.setContentLength(contentLength);
             }
+
             @Override
             public void close() throws TripleHandlerException {
                 th.close();
             }
         };
     }
-
 
     /**
      *
@@ -114,13 +126,18 @@ public interface TripleWriterFactory extends BaseWriterFactory<OutputStream> {
     @Override
     Settings getSupportedSettings();
 
-
     /**
-     * @param out the {@link OutputStream} to write to
-     * @param settings the settings with which to configure the writer
+     * @param out
+     *            the {@link OutputStream} to write to
+     * @param settings
+     *            the settings with which to configure the writer
+     * 
      * @return a {@link TripleHandler} which writes to the specified {@link OutputStream}
-     * @throws NullPointerException if the output stream or settings is null
-     * @throws IllegalArgumentException if the settings are not correctly configured
+     * 
+     * @throws NullPointerException
+     *             if the output stream or settings is null
+     * @throws IllegalArgumentException
+     *             if the settings are not correctly configured
      */
     @Override
     TripleHandler getTripleWriter(OutputStream out, Settings settings);

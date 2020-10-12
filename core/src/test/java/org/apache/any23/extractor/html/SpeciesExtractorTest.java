@@ -43,7 +43,8 @@ public class SpeciesExtractorTest extends AbstractExtractorTestCase {
     /**
      * Test the beahvior against two <a href="http://en.wikipedia.org/wiki/Template:Taxobox">Wikipedia Taxobox</a>.
      *
-     * @throws Exception if there is an error asserting the test data.
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     @Test
     public void testSpeciesMicroformatExtractOverTaxoBox() throws Exception {

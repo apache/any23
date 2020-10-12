@@ -16,7 +16,7 @@
  */
 
 /**
- * A set of predefined validation {@link org.apache.any23.validator.Rule}s
- * and associated {@link org.apache.any23.validator.Fix}es. 
+ * A set of predefined validation {@link org.apache.any23.validator.Rule}s and associated
+ * {@link org.apache.any23.validator.Fix}es.
  */
 package org.apache.any23.validator.rule;

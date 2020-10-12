@@ -21,6 +21,7 @@ package org.apache.any23.validator;
  * This interface models a fix for an issue.
  *
  * @see Rule
+ * 
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -34,9 +35,12 @@ public interface Fix {
     /**
      * Executes this fix over a document.
      *
-     * @param rule the rule triggering this fix.
-     * @param context the rule context for this fix.
-     * @param document the document to apply this fix.
+     * @param rule
+     *            the rule triggering this fix.
+     * @param context
+     *            the rule context for this fix.
+     * @param document
+     *            the document to apply this fix.
      */
     void execute(Rule rule, @SuppressWarnings("rawtypes") RuleContext context, DOMDocument document);
 

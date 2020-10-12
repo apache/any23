@@ -62,32 +62,25 @@ public class XMLValidationReportSerializerTest {
     }
 
     @Test
-    public void testSerialize()
-    throws SerializationException, IllegalAccessException, InstantiationException {
+    public void testSerialize() throws SerializationException, IllegalAccessException, InstantiationException {
         ValidationReportBuilder validationReportBuilder = new DefaultValidationReportBuilder();
 
         Document document = new DocumentImpl();
         Element element = document.createElement("html");
         validationReportBuilder.reportIssue(ValidationReport.IssueLevel.INFO, "Test message", element);
 
-        validationReportBuilder.traceRuleActivation( new MetaNameMisuseRule() );
+        validationReportBuilder.traceRuleActivation(new MetaNameMisuseRule());
 
-        validationReportBuilder.reportRuleError(
-                new MetaNameMisuseRule(),
-                new RuntimeException("Fake exc message"),
-                "Fake message"
-        );
+        validationReportBuilder.reportRuleError(new MetaNameMisuseRule(), new RuntimeException("Fake exc message"),
+                "Fake message");
 
-        validationReportBuilder.reportFixError(
-                new MetaNameMisuseFix(),
-                new RuntimeException("Fake exc message"),
-                "Fake message"
-        );
+        validationReportBuilder.reportFixError(new MetaNameMisuseFix(), new RuntimeException("Fake exc message"),
+                "Fake message");
 
         ValidationReport vr = validationReportBuilder.getReport();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         serializer.serialize(vr, baos);
-        logger.debug( baos.toString() );
+        logger.debug(baos.toString());
 
         final String bufferContent = baos.toString();
         Assert.assertTrue(bufferContent.contains("<validationReport>"));

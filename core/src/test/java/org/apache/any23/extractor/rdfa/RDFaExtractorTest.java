@@ -34,18 +34,22 @@ import java.util.List;
 public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
 
     /**
-     * Taken from the <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations test cases</a>.
-     * It checks if the extraction is the same when the namespaces are defined in <i>RDFa1.0</i> or
-     * <i>RDFa1.1</i> respectively.
+     * Taken from the <a href="http://www.heppnetz.de/rdfa4google/testcases.html">GoodRelations test cases</a>. It
+     * checks if the extraction is the same when the namespaces are defined in <i>RDFa1.0</i> or <i>RDFa1.1</i>
+     * respectively.
      *
-     * @throws org.eclipse.rdf4j.repository.RepositoryException if an error is encountered whilst loading content from a storage connection
-     * @throws java.io.IOException if there is an error interpreting the input data
-     * @throws org.eclipse.rdf4j.rio.RDFHandlerException if there is an error within the {@link org.eclipse.rdf4j.rio.RDFHandler}
-     * @throws org.eclipse.rdf4j.rio.RDFParseException if there is an exception parsing an RDF Stream
+     * @throws org.eclipse.rdf4j.repository.RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     * @throws java.io.IOException
+     *             if there is an error interpreting the input data
+     * @throws org.eclipse.rdf4j.rio.RDFHandlerException
+     *             if there is an error within the {@link org.eclipse.rdf4j.rio.RDFHandler}
+     * @throws org.eclipse.rdf4j.rio.RDFParseException
+     *             if there is an exception parsing an RDF Stream
      */
     @Test
     public void testRDFa11PrefixBackwardCompatibility()
-    throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
+            throws RepositoryException, RDFHandlerException, IOException, RDFParseException {
         final int EXPECTED_STATEMENTS = 31;
 
         assertExtract("/html/rdfa/goodrelations-rdfa10.html");
@@ -53,21 +57,21 @@ public class RDFaExtractorTest extends AbstractRDFaExtractorTestCase {
         Assert.assertEquals(EXPECTED_STATEMENTS, dumpAsListOfStatements().size());
         List<Statement> rdfa10Stmts = dumpAsListOfStatements();
 
-        //assertContainsModel("/html/rdfa/goodrelations-rdfa10-expected.nq");
+        // assertContainsModel("/html/rdfa/goodrelations-rdfa10-expected.nq");
 
         assertExtract("/html/rdfa/goodrelations-rdfa11.html");
         logger.debug("Model 2 " + dumpHumanReadableTriples());
         Assert.assertTrue(dumpAsListOfStatements().size() >= EXPECTED_STATEMENTS);
 
-        for(Statement stmt : rdfa10Stmts) {
+        for (Statement stmt : rdfa10Stmts) {
             assertContains(stmt);
         }
     }
 
-	@Test
-	public void testRDFa11CURIEs() throws Exception {
-	}
-	
+    @Test
+    public void testRDFa11CURIEs() throws Exception {
+    }
+
     /**
      * Tests that the default parser settings enable tolerance in data type parsing.
      */

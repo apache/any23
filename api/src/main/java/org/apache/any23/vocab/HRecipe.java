@@ -31,37 +31,37 @@ public class HRecipe extends Vocabulary {
     private static HRecipe instance;
 
     public static HRecipe getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HRecipe();
         }
         return instance;
     }
 
     // Resources.
-    public IRI Recipe     = createClass(NS, "Recipe");
-    public IRI Duration   = createClass(NS, "Duration");
+    public IRI Recipe = createClass(NS, "Recipe");
+    public IRI Duration = createClass(NS, "Duration");
     public IRI Ingredient = createClass(NS, "Ingredient");
-    public IRI Nutrition  = createClass(NS, "Nutrition");
+    public IRI Nutrition = createClass(NS, "Nutrition");
 
     // Properties.
-    public IRI fn                     = createProperty(NS, "fn");
-    public IRI duration               = createProperty(NS, "duration");
-    public IRI durationTitle          = createProperty(NS, "durationTitle");
-    public IRI durationTime           = createProperty(NS, "durationTime");
-    public IRI photo                  = createProperty(NS, "photo");
-    public IRI summary                = createProperty(NS, "summary");
-    public IRI author                 = createProperty(NS, "author");
-    public IRI published              = createProperty(NS, "published");
-    public IRI nutrition              = createProperty(NS, "nutrition");
-    public IRI nutritionValue         = createProperty(NS, "nutritionValue");
-    public IRI nutritionValueType     = createProperty(NS, "nutritionValueType");
-    public IRI tag                    = createProperty(NS, "tag");
-    public IRI ingredient             = createProperty(NS, "ingredient");
-    public IRI ingredientName         = createProperty(NS, "ingredientName");
-    public IRI ingredientQuantity     = createProperty(NS, "ingredientQuantity");
+    public IRI fn = createProperty(NS, "fn");
+    public IRI duration = createProperty(NS, "duration");
+    public IRI durationTitle = createProperty(NS, "durationTitle");
+    public IRI durationTime = createProperty(NS, "durationTime");
+    public IRI photo = createProperty(NS, "photo");
+    public IRI summary = createProperty(NS, "summary");
+    public IRI author = createProperty(NS, "author");
+    public IRI published = createProperty(NS, "published");
+    public IRI nutrition = createProperty(NS, "nutrition");
+    public IRI nutritionValue = createProperty(NS, "nutritionValue");
+    public IRI nutritionValueType = createProperty(NS, "nutritionValueType");
+    public IRI tag = createProperty(NS, "tag");
+    public IRI ingredient = createProperty(NS, "ingredient");
+    public IRI ingredientName = createProperty(NS, "ingredientName");
+    public IRI ingredientQuantity = createProperty(NS, "ingredientQuantity");
     public IRI ingredientQuantityType = createProperty(NS, "ingredientQuantityType");
-    public IRI instructions           = createProperty(NS, "instructions");
-    public IRI yield                  = createProperty(NS, "yield");
+    public IRI instructions = createProperty(NS, "instructions");
+    public IRI yield = createProperty(NS, "yield");
 
     private HRecipe() {
         super(NS);

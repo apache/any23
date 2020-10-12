@@ -27,8 +27,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * A {@link TripleHandler} multi decorator, that wraps zero or more
- * other triple handlers and dispatches all events to each of them.
+ * A {@link TripleHandler} multi decorator, that wraps zero or more other triple handlers and dispatches all events to
+ * each of them.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -40,13 +40,14 @@ public class CompositeTripleHandler implements TripleHandler {
      * Constructor with empty decorated list.
      */
     public CompositeTripleHandler() {
-        this(Collections.<TripleHandler>emptyList());
+        this(Collections.<TripleHandler> emptyList());
     }
 
     /**
      * Constructor with initial list of decorated handlers.
      * 
-     * @param children list of decorated handlers. 
+     * @param children
+     *            list of decorated handlers.
      */
     public CompositeTripleHandler(Collection<TripleHandler> children) {
         this.children.addAll(children);
@@ -55,7 +56,8 @@ public class CompositeTripleHandler implements TripleHandler {
     /**
      * Adds a decorated handler.
      *
-     * @param child the decorated handler.
+     * @param child
+     *            the decorated handler.
      */
     public void addChild(TripleHandler child) {
         children.add(child);
@@ -84,14 +86,13 @@ public class CompositeTripleHandler implements TripleHandler {
     }
 
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.receiveTriple(s, p, o, g, context);
         }
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
-    throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         for (TripleHandler handler : children) {
             handler.receiveNamespace(prefix, uri, context);
         }
@@ -114,5 +115,5 @@ public class CompositeTripleHandler implements TripleHandler {
             handler.setContentLength(contentLength);
         }
     }
-    
+
 }

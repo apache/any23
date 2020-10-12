@@ -43,19 +43,19 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 
 /**
- * An implementation of {@link EncodingDetector} based on
- * <a href="http://tika.apache.org/">Apache Tika</a>.
+ * An implementation of {@link EncodingDetector} based on <a href="http://tika.apache.org/">Apache Tika</a>.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @author Hans Brende (hansbrende@apache.org)
+ * 
  * @version $Id$
  */
 public class TikaEncodingDetector implements EncodingDetector {
 
     @Override
     public String guessEncoding(InputStream input) throws IOException {
-        return guessEncoding(input, (String)null);
+        return guessEncoding(input, (String) null);
     }
 
     private static final String TAG_CHARS = "< />";
@@ -69,7 +69,7 @@ public class TikaEncodingDetector implements EncodingDetector {
 
         TextStatistics stats = computeAndReset(is, EncodingUtils::stats);
 
-        //we've overridden the looksLikeUTF8() method to be 100% precise, as in jchardet
+        // we've overridden the looksLikeUTF8() method to be 100% precise, as in jchardet
         if (stats.looksLikeUTF8()) {
             // > 92% of the web is UTF-8. Do not risk false positives from other charsets.
             // See https://issues.apache.org/jira/browse/TIKA-2771
@@ -105,14 +105,14 @@ public class TikaEncodingDetector implements EncodingDetector {
             return UTF_8;
         }
 
-        //HTML & XML tag-stripping is vital for accurate n-gram detection, so use Jsoup instead of icu4j's
+        // HTML & XML tag-stripping is vital for accurate n-gram detection, so use Jsoup instead of icu4j's
         // "quick and dirty, not 100% accurate" tag-stripping implementation for more accurate results.
         // Cf. https://issues.apache.org/jira/browse/TIKA-2038
         long openTags = countTags(doc);
         long badTags = htmlErrors.stream().map(ParseError::getErrorMessage)
                 .filter(err -> err != null && err.matches(".*'[</>]'.*")).count();
 
-        //condition for filtering input adapted from icu4j's CharsetDetector#MungeInput()
+        // condition for filtering input adapted from icu4j's CharsetDetector#MungeInput()
         boolean filterInput = true;
         if (openTags < 5 || openTags / 5 < badTags) {
             filterInput = false;
@@ -133,7 +133,8 @@ public class TikaEncodingDetector implements EncodingDetector {
             try {
                 Charset charset = EncodingUtils.forName(match.getName());
 
-                // If we successfully filtered input based on 0x3C and 0x3E, then this must be an ascii-compatible charset
+                // If we successfully filtered input based on 0x3C and 0x3E, then this must be an ascii-compatible
+                // charset
                 // See https://issues.apache.org/jira/browse/TIKA-2771
                 if (filterInput && !TAG_CHARS.equals(new String(TAG_BYTES, charset))) {
                     continue;
@@ -144,7 +145,7 @@ public class TikaEncodingDetector implements EncodingDetector {
                     return charset;
                 }
             } catch (Exception e) {
-                //ignore; if this charset isn't supported by this platform, it's probably not correct anyway.
+                // ignore; if this charset isn't supported by this platform, it's probably not correct anyway.
             }
         }
 
@@ -158,8 +159,6 @@ public class TikaEncodingDetector implements EncodingDetector {
         Charset charset = EncodingUtils.contentTypeCharset(contentType);
         return guessEncoding(is, charset).name();
     }
-
-
 
     ////////////////////
     // STATIC HELPERS //
@@ -192,18 +191,19 @@ public class TikaEncodingDetector implements EncodingDetector {
     }
 
     private static long countTags(Node node) {
-        long[] ret = {0};
+        long[] ret = { 0 };
         NodeTraversor.traverse(new NodeVisitor() {
             @Override
             public void head(Node node, int depth) {
                 if (node instanceof Document || node instanceof PseudoTextElement) {
-                    //subclasses of Element that don't have start/end tags
+                    // subclasses of Element that don't have start/end tags
                     return;
                 }
                 if (node instanceof Element || node instanceof DocumentType || node instanceof Comment) {
                     ret[0] += node.childNodeSize() == 0 ? 1 : 2;
                 }
             }
+
             @Override
             public void tail(Node node, int depth) {
             }
@@ -221,8 +221,8 @@ public class TikaEncodingDetector implements EncodingDetector {
                 } else if (node instanceof DataNode) {
                     String data = ((DataNode) node).getWholeData();
                     do {
-                        //make sure json-ld data is included in text stats
-                        //otherwise, ignore css & javascript
+                        // make sure json-ld data is included in text stats
+                        // otherwise, ignore css & javascript
                         if ("script".equalsIgnoreCase(node.nodeName())) {
                             if (node.attr("type").toLowerCase(java.util.Locale.ROOT).contains("json")) {
                                 sb.append(data);
@@ -235,15 +235,16 @@ public class TikaEncodingDetector implements EncodingDetector {
                     } while (node != null);
                 } else if (node instanceof Comment) {
                     String data = ((Comment) node).getData();
-                    //avoid comments that are actually processing instructions or xml declarations
+                    // avoid comments that are actually processing instructions or xml declarations
                     if (!data.contains("<!") && !data.contains("<?")) {
                         sb.append(data);
                     }
                 } else if (node instanceof Element) {
-                    //make sure all microdata itemprop "content" values are taken into consideration
+                    // make sure all microdata itemprop "content" values are taken into consideration
                     sb.append(node.attr("content"));
                 }
             }
+
             @Override
             public void tail(Node node, int depth) {
             }

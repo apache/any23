@@ -32,13 +32,13 @@ public class SchemaOrg extends Vocabulary {
     private static SchemaOrg instance;
 
     public static SchemaOrg getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new SchemaOrg();
         }
         return instance;
     }
 
-    private SchemaOrg(){
+    private SchemaOrg() {
         super(NS);
     }
 

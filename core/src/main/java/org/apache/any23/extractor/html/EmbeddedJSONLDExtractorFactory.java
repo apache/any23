@@ -28,23 +28,20 @@ import org.apache.any23.rdf.Prefixes;
 /**
  *
  */
-public class EmbeddedJSONLDExtractorFactory extends SimpleExtractorFactory<EmbeddedJSONLDExtractor> implements
-        ExtractorFactory<EmbeddedJSONLDExtractor> {
+public class EmbeddedJSONLDExtractorFactory extends SimpleExtractorFactory<EmbeddedJSONLDExtractor>
+        implements ExtractorFactory<EmbeddedJSONLDExtractor> {
 
     public static final String NAME = "html-embedded-jsonld";
-    
+
     public static final Prefixes PREFIXES = PopularPrefixes.createSubset("jsonld");
 
     private static final ExtractorDescription descriptionInstance = new EmbeddedJSONLDExtractorFactory();
-    
+
     public EmbeddedJSONLDExtractorFactory() {
-        super(
-                EmbeddedJSONLDExtractorFactory.NAME, 
-                EmbeddedJSONLDExtractorFactory.PREFIXES,
-                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"),
-                "example-embedded-jsonld.html");
+        super(EmbeddedJSONLDExtractorFactory.NAME, EmbeddedJSONLDExtractorFactory.PREFIXES,
+                Arrays.asList("text/html;q=0.02", "application/xhtml+xml;q=0.02"), "example-embedded-jsonld.html");
     }
-    
+
     @Override
     public EmbeddedJSONLDExtractor createExtractor() {
         return new EmbeddedJSONLDExtractor();

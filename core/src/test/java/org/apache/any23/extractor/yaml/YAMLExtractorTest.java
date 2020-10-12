@@ -55,28 +55,27 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
 
     /**
      * Test to validate simple yaml file for ANY23-312
-     * @throws Exception if there is an error asserting the test data.
+     * 
+     * @throws Exception
+     *             if there is an error asserting the test data.
      */
     @Test
-    public void simpleTest312()
-            throws Exception {
+    public void simpleTest312() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/simple-312.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
     }
 
     @Test
-    public void simpleFileLoading()
-            throws Exception {
+    public void simpleFileLoading() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/simple-load.yml");
-        log.debug("\n{}",dumpModelToTurtle());
+        log.debug("\n{}", dumpModelToTurtle());
         assertModelNotEmpty();
 
     }
 
     @Test
-    public void integersTest()
-            throws Exception {
+    public void integersTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/different-integers.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
@@ -85,16 +84,14 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-    public void floatsTest()
-            throws Exception {
+    public void floatsTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/different-float.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
     }
 
     @Test
-    public void multiTest()
-            throws Exception {
+    public void multiTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/multi-test.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
@@ -103,8 +100,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
-    public void nullTest()
-            throws Exception {
+    public void nullTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/test-null.yml");
         log.debug(dumpModelToTurtle());
         assertModelNotEmpty();
@@ -115,15 +111,14 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void treeTest() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
-        log.debug("\n{}",dumpModelToTurtle());
+        log.debug("\n{}", dumpModelToTurtle());
         assertModelNotEmpty();
         // validate part of the tree structure
-        assertContainsModel(new Statement[]{
-            RDFUtils.triple(RDFUtils.bnode(), RDFUtils.iri(ns, "value3"), RDFUtils.bnode("10")),
-            RDFUtils.triple(RDFUtils.bnode("10"), RDF.FIRST, RDFUtils.bnode("11")),
-            RDFUtils.triple(RDFUtils.bnode("11"), RDFUtils.iri(ns, "key3.1"), RDFUtils.bnode("12")),
-            RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1"))
-        });
+        assertContainsModel(
+                new Statement[] { RDFUtils.triple(RDFUtils.bnode(), RDFUtils.iri(ns, "value3"), RDFUtils.bnode("10")),
+                        RDFUtils.triple(RDFUtils.bnode("10"), RDF.FIRST, RDFUtils.bnode("11")),
+                        RDFUtils.triple(RDFUtils.bnode("11"), RDFUtils.iri(ns, "key3.1"), RDFUtils.bnode("12")),
+                        RDFUtils.triple(RDFUtils.bnode("12"), RDF.FIRST, RDFUtils.literal("value3.1.1")) });
 
         // validate occurence of <urn:value1> resource
         assertContains(RDFUtils.triple(RDFUtils.bnode(), RDF.FIRST, RDFUtils.iri("urn:value1")));
@@ -132,7 +127,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     @Test
     public void treeTest2() throws Exception {
         assertExtract("/org/apache/any23/extractor/yaml/tree.yml");
-        String sparql ="select ?nodes where "
+        String sparql = "select ?nodes where "
                 + "{ [] <http://bob.example.com/key3.1> [ rdf:rest*/rdf:first ?nodes ;]}";
 
         RepositoryConnection connection = getConnection();
@@ -155,8 +150,9 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
     /**
      * This test covers a typical situation when a document is a map.
      * 
-     * <br><b>NB:</b> Following yaml standard those 2 cases are parsed to different graphs:
-     * <br>Case 1:
+     * <br>
+     * <b>NB:</b> Following yaml standard those 2 cases are parsed to different graphs: <br>
+     * Case 1:
      * 
      * <pre>
      * ---
@@ -166,6 +162,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
      * </pre>
      * 
      * Case 2:
+     * 
      * <pre>
      * ---
      * - key1: value1
@@ -173,8 +170,10 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
      * - key3: Some text  value, maybe description
      * </pre>
      * 
-     * @throws Exception if there is an error asserting the test data.
-     * @see #treeTest() 
+     * @throws Exception
+     *             if there is an error asserting the test data.
+     * 
+     * @see #treeTest()
      */
     @Test
     public void tree2Test() throws Exception {
@@ -183,9 +182,7 @@ public class YAMLExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
 
         // check if document is type of mapping.
-        assertContainsModel(new Statement[]{
-            RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.document),
-            RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.mapping)
-        });
+        assertContainsModel(new Statement[] { RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.document),
+                RDFUtils.triple(RDFUtils.bnode("10"), RDF.TYPE, vocab.mapping) });
     }
 }

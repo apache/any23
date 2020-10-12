@@ -36,8 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class provides a set of methods for generating
- * <a href="http://www.w3.org/TR/rdf-schema/">RDF Schema</a>.
+ * This class provides a set of methods for generating <a href="http://www.w3.org/TR/rdf-schema/">RDF Schema</a>.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -45,26 +44,29 @@ public class RDFSchemaUtils {
 
     private static final String RDF_XML_SEPARATOR = StringUtils.multiply('=', 100);
 
-    private RDFSchemaUtils() {}
+    private RDFSchemaUtils() {
+    }
 
     /**
-     * Serializes a vocabulary composed of the given <code>namespace</code>,
-     * <code>resources</code> and <code>properties</code>.
+     * Serializes a vocabulary composed of the given <code>namespace</code>, <code>resources</code> and
+     * <code>properties</code>.
      *
-     * @param namespace vocabulary namespace.
-     * @param classes list of classes.
-     * @param properties list of properties.
-     * @param comments map of resource comments.
-     * @param writer writer to print out the RDF Schema triples.
-     * @throws RDFHandlerException if there is an error handling the RDF
+     * @param namespace
+     *            vocabulary namespace.
+     * @param classes
+     *            list of classes.
+     * @param properties
+     *            list of properties.
+     * @param comments
+     *            map of resource comments.
+     * @param writer
+     *            writer to print out the RDF Schema triples.
+     * 
+     * @throws RDFHandlerException
+     *             if there is an error handling the RDF
      */
-    public static void serializeVocabulary(
-            IRI namespace,
-            IRI[] classes,
-            IRI[] properties,
-            Map<IRI,String> comments,
-            RDFWriter writer
-    ) {
+    public static void serializeVocabulary(IRI namespace, IRI[] classes, IRI[] properties, Map<IRI, String> comments,
+            RDFWriter writer) {
         writer.startRDF();
         for (IRI clazz : classes) {
             writer.handleStatement(RDFUtils.quad(clazz, RDF.TYPE, RDFS.CLASS, namespace));
@@ -86,41 +88,43 @@ public class RDFSchemaUtils {
     /**
      * Serializes the given <code>vocabulary</code> to triples over the given <code>writer</code>.
      *
-     * @param vocabulary vocabulary to be serialized.
-     * @param writer output writer.
-     * @throws RDFHandlerException if there is an error handling the RDF
+     * @param vocabulary
+     *            vocabulary to be serialized.
+     * @param writer
+     *            output writer.
+     * 
+     * @throws RDFHandlerException
+     *             if there is an error handling the RDF
      */
     public static void serializeVocabulary(Vocabulary vocabulary, RDFWriter writer) {
-        serializeVocabulary(
-                vocabulary.getNamespace(),
-                vocabulary.getClasses(),
-                vocabulary.getProperties(),
-                vocabulary.getComments(),
-                writer
-        );
+        serializeVocabulary(vocabulary.getNamespace(), vocabulary.getClasses(), vocabulary.getProperties(),
+                vocabulary.getComments(), writer);
     }
 
     /**
      * Serializes the given <code>vocabulary</code> to <i>NQuads</i> over the given output stream.
      *
-     * @param vocabulary vocabulary to be serialized.
-     * @param format output format for vocabulary.
-     * @param willFollowAnother if <code>true</code> another vocab will be printed in the same stream.
-     * @param ps output stream.
-     * @throws RDFHandlerException if there is an error handling the RDF
+     * @param vocabulary
+     *            vocabulary to be serialized.
+     * @param format
+     *            output format for vocabulary.
+     * @param willFollowAnother
+     *            if <code>true</code> another vocab will be printed in the same stream.
+     * @param ps
+     *            output stream.
+     * 
+     * @throws RDFHandlerException
+     *             if there is an error handling the RDF
      */
-    public static void serializeVocabulary(
-            Vocabulary vocabulary,
-            RDFFormat format,
-            boolean willFollowAnother,
+    public static void serializeVocabulary(Vocabulary vocabulary, RDFFormat format, boolean willFollowAnother,
             PrintStream ps) {
         final RDFWriter rdfWriter;
         if (format == RDFFormat.RDFXML) {
             rdfWriter = Rio.createWriter(RDFFormat.RDFXML, ps);
             if (willFollowAnother)
                 ps.print("\n");
-                ps.print(RDF_XML_SEPARATOR);
-                ps.print("\n");
+            ps.print(RDF_XML_SEPARATOR);
+            ps.print("\n");
         } else {
             rdfWriter = Rio.createWriter(format, ps);
         }
@@ -130,41 +134,46 @@ public class RDFSchemaUtils {
     /**
      * Serialized the given <code>vocabulary</code> to <i>NQuads</i> and return them as string.
      *
-     * @param vocabulary vocabulary to be serialized.
-     * @param format output format for vocabulary.
+     * @param vocabulary
+     *            vocabulary to be serialized.
+     * @param format
+     *            output format for vocabulary.
+     * 
      * @return string contained serialization.
-     * @throws RDFHandlerException if there is an error handling the RDF
+     * 
+     * @throws RDFHandlerException
+     *             if there is an error handling the RDF
      */
     public static String serializeVocabulary(Vocabulary vocabulary, RDFFormat format) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps;
         try {
-          ps = new PrintStream(baos, true, "UTF-8");
+            ps = new PrintStream(baos, true, "UTF-8");
         } catch (UnsupportedEncodingException e1) {
-          throw new RuntimeException("UTF-8 encoding error when serializing the vocabulary to NQuads.", e1);
+            throw new RuntimeException("UTF-8 encoding error when serializing the vocabulary to NQuads.", e1);
         }
         serializeVocabulary(vocabulary, format, false, ps);
         ps.close();
         try {
-          return baos.toString("UTF-8");
+            return baos.toString("UTF-8");
         } catch (UnsupportedEncodingException e) {
-          throw new RuntimeException("Error writing ByteArrayOutputStream to String with \"UTF-8\" encoding!");
+            throw new RuntimeException("Error writing ByteArrayOutputStream to String with \"UTF-8\" encoding!");
         }
     }
 
     /**
      * Serializes all the vocabularies to <i>NQuads</i> over the given output stream.
      *
-     * @param format output format for vocabularies.
-     * @param ps output print stream.
+     * @param format
+     *            output format for vocabularies.
+     * @param ps
+     *            output print stream.
      */
     public static void serializeVocabularies(RDFFormat format, PrintStream ps) {
         final Class<Vocabulary> vocabularyClass = Vocabulary.class;
         @SuppressWarnings("rawtypes")
-        final List<Class> vocabularies = DiscoveryUtils.getClassesInPackage(
-                vocabularyClass.getPackage().getName(),
-                vocabularyClass
-        );
+        final List<Class> vocabularies = DiscoveryUtils.getClassesInPackage(vocabularyClass.getPackage().getName(),
+                vocabularyClass);
         int currentIndex = 0;
         for (Class<?> vocabClazz : vocabularies) {
             final Vocabulary instance;

@@ -28,11 +28,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Concatenates a collection of MIME specs in "type/subtype;q=x.x" notation
- * into an HTTP Accept header value, and removes duplicates and types
- * covered by wildcards. For example, if the type list contains "text/*;q=0.5",
- * then "text/plain;q=0.1" in the list will be ignored because it's already
- * covered by the wildcard with a higher q value.
+ * Concatenates a collection of MIME specs in "type/subtype;q=x.x" notation into an HTTP Accept header value, and
+ * removes duplicates and types covered by wildcards. For example, if the type list contains "text/*;q=0.5", then
+ * "text/plain;q=0.1" in the list will be ignored because it's already covered by the wildcard with a higher q value.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -60,10 +58,12 @@ public class AcceptHeaderBuilder {
 
     /**
      * Builds and returns an accept header.
+     * 
      * @return the accept header.
      */
     public String getAcceptHeader() {
-        if (mimeTypes.isEmpty()) return null;
+        if (mimeTypes.isEmpty())
+            return null;
         for (MIMEType mimeType : mimeTypes) {
             add(mimeType);
         }
@@ -80,7 +80,8 @@ public class AcceptHeaderBuilder {
         Iterator<MIMEType> it = mimeTypes.iterator();
         while (it.hasNext()) {
             MIMEType a = it.next();
-            if (!highest.contains(a)) continue;
+            if (!highest.contains(a))
+                continue;
             if (result.length() > 0) {
                 result.append(", ");
             }
@@ -114,7 +115,8 @@ public class AcceptHeaderBuilder {
                 highestSpecificType.remove(accept.getFullType());
             }
         }
-        if (highestAnyType == null) return;
+        if (highestAnyType == null)
+            return;
         for (MIMEType accept : highestSpecificType.values()) {
             if (accept.getQuality() <= highestAnyType.getQuality()) {
                 highestSpecificType.remove(accept.getFullType());
@@ -123,12 +125,13 @@ public class AcceptHeaderBuilder {
     }
 
     private void removeTypesCoveredByWildcard() {
-        if (highestAnyType == null) return;
+        if (highestAnyType == null)
+            return;
         for (MIMEType accept : highestAnySubtype.values()) {
             if (accept.getQuality() <= highestAnyType.getQuality()) {
                 highestAnySubtype.remove(accept.getMajorType());
             }
         }
     }
-    
+
 }

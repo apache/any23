@@ -19,7 +19,6 @@ package org.apache.any23.writer;
 
 import org.apache.any23.configuration.Setting;
 
-
 /**
  *
  * This class encapsulates commonly supported settings for {@link TripleWriter} implementations.
@@ -34,14 +33,14 @@ public class WriterSettings {
     // Keep identifiers short & sweet for ease of user's CLI usage!
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // (Since each WriterFactory must maintain its own pool of "supported settings",
-    //  we don't need to worry about identifiers being globally unique.
-    //  A single identifier could theoretically map to different keys--and
-    //  therefore to different semantics--under different WriterFactory instances.
-    //  Note that it is the *memory-based identity of the key*, not the
-    //  key's textual identifier, that denotes the semantics for a given setting.
-    //  However, since each Settings object is guaranteed to contain only one setting
-    //  per identifier, we can be assured that identifiers will be unique on a
-    //  per-WriterFactory basis.)
+    // we don't need to worry about identifiers being globally unique.
+    // A single identifier could theoretically map to different keys--and
+    // therefore to different semantics--under different WriterFactory instances.
+    // Note that it is the *memory-based identity of the key*, not the
+    // key's textual identifier, that denotes the semantics for a given setting.
+    // However, since each Settings object is guaranteed to contain only one setting
+    // per identifier, we can be assured that identifiers will be unique on a
+    // per-WriterFactory basis.)
 
     /**
      * Directive to writer that output should be printed in a way to maximize human readability.
@@ -52,6 +51,5 @@ public class WriterSettings {
      * Directive to writer that at least the non-ASCII characters should be escaped.
      */
     public static final Setting<Boolean> PRINT_ASCII = Setting.create("ascii", Boolean.FALSE);
-
 
 }

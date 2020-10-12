@@ -30,8 +30,8 @@ import java.util.Map;
 import static org.apache.any23.extractor.html.HTMLDocument.TextField;
 
 /**
- * An HCard name, consisting of various parts. Handles computation
- * of full names from first and last names, and similar computations.
+ * An HCard name, consisting of various parts. Handles computation of full names from first and last names, and similar
+ * computations.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -44,38 +44,27 @@ public class HCardName {
     public static final String HONORIFIC_PREFIX = "honorific-prefix";
     public static final String HONORIFIC_SUFFIX = "honorific-suffix";
 
-    public static final String[] FIELDS = {
-            GIVEN_NAME,
-            FAMILY_NAME,
-            ADDITIONAL_NAME,
-            NICKNAME,
-            HONORIFIC_PREFIX,
-            HONORIFIC_SUFFIX
-    };
+    public static final String[] FIELDS = { GIVEN_NAME, FAMILY_NAME, ADDITIONAL_NAME, NICKNAME, HONORIFIC_PREFIX,
+            HONORIFIC_SUFFIX };
 
-    private static final String[] NAME_COMPONENTS = {
-            HONORIFIC_PREFIX,
-            GIVEN_NAME,
-            ADDITIONAL_NAME,
-            FAMILY_NAME,
-            HONORIFIC_SUFFIX
-    };
+    private static final String[] NAME_COMPONENTS = { HONORIFIC_PREFIX, GIVEN_NAME, ADDITIONAL_NAME, FAMILY_NAME,
+            HONORIFIC_SUFFIX };
 
     private Map<String, FieldValue> fields = new HashMap<String, FieldValue>();
-    private TextField[] fullName   = null;
+    private TextField[] fullName = null;
     private TextField organization = null;
-    private TextField unit         = null;
+    private TextField unit = null;
 
     private static TextField join(TextField[] sarray, String delimiter) {
         StringBuilder builder = new StringBuilder();
-        final int sarrayLengthMin2 =  sarray.length - 1;
-        for(int i = 0; i < sarray.length; i++) {
+        final int sarrayLengthMin2 = sarray.length - 1;
+        for (int i = 0; i < sarray.length; i++) {
             builder.append(sarray[i].value());
-            if( i < sarrayLengthMin2) {
+            if (i < sarrayLengthMin2) {
                 builder.append(delimiter);
             }
         }
-        return new TextField( builder.toString(), sarray[0].source() ) ;
+        return new TextField(builder.toString(), sarray[0].source());
     }
 
     /**
@@ -89,38 +78,41 @@ public class HCardName {
     }
 
     public void setField(String fieldName, TextField nd) {
-        final String value = fixWhiteSpace( nd.value() );
-        if (value == null) return;
+        final String value = fixWhiteSpace(nd.value());
+        if (value == null)
+            return;
         FieldValue fieldValue = fields.get(fieldName);
-        if(fieldValue == null) {
+        if (fieldValue == null) {
             fieldValue = new FieldValue();
             fields.put(fieldName, fieldValue);
         }
-        fieldValue.addValue( new TextField(value, nd.source()) );
+        fieldValue.addValue(new TextField(value, nd.source()));
     }
 
     public void setFullName(TextField nd) {
-        final String value = fixWhiteSpace( nd.value() );
-        if (value == null) return;
+        final String value = fixWhiteSpace(nd.value());
+        if (value == null)
+            return;
         String[] split = value.split("\\s+");
-        // Supporting case: ['King,',  'Ryan'] that is converted to ['Ryan', 'King'] .
+        // Supporting case: ['King,', 'Ryan'] that is converted to ['Ryan', 'King'] .
         final String split0 = split[0];
         final int split0Length = split0.length();
-        if(split.length > 1 && split0.charAt(split0Length -1) == ',') {
+        if (split.length > 1 && split0.charAt(split0Length - 1) == ',') {
             String swap = split[1];
-            split[1] = split0.substring(0, split0Length -1);
+            split[1] = split0.substring(0, split0Length - 1);
             split[0] = swap;
         }
         TextField[] splitFields = new TextField[split.length];
-        for(int i = 0; i < split.length; i++) {
+        for (int i = 0; i < split.length; i++) {
             splitFields[i] = new TextField(split[i], nd.source());
         }
         this.fullName = splitFields;
     }
 
     public void setOrganization(TextField nd) {
-        final String value = fixWhiteSpace( nd.value() );
-        if (value == null) return;
+        final String value = fixWhiteSpace(nd.value());
+        if (value == null)
+            return;
         this.organization = new TextField(value, nd.source());
     }
 
@@ -146,20 +138,22 @@ public class HCardName {
 
     public Collection<TextField> getFields(String fieldName) {
         FieldValue v = fields.get(fieldName);
-        return v == null ? Collections.<TextField>emptyList() : v.getValues();
+        return v == null ? Collections.<TextField> emptyList() : v.getValues();
     }
 
     private TextField getFullNamePart(String fieldName, int index) {
         if (fields.containsKey(fieldName)) {
             return fields.get(fieldName).getValue();
         }
-        if (fullName == null) return null;
+        if (fullName == null)
+            return null;
         // If org and fn are the same, the hCard is for an organization, and we do not split the fn
         if (organization != null && fullName[0].value().equals(organization.value())) {
             return null;
         }
-        if (index != Integer.MAX_VALUE && fullName.length <= index) return null;
-        return fullName[ index == Integer.MAX_VALUE ? fullName.length - 1 : index];
+        if (index != Integer.MAX_VALUE && fullName.length <= index)
+            return null;
+        return fullName[index == Integer.MAX_VALUE ? fullName.length - 1 : index];
     }
 
     public boolean hasField(String fieldName) {
@@ -168,29 +162,35 @@ public class HCardName {
 
     public boolean hasAnyField() {
         for (String fieldName : FIELDS) {
-            if (hasField(fieldName)) return true;
+            if (hasField(fieldName))
+                return true;
         }
         return false;
     }
 
     public TextField getFullName() {
-        if (fullName != null) return join(fullName, " ");
+        if (fullName != null)
+            return join(fullName, " ");
         StringBuffer s = new StringBuffer();
         boolean empty = true;
         Node first = null;
         TextField current;
         for (String fieldName : NAME_COMPONENTS) {
-            if (!hasField(fieldName)) continue;
+            if (!hasField(fieldName))
+                continue;
             if (!empty) {
                 s.append(' ');
             }
             current = getField(fieldName);
-            if(first == null) { first = current.source(); }
-            s.append( current.value() );
+            if (first == null) {
+                first = current.source();
+            }
+            s.append(current.value());
             empty = false;
         }
-        if (empty) return null;
-        return new TextField( s.toString(), first);
+        if (empty)
+            return null;
+        return new TextField(s.toString(), first);
     }
 
     public TextField getOrganization() {
@@ -198,9 +198,10 @@ public class HCardName {
     }
 
     public void setOrganizationUnit(TextField nd) {
-        final String value = fixWhiteSpace( nd.value() );
-        if (value == null) return;
-        this.unit = new TextField(value, nd.source() );
+        final String value = fixWhiteSpace(nd.value());
+        if (value == null)
+            return;
+        this.unit = new TextField(value, nd.source());
     }
 
     public TextField getOrganizationUnit() {
@@ -208,9 +209,11 @@ public class HCardName {
     }
 
     private String fixWhiteSpace(String s) {
-        if (s == null) return null;
+        if (s == null)
+            return null;
         s = s.trim().replaceAll("\\s+", " ");
-        if ("".equals(s)) return null;
+        if ("".equals(s))
+            return null;
         return s;
     }
 
@@ -222,12 +225,13 @@ public class HCardName {
         private TextField value;
         private List<TextField> multiValue = new ArrayList<TextField>();
 
-        FieldValue() {}
+        FieldValue() {
+        }
 
         void addValue(TextField v) {
-            if(value == null && multiValue == null) {
+            if (value == null && multiValue == null) {
                 value = v;
-            } else if(multiValue == null) {
+            } else if (multiValue == null) {
                 multiValue = new ArrayList<TextField>();
                 multiValue.add(value);
                 value = null;
@@ -249,5 +253,5 @@ public class HCardName {
             return value != null ? Arrays.asList(value) : multiValue;
         }
     }
-    
+
 }

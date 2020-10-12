@@ -20,8 +20,7 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * The <a href="http://ogp.me/">Open Graph Protocol Profile Type</a> 
- * vocabulary.
+ * The <a href="http://ogp.me/">Open Graph Protocol Profile Type</a> vocabulary.
  */
 public class OGPProfile extends Vocabulary {
 
@@ -40,17 +39,17 @@ public class OGPProfile extends Vocabulary {
     public static final String PROFILE__LAST_NAME = "profile:last_name";
 
     /** A short unique string to identify them. */
-    public static final String PROFILE__USERNAME  = "profile:username";
+    public static final String PROFILE__USERNAME = "profile:username";
 
     /** Their gender. */
-    public static final String PROFILE__GENDER    = "profile:gender";
+    public static final String PROFILE__GENDER = "profile:gender";
 
     /* END: http://ogp.me/#type_profile */
 
     private static OGPProfile instance;
 
     public static OGPProfile getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OGPProfile();
         }
         return instance;
@@ -61,7 +60,7 @@ public class OGPProfile extends Vocabulary {
     public final IRI profileFirstName = createProperty(PROFILE__FIRST_NAME);
     public final IRI profileLastName = createProperty(PROFILE__LAST_NAME);
     public final IRI profileUsername = createProperty(PROFILE__USERNAME);
-    public final IRI profileGender  = createProperty(PROFILE__GENDER);
+    public final IRI profileGender = createProperty(PROFILE__GENDER);
 
     @SuppressWarnings("unused")
     private IRI createClass(String localName) {

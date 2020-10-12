@@ -35,17 +35,17 @@ public abstract class Term<T extends Value> {
     private final String internalValue;
 
     /**
-     * if true the #internalValue is a variable name,
-     * otherwise is a constant.
+     * if true the #internalValue is a variable name, otherwise is a constant.
      */
     private final boolean isVar;
 
     /**
      * Constructor.
      *
-     * @param internalValue internal term value.
-     * @param isVar if true the <code>internalValue</code> is a variable name,
-     *              otherwise is a constant.
+     * @param internalValue
+     *            internal term value.
+     * @param isVar
+     *            if true the <code>internalValue</code> is a variable name, otherwise is a constant.
      */
     protected Term(String internalValue, boolean isVar) {
         this.internalValue = internalValue;
@@ -67,21 +67,21 @@ public abstract class Term<T extends Value> {
     }
 
     /**
-     * Returns the value represented by this {@link Term}
-     * given the <code>varMapping</code>, the #isVar and #internalValue
-     * parameters.
+     * Returns the value represented by this {@link Term} given the <code>varMapping</code>, the #isVar and
+     * #internalValue parameters.
      *
-     * @param varMapping a map representing values of variables.
+     * @param varMapping
+     *            a map representing values of variables.
+     * 
      * @return the value for this term.
      */
     public T getValue(Map<String, String> varMapping) {
         final String value;
-        if(isVar) {
+        if (isVar) {
             value = varMapping.get(internalValue);
-            if(value == null) {
+            if (value == null) {
                 throw new IllegalStateException(
-                        String.format(Locale.ROOT, "Cannot find a valid value for variable '%s'", internalValue)
-                );
+                        String.format(Locale.ROOT, "Cannot find a valid value for variable '%s'", internalValue));
             }
         } else {
             value = internalValue;
@@ -93,6 +93,6 @@ public abstract class Term<T extends Value> {
 
     @Override
     public String toString() {
-        return isVar ? ( "?" + internalValue ) : internalValue;
+        return isVar ? ("?" + internalValue) : internalValue;
     }
 }

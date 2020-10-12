@@ -27,8 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A simple {@link TripleHandler} that merely counts the number
- * of triples it has received.
+ * A simple {@link TripleHandler} that merely counts the number of triples it has received.
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (mostarda@fbk.eu)
@@ -70,13 +69,13 @@ public class CountingTripleHandler implements TripleHandler {
     }
 
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
-    throws TripleHandlerException {
+            throws TripleHandlerException {
         count++;
-        if(logTriples) logger.debug( String.format(Locale.ROOT, "%s %s %s %s %s\n", s, p, o, g, context) );
+        if (logTriples)
+            logger.debug(String.format(Locale.ROOT, "%s %s %s %s %s\n", s, p, o, g, context));
     }
 
-    public void receiveNamespace(String prefix, String uri, ExtractionContext context)
-    throws TripleHandlerException {
+    public void receiveNamespace(String prefix, String uri, ExtractionContext context) throws TripleHandlerException {
         // ignore
     }
 
@@ -85,10 +84,10 @@ public class CountingTripleHandler implements TripleHandler {
     }
 
     public void endDocument(IRI documentIRI) throws TripleHandlerException {
-        //ignore
+        // ignore
     }
 
     public void setContentLength(long contentLength) {
-        //ignore
+        // ignore
     }
 }

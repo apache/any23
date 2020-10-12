@@ -38,26 +38,21 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Commandline tool to detect <b>MIME Type</b>s from
- * file, HTTP and direct input sources.
- * The implementation of this tool is based on {@link org.apache.any23.mime.TikaMIMETypeDetector}.
+ * Commandline tool to detect <b>MIME Type</b>s from file, HTTP and direct input sources. The implementation of this
+ * tool is based on {@link org.apache.any23.mime.TikaMIMETypeDetector}.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Parameters(commandNames = { "mimes" }, commandDescription = "MIME Type Detector Tool.")
 public class MimeDetector extends BaseTool {
 
-    public static final String FILE_DOCUMENT_PREFIX   = "file://";
+    public static final String FILE_DOCUMENT_PREFIX = "file://";
 
     public static final String INLINE_DOCUMENT_PREFIX = "inline://";
 
-    public static final String URL_DOCUMENT_RE        = "^https?://.*";
+    public static final String URL_DOCUMENT_RE = "^https?://.*";
 
-    @Parameter(
-       arity = 1,
-       description = "Input document URL, {http://path/to/resource.html|file:///path/to/local.file|inline:// some inline content}",
-       converter = MimeDetectorDocumentSourceConverter.class
-    )
+    @Parameter(arity = 1, description = "Input document URL, {http://path/to/resource.html|file:///path/to/local.file|inline:// some inline content}", converter = MimeDetectorDocumentSourceConverter.class)
     private List<DocumentSource> document = new LinkedList<DocumentSource>();
 
     private PrintStream out = System.out;
@@ -79,30 +74,27 @@ public class MimeDetector extends BaseTool {
 
         final DocumentSource documentSource = document.get(0);
         final MIMETypeDetector detector = new TikaMIMETypeDetector();
-        final MIMEType mimeType = detector.guessMIMEType(
-                documentSource.getDocumentIRI(),
-                documentSource.openInputStream(),
-                MIMEType.parse(documentSource.getContentType())
-        );
+        final MIMEType mimeType = detector.guessMIMEType(documentSource.getDocumentIRI(),
+                documentSource.openInputStream(), MIMEType.parse(documentSource.getContentType()));
         out.println(mimeType);
     }
 
     public static final class MimeDetectorDocumentSourceConverter implements IStringConverter<DocumentSource> {
 
         @Override
-        public DocumentSource convert( String document ) {
+        public DocumentSource convert(String document) {
             if (document.startsWith(FILE_DOCUMENT_PREFIX)) {
-                return new FileDocumentSource( new File( document.substring(FILE_DOCUMENT_PREFIX.length()) ) );
+                return new FileDocumentSource(new File(document.substring(FILE_DOCUMENT_PREFIX.length())));
             }
             if (document.startsWith(INLINE_DOCUMENT_PREFIX)) {
-                return new StringDocumentSource( document.substring(INLINE_DOCUMENT_PREFIX.length()), "" );
+                return new StringDocumentSource(document.substring(INLINE_DOCUMENT_PREFIX.length()), "");
             }
             if (document.matches(URL_DOCUMENT_RE)) {
                 final HTTPClient client = new DefaultHTTPClient();
-                client.init( DefaultHTTPClientConfiguration.singleton() );
+                client.init(DefaultHTTPClientConfiguration.singleton());
                 try {
                     return new HTTPDocumentSource(client, document);
-                } catch ( URISyntaxException e ) {
+                } catch (URISyntaxException e) {
                     throw new IllegalArgumentException("Invalid source IRI: '" + document + "'");
                 }
             }

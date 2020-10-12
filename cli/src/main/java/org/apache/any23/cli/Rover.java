@@ -65,8 +65,8 @@ import java.util.Objects;
 import static java.lang.String.format;
 
 /**
- * A default rover implementation. Goes and fetches a URL using an hint
- * as to what format should require, then tries to convert it to RDF.
+ * A default rover implementation. Goes and fetches a URL using an hint as to what format should require, then tries to
+ * convert it to RDF.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Richard Cyganiak (richard@cyganiak.de)
@@ -82,8 +82,7 @@ public class Rover extends BaseTool {
     private static final String DEFAULT_WRITER_IDENTIFIER = NTriplesWriterFactory.IDENTIFIER;
 
     static {
-        final Setting<Boolean> ALWAYS_SUPPRESS_CSS_TRIPLES = Setting.create(
-                "alwayssuppresscsstriples", Boolean.TRUE);
+        final Setting<Boolean> ALWAYS_SUPPRESS_CSS_TRIPLES = Setting.create("alwayssuppresscsstriples", Boolean.TRUE);
         final Settings supportedSettings = Settings.of(ALWAYS_SUPPRESS_CSS_TRIPLES);
 
         registry.register(new DecoratingWriterFactory() {
@@ -106,45 +105,44 @@ public class Rover extends BaseTool {
         });
     }
 
-
-    @Parameter(
-       names = { "-o", "--output" },
-       description = "Specify Output file (defaults to standard output)",
-       converter = PrintStreamConverter.class
-    )
+    @Parameter(names = { "-o",
+            "--output" }, description = "Specify Output file (defaults to standard output)", converter = PrintStreamConverter.class)
     private PrintStream outputStream = System.out;
 
     @Parameter(description = "input IRIs {<url>|<file>}+", converter = ArgumentToIRIConverter.class)
     protected List<String> inputIRIs = new LinkedList<>();
 
-    @Parameter(names = { "-e", "--extractors" }, description = "a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
+    @Parameter(names = { "-e",
+            "--extractors" }, description = "a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
     private List<String> extractors = new LinkedList<>();
 
-    @Parameter(names = { "-f", "--format" }, description = "a comma-separated list of writer factories, e.g. notrivial,nquads")
-    private List<String> formats = new LinkedList<String>() {{
-        add(DEFAULT_WRITER_IDENTIFIER);
-    }};
+    @Parameter(names = { "-f",
+            "--format" }, description = "a comma-separated list of writer factories, e.g. notrivial,nquads")
+    private List<String> formats = new LinkedList<String>() {
+        {
+            add(DEFAULT_WRITER_IDENTIFIER);
+        }
+    };
 
-    @Parameter(
-       names = { "-l", "--log" },
-       description = "Produce log within a file.",
-       converter = FileConverter.class
-    )
+    @Parameter(names = { "-l", "--log" }, description = "Produce log within a file.", converter = FileConverter.class)
     private File logFile = null;
 
     @Parameter(names = { "-s", "--stats" }, description = "Print out extraction statistics.")
     private boolean statistics;
 
-    @Parameter(names = { "-t", "--notrivial" }, description = "Filter trivial statements (e.g. CSS related ones). [DEPRECATED: As of version 2.3, use --format instead.]")
+    @Parameter(names = { "-t",
+            "--notrivial" }, description = "Filter trivial statements (e.g. CSS related ones). [DEPRECATED: As of version 2.3, use --format instead.]")
     private boolean noTrivial;
 
-    @Parameter(names = { "-p", "--pedantic" }, description = "Validate and fixes HTML content detecting commons issues.")
+    @Parameter(names = { "-p",
+            "--pedantic" }, description = "Validate and fixes HTML content detecting commons issues.")
     private boolean pedantic;
 
     @Parameter(names = { "-n", "--nesting" }, description = "Disable production of nesting triples.")
     private boolean nestingDisabled;
 
-    @Parameter(names = { "-d", "--defaultns" }, description = "Override the default namespace used to produce statements.")
+    @Parameter(names = { "-d",
+            "--defaultns" }, description = "Override the default namespace used to produce statements.")
     private String defaultns;
 
     // non parameters
@@ -170,15 +168,17 @@ public class Rover extends BaseTool {
     }
 
     private static TripleHandler getWriter(String id, OutputStream os) {
-        TripleWriterFactory f = (TripleWriterFactory)registry.getWriterByIdentifier(id);
-        Objects.requireNonNull(f, () -> "Invalid writer id '" + id + "'; admitted values: " + registry.getIdentifiers());
-        return f.getTripleWriter(os, Settings.of()); //TODO parse TripleWriter settings from format list
+        TripleWriterFactory f = (TripleWriterFactory) registry.getWriterByIdentifier(id);
+        Objects.requireNonNull(f,
+                () -> "Invalid writer id '" + id + "'; admitted values: " + registry.getIdentifiers());
+        return f.getTripleWriter(os, Settings.of()); // TODO parse TripleWriter settings from format list
     }
 
     private static TripleHandler getWriter(String id, TripleHandler delegate) {
-        DecoratingWriterFactory f = (DecoratingWriterFactory)registry.getWriterByIdentifier(id);
-        Objects.requireNonNull(f, () -> "Invalid writer id '" + id + "'; admitted values: " + registry.getIdentifiers());
-        return f.getTripleWriter(delegate, Settings.of()); //TODO parse delegate settings from format list
+        DecoratingWriterFactory f = (DecoratingWriterFactory) registry.getWriterByIdentifier(id);
+        Objects.requireNonNull(f,
+                () -> "Invalid writer id '" + id + "'; admitted values: " + registry.getIdentifiers());
+        return f.getTripleWriter(delegate, Settings.of()); // TODO parse delegate settings from format list
     }
 
     protected void configure() {
@@ -195,10 +195,11 @@ public class Rover extends BaseTool {
 
         if (logFile != null) {
             try {
-                tripleHandler = new LoggingTripleHandler(tripleHandler, 
+                tripleHandler = new LoggingTripleHandler(tripleHandler,
                         new PrintWriter(new OutputStreamWriter(new FileOutputStream(logFile), StandardCharsets.UTF_8)));
             } catch (FileNotFoundException fnfe) {
-                throw new IllegalArgumentException(format(Locale.ROOT, "Can not write to log file [%s]", logFile), fnfe );
+                throw new IllegalArgumentException(format(Locale.ROOT, "Can not write to log file [%s]", logFile),
+                        fnfe);
             }
         }
 
@@ -208,41 +209,38 @@ public class Rover extends BaseTool {
         }
 
         if (noTrivial) {
-            tripleHandler = new IgnoreAccidentalRDFa(
-                    new IgnoreTitlesOfEmptyDocuments(tripleHandler),true); // suppress stylesheet triples.
+            tripleHandler = new IgnoreAccidentalRDFa(new IgnoreTitlesOfEmptyDocuments(tripleHandler), true); // suppress
+                                                                                                             // stylesheet
+                                                                                                             // triples.
         }
 
         reportingTripleHandler = new ReportingTripleHandler(tripleHandler);
 
         final Configuration configuration = DefaultConfiguration.singleton();
-        extractionParameters =
-                pedantic
-                        ?
-                new ExtractionParameters(configuration, ValidationMode.VALIDATE_AND_FIX, nestingDisabled)
-                        :
-                new ExtractionParameters(configuration, ValidationMode.NONE          , nestingDisabled);
+        extractionParameters = pedantic
+                ? new ExtractionParameters(configuration, ValidationMode.VALIDATE_AND_FIX, nestingDisabled)
+                : new ExtractionParameters(configuration, ValidationMode.NONE, nestingDisabled);
         if (defaultns != null) {
-            extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_IRI_PROPERTY,
-                                             defaultns);
+            extractionParameters.setProperty(ExtractionParameters.EXTRACTION_CONTEXT_IRI_PROPERTY, defaultns);
         }
 
-        any23 = (extractors.isEmpty()) ? new Any23()
-                                                   : new Any23(extractors.toArray(new String[extractors.size()]));
+        any23 = (extractors.isEmpty()) ? new Any23() : new Any23(extractors.toArray(new String[extractors.size()]));
         any23.setHTTPUserAgent(Any23.DEFAULT_HTTP_CLIENT_USER_AGENT + "/" + Any23.VERSION);
     }
 
     protected String printReports() {
         final StringBuilder sb = new StringBuilder();
         if (benchmarkTripleHandler != null)
-            sb.append( benchmarkTripleHandler.report() ).append('\n');
+            sb.append(benchmarkTripleHandler.report()).append('\n');
         if (reportingTripleHandler != null)
-            sb.append( reportingTripleHandler.printReport() ).append('\n');
+            sb.append(reportingTripleHandler.printReport()).append('\n');
         return sb.toString();
     }
 
     protected void performExtraction(DocumentSource documentSource) throws Exception {
         if (!any23.extract(extractionParameters, documentSource, reportingTripleHandler).hasMatchingExtractors()) {
-            throw new IllegalStateException(format(Locale.ROOT, "No suitable extractors found for source %s", documentSource.getDocumentIRI()));
+            throw new IllegalStateException(
+                    format(Locale.ROOT, "No suitable extractors found for source %s", documentSource.getDocumentIRI()));
         }
     }
 
@@ -255,7 +253,8 @@ public class Rover extends BaseTool {
             }
         }
 
-        if (outputStream != null && outputStream != System.out) { // TODO: low - find better solution to avoid closing system out.
+        if (outputStream != null && outputStream != System.out) { // TODO: low - find better solution to avoid closing
+                                                                  // system out.
             outputStream.close();
         }
     }
@@ -274,7 +273,7 @@ public class Rover extends BaseTool {
             for (String inputIRI : inputIRIs) {
                 DocumentSource source = any23.createDocumentSource(inputIRI);
 
-                performExtraction( source );
+                performExtraction(source);
             }
             final long elapsed = System.currentTimeMillis() - start;
 
@@ -317,14 +316,14 @@ public class Rover extends BaseTool {
     public static final class PrintStreamConverter implements IStringConverter<PrintStream> {
 
         @Override
-        public PrintStream convert( String value ) {
+        public PrintStream convert(String value) {
             final File file = new File(value);
             try {
                 return new PrintStream(new FileOutputStream(file), true, "UTF-8");
             } catch (FileNotFoundException fnfe) {
                 throw new ParameterException(format(Locale.ROOT, "Cannot open file '%s': %s", file, fnfe.getMessage()));
             } catch (UnsupportedEncodingException e) {
-              throw new RuntimeException("Error converting to PrintStream with UTF-8 encoding.", e);
+                throw new RuntimeException("Error converting to PrintStream with UTF-8 encoding.", e);
             }
         }
 

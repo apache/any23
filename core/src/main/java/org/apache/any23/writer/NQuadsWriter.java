@@ -32,21 +32,17 @@ import java.io.OutputStream;
 public class NQuadsWriter extends RDFWriterTripleHandler {
 
     static class Internal {
-        private static final org.eclipse.rdf4j.rio.nquads.NQuadsWriterFactory rdf4j
-                = new org.eclipse.rdf4j.rio.nquads.NQuadsWriterFactory();
+        private static final org.eclipse.rdf4j.rio.nquads.NQuadsWriterFactory rdf4j = new org.eclipse.rdf4j.rio.nquads.NQuadsWriterFactory();
 
         static final TripleFormat FORMAT = format(rdf4j);
 
-        static final Settings SUPPORTED_SETTINGS = Settings.of(
-                WriterSettings.PRINT_ASCII
-        );
+        static final Settings SUPPORTED_SETTINGS = Settings.of(WriterSettings.PRINT_ASCII);
     }
 
     @Override
     void configure(WriterConfig config, Settings settings) {
         config.set(NTriplesWriterSettings.ESCAPE_UNICODE, settings.get(WriterSettings.PRINT_ASCII));
     }
-
 
     public NQuadsWriter(OutputStream os) {
         this(os, Settings.of());

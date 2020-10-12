@@ -28,12 +28,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * A mapping from prefixes to namespace IRIs. Supports "volatile mappings",
- * which will be overwritten without notice when mappings are merged,
- * while for normal mappings this causes an exception. This allows
- * combining "hard" mappings (which must be retained or something breaks)
- * and "soft" mappings (which might be read from input RDF files and
- * should be retained only if they are not in conflict with the hard ones).
+ * A mapping from prefixes to namespace IRIs. Supports "volatile mappings", which will be overwritten without notice
+ * when mappings are merged, while for normal mappings this causes an exception. This allows combining "hard" mappings
+ * (which must be retained or something breaks) and "soft" mappings (which might be read from input RDF files and should
+ * be retained only if they are not in conflict with the hard ones).
  *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
@@ -57,7 +55,7 @@ public class Prefixes {
         return result;
     }
 
-    public static Prefixes EMPTY = new Prefixes(Collections.<String, String>emptyMap());
+    public static Prefixes EMPTY = new Prefixes(Collections.<String, String> emptyMap());
 
     private final Map<String, String> mappings;
     private final Set<String> volatilePrefixes = new HashSet<String>();
@@ -80,15 +78,13 @@ public class Prefixes {
         if (prefix == null || !hasPrefix(prefix)) {
             return null;
         }
-        return SimpleValueFactory.getInstance().createIRI(
-                getNamespaceIRIFor(prefix) + parseLocalName(curie));
+        return SimpleValueFactory.getInstance().createIRI(getNamespaceIRIFor(prefix) + parseLocalName(curie));
     }
 
     public String abbreviate(String uri) {
         for (Entry<String, String> namespace : mappings.entrySet()) {
             if (uri.startsWith(namespace.getValue())) {
-                return namespace.getKey() + ":" +
-                        uri.substring(namespace.getValue().length());
+                return namespace.getKey() + ":" + uri.substring(namespace.getValue().length());
             }
         }
         return null;
@@ -134,11 +130,10 @@ public class Prefixes {
         } else {
             if (hasPrefix(prefix)) {
                 if (getNamespaceIRIFor(prefix).equals(namespaceIRI)) {
-                    return;    // re-assigned same prefix to same IRI, let's just ignore it
+                    return; // re-assigned same prefix to same IRI, let's just ignore it
                 }
-                throw new IllegalStateException("Attempted to re-assign prefix '" + prefix +
-                        "'; clashing values '" + getNamespaceIRIFor(prefix) + "' and '" +
-                        namespaceIRI);
+                throw new IllegalStateException("Attempted to re-assign prefix '" + prefix + "'; clashing values '"
+                        + getNamespaceIRIFor(prefix) + "' and '" + namespaceIRI);
             }
         }
         mappings.put(prefix, namespaceIRI);
@@ -172,7 +167,7 @@ public class Prefixes {
 
     public void addVolatile(String prefix, String namespaceIRI) {
         if (hasPrefix(prefix)) {
-            return;    // new prefix is volatile, so we don't overwrite the old one
+            return; // new prefix is volatile, so we don't overwrite the old one
         }
         mappings.put(prefix, namespaceIRI);
         volatilePrefixes.add(prefix);
@@ -213,5 +208,5 @@ public class Prefixes {
         }
         return curie.substring(index + 1);
     }
-    
+
 }

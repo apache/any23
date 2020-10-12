@@ -39,8 +39,7 @@ import java.util.ServiceLoader;
 import java.util.Set;
 
 /**
- * The <i>Any23PluginManager</i> is responsible for inspecting
- * dynamically the classpath and retrieving useful classes.
+ * The <i>Any23PluginManager</i> is responsible for inspecting dynamically the classpath and retrieving useful classes.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
@@ -93,18 +92,18 @@ public class Any23PluginManager {
     /**
      * Loads a <i>JAR</i> file in the classpath.
      *
-     * @param jar the JAR file to be loaded.
-     * @return <code>true</code> if the JAR is added for the first time to the classpath,
-     *         <code>false</code> otherwise.
+     * @param jar
+     *            the JAR file to be loaded.
+     * 
+     * @return <code>true</code> if the JAR is added for the first time to the classpath, <code>false</code> otherwise.
      */
     public synchronized boolean loadJAR(File jar) {
-        if(jar == null) {
+        if (jar == null) {
             throw new NullPointerException("jar file cannot be null.");
         }
         if (!jar.isFile() && !jar.exists()) {
-            throw new IllegalArgumentException(
-                    String.format(java.util.Locale.ROOT, "Invalid JAR [%s], must be an existing file.", jar.getAbsolutePath())
-            );
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                    "Invalid JAR [%s], must be an existing file.", jar.getAbsolutePath()));
         }
         return dynamicClassLoader.addJAR(jar);
     }
@@ -112,7 +111,9 @@ public class Any23PluginManager {
     /**
      * Loads a list of <i>JAR</i>s in the classpath.
      *
-     * @param jars list of JARs to be loaded.
+     * @param jars
+     *            list of JARs to be loaded.
+     * 
      * @return list of exceptions raised during the loading.
      */
     public synchronized Throwable[] loadJARs(File... jars) {
@@ -121,12 +122,9 @@ public class Any23PluginManager {
             try {
                 loadJAR(jar);
             } catch (Throwable t) {
-                result.add(
-                        new IllegalArgumentException(
-                                String.format(java.util.Locale.ROOT, "Error while loading jar [%s]", jar.getAbsolutePath()),
-                                t
-                        )
-                );
+                result.add(new IllegalArgumentException(
+                        String.format(java.util.Locale.ROOT, "Error while loading jar [%s]", jar.getAbsolutePath()),
+                        t));
             }
         }
         return result.toArray(new Throwable[result.size()]);
@@ -135,18 +133,19 @@ public class Any23PluginManager {
     /**
      * Loads a <i>classes</i> directory in the classpath.
      *
-     * @param classDir the directory to be loaded.
-     * @return <code>true</code> if the directory is added for the first time to the classpath,
-     *         <code>false</code> otherwise.
+     * @param classDir
+     *            the directory to be loaded.
+     * 
+     * @return <code>true</code> if the directory is added for the first time to the classpath, <code>false</code>
+     *         otherwise.
      */
     public synchronized boolean loadClassDir(File classDir) {
-        if(classDir == null) {
-          throw new NullPointerException("classDir cannot be null.");
+        if (classDir == null) {
+            throw new NullPointerException("classDir cannot be null.");
         }
         if (!classDir.isDirectory() && !classDir.exists()) {
-            throw new IllegalArgumentException(
-                    String.format(java.util.Locale.ROOT, "Invalid class dir [%s], must be an existing file.", classDir.getAbsolutePath())
-            );
+            throw new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                    "Invalid class dir [%s], must be an existing file.", classDir.getAbsolutePath()));
         }
         return dynamicClassLoader.addClassDir(classDir);
     }
@@ -154,8 +153,10 @@ public class Any23PluginManager {
     /**
      * Loads a list of class dirs in the classpath.
      *
-     * @param classDirs list of class dirs to be loaded.
-     * @return  list of exceptions raised during the loading.
+     * @param classDirs
+     *            list of class dirs to be loaded.
+     * 
+     * @return list of exceptions raised during the loading.
      */
     public synchronized Throwable[] loadClassDirs(File... classDirs) {
         final List<Throwable> result = new ArrayList<>();
@@ -163,12 +164,8 @@ public class Any23PluginManager {
             try {
                 loadClassDir(classDir);
             } catch (Throwable t) {
-                result.add(
-                        new IllegalArgumentException(
-                                String.format(java.util.Locale.ROOT, "Error while loading class dir [%s]", classDir.getAbsolutePath()),
-                                t
-                        )
-                );
+                result.add(new IllegalArgumentException(String.format(java.util.Locale.ROOT,
+                        "Error while loading class dir [%s]", classDir.getAbsolutePath()), t));
             }
         }
         return result.toArray(new Throwable[result.size()]);
@@ -177,28 +174,27 @@ public class Any23PluginManager {
     /**
      * Loads all the JARs detected in a given directory.
      *
-     * @param jarDir directory containing the JARs to be loaded.
-     *     Example '/usr/local/apache-tomcat-7.0.72/webapps/apache-any23-service-2.2-SNAPSHOT/WEB-INF/lib/apache-any23-openie'
+     * @param jarDir
+     *            directory containing the JARs to be loaded. Example
+     *            '/usr/local/apache-tomcat-7.0.72/webapps/apache-any23-service-2.2-SNAPSHOT/WEB-INF/lib/apache-any23-openie'
+     * 
      * @return <code>true</code> if all JARs in dir are loaded.
      */
     public synchronized boolean loadJARDir(File jarDir) {
-        if(jarDir == null)
+        if (jarDir == null)
             throw new NullPointerException("JAR dir must be not null.");
-        if(!jarDir.exists() )
+        if (!jarDir.exists())
             throw new IllegalArgumentException("Given directory doesn't exist:" + jarDir.getAbsolutePath());
-        if(!jarDir.isDirectory() )
+        if (!jarDir.isDirectory())
             throw new IllegalArgumentException(
-                    "given file exists and it is not a directory: " + jarDir.getAbsolutePath()
-            );
+                    "given file exists and it is not a directory: " + jarDir.getAbsolutePath());
         boolean loaded = true;
-        for (File jarFile : jarDir.listFiles(
-                new FilenameFilter() {
-                    @Override
-                    public boolean accept(File dir, String name) {
-                        return name.endsWith(".jar");
-                    }
-                })
-        ) {
+        for (File jarFile : jarDir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".jar");
+            }
+        })) {
             loaded &= loadJAR(jarFile);
         }
         return loaded;
@@ -207,12 +203,14 @@ public class Any23PluginManager {
     /**
      * Loads a generic list of files, trying to determine the type of every file.
      *
-     * @param files list of files to be loaded.
+     * @param files
+     *            list of files to be loaded.
+     * 
      * @return list of errors occurred during loading.
      */
     public synchronized Throwable[] loadFiles(File... files) {
         final List<Throwable> errors = new ArrayList<>();
-        for(File file : files) {
+        for (File file : files) {
             try {
                 if (file.isFile() && file.getName().endsWith(".jar")) {
                     loadJAR(file);
@@ -233,17 +231,21 @@ public class Any23PluginManager {
     }
 
     /**
-     * Returns all classes within the specified <code>packageName</code> satisfying the given class
-     * <code>filter</code>. The search is performed on the static classpath (the one the application
-     * started with) and the dynamic classpath (the one specified using the load methods).
+     * Returns all classes within the specified <code>packageName</code> satisfying the given class <code>filter</code>.
+     * The search is performed on the static classpath (the one the application started with) and the dynamic classpath
+     * (the one specified using the load methods).
      *
-     * @param <T> type of filtered class.
-     * @param type of filtered class.
+     * @param <T>
+     *            type of filtered class.
+     * @param type
+     *            of filtered class.
+     * 
      * @return list of matching classes.
-     * @throws IOException if there is an error obtaining plugins.
+     * 
+     * @throws IOException
+     *             if there is an error obtaining plugins.
      */
-    public synchronized <T> Iterator<T> getPlugins(final Class<T> type)
-    throws IOException {
+    public synchronized <T> Iterator<T> getPlugins(final Class<T> type) throws IOException {
         return ServiceLoader.load(type, dynamicClassLoader).iterator();
     }
 
@@ -251,8 +253,9 @@ public class Any23PluginManager {
      * Returns the list of all the {@link Tool} classes declared within the classpath.
      *
      * @return not <code>null</code> list of tool classes.
-     * @throws IOException if there is an error obtaining {@link org.apache.any23.cli.Tool}'s
-     * from the classpath. 
+     * 
+     * @throws IOException
+     *             if there is an error obtaining {@link org.apache.any23.cli.Tool}'s from the classpath.
      */
     public synchronized Iterator<Tool> getTools() throws IOException {
         return getPlugins(Tool.class);
@@ -262,7 +265,9 @@ public class Any23PluginManager {
      * List of {@link ExtractorPlugin} classes declared within the classpath.
      *
      * @return not <code>null</code> list of plugin classes.
-     * @throws IOException if there is an error obtaining Extractors.
+     * 
+     * @throws IOException
+     *             if there is an error obtaining Extractors.
      */
     @SuppressWarnings("rawtypes")
     public synchronized Iterator<ExtractorFactory> getExtractors() throws IOException {
@@ -272,7 +277,9 @@ public class Any23PluginManager {
     /**
      * Loads plugins from a list of specified locations.
      *
-     * @param pluginLocations list of locations.
+     * @param pluginLocations
+     *            list of locations.
+     * 
      * @return a report about the loaded plugins.
      */
     public synchronized String loadPlugins(File... pluginLocations) {
@@ -296,18 +303,23 @@ public class Any23PluginManager {
     }
 
     /**
-        * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code>
-        * and also the extractors detected in classpath specified by <code>pluginLocations</code>.
-        *
-        * @param pluginLocations path locations of plugins.
-        * @return full list of extractors.
-        * @throws java.io.IOException if there is an error locating the plugin(s).
-        * @throws IllegalAccessException if there are access permissions for plugin(s).
-        * @throws InstantiationException if there is an error instantiating plugin(s).
-        */
-    public synchronized ExtractorGroup configureExtractors(
-            final File... pluginLocations
-    ) throws IOException, IllegalAccessException, InstantiationException {
+     * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code> and
+     * also the extractors detected in classpath specified by <code>pluginLocations</code>.
+     *
+     * @param pluginLocations
+     *            path locations of plugins.
+     * 
+     * @return full list of extractors.
+     * 
+     * @throws java.io.IOException
+     *             if there is an error locating the plugin(s).
+     * @throws IllegalAccessException
+     *             if there are access permissions for plugin(s).
+     * @throws InstantiationException
+     *             if there is an error instantiating plugin(s).
+     */
+    public synchronized ExtractorGroup configureExtractors(final File... pluginLocations)
+            throws IOException, IllegalAccessException, InstantiationException {
 
         final String pluginsReport = loadPlugins(pluginLocations);
         logger.info(pluginsReport);
@@ -336,17 +348,23 @@ public class Any23PluginManager {
     }
 
     /**
-     * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code>
-     * and also the extractors detected in classpath specified by the default configuration.
+     * Configures a new list of extractors containing the extractors declared in <code>initialExtractorGroup</code> and
+     * also the extractors detected in classpath specified by the default configuration.
      *
-     * @param initialExtractorGroup initial list of extractors.
+     * @param initialExtractorGroup
+     *            initial list of extractors.
+     * 
      * @return full list of extractors.
-     * @throws java.io.IOException if there is an error locating the extractor(s).
-     * @throws IllegalAccessException if there are access permissions for extractor(s).
-     * @throws InstantiationException if there is an error instantiating extractor(s).
+     * 
+     * @throws java.io.IOException
+     *             if there is an error locating the extractor(s).
+     * @throws IllegalAccessException
+     *             if there are access permissions for extractor(s).
+     * @throws InstantiationException
+     *             if there is an error instantiating extractor(s).
      */
     public synchronized ExtractorGroup configureExtractors(ExtractorGroup initialExtractorGroup)
-    throws IOException, InstantiationException, IllegalAccessException {
+            throws IOException, InstantiationException, IllegalAccessException {
         final String pluginDirs = DefaultConfiguration.singleton().getPropertyOrFail(PLUGIN_DIRS_PROPERTY);
         final File[] pluginLocations = getPluginLocations(pluginDirs);
         return configureExtractors(pluginLocations);
@@ -355,25 +373,36 @@ public class Any23PluginManager {
     /**
      * Returns an extractor group containing both the default extractors declared by the
      * {@link org.apache.any23.extractor.ExtractorRegistry} and the {@link ExtractorPlugin}s.
-     * @param registry an {@link org.apache.any23.extractor.ExtractorRegistry}
-     * @param pluginLocations optional list of plugin locations.
+     * 
+     * @param registry
+     *            an {@link org.apache.any23.extractor.ExtractorRegistry}
+     * @param pluginLocations
+     *            optional list of plugin locations.
      *
      * @return a not <code>null</code> and not empty extractor group.
-     * @throws java.io.IOException if there is an error locating the extractor group.
-     * @throws IllegalAccessException if there are access permissions for the extractor group.
-     * @throws InstantiationException if there is an error instantiating the extractor group.
+     * 
+     * @throws java.io.IOException
+     *             if there is an error locating the extractor group.
+     * @throws IllegalAccessException
+     *             if there are access permissions for the extractor group.
+     * @throws InstantiationException
+     *             if there is an error instantiating the extractor group.
      */
     public synchronized ExtractorGroup getApplicableExtractors(ExtractorRegistry registry, File... pluginLocations)
-    throws IOException, IllegalAccessException, InstantiationException {
+            throws IOException, IllegalAccessException, InstantiationException {
         return configureExtractors(pluginLocations);
     }
 
     /**
      * Returns an {@link Iterator} of tools that have been detected within the given list of locations.
      *
-     * @param pluginLocations list of plugin locations.
+     * @param pluginLocations
+     *            list of plugin locations.
+     * 
      * @return set of detected tools.
-     * @throws IOException if there is an error acessing {@link org.apache.any23.cli.Tool}'s.
+     * 
+     * @throws IOException
+     *             if there is an error acessing {@link org.apache.any23.cli.Tool}'s.
      */
     public synchronized Iterator<Tool> getApplicableTools(File... pluginLocations) throws IOException {
         final String report = loadPlugins(pluginLocations);
@@ -385,17 +414,17 @@ public class Any23PluginManager {
      * Converts a column separated list of dirs in a list of files.
      *
      * @param pluginDirsList
+     * 
      * @return
      */
     private File[] getPluginLocations(String pluginDirsList) {
         final String[] locationsStr = pluginDirsList.split(PLUGIN_DIRS_LIST_SEPARATOR);
         final List<File> locations = new ArrayList<>();
-        for(String locationStr : locationsStr) {
+        for (String locationStr : locationsStr) {
             final File location = new File(locationStr);
-            if( ! location.exists()) {
+            if (!location.exists()) {
                 throw new IllegalArgumentException(
-                        String.format(java.util.Locale.ROOT, "Plugin location '%s' cannot be found.", locationStr)
-                );
+                        String.format(java.util.Locale.ROOT, "Plugin location '%s' cannot be found.", locationStr));
             }
             locations.add(location);
         }
@@ -426,7 +455,7 @@ public class Any23PluginManager {
         public boolean addClassDir(File classDir) {
             final String urlPath = "file://" + classDir.getAbsolutePath() + "/";
             try {
-                if( addURL(urlPath) ) {
+                if (addURL(urlPath)) {
                     dirs.add(classDir);
                     return true;
                 }
@@ -450,7 +479,7 @@ public class Any23PluginManager {
         }
 
         private boolean addURL(String urlPath) throws MalformedURLException {
-            if(addedURLs.contains(urlPath)) {
+            if (addedURLs.contains(urlPath)) {
                 return false;
             }
             super.addURL(new URL(urlPath));

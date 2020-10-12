@@ -19,70 +19,74 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * <p>An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a>
- * vocabulary which is a library of ontologies relevant for the legal domain. 
- * The library consists of 15 modules, each of which describes a set of closely 
- * related concepts from both legal and commonsense domains.</p>
+ * <p>
+ * An implementation of the <a href="https://github.com/RinkeHoekstra/lkif-core">lkif-core</a> vocabulary which is a
+ * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
+ * set of closely related concepts from both legal and commonsense domains.
+ * </p>
  * 
- * <p>The action module describes the vocabulary for representing actions in general. 
- * Actions are processes which are performed by some agent (the actor of the action). 
- * This module does not commit itself to a particular theory on thematic roles.</p>
+ * <p>
+ * The action module describes the vocabulary for representing actions in general. Actions are processes which are
+ * performed by some agent (the actor of the action). This module does not commit itself to a particular theory on
+ * thematic roles.
+ * </p>
  * 
  * @author lewismc
  * 
  *
  */
 public class LKIFCoreAction extends Vocabulary {
-	
+
     /**
      * The namespace of the vocabulary as a string.
      */
     public static final String NS = "http://www.estrellaproject.org/lkif-core/action.owl#";
-    
+
     private static LKIFCoreAction instance;
-    
+
     public static LKIFCoreAction getInstance() {
-      if(instance == null) {
-          instance = new LKIFCoreAction();
-      }
-      return instance;
-  }
+        if (instance == null) {
+            instance = new LKIFCoreAction();
+        }
+        return instance;
+    }
+
     /////////////////////////////////////////////////////////
     /* http://www.estrellaproject.org/lkif-core/action.owl */
     /////////////////////////////////////////////////////////
     // CLASSES
-    public final IRI Action                 = createClass(NS, "Action");
-    public final IRI Agent                  = createClass(NS, "Agent");
-    public final IRI Artifact               = createClass(NS, "Artifact");
-    public final IRI Collaborative_Plan     = createClass(NS, "Collaborative_Plan");
-    public final IRI Creation_C             = createClass(NS, "Creation");
-    public final IRI Natural_Object         = createClass(NS, "Natural_Object");
-    public final IRI Organisation           = createClass(NS, "Organisation");
-    public final IRI Person                 = createClass(NS, "Person");
-    public final IRI Personal_Plan          = createClass(NS, "Personal_Plan");
-    public final IRI Plan                   = createClass(NS, "Plan");
-    public final IRI Reaction               = createClass(NS, "Reaction");
-    public final IRI Transaction            = createClass(NS, "Transaction");
-    public final IRI Mental_Object          = createClass(NS, "Mental_Object");
-    public final IRI Change                 = createClass(NS, "Change");
-    public final IRI Physical_Object        = createClass(NS, "Physical_Object");
-    public final IRI Process                = createClass(NS, "Process");
-    
+    public final IRI Action = createClass(NS, "Action");
+    public final IRI Agent = createClass(NS, "Agent");
+    public final IRI Artifact = createClass(NS, "Artifact");
+    public final IRI Collaborative_Plan = createClass(NS, "Collaborative_Plan");
+    public final IRI Creation_C = createClass(NS, "Creation");
+    public final IRI Natural_Object = createClass(NS, "Natural_Object");
+    public final IRI Organisation = createClass(NS, "Organisation");
+    public final IRI Person = createClass(NS, "Person");
+    public final IRI Personal_Plan = createClass(NS, "Personal_Plan");
+    public final IRI Plan = createClass(NS, "Plan");
+    public final IRI Reaction = createClass(NS, "Reaction");
+    public final IRI Transaction = createClass(NS, "Transaction");
+    public final IRI Mental_Object = createClass(NS, "Mental_Object");
+    public final IRI Change = createClass(NS, "Change");
+    public final IRI Physical_Object = createClass(NS, "Physical_Object");
+    public final IRI Process = createClass(NS, "Process");
+
     // RESOURCES
-    
+
     // PROPERTIES
-    public final IRI actor                   = createProperty(NS, "actor");
-    public final IRI actor_in                = createProperty(NS, "actor_in");
-    public final IRI direct_part             = createProperty(NS, "direct_part");
-    public final IRI member                  = createProperty(NS, "member");
-    public final IRI part                    = createProperty(NS, "part");
-    public final IRI creation_P              = createProperty(NS, "creation");
-    public final IRI participant             = createProperty(NS, "participant");
-    public final IRI participant_in          = createProperty(NS, "participant_in");
-    public final IRI result_of               = createProperty(NS, "result_of");
-    
+    public final IRI actor = createProperty(NS, "actor");
+    public final IRI actor_in = createProperty(NS, "actor_in");
+    public final IRI direct_part = createProperty(NS, "direct_part");
+    public final IRI member = createProperty(NS, "member");
+    public final IRI part = createProperty(NS, "part");
+    public final IRI creation_P = createProperty(NS, "creation");
+    public final IRI participant = createProperty(NS, "participant");
+    public final IRI participant_in = createProperty(NS, "participant_in");
+    public final IRI result_of = createProperty(NS, "result_of");
+
     private LKIFCoreAction() {
-      super(NS);
+        super(NS);
     }
 
 }

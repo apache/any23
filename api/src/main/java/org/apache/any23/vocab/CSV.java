@@ -20,8 +20,8 @@ package org.apache.any23.vocab;
 import org.eclipse.rdf4j.model.IRI;
 
 /**
- * This vocabulary models the structure of a <i>CSV</i> file
- * according the <a href="http://www.ietf.org/rfc/rfc4180.txt">RFC 4180</a>.
+ * This vocabulary models the structure of a <i>CSV</i> file according the
+ * <a href="http://www.ietf.org/rfc/rfc4180.txt">RFC 4180</a>.
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
@@ -29,19 +29,18 @@ public class CSV extends Vocabulary {
 
     public static final String ROW = "row";
 
-    public static final String ROW_POSITION= "rowPosition";
+    public static final String ROW_POSITION = "rowPosition";
 
     public static final String NUMBER_OF_ROWS = "numberOfRows";
 
     public static final String NUMBER_OF_COLUMNS = "numberOfColumns";
 
-    public static final String COLUMN_POSITION= "columnPosition";
+    public static final String COLUMN_POSITION = "columnPosition";
 
     public static final String ROW_TYPE = "Row";
 
     /**
-     * This property links the identifier of a <i>CSV</i> to an entity representing
-     * a row.
+     * This property links the identifier of a <i>CSV</i> to an entity representing a row.
      */
     public final IRI row = createProperty(ROW);
 
@@ -78,7 +77,7 @@ public class CSV extends Vocabulary {
     private static CSV instance;
 
     private CSV() {
-      super(NS);
+        super(NS);
     }
 
     public static CSV getInstance() {
@@ -94,7 +93,9 @@ public class CSV extends Vocabulary {
 
     /**
      *
-     * @param localName name to assign to namespace.
+     * @param localName
+     *            name to assign to namespace.
+     * 
      * @return the new URI instance.
      */
     public IRI createProperty(String localName) {

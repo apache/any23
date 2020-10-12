@@ -23,6 +23,7 @@ import java.io.InputStream;
 
 /**
  * ByteArray implementation of {@link DocumentSource}.
+ * 
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ByteArrayDocumentSource implements DocumentSource {
@@ -39,8 +40,7 @@ public class ByteArrayDocumentSource implements DocumentSource {
         this.contentType = contentType;
     }
 
-    public ByteArrayDocumentSource(InputStream inputStream, String documentIRI, String contentType)
-    throws IOException {
+    public ByteArrayDocumentSource(InputStream inputStream, String documentIRI, String contentType) throws IOException {
         this(MemCopyFactory.toByteArray(inputStream), documentIRI, contentType);
     }
 
@@ -63,5 +63,5 @@ public class ByteArrayDocumentSource implements DocumentSource {
     public boolean isLocal() {
         return true;
     }
-    
+
 }

@@ -30,26 +30,24 @@ public class HEvent extends Vocabulary {
     private static HEvent instance;
 
     public static HEvent getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new HEvent();
         }
         return instance;
     }
 
-    public IRI event  = createClass(NS, "Event");
+    public IRI event = createClass(NS, "Event");
 
-
-    public IRI name  = createProperty(NS, "name");
-    public IRI summary   = createProperty(NS, "summary");
+    public IRI name = createProperty(NS, "name");
+    public IRI summary = createProperty(NS, "summary");
     public IRI start = createProperty(NS, "start");
-    public IRI end   = createProperty(NS, "end");
+    public IRI end = createProperty(NS, "end");
     public IRI duration = createProperty(NS, "duration");
-    public IRI description  = createProperty(NS, "description");
+    public IRI description = createProperty(NS, "description");
     public IRI url = createProperty(NS, "url");
-    public IRI category  = createProperty(NS, "category");
+    public IRI category = createProperty(NS, "category");
     public IRI location = createProperty(NS, "location");
-    public IRI attendee  = createProperty(NS, "attendee");
-
+    public IRI attendee = createProperty(NS, "attendee");
 
     private HEvent() {
         super(NS);

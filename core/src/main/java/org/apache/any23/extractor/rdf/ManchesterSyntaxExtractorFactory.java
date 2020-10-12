@@ -29,25 +29,20 @@ import org.semanticweb.owlapi.rio.OWLAPIRDFFormat;
  * @author Peter Ansell p_ansell@yahoo.com
  *
  */
-public class ManchesterSyntaxExtractorFactory extends SimpleExtractorFactory<ManchesterSyntaxExtractor> implements
-        ExtractorFactory<ManchesterSyntaxExtractor> {
+public class ManchesterSyntaxExtractorFactory extends SimpleExtractorFactory<ManchesterSyntaxExtractor>
+        implements ExtractorFactory<ManchesterSyntaxExtractor> {
 
     public static final String NAME = "owl-manchester";
-    
+
     public static final Prefixes PREFIXES = null;
 
     private static final ExtractorDescription descriptionInstance = new ManchesterSyntaxExtractorFactory();
-    
+
     public ManchesterSyntaxExtractorFactory() {
-        super(
-                ManchesterSyntaxExtractorFactory.NAME, 
-                ManchesterSyntaxExtractorFactory.PREFIXES,
-                Arrays.asList(
-                		OWLAPIRDFFormat.MANCHESTER_OWL.getDefaultMIMEType()
-                ),
-                "example-manchestersyntax.omn");
+        super(ManchesterSyntaxExtractorFactory.NAME, ManchesterSyntaxExtractorFactory.PREFIXES,
+                Arrays.asList(OWLAPIRDFFormat.MANCHESTER_OWL.getDefaultMIMEType()), "example-manchestersyntax.omn");
     }
-    
+
     @Override
     public ManchesterSyntaxExtractor createExtractor() {
         return new ManchesterSyntaxExtractor();
