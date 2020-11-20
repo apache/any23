@@ -29,6 +29,10 @@ import org.apache.any23.configuration.Setting;
 import org.apache.any23.configuration.Settings;
 import org.apache.any23.extractor.ExtractionParameters;
 import org.apache.any23.extractor.ExtractionParameters.ValidationMode;
+import org.apache.any23.extractor.ExtractorFactory;
+import org.apache.any23.extractor.ExtractorGroup;
+import org.apache.any23.extractor.ExtractorRegistry;
+import org.apache.any23.extractor.ExtractorRegistryImpl;
 import org.apache.any23.filter.IgnoreAccidentalRDFa;
 import org.apache.any23.filter.IgnoreTitlesOfEmptyDocuments;
 import org.apache.any23.source.DocumentSource;
@@ -73,11 +77,12 @@ import static java.lang.String.format;
  * @author Gabriele Renzi
  * @author Hans Brende (hansbrende@apache.org)
  */
-@Parameters(commandNames = { "rover" }, commandDescription = "Any23 Command Line Tool.")
+@Parameters(commandNames = { "rover" }, commandDescription = "Apache Any23 Command Line Tool.")
 public class Rover extends BaseTool {
 
     private static final Logger logger = LoggerFactory.getLogger(Rover.class);
 
+    private static final ExtractorRegistry eRegistry = ExtractorRegistryImpl.getInstance();
     private static final WriterFactoryRegistry registry = WriterFactoryRegistry.getInstance();
     private static final String DEFAULT_WRITER_IDENTIFIER = NTriplesWriterFactory.IDENTIFIER;
 
@@ -112,12 +117,16 @@ public class Rover extends BaseTool {
     @Parameter(description = "input IRIs {<url>|<file>}+", converter = ArgumentToIRIConverter.class)
     protected List<String> inputIRIs = new LinkedList<>();
 
-    @Parameter(names = { "-e",
-            "--extractors" }, description = "a comma-separated list of extractors, e.g. rdf-xml,rdf-turtle")
-    private List<String> extractors = new LinkedList<>();
+    @Parameter(names = { "-e", "--extractors" }, description = "a comma-separated list of extractors, "
+            + "e.g. rdf-xml,rdf-turtle, etc. A complete extractor list can be obtained by calling ./any23 extractor --list")
+    private List<String> extractors = new LinkedList<String>() {
+        {
+            addAll(eRegistry.getAllNames());
+        }
+    };
 
     @Parameter(names = { "-f",
-            "--format" }, description = "a comma-separated list of writer factories, e.g. notrivial,nquads")
+            "--format" }, description = "a comma-separated list of writer factories, e.g. json,jsonld,nquads,notrivial,ntriples,trix,turtle,uri")
     private List<String> formats = new LinkedList<String>() {
         {
             add(DEFAULT_WRITER_IDENTIFIER);
