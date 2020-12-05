@@ -6,7 +6,7 @@ github:
     - parser
     - java
     - extractor
-    - semantic web
+    - semantic-web
 
 notifications:
   commits:      commits@any23.apache.org
