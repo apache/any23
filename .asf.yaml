@@ -1,0 +1,15 @@
+github:
+  description: "Apache Anything To Triples (Any23) is a library, a web service and a command line tool that extracts structured data in RDF format from a variety of Web documents."
+  homepage: https://any23.apache.org/
+  labels:
+    - any23
+    - parser
+    - java
+    - extractor
+    - semantic web
+
+notifications:
+  commits:      commits@any23.apache.org
+  issues:       dev@any23.apache.org
+  pullrequests: dev@any23.apache.org
+  jira_options: link label comment
