@@ -257,8 +257,8 @@
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <javac.src.version>1.8</javac.src.version>
-    <javac.target.version>1.8</javac.target.version>
+    <javac.src.version>11</javac.src.version>
+    <javac.target.version>11</javac.target.version>
 
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
@@ -288,7 +288,7 @@
     <form.tracker.id>UA-59636188-1</form.tracker.id>
 
     <!-- Maven Plugin Versions -->
-    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
     <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
@@ -298,7 +298,7 @@
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
-    <maven-jar-plugin.version>3.1.2</maven-jar-plugin.version>
+    <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
     <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
@@ -307,7 +307,7 @@
     <maven-jxr-plugin.version>3.0.0</maven-jxr-plugin.version>
     <maven-checkstyle-plugin.version>3.1.1</maven-checkstyle-plugin.version>
     <apache-rat-plugin.version>0.13</apache-rat-plugin.version>
-    <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <maven-war-plugin.version>3.2.3</maven-war-plugin.version>
     <maven-invoker-plugin.version>3.2.1</maven-invoker-plugin.version>
@@ -769,13 +769,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-          <!--
-           | Apple's JVM sometimes requires more memory
-          -->
-          <additionalJOption>-J-Xmx1024m</additionalJOption>
-          <source>8</source>
-        </configuration>
       </plugin>
 
       <!-- Drop inherited behavior (i.e. don't put any more default LICENSE and NOTICE files in all artifacts) -->
@@ -946,13 +939,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
-        <configuration>
-          <!--
-           | Apple's JVM sometimes requires more memory
-          -->
-          <additionalJOption>-J-Xmx1024m</additionalJOption>
-          <source>8</source>
-        </configuration>
       </plugin>
 
       <!-- Browsable documentation. -->
@@ -1091,7 +1077,6 @@
                   <goal>jar</goal>
                 </goals>
                 <configuration>
-                  <source>8</source>
                   <quiet>true</quiet>
                   <archive>
                     <manifest>
@@ -1185,9 +1170,6 @@
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-javadoc-plugin</artifactId>
                   <version>${maven-javadoc-plugin.version}</version>
-                  <configuration>
-                    <source>8</source>
-                  </configuration>
                   <reportSets>
                     <reportSet>
                       <reports>
