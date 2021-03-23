@@ -274,7 +274,7 @@
     <tika.version>1.24</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
-    <jackson.version>2.10.3</jackson.version>
+    <jackson.version>2.12.2</jackson.version>
     <commons-io.version>2.6</commons-io.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
@@ -510,7 +510,7 @@
       <dependency>
         <groupId>com.github.jsonld-java</groupId>
         <artifactId>jsonld-java</artifactId>
-        <version>0.13.1</version>
+        <version>0.13.2</version>
       </dependency>
       <dependency>
         <groupId>org.semarglproject</groupId>
@@ -747,8 +747,7 @@
             <bundledSignature>jdk-unsafe-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-deprecated-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-non-portable</bundledSignature>
-            <!-- comment out until we upgrade past Java 8 -->
-            <!--bundledSignature>jdk-reflection</bundledSignature-->
+            <bundledSignature>jdk-reflection</bundledSignature>
             <bundledSignature>jdk-internal-${javac.src.version}</bundledSignature>
             <bundledSignature>jdk-system-out</bundledSignature>
             <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature>
@@ -758,7 +757,7 @@
           <execution>
             <goals>
               <goal>check</goal>
-              <!--goal>testCheck</goal-->
+              <goal>testCheck</goal>
             </goals>
           </execution>
         </executions>

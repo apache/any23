@@ -19,8 +19,9 @@ package org.apache.any23.extractor.rdf;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonLocation;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.StreamReadFeature;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
@@ -43,24 +44,25 @@ import java.io.InputStream;
  * <a href="http://www.w3.org/TR/json-ld/">JSON-LD</a> format.
  *
  */
+@SuppressWarnings("static-access")
 public class JSONLDExtractor extends BaseRDFExtractor {
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory(new ObjectMapper());
 
     static {
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_COMMENTS); // handled by JsonCleaningInputStream
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_MISSING_VALUES); // handled by JsonCleaningInputStream
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NON_NUMERIC_NUMBERS);
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_NUMERIC_LEADING_ZEROS);
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_SINGLE_QUOTES); // handled by JsonCleaningInputStream
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_TRAILING_COMMA); // handled by JsonCleaningInputStream
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS);
-        JSON_FACTORY.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
-        JSON_FACTORY.disable(JsonParser.Feature.ALLOW_YAML_COMMENTS); // handled by JsonCleaningInputStream
-        JSON_FACTORY.enable(JsonParser.Feature.IGNORE_UNDEFINED);
-        JSON_FACTORY.enable(JsonParser.Feature.INCLUDE_SOURCE_IN_LOCATION);
-        JSON_FACTORY.disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
+        JSON_FACTORY.builder().configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)
+                .configure(JsonReadFeature.ALLOW_JAVA_COMMENTS, false)
+                .configure(JsonReadFeature.ALLOW_MISSING_VALUES, false)
+                .configure(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS, true)
+                .configure(JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS, true)
+                .configure(JsonReadFeature.ALLOW_SINGLE_QUOTES, false)
+                .configure(JsonReadFeature.ALLOW_TRAILING_COMMA, false)
+                .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS, true)
+                .configure(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES, true)
+                .configure(JsonReadFeature.ALLOW_YAML_COMMENTS, false)
+                .configure(StreamReadFeature.IGNORE_UNDEFINED, true)
+                .configure(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION, true)
+                .configure(StreamReadFeature.STRICT_DUPLICATE_DETECTION, false).build();
     }
 
     /**
