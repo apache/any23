@@ -17,12 +17,12 @@
 
 package org.apache.any23.extractor.rdf;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.StreamReadFeature;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.jsonldjava.core.JsonLdOptions;
 import com.github.jsonldjava.core.JsonLdProcessor;
 import com.github.jsonldjava.utils.JsonUtils;
@@ -44,26 +44,16 @@ import java.io.InputStream;
  * <a href="http://www.w3.org/TR/json-ld/">JSON-LD</a> format.
  *
  */
-@SuppressWarnings("static-access")
 public class JSONLDExtractor extends BaseRDFExtractor {
 
-    private static final JsonFactory JSON_FACTORY = new JsonFactory(new ObjectMapper());
-
-    static {
-        JSON_FACTORY.builder().configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)
-                .configure(JsonReadFeature.ALLOW_JAVA_COMMENTS, false)
-                .configure(JsonReadFeature.ALLOW_MISSING_VALUES, false)
-                .configure(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS, true)
-                .configure(JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS, true)
-                .configure(JsonReadFeature.ALLOW_SINGLE_QUOTES, false)
-                .configure(JsonReadFeature.ALLOW_TRAILING_COMMA, false)
-                .configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS, true)
-                .configure(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES, true)
-                .configure(JsonReadFeature.ALLOW_YAML_COMMENTS, false)
-                .configure(StreamReadFeature.IGNORE_UNDEFINED, true)
-                .configure(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION, true)
-                .configure(StreamReadFeature.STRICT_DUPLICATE_DETECTION, false).build();
-    }
+    private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
+            .enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER).disable(JsonReadFeature.ALLOW_JAVA_COMMENTS)
+            .disable(JsonReadFeature.ALLOW_MISSING_VALUES).enable(JsonReadFeature.ALLOW_NON_NUMERIC_NUMBERS)
+            .enable(JsonReadFeature.ALLOW_LEADING_ZEROS_FOR_NUMBERS).disable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
+            .disable(JsonReadFeature.ALLOW_TRAILING_COMMA).enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS)
+            .enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES).disable(JsonReadFeature.ALLOW_YAML_COMMENTS)
+            .enable(StreamReadFeature.IGNORE_UNDEFINED).enable(StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION)
+            .disable(StreamReadFeature.STRICT_DUPLICATE_DETECTION).build();
 
     /**
      * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #JSONLDExtractor()} instead.
@@ -97,7 +87,8 @@ public class JSONLDExtractor extends BaseRDFExtractor {
         options.useNamespaces = true;
 
         try {
-            Object json = JsonUtils.fromJsonParser(JSON_FACTORY.createParser(new JsonCleaningInputStream(in)));
+            Object json = JsonUtils
+                    .fromJsonParser(OBJECT_MAPPER.getFactory().createParser(new JsonCleaningInputStream(in)));
             JsonLdProcessor.toRDF(json, handler, options);
         } catch (JsonProcessingException e) {
             JsonLocation loc = e.getLocation();
