@@ -198,18 +198,18 @@ public class Any23Test extends Any23OnlineTestBase {
     public void testDemoCodeSnippet2() throws Exception {
         assumeOnlineAllowed();
 
-        /* 1 */Any23 runner = new Any23();
-        /* 2 */runner.setHTTPUserAgent("apache-any23-test-user-agent");
-        /* 3 */HTTPClient httpClient = runner.getHTTPClient();
-        /* 4 */DocumentSource source = new HTTPDocumentSource(httpClient, "http://dbpedia.org/resource/Trento");
-        /* 5 */ByteArrayOutputStream out = new ByteArrayOutputStream();
-        /* 6 */TripleHandler handler = new NTriplesWriter(out);
+        Any23 runner = new Any23();
+        runner.setHTTPUserAgent("apache-any23-test-user-agent");
+        HTTPClient httpClient = runner.getHTTPClient();
+        DocumentSource source = new HTTPDocumentSource(httpClient, "http://dbpedia.org/resource/Trento");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        TripleHandler handler = new NTriplesWriter(out);
         try {
-            /* 7 */runner.extract(source, handler);
+            runner.extract(source, handler);
         } finally {
-            /* 8 */handler.close();
+            handler.close();
         }
-        /* 9 */String n3 = out.toString("UTF-8");
+        String n3 = out.toString("UTF-8");
 
         /*
          * <http://dbpedia.org/resource/Trent> <http://dbpedia.org/ontology/wikiPageDisambiguates>
@@ -222,7 +222,7 @@ public class Any23Test extends Any23OnlineTestBase {
         Assert.assertTrue(n3.length() > 0);
 
         Assert.assertTrue(n3.contains(
-                "<http://dbpedia.org/resource/Trento> <http://dbpedia.org/property/mayor> \"Alessandro Andreatta\" ."));
+                "<http://dbpedia.org/resource/Trento> <http://dbpedia.org/property/mayor> \"Franco Ianeselli, elected 2020\"@en ."));
     }
 
     /**
