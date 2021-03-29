@@ -51,13 +51,17 @@ import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringWriter;
 import java.lang.invoke.MethodHandles;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -290,7 +294,8 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      * 
      */
     protected void assertContains(Resource s, IRI p, Value o) throws RepositoryException {
-        Assert.assertTrue(getFailedExtractionMessage() + String.format("Cannot find triple (%s %s %s)", s, p, o),
+        Assert.assertTrue(
+                getFailedExtractionMessage() + String.format(Locale.ROOT, "Cannot find triple (%s %s %s)", s, p, o),
                 conn.hasStatement(s, p, o, false));
     }
 
@@ -403,8 +408,8 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
                 break;
             }
         }
-        Assert.assertTrue(String.format("Cannot find issue with level %s matching expression '%s'", level, issueRegex),
-                found);
+        Assert.assertTrue(String.format(Locale.ROOT, "Cannot find issue with level %s matching expression '%s'", level,
+                issueRegex), found);
     }
 
     /**
@@ -466,7 +471,9 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
             throws RDFHandlerException, RepositoryException {
         int statementsSize = getStatementsSize(s, p, o);
         if (statementsSize != expected) {
-            getConnection().exportStatements(s, p, o, true, Rio.createWriter(RDFFormat.NQUADS, System.out));
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
+            getConnection().exportStatements(s, p, o, true, Rio.createWriter(RDFFormat.NQUADS, ps));
         }
 
         Assert.assertEquals("Unexpected number of matching statements.", expected, statementsSize);
@@ -786,7 +793,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
         RepositoryResult<Statement> result = conn.getStatements(null, null, null, false);
         while (result.hasNext()) {
             Statement statement = result.next();
-            sb.append(String.format("%s %s %s %s\n", statement.getSubject(), statement.getPredicate(),
+            sb.append(String.format(Locale.ROOT, "%s %s %s %s\n", statement.getSubject(), statement.getPredicate(),
                     statement.getObject(), statement.getContext()));
 
         }

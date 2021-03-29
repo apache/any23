@@ -32,6 +32,7 @@ import org.junit.Assert;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ abstract class BaseCalendarExtractorTest extends AbstractExtractorTestCase {
         TestRDFHandler rdfHandler = new TestRDFHandler();
         nQuadsParser.setRDFHandler(rdfHandler);
         File file = copyResourceToTempFile(resultFilePath);
-        nQuadsParser.parse(new FileReader(file), baseIRI.toString());
+        nQuadsParser.parse(new FileReader(file, StandardCharsets.UTF_8), baseIRI.toString());
         return rdfHandler.getStatements();
     }
 

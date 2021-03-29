@@ -18,6 +18,8 @@ package org.apache.any23.writer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.any23.extractor.ExtractionContext;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
@@ -49,11 +51,11 @@ public class JSONWriterTest {
                 + "    \"value\" : \"http://sub/3\"\n" + "  }, \"http://pred/3\", {\n" + "    \"type\" : \"literal\",\n"
                 + "    \"value\" : \"123\",\n" + "    \"lang\" : null,\n" + "    \"datatype\" : \"http://datatype\"\n"
                 + "  }, null ] ]\n" + "}";
-        Assert.assertEquals(expected, baos.toString());
+        Assert.assertEquals(expected, baos.toString(StandardCharsets.UTF_8));
 
         baos.reset();
         writeContentSimple(new JSONWriter(baos));
-        Assert.assertEquals(expected, baos.toString());
+        Assert.assertEquals(expected, baos.toString(StandardCharsets.UTF_8));
     }
 
     @Test
@@ -69,11 +71,11 @@ public class JSONWriterTest {
                 + "    \"http://pred/2\" : [ {\n" + "      \"@language\" : \"en\",\n"
                 + "      \"@value\" : \"language literal\"\n" + "    } ]\n" + "  } ],\n"
                 + "  \"@id\" : \"http://graph/2\"\n" + "} ]";
-        Assert.assertEquals(expected, baos.toString());
+        Assert.assertEquals(expected, baos.toString(StandardCharsets.UTF_8));
 
         baos.reset();
         writeContentSimple(new JSONLDWriter(baos));
-        Assert.assertEquals(expected, baos.toString());
+        Assert.assertEquals(expected, baos.toString(StandardCharsets.UTF_8));
     }
 
     private void writeContentSimple(TripleWriter writer) throws TripleHandlerException {

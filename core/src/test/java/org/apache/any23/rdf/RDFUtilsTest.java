@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 
 /**
@@ -82,7 +83,8 @@ public class RDFUtilsTest {
      */
     @Test
     public void testGetNQuadsWriter() {
-        Assert.assertNotNull(RDFUtils.getWriter(RDFFormat.NQUADS, new OutputStreamWriter(new ByteArrayOutputStream())));
+        Assert.assertNotNull(RDFUtils.getWriter(RDFFormat.NQUADS,
+                new OutputStreamWriter(new ByteArrayOutputStream(), StandardCharsets.UTF_8)));
     }
 
 }

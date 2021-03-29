@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test case for {@link RDFSchemaUtils}.
@@ -56,10 +57,10 @@ public class RDFSchemaUtilsTest {
 
     private void serializeVocabularies(RDFFormat format, int expectedLines) {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (PrintStream ps = new PrintStream(baos)) {
+        try (PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8)) {
             RDFSchemaUtils.serializeVocabularies(format, ps);
         }
-        final String output = baos.toString();
+        final String output = baos.toString(StandardCharsets.UTF_8);
         logger.debug(output);
         final int occurrences = StringUtils.countOccurrences(output, "\n");
         Assert.assertEquals(expectedLines, occurrences);

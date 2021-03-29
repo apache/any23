@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 /**
@@ -61,7 +62,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
         File outputFile = File.createTempFile("mockdata-", ".ttl", tempDirectory);
         File logFile = File.createTempFile("log-exec-", ".txt", tempDirectory);
 
-        runTool(String.format("-l %s -o %s -f people,turtle -e csv -d %s %s", logFile.getAbsolutePath(),
+        runTool(String.format(Locale.ROOT, "-l %s -o %s -f people,turtle -e csv -d %s %s", logFile.getAbsolutePath(),
                 outputFile.getAbsolutePath(), PeopleExtractor.RAW_NS,
                 copyResourceToTempFile(testingDatafile).getAbsolutePath()));
 

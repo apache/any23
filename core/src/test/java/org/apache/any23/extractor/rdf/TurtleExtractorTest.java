@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test case for {@link NTriplesExtractor}.
@@ -83,7 +84,7 @@ public class TurtleExtractorTest {
                     this.getClass().getResourceAsStream("/org/apache/any23/extractor/rdf/testMalformedLiteral"),
                     result);
         } finally {
-            logger.debug(baos.toString());
+            logger.debug(baos.toString(StandardCharsets.UTF_8));
             th.close();
             result.close();
         }

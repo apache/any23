@@ -33,6 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Reference Test class for {@link TagSoupParser} parser.
@@ -56,7 +57,7 @@ public class TagSoupParserTest {
     @Test
     public void testParseSimpleHTML() throws IOException {
         String html = "<html><head><title>Test</title></head><body><h1>Hello!</h1></body></html>";
-        InputStream input = new ByteArrayInputStream(html.getBytes());
+        InputStream input = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
         Node document = new TagSoupParser(input, "http://example.com/").getDOM();
         Assert.assertEquals("Test", new HTMLDocument(document).find("//TITLE"));
         Assert.assertEquals("Hello!", new HTMLDocument(document).find("//H1"));
@@ -118,20 +119,20 @@ public class TagSoupParserTest {
         Assert.assertEquals(3, worksNodeList.getLength());
 
         final ByteArrayOutputStream out1 = new ByteArrayOutputStream();
-        PrintStream psOut1 = new PrintStream(out1);
+        PrintStream psOut1 = new PrintStream(out1, true, StandardCharsets.UTF_8);
         for (int i = 0; i < worksNodeList.getLength(); i++) {
             printNode(worksNodeList.item(i), psOut1);
         }
         psOut1.close();
 
         final ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-        PrintStream psOut2 = new PrintStream(out2);
+        PrintStream psOut2 = new PrintStream(out2, true, StandardCharsets.UTF_8);
         for (int i = 0; i < brokenNodeList.getLength(); i++) {
             printNode(brokenNodeList.item(i), psOut2);
         }
         psOut2.close();
 
-        Assert.assertEquals(out1.toString(), out2.toString());
+        Assert.assertEquals(out1.toString(StandardCharsets.UTF_8), out2.toString(StandardCharsets.UTF_8));
     }
 
     private void printNode(Node node, PrintStream printStream) {

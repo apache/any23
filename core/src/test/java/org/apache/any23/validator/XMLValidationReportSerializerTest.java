@@ -30,6 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test case for {@link XMLValidationReportSerializer}.
@@ -80,9 +81,9 @@ public class XMLValidationReportSerializerTest {
         ValidationReport vr = validationReportBuilder.getReport();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         serializer.serialize(vr, baos);
-        logger.debug(baos.toString());
+        logger.debug(baos.toString(StandardCharsets.UTF_8));
 
-        final String bufferContent = baos.toString();
+        final String bufferContent = baos.toString(StandardCharsets.UTF_8);
         Assert.assertTrue(bufferContent.contains("<validationReport>"));
         Assert.assertTrue(bufferContent.contains("</validationReport>"));
         Assert.assertTrue(bufferContent.contains("<issue>"));

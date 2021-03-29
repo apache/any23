@@ -26,6 +26,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.repository.RepositoryException;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Test case for {@link AdrExtractor}.
@@ -50,7 +51,8 @@ public class AdrExtractorTest extends AbstractExtractorTestCase {
         int index = 0;
         for (Resource address : addresses) {
             int size = getStatementsSize(address, null, null);
-            Assert.assertTrue(String.format("Unexpected statements count %d for address index %d", size, index),
+            Assert.assertTrue(
+                    String.format(Locale.ROOT, "Unexpected statements count %d for address index %d", size, index),
                     size == expectedStatementsPerAddress[index++]);
         }
     }

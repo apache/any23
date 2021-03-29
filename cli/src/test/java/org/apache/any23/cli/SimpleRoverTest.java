@@ -21,6 +21,7 @@ import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -65,8 +66,9 @@ public class SimpleRoverTest extends ToolTestBase {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
         File logfile = File.createTempFile("test-log", ".txt", tempDirectory);
 
-        int exitCode = runTool(String.format("-l %s -o %s -f turtle -e yaml,csv -d %s %s", logfile.getAbsolutePath(),
-                outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(filePath).getAbsolutePath()));
+        int exitCode = runTool(
+                String.format(Locale.ROOT, "-l %s -o %s -f turtle -e yaml,csv -d %s %s", logfile.getAbsolutePath(),
+                        outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(filePath).getAbsolutePath()));
 
         Assert.assertTrue(logfile.exists());
         Assert.assertTrue(outputFile.exists());
@@ -108,8 +110,8 @@ public class SimpleRoverTest extends ToolTestBase {
     public void ref310ExtendedTest() throws Exception {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
 
-        int exitCode = runTool(String.format("-o %s -f turtle -e yaml,csv -d %s %s", outputFile.getAbsolutePath(),
-                baseUri, copyResourceToTempFile(filePath).getAbsolutePath()));
+        int exitCode = runTool(String.format(Locale.ROOT, "-o %s -f turtle -e yaml,csv -d %s %s",
+                outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(filePath).getAbsolutePath()));
 
         Assert.assertTrue(outputFile.exists());
         // check if output file is longer than 10 chracters
