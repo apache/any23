@@ -61,9 +61,16 @@
      | shell scripts
     -->
     <fileSet>
-      <directory>${project.build.directory}/appassembler/bin/</directory>
-      <outputDirectory>/bin</outputDirectory>
+      <directory>${project.build.directory}/generated-resources/appassembler/booter-unix/bin/</directory>
+      <outputDirectory>bin</outputDirectory>
       <fileMode>0755</fileMode>
+      <lineEnding>unix</lineEnding>
+    </fileSet>
+    <fileSet>
+      <directory>${project.build.directory}/generated-resources/appassembler/booter-windows/bin/</directory>
+      <outputDirectory>bin</outputDirectory>
+      <fileMode>0755</fileMode>
+      <lineEnding>dos</lineEnding>
     </fileSet>
 
     <!--
@@ -71,7 +78,7 @@
     -->
     <fileSet>
       <directory>${project.build.directory}/appassembler/lib/</directory>
-      <outputDirectory>/lib</outputDirectory>
+      <outputDirectory>lib</outputDirectory>
       <excludes>
         <exclude>*.xml</exclude>
       </excludes>
@@ -81,8 +88,15 @@
      | Configuration and Resources
     -->
     <fileSet>
+      <directory>${project.build.directory}/generated-resources/appassembler/booter-unix/etc/</directory>
+      <outputDirectory>etc</outputDirectory>
+      <includes>
+        <include>*.xml</include>
+      </includes>
+    </fileSet>
+    <fileSet>
       <directory>${project.build.directory}/appassembler/conf/</directory>
-      <outputDirectory>/conf</outputDirectory>
+      <outputDirectory>conf</outputDirectory>
     </fileSet>
   </fileSets>
 

@@ -686,6 +686,16 @@
             <repositoryLayout>flat</repositoryLayout>
             <repositoryName>lib</repositoryName>
             <extraJvmArguments>-Xms500m -Xmx500m -XX:PermSize=128m -XX:-UseGCOverheadLimit</extraJvmArguments>
+            <daemons>
+              <daemon>
+                <id>any23</id>
+                <mainClass>org.apache.any23.cli.ToolRunner</mainClass>
+                <platforms>
+                  <platform>booter-unix</platform>
+                  <platform>booter-windows</platform>
+                </platforms>
+              </daemon>
+            </daemons>
           </configuration>
         </plugin>
 
