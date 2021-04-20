@@ -75,10 +75,10 @@ public class HTMLDocument {
         // first check if there are values inside
         List<Node> values = DomUtils.findAllByClassName(node, "value");
         if (!values.isEmpty()) {
-            String val = "";
+            StringBuilder val = new StringBuilder();
             for (Node n : values)
-                val += n.getTextContent();
-            return new TextField(val.trim(), node);
+                val.append(n.getTextContent());
+            return new TextField(val.toString().trim(), node);
         }
         if ("ABBR".equals(name) && (null != attributes.getNamedItem("title"))) {
             result = new TextField(attributes.getNamedItem("title").getNodeValue(), node);
