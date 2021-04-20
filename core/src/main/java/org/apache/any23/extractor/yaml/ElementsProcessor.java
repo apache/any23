@@ -65,7 +65,7 @@ public class ElementsProcessor {
      * A model holder describes the two required parameters which makes a model useful in further processing: a root
      * node and model itself.
      */
-    public class ModelHolder {
+    public static class ModelHolder {
         private final Value root;
         private final Model model;
 

@@ -220,7 +220,7 @@ public class HCardName {
     /**
      * Represents a possible field value.
      */
-    private class FieldValue {
+    private static class FieldValue {
 
         private TextField value;
         private List<TextField> multiValue = new ArrayList<TextField>();

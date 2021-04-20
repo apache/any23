@@ -130,7 +130,7 @@ public class DefaultValidatorTest {
         return new DefaultDOMDocument(new URI(documentIRI), tsp.getDOM());
     }
 
-    class FakeRule implements Rule {
+    static class FakeRule implements Rule {
         public String getHRName() {
             return "fake-rule";
         }
@@ -141,7 +141,7 @@ public class DefaultValidatorTest {
         }
     }
 
-    class FakeFix implements Fix {
+    static class FakeFix implements Fix {
         public String getHRName() {
             return "fake-fix";
         }

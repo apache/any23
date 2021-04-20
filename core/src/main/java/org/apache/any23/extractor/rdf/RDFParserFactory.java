@@ -307,7 +307,7 @@ public class RDFParserFactory {
     /**
      * Internal listener used to trace <i>RDF</i> parse errors.
      */
-    private class InternalParseErrorListener implements ParseErrorListener {
+    private static class InternalParseErrorListener implements ParseErrorListener {
 
         private final IssueReport extractionResult;
 
@@ -352,7 +352,7 @@ public class RDFParserFactory {
     /**
      * This extended Turtle parser sets the default namespace to the base IRI before the parsing.
      */
-    private class ExtendedTurtleParser extends TurtleParser {
+    private static class ExtendedTurtleParser extends TurtleParser {
         @Override
         public void parse(Reader reader, String baseIRI) throws IOException, RDFParseException, RDFHandlerException {
             setNamespace("", baseIRI);
