@@ -999,7 +999,7 @@ public class RDFa11Parser {
     /**
      * Defines a prefix mapping.
      */
-    private class PrefixMap {
+    private static class PrefixMap {
         final String prefix;
         final IRI IRI;
 
@@ -1012,7 +1012,7 @@ public class RDFa11Parser {
     /**
      * Defines a IRI mapping.
      */
-    private class IRIMapping {
+    private static class IRIMapping {
         final Node sourceNode;
         final Map<String, IRI> map;
 
@@ -1032,7 +1032,7 @@ public class RDFa11Parser {
     /**
      * Defines an incomplete triple.
      */
-    private class IncompleteTriple {
+    private static class IncompleteTriple {
         final Node originatingNode;
         final Resource subject;
         final IRI predicate;
@@ -1072,7 +1072,7 @@ public class RDFa11Parser {
     /**
      * Defines a vocabulary object.
      */
-    private class Vocabulary {
+    private static class Vocabulary {
         final Node originatingNode;
         final IRI prefix;
 

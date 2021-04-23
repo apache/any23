@@ -81,7 +81,7 @@ public class VocabularyTest {
     /**
      * Target test class.
      */
-    class TargetVocabulary extends Vocabulary {
+    static class TargetVocabulary extends Vocabulary {
 
         @Comment("Comment prop 1.")
         public final IRI property1 = createProperty(namespace, "prop1");

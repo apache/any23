@@ -193,7 +193,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
         return HTMLMetaExtractorFactory.getDescriptionInstance();
     }
 
-    private class Meta {
+    private static class Meta {
 
         private String xpath;
 

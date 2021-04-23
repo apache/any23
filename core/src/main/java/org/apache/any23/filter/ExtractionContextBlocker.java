@@ -143,7 +143,7 @@ public class ExtractionContextBlocker implements TripleHandler {
         contextQueues.clear();
     }
 
-    private class ValvedTriplePipeException extends Exception {
+    private static class ValvedTriplePipeException extends Exception {
 
         private ValvedTriplePipeException(String s) {
             super(s);

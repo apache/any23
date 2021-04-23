@@ -176,7 +176,7 @@ public class EmbeddedJSONLDExtractor implements Extractor.TagSoupDOMExtractor {
         return EmbeddedJSONLDExtractorFactory.getDescriptionInstance();
     }
 
-    private class JSONLDScript {
+    private static class JSONLDScript {
 
         private String xpath;
 

@@ -144,7 +144,7 @@ public class BenchmarkTripleHandler implements TripleHandler {
     /**
      * A single statistics.
      */
-    private class StatObject {
+    private static class StatObject {
 
         AtomicInteger methodCalls = new AtomicInteger(0);
         AtomicInteger triples = new AtomicInteger(0);
