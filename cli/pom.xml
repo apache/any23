@@ -304,6 +304,12 @@
     </dependency>
     <!-- END: additional dependencies used by RDF4J or Tika -->
 
+    <dependency>
+      <groupId>org.codehaus.mojo.appassembler</groupId>
+      <artifactId>appassembler-booter</artifactId>
+      <version>1.10</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -332,7 +338,8 @@
           <execution>
             <phase>package</phase>
             <goals>
-              <goal>assemble</goal>
+              <goal>generate-daemons</goal>
+              <goal>create-repository</goal>
             </goals>
           </execution>
         </executions>
