@@ -179,7 +179,7 @@ public class RDFSchemaUtils {
             final Vocabulary instance;
             try {
                 final Constructor<?> constructor = vocabClazz.getDeclaredConstructor();
-                constructor.setAccessible(true);
+                constructor.trySetAccessible();
                 instance = (Vocabulary) constructor.newInstance();
             } catch (Exception e) {
                 throw new RuntimeException("Error while instantiating vocabulary class " + vocabClazz, e);

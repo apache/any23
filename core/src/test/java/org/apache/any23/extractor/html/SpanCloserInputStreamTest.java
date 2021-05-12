@@ -23,6 +23,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test case for {@link SpanCloserInputStream}.
@@ -94,7 +95,8 @@ public class SpanCloserInputStreamTest {
     }
 
     private void processInput(String inStr, String expected) throws IOException {
-        final ByteArrayInputStream in = new ByteArrayInputStream(inStr.getBytes());
+        final ByteArrayInputStream in = new ByteArrayInputStream(inStr.getBytes(StandardCharsets.UTF_8));
+        @SuppressWarnings("resource")
         SpanCloserInputStream scis = new SpanCloserInputStream(in);
         int c;
         final StringBuilder sb = new StringBuilder();

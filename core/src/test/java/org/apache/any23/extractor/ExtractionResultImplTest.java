@@ -31,6 +31,8 @@ import org.eclipse.rdf4j.model.IRI;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 /**
  * Test case for {@link ExtractionResultImpl} class.
@@ -92,10 +94,11 @@ public class ExtractionResultImplTest {
 
     private void assertOutputString(ExtractionResult er, String s) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
+        PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
         er.printReport(ps);
         ps.flush();
-        Assert.assertTrue(String.format("Cannot find string '%s' in output stream.", s), baos.toString().contains(s));
+        Assert.assertTrue(String.format(Locale.ROOT, "Cannot find string '%s' in output stream.", s),
+                baos.toString(StandardCharsets.UTF_8).contains(s));
     }
 
 }

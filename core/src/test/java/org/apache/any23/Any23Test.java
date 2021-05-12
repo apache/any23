@@ -68,6 +68,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 
@@ -267,7 +268,7 @@ public class Any23Test extends Any23OnlineTestBase {
             Assert.fail(e.getMessage());
         }
 
-        final String bufferContent = byteArrayOutputStream.toString();
+        final String bufferContent = byteArrayOutputStream.toString(StandardCharsets.UTF_8);
         logger.debug(bufferContent);
         Assert.assertSame("Unexpected number of triples.", 18, StringUtils.countNL(bufferContent));
 
@@ -299,7 +300,7 @@ public class Any23Test extends Any23OnlineTestBase {
             logger.error("Connection to " + source.getDocumentIRI() + " timed out; skipping test", e);
             throw new AssumptionViolatedException(e.getMessage());
         }
-        String n3 = out.toString("UTF-8");
+        String n3 = out.toString(StandardCharsets.UTF_8);
         logger.debug("N3 " + n3);
         Assert.assertTrue(n3.length() > 0);
     }
@@ -328,21 +329,8 @@ public class Any23Test extends Any23OnlineTestBase {
         } finally {
             compositeTH1.close();
         }
-        logger.debug(baos.toString());
+        logger.debug(baos.toString(StandardCharsets.UTF_8));
         Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth1.getCount());
-
-        // baos.reset();
-        // CountingTripleHandler cth2 = new CountingTripleHandler();
-        // NTriplesWriter ctw2 = new NTriplesWriter(baos);
-        // CompositeTripleHandler compositeTH2 = new CompositeTripleHandler();
-        // compositeTH2.addChild(cth2);
-        // compositeTH2.addChild(ctw2);
-        // runner.extract(
-        // new ExtractionParameters(DefaultConfiguration.singleton(),
-        // ValidationMode.ValidateAndFix), source, compositeTH2);
-        // logger.debug(baos.toString());
-        // Assert.assertEquals("Unexpected number of triples.",
-        // EXPECTED_TRIPLES + 5, cth2.getCount());
     }
 
     @Test
@@ -363,7 +351,7 @@ public class Any23Test extends Any23OnlineTestBase {
         runner.extract(new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.NONE, true), source,
                 compositeTH1);
         compositeTH1.close();
-        logger.debug("Out1: " + baos.toString());
+        logger.debug("Out1: " + baos.toString(StandardCharsets.UTF_8));
         Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES + 3, cth1.getCount());
 
         baos.reset();
@@ -376,7 +364,7 @@ public class Any23Test extends Any23OnlineTestBase {
                 new ExtractionParameters(DefaultConfiguration.singleton(), ValidationMode.VALIDATE_AND_FIX, false),
                 source, compositeTH2);
         compositeTH2.close();
-        logger.debug("Out2: " + baos.toString());
+        logger.debug("Out2: " + baos.toString(StandardCharsets.UTF_8));
         Assert.assertEquals("Unexpected number of triples.", EXPECTED_TRIPLES, cth2.getCount());
     }
 
@@ -582,7 +570,7 @@ public class Any23Test extends Any23OnlineTestBase {
         for (@SuppressWarnings("rawtypes")
         Class<? extends Extractor> expectedExtractorClass : expectedExtractors) {
             Assert.assertTrue(
-                    String.format("Detection and extraction failed, expected extractor [%s] not found.",
+                    String.format(Locale.ROOT, "Detection and extraction failed, expected extractor [%s] not found.",
                             expectedExtractorClass),
                     containsClass(extractionReport.getMatchingExtractors(), expectedExtractorClass));
         }
@@ -658,8 +646,8 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     private void printStatement(Statement statement) {
-        logger.debug(
-                String.format("%s\t%s\t%s", statement.getSubject(), statement.getPredicate(), statement.getObject()));
+        logger.debug(String.format(Locale.ROOT, "%s\t%s\t%s", statement.getSubject(), statement.getPredicate(),
+                statement.getObject()));
     }
 
     private boolean containsClass(List<?> list, Class<?> clazz) {

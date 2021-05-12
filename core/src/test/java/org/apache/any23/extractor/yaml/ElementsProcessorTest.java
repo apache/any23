@@ -17,6 +17,7 @@
 package org.apache.any23.extractor.yaml;
 
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ElementsProcessorTest {
                 add("Ala");
                 add(6);
                 add("ma");
-                add("k".getBytes()[0]);
+                add("k".getBytes(StandardCharsets.UTF_8)[0]);
             }
         };
 
@@ -76,8 +77,8 @@ public class ElementsProcessorTest {
         Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("Ala"), (Resource[]) null));
         Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral(6), (Resource[]) null));
         Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("ma"), (Resource[]) null));
-        Assert.assertTrue(
-                toTest.getModel().contains(null, RDF.FIRST, ep.vf.createLiteral("k".getBytes()[0]), (Resource[]) null));
+        Assert.assertTrue(toTest.getModel().contains(null, RDF.FIRST,
+                ep.vf.createLiteral("k".getBytes(StandardCharsets.UTF_8)[0]), (Resource[]) null));
         log.debug("Model: \n{}\n", dumpModel(toTest.getModel(), RDFFormat.TURTLE));
     }
 
@@ -88,7 +89,7 @@ public class ElementsProcessorTest {
                 add("Ala");
                 add(6);
                 add("ma");
-                add("k".getBytes()[0]);
+                add("k".getBytes(StandardCharsets.UTF_8)[0]);
             }
         };
 

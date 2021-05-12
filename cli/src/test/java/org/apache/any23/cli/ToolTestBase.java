@@ -21,6 +21,7 @@ import com.beust.jcommander.Parameters;
 import org.apache.any23.Any23OnlineTestBase;
 
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Objects;
 
 import static java.lang.String.format;
@@ -87,8 +88,8 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *             if there is an error asserting the test data.
      */
     protected void runToolCheckExit0(String... args) throws Exception {
-        assertEquals(format("Unexpected exit code for tool [%s] invoked with %s", toolClazz.getSimpleName(),
-                Arrays.asList(args)), 0, runTool(args));
+        assertEquals(format(Locale.ROOT, "Unexpected exit code for tool [%s] invoked with %s",
+                toolClazz.getSimpleName(), Arrays.asList(args)), 0, runTool(args));
     }
 
 }

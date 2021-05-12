@@ -36,6 +36,7 @@ import org.eclipse.rdf4j.repository.RepositoryResult;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * {@link HCardExtractor} test case.
@@ -501,7 +502,7 @@ public class HCardExtractorTest extends AbstractExtractorTestCase {
 
                 final String objLiteral = findObjectAsLiteral(vcard, vVCARD.fn);
                 int idx = NAMES.indexOf(objLiteral);
-                assertTrue(String.format("not in names: '%s'", objLiteral), idx >= 0);
+                assertTrue(String.format(Locale.ROOT, "not in names: '%s'", objLiteral), idx >= 0);
                 assertEquals(NAMES.get(idx + 1), findObjectAsLiteral(name, vVCARD.family_name));
                 assertEquals(NAMES.get(idx + 2), findObjectAsLiteral(name, vVCARD.given_name));
                 count++;

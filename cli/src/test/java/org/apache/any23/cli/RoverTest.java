@@ -28,6 +28,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.rio.RDFFormat;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Test case for {@link Rover}.
@@ -62,8 +63,9 @@ public class RoverTest extends ToolTestBase {
     public void testRunWithDefaultNS() throws Exception {
         final String DEFAULT_GRAPH = "http://test/default/ns";
         final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
-        final int exitCode = runTool(String.format("-o %s -f nquads -p -n %s -d %s", outFile.getAbsolutePath(),
-                copyResourceToTempFile("/cli/rover-test1.nq").getAbsolutePath(), DEFAULT_GRAPH));
+        final int exitCode = runTool(
+                String.format(Locale.ROOT, "-o %s -f nquads -p -n %s -d %s", outFile.getAbsolutePath(),
+                        copyResourceToTempFile("/cli/rover-test1.nq").getAbsolutePath(), DEFAULT_GRAPH));
 
         Assert.assertEquals("Unexpected exit code.", 0, exitCode);
         Assert.assertTrue(outFile.exists());
@@ -85,7 +87,7 @@ public class RoverTest extends ToolTestBase {
         final String stylesheet = "http://www.w3.org/1999/xhtml/vocab#stylesheet";
 
         Assert.assertEquals("Unexpected exit code.", 0,
-                runTool(String.format("-o %s -f nquads %s -d %s", outFile.getAbsolutePath(),
+                runTool(String.format(Locale.ROOT, "-o %s -f nquads %s -d %s", outFile.getAbsolutePath(),
                         copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(), DEFAULT_GRAPH)));
 
         String content = FileUtils.readFileContent(outFile);
@@ -95,7 +97,7 @@ public class RoverTest extends ToolTestBase {
         final int lineCountWithStylesheet = content.split("\\n").length;
 
         Assert.assertEquals("Unexpected exit code.", 0,
-                runTool(String.format("-o %s -f notrivial,nquads %s -d %s", outFile.getAbsolutePath(),
+                runTool(String.format(Locale.ROOT, "-o %s -f notrivial,nquads %s -d %s", outFile.getAbsolutePath(),
                         copyResourceToTempFile("/cli/basic-with-stylesheet.html").getAbsolutePath(), DEFAULT_GRAPH)));
 
         content = FileUtils.readFileContent(outFile);
@@ -124,8 +126,8 @@ public class RoverTest extends ToolTestBase {
         final File outFile = File.createTempFile("rover-test", "out", tempDirectory);
         final File logFile = File.createTempFile("rover-test", "log", tempDirectory);
 
-        final int exitCode = runTool(String.format("-o %s -f nquads -l %s -p -n %s", outFile.getAbsolutePath(),
-                logFile.getAbsolutePath(), StringUtils.join(" ", targets)));
+        final int exitCode = runTool(String.format(Locale.ROOT, "-o %s -f nquads -l %s -p -n %s",
+                outFile.getAbsolutePath(), logFile.getAbsolutePath(), StringUtils.join(" ", targets)));
         Assert.assertEquals("Unexpected exit code.", expectedExit, exitCode);
 
         Assert.assertTrue(outFile.exists());

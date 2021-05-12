@@ -31,6 +31,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -60,8 +61,8 @@ public class ExtractionExceptionTest {
 
         ExtractionException ee = new ExtractionException("Fake message.", new RuntimeException("Fake cause"), er);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ee.printStackTrace(new PrintWriter(baos));
-        final String bufferContent = baos.toString();
+        ee.printStackTrace(new PrintWriter(baos, true, StandardCharsets.UTF_8));
+        final String bufferContent = baos.toString(StandardCharsets.UTF_8);
         Assert.assertTrue("Unexpected message content.", bufferContent.contains(FAKE_EXTRACTOR_NAME));
         Assert.assertTrue("Unexpected message content.", bufferContent.contains("http://fake.document.uri"));
         Assert.assertTrue("Unexpected message content.",

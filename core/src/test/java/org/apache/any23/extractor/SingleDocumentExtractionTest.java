@@ -53,6 +53,8 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 /**
  * Test case for {@link SingleDocumentExtraction}.
@@ -97,7 +99,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
     public void tearDown() throws SailException, RepositoryException, TripleHandlerException {
         rdfxmlWriter.close();
         repositoryWriter.close();
-        logger.debug(baos.toString());
+        logger.debug(baos.toString(StandardCharsets.UTF_8));
 
         singleDocumentExtraction = null;
         extractorGroup = null;
@@ -290,7 +292,8 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
             statements.next();
             count++;
         }
-        Assert.assertEquals(String.format("Cannot find triple (* %s %s) %d times", predicate, value, occurrences),
+        Assert.assertEquals(
+                String.format(Locale.ROOT, "Cannot find triple (* %s %s) %d times", predicate, value, occurrences),
                 occurrences, count);
     }
 

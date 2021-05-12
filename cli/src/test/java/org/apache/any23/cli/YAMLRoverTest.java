@@ -19,6 +19,7 @@ package org.apache.any23.cli;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
@@ -48,8 +49,9 @@ public class YAMLRoverTest extends ToolTestBase {
         File outputFile = File.createTempFile("rover-test", ".ttl", tempDirectory);
         File logfile = File.createTempFile("test-log", ".txt", tempDirectory);
 
-        int exitCode = runTool(String.format("-l %s -o %s -f turtle -e yaml,csv -d %s %s", logfile.getAbsolutePath(),
-                outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(file1).getAbsolutePath()));
+        int exitCode = runTool(
+                String.format(Locale.ROOT, "-l %s -o %s -f turtle -e yaml,csv -d %s %s", logfile.getAbsolutePath(),
+                        outputFile.getAbsolutePath(), baseUri, copyResourceToTempFile(file1).getAbsolutePath()));
 
         Assert.assertTrue(logfile.exists());
         log.debug("Log file location: {}", logfile.getAbsolutePath());

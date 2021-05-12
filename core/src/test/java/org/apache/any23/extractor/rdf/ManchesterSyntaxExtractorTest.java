@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Test case for {@link ManchesterSyntaxExtractor}.
@@ -66,7 +67,7 @@ public class ManchesterSyntaxExtractorTest {
             extractor.run(ExtractionParameters.newDefault(), extractionContext,
                     this.getClass().getResourceAsStream("/text/owl-manchester/example-manchestersyntax.omn"), result);
         } finally {
-            logger.debug(baos.toString());
+            logger.debug(baos.toString(StandardCharsets.UTF_8));
             th.close();
             result.close();
         }
