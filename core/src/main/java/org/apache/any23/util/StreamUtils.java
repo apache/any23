@@ -181,6 +181,7 @@ public class StreamUtils {
 
         try {
             factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
             logger.error("Error converting InputStream to Document: {}", e);
