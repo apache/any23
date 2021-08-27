@@ -1,3 +1,55 @@
+             Apache Any23 2.5
+              Release Notes
+           27/08/2021 (dd/mm/yyy)
+
+Sub-task
+
+    [ANY23-145] - SKOS Vocabulary
+    [ANY23-147] - Improve DCMIMetadataTerms Vocabularly
+    [ANY23-189] - Music Ontology Vocab
+    [ANY23-191] - BBC Sport ontology Vocab
+    [ANY23-192] - BBC Curriculum Ontology Vocab
+    [ANY23-193] - BBC Corenews Ontology Vocab
+    [ANY23-194] - BBC Storyline Ontology Vocab
+
+Bug
+
+    [ANY23-159] - Error with nodes and markup extracted from HListingExtractorTest.testKelkoo & testKelkooFull
+    [ANY23-370] - Jenkins: IllegalStateException: checksum mismatch
+    [ANY23-371] - Any23 cannot start in CMD in Windows 10
+    [ANY23-451] - raise AirflowException("SSH operator error: {0}".format(str(e)))
+    [ANY23-455] - Format entire Any23 codebase with formatter-maven-plugin
+    [ANY23-456] - Add Github Action against Any23 pull requests
+    [ANY23-457] - Fix error: White spaces are required between publicId and systemId
+    [ANY23-458] - Improve extractor and writer information in Rover
+    [ANY23-462] - Address forbidden API violations
+
+New Feature
+
+    [ANY23-10] - Integrate Javascript engine to extract dynamic data
+    [ANY23-138] - Add OSGi metadata
+    [ANY23-239] - Any23 Chrome Extension
+    [ANY23-294] - Create extractor plugin for IFC files
+    [ANY23-459] - Create git - .asf.yaml for ANY23
+
+Improvement
+
+    [ANY23-30] - Improve Any23 Web Service Logging
+    [ANY23-104] - Make Any23 OSGi ready
+    [ANY23-127] - Parent Task for Improving Any23 Vocab Package
+    [ANY23-461] - Upgrade Any23 to JDK11
+    [ANY23-464] - Improve Performance for Inner Classes
+    [ANY23-465] - Use StringBuilder Instead of String Concatenation at Loop
+
+Wish
+
+    [ANY23-216] - Any23 Firefox Extension
+
+Task
+
+    [ANY23-15] - TODO reduction session nedeed
+
+
              Apache Any23 2.4
               Release Notes
            20/09/2020 (dd/mm/yyy)
