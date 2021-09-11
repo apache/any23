@@ -26,20 +26,25 @@
 
   <body>
     <section name="Download Apache Any23">
-      <p>Apache Any23 is distributed in several formats for your convenience. Use a source archive if you intend to build
-   Apache Any23 yourself. Otherwise, simply pick a ready-made binary distribution and follow the installation
-   instructions given inside the archives. Additionally, you can use Any23 as a dependency, see the most recent release
-   artifacts on <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.any23%22">Maven Central</a>.</p>
+      <p>Apache Any23 is distributed in several formats for your convenience. Use a source archive if you intend to build Apache Any23 yourself. Otherwise, simply pick a ready-made binary distribution and follow the installation instructions given inside the archives.</p>
 
-      <p>You will be prompted for a mirror - if the file is not found on yours, please be patient, as it may take 24
-   hours to reach all mirrors.</p>
+      <p>You will be prompted for a mirror - if the file is not found on yours, please be patient, as it may take 24 hours to reach all mirrors.</p>
 
-      <p>In order to guard against corrupted downloads/installations, it is highly recommended to
-   <a href="https://www.apache.org/dev/release-signing#verifying-signature">verify the signature</a>
-   of the release bundles against the public <a href="https://apache.org/dist/any23/KEYS">KEYS</a> used by the Apache Any23
-   developers.</p>
+      <p>In order to guard against corrupted downloads/installations, it is highly recommended to <a href="https://www.apache.org/dev/release-signing#verifying-signature">verify the signature</a> of the release bundles against the public <a href="https://apache.org/dist/any23/KEYS">KEYS</a> used by the Apache Any23 developers.</p>
 
       <p>Apache Any23 is distributed under the <a href="https://any23.apache.org/license.html"> Apache License, version 2.0</a>.</p>
+
+
+      <subsection name="Apache Any23 Maven Artifacts">
+        <p>You can use Any23 as a <a href="https://maven.apache.org">Maven</a> dependency. See the most recent release artifacts on <a href="https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.apache.any23%22">Maven Central</a>. For example you could add the <code>apache-any23-core</code> artifact to your project POM as follows:</p>
+        <code>
+          &#60;dependency&#62;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&#60;groupId&#62;org.apache.any23&#60;/groupId&#62;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&#60;artifactId&#62;apache-any23-core&#60;/artifactId&#62;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;&#60;version&#62;${latestStableRelease}&#60;/version&#62;<br />
+          &#60;/dependency&#62;
+        </code>
+      </subsection>
 
       <subsection name="Apache Any23 Sources">
         <table>
@@ -99,7 +104,7 @@
     <section name="Apache Any23 Plugins">
       <subsection name="plugins">
         <p>Various plugins were made available for Any23 releases prior to 2.4. As of 2.4, this is not longer the case. Reasoning behind this relates to the size of the artifcts post introduction of the <a href="https://github.com/apache/any23-plugins/tree/master/openie">Open Information Extraction (Open IE) module</a>. This grew the artifacts to ~1GB which became too large to distribute across the Apache global mirror network.</p>
-        <p>Any23 plugins can be obtained by <a href="https://github.com/apache/any23-plugins/tree/master/openie">downloading and building from source</a>.</p>
+        <p>Any23 plugins can be obtained by <a href="https://github.com/apache/any23-plugins">downloading and building from source</a>.</p>
         <p>Plugin artifacts prior to 2.4 can be found in the <a href="http://archive.apache.org/dist/any23/">Apache Any23 Artifact Archive</a>.</p>
       </subsection>
       <!--subsection name="Apache Any23 Basic Crawler">
@@ -199,14 +204,14 @@
       </subsection>
       <subsection name="PGP Signatures">
         <p>The PGP signatures can be verified using PGP or GPG. First download the <a href="https://www.apache.org/dist/any23/KEYS">KEYS</a> as well as the asc signature file for the relevant distribution. <b>N.B.</b> Make sure you get these files from the main distribution directory, rather than from a mirror. Then verify the signatures using the following example</p>
-        <code>$ gpg --import KEYS</code>
-        <code>$ gpg --verify apache-any23-${latest.stable.released}-src.tar.gz.asc apache-any23-${latest.stable.released}-src.tar.gz</code>
+        <code>$ gpg --import KEYS</code><br />
+        <code>$ gpg --verify apache-any23-${latestStableRelease}-src.tar.gz.asc apache-any23-${latestStableRelease}-src.tar.gz</code>
         <p>The files in the most recent release are signed by Lewis John McGibbney (CODE SIGNING KEY) lewismc@apache.org 48BAEBF6</p>
       </subsection>
       <subsection name="SHA512 Signatures">
         <p>Alternatively, you can verify the SHA512 signatures on the files. A unix program called md5 or md5sum is included in many unix distributions. Use the following example</p>
-        <code>$ sha512sum apache-any23-${latest.stable.released}-src.tar.gz</code>
-        <p>... output should match the string in apache-any23-${latest.stable.released}-src.tar.gz.sha512</p>
+        <code>$ sha512sum apache-any23-${latestStableRelease}-src.tar.gz</code>
+        <p>... output should match the string in <b>apache-any23-${latestStableRelease}-src.tar.gz.sha512</b></p>
       </subsection>
     </section>
 

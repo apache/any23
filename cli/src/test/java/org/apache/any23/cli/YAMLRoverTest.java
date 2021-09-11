@@ -64,7 +64,7 @@ public class YAMLRoverTest extends ToolTestBase {
     /**
      * Asserts if file contains wanted string.
      * 
-     * If logging level is <tt>trace</tt> than additionally displays file content.
+     * If logging level is <code>trace</code> than additionally displays file content.
      * 
      * @param f
      *            input file

@@ -35,7 +35,7 @@
   <url>http://any23.apache.org</url>
   <inceptionYear>2010</inceptionYear>
 
-  <repositories>
+  <!--repositories>
     <repository>
       <snapshots>
         <enabled>false</enabled>
@@ -44,7 +44,7 @@
       <name>bintray</name>
       <url>https://allenai.bintray.com/maven</url>
     </repository>
-  </repositories>
+  </repositories-->
   <pluginRepositories>
     <pluginRepository>
       <snapshots>
