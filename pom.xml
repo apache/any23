@@ -269,7 +269,7 @@
     <poi.version>4.1.2</poi.version>
     <rdf4j.version>3.1.2</rdf4j.version>
     <semargl.version>0.7</semargl.version>
-    <slf4j.logger.version>1.7.30</slf4j.logger.version>
+    <slf4j.logger.version>1.7.32</slf4j.logger.version>
     <tika.version>1.24</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
