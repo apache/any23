@@ -759,7 +759,7 @@
             <bundledSignature>jdk-reflection</bundledSignature>
             <bundledSignature>jdk-internal</bundledSignature>
             <bundledSignature>jdk-system-out</bundledSignature>
-            <bundledSignature>commons-io-unsafe-2.8.0</bundledSignature>
+            <!--bundledSignature>commons-io-unsafe-2.8.0</bundledSignature-->
           </bundledSignatures>
         </configuration>
         <executions>
