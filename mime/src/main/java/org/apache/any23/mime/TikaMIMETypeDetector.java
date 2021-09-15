@@ -23,6 +23,7 @@ import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.apache.tika.Tika;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.metadata.Metadata;
+import org.apache.tika.metadata.TikaCoreProperties;
 import org.apache.tika.mime.MimeType;
 import org.apache.tika.mime.MimeTypeException;
 import org.apache.tika.mime.MimeTypes;
@@ -275,7 +276,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         if (mimeTypeFromMetadata != null)
             meta.set(Metadata.CONTENT_TYPE, mimeTypeFromMetadata.getFullType());
         if (fileName != null)
-            meta.set(Metadata.RESOURCE_NAME_KEY, fileName);
+            meta.set(TikaCoreProperties.RESOURCE_NAME_KEY, fileName);
 
         String type;
         try {
@@ -365,7 +366,7 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
         }
 
         // Determines the MIMEType based on resource name hint if available.
-        final String resourceName = metadata.get(Metadata.RESOURCE_NAME_KEY);
+        final String resourceName = metadata.get(TikaCoreProperties.RESOURCE_NAME_KEY);
         if (resourceName != null) {
             String type = tika.detect(resourceName);
             if (type != null && !type.equals(MimeTypes.OCTET_STREAM)) {
