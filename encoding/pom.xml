@@ -56,7 +56,7 @@
     <!-- BEGIN: Tika -->
     <dependency>
       <groupId>org.apache.tika</groupId>
-      <artifactId>tika-parsers</artifactId>
+      <artifactId>tika-parsers-standard-package</artifactId>
     </dependency>
     <!-- ensure dependencies of tika-parsers match versions
       specified in dependencyManagement section of parent pom -->

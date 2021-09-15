@@ -105,7 +105,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.tika</groupId>
-      <artifactId>tika-parsers</artifactId>
+      <artifactId>tika-parsers-standard-package</artifactId>
     </dependency>
     <dependency> <!-- used by Tika -->
         <groupId>org.apache.commons</groupId>

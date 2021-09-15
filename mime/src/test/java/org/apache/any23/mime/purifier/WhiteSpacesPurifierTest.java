@@ -17,13 +17,16 @@
 
 package org.apache.any23.mime.purifier;
 
-import org.apache.tika.io.IOUtils;
+import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.*;
 
 /**
  * Reference test case for {@link WhiteSpacesPurifier}.
@@ -50,7 +53,7 @@ public class WhiteSpacesPurifierTest {
                 this.getClass().getResourceAsStream("/application/xhtml/blank-file-header.xhtml"));
         this.purifier.purify(inputStream);
         Assert.assertNotNull(inputStream);
-        Assert.assertTrue(validatePurification(IOUtils.toString(inputStream)));
+        Assert.assertTrue(validatePurification(IOUtils.toString(inputStream, StandardCharsets.UTF_8)));
 
     }
 
