@@ -264,7 +264,7 @@
     <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
 
     <httpclient.version>4.5.13</httpclient.version>
-    <httpcore.version>4.4.13</httpcore.version>
+    <httpcore.version>4.4.14</httpcore.version>
     <owlapi.version>5.1.13</owlapi.version>
     <poi.version>5.0.0</poi.version>
     <rdf4j.version>3.1.2</rdf4j.version>
