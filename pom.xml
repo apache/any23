@@ -298,7 +298,7 @@
     <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
     <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
     <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
     <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
