@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>21</version>
+    <version>24</version>
   </parent>
 
   <groupId>org.apache.any23</groupId>
@@ -34,27 +34,6 @@
   extracts structured data in RDF format from a variety of Web documents.</description>
   <url>http://any23.apache.org</url>
   <inceptionYear>2010</inceptionYear>
-
-  <!--repositories>
-    <repository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-allenai-maven</id>
-      <name>bintray</name>
-      <url>https://allenai.bintray.com/maven</url>
-    </repository>
-  </repositories-->
-  <pluginRepositories>
-    <pluginRepository>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <id>bintray-allenai-maven</id>
-      <name>bintray-plugins</name>
-      <url>https://allenai.bintray.com/maven</url>
-    </pluginRepository>
-  </pluginRepositories>
 
   <developers>
     <developer>
@@ -262,6 +241,7 @@
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
+    <project.build.outputTimestamp>1</project.build.outputTimestamp>
 
     <httpclient.version>4.5.13</httpclient.version>
     <httpcore.version>4.4.14</httpcore.version>
