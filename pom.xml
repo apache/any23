@@ -1173,7 +1173,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-scm-publish-plugin</artifactId>
-            <version>1.0-beta-2</version>
+            <version>3.1.0</version>
             <configuration>
               <tryUpdate>true</tryUpdate>
               <checkinComment>Apache Any23 site deployment</checkinComment>
