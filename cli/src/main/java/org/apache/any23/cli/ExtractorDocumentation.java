@@ -40,7 +40,8 @@ import java.util.Locale;
         "extractor" }, commandDescription = "Utility for obtaining documentation about metadata extractors.")
 public class ExtractorDocumentation extends BaseTool {
 
-    @Parameter(names = { "-l", "--list" }, description = "shows the names of all available extractors")
+    @Parameter(names = { "-l",
+            "--list" }, description = "shows the names, labels and supported mimetypes of all available extractors")
     private boolean showList;
 
     @Parameter(names = { "-i", "--input" }, description = "shows example input for the given extractor")
@@ -88,15 +89,15 @@ public class ExtractorDocumentation extends BaseTool {
     }
 
     /**
-     * Prints the list of all the available extractors.
+     * Prints the list of all the available extractor names, labels and supported mimetypes.
      * 
      * @param registry
      *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
      */
     public void printExtractorList(ExtractorRegistry registry) {
         for (ExtractorFactory factory : registry.getExtractorGroup()) {
-            out.println(
-                    String.format(Locale.ROOT, "%25s [%15s]", factory.getExtractorName(), factory.getExtractorLabel()));
+            out.println(String.format(Locale.ROOT, "%25s [%15s] %15s", factory.getExtractorName(),
+                    factory.getExtractorLabel(), factory.getSupportedMIMETypes()));
         }
     }
 
