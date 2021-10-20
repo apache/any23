@@ -31,6 +31,7 @@ import org.eclipse.rdf4j.rio.Rio;
 import org.eclipse.rdf4j.rio.helpers.BasicParserSettings;
 import org.eclipse.rdf4j.rio.helpers.RDFaParserSettings;
 import org.eclipse.rdf4j.rio.helpers.RDFaVersion;
+import org.eclipse.rdf4j.rio.helpers.XMLParserSettings;
 import org.eclipse.rdf4j.rio.turtle.TurtleParser;
 import org.semanticweb.owlapi.rio.OWLAPIRDFFormat;
 import org.slf4j.Logger;
@@ -295,6 +296,7 @@ public class RDFParserFactory {
             final ExtractionContext extractionContext, final ExtractionResult extractionResult) {
         parser.getParserConfig().setNonFatalErrors(
                 stopAtFirstError ? Collections.emptySet() : new HashSet<>(parser.getSupportedSettings()));
+        parser.getParserConfig().set(XMLParserSettings.LOAD_EXTERNAL_DTD, false);
         parser.set(BasicParserSettings.FAIL_ON_UNKNOWN_DATATYPES, verifyDataType);
         parser.set(BasicParserSettings.VERIFY_DATATYPE_VALUES, verifyDataType);
 
