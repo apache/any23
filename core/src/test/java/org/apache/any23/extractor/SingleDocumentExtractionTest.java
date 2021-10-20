@@ -21,6 +21,7 @@ import org.apache.any23.AbstractAny23TestBase;
 import org.apache.any23.configuration.DefaultConfiguration;
 import org.apache.any23.configuration.ModifiableConfiguration;
 import org.apache.any23.extractor.html.HTMLFixture;
+import org.apache.any23.extractor.rdf.TriXExtractor;
 import org.apache.any23.mime.TikaMIMETypeDetector;
 import org.apache.any23.mime.purifier.WhiteSpacesPurifier;
 import org.apache.any23.vocab.ICAL;
@@ -49,6 +50,9 @@ import org.eclipse.rdf4j.sail.SailException;
 import org.eclipse.rdf4j.sail.memory.MemoryStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -243,6 +247,35 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
         Value object = getTripleObject(null, vREVIEW.hasReview);
         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_STRUCTURED), object, 1);
         assertTripleCount(vSINDICE.getProperty(SINDICE.NESTING_ORIGINAL), vREVIEW.hasReview, 1);
+    }
+
+    /**
+     * Tests that the {@link org.apache.any23.extractor.rdf.TriXExtractor} is NOT activated for a given HTML document.
+     * This tests that a private method within {@link org.apache.any23.extractor.SingleDocumentExtraction} works as
+     * expected.
+     * 
+     * @see <a href=
+     *      "https://issues.apache.org/jira/browse/ANY23-504">https://issues.apache.org/jira/browse/ANY23-504</a>
+     *
+     * @throws IOException
+     *             if there is an error loading input data
+     * @throws ExtractionException
+     *             if an exception is raised during extraction
+     * @throws RepositoryException
+     *             if an error is encountered whilst loading content from a storage connection
+     */
+    @Test
+    public void testTrixParserNotActivatedAfterFilterExtractorsByMIMEType()
+            throws IOException, ExtractionException, RepositoryException {
+        singleDocumentExtraction = getInstance("/html/BBC_News_Scotland.html");
+        assertTrue(singleDocumentExtraction.hasMatchingExtractors());
+        assertFalse(singleDocumentExtraction.getMatchingExtractors().stream()
+                .anyMatch(e -> TriXExtractor.class.isInstance(e)));
+        singleDocumentExtraction.run();
+        assertFalse(singleDocumentExtraction.getMatchingExtractors().stream()
+                .anyMatch(e -> TriXExtractor.class.isInstance(e)));
+
+        logStorageContent();
     }
 
     private SingleDocumentExtraction getInstance(String file) throws FileNotFoundException, IOException {

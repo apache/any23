@@ -71,7 +71,8 @@ import static org.apache.any23.extractor.TagSoupExtractionResult.PropertyPath;
 import static org.apache.any23.extractor.TagSoupExtractionResult.ResourceRoot;
 
 /**
- * This class acts as facade where all the extractors were called on a single document.
+ * This class acts as a facade where all extractors (for a given MIMEType) can be called on a single document.
+ * Extractors are automatically filtered by MIMEType.
  */
 public class SingleDocumentExtraction {
 

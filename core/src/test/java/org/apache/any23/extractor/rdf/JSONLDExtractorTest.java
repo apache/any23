@@ -72,7 +72,6 @@ public class JSONLDExtractorTest {
         for (int i = 0; i <= Character.MAX_CODE_POINT; i++) {
             if (Character.isWhitespace(i) || Character.isSpaceChar(i)) {
                 byte[] bytes = new String(Character.toChars(i)).getBytes(StandardCharsets.UTF_8);
-                @SuppressWarnings("resource")
                 InputStream stream = new JsonCleaningInputStream(new ByteArrayInputStream(bytes));
                 if (i == '\r' || i == '\n') {
                     Assert.assertEquals(stream.read(), i);

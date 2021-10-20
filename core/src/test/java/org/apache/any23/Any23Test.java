@@ -519,6 +519,32 @@ public class Any23Test extends Any23OnlineTestBase {
     }
 
     /**
+     * Test whether the {@link Any23} facade can be overloaded with a intentional <code>rdf-xml</code> extactor
+     * (mis)configuration which we then attempt to use to process a <code>application/xhtml+xml</code> document. The
+     * expected behaviour is that the call to
+     * {@link org.apache.any23.extractor.SingleDocumentExtraction#run(ExtractionParameters)} will ultimately filter the
+     * extractors based upon the detected mimetype. This results in no available extractors and a largely empty
+     * {@link ExtractionReport}.
+     * 
+     * @throws Exception
+     *             if a extraction anomaly arises
+     */
+    @Test
+    public void testMisconfiguredAny23FacadeForInputData() throws Exception {
+        Any23 runner = new Any23("rdf-xml");
+        CountingTripleHandler handler = new CountingTripleHandler();
+        ExtractionReport report = runner.extract(
+                IOUtils.resourceToString("/html/BBC_News_Scotland.html", StandardCharsets.UTF_8),
+                "http://www.bbc.co.uk/news/scotland/", handler);
+        Assert.assertEquals("application/xhtml+xml", report.getDetectedMimeType());
+        Assert.assertEquals(0, report.getExtractorIssues("rdf-xml").size());
+        Assert.assertEquals(0, report.getMatchingExtractors().size());
+        Assert.assertEquals(0, handler.getCount());
+        Assert.assertEquals(report.getValidationReport().getClass().getName(),
+                "org.apache.any23.validator.EmptyValidationReport");
+    }
+
+    /**
      * Performs detection and extraction on the given input string and return the {@link ExtractionReport}.
      * 
      * @param in
