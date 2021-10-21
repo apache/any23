@@ -90,7 +90,6 @@ public abstract class BaseRDFExtractor implements Extractor.ContentExtractor {
     }
 
     // keep package-access to avoid backwards compatibility woes if protected (may move around later)
-    @SuppressWarnings("Duplicates")
     static String toString(Throwable th) {
         StringWriter writer = new StringWriter();
         try (PrintWriter pw = new PrintWriter(writer)) {

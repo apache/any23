@@ -39,10 +39,8 @@ public class RDFXMLExtractorFactory extends SimpleExtractorFactory<RDFXMLExtract
 
     public RDFXMLExtractorFactory() {
         super(RDFXMLExtractorFactory.NAME, RDFXMLExtractorFactory.PREFIXES,
-                Arrays.asList("application/rdf+xml", "text/rdf", "text/rdf+xml", "application/rdf"
-                // "application/xml;q=0.2",
-                // "text/xml;q=0.2"
-                ), "example-rdfxml.rdf");
+                Arrays.asList("application/rdf+xml", "text/rdf", "text/rdf+xml", "application/rdf"),
+                "example-rdfxml.rdf");
     }
 
     @Override

@@ -23,7 +23,7 @@ import org.apache.any23.vocab.CSV;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,9 +50,8 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-        assertContains(null, csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral("4", XMLSchema.INTEGER));
-        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XMLSchema.INTEGER));
+        assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4", XSD.INTEGER));
+        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XSD.INTEGER));
     }
 
     @Test
@@ -64,9 +63,8 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-        assertContains(null, csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral("4", XMLSchema.INTEGER));
-        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XMLSchema.INTEGER));
+        assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4", XSD.INTEGER));
+        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XSD.INTEGER));
     }
 
     @Test
@@ -78,9 +76,8 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 28);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-        assertContains(null, csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral("4", XMLSchema.INTEGER));
-        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XMLSchema.INTEGER));
+        assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4", XSD.INTEGER));
+        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XSD.INTEGER));
     }
 
     @Test
@@ -92,12 +89,11 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 21);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-        assertContains(null, csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral("2", XMLSchema.INTEGER));
-        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XMLSchema.INTEGER));
-        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("5.2", XMLSchema.FLOAT));
-        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("7.9", XMLSchema.FLOAT));
-        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("10", XMLSchema.INTEGER));
+        assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("2", XSD.INTEGER));
+        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XSD.INTEGER));
+        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("5.2", XSD.FLOAT));
+        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("7.9", XSD.FLOAT));
+        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("10", XSD.INTEGER));
     }
 
     @Test
@@ -109,11 +105,10 @@ public class CSVExtractorTest extends AbstractExtractorTestCase {
         assertModelNotEmpty();
         assertStatementsSize(null, null, null, 25);
         assertStatementsSize(null, RDF.TYPE, csv.rowType, 3);
-        assertContains(null, csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral("4", XMLSchema.INTEGER));
-        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XMLSchema.INTEGER));
-        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("Michele", XMLSchema.STRING));
-        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("Giovanni", XMLSchema.STRING));
+        assertContains(null, csv.numberOfColumns, SimpleValueFactory.getInstance().createLiteral("4", XSD.INTEGER));
+        assertContains(null, csv.numberOfRows, SimpleValueFactory.getInstance().createLiteral("3", XSD.INTEGER));
+        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("Michele", XSD.STRING));
+        assertContains(null, null, SimpleValueFactory.getInstance().createLiteral("Giovanni", XSD.STRING));
     }
 
 }

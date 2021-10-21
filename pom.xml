@@ -239,6 +239,8 @@
     <javac.target.version>11</javac.target.version>
     <maven.compiler.target>11</maven.compiler.target>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ssZ</maven.build.timestamp.format>
+    <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+    <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
     <implementation.build>${scmBranch}@r${buildNumber}</implementation.build>
     <implementation.build.tstamp>${maven.build.timestamp}</implementation.build.tstamp>
     <project.build.outputTimestamp>1</project.build.outputTimestamp>
@@ -247,7 +249,7 @@
     <httpcore.version>4.4.14</httpcore.version>
     <owlapi.version>5.1.19</owlapi.version>
     <poi.version>5.0.0</poi.version>
-    <rdf4j.version>3.1.2</rdf4j.version>
+    <rdf4j.version>3.7.3</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.32</slf4j.logger.version>
     <tika.version>2.1.0</tika.version>

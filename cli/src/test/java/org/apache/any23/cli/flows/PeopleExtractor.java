@@ -33,7 +33,7 @@ import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.impl.TreeModel;
 import org.eclipse.rdf4j.model.util.Models;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +65,7 @@ public class PeopleExtractor extends CompositeTripleHandler {
         Model model = new TreeModel();
         model.add(s, RDF.TYPE, PERSON);
         model.add(s, FULL_NAME, vf.createLiteral(fullName));
-        model.add(s, HASH, vf.createLiteral(s.getLocalName(), XMLSchema.HEXBINARY));
+        model.add(s, HASH, vf.createLiteral(s.getLocalName(), XSD.HEXBINARY));
         return model;
     };
 
@@ -79,7 +79,7 @@ public class PeopleExtractor extends CompositeTripleHandler {
     public void receiveTriple(Resource s, IRI p, Value o, IRI g, ExtractionContext context)
             throws TripleHandlerException {
         if ("csv".equals(context.getExtractorName())) {
-            csvModel.add(s, p, o, vf.createIRI(context.getUniqueID()));
+            this.csvModel.add(s, p, o, vf.createIRI(context.getUniqueID()));
         } else {
             super.receiveTriple(s, p, o, g, context);
         }
@@ -87,17 +87,17 @@ public class PeopleExtractor extends CompositeTripleHandler {
 
     @Override
     public void closeContext(ExtractionContext context) throws TripleHandlerException {
-        Set<Resource> subjects = csvModel.filter(null, RDF.TYPE, csv.rowType).stream().map(Statement::getSubject)
+        Set<Resource> subjects = this.csvModel.filter(null, RDF.TYPE, csv.rowType).stream().map(Statement::getSubject)
                 .collect(Collectors.toSet());
 
-        log.debug("List of rows: {}", subjects);
+        this.log.debug("List of rows: {}", subjects);
 
         for (Resource rowId : subjects) {
-            String firstName = Models.objectLiteral(csvModel.filter(rowId, RAW_FIRST_NAME, null)).map(Literal::getLabel)
-                    .orElse("");
+            String firstName = Models.objectLiteral(this.csvModel.filter(rowId, RAW_FIRST_NAME, null))
+                    .map(Literal::getLabel).orElse("");
 
-            String lastName = Models.objectLiteral(csvModel.filter(rowId, RAW_LAST_NAME, null)).map(Literal::getLabel)
-                    .orElse("");
+            String lastName = Models.objectLiteral(this.csvModel.filter(rowId, RAW_LAST_NAME, null))
+                    .map(Literal::getLabel).orElse("");
 
             String fullName = firstName + " " + lastName;
 
@@ -106,7 +106,7 @@ public class PeopleExtractor extends CompositeTripleHandler {
             }
         }
 
-        csvModel.clear();
+        this.csvModel.clear();
 
         super.closeContext(context);
     }

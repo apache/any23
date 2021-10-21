@@ -53,7 +53,7 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +93,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             InputStream inputStream, ExtractionResult result) throws IOException, ExtractionException {
         result.writeNamespace(RDF.PREFIX, RDF.NAMESPACE);
         result.writeNamespace(ICAL.PREFIX, ICAL.NS);
-        result.writeNamespace(XMLSchema.PREFIX, XMLSchema.NAMESPACE);
+        result.writeNamespace(XSD.PREFIX, XSD.NAMESPACE);
 
         ScribeIndex index = new ScribeIndex();
         try (StreamReader reader = reader(inputStream)) {
@@ -216,35 +216,35 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
 
     private static IRI dataType(ICalDataType dataType, Boolean isFloating) {
         if (dataType == null || ICalDataType.TEXT.equals(dataType)) {
-            return XMLSchema.STRING;
+            return XSD.STRING;
         } else if (ICalDataType.BOOLEAN.equals(dataType)) {
-            return XMLSchema.BOOLEAN;
+            return XSD.BOOLEAN;
         } else if (ICalDataType.INTEGER.equals(dataType)) {
-            return XMLSchema.INTEGER;
+            return XSD.INTEGER;
         } else if (ICalDataType.FLOAT.equals(dataType)) {
-            return XMLSchema.FLOAT;
+            return XSD.FLOAT;
         } else if (ICalDataType.BINARY.equals(dataType)) {
-            return XMLSchema.BASE64BINARY;
+            return XSD.BASE64BINARY;
         } else if (ICalDataType.URI.equals(dataType) || ICalDataType.URL.equals(dataType)
                 || ICalDataType.CONTENT_ID.equals(dataType) || ICalDataType.CAL_ADDRESS.equals(dataType)) {
-            return XMLSchema.ANYURI;
+            return XSD.ANYURI;
         } else if (ICalDataType.DATE_TIME.equals(dataType)) {
             if (isFloating == null) {
                 return null;
             }
-            return isFloating ? vICAL.DATE_TIME : XMLSchema.DATETIME;
+            return isFloating ? vICAL.DATE_TIME : XSD.DATETIME;
         } else if (ICalDataType.DATE.equals(dataType)) {
-            return XMLSchema.DATE;
+            return XSD.DATE;
         } else if (ICalDataType.TIME.equals(dataType)) {
-            return XMLSchema.TIME;
+            return XSD.TIME;
         } else if (ICalDataType.DURATION.equals(dataType)) {
-            return XMLSchema.DURATION;
+            return XSD.DURATION;
         } else if (ICalDataType.PERIOD.equals(dataType)) {
             return vICAL.Value_PERIOD;
         } else if (ICalDataType.RECUR.equals(dataType)) {
             return vICAL.Value_RECUR;
         } else {
-            return XMLSchema.STRING;
+            return XSD.STRING;
         }
     }
 
@@ -255,7 +255,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             return s;
         }
         try {
-            if (XMLSchema.DURATION.equals(dataType)) {
+            if (XSD.DURATION.equals(dataType)) {
                 Matcher m = durationWeeksPattern.matcher(s);
                 if (m.matches()) {
                     long days = Long.parseLong(m.group(2)) * 7;
@@ -265,7 +265,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                 if (s.indexOf('/') == -1) {
                     throw new IllegalArgumentException();
                 }
-            } else if (zone != null && XMLSchema.DATETIME.equals(dataType)) {
+            } else if (zone != null && XSD.DATETIME.equals(dataType)) {
                 try {
                     DateTimeComponents dt = DateTimeComponents.parse(s);
                     if (!dt.isUtc()) {
@@ -320,13 +320,13 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             } else {
                 String str = normalizeAndReportIfInvalid(val.toString(), dataType, zone, result);
 
-                if (XMLSchema.STRING.equals(dataType)) {
+                if (XSD.STRING.equals(dataType)) {
                     if (lang == null) {
                         v = f.createLiteral(str);
                     } else {
                         v = f.createLiteral(str, lang);
                     }
-                } else if (XMLSchema.ANYURI.equals(dataType)) {
+                } else if (XSD.ANYURI.equals(dataType)) {
                     try {
                         v = f.createIRI(str);
                     } catch (IllegalArgumentException e) {
@@ -335,12 +335,12 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
                 } else if (vICAL.Value_PERIOD.equals(dataType)) {
                     String[] strs = str.split("/");
                     if (strs.length == 2) {
-                        String firstPart = normalizeAndReportIfInvalid(strs[0], XMLSchema.DATETIME, zone, result);
+                        String firstPart = normalizeAndReportIfInvalid(strs[0], XSD.DATETIME, zone, result);
                         String secondPart = strs[1];
                         if (secondPart.indexOf('P') != -1) { // duration
-                            secondPart = normalizeAndReportIfInvalid(secondPart, XMLSchema.DURATION, zone, result);
+                            secondPart = normalizeAndReportIfInvalid(secondPart, XSD.DURATION, zone, result);
                         } else {
-                            secondPart = normalizeAndReportIfInvalid(secondPart, XMLSchema.DATETIME, zone, result);
+                            secondPart = normalizeAndReportIfInvalid(secondPart, XSD.DATETIME, zone, result);
                         }
                         str = firstPart + "/" + secondPart;
                     }
@@ -375,8 +375,7 @@ abstract class BaseCalendarExtractor implements Extractor.ContentExtractor {
             BNode bNode = f.createBNode();
             result.writeTriple(subject, predicate, bNode);
             for (Map.Entry<String, JsonValue> entry : object.entrySet()) {
-                writeValue(bNode, predicate(entry.getKey(), result), entry.getValue(), lang, XMLSchema.STRING, zone,
-                        result);
+                writeValue(bNode, predicate(entry.getKey(), result), entry.getValue(), lang, XSD.STRING, zone, result);
             }
             return true;
         }

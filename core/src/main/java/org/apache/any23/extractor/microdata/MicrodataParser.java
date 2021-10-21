@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Literal;
 import org.eclipse.rdf4j.model.datatypes.XMLDatatypeUtil;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 import org.jsoup.parser.Tag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -351,9 +351,9 @@ public class MicrodataParser {
             String value = value(node, "value");
             Literal l;
             if (XMLDatatypeUtil.isValidInteger(value)) {
-                l = RDFUtils.literal(value, XMLSchema.INTEGER);
+                l = RDFUtils.literal(value, XSD.INTEGER);
             } else if (XMLDatatypeUtil.isValidDouble(value)) {
-                l = RDFUtils.literal(value, XMLSchema.DOUBLE);
+                l = RDFUtils.literal(value, XSD.DOUBLE);
             } else {
                 l = RDFUtils.literal(value);
             }
@@ -363,17 +363,17 @@ public class MicrodataParser {
             String dateTimeStr = value(node, "datetime");
             Literal l;
             if (XMLDatatypeUtil.isValidDate(dateTimeStr)) {
-                l = RDFUtils.literal(dateTimeStr, XMLSchema.DATE);
+                l = RDFUtils.literal(dateTimeStr, XSD.DATE);
             } else if (XMLDatatypeUtil.isValidTime(dateTimeStr)) {
-                l = RDFUtils.literal(dateTimeStr, XMLSchema.TIME);
+                l = RDFUtils.literal(dateTimeStr, XSD.TIME);
             } else if (XMLDatatypeUtil.isValidDateTime(dateTimeStr)) {
-                l = RDFUtils.literal(dateTimeStr, XMLSchema.DATETIME);
+                l = RDFUtils.literal(dateTimeStr, XSD.DATETIME);
             } else if (XMLDatatypeUtil.isValidGYearMonth(dateTimeStr)) {
-                l = RDFUtils.literal(dateTimeStr, XMLSchema.GYEARMONTH);
+                l = RDFUtils.literal(dateTimeStr, XSD.GYEARMONTH);
             } else if (XMLDatatypeUtil.isValidGYear(dateTimeStr)) {
-                l = RDFUtils.literal(dateTimeStr, XMLSchema.GYEAR);
+                l = RDFUtils.literal(dateTimeStr, XSD.GYEAR);
             } else if (XMLDatatypeUtil.isValidDuration(dateTimeStr)) {
-                l = RDFUtils.literal(dateTimeStr, XMLSchema.DURATION);
+                l = RDFUtils.literal(dateTimeStr, XSD.DURATION);
             } else {
                 l = RDFUtils.literal(dateTimeStr, getLanguage(node));
             }
