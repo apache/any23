@@ -81,8 +81,13 @@ public class XFNExtractor implements TagSoupDOMExtractor {
     }
 
     private boolean extractLink(Node firstLink, BNode subject, IRI documentIRI) throws ExtractionException {
-        String href = firstLink.getAttributes().getNamedItem("href").getNodeValue();
-        String rel = firstLink.getAttributes().getNamedItem("rel").getNodeValue();
+        Node hrefNodeItem = firstLink.getAttributes().getNamedItem("href");
+        Node relNodeItem = firstLink.getAttributes().getNamedItem("rel");
+        if (hrefNodeItem == null || relNodeItem == null) {
+            return false;
+        }
+        String href = hrefNodeItem.getNodeValue();
+        String rel = relNodeItem.getNodeValue();
 
         String[] rels = rel.split("\\s+");
         IRI link = document.resolveIRI(href);
