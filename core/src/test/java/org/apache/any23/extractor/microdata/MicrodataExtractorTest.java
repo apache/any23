@@ -220,8 +220,6 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
                 if (result != null) {
                     createRunner(TurtleExtractorFactory.NAME).extract(result.stringValue(), new TripleWriterHandler() {
                         public void writeTriple(Resource s, IRI p, Value o, Resource g) {
-                            // TODO: remove this if-block after https://github.com/w3c/microdata-rdf/issues/30 has been
-                            // resolved
                             if (o instanceof IRI
                                     && o.stringValue().equals("http://w3c.github.io/author/jd_salinger.html")) {
                                 o = RDFUtils.iri("https://w3c.github.io/author/jd_salinger.html");
@@ -504,7 +502,7 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         TestRDFHandler rdfHandler = new TestRDFHandler();
         nQuadsParser.setRDFHandler(rdfHandler);
         File file = copyResourceToTempFile(resultFilePath);
-        nQuadsParser.parse(new FileReader(file, StandardCharsets.UTF_8), baseIRI.toString());
+        nQuadsParser.parse(new FileReader(file, StandardCharsets.UTF_8), baseIRI.stringValue());
         return rdfHandler.getStatements();
     }
 
@@ -531,7 +529,6 @@ public class MicrodataExtractorTest extends AbstractExtractorTestCase {
         }
 
         public void handleComment(String s) throws RDFHandlerException {
-            throw new UnsupportedOperationException();
         }
     }
 

@@ -74,7 +74,6 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
     /**
      * Base test document.
      */
-    // TODO: change base IRI string.
     protected static IRI baseIRI = RDFUtils.iri("http://bob.example.com/");
 
     /**
@@ -194,8 +193,8 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
     // tests should be based on mimetype detection.
     protected void extract(String resource) throws ExtractionException, IOException {
         SingleDocumentExtraction ex = new SingleDocumentExtraction(
-                new HTMLFixture(copyResourceToTempFile(resource)).getOpener(baseIRI.toString()), getExtractorFactory(),
-                new RepositoryWriter(conn));
+                new HTMLFixture(copyResourceToTempFile(resource)).getOpener(baseIRI.stringValue()),
+                getExtractorFactory(), new RepositoryWriter(conn));
         ex.setMIMETypeDetector(null);
         report = ex.run();
     }

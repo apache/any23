@@ -27,6 +27,7 @@ import org.eclipse.rdf4j.rio.RDFHandlerException;
 import org.eclipse.rdf4j.rio.RDFParseException;
 import org.eclipse.rdf4j.rio.RDFParser;
 import org.eclipse.rdf4j.rio.Rio;
+import org.eclipse.rdf4j.rio.helpers.ParseErrorCollector;
 import org.junit.Assert;
 
 import java.io.File;
@@ -59,8 +60,9 @@ abstract class BaseCalendarExtractorTest extends AbstractExtractorTestCase {
         RDFParser nQuadsParser = Rio.createParser(RDFFormat.NQUADS);
         TestRDFHandler rdfHandler = new TestRDFHandler();
         nQuadsParser.setRDFHandler(rdfHandler);
+        nQuadsParser.setParseErrorListener(new ParseErrorCollector());
         File file = copyResourceToTempFile(resultFilePath);
-        nQuadsParser.parse(new FileReader(file, StandardCharsets.UTF_8), baseIRI.toString());
+        nQuadsParser.parse(new FileReader(file, StandardCharsets.UTF_8), baseIRI.stringValue());
         return rdfHandler.getStatements();
     }
 
@@ -87,7 +89,6 @@ abstract class BaseCalendarExtractorTest extends AbstractExtractorTestCase {
         }
 
         public void handleComment(String s) throws RDFHandlerException {
-            throw new UnsupportedOperationException();
         }
     }
 }

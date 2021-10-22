@@ -27,7 +27,7 @@ import java.util.Objects;
 
 import org.apache.any23.util.StringUtils;
 import org.eclipse.rdf4j.model.Literal;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 
 /**
  * Describes a possible value for a <b>Microdata item property</b>.
@@ -108,7 +108,7 @@ public class ItemPropValue {
         Object content;
 
         // for backwards compatibility:
-        if (XMLSchema.DATE.equals(literal.getDatatype()) || XMLSchema.DATETIME.equals(literal.getDatatype())) {
+        if (XSD.DATE.equals(literal.getDatatype()) || XSD.DATETIME.equals(literal.getDatatype())) {
             try {
                 content = parseDateTime(literal.getLabel());
                 type = Type.Date;

@@ -34,7 +34,7 @@ import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
-import org.eclipse.rdf4j.model.vocabulary.XMLSchema;
+import org.eclipse.rdf4j.model.vocabulary.XSD;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,7 +88,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
         int index = 0;
         while (rows.hasNext()) {
             CSVRecord nextLine = rows.next();
-            IRI rowSubject = RDFUtils.iri(documentIRI.toString(), "row/" + index);
+            IRI rowSubject = RDFUtils.iri(documentIRI.stringValue(), "row/" + index);
             // add a row type
             out.writeTriple(rowSubject, RDF.TYPE, csv.rowType);
             // for each row produce its statements
@@ -153,7 +153,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
                 out.writeTriple(singleHeader, RDFS.LABEL, SimpleValueFactory.getInstance().createLiteral(headerString));
             }
             out.writeTriple(singleHeader, csv.columnPosition,
-                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index), XMLSchema.INTEGER));
+                    SimpleValueFactory.getInstance().createLiteral(String.valueOf(index), XSD.INTEGER));
             index++;
         }
     }
@@ -232,11 +232,11 @@ public class CSVExtractor implements Extractor.ContentExtractor {
         if (RDFUtils.isAbsoluteIRI(newCell)) {
             object = SimpleValueFactory.getInstance().createIRI(newCell);
         } else {
-            IRI datatype = XMLSchema.STRING;
+            IRI datatype = XSD.STRING;
             if (isInteger(newCell)) {
-                datatype = XMLSchema.INTEGER;
+                datatype = XSD.INTEGER;
             } else if (isFloat(newCell)) {
-                datatype = XMLSchema.FLOAT;
+                datatype = XSD.FLOAT;
             }
             object = SimpleValueFactory.getInstance().createLiteral(newCell, datatype);
         }
@@ -255,9 +255,9 @@ public class CSVExtractor implements Extractor.ContentExtractor {
     private void addTableMetadataStatements(IRI documentIRI, ExtractionResult out, int numberOfRows,
             int numberOfColumns) {
         out.writeTriple(documentIRI, csv.numberOfRows,
-                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfRows), XMLSchema.INTEGER));
+                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfRows), XSD.INTEGER));
         out.writeTriple(documentIRI, csv.numberOfColumns,
-                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfColumns), XMLSchema.INTEGER));
+                SimpleValueFactory.getInstance().createLiteral(String.valueOf(numberOfColumns), XSD.INTEGER));
     }
 
     /**

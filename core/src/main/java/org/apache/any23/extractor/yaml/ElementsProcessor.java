@@ -33,6 +33,7 @@ import org.eclipse.rdf4j.model.ValueFactory;
 import org.eclipse.rdf4j.model.impl.LinkedHashModelFactory;
 import org.eclipse.rdf4j.model.impl.SimpleValueFactory;
 import org.eclipse.rdf4j.model.util.Literals;
+import org.eclipse.rdf4j.model.util.Values;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 
@@ -115,7 +116,7 @@ public class ElementsProcessor {
         } else if (t == null) {
             return asModelHolder(vocab.nullValue, modelFactory.createEmptyModel());
         } else {
-            return asModelHolder(Literals.createLiteral(vf, t), modelFactory.createEmptyModel());
+            return asModelHolder(Values.literal(t), modelFactory.createEmptyModel());
         }
     }
 

@@ -86,7 +86,7 @@ public abstract class Vocabulary {
      * @return the namespace associated to this vocabulary.
      */
     public IRI getNamespace() {
-        return namespace;
+        return this.namespace;
     }
 
     /**
@@ -98,7 +98,7 @@ public abstract class Vocabulary {
      * @return the IRI associated to such resource.
      */
     public IRI getClass(String name) {
-        IRI res = classes.get(name);
+        IRI res = this.classes.get(name);
         if (null == res) {
             throw new IllegalArgumentException("Unknown resource name '" + name + "'");
         }
@@ -114,7 +114,7 @@ public abstract class Vocabulary {
      * @return the IRI associated to such property.
      */
     public IRI getProperty(String name) {
-        IRI prop = properties.get(name);
+        IRI prop = this.properties.get(name);
         if (null == prop) {
             throw new IllegalArgumentException("Unknown property name '" + name + "'");
         }
@@ -132,7 +132,7 @@ public abstract class Vocabulary {
      * @return the IRI associated to such property.
      */
     public IRI getProperty(String name, IRI defaultValue) {
-        IRI prop = properties.get(name);
+        IRI prop = this.properties.get(name);
         if (null == prop) {
             return defaultValue;
         }
@@ -162,10 +162,10 @@ public abstract class Vocabulary {
      * @return the list of all defined classes.
      */
     public IRI[] getClasses() {
-        if (classes == null) {
+        if (this.classes == null) {
             return new IRI[0];
         }
-        final Collection<IRI> iris = classes.values();
+        final Collection<IRI> iris = this.classes.values();
         return iris.toArray(new IRI[iris.size()]);
     }
 
@@ -173,10 +173,10 @@ public abstract class Vocabulary {
      * @return the list of all defined properties.
      */
     public IRI[] getProperties() {
-        if (properties == null) {
+        if (this.properties == null) {
             return new IRI[0];
         }
-        final Collection<IRI> iris = properties.values();
+        final Collection<IRI> iris = this.properties.values();
         return iris.toArray(new IRI[iris.size()]);
     }
 
@@ -187,7 +187,7 @@ public abstract class Vocabulary {
      */
     public Map<IRI, String> getComments() {
         fillResourceToCommentMap();
-        return Collections.unmodifiableMap(resourceToCommentMap);
+        return Collections.unmodifiableMap(this.resourceToCommentMap);
     }
 
     /**
@@ -200,7 +200,7 @@ public abstract class Vocabulary {
      */
     public String getCommentFor(IRI resource) {
         fillResourceToCommentMap();
-        return resourceToCommentMap.get(resource);
+        return this.resourceToCommentMap.get(resource);
     }
 
     /**
@@ -211,7 +211,7 @@ public abstract class Vocabulary {
      * 
      * @return the IRI instance.
      */
-    protected IRI createIRI(String iriStr) {
+    protected static IRI createIRI(String iriStr) {
         return SimpleValueFactory.getInstance().createIRI(iriStr);
     }
 
@@ -227,10 +227,10 @@ public abstract class Vocabulary {
      */
     protected IRI createClass(String namespace, String resource) {
         IRI res = createIRI(namespace, resource);
-        if (classes == null) {
-            classes = new HashMap<>(10);
+        if (this.classes == null) {
+            this.classes = new HashMap<>(10);
         }
-        classes.put(resource, res);
+        this.classes.put(resource, res);
         return res;
     }
 
@@ -246,10 +246,10 @@ public abstract class Vocabulary {
      */
     protected IRI createProperty(String namespace, String property) {
         IRI res = createIRI(namespace, property);
-        if (properties == null) {
-            properties = new HashMap<>(10);
+        if (this.properties == null) {
+            this.properties = new HashMap<>(10);
         }
-        properties.put(property, res);
+        this.properties.put(property, res);
         return res;
     }
 
@@ -261,12 +261,12 @@ public abstract class Vocabulary {
      * 
      * @return
      */
-    private IRI createIRI(String namespace, String localName) {
+    private static IRI createIRI(String namespace, String localName) {
         return SimpleValueFactory.getInstance().createIRI(namespace, localName);
     }
 
     private void fillResourceToCommentMap() {
-        if (resourceToCommentMap != null)
+        if (this.resourceToCommentMap != null)
             return;
         final Map<IRI, String> newMap = new HashMap<>();
         for (Field field : this.getClass().getFields()) {
@@ -281,7 +281,7 @@ public abstract class Vocabulary {
                 throw new RuntimeException("Error while creating resource to comment map.", iae);
             }
         }
-        resourceToCommentMap = newMap;
+        this.resourceToCommentMap = newMap;
     }
 
 }

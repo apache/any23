@@ -63,11 +63,11 @@ public class TripleFormat {
 
         public boolean has(Capabilities other) {
             int oraw = other.raw;
-            return (raw & oraw) == oraw;
+            return (this.raw & oraw) == oraw;
         }
 
         private Capabilities withNamespaces() {
-            return new Capabilities(raw | WRITES_NAMESPACES);
+            return new Capabilities(this.raw | WRITES_NAMESPACES);
         }
 
         // TODO: add "supportsComments()"
@@ -163,7 +163,7 @@ public class TripleFormat {
     }
 
     public Optional<Charset> getCharset() {
-        return Optional.ofNullable(charset);
+        return Optional.ofNullable(this.charset);
     }
 
     static Capabilities capabilities(RDFFormat format) {
@@ -186,7 +186,7 @@ public class TripleFormat {
     }
 
     RDFFormat toRDFFormat() {
-        RDFFormat fmt = rdfFormat;
+        RDFFormat fmt = this.rdfFormat;
         if (fmt != null) {
             return fmt;
         }
@@ -194,41 +194,41 @@ public class TripleFormat {
         if (!capabilities.has(TRIPLES)) {
             throw new UnsupportedOperationException("This format does not print RDF triples");
         }
-        return rdfFormat = new RDFFormat(name, mimeTypes, charset, fileExtensions, standardIRI,
-                capabilities.has(TRIPLES_AND_NAMESPACES), capabilities.has(QUADS));
+        return this.rdfFormat = new RDFFormat(this.name, this.mimeTypes, this.charset, this.fileExtensions,
+                this.standardIRI, capabilities.has(TRIPLES_AND_NAMESPACES), capabilities.has(QUADS), false);
     }
 
     public Optional<IRI> getStandardIRI() {
-        return Optional.ofNullable(standardIRI);
+        return Optional.ofNullable(this.standardIRI);
     }
 
     public List<String> getMimeTypes() {
-        return mimeTypes;
+        return this.mimeTypes;
     }
 
     public String getMimeType() {
-        return mimeTypes.get(0);
+        return this.mimeTypes.get(0);
     }
 
     public List<String> getExtensions() {
-        return fileExtensions;
+        return this.fileExtensions;
     }
 
     public Optional<String> getExtension() {
-        return fileExtensions.isEmpty() ? Optional.empty() : Optional.of(fileExtensions.get(0));
+        return this.fileExtensions.isEmpty() ? Optional.empty() : Optional.of(this.fileExtensions.get(0));
     }
 
     public Capabilities getCapabilities() {
-        return capabilities;
+        return this.capabilities;
     }
 
     public String getDisplayName() {
-        return name;
+        return this.name;
     }
 
     public String toString() {
-        return name + mimeTypes.stream().collect(Collectors.joining(", ", " (mimeTypes=", "; "))
-                + fileExtensions.stream().collect(Collectors.joining(", ", "ext=", ")"));
+        return this.name + this.mimeTypes.stream().collect(Collectors.joining(", ", " (mimeTypes=", "; "))
+                + this.fileExtensions.stream().collect(Collectors.joining(", ", "ext=", ")"));
     }
 
 }
