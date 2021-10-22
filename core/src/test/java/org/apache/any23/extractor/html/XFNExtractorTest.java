@@ -139,6 +139,13 @@ public class XFNExtractorTest extends AbstractExtractorTestCase {
     }
 
     @Test
+    public void testSomeLinksWithIncorrectHrefAttribute() throws RepositoryException {
+        assertExtract("/microformats/xfn/some-links-with-incorrect-href.html");
+        assertNotContains(null, null, alicesHomepage);
+        assertContains(null, vXFN.mePage, charliesHomepage);
+    }
+
+    @Test
     public void testForSomeReasonICantBeMyOwnSweetheart() throws RepositoryException {
         assertExtract("/microformats/xfn/me-and-sweetheart.html");
         assertModelEmpty();
