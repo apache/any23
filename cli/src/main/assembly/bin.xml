@@ -50,7 +50,7 @@
       <fileMode>0666</fileMode>
     </file>
     <file>
-      <source>${basedir}/../RELEASE-NOTES.txt</source>
+      <source>${basedir}/../RELEASE-NOTES.md</source>
       <outputDirectory/>
       <fileMode>0666</fileMode>
     </file>

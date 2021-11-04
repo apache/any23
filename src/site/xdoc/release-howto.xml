@@ -334,7 +334,7 @@ The Apache Any23 Team is pleased to announce the release of Apache Any23 ${lates
 Apache Anything To Triples (Any23) is a library, a web service and a command line tool that
 extracts structured data in RDF format from a variety of Web documents.
 
-Release Notes: https://github.com/apache/any23/blob/any23-${latestStableRelease}/RELEASE-NOTES.txt
+Release Notes: https://github.com/apache/any23/blob/any23-${latestStableRelease}/RELEASE-NOTES.md
 
 Download: http://any23.apache.org/download.html
 

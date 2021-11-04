@@ -992,7 +992,7 @@
                     <exclude>LICENSE.txt</exclude>
                     <exclude>NOTICE.txt</exclude>
                     <exclude>**/README.txt</exclude>
-                    <exclude>RELEASE-NOTES.txt</exclude>
+                    <exclude>RELEASE-NOTES.md</exclude>
                     <exclude>*.bat</exclude>
                     <exclude>*.sh</exclude>
                     <exclude>**/*.csv</exclude>
