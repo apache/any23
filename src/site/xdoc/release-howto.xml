@@ -20,7 +20,7 @@
 
   <properties>
     <title>Apache Any23 - Release HowTo</title>
-    <author email="any23-dev@apache.org">Apache Any23 Team</author>
+    <author email="dev@any23.apache.org">Apache Any23 Team</author>
   </properties>
 
   <body>
@@ -97,8 +97,9 @@
           </li>
           <li> Update the text files in a working copy of the project root:
             <ol>
-              <li>Update the <tt>RELEASE-NOTES.txt</tt> based on the text release reports from JIRA.</li>
-              <li>Review and update <tt>README</tt> if needed.</li>
+              <li>Update the <tt>RELEASE-NOTES.md</tt> based on the text release reports from JIRA.</li>
+              <li>Review and update <tt>README.md</tt> if needed.</li>
+              <li>Review and update dates in <tt>NOTICE.txt</tt> if needed.</li>
               <li>Commit any changes back to Git: <pre>git add -A &amp;&amp; git commit -m "updating files for release"</pre>.</li>
             </ol>
           </li>
