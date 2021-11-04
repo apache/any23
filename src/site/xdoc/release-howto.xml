@@ -35,14 +35,13 @@
         <a href="http://www.sonatype.com/people/2010/01/how-to-generate-pgp-signatures-with-maven/">guide</a> that will
         walk you though this.</li>
 
-        <li>Install Apache Maven 2.2.1 or higher. 2.2.0 has a bug that will produce invalid checksums; we strongly
-        encourage our committers to install Apache Maven 3.0.4.</li>
+        <li>Install the latest version of <a href="https://maven.apache.org/download.cgi">Apache Maven</a>.</li>
       </ul>
     </section>
 
     <section name="Configuration">
       <subsection name="Apache Maven">
-        <p>As of Maven 2.1.0 you can now encrypt your servers passwords. We highly recommend that you follow this
+        <p>We highly recommend that you follow this
         <a href="http://maven.apache.org/guides/mini/guide-encryption.html">guide</a> to set your master password and
         use it to encrypt your ASF password in the next section.</p>
       </subsection>
@@ -85,8 +84,8 @@
   ...
 </settings>]]></source>
 
-        <p>You can find a <a href="https://svn.apache.org/repos/asf/any23/committers/maven/settings.xml"><code>settings.xml</code></a>
-        template in our SVN committers space</p>
+        <p>You can find a <a href="https://raw.githubusercontent.com/apache/any23-committers/master/maven/settings.xml"><code>settings.xml</code></a>
+        template in our Github committers space</p>
       </subsection>
     </section>
 
@@ -98,7 +97,7 @@
           </li>
           <li> Update the text files in a working copy of the project root:
             <ol>
-              <li>Update the <tt>CHANGES</tt> based on the Text release reports from JIRA.</li>
+              <li>Update the <tt>RELEASE-NOTES.txt</tt> based on the text release reports from JIRA.</li>
               <li>Review and update <tt>README</tt> if needed.</li>
               <li>Commit any changes back to Git: <pre>git add -A &amp;&amp; git commit -m "updating files for release"</pre>.</li>
             </ol>

@@ -1,3 +1,106 @@
+
+        Release Notes - Apache Any23 - Version 2.6
+                
+<h2>        Bug
+</h2>
+<ul>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-524'>ANY23-524</a>] -         XFNExtractor: NPE on parsing links with incorrect HREF attribute
+</li>
+</ul>
+                
+<h2>        Improvement
+</h2>
+<ul>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-485'>ANY23-485</a>] -         Activate dependabot on Any23 codebase
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-486'>ANY23-486</a>] -         Bump jackson.version from 2.12.2 to 2.12.5
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-487'>ANY23-487</a>] -         Bump jsoup from 1.13.1 to 1.14.2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-488'>ANY23-488</a>] -         Bump jsonld-java from 0.13.2 to 0.13.3
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-489'>ANY23-489</a>] -         Bump slf4j.logger.version from 1.7.30 to 1.7.32
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-490'>ANY23-490</a>] -         Bump httpclient.version from 4.5.12 to 4.5.13
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-491'>ANY23-491</a>] -         Bump tika.version from 1.24 to 1.27
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-492'>ANY23-492</a>] -         Bump poi.version from 4.1.2 to 5.0.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-493'>ANY23-493</a>] -         Bump commons-io from 2.6 to 2.7
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-494'>ANY23-494</a>] -         Bump maven-gpg-plugin from 1.6 to 3.0.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-496'>ANY23-496</a>] -         Bump tika.version from 1.27 to 2.1.0 
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-497'>ANY23-497</a>] -         Bump commons-codec from 1.14 to 1.15
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-498'>ANY23-498</a>] -         Bump httpcore from 4.4.13 to 4.4.14
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-499'>ANY23-499</a>] -         Bump spotbugs-maven-plugin from 4.1.3 to 4.3.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-500'>ANY23-500</a>] -         Bump maven-assembly-plugin from 3.1.1 to 3.3.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-501'>ANY23-501</a>] -         Bump maven-invoker-plugin from 3.2.1 to 3.2.2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-502'>ANY23-502</a>] -         Bump maven-surefire-plugin from 3.0.0-M3 to 3.0.0-M5
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-503'>ANY23-503</a>] -         Bump apache from 21 to 24
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-504'>ANY23-504</a>] -         XML-based parsers should not load external DTDs by default
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-505'>ANY23-505</a>] -         Bump maven-scm-publish-plugin from 1.0-beta-2 to 3.1.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-506'>ANY23-506</a>] -         Bump jcommander from 1.78 to 1.81
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-507'>ANY23-507</a>] -         Bump commons-csv from 1.8 to 1.9.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-508'>ANY23-508</a>] -         Bump maven-project-info-reports-plugin from 3.0.0 to 3.1.2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-509'>ANY23-509</a>] -         Bump velocity from 1.5 to 1.7
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-510'>ANY23-510</a>] -         Bump maven-site-plugin from 3.7.1 to 3.9.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-511'>ANY23-511</a>] -         Bump snakeyaml from 1.26 to 1.29
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-512'>ANY23-512</a>] -         Bump maven-jxr-plugin from 3.0.0 to 3.1.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-513'>ANY23-513</a>] -         Bump formatter-maven-plugin from 2.14.0 to 2.16.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-514'>ANY23-514</a>] -         Bump maven-scm-provider-gitexe from 1.9 to 1.12.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-515'>ANY23-515</a>] -         Bump commons-lang3 from 3.10 to 3.12.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-516'>ANY23-516</a>] -         Bump appassembler-booter from 1.10 to 2.1.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-517'>ANY23-517</a>] -         Bump maven-javadoc-plugin from 3.2.0 to 3.3.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-518'>ANY23-518</a>] -         Bump jacoco-maven-plugin from 0.8.4 to 0.8.7
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-519'>ANY23-519</a>] -         Bump maven-enforcer-plugin from 3.0.0-M2 to 3.0.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-520'>ANY23-520</a>] -         Augment any23 extractor CLI to print all mimetypes for a given extractor
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-521'>ANY23-521</a>] -         Bump jsoup from 1.14.2 to 1.14.3
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-523'>ANY23-523</a>] -         Bump owlapi.version from 5.1.13 to 5.1.19 and RDF4J to 3.7.3 
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-525'>ANY23-525</a>] -         Remove maven-war-plugin configuration from build lifecycle
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-526'>ANY23-526</a>] -         Bump jackson.version from 2.12.5 to 2.13.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-527'>ANY23-527</a>] -         Bump biweekly from 0.6.3 to 0.6.6
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-528'>ANY23-528</a>] -         Bump maven-resources-plugin from 3.1.0 to 3.2.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-529'>ANY23-529</a>] -         Bump maven-checkstyle-plugin from 3.1.1 to 3.1.2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-530'>ANY23-530</a>] -         Bump xercesImpl from 2.12.0 to 2.12.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-531'>ANY23-531</a>] -         Bump commons-compress from 1.20 to 1.21
+</li>
+</ul>                                 
+
              Apache Any23 2.5
               Release Notes
            27/08/2021 (dd/mm/yyy)
