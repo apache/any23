@@ -246,7 +246,7 @@ https://gitbox.apache.org/repos/asf/any23.git ...
 Staging repo:
 https://repository.apache.org/content/repositories/orgapacheany23-[YOUR REPOSITORY ID]/
 
-Staging binaries:
+Proposed dist/ area:
 https://dist.apache.org/repos/dist/dev/any23/${latestStableRelease}
 
 PGP release keys (signed using ABCDEFG):
@@ -254,7 +254,7 @@ https://dist.apache.org/repos/dist/release/any23/KEYS
 
 Vote will be open for 72 hours.
 
-[ ] +1, let's get it ruuuumbleeeeee!!!
+[ ] +1, Release as Apache Any23 ${latestStableRelease}
 [ ] +/-0, fine, but consider to fix few issues before...
 [ ] -1, nope, because... (and please explain why)]]></pre>
           </li>
