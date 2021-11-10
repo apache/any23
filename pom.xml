@@ -293,7 +293,7 @@
     <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
     <spotbugs-maven-plugin.version>4.3.0</spotbugs-maven-plugin.version>
     <forbiddenapis.version>3.2</forbiddenapis.version>
-    <formatter-maven-plugin.version>2.16.0</formatter-maven-plugin.version>
+    <formatter-maven-plugin.version>2.17.0</formatter-maven-plugin.version>
 
     <!--
      | Any23 website has to be stored in SVN
