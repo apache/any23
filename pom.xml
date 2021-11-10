@@ -248,7 +248,7 @@
     <httpclient.version>4.5.13</httpclient.version>
     <httpcore.version>4.4.14</httpcore.version>
     <owlapi.version>5.1.19</owlapi.version>
-    <poi.version>5.0.0</poi.version>
+    <poi.version>5.1.0</poi.version>
     <rdf4j.version>3.7.3</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <slf4j.logger.version>1.7.32</slf4j.logger.version>
