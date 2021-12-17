@@ -283,20 +283,18 @@
     </dependency>
     <!-- END: Misc -->
 
-    <!-- BEGIN: slf4j -->
-    <dependency> <!-- used by Tika -->
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
-    <dependency> <!-- used by Tika, also replaces httpclient commons-logging dependency -->
-      <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
     </dependency>
-    <dependency> <!-- used by Tika -->
-      <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
     </dependency>
-    <!-- END: slf4j -->
 
     <!-- BEGIN: POI -->
     <dependency> <!-- used by Tika -->
@@ -333,11 +331,6 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- END: Test Dependencies -->
