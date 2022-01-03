@@ -304,6 +304,10 @@
     <site.urlDeployment>file://${site.filePath}</site.urlDeployment>
     <site.scmPubCheckoutDirectory>${site.filePath}</site.scmPubCheckoutDirectory>
     <assembly.skip>false</assembly.skip>
+    <!-- sonarcloud.io static source code analysis 
+    https://issues.apache.org/jira/browse/ANY23-546 -->
+    <sonar.organization>apache</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
   <dependencyManagement>
