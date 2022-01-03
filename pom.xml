@@ -308,6 +308,8 @@
     https://issues.apache.org/jira/browse/ANY23-546 -->
     <sonar.organization>apache</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+    <sonar.projectVersion>${version}</sonar.projectVersion>
   </properties>
 
   <dependencyManagement>
