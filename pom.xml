@@ -311,7 +311,7 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
     <sonar.projectVersion>${project.version}</sonar.projectVersion>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencyManagement>
@@ -967,7 +967,7 @@
           <execution>
             <id>report</id>
             <goals>
-             <goal>report-aggregate</goal>
+             <goal>report</goal>
             </goals>
             <phase>verify</phase>
           </execution>
