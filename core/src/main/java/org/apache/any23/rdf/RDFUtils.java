@@ -373,7 +373,7 @@ public class RDFUtils {
     }
 
     /**
-     * Creates a {@link BNode}.
+     * Creates a {@link BNode} with an MD5 digest as part of the ID.
      * 
      * @param id
      *            string representation of the {@link org.eclipse.rdf4j.model.BNode} name for which we will create a md5
