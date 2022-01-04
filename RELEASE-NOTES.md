@@ -11,6 +11,8 @@
 <h2>        Improvement
 </h2>
 <ul>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-307'>ANY23-307</a>] -         Ensure Microformats test suite compliance
+</li>
 <li>[<a href='https://issues.apache.org/jira/browse/ANY23-485'>ANY23-485</a>] -         Activate dependabot on Any23 codebase
 </li>
 <li>[<a href='https://issues.apache.org/jira/browse/ANY23-486'>ANY23-486</a>] -         Bump jackson.version from 2.12.2 to 2.12.5
@@ -99,7 +101,40 @@
 </li>
 <li>[<a href='https://issues.apache.org/jira/browse/ANY23-531'>ANY23-531</a>] -         Bump commons-compress from 1.20 to 1.21
 </li>
-</ul>                                 
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-532'>ANY23-532</a>] -         Bump poi.version from 5.0.0 to 5.1.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-533'>ANY23-533</a>] -         Bump formatter-maven-plugin from 2.16.0 to 2.17.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-536'>ANY23-536</a>] -         Upgrade to tika 2.2.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-537'>ANY23-537</a>] -         Bump formatter-maven-plugin from 2.17.0 to 2.17.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-538'>ANY23-538</a>] -         Replace existing logging with Slf4j over log4j2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-539'>ANY23-539</a>] -         Introduce ossindex-maven-plugin support
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-540'>ANY23-540</a>] -         Bump spotbugs-maven-plugin from 4.5.0.0 to 4.5.2.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-541'>ANY23-541</a>] -         Bump rdf4j.version from 3.7.3 to 3.7.4
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-542'>ANY23-542</a>] -         Bump jackson.version from 2.13.0 to 2.13.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-543'>ANY23-543</a>] -         Bump tika.version from 2.1.0 to 2.2.0 
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-544'>ANY23-544</a>] -         Bump snakeyaml from 1.29 to 1.30
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-547'>ANY23-547</a>] -         Bump httpcore from 4.4.14 to 4.4.15
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-548'>ANY23-548</a>] -         Bump mockito-core from 3.3.3 to 4.2.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-549'>ANY23-549</a>] -         Bump log4j2.version from 2.17.0 to 2.17.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-550'>ANY23-550</a>] -         Bump maven-deploy-plugin from 3.0.0-M1 to 3.0.0-M2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-551'>ANY23-551</a>] -         Bump tika.version from 2.2.0 to 2.2.1
+</li>
+</ul>
+                                                                                                                                                                                                
 
              Apache Any23 2.5
               Release Notes
