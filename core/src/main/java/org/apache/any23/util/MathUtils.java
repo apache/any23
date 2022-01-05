@@ -22,7 +22,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * General utility functions.
+ * Mathematical utility functions.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
@@ -32,6 +32,23 @@ public class MathUtils {
     private MathUtils() {
     }
 
+    /**
+     * <p>
+     * Create a MD5 <b>weak hash</b> for a given string.
+     * </p>
+     * <p>
+     * <b>N.B. This method MUST never be used in a sensitive context</b>. Examples of such usage include (i)
+     * User-password storage, (ii) Security token generation (used to confirm e-mail when registering on a website,
+     * reset password, etc...), (iii) To compute some message integrity.
+     * </p>
+     * Current usage is limited to {@link org.apache.any23.rdf.RDFUtils#getBNode(String)} which is fine for the creation
+     * of blank node(s).
+     *
+     * @param s
+     *            input string to create an MD5 hash for.
+     *
+     * @return a string representation of a MD5 {@link java.security.MessageDigest}
+     */
     public static final String md5(String s) {
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
