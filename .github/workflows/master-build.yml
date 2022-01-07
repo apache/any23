@@ -53,4 +53,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B clean formatter:validate verify javadoc:aggregate org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=apache_any23
+        run: mvn -B clean formatter:validate verify javadoc:aggregate org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=apache_any23 -Dsonar.login=$SONAR_TOKEN
