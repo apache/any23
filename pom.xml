@@ -295,6 +295,7 @@
     <formatter-maven-plugin.version>2.17.1</formatter-maven-plugin.version>
     <ossindex-maven-plugin.version>3.1.0</ossindex-maven-plugin.version>
     <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
+    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
 
     <!--
      | Any23 website has to be stored in SVN
@@ -304,6 +305,13 @@
     <site.urlDeployment>file://${site.filePath}</site.urlDeployment>
     <site.scmPubCheckoutDirectory>${site.filePath}</site.scmPubCheckoutDirectory>
     <assembly.skip>false</assembly.skip>
+    <!-- sonarcloud.io static source code analysis 
+    https://issues.apache.org/jira/browse/ANY23-546 -->
+    <sonar.organization>apache</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+    <sonar.projectVersion>${project.version}</sonar.projectVersion>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencyManagement>
@@ -918,7 +926,7 @@
             Declaring default file encoding: UTF-8
             Enabling assertions.
            -->
-          <argLine>-Dfile.encoding=UTF-8 -ea ${surefire-extra-args}</argLine>
+          <argLine>${argLine} -Dfile.encoding=UTF-8 -ea ${surefire-extra-args}</argLine>
           <includes>
             <include>**/*Test.java</include>
             <include>**/*TestCase.java</include>
@@ -945,6 +953,26 @@
         </executions>
       </plugin>
 
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+             <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>report</id>
+            <goals>
+             <goal>report</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -1238,6 +1266,7 @@
         <surefire-extra-args>--add-modules java.xml.bind</surefire-extra-args>
       </properties>
     </profile>
+
   </profiles>
 
 </project>

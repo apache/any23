@@ -6,6 +6,10 @@
 [![Jenkins](https://img.shields.io/jenkins/s/https/ci-builds.apache.org/job/Any23/job/any23-master.svg?maxAge=3600)](https://ci-builds.apache.org//job/Any23/job/any23-master/)
 [![Jenkins tests](https://img.shields.io/jenkins/t/https/ci-builds.apache.org/job/Any23/job/any23-master.svg?maxAge=3600)](https://ci-builds.apache.org//job/Any23/job/any23-master/lastBuild/testReport/)
 [![Maven Central](https://img.shields.io/maven-central/v/org.apache.any23/apache-any23.svg?maxAge=86400)](http://search.maven.org/#search|ga|1|g%3A%22org.apache.any23%22)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=apache_any23)
 
 Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
