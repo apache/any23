@@ -237,6 +237,8 @@ Hi,
 
 Please VOTE on the release candidate for Apache Any23 ${latestStableRelease}
 
+Note, this release candidate requires JDK11 to build and run.
+
 We solved N issues:
 http://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12312323&styleName=Html&version=X.Y
 
@@ -246,7 +248,7 @@ https://gitbox.apache.org/repos/asf/any23.git ...
 Staging repo:
 https://repository.apache.org/content/repositories/orgapacheany23-[YOUR REPOSITORY ID]/
 
-Proposed dist/ area:
+Sources and CLI binaries area:
 https://dist.apache.org/repos/dist/dev/any23/${latestStableRelease}
 
 PGP release keys (signed using ABCDEFG):
@@ -269,8 +271,7 @@ Vote will be open for 72 hours.
           <li>After the vote has been open for at least 72 hours, has at least three +1 PMC votes and no -1 votes, then
           post the results to the vote thread, replying to the initial email prepending <code>[RESULT]</code> to the
           original subject and include a list of every binding <code>+1</code>, <code>0</code> and <code>-1</code> vote.
-          <pre><![CDATA[To: "Apache Any23 Developers List" <dev@any23.apache.org>
-CC: "Apache Any23 PMC List" <private@any23.apache.org>
+          <pre><![CDATA[To: "Apache Any23 Developers List" <dev@any23.apache.org>, "Apache Any23 Users List" <user@any23.apache.org>
 Subject: [RESULT] [VOTE] Release Apache Any23 X.Y
 
 Hi,
@@ -311,6 +312,7 @@ I will promote the artifacts to the central repo.]]></pre>
           <a href="https://issues.apache.org/jira/plugins/servlet/project-config/ANY23/versions">JIRA versions</a>
           page to mark the version as <strong>Released</strong>, and set the date to the date that
           the release was approved. You may also need to make a new release entry for the next release.</li>
+          <li><a href="https://cwiki.apache.org/confluence/display/ANY23/Building+Apache+Any23+Website+HOW_TO">Update the Any23 website</a></li>
         </ol>
       </subsection>
 
@@ -319,7 +321,10 @@ I will promote the artifacts to the central repo.]]></pre>
         <a href="mailto:user@any23.apache.org">any23-user</a>,
         <a href="mailto:dev@any23.apache.org">any23-dev</a>, 
         <a href="https://groups.google.com/d/forum/web-data-commons">Web Data Commons - Google Group</a>,
-        maybe some other relevant W3C and/or OGC groups, and
+        <a href="mailto:dev@nutch.apache.org">nutch-dev</a>,
+        <a href="mailto:dev@camel.apache.org">camel-dev</a>,
+        <a href="mailto:dev@servicemix.apache.org">servicemix-dev</a>,
+        maybe some other relevant W3C and/or OGC groups as you see fit, and
         <a href="mailto:announce@apache.org">announce@apache.org</a> lists as per
         <a href="http://www.apache.org/foundation/mailinglists.html#foundation-announce">the Apache Announcement Mailing Lists page</a>
         </p>
@@ -331,8 +336,9 @@ Subject: [ANNOUNCE] Apache Any23 X.Y
 
 The Apache Any23 Team is pleased to announce the release of Apache Any23 ${latestStableRelease}.
 
-Apache Anything To Triples (Any23) is a library, a web service and a command line tool that
-extracts structured data in RDF format from a variety of Web documents.
+Apache Anything To Triples (Any23) is a library, a web service and a command line tool that extracts structured data in RDF format from a variety of Web documents.
+
+Any23 ${latestStableRelease} requires JDK11 to build and run.
 
 Release Notes: https://github.com/apache/any23/blob/any23-${latestStableRelease}/RELEASE-NOTES.md
 
