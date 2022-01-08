@@ -3,7 +3,6 @@
                                     ------
                               The Apache Software Foundation
                                     ------
-                                     2011-2012
 
 ~~  Licensed to the Apache Software Foundation (ASF) under one or more
 ~~  contributor license agreements.  See the NOTICE file distributed with
@@ -27,8 +26,8 @@ Acknowledgments
   {{{http://www.apache.ie/}DERI, NUI Galway}}, {{{http://wed.fbk.eu/en/home}Web of Data - FBK}}
   and the {{{http://www.okkam.org/}OKKAM project (ICT-215032)}}.
 
-  Individual developers who have contributed to <<any23>> include (in alphabetic order):
-  Michele Catasta, Richard Cyganiak, Michele Mostarda, Davide Palmisano, Gabriele Renzi, Juergen Umbrich.
+  Initial developers who have contributed to <<Any23>> include (in alphabetic order):
+  Michele Catasta, Richard Cyganiak, Michele Mostarda, Davide Palmisano, Gabriele Renzi, Juergen Umbrich. A more recent collection of contributors can be seen in the {{{https://github.com/apache/any23/graphs/contributors}GitHub contributors graph}}.
 
   Below the initial sponsors of the <Any23> project.
 

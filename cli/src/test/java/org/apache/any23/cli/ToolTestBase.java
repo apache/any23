@@ -17,15 +17,16 @@
 
 package org.apache.any23.cli;
 
-import com.beust.jcommander.Parameters;
-import org.apache.any23.Any23OnlineTestBase;
+import static java.lang.String.format;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 
-import static java.lang.String.format;
-import static org.junit.Assert.assertEquals;
+import org.apache.any23.Any23OnlineTestBase;
+
+import com.beust.jcommander.Parameters;
 
 /**
  * Base class for <i>CLI</i> related tests.
@@ -39,7 +40,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
     private final Class<? extends Tool> toolClazz;
 
     protected ToolTestBase(Class<? extends Tool> tool) {
-        toolClazz = Objects.requireNonNull(tool, "Tool class cannot be null.");
+        this.toolClazz = Objects.requireNonNull(tool, "Tool class cannot be null.");
     }
 
     /**
@@ -54,7 +55,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *             if there is an error asserting the test data.
      */
     protected int runTool(String... args) throws Exception {
-        final String commandName = toolClazz.getAnnotation(Parameters.class).commandNames()[0];
+        final String commandName = this.toolClazz.getAnnotation(Parameters.class).commandNames()[0];
 
         final String[] enhancedArgs = new String[args.length + 1];
         enhancedArgs[0] = commandName;
@@ -89,7 +90,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      */
     protected void runToolCheckExit0(String... args) throws Exception {
         assertEquals(format(Locale.ROOT, "Unexpected exit code for tool [%s] invoked with %s",
-                toolClazz.getSimpleName(), Arrays.asList(args)), 0, runTool(args));
+                this.toolClazz.getSimpleName(), Arrays.asList(args)), 0, runTool(args));
     }
 
 }

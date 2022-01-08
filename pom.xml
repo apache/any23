@@ -39,7 +39,7 @@
     <developer>
       <id>hansbrende</id>
       <name>Hans Brende</name>
-      <email>hansbrende[at]apache[dot]org</email>
+      <email>hansbrende@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -48,7 +48,7 @@
     <developer>
       <id>band</id>
       <name>Bill Anderson</name>
-      <email>band[at]apache[dot]org</email>
+      <email>band@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -57,7 +57,7 @@
     <developer>
       <id>ansell</id>
       <name>Peter Ansell</name>
-      <email>ansell[at]apache[dot]org</email>
+      <email>ansell@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -66,7 +66,7 @@
     <developer>
       <id>dpalmisano</id>
       <name>Davide Palmisano</name>
-      <email>dpalmisano[at]apache[dot]org</email>
+      <email>dpalmisano@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -75,7 +75,7 @@
     <developer>
       <id>giovanni</id>
       <name>Giovanni Tummarello</name>
-      <email>giovanni[at]apache[dot]org</email>
+      <email>giovanni@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -84,7 +84,7 @@
     <developer>
       <id>lewismc</id>
       <name>Lewis John McGibbney</name>
-      <email>lewismc[at]apache[dot]org</email>
+      <email>lewismc@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -93,7 +93,7 @@
     <developer>
       <id>mattmann</id>
       <name>Chris Mattmann</name>
-      <email>mattmann[at]apache[dot]org</email>
+      <email>mattmann@apache.org</email>
       <roles>
         <role>Champion</role>
         <role>Committer</role>
@@ -104,7 +104,7 @@
     <developer>
       <id>mostarda</id>
       <name>Michele Mostarda</name>
-      <email>mostarda[at]apache[dot]org</email>
+      <email>mostarda@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -113,7 +113,7 @@
     <developer>
       <id>niq</id>
       <name>Nick Kew</name>
-      <email>niq[at]apache[dot]org</email>
+      <email>niq@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -123,7 +123,7 @@
     <developer>
       <id>pramirez</id>
       <name>Paul Michael Ramirez</name>
-      <email>pramirez[at]apache[dot]org</email>
+      <email>pramirez@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -133,7 +133,7 @@
     <developer>
       <id>reto</id>
       <name>Reto Bachmann-Gmür</name>
-      <email>reto[at]apache[dot]org</email>
+      <email>reto@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -142,7 +142,7 @@
     <developer>
       <id>simonetripodi</id>
       <name>Simone Tripodi</name>
-      <email>simonetripodi[at]apache[dot]org</email>
+      <email>simonetripodi@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -152,7 +152,7 @@
     <developer>
       <id>szydan</id>
       <name>Szymon Danielczyk</name>
-      <email>szydan[at]apache[dot]org</email>
+      <email>szydan@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -161,7 +161,7 @@
     <developer>
       <id>tommaso</id>
       <name>Tommaso Teofili</name>
-      <email>tommaso[at]apache[dot]org</email>
+      <email>tommaso@apache.org</email>
       <roles>
         <role>Committer</role>
         <role>PMC Member</role>
@@ -173,35 +173,26 @@
   <mailingLists>
     <mailingList>
       <name>Dev Mailing List</name>
-      <post>dev[at]any23[dot]apache[dot]org</post>
-      <subscribe>dev-subscribe[at]any23[dot]apache[dot]org</subscribe>
-      <unsubscribe>dev-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/any23-dev/</archive>
-      <otherArchives>
-        <otherArchive>https://lists.apache.org/list.html?dev@any23.apache.org</otherArchive>
-      </otherArchives>
+      <post>dev@any23.apache.org</post>
+      <subscribe>dev-subscribe@any23.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@any23.apache.org</unsubscribe>
+      <archive>https://lists.apache.org/list.html?dev@any23.apache.org</archive>
     </mailingList>
 
     <mailingList>
       <name>User Mailing List</name>
-      <post>user[at]any23[dot]apache[dot]org</post>
-      <subscribe>user-subscribe[at]any23[dot]apache[dot]org</subscribe>
-      <unsubscribe>user-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/any23-user/</archive>
-      <otherArchives>
-        <otherArchive>https://lists.apache.org/list.html?user@any23.apache.org</otherArchive>
-      </otherArchives>
+      <post>user@any23.apache.org</post>
+      <subscribe>user-subscribe@any23.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@any23.apache.org</unsubscribe>
+      <archive>https://lists.apache.org/list.html?user@any23.apache.org</archive>
     </mailingList>
 
     <mailingList>
       <name>Commits Mailing List</name>
-      <post>commits[at]any23[dot]apache[dot]org</post>
-      <subscribe>commits-subscribe[at]any23[dot]apache[dot]org</subscribe>
-      <unsubscribe>commits-unsubscribe[at]any23[dot]apache[dot]org</unsubscribe>
-      <archive>http://mail-archives.apache.org/mod_mbox/any23-commits/</archive>
-      <otherArchives>
-        <otherArchive>https://lists.apache.org/list.html?commits@any23.apache.org</otherArchive>
-      </otherArchives>
+      <post>commits@any23.apache.org</post>
+      <subscribe>commits-subscribe@any23.apache.org</subscribe>
+      <unsubscribe>commits-unsubscribe@any23.apache.org</unsubscribe>
+      <archive>https://lists.apache.org/list.html?commits@any23.apache.org</archive>
     </mailingList>
   </mailingLists>
 
@@ -257,6 +248,7 @@
     <openregex.version>1.1.1</openregex.version>
     <jackson.version>2.13.1</jackson.version>
     <commons-io.version>2.11.0</commons-io.version>
+    <velocity.version>1.7</velocity.version>
 
     <!-- Overridden in profiles to add JDK specific arguments to surefire -->
     <surefire-extra-args />
@@ -731,12 +723,12 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.12.0</version>
+              <version>1.12.2</version>
             </dependency>
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-api</artifactId>
-              <version>1.12.0</version>
+              <version>1.12.2</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -1012,16 +1004,14 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${maven-javadoc-plugin.version}</version>
-      </plugin>
-
-      <!-- Browsable documentation. -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <version>${maven-jxr-plugin.version}</version>
-        <configuration>
-          <aggregate>true</aggregate>
-        </configuration>
+        <reportSets>
+          <reportSet>
+            <id>html</id>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
 
       <plugin>
@@ -1193,7 +1183,7 @@
               <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>
-                <version>1.7</version>
+                <version>${velocity.version}</version>
               </dependency>
             </dependencies>
             <configuration>
@@ -1202,7 +1192,7 @@
                 <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-project-info-reports-plugin</artifactId>
-                  <version>2.4</version>
+                  <version>${maven-project-info-reports-plugin.version.version}</version>
                   <configuration>
                     <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
@@ -1231,6 +1221,7 @@
                   <version>${maven-javadoc-plugin.version}</version>
                   <reportSets>
                     <reportSet>
+                      <id>html</id>
                       <reports>
                         <report>aggregate</report>
                       </reports>
@@ -1247,7 +1238,7 @@
             <version>3.1.0</version>
             <configuration>
               <tryUpdate>true</tryUpdate>
-              <checkinComment>Apache Any23 site deployment</checkinComment>
+              <checkinComment>Apache Any23 ${project.version} site deployment</checkinComment>
               <checkoutDirectory>${site.scmPubCheckoutDirectory}</checkoutDirectory>
               <pubScmUrl>${site.deploymentBaseUrl}</pubScmUrl>
               <content>${site.filePath}</content>
