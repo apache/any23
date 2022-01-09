@@ -209,8 +209,8 @@
   <scm>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/any23.git</developerConnection>
     <connection>scm:git:http://gitbox.apache.org/repos/asf/any23.git</connection>
-    <url>https://gitbox.apache.org/repos/asf/any23.git</url>
-    <tag>any23-2.6</tag>
+    <url>https://github.com/apache/any23/tree/${project.scm.tag}</url>
+    <tag>master</tag>
   </scm>
   <issueManagement>
     <system>JIRA</system>
