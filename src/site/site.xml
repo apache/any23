@@ -21,7 +21,7 @@
 
   <publishDate position="left"/>
   <version position="left"/>
-
+  
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
@@ -39,6 +39,20 @@
     <src>http://www.apache.org/images/feather-small.gif</src>
     <href>http://www.apache.org/</href>
   </bannerRight>
+
+  <custom>
+    <fluidoSkin>
+      <googleSearch>
+        <sitesearch/>
+      </googleSearch>
+      <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+    </fluidoSkin>
+    <gitHub>
+      <projectId>apache/any23</projectId>
+      <ribbonOrientation>right</ribbonOrientation>
+      <ribbonColor>black</ribbonColor>
+    </gitHub>
+  </custom>
 
   <body>
     <menu name="${project.name}">

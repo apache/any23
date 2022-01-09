@@ -219,6 +219,16 @@
   <ciManagement>
     <system>Jenkins</system>
     <url>https://ci-builds.apache.org/job/Any23/</url>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <sendOnError>true</sendOnError>
+        <sendOnFailure>true</sendOnFailure>
+        <sendOnSuccess>false</sendOnSuccess>
+        <sendOnWarning>false</sendOnWarning>
+        <configuration><address>dev@any23.apache.org</address></configuration>
+      </notifier>
+    </notifiers>
   </ciManagement>
 
   <!-- General properties. -->
