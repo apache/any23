@@ -19,14 +19,15 @@
     xsi:schemaLocation="http://maven.apache.org/DECORATION/1.7.0 http://maven.apache.org/xsd/decoration-1.7.0.xsd"
     name="${project.name}">
 
-  <publishDate position="left"/>
-  <version position="left"/>
+  <publishDate position="right"/>
+  <version position="right"/>
   
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
     <version>1.10.0</version>
   </skin>
+  <edit>${project.scm.url}</edit>
 
   <bannerLeft>
     <name>Apache Any23: Anything to Triples</name>
@@ -55,6 +56,11 @@
   </custom>
 
   <body>
+    <breadcrumbs>
+      <item name="Apache" href="https://www.apache.org/" />
+      <item name="Any23"  href="https://any23.apache.org/index.html" />
+    </breadcrumbs>
+
     <menu name="${project.name}">
       <item name="Introduction"      href="./index.html"/>
       <item name="Downloads"         href="./download.html" collapse="true">
