@@ -32,7 +32,7 @@
 
       <p>In order to guard against corrupted downloads/installations, it is highly recommended to <a href="https://www.apache.org/dev/release-signing#verifying-signature">verify the signature</a> of the release bundles against the public <a href="https://apache.org/dist/any23/KEYS">KEYS</a> used by the Apache Any23 developers.</p>
 
-      <p>Apache Any23 is distributed under the <a href="https://any23.apache.org/license.html"> Apache License, version 2.0</a>.</p>
+      <p>Apache Any23 is distributed under the <a href="https://any23.apache.org/license.html">Apache License, version 2.0</a>.</p>
 
 
       <subsection name="Apache Any23 Maven Artifacts">
@@ -44,6 +44,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;&#60;version&#62;${latestStableRelease}&#60;/version&#62;<br />
           &#60;/dependency&#62;
         </code>
+        <p>Also see <a href="./dependency-info.html">dependency information</a> for defining Any23 as a dependency in other popular build systems.</p>
       </subsection>
 
       <subsection name="Apache Any23 Sources">

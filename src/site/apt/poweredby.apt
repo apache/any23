@@ -3,7 +3,6 @@
                                     ------
                               The Apache Software Foundation
                                     ------
-                                     2011-2012
 
 ~~  Licensed to the Apache Software Foundation (ASF) under one or more
 ~~  contributor license agreements.  See the NOTICE file distributed with
@@ -27,19 +26,16 @@ PoweredBy
 [./images/logo-sindice-90x30.png]  
 
   Sindice was a platform to build applications on top of structured data.
-  Sindice collected Web Data in many ways, following existing web standards,
-  and offered Search and Querying across this data, updated live every few minutes.
+  Sindice collected Web Data in many ways, following web standards,
+  and offered search and querying across this data, updated live every few minutes.
 
-[./images/fu-logo-90x25.png][./images/kit-logo-90x40.png]
+[./images/cc-logo.png]
+
+[./images/ma-logo.png]
 
   {{{http://webdatacommons.org/}WebDataCommons}}
 
-  Extracting Structured Data from the Common Web Crawl.
-  More and more websites have started to embed structured data describing products, 
-  people, organizations, places, events into their HTML pages. The Web Data Commons
-  project extracts this data from several billion web pages and provides the extracted 
-  data for download. Web Data Commons thus enables you to use the data without needing 
-  to crawl the Web yourself.
+  The Web Data Commons project extracts structured data from the {{{http://commoncrawl.org/}Common Crawl}}, the largest web corpus available to the public, and provides the extracted data for public download in order to support researchers and companies in exploiting the wealth of information that is available on the Web. 
 
 [./images/nutch_logo_tm.png]
 
@@ -52,3 +48,14 @@ PoweredBy
   from Webpages. This data can then be indexed into one of the Nutch supported storage
   mechanisms.
 
+[./images/camel-logo.jpg]
+
+  {{{http://camel.apache.org}Apache Camel}}
+
+  Camel is an Open Source integration framework that empowers you to quickly and easily integrate various systems consuming or producing data. 
+
+[./images/servicemix-logo.png]
+
+  {{{http://servicemix.apache.org}Apache ServiceMix}}
+
+  Apache ServiceMix is a flexible, open-source integration container that unifies the features and functionality of Apache ActiveMQ, Camel, CXF, and Karaf into a powerful runtime platform you can use to build your own integrations solutions. It provides a complete, enterprise ready ESB exclusively powered by OSGi.
