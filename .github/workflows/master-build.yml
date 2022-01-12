@@ -19,7 +19,6 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -49,8 +48,16 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+      - name: Format, Build and Generate Javadocs
+        run: mvn -B clean formatter:validate install javadoc:aggregate
+      - name: Analyze with SonarCloud
+        #if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+        run: >
+          mvn sonar:sonar
+          -Dsonar.projectKey=apache_any23
+          -Dsonar.organization=apache
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.login=$SONAR_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B clean formatter:validate verify javadoc:aggregate org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=apache_any23
