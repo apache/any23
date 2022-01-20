@@ -42,7 +42,7 @@ git clone https://github.com/apache/any23.git
 cd any23
 mvn clean install
 ```
-From now on the above directory **any23** is refered to as **$ANY23_HOME**
+From now on the above directory **any23** is referred to as **$ANY23_HOME**
 This will install the Any23 artifacts and its dependencies in your 
 local Maven3 repository.
 You can then extract the compiled code and use the command line interface
