@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -47,9 +48,12 @@ public class XSLTStylesheet {
 
     public XSLTStylesheet(InputStream xsltFile) {
         try {
-            transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(xsltFile));
-        } catch (TransformerConfigurationException e) {
-            throw new RuntimeException("Should not happen, we use the default configuration", e);
+            TransformerFactory tf = TransformerFactory.newInstance();
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+            this.transformer = tf.newTransformer(new StreamSource(xsltFile));
+        } catch (TransformerConfigurationException tce) {
+            throw new RuntimeException("Should not happen, we use the default configuration", tce);
         }
     }
 
