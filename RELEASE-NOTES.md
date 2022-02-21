@@ -1,4 +1,51 @@
-
+         Release Notes - Apache Any23 - Version 2.7
+                        
+<h2>        New Feature
+</h2>
+<ul>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-546'>ANY23-546</a>] -         Implement sonarcloud.io in Any23 continuous integration
+</li>
+</ul>
+        
+<h2>        Improvement
+</h2>
+<ul>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-553'>ANY23-553</a>] -         Document MathUtils#md5 to warn that the weak hash algorithm is not to be used in a sensitive context
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-555'>ANY23-555</a>] -         Bump buildnumber-maven-plugin from 1.4 to 3.0.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-556'>ANY23-556</a>] -         Bump spotbugs-maven-plugin from 4.5.2.0 to 4.5.3.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-558'>ANY23-558</a>] -         Bump maven-jar-plugin from 3.2.0 to 3.2.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-559'>ANY23-559</a>] -         Bump maven-site-plugin from 3.9.1 to 3.10.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-560'>ANY23-560</a>] -         Bump jcommander from 1.81 to 1.82
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-561'>ANY23-561</a>] -         Bump slf4j-api from 1.7.32 to 1.7.33
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-562'>ANY23-562</a>] -         Bump maven-jar-plugin from 3.2.1 to 3.2.2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-563'>ANY23-563</a>] -         Bump maven-compiler-plugin from 3.8.1 to 3.9.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-564'>ANY23-564</a>] -         Bump slf4j-api from 1.7.33 to 1.7.35
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-565'>ANY23-565</a>] -         Bump xercesImpl from 2.12.1 to 2.12.2
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-566'>ANY23-566</a>] -         Bump mockito-core from 4.2.0 to 4.3.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-568'>ANY23-568</a>] -         Bump maven-compiler-plugin from 3.9.0 to 3.10.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-569'>ANY23-569</a>] -         Bump ossindex-maven-plugin from 3.1.0 to 3.2.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-570'>ANY23-570</a>] -         Bump tika.version from 2.2.1 to 2.3.0
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-571'>ANY23-571</a>] -         Bump maven-project-info-reports-plugin from 3.1.2 to 3.2.1
+</li>
+<li>[<a href='https://issues.apache.org/jira/browse/ANY23-572'>ANY23-572</a>] -         Upgrade owlapi to 5.1.20
+</li>
+</ul>
+                                                                                                                                                                
         Release Notes - Apache Any23 - Version 2.6
                 
 <h2>        Bug

@@ -80,55 +80,6 @@ and finally invoke the script for your OS (UNIX or Windows):
 ```
 usage instructions will be printed out.
 
-# Run the Any23 Web Service
-
-Any23 can be run as a service. 
-To run the Any23 service go to the service dir
-and then invoke the embedded Jetty server
-```
-cd $ANY23_HOME/service
-mvn jetty:run
-```
-You can check the service is running by accessing [http://localhost:8080/](http://localhost:8080/) with your browser.
-
-The complete documentation about this service can be found [here](http://any23.apache.org/getting-started.html)
-
-# Build the Any23 Web Service WAR
-
-The Any23 Service WAR by default will be generated as self-contained, all the dependencies will be included as JAR within the WEB-INF/lib archive dir.
-
-To generate the self contained WAR invoke from the service dir:
-```
-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
-```
-Where -o will build the process offline, and -Dmaven.test.skip=true
-will force the test skipping.
-
-The WAR will be generated in
-```
-$ANY23_HOME/service/target/any23-service-x.y.z-SNAPSHOT.war
-```
-To produce a instead a WAR WITHOUT the included JAR dependencies it is possible to use
-the war-without-deps profile:
-```
-any23-service$ mvn [-o] [-Dmaven.test.skip=true] clean package
-```
-The option [-o] will speed up the module build if you have already
-collected all the required dependencies.
-
-The option [-Dmaven.test.skip=true] will disable tests.
-
-Again the various versions of the WAR will be generated into
-```
-$ANY23_HOME/service/target/apache-any23-service-x.y.z-*
-```
-
-## Any23 Web Service Tracker Disclaimer
-
-The Any23 Web Service form (service/src/main/resources/form.html) contains a Google Analytics Tracker which is
-by default configured to report to the Any23 Community. It is possible to change the user ID modifying the
-```form.tracker.id``` property in parent POM.
-
 # Generate the Documentation
 
 To generate the project site locally execute the following command from $ANY23_HOME:
@@ -151,4 +102,3 @@ MAVEN_OPTS='-Xmx1024m' mvn -P umlgraphdoc clean site:site
 # Munging of Any23 code to ASF
 
 When it was [decided](http://wiki.apache.org/incubator/Any23Proposal) that the Any23 code be brought into the Apache Incubator, the existing code was migrated over to the ASF infrastructure and documented/managed via a number of Jira tickets e.g, [INFRA-3978](https://issues.apache.org/jira/browse/INFRA-3978) [INFRA-4146](https://issues.apache.org/jira/browse/INFRA-4146) and [ANY23-29](https://issues.apache.org/jira/browse/ANY23-29).
-
