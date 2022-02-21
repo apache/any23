@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache.any23</groupId>
     <artifactId>apache-any23</artifactId>
-    <version>2.7</version>
+    <version>2.8-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
 
