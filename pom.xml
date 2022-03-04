@@ -278,7 +278,7 @@
     <owlapi.version>5.1.20</owlapi.version>
     <rdf4j.version>3.7.4</rdf4j.version>
     <semargl.version>0.7</semargl.version>
-    <slf4j.version>1.7.35</slf4j.version>
+    <slf4j.version>1.7.36</slf4j.version>
     <log4j2.version>2.17.1</log4j2.version>
     <tika.version>2.3.0</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
