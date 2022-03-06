@@ -305,7 +305,7 @@
     <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
     <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
     <appassembler-maven-plugin.version>2.1.0</appassembler-maven-plugin.version>
-    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
     <buildnumber-maven-plugin.version>3.0.0</buildnumber-maven-plugin.version>
     <maven-compiler-plugin.version>3.10.0</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
@@ -933,7 +933,6 @@
             </manifest>
             <manifestEntries>
               <Implementation-Build>${implementation.build}</Implementation-Build>
-              <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
               <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
               <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
             </manifestEntries>
@@ -1150,7 +1149,6 @@
                     </manifest>
                     <manifestEntries>
                       <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
                       <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
                       <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
                     </manifestEntries>
@@ -1179,7 +1177,6 @@
                     </manifest>
                     <manifestEntries>
                       <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
                       <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
                       <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
                     </manifestEntries>
