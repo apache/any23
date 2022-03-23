@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 
-Apache Any23 ${project.version} (${implementation.build.tstamp})
+Apache Any23 ${project.version}
 
   What is it?
   -----------
