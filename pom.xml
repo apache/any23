@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.apache</groupId>
     <artifactId>apache</artifactId>
-    <version>24</version>
+    <version>25</version>
   </parent>
 
   <groupId>org.apache.any23</groupId>
@@ -278,8 +278,8 @@
     <owlapi.version>5.1.20</owlapi.version>
     <rdf4j.version>3.7.4</rdf4j.version>
     <semargl.version>0.7</semargl.version>
-    <slf4j.version>1.7.35</slf4j.version>
     <log4j2.version>2.17.2</log4j2.version>
+    <slf4j.version>1.7.36</slf4j.version>
     <tika.version>2.3.0</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
@@ -292,27 +292,27 @@
 
     <!-- Used to track API changes based on Semantic Versioning
          NOTE: velocity does.not.allow.dot.notation, so justUseCamelCase -->
-    <latestStableRelease>2.6</latestStableRelease>
+    <latestStableRelease>2.7</latestStableRelease>
 
     <!-- Google Analytics id for website -->
     <form.tracker.id>UA-59636188-1</form.tracker.id>
 
     <!-- Maven Plugin Versions -->
-    <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
     <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
     <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
     <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
     <appassembler-maven-plugin.version>2.1.0</appassembler-maven-plugin.version>
-    <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
+    <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
     <buildnumber-maven-plugin.version>3.0.0</buildnumber-maven-plugin.version>
-    <maven-compiler-plugin.version>3.10.0</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-    <maven-site-plugin.version>3.10.0</maven-site-plugin.version>
+    <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
     <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
-    <maven-project-info-reports-plugin.version>3.2.1</maven-project-info-reports-plugin.version>
+    <maven-project-info-reports-plugin.version>3.2.2</maven-project-info-reports-plugin.version>
     <maven-jxr-plugin.version>3.1.1</maven-jxr-plugin.version>
     <maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
     <apache-rat-plugin.version>0.13</apache-rat-plugin.version>
@@ -667,7 +667,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.3.1</version>
+        <version>4.4.0</version>
         <scope>test</scope>
       </dependency>
       <!-- END: Test Dependencies -->
@@ -933,7 +933,6 @@
             </manifest>
             <manifestEntries>
               <Implementation-Build>${implementation.build}</Implementation-Build>
-              <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
               <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
               <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
             </manifestEntries>
@@ -1150,7 +1149,6 @@
                     </manifest>
                     <manifestEntries>
                       <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
                       <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
                       <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
                     </manifestEntries>
@@ -1179,7 +1177,6 @@
                     </manifest>
                     <manifestEntries>
                       <Implementation-Build>${implementation.build}</Implementation-Build>
-                      <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
                       <X-Compile-Source-JDK>${javac.src.version}</X-Compile-Source-JDK>
                       <X-Compile-Target-JDK>${javac.target.version}</X-Compile-Target-JDK>
                     </manifestEntries>
