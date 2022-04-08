@@ -309,7 +309,7 @@
     <buildnumber-maven-plugin.version>3.0.0</buildnumber-maven-plugin.version>
     <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
     <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-    <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M6</maven-surefire-plugin.version>
     <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
     <maven-changes-plugin.version>2.12.1</maven-changes-plugin.version>
     <maven-project-info-reports-plugin.version>3.2.2</maven-project-info-reports-plugin.version>
