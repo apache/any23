@@ -24,7 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
  * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
  * set of closely related concepts from both legal and commonsense domains.
  * </p>
- * 
+ *
  * <p>
  * The LKIF top ontology is largely based on the top-level of LRI-Core but has less ontological commitment in the sense
  * that it imposes less restrictions on subclasses of the top categories.

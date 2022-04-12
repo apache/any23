@@ -20,7 +20,7 @@ import org.eclipse.rdf4j.model.IRI;
 
 /**
  * This vocabulary describes model of the yaml file.
- * 
+ *
  * @author Jacek Grzebyta (grzebyta.dev [at] gmail.com)
  */
 public class YAML extends Vocabulary {
@@ -64,12 +64,12 @@ public class YAML extends Vocabulary {
      * </p>
      * <p>
      * <code>
-     * %YAML 1.2 
-     * --- 
-     * - data1 
-     * - data2 
-     * --- 
-     * - data3 
+     * %YAML 1.2
+     * ---
+     * - data1
+     * - data2
+     * ---
+     * - data3
      * </code>
      * </p>
      * Contains two documents.

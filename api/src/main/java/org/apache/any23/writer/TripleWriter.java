@@ -30,7 +30,7 @@ public interface TripleWriter extends AutoCloseable {
 
     /**
      * Writes a triple and, optionally, a graph resource name.
-     * 
+     *
      * @param s
      *            the subject to write
      * @param p
@@ -39,7 +39,7 @@ public interface TripleWriter extends AutoCloseable {
      *            the object to write
      * @param g
      *            the graph name to write, or null
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an error writing the triple
      */
@@ -49,12 +49,12 @@ public interface TripleWriter extends AutoCloseable {
      * Writes a prefix-namespace mapping. <br>
      * <b>NOTE:</b> this method should be called <b>before</b> writing out any triples. Calling this method <b>after</b>
      * writing out a triple may result in the prefix-namespace mapping being ignored.
-     * 
+     *
      * @param prefix
      *            the namespace prefix
      * @param uri
      *            the namespace uri
-     * 
+     *
      * @throws TripleHandlerException
      *             if there was an error writing out the prefix-namespace mapping
      */
@@ -64,7 +64,7 @@ public interface TripleWriter extends AutoCloseable {
      * Releases resources associated with this {@link TripleWriter}, and flushes (but by default does not close) any
      * underlying {@link java.io.OutputStream}s. Future invocations of methods of this writer produce <b>undefined
      * behavior</b> after this method has been called.
-     * 
+     *
      * @throws TripleHandlerException
      *             if there was an error closing this {@link TripleWriter}
      */

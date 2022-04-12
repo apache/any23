@@ -38,9 +38,9 @@ public interface Validator {
      *            the {@link DOMDocument} instance wrapping the original <i>HTML</i> document.
      * @param applyFix
      *            if <code>true</code> tries to fix the document.
-     * 
+     *
      * @return a report of the detected issues.
-     * 
+     *
      * @throws ValidatorException
      *             if an error occurs during the validation process.
      */
@@ -55,9 +55,9 @@ public interface Validator {
      *            the original <i>HTML</i> document.
      * @param applyFix
      *            if <code>true</code> tries to fix the document.
-     * 
+     *
      * @return a report of the detected issues.
-     * 
+     *
      * @throws ValidatorException
      *             if an error occurs during the validation process.
      */
@@ -101,7 +101,7 @@ public interface Validator {
      *
      * @param rule
      *            {@link org.apache.any23.validator.Rule} to obtain fixes for.
-     * 
+     *
      * @return a not null list of fixes.
      */
     List<Class<? extends Fix>> getFixes(Class<? extends Rule> rule);

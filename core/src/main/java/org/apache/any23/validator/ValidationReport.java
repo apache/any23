@@ -29,7 +29,7 @@ import java.util.Locale;
  *
  * @see Validator
  * @see ValidationReportBuilder
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -70,7 +70,7 @@ public interface ValidationReport extends Serializable {
     class Issue implements Serializable {
 
         /**
-        * 
+        *
         */
         private static final long serialVersionUID = 1L;
         private final IssueLevel level;
@@ -116,7 +116,7 @@ public interface ValidationReport extends Serializable {
     class RuleActivation implements Serializable {
 
         /**
-        * 
+        *
         */
         private static final long serialVersionUID = 1L;
         private final String ruleStr;
@@ -144,7 +144,7 @@ public interface ValidationReport extends Serializable {
     abstract class Error implements Serializable {
 
         /**
-        * 
+        *
         */
         private static final long serialVersionUID = 1L;
         private final Exception cause;
@@ -181,7 +181,7 @@ public interface ValidationReport extends Serializable {
     class RuleError extends Error {
 
         /**
-        * 
+        *
         */
         private static final long serialVersionUID = 1L;
         private final Rule origin;
@@ -210,7 +210,7 @@ public interface ValidationReport extends Serializable {
     class FixError extends Error {
 
         /**
-        * 
+        *
         */
         private static final long serialVersionUID = 1L;
         private final Fix origin;

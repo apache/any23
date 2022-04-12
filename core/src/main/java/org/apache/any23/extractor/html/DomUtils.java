@@ -73,7 +73,7 @@ public class DomUtils {
      *
      * @param n
      *            the node of which returning the index.
-     * 
+     *
      * @return a non negative number.
      */
     public static int getIndexInParent(Node n) {
@@ -101,7 +101,7 @@ public class DomUtils {
      *
      * @param node
      *            the input node.
-     * 
+     *
      * @return the XPath location of node as String.
      */
     public static String getXPathForNode(Node node) {
@@ -123,7 +123,7 @@ public class DomUtils {
      *
      * @param n
      *            the node for which retrieve the path.
-     * 
+     *
      * @return a sequence of HTML tag names.
      */
     public static String[] getXPathListForNode(Node n) {
@@ -145,7 +145,7 @@ public class DomUtils {
      *
      * @param n
      *            input node.
-     * 
+     *
      * @return an array of two elements of type
      *         <code>[&lt;begin-row&gt;, &lt;begin-col&gt;, &lt;end-row&gt; &lt;end-col&gt;]</code> or <code>null</code>
      *         if not possible to extract such data.
@@ -170,7 +170,7 @@ public class DomUtils {
      *            the candidate sibling node.
      * @param strict
      *            if <code>true</code> is not allowed that the ancestor and sibling can be the same node.
-     * 
+     *
      * @return <code>true</code> if <code>candidateSibling</code> is ancestor of <code>candidateSibling</code>,
      *         <code>false</code> otherwise.
      */
@@ -198,7 +198,7 @@ public class DomUtils {
      *            the candidate ancestor node.
      * @param candidateSibling
      *            the candidate sibling node.
-     * 
+     *
      * @return <code>true</code> if <code>candidateSibling</code> is ancestor of <code>candidateSibling</code>,
      *         <code>false</code> otherwise.
      */
@@ -209,12 +209,12 @@ public class DomUtils {
     /**
      * Finds all nodes that have a declared class. Note that the className is transformed to lower case before being
      * matched against the DOM.
-     * 
+     *
      * @param root
      *            the root node from which start searching.
      * @param className
      *            the name of the filtered class.
-     * 
+     *
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByClassName(Node root, String className) {
@@ -224,12 +224,12 @@ public class DomUtils {
     /**
      * Finds all nodes that have a declared attribute. Note that the className is transformed to lower case before being
      * matched against the DOM.
-     * 
+     *
      * @param root
      *            the root node from which start searching.
      * @param attrName
      *            the name of the filtered attribue.
-     * 
+     *
      * @return list of matching nodes or an empty list.
      */
     public static List<Node> findAllByAttributeName(Node root, String attrName) {
@@ -250,12 +250,12 @@ public class DomUtils {
 
     /**
      * Mimics the JS DOM API, or prototype's $()
-     * 
+     *
      * @param root
      *            the node to locate
      * @param id
      *            the id of the node to locate
-     * 
+     *
      * @return the {@link org.w3c.dom.Node} if one exists
      */
     public static Node findNodeById(Node root, String id) {
@@ -271,12 +271,12 @@ public class DomUtils {
 
     /**
      * Returns a NodeList composed of all the nodes that match an XPath expression, which must be valid.
-     * 
+     *
      * @param node
      *            the node object to locate
      * @param xpath
      *            an xpath expression
-     * 
+     *
      * @return a list of {@link org.w3c.dom.Node}'s if they exists
      */
     public static List<Node> findAll(Node node, String xpath) {
@@ -297,12 +297,12 @@ public class DomUtils {
 
     /**
      * Gets the string value of an XPath expression.
-     * 
+     *
      * @param node
      *            the node object to locate
      * @param xpath
      *            an xpath expression
-     * 
+     *
      * @return a string xpath value
      */
     public static String find(Node node, String xpath) {
@@ -319,12 +319,12 @@ public class DomUtils {
     /**
      * Tells if an element has a class name <b>not checking the parents in the hierarchy</b> mimicking the <i>CSS</i>
      * .foo match.
-     * 
+     *
      * @param node
      *            the node object to locate
      * @param className
      *            the CSS class name
-     * 
+     *
      * @return true if the class name exists
      */
     public static boolean hasClassName(Node node, String className) {
@@ -334,14 +334,14 @@ public class DomUtils {
     /**
      * Checks the presence of an attribute value in attributes that contain whitespace-separated lists of values. The
      * semantic is the CSS classes' ones: "foo" matches "bar foo", "foo" but not "foob"
-     * 
+     *
      * @param node
      *            the node object to locate
      * @param attributeName
      *            attribute value
      * @param className
      *            the CSS class name
-     * 
+     *
      * @return true if the class has the attribute name
      */
     public static boolean hasAttribute(Node node, String attributeName, String className) {
@@ -361,7 +361,7 @@ public class DomUtils {
      *            the node container.
      * @param attributeName
      *            the name of the attribute.
-     * 
+     *
      * @return true if the attribute is present
      */
     public static boolean hasAttribute(Node node, String attributeName) {
@@ -373,7 +373,7 @@ public class DomUtils {
      *
      * @param target
      *            target node to check
-     * 
+     *
      * @return <code>true</code> if the element the node is an element, <code>false</code> otherwise.
      */
     public static boolean isElementNode(Node target) {
@@ -390,7 +390,7 @@ public class DomUtils {
      *            attribute name.
      * @param defaultValue
      *            the default value to return if attribute is not found.
-     * 
+     *
      * @return the attribute value or <code>defaultValue</code> if not found.
      */
     public static String readAttribute(Node node, String attribute, String defaultValue) {
@@ -413,7 +413,7 @@ public class DomUtils {
      *            attribute prefix.
      * @param defaultValue
      *            default returned value.
-     * 
+     *
      * @return the value found or default.
      */
     public static String readAttributeWithPrefix(Node node, String attributePrefix, String defaultValue) {
@@ -438,7 +438,7 @@ public class DomUtils {
      *            node to read the attribute.
      * @param attribute
      *            attribute name.
-     * 
+     *
      * @return the attribute value or <code>""</code> if not found.
      */
     public static String readAttribute(Node node, String attribute) {
@@ -452,9 +452,9 @@ public class DomUtils {
      *            node to be serialized.
      * @param indent
      *            if <code>true</code> the output is indented.
-     * 
+     *
      * @return the XML serialization.
-     * 
+     *
      * @throws TransformerException
      *             if an error occurs during the serializator initialization and activation.
      * @throws java.io.IOException
@@ -488,7 +488,7 @@ public class DomUtils {
      *            name of attribute filter.
      * @param attrContains
      *            expected content for attribute.
-     * 
+     *
      * @return a {@link java.util.List} of {@link org.w3c.dom.Node}'s
      */
     private static List<Node> findAllBy(Node root, final String tagName, final String attrName, String attrContains) {
@@ -546,10 +546,10 @@ public class DomUtils {
 
     /**
      * Given a {@link org.w3c.dom.Document} this method will return an input stream representing that document.
-     * 
+     *
      * @param doc
      *            the input {@link org.w3c.dom.Document}
-     * 
+     *
      * @return an {@link java.io.InputStream}
      */
     public static InputStream documentToInputStream(Document doc) {
@@ -577,10 +577,10 @@ public class DomUtils {
 
     /**
      * Convert a w3c dom node to a InputStream
-     * 
+     *
      * @param node
      *            {@link org.w3c.dom.Node} to convert
-     * 
+     *
      * @return the converted {@link java.io.InputStream}
      */
     public static InputStream nodeToInputStream(Node node) {

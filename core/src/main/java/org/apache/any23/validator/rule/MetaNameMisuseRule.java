@@ -31,7 +31,7 @@ import java.util.List;
  * Checks whether the meta attribute name is used to contain a property.
  *
  * @see MetaNameMisuseFix
- * 
+ *
  * @author Davide Palmisano (palmisano@fbk.eu)
  * @author Michele Mostarda (mostarda@fbk.eu)
  */

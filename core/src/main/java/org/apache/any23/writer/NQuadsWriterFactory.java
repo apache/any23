@@ -31,7 +31,7 @@ public class NQuadsWriterFactory implements TripleWriterFactory {
     public static final String IDENTIFIER = "nquads";
 
     /**
-     * 
+     *
      */
     public NQuadsWriterFactory() {
     }

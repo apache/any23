@@ -103,7 +103,7 @@ public class WriterFactoryRegistry {
      *
      * @param writerClass
      *            writer class.
-     * 
+     *
      * @return identifier.
      */
     public static String getIdentifier(WriterFactory writerClass) {
@@ -115,7 +115,7 @@ public class WriterFactoryRegistry {
      *
      * @param writerClass
      *            writer class.
-     * 
+     *
      * @return MIME type.
      */
     public static String getMimeType(WriterFactory writerClass) {
@@ -186,7 +186,7 @@ public class WriterFactoryRegistry {
      *
      * @param f
      *            the writer factory to be registered.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the id or the mimetype are null or empty strings or if the identifier has been already defined.
      */
@@ -250,7 +250,7 @@ public class WriterFactoryRegistry {
      *
      * @param id
      *            identifier.
-     * 
+     *
      * @return <code>true</code> if the identifier has been registered, <code>false</code> otherwise.
      */
     public boolean hasIdentifier(String id) {
@@ -288,7 +288,7 @@ public class WriterFactoryRegistry {
      *
      * @param id
      *            the writer identifier.
-     * 
+     *
      * @return the {@link WriterFactory} matching the <code>id</code> or <code>null</code> if not found.
      */
     public WriterFactory getWriterByIdentifier(String id) {
@@ -302,7 +302,7 @@ public class WriterFactoryRegistry {
      *
      * @param mimeType
      *            a MIMEType.
-     * 
+     *
      * @return a list of matching writers or an empty list.
      */
     public Collection<WriterFactory> getWritersByMimeType(String mimeType) {
@@ -319,9 +319,9 @@ public class WriterFactoryRegistry {
      *            the identifier of the {@link FormatWriter} to instantiate.
      * @param os
      *            the output stream.
-     * 
+     *
      * @return the not <code>null</code> {@link FormatWriter} instance.
-     * 
+     *
      * @throws NullPointerException
      *             if the <code>id</code> doesn't match any registered writer.
      *

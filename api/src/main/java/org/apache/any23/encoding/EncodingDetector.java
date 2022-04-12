@@ -32,10 +32,10 @@ public interface EncodingDetector {
      *
      * @param input
      *            the input stream containing the data.
-     * 
+     *
      * @return a string compliant to <a href="http://www.iana.org/assignments/character-sets">IANA Charset
      *         Specification</a>.
-     * 
+     *
      * @throws IOException
      *             if there is an error whilst guessing the encoding.
      */
@@ -48,10 +48,10 @@ public interface EncodingDetector {
      *            the input stream containing the data.
      * @param contentType
      *            the declared content type of the data.
-     * 
+     *
      * @return a string compliant to <a href="http://www.iana.org/assignments/character-sets">IANA Charset
      *         Specification</a>.
-     * 
+     *
      * @throws IOException
      *             if there is an error whilst guessing the encoding.
      */

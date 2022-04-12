@@ -31,7 +31,7 @@ public class NTriplesWriterFactory implements TripleWriterFactory {
     public static final String IDENTIFIER = "ntriples";
 
     /**
-     * 
+     *
      */
     public NTriplesWriterFactory() {
     }

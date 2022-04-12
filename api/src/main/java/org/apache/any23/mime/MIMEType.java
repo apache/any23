@@ -45,9 +45,9 @@ public class MIMEType implements Comparable<MIMEType> {
      *
      * @param mimeType
      *            a provided mimetype string.
-     * 
+     *
      * @return the mime type instance.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the <code>mimeType</code> is not well formatted.
      */

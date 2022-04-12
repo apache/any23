@@ -26,7 +26,7 @@ import java.util.Map;
  * This class provides the report for a {@link SingleDocumentExtraction} run.
  *
  * @see SingleDocumentExtraction
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class SingleDocumentExtractionReport {

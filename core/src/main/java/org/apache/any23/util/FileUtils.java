@@ -49,7 +49,7 @@ public class FileUtils {
      *            file to be moved.
      * @param dest
      *            dest dir.
-     * 
+     *
      * @return destination file.
      */
     public static File mv(File target, File dest) {
@@ -108,7 +108,7 @@ public class FileUtils {
      *            source file.
      * @param dest
      *            destination file.
-     * 
+     *
      * @throws java.io.FileNotFoundException
      *             if file cannot be copied or created.
      */
@@ -129,7 +129,7 @@ public class FileUtils {
      *            file target.
      * @param content
      *            content to be dumped.
-     * 
+     *
      * @throws IOException
      *             if there is an error dumping the content
      */
@@ -150,7 +150,7 @@ public class FileUtils {
      *            file to generate dump.
      * @param t
      *            exception to be dumped.
-     * 
+     *
      * @throws IOException
      *             if there is an error dumping the content
      */
@@ -169,9 +169,9 @@ public class FileUtils {
      *            the class to use load the resource.
      * @param resource
      *            the resource to be load.
-     * 
+     *
      * @return the string representing the file content.
-     * 
+     *
      * @throws java.io.IOException
      *             if there is an error loading the resource
      */
@@ -184,9 +184,9 @@ public class FileUtils {
      *
      * @param resource
      *            the resource to be load.
-     * 
+     *
      * @return the string representing the file content.
-     * 
+     *
      * @throws java.io.IOException
      *             if there is an error loading the resource
      */
@@ -199,9 +199,9 @@ public class FileUtils {
      *
      * @param f
      *            the file to read.
-     * 
+     *
      * @return the content of file.
-     * 
+     *
      * @throws IOException
      *             if an error occurs while locating or accessing the file.
      */
@@ -215,9 +215,9 @@ public class FileUtils {
      *
      * @param f
      *            the file to read.
-     * 
+     *
      * @return a not <code>null</code> array with not <code>null</code> line strings.
-     * 
+     *
      * @throws IOException
      *             if an error occurs while locating or accessing the file.
      */
@@ -233,7 +233,7 @@ public class FileUtils {
      *            directory root.
      * @param filenameFilter
      *            filter to be applied.
-     * 
+     *
      * @return list of matching files.
      */
     public static File[] listFilesRecursively(File dir, FilenameFilter filenameFilter) {

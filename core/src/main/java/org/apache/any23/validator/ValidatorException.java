@@ -21,7 +21,7 @@ package org.apache.any23.validator;
  * Models any exception raised by the {@link Validator}.
  *
  * @see Validator
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

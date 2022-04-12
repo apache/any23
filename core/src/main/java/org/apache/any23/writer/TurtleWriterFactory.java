@@ -31,7 +31,7 @@ public class TurtleWriterFactory implements TripleWriterFactory {
     public static final String IDENTIFIER = "turtle";
 
     /**
-     * 
+     *
      */
     public TurtleWriterFactory() {
     }

@@ -24,7 +24,7 @@ import java.lang.invoke.MethodHandles;
 
 /**
  * Provides specific application logger configuration methods.
- * 
+ *
  * @deprecated since 2.3. JUL is no longer used in this project.
  */
 @Deprecated

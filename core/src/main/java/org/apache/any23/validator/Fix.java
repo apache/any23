@@ -21,7 +21,7 @@ package org.apache.any23.validator;
  * This interface models a fix for an issue.
  *
  * @see Rule
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

@@ -38,7 +38,7 @@ import java.util.Locale;
  * Test case for {@link ExtractionResultImpl} class.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
- * 
+ *
  * @version $Id$
  */
 public class ExtractionResultImplTest {

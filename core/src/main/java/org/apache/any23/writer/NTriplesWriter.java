@@ -25,7 +25,7 @@ import java.io.OutputStream;
 
 /**
  * Implementation of an <i>N-Triples</i> {@link TripleWriter}.
- * 
+ *
  * @author Hans Brende (hansbrende@apache.org)
  */
 public class NTriplesWriter extends RDFWriterTripleHandler {

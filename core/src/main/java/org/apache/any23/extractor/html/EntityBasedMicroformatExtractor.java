@@ -51,9 +51,9 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
      *            the DOM node.
      * @param out
      *            the extraction result collector.
-     * 
+     *
      * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
-     * 
+     *
      * @throws ExtractionException
      *             if there is an error during extraction
      */
@@ -78,7 +78,7 @@ public abstract class EntityBasedMicroformatExtractor extends MicroformatExtract
     /**
      * @param node
      *            a DOM node representing a blank node
-     * 
+     *
      * @return an RDF blank node corresponding to that DOM node, by using a blank node ID like "MD5 of
      *         http://doc-uri/#xpath/to/node"
      */

@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * This class models the parameters to be used to perform an extraction. See org.apache.any23.Any23 for more details.
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class ExtractionParameters {
@@ -100,7 +100,7 @@ public class ExtractionParameters {
     public ExtractionParameters(Configuration configuration, ValidationMode extractionMode, final boolean nesting) {
         this(configuration, extractionMode, new HashMap<String, Boolean>() {
             /**
-             * 
+             *
              */
             private static final long serialVersionUID = 1L;
             {
@@ -112,7 +112,7 @@ public class ExtractionParameters {
     /**
      * @param c
      *            the underlying configuration.
-     * 
+     *
      * @return the default extraction parameters.
      */
     public static final ExtractionParameters newDefault(Configuration c) {
@@ -155,7 +155,7 @@ public class ExtractionParameters {
      *
      * @param flagName
      *            name of flag.
-     * 
+     *
      * @return flag value.
      */
     public boolean getFlag(String flagName) {
@@ -173,7 +173,7 @@ public class ExtractionParameters {
      *            flag name.
      * @param value
      *            new flag value.
-     * 
+     *
      * @return the previous flag value.
      */
     public Boolean setFlag(String flagName, boolean value) {
@@ -188,9 +188,9 @@ public class ExtractionParameters {
      *
      * @param propertyName
      *            the property name.
-     * 
+     *
      * @return the property value.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the property name is not defined in configuration.
      */
@@ -209,7 +209,7 @@ public class ExtractionParameters {
      *            the property name.
      * @param propertyValue
      *            the property value.
-     * 
+     *
      * @return the previous property value.
      */
     public String setProperty(String propertyName, String propertyValue) {

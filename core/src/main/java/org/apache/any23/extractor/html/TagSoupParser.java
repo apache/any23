@@ -88,7 +88,7 @@ public class TagSoupParser {
      * Returns the DOM of the given document IRI.
      *
      * @return the <i>HTML</i> DOM.
-     * 
+     *
      * @throws IOException
      *             if there is an error whilst accessing the DOM
      */
@@ -111,11 +111,11 @@ public class TagSoupParser {
      *
      * @param applyFix
      *            whether to apply fixes to the DOM
-     * 
+     *
      * @return a report containing the <i>HTML</i> DOM that has been validated and fixed if <i>applyFix</i> if
      *         <code>true</code>. The reports contains also information about the activated rules and the the detected
      *         issues.
-     * 
+     *
      * @throws IOException
      *             if there is an error accessing the DOM
      * @throws org.apache.any23.validator.ValidatorException

@@ -46,7 +46,7 @@ public final class Settings extends AbstractSet<Setting<?>> {
     /**
      * @param identifier
      *            the identifier of the setting to find
-     * 
+     *
      * @return the setting with the identifier supplied, if present
      */
     public Optional<Setting<?>> find(String identifier) {
@@ -56,16 +56,16 @@ public final class Settings extends AbstractSet<Setting<?>> {
     /**
      * This method is semantically equivalent to: <br>
      * <br>
-     * 
+     *
      * <pre>
      * {@code find(setting.getIdentifier()).flatMap(s -> s.as(setting))}
      * </pre>
-     * 
+     *
      * @param <S>
      *            generic setting type
      * @param setting
      *            a setting key
-     * 
+     *
      * @return the setting with the same setting key as the supplied setting, if present.
      */
     public <S extends Setting<?>> Optional<S> find(S setting) {
@@ -76,16 +76,16 @@ public final class Settings extends AbstractSet<Setting<?>> {
     /**
      * This method is semantically equivalent to: <br>
      * <br>
-     * 
+     *
      * <pre>
      * {@code find(defaultSetting).orElse(defaultSetting).getValue()}
      * </pre>
-     * 
+     *
      * @param <E>
      *            generic setting type
      * @param defaultSetting
      *            a default key for which to obtain a value set
-     * 
+     *
      * @return the value set for {@code defaultSetting}'s key, if present. Otherwise, returns {@code defaultSetting}'s
      *         value.
      */
@@ -121,7 +121,7 @@ public final class Settings extends AbstractSet<Setting<?>> {
 
     /**
      * Returns an empty {@link Settings} object.
-     * 
+     *
      * @return an empty {@link Settings} object
      */
     public static Settings of() {
@@ -130,10 +130,10 @@ public final class Settings extends AbstractSet<Setting<?>> {
 
     /**
      * Returns a singleton {@link Settings} object, containing only the supplied Setting.
-     * 
+     *
      * @param s
      *            one {@link org.apache.any23.configuration.Setting}
-     * 
+     *
      * @return a {@link Settings} object containing the supplied Setting.
      */
     public static Settings of(Setting<?> s) {
@@ -143,10 +143,10 @@ public final class Settings extends AbstractSet<Setting<?>> {
     /**
      * @param settings
      *            one or more {@link org.apache.any23.configuration.Setting}'s
-     * 
+     *
      * @return a {@link Settings} object containing the supplied settings. For any two settings having the same key, the
      *         first will be overwritten by the second.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if any two settings have the same identifier
      */
@@ -160,9 +160,9 @@ public final class Settings extends AbstractSet<Setting<?>> {
     /**
      * @param c
      *            a populated {@link java.util.Collection} of {@link org.apache.any23.configuration.Setting}'s
-     * 
+     *
      * @return a {@link Settings} object containing the supplied settings.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if any two settings have the same identifier
      */

@@ -47,11 +47,11 @@ import org.w3c.dom.NodeList;
 /**
  * This parser is able to extract <a href="http://www.w3.org/TR/rdfa-syntax/">RDFa 1.0</a> and
  * <a href="http://www.w3.org/TR/rdfa-core/">RDFa 1.1</a> statements from any <i>(X)HTML</i> document.
- * 
+ *
  * @deprecated since 2.3 the {@link org.eclipse.rdf4j.rio.Rio} implementations are used to parse RDFa. Look at
  *             {@link org.apache.any23.extractor.rdf.RDFParserFactory#getRDFa10Parser} and
  *             {@link org.apache.any23.extractor.rdf.RDFParserFactory#getRDFa11Parser}.
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Deprecated
@@ -130,7 +130,7 @@ public class RDFa11Parser {
      *
      * @param prefixesDeclaration
      *            input prefix
-     * 
+     *
      * @return list of extracted prefixes.
      */
     protected static String[] extractPrefixSections(String prefixesDeclaration) {
@@ -223,7 +223,7 @@ public class RDFa11Parser {
      *            a {@link org.apache.any23.extractor.ExtractionResult} to populate
      * @param document
      *            the {@link org.w3c.dom.Document} to populate with parse content
-     * 
+     *
      * @throws RDFa11ParserException
      *             if there is an error parsing the document
      */
@@ -321,7 +321,7 @@ public class RDFa11Parser {
      *
      * @param prefix
      *            input prefix.
-     * 
+     *
      * @return IRI mapping.
      */
     protected IRI getMapping(String prefix) {
@@ -343,9 +343,9 @@ public class RDFa11Parser {
      *            list of CURIE/URI.
      * @param termAllowed
      *            determine whether the term should be whitelisted.
-     * 
+     *
      * @return list of resolved URIs.
-     * 
+     *
      * @throws URISyntaxException
      *             if there is an error processing CURIE or URL
      */
@@ -374,7 +374,7 @@ public class RDFa11Parser {
      *
      * @param iriStr
      *            (partial) IRI string to be resolved.
-     * 
+     *
      * @return the resolved IRI.
      */
     protected IRI resolveIRI(String iriStr) {
@@ -388,7 +388,7 @@ public class RDFa11Parser {
      *            individual of CURIE/URI to resolve
      * @param termAllowed
      *            if <code>true</code> the resolution can be a term.
-     * 
+     *
      * @return the resolved resource.
      */
     protected Resource resolveCURIEOrIRI(String curieOrIRI, boolean termAllowed) {
@@ -555,7 +555,7 @@ public class RDFa11Parser {
      *
      * @param currentElement
      * @param extractionResult
-     * 
+     *
      * @throws Exception
      */
     // TODO: add references to the RDFa 1.1 algorithm.
@@ -720,7 +720,7 @@ public class RDFa11Parser {
      *
      * @param node
      * @param currentEvaluationContext
-     * 
+     *
      * @throws URISyntaxException
      */
     private void establishNewSubject(Node node, EvaluationContext currentEvaluationContext) throws URISyntaxException {
@@ -761,7 +761,7 @@ public class RDFa11Parser {
      *
      * @param node
      * @param currentEvaluationContext
-     * 
+     *
      * @throws URISyntaxException
      */
     private void establishNewSubjectCurrentObjectResource(Node node, EvaluationContext currentEvaluationContext)
@@ -832,9 +832,9 @@ public class RDFa11Parser {
      * section 7.5.11</i>.
      *
      * @param node
-     * 
+     *
      * @return
-     * 
+     *
      * @throws URISyntaxException
      * @throws IOException
      * @throws TransformerException
@@ -880,9 +880,9 @@ public class RDFa11Parser {
      * Extracts the current typed literal from the given node. See <i>RDFa 1.0 Specification section 5.5.9.1</i>.
      *
      * @param node
-     * 
+     *
      * @return
-     * 
+     *
      * @throws URISyntaxException
      */
     private Literal getAsTypedLiteral(Node node) throws URISyntaxException {
@@ -918,7 +918,7 @@ public class RDFa11Parser {
      *
      * @param mapping
      * @param resolutionPolicy
-     * 
+     *
      * @return
      */
     private Resource resolveNamespacedIRI(String mapping, ResolutionPolicy resolutionPolicy) {

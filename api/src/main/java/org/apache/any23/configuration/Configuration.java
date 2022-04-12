@@ -34,7 +34,7 @@ public interface Configuration {
      *
      * @param propertyName
      *            name of property to check.
-     * 
+     *
      * @return <code>true</code> if defined, <code>false</code> otherwise.
      */
     boolean defineProperty(String propertyName);
@@ -46,7 +46,7 @@ public interface Configuration {
      *            name of property
      * @param defaultValue
      *            default value if not found.
-     * 
+     *
      * @return the value associated to <i>propertyName</i>.
      */
     String getProperty(String propertyName, String defaultValue);
@@ -57,9 +57,9 @@ public interface Configuration {
      *
      * @param propertyName
      *            name of property to be returned.
-     * 
+     *
      * @return property value.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the property name is not defined or the found property value is blank or empty.
      */
@@ -71,9 +71,9 @@ public interface Configuration {
      *
      * @param propertyName
      *            name of property to be returned.
-     * 
+     *
      * @return property value.
-     * 
+     *
      * @throws NullPointerException
      *             if the property name is not defined.
      * @throws IllegalArgumentException
@@ -92,9 +92,9 @@ public interface Configuration {
      *
      * @param propertyName
      *            name of property flag.
-     * 
+     *
      * @return <code>true</code> for <code>on</code>, <code>false</code> for <code>off</code>.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the <code>propertyName</code> is not declared.
      */

@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
 
 /**
  * Extractor for the <a href="http://microformats.org/wiki/hreview-aggregate">hReview-aggregate</a> microformat.
- * 
+ *
  * @author Sebastien Richard
  */
 public class HReviewAggregateExtractor extends EntityBasedMicroformatExtractor {

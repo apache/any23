@@ -45,7 +45,7 @@ public class YAMLTikaParserTest {
 
     /**
      * Yaml type is detected by file name only so detector returns octet type.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */

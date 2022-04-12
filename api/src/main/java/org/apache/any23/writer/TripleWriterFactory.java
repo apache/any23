@@ -30,7 +30,7 @@ import java.io.OutputStream;
 /**
  * Base interface for constructors of {@link TripleHandler} implementations that write to an {@link OutputStream} using
  * a particular {@link FileFormat}.
- * 
+ *
  * @author Hans Brende (hansbrende@apache.org)
  */
 public interface TripleWriterFactory extends BaseWriterFactory<OutputStream> {
@@ -131,9 +131,9 @@ public interface TripleWriterFactory extends BaseWriterFactory<OutputStream> {
      *            the {@link OutputStream} to write to
      * @param settings
      *            the settings with which to configure the writer
-     * 
+     *
      * @return a {@link TripleHandler} which writes to the specified {@link OutputStream}
-     * 
+     *
      * @throws NullPointerException
      *             if the output stream or settings is null
      * @throws IllegalArgumentException

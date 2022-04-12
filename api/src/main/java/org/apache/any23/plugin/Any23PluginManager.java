@@ -94,7 +94,7 @@ public class Any23PluginManager {
      *
      * @param jar
      *            the JAR file to be loaded.
-     * 
+     *
      * @return <code>true</code> if the JAR is added for the first time to the classpath, <code>false</code> otherwise.
      */
     public synchronized boolean loadJAR(File jar) {
@@ -113,7 +113,7 @@ public class Any23PluginManager {
      *
      * @param jars
      *            list of JARs to be loaded.
-     * 
+     *
      * @return list of exceptions raised during the loading.
      */
     public synchronized Throwable[] loadJARs(File... jars) {
@@ -135,7 +135,7 @@ public class Any23PluginManager {
      *
      * @param classDir
      *            the directory to be loaded.
-     * 
+     *
      * @return <code>true</code> if the directory is added for the first time to the classpath, <code>false</code>
      *         otherwise.
      */
@@ -155,7 +155,7 @@ public class Any23PluginManager {
      *
      * @param classDirs
      *            list of class dirs to be loaded.
-     * 
+     *
      * @return list of exceptions raised during the loading.
      */
     public synchronized Throwable[] loadClassDirs(File... classDirs) {
@@ -177,7 +177,7 @@ public class Any23PluginManager {
      * @param jarDir
      *            directory containing the JARs to be loaded. Example
      *            '/usr/local/apache-tomcat-7.0.72/webapps/apache-any23-service-2.2-SNAPSHOT/WEB-INF/lib/apache-any23-openie'
-     * 
+     *
      * @return <code>true</code> if all JARs in dir are loaded.
      */
     public synchronized boolean loadJARDir(File jarDir) {
@@ -205,7 +205,7 @@ public class Any23PluginManager {
      *
      * @param files
      *            list of files to be loaded.
-     * 
+     *
      * @return list of errors occurred during loading.
      */
     public synchronized Throwable[] loadFiles(File... files) {
@@ -239,9 +239,9 @@ public class Any23PluginManager {
      *            type of filtered class.
      * @param type
      *            of filtered class.
-     * 
+     *
      * @return list of matching classes.
-     * 
+     *
      * @throws IOException
      *             if there is an error obtaining plugins.
      */
@@ -253,7 +253,7 @@ public class Any23PluginManager {
      * Returns the list of all the {@link Tool} classes declared within the classpath.
      *
      * @return not <code>null</code> list of tool classes.
-     * 
+     *
      * @throws IOException
      *             if there is an error obtaining {@link org.apache.any23.cli.Tool}'s from the classpath.
      */
@@ -265,7 +265,7 @@ public class Any23PluginManager {
      * List of {@link ExtractorPlugin} classes declared within the classpath.
      *
      * @return not <code>null</code> list of plugin classes.
-     * 
+     *
      * @throws IOException
      *             if there is an error obtaining Extractors.
      */
@@ -279,7 +279,7 @@ public class Any23PluginManager {
      *
      * @param pluginLocations
      *            list of locations.
-     * 
+     *
      * @return a report about the loaded plugins.
      */
     public synchronized String loadPlugins(File... pluginLocations) {
@@ -308,9 +308,9 @@ public class Any23PluginManager {
      *
      * @param pluginLocations
      *            path locations of plugins.
-     * 
+     *
      * @return full list of extractors.
-     * 
+     *
      * @throws java.io.IOException
      *             if there is an error locating the plugin(s).
      * @throws IllegalAccessException
@@ -353,9 +353,9 @@ public class Any23PluginManager {
      *
      * @param initialExtractorGroup
      *            initial list of extractors.
-     * 
+     *
      * @return full list of extractors.
-     * 
+     *
      * @throws java.io.IOException
      *             if there is an error locating the extractor(s).
      * @throws IllegalAccessException
@@ -373,14 +373,14 @@ public class Any23PluginManager {
     /**
      * Returns an extractor group containing both the default extractors declared by the
      * {@link org.apache.any23.extractor.ExtractorRegistry} and the {@link ExtractorPlugin}s.
-     * 
+     *
      * @param registry
      *            an {@link org.apache.any23.extractor.ExtractorRegistry}
      * @param pluginLocations
      *            optional list of plugin locations.
      *
      * @return a not <code>null</code> and not empty extractor group.
-     * 
+     *
      * @throws java.io.IOException
      *             if there is an error locating the extractor group.
      * @throws IllegalAccessException
@@ -398,9 +398,9 @@ public class Any23PluginManager {
      *
      * @param pluginLocations
      *            list of plugin locations.
-     * 
+     *
      * @return set of detected tools.
-     * 
+     *
      * @throws IOException
      *             if there is an error acessing {@link org.apache.any23.cli.Tool}'s.
      */
@@ -414,7 +414,7 @@ public class Any23PluginManager {
      * Converts a column separated list of dirs in a list of files.
      *
      * @param pluginDirsList
-     * 
+     *
      * @return
      */
     private File[] getPluginLocations(String pluginDirsList) {

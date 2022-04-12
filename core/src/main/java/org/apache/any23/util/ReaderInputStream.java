@@ -106,9 +106,9 @@ public class ReaderInputStream extends InputStream {
      *            the offset in the byte array
      * @param len
      *            the length in the byte array to fill
-     * 
+     *
      * @return the actual number read into the byte array, -1 at the end of the stream
-     * 
+     *
      * @exception IOException
      *                if an error occurs
      */
@@ -158,7 +158,7 @@ public class ReaderInputStream extends InputStream {
 
     /**
      * @return the current number of bytes ready for reading
-     * 
+     *
      * @exception IOException
      *                if an error occurs
      */

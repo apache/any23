@@ -74,7 +74,7 @@ import static org.apache.any23.extractor.ExtractionParameters.ValidationMode;
 
 /**
  * Test case for {@link Any23} facade.
- * 
+ *
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  */
@@ -110,7 +110,7 @@ public class Any23Test extends Any23OnlineTestBase {
     /**
      * This tests the behavior of <i>Any23</i> to execute the extraction explicitly specifying the charset encoding of
      * the input.
-     * 
+     *
      * @throws Exception
      *             if there is an error reading the input
      */
@@ -122,7 +122,7 @@ public class Any23Test extends Any23OnlineTestBase {
     /**
      * This tests the behavior of <i>Any23</i> to perform the extraction without passing it any charset encoding. The
      * encoding is therefore guessed using {@link org.apache.any23.encoding.TikaEncodingDetector} class.
-     * 
+     *
      * @throws Exception
      *             if there is an error reading the input
      */
@@ -160,7 +160,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Tests out the first code snipped used in <i>Developer Manual</i>.
-     * 
+     *
      * @throws Exception
      *             if there is an error reading the input
      */
@@ -191,7 +191,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Tests out the second code snipped used in <i>Developer Manual</i>.
-     * 
+     *
      * @throws Exception
      *             if there is an error reading the input
      */
@@ -230,7 +230,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * This test checks the extraction behavior when the library is used programatically. This test is related to the
      * issue #45, to verify the different behaviors between Maven and Ant. The behavior was related to a 2nd-level
      * dependency introduced by Maven.
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             if there is an error running extraction logic
      * @throws IOException
@@ -277,7 +277,7 @@ public class Any23Test extends Any23OnlineTestBase {
     /**
      * This test checks if a URL that is supposed to be GZIPPED is correctly opened and parsed with the {@link Any23}
      * facade.
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             if there is an error running extraction logic
      * @throws IOException
@@ -384,7 +384,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Test correct management of general <i>XML</i> content.
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             if there is an error running extraction logic
      * @throws IOException
@@ -406,7 +406,7 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Test correct management of general <i>XML</i> content from <i>URL</i> source.
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             if there is an error running extraction logic
      * @throws IOException
@@ -525,7 +525,7 @@ public class Any23Test extends Any23OnlineTestBase {
      * {@link org.apache.any23.extractor.SingleDocumentExtraction#run(ExtractionParameters)} will ultimately filter the
      * extractors based upon the detected mimetype. This results in no available extractors and a largely empty
      * {@link ExtractionReport}.
-     * 
+     *
      * @throws Exception
      *             if a extraction anomaly arises
      */
@@ -546,12 +546,12 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Performs detection and extraction on the given input string and return the {@link ExtractionReport}.
-     * 
+     *
      * @param in
      *            input string.
-     * 
+     *
      * @return a populated {@link org.apache.any23.ExtractionReport}
-     * 
+     *
      * @throws Exception
      *             if there is an error detecting mime type and running extraction
      */
@@ -567,10 +567,10 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Asserts that a list an {@link Extractor} has been activated for the given input data.
-     * 
+     *
      * @param in
      *            input data as string.
-     * 
+     *
      * @throws IOException
      * @throws ExtractionException
      */
@@ -582,11 +582,11 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Assert the correct activation of the given list of {@link Extractor}s for the given input string.
-     * 
+     *
      * @param in
      *            input data as string.
      * @param expectedExtractors
-     * 
+     *
      * @throws IOException
      * @throws ExtractionException
      */
@@ -604,12 +604,12 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Asserts the correct encoding detection for a specified data.
-     * 
+     *
      * @param encoding
      *            the expected specified encoding, if <code>null</code> will be auto detected.
      * @param input
      * @param expectedContent
-     * 
+     *
      * @throws Exception
      */
     private void assertEncodingDetection(String encoding, String input, String expectedContent) throws Exception {
@@ -650,10 +650,10 @@ public class Any23Test extends Any23OnlineTestBase {
 
     /**
      * Will try to detect the <i>content</i> trying sequentially with all specified parser.
-     * 
+     *
      * @param content
      * @param parsers
-     * 
+     *
      * @throws Exception
      */
     private void assertDetection(String content, String... parsers) throws Exception {

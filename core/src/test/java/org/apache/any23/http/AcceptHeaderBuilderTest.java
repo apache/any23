@@ -28,7 +28,7 @@ import java.util.Collections;
 
 /**
  * Reference test for {@link AcceptHeaderBuilder}
- * 
+ *
  */
 public class AcceptHeaderBuilderTest {
 

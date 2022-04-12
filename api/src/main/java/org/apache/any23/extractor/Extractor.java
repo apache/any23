@@ -71,7 +71,7 @@ public interface Extractor<Input> {
      *            The extractor input data.
      * @param out
      *            the collector for the extracted data.
-     * 
+     *
      * @throws IOException
      *             On error while reading from the input stream.
      * @throws ExtractionException

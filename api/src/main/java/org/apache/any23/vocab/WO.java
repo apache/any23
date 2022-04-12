@@ -26,7 +26,7 @@ import org.eclipse.rdf4j.model.IRI;
  * A simple vocabulary for describing biological species and related taxa. The vocabulary defines terms for describing
  * the names and ranking of taxa, as well as providing support for describing their habitats, conservation status, and
  * behavioural characteristics, etc
- * 
+ *
  * @author lewismc
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */

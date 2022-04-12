@@ -40,7 +40,7 @@ import java.util.List;
 
 /**
  * Reference test class for the {@link DomUtils} class.
- * 
+ *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class DomUtilsTest extends AbstractAny23TestBase {

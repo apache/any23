@@ -39,12 +39,12 @@ public abstract class Setting<V> implements Cloneable {
     /**
      * Constructs a new setting with the specified identifier and default value. This constructor must be called with
      * concrete type arguments.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier or any of the type arguments were invalid
      */
@@ -56,14 +56,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Constructs a new setting with the specified identifier, value type, and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param valueType
      *            the value type for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid, or the value type is primitive, mutable, or has type parameters
      */
@@ -101,7 +101,7 @@ public abstract class Setting<V> implements Cloneable {
      *
      * @param newValue
      *            the new value for this setting
-     * 
+     *
      * @throws Exception
      *             if the new value for this setting is invalid
      */
@@ -130,7 +130,7 @@ public abstract class Setting<V> implements Cloneable {
      *            a setting that may or may not have the same key as this setting
      * @param <S>
      *            the type of the supplied setting
-     * 
+     *
      * @return this setting, if this setting has the same key as the supplied setting
      */
     @SuppressWarnings("unchecked")
@@ -141,12 +141,12 @@ public abstract class Setting<V> implements Cloneable {
     /**
      * @param newValue
      *            a value for a new setting
-     * 
+     *
      * @return a new {@link Setting} object with this setting's key and the supplied value.
      *
      * @throws IllegalArgumentException
      *             if the new value was invalid, as determined by:
-     * 
+     *
      *             <pre>
      *     {@code this.checkValue(newValue)}
      *             </pre>
@@ -194,14 +194,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid
      */
@@ -211,14 +211,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid
      */
@@ -228,14 +228,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid
      */
@@ -245,14 +245,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid
      */
@@ -262,14 +262,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid
      */
@@ -279,14 +279,14 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier and default value.
-     * 
+     *
      * @param identifier
      *            the identifier for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid
      */
@@ -296,7 +296,7 @@ public abstract class Setting<V> implements Cloneable {
 
     /**
      * Convenience method to create a new setting with the specified identifier, value type, and default value.
-     * 
+     *
      * @param <V>
      *            generic setting value type
      * @param identifier
@@ -305,9 +305,9 @@ public abstract class Setting<V> implements Cloneable {
      *            the value type for this setting
      * @param defaultValue
      *            the default value for this setting
-     * 
+     *
      * @return the new setting
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the identifier is invalid, or the value type is primitive, mutable, or has type parameters
      */

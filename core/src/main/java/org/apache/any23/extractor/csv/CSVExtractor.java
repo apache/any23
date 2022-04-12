@@ -47,7 +47,7 @@ import java.util.Locale;
  * able uses the one provided in the <i>Any23</i> configuration.
  *
  * @see CSVReaderBuilder
- * 
+ *
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  */
 public class CSVExtractor implements Extractor.ContentExtractor {
@@ -108,7 +108,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * Check whether a number is an integer.
      *
      * @param number
-     * 
+     *
      * @return
      */
     private boolean isInteger(String number) {
@@ -124,7 +124,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * Check whether a number is a float.
      *
      * @param number
-     * 
+     *
      * @return
      */
     private boolean isFloat(String number) {
@@ -164,7 +164,7 @@ public class CSVExtractor implements Extractor.ContentExtractor {
      * {@link org.apache.any23.vocab.CSV} vocabulary is used.
      *
      * @param header
-     * 
+     *
      * @return an array of {@link IRI}s identifying the column names.
      */
     private IRI[] processHeader(CSVRecord header, IRI documentIRI) {

@@ -24,11 +24,11 @@ import org.apache.any23.extractor.ExtractorFactory;
  * This interface defines an Any23 extractor plugin that can be detected and registered from the library classpath.
  *
  * @author Michele Mostarda (mostarda@fbk.eu)
- * 
+ *
  * @deprecated ExtractorFactory now supports
  *             <a href="https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html"> META-INF/services</a>
  *             discovery via the {@link java.util.ServiceLoader}, deprecating this class.
- * 
+ *
  *             Instead implement a subinterface of {@link org.apache.any23.extractor.Extractor} and ensure that your
  *             plugin is in compliance with the META-INF/services mechanism.
  */

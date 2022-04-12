@@ -50,7 +50,7 @@ import java.util.Set;
  *
  * @see org.apache.any23.writer.TripleHandler
  * @see ExtractionContext
- * 
+ *
  * @author Richard Cyganiak (richard@cyganiak.de)
  * @author Michele Mostarda (michele.mostarda@gmail.com)
  */

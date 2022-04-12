@@ -59,9 +59,9 @@ public class WhiteSpacesPurifierTest {
 
     /**
      * Checks if a {@link String} starts with a propert character.
-     * 
+     *
      * @param string
-     * 
+     *
      * @return
      */
     private boolean validatePurification(String string) {

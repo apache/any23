@@ -65,9 +65,9 @@ public class StreamUtils {
      *
      * @param is
      *            input stream.
-     * 
+     *
      * @return list of not <code>null</code> lines.
-     * 
+     *
      * @throws IOException
      *             if an error occurs while consuming the <code>is</code> stream.
      */
@@ -92,9 +92,9 @@ public class StreamUtils {
      *            input stream.
      * @param preserveNL
      *            preserves new line chars.
-     * 
+     *
      * @return the string content.
-     * 
+     *
      * @throws IOException
      *             if an error occurs while consuming the <code>is</code> stream.
      */
@@ -122,9 +122,9 @@ public class StreamUtils {
      *
      * @param is
      *            input stream.
-     * 
+     *
      * @return the string content.
-     * 
+     *
      * @throws IOException
      *             if an error occurs while consuming the <code>is</code> stream.
      */
@@ -150,12 +150,12 @@ public class StreamUtils {
 
     /**
      * Converts a {@link org.w3c.dom.Document} to an {@link java.io.InputStream}
-     * 
+     *
      * @param doc
      *            the {@link org.w3c.dom.Document} to convert
-     * 
+     *
      * @return an {@link java.io.InputStream} representing the contents of the input {@link org.w3c.dom.Document}
-     * 
+     *
      * @throws TransformerFactoryConfigurationError
      *             thrown when there is a problem with configuration with the Transformer Factories
      * @throws TransformerConfigurationException

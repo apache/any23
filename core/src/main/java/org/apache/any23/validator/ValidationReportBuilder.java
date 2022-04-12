@@ -56,7 +56,7 @@ public interface ValidationReportBuilder {
 
     /**
      * Traces that a rule has been applied.
-     * 
+     *
      * @param r
      *            activated rule.
      */
@@ -76,7 +76,7 @@ public interface ValidationReportBuilder {
 
     /**
      * Reports an error occurred while executing a {@link Fix}.
-     * 
+     *
      * @param f
      *            fix originating the error.
      * @param e

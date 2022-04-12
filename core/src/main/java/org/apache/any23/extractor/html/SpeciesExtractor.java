@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
  * represented using the <a href="http://www.bbc.co.uk/ontologies/wildlife/2010-02-22.shtml">BBC Wildlife Ontology</a>.
  *
  * @see org.apache.any23.vocab.WO
- * 
+ *
  * @author Davide Palmisano (dpalmisano@gmail.com)
  */
 public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
@@ -79,9 +79,9 @@ public class SpeciesExtractor extends EntityBasedMicroformatExtractor {
      *            the DOM node.
      * @param out
      *            the extraction result collector.
-     * 
+     *
      * @return <code>true</code> if the extraction has produces something, <code>false</code> otherwise.
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             if there is an error during extraction
      *

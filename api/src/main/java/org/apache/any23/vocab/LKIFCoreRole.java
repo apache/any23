@@ -24,7 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
  * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
  * set of closely related concepts from both legal and commonsense domains.
  * </p>
- * 
+ *
  * <p>
  * The role module defines a typology of roles (epistemic roles, functions, person roles, organisation roles) and the
  * plays-property for relating a role filler to a role.

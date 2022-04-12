@@ -21,7 +21,7 @@ package org.apache.any23.validator;
  * This context is used to pass data from a {@link Rule} to a {@link Fix}.
  *
  * @see Rule
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -39,17 +39,17 @@ public interface RuleContext<T> {
 
     /**
      * Retrieves a registered object.
-     * 
+     *
      * @param name
      *            rule key
-     * 
+     *
      * @return a registered object, <code>null</code> if not found.
      */
     T getData(String name);
 
     /**
      * Removes a data from the context.
-     * 
+     *
      * @param name
      *            remove entry with this name
      */

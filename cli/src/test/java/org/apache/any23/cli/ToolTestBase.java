@@ -48,9 +48,9 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *
      * @param args
      *            tool arguments.
-     * 
+     *
      * @return the tool exit code.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */
@@ -69,9 +69,9 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *
      * @param args
      *            args tool arguments.
-     * 
+     *
      * @return the tool exit code.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */
@@ -84,7 +84,7 @@ public abstract class ToolTestBase extends Any23OnlineTestBase {
      *
      * @param args
      *            tool arguments.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */

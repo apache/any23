@@ -72,7 +72,7 @@ public abstract class Term<T extends Value> {
      *
      * @param varMapping
      *            a map representing values of variables.
-     * 
+     *
      * @return the value for this term.
      */
     public T getValue(Map<String, String> varMapping) {

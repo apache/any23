@@ -40,9 +40,9 @@ public interface HTTPClient {
      *
      * @param uri
      *            target IRI.
-     * 
+     *
      * @return input stream to access IRI content.
-     * 
+     *
      * @throws IOException
      *             if any error occurs while reading the IRI content.
      */

@@ -4,9 +4,9 @@
  * copyright ownership. The ASF licenses this file to You under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License. You may obtain a
  * copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -32,7 +32,7 @@ import org.junit.rules.TemporaryFolder;
 /**
  * This file encapsulates access to test resource files using temporary files that are automatically cleaned up by JUnit
  * after each test.
- * 
+ *
  * @author Peter Ansell p_ansell@yahoo.com
  */
 public class AbstractAny23TestBase {
@@ -61,13 +61,13 @@ public class AbstractAny23TestBase {
     /**
      * Copies a resource to a temporary directory and returns a file handle that can be used to access the resource as a
      * file from the temp directory.
-     * 
+     *
      * @param resourceLocation
      *            The absolute location of the resource in the classpath, which can be used with
      *            this.getClass().getResourceAsStream.
-     * 
+     *
      * @return temporary {@link java.io.File}
-     * 
+     *
      * @throws FileNotFoundException
      *             if the temp file location cannot be converted to a {@link java.io.FileOutputStream}
      * @throws IOException

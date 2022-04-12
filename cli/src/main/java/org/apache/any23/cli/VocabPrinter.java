@@ -30,7 +30,7 @@ import java.io.PrintStream;
 
 /**
  * Prints out the vocabulary <i>RDFSchema</i> as <i>NQuads</i>.
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @Parameters(commandNames = {

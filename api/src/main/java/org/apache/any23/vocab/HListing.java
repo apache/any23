@@ -23,7 +23,7 @@ import org.eclipse.rdf4j.model.IRI;
  * Class modeling the <a href="http://microformats.org/wiki/hlisting-proposal">hListing</a> vocabulary.
  *
  * @author Davide Palmisano (dpalmisano@gmail.com)
- * 
+ *
  */
 public class HListing extends Vocabulary {
 

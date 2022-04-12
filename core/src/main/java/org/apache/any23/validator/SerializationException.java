@@ -21,7 +21,7 @@ package org.apache.any23.validator;
  * Defines an error raised from the {@link ValidationReportSerializer}.
  *
  * @see ValidationReportSerializer
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class SerializationException extends Exception {

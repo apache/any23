@@ -67,7 +67,7 @@ public class PopularPrefixes {
      *
      * @param prefixes
      *            the input prefixes where perform the lookup
-     * 
+     *
      * @return a {@link Prefixes} containing all the prefixes mathing the input parameter
      */
     public static Prefixes createSubset(String... prefixes) {
@@ -86,7 +86,7 @@ public class PopularPrefixes {
      *
      * @param stringUri
      *            the string of the IRI to be checked
-     * 
+     *
      * @return <code>true</code> if <i> stringUri</i> is a valid IRI, <code>false</code> otherwise.
      */
     private static boolean testIRICompliance(String stringUri) {

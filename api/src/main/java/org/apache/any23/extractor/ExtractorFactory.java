@@ -38,7 +38,7 @@ public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescr
 
     /**
      * Supports wildcards, e.g. <code>"*&#47;*"</code> for blind extractors that merely call a web service.
-     * 
+     *
      * @return a {@link java.util.Collection} of supported mimetypes.
      */
     Collection<MIMEType> getSupportedMIMETypes();
@@ -50,7 +50,7 @@ public interface ExtractorFactory<T extends Extractor<?>> extends ExtractorDescr
      * factory.getClass().getResourceAsStream(filename). The example should be a short file that produces characteristic
      * output if sent through the extractor. The file will be read as UTF-8, so it should either use that encoding or
      * avoid characters outside of the US-ASCII range.
-     * 
+     *
      * @return a string representing sample input for a particular extractor.
      */
     String getExampleInput();

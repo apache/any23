@@ -214,7 +214,7 @@ public class HCardExtractor extends EntityBasedMicroformatExtractor {
      * @param className
      * @param resource
      * @param property
-     * 
+     *
      * @return <code>true</code> if the multi property has been added, <code>false</code> otherwise.
      */
     private boolean addStringMultiProperty(String className, Resource resource, IRI property) {

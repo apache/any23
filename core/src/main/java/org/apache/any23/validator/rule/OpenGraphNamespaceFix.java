@@ -27,7 +27,7 @@ import org.apache.any23.vocab.OGP;
  * This fixes the missing <i>Open Graph</i> protocol.
  *
  * @see MissingOpenGraphNamespaceRule
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

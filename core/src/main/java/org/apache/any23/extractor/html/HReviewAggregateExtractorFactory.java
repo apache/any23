@@ -26,7 +26,7 @@ import org.apache.any23.rdf.PopularPrefixes;
 import org.apache.any23.rdf.Prefixes;
 
 /**
- * 
+ *
  * @author Peter Ansell p_ansell@yahoo.com
  */
 public class HReviewAggregateExtractorFactory extends SimpleExtractorFactory<HReviewAggregateExtractor>

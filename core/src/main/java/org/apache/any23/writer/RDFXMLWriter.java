@@ -24,7 +24,7 @@ import java.io.OutputStream;
 
 /**
  * <i>RDF/XML</i> {@link TripleWriter} implementation.
- * 
+ *
  * @author Hans Brende (hansbrende@apache.org)
  */
 public class RDFXMLWriter extends RDFWriterTripleHandler {

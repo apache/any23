@@ -31,7 +31,7 @@ public interface ModifiableConfiguration extends Configuration {
      *            name of property.
      * @param propertyValue
      *            value of property.
-     * 
+     *
      * @return the old property value.
      */
     String setProperty(String propertyName, String propertyValue);

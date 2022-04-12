@@ -77,7 +77,7 @@ public class SINDICE extends Vocabulary {
 
     /**
      * This property links the resource with a <i>node</i> representing the nested <i>Microformat</i>
-     * 
+     *
      */
     public final IRI nesting_structured = createProperty(NESTING_STRUCTURED);
 

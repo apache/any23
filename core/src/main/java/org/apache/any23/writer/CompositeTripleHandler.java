@@ -45,7 +45,7 @@ public class CompositeTripleHandler implements TripleHandler {
 
     /**
      * Constructor with initial list of decorated handlers.
-     * 
+     *
      * @param children
      *            list of decorated handlers.
      */

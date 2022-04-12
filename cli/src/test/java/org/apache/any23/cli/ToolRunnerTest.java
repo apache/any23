@@ -36,7 +36,7 @@ public class ToolRunnerTest {
 
     private final Set<Class<? extends Tool>> coreTools = new HashSet<Class<? extends Tool>>() {
         /**
-         * 
+         *
          */
         private static final long serialVersionUID = 1L;
 

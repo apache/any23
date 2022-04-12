@@ -95,7 +95,7 @@ public class CSV extends Vocabulary {
      *
      * @param localName
      *            name to assign to namespace.
-     * 
+     *
      * @return the new URI instance.
      */
     public IRI createProperty(String localName) {

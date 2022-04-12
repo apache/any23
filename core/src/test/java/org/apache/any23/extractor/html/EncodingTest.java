@@ -49,7 +49,7 @@ public class EncodingTest extends AbstractAny23TestBase {
      * not use the declared encoding for the title.
      *
      * For this test we expect to not recognize the title.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */
