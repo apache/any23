@@ -24,7 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
  * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
  * set of closely related concepts from both legal and commonsense domains.
  * </p>
- * 
+ *
  * <p>
  * The rules &amp; argumentation module defines roles central to argumentation, and describes the vocabulary for LKIF
  * rules as defined in Deliverable 1.1, chapter 5. The module leaves room for further extension to complex argumentation

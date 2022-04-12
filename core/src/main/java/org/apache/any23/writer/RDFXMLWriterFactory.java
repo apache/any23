@@ -31,7 +31,7 @@ public class RDFXMLWriterFactory implements TripleWriterFactory {
     public static final String IDENTIFIER = "rdfxml";
 
     /**
-     * 
+     *
      */
     public RDFXMLWriterFactory() {
     }

@@ -79,9 +79,9 @@ public class DefaultHTTPClient implements HTTPClient {
      *
      * @param uri
      *            to be opened
-     * 
+     *
      * @return {@link java.io.InputStream}
-     * 
+     *
      * @throws IOException
      *             if there is an error opening the {@link java.io.InputStream} located at the URI.
      */

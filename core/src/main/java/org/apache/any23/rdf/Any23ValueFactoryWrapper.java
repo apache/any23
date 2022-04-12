@@ -204,7 +204,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * @param uriStr
      *            input string to create URI from.
-     * 
+     *
      * @return a valid sesame IRI or null if any exception occurred
      */
     @Override
@@ -236,7 +236,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
      *            A IRI, relative or absolute, can have typical syntax errors
      * @param baseIRI
      *            A base IRI to use for resolving relative IRIs
-     * 
+     *
      * @return An absolute IRI, sytnactically valid, or null if not fixable
      */
     public IRI resolveIRI(String uri, java.net.URI baseIRI) {
@@ -251,7 +251,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
     /**
      * @param iri
      *            IRI to fix
-     * 
+     *
      * @return a valid sesame IRI or null if any exception occurred
      */
     public IRI fixIRI(String iri) {
@@ -265,12 +265,12 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     /**
      * Helper method to conditionally add a schema to a URI unless it's there, or null if link is empty.
-     * 
+     *
      * @param link
      *            string representation of the URI
      * @param defaultSchema
      *            schema to add the URI
-     * 
+     *
      * @return a valid sesame IRI or null if any exception occurred
      */
     public IRI fixLink(String link, String defaultSchema) {
@@ -291,7 +291,7 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
 
     /**
      * Reports an error in the most appropriate way.
-     * 
+     *
      * @param e
      *            error to be reported.
      */

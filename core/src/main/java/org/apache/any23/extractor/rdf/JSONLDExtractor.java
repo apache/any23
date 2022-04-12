@@ -57,7 +57,7 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor has never supported these settings. Use {@link #JSONLDExtractor()} instead.
-     * 
+     *
      * @param verifyDataType
      *            has no effect
      * @param stopAtFirstError
@@ -108,7 +108,7 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
-     * 
+     *
      * @param stopAtFirstError
      *            has no effect
      */
@@ -120,7 +120,7 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor has never supported this setting. Do not use.
-     * 
+     *
      * @param verifyDataType
      *            has no effect
      */
@@ -132,12 +132,12 @@ public class JSONLDExtractor extends BaseRDFExtractor {
 
     /**
      * @deprecated since 2.4. This extractor no longer wraps an RDF4J {@link RDFParser}. Do not use this method.
-     * 
+     *
      * @param extractionContext
      *            the extraction context
      * @param extractionResult
      *            the extraction result
-     * 
+     *
      * @return a {@link RDFParser}
      */
     @Deprecated

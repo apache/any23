@@ -30,7 +30,7 @@ import java.util.Map;
  * This class contains some statistics and general information about an extraction.
  *
  * @see Any23
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -101,7 +101,7 @@ public class ExtractionReport {
     /**
      * @param extractorName
      *            name of the extractor.
-     * 
+     *
      * @return the (unmodifiable) map of issues per extractor.
      */
     public Collection<IssueReport.Issue> getExtractorIssues(String extractorName) {

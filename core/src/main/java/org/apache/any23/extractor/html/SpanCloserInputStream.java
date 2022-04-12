@@ -22,13 +22,13 @@ import java.io.InputStream;
 
 /**
  * Extension of {@link java.io.InputStream} meant to detect and replace any occurrence of inline <i>span</i>:
- * 
+ *
  * <pre>
  * &lt;span/&gt;
  * </pre>
- * 
+ *
  * with an open close tag sequence:
- * 
+ *
  * <pre>
  * &lt;span&gt;&lt;/span&gt;
  * </pre>

@@ -68,9 +68,9 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * Performs the extraction of the data and writes them to the model. The nodes generated in the model can have any
      * name or implicit label but if possible they <i>SHOULD</i> have names (either URIs or AnonId) that are uniquely
      * derivable from their position in the DOM tree, so that multiple extractors can merge information.
-     * 
+     *
      * @return true if extraction is successful
-     * 
+     *
      * @throws ExtractionException
      *             if there is an error during extraction
      */
@@ -130,7 +130,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      *            the property IRI.
      * @param value
      *            the property value.
-     * 
+     *
      * @return returns <code>true</code> if the value has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddStringProperty(Node n, Resource subject, IRI p, String value) {
@@ -151,7 +151,7 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      *            the property IRI.
      * @param literal
      *            value the property value.
-     * 
+     *
      * @return returns <code>true</code> if the literal has been accepted and added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddLiteralProperty(Node n, Resource subject, IRI property, Literal literal) {
@@ -169,14 +169,14 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
 
     /**
      * Helper method that adds a IRI property to a node.
-     * 
+     *
      * @param subject
      *            the property subject.
      * @param property
      *            the property IRI.
      * @param uri
      *            the property object.
-     * 
+     *
      * @return <code>true</code> if the the resource has been added, <code>false</code> otherwise.
      */
     protected boolean conditionallyAddResourceProperty(Resource subject, IRI property, IRI uri) {
@@ -253,12 +253,12 @@ public abstract class MicroformatExtractor implements TagSoupDOMExtractor {
      * This method checks if there is a native nesting relationship between two {@link MicroformatExtractor}.
      *
      * @see org.apache.any23.extractor.html.annotations.Includes
-     * 
+     *
      * @param including
      *            the including {@link MicroformatExtractor}
      * @param included
      *            the included {@link MicroformatExtractor}
-     * 
+     *
      * @return <code>true</code> if there is a declared nesting relationship
      */
     public static boolean includes(Class<? extends MicroformatExtractor> including,

@@ -34,9 +34,9 @@ public class URLUtils {
      *
      * @param url
      *            input URL.
-     * 
+     *
      * @return <code>true</code> if the resource can be accessed, <code>false</code> otherwise.
-     * 
+     *
      * @throws MalformedURLException
      *             if <code>url</code> is malformed.
      */

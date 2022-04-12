@@ -58,7 +58,7 @@ public class AcceptHeaderBuilder {
 
     /**
      * Builds and returns an accept header.
-     * 
+     *
      * @return the accept header.
      */
     public String getAcceptHeader() {

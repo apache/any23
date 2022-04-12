@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 /**
  * ByteArray implementation of {@link DocumentSource}.
- * 
+ *
  * @author Richard Cyganiak (richard@cyganiak.de)
  */
 public class ByteArrayDocumentSource implements DocumentSource {

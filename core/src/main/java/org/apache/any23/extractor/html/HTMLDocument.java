@@ -61,7 +61,7 @@ public class HTMLDocument {
      *
      * @param node
      *            the node from which read the content.
-     * 
+     *
      * @return a valid TextField
      */
     public static TextField readTextField(Node node) {
@@ -183,7 +183,7 @@ public class HTMLDocument {
      *
      * @param hrefAttributeContent
      *            the content of the <i>href</i> attribute.
-     * 
+     *
      * @return the rel-tag specification.
      */
     public static String extractRelTag(String hrefAttributeContent) {
@@ -203,7 +203,7 @@ public class HTMLDocument {
      *
      * @param attributes
      *            the list of attributes of a node.
-     * 
+     *
      * @return the rel-tag specification.
      */
     public static String extractRelTag(NamedNodeMap attributes) {
@@ -218,7 +218,7 @@ public class HTMLDocument {
      *            node to read content.
      * @param prettify
      *            if <code>true</code> blank chars will be removed.
-     * 
+     *
      * @return the read text.
      */
     public static String readNodeContent(Node node, boolean prettify) {
@@ -228,7 +228,7 @@ public class HTMLDocument {
 
     /**
      * Constructor accepting the root node.
-     * 
+     *
      * @param document
      *            a {@link org.w3c.dom.Node}
      */
@@ -241,9 +241,9 @@ public class HTMLDocument {
     /**
      * @param uri
      *            string to resolve to {@link org.eclipse.rdf4j.model.IRI}
-     * 
+     *
      * @return An absolute IRI, or null if the IRI is not fixable
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             If the base IRI is invalid
      */
@@ -294,7 +294,7 @@ public class HTMLDocument {
      *
      * @param className
      *            name of class containing text.
-     * 
+     *
      * @return if multiple values are found just the first is returned, if we want to check that there are no n-ary
      *         values use plural finder
      */
@@ -307,10 +307,10 @@ public class HTMLDocument {
 
     /**
      * Returns a plural text field.
-     * 
+     *
      * @param className
      *            name of class node containing text.
-     * 
+     *
      * @return list of fields.
      */
     public TextField[] getPluralTextField(String className) {
@@ -327,7 +327,7 @@ public class HTMLDocument {
      *
      * @param className
      *            name of node class containing the URL field.
-     * 
+     *
      * @return if multiple values are found just the first is returned, if we want to check that there are no n-ary
      *         values use plural finder
      */
@@ -343,7 +343,7 @@ public class HTMLDocument {
      *
      * @param className
      *            name of node class containing the URL field.
-     * 
+     *
      * @return the list of {@link HTMLDocument.TextField} found.
      */
     public TextField[] getPluralUrlField(String className) {
@@ -366,7 +366,7 @@ public class HTMLDocument {
      *
      * @param attribute
      *            the attribute name.
-     * 
+     *
      * @return the string representing the attribute.
      */
     public String readAttribute(String attribute) {
@@ -378,7 +378,7 @@ public class HTMLDocument {
      *
      * @param clazz
      *            the class name.
-     * 
+     *
      * @return list of matching nodes.
      */
     public List<Node> findAllByClassName(String clazz) {

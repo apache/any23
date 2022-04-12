@@ -21,7 +21,7 @@ package org.apache.any23.validator;
  * Models a rule for an issue detection.
  *
  * @see Fix
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
@@ -41,7 +41,7 @@ public interface Rule {
      *            the context used to pass data to an eventual {@link Fix}.
      * @param validationReportBuilder
      *            the report builder used to collect rule reporting.
-     * 
+     *
      * @return <code>true</code> if al least an issue is detected, <code>false</code> otherwise.
      */
     boolean applyOn(DOMDocument document, RuleContext<?> context, ValidationReportBuilder validationReportBuilder);

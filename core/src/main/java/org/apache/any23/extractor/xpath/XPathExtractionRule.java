@@ -38,7 +38,7 @@ public interface XPathExtractionRule {
      *
      * @param uri
      *            input document IRI.
-     * 
+     *
      * @return <code>true</code> if applied, <code>false</code> otherwise.
      */
     boolean acceptIRI(IRI uri);

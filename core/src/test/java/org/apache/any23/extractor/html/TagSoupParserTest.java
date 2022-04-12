@@ -94,7 +94,7 @@ public class TagSoupParserTest {
 
     /**
      * Test related to the issue 78 and disabled until the underlying <i>NekoHTML</i> bug has been fixed.
-     * 
+     *
      * @throws IOException
      *             if there is an error interpreting the input data
      */

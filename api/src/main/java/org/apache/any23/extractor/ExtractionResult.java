@@ -76,7 +76,7 @@ public interface ExtractionResult extends IssueReport {
      *
      * @param extractionContext
      *            the context to be used to open the sub result.
-     * 
+     *
      * @return the instance of the nested extraction result.
      */
     ExtractionResult openSubResult(ExtractionContext extractionContext);

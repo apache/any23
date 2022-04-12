@@ -20,7 +20,7 @@ import org.eclipse.rdf4j.model.IRI;
 
 /**
  * The <a href="https://github.com/edumbill/doap/wiki">Description Of A Project</a> vocabulary.
- * 
+ *
  * @author lewismc
  */
 public class DOAP extends Vocabulary {

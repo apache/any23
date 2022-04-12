@@ -42,7 +42,7 @@ public class TurtleHTMLExtractorTest extends AbstractExtractorTestCase {
 
     /**
      * Tests the extraction of the RDF content from the sample HTML file.
-     * 
+     *
      * @throws IOException
      *             if there is an error interpreting the input data
      * @throws ExtractionException

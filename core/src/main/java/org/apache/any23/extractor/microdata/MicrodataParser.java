@@ -125,7 +125,7 @@ public class MicrodataParser {
      *
      * @param node
      *            root node to search in.
-     * 
+     *
      * @return list of detected items.
      */
     public static List<Node> getItemScopeNodes(Node node) {
@@ -137,7 +137,7 @@ public class MicrodataParser {
      *
      * @param node
      *            node to check.
-     * 
+     *
      * @return <code>true</code> if the node is an <i>itemScope</i>., <code>false</code> otherwise.
      */
     public static boolean isItemScope(Node node) {
@@ -149,7 +149,7 @@ public class MicrodataParser {
      *
      * @param node
      *            root node to search in.
-     * 
+     *
      * @return list of detected items.
      */
     public static List<Node> getItemPropNodes(Node node) {
@@ -161,7 +161,7 @@ public class MicrodataParser {
      *
      * @param node
      *            node to check.
-     * 
+     *
      * @return <code>true</code> if the node is an <i>itemProp</i>., <code>false</code> otherwise.
      */
     public static boolean isItemProp(Node node) {
@@ -194,7 +194,7 @@ public class MicrodataParser {
      *
      * @param node
      *            root node to search in.
-     * 
+     *
      * @return list of detected top item scopes.
      */
     public static List<Node> getTopLevelItemScopeNodes(Node node) {
@@ -230,9 +230,9 @@ public class MicrodataParser {
      *            document to be processed.
      * @param errorMode
      *            error management policy.
-     * 
+     *
      * @return list of <b>itemscope</b> items.
-     * 
+     *
      * @throws MicrodataParserException
      *             if
      *             <code>errorMode == {@link org.apache.any23.extractor.microdata.MicrodataParser.ErrorMode#STOP_AT_FIRST_ERROR}</code>
@@ -256,7 +256,7 @@ public class MicrodataParser {
      *
      * @param document
      *            document to be processed.
-     * 
+     *
      * @return list of <b>itemscope</b> items.
      */
     public static MicrodataParserReport getMicrodata(Document document) {
@@ -329,9 +329,9 @@ public class MicrodataParser {
      *
      * @param node
      *            itemprop node.
-     * 
+     *
      * @return value detected within the given <code>node</code>.
-     * 
+     *
      * @throws MicrodataParserException
      *             if an error occurs while extracting a nested item scope.
      */
@@ -507,9 +507,9 @@ public class MicrodataParser {
      * @param skipRoot
      *            if <code>true</code> the given root <code>node</code> will be not read as a property, even if it
      *            contains the <b>itemprop</b> attribute.
-     * 
+     *
      * @return the list of <b>itemprop</b>s detected within the given <b>itemscope</b>.
-     * 
+     *
      * @throws MicrodataParserException
      *             if an error occurs while retrieving an property value.
      */
@@ -598,12 +598,12 @@ public class MicrodataParser {
 
     /**
      * Given a document and a list of <b>itemprop</b> names this method will return such <b>itemprops</b>.
-     * 
+     *
      * @param refs
      *            list of references.
-     * 
+     *
      * @return list of retrieved <b>itemprop</b>s.
-     * 
+     *
      * @throws MicrodataParserException
      *             if a loop is detected or a property name is missing.
      */
@@ -653,9 +653,9 @@ public class MicrodataParser {
      *
      * @param node
      *            node describing an <i>itemscope</i>.
-     * 
+     *
      * @return instance of ItemScope object.
-     * 
+     *
      * @throws MicrodataParserException
      *             if an error occurs while dereferencing properties.
      */

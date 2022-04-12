@@ -33,7 +33,7 @@ public interface MIMETypeDetector {
      *            content of the file.
      * @param mimeTypeFromMetadata
      *            mimetype declared in metadata.
-     * 
+     *
      * @return the supposed mime type or <code>null</code> if nothing appropriate found.
      */
     public MIMEType guessMIMEType(String fileName, InputStream input, MIMEType mimeTypeFromMetadata);

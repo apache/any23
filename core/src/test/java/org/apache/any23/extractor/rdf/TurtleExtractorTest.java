@@ -41,7 +41,7 @@ import java.nio.charset.StandardCharsets;
  * Test case for {@link NTriplesExtractor}.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
- * 
+ *
  * @version $Id$
  */
 public class TurtleExtractorTest {
@@ -62,7 +62,7 @@ public class TurtleExtractorTest {
 
     /**
      * Tests the correct support for a typed literal with incompatible value.
-     * 
+     *
      * @throws IOException
      *             if there is an error interpreting the input data
      * @throws ExtractionException

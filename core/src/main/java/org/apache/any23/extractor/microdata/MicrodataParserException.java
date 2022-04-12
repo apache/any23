@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  * Defines an exception occurring while parsing <i>Microdata</i>.
  *
  * @see MicrodataParser
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class MicrodataParserException extends Exception {

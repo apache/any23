@@ -27,7 +27,7 @@ import org.eclipse.rdf4j.model.IRI;
  * It covers brands, series (seasons), episodes, broadcast events, broadcast services, etc. Its development was funded
  * by the BBC, and is heavily grounded on previous programmes data modeling work done there.
  * </p>
- * 
+ *
  * @author lewismc
  */
 public class Programme extends Vocabulary {

@@ -35,7 +35,7 @@ public interface ExtractorDescription {
 
     /**
      * Returns the label for extractors created from this factory.
-     * 
+     *
      * @return A string label describing the type of extractors created from this factory.
      */
     String getExtractorLabel();

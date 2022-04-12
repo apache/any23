@@ -31,7 +31,7 @@ public class URIListWriterFactory implements TripleWriterFactory {
     public static final String IDENTIFIER = "uri";
 
     /**
-     * 
+     *
      */
     public URIListWriterFactory() {
     }

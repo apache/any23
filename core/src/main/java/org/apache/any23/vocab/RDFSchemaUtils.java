@@ -61,7 +61,7 @@ public class RDFSchemaUtils {
      *            map of resource comments.
      * @param writer
      *            writer to print out the RDF Schema triples.
-     * 
+     *
      * @throws RDFHandlerException
      *             if there is an error handling the RDF
      */
@@ -92,7 +92,7 @@ public class RDFSchemaUtils {
      *            vocabulary to be serialized.
      * @param writer
      *            output writer.
-     * 
+     *
      * @throws RDFHandlerException
      *             if there is an error handling the RDF
      */
@@ -112,7 +112,7 @@ public class RDFSchemaUtils {
      *            if <code>true</code> another vocab will be printed in the same stream.
      * @param ps
      *            output stream.
-     * 
+     *
      * @throws RDFHandlerException
      *             if there is an error handling the RDF
      */
@@ -138,9 +138,9 @@ public class RDFSchemaUtils {
      *            vocabulary to be serialized.
      * @param format
      *            output format for vocabulary.
-     * 
+     *
      * @return string contained serialization.
-     * 
+     *
      * @throws RDFHandlerException
      *             if there is an error handling the RDF
      */

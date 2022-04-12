@@ -164,7 +164,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * {@link org.apache.any23.extractor.html.AdrExtractor}.
      *
      * @see org.apache.any23.extractor.html.annotations.Includes
-     * 
+     *
      * @throws IOException
      *             if there is an error loading input data
      * @throws ExtractionException
@@ -253,7 +253,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * Tests that the {@link org.apache.any23.extractor.rdf.TriXExtractor} is NOT activated for a given HTML document.
      * This tests that a private method within {@link org.apache.any23.extractor.SingleDocumentExtraction} works as
      * expected.
-     * 
+     *
      * @see <a href=
      *      "https://issues.apache.org/jira/browse/ANY23-504">https://issues.apache.org/jira/browse/ANY23-504</a>
      *
@@ -297,7 +297,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     /**
      * Logs the storage content.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
      */
@@ -311,11 +311,11 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     /**
      * Asserts that the triple pattern is present within the storage exactly n times.
-     * 
+     *
      * @param predicate
      * @param value
      * @param occurrences
-     * 
+     *
      * @throws RepositoryException
      */
     private void assertTripleCount(IRI predicate, Value value, int occurrences) throws RepositoryException {
@@ -336,7 +336,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      * @param predicate
      * @param value
      * @param occurrences
-     * 
+     *
      * @throws RepositoryException
      */
     private void assertTripleCount(IRI predicate, String value, int occurrences) throws RepositoryException {
@@ -348,7 +348,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      *
      * @param predicate
      * @param value
-     * 
+     *
      * @throws RepositoryException
      */
     private void assertTriple(IRI predicate, Value value) throws RepositoryException {
@@ -360,7 +360,7 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
      *
      * @param predicate
      * @param value
-     * 
+     *
      * @throws RepositoryException
      */
     @SuppressWarnings("unused")
@@ -370,14 +370,14 @@ public class SingleDocumentExtractionTest extends AbstractAny23TestBase {
 
     /**
      * Retrieves the triple object matching with the given pattern that is expected to be just one.
-     * 
+     *
      * @param sub
      *            the triple subject, <code>null</code> for any.
      * @param prop
      *            the triple property, <code>null</code> for any.
-     * 
+     *
      * @return the object of the unique triple matching the given pattern.
-     * 
+     *
      * @throws RepositoryException
      *             if an error occurred during the search.
      */

@@ -30,7 +30,7 @@ import java.util.List;
  * This rule detects the issue of missing Open Graph namespace.
  *
  * @see OpenGraphNamespaceFix
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  * @author Davide Palmisano (palmisano@fbk.eu)
  */

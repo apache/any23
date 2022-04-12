@@ -24,7 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
  * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
  * set of closely related concepts from both legal and commonsense domains.
  * </p>
- * 
+ *
  * <p>
  * The modification module is both an extension of the time module and the legal action module. The time module is
  * extended with numerous intervals and moments describing the efficacy and being in force of legal documents. The

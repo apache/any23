@@ -79,7 +79,7 @@ public class ExtractorRegistryImpl extends
      *
      * @param factory
      *            the {@link org.apache.any23.extractor.ExtractorFactory} to register
-     * 
+     *
      * @throws IllegalArgumentException
      *             if trying to register a {@link ExtractorFactory} with a that already exists in the registry.
      */
@@ -90,7 +90,7 @@ public class ExtractorRegistryImpl extends
 
     /**
      * Unregisters the {@link ExtractorFactory} with the given name.
-     * 
+     *
      * @param name
      *            The name of the ExtractorFactory to unregister.
      */
@@ -107,9 +107,9 @@ public class ExtractorRegistryImpl extends
      *
      * @param name
      *            of the desired factory
-     * 
+     *
      * @return the {@link ExtractorFactory} associated to the provided name
-     * 
+     *
      * @throws IllegalArgumentException
      *             if there is not a {@link ExtractorFactory} associated to the provided name.
      */
@@ -128,10 +128,10 @@ public class ExtractorRegistryImpl extends
 
     /**
      * Returns an {@link ExtractorGroup} containing the {@link ExtractorFactory} mathing the names provided as input.
-     * 
+     *
      * @param names
      *            a {@link java.util.List} containing the names of the desired {@link ExtractorFactory}.
-     * 
+     *
      * @return the extraction group.
      */
     @Override
@@ -144,10 +144,10 @@ public class ExtractorRegistryImpl extends
     }
 
     /**
-     * 
+     *
      * @param name
      *            of the {@link ExtractorFactory}
-     * 
+     *
      * @return <code>true</code> if is there a {@link ExtractorFactory} associated to the provided name.
      */
     @Override

@@ -205,7 +205,7 @@ public class ItemPropValue {
 
     /**
      * @return the content value as integer, or raises an exception.
-     * 
+     *
      * @throws NumberFormatException
      *             if the content is not an integer.
      * @throws ClassCastException
@@ -217,7 +217,7 @@ public class ItemPropValue {
 
     /**
      * @return the content value as float, or raises an exception.
-     * 
+     *
      * @throws NumberFormatException
      *             if the content is not an float.
      * @throws ClassCastException
@@ -229,7 +229,7 @@ public class ItemPropValue {
 
     /**
      * @return the content as {@link Date} if <code>type == Type.DateTime</code>,
-     * 
+     *
      * @throws ClassCastException
      *             if content is not a valid date.
      */

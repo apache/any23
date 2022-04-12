@@ -53,7 +53,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
     /**
      * Emulates action described in ANY23-396.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */
@@ -81,7 +81,7 @@ public class ExtractorsFlowTest extends ToolTestBase {
 
     /**
      * Compare expected model and received from input File.
-     * 
+     *
      * @throws Exception
      *             if there is an error asserting the test data.
      */

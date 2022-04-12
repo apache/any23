@@ -34,7 +34,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Base class for the definition of a vocabulary.
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
- * 
+ *
  * @version $Id$
  */
 public abstract class Vocabulary {
@@ -94,7 +94,7 @@ public abstract class Vocabulary {
      *
      * @param name
      *            class name.
-     * 
+     *
      * @return the IRI associated to such resource.
      */
     public IRI getClass(String name) {
@@ -110,7 +110,7 @@ public abstract class Vocabulary {
      *
      * @param name
      *            property name.
-     * 
+     *
      * @return the IRI associated to such property.
      */
     public IRI getProperty(String name) {
@@ -128,7 +128,7 @@ public abstract class Vocabulary {
      *            property name.
      * @param defaultValue
      *            the default value if property name not found.
-     * 
+     *
      * @return the IRI associated to such property.
      */
     public IRI getProperty(String name, IRI defaultValue) {
@@ -145,7 +145,7 @@ public abstract class Vocabulary {
      *
      * @param property
      *            property name.
-     * 
+     *
      * @return property IRI.
      */
     public IRI getPropertyCamelCase(String property) {
@@ -195,7 +195,7 @@ public abstract class Vocabulary {
      *
      * @param resource
      *            input resource to have a comment.
-     * 
+     *
      * @return the human readable comment associated to the given resource.
      */
     public String getCommentFor(IRI resource) {
@@ -208,7 +208,7 @@ public abstract class Vocabulary {
      *
      * @param iriStr
      *            the IRI string
-     * 
+     *
      * @return the IRI instance.
      */
     protected static IRI createIRI(String iriStr) {
@@ -222,7 +222,7 @@ public abstract class Vocabulary {
      *            vocabulary namespace.
      * @param resource
      *            name of the resource.
-     * 
+     *
      * @return the created resource IRI.
      */
     protected IRI createClass(String namespace, String resource) {
@@ -241,7 +241,7 @@ public abstract class Vocabulary {
      *            vocabulary namespace.
      * @param property
      *            name of the property.
-     * 
+     *
      * @return the created property IRI.
      */
     protected IRI createProperty(String namespace, String property) {
@@ -258,7 +258,7 @@ public abstract class Vocabulary {
      *
      * @param namespace
      * @param localName
-     * 
+     *
      * @return
      */
     private static IRI createIRI(String namespace, String localName) {

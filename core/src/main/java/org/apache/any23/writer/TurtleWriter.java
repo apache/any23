@@ -29,7 +29,7 @@ import java.net.URISyntaxException;
 
 /**
  * <i>N3</i> notation {@link TripleWriter} implementation.
- * 
+ *
  * @author Hans Brende (hansbrende@apache.org)
  */
 public class TurtleWriter extends RDFWriterTripleHandler {

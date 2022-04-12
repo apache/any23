@@ -101,7 +101,7 @@ public class ElementsProcessor {
      *            Object (or data structure) converting to RDF graph
      * @param rootNode
      *            root node of the graph. If not given then blank node is created.
-     * 
+     *
      * @return instance of {@link ModelHolder},
      */
     @SuppressWarnings("unchecked")
@@ -122,16 +122,16 @@ public class ElementsProcessor {
 
     /**
      * This method processes a map with non bnode root.
-     * 
+     *
      * If a map has instantiated root (not a blank node) it is simpler to create SPARQL query.
-     * 
+     *
      * @param ns
      *            the namespace to associated with statements
      * @param object
      *            a populated {@link java.util.Map}
      * @param parentNode
      *            a {@link org.eclipse.rdf4j.model.Value} subject node to use in the new statement
-     * 
+     *
      * @return instance of {@link ModelHolder}.
      */
     protected ModelHolder processMap(IRI ns, Map<String, Object> object, Value parentNode) {

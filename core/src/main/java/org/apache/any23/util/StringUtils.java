@@ -32,7 +32,7 @@ public class StringUtils {
      *            string delimiter.
      * @param data
      *            list of data to be joined.
-     * 
+     *
      * @return the joined string.
      */
     public static String join(String delimiter, String... data) {
@@ -54,7 +54,7 @@ public class StringUtils {
      *            container string.
      * @param content
      *            content string.
-     * 
+     *
      * @return occurrences count.
      */
     public static int countOccurrences(String container, String content) {
@@ -75,7 +75,7 @@ public class StringUtils {
      *
      * @param in
      *            input string.
-     * 
+     *
      * @return the number of new line chars.
      */
     public static int countNL(String in) {
@@ -89,7 +89,7 @@ public class StringUtils {
      *            prefix to check
      * @param container
      *            container to check against
-     * 
+     *
      * @return <code>true</code> if <code>candidatePrefix</code> is prefix of <code>container</code>, <code>false</code>
      *         otherwise.
      */
@@ -115,7 +115,7 @@ public class StringUtils {
      *            suffix to check
      * @param container
      *            container to check against
-     * 
+     *
      * @return <code>true</code> if <code>candidateSuffix</code> is prefix of <code>container</code>, <code>false</code>
      *         otherwise.
      */
@@ -140,7 +140,7 @@ public class StringUtils {
      *
      * @param in
      *            input string.
-     * 
+     *
      * @return unescaped output.
      */
     public static String escapeDoubleQuotes(String in) {
@@ -164,7 +164,7 @@ public class StringUtils {
      *
      * @param in
      *            string to be escaped.
-     * 
+     *
      * @return escaped string.
      */
     public static String escapeAsJSONString(String in) {
@@ -178,7 +178,7 @@ public class StringUtils {
      *            char to be multiplied.
      * @param times
      *            number of times.
-     * 
+     *
      * @return the string containing the multiplied char.
      */
     public static String multiply(char c, int times) {
@@ -202,7 +202,7 @@ public class StringUtils {
      *
      * @param in
      *            an input string to convert to Java code convention
-     * 
+     *
      * @return the correctly formatter string as per Java spec.
      */
     public static String implementJavaNaming(String in) {

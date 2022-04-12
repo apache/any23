@@ -59,12 +59,12 @@ public class XSLTStylesheet {
 
     /**
      * Applies the XSLT transformation
-     * 
+     *
      * @param document
      *            where apply the transformation
      * @param output
      *            the {@link java.io.Writer} where write on
-     * 
+     *
      * @throws XSLTStylesheetException
      *             if there is an error applying the transformation
      */
@@ -74,7 +74,7 @@ public class XSLTStylesheet {
 
     /**
      * Applies the XSLT transformation
-     * 
+     *
      * @param document
      *            where apply the transformation
      * @param output
@@ -82,7 +82,7 @@ public class XSLTStylesheet {
      * @param parameters
      *            the parameters to be passed to {@link Transformer}. Pass an empty {@link Map} if no parameters are
      *            foreseen.
-     * 
+     *
      * @throws XSLTStylesheetException
      *             if there is an error applying the transformation
      */

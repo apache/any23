@@ -21,31 +21,31 @@ import java.util.List;
 
 /**
  * An interface to the enable a registry for extractors to be implemented by different implementors of this API.
- * 
+ *
  * @author Peter Ansell p_ansell@yahoo.com
  */
 public interface ExtractorRegistry {
 
     /**
      * Registers an {@link ExtractorFactory}.
-     * 
+     *
      * @param factory
      *            an {@link ExtractorFactory} to register.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if trying to register a {@link ExtractorFactory} that already exists in the registry.
      */
     void register(ExtractorFactory<?> factory);
 
     /**
-     * 
+     *
      * Retrieves a {@link ExtractorFactory} given its name
-     * 
+     *
      * @param name
      *            The name of the desired factory
-     * 
+     *
      * @return The {@link ExtractorFactory} associated to the provided name
-     * 
+     *
      * @throws IllegalArgumentException
      *             If there is not an {@link ExtractorFactory} associated to the provided name.
      */
@@ -58,26 +58,26 @@ public interface ExtractorRegistry {
 
     /**
      * Returns an {@link ExtractorGroup} containing the {@link ExtractorFactory} mathing the names provided as input.
-     * 
+     *
      * @param names
      *            A {@link java.util.List} containing the names of the desired {@link ExtractorFactory}.
-     * 
+     *
      * @return the extraction group.
      */
     ExtractorGroup getExtractorGroup(List<String> names);
 
     /**
-     * 
+     *
      * @param name
      *            The name of the {@link ExtractorFactory}
-     * 
+     *
      * @return <code>true</code> if is there a {@link ExtractorFactory} associated to the provided name.
      */
     boolean isRegisteredName(String name);
 
     /**
      * Returns the names of all registered extractors, sorted alphabetically.
-     * 
+     *
      * @return an alphabetically sorted {@link java.util.List}
      */
     List<String> getAllNames();

@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
- * 
+ *
  * @version $Id$
  */
 public class TikaEncodingDetectorTest {

@@ -31,7 +31,7 @@ public class TriXWriterFactory implements TripleWriterFactory {
     public static final String IDENTIFIER = "trix";
 
     /**
-     * 
+     *
      */
     public TriXWriterFactory() {
     }

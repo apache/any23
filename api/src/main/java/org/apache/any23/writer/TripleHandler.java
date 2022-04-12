@@ -32,10 +32,10 @@ public interface TripleHandler extends AutoCloseable {
     /**
      * Informs the handler that a new context has been established. Contexts are not guaranteed to receive any triples,
      * so they might be closed without any triple.
-     * 
+     *
      * @param context
      *            an instantiated {@link org.apache.any23.extractor.ExtractionContext}
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an errr opening the {@link org.apache.any23.extractor.ExtractionContext}
      */
@@ -54,7 +54,7 @@ public interface TripleHandler extends AutoCloseable {
      *            triple graph, can be <code>null</code>.
      * @param context
      *            extraction context.
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an error receiving the triple.
      */
@@ -69,7 +69,7 @@ public interface TripleHandler extends AutoCloseable {
      *            namespace <i>IRI</i>.
      * @param context
      *            namespace context.
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an error receiving the namespace.
      */
@@ -82,7 +82,7 @@ public interface TripleHandler extends AutoCloseable {
      *
      * @param context
      *            the context to be closed.
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an error closing the {@link org.apache.any23.extractor.ExtractionContext}.
      */
@@ -93,7 +93,7 @@ public interface TripleHandler extends AutoCloseable {
      *
      * @param documentIRI
      *            document IRI.
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an error ending the document.
      */
@@ -109,7 +109,7 @@ public interface TripleHandler extends AutoCloseable {
 
     /**
      * Will be called last and exactly once.
-     * 
+     *
      * @throws TripleHandlerException
      *             if there is an error closing the {@link org.apache.any23.writer.TripleHandler} implementation.
      */

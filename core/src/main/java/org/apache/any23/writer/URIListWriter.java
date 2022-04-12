@@ -33,7 +33,7 @@ import java.util.TreeSet;
 /**
  * This writer simply produces a list of unique <i>IRI</i> present in the subject or in the object of every single
  * extracted <i>RDF Statement</i>.
- * 
+ *
  * @author Davide Palmisano (palmisano@fbk.eu)
  * @author Hans Brende (hansbrende@apache.org)
  */

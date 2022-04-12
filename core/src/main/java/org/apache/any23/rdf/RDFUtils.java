@@ -82,9 +82,9 @@ public class RDFUtils {
      *
      * @param uri
      *            An absolute org.eclipse.rdf4j.model.IRI, can have typical syntax errors
-     * 
+     *
      * @return An absolute org.eclipse.rdf4j.model.IRI that is valid against the org.eclipse.rdf4j.model.IRI syntax
-     * 
+     *
      * @throws IllegalArgumentException
      *             if org.eclipse.rdf4j.model.IRI is not fixable
      */
@@ -107,9 +107,9 @@ public class RDFUtils {
      *            the String containing the date.
      * @param format
      *            the pattern as descibed in {@link java.text.SimpleDateFormat}
-     * 
+     *
      * @return a {@link String} representing the date
-     * 
+     *
      * @throws java.text.ParseException
      *             if there is an error parsing the given date.
      * @throws javax.xml.datatype.DatatypeConfigurationException
@@ -131,7 +131,7 @@ public class RDFUtils {
      *
      * @param date
      *            date to be printed.
-     * 
+     *
      * @return the string representation of the input date.
      */
     public static String toXSDDateTime(Date date) {
@@ -153,7 +153,7 @@ public class RDFUtils {
      *
      * @param unescapedIRI
      *            uri string to be unescaped.
-     * 
+     *
      * @return the unescaped string.
      */
     public static String fixIRIWithException(String unescapedIRI) {
@@ -199,10 +199,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link org.eclipse.rdf4j.model.IRI}.
-     * 
+     *
      * @param iri
      *            a base string for the {@link org.eclipse.rdf4j.model.IRI}
-     * 
+     *
      * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      */
     public static org.eclipse.rdf4j.model.IRI iri(String iri) {
@@ -211,12 +211,12 @@ public class RDFUtils {
 
     /**
      * Creates a {@link org.eclipse.rdf4j.model.IRI}.
-     * 
+     *
      * @param namespace
      *            a base namespace for the {@link org.eclipse.rdf4j.model.IRI}
      * @param localName
      *            a local name to associate with the namespace
-     * 
+     *
      * @return a valid {@link org.eclipse.rdf4j.model.IRI}
      */
     public static org.eclipse.rdf4j.model.IRI iri(String namespace, String localName) {
@@ -225,10 +225,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param s
      *            string representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(String s) {
@@ -237,10 +237,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param b
      *            boolean representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(boolean b) {
@@ -249,10 +249,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param b
      *            byte representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(byte b) {
@@ -261,10 +261,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param s
      *            short representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(short s) {
@@ -273,10 +273,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param i
      *            int representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(int i) {
@@ -285,10 +285,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param l
      *            long representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(long l) {
@@ -297,10 +297,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param f
      *            float representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(float f) {
@@ -309,10 +309,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param d
      *            double representation of the {@link org.eclipse.rdf4j.model.Literal}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(double d) {
@@ -321,12 +321,12 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param s
      *            the literal's label
      * @param l
      *            the literal's language
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(String s, String l) {
@@ -340,12 +340,12 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Literal}.
-     * 
+     *
      * @param s
      *            the literal's label
      * @param datatype
      *            the literal's datatype
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Literal}
      */
     public static Literal literal(String s, org.eclipse.rdf4j.model.IRI datatype) {
@@ -354,10 +354,10 @@ public class RDFUtils {
 
     /**
      * Creates a {@link BNode}.
-     * 
+     *
      * @param id
      *            string representation of the {@link org.eclipse.rdf4j.model.BNode}
-     * 
+     *
      * @return the valid {@link org.eclipse.rdf4j.model.BNode}
      */
     // TODO: replace this with all occurrences of #getBNode()
@@ -374,11 +374,11 @@ public class RDFUtils {
 
     /**
      * Creates a {@link BNode} with an MD5 digest as part of the ID.
-     * 
+     *
      * @param id
      *            string representation of the {@link org.eclipse.rdf4j.model.BNode} name for which we will create a md5
      *            hash.
-     * 
+     *
      * @return the valid {@link org.eclipse.rdf4j.model.BNode}
      */
     public static BNode getBNode(String id) {
@@ -387,14 +387,14 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Statement}.
-     * 
+     *
      * @param s
      *            subject {@link org.eclipse.rdf4j.model.Resource}
      * @param p
      *            predicate {@link org.eclipse.rdf4j.model.URI}
      * @param o
      *            object {@link org.eclipse.rdf4j.model.Value}
-     * 
+     *
      * @return valid {@link org.eclipse.rdf4j.model.Statement}
      */
     public static Statement triple(Resource s, org.eclipse.rdf4j.model.IRI p, Value o) {
@@ -410,7 +410,7 @@ public class RDFUtils {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @return a statement instance.
      */
     public static Statement triple(String s, String p, String o) {
@@ -420,7 +420,7 @@ public class RDFUtils {
 
     /**
      * Creates a {@link Statement}.
-     * 
+     *
      * @param s
      *            subject.
      * @param p
@@ -429,7 +429,7 @@ public class RDFUtils {
      *            object.
      * @param g
      *            quad resource
-     * 
+     *
      * @return a statement instance.
      */
     public static Statement quad(Resource s, org.eclipse.rdf4j.model.IRI p, Value o, Resource g) {
@@ -438,7 +438,7 @@ public class RDFUtils {
 
     /**
      * Creates a statement of type: <code>toValue(s), toValue(p), toValue(o), toValue(g)</code>
-     * 
+     *
      * @param s
      *            subject.
      * @param p
@@ -447,7 +447,7 @@ public class RDFUtils {
      *            object.
      * @param g
      *            quad resource
-     * 
+     *
      * @return a statement instance.
      */
     public static Statement quad(String s, String p, String o, String g) {
@@ -461,7 +461,7 @@ public class RDFUtils {
      *
      * @param s
      *            string representation of value.
-     * 
+     *
      * @return a value instance.
      */
     public static Value toValue(String s) {
@@ -488,9 +488,9 @@ public class RDFUtils {
      *
      * @param format
      *            parser format.
-     * 
+     *
      * @return parser instance.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if format is not supported.
      */
@@ -505,9 +505,9 @@ public class RDFUtils {
      *            output format.
      * @param writer
      *            data output writer.
-     * 
+     *
      * @return writer instance.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if format is not supported.
      */
@@ -522,9 +522,9 @@ public class RDFUtils {
      *            output format.
      * @param os
      *            output stream.
-     * 
+     *
      * @return writer instance.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if format is not supported.
      */
@@ -537,9 +537,9 @@ public class RDFUtils {
      *
      * @param ext
      *            input extension.
-     * 
+     *
      * @return parser matching the extension.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if no extension matches.
      */
@@ -559,9 +559,9 @@ public class RDFUtils {
      *            input stream containing <code>RDF</code>.
      * @param baseIRI
      *            base uri.
-     * 
+     *
      * @return list of statements detected within the input stream.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link java.io.InputStream}
      */
@@ -583,9 +583,9 @@ public class RDFUtils {
      *            input format type.
      * @param is
      *            input stream containing <code>RDF</code>.
-     * 
+     *
      * @return list of statements detected within the input stream.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link java.io.InputStream}
      */
@@ -601,9 +601,9 @@ public class RDFUtils {
      *            input format type.
      * @param in
      *            input string containing <code>RDF</code>.
-     * 
+     *
      * @return list of statements detected within the input string.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link java.io.InputStream}
      */
@@ -616,9 +616,9 @@ public class RDFUtils {
      *
      * @param resource
      *            resource name.
-     * 
+     *
      * @return the statements declared within the resource file.
-     * 
+     *
      * @throws java.io.IOException
      *             if an error occurs while reading file.
      */
@@ -636,7 +636,7 @@ public class RDFUtils {
      *
      * @param href
      *            candidate org.eclipse.rdf4j.model.IRI.
-     * 
+     *
      * @return <code>true</code> if <code>href</code> is absolute, <code>false</code> otherwise.
      */
     public static boolean isAbsoluteIRI(String href) {
@@ -655,11 +655,11 @@ public class RDFUtils {
 
     /**
      * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
-     * 
+     *
      * @param docUri
      *            It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#'
      *            is added to the end.
-     * 
+     *
      * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(IRI docUri) {
@@ -668,14 +668,14 @@ public class RDFUtils {
 
     /**
      * {@link #makeIRI(java.lang.String, org.eclipse.rdf4j.model.IRI, boolean) }.
-     * 
+     *
      * @param type
      *            This argument is converted following Java naming conventions with
      *            {@link StringUtils#implementJavaNaming(java.lang.String) }.
      * @param docIRI
      *            It is a namespace. If it ends with '/' character than stays unchanged otherwise the hash character '#'
      *            is added to the end.
-     * 
+     *
      * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(String type, IRI docIRI) {
@@ -684,10 +684,10 @@ public class RDFUtils {
 
     /**
      * Creates implementation of {@link Resource} from given arguments: <i>type</i> and <i>docIRI</i>.
-     * 
+     *
      * <b>NB:</b> The Java Naming Conventions is described by
      * <a href='http://www.geeksforgeeks.org/java-naming-conventions/'>GeeksForGeeks</a>.
-     * 
+     *
      * @param type
      *            This argument is converted following Java naming conventions with
      *            {@link StringUtils#implementJavaNaming(java.lang.String) }.
@@ -697,7 +697,7 @@ public class RDFUtils {
      * @param addId
      *            If argument is <b>TRUE</b> than the node identifier is added to the end formated
      *            <code>'_{int}'</code>.
-     * 
+     *
      * @return instance of {@link Resource}.
      */
     public static Resource makeIRI(String type, IRI docIRI, boolean addId) {
@@ -726,13 +726,13 @@ public class RDFUtils {
 
     /**
      * Convert string to either IRI or Literal.
-     * 
+     *
      * If string value expresses valid IRI than {@link IRI} is created. Otherwise method creates simple {@link Literal}
      * xsd:string.
-     * 
+     *
      * @param inString
      *            an input string to manifest as {@link org.eclipse.rdf4j.model.Value}
-     * 
+     *
      * @return either {@link IRI} or {@link Literal}.
      */
     public static Value makeIRI(String inString) {

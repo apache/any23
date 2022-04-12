@@ -24,7 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
  * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
  * set of closely related concepts from both legal and commonsense domains.
  * </p>
- * 
+ *
  * <p>
  * The expression module describes a vocabulary for describing, propositions and propositional attitudes (belief,
  * intention), qualifications, statements and media. It furthermore extends the role module with a number or epistemic

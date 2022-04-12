@@ -35,7 +35,7 @@ import java.util.List;
  * {@link XPathExtractionRule}s and generate <i>quads</i>.
  *
  * @see XPathExtractionRule
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 public class XPathExtractor implements Extractor.TagSoupDOMExtractor {

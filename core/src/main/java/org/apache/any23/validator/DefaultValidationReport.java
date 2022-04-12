@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Default implementation of {@link ValidationReport}.
- * 
+ *
  * @author Michele Mostarda (mostarda@fbk.eu)
  */
 @XMLValidationReportSerializer.NodeName("validationReport")

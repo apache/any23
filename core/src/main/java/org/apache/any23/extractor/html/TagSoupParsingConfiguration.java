@@ -29,7 +29,7 @@ import java.io.InputStream;
 
 /**
  * The parsing configuration for a {@link TagSoupParser}
- * 
+ *
  * @author Hans Brende
  */
 abstract class TagSoupParsingConfiguration {

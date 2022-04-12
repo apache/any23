@@ -48,7 +48,7 @@ public interface DOMDocument {
      *
      * @param xPath
      *            a valid XPath
-     * 
+     *
      * @return a not null list of nodes.
      */
     List<Node> getNodes(String xPath);
@@ -58,7 +58,7 @@ public interface DOMDocument {
      *
      * @param xPath
      *            a valid XPath.
-     * 
+     *
      * @return a node or <code>null</code> if nothing found.
      */
     Node getNode(String xPath);
@@ -80,7 +80,7 @@ public interface DOMDocument {
      *
      * @param attrName
      *            name of attribute to use for filtering.
-     * 
+     *
      * @return a list of nodes. <i>null</i> if no matches found.
      */
     List<Node> getNodesWithAttribute(String attrName);

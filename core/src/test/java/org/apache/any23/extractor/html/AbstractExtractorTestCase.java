@@ -104,7 +104,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 
     /**
      * Test case initialization.
-     * 
+     *
      * @throws Exception
      *             if there is an error constructing input objects
      */
@@ -122,7 +122,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     @After
     public void tearDown() throws RepositoryException {
@@ -156,7 +156,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @param extractorName
      *            name of the extractor.
-     * 
+     *
      * @return collection of issues.
      */
     protected Collection<IssueReport.Issue> getIssues(String extractorName) {
@@ -182,7 +182,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @param resource
      *            resource name.
-     * 
+     *
      * @throws org.apache.any23.extractor.ExtractionException
      *             if there is an exception during extraction
      * @throws IOException
@@ -237,10 +237,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertContains(IRI p, Resource o) throws RepositoryException {
         assertContains(null, p, o);
@@ -253,10 +253,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertContains(IRI p, String o) throws RepositoryException {
         assertContains(null, p, RDFUtils.literal(o));
@@ -269,10 +269,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertNotContains(IRI p, Resource o) throws RepositoryException {
         assertNotContains(null, p, o);
@@ -287,10 +287,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertContains(Resource s, IRI p, Value o) throws RepositoryException {
         Assert.assertTrue(
@@ -307,10 +307,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertNotContains(Resource s, IRI p, String o) throws RepositoryException {
         Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(s, p, RDFUtils.literal(o), false));
@@ -325,10 +325,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertNotContains(Resource s, IRI p, Resource o) throws RepositoryException {
         Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(s, p, o, false));
@@ -339,7 +339,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertModelNotEmpty() throws RepositoryException {
         Assert.assertFalse("The model is expected to not be empty." + getFailedExtractionMessage(), conn.isEmpty());
@@ -354,10 +354,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertNotContains(Resource s, IRI p, Literal o) throws RepositoryException {
         Assert.assertFalse(getFailedExtractionMessage(), conn.hasStatement(s, p, o, false));
@@ -368,7 +368,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertModelEmpty() throws RepositoryException {
         Assert.assertTrue(getFailedExtractionMessage(), conn.isEmpty());
@@ -416,10 +416,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @param statements
      *            list of statements to be verified.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     public void assertContainsModel(Statement[] statements) throws RepositoryException {
         for (Statement statement : statements) {
@@ -432,7 +432,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @param modelResource
      *            the resource containing the model.
-     * 
+     *
      * @throws RDFHandlerException
      *             if there is an error within the {@link org.eclipse.rdf4j.rio.RDFHandler}
      * @throws IOException
@@ -441,7 +441,7 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *             if there is an exception parsing the RDF stream
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     public void assertContainsModel(String modelResource)
             throws RDFHandlerException, IOException, RDFParseException, RepositoryException {
@@ -461,10 +461,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            object.
      * @param expected
      *            expected matches.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertStatementsSize(Resource s, IRI p, Value o, int expected)
             throws RDFHandlerException, RepositoryException {
@@ -487,10 +487,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            object.
      * @param expected
      *            expected matches.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertStatementsSize(IRI p, Value o, int expected) throws RDFHandlerException, RepositoryException {
         assertStatementsSize(null, p, o, expected);
@@ -505,10 +505,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            object.
      * @param expected
      *            expected matches.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertStatementsSize(IRI p, String o, int expected) throws RDFHandlerException, RepositoryException {
         assertStatementsSize(p, o == null ? null : RDFUtils.literal(o), expected);
@@ -521,10 +521,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            subject.
      * @param p
      *            predicate.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertNotFound(Resource s, IRI p) throws RepositoryException {
         RepositoryResult<Statement> statements = conn.getStatements(s, p, null, true);
@@ -542,12 +542,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @return the matching blank subject.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected Resource findExactlyOneBlankSubject(IRI p, Value o) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
@@ -570,12 +570,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            subject.
      * @param p
      *            predicate.
-     * 
+     *
      * @return the matching object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected Value findExactlyOneObject(Resource s, IRI p) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
@@ -594,12 +594,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @return list of matching subjects.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected List<Resource> findSubjects(IRI p, Value o) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(null, p, o, false);
@@ -623,12 +623,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param p
      *            predicate.
-     * 
+     *
      * @return list of matching objects.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected List<Value> findObjects(Resource s, IRI p) throws RepositoryException {
         RepositoryResult<Statement> it = conn.getStatements(s, p, null, false);
@@ -652,9 +652,9 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            subject.
      * @param p
      *            predicate
-     * 
+     *
      * @return matching object.
-     * 
+     *
      * @throws org.eclipse.rdf4j.repository.RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
      */
@@ -675,12 +675,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            subject.
      * @param p
      *            predicate.
-     * 
+     *
      * @return matching object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected Resource findObjectAsResource(Resource s, IRI p) throws RepositoryException {
         final Value v = findObject(s, p);
@@ -699,12 +699,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            subject.
      * @param p
      *            predicate.
-     * 
+     *
      * @return matching object.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected String findObjectAsLiteral(Resource s, IRI p) throws RepositoryException {
         return findObject(s, p).stringValue();
@@ -714,10 +714,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      * Dumps the extracted model in <i>Turtle</i> format.
      *
      * @return a string containing the model in Turtle.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected String dumpModelToTurtle() throws RepositoryException {
         StringWriter w = new StringWriter();
@@ -733,10 +733,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      * Dumps the extracted model in <i>NQuads</i> format.
      *
      * @return a string containing the model in NQuads.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected String dumpModelToNQuads() throws RepositoryException {
         StringWriter w = new StringWriter();
@@ -752,10 +752,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      * Dumps the extracted model in <i>RDFXML</i> format.
      *
      * @return a string containing the model in RDFXML.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected String dumpModelToRDFXML() throws RepositoryException {
         StringWriter w = new StringWriter();
@@ -771,10 +771,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      * Dumps the list of statements contained in the extracted model.
      *
      * @return list of extracted statements.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected List<Statement> dumpAsListOfStatements() throws RepositoryException {
         return Iterations.asList(conn.getStatements(null, null, null, false));
@@ -782,10 +782,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
 
     /**
      * @return string containing human readable statements.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected String dumpHumanReadableTriples() throws RepositoryException {
         StringBuilder sb = new StringBuilder();
@@ -805,10 +805,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *
      * @param statement
      *            an RDF {@link org.eclipse.rdf4j.model.Statement} implementation
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     // TODO: bnode check is too weak, introduce graph omomorphism check.
     protected void assertContains(Statement statement) throws RepositoryException {
@@ -827,10 +827,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param l
      *            literal content.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertContains(Resource s, IRI p, String l) throws RepositoryException {
         assertContains(s, p, RDFUtils.literal(l));
@@ -847,10 +847,10 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            literal content.
      * @param lang
      *            literal language.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected void assertContains(Resource s, IRI p, String l, String lang) throws RepositoryException {
         assertContains(s, p, RDFUtils.literal(l, lang));
@@ -865,12 +865,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @return list of statements.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected RepositoryResult<Statement> getStatements(Resource s, IRI p, Value o) throws RepositoryException {
         return conn.getStatements(s, p, o, false);
@@ -885,12 +885,12 @@ public abstract class AbstractExtractorTestCase extends AbstractAny23TestBase {
      *            predicate.
      * @param o
      *            object.
-     * 
+     *
      * @return number of matches.
-     * 
+     *
      * @throws RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
-     * 
+     *
      */
     protected int getStatementsSize(Resource s, IRI p, Value o) throws RepositoryException {
         RepositoryResult<Statement> result = getStatements(s, p, o);

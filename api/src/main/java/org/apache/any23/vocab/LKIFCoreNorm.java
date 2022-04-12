@@ -24,7 +24,7 @@ import org.eclipse.rdf4j.model.IRI;
  * library of ontologies relevant for the legal domain. The library consists of 15 modules, each of which describes a
  * set of closely related concepts from both legal and commonsense domains.
  * </p>
- * 
+ *
  * <p>
  * The norm module is an extension primarily on the expression module where norms are defined as qualifications. Please
  * refer to Deliverable 1.1 for a more in-depth description of the underlying theory. It furthermore defines a number of

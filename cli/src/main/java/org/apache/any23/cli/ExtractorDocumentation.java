@@ -90,7 +90,7 @@ public class ExtractorDocumentation extends BaseTool {
 
     /**
      * Prints the list of all the available extractor names, labels and supported mimetypes.
-     * 
+     *
      * @param registry
      *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
      */
@@ -108,7 +108,7 @@ public class ExtractorDocumentation extends BaseTool {
      *            the name of the extractor
      * @param registry
      *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
-     * 
+     *
      * @throws IOException
      *             raised if no extractor is found with that name
      */
@@ -129,7 +129,7 @@ public class ExtractorDocumentation extends BaseTool {
      *            the extractor name
      * @param registry
      *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
-     * 
+     *
      * @throws IOException
      *             raised if no extractor is found with that name
      * @throws ExtractionException
@@ -151,7 +151,7 @@ public class ExtractorDocumentation extends BaseTool {
      *
      * @param registry
      *            the {@link org.apache.any23.extractor.ExtractorRegistry} containing all extractors
-     * 
+     *
      * @throws IOException
      *             raised if no extractor is found with that name
      * @throws ExtractionException

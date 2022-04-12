@@ -48,7 +48,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
  * @author Michele Mostarda ( michele.mostarda@gmail.com )
  * @author Davide Palmisano ( dpalmisano@gmail.com )
  * @author Hans Brende (hansbrende@apache.org)
- * 
+ *
  * @version $Id$
  */
 public class TikaEncodingDetector implements EncodingDetector {

@@ -97,7 +97,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      *
      * @param fragment
      * @param ingredient
-     * 
+     *
      * @return
      */
     private BNode addIngredient(HTMLDocument fragment, HTMLDocument.TextField ingredient) {
@@ -115,7 +115,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      *
      * @param fragment
      * @param recipe
-     * 
+     *
      * @return
      */
     private void addIngredients(HTMLDocument fragment, BNode recipe) {
@@ -151,7 +151,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      *
      * @param fragment
      * @param duration
-     * 
+     *
      * @return
      */
     // TODO: USE http://microformats.org/wiki/value-class-pattern to read correct date format.
@@ -181,7 +181,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      *
      * @param fragment
      * @param recipe
-     * 
+     *
      * @throws ExtractionException
      */
     private void addPhoto(HTMLDocument fragment, BNode recipe) throws ExtractionException {
@@ -230,7 +230,7 @@ public class HRecipeExtractor extends EntityBasedMicroformatExtractor {
      *
      * @param fragment
      * @param nutrition
-     * 
+     *
      * @return
      */
     private BNode addNutrition(HTMLDocument fragment, HTMLDocument.TextField nutrition) {

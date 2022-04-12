@@ -19,7 +19,7 @@ package org.apache.any23.writer;
 
 /**
  * Defines a generic exception raised when accessing to {@link TripleHandler} class.
- * 
+ *
  * @author Davide Palmisano (palmisano@fbk.eu)
  */
 public class TripleHandlerException extends Exception {

@@ -27,7 +27,7 @@ import org.eclipse.rdf4j.repository.RepositoryException;
 
 /**
  * Reference Test class for the {@link TitleExtractor} extractor.
- * 
+ *
  */
 public class TitleExtractorTest extends AbstractExtractorTestCase {
 
@@ -67,7 +67,7 @@ public class TitleExtractorTest extends AbstractExtractorTestCase {
 
     /**
      * This test verifies that when present the default language this is adopted by the title literal.
-     * 
+     *
      * @throws org.eclipse.rdf4j.repository.RepositoryException
      *             if an error is encountered whilst loading content from a storage connection
      */

@@ -39,7 +39,7 @@ public class JSONWriterFactory implements TripleWriterFactory {
             StandardCharsets.UTF_8, Collections.emptySet(), null, TripleFormat.QUADS);
 
     /**
-     * 
+     *
      */
     public JSONWriterFactory() {
     }

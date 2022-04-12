@@ -101,7 +101,7 @@ public class HTMLMetaExtractor implements Extractor.TagSoupDOMExtractor {
      *
      * @param in
      *            a instance of {@link Document}.
-     * 
+     *
      * @return the language declared, could be <code>null</code>.
      */
     private String getDocumentLanguage(Document in) {

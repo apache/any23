@@ -44,7 +44,7 @@ public class DiscoveryUtils {
      *
      * @param packageName
      *            the root package.
-     * 
+     *
      * @return list of matching classes.
      */
     public static List<Class> getClassesInPackage(String packageName) {
@@ -85,7 +85,7 @@ public class DiscoveryUtils {
      *            the root package.
      * @param filter
      *            the interface/class filter.
-     * 
+     *
      * @return list of matching classes.
      */
     public static List<Class> getClassesInPackage(String packageName, Class<?> filter) {
@@ -112,7 +112,7 @@ public class DiscoveryUtils {
      *            class location.
      * @param packageName
      *            package name.
-     * 
+     *
      * @return list of detected classes.
      */
     private static List<Class> findClasses(File location, String packageName) {
@@ -128,7 +128,7 @@ public class DiscoveryUtils {
      *
      * @param location
      *            package location.
-     * 
+     *
      * @return list of detected classes.
      */
     private static List<Class> findClassesInJAR(String location) {
@@ -177,7 +177,7 @@ public class DiscoveryUtils {
      *            The base directory
      * @param packageName
      *            The package name for classes found inside the base directory
-     * 
+     *
      * @return The classes
      */
     private static List<Class> findClassesInDir(File directory, String packageName) {

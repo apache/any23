@@ -72,7 +72,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured Turtle parser.
      */
     public RDFParser getTurtleParserInstance(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -96,7 +96,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured RDFXML parser.
      */
     public RDFParser getRDFa10Parser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -118,7 +118,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured RDFXML parser.
      */
     public RDFParser getRDFa11Parser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -140,7 +140,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured RDFXML parser.
      */
     public RDFParser getRDFXMLParser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -161,7 +161,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured NTriples parser.
      */
     public RDFParser getNTriplesParser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -182,7 +182,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured NQuads parser.
      */
     public RDFParser getNQuadsParser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -203,7 +203,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured Manchester Syntax parser.
      */
     public RDFParser getManchesterSyntaxParser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -224,7 +224,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured Functional Syntax parser.
      */
     public RDFParser getFunctionalSyntaxParser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -245,7 +245,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured TriX parser.
      */
     public RDFParser getTriXParser(final boolean verifyDataType, final boolean stopAtFirstError,
@@ -257,7 +257,7 @@ public class RDFParserFactory {
 
     /**
      * Returns a new instance of a configured <i>SesameJSONLDParser</i>.
-     * 
+     *
      * @param verifyDataType
      *            data verification enable if <code>true</code>.
      * @param stopAtFirstError
@@ -266,7 +266,7 @@ public class RDFParserFactory {
      *            the extraction context where the parser is used.
      * @param extractionResult
      *            the output extraction result.
-     * 
+     *
      * @return a new instance of a configured JSONLDParser parser.
      */
     public RDFParser getJSONLDParser(final boolean verifyDataType, final boolean stopAtFirstError,

@@ -377,7 +377,7 @@ public class TikaMIMETypeDetectorTest {
 
     /**
      * Test done only based on content is failed because the standard does not require to have "%YAML" header.
-     * 
+     *
      * @throws Exception
      *             if there is an error detecting the mime type from the content and name
      */
@@ -420,7 +420,7 @@ public class TikaMIMETypeDetectorTest {
      *            the expected mime type.
      * @param testDir
      *            the target file.
-     * 
+     *
      * @throws IOException
      */
     private void detectMIMEtypeByContent(String expectedMimeType, Collection<String> manifest) throws IOException {
@@ -444,7 +444,7 @@ public class TikaMIMETypeDetectorTest {
      *
      * @param expectedMimeType
      * @param contentTypeHeader
-     * 
+     *
      * @throws IOException
      */
     private void detectMIMETypeByMimeTypeHint(String expectedMimeType, String contentTypeHeader) throws IOException {
@@ -457,7 +457,7 @@ public class TikaMIMETypeDetectorTest {
      *
      * @param expectedMimeType
      * @param testDir
-     * 
+     *
      * @throws IOException
      */
     private void detectMIMETypeByContentAndName(String expectedMimeType, Collection<String> manifest)

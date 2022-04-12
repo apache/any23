@@ -145,7 +145,7 @@ public class Any23 {
 
     /**
      * Constructor accepting {@link Configuration}.
-     * 
+     *
      * @param configuration
      *            a {@link Configuration} object
      */
@@ -194,7 +194,7 @@ public class Any23 {
      *
      * @param httpClient
      *            a valid client instance.
-     * 
+     *
      * @throws IllegalStateException
      *             if invoked after client has been initialized.
      */
@@ -212,7 +212,7 @@ public class Any23 {
      * Returns the current {@link org.apache.any23.http.HTTPClient} implementation.
      *
      * @return instance of HTTPClient.
-     * 
+     *
      * @throws IOException
      *             if the HTTP client has not initialized.
      */
@@ -262,9 +262,9 @@ public class Any23 {
      *
      * @param documentIRI
      *            the document <i>IRI</i>.
-     * 
+     *
      * @return a new instance of DocumentSource.
-     * 
+     *
      * @throws URISyntaxException
      *             if an error occurs while parsing the <code>documentIRI</code> as a <i>IRI</i>.
      * @throws IOException
@@ -298,9 +298,9 @@ public class Any23 {
      * @param encoding
      *            explicit encoding see <a href="http://www.iana.org/assignments/character-sets">available
      *            encodings</a>.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -332,9 +332,9 @@ public class Any23 {
      *            declared data encoding.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -355,9 +355,9 @@ public class Any23 {
      *            IRI from which the raw data has been extracted.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -376,9 +376,9 @@ public class Any23 {
      *            file containing raw data.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -399,9 +399,9 @@ public class Any23 {
      *            the IRI from which retrieve document.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -425,9 +425,9 @@ public class Any23 {
      *            the IRI from which retrieve document.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -449,9 +449,9 @@ public class Any23 {
      * @param encoding
      *            explicit encoding see <a href="http://www.iana.org/assignments/character-sets">available
      *            encodings</a>.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -470,9 +470,9 @@ public class Any23 {
      *            the input document source.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException
@@ -493,9 +493,9 @@ public class Any23 {
      *            the input document source.
      * @param outputHandler
      *            handler responsible for collecting of the extracted metadata.
-     * 
+     *
      * @return <code>true</code> if some extraction occurred, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error reading the {@link org.apache.any23.source.DocumentSource}
      * @throws org.apache.any23.extractor.ExtractionException

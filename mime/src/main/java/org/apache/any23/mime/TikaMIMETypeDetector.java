@@ -87,9 +87,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *
      * @param is
      *            input stream to be verified.
-     * 
+     *
      * @return <code>true</code> if <i>N3</i> patterns are detected, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error checking the {@link java.io.InputStream}
      */
@@ -102,9 +102,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *
      * @param is
      *            input stream to be verified.
-     * 
+     *
      * @return <code>true</code> if <i>N3</i> patterns are detected, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error checking the {@link java.io.InputStream}
      */
@@ -117,9 +117,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *
      * @param is
      *            input stream to be verified.
-     * 
+     *
      * @return <code>true</code> if <i>Turtle</i> patterns are detected, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error checking the {@link java.io.InputStream}
      */
@@ -141,9 +141,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *
      * @param is
      *            input stream to be verified.
-     * 
+     *
      * @return <code>true</code> if <i>CSV</i> patterns are detected, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error checking the {@link java.io.InputStream}
      */
@@ -160,9 +160,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *            the delimiter of the sample.
      * @param is
      *            the input stream to sample.
-     * 
+     *
      * @return <code>true</code> if a pattern has been applied, <code>false</code> otherwise.
-     * 
+     *
      * @throws IOException
      *             if there is an error finding the pattern within the {@link java.io.InputStream}
      */
@@ -183,9 +183,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *            the input stream to sample.
      * @param breakChar
      *            the char to break to sample.
-     * 
+     *
      * @return the sample string.
-     * 
+     *
      * @throws IOException
      *             if an error occurs during sampling.
      */
@@ -257,9 +257,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *            <code>null</code> or a <i>resettable</i> input stream containing data.
      * @param mimeTypeFromMetadata
      *            mimetype declared in metadata.
-     * 
+     *
      * @return the supposed mime type or <code>null</code> if nothing appropriate found.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if <i>input</i> is not <code>null</code> and is not resettable.
      */
@@ -334,9 +334,9 @@ public class TikaMIMETypeDetector implements MIMETypeDetector {
      *            document stream
      * @param metadata
      *            metadata hints
-     * 
+     *
      * @return MIME type of the document
-     * 
+     *
      * @throws IOException
      *             if the document stream could not be read
      */
