@@ -10,6 +10,13 @@
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=apache_any23)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=apache_any23)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=bugs)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=coverage)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=apache_any23)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=apache_any23&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=apache_any23)
 
 Apache Anything To Triples (Any23) is a library and web service that extracts
 structured data in RDF format from a variety of Web documents.
