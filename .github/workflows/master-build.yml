@@ -54,10 +54,12 @@ jobs:
         if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
         run: >
           mvn sonar:sonar
-          -Dsonar.projectKey=apache_any23
-          -Dsonar.organization=apache
+          -Dsonar.coverage.jacoco.xmlReportPaths=jacoco-report-aggregate/target/site/jacoco-aggregate/jacoco.xml
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.login=$SONAR_TOKEN
+          -Dsonar.organization=apache
+          -Dsonar.projectKey=apache_any23
+          -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

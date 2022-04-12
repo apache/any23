@@ -231,6 +231,7 @@
     <module>encoding</module>
     <module>core</module>
     <module>cli</module>
+    <module>jacoco-report-aggregate</module>
   </modules>
 
   <scm>
@@ -324,7 +325,7 @@
     <formatter-maven-plugin.version>2.18.0</formatter-maven-plugin.version>
     <ossindex-maven-plugin.version>3.2.0</ossindex-maven-plugin.version>
     <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
-    <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 
     <!--
      | Any23 website has to be stored in SVN
@@ -340,7 +341,8 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
     <sonar.projectVersion>${project.version}</sonar.projectVersion>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/jacoco-report-aggregate/target/site/
+      jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
 
   <dependencyManagement>
