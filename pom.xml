@@ -154,7 +154,6 @@
       <email>reto@apache.org</email>
       <roles>
         <role>Committer</role>
-        <role>PMC Member</role>
       </roles>
     </developer>
     <developer>
@@ -673,7 +672,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>4.4.0</version>
+        <version>4.5.0</version>
         <scope>test</scope>
       </dependency>
       <!-- END: Test Dependencies -->
@@ -834,7 +833,9 @@
         <configuration>
           <fail>true</fail>
           <excludeVulnerabilityIds>
-            <exclude>a5490160-b0d8-4da1-adf1-23e62165188f</exclude>
+            <!-- https://ossindex.sonatype.org/vulnerability/af5f9c26-c09d-401f-a7fc-0785eeabeab3?component-type=maven&component-name=org.apache.poi.poi -->
+            <!-- Remove once we upgrade to org.apache.tika:tika-parsers-standard-package:jar:2.3.0 -->
+            <exclude>af5f9c26-c09d-401f-a7fc-0785eeabeab3</exclude>
           </excludeVulnerabilityIds>
         </configuration>
         <executions>
