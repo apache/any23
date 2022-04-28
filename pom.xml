@@ -298,7 +298,7 @@
     <form.tracker.id>UA-59636188-1</form.tracker.id>
 
     <!-- Maven Plugin Versions -->
-    <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
     <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M2</maven-deploy-plugin.version>
     <maven-install-plugin.version>3.0.0-M1</maven-install-plugin.version>
