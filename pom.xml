@@ -276,7 +276,7 @@
     <httpclient.version>4.5.13</httpclient.version>
     <httpcore.version>4.4.15</httpcore.version>
     <owlapi.version>5.1.20</owlapi.version>
-    <rdf4j.version>3.7.4</rdf4j.version>
+    <rdf4j.version>4.0.0</rdf4j.version>
     <semargl.version>0.7</semargl.version>
     <log4j2.version>2.17.2</log4j2.version>
     <slf4j.version>1.7.36</slf4j.version>
