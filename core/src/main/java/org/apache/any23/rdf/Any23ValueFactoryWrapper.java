@@ -30,6 +30,7 @@ import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.model.IRI;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.model.ValueFactory;
+import org.eclipse.rdf4j.model.base.CoreDatatype;
 import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,6 +180,16 @@ public class Any23ValueFactoryWrapper implements ValueFactory {
         if (pref == null)
             return null;
         return wrappedFactory.createLiteral(pref, value);
+    }
+
+    @Override
+    public Literal createLiteral(String s, CoreDatatype coreDatatype) {
+        return wrappedFactory.createLiteral(s, coreDatatype);
+    }
+
+    @Override
+    public Literal createLiteral(String s, IRI iri, CoreDatatype coreDatatype) {
+        return wrappedFactory.createLiteral(s, iri, coreDatatype);
     }
 
     @Override
