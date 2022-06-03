@@ -318,7 +318,7 @@
     <apache-rat-plugin.version>0.13</apache-rat-plugin.version>
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-    <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
+    <maven-invoker-plugin.version>3.3.0</maven-invoker-plugin.version>
     <spotbugs-maven-plugin.version>4.7.0.0</spotbugs-maven-plugin.version>
     <forbiddenapis.version>3.3</forbiddenapis.version>
     <formatter-maven-plugin.version>2.18.0</formatter-maven-plugin.version>
