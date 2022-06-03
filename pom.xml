@@ -319,7 +319,7 @@
     <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-invoker-plugin.version>3.2.2</maven-invoker-plugin.version>
-    <spotbugs-maven-plugin.version>4.6.0.0</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.7.0.0</spotbugs-maven-plugin.version>
     <forbiddenapis.version>3.3</forbiddenapis.version>
     <formatter-maven-plugin.version>2.18.0</formatter-maven-plugin.version>
     <ossindex-maven-plugin.version>3.2.0</ossindex-maven-plugin.version>
@@ -773,7 +773,7 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.12.2</version>
+              <version>1.13.0</version>
             </dependency>
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
