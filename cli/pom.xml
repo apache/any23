@@ -360,7 +360,8 @@
             <bundledSignature>jdk-reflection</bundledSignature>
             <bundledSignature>jdk-internal</bundledSignature>
             <!--bundledSignature>jdk-system-out</bundledSignature-->
-            <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature>
+            <bundledSignature>commons-io-unsafe-2.11.0</bundledSignature>
+            <!-- revert to this once forbiddenapis includes the latest <bundledSignature>commons-io-unsafe-${commons-io.version}</bundledSignature> -->
           </bundledSignatures>
         </configuration>
         <executions>

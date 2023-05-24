@@ -23,6 +23,7 @@ import org.apache.any23.util.StringUtils;
 import org.apache.any23.util.URLUtils;
 import org.junit.Assert;
 import org.junit.Assume;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.rio.RDFFormat;
@@ -112,6 +113,7 @@ public class RoverTest extends ToolTestBase {
     /* BEGIN: online tests. */
 
     @Test
+    @Ignore("URLs are broken")
     public void testRunMultiURLs() throws Exception {
         // Assuming first accessibility to remote resources.
         assumeOnlineAllowed();
