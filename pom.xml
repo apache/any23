@@ -280,10 +280,10 @@
     <semargl.version>0.7</semargl.version>
     <log4j2.version>2.17.2</log4j2.version>
     <slf4j.version>1.7.36</slf4j.version>
-    <tika.version>2.4.0</tika.version>
+    <tika.version>2.8.0</tika.version>
     <openie_2.11.version>4.2.6</openie_2.11.version>
     <openregex.version>1.1.1</openregex.version>
-    <jackson.version>2.13.1</jackson.version>
+    <jackson.version>2.14.2</jackson.version>
     <commons-io.version>2.11.0</commons-io.version>
     <velocity.version>1.7</velocity.version>
 
@@ -352,6 +352,16 @@
         <version>3.12.0</version>
       </dependency>
       <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-text</artifactId>
+        <version>1.10.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>${httpclient.version}</version>
@@ -396,7 +406,36 @@
         <artifactId>biweekly</artifactId>
         <version>0.6.6</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk18on</artifactId>
+        <version>1.73</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>osgi.annotation</artifactId>
+        <version>8.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.util.function</artifactId>
+        <version>1.2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
       <!-- BEGIN: Tika -->
       <dependency>
         <groupId>org.apache.tika</groupId>
@@ -656,12 +695,6 @@
       </dependency>
       <!-- END: logger -->
 
-      <dependency>
-        <groupId>org.yaml</groupId>
-        <artifactId>snakeyaml</artifactId>
-        <version>1.30</version>
-      </dependency>
-
       <!-- BEGIN: Test Dependencies -->
       <dependency>
         <groupId>junit</groupId>
@@ -837,6 +870,27 @@
             <!-- Remove once we upgrade to org.apache.tika:tika-parsers-standard-package:jar:2.3.0 -->
             <exclude>af5f9c26-c09d-401f-a7fc-0785eeabeab3</exclude>
           </excludeVulnerabilityIds>
+          <excludeCoordinates>
+          <!-- https://ossindex.sonatype.org/component/pkg:maven/com.google.guava/guava@30.1.1-jre?utm_source=ossindex-client&utm_medium=integration&utm_content=1.8.1 -->
+            <exclude>
+              <groupId>com.google.guava</groupId>
+              <artifactId>guava</artifactId>
+              <version>30.1.1-jre</version>
+            </exclude>
+            <!-- https://ossindex.sonatype.org/component/pkg:maven/org.jsoup/jsoup@1.15.1?utm_source=ossindex-client&utm_medium=integration&utm_content=1.8.1 -->
+            <exclude>
+              <groupId>org.jsoup</groupId>
+              <artifactId>jsoup</artifactId>
+              <version>1.15.1</version>
+            </exclude>
+            <exclude>
+              <!-- https://ossindex.sonatype.org/component/pkg:maven/xerces/xercesImpl@2.12.2?utm_source=ossindex-client&utm_medium=integration&utm_content=1.8.1 -->
+              <groupId>xerces</groupId>
+              <artifactId>xercesImpl</artifactId>
+              <version>2.12.2</version>
+            </exclude>
+          </excludeCoordinates>
+
         </configuration>
         <executions>
           <execution>

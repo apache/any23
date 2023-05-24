@@ -51,6 +51,7 @@ import org.apache.any23.writer.TripleHandler;
 import org.apache.any23.writer.TripleHandlerException;
 import org.apache.commons.io.IOUtils;
 import org.junit.AssumptionViolatedException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.eclipse.rdf4j.model.Statement;
 import org.eclipse.rdf4j.repository.Repository;
@@ -286,6 +287,7 @@ public class Any23Test extends Any23OnlineTestBase {
      *             if there is an error defining input URI's
      */
     @Test
+    @Ignore("url returns 404")
     public void testGZippedContent() throws IOException, URISyntaxException, ExtractionException {
         assumeOnlineAllowed();
         final Any23 runner = new Any23();

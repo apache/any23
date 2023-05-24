@@ -17,6 +17,7 @@
 
 package org.apache.any23.cli;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -31,6 +32,7 @@ public class MimeDetectorTest extends ToolTestBase {
     }
 
     @Test
+    @Ignore("url now broken; redirects to https://twitter.com")
     public void testDetectURL() throws Exception {
         assumeOnlineAllowed();
         runToolCheckExit0("http://twitter.com#micmos");
