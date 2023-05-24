@@ -391,7 +391,7 @@ public class RDFUtils {
      * @param s
      *            subject {@link org.eclipse.rdf4j.model.Resource}
      * @param p
-     *            predicate {@link org.eclipse.rdf4j.model.URI}
+     *            predicate {@link org.eclipse.rdf4j.model.IRI}
      * @param o
      *            object {@link org.eclipse.rdf4j.model.Value}
      *
