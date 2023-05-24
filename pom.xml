@@ -399,7 +399,7 @@
       <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>
-        <version>1.15.1</version>
+        <version>1.16.1</version>
       </dependency>
       <dependency>
         <groupId>net.sf.biweekly</groupId>
@@ -876,12 +876,6 @@
               <groupId>com.google.guava</groupId>
               <artifactId>guava</artifactId>
               <version>30.1.1-jre</version>
-            </exclude>
-            <!-- https://ossindex.sonatype.org/component/pkg:maven/org.jsoup/jsoup@1.15.1?utm_source=ossindex-client&utm_medium=integration&utm_content=1.8.1 -->
-            <exclude>
-              <groupId>org.jsoup</groupId>
-              <artifactId>jsoup</artifactId>
-              <version>1.15.1</version>
             </exclude>
             <exclude>
               <!-- https://ossindex.sonatype.org/component/pkg:maven/xerces/xercesImpl@2.12.2?utm_source=ossindex-client&utm_medium=integration&utm_content=1.8.1 -->
