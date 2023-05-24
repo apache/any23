@@ -32,6 +32,7 @@ import org.eclipse.rdf4j.model.vocabulary.RDF;
 import org.eclipse.rdf4j.model.vocabulary.RDFS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
@@ -42,7 +43,7 @@ public class YAMLExtractor implements Extractor.ContentExtractor {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private static final Yaml yml = new Yaml(new SafeConstructor());
+    private static final Yaml yml = new Yaml(new SafeConstructor(new LoaderOptions()));
 
     private static final YAML vocab = YAML.getInstance();
 
